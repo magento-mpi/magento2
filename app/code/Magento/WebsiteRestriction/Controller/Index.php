@@ -22,7 +22,7 @@ class Index extends \Magento\App\Action\Action
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
@@ -63,7 +63,7 @@ class Index extends \Magento\App\Action\Action
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Website $website
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -72,7 +72,7 @@ class Index extends \Magento\App\Action\Action
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Website $website,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\Store\Config $storeConfig,

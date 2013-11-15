@@ -50,6 +50,7 @@ class Locale extends \Magento\Core\Model\Locale
      * @param \Magento\Core\Model\Locale\Config $config
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Date $dateModel
      * @param string $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -67,6 +68,7 @@ class Locale extends \Magento\Core\Model\Locale
         \Magento\Core\Model\Locale\Config $config,
         \Magento\Core\Model\App $app,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Date $dateModel,
         $locale = null
     ) {
         $this->_session = $session;
@@ -82,6 +84,7 @@ class Locale extends \Magento\Core\Model\Locale
             $config,
             $app,
             $dateTime,
+            $dateModel,
             $locale
         );
     }

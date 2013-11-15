@@ -31,6 +31,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Tax\Model\Calculation $calculationModel
      * @param array $data
      */
@@ -41,6 +42,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Tax\Model\Calculation $calculationModel,
         array $data = array()
     ) {

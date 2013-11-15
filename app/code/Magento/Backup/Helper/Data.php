@@ -49,7 +49,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
     
@@ -73,7 +73,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\AuthorizationInterface $authorization
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\App\Dir $dir
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
      */
@@ -81,7 +81,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Helper\Context $context,
         \Magento\Filesystem $filesystem,
         \Magento\AuthorizationInterface $authorization,
-        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\App\Dir $dir,
         \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
     ) {

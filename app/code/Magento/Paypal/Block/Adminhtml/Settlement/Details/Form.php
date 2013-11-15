@@ -49,7 +49,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /* @var $model \Magento\Paypal\Model\Report\Settlement\Row */
         $model = $this->_coreRegistry->registry('current_transaction');
-        $coreHelper = $this->helper('Magento\Core\Helper\Data');
         $fieldsets = array(
             'reference_fieldset' => array(
                 'fields' => array(
@@ -75,7 +74,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     ),
                     'transaction_initiation_date' => array(
                         'label' => $this->_settlement->getFieldLabel('transaction_initiation_date'),
-                        'value' => $coreHelper->formatDate(
+                        'value' => $this->formatDate(
                             $model->getData('transaction_initiation_date'),
                             \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true
@@ -83,7 +82,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
                     ),
                     'transaction_completion_date' => array(
                         'label' => $this->_settlement->getFieldLabel('transaction_completion_date'),
-                        'value' => $coreHelper->formatDate(
+                        'value' => $this->formatDate(
                             $model->getData('transaction_completion_date'),
                             \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM,
                             true

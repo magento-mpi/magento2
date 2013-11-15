@@ -34,7 +34,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\LayerFactory $layerFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param array $data
@@ -48,7 +48,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\LayerFactory $layerFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         array $data = array()
@@ -64,7 +64,6 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
             $catalogData,
             $categoryFactory,
             $catalogLayer,
-            $coreRegistry,
             $data
         );
     }

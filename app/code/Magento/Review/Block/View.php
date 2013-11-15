@@ -44,7 +44,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
@@ -57,7 +57,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Math\Random $mathRandom,
         \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Review\Model\ReviewFactory $reviewFactory,

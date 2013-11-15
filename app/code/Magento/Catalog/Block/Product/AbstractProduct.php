@@ -94,12 +94,18 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     protected $_catalogConfig;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
@@ -109,12 +115,14 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_catalogConfig = $catalogConfig;
         $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;
         $this->_catalogData = $catalogData;
+        $this->mathRandom = $mathRandom;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -751,5 +759,17 @@ abstract class AbstractProduct extends \Magento\Core\Block\Template
     public function getBaseImageIconSize()
     {
         return $this->getVar('product_base_image_icon_size', 'Magento_Catalog');
+    }
+
+    /**
+     * Get random string
+     *
+     * @param int $length
+     * @param string|null $chars
+     * @return string
+     */
+    public function getRandomString($length, $chars = null)
+    {
+        return $this->mathRandom->getRandomString($length, $chars);
     }
 }

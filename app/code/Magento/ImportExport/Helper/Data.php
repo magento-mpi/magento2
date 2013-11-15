@@ -36,7 +36,6 @@ class Data extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\App\State $appState
      * @param \Magento\File\Size $fileSize
      * @param bool $dbCompatibleMode
@@ -46,7 +45,6 @@ class Data extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,
-        \Magento\Core\Model\Date $dateModel,
         \Magento\App\State $appState,
         \Magento\File\Size $fileSize,
         $dbCompatibleMode = true
@@ -57,7 +55,6 @@ class Data extends \Magento\Core\Helper\Data
             $coreStoreConfig,
             $storeManager,
             $locale,
-            $dateModel,
             $appState,
             $dbCompatibleMode
         );

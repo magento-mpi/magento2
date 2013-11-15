@@ -55,9 +55,9 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -67,9 +67,9 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;

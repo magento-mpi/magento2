@@ -16,7 +16,7 @@ namespace Magento\Backend\Model\Config\Backend;
 class Translate extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
@@ -42,7 +42,7 @@ class Translate extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -53,7 +53,7 @@ class Translate extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

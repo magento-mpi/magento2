@@ -54,10 +54,10 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Checkout\Model\Resource\Cart $checkoutCart
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -67,10 +67,10 @@ class Related extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Checkout\Model\Resource\Cart $checkoutCart,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_checkoutCart = $checkoutCart;

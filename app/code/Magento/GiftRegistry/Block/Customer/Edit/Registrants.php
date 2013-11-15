@@ -32,10 +32,23 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      */
     protected $_giftRegistryData = null;
 
+    /**
+     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param array $data
+     */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Core\Model\Registry $coreRegistry,

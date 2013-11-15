@@ -15,9 +15,9 @@
     <preference for="Magento\App\FrontControllerInterface" type="Magento\App\FrontController" />
     <preference for="Magento\Module\UpdaterInterface" type="Magento\Module\Updater" />
     <preference for="Magento\Core\Model\AppInterface" type="Magento\Core\Model\App\Proxy" />
-    <preference for="Magento\App\CacheInterface" type="Magento\Core\Model\Cache\Proxy" />
-    <preference for="Magento\Core\Model\Cache\StateInterface" type="Magento\Core\Model\Cache\State" />
-    <preference for="Magento\Core\Model\Cache\TypeListInterface" type="Magento\Core\Model\Cache\TypeList" />
+    <preference for="Magento\App\CacheInterface" type="Magento\App\Cache\Proxy" />
+    <preference for="Magento\App\Cache\StateInterface" type="Magento\App\Cache\State" />
+    <preference for="Magento\App\Cache\TypeListInterface" type="Magento\App\Cache\TypeList" />
     <preference for="Magento\Core\Model\Store\ConfigInterface" type="Magento\Core\Model\Store\Config" />
     <preference for="Magento\Core\Model\StoreManagerInterface" type="Magento\Core\Model\StoreManager" />
     <preference for="Magento\View\DesignInterface" type="Magento\Core\Model\View\Design" />
@@ -28,7 +28,7 @@
     <preference for="Magento\Data\Collection\Db\FetchStrategyInterface" type="Magento\Data\Collection\Db\FetchStrategy\Query" />
     <preference for="Magento\Config\ScopeInterface" type="Magento\Config\Scope" />
     <preference for="Magento\Config\FileResolverInterface" type="Magento\Core\Model\Config\FileResolver" />
-    <preference for="Magento\Config\CacheInterface" type="Magento\Core\Model\Cache\Type\Config" />
+    <preference for="Magento\Config\CacheInterface" type="Magento\App\Cache\Type\Config" />
     <preference for="Magento\Config\ValidationStateInterface" type="Magento\App\Config\ValidationState" />
     <preference for="Magento\Module\ModuleListInterface" type="Magento\Module\ModuleList" />
     <preference for="Magento\Event\ConfigInterface" type="Magento\Event\Config" />
@@ -40,6 +40,7 @@
     <preference for="Magento\View\Url\ConfigInterface" type="Magento\Core\Model\View\Url\Config" />
     <preference for="Magento\App\Route\ConfigInterface" type="Magento\App\Route\Config" />
     <preference for="Magento\App\Resource\ConfigInterface" type="Magento\App\Resource\Config\Proxy" />
+    <preference for="Magento\App\Cache\State\OptionsInterface" type="Magento\Core\Model\Resource\Cache" />
     <preference for="Magento\Oauth\OauthInterface" type="Magento\Oauth\Oauth"/>
     <type name="Magento\View\BlockPool" shared="false" />
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
@@ -63,7 +64,7 @@
     </type>
     <type name="Magento\Module\FrontController\Plugin\Install">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config" />
+            <instance type="Magento\App\Cache\Type\Config" />
         </param>
     </type>
     <type name="Magento\App\Config\ValidationState">
@@ -81,7 +82,7 @@
             <value type="argument">Magento\Core\Model\App::PARAM_ALLOWED_MODULES</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Frontend\Factory">
+    <type name="Magento\App\Cache\Frontend\Factory">
         <param name="enforcedOptions">
             <value type="argument">Magento\Core\Model\App::PARAM_CACHE_OPTIONS</value>
         </param>
@@ -99,7 +100,7 @@
             <instance type="Magento\App\Resource\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\State">
+    <type name="Magento\App\Cache\State">
         <param name="banAll">
             <value type="argument">Magento\Core\Model\App::PARAM_BAN_CACHE</value>
         </param>
@@ -114,7 +115,7 @@
     </type>
     <type name="Magento\Core\Model\Translate">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Translate" />
+            <instance type="Magento\App\Cache\Type\Translate" />
         </param>
     </type>
     <type name="Magento\Install\Model\Installer">
@@ -144,27 +145,27 @@
     <type name="Magento\Acl" shared="false" />
     <type name="Magento\App\ObjectManager\ConfigLoader">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config"/>
+            <instance type="Magento\App\Cache\Type\Config"/>
         </param>
     </type>
     <type name="Magento\App\ObjectManager\ConfigCache">
         <param name="cacheFrontend">
-            <instance type="Magento\Core\Model\Cache\Type\Config"/>
+            <instance type="Magento\App\Cache\Type\Config"/>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Config\Reader">
+    <type name="Magento\Cache\Config\Reader">
         <param name="fileName">
             <value>cache.xml</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Cache\Config\Data">
+    <type name="Magento\Cache\Config\Data">
         <param name="cacheId">
             <value>config_cache</value>
         </param>
     </type>
     <type name="Magento\Interception\Config\Config">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config" />
+            <instance type="Magento\App\Cache\Type\Config" />
         </param>
         <param name="reader">
             <instance type="Magento\ObjectManager\Config\Reader\Dom" />
@@ -175,7 +176,7 @@
     </type>
     <type name="Magento\Interception\PluginList\PluginList">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config" />
+            <instance type="Magento\App\Cache\Type\Config" />
         </param>
         <param name="reader">
             <instance type="Magento\ObjectManager\Config\Reader\Dom" />
@@ -196,7 +197,7 @@
     </type>
     <type name="Magento\App\Resource\Config">
         <param name="cache">
-            <instance type="Magento\Core\Model\Cache\Type\Config\Proxy" />
+            <instance type="Magento\App\Cache\Type\Config\Proxy" />
         </param>
         <param name="initialResources">
             <value type="argument">Magento\App\Resource\Config::PARAM_INITIAL_RESOURCES</value>

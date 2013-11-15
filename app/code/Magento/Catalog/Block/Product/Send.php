@@ -35,7 +35,6 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -45,8 +44,8 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;

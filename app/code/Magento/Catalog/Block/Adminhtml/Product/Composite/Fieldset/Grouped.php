@@ -30,7 +30,8 @@ class Grouped
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param array $data
      */
@@ -41,7 +42,8 @@ class Grouped
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Tax\Model\Calculation $taxCalculation,
         array $data = array()
     ) {

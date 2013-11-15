@@ -51,7 +51,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Reports\Model\Product\Index\Factory $indexFactory
      * @param array $data
@@ -63,7 +63,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Reports\Model\Product\Index\Factory $indexFactory,
         array $data = array()

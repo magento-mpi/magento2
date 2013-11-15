@@ -55,8 +55,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param array $data
      */
@@ -67,8 +68,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Tax\Model\Calculation $taxCalculation,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Helper\Product $catalogProduct,
         array $data = array()
     ) {

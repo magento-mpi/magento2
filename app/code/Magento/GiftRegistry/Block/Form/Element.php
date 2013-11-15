@@ -26,17 +26,12 @@ class Element extends \Magento\Core\Block\Template
     protected $region;
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
     protected $_countryCollection;
     protected $_regionCollection;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
 
     /**
      * @var \Magento\Core\Model\LocaleInterface
@@ -46,7 +41,7 @@ class Element extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -55,7 +50,7 @@ class Element extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -64,11 +59,8 @@ class Element extends \Magento\Core\Block\Template
         $this->_configCacheType = $configCacheType;
         $this->country = $country;
         $this->region = $region;
-
-        parent::__construct($context, $coreData, $data);
-
-        $this->storeManager = $storeManager;
         $this->locale = $locale;
+        parent::__construct($context, $coreData, $data);
     }
 
 

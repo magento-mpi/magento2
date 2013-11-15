@@ -39,8 +39,8 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      */
@@ -54,8 +54,8 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Stdlib\String $string,
+        \Magento\Math\Random $mathRandom,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
@@ -70,7 +70,6 @@ class View extends \Magento\Catalog\Block\Product\View
             $productFactory,
             $locale,
             $taxCalculation,
-            $coreRegistry,
             $string,
             $data
         );

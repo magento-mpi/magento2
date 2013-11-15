@@ -26,11 +26,6 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
     protected $_recurringProfile;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Profiles collection
      *
      * @var \Magento\Sales\Model\Resource\Recurring\Profile\Collection
@@ -121,7 +116,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         $profiles = array();
         $store = $this->_storeManager->getStore();
         foreach ($this->_profiles as $profile) {
-            $profile->setStore($store)->setLocale($this->_locale);
+            $profile->setStore($store)->setLocale($this->locale);
             $profiles[] = new \Magento\Object(array(
                 'reference_id' => $profile->getReferenceId(),
                 'reference_id_link_url' => $this->getUrl(

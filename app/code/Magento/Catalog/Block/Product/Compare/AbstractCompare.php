@@ -34,6 +34,7 @@ abstract class AbstractCompare extends \Magento\Catalog\Block\Product\AbstractPr
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Helper\Product\Compare $catalogProductCompare
      * @param array $data
      */
@@ -44,6 +45,7 @@ abstract class AbstractCompare extends \Magento\Catalog\Block\Product\AbstractPr
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Helper\Product\Compare $catalogProductCompare,
         array $data = array()
     ) {

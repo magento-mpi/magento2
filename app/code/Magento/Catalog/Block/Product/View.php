@@ -57,10 +57,10 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\String $string
      * @param array $data
      */
@@ -71,10 +71,10 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {

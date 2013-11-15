@@ -40,7 +40,7 @@ class Related
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\TargetRule\Model\Resource\Index $index
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
@@ -56,7 +56,7 @@ class Related
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\TargetRule\Model\Resource\Index $index,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Math\Random $mathRandom,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
@@ -73,7 +73,6 @@ class Related
             $taxData,
             $catalogData,
             $index,
-            $coreRegistry,
             $targetRuleData,
             $productCollectionFactory,
             $visibility,

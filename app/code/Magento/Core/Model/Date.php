@@ -24,45 +24,17 @@ class Date
     private $_offset = 0;
 
     /**
-     * Current system offset in seconds
-     *
-     * @var int
-     */
-    private $_systemOffset = 0;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
-     * Init offset
-     *
+     * @param LocaleInterface $locale
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale
-    ) {
-        $this->_systemOffset = $this->calculateOffset();
-        $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
-        $this->_offset = $this->calculateOffset($this->_getConfigTimezone());
-    }
-
-    /**
-     * Gets the store config timezone
-     *
-     * @return string
-     */
-    protected function _getConfigTimezone()
+    public function __construct(\Magento\Core\Model\LocaleInterface $locale)
     {
-        return $this->_storeManager->getStore()
-            ->getConfig('general/locale/timezone');
+        $this->_locale = $locale;
+        $this->_offset = $this->calculateOffset($locale->getConfigTimezone());
     }
 
     /**

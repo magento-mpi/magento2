@@ -64,11 +64,6 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
@@ -76,7 +71,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -88,7 +83,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -102,7 +97,6 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         $this->_coreRegistry = $coreRegistry;
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
-        $this->storeManager = $storeManager;
         $this->locale = $locale;
     }
 

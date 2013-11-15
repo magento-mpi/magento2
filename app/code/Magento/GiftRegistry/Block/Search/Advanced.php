@@ -30,7 +30,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -42,7 +42,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
         \Magento\Core\Model\LocaleInterface $locale,

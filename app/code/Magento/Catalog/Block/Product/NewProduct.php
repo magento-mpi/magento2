@@ -64,11 +64,11 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -78,11 +78,11 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;

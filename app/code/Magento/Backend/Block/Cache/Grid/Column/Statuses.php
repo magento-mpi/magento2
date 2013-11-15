@@ -12,20 +12,20 @@ namespace Magento\Backend\Block\Cache\Grid\Column;
 class Statuses extends \Magento\Backend\Block\Widget\Grid\Column
 {
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_cacheTypeList;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList
+     * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList,
+        \Magento\App\Cache\TypeListInterface $cacheTypeList,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $data);

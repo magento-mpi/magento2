@@ -26,8 +26,9 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -37,8 +38,9 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;

@@ -50,32 +50,32 @@ class Edit extends \Magento\Directory\Block\Data
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cache\Type\Config $configCacheType
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cache\Type\Config $configCacheType,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,        
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
-
-        parent::__construct($context, $coreData, $configCacheType, $regionCollFactory, $countryCollFactory, $data);
-
         $this->storeManager = $storeManager;
+        parent::__construct($context, $coreData, $configCacheType, $regionCollFactory, $countryCollFactory, $data);
     }
 
     /**

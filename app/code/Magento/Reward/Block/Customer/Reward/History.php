@@ -141,7 +141,7 @@ class History extends \Magento\Core\Block\Template
      */
     public function getDate(\Magento\Reward\Model\Reward\History $item)
     {
-        return $this->_coreData->formatDate($item->getCreatedAt(), 'short', true);
+        return $this->formatDate($item->getCreatedAt(), 'short', true);
     }
 
     /**
@@ -154,7 +154,7 @@ class History extends \Magento\Core\Block\Template
     {
         $expiresAt = $item->getExpiresAt();
         if ($expiresAt) {
-            return $this->_coreData->formatDate($expiresAt, 'short', true);
+            return $this->formatDate($expiresAt, 'short', true);
         }
         return '';
     }
