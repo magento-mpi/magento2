@@ -55,7 +55,7 @@ class Rma extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
 
         $this->_title->add(__('Returns'));
@@ -126,7 +126,7 @@ class Rma extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -159,7 +159,7 @@ class Rma extends \Magento\Backend\App\Action
 
             $this->_initAction();
             $this->_title->add(__('New Return'));
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         }
     }
 
@@ -172,7 +172,7 @@ class Rma extends \Magento\Backend\App\Action
 
         $this->_initAction();
         $this->_title->add(__('New Return'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -194,7 +194,7 @@ class Rma extends \Magento\Backend\App\Action
         }
         $this->_initAction();
         $this->_title->add(sprintf("#%s", $model->getIncrementId()));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -507,8 +507,8 @@ class Rma extends \Magento\Backend\App\Action
                 $history->sendCommentEmail();
             }
 
-            $this->_layoutServices->loadLayout();
-            $response = $this->_layoutServices->getLayout()->getBlock('comments_history')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('comments_history')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -534,7 +534,7 @@ class Rma extends \Magento\Backend\App\Action
         $customerId = intval($this->getRequest()->getParam('id'));
         if ($customerId) {
             $this->getResponse()->setBody(
-                $this->_layoutServices->getLayout()
+                $this->_view->getLayout()
                     ->createBlock('Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
@@ -549,7 +549,7 @@ class Rma extends \Magento\Backend\App\Action
     {
         $orderId = intval($this->getRequest()->getParam('order_id'));
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
@@ -569,8 +569,8 @@ class Rma extends \Magento\Backend\App\Action
             if (!$order) {
                 throw new \Magento\Core\Exception(__('Invalid order'));
             }
-            $this->_layoutServices->loadLayout();
-            $response = $this->_layoutServices->getLayout()->getBlock('add_product_grid')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('add_product_grid')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -654,8 +654,8 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->_layoutServices->loadLayout();
-        $block = $this->_layoutServices->getLayout()
+        $this->_view->loadLayout();
+        $block = $this->_view->getLayout()
                 ->getBlock('magento_rma_edit_item')
                 ->initForm();
         $block->getForm()->setHtmlIdPrefix('_rma' . $itemId);
@@ -680,8 +680,8 @@ class Rma extends \Magento\Backend\App\Action
         $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
         $this->_coreRegistry->register('current_rma_item', $rma_item);
 
-        $this->_layoutServices->loadLayout();
-        $response = $this->_layoutServices->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_edit_item')
             ->setProductId(intval($productId))
             ->initForm()
@@ -735,9 +735,9 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
-        $response = $this->_layoutServices->getLayout()
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_edit_items_grid')
             ->setItemFilter($itemId)
             ->setAllFieldsEditable()
@@ -797,8 +797,8 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->_layoutServices->loadLayout();
-        $response = $this->_layoutServices->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_bundle')
             ->toHtml()
         ;
@@ -921,8 +921,8 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->_layoutServices->loadLayout();
-        $response = $this->_layoutServices->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_shipping_available')
             ->toHtml()
         ;
@@ -970,8 +970,8 @@ class Rma extends \Magento\Backend\App\Action
             );
         }
 
-        $this->_layoutServices->loadLayout();
-        $response = $this->_layoutServices->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_shipment_packaging')
             ->toHtml()
         ;
@@ -1019,7 +1019,7 @@ class Rma extends \Magento\Backend\App\Action
             $itemsOrderItemId[$item->getItemId()]   = $item->getItemId();
         }
 
-        $shippingInformation = $this->_layoutServices->getLayout()
+        $shippingInformation = $this->_view->getLayout()
             ->createBlock('Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
@@ -1052,7 +1052,7 @@ class Rma extends \Magento\Backend\App\Action
     {
         $this->_initModel();
         $this->_initAction();
-        $response = $this->_layoutServices->getLayout()
+        $response = $this->_view->getLayout()
                 ->getBlock('magento_rma_getshippingitemsgrid')
                 ->toHtml()
         ;
@@ -1269,7 +1269,7 @@ class Rma extends \Magento\Backend\App\Action
             /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
             $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
             /** @var $block \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod */
-            $block = $this->_layoutServices->getLayout()->getBlockSingleton(
+            $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);
@@ -1368,8 +1368,8 @@ class Rma extends \Magento\Backend\App\Action
                     ->save()
                 ;
 
-                $this->_layoutServices->loadLayout();
-                $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
+                $this->_view->loadLayout();
+                $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
                     'error'     => true,
@@ -1408,8 +1408,8 @@ class Rma extends \Magento\Backend\App\Action
                 if ($model->getId()) {
                     $shippingModel->delete();
 
-                    $this->_layoutServices->loadLayout();
-                    $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
+                    $this->_view->loadLayout();
+                    $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(
                         'error'     => true,

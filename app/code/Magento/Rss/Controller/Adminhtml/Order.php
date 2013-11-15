@@ -21,7 +21,7 @@ class Order extends \Magento\Rss\Controller\Adminhtml\Authenticate
     public function newAction()
     {
         $this->getResponse()->setHeader('Content-type', 'text/xml; charset=UTF-8');
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 }

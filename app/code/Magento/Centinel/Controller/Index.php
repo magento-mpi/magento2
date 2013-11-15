@@ -45,7 +45,7 @@ class Index extends \Magento\App\Action\Action
         if ($validator) {
             $this->_coreRegistry->register('current_centinel_validator', $validator);
         }
-        $this->_layoutServices->loadLayout()->renderLayout();
+        $this->_view->loadLayout()->renderLayout();
     }
 
     /**
@@ -69,7 +69,7 @@ class Index extends \Magento\App\Action\Action
         } catch (\Exception $e) {
             $this->_coreRegistry->register('current_centinel_validator', false);
         }
-        $this->_layoutServices->loadLayout()->renderLayout();
+        $this->_view->loadLayout()->renderLayout();
     }
 
     /**

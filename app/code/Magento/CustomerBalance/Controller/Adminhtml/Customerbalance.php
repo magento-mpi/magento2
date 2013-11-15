@@ -76,8 +76,8 @@ class Customerbalance extends \Magento\Backend\App\Action
     public function formAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -87,9 +87,9 @@ class Customerbalance extends \Magento\Backend\App\Action
     public function gridHistoryAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock(
+            $this->_view->getLayout()->createBlock(
                 'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid'
             )->toHtml()
         );

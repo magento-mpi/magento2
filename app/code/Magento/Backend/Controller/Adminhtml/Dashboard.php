@@ -31,10 +31,10 @@ class Dashboard extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Dashboard'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::dashboard');
         $this->_addBreadcrumb(__('Dashboard'), __('Dashboard'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -43,8 +43,8 @@ class Dashboard extends \Magento\Backend\App\Action
      */
     public function productsViewedAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -53,8 +53,8 @@ class Dashboard extends \Magento\Backend\App\Action
      */
     public function customersNewestAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -63,8 +63,8 @@ class Dashboard extends \Magento\Backend\App\Action
      */
     public function customersMostAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     public function ajaxBlockAction()
@@ -77,7 +77,7 @@ class Dashboard extends \Magento\Backend\App\Action
             ucwords(str_replace('_', ' ', $blockTab))
         );
         if (in_array($blockTab, array('tab_orders', 'tab_amounts', 'totals'))) {
-            $output = $this->_layoutServices->getLayout()->createBlock('Magento\\Backend\\Block\\Dashboard\\' . $blockClassSuffix)
+            $output = $this->_view->getLayout()->createBlock('Magento\\Backend\\Block\\Dashboard\\' . $blockClassSuffix)
                 ->toHtml();
         }
         $this->getResponse()->setBody($output);

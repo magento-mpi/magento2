@@ -47,9 +47,9 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -61,10 +61,10 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             $this->_redirect('customer/account/');
             return;
         }
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('Orders and Returns'));
         $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function printInvoiceAction()
@@ -85,8 +85,8 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             if (isset($invoice)) {
                 $this->_coreRegistry->register('current_invoice', $invoice);
             }
-            $this->_layoutServices->loadLayout('print');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('print');
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/guest/form');
         }
@@ -109,8 +109,8 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             if (isset($shipment)) {
                 $this->_coreRegistry->register('current_shipment', $shipment);
             }
-            $this->_layoutServices->loadLayout('print');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('print');
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/guest/form');
         }
@@ -134,8 +134,8 @@ class Guest extends \Magento\Sales\Controller\AbstractController
             if (isset($creditmemo)) {
                 $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
-            $this->_layoutServices->loadLayout('print');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('print');
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/guest/form');
         }

@@ -322,7 +322,7 @@ class Product extends \Magento\App\Action\Action
             $this->_initProductLayout($product);
 
             // update breadcrumbs
-            $breadcrumbsBlock = $this->_layoutServices->getLayout()->getBlock('breadcrumbs');
+            $breadcrumbsBlock = $this->_view->getLayout()->getBlock('breadcrumbs');
             if ($breadcrumbsBlock) {
                 $breadcrumbsBlock->addCrumb('product', array(
                     'label'    => $product->getName(),
@@ -332,7 +332,7 @@ class Product extends \Magento\App\Action\Action
                 $breadcrumbsBlock->addCrumb('reviews', array('label' => __('Product Reviews')));
             }
 
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } elseif (!$this->getResponse()->isRedirect()) {
             $this->_forward('noroute');
         }
@@ -356,9 +356,9 @@ class Product extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages(array('Magento\Review\Model\Session', 'Magento\Catalog\Model\Session'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages(array('Magento\Review\Model\Session', 'Magento\Catalog\Model\Session'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -367,9 +367,9 @@ class Product extends \Magento\App\Action\Action
      */
     protected function _initProductLayout($product)
     {
-        $update = $this->_layoutServices->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         $update->addHandle('default');
-        $this->_layoutServices->addPageLayoutHandles(
+        $this->_view->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );
 
@@ -377,14 +377,14 @@ class Product extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Page\Helper\Layout')
                 ->applyHandle($product->getPageLayout());
         }
-        $this->_layoutServices->loadLayoutUpdates();
+        $this->_view->loadLayoutUpdates();
 
         if ($product->getPageLayout()) {
             $this->_objectManager->get('Magento\Page\Helper\Layout')
                 ->applyTemplate($product->getPageLayout());
         }
         $update->addUpdate($product->getCustomLayoutUpdate());
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
     }
 }

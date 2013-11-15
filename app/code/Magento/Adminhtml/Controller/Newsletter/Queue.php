@@ -50,13 +50,13 @@ class Queue extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 
         $this->_addBreadcrumb(__('Newsletter Queue'), __('Newsletter Queue'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
 
@@ -65,8 +65,8 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function dropAction()
     {
-        $this->_layoutServices->loadLayout('newsletter_queue_preview');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout('newsletter_queue_preview');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -74,7 +74,7 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function previewAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $data = $this->getRequest()->getParams();
         if (empty($data) || !isset($data['id'])) {
             $this->_forward('noroute');
@@ -85,8 +85,8 @@ class Queue extends \Magento\Backend\App\Action
         $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
             ->getDefaultStoreView()->getId();
 
-        $this->_layoutServices->getLayout()->getBlock('preview_form')->setFormData($data);
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->getBlock('preview_form')->setFormData($data);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -94,8 +94,8 @@ class Queue extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     public function startAction()
@@ -202,7 +202,7 @@ class Queue extends \Magento\Backend\App\Action
 
         $this->_title->add(__('Edit Queue'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_queue');
 
@@ -213,7 +213,7 @@ class Queue extends \Magento\Backend\App\Action
         );
         $this->_addBreadcrumb(__('Edit Queue'), __('Edit Queue'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()

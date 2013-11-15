@@ -200,7 +200,7 @@ class Payment
         }
 
         $this->_coreRegistry->register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
-        $this->_layoutServices->loadLayout(false)->renderLayout();
+        $this->_view->loadLayout(false)->renderLayout();
     }
 
     /**

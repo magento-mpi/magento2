@@ -53,11 +53,11 @@ class Edit extends \Magento\Sales\Controller\Adminhtml\Order\Create
     {
         $this->_title->add(__('Orders'));
         $this->_title->add(__('Edit Order'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_initSession()
             ->_setActiveMenu('Magento_Sales::sales_order');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

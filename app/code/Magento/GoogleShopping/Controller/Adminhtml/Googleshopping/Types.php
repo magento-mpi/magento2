@@ -75,7 +75,7 @@ class Types extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_types')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Google Content'), __('Google Content'));
@@ -91,7 +91,7 @@ class Types extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Attribute Maps'), __('Attribute Maps'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -99,8 +99,8 @@ class Types extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout('false');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout('false');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -115,10 +115,10 @@ class Types extends \Magento\Backend\App\Action
 
             $this->_initAction()
                 ->_addBreadcrumb(__('New attribute set mapping'), __('New attribute set mapping'))
-                ->_addContent($this->_layoutServices->getLayout()
+                ->_addContent($this->_view->getLayout()
                     ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit')
                 );
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't create Attribute Set Mapping."));
@@ -152,11 +152,11 @@ class Types extends \Magento\Backend\App\Action
             $breadcrumbLabel = $typeId ? __('Edit attribute set mapping') : __('New attribute set mapping');
             $this->_initAction()
                 ->_addBreadcrumb($breadcrumbLabel, $breadcrumbLabel)
-                ->_addContent($this->_layoutServices->getLayout()->createBlock(
+                ->_addContent($this->_view->getLayout()->createBlock(
                     'Magento\GoogleShopping\Block\Adminhtml\Types\Edit'
                     )
                 );
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__("We can't edit Attribute Set Mapping."));
@@ -251,7 +251,7 @@ class Types extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
+            $this->_view->getLayout()->createBlock('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Attributes')
                 ->setAttributeSetId($this->getRequest()->getParam('attribute_set_id'))
                 ->setTargetCountry($this->getRequest()->getParam('target_country'))
                 ->setAttributeSetSelected(true)
@@ -271,7 +271,7 @@ class Types extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->_layoutServices->getLayout()->getBlockSingleton('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
+                $this->_view->getLayout()->getBlockSingleton('Magento\GoogleShopping\Block\Adminhtml\Types\Edit\Form')
                     ->getAttributeSetsSelectElement($this->getRequest()->getParam('target_country'))
                     ->toHtml()
             );

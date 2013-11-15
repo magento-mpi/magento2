@@ -51,9 +51,9 @@ class Urlrewrite extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('URL Redirects'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -64,14 +64,14 @@ class Urlrewrite extends \Magento\Backend\App\Action
         $this->_title->add(__('URL Redirects'));
         $this->_title->add(__('[New/Edit] URL Redirect'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_urlrewrite');
 
         $mode = $this->_getMode();
 
         switch ($mode) {
             case self::PRODUCT_MODE:
-                $editBlock = $this->_layoutServices->getLayout()
+                $editBlock = $this->_view->getLayout()
                     ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Edit', '', array('data' => array(
                         'category'         => $this->_getCategory(),
                         'product'          => $this->_getProduct(),
@@ -80,14 +80,14 @@ class Urlrewrite extends \Magento\Backend\App\Action
                     )));
                 break;
             case self::CATEGORY_MODE:
-                $editBlock = $this->_layoutServices->getLayout()
+                $editBlock = $this->_view->getLayout()
                     ->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Category\Edit', '', array('data' => array(
                         'category' => $this->_getCategory(),
                         'url_rewrite' => $this->_getUrlRewrite()
                     )));
                 break;
             case self::CMS_PAGE_MODE:
-                $editBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '',
+                $editBlock = $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '',
                     array(
                         'data' => array(
                             'cms_page'    => $this->_getCmsPage(),
@@ -98,7 +98,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
                 break;
             case self::ID_MODE:
             default:
-                $editBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit', '', array(
+                $editBlock = $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit', '', array(
                     'data' => array('url_rewrite' => $this->_getUrlRewrite())
                 ));
                 break;
@@ -106,9 +106,9 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
         $this->_addContent($editBlock);
         if (in_array($mode, array(self::PRODUCT_MODE, self::CATEGORY_MODE))) {
-            $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+            $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -138,7 +138,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     public function productGridAction()
     {
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid')->toHtml()
+            $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Catalog\Product\Grid')->toHtml()
         );
     }
 
@@ -160,7 +160,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
     public function cmsPageGridAction()
     {
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid')->toHtml()
+            $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Grid')->toHtml()
         );
     }
 

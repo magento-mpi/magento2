@@ -69,10 +69,10 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             return $this->_redirect('adminhtml/*/', array('website' => $website, 'store' => $store));
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Adminhtml::system_config');
-        $this->_layoutServices->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
+        $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
             __('System'),
@@ -80,7 +80,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             $this->getUrl('*\/system')
         );
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -106,7 +106,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     {
         $fileName = 'tablerates.csv';
         /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
-        $gridBlock = $this->_layoutServices->getLayout()
+        $gridBlock = $this->_view->getLayout()
             ->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
         $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {

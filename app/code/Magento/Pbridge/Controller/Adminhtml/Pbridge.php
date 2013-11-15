@@ -26,12 +26,12 @@ class Pbridge extends \Magento\Backend\App\Action
      */
     protected function _initActionLayout()
     {
-        $this->_layoutServices->addActionLayoutHandles();
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
-        $this->_layoutServices->setIsLayoutLoaded(true);
-        $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+        $this->_view->addActionLayoutHandles();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $this->_view->setIsLayoutLoaded(true);
+        $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Pbridge extends \Magento\Backend\App\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->_layoutServices->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
                 if($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));
@@ -83,7 +83,7 @@ class Pbridge extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

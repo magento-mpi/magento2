@@ -75,9 +75,9 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
 
@@ -111,15 +111,15 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             $model->addData($data);
         }
 
-        $this->_layoutServices->loadLayout()
+        $this->_view->loadLayout()
             ->_addBreadcrumb($id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
                              $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
             ->_addContent(
-                $this->_layoutServices->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
+                $this->_view->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
                     ->setData('form_action_url', $this->getUrl('adminhtml/*/save'))
             )
             ->_addLeft(
-                $this->_layoutServices->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
+                $this->_view->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
             )
             ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount')
             ->renderLayout();
@@ -249,8 +249,8 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -290,9 +290,9 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
                 ->toHtml()
         );
@@ -322,10 +322,10 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function exportMsxmlAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
@@ -334,10 +334,10 @@ class Giftcardaccount extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
     }
 

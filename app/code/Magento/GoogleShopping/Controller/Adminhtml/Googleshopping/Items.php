@@ -27,7 +27,7 @@ class Items extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_items')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Google Content'), __('Google Content'));
@@ -52,7 +52,7 @@ class Items extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $contentBlock = $this->_layoutServices->getLayout()
+        $contentBlock = $this->_view->getLayout()
             ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
@@ -78,7 +78,7 @@ class Items extends \Magento\Backend\App\Action
 
         $this->_addBreadcrumb(__('Items'), __('Items'))
             ->_addContent($contentBlock);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -86,9 +86,9 @@ class Items extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Item')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

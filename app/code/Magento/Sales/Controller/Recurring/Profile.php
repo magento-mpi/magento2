@@ -76,9 +76,9 @@ class Profile extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_title->add(__('Recurring Billing Profiles'));
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -162,13 +162,13 @@ class Profile extends \Magento\App\Action\Action
             $profile = $this->_initProfile();
             $this->_title->add(__('Recurring Billing Profiles'));
             $this->_title->add(__('Profile #%1', $profile->getReferenceId()));
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-            $navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation');
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
             if ($navigationBlock) {
                 $navigationBlock->setActive('sales/recurring_profile/');
             }
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_session->addError($e->getMessage());

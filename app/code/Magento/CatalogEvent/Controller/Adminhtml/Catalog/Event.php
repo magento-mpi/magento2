@@ -82,7 +82,7 @@ class Event extends \Magento\Backend\App\Action
      */
     public function _initAction()
     {
-        $this->_layoutServices->loadLayout()
+        $this->_view->loadLayout()
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Events'), __('Events'))
             ->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
@@ -98,7 +98,7 @@ class Event extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Events'));
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -138,7 +138,7 @@ class Event extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('magento_catalogevent_event', $event);
 
         $this->_initAction();
-        $layout = $this->_layoutServices->getLayout();
+        $layout = $this->_view->getLayout();
         $layout->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $layout->getBlock('store_switcher'))) {
             if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {
@@ -148,7 +148,7 @@ class Event extends \Magento\Backend\App\Action
                     ->setSwitchUrl($this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null)));
             }
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -268,7 +268,7 @@ class Event extends \Magento\Backend\App\Action
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
+            $this->_view->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
                 ->getTreeArray($id, true, 1)
         );
     }

@@ -44,7 +44,7 @@ class Rule extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Tax Rules'));
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }
@@ -81,7 +81,7 @@ class Rule extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb($taxRuleId ? __('Edit Rule') :  __('New Rule'), $taxRuleId ?  __('Edit Rule') :  __('New Rule'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -151,7 +151,7 @@ class Rule extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Tax::sales_tax_rules')
             ->_addBreadcrumb(__('Tax'), __('Tax'))
             ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'));

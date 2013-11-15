@@ -69,7 +69,7 @@ class Customersegment
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
             ->_addBreadcrumb(
                 __('Reports'),
@@ -146,7 +146,7 @@ class Customersegment
         $this->_title->add(__('Customer Segment Report'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -185,7 +185,7 @@ class Customersegment
             $this->_title->add(__('Details'));
 
             $this->_initAction();
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('adminhtml/*/segment');
             return ;
@@ -222,8 +222,8 @@ class Customersegment
     {
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
-            $this->_layoutServices->loadLayout();
-            $content = $this->_layoutServices->getLayout()
+            $this->_view->loadLayout();
+            $content = $this->_view->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
         } else {
@@ -239,9 +239,9 @@ class Customersegment
     public function exportCsvAction()
     {
         if ($this->_initSegment()) {
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $fileName = 'customersegment_customers.csv';
-            $content = $this->_layoutServices->getLayout()
+            $content = $this->_view->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
         } else {
@@ -258,8 +258,8 @@ class Customersegment
         if (!$this->_initSegment(false)) {
             return;
         }
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

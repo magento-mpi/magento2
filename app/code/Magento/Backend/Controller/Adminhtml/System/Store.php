@@ -54,7 +54,7 @@ class Store extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_store')
             ->_addBreadcrumb(__('System'), __('System'))
             ->_addBreadcrumb(__('Manage Stores'), __('Manage Stores'));
@@ -65,7 +65,7 @@ class Store extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Stores'));
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function newWebsiteAction()
@@ -159,8 +159,8 @@ class Store extends \Magento\Backend\App\Action
             }
 
             $this->_initAction()
-                ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'));
-            $this->_layoutServices->renderLayout();
+                ->_addContent($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Store\Edit'));
+            $this->_view->renderLayout();
         } else {
             $session->addError($notExists);
             $this->_redirect('adminhtml/*/');
@@ -274,13 +274,13 @@ class Store extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Delete Web Site'), __('Delete Web Site'))
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
                 ->setFormActionUrl($this->getUrl('adminhtml/*/deleteWebsitePost'))
                 ->setBackUrl($this->getUrl('adminhtml/*/editWebsite', array('website_id' => $itemId)))
                 ->setStoreTypeTitle(__('Web Site'))
                 ->setDataObject($model)
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function deleteGroupAction()
@@ -304,13 +304,13 @@ class Store extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Delete Store'), __('Delete Store'))
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
                 ->setFormActionUrl($this->getUrl('adminhtml/*/deleteGroupPost'))
                 ->setBackUrl($this->getUrl('adminhtml/*/editGroup', array('group_id' => $itemId)))
                 ->setStoreTypeTitle(__('Store'))
                 ->setDataObject($model)
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function deleteStoreAction()
@@ -334,13 +334,13 @@ class Store extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Delete Store View'), __('Delete Store View'))
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Store\Delete')
                 ->setFormActionUrl($this->getUrl('adminhtml/*/deleteStorePost'))
                 ->setBackUrl($this->getUrl('adminhtml/*/editStore', array('store_id' => $itemId)))
                 ->setStoreTypeTitle(__('Store View'))
                 ->setDataObject($model)
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function deleteWebsitePostAction()

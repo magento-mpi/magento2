@@ -77,7 +77,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_forward('grid');
             return;
         }
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         /**
          * Set active menu item
@@ -88,7 +88,7 @@ class Index extends \Magento\Backend\App\Action
          * Append customers block to content
          */
         $this->_addContent(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Customer', 'customer')
+            $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Customer', 'customer')
         );
 
         /**
@@ -97,7 +97,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -105,8 +105,8 @@ class Index extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -115,7 +115,7 @@ class Index extends \Magento\Backend\App\Action
     public function editAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /* @var $customer \Magento\Customer\Model\Customer */
@@ -179,7 +179,7 @@ class Index extends \Magento\Backend\App\Action
          */
         $this->_setActiveMenu('Magento_Customer::customer');
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -455,7 +455,7 @@ class Index extends \Magento\Backend\App\Action
     public function exportCsvAction()
     {
         $fileName = 'customers.csv';
-        $content = $this->_layoutServices->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
+        $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
 
         return $this->_fileFactory->create($fileName, $content);
     }
@@ -466,7 +466,7 @@ class Index extends \Magento\Backend\App\Action
     public function exportXmlAction()
     {
         $fileName = 'customers.xml';
-        $content = $this->_layoutServices->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
+        $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
         return $this->_fileFactory->create($fileName, $content);
     }
 
@@ -476,8 +476,8 @@ class Index extends \Magento\Backend\App\Action
     public function ordersAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -486,8 +486,8 @@ class Index extends \Magento\Backend\App\Action
     public function lastOrdersAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -500,7 +500,7 @@ class Index extends \Magento\Backend\App\Action
             ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
         $this->_coreRegistry->register('subscriber', $subscriber);
-        $this->_layoutServices->loadLayout()->renderLayout();
+        $this->_view->loadLayout()->renderLayout();
     }
 
     public function wishlistAction()
@@ -517,11 +517,11 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_layoutServices->getLayout()->getUpdate()->addHandle(strtolower($this->_request->getFullActionName()));
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->getUpdate()->addHandle(strtolower($this->_request->getFullActionName()));
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -530,8 +530,8 @@ class Index extends \Magento\Backend\App\Action
     public function viewWishlistAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -559,9 +559,9 @@ class Index extends \Magento\Backend\App\Action
             }
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -571,10 +571,10 @@ class Index extends \Magento\Backend\App\Action
     public function viewCartAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('admin.customer.view.cart')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.customer.view.cart')
             ->setWebsiteId((int)$this->getRequest()->getParam('website_id'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -584,8 +584,8 @@ class Index extends \Magento\Backend\App\Action
     public function cartsAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -595,11 +595,11 @@ class Index extends \Magento\Backend\App\Action
     public function productReviewsAction()
     {
         $this->_initCustomer();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('admin.customer.reviews')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.customer.reviews')
             ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
             ->setUseAjax(true);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -616,8 +616,8 @@ class Index extends \Magento\Backend\App\Action
         }
 
         if ($response->getError()) {
-            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
-            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

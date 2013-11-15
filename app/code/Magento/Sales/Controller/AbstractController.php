@@ -61,14 +61,14 @@ abstract class AbstractController extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Catalog\Model\Session');
 
-        $navigationBlock = $this->_layoutServices->getLayout()->getBlock('customer_account_navigation');
+        $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('sales/order/history');
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -173,8 +173,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
         if (!$this->_loadValidOrder()) {
             return;
         }
-        $this->_layoutServices->loadLayout('print');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout('print');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -196,8 +196,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
             if (isset($invoice)) {
                 $this->_coreRegistry->register('current_invoice', $invoice);
             }
-            $this->_layoutServices->loadLayout('print');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('print');
+            $this->_view->renderLayout();
         } else {
             if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
@@ -225,8 +225,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
             if (isset($shipment)) {
                 $this->_coreRegistry->register('current_shipment', $shipment);
             }
-            $this->_layoutServices->loadLayout('print');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('print');
+            $this->_view->renderLayout();
         } else {
             if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');
@@ -255,8 +255,8 @@ abstract class AbstractController extends \Magento\App\Action\Action
             if (isset($creditmemo)) {
                 $this->_coreRegistry->register('current_creditmemo', $creditmemo);
             }
-            $this->_layoutServices->loadLayout('print');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('print');
+            $this->_view->renderLayout();
         } else {
             if ($this->_objectManager->get('Magento\Customer\Model\Session')->isLoggedIn()) {
                 $this->_redirect('*/*/history');

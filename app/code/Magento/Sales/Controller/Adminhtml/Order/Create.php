@@ -327,10 +327,10 @@ class Create extends \Magento\Backend\App\Action
         $this->_title->add(__('Orders'));
         $this->_title->add(__('New Order'));
         $this->_initSession();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Sales::sales_order');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
 
@@ -385,7 +385,7 @@ class Create extends \Magento\Backend\App\Action
         $asJson= $request->getParam('json');
         $block = $request->getParam('block');
 
-        $update = $this->_layoutServices->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         if ($asJson) {
             $update->addHandle('sales_order_create_load_block_json');
         } else {
@@ -402,10 +402,10 @@ class Create extends \Magento\Backend\App\Action
                 $update->addHandle('sales_order_create_load_block_' . $block);
             }
         }
-        $this->_layoutServices->loadLayoutUpdates();
-        $this->_layoutServices->generateLayoutXml();
-        $this->_layoutServices->generateLayoutBlocks();
-        $result = $this->_layoutServices->getLayout()->renderElement('content');
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $result = $this->_view->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('sales/*/showUpdateResult');

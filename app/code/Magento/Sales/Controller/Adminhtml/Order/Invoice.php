@@ -160,11 +160,11 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         if ($invoice) {
             $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_order');
-            $this->_layoutServices->getLayout()->getBlock('sales_invoice_view')
+            $this->_view->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_forward('noroute');
         }
@@ -196,9 +196,9 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                 $invoice->setCommentText($comment);
             }
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Sales::sales_order');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
@@ -216,8 +216,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoiceRawCommentText = $invoiceRawData['comment_text'];
             $invoice->setCommentText($invoiceRawCommentText);
 
-            $this->_layoutServices->loadLayout();
-            $response = $this->_layoutServices->getLayout()->getBlock('order_items')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -412,8 +412,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoice->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $invoice->save();
 
-            $this->_layoutServices->loadLayout();
-            $response = $this->_layoutServices->getLayout()->getBlock('invoice_comments')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,

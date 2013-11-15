@@ -74,15 +74,15 @@ class Manage extends \Magento\App\Action\Action
 
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()
+        $this->_view->loadLayout();
+        $this->_view->getLayout()
             ->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
 
-        if ($block = $this->_layoutServices->getLayout()->getBlock('customer_newsletter')) {
+        if ($block = $this->_view->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Newsletter Subscription'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('Newsletter Subscription'));
+        $this->_view->renderLayout();
     }
 
     public function saveAction()

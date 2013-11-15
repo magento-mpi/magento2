@@ -59,7 +59,7 @@ class Attribute extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma_item_attribute')
             ->_addBreadcrumb(
                 __('RMA'),
@@ -94,7 +94,7 @@ class Attribute extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Returns Attributes'));
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -103,7 +103,7 @@ class Attribute extends \Magento\Backend\App\Action
      */
     public function newAction()
     {
-        $this->_layoutServices->addActionLayoutHandles();
+        $this->_view->addActionLayoutHandles();
         $this->_forward('edit');
     }
 
@@ -152,7 +152,7 @@ class Attribute extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb($label, $label);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -174,9 +174,9 @@ class Attribute extends \Magento\Backend\App\Action
                     __('An attribute with the same code already exists.')
                 );
 
-                $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
-                $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+                $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
         $this->getResponse()->setBody($response->toJson());

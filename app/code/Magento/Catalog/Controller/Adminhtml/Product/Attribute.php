@@ -66,12 +66,12 @@ class Attribute extends \Magento\Backend\App\Action
         $this->_title->add(__('Product Attributes'));
 
         if ($this->getRequest()->getParam('popup')) {
-            $this->_layoutServices->loadLayout(
-                array('popup', $this->_layoutServices->getDefaultLayoutHandle() . '_popup')
+            $this->_view->loadLayout(
+                array('popup', $this->_view->getDefaultLayoutHandle() . '_popup')
             );
-            $this->_layoutServices->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
+            $this->_view->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_addBreadcrumb(
                     __('Catalog'),
                     __('Catalog')
@@ -90,9 +90,9 @@ class Attribute extends \Magento\Backend\App\Action
     {
         $this->_initAction()
             ->_addContent(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute')
+                $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute')
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function newAction()
@@ -146,10 +146,10 @@ class Attribute extends \Magento\Backend\App\Action
 
         $this->_addBreadcrumb($item, $item);
 
-        $this->_layoutServices->getLayout()->getBlock('attribute_edit_js')
+        $this->_view->getLayout()->getBlock('attribute_edit_js')
             ->setIsPopup((bool)$this->getRequest()->getParam('popup'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
 
     }
 
@@ -192,9 +192,9 @@ class Attribute extends \Magento\Backend\App\Action
                     __('Attribute Set with name \'%1\' already exists.', $setName)
                 );
 
-                $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
-                $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+                $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
         $this->getResponse()->setBody($response->toJson());
@@ -440,7 +440,7 @@ class Attribute extends \Magento\Backend\App\Action
     public function suggestConfigurableAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Product\Configurable\AttributeSelector')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

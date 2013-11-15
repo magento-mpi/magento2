@@ -47,9 +47,9 @@ class Theme extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -57,8 +57,8 @@ class Theme extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -84,9 +84,9 @@ class Theme extends \Magento\Backend\App\Action
             }
             $this->_coreRegistry->register('current_theme', $theme);
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
-            $tab = $this->_layoutServices->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
+            $tab = $this->_view->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
                 /** @var $helper \Magento\Core\Helper\Theme */
                 $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
@@ -94,7 +94,7 @@ class Theme extends \Magento\Backend\App\Action
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');

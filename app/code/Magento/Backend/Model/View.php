@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Model\View\Action;
+namespace Magento\Backend\Model;
 
-class LayoutService extends \Magento\View\Action\LayoutService
+class View extends \Magento\App\View
 {
     /**
      * @var \Magento\Core\Model\Layout\Filter\Acl

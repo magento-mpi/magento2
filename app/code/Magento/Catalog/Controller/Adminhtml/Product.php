@@ -165,7 +165,7 @@ class Product extends \Magento\Backend\App\Action
         \Magento\Adminhtml\Block\Widget\Grid $gridBlock,
         $productsArray
     ) {
-        return $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
+        return $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
             ->setGridBlock($gridBlock)
             ->setProducts($productsArray)
             ->setInputElementName($inputName);
@@ -177,7 +177,7 @@ class Product extends \Magento\Backend\App\Action
     protected function _outputBlocks()
     {
         $blocks = func_get_args();
-        $output = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Text\ListText');
+        $output = $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Text\ListText');
         foreach ($blocks as $block) {
             $output->insert($block, '', true);
         }
@@ -190,9 +190,9 @@ class Product extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Products'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_products');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -218,7 +218,7 @@ class Product extends \Magento\Backend\App\Action
         $this->_eventManager->dispatch('catalog_product_new_action', array('product' => $product));
 
         if ($this->getRequest()->getParam('popup')) {
-            $this->_layoutServices->loadLayout('popup');
+            $this->_view->loadLayout('popup');
         } else {
             $_additionalLayoutPart = '';
             if ($product->getTypeId() == \Magento\Catalog\Model\Product\Type::TYPE_CONFIGURABLE
@@ -226,7 +226,7 @@ class Product extends \Magento\Backend\App\Action
             ) {
                 $_additionalLayoutPart = '_new';
             }
-            $this->_layoutServices->loadLayout(array(
+            $this->_view->loadLayout(array(
                 'default',
                 strtolower($this->_request->getFullActionName()),
                 'catalog_product_' . $product->getTypeId() . $_additionalLayoutPart
@@ -234,14 +234,14 @@ class Product extends \Magento\Backend\App\Action
             $this->_setActiveMenu('Magento_Catalog::catalog_products');
         }
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $block = $this->_layoutServices->getLayout()->getBlock('catalog.wysiwyg.js');
+        $block = $this->_view->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
             $block->setStoreId($product->getStoreId());
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -271,7 +271,7 @@ class Product extends \Magento\Backend\App\Action
             $additionalLayoutPart = '_new';
         }
 
-        $this->_layoutServices->loadLayout(array(
+        $this->_view->loadLayout(array(
             'default',
             strtolower($this->_request->getFullActionName()),
             'catalog_product_'.$product->getTypeId() . $additionalLayoutPart
@@ -281,7 +281,7 @@ class Product extends \Magento\Backend\App\Action
 
         if (
             !$this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->isSingleStoreMode()
-            && ($switchBlock = $this->_layoutServices->getLayout()->getBlock('store_switcher'))
+            && ($switchBlock = $this->_view->getLayout()->getBlock('store_switcher'))
         ) {
             $switchBlock->setDefaultStoreName(__('Default Values'))
                 ->setWebsiteIds($product->getWebsiteIds())
@@ -294,14 +294,14 @@ class Product extends \Magento\Backend\App\Action
             )));
         }
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $block = $this->_layoutServices->getLayout()->getBlock('catalog.wysiwyg.js');
+        $block = $this->_view->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
             $block->setStoreId($product->getStoreId());
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -315,7 +315,7 @@ class Product extends \Magento\Backend\App\Action
         $storeMediaUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore($storeId)->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
 
-        $content = $this->_layoutServices->getLayout()->createBlock(
+        $content = $this->_view->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg\Content',
             '',
             array(
@@ -334,8 +334,8 @@ class Product extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -344,13 +344,13 @@ class Product extends \Magento\Backend\App\Action
     public function gridOnlyAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $block = $this->getRequest()->getParam('gridOnlyBlock');
         $blockClassSuffix = str_replace(' ', '_', ucwords(str_replace('_', ' ', $block)));
 
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\\' . $blockClassSuffix)
                 ->toHtml()
         );
@@ -363,8 +363,8 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_saveAttributeOptions();
         $this->_initProductSave($this->_initProduct());
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -423,8 +423,8 @@ class Product extends \Magento\Backend\App\Action
     public function categoriesAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -434,8 +434,8 @@ class Product extends \Magento\Backend\App\Action
     public function optionsAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -444,10 +444,10 @@ class Product extends \Magento\Backend\App\Action
     public function relatedAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -456,10 +456,10 @@ class Product extends \Magento\Backend\App\Action
     public function upsellAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsUpsell($this->getRequest()->getPost('products_upsell', null));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -468,10 +468,10 @@ class Product extends \Magento\Backend\App\Action
     public function crosssellAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsCrossSell($this->getRequest()->getPost('products_crosssell', null));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -480,10 +480,10 @@ class Product extends \Magento\Backend\App\Action
     public function relatedGridAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.related')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('catalog.product.edit.tab.related')
             ->setProductsRelated($this->getRequest()->getPost('products_related', null));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -492,10 +492,10 @@ class Product extends \Magento\Backend\App\Action
     public function upsellGridAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.upsell')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('catalog.product.edit.tab.upsell')
             ->setProductsRelated($this->getRequest()->getPost('products_upsell', null));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -504,10 +504,10 @@ class Product extends \Magento\Backend\App\Action
     public function crosssellGridAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('catalog.product.edit.tab.crosssell')
             ->setProductsRelated($this->getRequest()->getPost('products_crosssell', null));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -516,8 +516,8 @@ class Product extends \Magento\Backend\App\Action
     public function superGroupAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -526,8 +526,8 @@ class Product extends \Magento\Backend\App\Action
     public function superGroupPopupAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -537,11 +537,11 @@ class Product extends \Magento\Backend\App\Action
     public function reviewsAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->getBlock('admin.product.reviews')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.product.reviews')
             ->setProductId($this->_coreRegistry->registry('product')->getId())
             ->setUseAjax(true);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -551,8 +551,8 @@ class Product extends \Magento\Backend\App\Action
     public function superConfigAction()
     {
         $this->_initProduct();
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -631,9 +631,9 @@ class Product extends \Magento\Backend\App\Action
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -958,8 +958,8 @@ class Product extends \Magento\Backend\App\Action
      */
     public function alertsPriceGridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -967,27 +967,27 @@ class Product extends \Magento\Backend\App\Action
      */
     public function alertsStockGridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     public function addAttributeAction()
     {
-        $this->_layoutServices->loadLayout('popup');
+        $this->_view->loadLayout('popup');
         $this->_initProduct();
         $this->_addContent(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\NewAttribute\Product\Created')
         );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function createdAction()
     {
-        $this->_layoutServices->loadLayout('popup');
+        $this->_view->loadLayout('popup');
         $this->_addContent(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Created')
         );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function massDeleteAction()
@@ -1096,8 +1096,8 @@ class Product extends \Magento\Backend\App\Action
      */
     public function optionsImportGridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -1106,8 +1106,8 @@ class Product extends \Magento\Backend\App\Action
     public function customOptionsAction()
     {
         $this->_coreRegistry->register('import_option_products', $this->getRequest()->getPost('products'));
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -1117,7 +1117,7 @@ class Product extends \Magento\Backend\App\Action
     {
         $this->_initProduct();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Product\TemplateSelector')
                 ->getSuggestedTemplates($this->getRequest()->getParam('label_part'))
         ));
     }
@@ -1128,7 +1128,7 @@ class Product extends \Magento\Backend\App\Action
     public function suggestAttributesAction()
     {
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Attributes\Search')
                 ->getSuggestedAttributes($this->getRequest()->getParam('label_part'))
         ));
     }

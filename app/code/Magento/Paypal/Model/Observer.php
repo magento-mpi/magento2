@@ -47,9 +47,9 @@ class Observer
     protected $_settlementFactory;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutService;
+    protected $_view;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -57,7 +57,7 @@ class Observer
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
      * @param Report\SettlementFactory $settlementFactory
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
+     * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
@@ -65,14 +65,14 @@ class Observer
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logger $logger,
         \Magento\Paypal\Model\Report\SettlementFactory $settlementFactory,
-        \Magento\View\Action\LayoutServiceInterface $layoutService
+        \Magento\App\ViewInterface $view
     ) {
         $this->_coreData = $coreData;
         $this->_paypalHss = $paypalHss;
         $this->_coreRegistry = $coreRegistry;
         $this->_logger = $logger;
         $this->_settlementFactory = $settlementFactory;
-        $this->_layoutService = $layoutService;
+        $this->_view = $view;
     }
 
     /**
@@ -146,8 +146,8 @@ class Observer
                 );
 
                 if (empty($result['error'])) {
-                    $this->_layoutService->loadLayout('checkout_onepage_review');
-                    $html = $this->_layoutService->getLayout()->getBlock('paypal.iframe')->toHtml();
+                    $this->_view->loadLayout('checkout_onepage_review');
+                    $html = $this->_view->getLayout()->getBlock('paypal.iframe')->toHtml();
                     $result['update_section'] = array(
                         'name' => 'paypaliframe',
                         'html' => $html

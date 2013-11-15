@@ -73,7 +73,7 @@ class Instance extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Widget::cms_widget_instance')
             ->_addBreadcrumb(__('CMS'),
                 __('CMS'))
@@ -129,7 +129,7 @@ class Instance extends \Magento\Backend\App\Action
         $this->_title->add(__('Frontend Apps'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -156,7 +156,7 @@ class Instance extends \Magento\Backend\App\Action
         $this->_title->add($widgetInstance->getId() ? $widgetInstance->getTitle() : __('New Frontend App Instance'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -184,9 +184,9 @@ class Instance extends \Magento\Backend\App\Action
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->setBody($response->toJson());
     }
@@ -259,7 +259,7 @@ class Instance extends \Magento\Backend\App\Action
     {
         $selected = $this->getRequest()->getParam('selected', '');
         $isAnchorOnly = $this->getRequest()->getParam('is_anchor_only', 0);
-        $chooser = $this->_layoutServices->getLayout()
+        $chooser = $this->_view->getLayout()
             ->createBlock('Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser')
             ->setUseMassaction(true)
             ->setId($this->mathRandom->getUniqueHash('categories'))
@@ -276,14 +276,14 @@ class Instance extends \Magento\Backend\App\Action
     {
         $selected = $this->getRequest()->getParam('selected', '');
         $productTypeId = $this->getRequest()->getParam('product_type_id', '');
-        $chooser = $this->_layoutServices->getLayout()
+        $chooser = $this->_view->getLayout()
             ->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser')
             ->setName($this->mathRandom->getUniqueHash('products_grid_'))
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
         /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
-        $serializer = $this->_layoutServices->getLayout()->createBlock(
+        $serializer = $this->_view->getLayout()->createBlock(
             'Magento\Adminhtml\Block\Widget\Grid\Serializer',
             '',
             array(
@@ -317,7 +317,7 @@ class Instance extends \Magento\Backend\App\Action
         $widgetInstance = $this->_initWidgetInstance();
         $layout = $this->getRequest()->getParam('layout');
         $selected = $this->getRequest()->getParam('selected', null);
-        $blocksChooser = $this->_layoutServices->getLayout()
+        $blocksChooser = $this->_view->getLayout()
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Container')
             ->setValue($selected)
             ->setArea($widgetInstance->getArea())
@@ -337,7 +337,7 @@ class Instance extends \Magento\Backend\App\Action
         $widgetInstance = $this->_initWidgetInstance();
         $block = $this->getRequest()->getParam('block');
         $selected = $this->getRequest()->getParam('selected', null);
-        $templateChooser = $this->_layoutServices->getLayout()
+        $templateChooser = $this->_view->getLayout()
             ->createBlock('Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser\Template')
             ->setSelected($selected)
             ->setWidgetTemplates($widgetInstance->getWidgetSupportedTemplatesByContainer($block));

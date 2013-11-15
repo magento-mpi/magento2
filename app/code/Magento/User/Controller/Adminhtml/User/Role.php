@@ -80,7 +80,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_User::system_acl_roles');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Permissions'), __('Permissions'));
@@ -118,7 +118,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $this->_initAction();
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -127,8 +127,8 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function roleGridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -152,12 +152,12 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $this->_addBreadcrumb($breadCrumb, $breadCrumbTitle);
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
-        $this->_layoutServices->getLayout()->getBlock('adminhtml.user.role.buttons')
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_view->getLayout()->getBlock('adminhtml.user.role.buttons')
             ->setRoleId($role->getId())
             ->setRoleInfo($role);
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -265,8 +265,8 @@ class Role extends \Magento\Backend\App\AbstractAction
      */
     public function editrolegridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

@@ -34,15 +34,15 @@ class Design extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Store Design'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     public function newAction()
@@ -54,9 +54,9 @@ class Design extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Store Design'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_design_schedule');
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $id  = (int)$this->getRequest()->getParam('id');
         $design    = $this->_objectManager->create('Magento\Core\Model\Design');
@@ -69,10 +69,10 @@ class Design extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('design', $design);
 
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
-        $this->_addLeft($this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
+        $this->_addLeft($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()

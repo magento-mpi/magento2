@@ -41,7 +41,7 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_creditmemo')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Credit Memos'), __('Credit Memos'));
@@ -54,8 +54,8 @@ class AbstractCreditmemo extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo'));
-        $this->_layoutServices->renderLayout();
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo'));
+        $this->_view->renderLayout();
     }
 
     /**

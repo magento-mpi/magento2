@@ -66,13 +66,13 @@ class Backup extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Backup::system_tools_backup');
         $this->_addBreadcrumb(__('System'), __('System'));
         $this->_addBreadcrumb(__('Tools'), __('Tools'));
         $this->_addBreadcrumb(__('Backups'), __('Backup'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -81,7 +81,7 @@ class Backup extends \Magento\Backend\App\Action
     public function gridAction()
     {
         $this->renderLayot(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

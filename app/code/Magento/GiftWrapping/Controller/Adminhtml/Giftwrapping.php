@@ -47,7 +47,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout()->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
+        $this->_view->loadLayout()->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
 
         $this->_title->add(__('Gift Wrapping'));
         return $this;
@@ -87,7 +87,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -98,7 +98,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
         $model = $this->_initModel();
         $this->_initAction();
         $this->_title->add(__('New Gift Wrapping'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -113,7 +113,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
             $model->addData($formData);
         }
         $this->_title->add(__('%1', $model->getDesign()));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -304,7 +304,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
      * @deprecated since 1.12.0.0
      */
     public function orderOptionsAction() {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

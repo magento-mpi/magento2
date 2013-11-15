@@ -20,14 +20,14 @@ class Online extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Customer::customer_online');
 
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Online Customers'), __('Online Customers'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     protected function _isAllowed()

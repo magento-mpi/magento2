@@ -65,7 +65,7 @@ class Quote extends \Magento\Backend\App\Action
 
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesRule::promo_quote')
             ->_addBreadcrumb(__('Promotions'), __('Promotions'))
         ;
@@ -115,7 +115,7 @@ class Quote extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_promo_quote_rule', $model);
 
         $this->_initAction();
-        $this->_layoutServices->getLayout()->getBlock('promo_quote_edit')
+        $this->_view->getLayout()->getBlock('promo_quote_edit')
             ->setData('action', $this->getUrl('sales_rule/*/save'));
 
         $this->_addBreadcrumb(
@@ -123,7 +123,7 @@ class Quote extends \Magento\Backend\App\Action
                     : __('New Rule'),
                 $id ? __('Edit Rule')
                     : __('New Rule'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
 
     }
 
@@ -292,7 +292,7 @@ class Quote extends \Magento\Backend\App\Action
     public function applyRulesAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -301,7 +301,7 @@ class Quote extends \Magento\Backend\App\Action
     public function couponsGridAction()
     {
         $this->_initRule();
-        $this->_layoutServices->loadLayout()->renderLayout();
+        $this->_view->loadLayout()->renderLayout();
     }
 
     /**
@@ -315,7 +315,7 @@ class Quote extends \Magento\Backend\App\Action
         $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.xml';
-            $content = $this->_layoutServices->getLayout()
+            $content = $this->_view->getLayout()
                 ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getExcelFile($fileName);
             return $this->_fileFactory->create($fileName, $content);
@@ -336,7 +336,7 @@ class Quote extends \Magento\Backend\App\Action
         $rule = $this->_coreRegistry->registry('current_promo_quote_rule');
         if ($rule->getId()) {
             $fileName = 'coupon_codes.csv';
-            $content = $this->_layoutServices->getLayout()
+            $content = $this->_view->getLayout()
                 ->createBlock('Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons\Grid')
                 ->getCsvFile();
             return $this->_fileFactory->create($fileName, $content);
@@ -405,8 +405,8 @@ class Quote extends \Magento\Backend\App\Action
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
                     $this->_getSession()->addSuccess(__('%1 coupon(s) have been generated.', $generated));
-                    $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
-                    $result['messages']  = $this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml();
+                    $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                    $result['messages']  = $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }
             } catch (\Magento\Core\Exception $e) {
                 $result['error'] = $e->getMessage();
@@ -424,7 +424,7 @@ class Quote extends \Magento\Backend\App\Action
     public function chooserAction()
     {
         $uniqId = $this->getRequest()->getParam('uniq_id');
-        $chooserBlock = $this->_layoutServices->getLayout()
+        $chooserBlock = $this->_view->getLayout()
             ->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser', '', array('data' => array('id' => $uniqId)));
         $this->getResponse()->setBody($chooserBlock->toHtml());
     }

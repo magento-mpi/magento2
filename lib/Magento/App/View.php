@@ -6,9 +6,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Action;
+namespace Magento\App;
 
-class LayoutService implements LayoutServiceInterface
+class View implements ViewInterface
 {
     /**
      * @var \Magento\View\LayoutInterface
@@ -169,7 +169,7 @@ class LayoutService implements LayoutServiceInterface
     /**
      * Load layout updates
      *
-     * @return \Magento\View\Action\LayoutService
+     * @return \Magento\App\View
      */
     public function loadLayoutUpdates()
     {
@@ -193,7 +193,7 @@ class LayoutService implements LayoutServiceInterface
     /**
      * Generate layout xml
      *
-     * @return \Magento\View\Action\LayoutService
+     * @return \Magento\App\View
      */
     public function generateLayoutXml()
     {
@@ -210,7 +210,7 @@ class LayoutService implements LayoutServiceInterface
     /**
      * Generate layout blocks
      *
-     * @return \Magento\View\Action\LayoutService
+     * @return \Magento\App\View
      */
     public function generateLayoutBlocks()
     {
@@ -244,7 +244,7 @@ class LayoutService implements LayoutServiceInterface
      * Rendering layout
      *
      * @param   string $output
-     * @return  \Magento\View\Action\LayoutService
+     * @return  \Magento\App\View
      */
     public function renderLayout($output = '')
     {

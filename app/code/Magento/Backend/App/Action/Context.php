@@ -69,7 +69,7 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
+     * @param \Magento\App\ViewInterface $view
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Helper\Data $helper
@@ -88,7 +88,7 @@ class Context extends \Magento\App\Action\Context
         \Magento\UrlInterface $url,
         \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\View\Action\LayoutServiceInterface $layoutService,
+        \Magento\App\ViewInterface $view,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Helper\Data $helper,
@@ -106,7 +106,7 @@ class Context extends \Magento\App\Action\Context
             $url,
             $redirect,
             $actionFlag,
-            $layoutService
+            $view
         );
         $this->_session = $session;
         $this->_authorization = $authorization;

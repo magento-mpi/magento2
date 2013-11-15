@@ -69,11 +69,11 @@ class Template extends \Magento\Backend\App\Action
             $this->_forward('grid');
             return;
         }
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
         $this->_addBreadcrumb(__('Newsletter Templates'), __('Newsletter Templates'));
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
-        $this->_layoutServices->renderLayout();
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template', 'template'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -82,8 +82,8 @@ class Template extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $grid = $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
+        $this->_view->loadLayout();
+        $grid = $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Newsletter\Template\Grid')
             ->toHtml();
         $this->getResponse()->setBody($grid);
     }
@@ -113,7 +113,7 @@ class Template extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('_current_template', $model);
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Newsletter::newsletter_template');
 
         if ($model->getId()) {
@@ -134,12 +134,12 @@ class Template extends \Magento\Backend\App\Action
             $model->addData($values);
         }
 
-        $editBlock = $this->_layoutServices->getLayout()->getBlock('template_edit');
+        $editBlock = $this->_view->getLayout()->getBlock('template_edit');
         if ($editBlock) {
             $editBlock->setEditMode($model->getId() > 0);
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -148,8 +148,8 @@ class Template extends \Magento\Backend\App\Action
      */
     public function dropAction()
     {
-        $this->_layoutServices->loadLayout('newsletter_template_preview');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout('newsletter_template_preview');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -242,7 +242,7 @@ class Template extends \Magento\Backend\App\Action
     public function previewAction()
     {
         $this->_setTitle();
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $data = $this->getRequest()->getParams();
         if (empty($data) || !isset($data['id'])) {
@@ -254,7 +254,7 @@ class Template extends \Magento\Backend\App\Action
         $data['preview_store_id'] = $this->_objectManager->get('Magento\Core\Model\StoreManager')
             ->getDefaultStoreView()->getId();
 
-        $this->_layoutServices->getLayout()->getBlock('preview_form')->setFormData($data);
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->getBlock('preview_form')->setFormData($data);
+        $this->_view->renderLayout();
     }
 }

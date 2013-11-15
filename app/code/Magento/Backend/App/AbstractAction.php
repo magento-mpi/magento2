@@ -126,7 +126,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected function _setActiveMenu($itemId)
     {
         /** @var $menuBlock \Magento\Backend\Block\Menu */
-        $menuBlock = $this->_layoutServices->getLayout()->getBlock('menu');
+        $menuBlock = $this->_view->getLayout()->getBlock('menu');
         $menuBlock->setActive($itemId);
         $parents = $menuBlock->getMenuModel()->getParentItems($itemId);
         $parents = array_reverse($parents);
@@ -145,7 +145,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _addBreadcrumb($label, $title, $link=null)
     {
-        $this->_layoutServices->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
+        $this->_view->getLayout()->getBlock('breadcrumbs')->addLink($label, $title, $link);
         return $this;
     }
 
@@ -187,7 +187,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     private function _moveBlockToContainer(\Magento\Core\Block\AbstractBlock $block, $containerName)
     {
-        $this->_layoutServices->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
+        $this->_view->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
         return $this;
     }
 
@@ -291,8 +291,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
             $this->_redirect('*/auth/login');
             return;
         }
-        $this->_layoutServices->loadLayout(array('default', 'adminhtml_denied'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(array('default', 'adminhtml_denied'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -305,8 +305,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     {
         $this->getResponse()->setHeader('HTTP/1.1', '404 Not Found');
         $this->getResponse()->setHeader('Status', '404 File not found');
-        $this->_layoutServices->loadLayout(array('default', 'adminhtml_noroute'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(array('default', 'adminhtml_noroute'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -367,8 +367,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->_layoutServices->getLayout()->initMessages('Magento\Backend\Model\Session');
-        $block = $this->_layoutServices->getLayout()
+        $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $block = $this->_view->getLayout()
             ->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {
             $block->assign($index, $value);

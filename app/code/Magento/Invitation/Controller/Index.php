@@ -138,14 +138,14 @@ class Index extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->loadLayoutUpdates();
-        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Send Invitations'));
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -154,16 +154,16 @@ class Index extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->loadLayoutUpdates();
-        if ($block = $this->_layoutServices->getLayout()->getBlock('invitations_list')) {
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        if ($block = $this->_view->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('My Invitations'));
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 }

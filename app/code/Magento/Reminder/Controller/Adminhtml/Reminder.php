@@ -69,7 +69,7 @@ class Reminder extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder')
             ->_addBreadcrumb(
                 __('Reminder Rules'),
@@ -107,9 +107,9 @@ class Reminder extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Email Reminders'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -148,16 +148,16 @@ class Reminder extends \Magento\Backend\App\Action
 
         $this->_initAction();
 
-        $this->_layoutServices->getLayout()->getBlock('adminhtml_reminder_edit')
+        $this->_view->getLayout()->getBlock('adminhtml_reminder_edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
-        $this->_layoutServices->getLayout()->getBlock('head')
+        $this->_view->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
         $caption = $model->getId() ? __('Edit Rule') : __('New Reminder Rule');
         $this->_addBreadcrumb($caption, $caption);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -290,7 +290,7 @@ class Reminder extends \Magento\Backend\App\Action
     public function customerGridAction()
     {
         if ($this->_initRule('rule_id')) {
-            $block = $this->_layoutServices->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
+            $block = $this->_view->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
             $this->getResponse()->setBody($block->toHtml());
         }
     }

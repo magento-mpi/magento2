@@ -70,8 +70,8 @@ class Customer extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -88,7 +88,7 @@ class Customer extends \Magento\Backend\App\Action
             $this->_title->add($customer->getName());
             $this->_title->add(__("Edit '%1' Gift Registry", $model->getTitle()));
 
-            $this->_layoutServices->loadLayout()->renderLayout();
+            $this->_view->loadLayout()->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('customer/index/edit', array(

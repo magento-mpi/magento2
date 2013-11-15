@@ -144,11 +144,11 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $shipment = $this->_initShipment();
         if ($shipment) {
             $this->_title->add("#" . $shipment->getIncrementId());
-            $this->_layoutServices->loadLayout();
-            $this->_layoutServices->getLayout()->getBlock('sales_shipment_view')
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->getBlock('sales_shipment_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
             $this->_setActiveMenu('Magento_Sales::sales_order');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_forward('noroute');
         }
@@ -179,9 +179,9 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $shipment->setCommentText($comment);
             }
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Sales::sales_order');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id' => $this->getRequest()->getParam('order_id')));
         }
@@ -322,8 +322,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 $shipment->addTrack($track)
                     ->save();
 
-                $this->_layoutServices->loadLayout();
-                $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
+                $this->_view->loadLayout();
+                $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
                     'error'     => true,
@@ -359,8 +359,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                 if ($this->_initShipment()) {
                     $track->delete();
 
-                    $this->_layoutServices->loadLayout();
-                    $response = $this->_layoutServices->getLayout()->getBlock('shipment_tracking')->toHtml();
+                    $this->_view->loadLayout();
+                    $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(
                         'error'     => true,
@@ -446,8 +446,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $shipment->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $shipment->save();
 
-            $this->_layoutServices->loadLayout(false);
-            $response = $this->_layoutServices->getLayout()->getBlock('shipment_comments')->toHtml();
+            $this->_view->loadLayout(false);
+            $response = $this->_view->getLayout()->getBlock('shipment_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -726,7 +726,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $this->_initShipment();
         return $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\Sales\Block\Adminhtml\Order\Shipment\Packaging\Grid')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

@@ -124,9 +124,9 @@ class Observer
     protected $_httpRequest;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutService;
+    protected $_view;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -149,7 +149,7 @@ class Observer
      * @param Resource\Hierarchy\Node $hierarchyNodeResource
      * @param Resource\Increment $cmsIncrement
      * @param \Magento\App\RequestInterface $httpRequest
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
+     * @param \Magento\App\ViewInterface $view
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -174,7 +174,7 @@ class Observer
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $hierarchyNodeResource,
         \Magento\VersionsCms\Model\Resource\Increment $cmsIncrement,
         \Magento\App\RequestInterface $httpRequest,
-        \Magento\View\Action\LayoutServiceInterface $layoutService
+        \Magento\App\ViewInterface $view
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_coreData = $coreData;
@@ -196,7 +196,7 @@ class Observer
         $this->_hierarchyNodeResource = $hierarchyNodeResource;
         $this->_cmsIncrement = $cmsIncrement;
         $this->_httpRequest = $httpRequest;
-        $this->_layoutService = $layoutService;
+        $this->_view = $view;
     }
 
     /**
@@ -661,7 +661,7 @@ class Observer
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
 
         // collect loaded handles for cms page
-        $loadedHandles = $this->_layoutService->getLayout()->getUpdate()->getHandles();
+        $loadedHandles = $this->_view->getLayout()->getUpdate()->getHandles();
 
         $menuLayout = $node->getMenuLayout();
         if ($menuLayout === null) {
@@ -677,7 +677,7 @@ class Observer
         }
 
         // add menu handle to layout update
-        $this->_layoutService->getUpdate()->addHandle($menuLayout['handle']);
+        $this->_view->getUpdate()->addHandle($menuLayout['handle']);
 
         return $this;
     }

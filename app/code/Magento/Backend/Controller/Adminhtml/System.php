@@ -21,13 +21,13 @@ class System extends \Magento\Backend\App\AbstractAction
 {
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system');
         $this->_addBreadcrumb(
             __('System'),
             __('System')
         );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function setStoreAction()

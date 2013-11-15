@@ -49,8 +49,8 @@ class Archive extends \Magento\Backend\App\Action
      */
     protected function _renderGrid()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
         return $this;
     }
 
@@ -61,9 +61,9 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Orders'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_orders');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -81,9 +81,9 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Invoices'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_invoices');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -102,9 +102,9 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Credit Memos'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_creditmemos');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -122,9 +122,9 @@ class Archive extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Shipments'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_shipments');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -293,8 +293,8 @@ class Archive extends \Magento\Backend\App\Action
     protected function _export($type)
     {
         $action = strtolower((string)$this->getRequest()->getParam('action'));
-        $this->_layoutServices->loadLayout(false);
-        $layout = $this->_layoutServices->getLayout();
+        $this->_view->loadLayout(false);
+        $layout = $this->_view->getLayout();
 
         switch ($action) {
             case 'invoice':

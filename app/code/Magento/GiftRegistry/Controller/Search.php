@@ -220,13 +220,13 @@ class Search extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -234,8 +234,8 @@ class Search extends \Magento\App\Action\Action
      */
     public function resultsAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
 
         $params = $this->getRequest()->getParam('params');
         if ($params) {
@@ -248,17 +248,17 @@ class Search extends \Magento\App\Action\Action
             $results = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
-            $this->_layoutServices->getLayout()->getBlock('giftregistry.search.results')
+            $this->_view->getLayout()->getBlock('giftregistry.search.results')
                 ->setSearchResults($results);
         } else {
             $this->_redirect('*/*/index', array('_current' => true));
             return;
         }
-        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -267,7 +267,7 @@ class Search extends \Magento\App\Action\Action
     public function advancedAction()
     {
         $this->_initType($this->getRequest()->getParam('type_id'));
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

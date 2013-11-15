@@ -57,13 +57,13 @@ class Subscription extends \Magento\Backend\App\AbstractAction
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook');
         $this->_title->add(__('System'));
         $this->_title->add(__('Web Services'));
         $this->_title->add(__('WebHook Subscriptions'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -91,7 +91,7 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION, $subscriptionData);
             }
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Webapi::system_webapi');
             $this->_title->add(__('System'));
             $this->_title->add(__('Web Services'));
@@ -102,7 +102,7 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                 $this->_title->add(__('Edit Subscription'));
             }
 
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');

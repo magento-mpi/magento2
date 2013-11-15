@@ -66,11 +66,11 @@ class Payflow extends \Magento\App\Action\Action
      */
     public function cancelPaymentAction()
     {
-        $this->_layoutServices->loadLayout(false);
+        $this->_view->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.link.iframe');
+        $redirectBlock = $this->_view->getLayout()->getBlock('payflow.link.iframe');
         $redirectBlock->setGotoSection($gotoSection);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -78,8 +78,8 @@ class Payflow extends \Magento\App\Action\Action
      */
     public function returnUrlAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.link.iframe');
+        $this->_view->loadLayout(false);
+        $redirectBlock = $this->_view->getLayout()->getBlock('payflow.link.iframe');
 
         if ($this->_checkoutSession->getLastRealOrderId()) {
             $order = $this->_orderFactory->create()->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
@@ -100,7 +100,7 @@ class Payflow extends \Magento\App\Action\Action
             }
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -108,7 +108,7 @@ class Payflow extends \Magento\App\Action\Action
      */
     public function formAction()
     {
-        $this->_layoutServices->loadLayout(false)->renderLayout();
+        $this->_view->loadLayout(false)->renderLayout();
     }
 
     /**

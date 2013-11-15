@@ -160,11 +160,11 @@ class Cart
         \Magento\Profiler::start(__METHOD__ . 'cart_display');
         $messageStores = array('Magento\Checkout\Model\Session', 'Magento\Catalog\Model\Session');
 
-        $this->_layoutServices->loadLayout();
-        $layout = $this->_layoutServices->getLayout();
+        $this->_view->loadLayout();
+        $layout = $this->_view->getLayout();
         $layout->initMessages($messageStores);
         $layout->getBlock('head')->setTitle(__('Shopping Cart'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
         \Magento\Profiler::stop(__METHOD__ . 'cart_display');
     }
 

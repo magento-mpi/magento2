@@ -40,7 +40,7 @@ class AbstractShipment extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_shipment')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Shipments'), __('Shipments'));
@@ -55,8 +55,8 @@ class AbstractShipment extends \Magento\Backend\App\Action
         $this->_title->add(__('Shipments'));
 
         $this->_initAction()
-            ->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'));
-        $this->_layoutServices->renderLayout();
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'));
+        $this->_view->renderLayout();
     }
 
     /**

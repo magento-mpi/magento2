@@ -172,11 +172,11 @@ class Account extends \Magento\App\Action\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('My Account'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('My Account'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -189,10 +189,10 @@ class Account extends \Magento\App\Action\Action
             return;
         }
         $this->getResponse()->setHeader('Login-Required', 'true');
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_layoutServices->getLayout()->initMessages($messageStores);
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -308,8 +308,8 @@ class Account extends \Magento\App\Action\Action
      */
     public function logoutSuccessAction()
     {
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -322,9 +322,9 @@ class Account extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -668,13 +668,13 @@ class Account extends \Magento\App\Action\Action
         }
 
         // output form
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
-        $this->_layoutServices->getLayout()->getBlock('accountConfirmation')
+        $this->_view->getLayout()->getBlock('accountConfirmation')
             ->setEmail($this->getRequest()->getParam('email', $email));
 
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -682,15 +682,15 @@ class Account extends \Magento\App\Action\Action
      */
     public function forgotPasswordAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
-        $this->_layoutServices->getLayout()->getBlock('forgotPassword')->setEmailValue(
+        $this->_view->getLayout()->getBlock('forgotPassword')->setEmailValue(
             $this->_getSession()->getForgottenEmail()
         );
         $this->_getSession()->unsForgottenEmail();
 
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -757,12 +757,12 @@ class Account extends \Magento\App\Action\Action
         $customerId = (int)$this->getRequest()->getParam('id');
         try {
             $this->_validateResetPasswordLinkToken($customerId, $resetPasswordToken);
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             // Pass received parameters to the reset forgotten password form
-            $this->_layoutServices->getLayout()->getBlock('resetPassword')
+            $this->_view->getLayout()->getBlock('resetPassword')
                 ->setCustomerId($customerId)
                 ->setResetPasswordLinkToken($resetPasswordToken);
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $exception) {
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')
@@ -878,11 +878,11 @@ class Account extends \Magento\App\Action\Action
      */
     public function editAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_layoutServices->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages($messageStores);
 
-        $block = $this->_layoutServices->getLayout()->getBlock('customer_edit');
+        $block = $this->_view->getLayout()->getBlock('customer_edit');
         if ($block) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
@@ -895,9 +895,9 @@ class Account extends \Magento\App\Action\Action
             $customer->setChangePassword(1);
         }
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setTitle(__('Account Information'));
-        $this->_layoutServices->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
-        $this->_layoutServices->renderLayout();
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('Account Information'));
+        $this->_view->getLayout()->getBlock('messages')->setEscapeMessageFlag(true);
+        $this->_view->renderLayout();
     }
 
     /**

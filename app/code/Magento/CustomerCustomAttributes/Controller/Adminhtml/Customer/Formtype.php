@@ -75,7 +75,7 @@ class Formtype
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CustomerCustomAttributes::customer_formtype')
             ->_addBreadcrumb(__('Customer'),
                 __('Customer'))
@@ -91,7 +91,7 @@ class Formtype
     public function indexAction()
     {
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -124,7 +124,7 @@ class Formtype
         $this->_coreRegistry->register('edit_mode', 'new');
         $this->_initFormType();
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -178,7 +178,7 @@ class Formtype
         $this->_coreRegistry->register('edit_mode', 'edit');
         $this->_initFormType();
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

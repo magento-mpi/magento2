@@ -71,9 +71,9 @@ class Logging extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Report'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -81,8 +81,8 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -102,9 +102,9 @@ class Logging extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_event', $model);
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -112,10 +112,10 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'log.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
     }
 
@@ -124,10 +124,10 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function exportXmlAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'log.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->_layoutServices->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
@@ -138,9 +138,9 @@ class Logging extends \Magento\Backend\App\Action
     {
         $this->_title->add(__('Admin Actions Archive'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_backups');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -148,8 +148,8 @@ class Logging extends \Magento\Backend\App\Action
      */
     public function archiveGridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

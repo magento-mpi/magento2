@@ -42,7 +42,7 @@ class Widget extends \Magento\Backend\App\Action
 
         switch ($request->getParam('attribute')) {
             case 'sku':
-                $block = $this->_layoutServices->getLayout()->createBlock(
+                $block = $this->_view->getLayout()->createBlock(
                     'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
                     array('data' => array('js_form_object' => $request->getParam('form')),
                 ));
@@ -64,7 +64,7 @@ class Widget extends \Magento\Backend\App\Action
                 }
 
 
-                $block = $this->_layoutServices->getLayout()->createBlock(
+                $block = $this->_view->getLayout()->createBlock(
                         'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
                         array('data' => array('js_form_object' => $request->getParam('form')))
                     )
@@ -100,7 +100,7 @@ class Widget extends \Magento\Backend\App\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
+                $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
                     ->getTreeJson($category)
             );
         }

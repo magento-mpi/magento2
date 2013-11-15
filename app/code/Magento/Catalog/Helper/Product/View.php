@@ -66,9 +66,9 @@ class View extends \Magento\Core\Helper\AbstractHelper
     protected $_catalogSession;
 
     /**
-     * @var \Magento\View\Action\LayoutServiceInterface
+     * @var \Magento\App\ViewInterface
      */
-    protected $_layoutService;
+    protected $_view;
 
     /**
      * @param \Magento\Catalog\Model\Session $catalogSession
@@ -77,7 +77,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\View\Action\LayoutServiceInterface $layoutService
+     * @param \Magento\App\ViewInterface $view
      * @param array $messageModels
      */
     public function __construct(
@@ -87,7 +87,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\View\Action\LayoutServiceInterface $layoutService,
+        \Magento\App\ViewInterface $view,
         array $messageModels = array()
     ) {
         $this->_catalogSession = $catalogSession;
@@ -95,7 +95,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         $this->_catalogProduct = $catalogProduct;
         $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;
-        $this->_layoutService = $layoutService;
+        $this->_view = $view;
         parent::__construct($context);
         $this->_messageModels = $messageModels;
     }
@@ -116,12 +116,12 @@ class View extends \Magento\Core\Helper\AbstractHelper
             $this->_catalogDesign->applyCustomDesign($settings->getCustomDesign());
         }
 
-        $update = $this->_layoutService->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         $update->addHandle('default');
-        $this->_layoutService->addPageLayoutHandles(
+        $this->_view->addPageLayoutHandles(
             array('id' => $product->getId(), 'sku' => $product->getSku(), 'type' => $product->getTypeId())
         );
-        $this->_layoutService->loadLayoutUpdates();
+        $this->_view->loadLayoutUpdates();
         // Apply custom layout update once layout is loaded
         $layoutUpdates = $settings->getLayoutUpdates();
         if ($layoutUpdates) {
@@ -132,8 +132,8 @@ class View extends \Magento\Core\Helper\AbstractHelper
             }
         }
 
-        $this->_layoutService->generateLayoutXml();
-        $this->_layoutService->generateLayoutBlocks();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
 
         // Apply custom layout (page) template once the blocks are generated
         if ($settings->getPageLayout()) {
@@ -141,7 +141,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
         }
 
         $currentCategory = $this->_coreRegistry->registry('current_category');
-        $root = $this->_layoutService->getLayout()->getBlock('root');
+        $root = $this->_view->getLayout()->getBlock('root');
         if ($root) {
             $controllerClass = $this->_request->getFullActionName();
             if ($controllerClass != 'catalog-product-view') {
@@ -209,7 +209,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
 
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
             foreach ($this->_messageModels as $sessionModel) {
-                $this->_layoutService->getLayout()->initMessages($sessionModel);
+                $this->_view->getLayout()->initMessages($sessionModel);
             }
         } else {
             throw new \InvalidArgumentException(
@@ -217,7 +217,7 @@ class View extends \Magento\Core\Helper\AbstractHelper
                 $this->ERR_BAD_CONTROLLER_INTERFACE
             );
         }
-        $this->_layoutService->renderLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }

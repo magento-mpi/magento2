@@ -25,7 +25,7 @@ class Currencysymbol extends \Magento\Backend\App\Action
     public function indexAction()
     {
         // set active menu and breadcrumbs
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CurrencySymbol::system_currency_symbols')
             ->_addBreadcrumb(
                 __('System'),
@@ -37,7 +37,7 @@ class Currencysymbol extends \Magento\Backend\App\Action
             );
 
         $this->_title->add(__('Currency Symbols'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

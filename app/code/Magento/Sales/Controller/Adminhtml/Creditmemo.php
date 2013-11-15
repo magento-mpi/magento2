@@ -23,7 +23,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
     public function exportCsvAction()
     {
         $fileName   = 'creditmemos.csv';
-        $grid       = $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo\Grid');
+        $grid       = $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo\Grid');
         return $this->_fileFactory->create($fileName, $grid->getCsvFile());
     }
 
@@ -33,7 +33,7 @@ class Creditmemo extends \Magento\Sales\Controller\Adminhtml\Creditmemo\Abstract
     public function exportExcelAction()
     {
         $fileName   = 'creditmemos.xml';
-        $grid       = $this->_layoutServices->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo\Grid');
+        $grid       = $this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo\Grid');
         return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName));
     }
 

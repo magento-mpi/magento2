@@ -35,7 +35,7 @@ class User extends \Magento\Backend\App\AbstractAction
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Webapi::system_api_webapi_users')
             ->_addBreadcrumb(
                 __('Web Services'),
@@ -57,7 +57,7 @@ class User extends \Magento\Backend\App\AbstractAction
         $this->_initAction();
         $this->_title->add(__('API Users'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -97,17 +97,17 @@ class User extends \Magento\Backend\App\AbstractAction
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\User\Edit $editBlock */
-        $editBlock = $this->_layoutServices->getLayout()->getBlock('webapi.user.edit');
+        $editBlock = $this->_view->getLayout()->getBlock('webapi.user.edit');
         if ($editBlock) {
             $editBlock->setApiUser($user);
         }
         /** @var \Magento\Webapi\Block\Adminhtml\User\Edit\Tabs $tabsBlock */
-        $tabsBlock = $this->_layoutServices->getLayout()->getBlock('webapi.user.edit.tabs');
+        $tabsBlock = $this->_view->getLayout()->getBlock('webapi.user.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiUser($user);
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -190,8 +190,8 @@ class User extends \Magento\Backend\App\AbstractAction
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -199,8 +199,8 @@ class User extends \Magento\Backend\App\AbstractAction
      */
     public function rolesgridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

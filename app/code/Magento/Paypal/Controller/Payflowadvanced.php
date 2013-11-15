@@ -84,11 +84,11 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      */
     public function cancelPaymentAction()
     {
-        $this->_layoutServices->loadLayout(false);
+        $this->_view->loadLayout(false);
         $gotoSection = $this->_cancelPayment();
-        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.advanced.iframe');
+        $redirectBlock = $this->_view->getLayout()->getBlock('payflow.advanced.iframe');
         $redirectBlock->setGotoSection($gotoSection);
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -96,8 +96,8 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      */
     public function returnUrlAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $redirectBlock = $this->_layoutServices->getLayout()->getBlock('payflow.advanced.iframe');;
+        $this->_view->loadLayout(false);
+        $redirectBlock = $this->_view->getLayout()->getBlock('payflow.advanced.iframe');;
 
         if ($this->_checkoutSession->getLastRealOrderId()) {
             $order = $this->_orderFactory->create()->loadByIncrementId($this->_checkoutSession->getLastRealOrderId());
@@ -118,7 +118,7 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
             }
         }
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -126,8 +126,8 @@ class Payflowadvanced extends \Magento\Paypal\Controller\Express\AbstractExpress
      */
     public function formAction()
     {
-        $this->_layoutServices->loadLayout(false)->renderLayout();
-        $html = $this->_layoutServices->getLayout()->getBlock('payflow.advanced.iframe')->toHtml();
+        $this->_view->loadLayout(false)->renderLayout();
+        $html = $this->_view->getLayout()->getBlock('payflow.advanced.iframe')->toHtml();
         $this->getResponse()->setBody($html);
     }
 

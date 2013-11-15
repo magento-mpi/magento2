@@ -42,13 +42,13 @@ class Info extends \Magento\App\Action\Action
             $this->_redirect('customer/account/');
             return;
         }
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->getLayout()->initMessages('Magento\Customer\Model\Session');
-        $this->_layoutServices->loadLayoutUpdates();
-        $headBlock = $this->_layoutServices->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Store Credit'));
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 }

@@ -51,12 +51,12 @@ class Review extends \Magento\Backend\App\Action
             return $this->_forward('reviewGrid');
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function pendingAction()
@@ -70,12 +70,12 @@ class Review extends \Magento\Backend\App\Action
             return $this->_forward('reviewGrid');
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_coreRegistry->register('usePendingFilter', true);
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Main'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function editAction()
@@ -84,12 +84,12 @@ class Review extends \Magento\Backend\App\Action
 
         $this->_title->add(__('Edit Review'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Edit'));
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Edit'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function newAction()
@@ -98,15 +98,15 @@ class Review extends \Magento\Backend\App\Action
 
         $this->_title->add(__('New Review'));
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Review::catalog_reviews_ratings_reviews_all');
 
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Add'));
-        $this->_addContent($this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid'));
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Add'));
+        $this->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -276,14 +276,14 @@ class Review extends \Magento\Backend\App\Action
     public function productGridAction()
     {
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid')->toHtml()
+            $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Product\Grid')->toHtml()
         );
     }
 
     public function reviewGridAction()
     {
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Grid')->toHtml()
+            $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Review\Grid')->toHtml()
         );
     }
 
@@ -363,7 +363,7 @@ class Review extends \Magento\Backend\App\Action
     public function ratingItemsAction()
     {
         $this->getResponse()->setBody(
-            $this->_layoutServices->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\Adminhtml\Block\Review\Rating\Detailed')
                 ->setIndependentMode()
                 ->toHtml()

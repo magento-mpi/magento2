@@ -45,7 +45,7 @@ class Set extends \Magento\Backend\App\Action
 
         $this->_setTypeId();
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
@@ -53,7 +53,7 @@ class Set extends \Magento\Backend\App\Action
             __('Manage Attribute Sets'),
             __('Manage Attribute Sets'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function editAction()
@@ -73,9 +73,9 @@ class Set extends \Magento\Backend\App\Action
 
         $this->_coreRegistry->register('current_attribute_set', $attributeSet);
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
-        $this->_layoutServices->getLayout()->getBlock('head')->setCanLoadExtJs(true);
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true);
 
         $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
         $this->_addBreadcrumb(
@@ -83,17 +83,17 @@ class Set extends \Magento\Backend\App\Action
             __('Manage Product Sets'));
 
         $this->_addContent(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Main')
         );
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function setGridAction()
     {
         $this->_setTypeId();
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -175,9 +175,9 @@ class Set extends \Magento\Backend\App\Action
         } else {
             $response = array();
             if ($hasError) {
-                $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response['error']   = 1;
-                $response['message'] = $this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml();
+                $response['message'] = $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {
                 $response['error']   = 0;
                 $response['url']     = $this->getUrl('catalog/*/');
@@ -193,15 +193,15 @@ class Set extends \Magento\Backend\App\Action
 
         $this->_setTypeId();
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_attributes_sets');
 
 
         $this->_addContent(
-            $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add')
+            $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Attribute\Set\Toolbar\Add')
         );
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function deleteAction()

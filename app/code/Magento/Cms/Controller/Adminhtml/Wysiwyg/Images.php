@@ -59,12 +59,12 @@ class Images extends \Magento\Backend\App\Action
             $this->_getSession()->addError($e->getMessage());
         }
         $this->_initAction();
-        $this->_layoutServices->loadLayout('overlay_popup');
-        $block = $this->_layoutServices->getLayout()->getBlock('wysiwyg_images.js');
+        $this->_view->loadLayout('overlay_popup');
+        $block = $this->_view->getLayout()->getBlock('wysiwyg_images.js');
         if ($block) {
             $block->setStoreId($storeId);
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function treeJsonAction()
@@ -72,7 +72,7 @@ class Images extends \Magento\Backend\App\Action
         try {
             $this->_initAction();
             $this->getResponse()->setBody(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
+                $this->_view->getLayout()->createBlock('Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Tree')
                     ->getTreeJson()
             );
         } catch (\Exception $e) {
@@ -85,8 +85,8 @@ class Images extends \Magento\Backend\App\Action
     {
         try {
             $this->_initAction()->_saveSessionCurrentPath();
-            $this->_layoutServices->loadLayout('empty');
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('empty');
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $result = array('error' => true, 'message' => $e->getMessage());
             $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));

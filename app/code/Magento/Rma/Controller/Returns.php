@@ -60,15 +60,15 @@ class Returns extends \Magento\App\Action\Action
             return false;
         }
 
-        $this->_layoutServices->loadLayout();
-        $layout = $this->_layoutServices->getLayout();
+        $this->_view->loadLayout();
+        $layout = $this->_view->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
         $layout->getBlock('head')->setTitle(__('My Returns'));
 
-        if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
+        if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -141,14 +141,14 @@ class Returns extends \Magento\App\Action\Action
                     $this->_objectManager->get('Magento\Logger')->logException($e);
                 }
             }
-            $this->_layoutServices->loadLayout();
-            $layout = $this->_layoutServices->getLayout();
+            $this->_view->loadLayout();
+            $layout = $this->_view->getLayout();
             $layout->initMessages('Magento\Core\Model\Session');
             $layout->getBlock('head')->setTitle(__('Create New Return'));
-            if ($block = $this->_layoutServices->getLayout()->getBlock('customer.account.link.back')) {
+            if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
             }
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/order/history');
         }
@@ -232,13 +232,13 @@ class Returns extends \Magento\App\Action\Action
         );
         $this->_coreRegistry->register('current_order', $order);
 
-        $this->_layoutServices->loadLayout();
-        $layout = $this->_layoutServices->getLayout();
+        $this->_view->loadLayout();
+        $layout = $this->_view->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
         $layout->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -266,14 +266,14 @@ class Returns extends \Magento\App\Action\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
-        $layout = $this->_layoutServices->getLayout();
+        $this->_view->loadLayout();
+        $layout = $this->_view->getLayout();
         $layout->initMessages('Magento\Catalog\Model\Session');
 
         if ($navigationBlock = $layout->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('sales/order/history');
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -381,8 +381,8 @@ class Returns extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->_layoutServices->addPageLayoutHandles();
-        $this->_layoutServices->loadLayout(false)
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)
             ->renderLayout();
         return;
     }
@@ -434,8 +434,8 @@ class Returns extends \Magento\App\Action\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->_layoutServices->addPageLayoutHandles();
-        $this->_layoutServices->loadLayout(false)
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)
             ->renderLayout();
         return;
     }

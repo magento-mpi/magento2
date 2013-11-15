@@ -47,16 +47,16 @@ class Template extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Adminhtml::system_email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -74,7 +74,7 @@ class Template extends \Magento\Backend\App\Action
      */
     public function editAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $template = $this->_initTemplate('id');
         $this->_setActiveMenu('Magento_Adminhtml::system_email_template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), $this->getUrl('adminhtml/*'));
@@ -87,11 +87,11 @@ class Template extends \Magento\Backend\App\Action
 
         $this->_title->add($template->getId() ? $template->getTemplateCode() : __('New Template'));
 
-        $this->_addContent($this->_layoutServices->getLayout()
+        $this->_addContent($this->_view->getLayout()
             ->createBlock('Magento\Backend\Block\System\Email\Template\Edit', 'template_edit')
             ->setEditMode((bool)$this->getRequest()->getParam('id'))
         );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -173,8 +173,8 @@ class Template extends \Magento\Backend\App\Action
 
     public function previewAction()
     {
-        $this->_layoutServices->loadLayout('adminhtml_system_preview');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout('adminhtml_system_preview');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -190,7 +190,7 @@ class Template extends \Magento\Backend\App\Action
             $template->setData('orig_template_code', $templateCode);
             $template->setData('template_variables', \Zend_Json::encode($template->getVariablesOptionArray(true)));
 
-            $templateBlock = $this->_layoutServices->getLayout()->createBlock('Magento\Backend\Block\System\Email\Template\Edit');
+            $templateBlock = $this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Email\Template\Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
             $this->getResponse()->setBody(

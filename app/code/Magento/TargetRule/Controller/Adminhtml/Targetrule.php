@@ -49,7 +49,7 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout()->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
+        $this->_view->loadLayout()->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
         return $this;
     }
 
@@ -62,7 +62,7 @@ class Targetrule extends \Magento\Backend\App\Action
         $this->_title->add(__('Related Products Rules'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -70,8 +70,8 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -114,7 +114,7 @@ class Targetrule extends \Magento\Backend\App\Action
         $this->_coreRegistry->register('current_target_rule', $model);
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

@@ -70,9 +70,9 @@ class Invitation extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Invitations'));
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -101,9 +101,9 @@ class Invitation extends \Magento\Backend\App\Action
     {
         try {
             $this->_initInvitation();
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
             $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
@@ -115,9 +115,9 @@ class Invitation extends \Magento\Backend\App\Action
      */
     public function newAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

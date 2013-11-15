@@ -5,14 +5,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\View\Action;
+namespace Magento\App;
 
-interface LayoutServiceInterface
+interface ViewInterface
 {
     /**
      * Load layout updates
      *
-     * @return LayoutServiceInterface
+     * @return ViewInterface
      */
     public function loadLayoutUpdates();
 
@@ -20,7 +20,7 @@ interface LayoutServiceInterface
      * Rendering layout
      *
      * @param   string $output
-     * @return  LayoutServiceInterface
+     * @return  ViewInterface
      */
     public function renderLayout($output = '');
 
@@ -37,7 +37,7 @@ interface LayoutServiceInterface
      * @param   string|null|bool $handles
      * @param   bool $generateBlocks
      * @param   bool $generateXml
-     * @return  LayoutServiceInterface
+     * @return  ViewInterface
      * @throws  \RuntimeException
      */
     public function loadLayout($handles = null, $generateBlocks = true, $generateXml = true);
@@ -45,7 +45,7 @@ interface LayoutServiceInterface
     /**
      * Generate layout xml
      *
-     * @return LayoutServiceInterface
+     * @return ViewInterface
      */
     public function generateLayoutXml();
 
@@ -60,7 +60,7 @@ interface LayoutServiceInterface
     /**
      * Generate layout blocks
      *
-     * @return LayoutServiceInterface
+     * @return ViewInterface
      */
     public function generateLayoutBlocks();
 
@@ -74,7 +74,7 @@ interface LayoutServiceInterface
     /**
      * Add layout handle by full controller action name
      *
-     * @return LayoutServiceInterface
+     * @return ViewInterface
      */
     public function addActionLayoutHandles();
 

@@ -62,7 +62,7 @@ class Rate extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Reward::customer_reward')
             ->_addBreadcrumb(__('Customers'),
                 __('Customers'))
@@ -97,7 +97,7 @@ class Rate extends \Magento\Backend\App\Action
         $this->_title->add(__('Reward Exchange Rates'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -119,7 +119,7 @@ class Rate extends \Magento\Backend\App\Action
         $this->_title->add($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -221,9 +221,9 @@ class Rate extends \Magento\Backend\App\Action
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_layoutServices->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->_layoutServices->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

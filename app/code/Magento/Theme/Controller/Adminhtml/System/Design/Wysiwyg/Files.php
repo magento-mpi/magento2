@@ -37,8 +37,8 @@ class Files extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout('overlay_popup');
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout('overlay_popup');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -48,7 +48,7 @@ class Files extends \Magento\Backend\App\Action
     {
         try {
             $this->getResponse()->setBody(
-                $this->_layoutServices->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
+                $this->_view->getLayout()->createBlock('Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Tree')
                     ->getTreeJson($this->_getStorage()->getTreeArray())
             );
         } catch (\Exception $e) {
@@ -95,9 +95,9 @@ class Files extends \Magento\Backend\App\Action
     public function contentsAction()
     {
         try {
-            $this->_layoutServices->loadLayout('empty');
-            $this->_layoutServices->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout('empty');
+            $this->_view->getLayout()->getBlock('wysiwyg_files.files')->setStorage($this->_getStorage());
+            $this->_view->renderLayout();
 
             $this->_getSession()->setStoragePath(
                 $this->_objectManager->get('Magento\Theme\Helper\Storage')->getCurrentPath()

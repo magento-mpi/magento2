@@ -78,8 +78,8 @@ class Auth extends \Magento\Backend\App\AbstractAction
         } elseif (!empty($params)) {
             $this->_getSession()->addError(__('The email address is empty.'));
         }
-        $this->_layoutServices->loadLayout();
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -94,15 +94,15 @@ class Auth extends \Magento\Backend\App\AbstractAction
         try {
             $this->_validateResetPasswordLinkToken($userId, $passwordResetToken);
 
-            $this->_layoutServices->loadLayout();
+            $this->_view->loadLayout();
 
-            $content = $this->_layoutServices->getLayout()->getBlock('content');
+            $content = $this->_view->getLayout()->getBlock('content');
             if ($content) {
                 $content->setData('user_id', $userId)
                     ->setData('reset_password_link_token', $passwordResetToken);
             }
 
-            $this->_layoutServices->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $exception) {
             $this->_getSession()->addError(
                 __('Your password reset link has expired.')

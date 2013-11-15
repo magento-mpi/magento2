@@ -45,20 +45,20 @@ class Subscriber extends \Magento\Backend\App\Action
             return;
         }
 
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Newsletter::newsletter_subscriber');
 
         $this->_addBreadcrumb(__('Newsletter'), __('Newsletter'));
         $this->_addBreadcrumb(__('Subscribers'), __('Subscribers'));
 
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
      }
 
     /**
@@ -66,9 +66,9 @@ class Subscriber extends \Magento\Backend\App\Action
      */
     public function exportCsvAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'subscribers.csv';
-        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
+        $content = $this->_view->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
 
         return $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
     }
@@ -78,9 +78,9 @@ class Subscriber extends \Magento\Backend\App\Action
      */
     public function exportXmlAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'subscribers.xml';
-        $content = $this->_layoutServices->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
+        $content = $this->_view->getLayout()->getChildBlock('adminhtml.newslettrer.subscriber.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
     }
 

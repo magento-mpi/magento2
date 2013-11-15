@@ -26,8 +26,8 @@ class Noroute extends Action
         $this->_eventManager->dispatch('controller_action_noroute', array('action' => $this, 'status' => $status));
 
         if ($status->getLoaded() !== true || $status->getForwarded() === true) {
-            $this->_layoutServices->loadLayout(array('default', 'noroute'));
-            $this->_layoutServices->renderLayout();
+            $this->_view->loadLayout(array('default', 'noroute'));
+            $this->_view->renderLayout();
         } else {
             $status->setForwarded(true);
             $request = $this->getRequest();

@@ -47,7 +47,7 @@ class Block extends \Magento\Backend\App\Action
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Cms::cms_block')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Static Blocks'), __('Static Blocks'));
@@ -62,7 +62,7 @@ class Block extends \Magento\Backend\App\Action
         $this->_title->add(__('Blocks'));
 
         $this->_initAction();
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -109,7 +109,7 @@ class Block extends \Magento\Backend\App\Action
         // 5. Build edit form
         $this->_initAction()
             ->_addBreadcrumb($id ? __('Edit Block') : __('New Block'), $id ? __('Edit Block') : __('New Block'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

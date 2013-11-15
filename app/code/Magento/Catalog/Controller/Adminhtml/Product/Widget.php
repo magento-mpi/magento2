@@ -29,7 +29,7 @@ class Widget extends \Magento\Backend\App\Action
         $massAction = $this->getRequest()->getParam('use_massaction', false);
         $productTypeId = $this->getRequest()->getParam('product_type_id', null);
 
-        $productsGrid = $this->_layoutServices->getLayout()->createBlock(
+        $productsGrid = $this->_view->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser',
             '',
             array(
@@ -45,7 +45,7 @@ class Widget extends \Magento\Backend\App\Action
         $html = $productsGrid->toHtml();
 
         if (!$this->getRequest()->getParam('products_grid')) {
-            $categoriesTree = $this->_layoutServices->getLayout()->createBlock(
+            $categoriesTree = $this->_view->getLayout()->createBlock(
                 'Magento\Catalog\Block\Adminhtml\Category\Widget\Chooser',
                 '',
                 array(
@@ -57,7 +57,7 @@ class Widget extends \Magento\Backend\App\Action
                 )
             );
 
-            $html = $this->_layoutServices->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser\Container')
+            $html = $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser\Container')
                 ->setTreeHtml($categoriesTree->toHtml())
                 ->setGridHtml($html)
                 ->toHtml();

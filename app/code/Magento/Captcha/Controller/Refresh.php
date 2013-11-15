@@ -29,7 +29,7 @@ class Refresh extends \Magento\App\Action\Action
     {
         $formId = $this->getRequest()->getPost('formId');
         $captchaModel = $this->_objectManager->get('Magento\Captcha\Helper\Data')->getCaptcha($formId);
-        $this->_layoutServices->getLayout()
+        $this->_view->getLayout()
             ->createBlock($captchaModel->getBlockName())
             ->setFormId($formId)
             ->setIsAjax(true)

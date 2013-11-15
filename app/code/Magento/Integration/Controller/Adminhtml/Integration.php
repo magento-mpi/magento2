@@ -50,11 +50,11 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
         $this->_title->add(__('Integrations'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -62,8 +62,8 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function gridAction()
     {
-        $this->_layoutServices->loadLayout(false);
-        $this->_layoutServices->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -81,7 +81,7 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function newAction()
     {
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('New Integration'), __('New Integration'));
         $this->_title->add(__('New Integration'));
@@ -91,7 +91,7 @@ class Integration extends \Magento\Backend\App\Action
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $restoredIntegration);
             $this->_getSession()->setIntegrationData(array());
         }
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -120,7 +120,7 @@ class Integration extends \Magento\Backend\App\Action
             $this->_redirect('*/*/');
             return;
         }
-        $this->_layoutServices->loadLayout();
+        $this->_view->loadLayout();
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(
@@ -128,7 +128,7 @@ class Integration extends \Magento\Backend\App\Action
             __('Edit "%1" Integration', $integrationData[Info::DATA_NAME])
         );
         $this->_title->add(__('Edit "%1" Integration', $integrationData[Info::DATA_NAME]));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
