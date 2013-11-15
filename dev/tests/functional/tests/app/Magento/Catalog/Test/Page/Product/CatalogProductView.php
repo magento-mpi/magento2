@@ -30,6 +30,27 @@ class CatalogProductView extends Page
     const MCA = 'catalog/product/view';
 
     /**
+     * Review summary selector
+     *
+     * @var string
+     */
+    protected $reviewSummarySelector = '.product.reviews.summary';
+
+    /**
+     * Reviews selector
+     *
+     * @var string
+     */
+    protected $reviewsSelector = 'product_reviews';
+
+    /**
+     * Messages selector
+     *
+     * @var string
+     */
+    protected $messagesSelector = '.page.messages .messages';
+
+    /**
      * Product View block
      *
      * @var \Magento\Catalog\Test\Block\Product\View
@@ -85,5 +106,41 @@ class CatalogProductView extends Page
     public function getOptionsBlock()
     {
         return $this->optionsBlock;
+    }
+
+    /**
+     * Get reviews block
+     *
+     * @return \Magento\Review\Test\Block\Product\View
+     */
+    public function getReviewsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoReviewProductView(
+            $this->_browser->find($this->reviewsSelector, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get review summary block
+     *
+     * @return \Magento\Review\Test\Block\Product\View\Summary
+     */
+    public function getReviewSummaryBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoReviewProductViewSummary(
+            $this->_browser->find($this->reviewSummarySelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
     }
 }
