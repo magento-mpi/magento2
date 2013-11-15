@@ -21,7 +21,7 @@ namespace Magento\Backend\Model\Config\Backend\Image;
 class Adapter extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var \Magento\Core\Model\Image\AdapterFactory
+     * @var \Magento\Image\AdapterFactory
      */
     protected $_imageFactory;
 
@@ -30,7 +30,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Core\Model\Image\AdapterFactory $imageFactory
+     * @param \Magento\Image\AdapterFactory $imageFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -40,7 +40,7 @@ class Adapter extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
-        \Magento\Core\Model\Image\AdapterFactory $imageFactory,
+        \Magento\Image\AdapterFactory $imageFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

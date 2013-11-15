@@ -17,7 +17,7 @@ namespace Magento\Rule\Model\Action;
 abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\Model\Action\ActionInterface
 {
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -27,12 +27,12 @@ abstract class AbstractAction extends \Magento\Object implements \Magento\Rule\M
     protected $_layout;
 
     /**
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\LayoutInterface $layout
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\View\LayoutInterface $layout,
         array $data = array()
     ) {

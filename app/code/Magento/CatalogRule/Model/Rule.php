@@ -95,7 +95,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $_catalogRuleData;
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_cacheTypesList;
 
@@ -159,7 +159,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CatalogRule\Helper\Data $catalogRuleData
-     * @param \Magento\Core\Model\Cache\TypeListInterface $cacheTypesList
+     * @param \Magento\App\Cache\TypeListInterface $cacheTypesList
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Context $context
@@ -182,7 +182,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogRule\Helper\Data $catalogRuleData,
-        \Magento\Core\Model\Cache\TypeListInterface $cacheTypesList,
+        \Magento\App\Cache\TypeListInterface $cacheTypesList,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Context $context,

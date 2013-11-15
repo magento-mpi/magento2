@@ -212,6 +212,26 @@ class Product extends DataFixture
     }
 
     /**
+     * Get new category name
+     *
+     * @return string
+     */
+    public function getNewCategoryName()
+    {
+        return $this->getData('category_new/category_name/value');
+    }
+
+    /**
+     * Get parent for new category
+     *
+     * @return string
+     */
+    public function getNewCategoryParent()
+    {
+        return $this->getData('category_new/parent_category/value');
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()

@@ -114,13 +114,6 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_eventManager;
 
     /**
-     * Should inherited page be rendered
-     *
-     * @var bool
-     */
-    protected $_isRenderInherited;
-
-    /**
      * @var \Magento\HTTP\Authentication
      */
     protected $authentication;
@@ -136,7 +129,6 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_frontController = $context->getFrontController();
         $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
-        $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
         $this->authentication = $context->getAuthentication();
 
@@ -264,7 +256,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function addActionLayoutHandles()
     {
-        if (!$this->_isRenderInherited || !$this->addPageLayoutHandles()) {
+        if (!$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         }
         return $this;

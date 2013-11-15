@@ -37,8 +37,66 @@ class CallLineBreak extends ConditionalLineBreak
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
+     * @param array $lineBreakData Data that the line break can use.
      */
-    public function getValue($level, $index, $total)
+    public function getValue($level, $index, $total, array &$lineBreakData)
+    {
+        // if the level is set to be more than the default make sure only this instance can write the advanced version
+        if ($level > 0) {
+            // only process the first instance of the call line break
+            if (!isset($lineBreakData['conditionallb']) || $this->getGroupingId() === $lineBreakData['conditionallb']) {
+                // save off which instance is being processed
+                $lineBreakData['conditionallb'] = $this->getGroupingId();
+                // determine the resolution of the break
+                $result = $this->getValueByLevel($level, $index, $total);
+            } else {
+                // return a flag indicating that this is not being resolved
+                $result = false;
+            }
+        } else {
+            // determine the resolution of the break
+            $result = $this->getValueByLevel($level, $index, $total);
+        }
+        return $result;
+    }
+
+    /**
+     * This method returns a flag indicating that when placed in a list, an additional instance is
+     * required after the list.
+     * @return bool
+     */
+    public function isAfterListRequired()
+    {
+        return true;
+    }
+
+    /**
+     * This method returns an id used to group line breaks occurring in the same line together.
+     * This is typically either the class name or the instance id.
+     * @return string
+     */
+    public function getGroupingId()
+    {
+        return spl_object_hash($this);
+    }
+
+    /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return int Order relative to other classes overriding this method.
+     */
+    public function getSortOrder()
+    {
+        return 200;
+    }
+
+    /**
+     * This method returns the value based on the level passed in.
+     * @param int $level Indicator for the level for which the break is being resolved.
+     * @param int $index Zero based index of this break occurrence in the line.
+     * @param int $total Total number of this break occurrences in the line.
+     * @return HardIndentLineBreak|HardLineBreak|string
+     */
+    protected function getValueByLevel($level, $index, $total)
     {
         switch ($level) {
             case 0:
@@ -65,44 +123,5 @@ class CallLineBreak extends ConditionalLineBreak
                 break;
         }
         return $result;
-    }
-
-    /**
-     * This method returns a flag indicating that when placed in a list, an additional instance is
-     * required after the list.
-     * @return bool
-     */
-    public function isAfterListRequired()
-    {
-        return true;
-    }
-
-    /**
-     * This method returns if this class of line breaks are grouped by class. If not grouped by
-     * class, it is assumed to be grouped by instance.
-     * @return bool
-     */
-    public function isGroupedByClass()
-    {
-        return false;
-    }
-
-    /**
-     * This method returns an id used to group line breaks occurring in the same line together.
-     * This is typically either the class name or the instance id.
-     * @return string
-     */
-    public function getGroupingId()
-    {
-        return spl_object_hash($this);
-    }
-
-    /**
-     * This method returns a sort order indication as to the order in which breaks should be processed.
-     * @return mixed
-     */
-    public function getSortOrder()
-    {
-        return 3;
     }
 }
