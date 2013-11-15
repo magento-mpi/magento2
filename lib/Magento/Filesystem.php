@@ -97,6 +97,7 @@ class Filesystem
     {
         if (!array_key_exists($code, $this->readInstances)) {
             $config = $this->directoryList->getConfig($code);
+            $config['path'] = $this->getPath($code);
             $this->readInstances[$code] = $this->readFactory->create($config);
         }
         return $this->readInstances[$code];
@@ -113,6 +114,7 @@ class Filesystem
     {
         if (!array_key_exists($code, $this->writeInstances)) {
             $config = $this->directoryList->getConfig($code);
+            $config['path'] = $this->getPath($code);
             if (!isset($config['read_only']) || !$config['read_only']) {
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
@@ -130,7 +132,7 @@ class Filesystem
     public function getPath($code)
     {
         $config = $this->directoryList->getConfig($code);
-        return $this->directoryList->getRoot() . isset($config['path']) ? $config['path'] : '';
+        return $this->directoryList->getRoot() . '/' . isset($config['path']) ? $config['path'] : '';
     }
 
     /**
