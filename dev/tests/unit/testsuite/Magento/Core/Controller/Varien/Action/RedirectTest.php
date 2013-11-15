@@ -39,7 +39,9 @@ class RedirectTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_routerListMock = $this->getMock('Magento\App\Route\ConfigInterface', array(), array(), '', false);
-        $this->_request  = new \Magento\App\Request\Http($this->_routerListMock);
+        $infoProcessorMock = $this->getMock('Magento\App\Request\PathInfoProcessorInterface');
+        $infoProcessorMock->expects($this->any())->method('process')->will($this->returnArgument(1));
+        $this->_request  = new \Magento\App\Request\Http($this->_routerListMock, $infoProcessorMock);
         $this->_response = new \Magento\App\Response\Http();
 
         $this->_object = new \Magento\App\Action\Redirect($this->_request, $this->_response);

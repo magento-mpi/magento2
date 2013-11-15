@@ -18,8 +18,7 @@ class PrinterOperatorsTest extends TestBase
      */
     public function testOperators($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
     /**
      * Provide data to test method
@@ -146,16 +145,10 @@ class PrinterOperatorsTest extends TestBase
             array(
                 "<?php\nclass Zoo {function zoo() {\$zooAnimals=\$alligator+\$bear-\$cat*\$dragon/\$elephant^\$fox&".
                 "\$giraffe+\$hippopotamus+\$iguana+\$jackle;}}",
-                "<?php\nclass Zoo\n{\n    public function zoo()\n    {\n        \$zooAnimals = \$alligator +".
-                "\n            \$bear -".
-                "\n            \$cat *".
-                "\n            \$dragon /".
-                "\n            \$elephant ^".
-                "\n            \$fox &".
-                "\n            \$giraffe +".
-                "\n            \$hippopotamus +".
-                "\n            \$iguana +".
-                "\n            \$jackle;\n    }\n}\n"
+                "<?php\nclass Zoo\n{\n    public function zoo()\n    {".
+                "\n        \$zooAnimals = \$alligator + \$bear - \$cat * \$dragon / \$elephant ^".
+                "\n            \$fox & \$giraffe + \$hippopotamus + \$iguana + \$jackle;".
+                "\n    }\n}\n"
             ),
             array(
                 "<?php\nclass Zoo {function zoo() {if (\$alligator&&\$bear||\$cat&&!\$dragon||\$elephant and \$fox or".
@@ -163,16 +156,8 @@ class PrinterOperatorsTest extends TestBase
                 "<?php\nclass Zoo\n{\n    public function zoo()".
                 "\n    {".
                 "\n        if (".
-                "\n            \$alligator &&".
-                "\n            \$bear ||".
-                "\n            \$cat &&".
-                "\n            !\$dragon ||".
-                "\n            \$elephant and".
-                "\n            \$fox or".
-                "\n            \$giraffe xor".
-                "\n            \$hippopotamus &&".
-                "\n            \$iguana &&".
-                "\n            !\$jackle".
+                "\n            \$alligator && \$bear || \$cat && !\$dragon || \$elephant and \$fox or".
+                "\n                \$giraffe xor \$hippopotamus && \$iguana && !\$jackle".
                 "\n        ) {".
                 "\n            \$x += \$y;".
                 "\n            echo 'hi';".

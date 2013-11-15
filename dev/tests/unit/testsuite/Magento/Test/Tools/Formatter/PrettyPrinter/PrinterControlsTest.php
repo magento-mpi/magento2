@@ -7,8 +7,6 @@
  */
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Printer;
-
 class PrinterControlsTest extends TestBase
 {
     /**
@@ -18,8 +16,7 @@ class PrinterControlsTest extends TestBase
      */
     public function testLoops($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     /**
@@ -66,8 +63,7 @@ class PrinterControlsTest extends TestBase
      */
     public function testIf($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     /**
@@ -115,31 +111,18 @@ class PrinterControlsTest extends TestBase
      */
     public function testControls($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     /**
      * Provide data to test method
      *
      * @return array
+     * @SuppressWarnings(PHPMD.ExcessiveMethodLength)
      */
     public function dataControls()
     {
-        return array(
-            array(
-                "<?php class Con1 {public function a(){array_merge(\$a,function(){echo 'hi';});}}",
-                "<?php\nclass Con1\n{\n    public function a()\n    {\n" .
-                "        array_merge(\n            \$a,\n            function () {\n                echo 'hi';\n" .
-                "            }\n        );\n    }\n}\n"
-            ),
-            array(
-                "<?php class Con2 {public function a(){array_merge(\$a,function()use(\$a,\$b){echo 'hi';});}}",
-                "<?php\nclass Con2\n{\n    public function a()\n    {\n        array_merge(\n            \$a,\n" .
-                "            function () use (\$a, \$b) {\n                echo 'hi';\n" .
-                "            }\n        );\n    }\n}\n"
-            ),
-            array(<<<ORIGINALCODESNIPPET
+        $originalCodeSnippet = <<<ORIGINALCODESNIPPET
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
@@ -155,8 +138,8 @@ class TestClass {
         }
     }
 }
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
@@ -165,9 +148,9 @@ class TestClass
     public function main(\$abcdefghijklmnopqrstuvwxyz)
     {
         if (
-            isset(\$abcdefghijklmnopqrstuvwxyz) &&
-            isset(\$abcdefghijklmnopqrstuvwxyz) &&
-            isset(\$abcdefghijklmnopqrstuvwxyz)
+            isset(
+                \$abcdefghijklmnopqrstuvwxyz
+            ) && isset(\$abcdefghijklmnopqrstuvwxyz) && isset(\$abcdefghijklmnopqrstuvwxyz)
         ) {
             \$callback = 'hello';
             \$callback = 'good';
@@ -179,9 +162,8 @@ class TestClass
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet2 = <<<ORIGINALCODESNIPPET
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 class TestClass {
@@ -194,8 +176,8 @@ class TestClass {
         }
     }
 }
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet2 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\Tools\Formatter\TestClass;
 
@@ -204,12 +186,10 @@ class TestClass
     public function main(\$results)
     {
         if (
-            strcasecmp('FALSE', \$results) ===
-            0 ||
-            strcasecmp('TRUE', \$results) ===
-            0 ||
-            strcasecmp('NULL', \$results) ===
-            0
+            strcasecmp(
+                'FALSE',
+                \$results
+            ) === 0 || strcasecmp('TRUE', \$results) === 0 || strcasecmp('NULL', \$results) === 0
         ) {
             \$tokens[sizeof(\$tokens) - 1] = strtolower(\$results);
             // reset the last item in the array due to php's "copy-on-write" rule for arrays
@@ -218,8 +198,86 @@ class TestClass
     }
 }
 
-FORMATTEDCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet3 = <<<ORIGINALCODESNIPPET
+<?php
+namespace Magento\Tools\Formatter\TestClass;
+class TestArrayParameter {
+    public function main(\$results) {
+        \$element->setDisabled(array(\Magento\Catalog\Model\Session::DISPLAY_CATEGORY_PAGE,
+                \Magento\Catalog\Model\Session::DISPLAY_PRODUCT_PAGE));
+    }
+}
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet3 = <<<FORMATTEDCODESNIPPET
+<?php
+namespace Magento\Tools\Formatter\TestClass;
+
+class TestArrayParameter
+{
+    public function main(\$results)
+    {
+        \$element->setDisabled(
+            array(
+                \Magento\Catalog\Model\Session::DISPLAY_CATEGORY_PAGE,
+                \Magento\Catalog\Model\Session::DISPLAY_PRODUCT_PAGE
+            )
+        );
+    }
+}
+
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet4 = <<<ORIGINALCODESNIPPET
+<?php
+class TestIfCase{
+    public function main(\$results) {
+        if (\$otherCode) {
+            \$files = array_merge(
+                \$files,
+                glob(\$this->_path . '/*.php', GLOB_NOSORT),
+                glob(\$this->_path . '/pub/*.php', GLOB_NOSORT),
+                self::getFiles(array("{\$this->_path}/downloader"), '*.php'),
+                self::getFiles(array("{\$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+            );
+        }}}
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet4 = <<<FORMATTEDCODESNIPPET
+<?php
+class TestIfCase
+{
+    public function main(\$results)
+    {
+        if (\$otherCode) {
+            \$files = array_merge(
+                \$files,
+                glob(\$this->_path . '/*.php', GLOB_NOSORT),
+                glob(\$this->_path . '/pub/*.php', GLOB_NOSORT),
+                self::getFiles(array("{\$this->_path}/downloader"), '*.php'),
+                self::getFiles(array("{\$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
+            );
+        }
+    }
+}
+
+FORMATTEDCODESNIPPET;
+
+        return array(
+            array(
+                "<?php class Con1 {public function a(){array_merge(\$a,function(){echo 'hi';});}}",
+                "<?php\nclass Con1\n{\n    public function a()\n    {\n" .
+                "        array_merge(\n            \$a,\n            function () {\n                echo 'hi';\n" .
+                "            }\n        );\n    }\n}\n"
             ),
+            array(
+                "<?php class Con2 {public function a(){array_merge(\$a,function()use(\$a,\$b){echo 'hi';});}}",
+                "<?php\nclass Con2\n{\n    public function a()\n    {\n        array_merge(\n            \$a,\n" .
+                "            function () use (\$a, \$b) {\n                echo 'hi';\n" .
+                "            }\n        );\n    }\n}\n"
+            ),
+            array($originalCodeSnippet, $formattedCodeSnippet),
+            array($originalCodeSnippet2, $formattedCodeSnippet2),
+            array($originalCodeSnippet3, $formattedCodeSnippet3),
+            array($originalCodeSnippet4, $formattedCodeSnippet4),
         );
     }
 }
