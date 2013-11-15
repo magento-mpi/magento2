@@ -54,7 +54,7 @@ class Mailer extends \Magento\Object
      */
     public function addEmailInfo(\Magento\Core\Model\Email\Info $emailInfo)
     {
-        array_push($this->_emailInfos, $emailInfo);
+        $this->_emailInfos[] = $emailInfo;
         return $this;
     }
 
