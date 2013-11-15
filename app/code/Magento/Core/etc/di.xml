@@ -383,7 +383,7 @@
         </param>
     </type>
     <type name="Magento\View\TemplateEngineFactory">
-        <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+        <pluginname="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
     </type>
     <type name="\Magento\Image">
         <param name="adapter">
@@ -436,9 +436,9 @@
         </param>
     </type>
     <type name="Magento\Core\Helper\Data">
-        <plugin name="inlineTranslateJson" type="Magento\Translate\Plugin\Translate" sortOrder="10"/>
+        <plugin name="inlineTranslateJson" type="Magento\Core\Plugin\Translate" sortOrder="10"/>
     </type>
     <type name="Magento\Checkout\Helper\Data">
-        <plugin name="inlineTranslateEmail" type="Magento\Translate\Plugin\Translate" sortOrder="20"/>
+        <plugin name="inlineTranslateEmail" type="Magento\Core\Plugin\Translate" sortOrder="20"/>
     </type>
 </config>
