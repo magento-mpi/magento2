@@ -149,4 +149,5 @@
         </block>
         <block class="Magento\View\Block\Template" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
     </referenceBlock>
+    <update handle="default_head_blocks"/>
 </layout>
