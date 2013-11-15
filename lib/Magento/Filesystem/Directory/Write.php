@@ -15,59 +15,30 @@ use Magento\Filesystem\FilesystemException;
 class Write extends Read implements WriteInterface
 {
     /**
-     * Permissions for created staff
-     *
      * @var int
      */
-    protected $permissions = 0777;
+    protected $permissions;
 
     /**
-     * Is allowed to create directories
-     *
-     * @var bool
-     */
-    protected $allowCreateDirs = true;
-
-    /**
-     * @param array $config
-     * @param \Magento\Filesystem\File\WriteFactory $fileFactory
-     */
-    public function __construct(array $config, \Magento\Filesystem\File\WriteFactory $fileFactory)
-    {
-        $this->setProperties($config);
-        $this->fileFactory = $fileFactory;
-    }
-
-    /**
-     * Set properties from config
-     *
-     * @param array $config
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    protected function setProperties(array $config)
-    {
-        parent::setProperties($config);
-        if (isset($config['permissions'])) {
-            $this->permissions = $config['permissions'];
-        }
-        if (isset($config['allow_create_dirs'])) {
-            $this->allowCreateDirs = (bool) $config['allow_create_dirs'];
-        }
-    }
-
-    /**
-     * Check if given path is exists and is file
+     * Constructor
      *
      * @param string $path
-     * @throws \Magento\Filesystem\FilesystemException
+     * @param \Magento\Filesystem\File\WriteFactory $fileFactory
+     * @param \Magento\Filesystem\Driver $driver
+     * @param $permissions
      */
-    protected function assertIsFile($path)
+    public function __construct
+    (
+        $path,
+        \Magento\Filesystem\File\WriteFactory $fileFactory,
+        \Magento\Filesystem\Driver $driver,
+        $permissions
+    )
     {
-        clearstatcache();
-        $absolutePath = $this->getAbsolutePath($path);
-        if (!is_file($absolutePath)) {
-            throw new FilesystemException(sprintf('The "%s" file doesn\'t exist or not a file', $absolutePath));
-        }
+        $this->path = $path;
+        $this->driver = $driver;
+        $this->permissions = $permissions;
+        $this->fileFactory = $fileFactory;
     }
 
     /**
@@ -77,28 +48,9 @@ class Write extends Read implements WriteInterface
      */
     protected function assertWritable($path)
     {
-        clearstatcache();
         $absolutePath = $this->getAbsolutePath($path);
-        if (is_writable($absolutePath) === false) {
+        if ($this->isWritable($absolutePath) === false) {
             throw new FilesystemException(sprintf('The path "%s" is not writable', $absolutePath));
-        }
-    }
-
-    /**
-     * Recursively asserts parent folder are either not exists or exists and have write permissions
-     *
-     * @param string $absolutePath
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    protected function assertParentsWritable($absolutePath)
-    {
-        clearstatcache();
-        if (!is_writable($absolutePath)) {
-            if (file_exists($absolutePath)) {
-                throw new FilesystemException(sprintf('The path "%s" is not writable', $absolutePath));
-            } else {
-                $this->assertParentsWritable(dirname($absolutePath));
-            }
         }
     }
 
@@ -109,25 +61,57 @@ class Write extends Read implements WriteInterface
      * @return bool
      * @throws FilesystemException
      */
-    public function create($path = '')
+    public function create($path)
     {
-        if (!$this->allowCreateDirs) {
-            throw new FilesystemException('Operation is not allowed for the specified path: "%s"', $this->path);
-        }
-        clearstatcache();
+        $this->assertWritable($path);
         $absolutePath = $this->getAbsolutePath($path);
-        if (is_dir($absolutePath)) {
+        if ($this->driver->isDirectory($absolutePath)) {
             return true;
-        } elseif (is_file($absolutePath)) {
-            throw new FilesystemException(sprintf('The "%s" file already exists', $absolutePath));
         }
-        $this->assertParentsWritable($absolutePath);
+        return $this->driver->createDirectory($absolutePath, $this->permissions);
+    }
 
-        $result = mkdir($absolutePath, $this->permissions, true);
-        if ($result === false) {
-            throw new FilesystemException(sprintf('Directory "%s" cannot be created', $absolutePath));
+    /**
+     * Renames a source to into new name
+     *
+     * @param string $path
+     * @param string $newPath
+     * @param WriteInterface $targetDirectory
+     * @return bool
+     * @throws FilesystemException
+     */
+    public function rename($path, $newPath, WriteInterface $targetDirectory = null)
+    {
+        $this->assertExist($path);
+        $targetDirectory = $targetDirectory ? : $this;
+        if (!$targetDirectory->isExist(dirname($newPath))) {
+            $targetDirectory->create(dirname($newPath));
         }
-        return $result;
+        $absolutePath = $this->getAbsolutePath($path);
+        $absoluteNewPath = $targetDirectory->getAbsolutePath($newPath);
+        return $this->driver->rename($absolutePath, $absoluteNewPath);
+    }
+
+    /**
+     * Copy a source to into destination
+     *
+     * @param string $path
+     * @param string $destination
+     * @param WriteInterface $targetDirectory
+     * @return bool
+     * @throws FilesystemException
+     */
+    public function copy($path, $destination, WriteInterface $targetDirectory = null)
+    {
+        $this->assertExist($path);
+        $targetDirectory = $targetDirectory ? : $this;
+        if (!$targetDirectory->isExist(dirname($destination))) {
+            $targetDirectory->create(dirname($destination));
+        }
+
+        $absolutePath = $this->getAbsolutePath($path);
+        $absoluteDestinationPath = $targetDirectory->getAbsolutePath($destination);
+        return $this->driver->copy($absolutePath, $absoluteDestinationPath);
     }
 
     /**
@@ -140,80 +124,16 @@ class Write extends Read implements WriteInterface
     public function delete($path = null)
     {
         $this->assertExist($path);
-
         $absolutePath = $this->getAbsolutePath($path);
-        if (is_file($absolutePath)) {
-            $result = unlink($this->getAbsolutePath($path));
+        if ($this->driver->isFile($absolutePath)) {
+            $this->driver->deleteFile($absolutePath);
         } else {
             foreach ($this->read($path) as $subPath) {
                 $this->delete($subPath);
             }
-            $result = rmdir($absolutePath);
+            $this->driver->deleteDirectory($absolutePath);
         }
-        if ($result === false) {
-            throw new FilesystemException(sprintf('The file or directory "%s" cannot be deleted', $absolutePath));
-        }
-        return $result;
-    }
-
-    /**
-     * Rename a file
-     *
-     * @param string $path
-     * @param string $newPath
-     * @param WriteInterface $targetDirectory
-     * @return bool
-     * @throws FilesystemException
-     */
-    public function renameFile($path, $newPath, WriteInterface $targetDirectory = null)
-    {
-        $this->assertIsFile($path);
-
-        $targetDirectory = $targetDirectory ? : $this;
-        if (!$targetDirectory->isExist(dirname($newPath))) {
-            $targetDirectory->create(dirname($newPath));
-        }
-
-        $absolutePath = $this->getAbsolutePath($path);
-        $absoluteNewPath = $targetDirectory->getAbsolutePath($newPath);
-
-        $result = rename($absolutePath, $absoluteNewPath);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s"', $absolutePath, $absoluteNewPath)
-            );
-        }
-        return $result;
-    }
-
-    /**
-     * Copy a file
-     *
-     * @param string $path
-     * @param string $destination
-     * @param WriteInterface $targetDirectory
-     * @return bool
-     * @throws FilesystemException
-     */
-    public function copyFile($path, $destination, WriteInterface $targetDirectory = null)
-    {
-        $this->assertIsFile($path);
-
-        $targetDirectory = $targetDirectory ? : $this;
-        if (!$targetDirectory->isExist(dirname($destination))) {
-            $targetDirectory->create(dirname($destination));
-        }
-
-        $absolutePath = $this->getAbsolutePath($path);
-        $absoluteDestination = $targetDirectory->getAbsolutePath($destination);
-
-        $result = copy($absolutePath, $absoluteDestination);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('The "%s" path cannot be renamed into "%s"', $absolutePath, $absoluteDestination)
-            );
-        }
-        return $result;
+        return true;
     }
 
     /**
@@ -227,13 +147,8 @@ class Write extends Read implements WriteInterface
     public function changePermissions($path, $permissions)
     {
         $this->assertExist($path);
-
         $absolutePath = $this->getAbsolutePath($path);
-        $result = chmod($absolutePath, $permissions);
-        if ($result === false) {
-            throw new FilesystemException(sprintf('Cannot change permissions for "%s" path', $absolutePath));
-        }
-        return $result;
+        return $this->driver->changePermissions($absolutePath,$permissions);
     }
 
     /**
@@ -247,33 +162,22 @@ class Write extends Read implements WriteInterface
     public function touch($path, $modificationTime = null)
     {
         $absolutePath = $this->getAbsolutePath($path);
-
-        $folder = dirname($path);
+        $folder = $this->driver->getParentDirectory($path);
         $this->create($folder);
         $this->assertWritable($folder);
-
-        if ($modificationTime === null) {
-            $result = touch($absolutePath);
-        } else {
-            $result = touch($absolutePath, $modificationTime);
-        }
-        if ($result === false) {
-            throw new FilesystemException(sprintf('The file or directory "%s" cannot be touched', $absolutePath));
-        }
-        return $result;
+        return $this->driver->touch($path, $modificationTime);
     }
 
     /**
      * Check if given path is writable
      *
-     * @param string|null $path
+     * @param null $path
      * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
      */
     public function isWritable($path = null)
     {
-        clearstatcache();
-
-        return is_writable($this->getAbsolutePath($path));
+        return $this->driver->isWritable($this->getAbsolutePath($path));
     }
 
     /**
@@ -286,11 +190,9 @@ class Write extends Read implements WriteInterface
     public function openFile($path, $mode = 'w')
     {
         $absolutePath = $this->getAbsolutePath($path);
-
-        $folder = dirname($path);
+        $folder = $this->driver->getParentDirectory($absolutePath);
         $this->create($folder);
         $this->assertWritable($folder);
-
         return $this->fileFactory->create($absolutePath, $mode);
     }
 
@@ -306,15 +208,9 @@ class Write extends Read implements WriteInterface
     public function writeFile($path, $content, $mode = null)
     {
         $absolutePath = $this->getAbsolutePath($path);
-
-        $folder = dirname($path);
+        $folder = $this->driver->getParentDirectory($absolutePath);
         $this->create($folder);
         $this->assertWritable($folder);
-
-        $result = file_put_contents($absolutePath, $content, $mode);
-        if ($result === null) {
-            throw new FilesystemException(sprintf('The specified "%s" file could not be written', $absolutePath));
-        }
-        return $result;
+        return $this->driver->filePutContents($absolutePath, $content, $mode);
     }
 }
