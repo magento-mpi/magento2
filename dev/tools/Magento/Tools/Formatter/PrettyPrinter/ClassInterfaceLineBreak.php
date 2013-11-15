@@ -36,10 +36,10 @@ class ClassInterfaceLineBreak extends ConditionalLineBreak
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
+     * @param array $lineBreakData Data that the line break can use.
      */
-    public function getValue($level, $index, $total)
+    public function getValue($level, $index, $total, array &$lineBreakData)
     {
-        $result = '';
         switch ($level) {
             case 0:
                 $result = ' ';
