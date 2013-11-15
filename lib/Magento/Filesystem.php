@@ -13,6 +13,13 @@ use Magento\Filesystem\FilesystemException;
 
 class Filesystem
 {
+
+    const CRITERIA_CODE = 'code';
+    const CRITERIA_PATH = 'path';
+    const ACCESS_READ   = 'read';
+    const ACCESS_WRITE  = 'write';
+
+
     /**
      * @var \Magento\Filesystem\DirectoryList
      */
@@ -85,40 +92,6 @@ class Filesystem
 
         $this->_adapter = $adapter;
         $this->_workingDirectory = self::normalizePath(__DIR__ . '/../..');
-    }
-
-    /**
-     * Create an instance of directory with write permissions
-     *
-     * @param string $code
-     * @return \Magento\Filesystem\Directory\Read
-     */
-    public function getDirectoryRead($code)
-    {
-        if (!array_key_exists($code, $this->readInstances)) {
-            $config = $this->directoryList->getConfig($code);
-            $this->readInstances[$code] = $this->readFactory->create($config);
-        }
-        return $this->readInstances[$code];
-    }
-
-    /**
-     * Create an instance of directory with read permissions
-     *
-     * @param string $code
-     * @return \Magento\Filesystem\Directory\Write
-     * @throws \Magento\Filesystem\FilesystemException
-     */
-    public function getDirectoryWrite($code)
-    {
-        if (!array_key_exists($code, $this->writeInstances)) {
-            $config = $this->directoryList->getConfig($code);
-            if (!isset($config['read_only']) || !$config['read_only']) {
-                throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
-            }
-            $this->writeInstances[$code] = $this->writeFactory->create($config);
-        }
-        return $this->writeInstances[$code];
     }
 
     /**
@@ -662,5 +635,111 @@ class Filesystem
             );
         }
         return true;
+    }
+
+    /**
+     * Create an instance of directory with read permissions by code
+     *
+     * @param $code
+     * @return Filesystem\Directory\Read
+     */
+    protected function getReadDirectoryByCode($code)
+    {
+        if (!array_key_exists($code, $this->readInstances)) {
+            $config = $this->config->get($code);
+            $this->readInstances[$code] = $this->readFactory->create($config);
+        }
+        return $this->readInstances[$code];
+    }
+
+    /**
+     * Create an instance of directory with read permissions by path
+     *
+     * @param $path
+     * @return Filesystem\Directory\Read
+     */
+    protected function getReadDirectoryByPath($path)
+    {
+        $code = $this->directoryList->getDirectoryCodeByPath($path);
+        return $this->getReadDirectoryByCode($code);
+    }
+
+    /**
+     * Create an instance of directory with read permissions by code
+     *
+     * @param $code
+     * @return Filesystem\Directory\Write
+     * @throws Filesystem\FilesystemException
+     */
+    protected function getWriteDirectoryByCode($code)
+    {
+        if (!array_key_exists($code, $this->writeInstances)) {
+            $config = $this->directoryList->getConfig($code);
+            if (!isset($config['read_only']) || !$config['read_only']) {
+                throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
+            }
+            $this->writeInstances[$code] = $this->writeFactory->create($config);
+        }
+        return $this->writeInstances[$code];
+    }
+
+    /**
+     * Create an instance of directory with read permissions by path
+     *
+     * @param $path
+     * @return Filesystem\Directory\Read
+     */
+    protected function getWriteDirectoryByPath($path)
+    {
+        $code = $this->directoryList->getDirectoryCodeByPath($path);
+        return $this->getWriteDirectoryByCode($code);
+    }
+
+    /**
+     * Create an instance of directory with read permissions
+     *
+     * @todo: refactor to normal common approach
+     * @param $criteria
+     * @return Filesystem\Directory\Read|null
+     */
+    public function getDirectoryRead($criteria)
+    {
+        if (is_string($criteria)) {
+            $criteria = array(self::CRITERIA_CODE => $criteria);
+        }
+        $directory = null;
+        switch (key($criteria)) {
+            case self::CRITERIA_CODE:
+                $directory = $this->getReadDirectoryByCode(current($criteria));
+                break;
+            case self::CRITERIA_PATH:
+                $directory = $this->getReadDirectoryByPath(current($criteria));
+                break;
+        }
+        return $directory;
+    }
+
+    /**
+     * Create an instance of directory with write permissions
+     * @todo: refactor to normal common approach
+     *
+     * @param $criteria
+     * @return Filesystem\Directory\Read|Filesystem\Directory\Write|null
+     */
+    public function getDirectoryWrite($criteria)
+    {
+        if (is_string($criteria)) {
+            $criteria = array(self::CRITERIA_CODE => $criteria);
+        }
+        $directory = null;
+        switch (key($criteria)) {
+            case self::CRITERIA_CODE:
+                $directory = $this->getWriteDirectoryByCode(current($criteria));
+                break;
+            case self::CRITERIA_PATH:
+                $directory = $this->getWriteDirectoryByPath(current($criteria));
+                break;
+        }
+        return $directory;
     }
 }

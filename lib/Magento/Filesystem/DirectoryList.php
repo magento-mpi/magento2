@@ -135,6 +135,12 @@ class DirectoryList extends Dir
     protected $root;
 
     /**
+     * Cached paths info
+     *
+     * @var array
+     */
+    protected $paths;
+    /**
      * Directories configurations
      *
      * @var array
@@ -186,6 +192,47 @@ class DirectoryList extends Dir
     public function getConfig($code)
     {
         return isset($this->directories[$code]) ? $this->directories[$code] : null;
+    }
+
+
+    /**
+     * Load directory path by code
+     *
+     * @param $path
+     * @return int|null|string
+     */
+    protected function loadDirectoryCodeByPath($path)
+    {
+        $directoryCode = null;
+        $rootInPath = substr($path, 0, strlen($this->getRoot()));
+        if ($rootInPath == $this->getRoot()) {
+            $path = substr($path, strlen($this->getRoot()) + 1);
+        }
+        $temporaryPath = '';
+        foreach ($this->directories as $code => $directory) {
+            $matchedPath = substr($path, 0, strlen($directory['path']));
+            if ($matchedPath == $directory['path']) {
+                if (strlen($directory['path']) > strlen($temporaryPath)) {
+                    $temporaryPath = $directory['path'];
+                    $directoryCode = $code;
+                }
+            }
+        }
+        return $directoryCode;
+    }
+
+    /**
+     * Returns directory by path
+     *
+     * @param $path
+     * @return int|null|string
+     */
+    public function getDirectoryCodeByPath($path)
+    {
+        if (!isset($this->paths[$path])) {
+            $this->paths[$path] = $this->loadDirectoryCodeByPath($path);
+        }
+        return $this->paths[$path];
     }
 
     /**
