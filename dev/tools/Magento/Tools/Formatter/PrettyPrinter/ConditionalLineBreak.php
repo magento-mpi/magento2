@@ -10,12 +10,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 class ConditionalLineBreak extends LineBreak
 {
     /**
-     * This flag indicates if the first in a group of conditionals should be used.
-     * @var bool
-     */
-    protected $firstInGroupRequired = true;
-
-    /**
      * This member holds a 2 dimensional array of breaks to insert. First dimension is the level.
      * Second dimension is the index of the occurrence of the break instance.
      * @var array
@@ -45,8 +39,10 @@ class ConditionalLineBreak extends LineBreak
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
+     * @param array $lineBreakData Data that the line break can use.
+     * @return
      */
-    public function getValue($level, $index, $total)
+    public function getValue($level, $index, $total, array &$lineBreakData)
     {
         // cap the level at the greatest one in the first dimension
         $maxLevel = max(array_keys($this->breaks));
@@ -64,11 +60,11 @@ class ConditionalLineBreak extends LineBreak
 
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
-     * @return mixed
+     * @return int Order relative to other classes overriding this method.
      */
     public function getSortOrder()
     {
-        return 3;
+        return 400;
     }
 
     /**
