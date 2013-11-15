@@ -832,7 +832,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
 
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem:: MEDIA);
+        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList:: MEDIA);
         $fileName = 'customer/' . $file;
         $path = $directory->getAbsolutePath($fileName);
         if (!$directory->isFile($fileName)

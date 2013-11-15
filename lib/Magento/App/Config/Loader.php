@@ -9,7 +9,7 @@
  */
 namespace Magento\App\Config;
 
-use \Magento\App\Dir;
+use Magento\Filesystem\DirectoryList;
 
 class Loader
 {
@@ -28,7 +28,7 @@ class Loader
      *
      * @var string
      */
-    protected $_dirs;
+    protected $_dir;
 
     /**
      * Custom config file
@@ -45,12 +45,12 @@ class Loader
     protected $_idAttributes = array('/config/resource' => 'name', '/config/connection' => 'name');
 
     /**
-     * @param Dir $dirs
+     * @param DirectoryList $dirs
      * @param string $customFile
      */
-    public function __construct(Dir $dirs, $customFile = null)
+    public function __construct(DirectoryList $dirList, $customFile = null)
     {
-        $this->_dir = $dirs->getDir(Dir::CONFIG);
+        $this->_dir = $dirList->getDir(DirectoryList::CONFIG);
         $this->_customFile = $customFile;
     }
 

@@ -34,7 +34,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDirectoryReadInstance()
     {
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::VAR_DIR);
         $this->assertInstanceOf('\Magento\Filesystem\Directory\Read', $dir);
     }
 
@@ -43,7 +43,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDirectoryWriteInstance()
     {
-        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
         $this->assertInstanceOf('\Magento\Filesystem\Directory\Write', $dir);
     }
 
@@ -54,7 +54,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetDirectoryWriteException()
     {
-        $this->filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
     }
 
     /**
@@ -62,7 +62,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPath()
     {
-        $this->assertContains('var/', $this->filesystem->getPath(\Magento\Filesystem::VAR_DIR));
+        $this->assertContains('var', $this->filesystem->getPath(\Magento\Filesystem\DirectoryList::VAR_DIR));
     }
 
     /**
@@ -70,6 +70,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetUri()
     {
-        $this->assertContains('media/', $this->filesystem->getPath(\Magento\Filesystem::MEDIA));
+        $this->assertContains('media', $this->filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA));
     }
 }

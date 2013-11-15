@@ -136,7 +136,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(\Magento\FileSystem::MEDIA)
+            ->with(\Magento\Filesystem\DirectoryList::MEDIA)
             ->will($this->returnValue($dirWriteMock));
 
         $dirWriteMock->expects($this->once())
