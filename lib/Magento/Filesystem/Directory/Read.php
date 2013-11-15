@@ -30,21 +30,36 @@ class Read implements ReadInterface
     /**
      * Constructor
      *
-     * @param string $path
+     * @param array $config
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
      * @param \Magento\Filesystem\Driver $driver
      */
     public function __construct
     (
-        $path,
+        array $config,
         \Magento\Filesystem\File\ReadFactory $fileFactory,
         \Magento\Filesystem\Driver $driver
     )
     {
-        $this->path = rtrim($path, '/') . '/';
+        $this->setProperties($config);
         $this->fileFactory = $fileFactory;
         $this->driver = $driver;
     }
+
+    /**
+     * Set properties from config
+     *
+     * @param array $config
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    protected function setProperties(array $config)
+    {
+        if (empty($config['path'])) {
+            throw new FilesystemException('Cannot create directory without path');
+        }
+        $this->path = rtrim($config['path'], '/') . '/';
+    }
+
     /**
      * @param string $path
      * @return string
@@ -184,6 +199,34 @@ class Read implements ReadInterface
      */
     public function readFile($path)
     {
-        return $this->driver->fileGetContents($this->getAbsolutePath($path));
+        $absolutePath = $this->getAbsolutePath($path);
+        if (!$this->driver->isFile($absolutePath)) {
+            throw new FilesystemException(
+                sprintf('The file "%s" either doesn\'t exist or not a file', $absolutePath)
+            );
+        }
+        return $this->driver->fileGetContents($absolutePath);
+    }
+
+    /**
+     * Check whether given path is file
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isFile($path)
+    {
+        return $this->driver->isFile($this->getAbsolutePath($path));
+    }
+
+    /**
+     * Check whether given path is directory
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isDirectory($path)
+    {
+        return $this->driver->isDirectory($this->getAbsolutePath($path));
     }
 }
