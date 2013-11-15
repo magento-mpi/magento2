@@ -57,7 +57,7 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\Mailer
+     * @var \Magento\Email\Model\Template\Mailer
      */
     protected $_templateMailer;
 
@@ -67,7 +67,7 @@ class Observer
     protected $_operationFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -84,16 +84,16 @@ class Observer
     /**
      * @param \Magento\App\Dir $coreDir
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
-     * @param \Magento\Core\Model\Email\Template\Mailer $templateMailer
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\Mailer $templateMailer
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Dir $coreDir,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
-        \Magento\Core\Model\Email\Template\Mailer $templateMailer,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\Mailer $templateMailer,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
@@ -225,7 +225,7 @@ class Observer
             return $this;
         }
 
-        /** @var \Magento\Core\Model\Email\Info $emailInfo */
+        /** @var \Magento\Email\Model\Info $emailInfo */
         $emailInfo = $this->_emailInfoFactory->create();
         $emailInfo->addTo($receiverEmail);
 

@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Model\Template;
 
-class Filter extends \Magento\Core\Model\Email\Template\Filter
+class Filter extends \Magento\Email\Model\Template\Filter
 {
     /**
      * Whether to allow SID in store directive: AUTO
