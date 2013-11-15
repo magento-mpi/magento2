@@ -7,8 +7,6 @@
  */
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Printer;
-
 class PrinterTest extends TestBase
 {
     /**
@@ -18,8 +16,7 @@ class PrinterTest extends TestBase
      */
     public function testArrays($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     /**
@@ -50,10 +47,17 @@ class PrinterTest extends TestBase
                 "        2 => 'beta1234567890',\n        3 => 'gamma1234567890',\n".
                 "        4 => 'hippopotamus',\n        5 => 'giraffe'\n    );\n}\n"
             ),
-                        array(
-                            "<?php class A5 {public \$a = array(array(1.1,1.2),array(2.1,2.2));}",
-                            "<?php\nclass A5\n{\n    public \$a = array(array(1.1, 1.2), array(2.1, 2.2));\n}\n"
-                        ),
+            array(
+                "<?php class A5 {public \$a = array(array(1.1,1.2),array(2.1,2.2));}",
+                "<?php\nclass A5\n{\n    public \$a = array(array(1.1, 1.2), array(2.1, 2.2));\n}\n"
+            ),
+            array(
+                "<?php class A6 {public \$a = array(array('abcdefghijabcdefghijabcdefghij','abcdefghijabcdefghij')," .
+                "array('abcdefghijabcdefghijabcdefghij','abcdefghijabcdefghij'),);}",
+                "<?php\nclass A6\n{\n    public \$a = array(\n        array(" .
+                "'abcdefghijabcdefghijabcdefghij', 'abcdefghijabcdefghij')," .
+                "\n        array('abcdefghijabcdefghijabcdefghij', 'abcdefghijabcdefghij')\n    );\n}\n"
+            ),
         );
     }
 
@@ -64,8 +68,7 @@ class PrinterTest extends TestBase
      */
     public function testBasics($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     /**
@@ -77,8 +80,7 @@ class PrinterTest extends TestBase
      */
     public function dataProviderBasics()
     {
-        return array(
-            array(<<<ORIGINALCODESNIPPET
+        $originalCodeSnippet = <<<ORIGINALCODESNIPPET
 <?php
 /**
  * Class Foo
@@ -90,12 +92,12 @@ class Foo extends Bar implements Zulu {
     }
     /** beta method */
     public function beta() {
-        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
-            ->alpha()->alpha()->alpha();
+        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
+            ->alpha()->alpha()->alpha()->alpha();
     }
 }
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet = <<<FORMATTEDCODESNIPPET
 <?php
 /**
  * Class Foo
@@ -126,9 +128,8 @@ class Foo extends Bar implements Zulu
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet2 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -138,8 +139,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet2 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -152,9 +153,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet3 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -163,8 +163,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet3 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -176,9 +176,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet4 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -187,8 +186,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet4 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -200,9 +199,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet5 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -211,8 +209,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet5 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -224,9 +222,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet6 = <<<ORIGINALCODESNIPPET
 <?php
 require_once __DIR__.'processor.php';
 require __DIR__.'processor.php';
@@ -246,8 +243,8 @@ require 'processor'.'.php';
 \$processor = 1+2;
 
 
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet6 = <<<FORMATTEDCODESNIPPET
 <?php
 require_once __DIR__ . 'processor.php';
 require __DIR__ . 'processor.php';
@@ -266,9 +263,8 @@ require 'processor' . '.php';
 
 \$processor = 1 + 2;
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet7 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -278,8 +274,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet7 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -292,9 +288,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet8 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 
@@ -313,8 +308,8 @@ class Foo {
         echo 'z';
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet8 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -335,9 +330,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet9 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 
@@ -360,8 +354,8 @@ class Foo {
         echo 'z';
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet9 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -382,9 +376,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet10 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 
@@ -396,8 +389,8 @@ class Foo {
         echo 'z';
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet10 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -411,9 +404,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet11 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -424,8 +416,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet11 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -439,9 +431,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet12 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -452,8 +443,8 @@ class Foo {
         // Comment at end of block
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet12 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -467,9 +458,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet13 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -486,8 +476,8 @@ class Foo {
         // Comment at end of block
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet13 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -507,9 +497,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet14 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -523,8 +512,8 @@ class Foo {
     protected \$_constH = True;
     protected \$_constI = False;
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet14 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -549,9 +538,8 @@ class Foo
     protected \$_constI = false;
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet15 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -560,8 +548,8 @@ class Foo {
         \$this->_testFunctionCall = __('Testing');
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet15 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -574,9 +562,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet16 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo extends \\Magento\\Test\\Bar{
@@ -596,8 +583,8 @@ class Foo extends \\Magento\\Test\\Bar{
         \$testEight, \$testNine);
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet16 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -629,9 +616,8 @@ class Foo extends \\Magento\\Test\\Bar
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+            $originalCodeSnippet17 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo{
@@ -639,8 +625,8 @@ class Foo{
         list(\$varOne, \$varTwo) = \$testOne;
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet17 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -652,9 +638,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            ),
-            array(<<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET;
+        $originalCodeSnippet18 = <<<ORIGINALCODESNIPPET
 <?php
   namespace Magento\\Test;
 class Foo{
@@ -663,8 +648,8 @@ class Foo{
         = \$testOne;
     }
 };
-ORIGINALCODESNIPPET
-            , <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET;
+        $formattedCodeSnippet18 = <<<FORMATTEDCODESNIPPET
 <?php
 namespace Magento\\Test;
 
@@ -685,8 +670,27 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET
-            )
+FORMATTEDCODESNIPPET;
+
+        return array(
+            array($originalCodeSnippet, $formattedCodeSnippet),
+            array($originalCodeSnippet2, $formattedCodeSnippet2),
+            array($originalCodeSnippet3, $formattedCodeSnippet3),
+            array($originalCodeSnippet4, $formattedCodeSnippet4),
+            array($originalCodeSnippet5, $formattedCodeSnippet5),
+            array($originalCodeSnippet6, $formattedCodeSnippet6),
+            array($originalCodeSnippet7, $formattedCodeSnippet7),
+            array($originalCodeSnippet8, $formattedCodeSnippet8),
+            array($originalCodeSnippet9, $formattedCodeSnippet9),
+            array($originalCodeSnippet10, $formattedCodeSnippet10),
+            array($originalCodeSnippet11, $formattedCodeSnippet11),
+            array($originalCodeSnippet12, $formattedCodeSnippet12),
+            array($originalCodeSnippet13, $formattedCodeSnippet13),
+            array($originalCodeSnippet14, $formattedCodeSnippet14),
+            array($originalCodeSnippet15, $formattedCodeSnippet15),
+            array($originalCodeSnippet16, $formattedCodeSnippet16),
+            array($originalCodeSnippet17, $formattedCodeSnippet17),
+            array($originalCodeSnippet18, $formattedCodeSnippet18),
         );
     }
 
@@ -697,8 +701,7 @@ FORMATTEDCODESNIPPET
      */
     public function testClassDeclaration($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     public function dataProviderClassDeclaration()
@@ -767,8 +770,7 @@ FORMATTEDCODESNIPPET
      */
     public function testNamespace($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     public function dataProviderNamespace()
@@ -800,8 +802,7 @@ FORMATTEDCODESNIPPET
      */
     public function testProperties($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     public function dataProviderProperties()
@@ -832,8 +833,7 @@ FORMATTEDCODESNIPPET
      */
     public function testMethodDeclarations($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     public function dataMethodDeclarations()
@@ -872,8 +872,7 @@ FORMATTEDCODESNIPPET
      */
     public function testFunctionDeclarations($originalCode, $formattedCode)
     {
-        $printer = new Printer($originalCode);
-        $this->assertEquals($formattedCode, $printer->getFormattedCode());
+        $this->convertAndCheck($originalCode, $formattedCode);
     }
 
     public function dataFunctionDeclarations()

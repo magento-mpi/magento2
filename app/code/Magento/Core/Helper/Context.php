@@ -37,14 +37,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_httpRequest;
 
     /**
-     * @var \Magento\Core\Model\Cache\Config
+     * @var \Magento\Cache\ConfigInterface
      */
     protected $_cacheConfig;
-
-    /**
-     * @var \Magento\Core\Model\Fieldset\Config
-     */
-    protected $_fieldsetConfig;
 
     /**
      * @var \Magento\Core\Model\App
@@ -71,8 +66,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Translate $translator
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\RequestInterface $httpRequest
-     * @param \Magento\Core\Model\Cache\Config $cacheConfig
-     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Cache\ConfigInterface $cacheConfig
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\App $app
      * @param \Magento\UrlInterface $urlBuilder
@@ -84,8 +78,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Translate $translator,
         \Magento\Module\Manager $moduleManager,
         \Magento\App\RequestInterface $httpRequest,
-        \Magento\Core\Model\Cache\Config $cacheConfig,
-        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Cache\ConfigInterface $cacheConfig,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\App $app,
         \Magento\UrlInterface $urlBuilder,
@@ -96,7 +89,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
-        $this->_fieldsetConfig = $fieldsetConfig;
         $this->_eventManager = $eventManager;
         $this->_logger = $logger;
         $this->_app = $app;
@@ -146,7 +138,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Cache\Config
+     * @return \Magento\Cache\ConfigInterface
      */
     public function getCacheConfig()
     {
@@ -161,14 +153,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         return $this->_eventManager;
     }
 
-    /**
-     * @return \Magento\Core\Model\Fieldset\Config
-     */
-    public function getFieldsetConfig()
-    {
-        return $this->_fieldsetConfig;
-    }
-    
     /**
      * @return \Magento\Logger
      */

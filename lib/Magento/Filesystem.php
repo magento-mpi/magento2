@@ -114,9 +114,9 @@ class Filesystem
     const UPLOAD = 'upload';
 
     /**
-     * @var \Magento\Filesystem\Config
+     * @var \Magento\Filesystem\DirectoryList
      */
-    protected $config;
+    protected $directoryList;
 
     /**
      * @var \Magento\Filesystem\Directory\ReadFactory
@@ -168,18 +168,18 @@ class Filesystem
     protected $_newDirPermissions = 0777;
 
     /**
-     * @param \Magento\Filesystem\Config $config
+     * @param \Magento\Filesystem\DirectoryList $directoryList
      * @param \Magento\Filesystem\Directory\ReadFactory $readFactory
      * @param \Magento\Filesystem\Directory\WriteFactory $writeFactory
      * @param \Magento\Filesystem\AdapterInterface $adapter
      */
     public function __construct(
-        \Magento\Filesystem\Config $config,
+        \Magento\Filesystem\DirectoryList $directoryList,
         \Magento\Filesystem\Directory\ReadFactory $readFactory,
         \Magento\Filesystem\Directory\WriteFactory $writeFactory,
         \Magento\Filesystem\AdapterInterface $adapter
     ) {
-        $this->config = $config;
+        $this->directoryList = $directoryList;
         $this->readFactory = $readFactory;
         $this->writeFactory = $writeFactory;
 
@@ -196,7 +196,7 @@ class Filesystem
     public function getDirectoryRead($code)
     {
         if (!array_key_exists($code, $this->readInstances)) {
-            $config = $this->config->get($code);
+            $config = $this->directoryList->getConfig($code);
             $this->readInstances[$code] = $this->readFactory->create($config);
         }
         return $this->readInstances[$code];
@@ -212,7 +212,7 @@ class Filesystem
     public function getDirectoryWrite($code)
     {
         if (!array_key_exists($code, $this->writeInstances)) {
-            $config = $this->config->get($code);
+            $config = $this->directoryList->getConfig($code);
             if (!isset($config['read_only']) || !$config['read_only']) {
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
@@ -229,7 +229,7 @@ class Filesystem
      */
     public function getPath($code)
     {
-        $config = $this->config->get($code);
+        $config = $this->directoryList->getConfig($code);
         return isset($config['path']) ? $config['path'] : '';
     }
 
@@ -239,7 +239,7 @@ class Filesystem
      */
     public function getUri($code)
     {
-        $config = $this->config->get($code);
+        $config = $this->directoryList->getConfig($code);
         return isset($config['uri']) ? $config['uri'] : '';
     }
 
@@ -696,7 +696,6 @@ class Filesystem
      * @param bool $isRelative Flag that identify, that filename is relative, so '..' at the beginning is supported
      * @return string
      * @throws \Magento\Filesystem\FilesystemException if file can't be normalized
-     * @deprecated
      */
     public static function normalizePath($path, $isRelative = false)
     {
@@ -741,7 +740,6 @@ class Filesystem
      * @param string $path
      * @param string $directory
      * @return bool
-     * @deprecated
      */
     public function isPathInDirectory($path, $directory)
     {

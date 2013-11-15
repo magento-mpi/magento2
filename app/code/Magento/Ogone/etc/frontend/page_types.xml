@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<page_types>
+    <type id="ogone_api_paypage" label="Ogone Paygate Payment"/>
+    <type id="ogone_api_placeform" label="Ogone Paygate Payment Place"/>
+</page_types>
