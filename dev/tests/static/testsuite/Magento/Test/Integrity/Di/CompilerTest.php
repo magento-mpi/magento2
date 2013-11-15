@@ -71,6 +71,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         $this->_validator = new \Magento\Code\Validator();
         $this->_validator->add(new \Magento\Code\Validator\ConstructorIntegrity());
         $this->_validator->add(new \Magento\Code\Validator\ContextAggregation());
+        $this->_validator->add(new \Magento\Code\Validator\ArgumentSequence());
     }
 
     protected function tearDown()
@@ -217,13 +218,13 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * Validate DI configuration
+     */
     public function testConfigurationOfInstanceParameters()
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-        /**
-         * @param string $file
-         */
             function ($file) {
                 $this->_validateFile($file);
             },
@@ -231,6 +232,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Validate constructor integrity
+     */
     public function testConstructorIntegrity()
     {
         $autoloader = new \Magento\Autoload\IncludePath();
@@ -250,6 +254,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Test DI compiler
+     *
      * @depends testConfigurationOfInstanceParameters
      * @depends testConstructorIntegrity
      */
