@@ -25,8 +25,9 @@ class HardLineBreak extends LineBreak
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
+     * @param array $lineBreakData Data that the line break can use.
      */
-    public function getValue($level, $index, $total)
+    public function getValue($level, $index, $total, array &$lineBreakData)
     {
         // always return the same value since this always represents a LF
         return self::EOL;
@@ -34,7 +35,7 @@ class HardLineBreak extends LineBreak
 
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
-     * @return mixed
+     * @return int Order relative to other classes overriding this method.
      */
     public function getSortOrder()
     {
