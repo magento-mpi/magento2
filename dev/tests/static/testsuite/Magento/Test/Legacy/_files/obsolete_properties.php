@@ -111,4 +111,6 @@ return array(
     array('_sessionQuote', 'Magento\Sales\Block\Adminhtml\Order\Create\Messages', 'sessionQuote'),
     array('_coreRegistry', 'Magento\Sales\Block\Adminhtml\Order\View\Messages', 'coreRegistry'),
     array('_message', 'Magento\Sales\Model\Quote', 'messageFactory'),
+    array('_translator', '\Magento\App\Helper\AbstractHelper'),
+    array('_translator', '\Magento\App\Helper\Context'),
 );

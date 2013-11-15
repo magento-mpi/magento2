@@ -20,7 +20,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\View\DesignInterface
      */
-    protected $design;
+    protected $_design;
     
     /**
      * @var \Magento\Event\ManagerInterface
@@ -46,7 +46,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     ) {
         $this->_eventManager = $eventManager;
         $this->translator = $translator;
-        $this->design = $design;
+        $this->_design = $design;
         parent::__construct($context);
     }
 
@@ -62,7 +62,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     {
         try {
             if ($area) {
-                $this->design->setArea($area);
+                $this->_design->setArea($area);
             }
 
             $this->translator->processAjaxPost($translate);

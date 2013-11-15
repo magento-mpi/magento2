@@ -928,4 +928,10 @@ return array(
     array('formatDate', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatDate'),
     array('formatTime', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatTime'),
     array('_getConfigTimezone', '\Magento\Core\Model\Date', '\Magento\Core\Model\Locale::getConfigTimezone'),
+    array('getTranslator', '\Magento\App\Helper\Context'),
+    array('getTranslator', '\Magento\Core\Helper\Data'),
+    array('_loadCache', '\Magento\App\Helper\AbstractHelper'),
+    array('_saveCache', '\Magento\App\Helper\AbstractHelper'),
+    array('_removeCache', '\Magento\App\Helper\AbstractHelper'),
+    array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
 );
