@@ -44,15 +44,15 @@ class Customer extends \Magento\Backend\App\Action
             $act = 'default';
         }
 
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Customers'),
-                __('Customers')
-            );
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        );
+        $this->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        );
         return $this;
     }
 
@@ -65,8 +65,8 @@ class Customer extends \Magento\Backend\App\Action
             ->_addBreadcrumb(
                 __('New Accounts'),
                 __('New Accounts')
-            )
-            ->renderLayout();
+            );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -135,8 +135,8 @@ class Customer extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_totals')
             ->_addBreadcrumb(__('Customers by Orders Total'),
-                __('Customers by Orders Total'))
-            ->renderLayout();
+                __('Customers by Orders Total'));
+        $this->_view->renderLayout();
     }
 
     /**

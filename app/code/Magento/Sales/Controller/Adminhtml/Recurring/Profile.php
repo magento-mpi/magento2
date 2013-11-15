@@ -172,8 +172,8 @@ class Profile extends \Magento\Backend\App\Action
     public function customerGridAction()
     {
         $this->_initCustomer();
-        $this->_view->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

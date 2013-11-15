@@ -38,8 +38,8 @@ class Report extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'));
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(__('Reports'), __('Reports'));
         return $this;
     }
 
@@ -52,8 +52,8 @@ class Report extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_search')
-            ->_addBreadcrumb(__('Search Terms'), __('Search Terms'))
-            ->renderLayout();
+            ->_addBreadcrumb(__('Search Terms'), __('Search Terms'));
+        $this->_view->renderLayout();
     }
 
     /**

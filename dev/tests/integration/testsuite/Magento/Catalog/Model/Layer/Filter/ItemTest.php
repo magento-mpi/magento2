@@ -61,15 +61,13 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
         $action = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Controller\Front\Action',
+            'Magento\App\Action\Action',
             array(
                 'request' => $request,
                 'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\TestFramework\Response'),
             )
         );
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->getFrontController()
-            ->setAction($action); // done in action's constructor
         $this->assertStringEndsWith('/?cat%5B0%5D=valuePart1&cat%5B1%5D=valuePart2', $this->_model->getUrl());
     }
 

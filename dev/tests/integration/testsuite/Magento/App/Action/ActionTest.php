@@ -50,17 +50,11 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             ->setDefaultDesignTheme();
         $context = $this->_objectManager->create('Magento\App\Action\Context', $arguments);
         $this->_object = $this->getMockForAbstractClass(
-            'Magento\Core\Controller\Varien\Action',
+            'Magento\App\Action\Action',
             array('context' => $context)
         );
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\LayoutInterface');
-    }
-
-    public function testHasAction()
-    {
-        $this->assertFalse($this->_object->hasAction('test'));
-        $this->assertTrue($this->_object->hasAction('noroute'));
     }
 
     public function testGetRequest()
@@ -108,48 +102,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('noroute', $request->getActionName());
     }
 
-    public function testGetActionMethodName()
-    {
-        $this->assertEquals('testAction', $this->_object->getActionMethodName('test'));
-    }
-
-    /**
-     * @magentoAppIsolation enabled
-     * @dataProvider controllerAreaDesignDataProvider
-     *
-     * @param string $controllerClass
-     * @param string $expectedArea
-     * @param string $expectedStore
-     * @param string $expectedDesign
-     * @param string $context
-     */
-    public function testPreDispatch($controllerClass, $expectedArea, $expectedStore, $expectedDesign, $context)
-    {
-        $themes = array('frontend' => 'magento_blank', 'adminhtml' => 'magento_backend', 'install' => 'magento_basic');
-        $design = $this->_objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
-        $app = $this->_objectManager->create('Magento\Core\Model\App');
-        $this->_objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
-        $this->_objectManager->addSharedInstance($app, 'Magento\Core\Model\App');
-        $this->_objectManager->addSharedInstance($app, 'Magento\TestFramework\App');
-        $app->loadArea($expectedArea);
-
-        /** @var $controller \Magento\App\Action\Action */
-        $context = $this->_objectManager->create($context, array(
-            'response' => $this->_objectManager->get('Magento\TestFramework\Response')
-        ));
-        $controller = $this->_objectManager->create($controllerClass, array('context' => $context));
-        $controller->preDispatch();
-
-        $design = $this->_objectManager->get('Magento\View\DesignInterface');
-
-        $this->assertEquals($expectedArea, $design->getArea());
-        $this->assertEquals($expectedStore, \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getCode());
-        if ($expectedDesign) {
-            $this->assertEquals($expectedDesign, $design->getDesignTheme()->getThemePath());
-        }
-    }
-
     /**
      * @return array
      */
@@ -178,23 +130,5 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'Magento\Backend\App\Action\Context'
             ),
         );
-    }
-
-    /**
-     * @magentoAppArea frontend
-     */
-    public function testNoRouteAction()
-    {
-        $status = 'test';
-        $this->_object->getRequest()->setParam('__status__', $status);
-        $caughtException = false;
-        $message = '';
-        try {
-            $this->_object->norouteAction();
-        } catch (\Exception $e) {
-            $caughtException = true;
-            $message = $e->getMessage();
-        }
-        $this->assertFalse($caughtException, $message);
     }
 }

@@ -77,8 +77,8 @@ class Quote extends \Magento\Backend\App\Action
         $this->_title->add(__('Cart Price Rules'));
 
         $this->_initAction()
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
-            ->renderLayout();
+            ->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()

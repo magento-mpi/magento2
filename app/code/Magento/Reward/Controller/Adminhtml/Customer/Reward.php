@@ -41,8 +41,8 @@ class Reward extends \Magento\Backend\App\Action
      */
     public function historyAction()
     {
-        $this->_view->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -51,8 +51,8 @@ class Reward extends \Magento\Backend\App\Action
      */
     public function historyGridAction()
     {
-        $this->_view->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

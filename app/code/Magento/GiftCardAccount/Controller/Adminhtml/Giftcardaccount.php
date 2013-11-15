@@ -111,18 +111,21 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             $model->addData($data);
         }
 
-        $this->_view->loadLayout()
-            ->_addBreadcrumb($id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
-                             $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
-            ->_addContent(
-                $this->_view->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            $id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
+            $id ? __('Edit Gift Card Account') : __('New Gift Card Account')
+        );
+        $this->_addContent(
+                $this->_view->getLayout()
+                    ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
                     ->setData('form_action_url', $this->getUrl('adminhtml/*/save'))
+            )->_addLeft(
+                $this->_view->getLayout()
+                    ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
             )
-            ->_addLeft(
-                $this->_view->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
-            )
-            ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount')
-            ->renderLayout();
+            ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
+        $this->_view->renderLayout();
     }
 
     /**

@@ -38,15 +38,15 @@ class Review extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Review'),
-                __('Reviews')
-            );
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        );
+        $this->_addBreadcrumb(
+            __('Review'),
+            __('Reviews')
+        );
         return $this;
     }
 
@@ -129,8 +129,10 @@ class Review extends \Magento\Backend\App\Action
             ->_setActiveMenu('Magento_Review::report_review')
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
             ->_addBreadcrumb(__('Product Reviews'), __('Product Reviews'))
-            ->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail'))
-            ->renderLayout();
+            ->_addContent(
+                $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Review\Detail')
+            );
+        $this->_view->renderLayout();
     }
 
     /**

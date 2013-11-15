@@ -53,15 +53,15 @@ class Invitation extends \Magento\Backend\App\Action
      */
     public function _initAction()
     {
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Invitations'),
-                __('Invitations')
-            );
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        );
+        $this->_addBreadcrumb(
+            __('Invitations'),
+            __('Invitations')
+        );
         return $this;
     }
 

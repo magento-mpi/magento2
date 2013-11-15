@@ -78,8 +78,8 @@ class Catalog extends \Magento\Backend\App\Action
             ->_addBreadcrumb(
                 __('Catalog'),
                 __('Catalog')
-            )
-            ->renderLayout();
+            );
+        $this->_layoutServices->renderLayout();
     }
 
     public function newAction()

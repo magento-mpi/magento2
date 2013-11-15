@@ -308,8 +308,8 @@ class Guest extends \Magento\App\Action\Action
         }
 
         $this->_view->addPageLayoutHandles();
-        $this->_view->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
         return;
     }
     /**

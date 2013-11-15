@@ -82,10 +82,10 @@ class Event extends \Magento\Backend\App\Action
      */
     public function _initAction()
     {
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
-            ->_addBreadcrumb(__('Events'), __('Events'))
-            ->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_addBreadcrumb(__('Events'), __('Events'));
+        $this->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
         return $this;
     }
 

@@ -43,9 +43,9 @@ class Statistics extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Statistics'), __('Statistics'));
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(__('Reports'), __('Reports'));
+        $this->_addBreadcrumb(__('Statistics'), __('Statistics'));
         return $this;
     }
 
@@ -185,8 +185,8 @@ class Statistics extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_statistics_refresh')
-            ->_addBreadcrumb(__('Refresh Statistics'), __('Refresh Statistics'))
-            ->renderLayout();
+            ->_addBreadcrumb(__('Refresh Statistics'), __('Refresh Statistics'));
+        $this->_layoutServices->renderLayout();
     }
 
     protected function _isAllowed()

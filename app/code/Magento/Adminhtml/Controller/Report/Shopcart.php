@@ -38,10 +38,9 @@ class Shopcart extends \Magento\Backend\App\Action
 
     public function _initAction()
     {
-        $act = $this->getRequest()->getActionName();
-        $this->_view->loadLayout()
-            ->_addBreadcrumb(__('Reports'), __('Reports'))
-            ->_addBreadcrumb(__('Shopping Cart'), __('Shopping Cart'));
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(__('Reports'), __('Reports'));
+        $this->_addBreadcrumb(__('Shopping Cart'), __('Shopping Cart'));
         return $this;
     }
 
@@ -52,8 +51,12 @@ class Shopcart extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_customer')
             ->_addBreadcrumb(__('Customers Report'), __('Customers Report'))
-            ->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Customer'))
-            ->renderLayout();
+            ->_addContent(
+                $this->_view
+                    ->getLayout()
+                    ->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Customer')
+            );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -87,8 +90,10 @@ class Shopcart extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_product')
             ->_addBreadcrumb(__('Products Report'), __('Products Report'))
-            ->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Product'))
-            ->renderLayout();
+            ->_addContent(
+                $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Product')
+            );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -122,8 +127,10 @@ class Shopcart extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_shopcart_abandoned')
             ->_addBreadcrumb(__('Abandoned Carts'), __('Abandoned Carts'))
-            ->_addContent($this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Abandoned'))
-            ->renderLayout();
+            ->_addContent(
+                $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Report\Shopcart\Abandoned')
+            );
+        $this->_view->renderLayout();
     }
 
     /**
