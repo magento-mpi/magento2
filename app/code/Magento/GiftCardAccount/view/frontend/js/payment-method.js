@@ -31,7 +31,7 @@
                     $(this).prop({'checked': true, 'disabled': false}).parent().show();
                 } else if ($(this).closest("div.actions").length === 0) {
                     // Hide all other objects beside the buttons.
-                    $(this).parent().prop('disabled', true).hide();
+                    $(this).parent().prop('disabled', true);
                 }
             });
         }

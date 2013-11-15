@@ -206,12 +206,12 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -230,8 +230,8 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -253,8 +253,8 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

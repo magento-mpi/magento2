@@ -97,7 +97,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected $_rateFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
@@ -117,7 +117,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Reward\Model\ActionFactory $actionFactory
      * @param \Magento\Reward\Model\Reward\HistoryFactory $historyFactory
      * @param \Magento\Reward\Model\Reward\RateFactory $rateFactory
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -133,7 +133,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         \Magento\Reward\Model\ActionFactory $actionFactory,
         \Magento\Reward\Model\Reward\HistoryFactory $historyFactory,
         \Magento\Reward\Model\Reward\RateFactory $rateFactory,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -689,7 +689,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
         $history = $this->getHistory();
         $store = $this->_storeManager->getStore($this->getStore());
         $mail  = $this->_templateFactory->create();
-        /* @var $mail \Magento\Core\Model\Email\Template */
+        /* @var $mail \Magento\Email\Model\Template */
         $mail->setDesignConfig(array('area' => \Magento\Core\Model\App\Area::AREA_FRONTEND, 'store' => $store->getId()));
         $templateVars = array(
             'store' => $store,
@@ -733,7 +733,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     public function sendBalanceWarningNotification($item, $websiteId)
     {
         $mail  = $this->_templateFactory->create();
-        /* @var $mail \Magento\Core\Model\Email\Template */
+        /* @var $mail \Magento\Email\Model\Template */
         $mail->setDesignConfig(array(
             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
             'store' => $item->getStoreId()

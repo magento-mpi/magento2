@@ -68,7 +68,7 @@ class Filter extends \Magento\Filter\Template
      * Set use absolute links flag
      *
      * @param bool $flag
-     * @return \Magento\Core\Model\Email\Template\Filter
+     * @return \Magento\Email\Model\Template\Filter
      */
     public function setUseAbsoluteLinks($flag)
     {
@@ -81,7 +81,7 @@ class Filter extends \Magento\Filter\Template
      * Doesn't set anything intentionally, since SID is not allowed in any kind of emails
      *
      * @param bool $flag
-     * @return \Magento\Core\Model\Email\Template\Filter
+     * @return \Magento\Email\Model\Template\Filter
      */
     public function setUseSessionInUrl($flag)
     {
@@ -94,7 +94,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @param array $construction
      * @return string
-     * @see \Magento\Core\Model\Email\Template\Filter::viewDirective() method has been copypasted
+     * @see \Magento\Email\Model\Template\Filter::viewDirective() method has been copypasted
      */
     public function viewDirective($construction)
     {
@@ -111,7 +111,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @param array $construction
      * @return string
-     * @see \Magento\Core\Model\Email\Template\Filter::mediaDirective() method has been copypasted
+     * @see \Magento\Email\Model\Template\Filter::mediaDirective() method has been copypasted
      */
     public function mediaDirective($construction)
     {
@@ -125,7 +125,7 @@ class Filter extends \Magento\Filter\Template
      *
      * @param array $construction
      * @return string
-     * @see \Magento\Core\Model\Email\Template\Filter::storeDirective() method has been copypasted
+     * @see \Magento\Email\Model\Template\Filter::storeDirective() method has been copypasted
      */
     public function storeDirective($construction)
     {

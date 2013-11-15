@@ -62,15 +62,15 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
 
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
+     * @param \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor
      * @param string $uri
      * @param array $directFrontNames
-     * @param PathInfoProcessorInterface $pathInfoProcessor
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
+        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor,
         $uri = null,
-        $directFrontNames = array(),
-        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor = null
+        $directFrontNames = array()
     ) {
         $this->_routeConfig = $routeConfig;
         $this->_directFrontNames = $directFrontNames;
@@ -122,9 +122,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
                 $pathInfo = $requestUri;
             }
 
-            if ($this->_pathInfoProcessor) {
-                $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
-            }
+            $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
 
             $this->_originalPathInfo = (string)$pathInfo;
 

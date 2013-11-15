@@ -43,6 +43,11 @@
     <preference for="Magento\App\Cache\State\OptionsInterface" type="Magento\Core\Model\Resource\Cache" />
     <preference for="Magento\Oauth\OauthInterface" type="Magento\Oauth\Oauth"/>
     <type name="Magento\View\BlockPool" shared="false" />
+    <type name="Magento\App\Request\Http">
+        <param name="pathInfoProcessor">
+            <instance type="Magento\Core\App\Request\PathInfoProcessor\Proxy" />
+        </param>
+    </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />

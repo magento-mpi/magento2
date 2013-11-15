@@ -428,12 +428,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -494,8 +494,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param ResourceFactory $resourceFactory
      * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param Resource\Order\Item\CollectionFactory $orderItemCollFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
@@ -508,7 +508,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -523,8 +523,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\ResourceFactory $resourceFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Tax\Model\Calculation $taxCalculation,
