@@ -39,8 +39,7 @@ class Read implements ReadInterface
         array $config,
         \Magento\Filesystem\File\ReadFactory $fileFactory,
         \Magento\Filesystem\Driver $driver
-    )
-    {
+    ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
         $this->driver = $driver;
@@ -64,7 +63,7 @@ class Read implements ReadInterface
      * @param string $path
      * @return string
      */
-    public function getAbsolutePath($path)
+    public function getAbsolutePath($path = null)
     {
         return $this->path . ltrim($path, '/');
     }
@@ -73,7 +72,7 @@ class Read implements ReadInterface
      * @param string $path
      * @return string
      */
-    protected function getRelativePath($path)
+    public function getRelativePath($path)
     {
         if (strpos($path, $this->path) === 0) {
             $result = substr($path, strlen($this->path));
