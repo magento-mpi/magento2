@@ -202,12 +202,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
-        $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
-        if ($this->_translator->isAllowed()) {
-            $this->_translator->processResponseBody($json, true);
-        }
-
-        return $json;
+        return \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
     }
 
     /**
@@ -255,15 +250,5 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isSingleStoreModeEnabled()
     {
         return (bool) $this->_coreStoreConfig->getConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
-    }
-
-    /**
-     * Returns the translate model for this instance.
-     *
-     * @return \Magento\Core\Model\Translate
-     */
-    public function getTranslator()
-    {
-        return $this->_translator;
     }
 }

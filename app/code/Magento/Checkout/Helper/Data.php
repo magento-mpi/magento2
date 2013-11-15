@@ -202,17 +202,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        /* @var $translate \Magento\Core\Model\Translate */
-        $this->_translator->setTranslateInline(false);
-
         /** @var \Magento\Core\Model\Email\Template $mailTemplate */
         $mailTemplate = $this->_emailTemplFactory->create();
-        /* @var $mailTemplate \Magento\Core\Model\Email\Template */
 
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
         $copyTo = $this->_getEmails('checkout/payment_failed/copy_to', $checkout->getStoreId());
-        $copyMethod = $this->_coreStoreConfig->getConfig('checkout/payment_failed/copy_method', $checkout->getStoreId());
+        $copyMethod = $this->_coreStoreConfig->getConfig(
+            'checkout/payment_failed/copy_method', $checkout->getStoreId()
+        );
         if ($copyTo && $copyMethod == 'bcc') {
             $mailTemplate->addBcc($copyTo);
         }
@@ -220,8 +218,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $_receiver = $this->_coreStoreConfig->getConfig('checkout/payment_failed/receiver', $checkout->getStoreId());
         $sendTo = array(
             array(
-                'email' => $this->_coreStoreConfig->getConfig('trans_email/ident_'.$_receiver.'/email', $checkout->getStoreId()),
-                'name'  => $this->_coreStoreConfig->getConfig('trans_email/ident_'.$_receiver.'/name', $checkout->getStoreId())
+                'email' => $this->_coreStoreConfig->getConfig(
+                        'trans_email/ident_' . $_receiver . '/email', $checkout->getStoreId()
+                    ),
+                'name'  => $this->_coreStoreConfig->getConfig(
+                        'trans_email/ident_' . $_receiver . '/name', $checkout->getStoreId()
+                    )
             )
         );
 
@@ -278,8 +280,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
                     )
                 );
         }
-
-        $this->_translator->setTranslateInline(true);
 
         return $this;
     }

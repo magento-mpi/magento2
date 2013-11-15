@@ -20,7 +20,7 @@ class Translate extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\View\DesignInterface
      */
-    protected $_design;
+    protected $design;
     
     /**
      * @var \Magento\Event\ManagerInterface
@@ -28,16 +28,25 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     protected $_eventManager;
 
     /**
-     * @param Context $context
+     * @var \Magento\Core\Model\Translate
+     */
+    protected $translator;
+
+    /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\Translate $translator
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\View\DesignInterface $design,
-        \Magento\Event\ManagerInterface $eventManager
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\Translate $translator
     ) {
         $this->_eventManager = $eventManager;
+        $this->translator = $translator;
+        $this->design = $design;
         parent::__construct($context);
     }
 
@@ -53,10 +62,10 @@ class Translate extends \Magento\App\Helper\AbstractHelper
     {
         try {
             if ($area) {
-                $this->_design->setArea($area);
+                $this->design->setArea($area);
             }
 
-            $this->_translator->processAjaxPost($translate);
+            $this->translator->processAjaxPost($translate);
             $result = $returnType == 'json' ? "{success:true}" : true;
         } catch (\Exception $e) {
             $result = $returnType == 'json' ? "{error:true,message:'" . $e->getMessage() . "'}" : false;
@@ -72,16 +81,16 @@ class Translate extends \Magento\App\Helper\AbstractHelper
      */
     public function initTranslate($localeCode, $forceReload)
     {
-        $this->_translator->setLocale($localeCode);
+        $this->translator->setLocale($localeCode);
 
         $dispatchResult = new \Magento\Object(array(
             'inline_type' => null
         ));
         $this->_eventManager->dispatch('translate_initialization_before', array(
-            'translate_object' => $this->_translator,
+            'translate_object' => $this->translator,
             'result' => $dispatchResult
         ));
-        $this->_translator->init(null, $dispatchResult, $forceReload);
+        $this->translator->init(null, $dispatchResult, $forceReload);
         return $this;
     }
 }
