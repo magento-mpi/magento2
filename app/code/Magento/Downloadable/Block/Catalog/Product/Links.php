@@ -47,7 +47,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->_calculationModel = $calculationModel;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

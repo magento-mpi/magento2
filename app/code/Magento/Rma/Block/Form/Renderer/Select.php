@@ -28,7 +28,6 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
@@ -36,14 +35,13 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($context, $coreData, $locale, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

@@ -149,7 +149,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     /**
      * @var \Magento\Core\Model\LocaleInterface
      */
-    protected $locale;
+    protected $_locale;
 
     /**
      * @param \Magento\Core\Block\Context $context
@@ -175,7 +175,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
-        $this->locale           = $context->getLocale();
+        $this->_locale           = $context->getLocale();
         parent::__construct($data);
         $this->_construct();
     }
@@ -807,7 +807,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function formatDate(
         $date = null, $format =  \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
     ) {
-        return $this->locale->formatDate($date, $format, $showTime);
+        return $this->_locale->formatDate($date, $format, $showTime);
     }
 
     /**
@@ -821,7 +821,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function formatTime(
         $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
     ) {
-        return $this->locale->formatTime($time, $format, $showDate);
+        return $this->_locale->formatTime($time, $format, $showDate);
     }
 
     /**

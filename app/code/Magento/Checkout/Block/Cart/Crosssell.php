@@ -78,7 +78,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_productVisibility = $productVisibility;
         $this->_stock = $stock;
         $this->_productLinkFactory = $productLinkFactory;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

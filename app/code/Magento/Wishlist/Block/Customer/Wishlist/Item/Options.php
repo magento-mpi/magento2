@@ -60,6 +60,7 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $wishlistData,
             $customerSession,
             $productFactory,

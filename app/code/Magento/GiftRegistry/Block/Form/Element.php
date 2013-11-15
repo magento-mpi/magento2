@@ -34,17 +34,11 @@ class Element extends \Magento\Core\Block\Template
     protected $_regionCollection;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $locale;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -53,13 +47,11 @@ class Element extends \Magento\Core\Block\Template
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
         $this->country = $country;
         $this->region = $region;
-        $this->locale = $locale;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -239,7 +231,7 @@ class Element extends \Magento\Core\Block\Template
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->locale->getDateFormat($formatType));
+            ->setDateFormat($this->_locale->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

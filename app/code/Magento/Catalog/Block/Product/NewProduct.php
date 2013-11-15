@@ -44,13 +44,6 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_catalogProductVisibility;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -66,7 +59,6 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
@@ -80,16 +72,14 @@ class NewProduct extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Visibility $catalogProductVisibility,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
-        $this->_locale = $locale;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

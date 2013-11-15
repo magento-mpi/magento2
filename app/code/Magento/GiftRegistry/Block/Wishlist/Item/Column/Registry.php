@@ -58,6 +58,7 @@ class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $wishlistData,
             $customerSession,
             $productFactory,

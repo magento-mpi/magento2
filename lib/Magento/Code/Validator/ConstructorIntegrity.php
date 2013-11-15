@@ -85,7 +85,7 @@ class ConstructorIntegrity implements ValidatorInterface
             if (false == $isCompatibleTypes) {
                 throw new \Magento\Code\ValidationException('Incompatible argument type: Required type: '
                     . $requiredArgument['type'] . '. Actual type: ' . $actualArgument['type']
-                    . '; File: ' . $class->getFileName()
+                    . '; File: ' . PHP_EOL .$class->getFileName() . PHP_EOL
                 );
             }
         }

@@ -29,11 +29,6 @@ class Form extends \Magento\Payment\Block\Form
     protected $_config;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Paypal\Model\ConfigFactory
      */
     protected $_paypalConfigFactory;
@@ -41,18 +36,15 @@ class Form extends \Magento\Payment\Block\Form
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_paypalConfigFactory = $paypalConfigFactory;
         parent::__construct($context, $coreData, $data);
     }

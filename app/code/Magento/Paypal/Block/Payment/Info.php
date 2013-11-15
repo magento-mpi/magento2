@@ -24,7 +24,6 @@ class Info extends \Magento\Payment\Block\Info\Cc
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param array $data
@@ -32,13 +31,12 @@ class Info extends \Magento\Payment\Block\Info\Cc
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         array $data = array()
     ) {
         $this->_paypalInfoFactory = $paypalInfoFactory;
-        parent::__construct($context, $coreData, $locale, $paymentConfig, $data);
+        parent::__construct($context, $coreData, $paymentConfig, $data);
     }
 
     /**

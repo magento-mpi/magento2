@@ -108,7 +108,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

@@ -42,11 +42,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_productPrice;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -56,7 +51,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
      * @param array $data
      */
@@ -70,15 +64,22 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
         array $data = array()
     ) {
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
-        $this->_locale = $locale;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
-            $data);
+        parent::__construct(
+            $context,
+            $coreData,
+            $catalogConfig,
+            $registry,
+            $taxData,
+            $catalogData,
+            $mathRandom,
+            $arrayUtils,
+            $data
+        );
     }
 
     public function getOptions()

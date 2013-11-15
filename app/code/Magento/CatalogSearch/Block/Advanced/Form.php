@@ -20,13 +20,6 @@ namespace Magento\CatalogSearch\Block\Advanced;
 class Form extends \Magento\Core\Block\Template
 {
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Currency factory
      *
      * @var \Magento\Directory\Model\CurrencyFactory
@@ -45,7 +38,6 @@ class Form extends \Magento\Core\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -53,12 +45,10 @@ class Form extends \Magento\Core\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_currencyFactory = $currencyFactory;
-        $this->_locale = $locale;
         parent::__construct($context, $coreData, $data);
     }
 

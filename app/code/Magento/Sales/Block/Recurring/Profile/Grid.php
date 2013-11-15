@@ -37,7 +37,6 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Recurring\Profile $profile
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -45,13 +44,12 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Recurring\Profile $profile,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
         $this->_recurringProfile = $profile;
         $this->_registry = $registry;
-        $this->_locale = $locale;
+        parent::__construct($context, $coreData, $data);
+
     }
 
     /**
@@ -116,7 +114,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         $profiles = array();
         $store = $this->_storeManager->getStore();
         foreach ($this->_profiles as $profile) {
-            $profile->setStore($store)->setLocale($this->locale);
+            $profile->setStore($store)->setLocale($this->_locale);
             $profiles[] = new \Magento\Object(array(
                 'reference_id' => $profile->getReferenceId(),
                 'reference_id_link_url' => $this->getUrl(

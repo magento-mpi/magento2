@@ -68,7 +68,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
         \Magento\Reports\Model\Product\Index\Factory $indexFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
         $this->_productVisibility = $productVisibility;
         $this->_indexFactory = $indexFactory;
     }

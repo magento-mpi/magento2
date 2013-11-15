@@ -48,7 +48,9 @@ class Grouped
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct(
+            $context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
+        );
     }
 
     /**

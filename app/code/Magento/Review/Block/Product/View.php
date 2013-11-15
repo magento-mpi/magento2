@@ -37,7 +37,6 @@ class View extends \Magento\Catalog\Block\Product\View
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Random $mathRandom
@@ -52,7 +51,6 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Stdlib\String $string,
         \Magento\Math\Random $mathRandom,
@@ -67,8 +65,8 @@ class View extends \Magento\Catalog\Block\Product\View
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $productFactory,
-            $locale,
             $taxCalculation,
             $string,
             $data

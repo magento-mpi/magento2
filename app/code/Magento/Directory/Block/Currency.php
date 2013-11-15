@@ -23,11 +23,6 @@ class Currency extends \Magento\Core\Block\Template
     protected $_directoryUrl = null;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Directory\Model\CurrencyFactory
      */
     protected $_currencyFactory;
@@ -36,7 +31,6 @@ class Currency extends \Magento\Core\Block\Template
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Directory\Helper\Url $directoryUrl
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
      */
@@ -44,12 +38,10 @@ class Currency extends \Magento\Core\Block\Template
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Directory\Helper\Url $directoryUrl,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
-        $this->_locale = $locale;
         $this->_currencyFactory = $currencyFactory;
         parent::__construct($context, $coreData, $data);
     }

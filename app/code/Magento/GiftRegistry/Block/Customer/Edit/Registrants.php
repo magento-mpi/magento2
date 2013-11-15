@@ -38,10 +38,9 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
      */
@@ -51,10 +50,9 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {
@@ -65,10 +63,9 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
             $configCacheType,
             $regionCollFactory,
             $countryCollFactory,
-            $coreRegistry,
+            $registry,
             $customerSession,
             $attributeConfig,
-            $locale,
             $data
         );
     }

@@ -68,6 +68,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $categoryFactory,
             $catalogLayer,
             $data

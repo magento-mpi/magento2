@@ -74,7 +74,7 @@ class ListProduct extends \Magento\Catalog\Block\Product\AbstractProduct
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_catalogLayer = $catalogLayer;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

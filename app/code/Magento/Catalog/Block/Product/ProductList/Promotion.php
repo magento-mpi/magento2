@@ -62,6 +62,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $categoryFactory,
             $catalogLayer,
             $data
@@ -74,7 +75,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
             /** @var \Magento\Catalog\Model\Resource\Product\Collection $collection */
             $collection = $this->_productCollectionFactory->create();
             $this->_layerFactory->create()->prepareProductCollection($collection);
-// your custom filter
+
             $collection->addAttributeToFilter('promotion', 1)
                 ->addStoreFilter();
 

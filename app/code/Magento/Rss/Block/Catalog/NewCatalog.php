@@ -26,11 +26,6 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Catalog\Model\Product\Visibility
      */
     protected $_visibility;
@@ -47,7 +42,6 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
      * @param array $data
@@ -59,14 +53,12 @@ class NewCatalog extends \Magento\Rss\Block\Catalog\AbstractCatalog
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
         array $data = array()
     ) {
         $this->_rssFactory = $rssFactory;
         $this->_productFactory = $productFactory;
-        $this->_locale = $locale;
         $this->_visibility = $visibility;
         $this->_resourceIterator = $resourceIterator;
         parent::__construct($context, $coreData, $customerSession, $catalogData, $data);

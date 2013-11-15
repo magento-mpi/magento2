@@ -73,6 +73,7 @@ class Related
             $taxData,
             $catalogData,
             $index,
+            $mathRandom,
             $targetRuleData,
             $productCollectionFactory,
             $visibility,

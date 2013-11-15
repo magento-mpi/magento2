@@ -50,7 +50,7 @@ abstract class AbstractCompare extends \Magento\Catalog\Block\Product\AbstractPr
         array $data = array()
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

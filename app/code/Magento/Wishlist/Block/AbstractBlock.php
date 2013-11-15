@@ -94,7 +94,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         $this->_wishlistData = $wishlistData;
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

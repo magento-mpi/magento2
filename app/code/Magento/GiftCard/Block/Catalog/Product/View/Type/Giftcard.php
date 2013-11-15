@@ -44,7 +44,9 @@ class Giftcard extends \Magento\Catalog\Block\Product\View\AbstractView
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct(
+            $context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
+        );
     }
 
     public function getAmountSettingsJson($product)

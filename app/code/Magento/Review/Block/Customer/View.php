@@ -83,7 +83,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_ratingFactory = $ratingFactory;
         $this->_customerSession = $customerSession;
 
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
 

@@ -37,13 +37,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_taxCalculation;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Product factory
      *
      * @var \Magento\Catalog\Model\ProductFactory
@@ -59,7 +52,6 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Stdlib\String $string
      * @param array $data
@@ -73,16 +65,14 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
-        $this->_locale = $locale;
         $this->_taxCalculation = $taxCalculation;
         $this->string = $string;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

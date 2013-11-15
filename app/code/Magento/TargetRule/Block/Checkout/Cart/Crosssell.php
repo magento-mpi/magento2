@@ -140,6 +140,7 @@ class Crosssell extends \Magento\TargetRule\Block\Product\AbstractProduct
             $taxData,
             $catalogData,
             $index,
+            $mathRandom,
             $targetRuleData,
             $data
         );

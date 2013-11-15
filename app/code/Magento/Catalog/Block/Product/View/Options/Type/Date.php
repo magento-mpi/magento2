@@ -33,17 +33,9 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
     protected $_catalogProductOptionTypeDate;
 
     /**
-     * Locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate
      * @param array $data
      */
@@ -51,11 +43,9 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Helper\Data $taxData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_catalogProductOptionTypeDate = $catalogProductOptionTypeDate;
         parent::__construct($context, $coreData, $taxData, $data);
     }

@@ -17,31 +17,21 @@ class Popup extends \Magento\Core\Block\Template
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry;
-
-    /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
+    protected $_registry;
 
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        $this->_locale = $locale;
+        $this->_registry = $registry;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -53,7 +43,7 @@ class Popup extends \Magento\Core\Block\Template
     public function getTrackingInfo()
     {
         /* @var $info \Magento\Shipping\Model\Info */
-        $info = $this->_coreRegistry->registry('current_shipping_info');
+        $info = $this->_registry->registry('current_shipping_info');
 
         return $info->getTrackingInfo();
     }

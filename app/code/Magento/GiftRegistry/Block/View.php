@@ -61,6 +61,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $itemFactory,
             $data
         );

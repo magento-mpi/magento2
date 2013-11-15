@@ -97,6 +97,7 @@ abstract class AbstractProductList
             $taxData,
             $catalogData,
             $index,
+            $mathRandom,
             $targetRuleData,
             $data
         );

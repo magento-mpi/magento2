@@ -76,16 +76,6 @@ abstract class AbstractHelper
     protected $_remoteAddress;
 
     /**
-     * @var \Magento\Core\Model\Cache\Config
-     */
-    protected $_cacheConfig;
-
-    /**
-     * @var \Magento\Core\Model\Fieldset\Config
-     */
-    protected $_fieldsetConfig;
-
-    /**
      * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(\Magento\Core\Helper\Context $context)
@@ -100,7 +90,6 @@ abstract class AbstractHelper
         $this->_eventManager = $context->getEventManager();
         $this->_remoteAddress = $context->getRemoteAddress();
         $this->_cacheConfig = $context->getCacheConfig();
-        $this->_fieldsetConfig = $context->getFieldsetConfig();
     }
 
     /**

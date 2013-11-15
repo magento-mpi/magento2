@@ -60,6 +60,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $wishlistData,
             $customerSession,
             $productFactory,

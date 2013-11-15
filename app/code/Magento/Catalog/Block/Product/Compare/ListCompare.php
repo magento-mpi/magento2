@@ -124,6 +124,7 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
             $registry,
             $taxData,
             $catalogData,
+            $mathRandom,
             $catalogProductCompare,
             $data
         );

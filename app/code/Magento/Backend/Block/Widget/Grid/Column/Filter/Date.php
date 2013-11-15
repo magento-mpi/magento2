@@ -17,11 +17,6 @@ class Date
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Math\Random
      */
     protected $mathRandom;
@@ -29,18 +24,15 @@ class Date
     /**
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $resourceHelper, $data);
     }

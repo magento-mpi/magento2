@@ -38,7 +38,6 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
      * @param array $data
@@ -46,15 +45,13 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $locale, $data);
-        
         $this->_catalogEventData = $catalogEventData;
         $this->_eventCollectionFactory = $eventCollectionFactory;
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

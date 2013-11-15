@@ -25,12 +25,11 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      *
      * @var \Magento\CatalogEvent\Helper\Data
      */
-    protected $_catalogEventData;    
+    protected $_catalogEventData;
 
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
@@ -38,15 +37,13 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $locale, $data);
-
         $this->_coreRegistry = $registry;
         $this->_catalogEventData = $catalogEventData;
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

@@ -54,7 +54,7 @@ abstract class AbstractSku
     ) {
         $this->_checkoutData = $checkoutData;
         $this->mathRandom = $mathRandom;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

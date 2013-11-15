@@ -22,27 +22,6 @@ class Html extends \Magento\Core\Block\Template
     protected $_urls = array();
     protected $_title = '';
 
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
-        array $data = array()
-    ) {
-        $this->_locale = $locale;
-        parent::__construct($context, $coreData, $data);
-    }
-
     protected function _construct()
     {
         parent::_construct();

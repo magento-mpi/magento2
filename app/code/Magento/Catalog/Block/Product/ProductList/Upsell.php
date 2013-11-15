@@ -84,7 +84,7 @@ class Upsell extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_checkoutCart = $checkoutCart;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_checkoutSession = $checkoutSession;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     protected function _prepareData()

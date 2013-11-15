@@ -37,7 +37,6 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -46,7 +45,6 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Customer\Model\Session $customerSession,
@@ -54,7 +52,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     ) {
         $this->_paypalData = $paypalData;
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $locale, $paypalConfigFactory, $data);
+        parent::__construct($context, $coreData, $paypalConfigFactory, $data);
     }
 
     /**

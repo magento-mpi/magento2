@@ -45,7 +45,7 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->itemFactory = $itemFactory;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

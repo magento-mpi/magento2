@@ -32,7 +32,6 @@ class Head extends \Magento\Page\Block\Html\Head
     /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Page $page
@@ -44,7 +43,6 @@ class Head extends \Magento\Page\Block\Html\Head
     public function __construct(
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,
@@ -57,7 +55,6 @@ class Head extends \Magento\Page\Block\Html\Head
         parent::__construct(
             $context,
             $coreData,
-            $locale,
             $fileStorageDatabase,
             $objectManager,
             $page,

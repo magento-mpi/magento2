@@ -21,7 +21,6 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
@@ -29,12 +28,11 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
         \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $coreData, $registry, $locale, $data);
+        parent::__construct($context, $coreData, $registry, $data);
     }
 
     /**
@@ -43,7 +41,7 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
     protected function _construct()
     {
         parent::_construct();
-        $this->setPackageInfo($this->_coreRegistry->registry('rma_package_shipping'));
+        $this->setPackageInfo($this->_registry->registry('rma_package_shipping'));
     }
 
     /**

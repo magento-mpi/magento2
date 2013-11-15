@@ -76,7 +76,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     ) {
         $this->_taxCalculation = $taxCalculation;
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct(
+            $context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
+        );
     }
 
     /**

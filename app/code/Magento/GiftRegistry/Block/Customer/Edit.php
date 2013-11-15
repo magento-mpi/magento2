@@ -40,12 +40,7 @@ class Edit extends \Magento\Directory\Block\Data
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
+    protected $_registry = null;
 
     /**
      * @param \Magento\Core\Block\Template\Context $context
@@ -53,10 +48,9 @@ class Edit extends \Magento\Directory\Block\Data
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
@@ -65,16 +59,14 @@ class Edit extends \Magento\Directory\Block\Data
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,        
         array $data = array()
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
-        $this->storeManager = $storeManager;
         parent::__construct($context, $coreData, $configCacheType, $regionCollFactory, $countryCollFactory, $data);
     }
 
@@ -85,7 +77,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getFormHeader()
     {
-        if ($this->_coreRegistry->registry('magento_giftregistry_entity')->getId()) {
+        if ($this->_registry->registry('magento_giftregistry_entity')->getId()) {
             return __('Edit Gift Registry');
         } else {
             return __('Create Gift Registry');
@@ -131,7 +123,7 @@ class Edit extends \Magento\Directory\Block\Data
      */
     public function getTypeList()
     {
-        $storeId = $this->storeManager->getStore()->getId();
+        $storeId = $this->_storeManager->getStore()->getId();
         $collection = $this->typeFactory->create()
             ->getCollection()
             ->addStoreData($storeId)

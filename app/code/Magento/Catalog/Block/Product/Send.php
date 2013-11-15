@@ -34,6 +34,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
@@ -49,7 +50,7 @@ class Send extends \Magento\Catalog\Block\Product\AbstractProduct
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $data);
+        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**
