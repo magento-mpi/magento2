@@ -43,7 +43,7 @@ class Observer
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_emailTemplateFactory;
 
@@ -61,7 +61,7 @@ class Observer
      * @param \Magento\Directory\Model\Currency\Import\Factory $importFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory
+     * @param \Magento\Email\Model\TemplateFactory $emailTemplateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      */
@@ -69,7 +69,7 @@ class Observer
         \Magento\Directory\Model\Currency\Import\Factory $importFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Email\TemplateFactory $emailTemplateFactory,
+        \Magento\Email\Model\TemplateFactory $emailTemplateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory
     ) {
@@ -115,7 +115,7 @@ class Observer
         } else {
             $this->_translate->setTranslateInline(false);
 
-            /* @var $mailTemplate \Magento\Core\Model\Email\Template */
+            /* @var $mailTemplate \Magento\Email\Model\Template */
             $mailTemplate = $this->_emailTemplateFactory->create();
             $mailTemplate->setDesignConfig(array(
                 'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,

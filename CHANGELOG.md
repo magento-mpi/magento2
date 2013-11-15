@@ -4,6 +4,7 @@
   * Moved Magento\Core\Model\Theme to Magento\View component
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
+  * Email-related logic from Core and Adminhtml modules consolidated in new Email module
 * Themes update:
   * Plushe theme is responsive now
 * Fixed bugs:
