@@ -39,14 +39,21 @@ class Export
     protected $_template = "Magento_Backend::widget/grid/export.phtml";
 
     /**
-     * @var string
-     */
-    protected $_exportPath;
-
-    /**
      * @var \Magento\Data\CollectionFactory
      */
     protected $_collectionFactory;
+
+    /**
+     * @var \Magento\Filesystem\Directory\WriteInterface
+     */
+    protected $_directory;
+
+    /**
+     * Additional path to folder
+     *
+     * @var string
+     */
+    protected $_path = 'export';
 
     /**
      * @param \Magento\Data\CollectionFactory $collectionFactory
@@ -75,7 +82,7 @@ class Export
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_exportPath = $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'export';
+        $this->_directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
     }
 
     /**
@@ -192,7 +199,7 @@ class Export
      */
     protected function _getFileContainerContent(array $fileData)
     {
-        return $this->_filesystem->read($fileData['value'], $this->_exportPath);
+        return $this->_directory->readFile('export/' . $fileData['value']);
     }
 
     /**
@@ -269,9 +276,9 @@ class Export
      * Write item data to csv export file
      *
      * @param \Magento\Object $item
-     * @param \Magento\Filesystem\StreamInterface $stream
+     * @param \Magento\Filesystem\File\WriteInterface $stream
      */
-    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\StreamInterface $stream)
+    protected function _exportCsvItem(\Magento\Object $item, \Magento\Filesystem\File\WriteInterface $stream)
     {
         $row = array();
         foreach ($this->_getColumns() as $column) {
@@ -292,21 +299,17 @@ class Export
     public function getCsvFile()
     {
         $name = md5(microtime());
-        $file = $this->_exportPath . DS . $name . '.csv';
+        $file = $this->_path . '/' . $name . '.csv';
 
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($this->_exportPath);
-        $stream = $this->_filesystem->createAndOpenStream($file, 'w+', $this->_exportPath);
+        $this->_directory->create($this->_path);
+        $stream = $this->_directory->openFile($file, 'w+');
 
         $stream->writeCsv($this->_getExportHeaders());
         $stream->lock(true);
-
         $this->_exportIterateCollection('_exportCsvItem', array($stream));
-
         if ($this->getCountTotals()) {
             $stream->writeCsv($this->_getExportTotals());
         }
-
         $stream->unlock();
         $stream->close();
 
@@ -419,11 +422,10 @@ class Export
         $convert = new \Magento\Convert\Excel($collection->getIterator(), array($this, 'getRowRecord'));
 
         $name = md5(microtime());
-        $file = $this->_exportPath . DS . $name . '.xml';
+        $file = $this->_path . '/' . $name . '.xml';
 
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($this->_exportPath);
-        $stream = $this->_filesystem->createAndOpenStream($file, 'w+', $this->_exportPath);
+        $this->_directory->create($this->_path);
+        $stream = $this->_directory->openFile($file, 'w+');
         $stream->lock(true);
 
         $convert->setDataHeader($this->_getExportHeaders());
