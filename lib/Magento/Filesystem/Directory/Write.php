@@ -33,8 +33,7 @@ class Write extends Read implements WriteInterface
     (
         array $config,
         \Magento\Filesystem\File\WriteFactory $fileFactory,
-        \Magento\Filesystem\Driver $driver,
-        $permissions
+        \Magento\Filesystem\Driver $driver
     )
     {
         $this->setProperties($config);
@@ -93,9 +92,8 @@ class Write extends Read implements WriteInterface
      * @return bool
      * @throws FilesystemException
      */
-    public function create($path)
+    public function create($path = '')
     {
-        $this->assertWritable($path);
         $absolutePath = $this->getAbsolutePath($path);
         if ($this->driver->isDirectory($absolutePath)) {
             return true;

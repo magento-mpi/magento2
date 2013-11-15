@@ -56,7 +56,7 @@ class Read implements ReadInterface
         if (empty($config['path'])) {
             throw new FilesystemException('Cannot create directory without path');
         }
-        $this->path = rtrim($config['path'], '/') . '/';
+        $this->path = rtrim(str_replace('\\', '/', $config['path']), '/') . '/';
     }
 
     /**
@@ -65,16 +65,17 @@ class Read implements ReadInterface
      */
     public function getAbsolutePath($path = null)
     {
-        return $this->path . ltrim($path, '/');
+        return $this->path . ltrim(str_replace('\\', '/', $path), '/');
     }
 
     /**
      * @param string $path
      * @return string
      */
-    public function getRelativePath($path)
+    public function getRelativePath($path = '')
     {
-        if (strpos($path, $this->path) === 0) {
+        $path = str_replace('\\', '/', $path);
+        if ((strpos($path, $this->path) === 0) || ($this->path == $path . '/')) {
             $result = substr($path, strlen($this->path));
         } else {
             $result = $path;
