@@ -128,9 +128,11 @@ class DirectoryList extends Dir
     const UPLOAD = 'upload';
 
     /**
+     * Root path
+     *
      * @var string
      */
-    protected $rootDirectory;
+    protected $root;
 
     /**
      * Directories configurations
@@ -159,6 +161,11 @@ class DirectoryList extends Dir
         self::PUB_VIEW_CACHE => array('path' => 'pub/cache', 'uri' => '')
     );
 
+    public function __construct($root, array $uris = array(), array $dirs = array())
+    {
+        $this->root = $root;
+        parent::__construct($root, $uris, $dirs);
+    }
     /**
      * Add directory configuration
      *
@@ -179,5 +186,15 @@ class DirectoryList extends Dir
     public function getConfig($code)
     {
         return isset($this->directories[$code]) ? $this->directories[$code] : null;
+    }
+
+    /**
+     * Retrieve root path
+     *
+     * @return string
+     */
+    public function getRoot()
+    {
+        return $this->root;
     }
 }

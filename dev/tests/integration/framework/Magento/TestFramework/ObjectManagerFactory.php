@@ -8,8 +8,7 @@
 
 namespace Magento\TestFramework;
 
-use Magento\App\Dir,
-    Magento\Filesystem\DirectoryList;
+use Magento\Filesystem\DirectoryList;
 
 class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 {
@@ -44,8 +43,8 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     {
         $directories = new DirectoryList(
             $rootDir,
-            isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array(),
-            isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array()
+            isset($arguments[DirectoryList::PARAM_APP_URIS]) ? $arguments[DirectoryList::PARAM_APP_URIS] : array(),
+            isset($arguments[DirectoryList::PARAM_APP_DIRS]) ? $arguments[DirectoryList::PARAM_APP_DIRS] : array()
         );
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
@@ -91,12 +90,12 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     /**
      * Load primary config data
      *
-     * @param Dir $directories
+     * @param DirectoryList $directories
      * @param string $appMode
      * @return array
      * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig(Dir $directories, $appMode)
+    protected function _loadPrimaryConfig(DirectoryList $directories, $appMode)
     {
         if (null === $this->_primaryConfigData) {
             $this->_primaryConfigData = parent::_loadPrimaryConfig($directories, $appMode);

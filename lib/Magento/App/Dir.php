@@ -215,6 +215,7 @@ class Dir
      *
      * @param string $code
      * @return string|bool
+     * @deprecated
      */
     public function getUri($code)
     {
@@ -248,6 +249,7 @@ class Dir
      *
      * @param string $code One of self const
      * @return string|bool
+     * @deprecated
      */
     public function getDir($code = self::ROOT)
     {

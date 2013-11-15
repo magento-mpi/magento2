@@ -51,8 +51,8 @@ class ObjectManagerFactory
     {
         $directories = new DirectoryList(
             $rootDir,
-            isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array(),
-            isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array()
+            isset($arguments[DirectoryList::PARAM_APP_URIS]) ? $arguments[DirectoryList::PARAM_APP_URIS] : array(),
+            isset($arguments[DirectoryList::PARAM_APP_DIRS]) ? $arguments[DirectoryList::PARAM_APP_DIRS] : array()
         );
 
         \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(Dir::GENERATION)));
@@ -143,12 +143,12 @@ class ObjectManagerFactory
     /**
      * Load primary config data
      *
-     * @param Dir $directories
+     * @param DirectoryList $directories
      * @param string $appMode
      * @return array
      * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig(Dir $directories, $appMode)
+    protected function _loadPrimaryConfig(DirectoryList $directories, $appMode)
     {
         $configData = null;
         $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
