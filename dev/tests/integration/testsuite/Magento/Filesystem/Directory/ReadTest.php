@@ -34,6 +34,10 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     {
         $dir = $this->getDirectoryInstance('foo');
         $this->assertContains(
+            '_files/foo',
+            $dir->getAbsolutePath()
+        );
+        $this->assertContains(
             '_files/foo/bar',
             $dir->getAbsolutePath('bar')
         );
