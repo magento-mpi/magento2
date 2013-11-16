@@ -266,7 +266,8 @@ class ConfigurableProduct extends Product
                 'selections' => array(
                     '0' => array(
                         'attribute_name' => '%attribute_1_name%',
-                        'option_name' => '%attribute_1_option_label_1%'
+                        'option_name' => '%attribute_1_option_label_1%',
+                        'special_price' => '10'
                     )
                 )
             )
@@ -289,5 +290,21 @@ class ConfigurableProduct extends Product
             $options[$selection['attribute_name']] = $selection['option_name'];
         }
         return $options;
+    }
+
+    /**
+     * Return special price for first configurable option
+     * This value is used to validate value on the cart and order
+     *
+     * @return string
+     */
+    public function getProductSpecialPrice()
+    {
+        $selections = $this->getData('checkout/selections');
+        $specialPrice = '0';
+        foreach ($selections as $selection) {
+            $specialPrice = $selection['special_price'];
+        }
+        return $specialPrice;
     }
 }
