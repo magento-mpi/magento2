@@ -81,7 +81,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Logger::hasLog
+     * @covers \Magento\Logger::hasLog
      */
     public function testAddLogWithSpecificKey()
     {
