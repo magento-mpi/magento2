@@ -11,11 +11,12 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
+use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 class UpsellTest extends Functional {
 
     /**
@@ -65,46 +66,42 @@ class UpsellTest extends Functional {
      */
     public function testCreateUpsell()
     {
-        //@var Product
+
+        /* @var Product */
         $product1Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product1Fixture->persist();
 
-        //@var Product
+        /* @var Product */
         $product2Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product2Fixture->persist();
 
-        //@var ConfigurableProduct
-        $configurableFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableFixture->persist();
+        /* @var ConfigurableProduct */
+        $configurableProductFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurableProductFixture->persist();
 
+
+        // Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushMagentoCache();
 
         // Test Steps
-        //Page
+        $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
+        $editProductPage->open(array('id' => $product1Fixture->getProductId()));
+
+        /* TODO: find a way to better way to access the upsell tab.  Right now they are only accessed when
+           filling in a form, based on the fixture.  But Upsell tab cannot be filled in by the fixture,
+          and instead uses search and select. */
+        $upsell = new Upsell($editProductPage->getProductBlockForm()->getRootElement());
+
+        // Step 1:
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
-        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
-        $productGridPage->open();
-        $gridBlock = $productGridPage->getProductGrid();
+        $upsell->addUpsellProducts($product1Fixture, array($configurableProductFixture));
 
-        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $product1Fixture->getProductSku()));
-        //$productGridPage->editProduct(array('id' => $product1Fixture->getProductId()));
+        //TODO:  2 to more products results in failure, currently.
+        //$upsell->addUpsellProducts($product2Fixture, array($product1Fixture, $configurableProductFixture));
 
-/*        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple');
-        //Data
-        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        //Steps
-        $createProductPage->open();
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
-        //Verifying
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
-*/
-        //
-        // For Configurable 1 add as up-sells: Simple 2
 
         $this->markTestIncomplete('MAGETWO-15966');
     }
-
 }
