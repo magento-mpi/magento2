@@ -24,6 +24,7 @@ class UpsellTest extends Functional {
      */
     protected function setUp()
     {
+        // Test Case MAGETWO-12391: STEP 1:
         Factory::getApp()->magentoBackendLoginUser();
     }
 
@@ -70,15 +71,29 @@ class UpsellTest extends Functional {
         /* @var Product */
         $product1Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product1Fixture->persist();
+        $this->assertNotEmpty($product1Fixture->getProductId(), "no product id!");
 
         /* @var Product */
         $product2Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product2Fixture->persist();
 
+        // Remove this product when blocker below is fixed.
+        /* @var Product */
+        $product3Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product3Fixture->persist();
+
         /* @var ConfigurableProduct */
         $configurableProductFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurableProductFixture->persist();
+        // BLOCKER: $configurable from Curl handler returns no productid.
+        // Use a UI-handler'd object
+        if (is_null($configurableProductFixture->getProductId())) {
+            //$configurableProductFixture = $this->createConfigurable();
+            //$this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id");
+        }
 
+        // RESTORE the following when the missing productid blocker is fixed.
+        //$this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id!");
 
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -92,15 +107,25 @@ class UpsellTest extends Functional {
         /* TODO: find a way to better way to access the upsell tab.  Right now they are only accessed when
            filling in a form, based on the fixture.  But Upsell tab cannot be filled in by the fixture,
           and instead uses search and select. */
-        $upsell = new Upsell($editProductPage->getProductBlockForm()->getRootElement());
+        //$upsell = new Upsell($editProductPage->getProductBlockForm()->getRootElement());
 
-        // Step 1:
+        // Step 1: (logged into Admin in setup)
+        // Step 2: For Simple 1 add as up-sells:- Configurable 1 & Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
-        $upsell->addUpsellProducts($product1Fixture, array($configurableProductFixture));
 
-        //TODO:  2 to more products results in failure, currently.
-        //$upsell->addUpsellProducts($product2Fixture, array($product1Fixture, $configurableProductFixture));
+        Upsell::addUpsellProducts($product1Fixture,
+            array($product2Fixture, $configurableProductFixture));
 
+        $this->assertNotEmpty($product1Fixture->getProductId(), "no product id!");
+
+        // Step 3: For Configurable add as up-sells: Simple 2
+        // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
+
+        //BLOCKER  $configurableProductFixture did not get a productid from the curl driver.
+        //Upsell::addUpsellProducts($configurableProductFixture, array($product2Fixture));
+
+        //SUBSTITUTE UNTIL BLOCKER IS CLEARED
+        Upsell::addUpsellProducts($product3Fixture, array($product2Fixture));
 
         $this->markTestIncomplete('MAGETWO-15966');
     }
