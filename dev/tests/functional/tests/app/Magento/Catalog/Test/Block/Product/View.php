@@ -202,4 +202,23 @@ class View extends Block
         }
         return true;
     }
+
+    /**
+     * Return option to add related simple product to the shopping cart
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct1
+     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
+     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
+     */
+    public function getRelatedProductsOption($simpleProduct1, $simpleProduct2, $configurableProduct)
+    {
+        //Click on configurable product in related products section
+        $relatedConfigurableProductName = $configurableProduct->getProductName();
+        $this->_rootElement->find('[title="'. $relatedConfigurableProductName. '"]')->click();
+
+        $this->waitForElementVisible('<strong>' . $relatedConfigurableProductName . '</strong>');
+        $relatedSimpleProductId = $simpleProduct2->getProductId();
+        $this->_rootElement
+            ->find('related-checkbox' . $relatedSimpleProductId, Locator::SELECTOR_ID)->click();
+    }
 }

@@ -58,6 +58,14 @@ class CatalogProductEdit extends Page
      * @var \Magento\Catalog\Test\Block\Backend\ProductUpsellGrid
      */
     protected $productUpsellGrid;
+
+    /**
+     * Catalog product grid on backend
+     *
+     * @var \Magento\Catalog\Test\Block\Backend\ProductEditGrid
+     */
+    private $productEditGrid;
+
     /**
      * Custom constructor
      */
@@ -79,6 +87,10 @@ class CatalogProductEdit extends Page
 
         $this->productUpsellGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductUpsellGrid(
             $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
+        );
+
+        $this->productEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
 
@@ -151,5 +163,15 @@ class CatalogProductEdit extends Page
 
         $productBlockForm->getRootElement()->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
         $productBlockForm->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
+    }
+
+    /**
+     * Get the backend catalog product block
+     *
+     * @return \Magento\Catalog\Test\Block\Backend\ProductEditGrid
+     */
+    public function getProductEditGrid()
+    {
+        return $this->productEditGrid;
     }
 }

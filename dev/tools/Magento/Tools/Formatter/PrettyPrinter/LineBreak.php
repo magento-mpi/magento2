@@ -14,8 +14,9 @@ abstract class LineBreak
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.
      * @param int $total Total number of this break occurrences in the line.
+     * @param array $lineBreakData Data that the line break can use.
      */
-    abstract public function getValue($level, $index, $total);
+    abstract public function getValue($level, $index, $total, array &$lineBreakData);
 
     /**
      * This method returns a flag indicating that when placed in a list, an additional instance is
@@ -25,16 +26,6 @@ abstract class LineBreak
     public function isAfterListRequired()
     {
         return false;
-    }
-
-    /**
-     * This method returns if this class of line breaks are grouped by class. If not grouped by
-     * class, it is assumed to be grouped by instance.
-     * @return bool
-     */
-    public function isGroupedByClass()
-    {
-        return true;
     }
 
     /**
@@ -54,7 +45,7 @@ abstract class LineBreak
 
     /**
      * This method returns a sort order indication as to the order in which breaks should be processed.
-     * @return mixed
+     * @return int Order relative to other classes overriding this method.
      */
     abstract public function getSortOrder();
 }

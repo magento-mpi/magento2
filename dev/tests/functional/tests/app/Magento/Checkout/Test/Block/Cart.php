@@ -72,4 +72,15 @@ class Cart extends Block
             $clearShoppingCart->click();
         }
     }
+
+    /**
+     * Check if a product has been successfully added to the cart
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $product
+     */
+    public function checkAddedProduct($product)
+    {
+        $flag = $this->_rootElement->find('[title="'. $product->getProductName(). '"]');
+        return $flag;
+    }
 }
