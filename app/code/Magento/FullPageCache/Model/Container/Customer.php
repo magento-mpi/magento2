@@ -52,10 +52,15 @@ class Customer extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param string $data
      * @param string $id
      * @param array $tags
+     * @param null $lifetime
+     * @return \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _saveCache($data, $id, $tags = array(), $lifetime = null)
     {
-        $lifetime = $this->_coreConfig->getValue(\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_LIFETIME, 'default');
+        $lifetime = $this->_coreConfig->getValue(
+            \Magento\Core\Model\Session\Config::XML_PATH_COOKIE_LIFETIME,
+            'default'
+        );
         return parent::_saveCache($data, $id, $tags, $lifetime);
     }
 }
