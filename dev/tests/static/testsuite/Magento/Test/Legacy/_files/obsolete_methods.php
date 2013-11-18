@@ -907,7 +907,7 @@ return array(
     array('getViewConfig', '\Magento\Core\Model\View\Config', 'get'),
     array('_getSession', '\Magento\Catalog\Helper\Product\Compare', '$this->_catalogSession'),
     array('getEnginePool', '\Magento\View\Block\Template\Context', 'getEngineFactory'),
-    array('getHtml', 'Magento\Core\Block\Messages'),
+    array('getHtml', 'Magento\View\Block\Messages'),
     array('is_dir_writeable'),
     array('destruct'),
     array('mageDebugBacktrace'),
