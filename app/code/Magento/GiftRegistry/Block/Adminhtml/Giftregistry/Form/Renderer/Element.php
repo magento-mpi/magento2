@@ -85,7 +85,7 @@ class Element
     {
         $html = '';
         $element = $this->getElement();
-        if ($this->storeManager->isSingleStoreMode()) {
+        if ($this->_storeManager->isSingleStoreMode()) {
             return $html;
         }
         if ($element->getScope() == 'global' || $element->getScope() === null) {
