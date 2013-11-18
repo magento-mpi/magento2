@@ -29,7 +29,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId'))
+            ->setMethods(array('getId', '__wakeup'))
             ->getMock();
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
 
@@ -48,7 +48,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $collectionElement = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId'))
+            ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId', '__wakeup'))
             ->getMock();
         $collectionElement->expects($this->once())->method('setStore')
             ->with($store)
@@ -72,7 +72,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('getCollection', 'getFieldLabel'))
+            ->setMethods(array('getCollection', 'getFieldLabel', '__wakeup'))
             ->getMock();
         $profile->expects($this->once())->method('getCollection')
             ->will($this->returnValue($collection));
@@ -84,15 +84,20 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->once())->method('getStore')
             ->will($this->returnValue($store));
 
-        $context = $this->_getContext();
+        $locale = $this->getMockBuilder('\Magento\Core\Model\LocaleInterface')
+            ->disableOriginalConstructor()
+            ->setMethods(array('formatDate'))
+            ->getMockForAbstractClass();
+        $locale->expects($this->once())->method('formatDate')
+            ->will($this->returnValue('11-11-1999'));
 
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Sales\Block\Recurring\Profile\Grid',
             array(
-                'context' => $context,
                 'profile' => $profile,
                 'registry' => $registry,
                 'storeManager' => $storeManager,
+                'locale' => $locale
             )
         );
 
@@ -135,27 +140,5 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
 
         return $layout;
-    }
-
-    /**
-     * Get context object
-     *
-     * @return \Magento\Core\Block\Template\Context
-     */
-    protected function _getContext()
-    {
-        $locale = $this->getMockBuilder('\Magento\Core\Model\LocaleInterface')
-            ->disableOriginalConstructor()
-            ->setMethods(array('formatDate'))
-            ->getMockForAbstractClass();
-        $locale->expects($this->once())->method('formatDate')
-            ->will($this->returnValue('11-11-1999'));
-
-        /** @var  \Magento\Core\Block\Template\Context $context */
-        $context = $this->_objectManagerHelper->getObject(
-            'Magento\Core\Block\Template\Context',
-            array('locale' => $locale)
-        );
-        return $context;
     }
 }
