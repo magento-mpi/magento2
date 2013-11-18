@@ -16,7 +16,7 @@
 $_item = $this->getItem();
 $displayBothPrices = $this->helper('Magento\Tax\Helper\Data')->displayCartBothPrices();
 $additionalInfoBlock = $this->getProductAdditionalInformationBlock();
-
+$isVisibleProduct = $_item->getProduct()->isVisibleInSiteVisibility();
 $maxQuantity = -1;
 if ($_item->getQtyMaxAllowed()) {
     $maxQuantity = $_item->getQtyMaxAllowed();
@@ -27,31 +27,62 @@ if ($_item->getQtyMaxAllowed()) {
 $qtyDisabled = !$this->hasProductUrl() ||
         $_item->getCode() == \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_OUT_OF_STOCK;
 ?>
-<tr data-mage-init='{orderBySkuFailure:{}}'>
-    <td>
-        <img src="<?php echo $this->getProductThumbnailUrl() ?>" width="<?php echo $this->getThumbnailSize() ?>" height="<?php echo $this->getThumbnailSize() ?>" alt="<?php echo $this->escapeHtml($this->getProductName()) ?>" />
-    </td>
-    <td>
-        <h3 class="product-name"><?php echo $this->escapeHtml($this->getProductName()) ?></h3>
-        <?php if ($additionalInfoBlock):?>
-            <?php echo $additionalInfoBlock->setItem($_item)->toHtml() ?>
-        <?php endif;?>
-    </td>
-    <td class="a-center"></td>
-    <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?><td class="a-center"></td><?php endif ?>
-    <td class="a-right"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
-    <td class="a-center">
-        <?php $validateItemQuantityCheck = false; ?>
-        <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
-                size="4" class="input-text qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
-                title="<?php echo __('Qty') ?>" data-role="input-qty"
-                <?php if ($qtyDisabled): ?>disabled="disabled"<?php endif ?>
-                data-validate="{'required': true,'validate-greater-than-zero': true, 'validate-item-quantity': {
-                <?php if ($_item->getQtyMinAllowed()): ?>'minAllowed': <?php echo $_item->getQtyMinAllowed(); $validateItemQuantityCheck = true; ?><?php endif ?>
-                <?php if ($maxQuantity > 0): ?><?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'maxAllowed': <?php echo $maxQuantity; $validateItemQuantityCheck = true; ?><?php endif ?>
-                <?php if ($_item->getQtyIncrements() > 0): ?>
-                    <?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'qtyIncrements': <?php echo $_item->getQtyIncrements() ?>
-                <?php endif ?>}}" />
-    </td>
-    <td class="a-center last"><a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo __('Remove item')?>" class="btn-remove btn-remove2"><?php echo __('Remove item')?></a></td>
-</tr>
+<tbody class="cart item" data-mage-init='{orderBySkuFailure:{}}'>
+    <tr class="item info">
+        <td class="col item">
+            <?php if ($this->hasProductUrl()):?><a href="<?php echo $this->getProductUrl() ?>" title="<?php echo $this->escapeHtml($this->getProductName()) ?>" class="product photo">
+            <?php else:?>
+                <span class="product photo">
+            <?php endif;?>
+            <?php echo $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image')->init($_item->getProduct(), 'cart_page_product_thumbnail')->toHtml(); ?>
+            <?php if ($this->hasProductUrl()):?></a><?php else: ?></span><?php endif; ?>
+            <div class="product details">
+                <strong class="product name">
+                <?php if ($this->hasProductUrl()):?>
+                    <a href="<?php echo $this->getProductUrl() ?>"><?php echo $this->escapeHtml($this->getProductName()) ?></a>
+                <?php else: ?>
+                    <?php echo $this->escapeHtml($this->getProductName()) ?>
+                <?php endif; ?>
+                </strong>
+                <?php if ($additionalInfoBlock):?>
+                    <?php echo $additionalInfoBlock->setItem($_item)->toHtml() ?>
+                <?php endif;?>
+            </div>
+        </td>
+        <td class="col price"<?php if ($displayBothPrices): ?> colspan="2"<?php endif; ?>></td>
+        <td class="col qty">
+            <?php $validateItemQuantityCheck = false; ?>
+            <div class="control qty">
+            <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
+                    size="4" type="text" class="qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
+                    title="<?php echo __('Qty') ?>" data-role="input-qty"
+                    <?php if ($qtyDisabled): ?>disabled="disabled"<?php endif ?>
+                    data-validate="{'required': true,'validate-greater-than-zero': true, 'validate-item-quantity': {
+                    <?php if ($_item->getQtyMinAllowed()): ?>'minAllowed': <?php echo $_item->getQtyMinAllowed(); $validateItemQuantityCheck = true; ?><?php endif ?>
+                    <?php if ($maxQuantity > 0): ?><?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'maxAllowed': <?php echo $maxQuantity; $validateItemQuantityCheck = true; ?><?php endif ?>
+                    <?php if ($_item->getQtyIncrements() > 0): ?>
+                        <?php if ($validateItemQuantityCheck): ?>,<?php endif ?> 'qtyIncrements': <?php echo $_item->getQtyIncrements() ?>
+                    <?php endif ?>}}" />
+            </div>
+        </td>
+    </tr>
+    <tr class="item actions">
+        <td colspan="100">
+            <div class="actions">
+                <?php if ($this->helper('Magento\Wishlist\Helper\Data')->isAllowInCart()) : ?>
+                    <?php if ($isVisibleProduct): ?>
+                    <a href="<?php echo $this->helper('Magento\Wishlist\Helper\Data')->getMoveFromCartUrl($_item->getId()); ?>" class="use-ajax action towishlist">
+                        <span><?php echo __('Move to Wishlist'); ?></span>
+                    </a>
+                    <?php endif ?>
+                <?php endif ?>
+
+                <?php if ($isVisibleProduct): ?>
+                <a class="action edit" href="<?php echo $this->getConfigureUrl() ?>" title="<?php echo __('Edit item parameters') ?>"><span><?php echo __('Edit') ?></span></a>
+                <?php endif ?>
+
+                <a href="<?php echo $this->getDeleteUrl()?>" title="<?php echo __('Remove item')?>" class="action delete"><span><?php echo __('Remove item')?></span></a>
+            </div>
+        </td>
+    </tr>
+</tbody>
