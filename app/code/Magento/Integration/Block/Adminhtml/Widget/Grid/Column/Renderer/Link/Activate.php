@@ -10,7 +10,7 @@
 
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 
-use \Magento\Integration\Model\Integration;
+use Magento\Integration\Model\Integration;
 use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link;
 use Magento\Object;
 
