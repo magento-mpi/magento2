@@ -20,12 +20,9 @@ class AbstractSession extends \Magento\Object
     const PARAM_SESSION_SAVE_PATH       = 'session_save_path';
     const PARAM_SESSION_CACHE_LIMITER   = 'session_cache_limiter';
 
-    const XML_PATH_USE_FRONTEND_SID     = 'web/session/use_frontend_sid';
-
     const XML_PATH_LOG_EXCEPTION_FILE   = 'dev/log/exception_file';
 
     const HOST_KEY                      = '_session_hosts';
-    const SESSION_ID_QUERY_PARAM        = 'SID';
 
     /**
      * URL host cache
@@ -33,13 +30,6 @@ class AbstractSession extends \Magento\Object
      * @var array
      */
     protected static $_urlHostCache = array();
-
-    /**
-     * Encrypted session id cache
-     *
-     * @var string
-     */
-    protected static $_encryptedSessionId;
 
     /**
      * @var \Magento\Logger
@@ -110,11 +100,6 @@ class AbstractSession extends \Magento\Object
     protected $_dir;
 
     /**
-     * @var \Magento\Core\Model\Url
-     */
-    protected $_url;
-
-    /**
      * @var string
      */
     protected $_savePath;
@@ -125,9 +110,9 @@ class AbstractSession extends \Magento\Object
     protected $_cacheLimiter;
 
     /**
-     * @var array
+     * @var \Magento\Session\SidResolverInterface
      */
-    protected $_sidNameMap;
+    protected $sidResolver;
 
     /**
      * @var \Magento\Session\ConfigInterface
@@ -149,7 +134,6 @@ class AbstractSession extends \Magento\Object
         $this->_savePath = $this->_savePath ?: $context->getSavePath();
         $this->_saveMethod = $this->_saveMethod ?: $context->getSaveMethod();
         $this->_cacheLimiter = $this->_cacheLimiter ?: $context->getCacheLimiter();
-        $this->_sidNameMap = $context->getSidMap();
         $this->_messageFactory = $context->getMessageFactory();
         $this->_message = $context->getMessage();
         $this->_cookie = $context->getCookie();
@@ -157,7 +141,7 @@ class AbstractSession extends \Magento\Object
         $this->_appState = $context->getAppState();
         $this->_storeManager = $context->getStoreManager();
         $this->_dir = $context->getDir();
-        $this->_url = $context->getUrl();
+        $this->sidResolver = $context->getSidResolver();
         $this->_sessionConfig = $context->getSessionConfig();
         parent::__construct($data);
     }
@@ -240,7 +224,7 @@ class AbstractSession extends \Magento\Object
         }
 
         // potential custom logic for session id (ex. switching between hosts)
-        $this->setSessionId();
+        $this->setSessionId($this->sidResolver->getSid());
 
         \Magento\Profiler::start('session_start');
 
@@ -579,51 +563,13 @@ class AbstractSession extends \Magento\Object
      * @param   string|null $id
      * @return  \Magento\Core\Model\Session\AbstractSession
      */
-    public function setSessionId($id = null)
+    public function setSessionId($id)
     {
-
-        if (null === $id
-            && ($this->_storeManager->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
-        ) {
-            $_queryParam = $this->getSessionIdQueryParam();
-            if (isset($_GET[$_queryParam]) && $this->_url->isOwnOriginUrl()) {
-                $id = $_GET[$_queryParam];
-            }
-        }
-
         $this->_addHost();
         if (!is_null($id) && preg_match('#^[0-9a-zA-Z,-]+$#', $id)) {
             session_id($id);
         }
         return $this;
-    }
-
-    /**
-     * Get encrypted session identifier.
-     * No reason use crypt key for session id encryption, we can use session identifier as is.
-     *
-     * @return string
-     */
-    public function getEncryptedSessionId()
-    {
-        if (!self::$_encryptedSessionId) {
-            self::$_encryptedSessionId = $this->getSessionId();
-        }
-        return self::$_encryptedSessionId;
-    }
-
-    /**
-     * Get session id query param
-     *
-     * @return string
-     */
-    public function getSessionIdQueryParam()
-    {
-        $sessionName = $this->getSessionName();
-        if ($sessionName && isset($this->_sidNameMap[$sessionName])) {
-            return $this->_sidNameMap[$sessionName];
-        }
-        return self::SESSION_ID_QUERY_PARAM;
     }
 
     /**
@@ -649,13 +595,13 @@ class AbstractSession extends \Magento\Object
             $urlHostArr = explode(':', $urlHost);
             $urlHost = $urlHostArr[0];
             $sessionId = $httpHost !== $urlHost && !$this->isValidForHost($urlHost)
-                ? $this->getEncryptedSessionId() : '';
+                ? $this->getSessionId() : '';
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
         return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
             ? self::$_urlHostCache[$urlHost]
-            : $this->getEncryptedSessionId();
+            : $this->getSessionId();
     }
 
     /**

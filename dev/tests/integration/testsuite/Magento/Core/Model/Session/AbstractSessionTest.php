@@ -11,21 +11,33 @@
 
 namespace Magento\Core\Model\Session;
 
-class AbstractTest extends \PHPUnit_Framework_TestCase
+class AbstractSessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\Model\Session\AbstractSession
      */
     protected $_model;
 
+    /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
+        /** @var \Magento\Session\SidResolverInterface $sidResolver */
+        $this->_sidResolver = $objectManager->get('Magento\Session\SidResolverInterface');
+
         /** @var \Magento\Core\Model\Session\AbstractSession _model */
-        $this->_model = $this->getMockForAbstractClass('Magento\Core\Model\Session\AbstractSession',
-            array(
-                $objectManager->get('Magento\Core\Model\Session\Context')
-            ));
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento\Core\Model\Session\AbstractSession',
+            array($objectManager->create(
+                'Magento\Core\Model\Session\Context',
+                array('sidResolver' => $this->_sidResolver)
+            ))
+        );
     }
 
     public function testGetCookie()
@@ -81,7 +93,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testSetSessionId()
     {
         $sessionId = $this->_model->getSessionId();
-        $this->_model->setSessionId();
+        $this->_model->setSessionId($this->_sidResolver->getSid());
         $this->assertEquals($sessionId, $this->_model->getSessionId());
 
         $this->_model->setSessionId('test');
@@ -94,31 +106,17 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testSetSessionIdFromParam()
     {
         $this->assertNotEquals('test_id', $this->_model->getSessionId());
-        $_GET[$this->_model->getSessionIdQueryParam()] = 'test-id';
-        $this->_model->setSessionId();
+        $_GET[$this->_sidResolver->getSessionIdQueryParam()] = 'test-id';
+        $this->_model->setSessionId($this->_sidResolver->getSid());
 
         $this->assertEquals('test-id', $this->_model->getSessionId());
 
         /* Use not valid identifier */
-        $_GET[$this->_model->getSessionIdQueryParam()] = 'test_id';
-        $this->_model->setSessionId();
+        $_GET[$this->_sidResolver->getSessionIdQueryParam()] = 'test_id';
+        $this->_model->setSessionId($this->_sidResolver->getSid());
         $this->assertEquals('test-id', $this->_model->getSessionId());
     }
 
-    public function testGetEncryptedSessionId()
-    {
-        $sessionId = $this->_model->getEncryptedSessionId();
-        $this->_model->setSessionId('new-id');
-        $this->assertEquals($sessionId, $this->_model->getEncryptedSessionId());
-    }
-
-    public function testGetSessionIdQueryParam()
-    {
-        $this->assertEquals(
-            \Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM,
-            $this->_model->getSessionIdQueryParam()
-        );
-    }
 
     public function testGetSessionIdForHost()
     {

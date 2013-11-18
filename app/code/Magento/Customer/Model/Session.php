@@ -54,11 +54,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_configShare;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_session;
-
-    /**
      * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_customerResource;
@@ -79,7 +74,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
@@ -92,7 +86,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Model\Session $session,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
@@ -103,7 +96,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerData = $customerData;
         $this->_storeManager = $storeManager;
         $this->_configShare = $configShare;
-        $this->_session = $session;
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
@@ -339,7 +331,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = $this->_coreUrl->removeRequestParam($url, $this->_session->getSessionIdQueryParam());
+        $url = $this->_coreUrl->removeRequestParam($url, $this->sidResolver->getSessionIdQueryParam());
         // Add correct session ID to URL if needed
         $url = $this->_createUrl()->getRebuiltUrl($url);
         return $this->setData($key, $url);

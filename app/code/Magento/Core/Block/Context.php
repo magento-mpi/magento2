@@ -53,6 +53,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_session;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_storeConfig;
@@ -118,6 +123,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
@@ -140,6 +146,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
@@ -161,6 +168,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cache           = $cache;
         $this->_design          = $design;
         $this->_session         = $session;
+        $this->_sidResolver     = $sidResolver;
         $this->_storeConfig     = $storeConfig;
         $this->_frontController = $frontController;
         $this->_helperFactory   = $helperFactory;
@@ -236,6 +244,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getSession()
     {
         return $this->_session;
+    }
+
+    /**
+     * @return \Magento\Session\SidResolverInterface
+     */
+    public function getSidResolver()
+    {
+        return $this->_sidResolver;
     }
 
     /**

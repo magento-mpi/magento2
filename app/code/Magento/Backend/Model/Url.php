@@ -82,6 +82,7 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param Menu\Config $menuConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManager $storeManager
@@ -98,6 +99,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Session $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManager $storeManager,
@@ -109,8 +111,16 @@ class Url extends \Magento\Core\Model\Url
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct(
-            $routeConfig, $request, $securityInfo, $coreStoreConfig,
-            $app, $storeManager, $session, $areaCode, $data
+            $routeConfig,
+            $request,
+            $securityInfo,
+            $coreStoreConfig,
+            $app,
+            $storeManager,
+            $session,
+            $sidResolver,
+            $areaCode,
+            $data
         );
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;

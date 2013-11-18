@@ -27,6 +27,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     protected $_sessionMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $_sidResolver;
+
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
     protected  $_translatorMock;
 
     /** @var  \PHPUnit_Framework_MockObject_MockObject */
@@ -82,6 +85,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         // These mocks are accessed via context
         $this->_designMock          = $this->_makeMock('Magento\View\DesignInterface');
         $this->_sessionMock         = $this->_makeMock('Magento\Core\Model\Session');
+        $this->_sidResolver         = $this->_makeMock('Magento\Core\Model\Session\SidResolver');
         $this->_translatorMock      = $this->_makeMock('Magento\Core\Model\Translate');
         $this->_layoutMock          = $this->_makeMock('Magento\Core\Model\Layout');
         $this->_requestMock         = $this->_makeMock('Magento\App\RequestInterface');
@@ -127,6 +131,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_cacheMock,
             $this->_designMock,
             $this->_sessionMock,
+            $this->_sidResolver,
             $this->_storeConfigMock,
             $this->_controllerMock,
             $this->_helperFactoryMock,

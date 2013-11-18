@@ -47,13 +47,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheLimiter;
 
     /**
-     * Mapping between area and SID param name
-     *
-     * @var array
-     */
-    protected $sidMap;
-
-    /**
      * Core cookie
      *
      * @var \Magento\Core\Model\Cookie
@@ -95,9 +88,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_dir;
 
     /**
-     * @var \Magento\Core\Model\Url
+     * @var \Magento\Session\SidResolverInterface
      */
-    protected $_url;
+    protected $sidResolver;
 
     /**
      * @var \Magento\Session\ConfigInterface
@@ -116,12 +109,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Core\Model\Url $url
      * @param \Magento\Session\ConfigInterface $sessionConfig
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param $saveMethod
      * @param null $savePath
      * @param null $cacheLimiter
-     * @param array $sidMap
      */
     public function __construct(
         \Magento\Core\Model\Session\Validator $validator,
@@ -135,12 +127,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\Dir $dir,
-        \Magento\Core\Model\Url $url,
         \Magento\Session\ConfigInterface $sessionConfig,
+        \Magento\Session\SidResolverInterface $sidResolver,
         $saveMethod,
         $savePath = null,
-        $cacheLimiter = null,
-        $sidMap = array()
+        $cacheLimiter = null
     ) {
         $this->_validator = $validator;
         $this->_logger = $logger;
@@ -149,7 +140,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_saveMethod = $saveMethod;
         $this->_savePath = $savePath;
         $this->_cacheLimiter = $cacheLimiter;
-        $this->sidMap = $sidMap;
         $this->_messageFactory = $messageFactory;
         $this->_message = $message;
         $this->_cookie = $cookie;
@@ -157,8 +147,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
         $this->_dir = $dir;
-        $this->_url = $url;
         $this->_sessionConfig = $sessionConfig;
+        $this->sidResolver = $sidResolver;
     }
 
     /**
@@ -218,14 +208,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return array
-     */
-    public function getSidMap()
-    {
-        return $this->sidMap;
-    }
-
-    /**
      * @return \Magento\App\State
      */
     public function getAppState()
@@ -282,11 +264,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Url
+     * @return \Magento\Session\SidResolverInterface
      */
-    public function getUrl()
+    public function getSidResolver()
     {
-        return $this->_url;
+        return $this->sidResolver;
     }
 
     /**

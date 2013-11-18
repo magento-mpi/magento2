@@ -39,6 +39,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
@@ -71,6 +72,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
@@ -100,6 +102,7 @@ class Context extends \Magento\Core\Block\Template\Context
             $cache,
             $design,
             $session,
+            $sidResolver,
             $storeConfig,
             $frontController,
             $helperFactory,

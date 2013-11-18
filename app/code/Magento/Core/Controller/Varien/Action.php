@@ -489,7 +489,9 @@ class Action extends \Magento\App\Action\AbstractAction
                     $this->setFlag('', self::FLAG_NO_COOKIES_REDIRECT, true);
                     $session->unsCookieShouldBeReceived();
                 } elseif ($checkCookie) {
-                    if (isset($_GET[$session->getSessionIdQueryParam()])
+                    /** @var $sidResolver \Magento\Session\SidResolverInterface */
+                    $sidResolver = $this->_objectManager->get('Magento\Session\SidResolverInterface');
+                    if (isset($_GET[$sidResolver->getSessionIdQueryParam()])
                         && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
                         && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
                     ) {
@@ -756,8 +758,10 @@ class Action extends \Magento\App\Action\AbstractAction
             && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
             && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
         ) {
+            /** @var $sidResolver \Magento\Session\SidResolverInterface */
+            $sidResolver = $this->_objectManager->get('Magento\Session\SidResolverInterface');
             $arguments += array('_query' => array(
-                $session->getSessionIdQueryParam() => $session->getSessionId()
+                $sidResolver->getSessionIdQueryParam() => $session->getSessionId()
             ));
         }
         $this->getResponse()->setRedirect(

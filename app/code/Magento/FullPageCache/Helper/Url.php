@@ -26,15 +26,23 @@ class Url
     protected $_coreSession;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @param \Magento\Core\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      */
     public function __construct(
         \Magento\Core\Helper\Url $urlHelper,
-        \Magento\Core\Model\Session $coreSession
+        \Magento\Core\Model\Session $coreSession,
+        \Magento\Session\SidResolverInterface $sidResolver
     ) {
         $this->_urlHelper = $urlHelper;
         $this->_coreSession = $coreSession;
+        $this->_sidResolver = $sidResolver;
     }
 
     /**
@@ -60,9 +68,11 @@ class Url
         }
         $replacementCount = 0;
         $content = str_replace(
-            $this->_coreSession->getSessionIdQueryParam() . '=' . $this->_coreSession->getSessionId(),
-            $this->_coreSession->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
-            $content, $replacementCount);
+            $this->_sidResolver->getSessionIdQueryParam() . '=' . $this->_coreSession->getSessionId(),
+            $this->_sidResolver->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
+            $content,
+            $replacementCount
+        );
         return ($replacementCount > 0);
     }
 

@@ -26,16 +26,13 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Url(
-            $this->getMock('\Magento\App\Route\ConfigInterface'),
-            $this->getMock('Magento\App\Request\Http', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\Url\SecurityInfoInterface'),
-            $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false),
-            $this->getMock('Magento\Core\Model\App', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\Session', array(), array(), '', false, false)
-        );
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $objectManagerHelper->getObject('Magento\Core\Model\Url', array('session' => $this->_sessionMock));
+        $this->_model = $objectManagerHelper->getObject('Magento\Core\Model\Url', array(
+            'session' => $this->_sessionMock
+        ));
     }
 
     public function testSetRoutePath()
@@ -66,9 +63,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $controllerName = 'controllerName';
         $actionName = 'actionName';
 
-        $requestMock = $this->getMockForAbstractClass('Magento\App\Request\Http',
-            array(), '', false, false, true,
-            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName'));
+        $requestMock = $this->getMockForAbstractClass(
+            'Magento\App\Request\Http',
+            array(),
+            '',
+            false,
+            false,
+            true,
+            array('getRequestedRouteName', 'getRequestedControllerName', 'getRequestedActionName')
+        );
 
         $requestMock->expects($this->once())->method('getRequestedRouteName')
             ->will($this->returnValue($moduleFrontName));
