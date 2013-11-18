@@ -120,7 +120,8 @@ class ConfigurableProduct extends Product
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateConfigurable($this);
+        $id = Factory::getApp()->magentoCatalogCreateConfigurable($this);
+        $this->_data['fields']['id']['value'] = $id;
 
         return $this;
     }
