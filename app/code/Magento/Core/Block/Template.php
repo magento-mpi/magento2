@@ -86,6 +86,13 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_appState;
 
     /**
+     * Directory instance
+     *
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $directory;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
@@ -200,13 +207,11 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     public function fetchView($fileName)
     {
-        $viewShortPath = str_replace($this->_dirs->getDir(\Magento\App\Dir::ROOT), '', $fileName);
+        $rootDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::ROOT);
+        $viewShortPath = str_replace($rootDir, '', $fileName);
         \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
 
-        if (($this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::APP))
-                || $this->_filesystem->isPathInDirectory($fileName, $this->_dirs->getDir(\Magento\App\Dir::THEMES))
-                || $this->_getAllowSymlinks()) && $this->_filesystem->isFile($fileName)
-        ) {
+        if ($this->isTemplateFileValid($fileName)) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
             $templateEngine = $this->_templateEngineFactory->get($extension);
             $html = $templateEngine->render($this, $fileName, $this->_viewVars);
@@ -279,9 +284,47 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     protected function _getAllowSymlinks()
     {
-        if (is_null($this->_allowSymlinks)) {
+        if (null === $this->_allowSymlinks) {
             $this->_allowSymlinks = $this->_storeConfig->getConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
         }
         return $this->_allowSymlinks;
+    }
+
+    /**
+     * Instantiates filesystem directory
+     *
+     * @return \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected function getDirectory()
+    {
+        if (null === $this->directory) {
+            $this->directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
+        }
+
+        return $this->directory;
+    }
+
+    /**
+     * Checks whether the provided file can be rendered.
+     *
+     * Available directories which are allowed to be rendered
+     * (the template file should be located under these directories):
+     *  - app
+     *  - design
+     *
+     * @param string $fileName
+     * @return bool
+     */
+    protected function isTemplateFileValid($fileName)
+    {
+        $appDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::APP);
+        $themesDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::THEMES);
+        $isFile = $this->getDirectory()->isFile($this->getDirectory()->getRelativePath($fileName));
+
+        return (
+            $this->getDirectory()->isPathInDirectory($fileName, $appDir)
+            || $this->getDirectory()->isPathInDirectory($fileName, $themesDir)
+            || $this->_getAllowSymlinks()
+        ) && $isFile;
     }
 }
