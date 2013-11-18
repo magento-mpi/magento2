@@ -1,3 +1,4 @@
+* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
 * Various improvements:
   * Added static test for check incorrect dependencies in library
@@ -21,6 +22,8 @@
   * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
   * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
   * Fixed Fatal error when creating Shipping label for returns
+  * Fixed posting coupon code with spaces
+  * Fixed several typos and minor mistakes
 
 2.0.0.0-dev51
 =============
