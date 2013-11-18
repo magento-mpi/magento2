@@ -100,6 +100,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_url;
 
     /**
+     * @var \Magento\Session\ConfigInterface
+     */
+    protected $_sessionConfig;
+
+    /**
      * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -112,6 +117,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Url $url
+     * @param \Magento\Session\ConfigInterface $sessionConfig
      * @param $saveMethod
      * @param null $savePath
      * @param null $cacheLimiter
@@ -130,6 +136,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\Dir $dir,
         \Magento\Core\Model\Url $url,
+        \Magento\Session\ConfigInterface $sessionConfig,
         $saveMethod,
         $savePath = null,
         $cacheLimiter = null,
@@ -151,6 +158,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_storeManager = $storeManager;
         $this->_dir = $dir;
         $this->_url = $url;
+        $this->_sessionConfig = $sessionConfig;
     }
 
     /**
@@ -279,5 +287,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getUrl()
     {
         return $this->_url;
+    }
+
+    /**
+     * @return \Magento\Session\ConfigInterface
+     */
+    public function getSessionConfig()
+    {
+        return $this->_sessionConfig;
     }
 }

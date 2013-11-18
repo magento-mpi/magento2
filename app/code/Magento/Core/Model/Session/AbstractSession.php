@@ -130,6 +130,11 @@ class AbstractSession extends \Magento\Object
     protected $_sidNameMap;
 
     /**
+     * @var \Magento\Session\ConfigInterface
+     */
+    protected $_sessionConfig;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param array $data
      */
@@ -153,6 +158,7 @@ class AbstractSession extends \Magento\Object
         $this->_storeManager = $context->getStoreManager();
         $this->_dir = $context->getDir();
         $this->_url = $context->getUrl();
+        $this->_sessionConfig = $context->getSessionConfig();
         parent::__construct($data);
     }
 
