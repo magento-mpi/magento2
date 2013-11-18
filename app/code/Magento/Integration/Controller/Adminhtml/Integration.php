@@ -216,7 +216,6 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
 
         if ($popupDialog) {
             $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
-            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->loadLayout();
         }

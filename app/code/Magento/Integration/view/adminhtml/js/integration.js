@@ -86,11 +86,14 @@
                 data: {formKey: window.FORM_KEY},
                 method: 'GET',
                 success: function (html) {
-                    $('#integration-popup-container').html(html);
-                    $('#integration-popup-container').dialog({
+                    $('.integration-popup-container').html(html);
+                    $('.integration-popup-container').dialog({
                         title: that.options.name,
                         modal: true,
                         autoOpen: true,
+                        width: 550,
+                        dialogClass: 'integration-dialog',
+                        position: {at: 'top+25%'},
                         buttons: [
                             {
                                 text: $.mage.__('Cancel'),

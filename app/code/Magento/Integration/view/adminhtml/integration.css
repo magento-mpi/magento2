@@ -12,3 +12,8 @@
 #integrationGrid_table .col-edit {
     width: 2%;
 }
+
+.integration-popup-container #resource-tree {
+    max-height: 400px;
+    overflow: auto;
+}
