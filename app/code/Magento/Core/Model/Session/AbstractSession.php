@@ -192,15 +192,16 @@ class AbstractSession extends \Magento\Object
                 }
                 break;
         }
-        $cookie = $this->getCookie();
+        $cookie = $this->_cookie;
+        $sessionConfig = $this->_sessionConfig;
 
         // session cookie params
         $cookieParams = array(
             'lifetime' => 0, // 0 is browser session lifetime
-            'path'     => $cookie->getPath(),
-            'domain'   => $cookie->getConfigDomain(),
-            'secure'   => $cookie->isSecure(),
-            'httponly' => $cookie->getHttponly()
+            'path'     => $this->_sessionConfig->getCookiePath(),
+            'domain'   => $sessionConfig->getCookieDomain(),
+            'secure'   => $sessionConfig->getCookieSecure(),
+            'httponly' => $sessionConfig->getCookieHttpOnly()
         );
 
         if (!$cookieParams['httponly']) {
@@ -361,7 +362,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getCookieDomain()
     {
-        return $this->getCookie()->getDomain();
+        return $this->_cookie->getDomain();
     }
 
     /**
@@ -371,7 +372,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getCookiePath()
     {
-        return $this->getCookie()->getPath();
+        return $this->_sessionConfig->getCookiePath();
     }
 
     /**
@@ -381,7 +382,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getCookieLifetime()
     {
-        return $this->getCookie()->getLifetime();
+        return $this->_cookie->getDefaultLifetime();
     }
 
     /**
@@ -709,12 +710,12 @@ class AbstractSession extends \Magento\Object
         session_regenerate_id(true);
 
         $sessionHosts = $this->_getHosts();
-        $currentCookieDomain = $this->getCookie()->getDomain();
+        $currentCookieDomain = $this->_cookie->getDomain();
         if (is_array($sessionHosts)) {
             foreach (array_keys($sessionHosts) as $host) {
                 // Delete cookies with the same name for parent domains
                 if (strpos($currentCookieDomain, $host) > 0) {
-                    $this->getCookie()->delete($this->getSessionName(), null, $host);
+                    $this->_cookie->delete($this->getSessionName(), null, $host);
                 }
             }
         }

@@ -13,6 +13,11 @@ use Zend\Validator;
 
 class Config implements ConfigInterface
 {
+    const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
+    const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
+    const XML_PATH_COOKIE_HTTPONLY  = 'web/cookie/cookie_httponly';
+    const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
+
     /**
      * @var array
      */
@@ -34,14 +39,21 @@ class Config implements ConfigInterface
     protected $_stringHelper;
 
     /**
+     * @var \Magento\App\RequestInterface
+     */
+    protected $_httpRequest;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Stdlib\String $stringHelper
+     * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Stdlib\String $stringHelper
+        \Magento\Stdlib\String $stringHelper,
+        \Magento\App\RequestInterface $request
     ) {
         /**
             TODO: $this->_data should contain all values, otherwise toArray() and getOptions() will not return
@@ -49,11 +61,59 @@ class Config implements ConfigInterface
 
         */
 
-
+        
         $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
         $this->_stringHelper = $stringHelper;
+        $this->_httpRequest = $request;
+
+        $this->_init();
     }
+
+    /**
+     * @return $this
+     */
+    protected function _init()
+    {
+        $store = $this->_storeManager->getStore();
+
+        $this->setCookieHttpOnly(
+            $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $store)
+        );
+
+        $lifetime = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $store);
+        $lifetime = is_numeric($lifetime) ?: 3600;
+        $this->setCookieLifetime($lifetime);
+
+        $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $store);
+        $domain = empty($domain) ?: $this->_httpRequest->getHttpHost();
+        $this->setCookieDomain($domain);
+
+        $path = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_PATH, $store);
+        if (empty($path)) {
+            $path = $this->_httpRequest->getBasePath();
+        }
+        $this->setCookiePath($path);
+
+        $this->setCookieSecure($store->isAdmin() && $this->_httpRequest->isSecure());
+
+        return $this;
+    }
+
+    /**
+     * Retrieve Config Domain for cookie
+     *
+     * @return string
+     */
+    public function getConfigDomain()
+    {
+        return (string)$this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
+    }
+
+
+
+
+
 
     /**
      * @param array $options
@@ -204,7 +264,7 @@ class Config implements ConfigInterface
         if (!is_numeric($cookieLifetime)) {
             throw new \InvalidArgumentException('Invalid cookie_lifetime; must be numeric');
         }
-        if (0 > $cookieLifetime) {
+        if ($cookieLifetime < 0) {
             throw new \InvalidArgumentException(
                 'Invalid cookie_lifetime; must be a positive integer or zero'
             );
@@ -406,6 +466,10 @@ class Config implements ConfigInterface
      */
     protected function _getFixedOptionName($option)
     {
+        //TODO If it's required to add an ability to set options that may appear in php in future (and which can have
+        //  prefix different from 'session.' than it's required to make a list of all options that have 'session.'
+        //  prefix
+
         $option = strtolower($option);
 
         switch ($option) {
@@ -414,7 +478,7 @@ class Config implements ConfigInterface
                 break;
 
             default:
-                if (strpos('session.', $option) !== 0) {
+                if (strpos($option, 'session.') !== 0) {
                     $option = 'session.' . $option;
                 }
                 break;

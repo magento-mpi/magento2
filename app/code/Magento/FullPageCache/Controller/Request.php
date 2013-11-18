@@ -65,7 +65,7 @@ class Request extends \Magento\Core\Controller\Front\Action
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
         $cookieName = $session->getSessionName();
         $cookieInfo = array(
-            'lifetime' => $session->getCookie()->getLifetime(),
+            'lifetime' => $session->getCookie()->getDefaultLifetime(),
             'path'     => $session->getCookie()->getPath(),
             'domain'   => $session->getCookie()->getDomain(),
             'secure'   => $session->getCookie()->isSecure(),
