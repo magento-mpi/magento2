@@ -93,15 +93,13 @@ class Link extends AbstractRenderer
      */
     protected function _getAttributesHtml()
     {
-        /** @var \Magento\Backend\Helper\Data $helper */
-        $helper = $this->_helperFactory->get('Magento\Backend\Helper\Data');
         $html = [];
 
         foreach ($this->_getAttributes() as $key => $value) {
             if ($value === null || $value == '') {
                 continue;
             }
-            $html[] = sprintf('%s="%s"', $key, $helper->escapeHtml($value));
+            $html[] = sprintf('%s="%s"', $key, $this->escapeHtml($value));
         }
 
         return join(' ', $html);
