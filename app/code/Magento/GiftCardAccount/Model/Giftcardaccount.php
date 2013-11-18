@@ -95,7 +95,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Core email template
      *
-     * @var \Magento\Core\Model\Email\Template
+     * @var \Magento\Email\Model\Template
      */
     protected $_coreEmailTemplate = null;
 
@@ -140,7 +140,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
-     * @param \Magento\Core\Model\Email\Template $coreEmailTemplate
+     * @param \Magento\Email\Model\Template $coreEmailTemplate
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -157,7 +157,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
-        \Magento\Core\Model\Email\Template $coreEmailTemplate,
+        \Magento\Email\Model\Template $coreEmailTemplate,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -199,7 +199,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         if (!$this->getId()) {
             $now = $this->_locale->date()
                 ->setTimezone(\Magento\Core\Model\LocaleInterface::DEFAULT_TIMEZONE)
-                ->toString(\Magento\Date::DATE_INTERNAL_FORMAT);
+                ->toString(\Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT);
 
             $this->setDateCreated($now);
             if (!$this->hasCode()) {
@@ -223,10 +223,10 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         } else {
             if ($this->getDateExpires()) {
                 $expirationDate =  $this->_locale->date(
-                    $this->getDateExpires(), \Magento\Date::DATE_INTERNAL_FORMAT,
+                    $this->getDateExpires(), \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
                 $currentDate = $this->_locale->date(
-                    null, \Magento\Date::DATE_INTERNAL_FORMAT,
+                    null, \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT,
                     null, false);
                 if ($expirationDate < $currentDate) {
                     throw new \Magento\Core\Exception(__('An expiration date must be in the future.'));

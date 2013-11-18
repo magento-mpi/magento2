@@ -17,12 +17,12 @@ namespace Magento\Webhook\Model\Resource;
 class EventTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\Webhook\Model\Resource\Event::init
+     * @covers \Magento\Webhook\Model\Resource\Event::_init
      */
     public function testInit()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $resource = $objectManager->create('Magento\Core\Model\Resource', array('tablePrefix' => 'prefix_'));
+        $resource = $objectManager->create('Magento\App\Resource', array('tablePrefix' => 'prefix_'));
 
         /** @var \Magento\Webhook\Model\Resource\Event $eventResource */
         $eventResource = $objectManager->create('Magento\Webhook\Model\Resource\Event', array('resource' => $resource));

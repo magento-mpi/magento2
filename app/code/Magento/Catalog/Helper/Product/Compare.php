@@ -109,33 +109,23 @@ class Compare extends \Magento\Core\Helper\Url
     }
 
     /**
-     * Retrieve Catalog Session instance
-     *
-     * @return \Magento\Catalog\Model\Session
-     */
-    protected function _getSession()
-    {
-        return $this->_catalogSession;
-    }
-
-    /**
      * Retrieve compare list url
      *
      * @return string
      */
     public function getListUrl()
     {
-         $itemIds = array();
-         foreach ($this->getItemCollection() as $item) {
-             $itemIds[] = $item->getId();
-         }
+        $itemIds = array();
+        foreach ($this->getItemCollection() as $item) {
+            $itemIds[] = $item->getId();
+        }
 
-         $params = array(
+        $params = array(
             'items'=>implode(',', $itemIds),
             \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $this->getEncodedUrl()
-         );
+        );
 
-         return $this->_getUrl('catalog/product_compare', $params);
+        return $this->_getUrl('catalog/product_compare', $params);
     }
 
     /**
@@ -260,7 +250,7 @@ class Compare extends \Magento\Core\Helper\Url
                 ->load();
 
             /* update compare items count */
-            $this->_getSession()->setCatalogCompareItemsCount(count($this->_itemCollection));
+            $this->_catalogSession->setCatalogCompareItemsCount(count($this->_itemCollection));
         }
 
         return $this->_itemCollection;
@@ -275,7 +265,7 @@ class Compare extends \Magento\Core\Helper\Url
     public function calculate($logout = false)
     {
         // first visit
-        if (!$this->_getSession()->hasCatalogCompareItemsCount() && !$this->_customerId) {
+        if (!$this->_catalogSession->hasCatalogCompareItemsCount() && !$this->_customerId) {
             $count = 0;
         } else {
             /** @var $collection \Magento\Catalog\Model\Resource\Product\Compare\Item\Collection */
@@ -296,7 +286,7 @@ class Compare extends \Magento\Core\Helper\Url
             $count = $collection->getSize();
         }
 
-        $this->_getSession()->setCatalogCompareItemsCount($count);
+        $this->_catalogSession->setCatalogCompareItemsCount($count);
 
         return $this;
     }
@@ -308,11 +298,11 @@ class Compare extends \Magento\Core\Helper\Url
      */
     public function getItemCount()
     {
-        if (!$this->_getSession()->hasCatalogCompareItemsCount()) {
+        if (!$this->_catalogSession->hasCatalogCompareItemsCount()) {
             $this->calculate();
         }
 
-        return $this->_getSession()->getCatalogCompareItemsCount();
+        return $this->_catalogSession->getCatalogCompareItemsCount();
     }
 
     /**

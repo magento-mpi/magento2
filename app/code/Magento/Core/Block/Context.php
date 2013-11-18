@@ -38,7 +38,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_translator;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $_cache;
 
@@ -68,7 +68,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_helperFactory;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -80,12 +80,12 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_viewConfig;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -95,22 +95,40 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_app;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $_escaper;
+
+    /**
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $_filterManager;
+
+    /**
+     * @var \Magento\Core\Model\LocaleInterface
+     */
+    protected $_locale;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\App\Cache\StateInterface $cacheState
+     * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
@@ -119,17 +137,20 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\App\Cache\StateInterface $cacheState,
+        \Magento\Logger $logger,
         \Magento\Core\Model\App $app,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_request         = $request;
@@ -148,10 +169,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cacheState      = $cacheState;
         $this->_logger          = $logger;
         $this->_app             = $app;
+        $this->_escaper         = $escaper;
+        $this->_filterManager   = $filterManager;
+        $this->_locale          = $locale;
     }
 
     /**
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCache()
     {
@@ -239,7 +263,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\View\Url
+     * @return \Magento\View\Url
      */
     public function getViewUrl()
     {
@@ -255,7 +279,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Cache\StateInterface
+     * @return \Magento\App\Cache\StateInterface
      */
     public function getCacheState()
     {
@@ -263,7 +287,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {
@@ -276,5 +300,29 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getApp()
     {
         return $this->_app;
+    }
+
+    /**
+     * @return \Magento\Escaper
+     */
+    public function getEscaper()
+    {
+        return $this->_escaper;
+    }
+
+    /**
+     * @return \Magento\Filter\FilterManager
+     */
+    public function getFilterManager()
+    {
+        return $this->_filterManager;
+    }
+
+    /**
+     * @return \Magento\Core\Model\LocaleInterface
+     */
+    public function getLocale()
+    {
+        return $this->_locale;
     }
 }

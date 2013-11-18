@@ -49,6 +49,8 @@ class Locale extends \Magento\Core\Model\Locale
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Locale\Config $config
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Date $dateModel
      * @param string $locale
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -65,6 +67,8 @@ class Locale extends \Magento\Core\Model\Locale
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Locale\Config $config,
         \Magento\Core\Model\App $app,
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Date $dateModel,
         $locale = null
     ) {
         $this->_session = $session;
@@ -72,7 +76,16 @@ class Locale extends \Magento\Core\Model\Locale
         $this->_request = $request;
         $this->_localeValidator = $localeValidator;
         parent::__construct(
-            $eventManager, $translate, $coreStoreConfig, $appState, $storeManager, $config, $app, $locale
+            $eventManager,
+            $translate,
+            $coreStoreConfig,
+            $appState,
+            $storeManager,
+            $config,
+            $app,
+            $dateTime,
+            $dateModel,
+            $locale
         );
     }
 

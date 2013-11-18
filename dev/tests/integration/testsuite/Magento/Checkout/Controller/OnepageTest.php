@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Checkout
- * @subpackage  integration_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Magento
+ * @package Magento_Checkout
+ * @subpackage integration_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Checkout\Controller;
@@ -34,7 +34,7 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('checkout/onepage/index');
         $html = $this->getResponse()->getBody();
         $this->assertContains('<li id="opc-payment"', $html);
-        $this->assertContains('<dl class="sp-methods" id="checkout-payment-method-load">', $html);
+        $this->assertSelectCount('[id="checkout-payment-method-load"]', 1, $html);
         $this->assertSelectCount('form[id="co-billing-form"][action=""]', 1, $html);
     }
 
@@ -77,3 +77,5 @@ class OnepageTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->assertContains('checkout-review', $this->getResponse()->getBody());
     }
 }
+
+

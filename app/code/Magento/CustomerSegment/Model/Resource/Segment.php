@@ -31,18 +31,26 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_resourceHelperPool;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Resource\HelperPool $resourceHelperPool
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Customer\Model\Config\Share $configShare
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Core\Model\Resource\HelperPool $resourceHelperPool,
-        \Magento\Core\Model\Resource $resource,
-        \Magento\Customer\Model\Config\Share $configShare
+        \Magento\App\Resource $resource,
+        \Magento\Customer\Model\Config\Share $configShare,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
         $this->_resourceHelperPool = $resourceHelperPool;
         $this->_configShare = $configShare;
+        $this->dateTime = $dateTime;
     }
 
 
@@ -158,7 +166,7 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
         $customerTable = $this->getTable('magento_customersegment_customer');
         $adapter = $this->_getWriteAdapter();
         $segmentId = $segment->getId();
-        $now = $this->formatDate(time());
+        $now = $this->dateTime->formatDate(time());
 
         $data = array();
         $count = 0;

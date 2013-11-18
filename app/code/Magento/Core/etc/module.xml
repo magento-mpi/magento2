@@ -16,8 +16,6 @@
             <module name="Magento_Index"/>
             <module name="Magento_Cron"/>
             <module name="Magento_Catalog"/>
-            <module name="Magento_Newsletter"/>
-            <module name="Magento_Cms"/>
             <module name="Magento_Theme"/>
             <module name="Magento_AdminNotification"/>
             <module name="Magento_CatalogInventory"/>
@@ -31,7 +29,6 @@
             <module name="Magento_PaypalUk"/>
             <module name="Magento_ProductAlert"/>
             <module name="Magento_SalesRule"/>
-            <module name="Magento_Eav"/>
             <module name="Magento_Page"/>
             <extension name="spl"/>
             <extension name="dom"/>

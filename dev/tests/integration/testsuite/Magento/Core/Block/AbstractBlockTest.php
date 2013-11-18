@@ -30,6 +30,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\Core\Block\AbstractBlock', array(
@@ -312,9 +313,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testGetBlockHtml()
     {
         // Without layout
-        /** @var $blockFactory \Magento\Core\Model\BlockFactory */
+        /** @var $blockFactory \Magento\View\Element\BlockFactory */
         $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\BlockFactory');
+            ->get('Magento\View\Element\BlockFactory');
         $block1 = $blockFactory->createBlock('Magento\Core\Block\Text');
         $block1->setText('Block text');
         $block1->setNameInLayout('block');
@@ -420,7 +421,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @covers \Magento\Core\Block\AbstractBlock::addToParentGroup
+     * @covers \Magento\Core\Model\Layout::addToParentGroup
      * @covers \Magento\Core\Block\AbstractBlock::getGroupChildNames
      */
     public function testAddToParentGroup()
@@ -429,8 +430,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $block1 = $this->_createBlockWithLayout('block1', 'block1');
         $block2 = $this->_createBlockWithLayout('block2', 'block2');
         $parent->setChild('block1', $block1)->setChild('block2', $block2);
-        $block1->addToParentGroup('group');
-        $block2->addToParentGroup('group');
+        $this->_layout->addToParentGroup('block1', 'group');
+        $this->_layout->addToParentGroup('block2', 'group');
         $group = $parent->getGroupChildNames('group');
         $this->assertContains('block1', $group);
         $this->assertContains('block2', $group);
@@ -554,14 +555,16 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatDate()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->assertEquals($helper->formatDate(), $this->_block->formatDate());
+        $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
+        $this->assertEquals($locale->formatDate(), $this->_block->formatDate());
     }
 
     public function testFormatTime()
     {
-        $helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Helper\Data');
-        $this->assertEquals($helper->formatTime(), $this->_block->formatTime());
+        $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
+            'Magento\Core\Model\LocaleInterface');
+        $this->assertEquals($locale->formatTime(), $this->_block->formatTime());
     }
 
     public function testGetModuleName()
@@ -612,10 +615,10 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($url, $this->_block->escapeUrl($url));
     }
 
-    public function testJsQuoteEscape()
+    public function testEscapeJsQuote()
     {
         $script = "var s = 'text';";
-        $this->assertEquals('var s = \\\'text\\\';', $this->_block->jsQuoteEscape($script));
+        $this->assertEquals('var s = \\\'text\\\';', $this->_block->escapeJsQuote($script));
     }
 
     public function testGetCacheKeyInfo()

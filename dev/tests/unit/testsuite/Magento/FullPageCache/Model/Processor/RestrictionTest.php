@@ -40,7 +40,7 @@ class RestrictionTest extends \PHPUnit_Framework_TestCase
         $this->_environmentMock = $this->getMock(
             'Magento\FullPageCache\Model\Environment', array(), array(), '', false
         );
-        $this->_cacheStateMock = $this->getMock('Magento\Core\Model\Cache\StateInterface');
+        $this->_cacheStateMock = $this->getMock('Magento\App\Cache\StateInterface');
         $this->_model = new \Magento\FullPageCache\Model\Processor\Restriction(
             $this->_cacheStateMock, $this->_environmentMock
         );

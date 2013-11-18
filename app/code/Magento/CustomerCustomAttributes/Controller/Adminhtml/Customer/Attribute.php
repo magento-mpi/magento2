@@ -14,7 +14,7 @@
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
 class Attribute
-    extends \Magento\Adminhtml\Controller\Action
+    extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Customer Address Entity Type instance
@@ -152,13 +152,13 @@ class Attribute
             if (!$attributeObject->getId()) {
                 $this->_getSession()
                     ->addError(__('The attribute no longer exists.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
                 $this->_getSession()->addError(
                     __('You cannot edit this attribute.'));
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
 
@@ -231,6 +231,8 @@ class Attribute
             $attributeObject = $this->_initAttribute();
             /* @var $helper \Magento\CustomerCustomAttributes\Helper\Data */
             $helper = $this->_objectManager->get('Magento\CustomerCustomAttributes\Helper\Data');
+            /* @var $filterManager \Magento\Filter\FilterManager */
+            $filterManager = $this->_objectManager->get('Magento\Filter\FilterManager');
 
             //filtering
             try {
@@ -238,9 +240,9 @@ class Attribute
             } catch (\Magento\Core\Exception $e) {
                     $this->_getSession()->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
-                        $this->_redirect('*/*/edit', array('_current' => true));
+                        $this->_redirect('adminhtml/*/edit', array('_current' => true));
                     } else {
-                        $this->_redirect('*/*/new', array('_current' => true));
+                        $this->_redirect('adminhtml/*/new', array('_current' => true));
                     }
                     return;
             }
@@ -253,7 +255,7 @@ class Attribute
                         __('You cannot edit this attribute.')
                     );
                     $this->_getSession()->addAttributeData($data);
-                    $this->_redirect('*/*/');
+                    $this->_redirect('adminhtml/*/');
                     return;
                 }
 
@@ -283,8 +285,9 @@ class Attribute
             $defaultValueField = $helper->getAttributeDefaultValueByInput($data['frontend_input']);
             if ($defaultValueField) {
                 $scopeKeyPrefix = ($this->getRequest()->getParam('website') ? 'scope_' : '');
-                $data[$scopeKeyPrefix . 'default_value'] = $helper->stripTags(
-                    $this->getRequest()->getParam($scopeKeyPrefix . $defaultValueField));
+                $data[$scopeKeyPrefix . 'default_value'] = $filterManager->stripTags(
+                    $this->getRequest()->getParam($scopeKeyPrefix . $defaultValueField)
+                );
             }
 
             $data['entity_type_id']     = $this->_getEntityType()->getId();
@@ -295,7 +298,7 @@ class Attribute
                 foreach ($validateRulesErrors as $message) {
                     $this->_getSession()->addError($message);
                 }
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
 
@@ -325,29 +328,29 @@ class Attribute
                 );
                 $this->_getSession()->setAttributeData(false);
                 if ($this->getRequest()->getParam('back', false)) {
-                    $this->_redirect('*/*/edit', array(
+                    $this->_redirect('adminhtml/*/edit', array(
                         'attribute_id'  => $attributeObject->getId(),
                         '_current'      => true
                     ));
                 } else {
-                    $this->_redirect('*/*/');
+                    $this->_redirect('adminhtml/*/');
                 }
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong saving the customer attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
-                $this->_redirect('*/*/edit', array('_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
         return;
     }
 
@@ -366,7 +369,7 @@ class Attribute
                 $this->_getSession()->addError(
                     __('You cannot delete this attribute.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             }
             try {
@@ -378,22 +381,22 @@ class Attribute
                 $this->_getSession()->addSuccess(
                     __('You deleted the customer attribute.')
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
             } catch (\Exception $e) {
                 $this->_getSession()->addException($e,
                     __('Something went wrong deleting the customer attribute.')
                 );
-                $this->_redirect('*/*/edit', array('attribute_id' => $attributeId, '_current' => true));
+                $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
             }
         }
 
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
         return;
     }
 

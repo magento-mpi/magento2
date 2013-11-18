@@ -18,7 +18,7 @@ namespace Magento\Core\Model;
 class Observer
 {
     /**
-     * @var \Magento\Core\Model\Cache\Frontend\Pool
+     * @var \Magento\App\Cache\Frontend\Pool
      */
     private $_cacheFrontendPool;
 
@@ -48,27 +48,27 @@ class Observer
     protected  $_registration;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * @param \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool
+     * @param \Magento\App\Cache\Frontend\Pool $cacheFrontendPool
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\ConfigInterface $config
      * @param \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory
      * @param \Magento\Core\Model\Theme\Registration $registration
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Model\Cache\Frontend\Pool $cacheFrontendPool,
+        \Magento\App\Cache\Frontend\Pool $cacheFrontendPool,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\ConfigInterface $config,
         \Magento\Core\Model\Page\Asset\PublicFileFactory $assetFileFactory,
         \Magento\Core\Model\Theme\Registration $registration,
-        \Magento\Core\Model\Logger $logger
+        \Magento\Logger $logger
     ) {
         $this->_cacheFrontendPool = $cacheFrontendPool;
         $this->_currentTheme = $design->getDesignTheme();
@@ -124,7 +124,7 @@ class Observer
         foreach ($this->_currentTheme->getCustomization()->getFiles() as $themeFile) {
             try {
                 $service = $themeFile->getCustomizationService();
-                if ($service instanceof \Magento\Core\Model\Theme\Customization\FileAssetInterface) {
+                if ($service instanceof \Magento\View\Design\Theme\Customization\FileAssetInterface) {
                     $asset = $this->_assetFileFactory->create(array(
                         'file'        => $themeFile->getFullPath(),
                         'contentType' => $service->getContentType()

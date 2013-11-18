@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Email Invoice Items List" type="page" parent="sales_order_invoice">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Email Invoice Items List" design_abstraction="custom">
     <block class="Magento\Sales\Block\Order\Email\Invoice\Items" name="items" template="email/invoice/items.phtml">
         <block class="Magento\Sales\Block\Order\Email\Items\DefaultItems" as="default" template="email/items/invoice/default.phtml"/>
         <block class="Magento\Sales\Block\Order\Email\Items\Order\Grouped" as="grouped" template="email/items/invoice/default.phtml"/>
@@ -19,5 +19,5 @@
             <block class="Magento\Tax\Block\Sales\Order\Tax" name="tax" template="order/tax.phtml"/>
         </block>
     </block>
-    <container name="additional.product.info" label="Additional Product Info"/>
+    <block class="Magento\Core\Block\Template" name="additional.product.info" template="Magento_Core::template.phtml"/>
 </layout>

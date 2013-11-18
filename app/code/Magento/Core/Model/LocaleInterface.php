@@ -29,8 +29,6 @@ interface LocaleInterface
      */
     const XML_PATH_DEFAULT_LOCALE   = 'general/locale/code';
     const XML_PATH_DEFAULT_TIMEZONE = 'general/locale/timezone';
-    const XML_PATH_ALLOW_CODES      = 'global/locale/allow/codes';
-    const XML_PATH_ALLOW_CURRENCIES = 'global/locale/allow/currencies';
     const XML_PATH_ALLOW_CURRENCIES_INSTALLED = 'system/currency/installed';
 
     /**
@@ -331,4 +329,35 @@ interface LocaleInterface
      * @return bool
      */
     public function isStoreDateInInterval($store, $dateFrom = null, $dateTo = null);
+
+    /**
+     * Format date using current locale options and time zone.
+     *
+     * @param Zend_Date|null $date
+     * @param string $format
+     * @param bool $showTime
+     * @return string
+     */
+    public function formatDate(
+        $date = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showTime = false
+    );
+
+    /**
+     * Format time using current locale options
+     *
+     * @param Zend_Date|null $time
+     * @param string $format
+     * @param bool $showDate
+     * @return string
+     */
+    public function formatTime(
+        $time = null, $format = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT, $showDate = false
+    );
+
+    /**
+     * Gets the store config timezone
+     *
+     * @return string
+     */
+    public function getConfigTimezone();
 }

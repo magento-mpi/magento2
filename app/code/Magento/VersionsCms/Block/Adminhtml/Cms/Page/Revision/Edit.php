@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision;
 
-class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
+class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
 {
     /**
      * @var \Magento\VersionsCms\Model\Config
@@ -54,7 +54,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
         $this->_controller = 'adminhtml_cms_page_revision';
         $this->_blockGroup = 'Magento_VersionsCms';
 
-        $this->setFormActionUrl($this->getUrl('*/cms_page_revision/save'));
+        $this->setFormActionUrl($this->getUrl('adminhtml/cms_page_revision/save'));
 
         $objId = $this->getRequest()->getParam($this->_objectId);
 
@@ -206,7 +206,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
     public function getBackUrl()
     {
         $page = $this->_coreRegistry->registry('cms_page');
-        return $this->getUrl('*/cms_page_version/edit', array(
+        return $this->getUrl('adminhtml/cms_page_version/edit', array(
             'page_id' => $page ? $page->getPageId() : null,
             'version_id' => $page ? $page->getVersionId() : null
         ));
@@ -219,7 +219,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
      */
     public function getDeleteUrl()
     {
-        return $this->getUrl('*/*/delete', array('_current' => true));
+        return $this->getUrl('adminhtml/*/delete', array('_current' => true));
     }
 
     /**
@@ -229,7 +229,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
      */
     public function getPublishUrl()
     {
-        return $this->getUrl('*/*/publish', array('_current' => true));
+        return $this->getUrl('adminhtml/*/publish', array('_current' => true));
     }
 
     /**
@@ -239,7 +239,7 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
      */
     public function getPreviewUrl()
     {
-        return $this->getUrl('*/*/preview');
+        return $this->getUrl('adminhtml/*/preview');
     }
 
     /**
@@ -259,6 +259,6 @@ class Edit extends \Magento\Adminhtml\Block\Cms\Page\Edit
      */
     public function getNewVersionUrl()
     {
-        return $this->getUrl('*/cms_page_version/new');
+        return $this->getUrl('adminhtml/cms_page_version/new');
     }
 }

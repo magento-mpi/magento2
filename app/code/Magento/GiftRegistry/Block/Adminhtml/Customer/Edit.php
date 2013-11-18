@@ -52,7 +52,7 @@ class Edit
         $confirmMessage = __('Are you sure you want to delete this gift registry?');
         $this->_updateButton('delete', 'label', __('Delete Registry'));
         $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
     }
 
@@ -81,6 +81,6 @@ class Edit
         if ($this->_coreRegistry->registry('current_giftregistry_entity')) {
             $customerId = $this->_coreRegistry->registry('current_giftregistry_entity')->getCustomerId();
         }
-        return $this->getUrl('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
+        return $this->getUrl('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }
 }

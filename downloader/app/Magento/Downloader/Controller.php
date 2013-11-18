@@ -496,11 +496,11 @@ final class Controller
                     }
                     include_once self::$_instance->getBootstrapPath();
 
-                    \Magento\Core\Model\ObjectManager::getInstance()
+                    \Magento\App\ObjectManager::getInstance()
                         ->get('Magento\App\State')
                         ->setIsDownloader();
                 }
-                \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Core\Model\App');
+                \Magento\App\ObjectManager::getInstance()->get('Magento\Core\Model\App');
                 if (self::isInstalled()) {
                     \Mage::getSingleton('Magento\Backend\Model\Url')->turnOffSecretKey();
                 }
@@ -927,9 +927,9 @@ final class Controller
                 // reinit config and apply all updates
                 \Mage::app()->getConfig()->reinit();
 
-                /** @var $updater \Magento\App\UpdaterInterface*/
-                $updater = \Magento\Core\Model\ObjectManager::getInstance()
-                    ->get('Magento\App\UpdaterInterface');
+                /** @var $updater \Magento\Module\UpdaterInterface*/
+                $updater = \Magento\App\ObjectManager::getInstance()
+                    ->get('Magento\Module\UpdaterInterface');
                 $updater->updateScheme();
                 $updater->updateData();
                 $message .= 'Cache cleaned successfully';
@@ -1009,13 +1009,14 @@ final class Controller
         try {
             $type = $this->_getBackupTypeByCode($archiveType);
 
-            $backupManager = \Magento\Backup::getBackupInstance($type)
+            $backupManager = \Magento\Core\Model\ObjectManager::getInstance()->get('Magento\Backup\Factory')
+                ->create($type)
                 ->setBackupExtension($this->_getExtensionType($type))
                 ->setTime(time())
                 ->setName($archiveName)
                 ->setBackupsDir(\Mage::getBaseDir('var') . DS . 'backups');
 
-            \Magento\Core\Model\ObjectManager::getInstance()
+            \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\Registry')
                 ->register('backup_manager', $backupManager);
 

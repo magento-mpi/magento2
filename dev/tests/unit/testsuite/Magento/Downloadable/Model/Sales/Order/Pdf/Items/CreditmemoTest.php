@@ -36,10 +36,10 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
                 'Magento\Catalog\Model\ProductFactory', array(), array(), '', false
             ),
             'templateMailerFactory' => $this->getMock(
-                'Magento\Core\Model\Email\Template\MailerFactory', array(), array(), '', false
+                'Magento\Email\Model\Template\MailerFactory', array(), array(), '', false
             ),
             'emailInfoFactory' => $this->getMock(
-                'Magento\Core\Model\Email\InfoFactory', array(), array(), '', false
+                'Magento\Email\Model\InfoFactory', array(), array(), '', false
             ),
             'orderItemCollFactory' => $this->getMock(
                 'Magento\Sales\Model\Resource\Order\Item\CollectionFactory', array(), array(), '', false
@@ -68,11 +68,9 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             'Magento\Sales\Model\Order\Pdf\AbstractPdf', array('drawLineBlocks', 'getPdf'), array(), '', false, false
         );
 
-        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
-        $locale = $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false, false);
         $modelConstructorArgs = $objectManager
             ->getConstructArguments('Magento\Downloadable\Model\Sales\Order\Pdf\Items\Creditmemo', array(
-                'helper' => new \Magento\Core\Helper\String($context, $locale)
+                'string' => new \Magento\Stdlib\String()
         ));
 
         $this->_model = $this->getMock(
@@ -81,8 +79,6 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             $modelConstructorArgs
         );
 
-        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false);
-        $this->_model->setStringHelper(new \Magento\Core\Helper\String($context, $locale));
         $this->_model->setOrder($this->_order);
         $this->_model->setPdf($this->_pdf);
         $this->_model->setPage(new \Zend_Pdf_Page('a4'));
@@ -175,7 +171,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         ;
 
         $this->assertNotSame($expectedPdfPage, $this->_model->getPage());
-        $this->_model->draw();
+        $this->assertNull($this->_model->draw());
         $this->assertSame($expectedPdfPage, $this->_model->getPage());
     }
 }

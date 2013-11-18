@@ -34,7 +34,7 @@ abstract class AbstractAccordion
     /**
      * Url to configure this grid's items
      */
-    protected $_configureRoute = '*/checkout/configureProductToAdd';
+    protected $_configureRoute = 'checkout/index/configureProductToAdd';
 
     /**
      * Core registry
@@ -189,7 +189,7 @@ abstract class AbstractAccordion
         $this->addColumn('qty', array(
             'sortable'  => false,
             'header'    => __('Quantity'),
-            'renderer'  => 'Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Qty',
+            'renderer'  => 'Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Qty',
             'name'      => 'qty',
             'inline_css'=> 'qty',
             'align'     => 'right',

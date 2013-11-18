@@ -31,7 +31,7 @@ class Tierprice
     /**
      * Construct
      *
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -40,7 +40,7 @@ class Tierprice
      * @param \Magento\Core\Model\Config $config
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice $productAttributeTierprice,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

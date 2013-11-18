@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     \Magento\ObjectManager
+ * @package     Magento_ObjectManager
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,6 +12,13 @@ namespace Magento;
 
 interface ObjectManager
 {
+    /**
+     * Set factory
+     *
+     * @param ObjectManager\Factory $factory
+     */
+    public function setFactory(ObjectManager\Factory $factory);
+
     /**
      * Create new object instance
      *

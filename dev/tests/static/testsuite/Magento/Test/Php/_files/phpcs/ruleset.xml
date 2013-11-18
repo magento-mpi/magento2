@@ -23,7 +23,10 @@
     <rule ref="Generic.Files.LineEndings"/>
     <rule ref="PEAR.NamingConventions.ValidClassName"/>
     <rule ref="Squiz.Functions.GlobalFunction"/>
-    <rule ref="Zend.NamingConventions.ValidVariableName"/>
+    <rule ref="Zend.NamingConventions.ValidVariableName">
+        <!-- Excluding as it conflicts with the PSR2 standard which over rides this one -->
+        <exclude name="Zend.NamingConventions.ValidVariableName.PrivateNoUnderscore"/>
+    </rule>
     <rule ref="Generic.NamingConventions.UpperCaseConstantName"/>
     <rule ref="Generic.PHP.DisallowShortOpenTag"/>
     <rule ref="PEAR.Classes.ClassDeclaration"/>

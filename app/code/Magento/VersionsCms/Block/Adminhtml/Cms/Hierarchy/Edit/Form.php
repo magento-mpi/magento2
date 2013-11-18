@@ -78,7 +78,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_hierarchyLock;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -96,7 +96,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
@@ -141,7 +141,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id'        => 'edit_form',
-                'action'    => $this->getUrl('*/*/save'),
+                'action'    => $this->getUrl('adminhtml/*/save'),
                 'method'    => 'post',
             ))
         );
@@ -760,6 +760,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'store'  => $this->getRequest()->getParam('store'),
             'scopes' => $this->getData('current_scope') . '_' . $this->getData('current_scope_id'),
         );
-        return $this->getUrl('*/*/delete', $params);
+        return $this->getUrl('adminhtml/*/delete', $params);
     }
 }

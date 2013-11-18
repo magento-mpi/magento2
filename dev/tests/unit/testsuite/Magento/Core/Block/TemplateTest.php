@@ -24,12 +24,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\EngineInterface|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\TemplateEngineInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_templateEngine;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_viewFileSystem;
 
@@ -42,28 +42,32 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $dirs->expects($this->any())->method('getDir')->will($this->returnValueMap($dirMap));
 
-        $this->_viewFileSystem = $this->getMock('\Magento\Core\Model\View\FileSystem', array(), array(), '', false);
+        $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', array(), array(), '', false);
 
         $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
 
-        $this->_templateEngine = $this->getMock('\Magento\Core\Model\TemplateEngine\EngineInterface');
+        $this->_templateEngine = $this->getMock('\Magento\View\TemplateEngineInterface');
 
-        $enginePool = $this->getMock('Magento\Core\Model\TemplateEngine\Pool', array(), array(), '', false);
+        $enginePool = $this->getMock('Magento\View\TemplateEngineFactory', array(), array(), '', false);
         $enginePool->expects($this->any())
             ->method('get')
             ->with('phtml')
             ->will($this->returnValue($this->_templateEngine));
 
-        $context = $this->getMock('\Magento\Core\Block\Template\Context', array(), array(), '', false);
-        $context->expects($this->any())->method('getEnginePool')->will($this->returnValue($enginePool));
+        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('frontend'));
+
+        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
+        $context->expects($this->any())->method('getEngineFactory')->will($this->returnValue($enginePool));
         $context->expects($this->any())->method('getDirs')->will($this->returnValue($dirs));
         $context->expects($this->any())->method('getFilesystem')->will($this->returnValue($this->_filesystem));
         $context->expects($this->any())->method('getViewFileSystem')->will($this->returnValue($this->_viewFileSystem));
+        $context->expects($this->any())->method('getAppState')->will($this->returnValue($appState));
 
         $this->_block = new \Magento\Core\Block\Template(
             $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false),
             $context,
-            array('template' => 'template.phtml', 'area' => 'frontend', 'module_name' => 'Fixture_Module')
+            array('template' => 'template.phtml', 'module_name' => 'Fixture_Module')
         );
     }
 

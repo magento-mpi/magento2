@@ -40,21 +40,29 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_application;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\App $application
-     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\App $application,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
+        $this->dateTime = $dateTime;
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
         $this->_application = $application;
     }
@@ -268,7 +276,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected function _getStatusColumnExpr()
     {
         $adapter    = $this->getConnection();
-        $timeNow    = $this->getResource()->formatDate(true);
+        $timeNow    = $this->dateTime->formatDate(true);
         $dateStart1 = $adapter->quoteInto('date_start <= ?', $timeNow);
         $dateEnd1   = $adapter->quoteInto('date_end >= ?', $timeNow);
         $dateStart2 = $adapter->quoteInto('date_start > ?', $timeNow);

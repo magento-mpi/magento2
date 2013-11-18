@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -119,21 +117,6 @@ interface UrlInterface
      * @return bool
      */
     public function isSecure();
-
-    /**
-     * Set store entity
-     *
-     * @param mixed $params
-     * @return \Magento\UrlInterface
-     */
-    public function setStore($params);
-
-    /**
-     * Get current store for the url instance
-     *
-     * @return \Magento\Core\Model\Store
-     */
-    public function getStore();
 
     /**
      * Retrieve Base URL

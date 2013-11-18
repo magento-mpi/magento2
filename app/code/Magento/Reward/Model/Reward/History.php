@@ -78,12 +78,18 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_reward;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -94,12 +100,14 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Reward\Model\Resource\Reward\History $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
         $this->_storeManager = $storeManager;
         $this->_reward = $reward;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -130,7 +138,7 @@ class History extends \Magento\Core\Model\AbstractModel
 
         $now = time();
         $this->addData(array(
-            'created_at' => $this->getResource()->formatDate($now),
+            'created_at' => $this->dateTime->formatDate($now),
             'expired_at_static' => null,
             'expired_at_dynamic' => null,
             'notification_sent' => 0
@@ -139,7 +147,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $lifetime = (int)$this->_rewardData->getGeneralConfig('expiration_days', $this->getWebsiteId());
         if ($lifetime > 0) {
             $expires = $now + $lifetime * 86400;
-            $expires = $this->getResource()->formatDate($expires);
+            $expires = $this->dateTime->formatDate($expires);
             $this->addData(array(
                 'expired_at_static' => $expires,
                 'expired_at_dynamic' => $expires,

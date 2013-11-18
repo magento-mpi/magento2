@@ -26,22 +26,20 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var \Magento\App\State */
     protected $_appState;
 
-    /** @var \Magento\Oauth\Service\OauthV1Interface */
+    /** @var \Magento\Oauth\OauthInterface */
     protected $_oauthService;
 
-    /** @var  \Magento\Oauth\Helper\Data */
+    /** @var  \Magento\Oauth\Helper\Request */
     protected $_oauthHelper;
 
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Webapi\Controller\Rest\Request $request
-     * @param \Magento\Webapi\Controller\Rest\Response $response
-     * @param \Magento\Webapi\Controller\Rest\Router $router
+     * @param Rest\Request $request
+     * @param Rest\Response $response
+     * @param Rest\Router $router
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\App\State $appState
-     * @param \Magento\Oauth\Service\OauthV1Interface $oauthService
-     * @param \Magento\Oauth\Helper\Data $oauthHelper
+     * @param \Magento\Oauth\OauthInterface $oauthService
+     * @param \Magento\Oauth\Helper\Request $oauthHelper
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Request $request,
@@ -49,8 +47,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         \Magento\Webapi\Controller\Rest\Router $router,
         \Magento\ObjectManager $objectManager,
         \Magento\App\State $appState,
-        \Magento\Oauth\Service\OauthV1Interface $oauthService,
-        \Magento\Oauth\Helper\Data $oauthHelper
+        \Magento\Oauth\OauthInterface $oauthService,
+        \Magento\Oauth\Helper\Request $oauthHelper
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -75,7 +73,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * Handle REST request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -86,8 +84,13 @@ class Rest implements \Magento\App\FrontControllerInterface
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
-            $oauthReq = $this->_oauthHelper->prepareServiceRequest($this->_request, $this->_request->getRequestData());
-            $this->_oauthService->validateAccessTokenRequest($oauthReq);
+            $requestUrl = $this->_oauthHelper->getRequestUrl($this->_request);
+            $oauthRequest = $this->_oauthHelper->prepareRequest(
+                $this->_request, $requestUrl, $this->_request->getRequestData()
+            );
+            $this->_oauthService->validateAccessTokenRequest(
+                $oauthRequest, $requestUrl, $this->_request->getMethod()
+            );
             $route = $this->_router->match($this->_request);
 
             if ($route->isSecure() && !$this->_request->isSecure()) {
@@ -108,7 +111,6 @@ class Rest implements \Magento\App\FrontControllerInterface
         } catch (\Exception $e) {
             $this->_response->setException($e);
         }
-        $this->_response->sendResponse();
-        return $this;
+        return $this->_response;
     }
 }

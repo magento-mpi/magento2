@@ -21,7 +21,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Logger instance
      *
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -33,14 +33,19 @@ class Context extends \Magento\Core\Block\Context
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\Core\Model\TemplateEngine\Pool
+     * @var \Magento\View\TemplateEngineFactory
      */
-    protected $_enginePool;
+    protected $_engineFactory;
+
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -48,21 +53,26 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\Translate $translator
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
      * @param \Magento\Core\Model\Factory\Helper $helperFactory
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\App\Dir $dirs
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
-     * @param \Magento\Core\Model\TemplateEngine\Pool $enginePool
+     * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\View\TemplateEngineFactory $engineFactory
      * @param \Magento\Core\Model\App $app
+     * @param \Magento\App\State $appState
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Filter\FilterManager $filterManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -70,32 +80,56 @@ class Context extends \Magento\Core\Block\Context
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\Translate $translator,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
         \Magento\Core\Model\Factory\Helper $helperFactory,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\App\Dir $dirs,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem,
-        \Magento\Core\Model\TemplateEngine\Pool $enginePool,
-        \Magento\Core\Model\App $app
+        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\View\TemplateEngineFactory $engineFactory,
+        \Magento\Core\Model\App $app,
+        \Magento\App\State $appState,
+        \Magento\Escaper $escaper,
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        array $data = array()
     ) {
         parent::__construct(
-            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session,
-            $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app
+            $request,
+            $layout,
+            $eventManager,
+            $urlBuilder,
+            $translator,
+            $cache,
+            $design,
+            $session,
+            $storeConfig,
+            $frontController,
+            $helperFactory,
+            $viewUrl,
+            $viewConfig,
+            $cacheState,
+            $logger,
+            $app,
+            $escaper,
+            $filterManager,
+            $locale,
+            $data
         );
 
+        $this->_appState = $appState;
         $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_enginePool = $enginePool;
+        $this->_engineFactory = $engineFactory;
     }
 
     /**
@@ -120,7 +154,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get logger instance
      *
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {
@@ -130,7 +164,7 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get view file system model
      *
-     * @return \Magento\Core\Model\View\FileSystem
+     * @return \Magento\View\FileSystem
      */
     public function getViewFileSystem()
     {
@@ -140,10 +174,20 @@ class Context extends \Magento\Core\Block\Context
     /**
      * Get the template engine pool instance
      *
-     * @return \Magento\Core\Model\TemplateEngine\Pool
+     * @return \Magento\View\TemplateEngineFactory
      */
-    public function getEnginePool()
+    public function getEngineFactory()
     {
-        return $this->_enginePool;
+        return $this->_engineFactory;
+    }
+
+    /**
+     * Get app state object
+     *
+     * @return \Magento\App\State
+     */
+    public function getAppState()
+    {
+        return $this->_appState;
     }
 }

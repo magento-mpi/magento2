@@ -121,12 +121,12 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
     protected $_commentCollFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -137,13 +137,14 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollFactory
      * @param \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -157,13 +158,14 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Item\CollectionFactory $shipmentItemCollFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Track\CollectionFactory $trackCollFactory,
         \Magento\Sales\Model\Order\Shipment\CommentFactory $commentFactory,
         \Magento\Sales\Model\Resource\Order\Shipment\Comment\CollectionFactory $commentCollFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -178,7 +180,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
         $this->_commentCollFactory = $commentCollFactory;
         $this->_templateMailerFactory = $templateMailerFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
-        parent::__construct($context, $registry, $coreLocale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -514,7 +516,7 @@ class Shipment extends \Magento\Sales\Model\AbstractModel
             $customerName = $order->getCustomerName();
         }
 
-        /** @var $mailer \Magento\Core\Model\Email\Template\Mailer */
+        /** @var $mailer \Magento\Email\Model\Template\Mailer */
         $mailer = $this->_templateMailerFactory->create();
         if ($notifyCustomer) {
             $emailInfo = $this->_emailInfoFactory->create();

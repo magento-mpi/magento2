@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Email Order Items List" type="page" parent="sales_order_view">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Email Order Items List" design_abstraction="custom">
     <block class="Magento\Sales\Block\Order\Email\Items" name="items" template="email/items.phtml">
         <block class="Magento\Sales\Block\Order\Email\Items\Order\DefaultOrder" as="default" template="email/items/order/default.phtml"/>
         <block class="Magento\Sales\Block\Order\Email\Items\Order\Grouped" as="grouped" template="email/items/order/default.phtml"/>

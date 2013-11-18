@@ -69,6 +69,11 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
     protected $_coreStoreConfig;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * Initialize inline translation model
      *
      * @param InlineParser $parser
@@ -77,6 +82,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Core\Model\Translate\InlineParser $parser,
@@ -84,7 +90,8 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Model\Url $url,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\App\State $appState
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_parser = $parser;
@@ -92,6 +99,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
         $this->_backendUrl = $backendUrl;
         $this->_url = $url;
         $this->_layout = $layout;
+        $this->_appState = $appState;
     }
 
     /**
@@ -131,7 +139,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
     {
         $this->_parser->setIsJson($isJson);
         if (!$this->isAllowed()) {
-            if ($this->_parser->getDesignPackage()->getArea() == \Magento\Backend\Helper\Data::BACKEND_AREA_CODE) {
+            if ($this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
                 $this->_stripInlineTranslations($body);
             }
             return $this;
@@ -172,7 +180,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
 
         $store = $this->_parser->getStoreManager()->getStore();
         if ($store->isAdmin()) {
-            $urlPrefix = \Magento\Backend\Helper\Data::BACKEND_AREA_CODE;
+            $urlPrefix = \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
             $urlModel = $this->_backendUrl;
         } else {
             $urlPrefix = 'core';

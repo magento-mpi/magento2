@@ -36,7 +36,6 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
      *
      * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_importData
      * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_prepareDataForUpdate
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_saveCustomerEntity
      * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_saveCustomerAttributes
      *
      * @magentoDataFixture Magento/ImportExport/_files/customer.php
@@ -105,15 +104,12 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
     /**
      * Test importData() method (delete behavior)
      *
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_importData
-     * @covers \Magento\ImportExport\Model\Import\Entity\Eav\Customer::_deleteCustomers
-     *
      * @magentoDataFixture Magento/ImportExport/_files/customers.php
      */
     public function testDeleteData()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
 
         /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */

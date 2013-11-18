@@ -8,14 +8,14 @@
  */
 -->
 <config>
-    <type name="Magento\Core\Model\ModuleManager">
+    <type name="Magento\Module\Manager">
         <param name="outputConfigPaths">
             <value>
                 <Magento_Reward>Magento\Reward\Helper\Data::XML_PATH_ENABLED</Magento_Reward>
             </value>
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <reward_setup>Magento\Reward\Model\Resource\Setup</reward_setup>

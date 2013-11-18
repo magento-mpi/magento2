@@ -16,19 +16,13 @@ namespace Magento\Sales\Model\Order\Pdf;
 class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\App\Dir $coreDir
@@ -44,8 +38,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
         \Magento\App\Dir $coreDir,
@@ -57,12 +50,10 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         parent::__construct(
             $paymentData,
-            $coreData,
-            $coreString,
+            $string,
             $coreStoreConfig,
             $translate,
             $coreDir,
@@ -70,6 +61,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
+            $locale,
             $data
         );
     }
@@ -155,7 +147,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         foreach ($invoices as $invoice) {
             if ($invoice->getStoreId()) {
-                $this->_locale->emulate($invoice->getStoreId());
+                $this->locale->emulate($invoice->getStoreId());
                 $this->_storeManager->setCurrentStore($invoice->getStoreId());
             }
             $page  = $this->newPage();
@@ -188,7 +180,7 @@ class Invoice extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             /* Add totals */
             $this->insertTotals($page, $invoice);
             if ($invoice->getStoreId()) {
-                $this->_locale->revert();
+                $this->locale->revert();
             }
         }
         $this->_afterGetPdf();

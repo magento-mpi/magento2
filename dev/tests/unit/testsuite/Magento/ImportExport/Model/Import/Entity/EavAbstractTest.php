@@ -36,7 +36,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Core\Helper\String|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_coreStringMock;
+    protected $_string;
 
     /**
      * @var \Magento\ImportExport\Model\ImportFactory
@@ -44,7 +44,7 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected $_importFactory;
 
     /**
-     * @var \Magento\Core\Model\Resource
+     * @var \Magento\App\Resource
      */
     protected $_resource;
 
@@ -71,11 +71,11 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_coreDataMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_coreStringMock = $this->getMock('Magento\Core\Helper\String', array('__construct'), array(), '', false);
+        $this->_string = new \Magento\Stdlib\String;
         $coreStoreConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
 
         $this->_importFactory = $this->getMock('Magento\ImportExport\Model\ImportFactory', array(), array(), '', false);
-        $this->_resource = $this->getMock('Magento\Core\Model\Resource', array(), array(), '', false);
+        $this->_resource = $this->getMock('Magento\App\Resource', array(), array(), '', false);
         $this->_resourceHelper = $this->getMock(
             'Magento\ImportExport\Model\Resource\Helper', array(), array(), '', false
         );
@@ -86,20 +86,18 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
             'Magento\Eav\Model\Config', array(), array(), '', false
         );
 
-        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEav',
-            array(
-                $this->_coreDataMock,
-                $this->_coreStringMock,
-                $coreStoreConfig,
-                $this->_importFactory,
-                $this->_resourceHelper,
-                $this->_resource,
-                $this->_app,
-                $this->_collectionFactory,
-                $this->_eavConfig,
-                $this->_getModelDependencies()
-            )
-        );
+        $this->_model = $this->getMockForAbstractClass('Magento\ImportExport\Model\Import\Entity\AbstractEav', array(
+            $this->_coreDataMock,
+            $this->_string,
+            $coreStoreConfig,
+            $this->_importFactory,
+            $this->_resourceHelper,
+            $this->_resource,
+            $this->_app,
+            $this->_collectionFactory,
+            $this->_eavConfig,
+            $this->_getModelDependencies()
+        ));
     }
 
     protected function tearDown()
@@ -115,12 +113,16 @@ class EavAbstractTest extends \PHPUnit_Framework_TestCase
     protected function _getModelDependencies()
     {
         $localeMock = $this->getMock('Magento\Core\Model\Locale', array(), array(), '', false);
+        $string = new \Magento\Stdlib\String;
         $data = array(
             'data_source_model'            => 'not_used',
             'connection'                   => 'not_used',
             'json_helper'                  => 'not_used',
             'string_helper'                => new \Magento\Core\Helper\String(
-                $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false), $localeMock
+                $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false, false),
+                $localeMock,
+                $string,
+                new \Magento\Stdlib\String($string)
             ),
             'page_size'                    => 1,
             'max_data_size'                => 1,

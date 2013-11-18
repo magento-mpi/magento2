@@ -37,7 +37,7 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                     'module'     => $module
                 );
                 $file = \Magento\TestFramework\Helper\Bootstrap::getObjectmanager()
-                    ->get('Magento\Core\Model\View\FileSystem')
+                    ->get('Magento\View\FileSystem')
                     ->getFilename($template, $params);
                 $this->assertFileExists($file, "Block class: {$class}");
             },
@@ -78,12 +78,14 @@ class TemplateFilesTest extends \Magento\TestFramework\TestCase\AbstractIntegrit
                 }
 
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
-                    \Magento\Core\Model\App\Area::AREA_ADMINHTML,
+                    \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
                     \Magento\Core\Model\App\Area::PART_CONFIG
                 );
                 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                     ->get('Magento\Config\ScopeInterface')
                     ->setCurrentScope($area);
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
+                    ->setAreaCode($area);
 
                 $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create($blockClass);
                 $template = $block->getTemplate();

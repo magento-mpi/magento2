@@ -30,9 +30,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_configFileName = 'persistent.xml';
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Module\Dir\Reader
      */
-    protected $_config;
+    protected $_modulesReader;
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -41,16 +41,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
+        \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {
         parent::__construct($context);
-        $this->_config = $config;
+        $this->_modulesReader = $modulesReader;
         $this->_storeConfig = $storeConfig;
     }
 
@@ -61,7 +61,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getPersistentConfigFilePath()
     {
-        return $this->_config->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
+        return $this->_modulesReader->getModuleDir('etc', $this->_getModuleName()) . DS . $this->_configFileName;
     }
 
     /**

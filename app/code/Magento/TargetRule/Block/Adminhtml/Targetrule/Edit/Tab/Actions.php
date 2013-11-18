@@ -36,7 +36,7 @@ class Actions
      * @param \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -45,7 +45,7 @@ class Actions
         \Magento\TargetRule\Block\Adminhtml\Actions\Conditions $conditions,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
@@ -71,7 +71,7 @@ class Actions
         $fieldset   = $form->addFieldset('actions_fieldset', array(
             'legend' => __('Product Result Conditions (leave blank for matching all products)'))
         );
-        $newCondUrl = $this->getUrl('*/targetrule/newActionsHtml/', array(
+        $newCondUrl = $this->getUrl('adminhtml/targetrule/newActionsHtml/', array(
             'form'  => $fieldset->getHtmlId()
         ));
         $renderer   = $this->_fieldset->setTemplate('Magento_TargetRule::edit/conditions/fieldset.phtml')

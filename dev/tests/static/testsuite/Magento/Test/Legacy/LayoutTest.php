@@ -92,6 +92,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 $layoutXml = simplexml_load_file($layoutFile);
 
                 $this->_testObsoleteReferences($layoutXml);
+                $this->_testObsoleteAttributes($layoutXml);
 
                 $selectorHeadBlock = '(name()="block" or name()="referenceBlock") and '
                     . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
@@ -121,7 +122,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                 }
 
                 if (false
-                    !== strpos($layoutFile, 'app/code/Magento/Adminhtml/view/adminhtml/layout/adminhtml_sales_order')
+                    !== strpos($layoutFile, 'app/code/Magento/Sales/view/adminhtml/layout/sales_order')
                 ) {
                     $this->markTestIncomplete("The file {$layoutFile} has to use \\Magento\\Core\\Block\\Text\\List, \n"
                             . 'there is no solution to get rid of it right now.'
@@ -151,6 +152,34 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     );
                 }
             }
+        }
+    }
+
+    /**
+     * Tests the attributes of the top-level Layout Node.
+     * Verifies there are no longer attributes of "parent" or "owner"
+     *
+     * @param SimpleXMLElement $layoutXml
+     */
+    protected function _testObsoleteAttributes($layoutXml)
+    {
+        $issues = array();
+        $type = $layoutXml['type'];
+        $parent = $layoutXml['parent'];
+        $owner = $layoutXml['owner'];
+
+        if ((string)$type === 'page') {
+            if ($parent) {
+                $issues[] = 'Attribute "parent" is not valid';
+            }
+        }
+        if ((string)$type === 'fragment') {
+            if ($owner) {
+                $issues[] = 'Attribute "owner" is not valid';
+            }
+        }
+        if ($issues) {
+            $this->fail("Issues found in handle declaration:\n" . implode("\n", $issues) . "\n");
         }
     }
 
@@ -190,18 +219,15 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
             'addBodyClass',
             'addButtons',
             'addColumnCountLayoutDepend',
-            'addColumnRender',
             'addCrumb',
             'addDatabaseBlock',
             'addInputTypeTemplate',
             'addNotice',
             'addPriceBlockType',
-            'addRenderer',
             'addReportTypeOption',
             'addTab',
             'addTabAfter',
             'addText',
-            'addToParentGroup',
             'append',
             'removeTab',
             'setActive',

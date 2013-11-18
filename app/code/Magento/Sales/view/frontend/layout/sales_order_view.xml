@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer My Account Order View" type="page" parent="default">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento\Sales\Block\Order\Info" as="info" name="sales.order.info">
@@ -28,5 +28,5 @@
         </block>
     </referenceContainer>
     <update handle="sales_order_info_links"/>
-    <container name="additional.product.info" label="Additional Product Info"/>
+    <block class="Magento\Core\Block\Template" name="additional.product.info" template="Magento_Core::template.phtml"/>
 </layout>

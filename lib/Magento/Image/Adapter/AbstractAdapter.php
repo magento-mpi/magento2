@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Image
+ * @package    Magento_Image
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -15,7 +15,7 @@
 
 namespace Magento\Image\Adapter;
 
-abstract class AbstractAdapter
+abstract class AbstractAdapter implements AdapterInterface
 {
     /**
      * Background color

@@ -26,7 +26,7 @@ class General
     protected $_isThemeEditable = false;
 
     /**
-     * @var \Magento\Core\Model\Theme\Image\Path
+     * @var \Magento\View\Design\Theme\Image\PathInterface
      */
     protected $_themeImagePath;
 
@@ -36,22 +36,22 @@ class General
     protected $_fileSize;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Theme\Image\Path $themeImagePath
+     * @param \Magento\View\Design\Theme\Image\PathInterface $themeImagePath
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Theme\Image\Path $themeImagePath,
+        \Magento\View\Design\Theme\Image\PathInterface $themeImagePath,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {

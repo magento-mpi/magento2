@@ -38,7 +38,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * Construct
      * 
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Helper\Data $adminhtmlData
@@ -48,7 +48,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Helper\Data $adminhtmlData,
@@ -70,7 +70,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getActionUrl()
     {
-        return $this->getUrl('*/*/save', array('_current' => true));
+        return $this->getUrl('adminhtml/*/save', array('_current' => true));
     }
 
     /**
@@ -189,7 +189,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         if ($currentCategory && $this->getEvent()->getId()) {
             $form->getElement('category_name')->setText(
-                '<a href="' . $this->_adminhtmlData->getUrl('adminhtml/catalog_category/edit',
+                '<a href="' . $this->_adminhtmlData->getUrl('catalog/category/edit',
                                                             array('clear' => 1, 'id' => $currentCategory->getId()))
                 . '">' . $currentCategory->getName() . '</a>'
             );

@@ -61,7 +61,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_cacheInstanceMock = $this->getMock('Magento\Core\Model\Cache\Type\Config', array(), array(),
+        $this->_cacheInstanceMock = $this->getMock('Magento\App\Cache\Type\Config', array(), array(),
             '', false);
 
         $this->_directorMock = $this->getMock('Magento\Backend\Model\Menu\AbstractDirector', array(), array(),
@@ -77,7 +77,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             false, false);
 
         $this->_logger = $this->getMock(
-            'Magento\Core\Model\Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
+            'Magento\Logger', array('addStoreLog', 'log', 'logException'), array(), '', false
         );
 
         $this->_menuMock = $this->getMock('Magento\Backend\Model\Menu', array(), array(), '', false);
@@ -94,6 +94,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_configReaderMock->expects($this->any())->method('read')->will($this->returnValue(array()));
 
+        $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
+        $appState->expects($this->any())->method('getAreaCode')
+            ->will($this->returnValue(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE));
+
         $this->_model = new \Magento\Backend\Model\Menu\Config(
             $this->_menuBuilderMock,
             $this->_directorMock,
@@ -102,7 +106,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_cacheInstanceMock,
             $this->_eventManagerMock,
             $this->_logger,
-            $storeManagerMock
+            $storeManagerMock,
+            $appState
         );
     }
 

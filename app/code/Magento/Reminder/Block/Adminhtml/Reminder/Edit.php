@@ -107,6 +107,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     public function getRunUrl()
     {
         $rule = $this->_coreRegistry->registry('current_reminder_rule');
-        return $this->getUrl('*/*/run', array('id' => $rule->getRuleId()));
+        return $this->getUrl('adminhtml/*/run', array('id' => $rule->getRuleId()));
     }
 }

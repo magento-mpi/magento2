@@ -9,6 +9,7 @@ app/code/Magento/Backend/Block/Widget/Grid
 app/code/Magento/Backend/view
 app/code/Magento/Core/Model/Config/Element.php
 app/code/Magento/DesignEditor/view
+app/code/Magento/Email/view
 app/code/Magento/Theme/view
 app/code/Magento/User/view
 app/code/Magento/Webapi/view
@@ -29,7 +30,7 @@ dev/tests/unit/testsuite/Magento/Catalog/Model/Resource/Product/Option/MysqlStub
 dev/tests/unit/testsuite/Magento/Catalog/Model/Resource/Product/Option/ValueTest.php
 dev/tests/unit/testsuite/Magento/Code/Plugin/GeneratorTest/SimpleObjectManager.php
 dev/tests/unit/testsuite/Magento/Core/Model/Resource/Db/AbstractTest.php
-dev/tests/unit/testsuite/Magento/Core/Model/TemplateEngine/_files
+dev/tests/unit/testsuite/Magento/View/TemplateEngine/_files
 dev/tools/Magento/Tools/I18n/Zend
 lib/Magento/Archive
 lib/Magento/Autoload/Simple.php
@@ -90,8 +91,8 @@ lib/Magento/Data/Tree/Db.php
 lib/Magento/Data/Tree/Dbp.php
 lib/Magento/Data/Tree/Node.php
 lib/Magento/Data/Tree/Node/Collection.php
-lib/Magento/Date.php
 lib/Magento/DB
+lib/Magento/Stdlib/DateTime.php
 lib/Magento/Debug.php
 lib/Magento/Event.php
 lib/Magento/Event
@@ -99,7 +100,6 @@ lib/Magento/File/Csv.php
 lib/Magento/File/CsvMulty.php
 lib/Magento/File/Transfer/Adapter/Http.php
 lib/Magento/File/Uploader.php
-lib/Magento/Filter
 lib/Magento/Gdata
 lib/Magento/HTTP/Adapter/Curl.php
 lib/Magento/HTTP/Client.php

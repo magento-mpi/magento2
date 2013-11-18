@@ -93,11 +93,19 @@
             <instance type="Magento\Catalog\Model\Layer\Proxy" />
         </param>
     </type>
-    <type name="Magento\App\Updater\SetupFactory">
+    <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>
                 <catalog_setup>Magento\Catalog\Model\Resource\Setup</catalog_setup>
             </value>
+        </param>
+    </type>
+    <type name="Magento\Catalog\Helper\Product\Compare">
+        <param name="customerSession">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
+        </param>
+        <param name="catalogSession">
+            <instance type="Magento\Catalog\Model\Session\Proxy" />
         </param>
     </type>
 </config>

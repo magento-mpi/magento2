@@ -159,7 +159,6 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/Catalog/_files/product_simple.php
      * @dataProvider getBehaviorDataProvider
-     * @covers \Magento\ImportExport\Model\Import\Entity\Product::_saveCustomOptions
      */
     public function testSaveCustomOptionsDuplicate($behavior)
     {
@@ -454,7 +453,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             array('init'), array(
                 $objectManager->create('Magento\Core\Helper\File\Storage\Database'),
                 $objectManager->create('Magento\Core\Helper\File\Storage'),
-                $objectManager->create('Magento\Core\Model\Image\AdapterFactory'),
+                $objectManager->create('Magento\Image\AdapterFactory'),
                 $objectManager->create('Magento\Core\Model\File\Validator\NotProtectedExtension'),
             ));
         $this->_uploaderFactory->expects($this->any())->method('create')->will($this->returnValue($uploader));

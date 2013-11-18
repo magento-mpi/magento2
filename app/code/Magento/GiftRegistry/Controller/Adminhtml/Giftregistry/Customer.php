@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-class Customer extends \Magento\Adminhtml\Controller\Action
+class Customer extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Core registry
@@ -86,15 +86,15 @@ class Customer extends \Magento\Adminhtml\Controller\Action
             $this->loadLayout()->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-            $this->_redirect('*/customer/edit', array(
+            $this->_redirect('customer/index/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
                 'active_tab' => 'giftregistry'
             ));
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addError(__('Something went wrong while editing the gift registry.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/customer/edit', array(
+            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_redirect('customer/index/edit', array(
                 'id'         => $this->getRequest()->getParam('customer'),
                 'active_tab' => 'giftregistry'
             ));
@@ -122,15 +122,15 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 }
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $model->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError(__('Failed to add shopping cart items to gift registry.'));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/*/edit', array('id' => $model->getId()));
+        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
     }
 
     /**
@@ -166,14 +166,14 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 }
             } catch (\Magento\Core\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('*/*/edit', array('id' => $entity->getId()));
+                $this->_redirect('adminhtml/*/edit', array('id' => $entity->getId()));
                 return;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't update these gift registry items."));
-                $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
-        $this->_redirect('*/*/edit', array('id' => $entity->getId()));
+        $this->_redirect('adminhtml/*/edit', array('id' => $entity->getId()));
     }
 
     /**
@@ -200,10 +200,10 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 foreach ($emails as $email) {
                     if (!empty($email)) {
                         if ($model->sendShareRegistryEmail(
-                                $email,
-                                $storeId,
-                                $this->getRequest()->getParam('message')
-                            )
+                            $email,
+                            $storeId,
+                            $this->getRequest()->getParam('message')
+                        )
                         ) {
                             $sentCount++;
                         } else {
@@ -228,7 +228,7 @@ class Customer extends \Magento\Adminhtml\Controller\Action
                 );
             }
         }
-        $this->_redirect('*/*/edit', array('id' => $model->getId()));
+        $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
     }
 
     /**
@@ -245,13 +245,13 @@ class Customer extends \Magento\Adminhtml\Controller\Action
             );
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-            $this->_redirect('*/*/edit', array('id' => $model->getId()));
+            $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__("We couldn't delete this gift registry entity."));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
-        $this->_redirect('*/customer/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
+        $this->_redirect('customer/index/edit', array('id' => $customerId, 'active_tab' => 'giftregistry'));
     }
 
     /**

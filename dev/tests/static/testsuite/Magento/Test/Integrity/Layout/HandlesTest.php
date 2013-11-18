@@ -18,42 +18,22 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
     {
         $invoker = new \Magento\TestFramework\Utility\AggregateInvoker($this);
         $invoker(
-            /**
-             * Test dependencies between handle attributes that is out of coverage by XSD
-             *
-             * @param string $layoutFile
-             */
+        /**
+         * Test dependencies between handle attributes that is out of coverage by XSD
+         *
+         * @param string $layoutFile
+         */
             function ($layoutFile) {
                 $issues = array();
                 $node = simplexml_load_file($layoutFile);
-                $type = $node['type'];
-                $parent = $node['parent'];
-                $owner = $node['owner'];
                 $label = $node['label'];
-                if ($type) {
-                    switch ($type) {
-                        case 'page':
-                            if ($owner) {
-                                $issues[] = 'Attribute "owner" is inappropriate for page types';
-                            }
-                            break;
-                        case 'fragment':
-                            if ($parent) {
-                                $issues[] = 'Attribute "parent" is inappropriate for page fragment types';
-                            }
-                            if (!$owner) {
-                                $issues[] = 'No attribute "owner" is specified for page fragment type';
-                            }
-                            break;
-                    }
-                } else {
-                    if ($label) {
-                        $issues[] = 'Attribute "label" is defined, but "type" is not';
-                    }
-                    if ($parent || $owner) {
-                        $issues[] = 'Attribute "parent" and/or "owner" is defined, but "type" is not';
+                $design_abstraction = $node['design_abstraction'];
+                if (!$label) {
+                    if ($design_abstraction) {
+                        $issues[] = 'Attribute "design_abstraction" is defined, but "label" is not';
                     }
                 }
+
                 if ($issues) {
                     $this->fail("Issues found in handle declaration:\n" . implode("\n", $issues) . "\n");
                 }
@@ -75,7 +55,7 @@ class HandlesTest extends \PHPUnit_Framework_TestCase
                 $issues = array();
                 $xml = simplexml_load_file($layoutFile);
                 $containers = $xml->xpath('/layout//container') ?: array();
-                /** @var SimpleXMLElement $node */
+                /** @var \SimpleXMLElement $node */
                 foreach ($containers as $node) {
                     if (!isset($node['htmlTag']) && (isset($node['htmlId']) || isset($node['htmlClass']))) {
                         $issues[] = $node->asXML();

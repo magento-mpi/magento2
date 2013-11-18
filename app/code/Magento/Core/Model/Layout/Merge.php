@@ -13,13 +13,18 @@
  */
 namespace Magento\Core\Model\Layout;
 
-class Merge implements  \Magento\View\Layout\ProcessorInterface
+class Merge implements \Magento\View\Layout\ProcessorInterface
 {
     /**#@+
-     * Available item type names
+     * Layout abstraction based on designer prerogative.
      */
-    const TYPE_PAGE = 'page';
-    const TYPE_FRAGMENT = 'fragment';
+    const DESIGN_ABSTRACTION_CUSTOM = 'custom';
+    /**#@-*/
+
+    /**#@+
+     * Layout generalization guaranteed to load into View
+     */
+    const DESIGN_ABSTRACTION_PAGE_LAYOUT = 'page_layout';
     /**#@-*/
 
     /**
@@ -73,7 +78,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     protected $_subst = null;
 
     /**
-     * @var \Magento\Core\Model\Layout\File\SourceInterface
+     * @var \Magento\View\Layout\File\SourceInterface
      */
     private $_fileSource;
 
@@ -98,7 +103,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     protected $_layoutValidator;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -107,23 +112,23 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      *
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+     * @param \Magento\View\Layout\File\SourceInterface $fileSource,
      * @param \Magento\Core\Model\Resource\Layout\Update $resource
      * @param \Magento\App\State $appState
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Layout\File\SourceInterface $fileSource,
+        \Magento\View\Layout\File\SourceInterface $fileSource,
         \Magento\Core\Model\Resource\Layout\Update $resource,
         \Magento\App\State $appState,
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Adminhtml\Model\LayoutUpdate\Validator $validator,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -217,47 +222,17 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
      */
     public function addPageHandles(array $handlesToTry)
     {
+        $handlesAdded = false;
         foreach ($handlesToTry as $handleName) {
             if (!$this->pageHandleExists($handleName)) {
                 continue;
             }
-            $handles = $this->getPageHandleParents($handleName);
             $handles[] = $handleName;
-
-            /* replace existing page handles with the new ones */
-            foreach ($this->_pageHandles as $pageHandleName) {
-                $this->removeHandle($pageHandleName);
-            }
             $this->_pageHandles = $handles;
             $this->addHandle($handles);
-            return true;
+            $handlesAdded = true;
         }
-        return false;
-    }
-
-    /**
-     * Retrieve the all parent handles ordered from parent to child. The $isPageTypeOnly parameters controls,
-     * whether only page type parent relation is processed.
-     *
-     * @param string $handleName
-     * @param bool $isPageTypeOnly
-     * @return array
-     */
-    public function getPageHandleParents($handleName, $isPageTypeOnly = true)
-    {
-        $result = array();
-        $node = $this->_getPageHandleNode($handleName);
-        while ($node) {
-            $parentItem = $node->getAttribute('parent');
-            if (!$parentItem && !$isPageTypeOnly) {
-                $parentItem = $node->getAttribute('owner');
-            }
-            $node = $this->_getPageHandleNode($parentItem);
-            if ($node) {
-                $result[] = $parentItem;
-            }
-        }
-        return array_reverse($result);
+        return $handlesAdded;
     }
 
     /**
@@ -287,8 +262,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
         if (empty($handles)) {
             return null;
         }
-        $condition = '@type="' . self::TYPE_PAGE . '" or @type="' . self::TYPE_FRAGMENT . '"';
-        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\" and ($condition)]");
+        $nodes = $this->getFileLayoutUpdatesXml()->xpath("/layouts/handle[@id=\"{$handleName}\"]");
         return $nodes ? reset($nodes) : null;
     }
 
@@ -303,51 +277,27 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
     }
 
     /**
-     * Retrieve full hierarchy of types and fragment types in the system
+     * Retrieve all design abstractions that exist in the system.
      *
      * Result format:
      * array(
      *     'handle_name_1' => array(
      *         'name'     => 'handle_name_1',
      *         'label'    => 'Handle Name 1',
-     *         'children' => array(
-     *             'handle_name_2' => array(
-     *                 'name'     => 'handle_name_2',
-     *                 'label'    => 'Handle Name 2',
-     *                 'type'     => self::TYPE_PAGE or self::TYPE_FRAGMENT,
-     *                 'children' => array(
-     *                     // ...
-     *                 )
-     *             ),
-     *             // ...
-     *         )
+     *         'design_abstraction' => self::DESIGN_ABSTRACTION_PAGE_LAYOUT or self::DESIGN_ABSTRACTION_CUSTOM
      *     ),
      *     // ...
      * )
      *
      * @return array
      */
-    public function getPageHandlesHierarchy()
-    {
-        return $this->_getPageHandleChildren('');
-    }
-
-    /**
-     * Retrieve recursively all children of a page handle
-     *
-     * @param string $parentName
-     * @return array
-     */
-    protected function _getPageHandleChildren($parentName)
+    public function getAllDesignAbstractions()
     {
         $result = array();
 
         $conditions = array(
-            '(@type="' . self::TYPE_PAGE . '" and ' . ($parentName ? "@parent='$parentName'" : 'not(@parent)') . ')'
+            '(@design_abstraction="' . self::DESIGN_ABSTRACTION_PAGE_LAYOUT . '" or @design_abstraction="' . self::DESIGN_ABSTRACTION_CUSTOM . '")'
         );
-        if ($parentName) {
-            $conditions[] = '(@type="' . self::TYPE_FRAGMENT . '" and @owner="' . $parentName . '")';
-        }
         $xpath = '/layouts/*[' . implode(' or ', $conditions) . ']';
         $nodes = $this->getFileLayoutUpdatesXml()->xpath($xpath) ?: array();
         /** @var $node \Magento\View\Layout\Element */
@@ -356,12 +306,8 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
             $info = array(
                 'name'     => $name,
                 'label'    => __((string)$node->getAttribute('label')),
-                'type'     => $node->getAttribute('type'),
-                'children' => array()
+                'design_abstraction'     => $node->getAttribute('design_abstraction'),
             );
-            if ($info['type'] == self::TYPE_PAGE) {
-                $info['children'] = $this->_getPageHandleChildren($name);
-            }
             $result[$name] = $info;
         }
         return $result;
@@ -417,7 +363,7 @@ class Merge implements  \Magento\View\Layout\ProcessorInterface
                 $messages = $this->_layoutValidator->getMessages();
                 //Add first message to exception
                 $message = array_shift($messages);
-                $this->_logger->addStreamLog(\Magento\Core\Model\Logger::LOGGER_SYSTEM);
+                $this->_logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
                 $this->_logger->log('Cache file with merged layout: ' . $cacheId. ': ' . $message, \Zend_Log::ERR);
             }
         }

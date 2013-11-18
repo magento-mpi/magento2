@@ -67,7 +67,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $collectionFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template
+     * @var \Magento\Email\Model\Template
      */
     protected $emailTemplateFactory;
 
@@ -84,7 +84,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @var \Magento\Core\Model\StoreManager
      */
-    protected $storeManger;
+    protected $storeManager;
 
     /**
      * @var \Magento\SalesRule\Model\CouponFactory
@@ -104,15 +104,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     /**
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Email\Template $emailTemplateFactory
+     * @param \Magento\Email\Model\Template $emailTemplateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManager $storeManger
+     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param \Magento\Reminder\Helper\Data $reminderData
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -123,15 +123,15 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     public function __construct(
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Email\Template $emailTemplateFactory,
+        \Magento\Email\Model\Template $emailTemplateFactory,
         \Magento\Core\Model\Translate $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManager $storeManger,
+        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,
         \Magento\Reminder\Helper\Data $reminderData,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -144,7 +144,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->emailTemplateFactory = $emailTemplateFactory;
         $this->translate = $translate;
         $this->customerFactory = $customerFactory;
-        $this->storeManger = $storeManger;
+        $this->storeManager = $storeManager;
         $this->couponFactory = $couponFactory;
         $this->dateFactory = $dateFactory;
         $this->salesRule = $salesRule;
@@ -231,7 +231,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      */
     public function sendReminderEmails()
     {
-        /** @var $mail \Magento\Core\Model\Email\Template */
+        /** @var $mail \Magento\Email\Model\Template */
         $mail = $this->emailTemplateFactory->create();
 
         $this->translate->setTranslateInline(false);
@@ -253,7 +253,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
             if ($customer->getStoreId()) {
                 $store = $customer->getStore();
             } else {
-                $store = $this->storeManger->getWebsite($customer->getWebsiteId())->getDefaultStore();
+                $store = $this->storeManager->getWebsite($customer->getWebsiteId())->getDefaultStore();
             }
 
             $storeData = $this->getStoreData($recipient['rule_id'], $store->getId());

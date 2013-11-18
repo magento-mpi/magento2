@@ -45,7 +45,7 @@ class Observer
      */
     public function clearJs(\Magento\Event\Observer $event)
     {
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = $event->getEvent()->getLayout();
         $blockHead = $layout->getBlock('head');
         if (!$blockHead || !$blockHead->getData('vde_design_mode')) {
@@ -69,7 +69,7 @@ class Observer
         $nonVdeAssets = array_diff_key($pageAssets->getAll(), $vdeAssets);
 
         foreach ($nonVdeAssets as $assetId => $asset) {
-            if ($asset->getContentType() == \Magento\Core\Model\View\Publisher::CONTENT_TYPE_JS) {
+            if ($asset->getContentType() == \Magento\View\Publisher::CONTENT_TYPE_JS) {
                 $pageAssets->remove($assetId);
             }
         }

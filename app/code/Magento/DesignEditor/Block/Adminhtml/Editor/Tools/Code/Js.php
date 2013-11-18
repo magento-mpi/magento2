@@ -29,7 +29,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
@@ -38,7 +38,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Theme\Model\Config\Customization $customizationConfig,
@@ -104,7 +104,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getJsUploadUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/uploadjs',
+        return $this->getUrl('adminhtml/system_design_editor_tools/uploadjs',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
@@ -115,7 +115,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getJsReorderUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/reorderjs',
+        return $this->getUrl('adminhtml/system_design_editor_tools/reorderjs',
             array('theme_id' => $this->_themeContext->getEditableTheme()->getId()));
     }
 
@@ -126,7 +126,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getJsDeleteUrl()
     {
-        return $this->getUrl('*/system_design_editor_tools/deleteCustomFiles', array(
+        return $this->getUrl('adminhtml/system_design_editor_tools/deleteCustomFiles', array(
             'theme_id' => $this->_themeContext->getEditableTheme()->getId()
         ));
     }
@@ -139,7 +139,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
     public function getFiles()
     {
         $customization = $this->_themeContext->getStagingTheme()->getCustomization();
-        $jsFiles = $customization->getFilesByType(\Magento\Core\Model\Theme\Customization\File\Js::TYPE);
+        $jsFiles = $customization->getFilesByType(\Magento\View\Design\Theme\Customization\File\Js::TYPE);
         return $this->helper('Magento\Core\Helper\Data')->jsonEncode($customization->generateFileInfo($jsFiles));
     }
 

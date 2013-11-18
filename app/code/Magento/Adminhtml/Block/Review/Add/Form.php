@@ -36,7 +36,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
@@ -45,7 +45,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         array $data = array()
@@ -133,7 +133,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $form->setMethod('post');
         $form->setUseContainer(true);
         $form->setId('edit_form');
-        $form->setAction($this->getUrl('*/*/post'));
+        $form->setAction($this->getUrl('catalog/*/post'));
 
         $this->setForm($form);
     }

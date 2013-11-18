@@ -7,10 +7,15 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Account Logout Success" type="page" parent="customer_account">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="root">
         <action method="setTemplate">
             <argument name="template" xsi:type="string">1column.phtml</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument name="title" translate="true" xsi:type="string">You are now logged out</argument>
         </action>
     </referenceBlock>
     <referenceContainer name="content">

@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category   Magento
- * @package    \Magento\Image
+ * @package    Magento_Image
  * @copyright  {copyright}
  * @license    {license_link}
  */
@@ -12,29 +12,34 @@
  * Image handler library
  *
  * @category   Magento
- * @package    \Magento\Image
+ * @package    Magento_Image
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento;
 
 class Image
 {
+    /**
+     * @var Image\Adapter\AdapterInterface
+     */
     protected $_adapter;
 
+    /**
+     * @var null|string
+     */
     protected $_fileName;
 
     /**
      * Constructor
      *
-     * @param \Magento\Image\Adapter\AbstractAdapter $adapter. Default value is GD2
-     * @param string $fileName
-     * @return void
+     * @param Image\Adapter\AdapterInterface $adapter
+     * @param string|null $fileName
      */
-    function __construct(\Magento\Image\Adapter\AbstractAdapter $adapter, $fileName = null)
+    public function __construct(\Magento\Image\Adapter\AdapterInterface $adapter, $fileName = null)
     {
         $this->_adapter = $adapter;
         $this->_fileName = $fileName;
-        if( isset($fileName) ) {
+        if (isset($fileName)) {
             $this->open();
         }
     }

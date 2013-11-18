@@ -7,10 +7,11 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="One Page Checkout Failure" type="page" parent="default">
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">2columns-right.phtml</argument>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="page_one_column"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Your order has been received.</argument>
         </action>
     </referenceBlock>
     <referenceContainer name="content">

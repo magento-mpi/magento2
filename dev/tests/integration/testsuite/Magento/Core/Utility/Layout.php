@@ -35,13 +35,13 @@ class Layout
     public function getLayoutUpdateFromFixture($layoutUpdatesFile)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Core\Model\Layout\File\Factory $fileFactory */
-        $fileFactory = $objectManager->get('Magento\Core\Model\Layout\File\Factory');
+        /** @var \Magento\View\Layout\File\Factory $fileFactory */
+        $fileFactory = $objectManager->get('Magento\View\Layout\File\Factory');
         $files = array();
         foreach ((array)$layoutUpdatesFile as $filename) {
             $files[] = $fileFactory->create($filename, 'Magento_Core');
         }
-        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\Core\Model\Layout\File\SourceInterface');
+        $fileSource = $this->_testCase->getMockForAbstractClass('Magento\View\Layout\File\SourceInterface');
         $fileSource->expects(\PHPUnit_Framework_TestCase::any())
             ->method('getFiles')
             ->will(\PHPUnit_Framework_TestCase::returnValue($files));
@@ -78,19 +78,20 @@ class Layout
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         return array(
-            'processorFactory'       => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
+            'processorFactory'   => $objectManager->get('Magento\View\Layout\ProcessorFactory'),
             'themeFactory'       => $objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory'),
-            'logger'             => $objectManager->get('Magento\Core\Model\Logger'),
+            'logger'             => $objectManager->get('Magento\Logger'),
             'eventManager'       => $objectManager->get('Magento\Event\ManagerInterface'),
             'factoryHelper'      => $objectManager->get('Magento\Core\Model\Factory\Helper'),
             'coreData'           => $objectManager->get('Magento\Core\Helper\Data'),
             'design'             => $objectManager->get('Magento\View\DesignInterface'),
-            'blockFactory'       => $objectManager->create('Magento\Core\Model\BlockFactory', array()),
+            'blockFactory'       => $objectManager->create('Magento\View\Element\BlockFactory', array()),
             'structure'          => $objectManager->create('Magento\Data\Structure', array()),
             'argumentProcessor'  => $objectManager->create('Magento\Core\Model\Layout\Argument\Processor', array()),
             'scheduledStructure' => $objectManager->create('Magento\Core\Model\Layout\ScheduledStructure', array()),
             'dataServiceGraph'   => $objectManager->create('Magento\Core\Model\DataService\Graph', array()),
             'coreStoreConfig'    => $objectManager->create('Magento\Core\Model\Store\Config'),
+            'appState'           => $objectManager->get('Magento\App\State'),
         );
     }
 }

@@ -10,7 +10,7 @@
 namespace Magento\GoogleOptimizer\Block\Adminhtml\Catalog\Category\Edit\Tab;
 
 class Googleoptimizer
-    extends \Magento\Adminhtml\Block\Catalog\Form
+    extends \Magento\Catalog\Block\Adminhtml\Form
 {
     /**
      * @var \Magento\Core\Model\Registry
@@ -29,7 +29,7 @@ class Googleoptimizer
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
@@ -38,7 +38,7 @@ class Googleoptimizer
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,

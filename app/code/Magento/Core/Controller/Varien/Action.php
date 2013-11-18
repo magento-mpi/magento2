@@ -114,11 +114,9 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_eventManager;
 
     /**
-     * Should inherited page be rendered
-     *
-     * @var bool
+     * @var \Magento\HTTP\Authentication
      */
-    protected $_isRenderInherited;
+    protected $authentication;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
@@ -131,8 +129,8 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_frontController = $context->getFrontController();
         $this->_layout          = $context->getLayout();
         $this->_eventManager    = $context->getEventManager();
-        $this->_isRenderInherited = $context->isRenderInherited();
         $this->_frontController->setAction($this);
+        $this->authentication = $context->getAuthentication();
 
         $this->_construct();
     }
@@ -258,7 +256,7 @@ class Action extends \Magento\App\Action\AbstractAction
      */
     public function addActionLayoutHandles()
     {
-        if (!$this->_isRenderInherited || !$this->addPageLayoutHandles()) {
+        if (!$this->addPageLayoutHandles()) {
             $this->getLayout()->getUpdate()->addHandle($this->getDefaultLayoutHandle());
         }
         return $this;
@@ -277,7 +275,8 @@ class Action extends \Magento\App\Action\AbstractAction
         foreach ($parameters as $key => $value) {
             $pageHandles[] = $handle . '_' . $key . '_' . $value;
         }
-        return $this->getLayout()->getUpdate()->addPageHandles(array_reverse($pageHandles));
+        // Do not sort array going into add page handles. Ensure default layout handle is added first.
+        return $this->getLayout()->getUpdate()->addPageHandles($pageHandles);
     }
 
     /**
@@ -492,7 +491,7 @@ class Action extends \Magento\App\Action\AbstractAction
                     $session->setSkipSessionIdFlag(true);
                 } elseif ($checkCookie) {
                     if (isset($_GET[$session->getSessionIdQueryParam()])
-                        && $this->_objectManager->get('Magento\Core\Model\App')->getUseSessionInUrl()
+                        && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
                         && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
                     ) {
                         $session->setCookieShouldBeReceived(true);
@@ -513,7 +512,8 @@ class Action extends \Magento\App\Action\AbstractAction
     protected function _initDesign()
     {
         $area = $this->_objectManager->get('Magento\Core\Model\App')->getArea($this->getLayout()->getArea());
-        $area->load();
+        $area->load(\Magento\Core\Model\App\Area::PART_DESIGN);
+        $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         $area->detectDesign($this->getRequest());
         return $this;
     }
@@ -535,12 +535,10 @@ class Action extends \Magento\App\Action\AbstractAction
 
         // Prohibit disabled store actions
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
-        if ($this->_objectManager->get('Magento\App\State') && !$storeManager->getStore()->getIsActive()) {
+        if ($this->_objectManager->get('Magento\App\State')->isInstalled()
+            && !$storeManager->getStore()->getIsActive()
+        ) {
             $this->_objectManager->get('Magento\Core\Model\StoreManager')->throwStoreException();
-        }
-
-        if ($this->_rewrite()) {
-            return;
         }
 
         // Start session
@@ -756,7 +754,7 @@ class Action extends \Magento\App\Action\AbstractAction
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
         if ($session->getCookieShouldBeReceived()
-            && $this->_objectManager->get('Magento\Core\Model\App')->getUseSessionInUrl()
+            && $this->_objectManager->get('Magento\Core\Model\Url')->getUseSession()
             && $this->_sessionNamespace != \Magento\Backend\Controller\AbstractAction::SESSION_NAMESPACE
         ) {
             $arguments += array('_query' => array(
@@ -879,65 +877,6 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
-     * Support for controllers rewrites
-     *
-     * Example of configuration:
-     * <global>
-     *   <routers>
-     *     <core_module>
-     *       <rewrite>
-     *         <core_controller>
-     *           <to>new_route/new_controller</to>
-     *           <override_actions>true</override_actions>
-     *           <actions>
-     *             <core_action><to>new_module/new_controller/new_action</core_action>
-     *           </actions>
-     *         <core_controller>
-     *       </rewrite>
-     *     </core_module>
-     *   </routers>
-     * </global>
-     *
-     * This will override:
-     * 1. core_module/core_controller/core_action to new_module/new_controller/new_action
-     * 2. all other actions of core_module/core_controller to new_module/new_controller
-     *
-     * @return boolean true if rewrite happened
-     */
-    protected function _rewrite()
-    {
-        $route = $this->getRequest()->getRouteName();
-        $controller = $this->getRequest()->getControllerName();
-        $action = $this->getRequest()->getActionName();
-
-        $rewrite = $this->_objectManager->get('Magento\Core\Model\Config')->getNode('global/routers/' . $route . '/rewrite/' . $controller);
-        if (!$rewrite) {
-            return false;
-        }
-
-        if (!($rewrite->actions && $rewrite->actions->$action) || $rewrite->is('override_actions')) {
-            $rewriteTo = explode('/', (string)$rewrite->to);
-            if (sizeof($rewriteTo) !== 2 || empty($rewriteTo[0]) || empty($rewriteTo[1])) {
-                return false;
-            }
-            $rewriteTo[2] = $action;
-        } else {
-            $rewriteTo = explode('/', (string)$rewrite->actions->$action->to);
-            if (sizeof($rewriteTo) !== 3 || empty($rewriteTo[0]) || empty($rewriteTo[1]) || empty($rewriteTo[2])) {
-                return false;
-            }
-        }
-
-        $this->_forward(
-            $rewriteTo[2] === '*' ? $action : $rewriteTo[2],
-            $rewriteTo[1] === '*' ? $controller : $rewriteTo[1],
-            $rewriteTo[0] === '*' ? $route : $rewriteTo[0]
-        );
-
-        return true;
-    }
-
-    /**
      * Validate Form Key
      *
      * @return bool
@@ -1010,7 +949,7 @@ class Action extends \Magento\App\Action\AbstractAction
                 ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATE_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATE_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {
@@ -1039,7 +978,7 @@ class Action extends \Magento\App\Action\AbstractAction
                 ->getDateTimeFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT)
         ));
         $filterInternal = new \Zend_Filter_NormalizedToLocalized(array(
-            'date_format' => \Magento\Date::DATETIME_INTERNAL_FORMAT
+            'date_format' => \Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT
         ));
 
         foreach ($dateFields as $dateField) {

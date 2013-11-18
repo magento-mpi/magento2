@@ -1,0 +1,16 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="page-title">
+    <h1><?php echo __('Something went wrong while processing your payment.') ?></h1>
+</div>
+<?php if ($this->getRealOrderId()) : ?><p><?php echo __('Order #') . $this->getRealOrderId() ?></p><?php endif ?>
+<?php if ($error = $this->getErrorMessage()) : ?><p><?php echo $error ?></p><?php endif ?>
+<p><?php echo __('Click <a href="%1">here</a> to continue shopping.', $this->getContinueShoppingUrl()) ?></p>

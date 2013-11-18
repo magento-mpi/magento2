@@ -30,19 +30,18 @@ class View extends \Magento\Catalog\Block\Product\View
     protected $_reviewsColFactory;
 
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory
      * @param array $data
      *
@@ -55,17 +54,31 @@ class View extends \Magento\Catalog\Block\Product\View
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
         \Magento\Review\Model\Resource\Review\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_reviewsColFactory = $collectionFactory;
-        parent::__construct($storeManager, $catalogConfig, $productFactory, $locale, $taxCalculation, $coreRegistry,
-            $coreString, $taxData, $catalogData, $coreData, $context, $data);
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $productFactory,
+            $locale,
+            $taxCalculation,
+            $coreRegistry,
+            $string,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $data
+        );
     }
 
     /**

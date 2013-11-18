@@ -29,7 +29,7 @@ class Collection
     protected $_wishlistData = null;
 
     /**
-     * @var \Magento\Core\Model\Fieldset\Config
+     * @var \Magento\Object\Copy\Config
      */
     protected $_fieldsetConfig;
 
@@ -44,24 +44,24 @@ class Collection
      * Construct
      *
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\MultipleWishlist\Model\Resource\Item $itemResource
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Model\Fieldset\Config $fieldsetConfig
+     * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\MultipleWishlist\Model\Resource\Item $itemResource,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Model\Fieldset\Config $fieldsetConfig,
+        \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer
     ) {
         $this->_wishlistData = $wishlistData;

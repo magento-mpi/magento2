@@ -7,4 +7,4 @@
  * @license     {license_link}
  */
 -->
-<layout label="Sales Order Print View" type="page" parent="print"/>
+<layout/>

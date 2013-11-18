@@ -46,7 +46,7 @@ class Observer
     protected $_isEnabled;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $_cacheState;
 
@@ -105,12 +105,12 @@ class Observer
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_typeList;
 
@@ -155,14 +155,14 @@ class Observer
      * @param \Magento\FullPageCache\Model\Processor $processor
      * @param \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier
      * @param \Magento\FullPageCache\Model\Placeholder\Mapper $mapper
-     * @param \Magento\Core\Model\Cache\StateInterface $cacheState
+     * @param \Magento\App\Cache\StateInterface $cacheState
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Cookie $cookie
      * @param \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction
      * @param \Magento\FullPageCache\Model\DesignPackage\Rules $designRules
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Logger $logger
-     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\Logger $logger
+     * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
@@ -178,14 +178,14 @@ class Observer
         \Magento\FullPageCache\Model\Processor $processor,
         \Magento\FullPageCache\Model\Request\Identifier $_requestIdentifier,
         \Magento\FullPageCache\Model\Placeholder\Mapper $mapper,
-        \Magento\Core\Model\Cache\StateInterface $cacheState,
+        \Magento\App\Cache\StateInterface $cacheState,
         \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\FullPageCache\Model\Cookie $cookie,
         \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
         \Magento\FullPageCache\Model\DesignPackage\Rules $designRules,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Logger $logger,
-        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\Logger $logger,
+        \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\FullPageCache\Model\Container\PlaceholderFactory $fpcPlacehldrFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
@@ -240,9 +240,9 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $frontController = $observer->getEvent()->getFront();
-        $request = $frontController->getRequest();
-        $response = $frontController->getResponse();
+        $event = $observer->getEvent();
+        $request = $event->getRequest();
+        $response = $event->getResponse();
         $this->_saveDesignException();
         $this->_processor->processRequestResponse($request, $response);
         return $this;
@@ -430,10 +430,10 @@ class Observer
             return $this;
         }
         $event = $observer->getEvent();
-        /** @var $layout \Magento\Core\Model\Layout */
+        /** @var $layout \Magento\View\LayoutInterface */
         $layout = $event->getData('layout');
         $name = $event->getData('element_name');
-        if (!$layout->isBlock($name) || !($block = $layout->getBlock($name))) {
+        if (!($block = $layout->getBlock($name))) {
             return $this;
         }
 

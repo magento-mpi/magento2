@@ -59,13 +59,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $_eventObject = 'invitation';
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Invitation data
      *
      * @var \Magento\Invitation\Helper\Data
@@ -103,27 +96,37 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     /**
      * Email Template Factory
      *
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Invitation\Helper\Data $invitationData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
-     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Invitation\Helper\Data $invitationData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Resource\Invitation $resource,
@@ -131,18 +134,21 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_invitationData = $invitationData;
-        $this->_coreData = $coreData;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_historyFactory = $historyFactory;
         $this->_customerFactory = $customerFactory;
         $this->_templateFactory = $templateFactory;
+        $this->mathRandom = $mathRandom;
+        $this->dateTime = $dateTime;
     }
 
     /**
@@ -198,9 +204,9 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         if (!$this->getId()) {
             // set initial data for new one
             $this->addData(array(
-                'protection_code' => $this->_coreData->uniqHash(),
+                'protection_code' => $this->mathRandom->getUniqueHash(),
                 'status'          => self::STATUS_NEW,
-                'invitation_date' => $this->getResource()->formatDate(time()),
+                'invitation_date' => $this->dateTime->formatDate(time()),
                 'store_id'        => $this->getStoreId(),
             ));
             $inviter = $this->getInviter();
@@ -257,7 +263,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     {
         $this->makeSureCanBeSent();
         $store = $this->_storeManager->getStore($this->getStoreId());
-        /** @var $mail \Magento\Core\Model\Email\Template */
+        /** @var $mail \Magento\Email\Model\Template */
         $mail  = $this->_templateFactory->create();
         $mail->setDesignConfig(array(
             'area' => \Magento\Core\Model\App\Area::AREA_FRONTEND,
@@ -455,7 +461,7 @@ class Invitation extends \Magento\Core\Model\AbstractModel
         $this->makeSureCanBeAccepted($websiteId);
         $this->setReferralId($referralId)
             ->setStatus(self::STATUS_ACCEPTED)
-            ->setSignupDate($this->getResource()->formatDate(time()))
+            ->setSignupDate($this->dateTime->formatDate(time()))
             ->save();
         $inviterId = $this->getCustomerId();
         if ($inviterId) {

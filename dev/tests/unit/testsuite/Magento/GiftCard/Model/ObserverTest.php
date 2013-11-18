@@ -40,13 +40,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', [], [], '', false
                 ),
                 'templateFactory' => $this->getMock(
-                    'Magento\Core\Model\Email\TemplateFactory', [], [], '', false
+                    'Magento\Email\Model\TemplateFactory', [], [], '', false
                 ),
                 'invoiceFactory' => $this->getMock(
                     'Magento\Sales\Model\Order\InvoiceFactory', [], [], '', false
                 ),
                 'data' => [
-                    'email_template_model' => $this->getMock('Magento\Core\Model\Email\Template', [], [], '', false),
+                    'email_template_model' => $this->getMock('Magento\Email\Model\Template', [], [], '', false),
                     'custom_field'         => 'custom_value',
                 ]
             ]
@@ -68,7 +68,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                     'Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory', [], [], '', false
                 ),
                 'templateFactory' => $this->getMock(
-                    'Magento\Core\Model\Email\TemplateFactory', [], [], '', false
+                    'Magento\Email\Model\TemplateFactory', [], [], '', false
                 ),
                 'invoiceFactory' => $this->getMock(
                     'Magento\Sales\Model\Order\InvoiceFactory', [], [], '', false

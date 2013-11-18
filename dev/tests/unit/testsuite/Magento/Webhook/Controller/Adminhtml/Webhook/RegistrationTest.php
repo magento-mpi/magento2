@@ -228,7 +228,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         // Verify redirect to success page
         $this->_mockBackendHlpData->expects($this->once())
             ->method('getUrl')
-            ->with($this->equalTo('*/webhook_registration/succeeded'), array('id' => '1'));
+            ->with($this->equalTo('adminhtml/webhook_registration/succeeded'), array('id' => '1'));
 
         $registrationContr->registerAction();
     }
@@ -292,7 +292,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
             ->disableOriginalConstructor()
             ->getMock();
-        \Magento\Core\Model\ObjectManager::setInstance($this->_mockObjectManager);
+        \Magento\App\ObjectManager::setInstance($this->_mockObjectManager);
     }
 
     /**

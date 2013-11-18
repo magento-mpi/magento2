@@ -20,7 +20,6 @@ namespace Magento\Bundle\Block\Catalog\Product\View\Type;
 
 class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 {
-    protected $_optionRenderers = array();
     protected $_options         = null;
 
     /**
@@ -57,6 +56,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
@@ -72,6 +73,8 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\ArrayUtils $arrayUtils,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Bundle\Model\Product\PriceFactory $productPrice,
@@ -80,8 +83,18 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_catalogProduct = $catalogProduct;
         $this->_productPrice = $productPrice;
         $this->_locale = $locale;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData, $context,
-            $data);
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $arrayUtils,
+            $data
+        );
     }
 
     public function getOptions()
@@ -244,17 +257,18 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         return $coreHelper->jsonEncode($config);
     }
 
-    public function addRenderer($type, $block)
-    {
-        $this->_optionRenderers[$type] = $block;
-    }
-
+    /**
+     * Get html for option
+     *
+     * @param \Magento\Bundle\Model\Option $option
+     * @return string
+     */
     public function getOptionHtml($option)
     {
-        if (!isset($this->_optionRenderers[$option->getType()])) {
+        $optionBlock = $this->getChildBlock($option->getType());
+        if (!$optionBlock) {
             return __('There is no defined renderer for "%1" option type.', $option->getType());
         }
-        return $this->getLayout()->createBlock($this->_optionRenderers[$option->getType()])
-            ->setOption($option)->toHtml();
+        return $optionBlock->setOption($option)->toHtml();
     }
 }

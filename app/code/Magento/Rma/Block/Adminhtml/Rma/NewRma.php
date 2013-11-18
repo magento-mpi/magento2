@@ -60,7 +60,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
         $this->_updateButton('reset', 'label', __('Cancel'));
         $this->_updateButton('reset', 'class', 'cancel');
 
-        $link = $this->getUrl('*/*/');
+        $link = $this->getUrl('adminhtml/*/');
         $order = $this->_coreRegistry->registry('current_order');
 
         if ($order && $order->getId()) {
@@ -68,7 +68,7 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
             $referer    = $this->getRequest()->getServer('HTTP_REFERER');
 
             if (strpos($referer, 'customer') !== false) {
-                $link = $this->getUrl('*/customer/edit/',
+                $link = $this->getUrl('customer/index/edit/',
                     array(
                         'id'  => $order->getCustomerId(),
                         'active_tab'=> 'orders'
@@ -106,6 +106,6 @@ class NewRma extends \Magento\Backend\Block\Widget\Form\Container
      */
     public function getFormActionUrl()
     {
-        return $this->getUrl('*/*/save', array('order_id' => $this->_coreRegistry->registry('current_order')->getId()));
+        return $this->getUrl('adminhtml/*/save', array('order_id' => $this->_coreRegistry->registry('current_order')->getId()));
     }
 }
