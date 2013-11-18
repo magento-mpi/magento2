@@ -29,7 +29,8 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+
         $this->_indexFactoryMock = $this->getMock('Magento\Index\Model\IndexerFactory',
             array('create'), array(), '', false);
         $this->_entryPoint = new \Magento\Index\App\Indexer(
@@ -45,6 +46,9 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
      */
     public function testExecute($value)
     {
+        $writeDir = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->_filesystem->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($writeDir));
+
         $process = $this->getMock('Magento\Index\Model\Process',
             array('getIndexer', 'reindexEverything'), array(), '', false);
         $indexer = $this->getMock('Magento\Index\Model\Indexer',
