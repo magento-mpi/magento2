@@ -62,7 +62,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_emailTemplFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -72,7 +71,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Email\Model\TemplateFactory $emailTemplFactory
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -81,7 +79,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
         \Magento\Email\Model\TemplateFactory $emailTemplFactory
     ) {
-        $this->_eventManager = $eventManager;
+        $this->_eventManager = $context->getEventManager();
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;
@@ -202,12 +200,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function sendPaymentFailedEmail($checkout, $message, $checkoutType = 'onepage')
     {
-        /* @var $translate \Magento\Core\Model\Translate */
-        $this->_translator->setTranslateInline(false);
-
         /** @var \Magento\Email\Model\Template $mailTemplate */
         $mailTemplate = $this->_emailTemplFactory->create();
-        /* @var $mailTemplate \Magento\Email\Model\Template */
 
         $template = $this->_coreStoreConfig->getConfig('checkout/payment_failed/template', $checkout->getStoreId());
 
