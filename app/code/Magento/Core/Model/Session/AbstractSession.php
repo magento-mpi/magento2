@@ -240,20 +240,16 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Does a session exist and is it currently active?
+     * Does a session exist
      *
      * @return bool
      */
-    public function sessionExists()
+    public function isSessionExists()
     {
-        $sid = defined('SID') ? constant('SID') : false;
-        if ($sid !== false && $this->getId()) {
-            return true;
+        if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+            return false;
         }
-        if (headers_sent()) {
-            return true;
-        }
-        return false;
+        return true;
     }
 
     /**
