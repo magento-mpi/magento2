@@ -11,10 +11,7 @@
 
 namespace Magento\Backend\Test\Block\Sales\Order;
 
-use Mtf\Fixture;
 use Mtf\Block\Block;
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -30,24 +27,15 @@ class Totals extends Block
      *
      * @var string
      */
-    protected  $_grandTotalMask;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        $this->_grandTotalMask          = '//tr[normalize-space(td)="Grand Total"]//span';
-    }
+    protected $grandTotalMask = '//tr[normalize-space(td)="Grand Total"]//span';
 
     /**
      * Get Grand Total Text
      *
-     * @return array|string
+     * @return string
      */
     public function getGrandTotal()
     {
-        return $this->_rootElement->find($this->_grandTotalMask, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->grandTotalMask, Locator::SELECTOR_XPATH)->getText();
     }
 }

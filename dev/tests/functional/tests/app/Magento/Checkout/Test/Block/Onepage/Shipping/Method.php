@@ -50,6 +50,6 @@ class Method extends Block
             . '"]/following-sibling::*//*[contains(text(), "' . $shippingMethod['shipping_method'] . '")]';
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#shipping-method-please-wait');
     }
 }

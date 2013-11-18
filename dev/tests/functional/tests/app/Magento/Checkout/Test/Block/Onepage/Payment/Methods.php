@@ -12,7 +12,6 @@
 namespace Magento\Checkout\Test\Block\Onepage\Payment;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Payment\Test\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
@@ -62,6 +61,6 @@ class Methods extends Block
         }
 
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#payment-please-wait');
     }
 }

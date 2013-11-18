@@ -30,6 +30,7 @@ class Billing extends Form
         $this->_mapping = array(
             'firstname' => '[id="billing:firstname"]',
             'lastname' => '[id="billing:lastname"]',
+            'company' => '[id="billing:company"]',
             'telephone' => '[id="billing:telephone"]',
             'street_1' => '[id="billing:street1"]',
             'city' => '[id="billing:city"]',

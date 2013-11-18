@@ -30,7 +30,6 @@ class PayflowProTest extends Functional
      */
     public function testPayflowProExpress()
     {
-        $this->markTestSkipped('MAGETWO-16653');
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutExpressPayPalPayflow();
         $fixture->persist();
 

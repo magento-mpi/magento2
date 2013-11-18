@@ -40,6 +40,7 @@ class Shipping extends Form
             'firstname' => '[id="shipping:firstname"]',
             'lastname' => '[id="shipping:lastname"]',
             'email' => '[id="shipping:email"]',
+            'company' => '[id="shipping:company"]',
             'telephone' => '[id="shipping:telephone"]',
             'street_1' => '[id="shipping:street1"]',
             'city' => '[id="shipping:city"]',
@@ -75,6 +76,6 @@ class Shipping extends Form
         }
         $this->fill($shippingAddress);
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#shipping-please-wait');
     }
 }
