@@ -13,9 +13,6 @@ namespace Magento\Core\Model\Session;
 
 class AbstractSession extends \Magento\Object
 {
-    const XML_PATH_COOKIE_DOMAIN        = 'web/cookie/cookie_domain';
-    const XML_PATH_COOKIE_PATH          = 'web/cookie/cookie_path';
-
     const PARAM_SESSION_SAVE_METHOD     = 'session_save';
     const PARAM_SESSION_SAVE_PATH       = 'session_save_path';
     const PARAM_SESSION_CACHE_LIMITER   = 'session_cache_limiter';
@@ -192,13 +189,12 @@ class AbstractSession extends \Magento\Object
                 }
                 break;
         }
-        $cookie = $this->_cookie;
         $sessionConfig = $this->_sessionConfig;
 
         // session cookie params
         $cookieParams = array(
             'lifetime' => 0, // 0 is browser session lifetime
-            'path'     => $this->_sessionConfig->getCookiePath(),
+            'path'     => $sessionConfig->getCookiePath(),
             'domain'   => $sessionConfig->getCookieDomain(),
             'secure'   => $sessionConfig->getCookieSecure(),
             'httponly' => $sessionConfig->getCookieHttpOnly()
@@ -215,7 +211,7 @@ class AbstractSession extends \Magento\Object
         }
 
         if (isset($cookieParams['domain'])) {
-            $cookieParams['domain'] = $cookie->getDomain();
+            $cookieParams['domain'] = $sessionConfig->getCookieDomain();
         }
 
         call_user_func_array('session_set_cookie_params', $cookieParams);
@@ -362,7 +358,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getCookieDomain()
     {
-        return $this->_cookie->getDomain();
+        return $this->_sessionConfig->getCookieDomain();
     }
 
     /**
@@ -382,7 +378,7 @@ class AbstractSession extends \Magento\Object
      */
     public function getCookieLifetime()
     {
-        return $this->_cookie->getDefaultLifetime();
+        return $this->_sessionConfig->getCookieLifetime();
     }
 
     /**
@@ -710,7 +706,7 @@ class AbstractSession extends \Magento\Object
         session_regenerate_id(true);
 
         $sessionHosts = $this->_getHosts();
-        $currentCookieDomain = $this->_cookie->getDomain();
+        $currentCookieDomain = $this->_sessionConfig->getCookieDomain();
         if (is_array($sessionHosts)) {
             foreach (array_keys($sessionHosts) as $host) {
                 // Delete cookies with the same name for parent domains
