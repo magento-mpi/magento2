@@ -12,7 +12,7 @@
 namespace Magento\View\Design\FileResolution\Strategy\Fallback;
 
 use Magento\Filesystem;
-use Magento\Filesystem\Adapter\Local;
+use Magento\Filesystem\DirectoryList;
 use Magento\Io\File;
 use Magento\TestFramework\Helper\ProxyTesting;
 
@@ -51,6 +51,16 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected $themeModel;
 
+    /**
+     * Direcoty with write permissions
+     *
+     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $directoryWrite;
+
+    /**
+     * Set up
+     */
     protected function setUp()
     {
         $this->tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'fallback';
@@ -78,31 +88,39 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
 
         $this->model = new CachingProxy(
             $this->fallback,
-            $this->createFilesystem(),
+            $this->getFilesystemMock(),
             $this->tmpDir,
             TESTS_TEMP_DIR,
             true
         );
     }
 
+    /**
+     * Tear down
+     */
     protected function tearDown()
     {
         File::rmdirRecursive($this->tmpDir);
     }
 
     /**
+     * Construct CachingProxy passing not a directory
+     *
      * @expectedException \InvalidArgumentException
      */
     public function testConstructInvalidDir()
     {
         $this->model = new CachingProxy(
             $this->fallback,
-            $this->createFilesystem(),
+            $this->getFilesystemMock(false),
             $this->tmpDir,
-            TESTS_TEMP_DIR . '/invalid_dir'
+            TESTS_TEMP_DIR . 'invalid_dir'
         );
     }
 
+    /**
+     * Test for __destruct method
+     */
     public function testDestruct()
     {
         $this->fallback->expects($this->once())
@@ -114,12 +132,14 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
         $this->model->getFile('a', $this->themeModel, 'does not matter', 'Some_Module');
         $this->assertFileNotExists($expectedFile);
         unset($this->model);
-        $this->assertFileExists($expectedFile);
-        $contents = file_get_contents($expectedFile);
-        $this->assertContains('test.txt', $contents);
-        $this->assertContains('Some_Module', $contents);
+        $this->directoryWrite->expects($this->any())
+            ->method('writeFile')
+            ->with($expectedFile, $this->contains('Some_Module'));
     }
 
+    /**
+     * Test for destruct method with canSaveMap = false
+     */
     public function testDestructNoMapSaved()
     {
         $this->fallback->expects($this->once())
@@ -127,20 +147,21 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.txt'));
         $model = new CachingProxy(
             $this->fallback,
-            $this->createFilesystem(),
+            $this->getFilesystemMock(),
             $this->tmpDir,
             TESTS_TEMP_DIR,
             false
         );
 
-        $unexpectedFile = $this->tmpDir . DIRECTORY_SEPARATOR . 'a_t_.ser';
-
         $model->getFile('a', $this->themeModel, 'does not matter', 'Some_Module');
         unset($model);
-        $this->assertFileNotExists($unexpectedFile);
+        $this->directoryWrite->expects($this->never())
+            ->method('writeFile');
     }
 
     /**
+     * Test for all proxy methods
+     *
      * @param string $method
      * @param array $params
      * @param string $expectedResult
@@ -163,6 +184,8 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Data provider for testProxyMethods
+     *
      * @return array
      */
     public static function proxyMethodsDataProvider()
@@ -195,6 +218,9 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * Test for setViewFilePathToMap method
+     */
     public function testSetViewFilePathToMap()
     {
         $materializedFilePath = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'file.txt';
@@ -216,10 +242,31 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Get Filesystem mock
+     *
+     * @param bool $isDirectory
      * @return Filesystem
      */
-    protected function createFilesystem()
+    protected function getFilesystemMock($isDirectory = true)
     {
-        return new Filesystem(new Local());
+        $directoryRead = $this->getMock('Magento\Filesystem\Directory\Read', array('isDirectory'), array(), '', false);
+        $directoryRead->expects($this->once())
+            ->method('isDirectory')
+            ->will($this->returnValue($isDirectory));
+        $this->directoryWrite = $this->getMock(
+            'Magento\Filesystem\Directory\Write',
+            array('getRelativePath','isFile', 'readFile', 'isDirectory', 'create', 'writeFile'),
+            array(), '', false
+        );
+        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', 'getDirectoryWrite'), array(), '', false);
+        $filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(DirectoryList::ROOT)
+            ->will($this->returnValue($directoryRead));
+        $filesystem->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(DirectoryList::VAR_DIR)
+            ->will($this->returnValue($this->directoryWrite));
+        return $filesystem;
     }
 }

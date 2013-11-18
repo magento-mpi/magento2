@@ -100,8 +100,9 @@ class Read implements ReadInterface
      */
     protected function assertExist($path)
     {
-        if ($this->driver->isExists($path) === false) {
-            throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $this->getAbsolutePath($path)));
+        $absolutePath = $this->getAbsolutePath($path);
+        if ($this->driver->isExists($absolutePath) === false) {
+            throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $absolutePath));
         }
         return true;
     }
