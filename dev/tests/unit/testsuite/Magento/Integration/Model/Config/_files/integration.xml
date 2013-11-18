@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<integrations>
+    <integration id="TestIntegration1">
+        <name>Test Integration 1</name>
+        <email>test-integration1@magento.com</email>
+        <authentication type="oauth">
+            <endpoint_url>http://endpoint.com</endpoint_url>
+        </authentication>
+    </integration>
+    <integration id="TestIntegration2">
+        <name>Test Integration 2</name>
+        <email>test-integration2@magento.com</email>
+        <authentication type="manual"/>
+    </integration>
+</integrations>
