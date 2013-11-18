@@ -137,11 +137,18 @@ class AbstractSession extends \Magento\Object
     protected $_sidNameMap;
 
     /**
+     * @var \Zend_Session_SaveHandler_Interface
+     */
+    protected $saveHandler;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Zend_Session_SaveHandler_Interface $saveHandler,
         array $data = array()
     ) {
         $this->_validator = $context->getValidator();
@@ -160,13 +167,15 @@ class AbstractSession extends \Magento\Object
         $this->_storeManager = $context->getStoreManager();
         $this->_dir = $context->getDir();
         $this->_url = $context->getUrl();
+        $this->saveHandler = $saveHandler;
         parent::__construct($data);
+        register_shutdown_function(array($this, 'writeClose'));
     }
 
     /**
      * This method needs to support sessions with APC enabled
      */
-    public function __destruct()
+    public function writeClose()
     {
         session_write_close();
     }
@@ -183,32 +192,8 @@ class AbstractSession extends \Magento\Object
             return $this;
         }
 
-        switch($this->getSessionSaveMethod()) {
-            case 'db':
-                ini_set('session.save_handler', 'user');
-                /* @var $sessionResource \Magento\Core\Model\Resource\Session */
-                $sessionResource = \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\Resource\Session');
-                $sessionResource->setSaveHandler();
-                break;
-            case 'memcache':
-                ini_set('session.save_handler', 'memcache');
-                session_save_path($this->getSessionSavePath());
-                break;
-            case 'memcached':
-                ini_set('session.save_handler', 'memcached');
-                session_save_path($this->getSessionSavePath());
-                break;
-            case 'eaccelerator':
-                ini_set('session.save_handler', 'eaccelerator');
-                break;
-            default:
-                session_module_name($this->getSessionSaveMethod());
-                if (is_writable($this->getSessionSavePath())) {
-                    session_save_path($this->getSessionSavePath());
-                }
-                break;
-        }
+        $this->registerSaveHandler();
+
         $cookie = $this->getCookie();
 
         // session cookie params
@@ -254,6 +239,23 @@ class AbstractSession extends \Magento\Object
         \Magento\Profiler::stop('session_start');
 
         return $this;
+    }
+
+    /**
+     * Register save handler
+     *
+     * @return bool
+     */
+    protected function registerSaveHandler()
+    {
+        return session_set_save_handler(
+            array($this->saveHandler, 'open'),
+            array($this->saveHandler, 'close'),
+            array($this->saveHandler, 'read'),
+            array($this->saveHandler, 'write'),
+            array($this->saveHandler, 'destroy'),
+            array($this->saveHandler, 'gc')
+        );
     }
 
     /**

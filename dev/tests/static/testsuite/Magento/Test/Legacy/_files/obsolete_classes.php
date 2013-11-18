@@ -1433,4 +1433,5 @@ return array(
     array('Magento\Core\Model\Fieldset\Config\Reader', 'Magento\Object\Copy\Config\Reader'),
     array('Magento\Core\Model\Fieldset\Config\SchemaLocator', 'Magento\Object\Copy\Config\SchemaLocator'),    
     array('Magento\Core\Model\ModuleManager', 'Magento\Module\Manager'),
+    array('Magento\Core\Model\Resource\Session', 'Magento\Session\SaveHandler\DbTable'),
 );

@@ -42,19 +42,21 @@ class Session
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\Url $backendUrl,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        parent::__construct($context, $data);
+        parent::__construct($context, $saveHandler, $data);
         $this->init('admin');
     }
 

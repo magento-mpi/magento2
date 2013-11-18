@@ -29,16 +29,18 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Connect\Helper\Data $connectData
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Connect\Helper\Data $connectData,
         array $data = array()
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($context, $data);
+        parent::__construct($context, $saveHandler, $data);
         $this->init('adminhtml');
     }
 

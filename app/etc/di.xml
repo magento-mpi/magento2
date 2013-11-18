@@ -49,6 +49,19 @@
         </param>
     </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
+    <preference for="Zend_Session_SaveHandler_Interface" type="Magento\Session\SaveHandler" />
+    <type name="Magento\Session\SaveHandler">
+        <param name="saveMethod">
+            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD</value>
+        </param>
+    </type>
+    <type name="Magento\Session\SaveHandlerFactory">
+        <param name="handlers">
+            <value>
+                <db>Magento\Session\SaveHandler\DbTable</db>
+            </value>
+        </param>
+    </type>
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />
