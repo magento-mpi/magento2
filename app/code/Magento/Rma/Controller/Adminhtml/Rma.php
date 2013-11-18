@@ -20,14 +20,30 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $readDirectory;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Backend\Controller\Context   $context
+     * @param \Magento\Core\Model\Registry          $coreRegistry
+     * @param \Magento\Filesystem                   $filesystem
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry        $coreRegistry,
+        \Magento\Filesystem                 $filesystem
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_coreRegistry    = $coreRegistry;
+        $this->filesystem       = $filesystem;
+        $this->readDirectory    = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
         parent::__construct($context);
     }
 
@@ -803,56 +819,53 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function viewfileAction()
     {
-        $file   = null;
+        $fileName = null;
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             return $this->norouteAction();
         }
-        /** @var $dirModel \Magento\App\Dir */
-        $dirModel = $this->_objectManager->get('Magento\App\Dir');
-        $path = $dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'rma_item';
 
-        $ioFile = new \Magento\Io\File();
-        $ioFile->open(array('path' => $path));
-        $fileName   = $ioFile->getCleanPath($path . $file);
-        $path       = $ioFile->getCleanPath($path);
-
-        if (!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0) {
+        if (!$this->readDirectory->isExist(sprintf('rma_item/%s', $fileName))) {
             return $this->norouteAction();
         }
 
         if ($plain) {
-            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)));
-            $ioFile->streamOpen($fileName, 'r');
-            $contentLength = $ioFile->streamStat('size');
-            $contentModify = $ioFile->streamStat('mtime');
-
+            /** @var $readFile \Magento\Filesystem\File\Read */
+            $readFile = $this->readDirectory->openFile(sprintf('rma_item/%s', $fileName));
+            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo(
+                $this->readDirectory->getAbsolutePath(sprintf('rma_item/%s', $fileName)),
+                PATHINFO_EXTENSION
+            )));
+            $fileStat = $this->readDirectory->stat(sprintf('rma_item/%s', $fileName));
             $this->getResponse()
                 ->setHttpResponseCode(200)
                 ->setHeader('Pragma', 'public', true)
                 ->setHeader('Content-type', $contentType, true)
-                ->setHeader('Content-Length', $contentLength)
-                ->setHeader('Last-Modified', date('r', $contentModify))
+                ->setHeader('Content-Length', $fileStat['size'])
+                ->setHeader('Last-Modified', date('r', $fileStat['mtime']))
                 ->clearBody();
             $this->getResponse()->sendHeaders();
 
-            while (false !== ($buffer = $ioFile->streamRead())) {
+            while (false !== ($buffer = $readFile->read(1024))) {
                 echo $buffer;
             }
         } else {
-            $name = pathinfo($fileName, PATHINFO_BASENAME);
+            $name = pathinfo(
+                $this->readDirectory->getAbsolutePath(sprintf('rma_item/%s', $fileName)),
+                PATHINFO_BASENAME
+            );
             $this->_prepareDownloadResponse($name, array(
                 'type'  => 'filename',
-                'value' => $fileName
+                'value' => $this->readDirectory->getAbsolutePath(sprintf('rma_item/%s', $fileName))
             ));
         }
 
