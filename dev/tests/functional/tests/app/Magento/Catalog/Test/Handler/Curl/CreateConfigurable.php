@@ -155,7 +155,7 @@ class CreateConfigurable extends Curl
     {
         $url = $_ENV['app_backend_url']
             . 'catalog/product/save/'
-            . $fixture->getUrlParams('create_url_params');
+            . $fixture->getUrlParams('create_url_params') . '/popup/1/';
         $params = $this->_prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
