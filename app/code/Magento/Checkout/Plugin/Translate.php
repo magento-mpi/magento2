@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Plugin;
+namespace Magento\Checkout\Plugin;
 
 class Translate
 {
@@ -26,14 +26,13 @@ class Translate
     /**
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return string
      */
-    public function aroundJsonEncode(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
-    {
-        $returnValue = $invocationChain->proceed($arguments);
-        if ($this->translator->isAllowed()) {
-            $this->translator->processResponseBody($returnValue, true);
-        }
-        return $returnValue;
+    public function aroundSendPaymentFailedEmail(
+        array $arguments,
+        \Magento\Code\Plugin\InvocationChain $invocationChain
+    ) {
+        $this->translator->setTranslateInline(false);
+        $invocationChain->proceed($arguments);
+        $this->translator->setTranslateInline(true);
     }
 }
