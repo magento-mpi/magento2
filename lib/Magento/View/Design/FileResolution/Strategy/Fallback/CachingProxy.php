@@ -214,13 +214,12 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
      */
     protected function setToMap($fileType, $area, ThemeInterface $theme, $locale, $module, $file, $filePath)
     {
-        $pattern = $this->baseDir . DIRECTORY_SEPARATOR;
-        if (0 !== strpos($filePath, $pattern)) {
+        if (!$this->varDirectory->isPathInDirectory($filePath, $this->baseDir)) {
             throw new \Magento\Exception(
-                "Attempt to store fallback path '{$filePath}', which is not within '{$pattern}'"
+                "Attempt to store fallback path '{$filePath}', which is not within '{$this->baseDir}'"
             );
         }
-        $value = substr($filePath, strlen($pattern));
+        $value = substr($filePath, strlen($this->baseDir) + 1);
 
         $sectionKey = $this->loadSection($area, $theme, $locale);
         $fileKey = "$fileType|$file|$module";
@@ -254,7 +253,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
     {
         $sectionFile = $this->getSectionFile($area, $themeModel, $locale);
         if (!isset($this->sections[$sectionFile])) {
-            $filePath = $this->mapDir . DIRECTORY_SEPARATOR . $sectionFile;
+            $filePath = $this->mapDir . '/' . $sectionFile;
             $this->sections[$sectionFile] = array(
                 'data' => array(),
                 'is_changed' => false,

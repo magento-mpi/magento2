@@ -36,7 +36,7 @@ class Read implements ReadInterface
     protected $driver;
 
     /**
-     * Constructor
+     * Constructor. Set properties.
      *
      * @param array $config
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
@@ -64,27 +64,30 @@ class Read implements ReadInterface
         if (empty($config['path'])) {
             throw new FilesystemException('Cannot create directory without path');
         }
-        $this->path = rtrim(str_replace('\\', '/', $config['path']), '/') . '/';
+        $this->path = rtrim($this->fixSeparator($config['path']), '/') . '/';
     }
 
     /**
+     * Retrieves absolute path
+     * E.g.: var/www/application/file.txt
+     *
      * @param string $path
      * @return string
      */
     public function getAbsolutePath($path = null)
     {
-        return $this->path . ltrim(str_replace('\\', '/', $path), '/');
+        return $this->path . ltrim($this->fixSeparator($path), '/');
     }
 
     /**
-     * Get relative path
+     * Retrieves relative path
      *
      * @param string $path
      * @return string
      */
     public function getRelativePath($path = '')
     {
-        $path = str_replace('\\', '/', $path);
+        $path = $this->fixSeparator($path);
         if ((strpos($path, $this->path) === 0) || ($this->path == $path . '/')) {
             $result = substr($path, strlen($this->path));
         } else {
@@ -96,15 +99,14 @@ class Read implements ReadInterface
     /**
      * Validate of path existence
      *
-     * @param $path
+     * @param string $path
      * @return bool
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertExist($path)
     {
-        $absolutePath = $this->getAbsolutePath($path);
-        if ($this->driver->isExists($absolutePath) === false) {
-            throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $absolutePath));
+        if ($this->driver->isExists($path) === false) {
+            throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $this->getAbsolutePath($path)));
         }
         return true;
     }
@@ -239,5 +241,30 @@ class Read implements ReadInterface
     public function isDirectory($path)
     {
         return $this->driver->isDirectory($this->getAbsolutePath($path));
+    }
+
+    /**
+     * Checks is directory contains path
+     * Utility method.
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    public function isPathInDirectory($path, $directory)
+    {
+        return 0 === strpos($this->fixSeparator($path), $this->fixSeparator($directory));
+    }
+
+    /**
+     * Fixes path separator
+     * Utility method.
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function fixSeparator($path)
+    {
+        return str_replace('\\', '/', $path);
     }
 }

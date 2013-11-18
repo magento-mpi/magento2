@@ -642,6 +642,7 @@ class Filesystem
      * @param string $path
      * @param string $directory
      * @return bool
+     * @deprecated Use Magento\Filesystem\Directory\ReadInterface
      */
     public function isPathInDirectory($path, $directory)
     {

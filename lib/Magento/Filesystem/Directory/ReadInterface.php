@@ -89,4 +89,21 @@ interface ReadInterface
      * @throws \Magento\Filesystem\FilesystemException
      */
     public function readFile($path);
+
+    /**
+     * Checks is directory contains path
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    public function isPathInDirectory($path, $directory);
+
+    /**
+     * Retrieves relative path
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getRelativePath($path);
 }
