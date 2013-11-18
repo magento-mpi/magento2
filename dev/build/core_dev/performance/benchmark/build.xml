@@ -284,4 +284,16 @@
         <fail unless="env.mysql_password" message="Variable 'mysql_password' must be defined"/>
         <fail unless="env.mysql_database" message="Variable 'mysql_database' must be defined"/>
     </target>
+
+    <target name="megre">
+        <exec executable="php">
+            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/benchmark_logs_merge.php"/>
+            <arg value="--xml"/>
+            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
+            <arg value="--csv"/>
+            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_perfmon.jtl"/>
+            <arg value="--logs"/>
+            <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_logs_merge.jtl"/>
+        </exec>
+    </target>
 </project>
