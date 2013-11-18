@@ -12,6 +12,7 @@
 namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Client\Element\Locator;
+use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
@@ -61,6 +62,83 @@ class UpsellTest extends Functional {
     }
 
     /**
+     * Assert input product has proper upsell products in the front end
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @param \Magento\Catalog\Test\Fixture\Product $upsellSimple2
+     * @param \Magento\Catalog\Test\Fixture\Product $upsellConfigurable1
+     */
+    protected function checkFrontEnd($product, $upsellSimple2, $upsellConfigurable1)
+    {
+        //Pages
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $resultPage = Factory::getPageFactory()->getCatalogsearchResult();
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+
+        //Blocks
+        $productViewBlock = $productPage->getViewBlock();
+
+        $productListBlock = $resultPage->getListProductBlock();
+
+        //Steps
+        $frontendHomePage->open();
+        $frontendHomePage->getSearchBlock()->search($product->getProductSku());
+
+        //Verifying
+
+        // Step 5 - Go to Simple 1 page
+        // Simple 1 page is opened,  Product page has an Up-sells section :
+        // "You may also be interested in the following product(s)" with  both - Configurable 1 and - Simple 2
+
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
+            'Product was not found.');
+        $productListBlock->openProductViewPage($product->getProductName());
+        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
+            'Wrong product page has been opened.');
+
+        /** @var Element $foundSimple1 */
+        $foundConfigurable1 = $productViewBlock->verifyProductUpsell($upsellConfigurable1);
+        if (null == $foundConfigurable1) {
+            $this->fail('Upsell product ' . $upsellConfigurable1->getProductName() .  'was not found in the first product page.');
+        }
+
+        /** @var Element $foundSimple1 */
+        $foundSimple2 = $productViewBlock->verifyProductUpsell($upsellSimple2);
+        if (null == $foundSimple2) {
+            $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  'was not found in the first product page.');
+        }
+
+        // Step 6.  Click on the configurable 1 product.
+        // See that the Simple 2 is in the upsells.
+        // TODO:  conduct click action on upsell products.
+
+        $this->markTestIncomplete('MAGETWO-15966');
+
+        //$foundConfigurable1->click();
+
+        //$foundConfigurable1->waitForElementVisible('product-addtocart-button', Locator::SELECTOR_ID);
+
+        $foundSimple2 = $productViewBlock->findProductUpsell($upsellSimple2);
+        if (null == $foundSimple2) {
+            $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  'was not found in the config product page.');
+        }
+
+        // Step 7.  Click on the simple 2 product.
+        // See that no upsells are present.
+
+        /** @var Element $foundSimple1 */
+        $foundSimple2 = $productViewBlock->findProductUpsell($upsellSimple2);
+        $foundSimple2->click();
+        $productViewBlock->waitForElementVisible('product-addtocart-button', Locator::SELECTOR_ID);
+        $match = $productViewBlock->find(
+            '//ol[@class="products list items upsell"]',
+            Locator::SELECTOR_XPATH);
+
+        $this->assertNull($match, $upsellSimple2->getProductName() .  ' upsell section was found.');
+
+    }
+
+    /**
      * Product Up-selling.  Assign upselling to products and see them related on the front-end.
      *
      * @ZephirId MAGEGTWO-12391
@@ -96,9 +174,9 @@ class UpsellTest extends Functional {
         //$this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id!");
 
         // Flush cache
-        $cachePage = Factory::getPageFactory()->getAdminCache();
-        $cachePage->open();
-        $cachePage->getActionsBlock()->flushMagentoCache();
+//        $cachePage = Factory::getPageFactory()->getAdminCache();
+//        $cachePage->open();
+//        $cachePage->getActionsBlock()->flushMagentoCache();
 
         // Test Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
@@ -127,6 +205,10 @@ class UpsellTest extends Functional {
         //SUBSTITUTE UNTIL BLOCKER IS CLEARED
         Upsell::addUpsellProducts($product3Fixture, array($product2Fixture));
 
-        $this->markTestIncomplete('MAGETWO-15966');
-    }
+
+        // Test on front end that the upsell products are visible.
+
+        // Step 4-7: Go to frontend (implicit)
+        $this->checkFrontEnd($product1Fixture, $product2Fixture, $product2Fixture);
+   }
 }

@@ -51,6 +51,13 @@ class CatalogProductView extends Page
     protected $messagesSelector = '.page.messages .messages';
 
     /**
+     * Upsell selector
+     *
+     * @var string
+     */
+    protected $upsellSelector = 'block.upsell';
+
+    /**
      * Product View block
      *
      * @var \Magento\Catalog\Test\Block\Product\View
@@ -129,6 +136,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoReviewProductViewSummary(
             $this->_browser->find($this->reviewSummarySelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get review summary block
+     *
+     * @return \Magento\Review\Test\Block\Product\View\Summary
+     */
+    public function getUpsellBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogUpsell(
+            $this->_browser->find($this->upsellSelector, Locator::SELECTOR_CSS)
         );
     }
 
