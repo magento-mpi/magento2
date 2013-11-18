@@ -16,7 +16,7 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Backend\Block\Template" name="integration.activate.permissions" template="Magento_Integration::integration/activate/permissions2.phtml">
+        <block class="Magento\Backend\Block\Template" name="integration.activate.permissions" template="Magento_Integration::integration/activate/permissions.phtml">
             <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs" name="integration.activate.permissions.tabs" as="tabs">
                 <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webapi" name="integration_activate_permissions_tabs_webapi" template="integration/activate/permissions/tabs/webapi.phtml"/>
                 <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webhook" name="integration_activate_permissions_tabs_webhook"/>
