@@ -15,6 +15,11 @@ namespace Magento\Session;
 interface SidResolverInterface
 {
     /**
+     * Session ID in query param
+     */
+    const SESSION_ID_QUERY_PARAM        = 'SID';
+
+    /**
      * @return string
      */
     public function getSid();

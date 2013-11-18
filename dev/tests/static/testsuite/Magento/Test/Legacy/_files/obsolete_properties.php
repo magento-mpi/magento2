@@ -103,4 +103,8 @@ return array(
     array('types', '\Magento\Core\Model\Theme'),
     array('_collectionFactory', '\Magento\Install\Controller\Action', 'themeProvider'),
     array('_collectionFactory', '\Magento\Theme\Model\Config\Customization', 'themeProvider'),
+    array('_encryptedSessionId', '\Magento\Core\Model\Session\AbstractSession'),
+    array('_skipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),
+    array('_url', '\Magento\Core\Model\Session\AbstractSession'),
+    array('_sidNameMap', '\Magento\Core\Model\Session\AbstractSession'),
 );

@@ -1,6 +1,6 @@
 <?php
 /**
- * SID url resolver
+ * SID resolver
  *
  * {license_notice}
  *
@@ -13,9 +13,10 @@ namespace Magento\Core\Model\Session;
 
 class SidResolver implements \Magento\Session\SidResolverInterface
 {
-    const XML_PATH_USE_FRONTEND_SID     = 'web/session/use_frontend_sid';
-
-    const SESSION_ID_QUERY_PARAM        = 'SID';
+    /**
+     * Config path for flag whether use SID on frontend
+     */
+    const XML_PATH_USE_FRONTEND_SID = 'web/session/use_frontend_sid';
 
     /**
      * @var \Magento\Core\Model\Session
@@ -70,12 +71,9 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     {
         $id = null;
         if (($this->storeManager->getStore()->isAdmin()
-            ||
-            $this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
-            &&
-            isset($_GET[$this->getSessionIdQueryParam()])
-            &&
-            $this->urlBuilder->isOwnOriginUrl()
+                || $this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
+            && isset($_GET[$this->getSessionIdQueryParam()])
+            && $this->urlBuilder->isOwnOriginUrl()
         ) {
             $id = $_GET[$this->getSessionIdQueryParam()];
         }

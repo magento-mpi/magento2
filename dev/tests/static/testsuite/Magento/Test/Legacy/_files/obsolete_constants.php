@@ -376,4 +376,14 @@ return array(
     array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
     array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
+    array(
+        'XML_PATH_USE_FRONTEND_SID',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+    ),
+    array(
+        'SESSION_ID_QUERY_PARAM',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Session\SidResolverInterface::SESSION_ID_QUERY_PARAM'
+    ),
 );
