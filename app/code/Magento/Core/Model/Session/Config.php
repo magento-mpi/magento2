@@ -9,8 +9,6 @@
  */
 namespace Magento\Core\Model\Session;
 
-use Zend\Validator;
-
 class Config implements \Magento\Session\ConfigInterface
 {
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
@@ -21,7 +19,7 @@ class Config implements \Magento\Session\ConfigInterface
     /**
      * @var array
      */
-    protected $_data;
+    protected $_data = array();
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -82,11 +80,11 @@ class Config implements \Magento\Session\ConfigInterface
         );
 
         $lifetime = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $store);
-        $lifetime = is_numeric($lifetime) ?: 3600;
+        $lifetime = is_numeric($lifetime) ? $lifetime : 3600;
         $this->setCookieLifetime($lifetime);
 
         $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $store);
-        $domain = empty($domain) ?: $this->_httpRequest->getHttpHost();
+        $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
         $this->setCookieDomain($domain);
 
         $path = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_PATH, $store);
@@ -321,7 +319,7 @@ class Config implements \Magento\Session\ConfigInterface
             throw new \InvalidArgumentException('Invalid cookie domain: must be a string');
         }
 
-        $validator = new Validator\Hostname(Validator\Hostname::ALLOW_ALL);
+        $validator = new \Zend\Validator\Hostname(\Zend\Validator\Hostname::ALLOW_ALL);
 
         if (!empty($cookieDomain) && !$validator->isValid($cookieDomain)) {
             throw new \InvalidArgumentException(
