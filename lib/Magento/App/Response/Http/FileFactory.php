@@ -23,6 +23,7 @@ class FileFactory
 
     /**
      * @param \Magento\App\ResponseFactory $responseFactory
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(\Magento\App\ResponseFactory $responseFactory, \Magento\Filesystem $filesystem)
     {
@@ -41,6 +42,10 @@ class FileFactory
      * @throws \Exception
      * @throws \InvalidArgumentException
      * @return \Magento\App\ActionInterface
+     *
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity)
+     * @SuppressWarnings(PHPMD.ExitExpression)
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {

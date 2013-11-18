@@ -49,6 +49,8 @@ class ActionFlag
      * @param   string $action
      * @param   string $flag
      * @return  bool
+     *
+     * @SuppressWarnings(PHPMD.BooleanGetMethodName)
      */
     public function get($action, $flag = '')
     {

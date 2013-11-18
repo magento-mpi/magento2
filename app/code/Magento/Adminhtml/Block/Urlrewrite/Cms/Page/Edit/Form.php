@@ -50,6 +50,8 @@ class Form extends \Magento\Adminhtml\Block\Urlrewrite\Edit\Form
      * @param \Magento\Cms\Model\Page\UrlrewriteFactory $urlRewriteFactory
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param array $data
+     *
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,

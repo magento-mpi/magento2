@@ -32,7 +32,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getId', '__wakeup'))
             ->getMock();
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
-
         $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
             ->disableOriginalConstructor()
             ->setMethods(array('registry'))
@@ -41,11 +40,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->method('registry')
             ->with('current_customer')
             ->will($this->returnValue($customer));
-
         $store = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
             ->getMock();
-
         $collectionElement = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
             ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId', '__wakeup'))
@@ -57,7 +54,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
         $collectionElement->expects($this->atLeastOnce())->method('renderData')
             ->will($this->returnValue(2));
-
         $collection = $this->getMockBuilder('Magento\Sales\Model\Resource\Recurring\Profile\Collection')
             ->disableOriginalConstructor()
             ->setMethods(array('addFieldToFilter', 'addFieldToSelect', 'setOrder'))
@@ -90,7 +86,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMockForAbstractClass();
         $locale->expects($this->once())->method('formatDate')
             ->will($this->returnValue('11-11-1999'));
-
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Sales\Block\Recurring\Profile\Grid',
             array(
@@ -100,7 +95,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 'locale' => $locale
             )
         );
-
         $pagerBlock = $this->getMockBuilder('Magento\Page\Block\Html\Pager')
             ->disableOriginalConstructor()
             ->setMethods(array('setCollection'))

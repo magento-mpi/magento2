@@ -154,7 +154,8 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
     {
         $this->_view->loadLayout(false);
         $fileName = 'products_lowstock.csv';
-        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()
+            ->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
@@ -166,7 +167,8 @@ class Product extends \Magento\Adminhtml\Controller\Report\AbstractReport
     {
         $this->_view->loadLayout(false);
         $fileName = 'products_lowstock.xml';
-        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()
+            ->getChildBlock('adminhtml.block.report.product.lowstock.grid', 'grid.export');
         return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile());
     }
 

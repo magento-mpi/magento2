@@ -78,9 +78,6 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(true));
 
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-//        $frontControllerMock = $this->getMockBuilder('Magento\App\FrontController')
-//            ->disableOriginalConstructor()
-//            ->getMock();
 
         $this->_session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
@@ -181,7 +178,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $customerMock->expects($this->once())
             ->method('sendPasswordReminderEmail');
 
-        $customerHelperMock = $this->getMock('Magento\Customer\Helper\Data', array('generateResetPasswordLinkToken'), array(), '', false);
+        $customerHelperMock = $this->getMock('Magento\Customer\Helper\Data',
+            array('generateResetPasswordLinkToken'), array(), '', false
+        );
         $customerHelperMock->expects($this->any())
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));

@@ -87,18 +87,21 @@ class Urlrewrite extends \Magento\Backend\App\Action
                     )));
                 break;
             case self::CMS_PAGE_MODE:
-                $editBlock = $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '',
-                    array(
-                        'data' => array(
-                            'cms_page'    => $this->_getCmsPage(),
-                            'url_rewrite' => $this->_getUrlRewrite(),
-                        ),
-                    )
+                $editBlock = $this->_view->getLayout()
+                    ->createBlock(
+                        'Magento\Adminhtml\Block\Urlrewrite\Cms\Page\Edit', '',
+                        array(
+                            'data' => array(
+                                'cms_page'    => $this->_getCmsPage(),
+                                'url_rewrite' => $this->_getUrlRewrite(),
+                            ),
+                        )
                 );
                 break;
             case self::ID_MODE:
             default:
-                $editBlock = $this->_view->getLayout()->createBlock('Magento\Adminhtml\Block\Urlrewrite\Edit', '', array(
+                $editBlock = $this->_view->getLayout()->createBlock(
+                    'Magento\Adminhtml\Block\Urlrewrite\Edit', '', array(
                     'data' => array('url_rewrite' => $this->_getUrlRewrite())
                 ));
                 break;

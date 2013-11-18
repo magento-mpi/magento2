@@ -60,7 +60,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $request \Magento\TestFramework\Request */
         $request = $objectManager->get('Magento\TestFramework\Request');
-        $action = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
             'Magento\App\Action\Action',
             array(
                 'request' => $request,

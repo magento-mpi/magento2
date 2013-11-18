@@ -21,10 +21,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false);
-        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get'))
-            ->getMock();
 
         $taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()
@@ -73,10 +69,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 'sessionQuote' => $sessionMock,
                 'orderCreate' => $orderCreateMock,
                 'coreData' => $coreData
-    )
-            );
-
-//        $this->_block->expects($this->any())->method('_getSession')->will($this->returnValue($sessionMock));
+            )
+        );
     }
 
     /**

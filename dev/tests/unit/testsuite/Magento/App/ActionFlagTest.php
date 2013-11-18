@@ -54,8 +54,10 @@ class ActionFlagTest extends \PHPUnit_Framework_TestCase
     public function testGetIfFlagExist()
     {
         $this->_requestMock->expects($this->never())->method('getActionName');
-        $this->_requestMock->expects($this->exactly(3))->method('getRequestedRouteName')->will($this->returnValue('route'));
-        $this->_requestMock->expects($this->exactly(3))->method('getRequestedControllerName')->will($this->returnValue('controller'));
+        $this->_requestMock->expects($this->exactly(3))
+            ->method('getRequestedRouteName')->will($this->returnValue('route'));
+        $this->_requestMock->expects($this->exactly(3))
+            ->method('getRequestedControllerName')->will($this->returnValue('controller'));
         $this->_actionFlag->set('action', 'flag', 'value');
         $this->assertEquals('value', $this->_actionFlag->get('action', 'flag'));
     }
