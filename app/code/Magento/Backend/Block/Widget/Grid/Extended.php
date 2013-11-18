@@ -162,7 +162,7 @@ class Extended
     /**
      * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_directory;
+    protected $writeDirectory;
 
     /**
      * Additional path to folder
@@ -171,12 +171,41 @@ class Extended
      */
     protected $_path = 'export';
 
+    /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Constructor
+     *
+     * @param \Magento\Core\Helper\Data                 $coreData
+     * @param \Magento\Backend\Block\Template\Context   $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Url                   $urlModel
+     * @param \Magento\Filesystem                       $filesystem
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data                   $coreData,
+        \Magento\Backend\Block\Template\Context     $context,
+        \Magento\Core\Model\StoreManagerInterface   $storeManager,
+        \Magento\Core\Model\Url                     $urlModel,
+        \Magento\Filesystem                         $filesystem,
+        array $data = array()
+    ) {
+        $this->_storeManager    = $storeManager;
+        $this->_urlModel        = $urlModel;
+        $this->_backendSession  = $context->getBackendSession();
+        $this->filesystem       = $filesystem;
+        $this->writeDirectory   = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+    }
+
     protected function _construct()
     {
         parent::_construct();
         $this->_emptyText = __('We couldn\'t find any records.');
-
-        $this->_directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
     }
 
     /**
@@ -866,7 +895,7 @@ class Extended
      */
     protected function _getFileContainerContent(array $fileData)
     {
-        return $this->_directory->readFile('export/' . $fileData['value']);
+        return $this->writeDirectory->readFile('export/' . $fileData['value']);
     }
 
     /**
@@ -970,8 +999,8 @@ class Extended
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.csv';
 
-        $this->_directory->create($this->_path);
-        $stream = $this->_directory->openFile($file, 'w+');
+        $this->writeDirectory->create($this->_path);
+        $stream = $this->writeDirectory->openFile($file, 'w+');
 
         $stream->lock(true);
         $stream->writeCsv($this->_getExportHeaders());
@@ -1105,8 +1134,8 @@ class Extended
         $name = md5(microtime());
         $file = $this->_path . '/' . $name . '.xml';
 
-        $this->_directory->create($this->_path);
-        $stream = $this->_directory->openFile($file, 'w+');
+        $this->writeDirectory->create($this->_path);
+        $stream = $this->writeDirectory->openFile($file, 'w+');
         $stream->lock(true);
 
         $convert->setDataHeader($this->_getExportHeaders());
