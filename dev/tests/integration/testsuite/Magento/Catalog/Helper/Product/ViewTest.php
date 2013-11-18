@@ -41,7 +41,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->setDefaultDesignTheme();
         $this->_helper = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Helper\Product\View');
-        $request = $objectManager->create('Magento\TestFramework\Request');
+        $request = $objectManager->get('Magento\TestFramework\Request');
         $request->setRouteName('catalog')
             ->setControllerName('product')
             ->setActionName('view');
@@ -120,13 +120,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
     public function testPrepareAndRenderWrongController()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $controller = $objectManager->create(
-            'Magento\Core\Controller\Front\Action',
-            array(
-                'request'  => $objectManager->get('Magento\TestFramework\Request'),
-                'response' => $objectManager->get('Magento\TestFramework\Response'),
-            )
-        );
+        $controller = $objectManager->create('Magento\Catalog\Controller\Product');
         $this->_helper->prepareAndRender(10, $controller);
     }
 

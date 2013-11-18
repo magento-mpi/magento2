@@ -127,7 +127,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
      */
     public function assert404NotFound()
     {
-        $this->assertEquals('noroute', $this->getRequest()->getActionName());
+        $this->assertEquals('noroute', $this->getRequest()->getControllerName());
         $this->assertContains('404 Not Found', $this->getResponse()->getBody());
     }
 
