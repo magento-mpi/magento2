@@ -84,7 +84,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
             $refererUrl = $this->_urlCoder->decode($url);
         }
 
-        if (!$this->_isInternal($refererUrl)) {
+        if (!$this->_isUrlInternal($refererUrl)) {
             $refererUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $refererUrl;
@@ -129,7 +129,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         if (empty($errorUrl)) {
             $errorUrl = $defaultUrl;
         }
-        if (!$this->_isInternal($errorUrl)) {
+        if (!$this->_isUrlInternal($errorUrl)) {
             $errorUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $errorUrl;
@@ -147,7 +147,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         if (empty($successUrl)) {
             $successUrl = $defaultUrl;
         }
-        if (!$this->_isInternal($successUrl)) {
+        if (!$this->_isUrlInternal($successUrl)) {
             $successUrl = $this->_storeManager->getStore()->getBaseUrl();
         }
         return $successUrl;
@@ -174,24 +174,21 @@ class Redirect implements \Magento\App\Response\RedirectInterface
     }
 
     /**
-     * Check if URL corresponds store
+     * Check whether URL is internal
      *
      * @param string $url
      * @return bool
      */
-    protected function _isInternal($url)
+    protected function _isUrlInternal($url)
     {
-        if (strpos($url, 'http') === false) {
-            return false;
+        if (strpos($url, 'http') !== false) {
+            $unsecure = (strpos($url, $this->_storeManager->getStore()->getBaseUrl()) === 0);
+            $secure = strpos(
+                    $url,
+                    $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true)
+                ) === 0;
+            return $unsecure || $secure;
         }
-
-        /**
-         * Url must start from base secure or base unsecure url
-         */
-        /** @var $store \Magento\Core\Model\Store */
-        $store = $this->_storeManager->getStore();
-        $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
-        $secure = (strpos($url, $store->getBaseUrl($store::URL_TYPE_LINK, true)) === 0);
-        return $unsecure || $secure;
+        return false;
     }
 }
