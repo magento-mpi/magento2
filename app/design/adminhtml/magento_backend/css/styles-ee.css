@@ -157,6 +157,12 @@ button.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-invitation-index .page-actions .add,
+.adminhtml-targetrule-index .page-actions .add,
+.adminhtml-giftwrapping-index .page-actions .add,
+.adminhtml-customersegment-index .page-actions .add,
+.adminhtml-giftregistry-index .page-actions .add,
+.adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary {
@@ -355,6 +361,24 @@ button.primary:active,
 .catalog-product-index .actions-split > .action-toggle.primary:hover,
 .catalog-product-index .actions-split > .action-toggle.primary:focus,
 .catalog-product-index .actions-split > .action-toggle.primary:active,
+.adminhtml-invitation-index .page-actions .add:hover,
+.adminhtml-invitation-index .page-actions .add:focus,
+.adminhtml-invitation-index .page-actions .add:active,
+.adminhtml-targetrule-index .page-actions .add:hover,
+.adminhtml-targetrule-index .page-actions .add:focus,
+.adminhtml-targetrule-index .page-actions .add:active,
+.adminhtml-giftwrapping-index .page-actions .add:hover,
+.adminhtml-giftwrapping-index .page-actions .add:focus,
+.adminhtml-giftwrapping-index .page-actions .add:active,
+.adminhtml-customersegment-index .page-actions .add:hover,
+.adminhtml-customersegment-index .page-actions .add:focus,
+.adminhtml-customersegment-index .page-actions .add:active,
+.adminhtml-giftregistry-index .page-actions .add:hover,
+.adminhtml-giftregistry-index .page-actions .add:focus,
+.adminhtml-giftregistry-index .page-actions .add:active,
+.adminhtml-giftcardaccount-index .page-actions .add:hover,
+.adminhtml-giftcardaccount-index .page-actions .add:focus,
+.adminhtml-giftcardaccount-index .page-actions .add:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary:hover,
 .catalog-product-new .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-new .actions-split.btn-round .action-default.primary:active,
@@ -426,6 +450,12 @@ button.primary:active,
 .catalog-product-new .actions-split > .action-toggle.primary:active,
 .catalog-product-edit .actions-split > .action-toggle.primary:active,
 .catalog-product-index .actions-split > .action-toggle.primary:active,
+.adminhtml-invitation-index .page-actions .add:active,
+.adminhtml-targetrule-index .page-actions .add:active,
+.adminhtml-giftwrapping-index .page-actions .add:active,
+.adminhtml-customersegment-index .page-actions .add:active,
+.adminhtml-giftregistry-index .page-actions .add:active,
+.adminhtml-giftcardaccount-index .page-actions .add:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary:active,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:active,
 .catalog-product-index .actions-split.btn-round .action-default.primary:active {
@@ -490,6 +520,12 @@ button.primary:visited,
 .catalog-product-new .actions-split > .action-toggle.primary:visited,
 .catalog-product-edit .actions-split > .action-toggle.primary:visited,
 .catalog-product-index .actions-split > .action-toggle.primary:visited,
+.adminhtml-invitation-index .page-actions .add:visited,
+.adminhtml-targetrule-index .page-actions .add:visited,
+.adminhtml-giftwrapping-index .page-actions .add:visited,
+.adminhtml-customersegment-index .page-actions .add:visited,
+.adminhtml-giftregistry-index .page-actions .add:visited,
+.adminhtml-giftcardaccount-index .page-actions .add:visited,
 .catalog-product-new .actions-split.btn-round .action-default.primary:visited,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:visited,
 .catalog-product-index .actions-split.btn-round .action-default.primary:visited {
@@ -613,6 +649,18 @@ button.primary.disabled,
 .catalog-product-edit .actions-split > .action-toggle.primary.disabled,
 .catalog-product-index .actions-split > .action-toggle.primary[disabled],
 .catalog-product-index .actions-split > .action-toggle.primary.disabled,
+.adminhtml-invitation-index .page-actions .add[disabled],
+.adminhtml-invitation-index .page-actions .add.disabled,
+.adminhtml-targetrule-index .page-actions .add[disabled],
+.adminhtml-targetrule-index .page-actions .add.disabled,
+.adminhtml-giftwrapping-index .page-actions .add[disabled],
+.adminhtml-giftwrapping-index .page-actions .add.disabled,
+.adminhtml-customersegment-index .page-actions .add[disabled],
+.adminhtml-customersegment-index .page-actions .add.disabled,
+.adminhtml-giftregistry-index .page-actions .add[disabled],
+.adminhtml-giftregistry-index .page-actions .add.disabled,
+.adminhtml-giftcardaccount-index .page-actions .add[disabled],
+.adminhtml-giftcardaccount-index .page-actions .add.disabled,
 .catalog-product-new .actions-split.btn-round .action-default.primary[disabled],
 .catalog-product-new .actions-split.btn-round .action-default.primary.disabled,
 .catalog-product-edit .actions-split.btn-round .action-default.primary[disabled],
@@ -859,6 +907,30 @@ button.primary.disabled:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:hover,
 .catalog-product-index .actions-split > .action-toggle.primary[disabled]:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:active,
+.adminhtml-invitation-index .page-actions .add[disabled]:hover,
+.adminhtml-invitation-index .page-actions .add.disabled:hover,
+.adminhtml-invitation-index .page-actions .add[disabled]:active,
+.adminhtml-invitation-index .page-actions .add.disabled:active,
+.adminhtml-targetrule-index .page-actions .add[disabled]:hover,
+.adminhtml-targetrule-index .page-actions .add.disabled:hover,
+.adminhtml-targetrule-index .page-actions .add[disabled]:active,
+.adminhtml-targetrule-index .page-actions .add.disabled:active,
+.adminhtml-giftwrapping-index .page-actions .add[disabled]:hover,
+.adminhtml-giftwrapping-index .page-actions .add.disabled:hover,
+.adminhtml-giftwrapping-index .page-actions .add[disabled]:active,
+.adminhtml-giftwrapping-index .page-actions .add.disabled:active,
+.adminhtml-customersegment-index .page-actions .add[disabled]:hover,
+.adminhtml-customersegment-index .page-actions .add.disabled:hover,
+.adminhtml-customersegment-index .page-actions .add[disabled]:active,
+.adminhtml-customersegment-index .page-actions .add.disabled:active,
+.adminhtml-giftregistry-index .page-actions .add[disabled]:hover,
+.adminhtml-giftregistry-index .page-actions .add.disabled:hover,
+.adminhtml-giftregistry-index .page-actions .add[disabled]:active,
+.adminhtml-giftregistry-index .page-actions .add.disabled:active,
+.adminhtml-giftcardaccount-index .page-actions .add[disabled]:hover,
+.adminhtml-giftcardaccount-index .page-actions .add.disabled:hover,
+.adminhtml-giftcardaccount-index .page-actions .add[disabled]:active,
+.adminhtml-giftcardaccount-index .page-actions .add.disabled:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary[disabled]:hover,
 .catalog-product-new .actions-split.btn-round .action-default.primary.disabled:hover,
 .catalog-product-new .actions-split.btn-round .action-default.primary[disabled]:active,
@@ -927,6 +999,12 @@ button.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-invitation-index .page-actions .add,
+.adminhtml-targetrule-index .page-actions .add,
+.adminhtml-giftwrapping-index .page-actions .add,
+.adminhtml-customersegment-index .page-actions .add,
+.adminhtml-giftregistry-index .page-actions .add,
+.adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary,
@@ -981,6 +1059,12 @@ button.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-invitation-index .page-actions .add,
+.adminhtml-targetrule-index .page-actions .add,
+.adminhtml-giftwrapping-index .page-actions .add,
+.adminhtml-customersegment-index .page-actions .add,
+.adminhtml-giftregistry-index .page-actions .add,
+.adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary {
@@ -1092,6 +1176,18 @@ button.primary:hover,
 .catalog-product-edit .actions-split > .action-toggle.primary:hover,
 .catalog-product-index .actions-split > .action-toggle.primary:focus,
 .catalog-product-index .actions-split > .action-toggle.primary:hover,
+.adminhtml-invitation-index .page-actions .add:focus,
+.adminhtml-invitation-index .page-actions .add:hover,
+.adminhtml-targetrule-index .page-actions .add:focus,
+.adminhtml-targetrule-index .page-actions .add:hover,
+.adminhtml-giftwrapping-index .page-actions .add:focus,
+.adminhtml-giftwrapping-index .page-actions .add:hover,
+.adminhtml-customersegment-index .page-actions .add:focus,
+.adminhtml-customersegment-index .page-actions .add:hover,
+.adminhtml-giftregistry-index .page-actions .add:focus,
+.adminhtml-giftregistry-index .page-actions .add:hover,
+.adminhtml-giftcardaccount-index .page-actions .add:focus,
+.adminhtml-giftcardaccount-index .page-actions .add:hover,
 .catalog-product-new .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-new .actions-split.btn-round .action-default.primary:hover,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:focus,
@@ -1154,6 +1250,12 @@ button.primary:active,
 .catalog-product-new .actions-split > .action-toggle.primary:active,
 .catalog-product-edit .actions-split > .action-toggle.primary:active,
 .catalog-product-index .actions-split > .action-toggle.primary:active,
+.adminhtml-invitation-index .page-actions .add:active,
+.adminhtml-targetrule-index .page-actions .add:active,
+.adminhtml-giftwrapping-index .page-actions .add:active,
+.adminhtml-customersegment-index .page-actions .add:active,
+.adminhtml-giftregistry-index .page-actions .add:active,
+.adminhtml-giftcardaccount-index .page-actions .add:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary:active,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:active,
 .catalog-product-index .actions-split.btn-round .action-default.primary:active {
@@ -1213,6 +1315,12 @@ button.primary:visited,
 .catalog-product-new .actions-split > .action-toggle.primary:visited,
 .catalog-product-edit .actions-split > .action-toggle.primary:visited,
 .catalog-product-index .actions-split > .action-toggle.primary:visited,
+.adminhtml-invitation-index .page-actions .add:visited,
+.adminhtml-targetrule-index .page-actions .add:visited,
+.adminhtml-giftwrapping-index .page-actions .add:visited,
+.adminhtml-customersegment-index .page-actions .add:visited,
+.adminhtml-giftregistry-index .page-actions .add:visited,
+.adminhtml-giftcardaccount-index .page-actions .add:visited,
 .catalog-product-new .actions-split.btn-round .action-default.primary:visited,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:visited,
 .catalog-product-index .actions-split.btn-round .action-default.primary:visited {
@@ -1426,6 +1534,30 @@ button.primary.disabled:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:hover,
 .catalog-product-index .actions-split > .action-toggle.primary[disabled]:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:active,
+.adminhtml-invitation-index .page-actions .add[disabled]:hover,
+.adminhtml-invitation-index .page-actions .add.disabled:hover,
+.adminhtml-invitation-index .page-actions .add[disabled]:active,
+.adminhtml-invitation-index .page-actions .add.disabled:active,
+.adminhtml-targetrule-index .page-actions .add[disabled]:hover,
+.adminhtml-targetrule-index .page-actions .add.disabled:hover,
+.adminhtml-targetrule-index .page-actions .add[disabled]:active,
+.adminhtml-targetrule-index .page-actions .add.disabled:active,
+.adminhtml-giftwrapping-index .page-actions .add[disabled]:hover,
+.adminhtml-giftwrapping-index .page-actions .add.disabled:hover,
+.adminhtml-giftwrapping-index .page-actions .add[disabled]:active,
+.adminhtml-giftwrapping-index .page-actions .add.disabled:active,
+.adminhtml-customersegment-index .page-actions .add[disabled]:hover,
+.adminhtml-customersegment-index .page-actions .add.disabled:hover,
+.adminhtml-customersegment-index .page-actions .add[disabled]:active,
+.adminhtml-customersegment-index .page-actions .add.disabled:active,
+.adminhtml-giftregistry-index .page-actions .add[disabled]:hover,
+.adminhtml-giftregistry-index .page-actions .add.disabled:hover,
+.adminhtml-giftregistry-index .page-actions .add[disabled]:active,
+.adminhtml-giftregistry-index .page-actions .add.disabled:active,
+.adminhtml-giftcardaccount-index .page-actions .add[disabled]:hover,
+.adminhtml-giftcardaccount-index .page-actions .add.disabled:hover,
+.adminhtml-giftcardaccount-index .page-actions .add[disabled]:active,
+.adminhtml-giftcardaccount-index .page-actions .add.disabled:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary[disabled]:hover,
 .catalog-product-new .actions-split.btn-round .action-default.primary.disabled:hover,
 .catalog-product-new .actions-split.btn-round .action-default.primary[disabled]:active,
@@ -1483,6 +1615,12 @@ button.primary.disabled:active,
 .checkout-agreement-index .page-actions .add,
 .catalog-product-attribute-index .page-actions .add,
 .catalog-product-set-index .page-actions .add,
+.adminhtml-invitation-index .page-actions .add,
+.adminhtml-targetrule-index .page-actions .add,
+.adminhtml-giftwrapping-index .page-actions .add,
+.adminhtml-customersegment-index .page-actions .add,
+.adminhtml-giftregistry-index .page-actions .add,
+.adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary,
@@ -1526,6 +1664,12 @@ button.primary.disabled:active,
 .checkout-agreement-index .page-actions .add,
 .catalog-product-attribute-index .page-actions .add,
 .catalog-product-set-index .page-actions .add,
+.adminhtml-invitation-index .page-actions .add,
+.adminhtml-targetrule-index .page-actions .add,
+.adminhtml-giftwrapping-index .page-actions .add,
+.adminhtml-customersegment-index .page-actions .add,
+.adminhtml-giftregistry-index .page-actions .add,
+.adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary {
@@ -1577,6 +1721,12 @@ button.primary.disabled:active,
 .checkout-agreement-index .page-actions .add:focus,
 .catalog-product-attribute-index .page-actions .add:focus,
 .catalog-product-set-index .page-actions .add:focus,
+.adminhtml-invitation-index .page-actions .add:focus,
+.adminhtml-targetrule-index .page-actions .add:focus,
+.adminhtml-giftwrapping-index .page-actions .add:focus,
+.adminhtml-customersegment-index .page-actions .add:focus,
+.adminhtml-giftregistry-index .page-actions .add:focus,
+.adminhtml-giftcardaccount-index .page-actions .add:focus,
 .catalog-product-new .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-index .actions-split.btn-round .action-default.primary:focus {
@@ -1623,6 +1773,12 @@ button.primary.disabled:active,
 .checkout-agreement-index .page-actions .add > span,
 .catalog-product-attribute-index .page-actions .add > span,
 .catalog-product-set-index .page-actions .add > span,
+.adminhtml-invitation-index .page-actions .add > span,
+.adminhtml-targetrule-index .page-actions .add > span,
+.adminhtml-giftwrapping-index .page-actions .add > span,
+.adminhtml-customersegment-index .page-actions .add > span,
+.adminhtml-giftregistry-index .page-actions .add > span,
+.adminhtml-giftcardaccount-index .page-actions .add > span,
 .catalog-product-new .actions-split.btn-round .action-default.primary > span,
 .catalog-product-edit .actions-split.btn-round .action-default.primary > span,
 .catalog-product-index .actions-split.btn-round .action-default.primary > span {
@@ -1672,6 +1828,12 @@ button.primary.disabled:active,
 .checkout-agreement-index .page-actions .add > span:before,
 .catalog-product-attribute-index .page-actions .add > span:before,
 .catalog-product-set-index .page-actions .add > span:before,
+.adminhtml-invitation-index .page-actions .add > span:before,
+.adminhtml-targetrule-index .page-actions .add > span:before,
+.adminhtml-giftwrapping-index .page-actions .add > span:before,
+.adminhtml-customersegment-index .page-actions .add > span:before,
+.adminhtml-giftregistry-index .page-actions .add > span:before,
+.adminhtml-giftcardaccount-index .page-actions .add > span:before,
 .catalog-product-new .actions-split.btn-round .action-default.primary > span:before,
 .catalog-product-edit .actions-split.btn-round .action-default.primary > span:before,
 .catalog-product-index .actions-split.btn-round .action-default.primary > span:before {
@@ -1732,6 +1894,12 @@ button.primary.disabled:active,
 .eq-ie9 .checkout-agreement-index .page-actions .add > span:before,
 .eq-ie9 .catalog-product-attribute-index .page-actions .add > span:before,
 .eq-ie9 .catalog-product-set-index .page-actions .add > span:before,
+.eq-ie9 .adminhtml-invitation-index .page-actions .add > span:before,
+.eq-ie9 .adminhtml-targetrule-index .page-actions .add > span:before,
+.eq-ie9 .adminhtml-giftwrapping-index .page-actions .add > span:before,
+.eq-ie9 .adminhtml-customersegment-index .page-actions .add > span:before,
+.eq-ie9 .adminhtml-giftregistry-index .page-actions .add > span:before,
+.eq-ie9 .adminhtml-giftcardaccount-index .page-actions .add > span:before,
 .eq-ie9 .catalog-product-new .actions-split.btn-round .action-default.primary > span:before,
 .eq-ie9 .catalog-product-edit .actions-split.btn-round .action-default.primary > span:before,
 .eq-ie9 .catalog-product-index .actions-split.btn-round .action-default.primary > span:before {
@@ -6699,7 +6867,17 @@ table .col-draggable .draggable-handle {
 .adminhtml-logging-archive .col-1-layout,
 .adminhtml-logging-index .col-1-layout,
 .adminhtml-process-list .col-1-layout,
-.catalog-product-index .col-1-layout {
+.catalog-product-index .col-1-layout,
+.adminhtml-invitation-index .col-1-layout,
+.adminhtml-targetrule-index .col-1-layout,
+.adminhtml-giftwrapping-index .col-1-layout,
+.adminhtml-customersegment-index .col-1-layout,
+.adminhtml-giftregistry-index .col-1-layout,
+.adminhtml-giftcardaccount-index .col-1-layout,
+.adminhtml-report-invitation-customer .col-1-layout,
+.adminhtml-report-invitation-order .col-1-layout,
+.adminhtml-report-invitation-index .col-1-layout,
+.adminhtml-report-customer-customersegment-segment .col-1-layout {
   padding: 0;
   background: transparent;
   border: 0;
@@ -6747,7 +6925,13 @@ table .col-draggable .draggable-handle {
 .checkout-agreement-index .grid-actions,
 .catalog-product-attribute-index .grid-actions,
 .catalog-product-set-index .grid-actions,
-.catalog-product-index .grid-actions {
+.catalog-product-index .grid-actions,
+.adminhtml-invitation-index .grid-actions,
+.adminhtml-targetrule-index .grid-actions,
+.adminhtml-giftwrapping-index .grid-actions,
+.adminhtml-customersegment-index .grid-actions,
+.adminhtml-giftregistry-index .grid-actions,
+.adminhtml-giftcardaccount-index .grid-actions {
   border-radius: 5px 5px 0 0;
   margin-top: 20px;
   padding: 9px 16px 9px 65px;
@@ -6792,7 +6976,13 @@ table .col-draggable .draggable-handle {
 .checkout-agreement-index .page-actions.fixed,
 .catalog-product-attribute-index .page-actions.fixed,
 .catalog-product-set-index .page-actions.fixed,
-.catalog-product-index .page-actions.fixed {
+.catalog-product-index .page-actions.fixed,
+.adminhtml-invitation-index .page-actions.fixed,
+.adminhtml-targetrule-index .page-actions.fixed,
+.adminhtml-giftwrapping-index .page-actions.fixed,
+.adminhtml-customersegment-index .page-actions.fixed,
+.adminhtml-giftregistry-index .page-actions.fixed,
+.adminhtml-giftcardaccount-index .page-actions.fixed {
   left: 0;
   margin: 0;
   padding: 0 21px;
@@ -6838,7 +7028,13 @@ table .col-draggable .draggable-handle {
 .checkout-agreement-index .page-actions,
 .catalog-product-attribute-index .page-actions,
 .catalog-product-set-index .page-actions,
-.catalog-product-index .page-actions {
+.catalog-product-index .page-actions,
+.adminhtml-invitation-index .page-actions,
+.adminhtml-targetrule-index .page-actions,
+.adminhtml-giftwrapping-index .page-actions,
+.adminhtml-customersegment-index .page-actions,
+.adminhtml-giftregistry-index .page-actions,
+.adminhtml-giftcardaccount-index .page-actions {
   position: absolute;
   z-index: 2;
   margin-top: 10px;
@@ -10580,3 +10776,244 @@ th.required:after {
   color: #a29c94;
 }
 /*  File brouser */
+/*
+    Reports - Customer Segment
+-------------------------------------- */
+/*
+    Reports - Customer Segment Report
+-------------------------------------- */
+.filter-segments {
+  list-style: none;
+  padding: 0;
+}
+.adminhtml-report-customer-customersegment-detail .col-id {
+  width: 35px;
+}
+.adminhtml-report-customer-customersegment-detail .col-period {
+  white-space: nowrap;
+  width: 70px;
+}
+.adminhtml-report-customer-customersegment-detail .col-zip {
+  width: 50px;
+}
+/*
+    Reports - Customer Segments
+-------------------------------------- */
+.adminhtml-report-customer-customersegment-segment .col-id {
+  width: 35px;
+}
+.adminhtml-report-customer-customersegment-segment .col-status {
+  width: 65px;
+}
+.adminhtml-report-customer-customersegment-segment .col-qty {
+  width: 145px;
+}
+.adminhtml-report-customer-customersegment-segment .col-segment,
+.adminhtml-report-customer-customersegment-segment .col-website {
+  width: 35%;
+}
+.adminhtml-report-customer-customersegment-segment .col-select {
+  width: 45px;
+}
+/*
+    Gift Registry
+--------------------------------------*/
+.giftregistry-custom-attributes {
+  margin-bottom: 20px;
+}
+/*
+    Gift Wrapping
+--------------------------------------*/
+.adminhtml-giftwrapping-index th.col-id {
+  text-align: left;
+}
+.adminhtml-giftwrapping-index .col-price {
+  text-align: right;
+  width: 50px;
+}
+.adminhtml-giftwrapping-index .col-actions {
+  width: 50px;
+}
+.adminhtml-giftwrapping-index .col-select {
+  width: 60px;
+}
+.adminhtml-giftwrapping-edit .field-image .control {
+  line-height: 28px;
+}
+.adminhtml-giftwrapping-edit .field-image a {
+  display: inline-block;
+  margin: 0 5px 0 0;
+}
+.adminhtml-giftwrapping-edit .field-image img {
+  vertical-align: middle;
+}
+.adminhtml-giftwrapping-new .field-image .input-file,
+.adminhtml-giftwrapping-edit .field-image .input-file {
+  display: inline-block;
+  margin: 0 15px 0 0;
+  width: auto;
+}
+.adminhtml-giftwrapping-new .field-image .addafter,
+.adminhtml-giftwrapping-edit .field-image .addafter {
+  border: 0;
+  box-shadow: none;
+  display: inline-block;
+  margin: 0 15px 0 0;
+  height: auto;
+  width: auto;
+}
+.adminhtml-giftwrapping-new .field-image .delete-image,
+.adminhtml-giftwrapping-edit .field-image .delete-image {
+  display: inline-block;
+  white-space: nowrap;
+}
+.adminhtml-giftwrapping-edit .field-image .delete-image input {
+  margin: -3px 5px 0 0;
+  width: auto;
+  display: inline-block;
+}
+.adminhtml-giftwrapping-edit .field-image .addon .delete-image input:focus + label {
+  border: 0;
+  box-shadow: none;
+}
+.adminhtml-giftwrapping-edit .store-switcher {
+  float: left;
+  position: relative;
+  bottom: -14px;
+}
+.adminhtml-giftwrapping-index .col-id {
+  width: 35px;
+}
+.adminhtml-giftwrapping-index .col-status {
+  white-space: normal;
+  width: 75px;
+}
+.adminhtml-giftwrapping-index .col-websites {
+  white-space: nowrap;
+  width: 200px;
+}
+.adminhtml-giftwrapping-index .col-price .label {
+  display: inline-block;
+  min-width: 60px;
+  white-space: nowrap;
+}
+.adminhtml-giftwrapping-index .col-price .price-excl-tax .price,
+.adminhtml-giftwrapping-index .col-price .price-incl-tax .price {
+  font-weight: bold;
+}
+/*
+    Invitations
+--------------------------------------*/
+.invitee_information,
+.inviter_information {
+  width: 48.9362%;
+}
+.invitee_information {
+  float: left;
+}
+.inviter_information {
+  float: right;
+}
+.invitation_information .data-table th,
+.invitee_information .data-table th,
+.inviter_information .data-table th {
+  width: 20%;
+  white-space: nowrap;
+}
+.invitation_information .data-table textarea,
+.invitation_information .data-table input {
+  width: 100%;
+}
+.invitations-history ul {
+  margin: 0;
+  padding-left: 25px;
+}
+.invitations-history ul .status:before {
+  display: inline-block;
+  content: "|";
+  margin: 0 10px;
+}
+/*
+    Reports - Order Conversion Rate
+-------------------------------------- */
+.adminhtml-report-invitation-order .col-period {
+  white-space: nowrap;
+  width: 70px;
+}
+.adminhtml-report-invitation-order .col-inv-sent,
+.adminhtml-report-invitation-order .col-inv-acc,
+.adminhtml-report-invitation-order .col-acc,
+.adminhtml-report-invitation-order .col-rate {
+  text-align: right;
+  width: 23%;
+}
+/*
+    Reports - Invitations - Customer
+-------------------------------------- */
+.adminhtml-report-invitation-customer .col-id {
+  width: 35px;
+}
+.adminhtml-report-invitation-customer .col-period {
+  white-space: nowrap;
+  width: 70px;
+}
+.adminhtml-report-invitation-customer .col-inv-sent,
+.adminhtml-report-invitation-customer .col-inv-acc {
+  text-align: right;
+  width: 120px;
+}
+/*
+    Reports - Invitations - General
+-------------------------------------- */
+.adminhtml-report-invitation-index .col-period {
+  white-space: nowrap;
+}
+.adminhtml-report-invitation-index .col-inv-sent,
+.adminhtml-report-invitation-index .col-inv-acc,
+.adminhtml-report-invitation-index .col-inv-disc,
+.adminhtml-report-invitation-index .col-inv-acc-rate,
+.adminhtml-report-invitation-index .col-inv-disc-rate {
+  text-align: right;
+  width: 19%;
+}
+/*
+    Invitation Data table - alternative view
+-------------------------------------- */
+.invitation_information .data-table,
+.invitee_information .data-table,
+.inviter_information .data-table {
+  width: 100%;
+}
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr th {
+  font-weight: bold;
+}
+.invitation_information .data-table tbody tr td,
+.invitation_information .data-table tbody tr th,
+.invitee_information .data-table tbody tr td,
+.invitee_information .data-table tbody tr th,
+.inviter_information .data-table tbody tr td,
+.inviter_information .data-table tbody tr th {
+  background-color: #fff;
+  border: 0;
+  padding: 9px 10px 10px;
+  color: #666;
+  vertical-align: top;
+}
+.invitation_information .data-table tbody tr:nth-child(2n+1) td,
+.invitation_information .data-table tbody tr:nth-child(2n+1) th,
+.invitee_information .data-table tbody tr:nth-child(2n+1) td,
+.invitee_information .data-table tbody tr:nth-child(2n+1) th,
+.inviter_information .data-table tbody tr:nth-child(2n+1) td,
+.inviter_information .data-table tbody tr:nth-child(2n+1) th {
+  background-color: #fbfaf6;
+}
+.eq-ie8 .invitation_information .data-table tbody tr td,
+.eq-ie8 .invitation_information .data-table tbody tr th,
+.eq-ie8 .invitee_information .data-table tbody tr td,
+.eq-ie8 .invitee_information .data-table tbody tr th,
+.eq-ie8 .inviter_information .data-table tbody tr td,
+.eq-ie8 .inviter_information .data-table tbody tr th {
+  border-bottom: 1px solid #ededed;
+}
