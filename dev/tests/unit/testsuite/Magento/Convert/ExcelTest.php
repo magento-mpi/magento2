@@ -83,13 +83,10 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
      */
     protected function _writeFile($callback = false)
     {
-        $adapter = new \Magento\Filesystem\Adapter\Local();
-        $filesystem = new \Magento\Filesystem($adapter);
-
         $name = md5(microtime());
         $file = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.xml';
 
-        $stream = $filesystem->createAndOpenStream($file, 'w+', TESTS_TEMP_DIR);
+        $stream = new \Magento\Filesystem\File\Write($file, new \Magento\Filesystem\Driver\Base(), 'w+');
         $stream->lock(true);
 
         if (!$callback) {

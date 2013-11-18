@@ -27,8 +27,8 @@ class Write extends Read implements WriteInterface
         \Magento\Filesystem\Driver $driver,
         $mode
     ) {
-        parent::__construct($path, $driver);
         $this->mode = $mode;
+        parent::__construct($path, $driver);
     }
 
     /**
@@ -115,7 +115,7 @@ class Write extends Read implements WriteInterface
      */
     public function lock($exclusive = true)
     {
-        return $this->driver->fileLock($exclusive);
+        return $this->driver->fileLock($this->resource, $exclusive);
     }
 
     /**

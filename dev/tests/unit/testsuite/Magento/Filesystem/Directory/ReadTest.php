@@ -38,7 +38,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     {
         $this->driver = $this->getMock('Magento\Filesystem\Driver\Base', array(), array(), '', false);
         $this->fileFactory = $this->getMock('Magento\Filesystem\File\ReadFactory', array(), array(), '', false);
-        $this->read = new \Magento\Filesystem\Directory\Read('any-path', $this->fileFactory, $this->driver);
+        $this->read = new \Magento\Filesystem\Directory\Read(array(), $this->fileFactory, $this->driver);
     }
 
 
