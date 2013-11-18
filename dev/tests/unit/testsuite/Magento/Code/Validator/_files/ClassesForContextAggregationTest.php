@@ -7,23 +7,23 @@
  * @license     {license_link}
  */
 
-class ClassA {}
-class ClassB {}
-class ClassC {}
+class ClassFirst {}
+class ClassSecond {}
+class ClassThird {}
 class ClassD {}
 
-interface InterfaceA {}
-class ImplementationOfInterfaceA implements InterfaceA {}
+interface InterfaceFirst {}
+class ImplementationOfInterfaceFirst implements InterfaceFirst {}
 
-interface InterfaceB {}
-class ImplementationOfInterfaceB implements InterfaceB {}
+interface InterfaceSecond {}
+class ImplementationOfInterfaceSecond implements InterfaceSecond {}
 
-class Context implements \Magento\ObjectManager\ContextInterface
+class ContextFirst implements \Magento\ObjectManager\ContextInterface
 {
     public function __construct(
-        \ClassA $exA, \ClassB $exB, \ClassC $exC,
-        \InterfaceA $interfaceA,
-        \ImplementationOfInterfaceB $implOfBInterface
+        \ClassFirst $exA, \ClassSecond $exB, \ClassThird $exC,
+        \InterfaceFirst $interfaceA,
+        \ImplementationOfInterfaceSecond $implOfBInterface
     ) {
         $this->_exA = $exA;
         $this->_exB = $exB;
@@ -34,9 +34,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
 }
 
-class ClassArgumentAlreadyInjectedIntoContext
+class ClassArgumentAlreadyInjectedInContext
 {
-    public function __construct(\Context $context, \ClassA $exA)
+    public function __construct(\ContextFirst $context, \ClassFirst $exA)
     {
         $this->_context = $context;
         $this->_exA = $exA;
@@ -45,7 +45,7 @@ class ClassArgumentAlreadyInjectedIntoContext
 
 class ClassArgumentWithInterfaceImplementation
 {
-    public function __construct(\Context $context, \ImplementationOfInterfaceA $exA)
+    public function __construct(\ContextFirst $context, \ImplementationOfInterfaceFirst $exA)
     {
         $this->_context = $context;
         $this->_exA = $exA;
@@ -54,7 +54,7 @@ class ClassArgumentWithInterfaceImplementation
 
 class ClassArgumentWithInterface
 {
-    public function __construct(\Context $context, \InterfaceB $exB)
+    public function __construct(\ContextFirst $context, \InterfaceSecond $exB)
     {
         $this->_context = $context;
         $this->_exB = $exB;
@@ -63,7 +63,7 @@ class ClassArgumentWithInterface
 
 class ClassArgumentWithAlreadyInjectedInterface
 {
-    public function __construct(\Context $context, \InterfaceA $exA)
+    public function __construct(\ContextFirst $context, \InterfaceFirst $exA)
     {
         $this->_context = $context;
         $this->_exA = $exA;

@@ -28,11 +28,11 @@ class ContextAggregationTest extends \PHPUnit_Framework_TestCase
 
     public function testClassArgumentAlreadyInjectedIntoContext()
     {
-        $message = 'Incorrect dependency in class ClassArgumentAlreadyInjectedIntoContext in '
-            . $this->_fixturePath . PHP_EOL . '\ClassA already exists in context object';
+        $message = 'Incorrect dependency in class ClassArgumentAlreadyInjectedInContext in '
+            . $this->_fixturePath . PHP_EOL . '\ClassFirst already exists in context object';
 
         $this->setExpectedException('\Magento\Code\ValidationException', $message);
-        $this->_model->validate('ClassArgumentAlreadyInjectedIntoContext');
+        $this->_model->validate('ClassArgumentAlreadyInjectedInContext');
     }
 
     public function testClassArgumentWithInterfaceImplementation()
@@ -48,7 +48,7 @@ class ContextAggregationTest extends \PHPUnit_Framework_TestCase
     public function testClassArgumentWithAlreadyInjectedInterface()
     {
         $message = 'Incorrect dependency in class ClassArgumentWithAlreadyInjectedInterface in '
-            . $this->_fixturePath . PHP_EOL . '\\InterfaceA already exists in context object';
+            . $this->_fixturePath . PHP_EOL . '\\InterfaceFirst already exists in context object';
 
         $this->setExpectedException('\Magento\Code\ValidationException', $message);
         $this->_model->validate('ClassArgumentWithAlreadyInjectedInterface');
