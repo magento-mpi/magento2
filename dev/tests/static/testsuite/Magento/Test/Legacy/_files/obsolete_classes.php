@@ -1420,7 +1420,6 @@ return array(
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Module\Dir\Reader'),
-    array('Magento\Core\Model\EntryPoint\Media', 'Magento\Core\App\Media'),
     array('Magento\Data\Form\Factory', 'Magento\Data\FormFactory'),
     array('Magento\App\Cache\Config', 'Magento\Cache\Config'),
     array('Magento\App\Cache\Config\Converter', 'Magento\Cache\Config\Converter'),
