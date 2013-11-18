@@ -34,7 +34,7 @@ class AbstractActionTest extends \Magento\Backend\Utility\Controller
     /**
      * Check login redirection
      *
-     * @covers \Magento\Backend\Controller\AbstractAction::_initAuthentication
+     * @covers \Magento\Backend\App\AbstractAction::_initAuthentication
      * @magentoDbIsolation enabled
      */
     public function testInitAuthentication()
