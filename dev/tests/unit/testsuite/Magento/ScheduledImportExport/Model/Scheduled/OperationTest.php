@@ -79,7 +79,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $operationFactory = $this->getMOck(
             'Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory', array(), array(), '', false
         );
-        $emailInfoFactory = $this->getMOck('Magento\Core\Model\Email\InfoFactory', array(), array(), '', false);
+        $emailInfoFactory = $this->getMOck('Magento\Email\Model\InfoFactory', array(), array(), '', false);
         $params = array(
             'operationFactory' => $operationFactory,
             'emailInfoFactory' => $emailInfoFactory,

@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,28 +12,28 @@
  */
 ?>
 <?php if ($this->displayBoth()):?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals sub excl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo __('Subtotal (Excl. Tax)') ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValueExclTax()) ?>
     </td>
 </tr>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals sub incl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo __('Subtotal (Incl. Tax)') ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValueInclTax()) ?>
     </td>
 </tr>
 <?php else : ?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals sub">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->getTotal()->getTitle() ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getTotal()->getValue()) ?>
     </td>
 </tr>

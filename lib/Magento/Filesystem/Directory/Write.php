@@ -14,9 +14,16 @@ use Magento\Filesystem\FilesystemException;
 
 class Write extends Read implements WriteInterface
 {
-
-    protected $allowCreateDirs;
     /**
+     * Is directory creation
+     *
+     * @var bool
+     */
+    protected $allowCreateDirs;
+
+    /**
+     * Permissions for new directories and files
+     *
      * @var int
      */
     protected $permissions = 0777;
@@ -27,7 +34,6 @@ class Write extends Read implements WriteInterface
      * @param array $config
      * @param \Magento\Filesystem\File\WriteFactory $fileFactory
      * @param \Magento\Filesystem\Driver $driver
-     * @param $permissions
      */
     public function __construct
     (
