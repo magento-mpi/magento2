@@ -113,7 +113,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\App\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                'Magento\Core\Controller\Front\Action',
+                'Magento\App\Action\Action',
                 array('context' => $context)
             )
         )));

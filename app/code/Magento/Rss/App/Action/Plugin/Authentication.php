@@ -12,7 +12,7 @@ namespace Magento\Rss\App\Action\Plugin;
 class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
 {
     /**
-     * @var \Magento\Http\Authentication
+     * @var \Magento\HTTP\Authentication
      */
     protected $_httpAuthentication;
 
@@ -44,7 +44,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
      * @param \Magento\Backend\Model\Url $url
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Http\Authentication $httpAuthentication
+     * @param \Magento\HTTP\Authentication $httpAuthentication
      * @param \Magento\Logger $logger
      * @param \Magento\AuthorizationInterface $authorization
      */
@@ -54,7 +54,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
         \Magento\Backend\Model\Url $url,
         \Magento\App\ResponseInterface $response,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\Http\Authentication $httpAuthentication,
+        \Magento\HTTP\Authentication $httpAuthentication,
         \Magento\Logger $logger,
         \Magento\AuthorizationInterface $authorization
     ) {
