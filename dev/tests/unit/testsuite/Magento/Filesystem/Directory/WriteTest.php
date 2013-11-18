@@ -39,7 +39,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $this->driver = $this->getMock('Magento\Filesystem\Driver\Base', array(), array(), '', false);
         $this->fileFactory = $this->getMock('Magento\Filesystem\File\WriteFactory', array(), array(), '', false);
         $this->write = new \Magento\Filesystem\Directory\Write(
-            'any-path', $this->fileFactory, $this->driver, 'cool-permissions');
+            array(), $this->fileFactory, $this->driver, 'cool-permissions');
     }
 
 

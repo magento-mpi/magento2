@@ -73,7 +73,9 @@
             <filesystem>
                 <directory>
                     <base>
-                        <read_only>1</read_only>
+                        <read_only>0</read_only>
+                        <allow_create_dirs>1</allow_create_dirs>
+                        <permissions>777</permissions>
                         <path/>
                     </base>
                     <app>
