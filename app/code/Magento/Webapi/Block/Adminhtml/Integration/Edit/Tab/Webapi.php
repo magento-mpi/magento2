@@ -33,13 +33,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected $_rulesCollFactory;
 
     /**
-     * Acl builder
-     *
-     * @var \Magento\Acl\Builder
-     */
-    protected $_aclBuilder;
-
-    /**
      * Acl resource provider
      *
      * @var \Magento\Acl\Resource\ProviderInterface
@@ -53,7 +46,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
-     * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param array $data
      */
@@ -62,11 +54,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
-        \Magento\Acl\Builder $aclBuilder,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         array $data = array()
     ) {
-        $this->_aclBuilder = $aclBuilder;
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
@@ -160,7 +150,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         foreach ($resources as $resource) {
             $item = array();
             $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = __($resource['title']);
+            $item['data'] = $resource['title'];
             $item['children'] = array();
             if (isset($resource['children'])) {
                 $item['state'] = 'open';

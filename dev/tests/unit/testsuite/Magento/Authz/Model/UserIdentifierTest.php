@@ -8,12 +8,12 @@
 
 namespace Magento\Authz\Model;
 
-use \Magento\Authz\Model\UserContext;
+use Magento\Authz\Model\UserIdentifier;
 
 /**
- * Tests for User Context.
+ * Tests for User identifier.
  */
-class UserContextTest extends \PHPUnit_Framework_TestCase
+class UserIdentifierTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $userType
@@ -22,9 +22,9 @@ class UserContextTest extends \PHPUnit_Framework_TestCase
      */
     public function testConstruct($userType, $userId)
     {
-        $context = new UserContext($userType, $userId);
+        $context = new UserIdentifier($userType, $userId);
         $this->assertEquals($userId, $context->getUserId());
-        $this->assertEquals($userType, $context->getUserType());
+        $this->assertEquals($userType, $context->getUserRoleType());
     }
 
     /**
@@ -36,16 +36,16 @@ class UserContextTest extends \PHPUnit_Framework_TestCase
     public function testConstructInvalidData($userType, $userId, $exceptionMessage)
     {
         $this->setExpectedException('\LogicException', $exceptionMessage);
-        new UserContext($userType, $userId);
+        new UserIdentifier($userType, $userId);
     }
 
     public function constructProvider()
     {
         return array(
-            array(UserContext::USER_TYPE_GUEST, 0),
-            array(UserContext::USER_TYPE_CUSTOMER, 1),
-            array(UserContext::USER_TYPE_ADMIN, 2),
-            array(UserContext::USER_TYPE_INTEGRATION, 3),
+            array(UserIdentifier::USER_TYPE_GUEST, 0),
+            array(UserIdentifier::USER_TYPE_CUSTOMER, 1),
+            array(UserIdentifier::USER_TYPE_ADMIN, 2),
+            array(UserIdentifier::USER_TYPE_INTEGRATION, 3),
         );
     }
 
@@ -54,9 +54,9 @@ class UserContextTest extends \PHPUnit_Framework_TestCase
         return array(
             array('InvalidUserType', 1,
                 'Invalid user type: \'InvalidUserType\'. Allowed types: Guest, Customer, Admin, Integration'),
-            array(UserContext::USER_TYPE_CUSTOMER, -1, 'Invalid user ID: \'-1\''),
-            array(UserContext::USER_TYPE_ADMIN, 'InvalidUserId', 'Invalid user ID: \'InvalidUserId\''),
-            array(UserContext::USER_TYPE_GUEST, 3, 'Guest user must not have user ID set.'),
+            array(UserIdentifier::USER_TYPE_CUSTOMER, -1, 'Invalid user ID: \'-1\''),
+            array(UserIdentifier::USER_TYPE_ADMIN, 'InvalidUserId', 'Invalid user ID: \'InvalidUserId\''),
+            array(UserIdentifier::USER_TYPE_GUEST, 3, 'Guest user must not have user ID set.'),
         );
     }
 }

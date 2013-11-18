@@ -5,9 +5,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Authz\Service;
 
-use Magento\Authz\Model\UserContext;
+use Magento\Authz\Service\AuthorizationV1Test\UserLocatorStub;
+use Magento\Authz\Model\UserIdentifier;
 
 /**
  * Authorization service test.
@@ -25,19 +27,22 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $loggerMock->expects($this->any())->method('logException')->will($this->returnSelf());
         $this->_service = $objectManager->create(
             'Magento\\Authz\\Service\\AuthorizationV1',
-            array('userContext' => $this->_createUserContext(UserContext::USER_TYPE_GUEST), 'logger' => $loggerMock)
+            array(
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_GUEST),
+                'logger' => $loggerMock
+            )
         );
     }
 
     /**
-     * @param UserContext $userContext
+     * @param UserIdentifier $userIdentifier
      * @param string[] $resources
      * @magentoDbIsolation enabled
      * @dataProvider basicAuthFlowProvider
      */
-    public function testBasicAuthFlow($userContext, $resources)
+    public function testBasicAuthFlow($userIdentifier, $resources)
     {
-        if ($userContext->getUserType() == UserContext::USER_TYPE_ADMIN) {
+        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_ADMIN) {
             // TODO: Remove when services for admin roles are implemented
             $this->setExpectedException(
                 '\Exception',
@@ -45,46 +50,46 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
             );
         }
         /** Preconditions check */
-        $this->_ensurePermissionsAreNotGranted($userContext, $resources);
+        $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
 
-        $this->_service->grantPermissions($userContext, $resources);
+        $this->_service->grantPermissions($userIdentifier, $resources);
 
         /** Validate that access to the specified resources is granted */
-        $this->_ensurePermissionsAreGranted($userContext, $resources);
+        $this->_ensurePermissionsAreGranted($userIdentifier, $resources);
     }
 
     public function basicAuthFlowProvider()
     {
         return array(
             'integration' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_INTEGRATION),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
                 'resources' => array('Magento_Sales::invoice', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
             ),
             'admin' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_ADMIN),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_ADMIN),
                 'resources' => array('Magento_Sales::use', 'Magento_Cms::block')
             ),
             'guest' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_GUEST),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_GUEST),
                 'resources' => array('Magento_Sales::ship', 'Magento_Cms::save'),
             ),
             'customer' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_CUSTOMER),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_CUSTOMER),
                 'resources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete'),
             ),
         );
     }
 
     /**
-     * @param UserContext $userContext
+     * @param UserIdentifier $userIdentifier
      * @param string[] $initialResources
      * @param string[] $newResources
      * @magentoDbIsolation enabled
      * @dataProvider changePermissionsProvider
      */
-    public function testChangePermissions($userContext, $initialResources, $newResources)
+    public function testChangePermissions($userIdentifier, $initialResources, $newResources)
     {
-        if ($userContext->getUserType() == UserContext::USER_TYPE_ADMIN) {
+        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_ADMIN) {
             // TODO: Remove when services for admin roles are implemented
             $this->setExpectedException(
                 '\Exception',
@@ -92,43 +97,43 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
             );
         }
 
-        $this->_service->grantPermissions($userContext, $initialResources);
+        $this->_service->grantPermissions($userIdentifier, $initialResources);
         /** Preconditions check */
-        $this->_ensurePermissionsAreGranted($userContext, $initialResources);
-        $this->_ensurePermissionsAreNotGranted($userContext, $newResources);
+        $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
+        $this->_ensurePermissionsAreNotGranted($userIdentifier, $newResources);
 
-        $this->_service->grantPermissions($userContext, $newResources);
+        $this->_service->grantPermissions($userIdentifier, $newResources);
 
         /** Check the results of permissions change */
-        $this->_ensurePermissionsAreGranted($userContext, $newResources);
-        $this->_ensurePermissionsAreNotGranted($userContext, $initialResources);
+        $this->_ensurePermissionsAreGranted($userIdentifier, $newResources);
+        $this->_ensurePermissionsAreNotGranted($userIdentifier, $initialResources);
     }
 
     public function changePermissionsProvider()
     {
         return array(
             'integration' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_INTEGRATION),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
                 'newResources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete')
             ),
             'admin' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_ADMIN),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_ADMIN),
                 'initialResources' => array('Magento_Sales::use', 'Magento_Cms::block'),
                 'newResources' => array('Magento_Sales::hold')
             ),
             'guest' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_GUEST),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_GUEST),
                 'initialResources' => array('Magento_Sales::ship', 'Magento_Cms::save'),
                 'newResources' => array('Magento_Sales::use', 'Magento_Cms::block'),
             ),
             'customer' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_CUSTOMER),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_CUSTOMER),
                 'initialResources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete'),
                 'newResources' => array('Magento_Sales::ship', 'Magento_Cms::save'),
             ),
             'integration clear permissions' => array(
-                'userContext' => $this->_createUserContext(UserContext::USER_TYPE_CUSTOMER),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_CUSTOMER),
                 'initialResources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete'),
                 'newResources' => array(),
             ),
@@ -137,46 +142,47 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
 
     public function testIsAllowedArrayOfResources()
     {
-        $userContext = $this->_createUserContext(UserContext::USER_TYPE_INTEGRATION);
+        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
         $resources = array('Magento_Cms::page', 'Magento_Adminhtml::dashboard');
-        $this->_service->grantPermissions($userContext, $resources);
+        $this->_service->grantPermissions($userIdentifier, $resources);
         /** Preconditions check */
-        $this->_ensurePermissionsAreGranted($userContext, $resources);
+        $this->_ensurePermissionsAreGranted($userIdentifier, $resources);
 
         /** Ensure that permissions check to multiple resources at once works as expected */
         $this->assertTrue(
-            $this->_service->isAllowed($resources, $userContext),
+            $this->_service->isAllowed($resources, $userIdentifier),
             'Access to multiple resources is expected to be granted, but is prohibited.'
         );
         $this->assertFalse(
-            $this->_service->isAllowed(array_merge($resources, array('invalid_resource')), $userContext),
+            $this->_service->isAllowed(array_merge($resources, array('invalid_resource')), $userIdentifier),
             'Access is expected to be denied when at least one of the resources is unavailable.'
         );
     }
 
     /**
-     * Create new User Context
+     * Create new User identifier
      *
      * @param string $userType
-     * @return UserContext
+     * @return UserIdentifier
      */
-    protected function _createUserContext($userType)
+    protected function _createUserIdentifier($userType)
     {
-        $userId = ($userType == UserContext::USER_TYPE_GUEST) ? 0 : rand(1, 1000);
-        return new UserContext($userType, $userId);
+        $userId = ($userType == UserIdentifier::USER_TYPE_GUEST) ? 0 : rand(1, 1000);
+        $userLocatorStub = new UserLocatorStub();
+        return new UserIdentifier($userLocatorStub, $userType, $userId);
     }
 
     /**
      * Check if user has access to the specified resources.
      *
-     * @param UserContext $userContext
+     * @param UserIdentifier $userIdentifier
      * @param string[] $resources
      */
-    protected function _ensurePermissionsAreGranted($userContext, $resources)
+    protected function _ensurePermissionsAreGranted($userIdentifier, $resources)
     {
         foreach ($resources as $resource) {
             $this->assertTrue(
-                $this->_service->isAllowed($resource, $userContext),
+                $this->_service->isAllowed($resource, $userIdentifier),
                 "Access to resource '{$resource}' is prohibited while it is expected to be granted."
             );
         }
@@ -185,14 +191,14 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     /**
      * Check if access to the specified resources is prohibited to the user.
      *
-     * @param UserContext $userContext
+     * @param UserIdentifier $userIdentifier
      * @param string[] $resources
      */
-    protected function _ensurePermissionsAreNotGranted($userContext, $resources)
+    protected function _ensurePermissionsAreNotGranted($userIdentifier, $resources)
     {
         foreach ($resources as $resource) {
             $this->assertFalse(
-                $this->_service->isAllowed($resource, $userContext),
+                $this->_service->isAllowed($resource, $userIdentifier),
                 "Access to resource '{$resource}' is expected to be prohibited."
             );
         }
