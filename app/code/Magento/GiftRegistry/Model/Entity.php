@@ -121,7 +121,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
@@ -199,7 +199,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param Type $type
      * @param Attribute\Config $attributeConfig
      * @param Item $itemModel
@@ -227,7 +227,7 @@ class Entity extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\App $application,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\GiftRegistry\Model\Type $type,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\GiftRegistry\Model\Item $itemModel,

@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,37 +12,37 @@
  */
 ?>
 <?php if ($this->displayBoth()):?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals shipping excl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->getExcludeTaxLabel() ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingExcludeTax()) ?>
     </td>
 </tr>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals shipping incl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->getIncludeTaxLabel() ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
     </td>
 </tr>
 <?php elseif($this->displayIncludeTax()) : ?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals shipping incl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->getTotal()->getTitle() ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingIncludeTax()) ?>
     </td>
 </tr>
 <?php else:?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
+<tr class="totals shipping excl">
+    <td style="<?php echo $this->getStyle() ?>" class="mark" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td style="<?php echo $this->getStyle() ?>" class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($this->getShippingExcludeTax()) ?>
     </td>
 </tr>
