@@ -1224,7 +1224,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $referer = parse_url($this->_app->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
         foreach ($this->_storeManager->getStores() as $store) {
             $storeDomains[] = parse_url($store->getBaseUrl(), PHP_URL_HOST);
-            $storeDomains[] = parse_url($store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true), PHP_URL_HOST);
+            $storeDomains[] = parse_url($store->getBaseUrl(
+                \Magento\Core\Model\Store::URL_TYPE_LINK, true), PHP_URL_HOST
+            );
         }
         $storeDomains = array_unique($storeDomains);
         if (empty($referer) || in_array($referer, $storeDomains)) {
@@ -1243,7 +1245,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRedirectUrl($url)
     {
         $this->_prepareSessionUrlWithParams($url, array(
-            'name' => \Magento\App\Action\Action::SESSION_NAMESPACE
+            'name' => \Magento\Core\App\Action\Plugin\LastUrl::SESSION_NAMESPACE
         ));
 
         $query = $this->getQuery(false);
