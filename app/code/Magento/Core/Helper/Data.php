@@ -211,7 +211,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function jsonEncode($valueToEncode, $cycleCheck = false, $options = array())
     {
-        return \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
+        $json = \Zend_Json::encode($valueToEncode, $cycleCheck, $options);
+        if ($this->_translator->isAllowed()) {
+            $this->_translator->processResponseBody($json, true);
+        }
+
+        return $json;
     }
 
     /**

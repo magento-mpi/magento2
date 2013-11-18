@@ -12,6 +12,11 @@ namespace Magento\App\Helper;
 class Context implements \Magento\ObjectManager\ContextInterface
 {
     /**
+     * @var \Magento\TranslateInterface
+     */
+    protected $_translator;
+
+    /**
      * @var \Magento\Module\Manager
      */
     protected $_moduleManager;
@@ -58,6 +63,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
 
     /**
      * @param \Magento\Logger $logger
+     * @param \Magento\TranslateInterface $translator
      * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\RequestInterface $httpRequest
      * @param \Magento\Cache\ConfigInterface $cacheConfig
@@ -71,6 +77,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     public function __construct(
         \Magento\Logger $logger,
+        \Magento\TranslateInterface $translator,
         \Magento\Module\Manager $moduleManager,
         \Magento\App\RequestInterface $httpRequest,
         \Magento\Cache\ConfigInterface $cacheConfig,
@@ -80,6 +87,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\HTTP\Header $httpHeader,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
     ) {
+        $this->_translator = $translator;
         $this->_moduleManager = $moduleManager;
         $this->_httpRequest = $httpRequest;
         $this->_cacheConfig = $cacheConfig;
@@ -89,6 +97,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_urlBuilder = $urlBuilder;
         $this->_httpHeader = $httpHeader;
         $this->_remoteAddress = $remoteAddress;
+    }
+
+    /**
+     * @return \Magento\TranslateInterface
+     */
+    public function getTranslator()
+    {
+        return $this->_translator;
     }
 
     /**

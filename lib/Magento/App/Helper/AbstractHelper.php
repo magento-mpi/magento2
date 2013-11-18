@@ -32,6 +32,13 @@ abstract class AbstractHelper
     protected $_request;
 
     /**
+     * Translator model
+     *
+     * @var \Magento\TranslateInterface
+     */
+    protected $_translator;
+
+    /**
      * @var \Magento\Module\Manager
      */
     private $_moduleManager;
@@ -61,6 +68,7 @@ abstract class AbstractHelper
      */
     public function __construct(\Magento\App\Helper\Context $context)
     {
+        $this->_translator = $context->getTranslator();
         $this->_moduleManager = $context->getModuleManager();
         $this->_logger = $context->getLogger();
         $this->_request = $context->getRequest();
