@@ -34,18 +34,17 @@ class FailedTest extends \PHPUnit_Framework_TestCase
         $messages->expects($this->any())
             ->method('getLastAddedMessage')
             ->will($this->returnValue($this->_lastMessage));
-        $session = $this->getMockBuilder('Magento\Core\Model\Session')
+        $session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->getMock();
         $session->expects($this->once())
             ->method('getMessages')
             ->will($this->returnValue($messages));
-
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject('\Magento\Webhook\Block\Adminhtml\Registration\Failed',
             array(
                 'coreData' => $coreData,
-                'session' => $session
+                'backendSession' => $session
             )
         );
     }
