@@ -165,7 +165,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
     }
 
     /**
-     * Validate selection of products for massupdate
+     * Validate selection of products for mass update
      *
      * @return boolean
      */
