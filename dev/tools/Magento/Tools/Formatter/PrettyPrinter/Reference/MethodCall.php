@@ -8,8 +8,7 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\ChainLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr;
 use PHPParser_Node_Expr_MethodCall;
@@ -36,10 +35,7 @@ class MethodCall extends AbstractFunctionReference
         // add the variable
         $this->resolveVariable($this->node->var, $treeNode);
         // add in the dereference
-        $this->addToLine(
-            $treeNode,
-            new ConditionalLineBreak(array(array(''), array('', new HardIndentLineBreak())))
-        )->add('->');
+        $this->addToLine($treeNode, new ChainLineBreak())->add('->');
         // if the name is an expression, then use the framework to resolve
         if ($this->node->name instanceof PHPParser_Node_Expr) {
             $this->addToLine($treeNode, '{');
