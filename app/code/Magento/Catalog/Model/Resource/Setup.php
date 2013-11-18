@@ -52,7 +52,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * Construct
      * 
      * @param \Magento\Core\Model\Resource\Setup\Context $context
-     * @param \Magento\Core\Model\CacheInterface $cache
+     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param string $resourceName
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -64,7 +64,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Core\Model\CacheInterface $cache,
+        \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         $resourceName,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
@@ -399,7 +399,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'source'                     => 'Magento\Catalog\Model\Category\Attribute\Source\Sortby',
                         'backend'                    => 'Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
                         'sort_order'                 => 40,
-                        'input_renderer'             => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Sortby\Available',
+                        'input_renderer'             =>
+                            'Magento\Catalog\Block\Adminhtml\Category\Helper\Sortby\Available',
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group'                      => 'Display Settings',
                     ),
@@ -410,7 +411,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'source'                     => 'Magento\Catalog\Model\Category\Attribute\Source\Sortby',
                         'backend'                    => 'Magento\Catalog\Model\Category\Attribute\Backend\Sortby',
                         'sort_order'                 => 50,
-                        'input_renderer'             => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Sortby\DefaultSortby',
+                        'input_renderer'             =>
+                            'Magento\Catalog\Block\Adminhtml\Category\Helper\Sortby\DefaultSortby',
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group'                      => 'Display Settings',
                     ),
@@ -450,7 +452,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'input'                      => 'text',
                         'required'                   => false,
                         'sort_order'                 => 51,
-                        'input_renderer'             => 'Magento\Adminhtml\Block\Catalog\Category\Helper\Pricestep',
+                        'input_renderer'             => 'Magento\Catalog\Block\Adminhtml\Category\Helper\Pricestep',
                         'global'                     => \Magento\Catalog\Model\Resource\Eav\Attribute::SCOPE_STORE,
                         'group'                      => 'Display Settings',
                     ),
@@ -862,7 +864,8 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
                         'type'                       => 'varchar',
                         'label'                      => 'Display Product Options In',
                         'input'                      => 'select',
-                        'source'                     => 'Magento\Catalog\Model\Entity\Product\Attribute\Design\Options\Container',
+                        'source'                     =>
+                            'Magento\Catalog\Model\Entity\Product\Attribute\Design\Options\Container',
                         'required'                   => false,
                         'default'                    => 'container2',
                         'sort_order'                 => 6,

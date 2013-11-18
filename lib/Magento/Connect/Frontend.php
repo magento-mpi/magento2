@@ -106,7 +106,7 @@ class Frontend
      */
     public function pushCapture()
     {
-        array_push($this->_captureSaved, $this->_capture);
+        $this->_captureSaved[] = $this->_capture;
         return $this;
     }
 
@@ -190,7 +190,7 @@ class Frontend
      */
     public function pushSilent()
     {
-        array_push($this->_silentSaved, $this->_silent);
+        $this->_silentSaved[] = $this->_silent;
         return $this;
     }
 

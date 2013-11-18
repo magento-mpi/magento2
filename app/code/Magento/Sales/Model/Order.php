@@ -401,13 +401,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_paymentData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -442,12 +435,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -505,12 +498,13 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
@@ -528,19 +522,19 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\LocaleInterface $coreLocale,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\ResourceFactory $resourceFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Tax\Model\Calculation $taxCalculation,
@@ -555,7 +549,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
-        $this->_coreData = $coreData;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -574,7 +567,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         $this->_orderHistoryFactory = $orderHistoryFactory;
         $this->_orderTaxCollFactory = $orderTaxCollFactory;
         $this->_carrierFactory = $carrierFactory;
-        parent::__construct($context, $registry, $coreLocale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $coreLocale, $dateTime, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -2203,7 +2196,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function getCreatedAtFormated($format)
     {
-        return $this->_coreData->formatDate($this->getCreatedAtStoreDate(), $format, true);
+        return $this->_coreLocale->formatDate($this->getCreatedAtStoreDate(), $format, true);
     }
 
     /**

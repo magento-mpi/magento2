@@ -16,34 +16,28 @@ namespace Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Form\Element;
 class Image extends \Magento\Data\Form\Element\Image
 {
     /**
-     * @var \Magento\Core\Model\Theme\Image\Path
+     * @var \Magento\View\Design\Theme\Image\PathInterface
      */
     protected $_imagePath;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\Theme\Image\Path $imagePath
+     * @param \Magento\View\Design\Theme\Image\PathInterface $imagePath
      * @param array $attributes
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Core\Model\Theme\Image\Path $imagePath,
+        \Magento\View\Design\Theme\Image\PathInterface $imagePath,
         $attributes = array()
     ) {
         $this->_imagePath = $imagePath;
-        parent::__construct(
-            $coreData,
-            $factoryElement,
-            $factoryCollection,
-            $urlBuilder,
-            $attributes
-        );
+        parent::__construct($escaper, $factoryElement, $factoryCollection, $urlBuilder, $attributes);
     }
 
     /**

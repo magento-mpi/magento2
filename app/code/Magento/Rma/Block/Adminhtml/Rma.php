@@ -40,7 +40,7 @@ class Rma extends \Magento\Adminhtml\Block\Widget\Grid\Container
      */
     public function getCreateUrl()
     {
-        return $this->getUrl('*/*/new');
+        return $this->getUrl('adminhtml/*/new');
     }
 
 }

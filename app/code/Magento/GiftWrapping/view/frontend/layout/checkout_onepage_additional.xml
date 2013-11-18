@@ -8,7 +8,5 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="root">
-        <block class="Magento\GiftWrapping\Block\Checkout\Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
-    </referenceBlock>
+    <block class="Magento\GiftWrapping\Block\Checkout\Options" name="checkout.options" output="1" template="checkout/options.phtml"/>
 </layout>

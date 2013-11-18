@@ -25,44 +25,44 @@ class Widget
     protected $_dataStorage;
 
     /**
-     * @var \Magento\Core\Model\Cache\Type\Config
+     * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
     /**
-     * @var \Magento\Core\Model\View\FileSystem
+     * @var \Magento\View\FileSystem
      */
     protected $_viewFileSystem;
 
     /**
      * Core data
      *
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Escaper
      */
-    protected $_coreData = null;
+    protected $_escaper;
 
     /** @var  array */
     protected $_widgetsArray = array();
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Widget\Model\Config\Data $dataStorage
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\Url $viewUrl
-     * @param \Magento\Core\Model\View\FileSystem $viewFileSystem
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
+     * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Widget\Model\Config\Data $dataStorage,
-        \Magento\Core\Model\View\Url $viewUrl,
-        \Magento\Core\Model\View\FileSystem $viewFileSystem
+        \Magento\View\Url $viewUrl,
+        \Magento\View\FileSystem $viewFileSystem
     ) {
-        $this->_coreData = $coreData;
+        $this->_escaper = $escaper;
         $this->_dataStorage = $dataStorage;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
@@ -228,7 +228,7 @@ class Widget
      */
     public function getWidgetDeclaration($type, $params = array(), $asIs = true)
     {
-        $directive = '{{widget type="' . $type . '"';
+        $directive = '{{widget type="' . preg_quote($type) . '"';
 
         foreach ($params as $name => $value) {
             // Retrieve default option value if pre-configured
@@ -254,7 +254,7 @@ class Widget
         $html = sprintf('<img id="%s" src="%s" title="%s">',
             $this->_idEncode($directive),
             $this->getPlaceholderImageUrl($type),
-            $this->_coreData->escapeUrl($directive)
+            $this->_escaper->escapeUrl($directive)
         );
         return $html;
     }

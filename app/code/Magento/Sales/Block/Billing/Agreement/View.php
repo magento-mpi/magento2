@@ -121,7 +121,7 @@ class View extends \Magento\Core\Block\Template
                 $value = $order->getIncrementId();
                 break;
             case 'created_at':
-                $value = $this->helper('Magento\Core\Helper\Data')->formatDate($order->getCreatedAt(), 'short', true);
+                $value = $this->formatDate($order->getCreatedAt(), 'short', true);
                 break;
             case 'shipping_address':
                 $value = $order->getShippingAddress()
@@ -135,7 +135,7 @@ class View extends \Magento\Core\Block\Template
                 $value = $order->getStatusLabel();
                 break;
             case 'view_url':
-                $value = $this->getUrl('*/order/view', array('order_id' => $order->getId()));
+                $value = $this->getUrl('sales/order/view', array('order_id' => $order->getId()));
                 break;
             default:
                 $value = ($order->getData($key)) ? $order->getData($key) : __('N/A');
@@ -205,12 +205,12 @@ class View extends \Magento\Core\Block\Template
             $updatedAt = $this->_billingAgreementInstance->getUpdatedAt();
             $this->setAgreementCreatedAt(
                 ($createdAt)
-                    ? $this->helper('Magento\Core\Helper\Data')->formatDate($createdAt, 'short', true)
+                    ? $this->formatDate($createdAt, 'short', true)
                     : __('N/A')
             );
             if ($updatedAt) {
                 $this->setAgreementUpdatedAt(
-                    $this->helper('Magento\Core\Helper\Data')->formatDate($updatedAt, 'short', true)
+                    $this->formatDate($updatedAt, 'short', true)
                 );
             }
             $this->setAgreementStatus($this->_billingAgreementInstance->getStatusLabel());

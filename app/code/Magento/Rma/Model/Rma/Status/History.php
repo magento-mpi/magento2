@@ -31,12 +31,12 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_rmaConfig;
 
     /**
-     * @var \Magento\Core\Model\Translate\Proxy
+     * @var \Magento\Core\Model\Translate
      */
     protected $_translate;
 
     /**
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
@@ -50,7 +50,7 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Date $date
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -63,7 +63,7 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\Date $date,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -175,7 +175,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $comment = $this->getComment();
 
         $this->_translate->setTranslateInline(false);
-        /** @var $mailTemplate \Magento\Core\Model\Email\Template */
+        /** @var $mailTemplate \Magento\Email\Model\Template */
         $mailTemplate = $this->_templateFactory->create();
         $copyTo = $this->_rmaConfig->getCopyTo();
         $copyMethod = $this->_rmaConfig->getCopyMethod();

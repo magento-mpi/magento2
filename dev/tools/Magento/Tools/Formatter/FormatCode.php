@@ -7,14 +7,14 @@
  */
 namespace Magento\Tools\Formatter;
 
-use PHPParser_Parser;
+use Magento\Tools\Formatter\PrettyPrinter\Printer;
 use PHPParser_Error;
 
+require_once __DIR__ . '/../../../bootstrap.php';
 require_once __DIR__ . '/../../../PHP-Parser/lib/bootstrap.php';
 require_once __DIR__ . '/FileUtils.php';
 require_once __DIR__ . '/PrettyPrinter.php';
 require_once __DIR__ . '/ParserLexer.php';
-$parser = new PHPParser_Parser(new ParserLexer());
 /**
  * This method returns if the passed in filename matches anything the blacklist.
  */
@@ -41,7 +41,7 @@ function moveFileSpecifications($sourceItems, &$destinationItems)
     }
 }
 /**
- * This method parses the arguments to passed into the program.
+ * This method parses the arguments passed into the program.
  */
 function parseArguments($arguments, &$fileItems, &$blacklistItems, &$rootDirectory, &$displayOnly, &$quiet)
 {
@@ -101,16 +101,28 @@ function getReference($filename, $rootDirectory)
  */
 function fixFile($filename, $rootDirectory)
 {
-    global $parser;
+    // read the file into memory
     printMessage('Reading: ' . getReference($filename, $rootDirectory));
-    $prettyPrinter = new PrettyPrinter();
-    $code = file_get_contents($filename);
-    // parse
-    $stmts = $parser->parse($code);
-    // pretty print
-    $code = '<?php' . PrettyPrinter::EOL . $prettyPrinter->prettyPrint($stmts) . PrettyPrinter::EOL;
-    printMessage('Writing: ' . getReference($filename, $rootDirectory));
-    file_put_contents($filename, $code);
+    $originalCode = file_get_contents($filename);
+    // create a printer with the original code
+    $prettyPrinter = new Printer($originalCode);
+    try {
+        // perform the parsing
+        $prettyPrinter->parseCode();
+        // write out the formatted code
+        printMessage('Writing: ' . getReference($filename, $rootDirectory));
+        file_put_contents($filename, $prettyPrinter->getFormattedCode());
+    } catch (PHPParser_Error $e) {
+        $output = $prettyPrinter->getFormattedCode();
+        if (null !== $output) {
+            file_put_contents($filename . '.error', $output);
+            echo "Invalid code placed in " . $filename . ".error" . PHP_EOL;
+            echo 'Parse Error: ', $e->getMessage();
+            echo PHP_EOL;
+        } else {
+            throw $e;
+        }
+    }
 }
 /**
  * This method fixes the named file.

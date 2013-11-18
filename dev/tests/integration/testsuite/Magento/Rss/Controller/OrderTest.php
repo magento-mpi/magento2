@@ -19,7 +19,7 @@ class OrderTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * Reuse URI for "new" action
      */
-    const NEW_ORDER_URI = 'rss/order/new';
+    const NEW_ORDER_URI = 'backend/rss/order/new';
 
     public function testNewActionAuthorizationFailed()
     {
@@ -52,7 +52,6 @@ class OrderTest extends \Magento\TestFramework\TestCase\AbstractController
      * @param string $password
      * @dataProvider invalidAccessDataProvider
      * @magentoDataFixture Magento/User/_files/dummy_user.php
-     * @covers \Magento\Rss\Controller\Order::authenticateAndAuthorizeAdmin
      */
     public function testInvalidAccess($login, $password)
     {

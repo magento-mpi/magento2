@@ -6,6 +6,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model;
+
 /**
  * Admin user model
  *
@@ -35,11 +37,7 @@
  * @method \Magento\User\Model\User setIsActive(int $value)
  * @method string getExtra()
  * @method \Magento\User\Model\User setExtra(string $value)
- */
-
-namespace Magento\User\Model;
-
-/**
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -84,19 +82,12 @@ class User
     /**
      * Mail handler
      *
-     * @var  \Magento\Core\Model\Email\Template\Mailer
+     * @var  \Magento\Email\Model\Template\Mailer
      */
     protected $_mailer;
 
-    /** @var \Magento\Core\Model\Sender */
+    /** @var \Magento\Email\Model\Sender */
     protected $_sender;
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
 
     /**
      * User data
@@ -118,7 +109,7 @@ class User
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-    
+
     /**
      * Factory for validator composite object
      *
@@ -136,24 +127,33 @@ class User
     /**
      * Factory for email info model
      *
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
     /**
-     * Construct
-     *
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\User\Helper\Data $userData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory
      * @param \Magento\User\Model\RoleFactory $roleFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -165,21 +165,23 @@ class User
         \Magento\Core\Model\Registry $registry,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\User\Helper\Data $userData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Sender $sender,
+        \Magento\Email\Model\Sender $sender,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Validator\Composite\VarienObjectFactory $validatorCompositeFactory,
         \Magento\User\Model\RoleFactory $roleFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $mailerFactory,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
+        $this->_encryptor = $encryptor;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_eventManager = $eventManager;
         $this->_userData = $userData;
-        $this->_coreData = $coreData;
         $this->_sender = $sender;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_validatorComposite = $validatorCompositeFactory;
@@ -202,30 +204,30 @@ class User
         return array_diff($properties, array(
             '_eventManager',
             '_sender',
-            '_coreData',
             '_userData',
             '_coreStoreConfig',
             '_validatorComposite',
             '_roleFactory',
             '_emailInfoFactory',
             '_mailer',
+            '_encryptor'
         ));
     }
 
     public function __wakeup()
     {
         parent::__wakeup();
-        $objectManager = \Magento\Core\Model\ObjectManager::getInstance();
+        $objectManager = \Magento\App\ObjectManager::getInstance();
         $this->_eventManager    = $objectManager->get('Magento\Event\ManagerInterface');
-        $this->_sender          = $objectManager->get('Magento\Core\Model\Sender');
-        $this->_coreData        = $objectManager->get('Magento\Core\Helper\Data');
+        $this->_sender          = $objectManager->get('Magento\Email\Model\Sender');
         $this->_userData        = $objectManager->get('Magento\User\Helper\Data');
         $this->_coreStoreConfig = $objectManager->get('Magento\Core\Model\Store\Config');
         $this->_coreRegistry    = $objectManager->get('Magento\Core\Model\Registry');
         $this->_validatorComposite = $objectManager->get('Magento\Validator\Composite\VarienObjectFactory');
         $this->_roleFactory = $objectManager->get('Magento\User\Model\RoleFactory');
-        $this->_emailInfoFactory = $objectManager->get('Magento\Core\Model\Email\InfoFactory');
-        $this->_mailer = $objectManager->get('Magento\Core\Model\Email\Template\MailerFactory');
+        $this->_emailInfoFactory = $objectManager->get('Magento\Email\Model\InfoFactory');
+        $this->_mailer = $objectManager->get('Magento\Email\Model\Template\MailerFactory');
+        $this->_encryptor = $objectManager->get('Magento\Encryption\EncryptorInterface');
     }
 
     /**
@@ -239,7 +241,7 @@ class User
             'firstname' => $this->getFirstname(),
             'lastname'  => $this->getLastname(),
             'email'     => $this->getEmail(),
-            'modified'  => now(),
+            'modified'  => $this->dateTime->now(),
             'extra'     => serialize($this->getExtra())
         );
 
@@ -431,10 +433,10 @@ class User
     /**
      * Set custom mail handler
      *
-     * @param \Magento\Core\Model\Email\Template\Mailer $mailer
+     * @param \Magento\Email\Model\Template\Mailer $mailer
      * @return \Magento\User\Model\User
      */
-    public function setMailer(\Magento\Core\Model\Email\Template\Mailer $mailer)
+    public function setMailer(\Magento\Email\Model\Template\Mailer $mailer)
     {
         $this->_mailer = $mailer;
         return $this;
@@ -447,7 +449,7 @@ class User
      */
     public function sendPasswordResetConfirmationEmail()
     {
-        /** @var \Magento\Core\Model\Email\Info $emailInfo */
+        /** @var \Magento\Email\Model\Info $emailInfo */
         $emailInfo = $this->_emailInfoFactory->create();
         $emailInfo->addTo($this->getEmail(), $this->getName());
         $this->_mailer->addEmailInfo($emailInfo);
@@ -538,7 +540,7 @@ class User
 
             if ($sensitive
                 && $this->getId()
-                && $this->_coreData->validateHash($password, $this->getPassword())
+                && $this->_encryptor->validateHash($password, $this->getPassword())
             ) {
                 if ($this->getIsActive() != '1') {
                     throw new \Magento\Backend\Model\Auth\Exception(
@@ -632,7 +634,7 @@ class User
      */
     protected function _getEncodedPassword($password)
     {
-        return $this->_coreData->getHash($password, 2);
+        return $this->_encryptor->getHash($password, 2);
     }
 
     /**
@@ -650,8 +652,7 @@ class User
             throw new \Magento\Core\Exception(__('Please correct the password reset token.'));
         }
         $this->setRpToken($newToken);
-        $currentDate = \Magento\Date::now();
-        $this->setRpTokenCreatedAt($currentDate);
+        $this->setRpTokenCreatedAt($this->dateTime->now());
 
         return $this;
     }
@@ -672,9 +673,8 @@ class User
 
         $expirationPeriod = $this->_userData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = \Magento\Date::now();
-        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
-        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
+        $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
+        $tokenTimestamp = $this->dateTime->toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }

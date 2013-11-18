@@ -8,20 +8,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Model;
+
 /**
  * Customer model
- *
- * @category    Magento
- * @package     Magento_Customer
- * @author      Magento Core Team <core@magentocommerce.com>
  *
  * @method int getWebsiteId() getWebsiteId()
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
  * @method \Magento\Customer\Model\Resource\Customer _getResource()
  */
-namespace Magento\Customer\Model;
-
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -108,7 +104,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     private static $_isConfirmationRequired;
 
-    /** @var \Magento\Core\Model\Sender */
+    /** @var \Magento\Email\Model\Sender */
     protected $_sender;
 
     /** @var \Magento\Core\Model\StoreManager */
@@ -116,13 +112,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
     /** @var \Magento\Eav\Model\Config */
     protected $_config;
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
 
     /**
      * Customer data
@@ -139,11 +128,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_eventManager = null;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
-     * Core store config
-     *
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
@@ -164,12 +148,12 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_addressesFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_mailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -184,12 +168,26 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_attributeFactory;
 
     /**
+     * @var \Magento\Encryption\EncryptorInterface
+     */
+    protected $_encryptor;
+
+    /**
+     * @var \Magento\Math\Random
+     */
+    protected $mathRandom;
+
+    /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Sender $sender
+     * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -197,20 +195,22 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $mailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Customer\Model\AttributeFactory $attributeFactory
+     * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Data\Collection\Db|null $resourceCollection
      * @param array $data
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Sender $sender,
+        \Magento\Email\Model\Sender $sender,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -218,16 +218,18 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\Resource\Address\CollectionFactory $addressesFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $mailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $mailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Customer\Model\AttributeFactory $attributeFactory,
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Math\Random $mathRandom,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
-        $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
         $this->_storeManager = $storeManager;
@@ -239,6 +241,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_emailInfoFactory = $emailInfoFactory;
         $this->_groupFactory = $groupFactory;
         $this->_attributeFactory = $attributeFactory;
+        $this->_encryptor = $encryptor;
+        $this->mathRandom = $mathRandom;
+        $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -480,7 +485,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function hashPassword($password, $salt = null)
     {
-        return $this->_coreData->getHash($password, !is_null($salt) ? $salt : 2);
+        return $this->_encryptor->getHash($password, !is_null($salt) ? $salt : 2);
     }
 
     /**
@@ -491,7 +496,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function generatePassword($length = 6)
     {
-        return $this->_coreData->getRandomString($length);
+        return $this->mathRandom->getRandomString($length);
     }
 
     /**
@@ -506,7 +511,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
         if (!$hash) {
             return false;
         }
-        return $this->_coreData->validateHash($password, $hash);
+        return $this->_encryptor->validateHash($password, $hash);
     }
 
 
@@ -518,7 +523,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function encryptPassword($password)
     {
-        return $this->_coreData->encrypt($password);
+        return $this->_encryptor->encrypt($password);
     }
 
     /**
@@ -529,7 +534,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function decryptPassword($password)
     {
-        return $this->_coreData->decrypt($password);
+        return $this->_encryptor->decrypt($password);
     }
 
     /**
@@ -746,7 +751,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     protected function _sendEmailTemplate($template, $sender, $templateParams = array(), $storeId = null)
     {
-        /** @var $mailer \Magento\Core\Model\Email\Template\Mailer */
+        /** @var $mailer \Magento\Email\Model\Template\Mailer */
         $mailer = $this->_createMailer();
         $emailInfo = $this->_createEmailInfo();
         $emailInfo->addTo($this->getEmail(), $this->getName());
@@ -1034,7 +1039,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     {
         $date = $this->getCreatedAt();
         if ($date) {
-            return \Magento\Date::toTimestamp($date);
+            return $this->dateTime->toTimestamp($date);
         }
         return null;
     }
@@ -1201,9 +1206,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
 
         $expirationPeriod = $this->_customerData->getResetPasswordLinkExpirationPeriod();
 
-        $currentDate = \Magento\Date::now();
-        $currentTimestamp = \Magento\Date::toTimestamp($currentDate);
-        $tokenTimestamp = \Magento\Date::toTimestamp($linkTokenCreatedAt);
+        $currentTimestamp = $this->dateTime->toTimestamp($this->dateTime->now());
+        $tokenTimestamp = $this->dateTime->toTimestamp($linkTokenCreatedAt);
         if ($tokenTimestamp > $currentTimestamp) {
             return true;
         }
@@ -1233,7 +1237,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Core\Model\Email\Template\Mailer
+     * @return \Magento\Email\Model\Template\Mailer
      */
     protected function _createMailer()
     {
@@ -1241,7 +1245,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * @return \Magento\Core\Model\Email\Info
+     * @return \Magento\Email\Model\Info
      */
     protected function _createEmailInfo()
     {

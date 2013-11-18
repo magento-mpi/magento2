@@ -8,13 +8,19 @@
  * @license     {license_link}
  */
 
+namespace Magento\GiftRegistry\Block\Cart;
+
 /**
  * Cart link block
  */
-namespace Magento\GiftRegistry\Block\Cart;
-
 class Link extends \Magento\Core\Block\Template
 {
+    /**
+     * Filter manager
+     *
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filter;
 
     /**
      * Gift registry data
@@ -27,16 +33,39 @@ class Link extends \Magento\Core\Block\Template
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
+        $this->filter = $filter;
         parent::__construct($coreData, $context, $data);
+    }
+
+    /**
+     * Truncate string
+     *
+     * @param string $value
+     * @param int $length
+     * @param string $etc
+     * @param string &$remainder
+     * @param bool $breakWords
+     * @return string
+     */
+    public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
+    {
+        return $this->filter->truncate($value, array(
+            'length' => $length,
+            'etc' => $etc,
+            'remainder' => $remainder,
+            'breakWords' => $breakWords
+        ));
     }
 
     /**

@@ -29,6 +29,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\Catalog\Helper\Data'),
             $objectManager->get('Magento\Core\Helper\Data'),
             $objectManager->get('Magento\Core\Block\Template\Context'),
+            $objectManager->get('Magento\Math\Random'),
             $objectManager->get('Magento\Wishlist\Helper\Data'),
             $objectManager->get('Magento\Customer\Model\Session'),
             $objectManager->get('Magento\Catalog\Model\ProductFactory'),
@@ -42,9 +43,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function testImage()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)
             ->setDefaultDesignTheme();
         $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Product');

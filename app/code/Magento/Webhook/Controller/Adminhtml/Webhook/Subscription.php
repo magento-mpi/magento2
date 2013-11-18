@@ -43,15 +43,13 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
      * @param \Magento\Backend\Controller\Context $context
-     * @param string $areaCode
      */
     public function __construct(
         \Magento\Core\Model\Registry $registry,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Backend\Controller\Context $context,
-        $areaCode = null
+        \Magento\Backend\Controller\Context $context
     ) {
-        parent::__construct($context, $areaCode);
+        parent::__construct($context);
 
         $this->_registry = $registry;
         $this->_subscriptionService = $subscriptionService;
@@ -110,7 +108,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -139,7 +137,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
                     __('The subscription \'%1\' has been saved.',
                     $subscriptionData[self::DATA_NAME])
                 );
-                $this->_redirect('*/*/');
+                $this->_redirect('adminhtml/*/');
             } else {
                 $this->_getSession()->addError(
                     __('The subscription \'%1\' has not been saved, as no data was provided.',
@@ -152,7 +150,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             }
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_redirect('*/*/');
+            $this->_redirect('adminhtml/*/');
         }
     }
 
@@ -186,7 +184,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         }
-        $this->_redirect('*/*/');
+        $this->_redirect('adminhtml/*/');
     }
 
     /**
@@ -209,7 +207,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             $this->_getSession()->addError($e->getMessage());
         }
 
-        $this->_redirect('*/webhook_subscription/index');
+        $this->_redirect('adminhtml/webhook_subscription/index');
     }
 
     /**
@@ -232,7 +230,7 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
             $this->_getSession()->addError($e->getMessage());
         }
 
-        $this->_redirect('*/webhook_subscription/index');
+        $this->_redirect('adminhtml/webhook_subscription/index');
     }
 
     /**

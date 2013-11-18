@@ -20,7 +20,7 @@ class IndexTest
     public function testIndexAction()
     {
         $this->markTestIncomplete('Bug MAGE-6447');
-        $logger = $this->getMock('Magento\Core\Model\Logger', array(), array(), '', false);
+        $logger = $this->getMock('Magento\Logger', array(), array(), '', false);
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Customer\Model\Session', array($logger));
         $this->assertTrue($session->login('customer@example.com', 'password')); // fixture

@@ -31,7 +31,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
         $constructArguments = $objectManagerHelper->getConstructArguments(
             'Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab\Js',
             array(
-                 'formFactory' => $this->getMock('Magento\Data\Form\Factory', array(), array(), '', false),
+                 'formFactory' => $this->getMock('Magento\Data\FormFactory', array(), array(), '', false),
                  'objectManager' => $this->getMock('Magento\ObjectManager', array(), array(), '', false),
                  'urlBuilder'    => $this->_urlBuilder
             )
@@ -94,7 +94,7 @@ class JsTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilder
             ->expects($this->once())
             ->method('getUrl')
-            ->with('*/system_design_theme/uploadjs', array('id' => $themeId))
+            ->with('adminhtml/system_design_theme/uploadjs', array('id' => $themeId))
             ->will($this->returnValue($uploadUrl));
 
         $this->assertEquals($uploadUrl, $this->_model->getJsUploadUrl());

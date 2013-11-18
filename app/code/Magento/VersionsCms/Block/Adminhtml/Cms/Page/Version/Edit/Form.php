@@ -34,7 +34,7 @@ class Form
     protected $_cmsConfig;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
@@ -43,7 +43,7 @@ class Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
@@ -67,7 +67,7 @@ class Form
         $form = $this->_formFactory->create(array(
             'attributes' => array(
                 'id' => 'edit_form',
-                'action' => $this->getUrl('*/*/save', array('_current' => true)),
+                'action' => $this->getUrl('adminhtml/*/save', array('_current' => true)),
                 'method' => 'post',
             ))
         );

@@ -16,15 +16,15 @@ use Magento\App\FrontControllerInterface;
 use Magento\Core\Model\Translate;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\Core\Model\Factory\Helper as FactoryHelper;
-use Magento\Core\Model\View\Url as ViewUrl;
+use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
-use Magento\Core\Model\Logger;
+use Magento\Logger;
 use Magento\Core\Model\App;
 use Magento\App\State as AppState;
 
 use Magento\Core\Model\Session\AbstractSession;
-use Magento\Core\Model\CacheInterface as Cache;
-use Magento\Core\Model\Cache\StateInterface as CacheState;
+use Magento\App\CacheInterface as Cache;
+use Magento\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
 use Magento\Event\ManagerInterface;
 
@@ -58,7 +58,7 @@ class Context
     protected $translator;
 
     /**
-     * @var \Magento\Core\Model\CacheInterface
+     * @var \Magento\App\CacheInterface
      */
     protected $cache;
 
@@ -88,24 +88,29 @@ class Context
     protected $helperFactory;
 
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $viewUrl;
 
     /**
+     * @var \Magento\View\LayoutInterface
+     */
+    protected $layout;
+
+    /**
      * View config model
      *
-     * @var \Magento\Core\Model\View\Config
+     * @var \Magento\View\Config
      */
     protected $viewConfig;
 
     /**
-     * @var \Magento\Core\Model\Cache\StateInterface
+     * @var \Magento\App\Cache\StateInterface
      */
     protected $cacheState;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $logger;
 
@@ -177,7 +182,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\CacheInterface
+     * @return \Magento\App\CacheInterface
      */
     public function getCache()
     {
@@ -265,7 +270,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\Url
+     * @return \Magento\View\Url
      */
     public function getViewUrl()
     {
@@ -281,7 +286,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Cache\StateInterface
+     * @return \Magento\App\Cache\StateInterface
      */
     public function getCacheState()
     {
@@ -289,7 +294,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Logger
+     * @return \Magento\Logger
      */
     public function getLogger()
     {

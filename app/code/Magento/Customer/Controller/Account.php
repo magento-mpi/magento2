@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Controller;
+
 /**
  * Customer account controller
  */
-namespace Magento\Customer\Controller;
-
 class Account extends \Magento\Core\Controller\Front\Action
 {
     /**
@@ -47,7 +47,7 @@ class Account extends \Magento\Core\Controller\Front\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -80,6 +80,13 @@ class Account extends \Magento\Core\Controller\Front\Action
     protected $_addressFactory;
 
     /**
+     * Magento string lib
+     *
+     * @var \Magento\Stdlib\String
+     */
+    protected $string;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
@@ -88,6 +95,7 @@ class Account extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Stdlib\String $string
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
@@ -97,7 +105,8 @@ class Account extends \Magento\Core\Controller\Front\Action
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
-        \Magento\Customer\Model\AddressFactory $addressFactory
+        \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Stdlib\String $string
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
@@ -106,6 +115,7 @@ class Account extends \Magento\Core\Controller\Front\Action
         $this->_customerFactory = $customerFactory;
         $this->_formFactory = $formFactory;
         $this->_addressFactory = $addressFactory;
+        $this->string = $string;
         parent::__construct($context);
     }
 
@@ -236,7 +246,7 @@ class Account extends \Magento\Core\Controller\Front\Action
                     $session->addError($message);
                     $session->setUsername($login['username']);
                 } catch (\Exception $e) {
-                    // $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e); // PA DSS violation: this exception log can disclose customer password
+                    // $this->_objectManager->get('Magento\Logger')->logException($e); // PA DSS violation: this exception log can disclose customer password
                 }
             } else {
                 $session->addError(__('Login and password are required.'));
@@ -679,7 +689,7 @@ class Account extends \Magento\Core\Controller\Front\Action
                     return;
                 }
             }
-            $email = $this->_objectManager->get('Magento\Customer\Helper\Data')->escapeHtml($email);
+            $email = $this->_objectManager->get('Magento\Escaper')->escapeHtml($email);
             $this->_getSession()->addSuccess(
                 __('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );
@@ -751,10 +761,7 @@ class Account extends \Magento\Core\Controller\Front\Action
 
         $errorMessages = array();
         if (iconv_strlen($password) <= 0) {
-            array_push(
-                $errorMessages,
-                __('New password field cannot be empty.')
-            );
+            $errorMessages[] = __('New password field cannot be empty.');
         }
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_createCustomer()->load($customerId);
@@ -886,7 +893,7 @@ class Account extends \Magento\Core\Controller\Front\Action
                 $confPass   = $this->getRequest()->getPost('confirmation');
 
                 $oldPass = $this->_getSession()->getCustomer()->getPasswordHash();
-                if ($this->_objectManager->get('Magento\Core\Helper\String')->strpos($oldPass, ':')) {
+                if ($this->string->strpos($oldPass, ':')) {
                     list(, $salt) = explode(':', $oldPass);
                 } else {
                     $salt = false;

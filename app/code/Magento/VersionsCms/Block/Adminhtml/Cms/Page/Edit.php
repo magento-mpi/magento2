@@ -57,10 +57,10 @@ class Edit
     protected function _prepareLayout()
     {
         $tabsBlock = $this->getLayout()->getBlock('cms_page_edit_tabs');
-        /* @var $tabBlock \Magento\Adminhtml\Block\Cms\Page\Edit\Tabs */
+        /* @var $tabBlock \Magento\Cms\Block\Adminhtml\Page\Edit\Tabs */
         if ($tabsBlock) {
             $editBlock = $this->getLayout()->getBlock('cms_page_edit');
-            /* @var $editBlock \Magento\Adminhtml\Block\Cms\Page\Edit */
+            /* @var $editBlock \Magento\Cms\Block\Adminhtml\Page\Edit */
             if ($editBlock) {
                 $page = $this->_coreRegistry->registry('cms_page');
                 if ($page) {
@@ -74,7 +74,7 @@ class Edit
                                         'event' => 'preview',
                                         'target' => '#edit_form',
                                         'eventData' => array(
-                                            'action' => $this->getUrl('*/cms_page_revision/preview'),
+                                            'action' => $this->getUrl('adminhtml/cms_page_revision/preview'),
                                         )
                                     ),
                                 ),

@@ -1,0 +1,91 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<?php
+/**
+ * Order by SKU widget template
+ *
+ * @var $this \Magento\AdvancedCheckout\Block\Widget\Sku
+ */
+$uniqueSuffix = '_' . $this->helper('Magento\Core\Helper\Data')->getRandomString(20);
+$skuFormId = 'skuForm' . $uniqueSuffix;
+$qtyValidationClasses = 'required-entry validate-number validate-greater-than-zero'
+    . ' validate-number-range number-range-0.0001-99999999.9999';
+?>
+<div class="widget widget-addbysku">
+    <div class="block block-addbysku"
+            data-mage-init="{itemTable: {addBlockData: {uniqueSuffix: '<?php echo $uniqueSuffix; ?>'}}}">
+        <?php if (!$this->getIsTitleHidden()): ?>
+        <div class="block-title">
+            <strong><span><?php echo __('Order by SKU') ?></span></strong>
+        </div>
+        <?php endif ?>
+        <form id="<?php echo $skuFormId; ?>" action="<?php echo $this->getFormAction(); ?>" method="post"
+                data-mage-init="{validation: {}}"
+                <?php if ($this->getIsMultipart()): ?> enctype="multipart/form-data"<?php endif; ?>>
+            <div class="block-content">
+                <table id="items-table<?php echo $uniqueSuffix; ?>" class="sku-table data-table" cellspacing="0"
+                       cellpadding="0">
+                    <colgroup>
+                        <col class="col-sku" />
+                        <col class="col-qty" />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th><?php echo __('SKU') ?></th>
+                            <th class="last"><?php echo __('Qty') ?></th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr class="last">
+                            <td colspan="2" class="last">
+                                <span href="#" id="add_new_item_button<?php echo $uniqueSuffix; ?>"
+                                        title="<?php echo __('Add Row') ?>" class="add-row" data-role="add">
+                                    <?php echo __('Add Row') ?>
+                                </span>
+                            </td>
+                        </tr>
+                    </tfoot>
+                    <tbody data-container="items">
+                    </tbody>
+                </table>
+                <?php echo $this->getChildHtml(); ?>
+                <div class="actions">
+                    <button id="sku-submit-button<?php echo $uniqueSuffix; ?>" type="submit"
+                            title="<?php echo __('Add to Cart') ?>" class="button">
+                        <span><span><?php echo __('Add to Cart') ?></span></span>
+                    </button>
+                </div>
+                <?php if ($this->getLink()): ?>
+                    <p class="link-widget-sku"><?php echo $this->getLink(); ?></p>
+                <?php endif; ?>
+            </div>
+        </form>
+        <script data-template="add-block" type="text/x-jQuery-tmpl">
+            <tr class="order-row" data-mage-init="{deletableItem: {}}">
+                <td>
+                    <div class="input-box">
+                        <input type="text" name="items[${rowIndex}${uniqueSuffix}][sku]" class="input-text"
+                               data-id="${rowIndex}${uniqueSuffix}sku"
+                               data-validate="{'required-if-not-specified': '#customer_sku_csv'}"/>
+                    </div>
+                </td>
+                <td class="last">
+                    <div class="input-box">
+                        <input type="text" name="items[${rowIndex}${uniqueSuffix}][qty]" class="input-text qty"
+                               maxlength="13"
+                               data-validate="{'required-if-specified': '[data-id=${rowIndex}${uniqueSuffix}sku]', 'validate-greater-than-zero': true}"/>
+                    </div>
+                    <span class="btn-remove" title="<?php echo __('Remove Row') ?>" data-role="delete"></span>
+                </td>
+            </tr>
+        </script>
+    </div>
+</div>

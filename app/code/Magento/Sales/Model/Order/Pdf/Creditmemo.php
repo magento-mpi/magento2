@@ -16,19 +16,13 @@ namespace Magento\Sales\Model\Order\Pdf;
 class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 {
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\String $coreString
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\App\Dir $coreDir
@@ -44,8 +38,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      */
     public function __construct(
         \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\String $coreString,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
         \Magento\App\Dir $coreDir,
@@ -57,12 +50,10 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_storeManager = $storeManager;
         parent::__construct(
             $paymentData,
-            $coreData,
-            $coreString,
+            $string,
             $coreStoreConfig,
             $translate,
             $coreDir,
@@ -70,6 +61,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $pdfConfig,
             $pdfTotalFactory,
             $pdfItemsFactory,
+            $locale,
             $data
         );
     }
@@ -97,41 +89,41 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('SKU'), 12, true, true),
+            'text'  => $this->string->split(__('SKU'), 12, true, true),
             'feed'  => 255,
             'align' => 'right'
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Total (ex)'), 12, true, true),
+            'text'  => $this->string->split(__('Total (ex)'), 12, true, true),
             'feed'  => 330,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Discount'), 12, true, true),
+            'text'  => $this->string->split(__('Discount'), 12, true, true),
             'feed'  => 380,
             'align' => 'right',
             //'width' => 50,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Qty'), 12, true, true),
+            'text'  => $this->string->split(__('Qty'), 12, true, true),
             'feed'  => 445,
             'align' => 'right',
             //'width' => 30,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Tax'), 12, true, true),
+            'text'  => $this->string->split(__('Tax'), 12, true, true),
             'feed'  => 495,
             'align' => 'right',
             //'width' => 45,
         );
 
         $lines[0][] = array(
-            'text'  => $this->_coreString->strSplit(__('Total (inc)'), 12, true, true),
+            'text'  => $this->string->split(__('Total (inc)'), 12, true, true),
             'feed'  => 565,
             'align' => 'right'
         );
@@ -164,7 +156,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
 
         foreach ($creditmemos as $creditmemo) {
             if ($creditmemo->getStoreId()) {
-                $this->_locale->emulate($creditmemo->getStoreId());
+                $this->locale->emulate($creditmemo->getStoreId());
                 $this->_storeManager->setCurrentStore($creditmemo->getStoreId());
             }
             $page  = $this->newPage();
@@ -202,7 +194,7 @@ class Creditmemo extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         }
         $this->_afterGetPdf();
         if ($creditmemo->getStoreId()) {
-            $this->_locale->revert();
+            $this->locale->revert();
         }
         return $pdf;
     }

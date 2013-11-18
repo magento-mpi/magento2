@@ -14,7 +14,7 @@ namespace Magento\Widget\Model\Widget;
 class Config
 {
     /**
-     * @var \Magento\Core\Model\View\Url
+     * @var \Magento\View\Url
      */
     protected $_viewUrl;
 
@@ -41,13 +41,13 @@ class Config
     /**
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Core\Model\View\Url $viewUrl
+     * @param \Magento\View\Url $viewUrl
      * @param \Magento\Widget\Model\WidgetFactory $widgetFactory
      */
     public function __construct(
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\View\Url $viewUrl,
+        \Magento\View\Url $viewUrl,
         \Magento\Widget\Model\WidgetFactory $widgetFactory
     ) {
         $this->_backendUrl = $backendUrl;
@@ -100,7 +100,7 @@ class Config
         if (count($skipped) > 0) {
             $params['skip_widgets'] = $this->encodeWidgetsToQuery($skipped);
         }
-        return $this->_backendUrl->getUrl('*/widget/index', $params);
+        return $this->_backendUrl->getUrl('adminhtml/widget/index', $params);
     }
 
     /**

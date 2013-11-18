@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Resource\Order;
+
 /**
  * Flat sales order payment resource
  */
-namespace Magento\Sales\Model\Resource\Order;
-
 class Payment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 {
     /**
@@ -38,23 +38,24 @@ class Payment extends \Magento\Sales\Model\Resource\Order\AbstractOrder
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
+     * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory
      * @param \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
+        \Magento\Stdlib\DateTime $dateTime,
         \Magento\Eav\Model\Entity\TypeFactory $eavEntityTypeFactory,
         \Magento\Sales\Model\Payment\Method\Converter $paymentConverter
     ) {
         $this->_paymentConverter = $paymentConverter;
-        parent::__construct($eventManager, $resource, $eavEntityTypeFactory);
+        parent::__construct($eventManager, $resource, $dateTime, $eavEntityTypeFactory);
     }
 
     /**
      * Model initialization
-     *
      */
     protected function _construct()
     {

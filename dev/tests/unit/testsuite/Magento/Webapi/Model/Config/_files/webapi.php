@@ -44,7 +44,6 @@ return array(
     ),
     '\Magento\TestModule1\Service\AllSoapAndRestV3Interface' => array(
         'class' => '\Magento\TestModule1\Service\AllSoapAndRestV3Interface',
-        'baseUrl' => '/V3/testmodule1',
         'methods' => array()
     ),
 );

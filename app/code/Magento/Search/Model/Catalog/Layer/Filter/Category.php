@@ -34,7 +34,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
@@ -44,13 +44,13 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Escaper $escaper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $categoryFactory, $coreData,
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $categoryFactory, $escaper,
             $coreRegistry, $data);
     }
 
@@ -79,7 +79,7 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
 
             if ($category->getIsActive() && $category->getProductCount()) {
                 $data[] = array(
-                    'label' => $this->_coreData->escapeHtml($category->getName()),
+                    'label' => $this->_escaper->escapeHtml($category->getName()),
                     'value' => $categoryId,
                     'count' => $category->getProductCount(),
                 );

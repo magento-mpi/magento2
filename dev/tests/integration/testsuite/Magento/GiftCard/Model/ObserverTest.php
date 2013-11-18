@@ -22,11 +22,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         'Magento\Core\Model\Context',
         'Magento\Core\Model\Registry',
         'Magento\Filesystem',
-        'Magento\Core\Model\View\Url',
-        'Magento\Core\Model\View\FileSystem',
+        'Magento\View\Url',
+        'Magento\View\FileSystem',
         'Magento\Core\Model\View\Design',
         'Magento\Core\Model\Store\Config',
-        'Magento\Core\Model\Email\Template\Config',
+        'Magento\Email\Model\Template\Config',
     );
 
     /**
@@ -37,7 +37,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testGenerateGiftCardAccountsEmailSending()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $objectManager->get('Magento\Core\Model\App')->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $objectManager->get('Magento\Core\Model\App')->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $order = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Sales\Model\Order');
         $this->_checkOrderItemProductOptions($order, true);
@@ -46,22 +46,22 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $observer = new \Magento\Event\Observer(array('event' => $event));
 
         $emailTemplateMock = $this->getMock(
-            'Magento\Core\Model\Email\Template',
+            'Magento\Email\Model\Template',
             array('_getMail'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Filesystem'),
-                $objectManager->get('Magento\Core\Model\View\Url'),
-                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\View\Url'),
+                $objectManager->get('Magento\View\FileSystem'),
                 $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\Config'),
-                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->get('Magento\App\Dir'),
-                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $emailTemplateMock->expects($this->once())

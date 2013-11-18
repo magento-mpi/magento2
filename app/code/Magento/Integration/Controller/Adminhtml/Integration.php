@@ -11,7 +11,7 @@ use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Adminhtml\Controller\Action
+class Integration extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
@@ -26,6 +26,9 @@ class Integration extends \Magento\Adminhtml\Controller\Action
      */
     protected $_registry = null;
 
+    /** @var \Magento\Logger */
+    protected $_logger;
+
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
@@ -33,13 +36,16 @@ class Integration extends \Magento\Adminhtml\Controller\Action
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Logger $logger
     ) {
         $this->_registry = $registry;
+        $this->_logger = $logger;
         $this->_integrationService = $integrationService;
         parent::__construct($context);
     }
@@ -103,12 +109,12 @@ class Integration extends \Magento\Adminhtml\Controller\Action
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
             $restoredIntegration = $this->_getSession()->getIntegrationData();
-            if (isset($restoredIntegration[Info::DATA_INTEGRATION_ID])
-                && $integrationId == $restoredIntegration[Info::DATA_INTEGRATION_ID]
+            if (isset($restoredIntegration[Info::DATA_ID])
+                && $integrationId == $restoredIntegration[Info::DATA_ID]
             ) {
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
-            if (!$integrationData[Info::DATA_INTEGRATION_ID]) {
+            if (!$integrationData[Info::DATA_ID]) {
                 $this->_getSession()->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -136,13 +142,13 @@ class Integration extends \Magento\Adminhtml\Controller\Action
      */
     public function saveAction()
     {
+        /** @var array $integrationData */
+        $integrationData = array();
         try {
             $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
-            /** @var array $integrationData */
-            $integrationData = array();
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
-                if (!$integrationData[Info::DATA_INTEGRATION_ID]) {
+                if (!$integrationData[Info::DATA_ID]) {
                     $this->_getSession()->addError(__('This integration no longer exists.'));
                     $this->_redirect('*/*/');
                     return;
@@ -150,16 +156,19 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             }
             /** @var array $data */
             $data = $this->getRequest()->getPost();
-            //Merge Post-ed data
-            $integrationData = array_merge($integrationData, $data);
-            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!isset($integrationData[Info::DATA_INTEGRATION_ID])) {
-                $this->_integrationService->create($integrationData);
+            if (!empty($data)) {
+                $integrationData = array_merge($integrationData, $data);
+                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+                if (!isset($integrationData[Info::DATA_ID])) {
+                    $this->_integrationService->create($integrationData);
+                } else {
+                    $this->_integrationService->update($integrationData);
+                }
+                $this->_getSession()
+                    ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
             } else {
-                $this->_integrationService->update($integrationData);
+                $this->_getSession()->addError(__('The integration was not saved.'));
             }
-            $this->_getSession()->addSuccess(__('The integration \'%1\' has been saved.',
-                    $integrationData[Info::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
@@ -168,7 +177,7 @@ class Integration extends \Magento\Adminhtml\Controller\Action
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_logger->logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         }

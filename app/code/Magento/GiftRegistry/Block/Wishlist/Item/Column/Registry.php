@@ -8,24 +8,26 @@
  * @license     {license_link}
  */
 
-/**
- * Wishlist item "Add to gift registry" column block
- *
- * @category    Magento
- * @package     Magento_GiftRegistry
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\GiftRegistry\Block\Wishlist\Item\Column;
 
-class Registry
-    extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
+/**
+ * Wishlist item "Add to gift registry" column block
+ */
+class Registry extends \Magento\Wishlist\Block\Customer\Wishlist\Item\Column
 {
     /**
      * Gift registry data
      *
      * @var \Magento\GiftRegistry\Helper\Data
      */
-    protected $_giftRegistryData = null;
+    protected $_giftRegistryData;
+
+    /**
+     * Filter manager
+     *
+     * @var \Magento\Filter\FilterManager
+     */
+    protected $filter;
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -35,10 +37,12 @@ class Registry
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
@@ -49,17 +53,50 @@ class Registry
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Filter\FilterManager $filter,
         array $data = array()
-    )
-    {
+    ) {
         $this->_giftRegistryData = $giftRegistryData;
-        parent::__construct($storeManager, $catalogConfig, $coreRegistry, $taxData, $catalogData, $coreData,
-            $context, $wishlistData, $customerSession, $productFactory, $data
+        $this->filter = $filter;
+        parent::__construct(
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $wishlistData,
+            $customerSession,
+            $productFactory,
+            $data
         );
+    }
+
+    /**
+     * Truncate string
+     *
+     * @param string $value
+     * @param int $length
+     * @param string $etc
+     * @param string &$remainder
+     * @param bool $breakWords
+     * @return string
+     */
+    public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
+    {
+        return $this->filter->truncate($value, array(
+            'length' => $length,
+            'etc' => $etc,
+            'remainder' => $remainder,
+            'breakWords' => $breakWords
+        ));
     }
 
     /**

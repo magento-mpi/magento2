@@ -77,24 +77,31 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
     protected $_indexerPriceFactory;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $dateTime;
+
+    /**
      * Class constructor
      *
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Catalog\Model\Product\Type $catalogProductType
-     * @param \Magento\Core\Model\Resource $resource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
+     * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Catalog\Model\Product\Type $catalogProductType,
-        \Magento\Core\Model\Resource $resource,
+        \Magento\App\Resource $resource,
         \Magento\Core\Model\Config $config,
-        \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory
+        \Magento\Catalog\Model\Resource\Product\Indexer\Price\Factory $indexerPriceFactory,
+        \Magento\Stdlib\DateTime $dateTime
     ) {
         $this->_currencyFactory = $currencyFactory;
         $this->_storeManager = $storeManager;
@@ -102,6 +109,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
         $this->_catalogProductType = $catalogProductType;
         $this->_config = $config;
         $this->_indexerPriceFactory = $indexerPriceFactory;
+        $this->dateTime = $dateTime;
         parent::__construct($resource);
     }
 
@@ -639,7 +647,7 @@ class Price extends \Magento\Index\Model\Resource\AbstractResource
                 $timestamp = $this->_locale->storeTimeStamp($store);
                 $data[] = array(
                     'website_id' => $website->getId(),
-                    'website_date'       => $this->formatDate($timestamp, false),
+                    'website_date'       => $this->dateTime->formatDate($timestamp, false),
                     'rate'       => $rate
                 );
             }

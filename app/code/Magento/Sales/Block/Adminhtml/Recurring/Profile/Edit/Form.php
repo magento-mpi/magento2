@@ -43,7 +43,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_product = null;
 
     /**
-     * @var \Magento\Data\Form\Factory
+     * @var \Magento\Data\FormFactory
      */
     protected $_formFactory;
 
@@ -53,13 +53,13 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_recurringProfile;
 
     /**
-     * @param \Magento\Data\Form\Factory $formFactory
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Sales\Model\Recurring\Profile $recurringProfile
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\Form\Factory $formFactory,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Context $context,
         \Magento\Sales\Model\Recurring\Profile $recurringProfile,
         array $data = array()
@@ -121,7 +121,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
             $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset')
         );
         $form->setFieldsetElementRenderer(
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Catalog\Form\Renderer\Fieldset\Element')
+            $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Form\Renderer\Fieldset\Element')
         );
 
         /**

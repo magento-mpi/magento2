@@ -85,14 +85,14 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
 
         $this->_cacheMock = $this->getMock(
-            'Magento\Core\Model\Cache\Type\Layout', array(), array(), '', false
+            'Magento\App\Cache\Type\Layout', array(), array(), '', false
         );
 
         $configStructureMock->expects($this->any())->method('getElement')
             ->will($this->returnValue($this->_sectionMock));
 
         $helperMock->expects($this->any())->method('getUrl')->will($this->returnArgument(0));
-        $this->_responseMock->expects($this->once())->method('setRedirect')->with('*/system_config/edit');
+        $this->_responseMock->expects($this->once())->method('setRedirect')->with('adminhtml/system_config/edit');
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = array(
@@ -113,7 +113,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                 $configStructureMock,
                 $this->_configFactoryMock,
                 $this->_cacheMock,
-                null,
+                new \Magento\Stdlib\String,
             )
         );
     }

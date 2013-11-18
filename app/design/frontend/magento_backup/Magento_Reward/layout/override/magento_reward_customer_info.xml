@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="Customer Reward Info" type="page">
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="customer_account"/>
     <referenceContainer name="my.account.wrapper">
         <block class="Magento\Reward\Block\Customer\Reward" name="customer.reward" template="customer/reward.phtml">

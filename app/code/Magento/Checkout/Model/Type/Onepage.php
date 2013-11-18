@@ -50,16 +50,9 @@ class Onepage
     protected $_helper;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
-
-    /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData = null;
 
     /**
      * Customer data
@@ -111,11 +104,15 @@ class Onepage
     protected $_orderFactory;
 
     /**
+     * @var \Magento\Object\Copy
+     */
+    protected $_objectCopyService;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Checkout\Helper\Data $helper
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -125,13 +122,13 @@ class Onepage
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
+     * @param \Magento\Object\Copy $objectCopyService
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Checkout\Helper\Data $helper,
         \Magento\Customer\Helper\Data $customerData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -140,11 +137,11 @@ class Onepage
         \Magento\Customer\Model\FormFactory $customerFormFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
-        \Magento\Sales\Model\OrderFactory $orderFactory
+        \Magento\Sales\Model\OrderFactory $orderFactory,
+        \Magento\Object\Copy $objectCopyService
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
-        $this->_coreData = $coreData;
         $this->_helper = $helper;
         $this->_customerEmailExistsMessage = __('There is already a registered customer using this email address. Please log in using this email address or enter a different email address to register your account.');
         $this->_checkoutSession = $checkoutSession;
@@ -157,6 +154,7 @@ class Onepage
         $this->_customerFactory = $customerFactory;
         $this->_serviceQuoteFactory = $serviceQuoteFactory;
         $this->_orderFactory = $orderFactory;
+        $this->_objectCopyService = $objectCopyService;
     }
 
     /**
@@ -492,7 +490,7 @@ class Onepage
         $quote->getBillingAddress()->setEmail($customer->getEmail());
 
         // copy customer data to quote
-        $this->_coreData->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $quote);
+        $this->_objectCopyService->copyFieldsetToTarget('customer_account', 'to_quote', $customer, $quote);
 
         return true;
     }
@@ -698,7 +696,7 @@ class Onepage
             $customerBilling->setIsDefaultShipping(true);
         }
 
-        $this->_coreData->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
+        $this->_objectCopyService->copyFieldsetToTarget('checkout_onepage_quote', 'to_customer', $quote, $customer);
         $customer->setPassword($customer->decryptPassword($quote->getPasswordHash()));
         $customer->setPasswordHash($customer->hashPassword($customer->getPassword()));
         $quote->setCustomer($customer)

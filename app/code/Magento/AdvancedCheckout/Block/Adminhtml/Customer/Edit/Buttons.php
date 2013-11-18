@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
 
-class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
+class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
 {
     /**
      * @var \Magento\Core\Model\StoreManager
@@ -58,7 +58,7 @@ class Buttons extends \Magento\Adminhtml\Block\Customer\Edit
         }
         $container = $this->getParentBlock();
         if ($container instanceof \Magento\Backend\Block\Template && $container->getCustomerId()) {
-            $url = $this->_urlBuilder->getUrl('*/checkout/index', array(
+            $url = $this->_urlBuilder->getUrl('checkout/index', array(
                 'customer' => $container->getCustomerId()
             ));
             $container->addButton('manage_quote', array(

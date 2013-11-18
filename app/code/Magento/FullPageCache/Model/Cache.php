@@ -17,7 +17,7 @@
  */
 namespace Magento\FullPageCache\Model;
 
-class Cache extends \Magento\Core\Model\Cache
+class Cache extends \Magento\App\Cache
 {
     const REQUEST_MESSAGE_GET_PARAM = 'frontend_message';
 
@@ -27,9 +27,9 @@ class Cache extends \Magento\Core\Model\Cache
     protected $_frontendIdentifier = \Magento\FullPageCache\Model\Cache\Type::TYPE_IDENTIFIER;
 
     /**
-     * @param \Magento\Core\Model\Cache\Frontend\Pool $frontendPool
+     * @param \Magento\App\Cache\Frontend\Pool $frontendPool
      */
-    public function __construct(\Magento\Core\Model\Cache\Frontend\Pool $frontendPool)
+    public function __construct(\Magento\App\Cache\Frontend\Pool $frontendPool)
     {
         \Magento\Profiler::start('magento_fullpage_cache_create', array(
             'group' => 'magento_fullpage_cache',

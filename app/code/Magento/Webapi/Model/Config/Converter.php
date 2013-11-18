@@ -38,12 +38,16 @@ class Converter implements \Magento\Config\ConverterInterface
                 continue;
             }
             $serviceClass = $service->attributes->getNamedItem('class')->nodeValue;
-            $serviceBaseUrl = $service->attributes->getNamedItem('baseUrl')->nodeValue;
             $result[$serviceClass] = array(
                 self::KEY_SERVICE_CLASS => $serviceClass,
-                self::KEY_BASE_URL => $serviceBaseUrl,
                 self::KEY_SERVICE_METHODS => array()
             );
+
+            /** @var \DOMAttr $baseUrlNode */
+            $baseUrlNode = $service->attributes->getNamedItem('baseUrl');
+            if ($baseUrlNode) {
+                $result[$serviceClass][self::KEY_BASE_URL] = $baseUrlNode->nodeValue;
+            }
 
             /** @var \DOMNodeList $restRoutes */
             $restRoutes = $service->getElementsByTagName('rest-route');

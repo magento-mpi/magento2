@@ -15,7 +15,7 @@ namespace Magento\DesignEditor\Controller\Adminhtml\System\Design;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Editor extends \Magento\Adminhtml\Controller\Action
+class Editor extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * @var \Magento\Theme\Model\Config
@@ -79,7 +79,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
 
             $response = array('content' => $this->getLayout()->getOutput());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => __('Sorry, but we can\'t load the theme list.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -98,9 +98,9 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             $themeContext->setEditableThemeById($themeId);
             $launchedTheme = $themeContext->getEditableTheme();
             if ($launchedTheme->isPhysical()) {
-                $launchedTheme = $launchedTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)
+                $launchedTheme = $launchedTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
                     ->createVirtualTheme($launchedTheme);
-                $this->_redirect($this->getUrl('*/*/*', array('theme_id' => $launchedTheme->getId())));
+                $this->_redirect($this->getUrl('adminhtml/*/*', array('theme_id' => $launchedTheme->getId())));
                 return;
             }
             $editableTheme = $themeContext->getStagingTheme();
@@ -124,13 +124,13 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             $this->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addException($e, $e->getMessage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_redirect('adminhtml/*/');
             return;
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('Sorry, there was an unknown error.'));
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
-            $this->_redirect('*/*/');
+            $this->_objectManager->get('Magento\Logger')->logException($e);
+            $this->_redirect('adminhtml/*/');
             return;
         }
     }
@@ -153,7 +153,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
 
             $themeCustomization = $theme->isVirtual()
                 ? $theme
-                : $theme->getDomainModel(\Magento\Core\Model\Theme::TYPE_PHYSICAL)->createVirtualTheme($theme);
+                : $theme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL)
+                    ->createVirtualTheme($theme);
 
             /** @var $themeCustomization \Magento\View\Design\ThemeInterface */
             $this->_themeConfig->assignToStore($themeCustomization, $this->_getStores());
@@ -169,7 +170,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
                 'themeId' => $themeCustomization->getId()
             );
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->getResponse()->setBody($coreHelper->jsonEncode(
                 array('error' => __('This theme is not assigned.'))
             ));
@@ -202,9 +203,9 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             $response = array('success' => true);
         } catch (\Magento\Core\Exception $e) {
             $response = array('error' => true, 'message' => $e->getMessage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('This theme is not saved.'));
         }
         $this->getResponse()->setBody($coreHelper->jsonEncode($response));
@@ -239,7 +240,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             }
             $response = array('message' =>  $message);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Sorry, there was an unknown error.'));
         }
 
@@ -274,9 +275,9 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             );
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(__('You cannot duplicate this theme.'));
         }
         $this->_redirectUrl($this->_getRefererUrl());
@@ -300,7 +301,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
         try {
             /** @var $copyService \Magento\Core\Model\Theme\CopyService */
             $copyService = $this->_objectManager->get('Magento\Core\Model\Theme\CopyService');
-            $stagingTheme = $virtualTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)->getStagingTheme();
+            $stagingTheme = $virtualTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
+                ->getStagingTheme();
             switch ($revertTo) {
                 case 'last_saved':
                     $copyService->copy($virtualTheme, $stagingTheme);
@@ -310,7 +312,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
                     break;
 
                 case 'physical':
-                    $physicalTheme = $virtualTheme->getDomainModel(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
+                    $physicalTheme = $virtualTheme->getDomainModel(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
                         ->getPhysicalTheme();
                     $copyService->copy($physicalTheme, $stagingTheme);
                     $message = __('Theme "%1" reverted to last default state',
@@ -323,7 +325,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
             }
             $response = array('message' => $message);
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $response = array('error' => true, 'message' => __('Unknown error'));
         }
         /** @var $coreHelper \Magento\Core\Helper\Data */
@@ -348,8 +350,8 @@ class Editor extends \Magento\Adminhtml\Controller\Action
      */
     protected function _loadThemeById($themeId)
     {
-        /** @var $themeFactory \Magento\Core\Model\Theme\FlyweightFactory */
-        $themeFactory = $this->_objectManager->create('Magento\Core\Model\Theme\FlyweightFactory');
+        /** @var $themeFactory \Magento\View\Design\Theme\FlyweightFactory */
+        $themeFactory = $this->_objectManager->create('Magento\View\Design\Theme\FlyweightFactory');
         $theme = $themeFactory->create($themeId);
         if (empty($theme)) {
             throw new \Magento\Core\Exception(__('We can\'t find this theme.'));
@@ -452,7 +454,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
     {
         $isCustomized = (bool)$this->_objectManager->get('Magento\Core\Model\Resource\Theme\CollectionFactory')
             ->create()
-            ->addTypeFilter(\Magento\Core\Model\Theme::TYPE_VIRTUAL)
+            ->addTypeFilter(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL)
             ->getSize();
         return !$isCustomized;
     }
@@ -485,7 +487,7 @@ class Editor extends \Magento\Adminhtml\Controller\Action
         } catch (\Exception $e) {
             $this->_getSession()->addError(__('We can\'t load the list of themes.'));
             $this->_redirectUrl($this->_getRefererUrl());
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
 

@@ -27,41 +27,33 @@ class SaveTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        // 1. Get helper mock
-        /** @var $helper \Magento\Backend\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-        $helper = $this->getMock('Magento\Backend\Helper\Data', array('escapeHtml'), array(), '', false);
-        $helper->expects($this->any())
+        /** @var $escaper \Magento\Escaper|\PHPUnit_Framework_MockObject_MockObject */
+        $escaper = $this->getMockBuilder('Magento\Escaper')
+            ->disableOriginalConstructor()
+            ->setMethods(array('escapeHtml'))
+            ->getMock();
+        $escaper->expects($this->any())
             ->method('escapeHtml')
             ->will($this->returnArgument(0));
 
-        // 2. Inject helper to helper factory
-        /** @var $helperFactory \Magento\Core\Model\Factory\Helper|\PHPUnit_Framework_MockObject_MockObject */
-        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
-        $helperFactory->expects($this->any())
-            ->method('get')
-            ->with('Magento\Backend\Helper\Data')
-            ->will($this->returnValue($helper));
-
-        // 3. Get service mock
-        /** @var $service \Magento\Backend\Helper\Data|\PHPUnit_Framework_MockObject_MockObject */
-        $service = $this->getMock('Magento\Backend\Helper\Data', array('escapeHtml'), array(), '', false);
-
-        // 4. Get URL model
         /** @var $urlBuilder \Magento\Core\Model\Url|\PHPUnit_Framework_MockObject_MockObject */
         $urlBuilder = $this->getMock('Magento\Core\Model\Url', array('getUrl'), array(), '', false);
         $urlBuilder->expects($this->any())
             ->method('getUrl')
             ->will($this->returnValue($this->_url));
 
-        //5. Run functionality
-        $testHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $data = array(
-            'helperFactory' => $helperFactory,
-            'service'       => $service,
-            'urlBuilder'    => $urlBuilder
+        $context = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getEscaper', 'getUrlBuilder'))
+            ->getMock();
+        $context->expects($this->any())->method('getEscaper')->will($this->returnValue($escaper));
+        $context->expects($this->any())->method('getUrlBuilder')->will($this->returnValue($urlBuilder));
+
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $objectManager->getObject(
+            'Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save',
+            array('context' => $context)
         );
-        $this->_block = $testHelper->getObject('Magento\DesignEditor\Block\Adminhtml\Editor\Toolbar\Buttons\Save',
-            $data);
     }
 
     /**
@@ -72,12 +64,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
      */
     public function testInit($theme, $expected, $expectedOptions)
     {
-        $block = $this->_block;
-
-        $block->setTheme($theme);
-        $block->init();
-        $data = $block->getData();
-        $options = $block->getOptions();
+        $this->_block->setTheme($theme);
+        $this->_block->init();
+        $data = $this->_block->getData();
+        $options = $this->_block->getOptions();
         $mainAction = json_decode($data['data_attribute']['mage-init'], true);
 
         if ($mainAction['button']['eventData']['confirm'] !== false) {
@@ -118,44 +108,44 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'Physical theme' => array(
-                $this->_getThemeMock(\Magento\Core\Model\Theme::TYPE_PHYSICAL),
+                $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_PHYSICAL),
                 array(
                     'button' => array(
                         'event'     => 'assign',
                         'target'    => 'body',
                         'eventData' => array(
-                            'theme_id'        => 123,
-                            'confirm' => array()
+                            'theme_id' => 123,
+                            'confirm'  => array()
                         )
                     )
                 ),
                 array()
             ),
             'Virtual assigned theme' => array(
-                $this->_getThemeMock(\Magento\Core\Model\Theme::TYPE_VIRTUAL, true),
+                $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, true),
                 array(
                     'button' => array(
                         'event'     => 'save',
                         'target'    => 'body',
                         'eventData' => array(
-                            'theme_id'        => 123,
-                            'save_url'        => $this->_url,
-                            'confirm' => array()
+                            'theme_id' => 123,
+                            'save_url' => $this->_url,
+                            'confirm'  => array()
                         )
                     )
                 ),
                 array()
             ),
             'Virtual unassigned theme' => array(
-                $this->_getThemeMock(\Magento\Core\Model\Theme::TYPE_VIRTUAL, false),
+                $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_VIRTUAL, false),
                 array(
                     'button' => array(
                         'event'     => 'save',
                         'target'    => 'body',
                         'eventData' => array(
-                            'theme_id'        => 123,
-                            'save_url'        => $this->_url,
-                            'confirm' => array()
+                            'theme_id' => 123,
+                            'save_url' => $this->_url,
+                            'confirm'  => array()
                         )
                     ),
                 ),
@@ -167,7 +157,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                             'eventData' => array(
                                 'theme_id' => 123,
                                 'save_url' => $this->_url,
-                                'confirm' => array()
+                                'confirm'  => array()
                             )
                         ),
                     ),
@@ -178,7 +168,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
                             'eventData' => array(
                                 'theme_id' => 123,
                                 'save_url' => $this->_url,
-                                'confirm' => array()
+                                'confirm'  => array()
                             )
                         ),
                     )
@@ -194,7 +184,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     public function testInitStaging()
     {
         // 1. Get theme mock
-        $stagingTheme = $this->_getThemeMock(\Magento\Core\Model\Theme::TYPE_STAGING);
+        $stagingTheme = $this->_getThemeMock(\Magento\View\Design\ThemeInterface::TYPE_STAGING);
 
         $block = $this->_block;
 
@@ -211,7 +201,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         $themeId = 123;
 
-        if ($type == \Magento\Core\Model\Theme::TYPE_VIRTUAL) {
+        if ($type == \Magento\View\Design\ThemeInterface::TYPE_VIRTUAL) {
             $theme = $this->_getVirtualThemeMock($type, $isAssigned);
         } else {
             $theme = $this->getMock('Magento\Core\Model\Theme', array('__sleep', '__wakeup'), array(), '', false);

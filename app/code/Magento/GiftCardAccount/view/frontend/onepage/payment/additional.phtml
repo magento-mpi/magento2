@@ -3,19 +3,26 @@
  * {license_notice}
  *
  * @category    design
- * @package     magento_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
-<div class="checkout-onepage-payment-additional-giftcardaccount">
-<p class="note">
-    <?php $_url = $this->getUrl('checkout/cart'); ?>
-    <?php echo __('To add or remove gift cards, <a href="%1">click here</a>.', $_url); ?><br />
+<div class="checkout payment giftcardaccount">
+    <p class="note">
+        <?php $_url = $this->getUrl('checkout/cart'); ?>
+        <?php echo __('To add or remove gift cards, <a href="%1">click here</a>.', $_url); ?><br />
 
-    <?php if ((float)$this->getAppliedGiftCardAmount()): ?>
-        <?php $amount = $this->helper('Magento\Core\Helper\Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
-        <?php echo __('Gift Card amount applied to order: %1', $amount); ?>
-    <?php endif; ?>
-</p>
+        <?php if ((float)$this->getAppliedGiftCardAmount()): ?>
+            <?php $amount = $this->helper('Magento\Core\Helper\Data')->currency($this->getAppliedGiftCardAmount(), true); ?>
+            <?php echo __('Gift Card amount applied to order: %1', $amount); ?>
+        <?php endif; ?>
+    </p>
 </div>
+<?php if ($this->isFullyPaidAfterApplication()): ?>
+    <script type="text/javascript">
+        head.js("<?php echo $this->getViewFileUrl('Magento_GiftCardAccount::js/payment-method.js')?>", function() {
+            jQuery('#co-payment-form').paymentMethod();
+        });
+    </script>
+    <input type="hidden" name="payment[method]" value="free" />
+<?php endif; ?>

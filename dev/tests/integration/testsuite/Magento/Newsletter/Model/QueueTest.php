@@ -30,16 +30,17 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         /** @var $appEmulation \Magento\Core\Model\App\Emulation */
         $appEmulation = $objectManager->create('Magento\Core\Model\App\Emulation', array('viewDesign' => $design));
         $objectManager->addSharedInstance($appEmulation, 'Magento\Core\Model\App\Emulation');
-        /** @var $app \Magento\Core\Model\App */
+        /** @var $app \Magento\TestFramework\App */
         $app = $objectManager->get('Magento\Core\Model\App');
-        $app->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+        $app->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
-        /** @var $collection \Magento\Core\Model\Resource\Theme\Collection */
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
         /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
-        $storeManager->getStore('fixturestore')->setConfig('design/theme/theme_id', $themeId);
+        $storeManager->getStore('fixturestore')->setConfig(
+            \Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $themeId
+        );
 
         $subscriberOne = $this->getMock('Zend_Mail', array('send', 'setBodyHTML'), array('utf-8'));
         $subscriberOne->expects($this->any())->method('send');
@@ -53,22 +54,22 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         /** @var $filter \Magento\Newsletter\Model\Template\Filter */
         $filter = $objectManager->get('Magento\Newsletter\Model\Template\Filter');
 
-        $emailTemplate = $this->getMock('Magento\Core\Model\Email\Template',
+        $emailTemplate = $this->getMock('Magento\Email\Model\Template',
             array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $appEmulation,
                 $objectManager->get('Magento\Filesystem'),
-                $objectManager->get('Magento\Core\Model\View\Url'),
-                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\View\Url'),
+                $objectManager->get('Magento\View\FileSystem'),
                 $design,
                 $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
-                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Dir'),
-                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $emailTemplate->expects($this->once())
@@ -94,28 +95,28 @@ class QueueTest extends \PHPUnit_Framework_TestCase
     public function testSendPerSubscriberProblem()
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
+            ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $mail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $brokenMail = $this->getMock('Zend_Mail', array('send'), array('utf-8'));
         $errorMsg = md5(microtime());
         $brokenMail->expects($this->any())->method('send')->will($this->throwException(new \Exception($errorMsg, 99)));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $template = $this->getMock('Magento\Core\Model\Email\Template',
+        $template = $this->getMock('Magento\Email\Model\Template',
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
                 $objectManager->get('Magento\Filesystem'),
-                $objectManager->get('Magento\Core\Model\View\Url'),
-                $objectManager->get('Magento\Core\Model\View\FileSystem'),
+                $objectManager->get('Magento\View\Url'),
+                $objectManager->get('Magento\View\FileSystem'),
                 $objectManager->get('Magento\Core\Model\View\Design'),
                 $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
-                $objectManager->get('Magento\Core\Model\Email\Template\FilterFactory'),
+                $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Dir'),
-                $objectManager->get('Magento\Core\Model\Email\Template\Config'),
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));

@@ -23,7 +23,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
 
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
         $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
-            $objectManager->get('Magento\Core\Model\Logger'),
+            $objectManager->get('Magento\Logger'),
             $objectManager->get('Magento\App\Dir'),
             $objectManager->get('Magento\Core\Model\Log\AdapterFactory'),
             $objectManager->get('Magento\ImportExport\Helper\Data'),
@@ -32,7 +32,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             $objectManager->get('Magento\ImportExport\Model\Import\Entity\Factory'),
             $objectManager->get('Magento\ImportExport\Model\Resource\Import\Data'),
             $objectManager->get('Magento\ImportExport\Model\Export\Adapter\CsvFactory'),
-            $objectManager->get('Zend_File_Transfer_Adapter_HttpFactory'),
+            $objectManager->get('Magento\HTTP\Adapter\FileTransferFactory'),
             $objectManager->get('Magento\Core\Model\File\UploaderFactory'),
             $objectManager->get('Magento\ImportExport\Model\Source\Import\Behavior\Factory'),
             $objectManager->get('Magento\Index\Model\Indexer'),

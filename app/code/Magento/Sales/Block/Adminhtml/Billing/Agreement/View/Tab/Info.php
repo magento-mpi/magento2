@@ -114,16 +114,16 @@ class Info extends \Magento\Backend\Block\Template
         $this->setReferenceId($agreement->getReferenceId());
         $customer = $this->_customerFactory->create()->load($agreement->getCustomerId());
         $this->setCustomerUrl(
-            $this->getUrl('*/customer/edit', array('id' => $customer->getId()))
+            $this->getUrl('customer/index/edit', array('id' => $customer->getId()))
         );
         $this->setCustomerEmail($customer->getEmail());
         $this->setStatus($agreement->getStatusLabel());
         $this->setCreatedAt(
-            $this->helper('Magento\Core\Helper\Data')->formatDate($agreement->getCreatedAt(), 'short', true)
+            $this->formatDate($agreement->getCreatedAt(), 'short', true)
         );
         $this->setUpdatedAt(
             ($agreement->getUpdatedAt())
-                ? $this->helper('Magento\Core\Helper\Data')->formatDate($agreement->getUpdatedAt(), 'short', true)
+                ? $this->formatDate($agreement->getUpdatedAt(), 'short', true)
                 : __('N/A')
         );
 

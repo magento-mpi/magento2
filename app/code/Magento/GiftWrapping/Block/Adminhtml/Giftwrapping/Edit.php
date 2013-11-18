@@ -63,7 +63,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         if ($giftWrapping && $giftWrapping->getId()) {
             $confirmMessage = __('Are you sure you want to delete this gift wrapping?');
             $this->_updateButton('delete', 'onclick',
-                'deleteConfirm(\'' . $this->jsQuoteEscape($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
+                'deleteConfirm(\'' . $this->escapeJsQuote($confirmMessage) . '\', \'' . $this->getDeleteUrl() . '\')'
             );
         }
 
@@ -112,9 +112,9 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $wrapping = $this->_coreRegistry->registry('current_giftwrapping_model');
 
         if ($wrapping) {
-            $url = $this->getUrl('*/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
+            $url = $this->getUrl('adminhtml/*/save', array('id' => $wrapping->getId(), 'store' => $wrapping->getStoreId()));
         } else {
-            $url = $this->getUrl('*/*/save');
+            $url = $this->getUrl('adminhtml/*/save');
         }
         return $url;
     }
@@ -135,6 +135,6 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
             }
         }
 
-        return $this->getUrl('*/*/upload', $params);
+        return $this->getUrl('adminhtml/*/upload', $params);
     }
 }

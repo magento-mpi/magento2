@@ -17,8 +17,6 @@ namespace Magento\Integration\Model;
  * @method Integration setEmail(\string $email)
  * @method \int getStatus()
  * @method Integration setStatus(\int $value)
- * @method \int getAuthentication()
- * @method Integration setAuthentication(\int $value)
  * @method \string getEndpoint()
  * @method Integration setEndpoint(\string $endpoint)
  * @method \string getCreatedAt()
@@ -35,12 +33,30 @@ class Integration extends \Magento\Core\Model\AbstractModel
     const STATUS_ACTIVE = 1;
     /**#@-*/
 
-    /**#@+
-     * Authentication mechanism
+    /**
+     * @var \Magento\Stdlib\DateTime
      */
-    const AUTHENTICATION_OAUTH = 1;
-    const AUTHENTICATION_MANUAL = 2;
-    /**#@-*/
+    protected $_dateTime;
+
+    /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
+        array $data = array()
+    ) {
+        $this->_dateTime = $dateTime;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
+    }
 
     /**
      * Initialize resource model
@@ -56,15 +72,15 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data to be saved to database
      *
-     * @return Integration
+     * @return \Magento\Integration\Model\Integration
      */
     protected function _beforeSave()
     {
         parent::_beforeSave();
         if ($this->isObjectNew()) {
-            $this->setCreatedAt($this->_getResource()->formatDate(true));
+            $this->setCreatedAt($this->_dateTime->formatDate(true));
         }
-        $this->setUpdatedAt($this->_getResource()->formatDate(true));
+        $this->setUpdatedAt($this->_dateTime->formatDate(true));
         return $this;
     }
 }

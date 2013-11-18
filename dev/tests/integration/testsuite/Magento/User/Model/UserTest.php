@@ -22,6 +22,11 @@ class UserTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
+     * @var \Magento\Stdlib\DateTime
+     */
+    protected $_dateTime;
+
+    /**
      * @var \Magento\User\Model\Role
      */
     protected static $_newRole;
@@ -30,6 +35,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\User\Model\User');
+        $this->_dateTime = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Stdlib\DateTime');
     }
 
     /**
@@ -153,8 +160,8 @@ class UserTest extends \PHPUnit_Framework_TestCase
         /** @var $storeConfig \Magento\Core\Model\Store\Config */
         $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Store\Config');
-        $mailer = $this->getMock('Magento\Core\Model\Email\Template\Mailer', array(), array(
-            $this->getMock('Magento\Core\Model\Email\TemplateFactory', array(), array(), '', false)
+        $mailer = $this->getMock('Magento\Email\Model\Template\Mailer', array(), array(
+            $this->getMock('Magento\Email\Model\TemplateFactory', array(), array(), '', false)
         ));
         $mailer->expects($this->once())
             ->method('setTemplateId')
@@ -392,10 +399,10 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->_model->save();
         $this->_model->loadByUsername(\Magento\TestFramework\Bootstrap::ADMIN_NAME);
         $this->assertFalse($this->_model->isResetPasswordLinkTokenExpired());
-        $this->_model->setRpTokenCreatedAt(\Magento\Date::formatDate(time() - 60 * 60 * 24 * 10 + 10));
+        $this->_model->setRpTokenCreatedAt($this->_dateTime->formatDate(time() - 60 * 60 * 24 * 10 + 10));
         $this->assertFalse($this->_model->isResetPasswordLinkTokenExpired());
 
-        $this->_model->setRpTokenCreatedAt(\Magento\Date::formatDate(time() - 60 * 60 * 24 * 10 - 10));
+        $this->_model->setRpTokenCreatedAt($this->_dateTime->formatDate(time() - 60 * 60 * 24 * 10 - 10));
         $this->assertTrue($this->_model->isResetPasswordLinkTokenExpired());
     }
 

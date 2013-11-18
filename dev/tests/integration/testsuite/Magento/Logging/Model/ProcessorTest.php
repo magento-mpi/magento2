@@ -31,7 +31,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testLoggingProcessorLogsAction($url, $action, array $post = array())
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Core\Model\App\Area::AREA_ADMINHTML);
+            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Logging\Model\Event')->getCollection();
         $eventCountBefore = count($collection);
@@ -87,8 +87,8 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
                 )
             ),
             array('backend/admin/user_role/delete/rid/2', 'delete'),
-            array('backend/admin/tax_tax/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
-            array('backend/admin/tax_tax/ajaxSave', 'save',
+            array('backend/tax/tax/ajaxDelete', 'delete', array('class_id' => 1, 'isAjax' => true)),
+            array('backend/tax/tax/ajaxSave', 'save',
                 array(
                     'class_id' => null,
                     'class_name' => 'test',

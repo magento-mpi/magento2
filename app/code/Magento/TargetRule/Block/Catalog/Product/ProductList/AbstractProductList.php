@@ -57,18 +57,16 @@ abstract class AbstractProductList
     protected $_productCollectionFactory;
 
     /**
-     *
-     * Construct
-     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\TargetRule\Model\Resource\Index $index
+     * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Product\Visibility $visibility
      * @param \Magento\TargetRule\Model\IndexFactory $indexFactory
@@ -79,13 +77,14 @@ abstract class AbstractProductList
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
+        \Magento\Math\Random $mathRandom,
+        \Magento\TargetRule\Model\Resource\Index $index,
+        \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Product\Visibility $visibility,
         \Magento\TargetRule\Model\IndexFactory $indexFactory,
@@ -95,8 +94,17 @@ abstract class AbstractProductList
         $this->_visibility = $visibility;
         $this->_indexFactory = $indexFactory;
         parent::__construct(
-            $storeManager, $catalogConfig, $index, $coreRegistry, $targetRuleData, $taxData,
-            $catalogData, $coreData, $context, $data
+            $storeManager,
+            $catalogConfig,
+            $coreRegistry,
+            $taxData,
+            $catalogData,
+            $coreData,
+            $context,
+            $mathRandom,
+            $index,
+            $targetRuleData,
+            $data
         );
     }
 

@@ -126,11 +126,11 @@ class Config
     /**
      * Unassign given theme from stores that were unchecked
      *
-     * @param int $themeId
+     * @param string $themeId
      * @param array $stores
      * @param string $scope
      * @param bool $isReassigned
-     * @return $this
+     * @return Config
      */
     protected function _unassignThemeFromStores($themeId, $stores, $scope, &$isReassigned)
     {
@@ -147,11 +147,11 @@ class Config
     /**
      * Assign given theme to stores
      *
-     * @param int $themeId
+     * @param string $themeId
      * @param array $stores
      * @param string $scope
      * @param bool $isReassigned
-     * @return $this
+     * @return Config
      */
     protected function _assignThemeToStores($themeId, $stores, $scope, &$isReassigned)
     {
@@ -168,9 +168,9 @@ class Config
     /**
      * Assign theme to default scope
      *
-     * @param int $themeId
+     * @param string $themeId
      * @param bool $isReassigned
-     * @return $this
+     * @return Config
      */
     protected function _assignThemeToDefaultScope($themeId, &$isReassigned)
     {

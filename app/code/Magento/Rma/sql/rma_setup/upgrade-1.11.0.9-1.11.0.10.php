@@ -8,7 +8,4 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Rma\Model\Resource\Setup */
-$installer = $this;
 
-$installer->installEntities();

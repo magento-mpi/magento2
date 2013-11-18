@@ -13,6 +13,11 @@ namespace Magento\Test\Integrity\Magento\Widget;
 
 class TemplateFilesTest extends \PHPUnit_Framework_TestCase
 {
+    public static function setUpBeforeClass()
+    {
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
+    }
+
     /**
      * Check if all the declared widget templates actually exist
      *
@@ -22,9 +27,9 @@ class TemplateFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testWidgetTemplates($class, $template)
     {
-        /** @var $blockFactory \Magento\Core\Model\BlockFactory */
+        /** @var $blockFactory \Magento\View\Element\BlockFactory */
         $blockFactory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\BlockFactory');
+            ->get('Magento\View\Element\BlockFactory');
         /** @var \Magento\Core\Block\Template $block */
         $block = $blockFactory->createBlock($class);
         $this->assertInstanceOf('Magento\Core\Block\Template', $block);

@@ -76,7 +76,7 @@ class Db extends \Magento\Data\Collection
     protected $_isOrdersRendered = false;
 
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
@@ -86,13 +86,13 @@ class Db extends \Magento\Data\Collection
     private $_fetchStrategy;
 
     /**
-     * @param \Magento\Core\Model\Logger $logger
+     * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param null $conn
      */
     public function __construct(
-        \Magento\Core\Model\Logger $logger,
+        \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
         \Magento\Core\Model\EntityFactory $entityFactory,
         $conn = null
@@ -587,6 +587,37 @@ class Db extends \Magento\Data\Collection
     }
 
     /**
+     * Overridden to use _idFieldName by default.
+     *
+     * @param null $valueField
+     * @param string $labelField
+     * @param array $additional
+     * @return array
+     */
+    protected function _toOptionArray($valueField = null, $labelField = 'name', $additional = array())
+    {
+        if ($valueField === null) {
+            $valueField = $this->getIdFieldName();
+        }
+        return parent::_toOptionArray($valueField, $labelField, $additional);
+    }
+
+    /**
+     * Overridden to use _idFieldName by default.
+     *
+     * @param   string $valueField
+     * @param   string $labelField
+     * @return  array
+     */
+    protected function _toOptionHash($valueField = null, $labelField = 'name')
+    {
+        if ($valueField === null) {
+            $valueField = $this->getIdFieldName();
+        }
+        return parent::_toOptionHash($valueField, $labelField);
+    }
+
+    /**
      * Convert items array to hash for select options
      * using fetchItem method
      *
@@ -601,8 +632,11 @@ class Db extends \Magento\Data\Collection
      * @param   string $labelField
      * @return  array
      */
-    protected function _toOptionHashOptimized($valueField='id', $labelField='name')
+    protected function _toOptionHashOptimized($valueField = null, $labelField = 'name')
     {
+        if ($valueField === null) {
+            $valueField = $this->getIdFieldName();
+        }
         $result = array();
         while ($item = $this->fetchItem()) {
             $result[$item->getData($valueField)] = $item->getData($labelField);

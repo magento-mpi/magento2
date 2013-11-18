@@ -80,9 +80,7 @@ class Plugin
 
         if ($content) {
             $response->appendBody($content);
-            $response->sendResponse();
-            $request->setDispatched(true);
-            return;
+            return $response;
         }
         return $invocationChain->proceed($arguments);
     }

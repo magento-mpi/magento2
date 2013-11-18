@@ -60,7 +60,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             array('getStores', 'isSingleStoreMode')
         );
         $this->_configData = $this->getMock(
-            'Magento\Core\Model\Config\Value', array('getCollection', 'addFieldToFilter'), array(), '', false
+            'Magento\Core\Model\Config\Value',
+            array('getCollection', 'addFieldToFilter', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $this->_configCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
         $this->_layoutCacheMock = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
@@ -98,6 +102,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('isSingleStoreMode')
             ->will($this->returnValue(true));
 
+        $themePath = 'magento_blank';
         /** Unassign themes from store */
         $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
@@ -118,6 +123,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_themeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(6));
+        $this->_themeMock->expects($this->any())
+            ->method('getThemePath')
+            ->will($this->returnValue($themePath));
 
         $this->_storeConfigWriter->expects($this->once())
             ->method('delete');
@@ -137,6 +145,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('isSingleStoreMode')
             ->will($this->returnValue(false));
 
+        $themePath = 'magento_blank';
         /** Unassign themes from store */
         $configEntity = new \Magento\Object(array('value' => 6, 'scope_id' => 8));
 
@@ -157,6 +166,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_themeMock->expects($this->any())
             ->method('getId')
             ->will($this->returnValue(6));
+        $this->_themeMock->expects($this->any())
+            ->method('getThemePath')
+            ->will($this->returnValue($themePath));
 
         $this->_storeConfigWriter->expects($this->once())
             ->method('delete');

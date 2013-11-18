@@ -88,6 +88,16 @@ class Config
     }
 
     /**
+     * Get tests base directory
+     *
+     * @return string
+     */
+    public function getTestsBaseDir()
+    {
+        return $this->_testsBaseDir;
+    }
+
+    /**
      * Validate high-level configuration structure
      *
      * @param array $configData

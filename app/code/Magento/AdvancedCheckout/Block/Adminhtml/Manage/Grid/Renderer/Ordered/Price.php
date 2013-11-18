@@ -14,7 +14,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Grid\Renderer\Ordered;
 
 class Price
-    extends \Magento\Adminhtml\Block\Sales\Order\Create\Search\Grid\Renderer\Price
+    extends \Magento\Sales\Block\Adminhtml\Order\Create\Search\Grid\Renderer\Price
 {
     /**
      * Render price for last ordered item
