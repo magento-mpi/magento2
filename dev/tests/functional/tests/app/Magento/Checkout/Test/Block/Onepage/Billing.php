@@ -52,6 +52,8 @@ class Billing extends Form
             'region' => '[id="billing:region_id"]',
             'postcode' => '[id="billing:postcode"]',
             'country' => '[id="billing:country_id"]',
+            'password' => '[id="billing:customer_password"]',
+            'confirmation' => '[id="billing:confirm_password"]',
         );
         $this->continue = '#billing-buttons-container button';
         $this->useForShipping = '[id="billing:use_for_shipping_no"]';

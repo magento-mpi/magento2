@@ -101,8 +101,11 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         );
 
         //Checkout data
+        $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $this->customer->switchData('customer_US_1');
+
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData('address_US_1');
+        $this->billingAddress->switchData('address_US_1_register');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData('flat_rate');
