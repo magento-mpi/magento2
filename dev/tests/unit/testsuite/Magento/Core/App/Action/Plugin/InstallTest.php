@@ -22,7 +22,7 @@ class InstallTests extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_responseFactory;
+    protected $_responseMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -34,29 +34,40 @@ class InstallTests extends \PHPUnit_Framework_TestCase
      */
     protected $_invocationChainMock;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_actionFlagMock;
+
     protected function setUp()
     {
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
-        $this->_responseFactory = $this->getMock('Magento\App\ResponseFactory', array(), array(), '', false);
+        $this->_responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->_urlMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $this->_invocationChainMock =
             $this->getMock('Magento\Code\Plugin\InvocationChain', array(), array(), '', false);
+        $this->_actionFlagMock = $this->getMock('Magento\App\ActionFlag', array(), array(), '', false);
         $this->_plugin = new \Magento\Core\App\Action\Plugin\Install(
             $this->_appStateMock,
-            $this->_responseFactory,
-            $this->_urlMock);
+            $this->_responseMock,
+            $this->_urlMock,
+            $this->_actionFlagMock
+        );
     }
 
     public function testAroundDispatch()
     {
         $url = 'http://example.com';
         $this->_appStateMock->expects($this->once())->method('isInstalled')->will($this->returnValue(false));
-        $response = $this->getMock('Magento\App\Response\Http', array('setRedirect'), array(), '', false);
-        $this->_responseFactory->expects($this->once())->method('create')->will($this->returnValue($response));
+        $this->_actionFlagMock
+            ->expects($this->once())
+            ->method('set')->with('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
         $this->_urlMock->expects($this->once())->method('getUrl')->with('install')->will($this->returnValue($url));
-        $response->expects($this->once())->method('setRedirect')->with($url)->will($this->returnValue($response));
+        $this->_responseMock->expects($this->once())
+            ->method('setRedirect')
+            ->with($url)->will($this->returnValue($this->_responseMock));
         $this->_invocationChainMock->expects($this->never())->method('proceed');
-        $this->assertEquals($response, $this->_plugin->aroundDispatch(array(), $this->_invocationChainMock));
+        $this->_plugin->aroundDispatch(array(), $this->_invocationChainMock);
     }
 
     public function testAroundDispatchWhenApplicationIsInstalled()
@@ -68,6 +79,6 @@ class InstallTests extends \PHPUnit_Framework_TestCase
             ->method('proceed')
             ->with(array())
             ->will($this->returnValue('ExpectedValue'));
-        $this->assertEquals('ExpectedValue', $this->_plugin->aroundDispatch(array(), $this->_invocationChainMock));
+        $this->_plugin->aroundDispatch(array(), $this->_invocationChainMock);
     }
 }
