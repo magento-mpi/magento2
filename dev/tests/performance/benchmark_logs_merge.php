@@ -63,8 +63,6 @@ foreach($result as $key => $value) {
         $httpSample->addAttribute('rc','200');
         $httpSample->addAttribute('rm','OK');
         $httpSample->addAttribute('tn',$key);
-        $httpSample->addAttribute('dt','text');
-        $httpSample->addAttribute('by','0');
 
         $assertionResult = $httpSample->addChild('assertionResult');
         $assertionResult->addChild('name', 'false');
