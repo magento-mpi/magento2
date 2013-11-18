@@ -302,7 +302,7 @@ class Observer
             if ($captchaModel->isRequired()) {
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $this->_session->setEmail((string) $controller->getRequest()->getPost('email'));
-                    $$this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+                    $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     $this->_session->addError(__('Incorrect CAPTCHA'));
                     $controller->getResponse()
                         ->setRedirect($controller->getUrl('*/*/forgotpassword', array('_nosecret' => true)));

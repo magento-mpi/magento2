@@ -85,7 +85,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_eventManager->dispatch('controller_action_predispatch', $eventParameters);
         $this->_eventManager->dispatch('controller_action_predispatch_' . $request->getRouteName(), $eventParameters);
         $this->_eventManager->dispatch(
-            'controller_action_predispatch_' . $request->getActionName() . 'Action',
+            'controller_action_predispatch_' . $request->getFullActionName(),
             $eventParameters
         );
         \Magento\Profiler::start($profilerKey);
