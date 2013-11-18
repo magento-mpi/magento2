@@ -7,11 +7,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Session;
+namespace Magento\Core\Model\Session;
 
 use Zend\Validator;
 
-class Config implements ConfigInterface
+class Config implements \Magento\Session\ConfigInterface
 {
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
