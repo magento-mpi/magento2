@@ -18,9 +18,9 @@ class Install
     protected $_appState;
 
     /**
-     * @var \Magento\App\ResponseFactory
+     * @var \Magento\App\ResponseInterface
      */
-    protected $_responseFactory;
+    protected $_response;
 
     /**
      * @var \Magento\Core\Model\Url
@@ -28,18 +28,26 @@ class Install
     protected $_url;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\App\State $appState
-     * @param \Magento\App\ResponseFactory $responseFactory
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Core\Model\Url $url
+     * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\App\State $appState,
-        \Magento\App\ResponseFactory $responseFactory,
-        \Magento\Core\Model\Url $url
+        \Magento\App\ResponseInterface $response,
+        \Magento\Core\Model\Url $url,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_appState = $appState;
-        $this->_responseFactory = $responseFactory;
+        $this->_response = $response;
         $this->_url = $url;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**
@@ -47,17 +55,16 @@ class Install
      *
      * @param array $arguments
      * @param \Magento\Code\Plugin\InvocationChain $invocationChain
-     * @return \Magento\App\ResponseInterface|mixed
      */
     public function aroundDispatch(array $arguments, \Magento\Code\Plugin\InvocationChain $invocationChain)
     {
         if (!$this->_appState->isInstalled()) {
-            $response = $this->_responseFactory->create();
-            $response->setRedirect(
+            $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
+            $this->_response->setRedirect(
                 $this->_url->getUrl('install')
             );
-            return $response;
+            return;
         }
-        return $invocationChain->proceed($arguments);
+        $invocationChain->proceed($arguments);
     }
-} 
+}
