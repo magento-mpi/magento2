@@ -1679,7 +1679,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         foreach ($this->getMessages() as $message) {
             /* @var $error \Magento\Core\Model\Message\AbstractMessage */
             if ($message->getType() == \Magento\Core\Model\Message::ERROR) {
-                array_push($errors, $message);
+                $errors[] = $message;
             }
         }
         return $errors;
