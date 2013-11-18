@@ -13,16 +13,22 @@ use Magento\Filesystem\FilesystemException;
 class Read implements ReadInterface
 {
     /**
+     * Directory path
+     *
      * @var string
      */
     protected $path;
 
     /**
+     * File factory
+     *
      * @var \Magento\Filesystem\File\ReadFactory
      */
     protected $fileFactory;
 
     /**
+     * Filesystem driver
+     *
      * @var \Magento\Filesystem\Driver
      */
     protected $driver;
@@ -69,6 +75,8 @@ class Read implements ReadInterface
     }
 
     /**
+     * Get relative path
+     *
      * @param string $path
      * @return string
      */
