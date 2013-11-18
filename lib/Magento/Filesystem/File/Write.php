@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -24,8 +26,7 @@ class Write extends Read implements WriteInterface
         $path,
         \Magento\Filesystem\Driver $driver,
         $mode
-    )
-    {
+    ) {
         parent::__construct($path, $driver);
         $this->mode = $mode;
     }

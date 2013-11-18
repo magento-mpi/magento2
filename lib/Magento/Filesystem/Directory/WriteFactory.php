@@ -2,6 +2,8 @@
 /**
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +13,7 @@ namespace Magento\Filesystem\Directory;
 class WriteFactory
 {
     /**
-     * Object mananger
+     * Object manager
      *
      * @var \Magento\ObjectManager
      */
