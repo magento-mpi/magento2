@@ -12,7 +12,7 @@
 /**
  * Test for theme image uploader
  */
-namespace Magento\Core\Model\Theme\Image;
+namespace Magento\View\Design\Theme\Image;
 
 class UploaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -120,7 +120,7 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @dataProvider uploadDataProvider
-     * @covers \Magento\Core\Model\Theme\Image\Uploader::uploadPreviewImage
+     * @covers \Magento\View\Design\Theme\Image\Uploader::uploadPreviewImage
      */
     public function testUploadPreviewImage($isUploaded, $isValid, $checkExtension, $save, $result, $exception)
     {
