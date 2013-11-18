@@ -44,8 +44,6 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
      */
     public function getSchemaFile()
     {
-        return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor')
-            . \Magento\Filesystem::DIRECTORY_SEPARATOR
-            . 'quick_styles.xsd';
+        return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor') . '/quick_styles.xsd';
     }
 }
