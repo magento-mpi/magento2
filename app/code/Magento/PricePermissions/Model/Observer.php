@@ -835,7 +835,7 @@ class Observer
             // Leave price element for bundle product active in order to change/view price type when product is created
             $typeId = $this->_coreRegistry->registry('product')->getTypeId();
             if ($typeId != \Magento\Catalog\Model\Product\Type::TYPE_BUNDLE) {
-                array_push($priceElementIds, 'price');
+                $priceElementIds[] = 'price';
             }
 
             // Remove price elements or disable them if needed
