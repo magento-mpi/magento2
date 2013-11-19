@@ -33,4 +33,9 @@ class Cc extends DataFixture
         //Default data set
         $this->switchData('visa_default');
     }
+
+    public function getValidationData()
+    {
+        return $this->getData('validation');
+    }
 }

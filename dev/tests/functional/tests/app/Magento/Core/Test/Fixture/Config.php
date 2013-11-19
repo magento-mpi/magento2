@@ -24,6 +24,18 @@ use Mtf\Fixture\DataFixture;
 class Config extends DataFixture
 {
     /**
+     * Initialize data and apply placeholders
+     *
+     * @param Config $configuration
+     * @param array $placeholders
+     */
+    public function __construct(\Mtf\System\Config $configuration, array $placeholders = array())
+    {
+        parent::__construct($configuration, $placeholders);
+        $this->_placeholders = $placeholders;
+    }
+
+    /**
      * Persist configuration to application
      */
     public function persist()

@@ -45,4 +45,12 @@ class Review extends Block
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
     }
+
+    /**
+     * Wait for 3D Secure card validation
+     */
+    public function waitForCardValidation()
+    {
+        $this->waitForElementNotVisible('#centinel-authenticate-block');
+    }
 }
