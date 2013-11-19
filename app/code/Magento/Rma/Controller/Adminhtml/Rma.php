@@ -45,7 +45,6 @@ class Rma extends \Magento\Backend\App\Action
         $this->_coreRegistry = $coreRegistry;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**
