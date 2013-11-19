@@ -8,7 +8,8 @@
  * @license     {license_link}
  */
 
-require_once '../../../lib/Zend/Console/Getopt.php';
+$magentoBaseDir = realpath(__DIR__ . '/../../../');
+require_once $magentoBaseDir. '/lib/Zend/Console/Getopt.php';
 
 $shell = new Zend_Console_Getopt(array(
     'xml-s' => 'xml',
@@ -39,6 +40,7 @@ if (!file_exists($scv_url)) {
 $xml = simplexml_load_file($xml_url);
 $scv = readCSV($scv_url);
 $result = array();
+
 foreach($scv as $line) {
     if ($line[2]!='') {
         if (!isset($result[$line[2]])) {
@@ -52,6 +54,7 @@ foreach($scv as $line) {
         }
     }
 }
+
 foreach($result as $key => $value) {
         $httpSample = $xml->addChild('httpSample');
 
