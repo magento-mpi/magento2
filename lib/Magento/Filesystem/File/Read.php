@@ -48,8 +48,7 @@ class Read implements ReadInterface
     (
         $path,
         \Magento\Filesystem\Driver $driver
-    )
-    {
+    ) {
         $this->path = $path;
         $this->driver = $driver;
         $this->open();

@@ -61,7 +61,6 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     public function __construct(Filesystem $filesystem, Factory $fallbackFactory)
     {
         $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
-        $this->_filesystem = $filesystem;
         $this->fallbackFactory = $fallbackFactory;
     }
 

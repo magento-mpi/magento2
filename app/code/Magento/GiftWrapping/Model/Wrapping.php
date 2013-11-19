@@ -14,6 +14,9 @@
  */
 namespace Magento\GiftWrapping\Model;
 
+use Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Write;
+
 class Wrapping extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -44,9 +47,9 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_systemStore;
 
     /**
-     * @var \Magento\App\Dir
+     * @var Write
      */
-    protected $_dir;
+    protected $mediaDirectory;
 
     /**
      * @var \Magento\Core\Model\File\UploaderFactory
@@ -58,19 +61,18 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -78,7 +80,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_dir = $dir;
+        $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -290,7 +292,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      */
     protected function _getImageFolderAbsolutePath()
     {
-        $path = $this->_dir->getDir('media') . DS . strtr(self::IMAGE_PATH, '/', DS);
+        $path = $this->mediaDirectory->getAbsolutePath(self::IMAGE_PATH);
         if (!is_dir($path)) {
             $ioAdapter = new \Magento\Io\File();
             $ioAdapter->checkAndCreateFolder($path);
@@ -305,6 +307,6 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      */
     protected function _getTmpImageFolderAbsolutePath()
     {
-        return $this->_dir->getDir('media') . DS . strtr(self::TMP_IMAGE_PATH, '/', DS);
+        return $this->mediaDirectory->getAbsolutePath(self::TMP_IMAGE_PATH);
     }
 }

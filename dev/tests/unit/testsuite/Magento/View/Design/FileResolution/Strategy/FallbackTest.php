@@ -14,6 +14,8 @@
  */
 namespace Magento\View\Design\FileResolution\Strategy;
 
+use Magento\Filesystem\DirectoryList;
+
 /**
  * Fallback Test
  *
@@ -214,10 +216,15 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function getFileSystemMock($targetFile)
     {
         $targetFile = str_replace('/', DIRECTORY_SEPARATOR, $targetFile);
-
-        $filesystem = $this->getMock('Magento\Filesystem', array('has'), array(), '', false);
-        $filesystem->expects($this->any())
-            ->method('has')
+        $directoryMock = $this->getMock(
+            'Magento\Filesystem\Directory\Read',
+            array('isExist', 'getRelativePath'), array(), '', false
+        );
+        $directoryMock->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0));
+        $directoryMock->expects($this->any())
+            ->method('isExist')
             ->will(
                 $this->returnCallback(
                     function ($tryFile) use ($targetFile) {
@@ -225,6 +232,11 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
                     }
                 )
             );
+        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
+        $filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(DirectoryList::THEMES)
+            ->will($this->returnValue($directoryMock));
 
         return $filesystem;
     }

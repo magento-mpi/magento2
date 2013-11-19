@@ -14,37 +14,31 @@ use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\App\Dir;
 use Magento\Filesystem;
+use Magento\Filesystem\DirectoryList;
+use Magento\Filesystem\Directory\Read;
 use Magento\View\Layout\File\Factory;
 
 class Base implements SourceInterface
 {
-    /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var Dir
-     */
-    private $dirs;
-
     /**
      * @var Factory
      */
     private $fileFactory;
 
     /**
+     * @var Read
+     */
+    protected $modulesDirectory;
+
+    /**
      * @param Filesystem $filesystem
-     * @param Dir $dirs
      * @param Factory $fileFactory
      */
     public function __construct(
         Filesystem $filesystem,
-        Dir $dirs,
         Factory $fileFactory
     ) {
-        $this->filesystem = $filesystem;
-        $this->dirs = $dirs;
+        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
         $this->fileFactory = $fileFactory;
     }
 
@@ -55,11 +49,15 @@ class Base implements SourceInterface
     {
         $namespace = $module = '*';
         $area = $theme->getArea();
-        $files = $this->filesystem->searchKeys(
-            $this->dirs->getDir(Dir::MODULES),
-            "{$namespace}/{$module}/view/{$area}/layout/{$filePath}.xml"
+        $patternForSearch = str_replace(
+            array('/', '\*'),
+            array('\/', '[\S]+'),
+            preg_quote("~{$namespace}/{$module}/view/{$area}/layout/{$filePath}.xml~")
         );
-
+        $files = $this->modulesDirectory->search($patternForSearch);
+        foreach ($files as $key => $file) {
+            $files[$key] = $this->modulesDirectory->getAbsolutePath($file);
+        }
         $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/"
             . preg_quote($area)
             . "/layout/"

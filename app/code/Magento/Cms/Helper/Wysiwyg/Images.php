@@ -36,9 +36,9 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     protected $_storeId = null;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_filesystem;
+    protected $_directory;
 
     /**
      * Core data
@@ -99,20 +99,18 @@ class Images extends \Magento\Core\Helper\AbstractHelper
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
-        $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_storeManager = $storeManager;
-
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($this->getStorageRoot());
-        $this->_filesystem->setWorkingDirectory($this->getStorageRoot());
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->_directory->create(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);
     }
 
 
     /**
      * Set a specified store ID value
      *
-     * @param <type> $store
+     * @param $store
+     * @return $this
      */
     public function setStoreId($store)
     {
@@ -127,8 +125,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
      */
     public function getStorageRoot()
     {
-        return $this->_dir->getDir(\Magento\App\Dir::MEDIA) . DS
-            . \Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY . DS;
+        return $this->_directory->getAbsolutePath(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);
     }
 
     /**
@@ -138,7 +135,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
      */
     public function getBaseUrl()
     {
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . '/';
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
     }
 
     /**
@@ -171,11 +168,11 @@ class Images extends \Magento\Core\Helper\AbstractHelper
      */
     public function convertIdToPath($id)
     {
-        $path = $this->idDecode($id);
-        if (!strstr($path, $this->getStorageRoot())) {
-            $path = $this->getStorageRoot() . $path;
+        if ($id === 'root') {
+            return $this->getStorageRoot();
+        } else {
+            return $this->getStorageRoot() . $this->idDecode($id);
         }
-        return $path;
     }
 
     /**
@@ -192,17 +189,6 @@ class Images extends \Magento\Core\Helper\AbstractHelper
             $path = trim($path, DS);
         }
         return $path;
-    }
-
-    /**
-     * Return file system path as Url string
-     *
-     * @param string $path
-     * @return string
-     */
-    public function convertPathToUrl($path)
-    {
-        return str_replace(DS, '/', $path);
     }
 
     /**
@@ -260,17 +246,18 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     public function getCurrentPath()
     {
         if (!$this->_currentPath) {
-            $currentPath = $this->getStorageRoot();
+            $currentPath = $this->_directory->getAbsolutePath() . \Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY;
             $path = $this->_getRequest()->getParam($this->getTreeNodeName());
             if ($path) {
                 $path = $this->convertIdToPath($path);
-                if ($this->_filesystem->isDirectory($path)) {
+                if ($this->_directory->isDirectory($this->_directory->getRelativePath($path))) {
                     $currentPath = $path;
                 }
             }
             try {
-                if (!$this->_filesystem->isWritable($currentPath)) {
-                    $this->_filesystem->createDirectory($currentPath);
+                $currentDir = $this->_directory->getRelativePath($currentPath);
+                if (!$this->_directory->isExist($currentDir)) {
+                    $this->_directory->create($currentDir);
                 }
             } catch (\Magento\Filesystem\FilesystemException $e) {
                 $message = __('The directory %1 is not writable by server.', $currentPath);
@@ -289,11 +276,10 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     public function getCurrentUrl()
     {
         if (!$this->_currentUrl) {
-            $path = str_replace($this->_dir->getDir(\Magento\App\Dir::MEDIA), '', $this->getCurrentPath());
-            $path = trim($path, DS);
+            $path = $this->getCurrentPath();
             $mediaUrl = $this->_storeManager->getStore($this->_storeId)
                 ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
-            $this->_currentUrl = $mediaUrl . $this->convertPathToUrl($path) . '/';
+            $this->_currentUrl = $mediaUrl . $this->_directory->getRelativePath($path) . '/';
         }
         return $this->_currentUrl;
     }

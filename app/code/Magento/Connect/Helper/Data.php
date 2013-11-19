@@ -17,14 +17,7 @@ class Data extends \Magento\Core\Helper\Data
     /**
      * @var \Magento\Filesystem
      */
-    protected $_filesystem;
-
-    /**
-     * Application dirs
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
+    protected $filesystem;
 
     /**
      * @var \Magento\Convert\Xml
@@ -32,30 +25,32 @@ class Data extends \Magento\Core\Helper\Data
     protected $_xmlConverter;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Locale $locale
-     * @param \Magento\App\State $appState
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Convert\Xml $xmlConverter
-     * @param \Magento\App\Dir $dirs
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $readDirectory;
+    /**
+     * @param \Magento\Core\Helper\Context      $context
+     * @param \Magento\Core\Model\Store\Config  $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManager  $storeManager
+     * @param \Magento\Core\Model\Locale        $locale
+     * @param \Magento\App\State                $appState
+     * @param \Magento\Filesystem               $filesystem
+     * @param \Magento\Convert\Xml              $xmlConverter
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\Locale $locale,
-        \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem,
-        \Magento\Convert\Xml $xmlConverter,
-        \Magento\App\Dir $dirs,
+        \Magento\Core\Helper\Context        $context,
+        \Magento\Core\Model\Store\Config    $coreStoreConfig,
+        \Magento\Core\Model\StoreManager    $storeManager,
+        \Magento\Core\Model\Locale          $locale,
+        \Magento\App\State                  $appState,
+        \Magento\Filesystem                 $filesystem,
+        \Magento\Convert\Xml                $xmlConverter,
         $dbCompatibleMode = true
     ) {
-        $this->_filesystem = $filesystem;
-        $this->_dirs = $dirs;
-        $this->_xmlConverter = $xmlConverter;
+        $this->filesystem       = $filesystem;
+        $this->readDirectory    = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->_xmlConverter    = $xmlConverter;
         parent::__construct(
             $context,
             $coreStoreConfig,
@@ -64,28 +59,6 @@ class Data extends \Magento\Core\Helper\Data
             $appState,
             $dbCompatibleMode
         );
-    }
-
-    /**
-     * Retrieve file system path for local extension packages
-     * Return path with last directory separator
-     *
-     * @return string
-     */
-    public function getLocalPackagesPath()
-    {
-        return $this->_dirs->getDir('var') . DS . 'connect' . DS;
-    }
-
-    /**
-     * Retrieve file system path for local extension packages (for version 1 packages only)
-     * Return path with last directory separator
-     *
-     * @return string
-     */
-    public function getLocalPackagesPathV1x()
-    {
-        return $this->_dirs->getDir('var') . DS . 'pear' . DS;
     }
 
     /**
@@ -149,24 +122,21 @@ class Data extends \Magento\Core\Helper\Data
      * Load local package data array
      *
      * @param string $packageName without extension
-     * @return array|false
+     * @return array|boolean
      */
     public function loadLocalPackage($packageName)
     {
-        //check LFI protection
-        $this->_filesystem->checkLfiProtection($packageName);
-        $path = $this->getLocalPackagesPath();
-        $xmlFile = $path . $packageName . '.xml';
-        $serFile = $path . $packageName . '.ser';
-        if ($this->_filesystem->isFile($xmlFile) && $this->_filesystem->isReadable($xmlFile)) {
-            $xml = simplexml_load_string($this->_filesystem->read($xmlFile));
+        $xmlFile = sprintf('connect/%.xml', $packageName);
+        $serFile = sprintf('connect/%.ser', $packageName);
+        if ($this->readDirectory->isFile($xmlFile) && $this->readDirectory->isReadable($xmlFile)) {
+            $xml = simplexml_load_string($this->readDirectory->readFile($xmlFile));
             $data = $this->_xmlConverter->xmlToAssoc($xml);
             if (!empty($data)) {
                 return $data;
             }
         }
-        if ($this->_filesystem->isFile($serFile) && $this->_filesystem->isReadable($xmlFile)) {
-            $data = unserialize($this->_filesystem->read($serFile));
+        if ($this->readDirectory->isFile($serFile) && $this->readDirectory->isReadable($xmlFile)) {
+            $data = unserialize($this->readDirectory->readFile($serFile));
             if (!empty($data)) {
                 return $data;
             }

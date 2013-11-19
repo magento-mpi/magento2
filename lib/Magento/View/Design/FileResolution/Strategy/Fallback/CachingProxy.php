@@ -87,7 +87,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         $canSaveMap = true
     ) {
         $this->fallback = $fallback;
-        $this->varDirectory = $filesystem->getDirectoryRead(DirectoryList::VAR_DIR);
+        $this->varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
         $rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         if (!$rootDirectory->isDirectory($rootDirectory->getRelativePath($baseDir))) {
             throw new \InvalidArgumentException("Wrong base directory specified: '{$baseDir}'");

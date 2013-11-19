@@ -114,7 +114,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse(in_array($name, $renamed));
     }
 
-
     /**
      * Data provider for testRename
      *

@@ -40,8 +40,7 @@ class Write extends Read implements WriteInterface
         array $config,
         \Magento\Filesystem\File\WriteFactory $fileFactory,
         \Magento\Filesystem\Driver $driver
-    )
-    {
+    ) {
         $this->setProperties($config);
         $this->driver = $driver;
         $this->fileFactory = $fileFactory;
@@ -65,15 +64,14 @@ class Write extends Read implements WriteInterface
     }
 
     /**
-     * Check it directory is writable
+     * Check if directory is writable
      *
      * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertWritable($path)
     {
-        $absolutePath = $this->getAbsolutePath($path);
-        if ($this->isWritable($absolutePath) === false) {
-            throw new FilesystemException(sprintf('The path "%s" is not writable', $absolutePath));
+        if ($this->isWritable($path) === false) {
+            throw new FilesystemException(sprintf('The path "%s" is not writable', $this->getAbsolutePath($path)));
         }
     }
 
@@ -86,7 +84,7 @@ class Write extends Read implements WriteInterface
     protected function assertIsFile($path)
     {
         $absolutePath = $this->getAbsolutePath($path);
-        if ($this->driver->isFile($absolutePath)) {
+        if (!$this->driver->isFile($absolutePath)) {
             throw new FilesystemException(sprintf('The "%s" file doesn\'t exist or not a file', $absolutePath));
         }
     }
@@ -197,7 +195,7 @@ class Write extends Read implements WriteInterface
     {
         $this->assertExist($path);
         $absolutePath = $this->getAbsolutePath($path);
-        return $this->driver->changePermissions($absolutePath,$permissions);
+        return $this->driver->changePermissions($absolutePath, $permissions);
     }
 
     /**
@@ -210,7 +208,6 @@ class Write extends Read implements WriteInterface
      */
     public function touch($path, $modificationTime = null)
     {
-        $absolutePath = $this->getAbsolutePath($path);
         $folder = $this->driver->getParentDirectory($path);
         $this->create($folder);
         $this->assertWritable($folder);
@@ -257,7 +254,7 @@ class Write extends Read implements WriteInterface
     public function writeFile($path, $content, $mode = null)
     {
         $absolutePath = $this->getAbsolutePath($path);
-        $folder = $this->driver->getParentDirectory($absolutePath);
+        $folder = $this->getRelativePath($this->driver->getParentDirectory($absolutePath));
         $this->create($folder);
         $this->assertWritable($folder);
         return $this->driver->filePutContents($absolutePath, $content, $mode);

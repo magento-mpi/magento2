@@ -36,11 +36,11 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     {
         $this->_session = $this->getMockBuilder('Magento\Checkout\Model\Session')
             ->disableOriginalConstructor()
-            ->setMethods(array('getLastRealOrder', 'replaceQuote', 'unsLastRealOrderId'))
+            ->setMethods(array('getLastRealOrder', 'replaceQuote', 'unsLastRealOrderId', '__wakeup'))
             ->getMock();
         $this->_quoteFactory = $this->getMockBuilder('Magento\Sales\Model\QuoteFactory')
             ->disableOriginalConstructor()
-            ->setMethods(array('create'))
+            ->setMethods(array('create', '__wakeup'))
             ->getMock();
 
         $this->_checkout = new \Magento\Paypal\Helper\Checkout($this->_session, $this->_quoteFactory);
@@ -57,7 +57,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     {
         $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods(array_merge(array('getId'), $mockMethods))
+            ->setMethods(array_merge(array('getId', '__wakeup'), $mockMethods))
             ->getMock();
         $order->expects($this->once())
             ->method('getId')
@@ -118,7 +118,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     {
         $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId', 'load'))
+            ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId', 'load', '__wakeup'))
             ->getMock();
         $order = $this->_getOrderMock($hasOrderId);
         $this->_session->expects($this->once())

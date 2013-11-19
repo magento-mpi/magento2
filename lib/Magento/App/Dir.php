@@ -276,7 +276,7 @@ class Dir
      * @param array $source
      * @return array
      */
-    private function _getDefaultReplacements(array $source)
+    protected function _getDefaultReplacements(array $source)
     {
         $result = array();
         foreach ($source as $parentCode => $parent) {
@@ -304,7 +304,7 @@ class Dir
      * @param string $code
      * @return array
      */
-    private function _getChildren($code)
+    protected function _getChildren($code)
     {
         $result = array();
         if (!isset(self::$_defaults[$code])) {
