@@ -40,6 +40,31 @@ class ImplementationOfInterfaceB implements InterfaceB
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {
+    /**
+     * @var ClassA
+     */
+    protected $_exA;
+
+    /**
+     * @var ClassB
+     */
+    protected $_exB;
+
+    /**
+     * @var ClassC
+     */
+    protected $_exC;
+
+    /**
+     * @var InterfaceA
+     */
+    protected $_interfaceA;
+
+    /**
+     * @var ImplementationOfInterfaceB
+     */
+    protected $_implOfBInterface;
+
     public function __construct(
         \ClassA $exA, \ClassB $exB, \ClassC $exC,
         \InterfaceA $interfaceA,
@@ -51,11 +76,19 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_interfaceA = $interfaceA;
         $this->_implOfBInterface = $implOfBInterface;
     }
-
 }
 
 class ClassArgumentAlreadyInjectedIntoContext
 {
+    /**
+     * @var Context
+     */
+    protected $_context;
+    /**
+     * @var ClassA
+     */
+    protected $_exA;
+
     public function __construct(\Context $context, \ClassA $exA)
     {
         $this->_context = $context;

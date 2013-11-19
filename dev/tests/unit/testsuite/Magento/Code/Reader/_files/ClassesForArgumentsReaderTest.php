@@ -9,10 +9,34 @@
 class ClassWithAllArgumentTypes
 {
     const DEFAULT_VALUE = 'Const Value';
+    /**
+     * @var stdClass
+     */
+    protected $_stdClassObject;
+    /**
+     * @var classWithoutConstruct
+     */
+    protected $_withoutConstructorClassObject;
+    /**
+     * @var mixed
+     */
+    protected $_someVariable;
+    /**
+     * @var int
+     */
+    protected $_optionalNumValue;
+    /**
+     * @var string
+     */
+    protected $_optionalStringValue;
+    /**
+     * @var array
+     */
+    protected $_optionalArrayValue;
 
     /**
      * @param stdClass $stdClassObject
-     * @param classWithoutConstruct $WithoutConstructorClassObject
+     * @param classWithoutConstruct $withoutConstructorClassObject
      * @param $someVariable
      * @param string $const
      * @param int $optionalNumValue
@@ -21,14 +45,19 @@ class ClassWithAllArgumentTypes
      */
     public function __construct(
         \stdClass $stdClassObject,
-        \classWithoutConstruct $WithoutConstructorClassObject,
+        \classWithoutConstruct $withoutConstructorClassObject,
         $someVariable,
         $const = \ClassWithAllArgumentTypes::DEFAULT_VALUE,
         $optionalNumValue = 9807,
         $optionalStringValue = 'optional string',
         $optionalArrayValue = array('optionalKey' => 'optionalValue')
     ) {
-
+        $this->_stdClassObject = $stdClassObject;
+        $this->_withoutConstructorClassObject = $withoutConstructorClassObject;
+        $this->_someVariable = $someVariable;
+        $this->_optionalNumValue = $optionalNumValue;
+        $this->_optionalStringValue = $optionalStringValue;
+        $this->_optionalArrayValue = $optionalArrayValue;
     }
 }
 
@@ -50,6 +79,19 @@ class ClassExtendsDefaultPhpType extends \RuntimeException
 class FirstClassForParentCall
 {
     /**
+     * @var stdClass
+     */
+    protected $_stdClassObject;
+    /**
+     * @var ClassExtendsDefaultPhpType
+     */
+    protected $_runeTimeException;
+    /**
+     * @var array
+     */
+    protected $_arrayVariable;
+
+    /**
      * @param stdClass $stdClassObject
      * @param ClassExtendsDefaultPhpType $runeTimeException
      * @param array $arrayVariable
@@ -59,11 +101,23 @@ class FirstClassForParentCall
         \ClassExtendsDefaultPhpType $runeTimeException,
         $arrayVariable = array('key' => 'value')
     ) {
+        $this->_stdClassObject = $stdClassObject;
+        $this->_runeTimeException = $runeTimeException;
+        $this->_arrayVariable = $arrayVariable;
     }
 }
 
 class ThirdClassForParentCall extends firstClassForParentCall
 {
+    /**
+     * @var stdClass
+     */
+    protected $_stdClassObject;
+    /**
+     * @var ClassExtendsDefaultPhpType
+     */
+    protected $_secondClass;
+
     /**
      * @param stdClass $stdClassObject
      * @param ClassExtendsDefaultPhpType $secondClass
@@ -73,11 +127,22 @@ class ThirdClassForParentCall extends firstClassForParentCall
         \ClassExtendsDefaultPhpType $secondClass
     ) {
         parent::__construct($stdClassObject, $secondClass);
+        $this->_stdClassObject = $stdClassObject;
+        $this->_secondClass = $secondClass;
     }
 }
 
 class WrongArgumentsOrder extends firstClassForParentCall
 {
+    /**
+     * @var stdClass
+     */
+    protected $_stdClassObject;
+    /**
+     * @var ClassExtendsDefaultPhpType
+     */
+    protected $_secondClass;
+
     /**
      * @param stdClass $stdClassObject
      * @param ClassExtendsDefaultPhpType $secondClass
@@ -87,11 +152,22 @@ class WrongArgumentsOrder extends firstClassForParentCall
         \ClassExtendsDefaultPhpType $secondClass
     ) {
         parent::__construct($secondClass, $stdClassObject);
+        $this->_stdClassObject = $stdClassObject;
+        $this->_secondClass = $secondClass;
     }
 }
 
 class ArgumentsOnSeparateLines extends firstClassForParentCall
 {
+    /**
+     * @var stdClass
+     */
+    protected $_stdClassObject;
+    /**
+     * @var ClassExtendsDefaultPhpType
+     */
+    protected $_secondClass;
+
     /**
      * @param stdClass $stdClassObject
      * @param ClassExtendsDefaultPhpType $secondClass
@@ -104,5 +180,7 @@ class ArgumentsOnSeparateLines extends firstClassForParentCall
             $secondClass,
             $stdClassObject
         );
+        $this->_stdClassObject = $stdClassObject;
+        $this->_secondClass = $secondClass;
     }
 }
