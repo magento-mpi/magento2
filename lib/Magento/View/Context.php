@@ -63,7 +63,7 @@ class Context
     protected $cache;
 
     /**
-     * @var \Magento\Core\Model\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $design;
 
@@ -191,7 +191,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\Design
+     * @return \Magento\View\DesignInterface
      */
     public function getDesignPackage()
     {

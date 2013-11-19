@@ -119,7 +119,7 @@ class Template extends AbstractBlock
          * In case template was passed through constructor
          * we assign it to block's property _template
          * Mainly for those cases when block created
-         * not via \Magento\Core\Model\Layout::addBlock()
+         * not via \Magento\View\LayoutInterface::addBlock()
          */
         if ($this->hasData('template')) {
             $this->setTemplate($this->getData('template'));
