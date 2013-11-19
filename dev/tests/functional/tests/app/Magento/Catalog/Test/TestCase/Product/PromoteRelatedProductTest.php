@@ -21,7 +21,8 @@ use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Create simple product for BAT
+ * Class PromoteRelatedProductTest
+ * Test promoting products as related
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
@@ -118,7 +119,7 @@ class PromoteRelatedProductTest extends Functional
     }
 
     /**
-     * Assert input product has proper related products in the front end
+     * Assert configurable product is added to cart together with the proper related product
      *
      * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct1
      * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
@@ -129,12 +130,33 @@ class PromoteRelatedProductTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($simpleProduct1);
         $productPage->open();
-        $productPage->getViewBlock()->verifyConfigurableProduct($simpleProduct2, $configurableProduct);
-
+        $this->verifyConfigurableProduct($productPage->getViewBlock(), $simpleProduct2, $configurableProduct);
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
         $this->assertTrue($checkoutCartBlock->checkAddedProduct($simpleProduct2)->isVisible(),
             'Related product was not found in the shopping cart.');
+    }
+
+
+    /**
+     * Verify that the configurable product presents in the related products section
+     *
+     * @param \Magento\Catalog\Test\Block\Product\View $productViewBlock
+     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
+     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
+     */
+    protected function verifyConfigurableProduct($productViewBlock, $simpleProduct2, $configurableProduct)
+    {
+        //Verify that configurable product is added as related product
+        $this->assertTrue($productViewBlock->getRootElement()
+                ->find('[title="'. $configurableProduct->getProductName() . '"]')->isVisible(),
+            'Configurable product is not added successfully as related product');
+        //Open up configurable product if it presents in the related products section
+        $configurableProductPage = Factory::getPageFactory()->getCatalogProductView();
+        $configurableProductPage->init($configurableProduct);
+        $configurableProductPage->open();
+        //Add configurable and the related product for configurable together to the shopping cart
+        $configurableProductPage->getViewBlock()->addRelatedProductsToCart($simpleProduct2, $configurableProduct);
     }
 }

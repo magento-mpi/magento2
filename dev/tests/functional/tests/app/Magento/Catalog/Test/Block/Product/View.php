@@ -204,24 +204,7 @@ class View extends Block
     }
 
     /**
-     * Return option to add related simple product to the shopping cart
-     *
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
-     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
-     */
-    public function verifyConfigurableProduct($simpleProduct2, $configurableProduct)
-    {
-        //Open up configurable product if it presents in the related products section
-        if ($this->_rootElement->find('[title="'. $configurableProduct->getProductName() . '"]')->isVisible()) {
-            $configurableProductPage = Factory::getPageFactory()->getCatalogProductView();
-            $configurableProductPage->init($configurableProduct);
-            $configurableProductPage->open();
-            $configurableProductPage->getViewBlock()->addRelatedProductsToCart($simpleProduct2, $configurableProduct);
-        }
-    }
-
-    /**
-     * Return option to add related simple product to the shopping cart
+     * Add configurable product (with proper option) and related product to the shopping cart
      *
      * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
      * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
@@ -241,10 +224,17 @@ class View extends Block
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }
 
-        //$this->reinitRootElement();
         $relatedSimpleProductId = $simpleProduct2->getProductId();
         $this->_rootElement
             ->find('related-checkbox' . $relatedSimpleProductId, Locator::SELECTOR_ID)->click();
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * @return \Mtf\Client\Element
+     */
+    public function getRootElement()
+    {
+        return $this->_rootElement;
     }
 }
