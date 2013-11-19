@@ -132,7 +132,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
                 $path = rtrim($data['sitemap_path'], '\\/')
-                      . DS . $data['sitemap_filename'];
+                      . '/' . $data['sitemap_filename'];
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
                 $validator = $this->_objectManager->create('Magento\Core\Model\File\Validator\AvailablePath');
                 /** @var $helper \Magento\Catalog\Helper\Catalog */
@@ -159,7 +159,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                 $model->load($this->getRequest()->getParam('sitemap_id'));
                 $fileName = $model->getSitemapFilename();
 
-                $path = $model->getSitemapPath() . DS . $fileName;
+                $path = $model->getSitemapPath() . '/' . $fileName;
                 if ($fileName && $directory->isFile($path)) {
                     $directory->delete($path);
                 }

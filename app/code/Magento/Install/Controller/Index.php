@@ -17,11 +17,11 @@ namespace Magento\Install\Controller;
 class Index extends \Magento\Install\Controller\Action
 {
     /**
-     * Core directory model
+     * Filesystem facade
      *
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_coreDir;
+    protected $_filesystem;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
@@ -30,7 +30,7 @@ class Index extends \Magento\Install\Controller\Action
      * @param \Magento\Core\Model\Theme\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
-     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
@@ -39,9 +39,9 @@ class Index extends \Magento\Install\Controller\Action
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
-        \Magento\App\Dir $coreDir
+        \Magento\Filesystem $filesystem
     ) {
-        $this->_coreDir = $coreDir;
+        $this->_filesystem = $filesystem;
         parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
     }
 
@@ -52,8 +52,11 @@ class Index extends \Magento\Install\Controller\Action
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         if (!$this->_appState->isInstalled()) {
-            foreach (glob($this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
-                \Magento\Io\File::rmdirRecursive($dir);
+            $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+            foreach ($varDirectory->read() as $path) {
+                if ($varDirectory->isDirectory($path)) {
+                    $varDirectory->delete($path);
+                }
             }
         }
         parent::preDispatch();
