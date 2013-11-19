@@ -83,7 +83,7 @@
 
     <target name="install-magento" depends="_bootstrap,_prepare-magento,_prepare-magento-ee,_remote-create-database" description="Install/Repair Magento Application on defined fixture configuration">
 
-        <condition property="env.generate_store_views" value="2">
+        <condition property="env.generate_store_views" value="4">
             <not><isset property="env.generate_store_views"/></not>
         </condition>
         <condition property="env.generate_cart_price_rules" value="200">
@@ -95,13 +95,13 @@
         <condition property="env.generate_cart_price_rules_first_category" value="10">
             <not><isset property="env.generate_cart_price_rules_first_category"/></not>
         </condition>
-        <condition property="env.generate_categories" value="1000">
+        <condition property="env.generate_categories" value="500">
             <not><isset property="env.generate_categories"/></not>
         </condition>
         <condition property="env.generate_categories_nesting_level" value="3">
             <not><isset property="env.generate_categories_nesting_level"/></not>
         </condition>
-        <condition property="env.generate_simple_products" value="20000">
+        <condition property="env.generate_simple_products" value="10000">
             <not><isset property="env.generate_simple_products"/></not>
         </condition>
         <condition property="env.generate_configurable_products" value="10000">
