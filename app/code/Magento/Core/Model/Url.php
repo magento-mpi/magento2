@@ -822,7 +822,10 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
                 if (!self::$_encryptedSessionId) {
                     self::$_encryptedSessionId = $this->_session->getSessionId();
                 }
-                $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam(), self::$_encryptedSessionId);
+                $this->setQueryParam(
+                    $this->_sidResolver->getSessionIdQueryParam($this->_session),
+                    self::$_encryptedSessionId
+                );
             }
         }
         return $this;
@@ -838,7 +841,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         if (!self::$_encryptedSessionId) {
             self::$_encryptedSessionId = $this->_session->getSessionId();
         }
-        $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam(), self::$_encryptedSessionId);
+        $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam($this->_session), self::$_encryptedSessionId);
         return $this;
     }
 
@@ -1093,7 +1096,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         if ($this->_app->getUseSessionVar() && !$sessionId) {
             $this->setQueryParam('___SID', $this->isSecure() ? 'S' : 'U'); // Secure/Unsecure
         } else if ($sessionId) {
-            $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam(), $sessionId);
+            $this->setQueryParam($this->_sidResolver->getSessionIdQueryParam($this->_session), $sessionId);
         }
         return $this;
     }
@@ -1203,7 +1206,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     {
         if ($this->useSessionIdForUrl($match[2] == 'S' ? true : false)) {
             return $match[1]
-                . $this->_sidResolver->getSessionIdQueryParam()
+                . $this->_sidResolver->getSessionIdQueryParam($this->_session)
                 . '=' . $this->_session->getSessionId()
                 . (isset($match[3]) ? $match[3] : '');
         } else {

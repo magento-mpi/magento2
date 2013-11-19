@@ -93,7 +93,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
     public function testSetSessionId()
     {
         $sessionId = $this->_model->getSessionId();
-        $this->_model->setSessionId($this->_sidResolver->getSid());
+        $this->_model->setSessionId($this->_sidResolver->getSid($this->_model));
         $this->assertEquals($sessionId, $this->_model->getSessionId());
 
         $this->_model->setSessionId('test');
@@ -106,14 +106,14 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
     public function testSetSessionIdFromParam()
     {
         $this->assertNotEquals('test_id', $this->_model->getSessionId());
-        $_GET[$this->_sidResolver->getSessionIdQueryParam()] = 'test-id';
-        $this->_model->setSessionId($this->_sidResolver->getSid());
+        $_GET[$this->_sidResolver->getSessionIdQueryParam($this->_model)] = 'test-id';
+        $this->_model->setSessionId($this->_sidResolver->getSid($this->_model));
 
         $this->assertEquals('test-id', $this->_model->getSessionId());
 
         /* Use not valid identifier */
-        $_GET[$this->_sidResolver->getSessionIdQueryParam()] = 'test_id';
-        $this->_model->setSessionId($this->_sidResolver->getSid());
+        $_GET[$this->_sidResolver->getSessionIdQueryParam($this->_model)] = 'test_id';
+        $this->_model->setSessionId($this->_sidResolver->getSid($this->_model));
         $this->assertEquals('test-id', $this->_model->getSessionId());
     }
 

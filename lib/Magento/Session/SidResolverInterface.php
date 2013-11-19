@@ -17,17 +17,19 @@ interface SidResolverInterface
     /**
      * Session ID in query param
      */
-    const SESSION_ID_QUERY_PARAM        = 'SID';
+    const SESSION_ID_QUERY_PARAM = 'SID';
 
     /**
+     * @param \Magento\Core\Model\Session\AbstractSession $session
      * @return string
      */
-    public function getSid();
+    public function getSid(\Magento\Core\Model\Session\AbstractSession $session);
 
     /**
      * Get session id query param
      *
+     * @param \Magento\Core\Model\Session\AbstractSession $session
      * @return string
      */
-    public function getSessionIdQueryParam();
+    public function getSessionIdQueryParam(\Magento\Core\Model\Session\AbstractSession $session);
 }
