@@ -87,13 +87,15 @@
                 data: {formKey: window.FORM_KEY},
                 method: 'GET',
                 success: function (html) {
-                    $('#integration-popup-container').html(html);
-                    $('#integration-popup-container').dialog({
+                    $('.integration-popup-container').html(html);
+                    $('.integration-popup-container').dialog({
                         title: that.options.name,
                         modal: true,
                         autoOpen: true,
                         minHeight: 450,
                         minWidth: 600,
+                        dialogClass: 'integration-dialog',
+                        position: {at: 'top+25%'},
                         buttons: [
                             {
                                 text: $.mage.__('Cancel'),
@@ -118,6 +120,11 @@
         _showTokenPopup: function ()
         {
             var that = this;
+/*
+            // Testing w/ a silly dialog
+            $('.integration-popup-container').html('LLLL');
+            $('.integration-popup-container').dialog();
+*/
 
             jQuery.ajax({
                 url: this.options.url2,

@@ -57,7 +57,7 @@ class Activate extends Link
                     ),
                     'url2' => $this->getUrl(
                         '*/*/token',
-                        ['id' => $this->_row->getId()]
+                        ['id' => $this->_row->getId(), '_query' => ['popup_dialog' => 'token']]
                     )
                 ]
             ]

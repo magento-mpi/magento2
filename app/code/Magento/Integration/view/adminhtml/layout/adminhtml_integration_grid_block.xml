@@ -13,7 +13,7 @@
     <referenceBlock name="head">
         <block class="Magento\Page\Block\Html\Head\Css" name="magento-integration-styles-css">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Integration::styles.css</argument>
+                <argument name="file" xsi:type="string">Magento_Integration::integration.css</argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-integration-js">

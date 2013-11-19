@@ -16,21 +16,20 @@
         </action>
     </referenceBlock>
     <referenceContainer name="content">
-        <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions" name="integration.activate.permissions" template="Magento_Integration::integration/activate/permissions.phtml">
-            <block class="Magento\Backend\Block\Template" name="integration.activate.permissions.form" as="form" template="Magento_Integration::integration/activate/permissions/form.phtml">
-                <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs" name="integration.activate.permissions.tabs" as="tabs">
-                    <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webapi" name="integration_activate_permissions_tabs_webapi" template="integration/activate/permissions/tabs/webapi.phtml"/>
-                    <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webhook" name="integration_activate_permissions_tabs_webhook"/>
-                    <action method="addTab">
-                        <argument name="name" xsi:type="string">integration_activate_permissions_tabs_webapi</argument>
-                        <argument name="block" xsi:type="string">integration_activate_permissions_tabs_webapi</argument>
-                    </action>
-                    <action method="addTab">
-                        <argument name="name" xsi:type="string">integration_activate_permissions_tabs_webhook</argument>
-                        <argument name="block" xsi:type="string">integration_activate_permissions_tabs_webhook</argument>
-                    </action>
-                </block>
+        <block class="Magento\Backend\Block\Template" name="integration.activate.permissions" template="Magento_Integration::integration/activate/permissions.phtml">
+            <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs" name="integration.activate.permissions.tabs" as="tabs">
+                <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webapi" name="integration_activate_permissions_tabs_webapi" template="integration/activate/permissions/tabs/webapi.phtml"/>
+                <block class="Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webhook" name="integration_activate_permissions_tabs_webhook"/>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">integration_activate_permissions_tabs_webapi</argument>
+                    <argument name="block" xsi:type="string">integration_activate_permissions_tabs_webapi</argument>
+                </action>
+                <action method="addTab">
+                    <argument name="name" xsi:type="string">integration_activate_permissions_tabs_webhook</argument>
+                    <argument name="block" xsi:type="string">integration_activate_permissions_tabs_webhook</argument>
+                </action>
             </block>
         </block>
     </referenceContainer>
+    <remove name="footer"/>
 </layout>

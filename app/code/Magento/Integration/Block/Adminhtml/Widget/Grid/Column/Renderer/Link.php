@@ -112,10 +112,12 @@ class Link extends AbstractRenderer
      */
     protected function _getAttributes()
     {
+        /** @var Magento\Core\Helper\Data $helper */
+        $helper = $this->helper('Magento\Core\Helper\Data');
         $attributes = ['title' => $this->getCaption()];
 
         foreach ($this->_getDataAttributes() as $key => $attr) {
-            $attributes['data-' . $key] = is_scalar($attr) ? $attr : json_encode($attr);
+            $attributes['data-' . $key] = is_scalar($attr) ? $attr : $helper->jsonEncode($attr);
         }
 
         return $attributes;

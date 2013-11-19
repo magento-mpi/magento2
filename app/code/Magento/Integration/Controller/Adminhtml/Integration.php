@@ -184,18 +184,17 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
     }
 
     public function tokenAction()
-    {/*
+    {
+        /*
         $popupDialog = $this->getRequest()->getParam('popup_dialog');
 
         if ($popupDialog) {
             $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
-            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->loadLayout();
         }
         */
-            $this->loadLayout();
-            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
+        $this->loadLayout();
         $this->renderLayout();
     }
 
@@ -208,7 +207,6 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
 
         if ($popupDialog) {
             $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
-            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         } else {
             $this->loadLayout();
         }

@@ -24,7 +24,7 @@ class Token extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set form id prefix, declare fields for integration consumer modal
      *
-     * @return \Magento\Integration\Block\Adminhtml\Integration\Consumer
+     * @return \Magento\Integration\Block\Adminhtml\Integration\Token
      */
     protected function _prepareForm()
     {
@@ -33,16 +33,16 @@ class Token extends \Magento\Backend\Block\Widget\Form\Generic
         $htmlIdPrefix = 'integration_token_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-        $model = $this->_coreRegistry->registry('current_integration');
+//        $model = $this->_coreRegistry->registry('current_integration');
 
         $fieldset = $form->addFieldset('base_fieldset');
-
+/*
         if ($model->getIntegrationId()) {
             $fieldset->addField('integration_id', 'hidden', array(
                 'name' => 'integration_id',
             ));
         }
-
+*/
         $fieldset->addField('token', 'text', array(
             'label'     => __('Token'),
             'name'      => 'token',
@@ -71,9 +71,9 @@ class Token extends \Magento\Backend\Block\Widget\Form\Generic
             'disabled'  => true
         ));
 
-        $form->setValues($model->getData());
+//        $form->setValues($model->getData());
         $this->setForm($form);
 
-        return $this;
+        return parent::_prepareForm();
     }
 }
