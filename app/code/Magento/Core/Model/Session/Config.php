@@ -126,11 +126,6 @@ class Config implements \Zend\Session\Config\ConfigInterface
         return (string)$this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
     }
 
-
-
-
-
-
     /**
      * @param array $options
      * @return $this

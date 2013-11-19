@@ -322,9 +322,15 @@ class AbstractSession extends \Magento\Object
      *
      * @param string $name
      * @return \Magento\Core\Model\Session\AbstractSession
+     * @throws \InvalidArgumentException
      */
     public function setSessionName($name)
     {
+        if ($this->isSessionExists()) {
+            throw new \InvalidArgumentException(
+                'Cannot set session name after a session has already started'
+            );
+        }
         session_name($name);
         return $this;
     }
@@ -705,8 +711,32 @@ class AbstractSession extends \Magento\Object
             return $this;
         }
         session_regenerate_id($deleteOldSession);
-        $this->expireSessionCookie();
+
+        if ($this->_sessionConfig->getUseCookies()) {
+            $this->clearSubDomainSessionCookie();
+        }
         return $this;
+    }
+
+    /**
+     * Expire the session cookie for sub domains
+     */
+    protected function clearSubDomainSessionCookie()
+    {
+        foreach (array_keys($this->_getHosts()) as $host) {
+            // Delete cookies with the same name for parent domains
+            if (strpos($this->_sessionConfig->getCookieDomain(), $host) > 0) {
+                setcookie(
+                    $this->getName(),
+                    '',
+                    0,
+                    $this->_sessionConfig->getCookiePath(),
+                    $host,
+                    $this->_sessionConfig->getCookieSecure(),
+                    $this->_sessionConfig->getCookieHttpOnly()
+                );
+            }
+        }
     }
 
     /**
@@ -722,14 +752,6 @@ class AbstractSession extends \Magento\Object
             return;
         }
 
-        $currentCookieDomain = $this->_sessionConfig->getCookieDomain();
-        foreach (array_keys($this->_getHosts()) as $host) {
-            // Delete cookies with the same name for parent domains
-            if (strpos($currentCookieDomain, $host) > 0) {
-                setcookie($this->getName(), '', 0, $this->_sessionConfig->getCookiePath(), $host);
-            }
-        }
-
         setcookie(
             $this->getName(),                 // session name
             '',                               // value
@@ -739,5 +761,6 @@ class AbstractSession extends \Magento\Object
             $this->_sessionConfig->getCookieSecure(),
             $this->_sessionConfig->getCookieHttpOnly()
         );
+        $this->clearSubDomainSessionCookie();
     }
 }
