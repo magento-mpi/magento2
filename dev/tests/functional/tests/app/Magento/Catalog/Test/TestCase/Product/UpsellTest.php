@@ -98,41 +98,40 @@ class UpsellTest extends Functional {
 
         // check for the upsell products.
 
-        if (!$productViewBlock->verifyProductUpsell($upsellConfigurable1) ){
+        /** @var \Magento\Catalog\Test\Block\Product\Upsell $upsellBlock */
+        $upsellBlock = $productPage->getUpsellBlock();
+        $this->assertTrue($upsellBlock->isVisible(), "upsell view not found");
+
+        if (!$upsellBlock->verifyProductUpsell($upsellConfigurable1) ){
             $this->fail('Upsell product ' . $upsellConfigurable1->getProductName() .  ' was not found in the first product page.');
         }
 
-        if (!$productViewBlock->verifyProductUpsell($upsellSimple2) ){
+        if (!$upsellBlock->verifyProductUpsell($upsellSimple2) ){
             $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  ' was not found in the first product page.');
         }
 
         // Step 6.  Click on the configurable 1 product.
         // See that the Simple 2 is in the upsells.
-        // TODO:  conduct click action on upsell products.
 
-        $this->markTestIncomplete('MAGETWO-15966');
+        $upsellBlock->clickLink($upsellConfigurable1);
 
-        //$foundConfigurable1->click();
+        // load the new product page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $upsellBlock = $productPage->getUpsellBlock();
+        $this->assertTrue($upsellBlock->isVisible(), "upsell view not found");
 
-        //$foundConfigurable1->waitForElementVisible('product-addtocart-button', Locator::SELECTOR_ID);
-
-        $foundSimple2 = $productViewBlock->verifyProductUpsell($upsellSimple2);
-        if (null == $foundSimple2) {
-            $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  'was not found in the config product page.');
-        }
+        $this->assertTrue($upsellBlock->verifyProductUpsell($upsellSimple2),
+            $upsellSimple2->getProductName() . " not found on configurable page.");
 
         // Step 7.  Click on the simple 2 product.
         // See that no upsells are present.
 
-        /** @var Element $foundSimple1 */
-        $foundSimple2 = $productViewBlock->verifyProductUpsell($upsellSimple2);
-        $foundSimple2->click();
-        $productViewBlock->waitForElementVisible('product-addtocart-button', Locator::SELECTOR_ID);
-        $match = $productViewBlock->find(
-            '//ol[@class="products list items upsell"]',
-            Locator::SELECTOR_XPATH);
+        $upsellBlock->clickLink($upsellSimple2);
 
-        $this->assertNull($match, $upsellSimple2->getProductName() .  ' upsell section was found.');
+        // load the new product page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $upsellBlock = $productPage->getUpsellBlock();
+        $this->assertFalse($upsellBlock->isVisible(), "upsell view should not be visible");
 
     }
 

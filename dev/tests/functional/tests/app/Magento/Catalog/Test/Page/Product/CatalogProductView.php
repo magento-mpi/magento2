@@ -55,7 +55,7 @@ class CatalogProductView extends Page
      *
      * @var string
      */
-    protected $upsellSelector = 'block.upsell';
+    protected $upsellSelector = '.block.upsell';
 
     /**
      * Product View block
@@ -140,13 +140,13 @@ class CatalogProductView extends Page
     }
 
     /**
-     * Get review summary block
+     * Get upsell block
      *
-     * @return \Magento\Review\Test\Block\Product\View\Summary
+     * @return \Magento\Catalog\Test\Block\Product\Upsell
      */
     public function getUpsellBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogUpsell(
+        return Factory::getBlockFactory()->getMagentoCatalogProductUpsell(
             $this->_browser->find($this->upsellSelector, Locator::SELECTOR_CSS)
         );
     }

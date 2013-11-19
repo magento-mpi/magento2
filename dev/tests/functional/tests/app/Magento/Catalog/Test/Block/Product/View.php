@@ -203,25 +203,6 @@ class View extends Block
         return true;
     }
 
-
-    /**
-     * Verify upsell item
-     *
-     * @param Product $upsell
-     * @return bool
-     */
-    public function verifyProductUpsell(Product $upsell)
-    {
-        $match = $this->_rootElement->find(
-            '//ol[@class="products list items upsell"]//*/div/strong/a[@title="' . $upsell->getProductName() . '"]',
-            Locator::SELECTOR_XPATH);
-
-        if (!$match->isVisible()) {
-            return false;
-        };
-        return true;
-    }
-
     /**
      * Return option to add related simple product to the shopping cart
      *
@@ -265,24 +246,5 @@ class View extends Block
         $this->_rootElement
             ->find('related-checkbox' . $relatedSimpleProductId, Locator::SELECTOR_ID)->click();
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
-     * Return option to add related simple product to the shopping cart
-     *
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct1
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
-     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
-     */
-    public function getUpsellProductsOption($simpleProduct1, $simpleProduct2, $configurableProduct)
-    {
-        //Click on configurable product in related products section
-        $relatedConfigurableProductName = $configurableProduct->getProductName();
-        $this->_rootElement->find('[title="'. $relatedConfigurableProductName. '"]')->click();
-
-        $this->waitForElementVisible('<strong>' . $relatedConfigurableProductName . '</strong>');
-        $relatedSimpleProductId = $simpleProduct2->getProductId();
-        $this->_rootElement
-            ->find('related-checkbox' . $relatedSimpleProductId, Locator::SELECTOR_ID)->click();
     }
 }
