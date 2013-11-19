@@ -8157,10 +8157,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>true</xml>
@@ -8170,6 +8170,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8188,10 +8189,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8201,6 +8202,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8219,10 +8221,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8232,6 +8234,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8250,10 +8253,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8263,6 +8266,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8281,10 +8285,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8294,6 +8298,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8312,10 +8317,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8325,6 +8330,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8345,10 +8351,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8358,6 +8364,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename"></stringProp>
@@ -8376,10 +8383,10 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <code>true</code>
             <message>true</message>
             <threadName>true</threadName>
-            <dataType>false</dataType>
+            <dataType>true</dataType>
             <encoding>false</encoding>
-            <assertions>false</assertions>
-            <subresults>false</subresults>
+            <assertions>true</assertions>
+            <subresults>true</subresults>
             <responseData>false</responseData>
             <samplerData>false</samplerData>
             <xml>false</xml>
@@ -8389,6 +8396,7 @@ vars.put(&quot;configurable_product_attribute_value&quot;, JMeterUtils.getProper
             <responseDataOnError>false</responseDataOnError>
             <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
             <assertionsResultsToSave>0</assertionsResultsToSave>
+            <bytes>true</bytes>
           </value>
         </objProp>
         <stringProp name="filename">${performance_metrics_collector_file_name}</stringProp>
