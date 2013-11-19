@@ -47,7 +47,8 @@ class Giftwrapping extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_view->loadLayout()->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
 
         $this->_title->add(__('Gift Wrapping'));
         return $this;

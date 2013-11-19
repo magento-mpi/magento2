@@ -186,7 +186,7 @@ class Statistics extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_statistics_refresh')
             ->_addBreadcrumb(__('Refresh Statistics'), __('Refresh Statistics'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     protected function _isAllowed()

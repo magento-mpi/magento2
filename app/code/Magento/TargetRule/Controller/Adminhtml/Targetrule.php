@@ -49,7 +49,8 @@ class Targetrule extends \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->_view->loadLayout()->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
         return $this;
     }
 

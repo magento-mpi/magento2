@@ -78,7 +78,7 @@ class Quote extends \Magento\Backend\App\Action
 
         $this->_initAction()
             ->_addBreadcrumb(__('Catalog'), __('Catalog'));
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function newAction()

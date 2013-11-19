@@ -100,8 +100,8 @@ class Customer extends \Magento\Backend\App\Action
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_orders')
             ->_addBreadcrumb(__('Customers by Number of Orders'),
-                __('Customers by Number of Orders'))
-            ->renderLayout();
+                __('Customers by Number of Orders'));
+        $this->_view->renderLayout();
     }
 
     /**

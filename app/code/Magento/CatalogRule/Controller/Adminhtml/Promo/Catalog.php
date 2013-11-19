@@ -79,7 +79,7 @@ class Catalog extends \Magento\Backend\App\Action
                 __('Catalog'),
                 __('Catalog')
             );
-        $this->_layoutServices->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function newAction()

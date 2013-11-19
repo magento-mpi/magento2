@@ -60,7 +60,9 @@ class Status extends \Magento\Backend\App\Action
     public function indexAction()
     {
         $this->_title->add(__('Order Status'));
-        $this->_view->loadLayout()->_setActiveMenu('Magento_Sales::system_order_statuses')->renderLayout();
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::system_order_statuses');
+        $this->_view->renderLayout();
     }
 
     /**
