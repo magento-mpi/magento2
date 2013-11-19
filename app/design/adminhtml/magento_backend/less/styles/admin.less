@@ -101,160 +101,6 @@ h6 {
     font-weight: 500;
 }
 
-/*
-    Primary "button view" action (default size)
--------------------------------------- */
-input[type=button].primary,
-input[type=submit].primary,
-input[type=reset].primary,
-button.primary,
-input[type=button].primary:visited,
-input[type=submit].primary:visited,
-input[type=reset].primary:visited,
-button.primary:visited,
-.primary,
-.primary:visited,
-.popup-window .add-widget,
-.popup-window .add-widget:visited {
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .1);
-    border: 1px solid #e4731c;
-    color: #fff;
-    text-shadow: 0 1px 1px #8e3b05;
-    background: #f58227;
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMDcyMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f58227), color-stop(100%, #f0721c));
-    background: -webkit-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -o-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -ms-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: linear-gradient(to bottom, #f58227 0%, #f0721c 100%);
-}
-
-.eq-ie8 input[type=button].primary,
-.eq-ie8 input[type=submit].primary,
-.eq-ie8 input[type=reset].primary,
-.eq-ie8 button.primary,
-.eq-ie8 input[type=button].primary:visited,
-.eq-ie8 input[type=submit].primary:visited,
-.eq-ie8 input[type=reset].primary:visited,
-.eq-ie8 button.primary:visited,
-.eq-ie8 .primary,
-.eq-ie8 .primary:visited,
-.eq-ie8 .popup-window .add-widget,
-.eq-ie8 .popup-window .add-widget:visited,
-.page-login button.primary {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f58227', endColorstr='#f0721c', GradientType=0);
-}
-
-input[type=button].primary:hover,
-input[type=submit].primary:hover,
-input[type=reset].primary:hover,
-button.primary:hover,
-input[type=button].primary:focus,
-input[type=submit].primary:focus,
-input[type=reset].primary:focus,
-button.primary:focus,
-.primary:hover,
-.primary:focus,
-.popup-window .add-widget:hover,
-.popup-window .add-widget:focus {
-    color: #fff;
-    background: #e47821;
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZTY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e47821), color-stop(100%, #de6817));
-    background: -webkit-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -o-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -ms-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: linear-gradient(to bottom, #e47821 0%, #de6817 100%);
-}
-
-.eq-ie8 input[type=button].primary:hover,
-.eq-ie8 input[type=submit].primary:hover,
-.eq-ie8 input[type=reset].primary:hover,
-.eq-ie8 button.primary:hover,
-.eq-ie8 input[type=button].primary:focus,
-.eq-ie8 input[type=submit].primary:focus,
-.eq-ie8 input[type=reset].primary:focus,
-.eq-ie8 button.primary:focus,
-.eq-ie8 .primary:hover,
-.eq-ie8 .primary:focus,
-.eq-ie8 .popup-window .add-widget:hover,
-.eq-ie8 .popup-window .add-widget:focus,
-.page-login button.primary:hover,
-.page-login button.primary:focus {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e47821', endColorstr='#de6817', GradientType=0);
-}
-
-input[type=button].primary:active,
-input[type=submit].primary:active,
-input[type=reset].primary:active,
-button.primary:active,
-input[type=button].primary.active,
-input[type=submit].primary.active,
-input[type=reset].primary.active,
-button.primary.active,
-.primary:active,
-.primary.active,
-.popup-window .add-widget:active,
-.page-login button.primary:active {
-    background: #e2701a;
-    box-shadow: 0 1px 2px #bf5f16 inset;
-    text-shadow: 0 -1px 1px #bf5f16;
-}
-
-.eq-ie8 input[type=button].primary:active,
-.eq-ie8 input[type=submit].primary:active,
-.eq-ie8 input[type=reset].primary:active,
-.eq-ie8 button.primary:active,
-.eq-ie8 input[type=button].primary.active,
-.eq-ie8 input[type=submit].primary.active,
-.eq-ie8 input[type=reset].primary.active,
-.eq-ie8 button.primary.active,
-.eq-ie8 .primary:active,
-.eq-ie8 .primary.active,
-.eq-ie8 .popup-window .add-widget:active {
-    filter: none;
-}
-
-input[type=button].primary[disabled],
-input[type=button].primary[disabled]:hover,
-input[type=submit].primary[disabled],
-input[type=submit].primary[disabled]:hover,
-input[type=reset].primary[disabled],
-input[type=reset].primary[disabled]:hover,
-button.primary[disabled],
-button.primary[disabled]:hover,
-input[type=button].primary.disabled,
-input[type=button].primary.disabled:hover,
-input[type=submit].primary.disabled,
-input[type=submit].primary.disabled:hover,
-input[type=reset].primary.disabled,
-input[type=reset].primary.disabled:hover,
-button.primary.disabled,
-button.primary.disabled:hover,
-.primary[disabled],
-.primary[disabled]:hover,
-.primary.disabled,
-.primary.disabled:hover {
-    cursor: not-allowed;
-    color: #fff;
-    opacity: 0.6;
-    box-shadow: none;
-    border: 1px solid #e4731c;
-    text-shadow: none;
-    background: #f47b20 !important;
-    filter: progid:DXImageTransform.Microsoft.Alpha(opacity=60);
-}
-
-/*
-    Placeholder for all big sized "button" actions (simple/primary).
-    Usage:
-        .popup .action-save,
-        .page-actions .action-open {
-            // styles
-        }
--------------------------------------- */
 .dont-use-this-class-big-size {
     font-size: 18px;
     line-height: 24px;
@@ -3063,9 +2909,13 @@ table tbody tr:nth-child(odd):hover th {
 
 .page-login .header {
     margin-bottom: 30px;
+    background: transparent;
+    padding: 0;
+    z-index: auto;
+    position: static;
 }
 
-.page-login .logo {
+.page-login .header .logo {
     display: block;
     width: 262px;
     height: 64px;
@@ -5770,9 +5620,273 @@ table .col-draggable .draggable-handle {
     clear: both;
 }
 
-/*
-    Clearfix
--------------------------------------- */
+// Default & Primary Button
+input[type=button],
+input[type=submit],
+input[type=reset],
+button,
+[class^="action-"],
+.popup-window .add-widget {
+    &:extend(.DefaultButton all);
+    &.primary {
+        &:extend(.PrimaryButton all);
+    }
+}
+
+// Custom grids view
+.CustomGridView {
+    .col-1-layout {
+        padding: 0;
+        background: transparent;
+        border: 0;
+        border-radius: 0;
+        max-width: 1300px;
+        min-width: 960px;
+    }
+}
+
+// Custom grid action view for Primary Add Button at grid tables
+.CustomGridAction {
+    .grid-actions {
+        border-radius: 5px 5px 0 0;
+        margin-top: 20px;
+        padding: 9px 16px 9px 65px;
+    }
+    .page-actions.fixed {
+        left: 0;
+        margin: 0;
+        padding: 0 21px;
+        position: fixed;
+    }
+    .page-actions {
+        position: absolute;
+        z-index: 2;
+        margin-top: 10px;
+        margin-left: 15px;
+        padding: 0;
+    }
+}
+
+// Primary Add Button for grid tables on pages:
+// sales
+.sales-order-index,
+.adminhtml-rma-index,
+// marketing
+.adminhtml-catalog-event-index,
+.adminhtml-urlrewrite-index,
+.adminhtml-targetrule-index,
+.catalog-search-index,
+.catalog-product-review-index,
+.adminhtml-giftcardaccount-index,
+.adminhtml-invitation-index,
+.catalog-rule-promo-catalog-index,
+.sales-rule-promo-quote-index,
+.adminhtml-reminder-index,
+.adminhtml-newsletter-template-index,
+.adminhtml-system-email-template-index,
+.adminhtml-sitemap-index,
+// products
+.adminhtml-googleshopping-types-index,
+// customers
+.customer-index-index,
+.adminhtml-customersegment-index,
+// cms
+.adminhtml-cms-page-index,
+.cms-block-index,
+.adminhtml-banner-index,
+.adminhtml-widget-instance-index,
+.cms-page-index,
+// system
+.adminhtml-webapi-user-index,
+.adminhtml-webapi-role-index,
+.adminhtml-system-variable-index,
+.adminhtml-user-index,
+.adminhtml-user-role-index,
+.adminhtml-webhook-subscription-index,
+.adminhtml-integration-index,
+// content
+.adminhtml-system-design-theme-index,
+.adminhtml-system-design-index,
+// stores
+.adminhtml-giftwrapping-index,
+.adminhtml-customer-attribute-index,
+.adminhtml-customer-address-attribute-index,
+.rating-index-index,
+.tax-rule-index,
+.tax-rate-index,
+.adminhtml-rma-item-attribute-index,
+.adminhtml-reward-rate-index,
+.adminhtml-giftregistry-index,
+.customer-group-index,
+.checkout-agreement-index,
+.catalog-product-attribute-index,
+.catalog-product-set-index {
+    &:extend(.CustomGridView all);
+    &:extend(.CustomGridAction all);
+    .page-actions {
+        .add {
+            &:extend(.PrimaryAddButton all);
+        }
+    }
+}
+
+.catalog-product-index {
+    &:extend(.CustomGridView all);
+    &:extend(.CustomGridAction all);
+}
+
+// Primary Add Split Button or Primary Split Button
+.catalog-product-new,
+.catalog-product-edit,
+.catalog-product-index {
+    .actions-split {
+        &:extend(.PrimarySplitButton all);
+    }
+}
+
+// Custom Grid View for pages:
+// sales
+.sales-invoice-index,
+.sales-shipment-index,
+.sales-creditmemo-index,
+.sales-billing-agreement-index,
+.sales-transactions-index,
+.sales-recurring-profile-index,
+// products
+.adminhtml-googleshopping-items-index,
+// customer
+.customer-online-index,
+// marketing
+.adminhtml-newsletter-queue-index,
+.adminhtml-newsletter-subscriber-index,
+// reports
+.adminhtml-report-shopcart-product,
+.adminhtml-report-shopcart-abandoned
+.adminhtml-report-invitation-index,
+.adminhtml-report-invitation-customer,
+.adminhtml-report-invitation-order,
+.adminhtml-report-product-downloads,
+.adminhtml-report-product-sold,
+.adminhtml-report-product-lowstock,
+.adminhtml-report-customer-accounts,
+.adminhtml-report-customer-totals,
+.adminhtml-report-customer-orders,
+.adminhtml-report-customer-customersegment-segment,
+.adminhtml-report-customer-wishlist-wishlist,
+.adminhtml-report-review-customer,
+.adminhtml-report-review-product,
+.adminhtml-report-search,
+.adminhtml-report-statistics-index,
+.adminhtml-newsletter-problem-index,
+//store
+.adminhtml-system-store-index,
+.sales-order-status-index,
+.adminhtml-report-invitation-index,
+.adminhtml-system-currency-index,
+.adminhtml-system-currencysymbol-index,
+.adminhtml-scheduled-operation-index,
+// system
+.adminhtml-cache-index,
+.adminhtml-system-backup-index,
+.adminhtml-locks-index,
+.adminhtml-notification-index,
+.adminhtml-logging-archive,
+.adminhtml-logging-index,
+.adminhtml-process-list,
+// product
+.catalog-product-index {
+    &:extend(.CustomGridView all);
+}
+
+// Custom page-actions view
+.adminhtml-googleshopping-items-index .grid-title,
+.adminhtml-system-backup-index .page-actions,
+.adminhtml-scheduled-operation-index .page-actions,
+.adminhtml-system-currency-index .page-actions,
+.adminhtml-system-currencysymbol-index .page-actions,
+.adminhtml-cache-index .page-actions,
+.adminhtml-system-store-index .page-actions,
+.sales-order-status-index .page-actions {
+    border: 1px solid #c0bbaf;
+    border-bottom: 0;
+    background: rgb(246, 243, 236);
+    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y2ZjNlYyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNlZGVhZTEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+    background: -moz-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, rgba(246, 243, 236, 1)), color-stop(100%, rgba(237, 234, 225, 1)));
+    background: -webkit-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
+    background: -o-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
+    background: -ms-linear-gradient(top, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
+    background: linear-gradient(to bottom, rgba(246, 243, 236, 1) 0%, rgba(237, 234, 225, 1) 100%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr = '#f6f3ec', endColorstr = '#edeae1', GradientType = 0);
+    padding: 7px 8px 8px;
+    position: relative;
+    float: none;
+}
+
+.adminhtml-googleshopping-items-index .grid {
+    padding-bottom: 25px;
+}
+
+.adminhtml-googleshopping-items-index .grid-title .title {
+    font-family: 'CallunaSans', Arial, sans-serif;
+    font-size: 18px;
+}
+
+.adminhtml-googleshopping-items-index .page-actions {
+    float: right;
+}
+
+.adminhtml-system-backup-index .page-actions.fixed,
+.adminhtml-scheduled-operation-index .page-actions.fixed,
+.adminhtml-system-currency-index .page-actions.fixed,
+.adminhtml-system-currencysymbol-index .page-actions.fixed,
+.adminhtml-cache-index .page-actions.fixed,
+.adminhtml-system-store-index .page-actions.fixed,
+.sales-order-status-index .page-actions.fixed {
+    background-image: none;
+    padding: 0 21px;
+    position: fixed;
+}
+
+.catalog-product-index .grid-actions {
+    padding-left: 90px;
+}
+
+.catalog-rule-promo-catalog-index .grid-actions {
+    padding-left: 210px;
+}
+
+.catalog-rule-promo-catalog-index .page-actions .apply {
+    float: right;
+    margin: 0 0 0 10px;
+}
+
+.catalog-product-index .field-store-switcher {
+    padding: 0;
+}
+
+.sidebar-actions {
+    padding: 14px 0;
+}
+
+.sidebar-actions button {
+    margin: 0 0 5px;
+}
+
+.sales-order-create-index .grid table .action-configure {
+    float: right;
+}
+
+.adminhtml-system-currency-index .import-service {
+    float: left;
+}
+
+.adminhtml-system-currency-index .page-actions.fixed .import-service {
+    display: inline-block;
+    float: none;
+}
+
+// Clearfix
 .clearfix:before,
 .clearfix:after,
 [class$="-layout"]:after,
