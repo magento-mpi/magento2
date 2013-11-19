@@ -7,15 +7,36 @@
  * @license     {license_link}
  */
 
-class ClassA {}
-class ClassB {}
-class ClassC {}
+class ClassA
+{
 
-interface InterfaceA {}
-class ImplementationOfInterfaceA implements InterfaceA {}
+}
+class ClassB
+{
 
-interface InterfaceB {}
-class ImplementationOfInterfaceB implements InterfaceB {}
+}
+class ClassC
+{
+
+}
+
+interface InterfaceA
+{
+
+}
+class ImplementationOfInterfaceA implements InterfaceA
+{
+
+}
+
+interface InterfaceB
+{
+
+}
+class ImplementationOfInterfaceB implements InterfaceB
+{
+
+}
 
 class Context implements \Magento\ObjectManager\ContextInterface
 {

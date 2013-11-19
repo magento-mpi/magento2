@@ -55,11 +55,11 @@ class FirstClassForParentCall
      * @param array $arrayVariable
      */
     public function __construct(
-       \stdClass $stdClassObject,
-       \ClassExtendsDefaultPhpType $runeTimeException,
-       $arrayVariable = array('key' => 'value'))
-   {
-   }
+        \stdClass $stdClassObject,
+        \ClassExtendsDefaultPhpType $runeTimeException,
+        $arrayVariable = array('key' => 'value')
+    ) {
+    }
 }
 
 class ThirdClassForParentCall extends firstClassForParentCall
@@ -71,8 +71,7 @@ class ThirdClassForParentCall extends firstClassForParentCall
     public function __construct(
         \stdClass $stdClassObject,
         \ClassExtendsDefaultPhpType $secondClass
-    )
-    {
+    ) {
         parent::__construct($stdClassObject, $secondClass);
     }
 }
@@ -86,8 +85,7 @@ class WrongArgumentsOrder extends firstClassForParentCall
     public function __construct(
         \stdClass $stdClassObject,
         \ClassExtendsDefaultPhpType $secondClass
-    )
-    {
+    ) {
         parent::__construct($secondClass, $stdClassObject);
     }
 }
@@ -101,8 +99,7 @@ class ArgumentsOnSeparateLines extends firstClassForParentCall
     public function __construct(
         \stdClass $stdClassObject,
         \ClassExtendsDefaultPhpType $secondClass
-    )
-    {
+    ) {
         parent::__construct(
             $secondClass,
             $stdClassObject

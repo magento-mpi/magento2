@@ -7,17 +7,38 @@
  * @license     {license_link}
  */
 
-class ClassFirst {}
-class ClassSecond {}
-class ClassThird {}
-class ClassD {}
+class ClassFirst
+{
 
-interface InterfaceFirst {}
-class ImplementationOfInterfaceFirst implements InterfaceFirst {}
+}
+class ClassSecond
+{
 
-interface InterfaceSecond {}
-class ImplementationOfInterfaceSecond implements InterfaceSecond {}
+}
+class ClassThird
+{
 
+}
+class ClassD
+{
+
+}
+interface InterfaceFirst
+{
+
+}
+class ImplementationOfInterfaceFirst implements InterfaceFirst
+{
+
+}
+interface InterfaceSecond
+{
+
+}
+class ImplementationOfInterfaceSecond implements InterfaceSecond
+{
+
+}
 class ContextFirst implements \Magento\ObjectManager\ContextInterface
 {
     public function __construct(
