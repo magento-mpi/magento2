@@ -13,6 +13,9 @@
  */
 namespace Magento\View;
 
+use Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Read;
+
 class Config implements \Magento\View\ConfigInterface
 {
     /**
@@ -20,31 +23,31 @@ class Config implements \Magento\View\ConfigInterface
      *
      * @var array
      */
-    protected $_viewConfigs = array();
+    protected $viewConfigs = array();
 
     /**
      * Module configuration reader
      *
      * @var \Magento\Module\Dir\Reader
      */
-    protected $_moduleReader;
+    protected $moduleReader;
 
     /**
-     * @var \Magento\Filesystem
+     * @var Read
      */
-    protected $_filesystem;
+    protected $rootDirectory;
 
     /**
      * @var \Magento\View\Service
      */
-    protected $_viewService;
+    protected $viewService;
 
     /**
      * View file system model
      *
      * @var \Magento\View\FileSystem
      */
-    protected $_viewFileSystem;
+    protected $viewFileSystem;
 
     /**
      * @var string
@@ -67,10 +70,10 @@ class Config implements \Magento\View\ConfigInterface
         \Magento\View\FileSystem $viewFileSystem,
         $filename = self::CONFIG_FILE_NAME
     ) {
-        $this->_moduleReader = $moduleReader;
-        $this->_filesystem = $filesystem;
-        $this->_viewService = $viewService;
-        $this->_viewFileSystem = $viewFileSystem;
+        $this->moduleReader = $moduleReader;
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->viewService = $viewService;
+        $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;
     }
 
@@ -82,27 +85,27 @@ class Config implements \Magento\View\ConfigInterface
      */
     public function getViewConfig(array $params = array())
     {
-        $this->_viewService->updateDesignParams($params);
+        $this->viewService->updateDesignParams($params);
         /** @var $currentTheme \Magento\View\Design\ThemeInterface */
         $currentTheme = $params['themeModel'];
         $key = $currentTheme->getId();
-        if (isset($this->_viewConfigs[$key])) {
-            return $this->_viewConfigs[$key];
+        if (isset($this->viewConfigs[$key])) {
+            return $this->viewConfigs[$key];
         }
 
-        $configFiles = $this->_moduleReader->getConfigurationFiles($this->filename);
+        $configFiles = $this->moduleReader->getConfigurationFiles($this->filename);
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
-        if (empty($themeConfigFile) || !$this->_filesystem->has($themeConfigFile)) {
-            $themeConfigFile = $this->_viewFileSystem->getFilename(
+        if (empty($themeConfigFile) || !$this->rootDirectory->isExist($themeConfigFile)) {
+            $themeConfigFile = $this->viewFileSystem->getFilename(
                 $this->filename, $params
             );
         }
-        if ($themeConfigFile && $this->_filesystem->has($themeConfigFile)) {
+        if ($themeConfigFile && $this->rootDirectory->isExist($themeConfigFile)) {
             $configFiles[] = $themeConfigFile;
         }
         $config = new \Magento\Config\View($configFiles);
 
-        $this->_viewConfigs[$key] = $config;
+        $this->viewConfigs[$key] = $config;
         return $config;
     }
 }
