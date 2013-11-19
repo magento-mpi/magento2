@@ -16,9 +16,8 @@ use Mtf\TestCase\Functional;
 use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
 
 /**
  * Class PromoteRelatedProductTest
@@ -52,7 +51,6 @@ class PromoteRelatedProductTest extends Functional
         // Precondition: create simple product 2
         $simpleProduct2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simpleProduct2->persist();
-
         // Precondition: create configurable product
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurableProduct->persist();
@@ -65,11 +63,11 @@ class PromoteRelatedProductTest extends Functional
     /**
      * Configure related products in the backend
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $product
-     * @array \Magento\Catalog\Test\Fixture\Product $relatedProducts
+     * @param Product $product
+     * @array Product $relatedProducts
      * @param $relatedProducts
      */
-    protected function addRelatedProduct($product, $relatedProducts)
+    private function addRelatedProduct($product, $relatedProducts)
     {
         foreach ($relatedProducts as $relatedProduct) {
             $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
@@ -77,7 +75,8 @@ class PromoteRelatedProductTest extends Functional
             $this->directToRelatedProductPage($productEditPage);
             $productEditPage->getProductBlockForm()
                 ->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-            $productEditPage->getProductEditGrid()->searchAndSelect(array('name' => $relatedProduct->getProductName()));
+            $productEditPage->getRelatedProductEditGrid()
+                ->searchAndSelect(array('name' => $relatedProduct->getProductName()));
             $productEditPage->getProductBlockForm()->save($product);
             //Verify that the product was successfully saved
             $this->assertSuccessMessage("You saved the product.", $productEditPage);
@@ -85,9 +84,9 @@ class PromoteRelatedProductTest extends Functional
     }
 
     /**
-     * @param \Magento\Catalog\Test\Page\Product\CatalogProductEdit $productEditPage
+     * @param CatalogProductEdit $productEditPage
      */
-    protected function directToRelatedProductPage($productEditPage)
+    private function directToRelatedProductPage($productEditPage)
     {
         $productBlockForm = $productEditPage->getProductBlockForm();
         /**
@@ -97,7 +96,7 @@ class PromoteRelatedProductTest extends Functional
             ->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
 
         /**
-         * comments here
+         * Wait for the "related tab" shows up and click on it
          */
         $productBlockForm->waitForElementVisible('product_info_tabs_related', Locator::SELECTOR_ID);
         $productBlockForm->getRootElement()
@@ -106,9 +105,9 @@ class PromoteRelatedProductTest extends Functional
 
     /**
      * @param $messageText
-     * @param \Magento\Catalog\Test\Page\Product\CatalogProductEdit $productEditPage
+     * @param CatalogProductEdit $productEditPage
      */
-    protected function assertSuccessMessage($messageText, $productEditPage)
+    private function assertSuccessMessage($messageText, $productEditPage)
     {
         $messageBlock = $productEditPage->getMessagesBlock();
         $this->assertContains(
@@ -121,41 +120,82 @@ class PromoteRelatedProductTest extends Functional
     /**
      * Assert configurable product is added to cart together with the proper related product
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct1
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
-     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
+     * @param Product $simpleProduct1
+     * @param Product $simpleProduct2
+     * @param Product $configurableProduct
      */
     protected function assertOnTheFrontEnd($simpleProduct1, $simpleProduct2, $configurableProduct)
     {
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($simpleProduct1);
         $productPage->open();
-        $this->verifyConfigurableProduct($productPage->getViewBlock(), $simpleProduct2, $configurableProduct);
+        $this->verifySimpleProduct($productPage->getViewBlock(), $simpleProduct2, $configurableProduct);
+        $this->verifyConfigurableProduct($simpleProduct2, $configurableProduct);
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $this->assertTrue($checkoutCartBlock->checkAddedProduct($configurableProduct)->isVisible(),
+            'Configurable product was not found in the shopping cart.');
         $this->assertTrue($checkoutCartBlock->checkAddedProduct($simpleProduct2)->isVisible(),
             'Related product was not found in the shopping cart.');
     }
 
-
     /**
-     * Verify that the configurable product presents in the related products section
+     * Verify that the simple product 1 has simple product 2 and configurable product as related products
      *
      * @param \Magento\Catalog\Test\Block\Product\View $productViewBlock
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
-     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
+     * @param Product $simpleProduct2
+     * @param Product $configurableProduct
      */
-    protected function verifyConfigurableProduct($productViewBlock, $simpleProduct2, $configurableProduct)
+    private function verifySimpleProduct($productViewBlock, $simpleProduct2, $configurableProduct)
     {
-        //Verify that configurable product is added as related product
+        $rootElement = $productViewBlock->getRootElement();
+
+        //Verify that related products section(block) is present on the product page
+        $this->assertTrue($rootElement->find('[class="block related"]')->isVisible(),
+            'Related products block is not found on the simple product page');
+
+        //Verify that simple product 2 is added as related product and has checkbox
+        $this->assertTrue($rootElement->find('[title="'. $simpleProduct2->getProductName() . '"]')->isVisible(),
+            'Simple product 2 is not added successfully as related product');
+        $this->assertTrue($rootElement
+                ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->isVisible(),
+            'Simple product 2 does not have "Add to Cart" checkbox');
+
+        //Verify that configurable product is added as related product and does not have checkbox
         $this->assertTrue($productViewBlock->getRootElement()
                 ->find('[title="'. $configurableProduct->getProductName() . '"]')->isVisible(),
             'Configurable product is not added successfully as related product');
-        //Open up configurable product if it presents in the related products section
+        $this->assertFalse($rootElement
+                ->find('related-checkbox' . $configurableProduct->getProductId(), Locator::SELECTOR_ID)->isVisible(),
+            'Configurable product should not have "Add to Cart" checkbox');
+    }
+
+    /**
+     * Verify that the configurable product has simple product 2 as related product
+     *
+     * @param Product $simpleProduct2
+     * @param Product $configurableProduct
+     */
+    private function verifyConfigurableProduct($simpleProduct2, $configurableProduct)
+    {
+        //Open up configurable product page
         $configurableProductPage = Factory::getPageFactory()->getCatalogProductView();
         $configurableProductPage->init($configurableProduct);
         $configurableProductPage->open();
+        $rootElement = $configurableProductPage->getViewBlock()->getRootElement();
+
+        //Verify that related products section(block) is present on the product page
+        $this->assertTrue($rootElement->find('[class="block related"]')->isVisible(),
+            'Related products block is not found on the configurable product page');
+
+        //Verify that simple product 2 is added as related product and has checkbox
+        $this->assertTrue($rootElement->find('[title="'. $simpleProduct2->getProductName() . '"]')->isVisible(),
+            'Simple product 2 is not added successfully as related product');
+        $this->assertTrue($rootElement
+                ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->isVisible(),
+            'Simple product 2 does not have "Add to Cart" checkbox');
+
         //Add configurable and the related product for configurable together to the shopping cart
         $configurableProductPage->getViewBlock()->addRelatedProductsToCart($simpleProduct2, $configurableProduct);
     }

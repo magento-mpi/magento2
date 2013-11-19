@@ -94,18 +94,7 @@ class View extends Block
      */
     public function addToCart(Product $product)
     {
-        $configureButton = $this->_rootElement->find('.action.primary.customize');
-        $configureSection = $this->_rootElement->find('.product.options.configure');
-
-        if ($configureButton->isVisible()) {
-            $configureButton->click();
-            $bundleOptions = $product->getSelectionData();
-            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
-        }
-        if ($configureSection->isVisible()) {
-            $productOptions = $product->getProductOptions();
-            $this->getBundleBlock()->fillProductOptions($productOptions);
-        }
+        $this->fillOptions($product);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
@@ -211,23 +200,31 @@ class View extends Block
      */
     public function addRelatedProductsToCart($simpleProduct2, $configurableProduct)
     {
+        $this->fillOptions($configurableProduct);
+        $this->_rootElement
+            ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Fill in the option specified for the product
+     *
+     * @param Product $product
+     */
+    private function fillOptions($product)
+    {
         $configureButton = $this->_rootElement->find('.action.primary.customize');
         $configureSection = $this->_rootElement->find('.product.options.configure');
 
         if ($configureButton->isVisible()) {
             $configureButton->click();
-            $bundleOptions = $configurableProduct->getSelectionData();
+            $bundleOptions = $product->getSelectionData();
             $this->getBundleBlock()->fillBundleOptions($bundleOptions);
         }
         if ($configureSection->isVisible()) {
-            $productOptions = $configurableProduct->getProductOptions();
+            $productOptions = $product->getProductOptions();
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }
-
-        $relatedSimpleProductId = $simpleProduct2->getProductId();
-        $this->_rootElement
-            ->find('related-checkbox' . $relatedSimpleProductId, Locator::SELECTOR_ID)->click();
-        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
     /**

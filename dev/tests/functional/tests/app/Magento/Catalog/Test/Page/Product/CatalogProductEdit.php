@@ -14,6 +14,8 @@ namespace Magento\Catalog\Test\Page\Product;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Block\Backend\ProductForm;
+use Magento\Catalog\Test\Block\Backend\RelatedProductEditGrid;
 
 /**
  * Class CatalogProductEdit
@@ -41,16 +43,18 @@ class CatalogProductEdit extends Page
     protected $messagesBlock;
 
     /**
-     * @var \Magento\Catalog\Test\Block\Backend\ProductForm
+     * Product form block
+     *
+     * @var ProductForm
      */
     private $productFormBlock;
 
     /**
-     * Catalog product grid on backend
+     * Catalog product grid on backend under "related products" tab when editing
      *
-     * @var \Magento\Catalog\Test\Block\Backend\ProductEditGrid
+     * @var RelatedProductEditGrid
      */
-    private $productEditGrid;
+    private $relatedProductEditGrid;
 
     /**
      * Custom constructor
@@ -67,7 +71,7 @@ class CatalogProductEdit extends Page
             $this->_browser->find('body', Locator::SELECTOR_CSS)
         );
 
-        $this->productEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+        $this->relatedProductEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendRelatedProductEditGrid(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
@@ -85,7 +89,7 @@ class CatalogProductEdit extends Page
     /**
      * Get product form block
      *
-     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
+     * @return ProductForm
      */
     public function getProductBlockForm()
     {
@@ -95,10 +99,10 @@ class CatalogProductEdit extends Page
     /**
      * Get the backend catalog product block
      *
-     * @return \Magento\Catalog\Test\Block\Backend\ProductEditGrid
+     * @return RelatedProductEditGrid
      */
-    public function getProductEditGrid()
+    public function getRelatedProductEditGrid()
     {
-        return $this->productEditGrid;
+        return $this->relatedProductEditGrid;
     }
 }

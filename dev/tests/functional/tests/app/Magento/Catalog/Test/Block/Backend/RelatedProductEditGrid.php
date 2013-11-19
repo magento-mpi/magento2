@@ -15,12 +15,12 @@ namespace Magento\Catalog\Test\Block\Backend;
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
- * Class ProductGrid
- * Backend catalog product grid
+ * Class RelatedProductEditGrid
+ * Backend catalog product grid under "related products" tag when editing
  *
  * @package Magento\Catalog\Test\Block
  */
-class ProductEditGrid extends Grid
+class RelatedProductEditGrid extends Grid
 {
     /**
      * Initialize block elements
