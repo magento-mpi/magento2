@@ -159,6 +159,43 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetAllowedResources()
+    {
+        $userIdentifierA = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $resourcesA = array('Magento_Adminhtml::dashboard', 'Magento_Cms::page');
+        $this->_service->grantPermissions($userIdentifierA, $resourcesA);
+
+        $userIdentifierB = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $resourcesB = array('Magento_Cms::block', 'Magento_Sales::use');
+        $this->_service->grantPermissions($userIdentifierB, $resourcesB);
+
+        /** Preconditions check */
+        $this->_ensurePermissionsAreGranted($userIdentifierA, $resourcesA);
+        $this->_ensurePermissionsAreGranted($userIdentifierB, $resourcesB);
+
+        $this->assertEquals(
+            $resourcesA,
+            $this->_service->getAllowedResources($userIdentifierA),
+            "The list of resources allowed to the user is invalid."
+        );
+
+        $this->assertEquals(
+            $resourcesB,
+            $this->_service->getAllowedResources($userIdentifierB),
+            "The list of resources allowed to the user is invalid."
+        );
+    }
+
+    /**
+     * @expectedException \Magento\Service\Exception
+     * @expectedMessage The role associated with the specified user cannot be found.
+     */
+    public function testGetAllowedResourcesRoleNotFound()
+    {
+        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $this->_service->getAllowedResources($userIdentifier);
+    }
+
     /**
      * Create new User identifier
      *
