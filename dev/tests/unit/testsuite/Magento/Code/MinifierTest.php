@@ -21,7 +21,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     protected $filesystem;
 
     /**
-     * @var \Magento\Code\Minifier
+     * @var Minifier
      */
     protected $minifier;
 
@@ -31,7 +31,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     protected $minifyDir = 'minify';
 
     /**
-     * @var \Magento\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $directoryRead;
 
@@ -50,7 +50,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->with(\Magento\Filesystem\DirectoryList::PUB_VIEW_CACHE)
             ->will($this->returnValue($this->directoryRead));
-        $this->minifier = new \Magento\Code\Minifier($this->strategy, $this->filesystem, $this->minifyDir);
+        $this->minifier = new Minifier($this->strategy, $this->filesystem, $this->minifyDir);
     }
 
     /**
@@ -59,15 +59,17 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     public function testGetMinifiedFile()
     {
         $originalFile = '/pub/cache/' . $this->minifyDir . '/original/some.js';
+        $originalFileRelative = $this->minifyDir . '/original/some.js';
+        $minifiedFileRelative = $this->minifyDir . '/original/some.min.js';
 
         $this->directoryRead->expects($this->at(0))
             ->method('getRelativePath')
-            ->with('/pub/cache/' . $this->minifyDir . '/original/some.min.js')
-            ->will($this->returnValue($this->minifyDir . '/original/some.min.js'));
+            ->with($originalFile)
+            ->will($this->returnValue($originalFileRelative));
 
         $this->directoryRead->expects($this->at(1))
             ->method('isExist')
-            ->with($this->matches($this->minifyDir . '/original/some.min.js'))
+            ->with($minifiedFileRelative)
             ->will($this->returnValue(false));
 
         $this->directoryRead->expects($this->at(2))
@@ -77,7 +79,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
 
         $this->strategy->expects($this->once())
             ->method('minifyFile')
-            ->with($originalFile, $this->matches('/pub/cache/' . $this->minifyDir . '%ssome.min.js'));
+            ->with($this->minifyDir . '/original/some.js', $this->matches($this->minifyDir . '%ssome.min.js'));
         $minifiedFile = $this->minifier->getMinifiedFile($originalFile);
         $this->assertStringMatchesFormat('/pub/cache/' . $this->minifyDir . '%ssome.min.js', $minifiedFile);
     }
@@ -104,15 +106,20 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
 
         $this->directoryRead->expects($this->at(0))
             ->method('getRelativePath')
-            ->with($expectedMinifiedFile)
-            ->will($this->returnValue($this->minifyDir . '/original/some.min.js'));
+            ->with($originalFile)
+            ->will($this->returnValue($this->minifyDir . '/original/some.js'));
 
         $this->directoryRead->expects($this->at(1))
             ->method('isExist')
-            ->with($this->matches($this->minifyDir . '/original/some.min.js'))
+            ->with($this->minifyDir . '/original/some.min.js')
             ->will($this->returnValue(true));
 
+        $this->directoryRead->expects($this->at(2))
+            ->method('getAbsolutePath')
+            ->with($this->minifyDir . '/original/some.min.js')
+            ->will($this->returnValue($expectedMinifiedFile));
+
         $minifiedFile = $this->minifier->getMinifiedFile($originalFile);
-        $this->assertStringEndsWith($expectedMinifiedFile, $minifiedFile);
+        $this->assertStringEndsWith($minifiedFile, $expectedMinifiedFile);
     }
 }
