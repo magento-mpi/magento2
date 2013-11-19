@@ -17,6 +17,7 @@ use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
+use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 
 /**
  * Authorization service.
@@ -42,6 +43,9 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /** @var RulesFactory */
     protected $_rulesFactory;
 
+    /** @var RulesCollectionFactory */
+    protected $_rulesCollectionFactory;
+
     /** @var Logger */
     protected $_logger;
 
@@ -51,6 +55,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param RoleFactory $roleFactory
      * @param RoleCollectionFactory $roleCollectionFactory
      * @param RulesFactory $rulesFactory
+     * @param RulesCollectionFactory $rulesCollectionFactory
      * @param Logger $logger
      */
     public function __construct(
@@ -59,12 +64,14 @@ class AuthorizationV1 implements AuthorizationV1Interface
         RoleFactory $roleFactory,
         RoleCollectionFactory $roleCollectionFactory,
         RulesFactory $rulesFactory,
+        RulesCollectionFactory $rulesCollectionFactory,
         Logger $logger
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_userIdentifier = $userIdentifier;
         $this->_roleFactory = $roleFactory;
         $this->_rulesFactory = $rulesFactory;
+        $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_roleCollectionFactory = $roleCollectionFactory;
         $this->_logger = $logger;
     }
@@ -72,7 +79,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * {@inheritdoc}
      */
-    public function isAllowed($resources, $userIdentifier = null)
+    public function isAllowed($resources, UserIdentifier $userIdentifier = null)
     {
         $resources = is_array($resources) ? $resources : array($resources);
         $userIdentifier = $userIdentifier ? $userIdentifier : $this->_userIdentifier;
@@ -103,7 +110,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * {@inheritdoc}
      */
-    public function grantPermissions($userIdentifier, $resources)
+    public function grantPermissions(UserIdentifier $userIdentifier, array $resources)
     {
         try {
             $role = $this->_getUserRole($userIdentifier);
@@ -119,6 +126,38 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 __('Error happened while granting permissions. Check exception log for details.')
             );
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getAllowedResources(UserIdentifier $userIdentifier)
+    {
+        $allowedResources = array();
+        try {
+            $role = $this->_getUserRole($userIdentifier);
+            if (!$role) {
+                throw new ServiceException(__('The role associated with the specified user cannot be found.'));
+            }
+            $rulesCollection = $this->_rulesCollectionFactory->create();
+            $rulesCollection->getByRoles($role->getId())->load();
+            $acl = $this->_aclBuilder->getAcl();
+            /** @var \Magento\User\Model\Rules $ruleItem */
+            foreach ($rulesCollection->getItems() as $ruleItem) {
+                $resourceId = $ruleItem->getResourceId();
+                if ($acl->has($resourceId) && $acl->isAllowed($role->getId(), $resourceId)) {
+                    $allowedResources[] = $resourceId;
+                }
+            }
+        } catch (ServiceException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            $this->_logger->log($e);
+            throw new ServiceException(
+                __('Error happened while getting a list of allowed resources. Check exception log for details.')
+            );
+        }
+        return $allowedResources;
     }
 
     /**

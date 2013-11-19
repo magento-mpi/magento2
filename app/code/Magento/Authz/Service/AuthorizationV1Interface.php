@@ -23,7 +23,7 @@ interface AuthorizationV1Interface
      * @param string[] $resources List of resources which should be available to the specified user.
      * @throws ServiceException
      */
-    public function grantPermissions($userIdentifier, $resources);
+    public function grantPermissions(UserIdentifier $userIdentifier, array $resources);
 
     /**
      * Check if the user has permission to access the requested resources.
@@ -35,5 +35,14 @@ interface AuthorizationV1Interface
      * @return bool
      * @throws ServiceException
      */
-    public function isAllowed($resources, $userIdentifier = null);
+    public function isAllowed($resources, UserIdentifier $userIdentifier = null);
+
+    /**
+     * Get a list of resources available to the specified user.
+     *
+     * @param UserIdentifier $userIdentifier
+     * @return string[]
+     * @throws ServiceException
+     */
+    public function getAllowedResources(UserIdentifier $userIdentifier);
 }

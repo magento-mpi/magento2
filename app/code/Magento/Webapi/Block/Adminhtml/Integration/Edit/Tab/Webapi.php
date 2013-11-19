@@ -10,7 +10,7 @@
 
 namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
-use Magento\Integration\Controller\Adminhtml\Integration;
+use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
 
 /**
  * Class for handling API section within integration
@@ -39,6 +39,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      */
     protected $_aclResourceProvider;
 
+    /** @var \Magento\Core\Model\Registry */
+    protected $_registry;
+
     /**
      * Construct
      *
@@ -47,6 +50,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -55,11 +59,13 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -109,8 +115,13 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected function _construct()
     {
         parent::_construct();
-        //TODO : Fetch the selected resources once its persisted in the AuthZ tables
         $selectedResourceIds = array();
+        $currentIntegration = $this->_registry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
+        if ($currentIntegration
+            && isset($currentIntegration['resource']) && is_array($currentIntegration['resource'])
+        ) {
+            $selectedResourceIds = $currentIntegration['resource'];
+        }
         $this->setSelectedResources($selectedResourceIds);
     }
 
