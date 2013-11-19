@@ -108,6 +108,34 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     }
 
     /**
+     * Create new Integration with valid data
+     *
+     * @ZephyrId MAGETWO-16694
+     */
+    public function testVerifyResourcesTree()
+    {
+        //Data
+        $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
+        //Steps
+        $newIntegrationPage = Factory::getPageFactory()->getAdminIntegrationNew();
+        $newIntegrationPage->open();
+        $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture);
+        $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
+        $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
+        $newIntegrationPage->getApiTab()->changeRoleAccess('All');
+        $this->assertFalse($newIntegrationPage->getApiTab()->isResourceVisible(),
+            'Resources tree should not be visible.'
+        );
+        $newIntegrationPage->getIntegrationFormBlock()->save($integrationFixture);
+        //Verification
+        $this->_checkSaveSuccessMessage();
+        $this->_openByName($integrationFixture->getName());
+        $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
+        $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
+    }
+
+    /**
      * Check success message after integration save.
      */
     protected function _checkSaveSuccessMessage()

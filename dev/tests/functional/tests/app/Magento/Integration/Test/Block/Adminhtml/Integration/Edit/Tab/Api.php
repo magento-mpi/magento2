@@ -9,12 +9,14 @@
 namespace Magento\Integration\Test\Block\Adminhtml\Integration\Edit\Tab;
 
 use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Client\Element\Locator;
 
 /**
- * Integration tab of integration edit page.
+ * Api tab of integration edit page.
  */
 class Api extends Tab
 {
+    protected $resourceAccess = '#all';
     /**
      * {@inheritdoc}
      */
@@ -22,8 +24,17 @@ class Api extends Tab
     {
         parent::_init();
         $this->_mapping = array(
-            'enable_api_access' => '#enable_api_access_checkbox',
-            'resource_access' => '#all',
+            'resource_access' => $this->resourceAccess,
         );
+    }
+
+    public function isResourceVisible()
+    {
+        return $this->_rootElement->find('[data-role="tree-resources-container"]')->isVisible();
+    }
+
+    public function changeRoleAccess($param)
+    {
+        $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->setValue($param);
     }
 }

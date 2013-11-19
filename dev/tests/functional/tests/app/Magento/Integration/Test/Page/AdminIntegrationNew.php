@@ -8,8 +8,6 @@
 
 namespace Magento\Integration\Test\Page;
 
-use Magento\Core\Test\Block\Messages;
-use Magento\Integration\Test\Block\Adminhtml\IntegrationForm;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -27,16 +25,23 @@ class AdminIntegrationNew extends Page
     /**
      * Integrations block.
      *
-     * @var IntegrationForm
+     * @var string
      */
-    private $integrationFormBlock;
+    protected $integrationFormBlock = 'page:main-container';
 
     /**
      * Messages block.
      *
-     * @var Messages
+     * @var string
      */
-    private $messageBlock;
+    protected $messageBlock = 'messages';
+
+    /**
+     * Api tab of integration edit page.
+     *
+     * @var string
+     */
+    protected $apiBlock = '#integration_edit_tabs_api_section_content';
 
     /**
      * {@inheritdoc}
@@ -44,32 +49,41 @@ class AdminIntegrationNew extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $element = $this->_browser->find('page:main-container', Locator::SELECTOR_ID);
-        $this->integrationFormBlock = Factory::getBlockFactory()->getMagentoIntegrationAdminhtmlIntegrationForm(
-            $element
-        );
-        $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('messages', Locator::SELECTOR_ID)
-        );
     }
 
     /**
      * Get integration form block.
      *
-     * @return IntegrationForm
+     * @return \Magento\Integration\Test\Block\Adminhtml\IntegrationForm
      */
     public function getIntegrationFormBlock()
     {
-        return $this->integrationFormBlock;
+        return  Factory::getBlockFactory()->getMagentoIntegrationAdminhtmlIntegrationForm(
+            $this->_browser->find($this->integrationFormBlock, Locator::SELECTOR_ID)
+        );
     }
 
     /**
      * Get messages block.
      *
-     * @return Messages
+     * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessageBlock()
     {
-        return $this->messageBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messageBlock, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get api tab of integration edit page.
+     *
+     * @return \Magento\Integration\Test\Block\Adminhtml\Integration\Edit\Tab\Api
+     */
+    public function getApiTab()
+    {
+        return Factory::getBlockFactory()->getMagentoIntegrationAdminhtmlIntegrationEditTabApi(
+            $this->_browser->find($this->apiBlock, Locator::SELECTOR_CSS)
+        );
     }
 }
