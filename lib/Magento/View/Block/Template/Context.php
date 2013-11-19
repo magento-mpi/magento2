@@ -41,9 +41,9 @@ class Context extends \Magento\View\Block\Context
     protected $_viewFileSystem;
 
     /**
-     * @var \Magento\View\TemplateEngineFactory
+     * @var \Magento\View\TemplateEnginePool
      */
-    protected $_engineFactory;
+    protected $enginePool;
 
     /**
      * @var \Magento\App\State
@@ -69,7 +69,7 @@ class Context extends \Magento\View\Block\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\View\TemplateEngineFactory $engineFactory
+     * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      * @param \Magento\Escaper $escaper
@@ -98,7 +98,7 @@ class Context extends \Magento\View\Block\Context
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\View\TemplateEngineFactory $engineFactory,
+        \Magento\View\TemplateEnginePool $enginePool,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
         \Magento\Escaper $escaper,
@@ -134,7 +134,7 @@ class Context extends \Magento\View\Block\Context
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
-        $this->_engineFactory = $engineFactory;
+        $this->enginePool = $enginePool;
     }
 
     /**
@@ -179,11 +179,11 @@ class Context extends \Magento\View\Block\Context
     /**
      * Get the template engine pool instance
      *
-     * @return \Magento\View\TemplateEngineFactory
+     * @return \Magento\View\TemplateEnginePool
      */
-    public function getEngineFactory()
+    public function getEnginePool()
     {
-        return $this->_engineFactory;
+        return $this->enginePool;
     }
 
     /**

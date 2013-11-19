@@ -62,9 +62,9 @@ class Template extends AbstractBlock
     protected $_template;
 
     /**
-     * @var \Magento\View\TemplateEngineFactory
+     * @var \Magento\View\TemplateEnginePool
      */
-    protected $_tplEngineFactory;
+    protected $templateEnginePool;
 
     /**
      * Core data
@@ -98,7 +98,7 @@ class Template extends AbstractBlock
         $this->_dirs = $context->getDirs();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
-        $this->_tplEngineFactory = $context->getEngineFactory();
+        $this->templateEnginePool = $context->getEnginePool();
         $this->_storeManager = $context->getApp();
         $this->_appState = $context->getAppState();
         parent::__construct($context, $data);
@@ -204,7 +204,7 @@ class Template extends AbstractBlock
                 || $this->isAllowSymlinks()) && $this->_filesystem->isFile($fileName)
         ) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
-            $templateEngine = $this->_tplEngineFactory->get($extension);
+            $templateEngine = $this->templateEnginePool->get($extension);
             $html = $templateEngine->render($this, $fileName, $this->_viewVars);
         } else {
             $html = '';

@@ -384,6 +384,11 @@
     </type>
     <type name="Magento\View\TemplateEngineFactory">
         <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+        <param name="engines">
+            <value>
+                <phtml>Magento\View\TemplateEngine\Php</phtml>
+            </value>
+        </param>
     </type>
     <type name="\Magento\Image">
         <param name="adapter">
