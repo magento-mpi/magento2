@@ -9,11 +9,29 @@
  */
 namespace Magento\Core\Model\Session;
 
-class Config implements \Magento\Session\ConfigInterface
+/**
+ * Magento session configuration
+ */
+class Config implements \Zend\Session\Config\ConfigInterface
 {
+    /**
+     * Configuration path for cookie domain
+     */
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
+
+    /**
+     * Configuration path for cookie lifetime
+     */
     const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
+
+    /**
+     * Configuration path for cookie http only param
+     */
     const XML_PATH_COOKIE_HTTPONLY  = 'web/cookie/cookie_httponly';
+
+    /**
+     * Configuration path for cookie path
+     */
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
 
     /**

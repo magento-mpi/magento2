@@ -112,7 +112,7 @@ class AbstractSession extends \Magento\Object
     protected $sidResolver;
 
     /**
-     * @var \Magento\Session\ConfigInterface
+     * @var \Zend\Session\Config\ConfigInterface
      */
     protected $_sessionConfig;
 
@@ -163,6 +163,8 @@ class AbstractSession extends \Magento\Object
             return $this;
         }
 
+        \Magento\Profiler::start('session_start');
+
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
@@ -189,32 +191,31 @@ class AbstractSession extends \Magento\Object
                 }
                 break;
         }
-        $sessionConfig = $this->_sessionConfig;
 
-        // session cookie params
-        $cookieParams = array(
-            'lifetime' => 0, // 0 is browser session lifetime
-            'path'     => $sessionConfig->getCookiePath(),
-            'domain'   => $sessionConfig->getCookieDomain(),
-            'secure'   => $sessionConfig->getCookieSecure(),
-            'httponly' => $sessionConfig->getCookieHttpOnly()
-        );
-
-        if (!$cookieParams['httponly']) {
-            unset($cookieParams['httponly']);
-            if (!$cookieParams['secure']) {
-                unset($cookieParams['secure']);
-                if (!$cookieParams['domain']) {
-                    unset($cookieParams['domain']);
-                }
-            }
-        }
-
-        if (isset($cookieParams['domain'])) {
-            $cookieParams['domain'] = $sessionConfig->getCookieDomain();
-        }
-
-        call_user_func_array('session_set_cookie_params', $cookieParams);
+//        // session cookie params
+//        $cookieParams = array(
+//            'lifetime' => 0, // 0 is browser session lifetime
+//            'path'     => $this->_sessionConfig->getCookiePath(),
+//            'domain'   => $this->_sessionConfig->getCookieDomain(),
+//            'secure'   => $this->_sessionConfig->getCookieSecure(),
+//            'httponly' => $this->_sessionConfig->getCookieHttpOnly()
+//        );
+//
+//        if (!$cookieParams['httponly']) {
+//            unset($cookieParams['httponly']);
+//            if (!$cookieParams['secure']) {
+//                unset($cookieParams['secure']);
+//                if (!$cookieParams['domain']) {
+//                    unset($cookieParams['domain']);
+//                }
+//            }
+//        }
+//
+//        if (isset($cookieParams['domain'])) {
+//            $cookieParams['domain'] = $this->_sessionConfig->getCookieDomain();
+//        }
+//
+//        call_user_func_array('session_set_cookie_params', $cookieParams);
 
         if (!empty($sessionName)) {
             $this->setSessionName($sessionName);
@@ -222,8 +223,6 @@ class AbstractSession extends \Magento\Object
 
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId($this->sidResolver->getSid());
-
-        \Magento\Profiler::start('session_start');
 
         if ($this->_cacheLimiter) {
             session_cache_limiter($this->_cacheLimiter);

@@ -20,6 +20,25 @@ namespace Magento\Core\Model;
 
 class Cookie
 {
+    const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
+    const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
+    const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
+    const XML_PATH_COOKIE_HTTPONLY  = 'web/cookie/cookie_httponly';
+
+    protected $_lifetime;
+
+    /**
+     * Store object
+     *
+     * @var \Magento\Core\Model\Store
+     */
+    protected $_store;
+
+    /**
+     * @var \Magento\Core\Model\StoreManager
+     */
+    protected $_storeManager;
+
     /**
      * @var \Magento\App\RequestInterface
      */
@@ -33,23 +52,51 @@ class Cookie
     /**
      * Core store config
      *
-     * @var \Magento\Session\ConfigInterface
+     * @var \Magento\Core\Model\Store\Config
      */
-    protected $_sessionConfig;
+    protected $_coreStoreConfig;
 
     /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Session\ConfigInterface $sessionConfig
+     * @param Store\Config $coreStoreConfig
+     * @param StoreManager $storeManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
         \Magento\App\ResponseInterface $response,
-        \Magento\Session\ConfigInterface $sessionConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_httpRequest = $request;
         $this->_httpResponse = $response;
-        $this->_sessionConfig = $sessionConfig;
+        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_storeManager = $storeManager;
+    }
+
+    /**
+     * Set Store object
+     *
+     * @param mixed $store
+     * @return \Magento\Core\Model\Cookie
+     */
+    public function setStore($store)
+    {
+        $this->_store = $this->_storeManager->getStore($store);
+        return $this;
+    }
+
+    /**
+     * Retrieve Store object
+     *
+     * @return \Magento\Core\Model\Store
+     */
+    public function getStore()
+    {
+        if (is_null($this->_store)) {
+            $this->_store = $this->_storeManager->getStore();
+        }
+        return $this->_store;
     }
 
     /**
@@ -79,7 +126,21 @@ class Cookie
      */
     public function getDomain()
     {
-        return $this->_sessionConfig->getCookieDomain();
+        $domain = $this->getConfigDomain();
+        if (empty($domain)) {
+            $domain = $this->_getRequest()->getHttpHost();
+        }
+        return $domain;
+    }
+
+    /**
+     * Retrieve Config Domain for cookie
+     *
+     * @return string
+     */
+    public function getConfigDomain()
+    {
+        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
     }
 
     /**
@@ -89,7 +150,11 @@ class Cookie
      */
     public function getPath()
     {
-        return $this->_sessionConfig->getCookiePath();
+        $path = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
+        if (empty($path)) {
+            $path = $this->_getRequest()->getBasePath();
+        }
+        return $path;
     }
 
     /**
@@ -99,7 +164,27 @@ class Cookie
      */
     public function getDefaultLifetime()
     {
-        return $this->_sessionConfig->getCookieLifetime();
+        if (!is_null($this->_lifetime)) {
+            $lifetime = $this->_lifetime;
+        } else {
+            $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
+        }
+        if (!is_numeric($lifetime)) {
+            $lifetime = 3600;
+        }
+        return $lifetime;
+    }
+
+    /**
+     * Set cookie lifetime
+     *
+     * @param int $lifetime
+     * @return \Magento\Core\Model\Cookie
+     */
+    public function setLifetime($lifetime)
+    {
+        $this->_lifetime = (int)$lifetime;
+        return $this;
     }
 
     /**
@@ -109,7 +194,11 @@ class Cookie
      */
     public function getHttponly()
     {
-        return $this->_sessionConfig->getCookieHttpOnly();
+        $httponly = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
+        if (is_null($httponly)) {
+            return null;
+        }
+        return (bool)$httponly;
     }
 
     /**
@@ -120,7 +209,10 @@ class Cookie
      */
     public function isSecure()
     {
-        return $this->_sessionConfig->getCookieSecure();
+        if ($this->getStore()->isAdmin()) {
+            return $this->_getRequest()->isSecure();
+        }
+        return false;
     }
 
     /**

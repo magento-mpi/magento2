@@ -1,13 +1,13 @@
 <?php
 /**
- * Session configuration object interface
+ * Zend Framework (http://framework.zend.com/)
  *
- * {license_notice}
- *
- * @copyright   {copyright}
- * @license     {license_link}
+ * @link      http://github.com/zendframework/zf2 for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 Zend Technologies USA Inc. (http://www.zend.com)
+ * @license   http://framework.zend.com/license/new-bsd New BSD License
  */
-namespace Magento\Session;
+
+namespace Zend\Session\Config;
 
 /**
  * Standard session configuration

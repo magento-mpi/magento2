@@ -93,7 +93,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $sidResolver;
 
     /**
-     * @var \Magento\Session\ConfigInterface
+     * @var \Zend\Session\Config\ConfigInterface
      */
     protected $_sessionConfig;
 
@@ -109,7 +109,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Session\ConfigInterface $sessionConfig
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param $saveMethod
      * @param null $savePath
@@ -127,7 +127,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\Dir $dir,
-        \Magento\Session\ConfigInterface $sessionConfig,
+        \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SidResolverInterface $sidResolver,
         $saveMethod,
         $savePath = null,
@@ -272,7 +272,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Session\ConfigInterface
+     * @return \Zend\Session\Config\ConfigInterface
      */
     public function getSessionConfig()
     {
