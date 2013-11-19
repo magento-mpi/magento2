@@ -33,6 +33,7 @@ class Customer extends AbstractRepository
 
         $this->_data['customer_US_1'] = $this->_getUS1();
         $this->_data['backend_customer'] = $this->_getBackendCustomer();
+        $this->_data['backend_retailer_customer'] = $this->_getRetailerCustomer();
     }
 
     protected function _getUS1()
@@ -91,6 +92,41 @@ class Customer extends AbstractRepository
                         'group' => 'customer_info_tabs_account',
                         'input' => 'select',
                         'input_value' => '1'
+                    )
+                ),
+                'addresses' => array()
+            )
+        );
+    }
+
+    protected function _getRetailerCustomer()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jane',
+                        'group' => 'customer_info_tabs_account'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe',
+                        'group' => 'customer_info_tabs_account'
+                    ),
+                    'email' => array(
+                        'value' => 'Jane.Doe%isolation%@example.com',
+                        'group' => 'customer_info_tabs_account'
+                    ),
+                    'website_id' => array(
+                        'value' => 'Main Website',
+                        'group' => 'customer_info_tabs_account',
+                        'input' => 'select',
+                        'input_value' => '1'
+                    ),
+                    'group_id' => array(
+                        'value' => 'Retailer',
+                        'group' => 'customer_info_tabs_account',
+                        'input' => 'select',
+                        'input_value' => '3'
                     )
                 ),
                 'addresses' => array()
