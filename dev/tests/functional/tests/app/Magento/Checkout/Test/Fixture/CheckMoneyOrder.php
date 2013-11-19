@@ -17,7 +17,6 @@ use Magento\Catalog\Test\Fixture;
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-15999
  * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrder extends Checkout
@@ -82,7 +81,7 @@ class CheckMoneyOrder extends Checkout
         $this->products = array(
             $simple,
             $configurable,
-            $bundle
+            $bundle,
         );
 
         //Checkout data
