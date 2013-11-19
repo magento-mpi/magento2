@@ -78,25 +78,20 @@
                 </block>
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="edit">
                     <arguments>
-                        <argument name="renderer" xsi:type="string">Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link\Image</argument>
-                        <argument name="img_src" xsi:type="string">https://cdn1.iconfinder.com/data/icons/mimiGlyphs/16/pen_edit.png</argument> <!-- @todo replace when ready by UI team -->
-                        <argument name="url_pattern" xsi:type="string">*/*/edit</argument>
-                        <argument name="caption" xsi:type="string" translate="true">Edit</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button\Edit</argument>
+                        <argument name="class" xsi:type="string">action edit</argument>
                         <argument name="index" xsi:type="string">edit</argument>
                         <argument name="id" xsi:type="string">edit</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Backend\Block\Widget\Grid\Column" as="remove">
+                <block class="Magento\Backend\Block\Widget\Grid\Column" as="delete">
                     <arguments>
-                        <argument name="renderer" xsi:type="string">Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Link\Image</argument>
-                        <argument name="img_src" xsi:type="string">https://cdn1.iconfinder.com/data/icons/mimiGlyphs/16/delete_garbage.png</argument> <!-- @todo replace when ready by UI team -->
-                        <argument name="url_pattern" xsi:type="string">*/*/remove</argument>
-                        <argument name="caption" xsi:type="string" translate="true">Remove</argument>
-                        <argument name="disabled_caption" xsi:type="string" translate="true">Uninstall the extension to remove this integration</argument>
-                        <argument name="index" xsi:type="string">remove</argument>
-                        <argument name="id" xsi:type="string">remove</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button\Delete</argument>
+                        <argument name="class" xsi:type="string">action delete</argument>
+                        <argument name="index" xsi:type="string">delete</argument>
+                        <argument name="id" xsi:type="string">delete</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="filter" xsi:type="string">0</argument>
                     </arguments>
