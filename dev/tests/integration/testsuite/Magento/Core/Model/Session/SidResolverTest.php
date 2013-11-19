@@ -153,7 +153,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSessionIdQueryParamCustom()
     {
-        $oldSessionName = $this->session->getSessionName();
+        $oldSessionName = $this->session->getName();
         $this->session->setSessionName($this->customSessionName);
         $this->assertEquals(
             $this->customSessionQueryParam,

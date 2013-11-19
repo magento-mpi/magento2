@@ -310,7 +310,7 @@ class Account extends \Magento\Core\Controller\Front\Action
     {
         $lastCustomerId = $this->_getSession()->getId();
         $this->_getSession()->logout()
-            ->renewSession()
+            ->regenerateId()
             ->setBeforeAuthUrl($this->_getRefererUrl())
             ->setLastCustomerId($lastCustomerId);
 

@@ -581,7 +581,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $this->_metadata->setMetadata('routing_requested_controller', $request->getRequestedControllerName());
                 $this->_metadata->setMetadata('routing_requested_action', $request->getRequestedActionName());
 
-                $this->_metadata->setMetadata('sid_cookie_name', $this->_coreSession->getSessionName());
+                $this->_metadata->setMetadata('sid_cookie_name', $this->_coreSession->getName());
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }

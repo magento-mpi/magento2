@@ -277,7 +277,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
 
             $adminSession = $this->_getSession();
             $adminSession->unsetAll();
-            $adminSession->getCookie()->delete($adminSession->getSessionName());
+            $adminSession->getCookie()->delete($adminSession->getName());
 
             $response->setRedirectUrl($this->getUrl('*'));
         } catch (\Magento\Backup\Exception\CantLoadSnapshot $e) {

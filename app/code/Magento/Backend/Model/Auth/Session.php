@@ -185,7 +185,7 @@ class Session
     public function processLogin()
     {
         if ($this->getUser()) {
-            $this->renewSession();
+            $this->regenerateId();
 
             if ($this->_backendUrl->useSecretKey()) {
                 $this->_backendUrl->renewSecretUrls();
@@ -206,7 +206,7 @@ class Session
     public function processLogout()
     {
         $this->unsetAll();
-        $this->getCookie()->delete($this->getSessionName());
+        $this->getCookie()->delete($this->getName());
         return $this;
     }
 }

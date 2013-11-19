@@ -74,7 +74,7 @@ class Observer
         }
 
         $this->_authSession->unsetAll();
-        $this->_authSession->getCookie()->delete($this->_authSession->getSessionName());
+        $this->_authSession->getCookie()->delete($this->_authSession->getName());
 
         $route = $this->_backendData->getAreaFrontName();
 

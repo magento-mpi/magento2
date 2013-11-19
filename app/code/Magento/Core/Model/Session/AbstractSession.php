@@ -159,7 +159,7 @@ class AbstractSession extends \Magento\Object
      */
     public function start($sessionName = null)
     {
-        if (isset($_SESSION) && !$this->getSkipEmptySessionCheck()) {
+        if ($this->isSessionExists()) {
             return $this;
         }
 
@@ -222,7 +222,7 @@ class AbstractSession extends \Magento\Object
         }
 
         // potential custom logic for session id (ex. switching between hosts)
-        $this->setSessionId($this->sidResolver->getSid());
+//        $this->setSessionId($this->sidResolver->getSid());
 
         if ($this->_cacheLimiter) {
             session_cache_limiter($this->_cacheLimiter);
@@ -312,7 +312,7 @@ class AbstractSession extends \Magento\Object
      *
      * @return string
      */
-    public function getSessionName()
+    public function getName()
     {
         return session_name();
     }
@@ -694,27 +694,50 @@ class AbstractSession extends \Magento\Object
     /**
      * Renew session id and update session cookie
      *
+     * @param bool $deleteOldSession
      * @return \Magento\Core\Model\Session\AbstractSession
+     * @throws \LogicException
      */
-    public function renewSession()
+    public function regenerateId($deleteOldSession = true)
     {
         if (headers_sent()) {
-            $this->_logger->log('Can not regenerate session id because HTTP headers already sent.');
+            throw new \LogicException('Can not regenerate session id because HTTP headers already sent.');
             return $this;
         }
-        session_regenerate_id(true);
+        session_regenerate_id($deleteOldSession);
+        $this->expireSessionCookie();
+        return $this;
+    }
 
-        $sessionHosts = $this->_getHosts();
+    /**
+     * Expire the session cookie
+     *
+     * Sends a session cookie with no value, and with an expiry in the past.
+     *
+     * @return void
+     */
+    public function expireSessionCookie()
+    {
+        if (!$this->_sessionConfig->getUseCookies()) {
+            return;
+        }
+
         $currentCookieDomain = $this->_sessionConfig->getCookieDomain();
-        if (is_array($sessionHosts)) {
-            foreach (array_keys($sessionHosts) as $host) {
-                // Delete cookies with the same name for parent domains
-                if (strpos($currentCookieDomain, $host) > 0) {
-                    $this->_cookie->delete($this->getSessionName(), null, $host);
-                }
+        foreach (array_keys($this->_getHosts()) as $host) {
+            // Delete cookies with the same name for parent domains
+            if (strpos($currentCookieDomain, $host) > 0) {
+                setcookie($this->getName(), '', 0, $this->_sessionConfig->getCookiePath(), $host);
             }
         }
 
-        return $this;
+        setcookie(
+            $this->getName(),                 // session name
+            '',                               // value
+            0,                                // TTL for cookie
+            $this->_sessionConfig->getCookiePath(),
+            $this->_sessionConfig->getCookieDomain(),
+            $this->_sessionConfig->getCookieSecure(),
+            $this->_sessionConfig->getCookieHttpOnly()
+        );
     }
 }

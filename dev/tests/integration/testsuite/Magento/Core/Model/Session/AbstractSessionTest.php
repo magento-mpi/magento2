@@ -68,15 +68,15 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(session_id(), $this->_model->getSessionId());
     }
 
-    public function testGetSessionName()
+    public function testGetName()
     {
-        $this->assertEquals(session_name(), $this->_model->getSessionName());
+        $this->assertEquals(session_name(), $this->_model->getName());
     }
 
     public function testSetSessionName()
     {
         $this->_model->setSessionName('test');
-        $this->assertEquals('test', $this->_model->getSessionName());
+        $this->assertEquals('test', $this->_model->getName());
     }
 
     public function testUnsetAll()

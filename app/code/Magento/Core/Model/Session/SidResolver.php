@@ -87,7 +87,7 @@ class SidResolver implements \Magento\Session\SidResolverInterface
      */
     public function getSessionIdQueryParam()
     {
-        $sessionName = $this->session->getSessionName();
+        $sessionName = $this->session->getName();
         if ($sessionName && isset($this->sidNameMap[$sessionName])) {
             return $this->sidNameMap[$sessionName];
         }
