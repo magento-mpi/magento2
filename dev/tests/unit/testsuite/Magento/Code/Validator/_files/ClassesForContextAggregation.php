@@ -66,6 +66,13 @@ class ContextFirst implements \Magento\ObjectManager\ContextInterface
      */
     protected $_implOfBInterface;
 
+    /**
+     * @param ClassFirst $exA
+     * @param ClassSecond $exB
+     * @param ClassThird $exC
+     * @param InterfaceFirst $interfaceA
+     * @param ImplementationOfInterfaceSecond $implOfBInterface
+     */
     public function __construct(
         \ClassFirst $exA, \ClassSecond $exB, \ClassThird $exC,
         \InterfaceFirst $interfaceA,
@@ -77,7 +84,6 @@ class ContextFirst implements \Magento\ObjectManager\ContextInterface
         $this->_interfaceA = $interfaceA;
         $this->_implOfBInterface = $implOfBInterface;
     }
-
 }
 
 class ClassArgumentAlreadyInjectedInContext
@@ -92,6 +98,10 @@ class ClassArgumentAlreadyInjectedInContext
      */
     protected $_exA;
 
+    /**
+     * @param ContextFirst $context
+     * @param ClassFirst $exA
+     */
     public function __construct(\ContextFirst $context, \ClassFirst $exA)
     {
         $this->_context = $context;
@@ -111,6 +121,10 @@ class ClassArgumentWithInterfaceImplementation
      */
     protected $_exA;
 
+    /**
+     * @param ContextFirst $context
+     * @param ImplementationOfInterfaceFirst $exA
+     */
     public function __construct(\ContextFirst $context, \ImplementationOfInterfaceFirst $exA)
     {
         $this->_context = $context;
@@ -130,6 +144,10 @@ class ClassArgumentWithInterface
      */
     protected $_exB;
 
+    /**
+     * @param ContextFirst $context
+     * @param InterfaceSecond $exB
+     */
     public function __construct(\ContextFirst $context, \InterfaceSecond $exB)
     {
         $this->_context = $context;
@@ -149,6 +167,10 @@ class ClassArgumentWithAlreadyInjectedInterface
      */
     protected $_exA;
 
+    /**
+     * @param ContextFirst $context
+     * @param InterfaceFirst $exA
+     */
     public function __construct(\ContextFirst $context, \InterfaceFirst $exA)
     {
         $this->_context = $context;

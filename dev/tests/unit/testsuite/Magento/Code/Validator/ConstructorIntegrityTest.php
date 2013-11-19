@@ -14,7 +14,7 @@ require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/One/Test.p
 require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Four/Test.php';
 require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Five/Test.php';
 require_once __DIR__ .  '/../_files/app/code/Magento/SomeModule/Model/Six/Test.php';
-require_once __DIR__ .  '/_files/ClassesForConstructorIntegrityTest.php';
+require_once __DIR__ .  '/_files/ClassesForConstructorIntegrity.php';
 
 class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
 {
@@ -77,7 +77,7 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
     public function testValidateWrongOrderForParentArguments()
     {
         $fileName = realpath(__DIR__) . DIRECTORY_SEPARATOR
-            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForConstructorIntegrityTest.php';
+            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForConstructorIntegrity.php';
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
             'Incompatible argument type: Required type: \Context. ' .
@@ -89,7 +89,7 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
     public function testValidateWrongOptionalParamsType()
     {
         $fileName = realpath(__DIR__) . DIRECTORY_SEPARATOR
-            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForConstructorIntegrityTest.php';
+            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForConstructorIntegrity.php';
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
             'Incompatible argument type: Required type: array. ' .

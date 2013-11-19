@@ -9,7 +9,7 @@
 
 namespace Magento\Code\Validator;
 
-require_once(__DIR__ . '/_files/ClassesForContextAggregationTest.php');
+require_once(__DIR__ . '/_files/ClassesForContextAggregation.php');
 
 class ContextAggregationTest extends \PHPUnit_Framework_TestCase
 {
@@ -27,7 +27,7 @@ class ContextAggregationTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = new \Magento\Code\Validator\ContextAggregation();
         $this->_fixturePath  = realpath(__DIR__) . DIRECTORY_SEPARATOR
-            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForContextAggregationTest.php';
+            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForContextAggregation.php';
     }
 
     public function testClassArgumentAlreadyInjectedIntoContext()

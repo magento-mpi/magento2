@@ -9,7 +9,7 @@
 
 namespace Magento\Code\Reader;
 
-require_once(__DIR__ . '/_files/ClassesForArgumentsReaderTest.php');
+require_once(__DIR__ . '/_files/ClassesForArgumentsReader.php');
 
 class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,8 +33,8 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
                 'isOptional' => false,
                 'default' => null
             ),
-            'WithoutConstructorClassObject' => array(
-                'name' => 'WithoutConstructorClassObject',
+            'withoutConstructorClassObject' => array(
+                'name' => 'withoutConstructorClassObject',
                 'position' => 1,
                 'type' => '\ClassWithoutConstruct',
                 'isOptional' => false,
@@ -100,8 +100,8 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
                 'isOptional' => false,
                 'default' => null
             ),
-            'WithoutConstructorClassObject' => array(
-                'name' => 'WithoutConstructorClassObject',
+            'withoutConstructorClassObject' => array(
+                'name' => 'withoutConstructorClassObject',
                 'position' => 1,
                 'type' => '\ClassWithoutConstruct',
                 'isOptional' => false,
