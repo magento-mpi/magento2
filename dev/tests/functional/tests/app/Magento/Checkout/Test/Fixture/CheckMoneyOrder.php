@@ -12,6 +12,7 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
+use Magento\Catalog\Test\Fixture;
 
 /**
  * Guest checkout with taxes, Check/Money order payment method and offline shipping method
@@ -98,12 +99,12 @@ class CheckMoneyOrder extends Checkout
     /**
      * Get Product Price with tax for product of particular class
      *
-     * @param string $productClass
+     * @param Fixture\Product $product
      * @return string
      */
-    public function getProductPriceWithTax($productClass)
+    public function getProductPriceWithTax($product)
     {
-        $className = explode('\\', $productClass);
+        $className = explode('\\', get_class($product));
         return $this->getData('product_price_with_tax/' . $className[count($className) - 1] . '/value');
     }
 

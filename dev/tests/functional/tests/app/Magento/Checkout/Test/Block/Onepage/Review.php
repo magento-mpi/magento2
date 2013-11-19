@@ -27,36 +27,28 @@ class Review extends Block
      *
      * @var string
      */
-    private $continue;
+    protected $continue = '#review-buttons-container button';
 
     /**
      * Grand total search mask
      *
      * @var string
      */
-    protected  $_grandTotalMask = '//tr[normalize-space(td)="Grand Total"]//span';
+    protected  $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
 
     /**
      * Subtotal search mask
      *
      * @var string
      */
-    protected $_subtotalMask = '//tr[normalize-space(td)="Subtotal"]//span';
+    protected $subtotal = '//tr[normalize-space(td)="Subtotal"]//span';
 
     /**
      * Tax search mask
      *
      * @var string
      */
-    protected $_taxMask = '//tr[normalize-space(td)="Tax"]//span';
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->continue = '#review-buttons-container button';
-    }
+    protected $tax = '//tr[normalize-space(td)="Tax"]//span';
 
     /**
      * Fill billing address
@@ -74,7 +66,7 @@ class Review extends Block
      */
     public function getGrandTotal()
     {
-        return $this->_rootElement->find($this->_grandTotalMask, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -84,7 +76,7 @@ class Review extends Block
      */
     public function getTax()
     {
-        return $this->_rootElement->find($this->_taxMask, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->tax, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -94,6 +86,6 @@ class Review extends Block
      */
     public function getSubtotal()
     {
-        return $this->_rootElement->find($this->_subtotalMask, Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find($this->subtotal, Locator::SELECTOR_XPATH)->getText();
     }
 }

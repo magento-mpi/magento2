@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\TestCase;
+namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -23,7 +23,7 @@ use Magento\Checkout\Test\Block\Onepage;
  * Class CheckMoneyOrderTest
  * Guest checkout with Check/Money Order payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-15999
+ * @ZephyrId MAGETWO-12412
  * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrderTest extends Functional
@@ -98,7 +98,7 @@ class CheckMoneyOrderTest extends Functional
      */
     protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\Product $product, Block\Cart $block)
     {
-        $expected = $fixture->getProductPriceWithTax(get_class($product));
+        $expected = $fixture->getProductPriceWithTax($product);
         $this->assertEquals($expected, $block->getProductPriceByName($product->getProductName()));
     }
 

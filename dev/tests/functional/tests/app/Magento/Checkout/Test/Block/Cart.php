@@ -35,7 +35,7 @@ class Cart extends Block
      *
      * @var string
      */
-    protected $cartProductPrice = './/td/a[@title="%s"]/../../td[@class="col price excl tax"]/span/span';
+    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
 
     /**
      * Get proceed to checkout block
@@ -89,7 +89,6 @@ class Cart extends Block
     public function getProductPriceByName($productName)
     {
         $priceSelector = sprintf($this->cartProductPrice, $productName);
-        $price = $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
-        return $price;
+        return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
     }
 }
