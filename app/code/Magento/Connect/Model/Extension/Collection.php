@@ -90,7 +90,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $this->_collectRecursive($this->connectDirectory->getAbsolutePath('connect'));
         $result = array('/' => '/');
         foreach ($this->_collectedDirs as $dir) {
-            $dir = str_replace($this->connectDirectory->getAbsolutePath('connect') . '/', '', $dir) . '/';
+            $dir = substr($this->connectDirectory->getRelativePath($dir), strlen('connect/') + 1) . '/';
             $result[$dir] = $dir;
         }
 
