@@ -50,6 +50,9 @@ class Image extends Link
      */
     protected function _getImgSrc()
     {
+        return $this->getColumn()->getImgSrc();
+
+
         return $this->isDisabled($this->_row)
             ? $this->getColumn()->getDisabledImgSrc() ?: $this->getColumn()->getImgSrc()
             : $this->getColumn()->getImgSrc();

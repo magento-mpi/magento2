@@ -19,7 +19,7 @@ namespace Magento\Integration\Block\Adminhtml\Integration;
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
-class Consumer extends \Magento\Backend\Block\Widget\Form\Generic
+class Token extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * Set form id prefix, declare fields for integration consumer modal
@@ -30,7 +30,7 @@ class Consumer extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create();
-        $htmlIdPrefix = 'integration_consumer_';
+        $htmlIdPrefix = 'integration_token_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
         $model = $this->_coreRegistry->registry('current_integration');
@@ -43,16 +43,30 @@ class Consumer extends \Magento\Backend\Block\Widget\Form\Generic
             ));
         }
 
-        $fieldset->addField('key', 'text', array(
-            'label'     => __('Key'),
-            'name'      => 'key',
+        $fieldset->addField('token', 'text', array(
+            'label'     => __('Token'),
+            'name'      => 'token',
             'required'  => true,
             'disabled'  => true
         ));
 
-        $fieldset->addField('secret', 'text', array(
-            'label'     => __('Secret'),
-            'name'      => 'secret',
+        $fieldset->addField('token-secret', 'text', array(
+            'label'     => __('Token Secret'),
+            'name'      => 'token-secret',
+            'required'  => true,
+            'disabled'  => true
+        ));
+
+        $fieldset->addField('client-id', 'text', array(
+            'label'     => __('Client ID'),
+            'name'      => 'client-id',
+            'required'  => true,
+            'disabled'  => true
+        ));
+
+        $fieldset->addField('client-secret', 'text', array(
+            'label'     => __('Client Secret'),
+            'name'      => 'client-secret',
             'required'  => true,
             'disabled'  => true
         ));

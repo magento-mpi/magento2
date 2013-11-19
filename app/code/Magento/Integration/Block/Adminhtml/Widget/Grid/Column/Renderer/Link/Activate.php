@@ -54,6 +54,10 @@ class Activate extends Link
                     'url' => $this->getUrl(
                         $this->getUrlPattern(),
                         ['id' => $this->_row->getId(), '_query' => ['popup_dialog' => 'permissions']]
+                    ),
+                    'url2' => $this->getUrl(
+                        '*/*/token',
+                        ['id' => $this->_row->getId()]
                     )
                 ]
             ]

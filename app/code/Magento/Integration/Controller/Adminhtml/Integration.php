@@ -183,27 +183,19 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
         }
     }
 
-    public function consumerAction()
-    {
-        $integrationId = (int)$this->getRequest()->getParam('id');
+    public function tokenAction()
+    {/*
+        $popupDialog = $this->getRequest()->getParam('popup_dialog');
 
-        $model = $this->_objectManager->create('Magento\Integration\Model\Integration');
-        if ($integrationId) {
-            $model->load($integrationId);
+        if ($popupDialog) {
+            $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
+            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
+        } else {
+            $this->loadLayout();
         }
-
-        if (!$this->_registry->registry('current_integration')) {
-            $this->_registry->register('current_integration', $model);
-        }
-
-        if (!$model->getId() && $integrationId) {
-            $this->_getSession()
-                ->addError(__('This integration no longer exists.'));
-            $this->_redirect('*/*/');
-            return;
-        }
-
-        $this->loadLayout();
+        */
+            $this->loadLayout();
+            $this->getLayout()->getBlock('root')->addBodyClass('attribute-popup');
         $this->renderLayout();
     }
 
