@@ -35,16 +35,14 @@ class Shell extends \Magento\Core\Model\AbstractShell
      * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\Filesystem $filesystem
      * @param string $entryPoint
-     * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\Index\Model\Indexer $indexer,
         \Magento\Filesystem $filesystem,
-        $entryPoint,
-        \Magento\App\Dir $dir
+        $entryPoint
     ) {
         $this->_indexer = $indexer;
-        parent::__construct($filesystem, $entryPoint, $dir);
+        parent::__construct($filesystem, $entryPoint);
     }
 
     /**

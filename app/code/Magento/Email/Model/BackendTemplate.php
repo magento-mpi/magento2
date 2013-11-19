@@ -13,7 +13,7 @@ namespace Magento\Email\Model;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class BackendTemplate extends \Magento\Email\Model\Template
+class BackendTemplate extends Template
 {
     /**
      * @var \Magento\Core\Model\Config
@@ -37,7 +37,6 @@ class BackendTemplate extends \Magento\Email\Model\Template
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Email\Model\Template\FilterFactory $emailFilterFactory
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param array $data
@@ -56,7 +55,6 @@ class BackendTemplate extends \Magento\Email\Model\Template
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Email\Model\Template\FilterFactory $emailFilterFactory,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\App\Dir $dir,
         \Magento\Email\Model\Template\Config $emailConfig,
         \Magento\Backend\Model\Config\Structure $structure,
         array $data = array()
@@ -73,7 +71,6 @@ class BackendTemplate extends \Magento\Email\Model\Template
             $coreConfig,
             $emailFilterFactory,
             $storeManager,
-            $dir,
             $emailConfig,
             $data
         );
