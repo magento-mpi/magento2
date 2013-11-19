@@ -56,22 +56,23 @@ foreach($scv as $line) {
 }
 
 foreach($result as $key => $value) {
-        $httpSample = $xml->addChild('httpSample');
+    $httpSample = $xml->addChild('httpSample');
 
-        $httpSample->addAttribute('t',$value['t']);
-        $httpSample->addAttribute('lt',$value['t']);
-        $httpSample->addAttribute('ts',$value['ts']);
-        $httpSample->addAttribute('s','true');
-        $httpSample->addAttribute('lb',$key);
-        $httpSample->addAttribute('rc','200');
-        $httpSample->addAttribute('rm','OK');
-        $httpSample->addAttribute('tn',$key);
+    $httpSample->addAttribute('t',$value['t']);
+    $httpSample->addAttribute('lt',$value['t']);
+    $httpSample->addAttribute('ts',$value['ts']);
+    $httpSample->addAttribute('s','true');
+    $httpSample->addAttribute('lb',$key);
+    $httpSample->addAttribute('rc','200');
+    $httpSample->addAttribute('rm','OK');
+    $httpSample->addAttribute('tn',$key);
 
-        $assertionResult = $httpSample->addChild('assertionResult');
-        $assertionResult->addChild('name', 'false');
-        $assertionResult->addChild('failure', 'false');
-        $assertionResult->addChild('error', 'false');
+    $assertionResult = $httpSample->addChild('assertionResult');
+    $assertionResult->addChild('name', 'false');
+    $assertionResult->addChild('failure', 'false');
+    $assertionResult->addChild('error', 'false');
 }
+
 $xml->asXML($new_logs_url);
 
 function readCSV($csvFile){

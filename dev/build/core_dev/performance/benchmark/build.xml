@@ -285,7 +285,7 @@
         <fail unless="env.mysql_database" message="Variable 'mysql_database' must be defined"/>
     </target>
 
-    <target name="megre">
+    <target name="megre" description="Benchmark Logs Merge">
         <exec executable="php">
             <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/benchmark_logs_merge.php"/>
             <arg value="--xml"/>
