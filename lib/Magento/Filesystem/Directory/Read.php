@@ -82,7 +82,7 @@ class Read implements ReadInterface
      * @param string $path
      * @return string
      */
-    public function getRelativePath($path = '')
+    public function getRelativePath($path = null)
     {
         $path = str_replace('\\', '/', $path);
         if ((strpos($path, $this->path) === 0) || ($this->path == $path . '/')) {
