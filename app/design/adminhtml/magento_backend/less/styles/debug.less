@@ -1,9 +1,9 @@
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
+///**
+// * {license_notice}
+// *
+// * @copyright  {copyright}
+// * @license    {license_link}
+// */
 
 /*
     This file was created to debug old classes in order to indicate where we must replase it with new ones
@@ -144,14 +144,18 @@ ul.messages li.success-msg li:before {
 .section-config > .collapseable > a,
 .accordion > dt a,
 .accordion .collapseable > a {
-    color: #666;
+    .style10();
     display: block;
     padding: 7px 0 10px 22px;
-    font-family: 'CallunaSans', Arial, sans-serif;
-    font-size: 18px;
     text-decoration: none;
     position: relative;
     cursor: pointer;
+}
+
+.section-config > .collapseable > a i,
+.accordion > dt a i,
+.accordion .collapseable > a i {
+    .style31();
 }
 
 .section-config.active > .collapseable > a,
@@ -324,7 +328,7 @@ ul.messages li.success-msg li:before {
 
 .section-config.with-button .config-heading strong {
     display: block;
-    font-size: 14px;
+    .style28();
     margin-bottom:5px;
 }
 
@@ -385,6 +389,10 @@ ul.messages li.success-msg li:before {
     border: 0;
 }
 
+.accordion .config .comment a {
+    .style3();
+}
+
 .accordion .config legend {
     display: none;
 }
@@ -408,6 +416,7 @@ ul.messages li.success-msg li:before {
     float: none;
     width: 25%;
     text-align: right;
+    .style2();
 }
 
 .accordion .config .value .label {
@@ -523,6 +532,10 @@ ul.messages li.success-msg li:before {
     padding-left: 15px;
     margin: 5px 0;
     color: #666;
+}
+
+.accordion .config .note a {
+    .style22();
 }
 
 .accordion .config .note:before {

@@ -1,4 +1,4 @@
-@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700 <http://fonts.googleapis.com/css?family=Open+Sans:400italic%2c400%2c600%2c700> );
+@import url(http://fonts.googleapis.com/css?family=Open+Sans:400italic,400,600,700);
 /**
 * {license_notice}
 *
@@ -1767,41 +1767,9 @@ button.primary.disabled:active,
   background: #026294;
   border: 1px solid #004c74;
 }
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
-/*
-    Fonts
--------------------------------------- */
-@font-face {
-  font-family: 'CallunaSans';
-  src: url('../fonts/calluna/CallunaSansLight-webfont.woff');
-  src: url('../fonts/calluna/CallunaSansLight-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansLight-webfont.svg#webfont85gDAx2H') format('svg'), url('../fonts/calluna/CallunaSansLight-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansLight-webfont.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 200;
-}
-@font-face {
-  font-family: 'CallunaSans';
-  src: url('../fonts/calluna/CallunaSansRegular-webfont.woff');
-  src: url('../fonts/calluna/CallunaSansRegular-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansRegular-webfont.svg#webfont85gDAx2D') format('svg'), url('../fonts/calluna/CallunaSansRegular-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansRegular-webfont.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 400;
-}
-@font-face {
-  font-family: 'CallunaSans';
-  src: url('../fonts/calluna/CallunaSansSemiBold-webfont.woff');
-  src: url('../fonts/calluna/CallunaSansSemiBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansSemiBold-webfont.svg#webfont85gDAx2A') format('svg'), url('../fonts/calluna/CallunaSansSemiBold-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansSemiBold-webfont.ttf') format('truetype');
-  font-style: normal;
-  font-weight: 500;
-}
-@font-face {
-  font-family: 'CallunaSans';
-  src: url('../fonts/calluna/CallunaSansBold-webfont.woff');
-  src: url('../fonts/calluna/CallunaSansBold-webfont.eot?#iefix') format('embedded-opentype'), url('../fonts/calluna/CallunaSansBold-webfont.svg#webfont85gDAx2C') format('svg'), url('../fonts/calluna/CallunaSansBold-webfont.woff') format('woff'), url('../fonts/calluna/CallunaSansBold-webfont.ttf') format('truetype');
-  font-style: normal;
+.style2 {
+  color: #676056;
+  font-size: 13px;
   font-weight: 600;
 }
 @font-face {
@@ -1824,40 +1792,49 @@ html {
   height: 100%;
 }
 body {
+  color: #676056;
+  font: 400 14px/1.33 'Open Sans', sans-serif;
+  background: #f2ebde;
   position: relative;
-  background: url(../images/body-bg.jpg);
   height: auto;
 }
-/*
-    Headers and titles
--------------------------------------- */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  font-family: 'CallunaSans', Arial, sans-serif;
-  font-weight: 400;
-}
 h1 {
-  font-size: 26px;
+  color: #676056;
+  font: 400 28px/1.2 'Open Sans', sans-serif;
 }
 h2 {
-  font-size: 22px;
+  color: #676056;
+  font: 400 20px/1.2 'Open Sans', sans-serif;
 }
 h3 {
-  font-size: 18px;
+  color: #676056;
+  font: 600 16px/1.2 'Open Sans', sans-serif;
 }
 h4 {
-  font-size: 16px;
+  color: #676056;
+  font: 600 14px/1.2 'Open Sans', sans-serif;
 }
 h5 {
-  font-size: 14px;
+  color: #676056;
+  font: 600 13px/1.2 'Open Sans', sans-serif;
 }
 h6 {
-  font-size: 13px;
-  font-weight: 500;
+  color: #676056;
+  font: 600 12px/1.2 'Open Sans', sans-serif;
+}
+a {
+  display: inline;
+  color: #026294;
+  text-decoration: none;
+}
+a:visited,
+a:active {
+  color: #026294;
+}
+a:focus,
+a:hover {
+  color: #026294;
+  text-decoration: underline;
 }
 .dont-use-this-class-big-size {
   font-size: 18px;
@@ -2708,7 +2685,9 @@ textarea,
   margin: 0;
   background-color: #fff;
   height: 28px;
-  color: #333;
+  color: #676056;
+  font-size: 14px;
+  font-weight: 400;
   border: 1px solid #ccc;
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -2946,10 +2925,9 @@ input.mage-error ~ .addafter {
 }
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
-  font-family: 'CallunaSans', Arial, sans-serif;
-  font-size: 18px;
-  color: #666;
-  font-weight: normal;
+  color: #676056;
+  font-size: 16px;
+  font-weight: 400;
   padding: 7px 0 10px;
   display: inline-block;
 }
@@ -3123,7 +3101,19 @@ input.mage-error ~ .addafter {
   margin-bottom: 0;
 }
 .fieldset .label {
-  color: #666;
+  color: #676056;
+  font-size: 13px;
+  font-weight: 600;
+}
+.fieldset .control .label {
+  color: #676056;
+  font-size: 14px;
+  font-weight: 400;
+}
+.field.required > .label:after {
+  color: #e22626;
+  font-size: 13px;
+  font-weight: 400;
 }
 .with-addon .textarea {
   margin: 0 0 6px;
@@ -3531,7 +3521,6 @@ table tbody tr:nth-child(odd):hover th {
 .tipsy-inner .error h5 {
   color: #be0a0a;
   font-size: 16px;
-  font-family: "CallunaSans";
   font-weight: 500;
   margin: 0 0 6px 0;
 }
@@ -3665,7 +3654,6 @@ table tbody tr:nth-child(odd):hover th {
 .tipsy-inner dt {
   margin: 0 0 4px;
   font-size: 16px;
-  font-family: 'CallunaSans';
   font-weight: 400;
   color: #f47b20;
 }
@@ -3839,40 +3827,38 @@ table tbody tr:nth-child(odd):hover th {
   position: absolute;
   top: 100%;
   padding: 19px 10px;
-  font-family: Helvetica, Arial, sans-serif;
 }
 .navigation .level-0 > .submenu a {
   display: block;
-  color: #19a3d1;
+  color: #007dbd;
   font-size: 13px;
+  font-weight: 400;
   line-height: 1.385;
   padding: 5px 20px 4px;
   text-decoration: none;
   -webkit-transition: color 0.15s ease-out;
   -moz-transition: color 0.15s ease-out;
 }
-.navigation .level-0 > .submenu li {
-  margin-bottom: 1px;
-}
 .navigation .level-0 > .submenu a:focus,
 .navigation .level-0 > .submenu a:hover {
-  background: #19a3d1;
-  border-radius: 3px;
-  color: #fff;
-  -webkit-background-clip: padding-box;
-  -moz-background-clip: padding-box;
-  background-clip: padding-box;
+  text-decoration: underline;
+}
+.navigation .level-0 > .submenu li {
+  margin-bottom: 1px;
 }
 .navigation .level-0 > .submenu a[href="#"] {
   cursor: default;
   display: block;
   color: #676056;
-  font-size: 15px;
-  font-weight: bold;
+  font-size: 14px;
+  font-weight: 600;
   line-height: 1;
   margin: 7px 0 6px;
   padding: 0 20px;
-  background: transparent;
+}
+.navigation .level-0 > .submenu a[href="#"]:focus,
+.navigation .level-0 > .submenu a[href="#"]:hover {
+  text-decoration: none;
 }
 .navigation .level-0 {
   display: inline-block;
@@ -3886,19 +3872,14 @@ table tbody tr:nth-child(odd):hover th {
   position: relative;
   display: inline-block;
   padding: 37px 21px 11px;
-  color: #fff;
-  font-family: "CallunaSans", Arial, serif;
-  font-weight: 500;
+  color: #f2ebde;
   font-size: 13px;
+  font-weight: 400;
   text-shadow: 0 1px 3px #222;
   text-transform: uppercase;
   text-decoration: none;
   -webkit-transition: background 0.15s ease-out;
   -moz-transition: background 0.15s ease-out;
-}
-/* TODO IE8 fix for CallunaSans */
-.eq-ie8 .navigation .level-0 > a {
-  font-size: 12px;
 }
 .navigation .level-0.active > a {
   background: #625d54;
@@ -3918,6 +3899,8 @@ table tbody tr:nth-child(odd):hover th {
 .navigation .level-0.hover.recent > a {
   background: #fff;
   color: #676056;
+  font-size: 13px;
+  font-weight: 400;
   text-shadow: 0 1px 3px #c1bfbb;
 }
 .navigation .level-0 > a:focus {
@@ -4439,10 +4422,9 @@ table tbody tr:nth-child(odd):hover th {
   margin-right: auto;
 }
 .page-title-inner > .title {
-  font-family: 'CallunaSans';
-  font-size: 26px;
-  font-weight: 200;
   color: #676056;
+  font-size: 28px;
+  font-weight: 400;
   display: inline-block;
   margin: 0;
   width: 100%;
@@ -4663,14 +4645,16 @@ table tbody tr:nth-child(odd):hover th {
 }
 .store-switcher-alt strong {
   display: block;
-  font: 14px/1.333 "CallunaSans", Arial, sans-serif;
+  font-size: 14px;
   font-weight: 500;
+  line-height: 1.333;
   color: #a6a098;
   padding: 5px 10px;
 }
 .store-switcher-alt .store-selected {
-  font: 12px/1.333 "CallunaSans", Arial, sans-serif;
+  font-size: 12px;
   font-weight: 400;
+  line-height: 1.333;
   color: #676056;
   cursor: pointer;
 }
@@ -4948,7 +4932,6 @@ table tbody tr:nth-child(odd):hover th {
   margin: 0 0 30px;
   padding: 0;
   list-style: none;
-  font-family: 'CallunaSans', Arial, sans-serif;
   font-weight: 500;
 }
 .side-col > .ui-tabs > .tabs:first-child > li:first-child > a {
@@ -5063,7 +5046,8 @@ table tbody tr:nth-child(odd):hover th {
   display: block;
   padding: 7px 18px 9px;
   text-decoration: none;
-  font: 14px/1.666 CallunaSans, Arial, sans-serif;
+  font-size: 12px;
+  line-height: 1.666;
   color: #676056;
 }
 .tabs-horiz > .ui-state-active a {
@@ -5175,7 +5159,6 @@ table tbody tr:nth-child(odd):hover th {
   left: -999em;
 }
 .switcher-label {
-  font-family: "CallunaSans", Arial, sans-serif;
   font-size: 12px;
   font-weight: 600;
   color: #979087;
@@ -5285,7 +5268,6 @@ table tbody tr:nth-child(odd):hover th {
 .page-actions.fixed .page-actions-inner:before {
   content: attr(data-title);
   float: left;
-  font-family: 'CallunaSans';
   font-size: 20px;
   max-width: 50%;
   overflow: hidden;
@@ -5301,7 +5283,9 @@ table tbody tr:nth-child(odd):hover th {
 }
 .grid {
   border-bottom: 0;
+  color: #676056;
   font-size: 13px;
+  font-weight: 400;
   padding-bottom: .5em;
 }
 .grid table {
@@ -5365,7 +5349,9 @@ table tbody tr:nth-child(odd):hover th {
 .grid table td.empty-text {
   border: solid #c0bbaf;
   border-width: 0 1px;
-  font-size: 15px;
+  color: #676056;
+  font-size: 16px;
+  font-weight: 400;
   text-align: center;
   padding: 15px;
 }
@@ -5431,6 +5417,11 @@ table tbody tr:nth-child(odd):hover th {
 .grid-actions .filter-actions button {
   float: left;
   margin-left: 4px;
+}
+.grid-actions .pager {
+  color: #676056;
+  font-size: 13px;
+  font-weight: 400;
 }
 .grid-actions .pager select {
   width: 5em;
@@ -5525,7 +5516,9 @@ table tbody tr:nth-child(odd):hover th {
     Grid - Headings
 -------------------------------------- */
 .grid tr.headings th {
+  color: #ffffff;
   font-size: 13px;
+  font-weight: 700;
   border-right: 1px solid #837f79;
   padding: 0;
   vertical-align: bottom;
@@ -5535,7 +5528,6 @@ table tbody tr:nth-child(odd):hover th {
 }
 .grid tr.headings th > span {
   display: block;
-  font-weight: 500;
   border-bottom: 2px solid transparent;
   padding: 5px 5px 2px;
   white-space: nowrap;
@@ -5553,7 +5545,9 @@ table tbody tr:nth-child(odd):hover th {
 }
 .grid tr.headings th a {
   display: block;
-  color: #cac3b4;
+  color: #ffffff;
+  font-size: 13px;
+  font-weight: 700;
   position: relative;
   text-decoration: none;
 }
@@ -5935,7 +5929,9 @@ table .col-draggable .draggable-handle {
 .accordion .config .data-table thead th,
 .accordion .config .data-table tfoot td {
   background: #fff;
-  color: #666;
+  color: #676056;
+  font-size: 13px;
+  font-weight: 600;
 }
 .data-table th {
   border-color: #c9c2b8;
@@ -5947,7 +5943,9 @@ table .col-draggable .draggable-handle {
 .accordion .config .data-table td {
   background: #fff;
   padding: 5px 7px;
-  font-size: 12px;
+  color: #676056;
+  font-size: 14px;
+  font-weight: 400;
   vertical-align: middle;
   border: solid #eae8e4;
   border-width: 0 0 1px;
@@ -6272,7 +6270,6 @@ table .col-draggable .draggable-handle {
 .tree-store-scope [class^="field field-w_"] .label,
 .tree-store-scope [class^="field field-sg_"] .label {
   text-align: left;
-  font-family: 'CallunaSans', Arial, sans-serif;
   font-size: 18px;
   padding-right: 0;
   width: auto;
@@ -6495,9 +6492,6 @@ table .col-draggable .draggable-handle {
 .message-system-unread .message-system-inner {
   float: none;
 }
-.message-system a {
-  text-decoration: none;
-}
 .message-system-list {
   margin: 0;
   padding: 0;
@@ -6513,8 +6507,6 @@ table .col-draggable .draggable-handle {
 }
 .message-system-short {
   padding: 5px 13px 7px;
-  color: #aea79d;
-  font-size: 11px;
   float: right;
 }
 .message-system-short span {
@@ -6528,8 +6520,6 @@ table .col-draggable .draggable-handle {
 }
 .message-system-short a {
   padding-left: 27px;
-  color: #19a3d2;
-  font-size: 13px;
   position: relative;
   height: 16px;
 }
@@ -6547,7 +6537,7 @@ table .col-draggable .draggable-handle {
   text-align: center;
   position: absolute;
   left: 7px;
-  top: 0;
+  top: 2px;
 }
 .message-system-list li:before {
   top: 5px;
@@ -6950,7 +6940,6 @@ table .col-draggable .draggable-handle {
   padding-bottom: 25px;
 }
 .adminhtml-googleshopping-items-index .grid-title .title {
-  font-family: 'CallunaSans', Arial, sans-serif;
   font-size: 18px;
 }
 .adminhtml-googleshopping-items-index .page-actions {
@@ -7042,12 +7031,6 @@ table .col-draggable .draggable-handle {
 .fieldset-wrapper-title:after {
   clear: both;
 }
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /*
     Header
 -------------------------------------- */
@@ -7157,8 +7140,6 @@ table .col-draggable .draggable-handle {
   padding: 20px 30px 13px 18px;
   background: #f7f3eb;
   border-bottom: 1px solid #f7e4d0;
-  color: #8C867E;
-  font: 11px/13px Arial, Helvetica, sans-serif;
   white-space: normal;
 }
 .header-panel .dropdown-menu > li:hover {
@@ -7311,10 +7292,10 @@ table .col-draggable .draggable-handle {
   bottom: -6px;
 }
 .header-panel .notifications .value {
-  font-size: 9px;
-  font-weight: bold;
+  color: #ffffff;
+  font-size: 12px;
+  font-weight: 600;
   line-height: 11px;
-  color: #fff;
   padding: 1px 3px;
   min-width: 10px;
   background: #f58220;
@@ -7335,10 +7316,8 @@ table .col-draggable .draggable-handle {
 .header-panel .dropdown-menu > li {
   background: #fff;
   border-bottom: 0;
-  color: #8c867e;
   position: relative;
   padding: 13px 26px 14px 16px;
-  font: 11px/13px Arial, Helvetica, sans-serif;
   white-space: normal;
 }
 .header-panel .dropdown-menu > li:after {
@@ -7355,11 +7334,12 @@ table .col-draggable .draggable-handle {
   display: none;
 }
 .header-panel .notifications > .dropdown-menu .notification-description {
-  max-height: 40px;
+  max-height: 43px;
   overflow: hidden;
   display: block;
-  font-family: Helvetica, Arial, sans-serif;
   color: #676056;
+  font-size: 11px;
+  font-weight: 400;
 }
 .header-panel .notifications > .dropdown-menu .notification-entry {
   display: none;
@@ -7455,7 +7435,6 @@ table .col-draggable .draggable-handle {
 .notification-entry-dialog .notification-dialog-content strong {
   display: block;
   color: #f58220;
-  font-family: "CallunaSans";
   font-size: 18px;
   font-weight: 500;
 }
@@ -7529,21 +7508,23 @@ table .col-draggable .draggable-handle {
 .header-panel .search .autocomplete-results .title {
   display: block;
   color: #f58220;
-  font-family: "CallunaSans";
   font-size: 14px;
   font-weight: 500;
   margin-bottom: 5px;
 }
 .header-panel .notifications > .dropdown-menu li > strong {
   display: block;
-  font-family: "CallunaSans";
-  font-size: 14px;
-  font-weight: 500;
-  color: #f47b20;
-  max-height: 34px;
+  color: #026294;
+  font-size: 12px;
+  font-weight: 600;
+  max-height: 32px;
   overflow: hidden;
-  line-height: 1.2;
+  line-height: 1.4;
   margin-bottom: 4px;
+}
+.header-panel .notifications > .dropdown-menu li > strong:focus,
+.header-panel .notifications > .dropdown-menu li > strong:hover {
+  text-decoration: underline;
 }
 .header-panel .notifications > .dropdown-menu li.notification-critical strong {
   padding-left: 30px;
@@ -7605,11 +7586,11 @@ table .col-draggable .draggable-handle {
   color: #fff;
 }
 .header-panel .notifications > .dropdown-menu time {
-  color: #8c867e;
+  color: #676056;
+  font-size: 11px;
+  font-weight: 400;
   display: block;
   margin-top: 7px;
-  font-size: 10px;
-  font-family: Helvetica, Arial, sans-serif;
 }
 .header-panel .notifications > .dropdown-menu a:focus ~ .action-close,
 .header-panel .notifications > .dropdown-menu .action-close:focus {
@@ -7817,12 +7798,6 @@ table .col-draggable .draggable-handle {
 .clearfix:after {
   clear: both;
 }
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /*
     Product Creation
 -------------------------------------- */
@@ -8074,6 +8049,14 @@ table .col-draggable .draggable-handle {
 }
 #row_design_theme_ua_regexp .note {
   clear: both;
+}
+/*
+    Configuration -> Payment Methods
+-------------------------------------- */
+.adminhtml-system-config-edit .payflow-settings-notice .important-label {
+  color: #e22626;
+  font-size: 14px;
+  font-weight: 700;
 }
 /*
     CMS -> Banners
@@ -8896,7 +8879,6 @@ table .col-draggable .draggable-handle {
 .action-switch-to-analytics:visited,
 .action-switch-to-hub:link,
 .action-switch-to-hub:visited {
-  font-family: 'CallunaSans', Arial, sans-serif;
   font-weight: 400;
   font-size: 16px;
   color: #19a3d1;
@@ -8925,6 +8907,20 @@ table .col-draggable .draggable-handle {
 /*
     Sales
 -------------------------------------- */
+#order-totals strong {
+  color: #676056;
+  font-size: 14px;
+  font-weight: 700;
+}
+#order-shipping-method-summary a {
+  color: #007dbd;
+  font-size: 14px;
+  font-weight: 400;
+}
+#order-shipping-method-summary a:focus,
+#order-shipping-method-summary a:hover {
+  text-decoration: underline;
+}
 .customer-current-activity {
   float: left;
   width: 22%;
@@ -9152,15 +9148,28 @@ table .col-draggable .draggable-handle {
   margin-top: 35px;
 }
 .create-order-sidebar-container > div .head h5 {
+  color: #676056;
+  font-size: 14px;
+  font-weight: 400;
   margin: 17px 0 7px;
 }
 .customer-current-activity-inner > h4 {
+  color: #676056;
+  font-size: 16px;
+  font-weight: 400;
   border-bottom: 1px solid #ededed;
   margin-top: 0;
   padding: 0 0 16px;
 }
 .customer-current-activity-inner .data-table th {
-  font-size: 11px;
+  color: #676056;
+  font-size: 13px;
+  font-weight: 400;
+}
+.customer-current-activity-inner .data-table td {
+  color: #676056;
+  font-size: 12px;
+  font-weight: 400;
 }
 .customer-current-activity .action-refresh {
   float: right;
@@ -9194,6 +9203,9 @@ table .col-draggable .draggable-handle {
   content: "\e071";
 }
 .customer-current-activity .auto-scroll {
+  color: #676056;
+  font-size: 13px;
+  font-weight: 400;
   overflow: auto;
   max-height: 150px;
 }
@@ -9786,7 +9798,8 @@ table.items-to-invoice tbody tr:hover td {
 .popup-window-title .title {
   color: #676056;
   display: block;
-  font: 20px/1 'CallunaSans', Arial, sans-serif;
+  font-size: 20px;
+  line-height: 1;
 }
 .popup-window-title .actions {
   float: right;
@@ -9820,7 +9833,6 @@ table.items-to-invoice tbody tr:hover td {
 .popup-fieldset-title .title {
   color: #666;
   display: inline-block;
-  font-family: 'CallunaSans', Arial, sans-serif;
   font-size: 18px;
   font-weight: normal;
   padding: 7px 0 10px;
@@ -10083,12 +10095,6 @@ table.items-to-invoice tbody tr:hover td {
 .clearfix:after {
   clear: both;
 }
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
 /*
     This file was created to debug old classes in order to indicate where we must replase it with new ones
     The types of messages are generated in file: \app\code\core\Mage\Core\Block\Messages.php like $html .= '<' . $this->_messagesSecondLevelTagName . ' class="' . $type . '-msg">';
@@ -10214,14 +10220,22 @@ ul.messages li.success-msg li:before {
 .section-config > .collapseable > a,
 .accordion > dt a,
 .accordion .collapseable > a {
-  color: #666;
+  color: #676056;
+  font-size: 20px;
+  font-weight: 400;
   display: block;
   padding: 7px 0 10px 22px;
-  font-family: 'CallunaSans', Arial, sans-serif;
-  font-size: 18px;
   text-decoration: none;
   position: relative;
   cursor: pointer;
+}
+.section-config > .collapseable > a i,
+.accordion > dt a i,
+.accordion .collapseable > a i {
+  color: #676056;
+  font-size: 20px;
+  font-style: italic;
+  font-weight: 400;
 }
 .section-config.active > .collapseable > a,
 .accordion .collapseable.open a,
@@ -10378,7 +10392,9 @@ ul.messages li.success-msg li:before {
 }
 .section-config.with-button .config-heading strong {
   display: block;
+  color: #676056;
   font-size: 14px;
+  font-weight: 700;
   margin-bottom: 5px;
 }
 .section-config.with-button .config-heading .button-container {
@@ -10430,6 +10446,15 @@ ul.messages li.success-msg li:before {
 .accordion .config {
   border: 0;
 }
+.accordion .config .comment a {
+  color: #007dbd;
+  font-size: 14px;
+  font-weight: 400;
+}
+.accordion .config .comment a:focus,
+.accordion .config .comment a:hover {
+  text-decoration: underline;
+}
 .accordion .config legend {
   display: none;
 }
@@ -10450,6 +10475,9 @@ ul.messages li.success-msg li:before {
   float: none;
   width: 25%;
   text-align: right;
+  color: #676056;
+  font-size: 13px;
+  font-weight: 600;
 }
 .accordion .config .value .label {
   padding: 6px 5px 0 15px;
@@ -10551,6 +10579,15 @@ ul.messages li.success-msg li:before {
   padding-left: 15px;
   margin: 5px 0;
   color: #666;
+}
+.accordion .config .note a {
+  color: #007dbd;
+  font-size: 12px;
+  font-weight: 400;
+}
+.accordion .config .note a:focus,
+.accordion .config .note a:hover {
+  text-decoration: underline;
 }
 .accordion .config .note:before {
   position: absolute;

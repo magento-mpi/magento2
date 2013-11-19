@@ -1,9 +1,9 @@
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
+///**
+// * {license_notice}
+// *
+// * @copyright  {copyright}
+// * @license    {license_link}
+// */
 
 /*
     Product Creation
@@ -298,6 +298,13 @@
 }
 #row_design_theme_ua_regexp .note {
     clear: both;
+}
+
+/*
+    Configuration -> Payment Methods
+-------------------------------------- */
+.adminhtml-system-config-edit .payflow-settings-notice .important-label {
+    .style32();
 }
 
 /*
@@ -1305,7 +1312,6 @@
 .action-switch-to-analytics:visited,
 .action-switch-to-hub:link,
 .action-switch-to-hub:visited {
-    font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #19a3d1;
@@ -1338,6 +1344,14 @@
 /*
     Sales
 -------------------------------------- */
+
+#order-totals strong {
+    .style28();
+}
+
+#order-shipping-method-summary a {
+    .style3();
+}
 
 .customer-current-activity {
     float: left;
@@ -1611,17 +1625,23 @@
 }
 
 .create-order-sidebar-container > div .head h5 {
+    .style9();
     margin: 17px 0 7px;
 }
 
 .customer-current-activity-inner > h4 {
+    .style7();
     border-bottom: 1px solid #ededed;
     margin-top: 0;
     padding: 0 0 16px;
 }
 
 .customer-current-activity-inner .data-table th {
-    font-size: 11px;
+    .style18();
+}
+
+.customer-current-activity-inner .data-table td {
+    .style19();
 }
 
 .customer-current-activity .action-refresh {
@@ -1661,6 +1681,7 @@
 }
 
 .customer-current-activity .auto-scroll {
+    .style18();
     overflow: auto;
     max-height: 150px;
 }
@@ -2375,7 +2396,8 @@ table.items-to-invoice tbody tr:hover td {
 .popup-window-title .title {
     color: #676056;
     display: block;
-    font: 20px/1 'CallunaSans', Arial, sans-serif;
+    font-size: 20px;
+    line-height: 1;
 }
 
 .popup-window-title .actions {
@@ -2417,7 +2439,6 @@ table.items-to-invoice tbody tr:hover td {
 .popup-fieldset-title .title {
     color: #666;
     display: inline-block;
-    font-family: 'CallunaSans', Arial, sans-serif;
     font-size: 18px;
     font-weight: normal;
     padding: 7px 0 10px;

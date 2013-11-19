@@ -1,9 +1,9 @@
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
+///**
+// * {license_notice}
+// *
+// * @copyright  {copyright}
+// * @license    {license_link}
+// */
 
 /*
     Header
@@ -121,8 +121,6 @@
     padding: 20px 30px 13px 18px;
     background: #f7f3eb;
     border-bottom: 1px solid #f7e4d0;
-    color: #8C867E;
-    font: 11px/13px Arial, Helvetica, sans-serif;
     white-space: normal;
 }
 
@@ -290,10 +288,8 @@
 }
 
 .header-panel .notifications .value {
-    font-size: 9px;
-    font-weight: bold;
+    .style16();
     line-height: 11px;
-    color: #fff;
     padding: 1px 3px;
     min-width: 10px;
     background: #f58220;
@@ -316,10 +312,8 @@
 .header-panel .dropdown-menu > li {
     background: #fff;
     border-bottom: 0;
-    color: #8c867e;
     position: relative;
     padding: 13px 26px 14px 16px;
-    font: 11px/13px Arial, Helvetica, sans-serif;
     white-space: normal;
 }
 
@@ -339,11 +333,10 @@
 }
 
 .header-panel .notifications > .dropdown-menu .notification-description {
-    max-height: 40px;
+    max-height: 43px;
     overflow: hidden;
     display: block;
-    font-family: Helvetica, Arial, sans-serif;
-    color: #676056;
+    .style14();
 }
 
 .header-panel .notifications > .dropdown-menu .notification-entry {
@@ -443,7 +436,6 @@
 .notification-entry-dialog .notification-dialog-content strong {
     display: block;
     color: #f58220;
-    font-family: "CallunaSans";
     font-size: 18px;
     font-weight: 500;
 }
@@ -530,7 +522,6 @@
 .header-panel .search .autocomplete-results .title {
     display: block;
     color: #f58220;
-    font-family: "CallunaSans";
     font-size: 14px;
     font-weight: 500;
     margin-bottom: 5px;
@@ -538,13 +529,10 @@
 
 .header-panel .notifications > .dropdown-menu li > strong {
     display: block;
-    font-family: "CallunaSans";
-    font-size: 14px;
-    font-weight: 500;
-    color: #f47b20;
-    max-height: 34px;
+    .style33();
+    max-height: 32px;
     overflow: hidden;
-    line-height: 1.2;
+    line-height: 1.4;
     margin-bottom: 4px;
 }
 
@@ -617,11 +605,9 @@
 }
 
 .header-panel .notifications > .dropdown-menu time {
-    color: #8c867e;
+    .style14();
     display: block;
     margin-top: 7px;
-    font-size: 10px;
-    font-family: Helvetica, Arial, sans-serif;
 }
 
 .header-panel .notifications > .dropdown-menu a:focus ~ .action-close,
