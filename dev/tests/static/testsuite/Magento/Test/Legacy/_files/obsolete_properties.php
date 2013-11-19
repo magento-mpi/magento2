@@ -103,4 +103,6 @@ return array(
     array('types', '\Magento\Core\Model\Theme'),
     array('_collectionFactory', '\Magento\Install\Controller\Action', 'themeProvider'),
     array('_collectionFactory', '\Magento\Theme\Model\Config\Customization', 'themeProvider'),
+    array('_filesystem', '\Magento\Cms\Helper\Wysiwyg\Images', '_directory'),
+    array('_filesystem', '\Magento\Cms\Model\Wysiwyg\Images\Storage', '_directory'),
 );

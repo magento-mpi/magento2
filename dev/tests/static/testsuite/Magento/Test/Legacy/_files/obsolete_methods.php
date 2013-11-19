@@ -927,4 +927,5 @@ return array(
     array('formatDate', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatDate'),
     array('formatTime', '\Magento\Core\Helper\Data', '\Magento\Core\Model\Locale::formatTime'),
     array('_getConfigTimezone', '\Magento\Core\Model\Date', '\Magento\Core\Model\Locale::getConfigTimezone'),
+    array('convertPathToUrl', '\Magento\Cms\Helper\Wysiwyg\Images'),
 );
