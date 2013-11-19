@@ -63,11 +63,15 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             array(
                 'registry' => $this->_registry,
                 'resource' => $this->_resource,
-                'resourceCustomer' => $this->getMock('\Magento\Customer\Model\Resource\Customer', array(), array(), '', false),
+                'resourceCustomer' => $this->getMock(
+                        'Magento\Customer\Model\Resource\Customer', array(), array(), '', false
+                    ),
                 'storeManager' => $storeManager,
                 'customerSession' => $this->_customerSession,
-                'collectionFactory' => $this->getMock('Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory',
-                array(), array(), '', false)
+                'collectionFactory' => $this->getMock(
+                        'Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory', array(), array(), '', false
+
+                    )
             )
         );
     }
