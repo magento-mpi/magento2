@@ -34,6 +34,8 @@ class CustomerSegmentTest extends Functional
         //Data
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_retailer_customer');
+        Factory::getApp()->magentoCustomerCreateCustomerBackend($customerFixture);
+
         //Pages & Blocks
         $customerPage = Factory::getPageFactory()->getCustomer();
         $gridBlock = $customerPage->getCustomerGridBlock();
@@ -41,12 +43,7 @@ class CustomerSegmentTest extends Functional
         $customerCreatePage = Factory::getPageFactory()->getCustomerNew();
         $newCustomerForm = $customerCreatePage->getNewCustomerForm();
         $messagesBlock = $customerCreatePage->getMessageBlock();
-        //Steps
-        $customerPage->open();
-        $pageActionsBlock->clickAddNew();
-        $newCustomerForm->fill($customerFixture);
-        $newCustomerForm->clickSaveAndContinue();
-        $messagesBlock->assertSuccessMessage($customerFixture);
+
         //Verifying
         $customerPage->open();
         $this->assertTrue($gridBlock->isRowVisible(array(
