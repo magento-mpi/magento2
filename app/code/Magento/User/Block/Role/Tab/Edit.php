@@ -131,7 +131,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         foreach ($rulesSet->getItems() as $item) {
             $itemResourceId = $item->getResource_id();
             if ($acl->has($itemResourceId) && $item->getPermission() == 'allow') {
-                array_push($selectedResourceIds, $itemResourceId);
+                $selectedResourceIds[] = $itemResourceId;
             }
         }
 
