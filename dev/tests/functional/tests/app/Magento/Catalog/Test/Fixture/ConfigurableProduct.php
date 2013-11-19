@@ -266,10 +266,10 @@ class ConfigurableProduct extends Product
                 'selections' => array(
                     '0' => array(
                         'attribute_name' => '%attribute_1_name%',
-                        'option_name' => '%attribute_1_option_label_1%',
-                        'special_price' => '10'
+                        'option_name' => '%attribute_1_option_label_1%'
                     )
-                )
+                ),
+                'special_price' => '10'
             )
         );
 
@@ -300,11 +300,6 @@ class ConfigurableProduct extends Product
      */
     public function getProductSpecialPrice()
     {
-        $selections = $this->getData('checkout/selections');
-        $specialPrice = '0';
-        foreach ($selections as $selection) {
-            $specialPrice = $selection['special_price'];
-        }
-        return $specialPrice;
+        return $this->getData('checkout/special_price');
     }
 }

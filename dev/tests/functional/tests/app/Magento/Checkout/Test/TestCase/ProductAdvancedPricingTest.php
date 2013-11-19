@@ -13,7 +13,10 @@ namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\Product;
+use Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder;
+
 
 /**
  * Class ProductAdvancedPricingTest
@@ -26,12 +29,11 @@ class ProductAdvancedPricingTest extends Functional
     /**
      * Place order on frontend that contains a product with special prices.
      *
-     * @param \Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder $checkoutFixture
-     * @dataProvider dataProviderSpecialPriceCheckout
      * @ZephyrId MAGETWO-12429
      */
-    public function testProductSpecialPriceCheckout(Checkout $checkoutFixture)
+    public function testProductSpecialPriceCheckout()
     {
+        $checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutSpecialPriceCheckMoneyOrder();
         // Persist Checkout fixture data for this test
         // Preconditions are set in checkout fixture
         $checkoutFixture->persist();
@@ -74,23 +76,11 @@ class ProductAdvancedPricingTest extends Functional
     }
 
     /**
-     * Data provider
-     *
-     * @return array
-     */
-    public function dataProviderSpecialPriceCheckout()
-    {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutSpecialPriceCheckMoneyOrder()),
-        );
-    }
-
-    /**
      * Add a product to the cart.
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @param Product $product
      */
-    private function addProductToCart(\Magento\Catalog\Test\Fixture\Product $product)
+    private function addProductToCart(Product $product)
     {
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($product);
@@ -103,15 +93,15 @@ class ProductAdvancedPricingTest extends Functional
     /**
      * Verifies the unit price and subtotal for cart item.
      *
-     * @param \Magento\Catalog\Test\Fixture\Product|\Magento\Catalog\Test\Fixture\ConfigurableProduct $product
+     * @param Product|ConfigurableProduct $product
      */
-    private function verifyCartItem(\Magento\Catalog\Test\Fixture\Product $product)
+    private function verifyCartItem(Product $product)
     {
         $productName = $product->getProductName();
         $specialPrice = $product->getProductSpecialPrice();
 
         $productOptions = array();
-        if ($product instanceof \Magento\Catalog\Test\Fixture\ConfigurableProduct) {
+        if ($product instanceof ConfigurableProduct) {
             $productOptions = $product->getProductOptions();
         }
 
@@ -143,9 +133,9 @@ class ProductAdvancedPricingTest extends Functional
      * Verifies order in Backend.  Checks order data (price) against products in order.
      *
      * @param string $orderId
-     * @param \Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder $checkoutFixture
+     * @param SpecialPriceCheckMoneyOrder $checkoutFixture
      */
-    protected function verifyOrderOnBackend($orderId, Checkout $checkoutFixture)
+    protected function verifyOrderOnBackend($orderId, SpecialPriceCheckMoneyOrder $checkoutFixture)
     {
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();

@@ -13,6 +13,7 @@ namespace Magento\Sales\Test\Page;
 
 use Magento\Page\Test\Block\Html\Title;
 use Magento\Sales\Test\Block\Backend\Order\CustomerInformation;
+use Magento\Sales\Test\Block\Backend\Order\View\Items;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -51,7 +52,9 @@ class SalesOrderView extends Page
     protected $customerInformationBlock;
 
     /**
-     * @var \Magento\Sales\Test\Block\Backend\Order\ItemsOrdered
+     * Items ordered grid
+     *
+     * @var Items
      */
     protected $itemsOrderedBlock;
 
@@ -75,7 +78,7 @@ class SalesOrderView extends Page
         $this->customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
             $this->_browser->find('.order-account-information')
         );
-        $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderItemsOrdered(
+        $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderViewItems(
             $this->_browser->find('.grid')
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
@@ -86,7 +89,7 @@ class SalesOrderView extends Page
     /**
      * Returns the items ordered block
      *
-     * @return \Magento\Sales\Test\Block\Backend\Order\ItemsOrdered
+     * @return Items
      */
     public function getItemsOrderedBlock()
     {

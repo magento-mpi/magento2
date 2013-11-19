@@ -47,29 +47,25 @@ class Cart extends Block
     /**
      * Get sub-total for the specified item in the cart
      *
-     * @param $productName
+     * @param string $productName
      * @return string
      */
     public function getCartItemSubTotal($productName)
     {
         $selector = '//tr[normalize-space(td)="'. $productName .'"]' . $this->itemSubTotalSelector;
-        $subTotal = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
-
-        return $subTotal;
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param $productName
+     * @param string $productName
      * @return string
      */
     public function getCartItemUnitPrice($productName)
     {
         $selector = '//tr[normalize-space(td)="'. $productName .'"]' . $this->itemUnitPriceSelector;
-        $unitPrice = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
-
-        return $unitPrice;
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**

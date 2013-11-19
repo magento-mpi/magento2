@@ -29,6 +29,7 @@ class Product extends DataFixture
     const GROUP_ADVANCED_SEO        = 'product_info_tabs_search-optimization';
     const GROUP_PRODUCT_WEBSITE     = 'product_info_tabs_websites';
     const GROUP_PRODUCT_INVENTORY   = 'product_info_tabs_advanced-inventory';
+    const GROUP_PRODUCT_PRICING     = 'product_info_tabs_advanced-pricing';
 
     /**
      * Possible options used for visibility field

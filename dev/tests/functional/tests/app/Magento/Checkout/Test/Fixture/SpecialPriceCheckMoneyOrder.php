@@ -12,13 +12,11 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class SpecialPriceCheckMoneyOrder
  * Registered shoppers checkout using check or money order
  *
- * @ZephyrId MAGETWO-12429
  * @package Magento\Checkout\Test\Fixture
  */
 class SpecialPriceCheckMoneyOrder extends Checkout
@@ -78,6 +76,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         // Configuration
         $this->_persistConfiguration(array(
             'flat_rate',
+            'enable_mysql_search'
          ));
 
         // Tax

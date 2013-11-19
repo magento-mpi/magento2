@@ -11,6 +11,7 @@
 
 namespace Magento\Catalog\Test\Repository;
 
+use Magento\Catalog\Test\Fixture;
 use Mtf\Repository\AbstractRepository;
 
 /**
@@ -78,7 +79,7 @@ class Product extends AbstractRepository
                     ),
                     'inventory_qty' => array(
                         'value' => 1,
-                        'group' => 'product_info_tabs_advanced-inventory'
+                        'group' => Fixture\Product::GROUP_PRODUCT_INVENTORY
                     )
                 )
             )
@@ -101,7 +102,7 @@ class Product extends AbstractRepository
                 'fields' => array(
                     'special_price' => array(
                         'value' => '9',
-                        'group' => 'product_info_tabs_advanced-pricing'
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
                     )
                 )
             )
