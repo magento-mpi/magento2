@@ -36,18 +36,26 @@ class Validator
     protected $_skippedAgentList;
 
     /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
+     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $skippedUserAgentList
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
+        \Magento\Core\Model\Cookie $cookie,
         array $skippedUserAgentList = array()
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_remoteAddress = $remoteAddress;
         $this->_skippedAgentList = $skippedUserAgentList;
+        $this->_cookie = $cookie;
     }
 
     /**
@@ -62,7 +70,7 @@ class Validator
             $_SESSION[self::VALIDATOR_KEY] = $this->_getSessionEnvironment();
         } else {
             if (!$this->_validate()) {
-                $session->getCookie()->delete(session_name());
+                $this->_cookie->delete(session_name());
                 // throw core session exception
                 throw new \Magento\Core\Model\Session\Exception('');
             }

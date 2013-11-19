@@ -16,17 +16,25 @@ class Request extends \Magento\Core\Controller\Front\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
+
+    /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Cookie $cookie
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Cookie $cookie
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_cookie = $cookie;
         parent::__construct($context);
     }
 
@@ -65,11 +73,11 @@ class Request extends \Magento\Core\Controller\Front\Action
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
         $cookieName = $session->getName();
         $cookieInfo = array(
-            'lifetime' => $session->getCookie()->getDefaultLifetime(),
-            'path'     => $session->getCookie()->getPath(),
-            'domain'   => $session->getCookie()->getDomain(),
-            'secure'   => $session->getCookie()->isSecure(),
-            'httponly' => $session->getCookie()->getHttponly(),
+            'lifetime' => $this->_cookie->getDefaultLifetime(),
+            'path'     => $this->_cookie->getPath(),
+            'domain'   => $this->_cookie->getDomain(),
+            'secure'   => $this->_cookie->isSecure(),
+            'httponly' => $this->_cookie->getHttponly(),
         );
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {
             $sessionInfo[$cookieName] = $cookieInfo;

@@ -56,13 +56,6 @@ class AbstractSession extends \Magento\Object
     protected $_saveMethod;
 
     /**
-     * Core cookie
-     *
-     * @var \Magento\Core\Model\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * Core message
      *
      * @var \Magento\Core\Model\Message
@@ -109,7 +102,7 @@ class AbstractSession extends \Magento\Object
     /**
      * @var \Magento\Session\SidResolverInterface
      */
-    protected $sidResolver;
+    protected $_sidResolver;
 
     /**
      * @var \Zend\Session\Config\ConfigInterface
@@ -118,10 +111,14 @@ class AbstractSession extends \Magento\Object
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Zend\Session\Config\ConfigInterface $sessionConfig,
         array $data = array()
     ) {
         $this->_validator = $context->getValidator();
@@ -133,13 +130,12 @@ class AbstractSession extends \Magento\Object
         $this->_cacheLimiter = $this->_cacheLimiter ?: $context->getCacheLimiter();
         $this->_messageFactory = $context->getMessageFactory();
         $this->_message = $context->getMessage();
-        $this->_cookie = $context->getCookie();
         $this->_request = $context->getRequest();
         $this->_appState = $context->getAppState();
         $this->_storeManager = $context->getStoreManager();
         $this->_dir = $context->getDir();
-        $this->sidResolver = $context->getSidResolver();
-        $this->_sessionConfig = $context->getSessionConfig();
+        $this->_sidResolver = $sidResolver;
+        $this->_sessionConfig = $sessionConfig;
         parent::__construct($data);
     }
 
@@ -222,7 +218,7 @@ class AbstractSession extends \Magento\Object
         }
 
         // potential custom logic for session id (ex. switching between hosts)
-        $this->setSessionId($this->sidResolver->getSid($this));
+        $this->setSessionId($this->_sidResolver->getSid($this));
 
         if ($this->_cacheLimiter) {
             session_cache_limiter($this->_cacheLimiter);

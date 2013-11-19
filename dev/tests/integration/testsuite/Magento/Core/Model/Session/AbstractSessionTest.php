@@ -40,13 +40,6 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetCookie()
-    {
-        $cookie = $this->_model->getCookie();
-        $this->assertInstanceOf('Magento\Core\Model\Cookie', $cookie);
-        $this->assertSame($cookie, $this->_model->getCookie());
-    }
-
     public function testInit()
     {
         $this->_model->init('test');

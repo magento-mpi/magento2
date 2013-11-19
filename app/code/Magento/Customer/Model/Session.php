@@ -69,7 +69,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_urlFactory;
 
     /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
@@ -77,11 +84,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      * @param null $sessionName
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
@@ -89,6 +99,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Core\Model\Cookie $cookie,
         array $data = array(),
         $sessionName = null
     ) {
@@ -99,7 +110,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
-        parent::__construct($context, $data);
+        $this->_cookie = $cookie;
+        parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
             $namespace .= '_' . ($storeManager->getWebsite()->getCode());
@@ -331,7 +343,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = $this->_coreUrl->removeRequestParam($url, $this->sidResolver->getSessionIdQueryParam($this));
+        $url = $this->_coreUrl->removeRequestParam($url, $this->_sidResolver->getSessionIdQueryParam($this));
         // Add correct session ID to URL if needed
         $url = $this->_createUrl()->getRebuiltUrl($url);
         return $this->setData($key, $url);
@@ -346,7 +358,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     {
         $this->setId(null);
         $this->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
-        $this->getCookie()->delete($this->getName());
+        $this->_cookie->delete($this->getName());
         return $this;
     }
 

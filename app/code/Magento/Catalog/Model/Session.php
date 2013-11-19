@@ -21,15 +21,19 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param array $data
      * @param null $sessionName
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Zend\Session\Config\ConfigInterface $sessionConfig,
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $this->init('catalog', $sessionName);
     }
 

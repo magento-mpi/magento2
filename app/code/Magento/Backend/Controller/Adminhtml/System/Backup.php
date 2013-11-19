@@ -32,17 +32,25 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_backupFactory;
 
     /**
+     * @var \Magento\Core\Model\Cookie
+     */
+    protected $_cookie;
+
+    /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backup\Factory $backupFactory
+     * @param \Magento\Core\Model\Cookie $cookie
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Backup\Factory $backupFactory
+        \Magento\Backup\Factory $backupFactory,
+        \Magento\Core\Model\Cookie $cookie
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_backupFactory = $backupFactory;
+        $this->_cookie = $cookie;
         parent::__construct($context);
     }
 
@@ -277,7 +285,7 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
 
             $adminSession = $this->_getSession();
             $adminSession->unsetAll();
-            $adminSession->getCookie()->delete($adminSession->getName());
+            $this->_cookie->delete($adminSession->getName());
 
             $response->setRedirectUrl($this->getUrl('*'));
         } catch (\Magento\Backup\Exception\CantLoadSnapshot $e) {

@@ -47,19 +47,22 @@ class Observer
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Cookie $cookie
      */
     public function __construct(
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Cookie $cookie
     ) {
         $this->_backendData = $backendData;
         $this->_coreRegistry = $coreRegistry;
         $this->_authSession = $authSession;
         $this->_app = $app;
         $this->_storeManager = $storeManager;
+        $this->_cookie = $cookie;
     }
 
     /**
@@ -74,7 +77,7 @@ class Observer
         }
 
         $this->_authSession->unsetAll();
-        $this->_authSession->getCookie()->delete($this->_authSession->getName());
+        $this->_cookie->delete($this->_authSession->getName());
 
         $route = $this->_backendData->getAreaFrontName();
 

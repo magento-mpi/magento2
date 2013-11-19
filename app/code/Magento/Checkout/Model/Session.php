@@ -80,6 +80,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
@@ -91,6 +93,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
@@ -106,7 +110,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_messageCollFactory = $messageCollFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_remoteAddress = $remoteAddress;
-        parent::__construct($context, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $this->init('checkout', $sessionName);
     }
 

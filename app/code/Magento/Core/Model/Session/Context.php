@@ -47,13 +47,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cacheLimiter;
 
     /**
-     * Core cookie
-     *
-     * @var \Magento\Core\Model\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * Core message
      *
      * @var \Magento\Core\Model\Message
@@ -88,29 +81,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_dir;
 
     /**
-     * @var \Magento\Session\SidResolverInterface
-     */
-    protected $sidResolver;
-
-    /**
-     * @var \Zend\Session\Config\ConfigInterface
-     */
-    protected $_sessionConfig;
-
-    /**
      * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
      * @param \Magento\Core\Model\Message $message
-     * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\Dir $dir
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param $saveMethod
      * @param null $savePath
      * @param null $cacheLimiter
@@ -122,13 +102,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Message\CollectionFactory $messageFactory,
         \Magento\Core\Model\Message $message,
-        \Magento\Core\Model\Cookie $cookie,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\Dir $dir,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Session\SidResolverInterface $sidResolver,
         $saveMethod,
         $savePath = null,
         $cacheLimiter = null
@@ -142,13 +119,10 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_cacheLimiter = $cacheLimiter;
         $this->_messageFactory = $messageFactory;
         $this->_message = $message;
-        $this->_cookie = $cookie;
         $this->_request = $request;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
         $this->_dir = $dir;
-        $this->_sessionConfig = $sessionConfig;
-        $this->sidResolver = $sidResolver;
     }
 
     /**
@@ -216,14 +190,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Cookie
-     */
-    public function getCookie()
-    {
-        return $this->_cookie;
-    }
-
-    /**
      * @return \Magento\App\Dir
      */
     public function getDir()
@@ -261,21 +227,5 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getStoreManager()
     {
         return $this->_storeManager;
-    }
-
-    /**
-     * @return \Magento\Session\SidResolverInterface
-     */
-    public function getSidResolver()
-    {
-        return $this->sidResolver;
-    }
-
-    /**
-     * @return \Zend\Session\Config\ConfigInterface
-     */
-    public function getSessionConfig()
-    {
-        return $this->_sessionConfig;
     }
 }

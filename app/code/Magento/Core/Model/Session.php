@@ -29,6 +29,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      * @param string|null $sessionName
@@ -36,12 +38,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Math\Random $mathRandom,
         array $data = array(),
         $sessionName = null
     ) {
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $this->init('core', $sessionName);
     }
 
