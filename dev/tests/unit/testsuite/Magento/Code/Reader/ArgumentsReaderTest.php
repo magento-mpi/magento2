@@ -1,5 +1,4 @@
 <?php
-require_once(__DIR__ . '/_files/ClassesForArgumentsReaderTest.php');
 /**
  *
  * {license_notice}
@@ -7,10 +6,15 @@ require_once(__DIR__ . '/_files/ClassesForArgumentsReaderTest.php');
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Code\Reader;
+
+require_once(__DIR__ . '/_files/ClassesForArgumentsReaderTest.php');
+
 class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Magento\Code\Reader\ArgumentsReader
+     * @var \Magento\Code\Reader\ArgumentsReader
      */
     protected $_model;
 

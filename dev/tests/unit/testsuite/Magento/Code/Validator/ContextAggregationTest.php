@@ -1,5 +1,4 @@
 <?php
-require_once(__DIR__ . '/_files/ClassesForContextAggregationTest.php');
 /**
  *
  * {license_notice}
@@ -7,6 +6,11 @@ require_once(__DIR__ . '/_files/ClassesForContextAggregationTest.php');
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\Code\Validator;
+
+require_once(__DIR__ . '/_files/ClassesForContextAggregationTest.php');
+
 class ContextAggregationTest extends \PHPUnit_Framework_TestCase
 {
     /**

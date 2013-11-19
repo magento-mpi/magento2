@@ -6,6 +6,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\App\Action;
+
 class TitleTest extends \PHPUnit_Framework_TestCase
 {
     /**

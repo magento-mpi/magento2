@@ -132,7 +132,7 @@ class Add extends \Magento\App\Action\Action
     }
 
     /**
-     * check if URL corresponds store
+     * Check if URL is internal
      *
      * @param string $url
      * @return bool
@@ -142,14 +142,8 @@ class Add extends \Magento\App\Action\Action
         if (strpos($url, 'http') === false) {
             return false;
         }
-
-        /**
-         * Url must start from base secure or base unsecure url
-         */
-        /** @var $store \Magento\Core\Model\Store */
-        $store = $this->_storeManager->getStore();
-        $unsecure = (strpos($url, $store->getBaseUrl()) === 0);
-        $secure = (strpos($url, $store->getBaseUrl($store::URL_TYPE_LINK, true)) === 0);
-        return $unsecure || $secure;
+        $currentStore = $this->_storeManager->getStore();
+        return strpos($url, $currentStore->getBaseUrl()) === 0
+            || strpos($url, $currentStore->getBaseUrl($currentStore::URL_TYPE_LINK, true)) === 0;
     }
 }
