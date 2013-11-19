@@ -40,7 +40,7 @@ class PromoteRelatedProductTest extends Functional
      *
      * @ZephyrId MAGETWO-12392
      */
-    public function testCreateProductAdvancedInventory()
+    public function testPromoteRelatedProduct()
     {
 
         // Setup preconditions for MAGETWO-12392
@@ -56,14 +56,31 @@ class PromoteRelatedProductTest extends Functional
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurableProduct->persist();
 
-        // Steps
-        //$productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-        //$productEditPage->open(array('id' => $simpleProduct1->getProductId()));
-        //$this->directToRelatedProductPage($productEditPage);
-
         $this->addRelatedProduct($simpleProduct1, array($simpleProduct2, $configurableProduct));
         $this->addRelatedProduct($configurableProduct, array($simpleProduct2));
-        $this->assertOnProductPages($simpleProduct1, $simpleProduct2, $configurableProduct);
+        $this->assertOnTheFrontend($simpleProduct1, $simpleProduct2, $configurableProduct);
+    }
+
+    /**
+     * Configure related products in the backend
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @array \Magento\Catalog\Test\Fixture\Product $relatedProducts
+     * @param $relatedProducts
+     */
+    protected function addRelatedProduct($product, $relatedProducts)
+    {
+        foreach ($relatedProducts as $relatedProduct) {
+            $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
+            $productEditPage->open(array('id' => $product->getProductId()));
+            $this->directToRelatedProductPage($productEditPage);
+            $productEditPage->getProductBlockForm()
+                ->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
+            $productEditPage->getProductEditGrid()->searchAndSelect(array('name' => $relatedProduct->getProductName()));
+            $productEditPage->getProductBlockForm()->save($product);
+            //Verify that the product was successfully saved
+            $this->assertSuccessMessage("You saved the product.", $productEditPage);
+        }
     }
 
     /**
@@ -87,26 +104,6 @@ class PromoteRelatedProductTest extends Functional
     }
 
     /**
-     * @param \Magento\Catalog\Test\Fixture\Product $product
-     * @array \Magento\Catalog\Test\Fixture\Product $relatedProducts
-     * @param $relatedProducts
-     */
-    protected function addRelatedProduct($product, $relatedProducts)
-    {
-        foreach ($relatedProducts as $relatedProduct) {
-            $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-            $productEditPage->open(array('id' => $product->getProductId()));
-            $this->directToRelatedProductPage($productEditPage);
-            $productEditPage->getProductBlockForm()
-                ->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-            $productEditPage->getProductEditGrid()->searchAndSelect(array('name' => $relatedProduct->getProductName()));
-            $productEditPage->getProductBlockForm()->save($product);
-            //Verify that the product was successfully saved
-            $this->assertSuccessMessage("You saved the product.", $productEditPage);
-        }
-    }
-
-    /**
      * @param $messageText
      * @param \Magento\Catalog\Test\Page\Product\CatalogProductEdit $productEditPage
      */
@@ -127,37 +124,17 @@ class PromoteRelatedProductTest extends Functional
      * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
      * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
      */
-    protected function assertOnProductPages($simpleProduct1, $simpleProduct2, $configurableProduct)
+    protected function assertOnTheFrontEnd($simpleProduct1, $simpleProduct2, $configurableProduct)
     {
-        //Pages
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
-        $resultPage = Factory::getPageFactory()->getCatalogsearchResult();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $productPage->init($simpleProduct1);
+        $productPage->open();
+        $productPage->getViewBlock()->verifyConfigurableProduct($simpleProduct2, $configurableProduct);
+
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-
-        //Blocks
-        $productViewBlock = $productPage->getViewBlock();
-        $productListBlock = $resultPage->getListProductBlock();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
-
-        //Steps
-        $frontendHomePage->open();
-        $frontendHomePage->getSearchBlock()->search($simpleProduct1->getProductSku());
-
-        //Verifying
-        $this->assertTrue($productListBlock->isProductVisible($simpleProduct1->getProductName()),
-            'Product was not found.');
-        $productListBlock->openProductViewPage($simpleProduct1->getProductName());
-        $this->assertEquals($simpleProduct1->getProductName(), $productViewBlock->getProductName(),
-            'Wrong product page has been opened.');
-
-        //Click on configurable product in related products section
-        $productViewBlock->getRelatedProductsOption($simpleProduct1, $simpleProduct2, $configurableProduct);
-
-        //Add configurable product to shopping cart
-        $productViewBlock->addToCart($configurableProduct);
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
-        $flag = $checkoutCartBlock->checkAddedProduct($simpleProduct2)->isVisible();
-        $this->assertTrue($flag, 'Related product was not found in the shopping cart.');
+        $this->assertTrue($checkoutCartBlock->checkAddedProduct($simpleProduct2)->isVisible(),
+            'Related product was not found in the shopping cart.');
     }
 }
