@@ -12,6 +12,8 @@
 
 namespace Magento\CustomerSegment\Test\Page;
 
+use Magento\Backend\Test\Block\CustomerSegment\Actions;
+use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
 use Magento\CustomerSegment\Test\Block\Backend\CustomerSegmentForm;
 use Mtf\Factory\Factory;
@@ -70,4 +72,42 @@ class CustomerSegmentNew extends Page {
     {
         return $this->_messagesBlock;
     }
+
+    /**
+     * Get Conditions tabs block
+     *
+     * @return FormTabs
+     */
+    public function getConditionsTab()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+            $this->_browser->find('#magento_customersegment_segment_tabs_conditions_section')
+        );
+    }
+
+    /**
+     * Get Conditions tabs block
+     *
+     * @return FormTabs
+     */
+    public function getCustomersTab()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
+            $this->_browser->find('#magento_customersegment_segment_tabs_customers_tab')
+        );
+    }
+
+    /**
+     * Click Conditions add link
+     *
+     * @return Actions
+     */
+    public function getConditionsAdd()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendCustomerSegmentActions(
+            $this->_browser->find('#conditions__1__children')
+        );
+    }
+
+
 }

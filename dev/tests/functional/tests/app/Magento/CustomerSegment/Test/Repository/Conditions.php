@@ -38,27 +38,17 @@ class Conditions extends AbstractRepository {
         return array(
             'data' => array(
                 'fields' => array(
-                    'name' => array(
-                        'value' => 'All Retail Customers',
-                        'group' => 'magento_customersegment_segment_tabs_general_section'
-                    ),
-                    'website_id' => array(
-                        'value' => 'Main Website',
-                        'group' => 'magento_customersegment_segment_tabs_general_section',
+                    'conditions__1__new_child' => array(
+                        'value' => 'Group',
+                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
                         'input' => 'select',
-                        'input_value' => '1'
+                        'input_value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes|group_id'
                     ),
-                    'is_active' => array(
-                        'value' => 'Active',
-                        'group' => 'magento_customersegment_segment_tabs_general_section',
+                    'conditions__1--1__value' => array(
+                        'value' => 'Retailer',
+                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
                         'input' => 'select',
-                        'input_value' => '1'
-                    ),
-                    'apply_to' => array(
-                        'value' => 'Visitors and Registered Customers',
-                        'group' => 'magento_customersegment_segment_tabs_general_section',
-                        'input' => 'select',
-                        'input_value' => '0'
+                        'input_value' => '3'
                     )
                 ),
             )
