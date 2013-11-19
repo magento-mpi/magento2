@@ -45,11 +45,6 @@ class Items extends \Magento\Checkout\Block\Cart
     protected $quoteItemFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -82,7 +77,6 @@ class Items extends \Magento\Checkout\Block\Cart
         $this->itemFactory = $itemFactory;
         $this->quoteFactory = $quoteFactory;
         $this->quoteItemFactory = $quoteItemFactory;
-        $this->storeManager = $storeManager;
         parent::__construct(
             $context,
             $coreData,
@@ -129,7 +123,7 @@ class Items extends \Magento\Checkout\Block\Cart
                 if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
-                        $this->storeManager->getStore()->formatPrice($this->storeManager->getStore()->convertPrice(
+                        $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );

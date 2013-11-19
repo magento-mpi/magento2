@@ -31,11 +31,6 @@ class Form extends \Magento\Core\Block\Template
     protected $typeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -52,7 +47,6 @@ class Form extends \Magento\Core\Block\Template
         parent::__construct($context, $coreData, $data);
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
-        $this->storeManager = $storeManager;
     }
 
     /**
@@ -90,7 +84,7 @@ class Form extends \Magento\Core\Block\Template
     public function getTypesCollection()
     {
         return $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->storeManager->getStore()->getId());
+            ->addStoreData($this->_storeManager->getStore()->getId());
     }
 
     /**

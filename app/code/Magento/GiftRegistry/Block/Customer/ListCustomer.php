@@ -31,11 +31,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $typeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -56,7 +51,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
-        $this->storeManager = $storeManager;
         parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
     }
 
@@ -116,7 +110,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function canAddNewEntity()
     {
         $collection = $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->storeManager->getStore()->getId())
+            ->addStoreData($this->_storeManager->getStore()->getId())
             ->applyListedFilter();
 
         return (bool)$collection->getSize();

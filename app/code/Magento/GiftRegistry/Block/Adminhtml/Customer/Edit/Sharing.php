@@ -19,11 +19,6 @@ class Sharing
     protected $systemStore;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -40,9 +35,7 @@ class Sharing
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-
         $this->systemStore = $systemStore;
-        $this->storeManager = $storeManager;
     }
 
     protected function _prepareForm()
@@ -69,7 +62,7 @@ class Sharing
             'note'     => 'Enter list of emails, comma-separated.'
         ));
 
-        if (!$this->storeManager->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Send From'),
                 'required' => true,

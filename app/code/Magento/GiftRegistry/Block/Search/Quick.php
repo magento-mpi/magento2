@@ -31,11 +31,6 @@ class Quick extends \Magento\Core\Block\Template
     protected $_giftRegistryData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
@@ -52,8 +47,6 @@ class Quick extends \Magento\Core\Block\Template
         $this->_giftRegistryData = $giftRegistryData;
         $this->typeFactory = $typeFactory;
         parent::__construct($context, $coreData, $data);
-
-        $this->storeManager = $storeManager;
     }
 
     /**
@@ -74,7 +67,7 @@ class Quick extends \Magento\Core\Block\Template
     public function getTypesCollection()
     {
         return $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->storeManager->getStore()->getId())
+            ->addStoreData($this->_storeManager->getStore()->getId())
             ->applyListedFilter()
             ->applySortOrder();
     }

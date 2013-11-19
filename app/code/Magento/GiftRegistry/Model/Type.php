@@ -79,8 +79,7 @@ class Type extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
-    )
-    {
+    ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->attributeConfig = $attributeConfig;
         $this->processorFactory = $processorFactory;

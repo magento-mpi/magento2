@@ -22,6 +22,7 @@
         </param>
     </type>
     <type name="Magento\Review\Controller\Product">
+        <plugin name="sessionInitializer" type="reviewProductInitSession" />
         <param name="reviewSession">
             <instance type="Magento\Review\Model\Session" />
         </param>
@@ -40,7 +41,4 @@
             </value>
         </param>
     </virtualType>
-    <type name="Magento\Review\Controller\Product">
-        <plugin name="sessionInitializer" type="reviewProductInitSession" />
-    </type>
 </config>

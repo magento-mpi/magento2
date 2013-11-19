@@ -61,7 +61,6 @@ class History extends \Magento\Core\Block\Template
     {
         parent::_construct();
 
-
         $orders = $this->_orderCollectionFactory->create()
             ->addFieldToSelect('*')
             ->addFieldToFilter('customer_id', $this->_customerSession->getCustomer()->getId())
@@ -70,7 +69,9 @@ class History extends \Magento\Core\Block\Template
 
         $this->setOrders($orders);
 
-        $this->_layout->getBlock('root')->setHeaderTitle(__('My Orders'));
+        if ($this->_layout->getBlock('root')) {
+            $this->_layout->getBlock('root')->setHeaderTitle(__('My Orders'));
+        }
     }
 
     /**
