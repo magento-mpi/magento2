@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Integration\Model\Config\Api;
+namespace Magento\Webapi\Model\Config\Integration;
 
 /**
  * Converter of api.xml content into array format.

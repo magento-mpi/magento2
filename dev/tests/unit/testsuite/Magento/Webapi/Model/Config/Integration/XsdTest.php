@@ -19,7 +19,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_schemaFile = BP . '/app/code/Magento/Integration/etc/integration/api.xsd';
+        $this->_schemaFile = BP . '/app/code/Magento/Webapi/etc/integration/api.xsd';
     }
 
     /**
