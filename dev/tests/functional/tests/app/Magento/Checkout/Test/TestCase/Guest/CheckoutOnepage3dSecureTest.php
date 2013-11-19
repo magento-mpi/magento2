@@ -25,28 +25,6 @@ use Magento\Checkout\Test\Fixture\GuestPayPalPayflowPro3dSecure;
 class CheckoutOnepage3dSecureTest extends Functional
 {
     /**
-     * Enable HTTPS on frontend to avoid security warning while card validation
-     */
-    public static function setUpBeforeClass()
-    {
-        $url = preg_replace(array('$^http:$', '$index\.php/?$'), array('https:', ''), $_ENV['app_frontend_url']);
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig(array('front_url' => $url));
-        $configFixture->switchData('enable_front_https');
-        $configFixture->persist();
-    }
-
-    /**
-     * Restore configuration
-     */
-    public static function tearDownAfterClass()
-    {
-        $url = preg_replace('$index\.php/?$', '', $_ENV['app_frontend_url']);
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig(array('front_url' => $url));
-        $configFixture->switchData('disable_front_https');
-        $configFixture->persist();
-    }
-
-    /**
      * Place order on frontend via one page checkout and PayPal PayflowPro 3D Secure payment method.
      */
     public function testOnepageCheckoutPayPalPayflowPro()
@@ -110,8 +88,8 @@ class CheckoutOnepage3dSecureTest extends Functional
     {
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
-        /** @var  \Magento\Centinel\Test\Block\CardVerification $centinelBlock */
-        $centinelBlock = $checkoutOnePage->getCentinelCardVerificationBlock();
+        /** @var  \Magento\Centinel\Test\Block\Authentication $centinelBlock */
+        $centinelBlock = $checkoutOnePage->getCentinelAuthenticationBlock();
         $centinelBlock->verifyCard($fixture);
 
         $checkoutOnePage->getReviewBlock()->waitForCardValidation();
@@ -146,17 +124,17 @@ class CheckoutOnepage3dSecureTest extends Functional
 
         $this->assertContains(
             $fixture->getVerificationResult(),
-            Factory::getPageFactory()->getSalesOrderView()->getOrderPaymentInfoBlock()->getVerificationResult(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderInfoBlock()->getVerificationResult(),
             'Incorrect "3D Secure Verification Result" the order #' . $orderId);
 
         $this->assertContains(
             $fixture->getCardholderValidation(),
-            Factory::getPageFactory()->getSalesOrderView()->getOrderPaymentInfoBlock()->getCardholderValidation(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderInfoBlock()->getCardholderValidation(),
             'Incorrect "3D Secure Cardholder Validation" for the order #' . $orderId);
 
         $this->assertContains(
             $fixture->getEcommerceIndicator(),
-            Factory::getPageFactory()->getSalesOrderView()->getOrderPaymentInfoBlock()->getEcommerceIndicator(),
+            Factory::getPageFactory()->getSalesOrderView()->getOrderInfoBlock()->getEcommerceIndicator(),
             'Incorrect "3D Secure Electronic Commerce Indicator" for the order #' . $orderId);
     }
 }

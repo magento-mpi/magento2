@@ -11,18 +11,19 @@
 
 namespace Magento\Centinel\Test\Block;
 
+use PHPUnit_Extensions_Selenium2TestCase_WebDriverException;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;;
 
 
 /**
- * Class CardVerification
+ * Class Authentication
  * Card Verification frame on OnePageCheckout order review step
  *
  * @package Magento\Centinel
  */
-class CardVerification extends Block
+class Authentication extends Block
 {
     /**
      * Submit form button
@@ -49,5 +50,10 @@ class CardVerification extends Block
         $this->waitForElementVisible($this->password);
         $this->_rootElement->find($this->password, Locator::SELECTOR_CSS)->setValue($data['password']);
         $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
+        //Workaround for https\http data transfer browser alert
+        try {
+            $this->_rootElement->acceptAlert();
+        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
+        }
     }
 }

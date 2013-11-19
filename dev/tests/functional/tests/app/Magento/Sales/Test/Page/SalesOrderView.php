@@ -78,7 +78,7 @@ class SalesOrderView extends Page
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page-title .title')
         );
-        $this->paymentInfo = Factory::getBlockFactory()->getMagentoBackendSalesOrderPaymentInfo(
+        $this->paymentInfo = Factory::getBlockFactory()->getMagentoBackendSalesOrderInfo(
             $this->_browser->find('.order-payment-method')
         );
     }
@@ -126,9 +126,9 @@ class SalesOrderView extends Page
     /**
      * Get Payment Information block
      *
-     * @return \Magento\Backend\Test\Block\Sales\Order\PaymentInfo
+     * @return \Magento\Backend\Test\Block\Sales\Order\Info
      */
-    public function getOrderPaymentInfoBlock()
+    public function getOrderInfoBlock()
     {
         return $this->paymentInfo;
     }

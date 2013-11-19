@@ -15,44 +15,33 @@ use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class PaymentInfo
+ * Class Info
  * Order Payment Information block
  *
  * @package Magento\Backend
  */
-class PaymentInfo extends Block
+class Info extends Block
 {
     /**
      * 3D Secure Verification Result
      *
      * @var string
      */
-    protected  $_verificationResult;
+    protected  $_verificationResult = '//tr[normalize-space(th)="3D Secure Verification Result:"]/td';
 
     /**
      * 3D Secure Cardholder Validation
      *
      * @var string
      */
-    protected  $_cardholderValidation;
+    protected  $_cardholderValidation = '//tr[normalize-space(th)="3D Secure Cardholder Validation:"]/td';
 
     /**
      * 3D Secure Electronic Commerce Indicator
      *
      * @var string
      */
-    protected  $_eCommerceIndicator;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        $this->_verificationResult = '//tr[normalize-space(th)="3D Secure Verification Result:"]/td';
-        $this->_cardholderValidation = '//tr[normalize-space(th)="3D Secure Cardholder Validation:"]/td';
-        $this->_eCommerceIndicator = '//tr[normalize-space(th)="3D Secure Electronic Commerce Indicator:"]/td';
-    }
+    protected  $_eCommerceIndicator = '//tr[normalize-space(th)="3D Secure Electronic Commerce Indicator:"]/td';
 
     /**
      * Get 3D Secure Verification Result

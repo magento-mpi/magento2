@@ -49,9 +49,6 @@ class Config extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
-        //General-Web:Base URLs(Secure)
-        $this->_data['enable_front_https'] = $this->_getEnableFrontHttps();
-        $this->_data['disable_front_https'] = $this->_getDisableFrontHttps();
     }
 
     protected function _getFreeShipping()
@@ -796,70 +793,6 @@ class Config extends AbstractRepository
                                     'debug' => array(
                                         'value' => 0 //No
                                     )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
-    }
-
-    /**
-     * Enable Secure URLs in Frontend
-     *
-     * @return array
-     */
-    protected function _getEnableFrontHttps()
-    {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'web' => array(
-                        'section' => 'web',
-                        'website' => null,
-                        'store' => null,
-                        'groups' => array(
-                            'secure' => array(
-                                'fields' => array(
-                                    'base_url' => array(
-                                        'value' => '%front_url%'
-                                    ),
-                                    'use_in_frontend' => array(
-                                        'value' => 1 //Yes
-                                    ),
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
-    }
-
-    /**
-     * Disable Secure URLs in Frontend
-     *
-     * @return array
-     */
-    protected function _getDisableFrontHttps()
-    {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'web' => array(
-                        'section' => 'web',
-                        'website' => null,
-                        'store' => null,
-                        'groups' => array(
-                            'secure' => array(
-                                'fields' => array(
-                                    'base_url' => array(
-                                        'value' => '%front_url%'
-                                    ),
-                                    'use_in_frontend' => array(
-                                        'value' => 0 //No
-                                    ),
                                 )
                             )
                         )
