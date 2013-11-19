@@ -1,15 +1,16 @@
 <?php
 /**
- * Created by JetBrains PhpStorm.
- * User: kfries
- * Date: 11/14/13
- * Time: 12:13 PM
- * To change this template use File | Settings | File Templates.
+ * {license_notice}
+ *
+ * @category    Mtf
+ * @package     Mtf
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
  */
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
-use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;

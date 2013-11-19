@@ -15,8 +15,8 @@ namespace Magento\Catalog\Test\Block\Backend;
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
- * Class ProductGrid
- * Backend catalog product grid
+ * Class ProductUpsellGrid
+ * Backend catalog product grid for upsells tab
  *
  * @package Magento\Catalog\Test\Block
  */
