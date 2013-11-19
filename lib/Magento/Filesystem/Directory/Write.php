@@ -83,6 +83,7 @@ class Write extends Read implements WriteInterface
      */
     protected function assertIsFile($path)
     {
+        clearstatcache();
         $absolutePath = $this->getAbsolutePath($path);
         if (!$this->driver->isFile($absolutePath)) {
             throw new FilesystemException(sprintf('The "%s" file doesn\'t exist or not a file', $absolutePath));
