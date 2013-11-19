@@ -8,6 +8,10 @@
 
 namespace Magento\Core\Model\Page\Asset;
 
+use Magento\Filesystem,
+    Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Write;
+
 class MergeServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -31,6 +35,11 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
+     * @var Write | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_directory;
+
+    /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
@@ -46,7 +55,12 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
         $this->_storeConfig = $this->getMock(
             'Magento\Core\Model\Store\Config', array('getConfigFlag'), array(), '', false
         );
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem',
+            array('getDirectoryWrite'), array(), '', false);
+        $this->_directory = $this->getMock(
+            'Magento\Filesystem\Directory\Write',
+            array('delete', 'getRelativePath'), array(), '', false
+        );
         $this->_dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_state = $this->getMock('Magento\App\State', array(), array(), '', false);
 
@@ -170,15 +184,20 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanMergedJsCss()
     {
-        $this->_dirs->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::PUB_VIEW_CACHE)
-            ->will($this->returnValue('/pub/cache'));
-
-        $mergedDir = '/pub/cache/' . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
         $this->_filesystem->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(DirectoryList::PUB_VIEW_CACHE)
+            ->will($this->returnValue($this->_directory));
+
+        $mergedDir = '_merged';
+        $this->_directory->expects($this->once())
+            ->method('getRelativePath')
+            ->with(\Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR)
+            ->will($this->returnValue($mergedDir));
+
+        $this->_directory->expects($this->once())
             ->method('delete')
-            ->with($mergedDir, null);
+            ->with($mergedDir);
 
         $mediaStub = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $mediaStub->expects($this->once())

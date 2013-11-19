@@ -105,4 +105,7 @@ return array(
     array('_collectionFactory', '\Magento\Theme\Model\Config\Customization', 'themeProvider'),
     array('_filesystem', '\Magento\Cms\Helper\Wysiwyg\Images', '_directory'),
     array('_filesystem', '\Magento\Cms\Model\Wysiwyg\Images\Storage', '_directory'),
+    array('_filesystem', '\Magento\Core\Model\Page\Asset\MergeStrategy\Direct', '_directory'),
+    array('_filesystem', '\Magento\Core\Model\Page\Asset\MergeStrategy\Checksum', '_directory'),
+    array('_filesystem', '\Magento\Core\Model\Page\Asset\MergeStrategy\FileExists', '_directory'),
 );

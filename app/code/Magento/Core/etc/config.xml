@@ -143,7 +143,7 @@
                         <permissions>511</permissions>
                     </generation>
                     <pub>
-                        <read_only>1</read_only>
+                        <read_only>0</read_only>
                         <path>pub</path>
                         <uri>pub</uri>
                         <permissions>511</permissions>

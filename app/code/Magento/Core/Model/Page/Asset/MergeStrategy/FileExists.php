@@ -20,9 +20,9 @@ class FileExists
     private $_strategy;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    private $_filesystem;
+    private $_directory;
 
     /**
      * @param \Magento\Core\Model\Page\Asset\MergeStrategyInterface $strategy
@@ -33,7 +33,7 @@ class FileExists
         \Magento\Filesystem $filesystem
     ) {
         $this->_strategy = $strategy;
-        $this->_filesystem = $filesystem;
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::PUB);
     }
 
     /**
@@ -41,7 +41,7 @@ class FileExists
      */
     public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
     {
-        if (!$this->_filesystem->has($destinationFile)) {
+        if (!($this->_directory->isExist($this->_directory->getRelativePath($destinationFile)))) {
             $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
         }
     }
