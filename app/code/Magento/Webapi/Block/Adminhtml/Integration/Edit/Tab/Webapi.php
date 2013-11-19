@@ -46,22 +46,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      */
     protected $_aclResourceProvider;
 
-    /** @var \Magento\Integration\Service\IntegrationV1Interface */
-    private $_integrationService;
-
-    /** @var string */
-    protected $_isApiEnabled;
-
-    /**
-     * Field indicating if api is enabled or disabled
-     */
-    const IS_API_ENABLED = 'is_api_enabled';
-
-    /**
-     * API permissions
-     */
-    const DATA_API_PERMISSIONS = 'api_permissions';
-
     /**
      * Construct
      *
@@ -71,7 +55,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
-     * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param array $data
      */
     public function __construct(
@@ -81,14 +64,12 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
-        \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
-        $this->_integrationService = $integrationService;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -138,13 +119,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected function _construct()
     {
         parent::_construct();
-        $integrationId = $this->_request->getParam(Integration::PARAM_INTEGRATION_ID, false);
-        if ($integrationId) {
-            $data = $this->_integrationService->get($integrationId);
-            $this->_isApiEnabled = $data[self::IS_API_ENABLED];
-            $selectedResourceIds = str_getcsv($data[self::DATA_API_PERMISSIONS]);
-            $this->setSelectedResources($selectedResourceIds);
-        }
+        //TODO : Fetch the selected resources once its persisted in the AuthZ tables
+        $selectedResourceIds = array();
+        $this->setSelectedResources($selectedResourceIds);
     }
 
     /**
@@ -193,15 +170,4 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         }
         return $output;
     }
-
-    /**
-     * Check if everything is allowed
-     *
-     * @return string 'Y' if the integration Api is enabled else N
-     */
-    public function isApiEnabled()
-    {
-        return $this->_isApiEnabled;
-    }
-
 }
