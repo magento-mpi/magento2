@@ -11,7 +11,7 @@ namespace Magento\View;
 use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
 
-use Magento\Core\Model\Translate;
+use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
 use Magento\App\Helper\HelperFactory as FactoryHelper;
 use Magento\View\Url as ViewUrl;
@@ -53,7 +53,7 @@ class Context
     protected $urlBuilder;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $translator;
 
@@ -128,7 +128,7 @@ class Context
      * @param Request $request
      * @param ManagerInterface $eventManager
      * @param UrlInterface $urlBuilder
-     * @param Translate $translator
+     * @param TranslateInterface $translator
      * @param Cache $cache
      * @param DesignInterface $design
      * @param AbstractSession $session
@@ -150,7 +150,7 @@ class Context
         Request $request,
         ManagerInterface $eventManager,
         UrlInterface $urlBuilder,
-        Translate $translator,
+        TranslateInterface $translator,
         Cache $cache,
         DesignInterface $design,
         AbstractSession $session,
@@ -255,7 +255,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Translate
+     * @return \Magento\TranslateInterface
      */
     public function getTranslator()
     {

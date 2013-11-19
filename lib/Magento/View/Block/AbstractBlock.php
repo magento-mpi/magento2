@@ -34,7 +34,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
 

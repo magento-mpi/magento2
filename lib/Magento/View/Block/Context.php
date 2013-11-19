@@ -40,7 +40,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_urlBuilder;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
 
@@ -121,7 +121,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\TranslateInterface $translator
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
@@ -146,7 +146,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Core\Model\Translate $translator,
+        \Magento\TranslateInterface $translator,
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session\AbstractSession $session,
@@ -257,7 +257,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Translate
+     * @return \Magento\TranslateInterface
      */
     public function getTranslator()
     {
