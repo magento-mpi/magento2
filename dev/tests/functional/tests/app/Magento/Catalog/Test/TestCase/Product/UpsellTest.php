@@ -68,33 +68,11 @@ class UpsellTest extends Functional {
      * @param \Magento\Catalog\Test\Fixture\Product $upsellSimple2
      * @param \Magento\Catalog\Test\Fixture\Product $upsellConfigurable1
      */
-    protected function checkFrontEnd($product, $upsellSimple2, $upsellConfigurable1)
+    private function checkFrontEnd($product, $upsellSimple2, $upsellConfigurable1)
     {
-        //Pages
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
-        $resultPage = Factory::getPageFactory()->getCatalogsearchResult();
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-
-        //Blocks
-        $productViewBlock = $productPage->getViewBlock();
-
-        $productListBlock = $resultPage->getListProductBlock();
-
-        //Steps
-        $frontendHomePage->open();
-        $frontendHomePage->getSearchBlock()->search($product->getProductSku());
-
-        //Verifying
-
-        // Step 5 - Go to Simple 1 page
-        // Simple 1 page is opened,  Product page has an Up-sells section :
-        // "You may also be interested in the following product(s)" with  both - Configurable 1 and - Simple 2
-
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
-            'Product was not found.');
-        $productListBlock->openProductViewPage($product->getProductName());
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
-            'Wrong product page has been opened.');
+        $productPage->init($product);
+        $productPage->open();
 
         // check for the upsell products.
 
@@ -146,7 +124,6 @@ class UpsellTest extends Functional {
         /* @var Product */
         $product1Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product1Fixture->persist();
-        $this->assertNotEmpty($product1Fixture->getProductId(), "no product id!");
 
         /* @var Product */
         $product2Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
@@ -155,7 +132,6 @@ class UpsellTest extends Functional {
         /* @var ConfigurableProduct */
         $configurableProductFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurableProductFixture->persist();
-        $this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id!");
 
         // Test Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
