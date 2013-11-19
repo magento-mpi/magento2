@@ -40,8 +40,6 @@ lib/Magento/Filter/Object/Grid.php
 lib/Magento/Filter/Object.php
 
 lib/Magento/View/Context.php
-lib/Magento/View/Service.php
-lib/Magento/View/Config.php
 lib/Magento/View/Block/Html/Calendar.php
 lib/Magento/View/Block/Messages.php
 lib/Magento/View/Block/AbstractBlock.php
