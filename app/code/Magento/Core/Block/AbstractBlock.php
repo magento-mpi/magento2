@@ -1038,7 +1038,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($cacheData) {
             $cacheData = str_replace(
                 $this->_getSidPlaceholder($cacheKey),
-                $this->_sidResolver->getSessionIdQueryParam() . '=' . $this->_session->getSessionId(),
+                $this->_sidResolver->getSessionIdQueryParam($this->_session) . '=' . $this->_session->getSessionId(),
                 $cacheData
             );
         }
@@ -1058,7 +1058,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         }
         $cacheKey = $this->getCacheKey();
         $data = str_replace(
-            $this->_sidResolver->getSessionIdQueryParam() . '=' . $this->_session->getSessionId(),
+            $this->_sidResolver->getSessionIdQueryParam($this->_session) . '=' . $this->_session->getSessionId(),
             $this->_getSidPlaceholder($cacheKey),
             $data
         );

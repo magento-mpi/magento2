@@ -67,9 +67,10 @@ class Url
             return false;
         }
         $replacementCount = 0;
+        $sessionIdQueryParam = $this->_sidResolver->getSessionIdQueryParam($this->_coreSession);
         $content = str_replace(
-            $this->_sidResolver->getSessionIdQueryParam() . '=' . $this->_coreSession->getSessionId(),
-            $this->_sidResolver->getSessionIdQueryParam() . '=' . self::_getSidMarker(),
+            $sessionIdQueryParam . '=' . $this->_coreSession->getSessionId(),
+            $sessionIdQueryParam . '=' . self::_getSidMarker(),
             $content,
             $replacementCount
         );

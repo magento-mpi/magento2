@@ -81,7 +81,6 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         $this->model = $objectManager->create(
             'Magento\Core\Model\Session\SidResolver',
             array(
-                'session' => $this->session,
                 'storeManager' => $storeManager,
                 'coreStoreConfig' => $this->coreStoreConfig,
                 'urlBuilder' => $this->urlBuilder,
@@ -92,8 +91,8 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        if (isset($_GET[$this->model->getSessionIdQueryParam()])) {
-            unset($_GET[$this->model->getSessionIdQueryParam()]);
+        if (isset($_GET[$this->model->getSessionIdQueryParam($this->session)])) {
+            unset($_GET[$this->model->getSessionIdQueryParam($this->session)]);
         }
     }
 
@@ -121,9 +120,9 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($isOwnOriginUrl));
 
         if ($testSid) {
-            $_GET[$this->model->getSessionIdQueryParam()] = $testSid;
+            $_GET[$this->model->getSessionIdQueryParam($this->session)] = $testSid;
         }
-        $this->assertEquals($sid, $this->model->getSid());
+        $this->assertEquals($sid, $this->model->getSid($this->session));
     }
 
     /**
@@ -147,7 +146,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals(
             SidResolver::SESSION_ID_QUERY_PARAM,
-            $this->model->getSessionIdQueryParam()
+            $this->model->getSessionIdQueryParam($this->session)
         );
     }
 
@@ -157,7 +156,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
         $this->session->setSessionName($this->customSessionName);
         $this->assertEquals(
             $this->customSessionQueryParam,
-            $this->model->getSessionIdQueryParam()
+            $this->model->getSessionIdQueryParam($this->session)
         );
         $this->session->setSessionName($oldSessionName);
     }

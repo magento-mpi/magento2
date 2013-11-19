@@ -222,7 +222,7 @@ class AbstractSession extends \Magento\Object
         }
 
         // potential custom logic for session id (ex. switching between hosts)
-        $this->setSessionId($this->sidResolver->getSid());
+        $this->setSessionId($this->sidResolver->getSid($this));
 
         if ($this->_cacheLimiter) {
             session_cache_limiter($this->_cacheLimiter);

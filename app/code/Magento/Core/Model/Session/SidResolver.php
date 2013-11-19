@@ -19,11 +19,6 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     const XML_PATH_USE_FRONTEND_SID = 'web/session/use_frontend_sid';
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $session;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
@@ -44,20 +39,17 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     protected $sidNameMap;
 
     /**
-     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\UrlInterface $urlBuilder
      * @param array $sidNameMap
      */
     public function __construct(
-        \Magento\Core\Model\Session $session,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\UrlInterface $urlBuilder,
         array $sidNameMap = array()
     ) {
-        $this->session = $session;
         $this->storeManager = $storeManager;
         $this->coreStoreConfig = $coreStoreConfig;
         $this->urlBuilder = $urlBuilder;
@@ -65,17 +57,18 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     }
 
     /**
+     * @param AbstractSession $session
      * @return string
      */
-    public function getSid()
+    public function getSid(AbstractSession $session)
     {
         $id = null;
         if (($this->storeManager->getStore()->isAdmin()
                 || $this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
-            && isset($_GET[$this->getSessionIdQueryParam()])
+            && isset($_GET[$this->getSessionIdQueryParam($session)])
             && $this->urlBuilder->isOwnOriginUrl()
         ) {
-            $id = $_GET[$this->getSessionIdQueryParam()];
+            $id = $_GET[$this->getSessionIdQueryParam($session)];
         }
         return $id;
     }
@@ -83,11 +76,12 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     /**
      * Get session id query param
      *
+     * @param AbstractSession $session
      * @return string
      */
-    public function getSessionIdQueryParam()
+    public function getSessionIdQueryParam(AbstractSession $session)
     {
-        $sessionName = $this->session->getSessionName();
+        $sessionName = $session->getSessionName();
         if ($sessionName && isset($this->sidNameMap[$sessionName])) {
             return $this->sidNameMap[$sessionName];
         }
