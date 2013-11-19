@@ -8,6 +8,9 @@
 
 namespace Magento\View;
 
+/**
+ * Interface LayoutInterface
+ */
 interface LayoutInterface
 {
     /**

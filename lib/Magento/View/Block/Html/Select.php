@@ -6,19 +6,16 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Block\Html;
 
 /**
  * HTML select element block
- *
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\View\Block\Html;
-
 class Select extends \Magento\View\Block\AbstractBlock
 {
-
+    /**
+     * @var array
+     */
     protected $_options = array();
 
     /**
@@ -138,10 +135,10 @@ class Select extends \Magento\View\Block\AbstractBlock
 
         $html = '<select name="' . $this->getName() . '" id="' . $this->getId() . '" class="'
             . $this->getClass() . '" title="' . $this->getTitle() . '" ' . $this->getExtraParams() . '>';
-        $values = $this->getValue();
 
+        $values = $this->getValue();
         if (!is_array($values)) {
-                $values = (array)$values;
+            $values = (array)$values;
         }
 
         $isArrayOption = true;

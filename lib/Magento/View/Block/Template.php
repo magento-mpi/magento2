@@ -13,6 +13,9 @@ namespace Magento\View\Block;
  */
 class Template extends AbstractBlock
 {
+    /**
+     * Config path to 'Allow Symlinks' template settings
+     */
     const XML_PATH_TEMPLATE_ALLOW_SYMLINK = 'dev/template/allow_symlink';
 
     /**
@@ -37,7 +40,7 @@ class Template extends AbstractBlock
      *
      * @var bool
      */
-    protected $_allowSymlinks = null;
+    protected $_allowSymlinks;
 
     /**
      * @var \Magento\App\Dir
@@ -87,6 +90,7 @@ class Template extends AbstractBlock
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
      * @param array $data
+     *
      * @todo Remove injection of the core helper from this class and its descendants, because it's no longer used
      */
     public function __construct(
@@ -136,7 +140,8 @@ class Template extends AbstractBlock
      * Set path to template used for generating block's output.
      *
      * @param string $template
-     * @return \Magento\View\Block\Template     */
+     * @return \Magento\View\Block\Template
+     */
     public function setTemplate($template)
     {
         $this->_template = $template;
@@ -175,7 +180,8 @@ class Template extends AbstractBlock
      *
      * @param   string|array $key
      * @param   mixed $value
-     * @return  \Magento\View\Block\Template     */
+     * @return  \Magento\View\Block\Template
+     */
     public function assign($key, $value=null)
     {
         if (is_array($key)) {

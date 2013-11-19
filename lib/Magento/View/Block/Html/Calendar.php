@@ -6,16 +6,13 @@
  * @license     {license_link}
  */
 
-/**
- * Calendar block for page header
- * Prepares localization data for calendar
- *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\View\Block\Html;
 
+/**
+ * Calendar block for page header
+ *
+ * Prepares localization data for calendar
+ */
 class Calendar extends \Magento\View\Block\Template
 {
     /**
@@ -51,6 +48,11 @@ class Calendar extends \Magento\View\Block\Template
         parent::__construct($coreData, $context, $data);
     }
 
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
     protected function _toHtml()
     {
         $localeCode = $this->_locale->getLocaleCode();

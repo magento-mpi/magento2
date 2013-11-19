@@ -1,7 +1,5 @@
 <?php
 /**
- * Factory class for Template Engine
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,6 +10,9 @@ namespace Magento\View;
 
 use Magento\ObjectManager;
 
+/**
+ * Factory class for Template Engine
+ */
 class TemplateEngineFactory
 {
     /**

@@ -66,16 +66,18 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @var \Magento\View\Block\Messages
      */
-    protected $_messagesBlock = null;
+    protected $_messagesBlock;
 
     /**
      * Block html frame open tag
+     *
      * @var string
      */
     protected $_frameOpenTag;
 
     /**
      * Block html frame close tag
+     *
      * @var string
      */
     protected $_frameCloseTag;
@@ -190,7 +192,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * Internal constructor, that is called from real constructor
      *
      * Please override this one instead of overriding real __construct constructor
-     *
      */
     protected function _construct()
     {
@@ -669,8 +670,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Retrieve data-ui-id attribute which will distinguish link/input/container/anything else in template among others
-     * Function takes an arbitrary amount of parameters
+     * Retrieve data-ui-id attribute
+     *
+     * Retrieve data-ui-id attribute which will distinguish
+     * link/input/container/anything else in template among others.
+     * Function takes an arbitrary amount of parameters.
      *
      * @return string
      */
@@ -681,6 +685,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 
     /**
      * Generate id for using in JavaScript UI
+     *
      * Function takes an arbitrary amount of parameters
      *
      * @return string
@@ -888,6 +893,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 
     /**
      * Escape quotes inside html attributes
+     *
      * Use $addSlashes = false for escaping js that inside html attribute (onClick, onSubmit etc)
      *
      * @param  string $data
@@ -953,6 +959,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 
     /**
      * Get cache key informative items
+     *
      * Provide string array key to share specific info item with FPC placeholder
      *
      * @return array

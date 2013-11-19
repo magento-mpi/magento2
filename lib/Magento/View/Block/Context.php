@@ -1,16 +1,19 @@
 <?php
 /**
- * Abstract block context object. Will be used as block constructor modification point after release.
- * Important: Should not be modified by extension developers.
- *
  * {license_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
+
 namespace Magento\View\Block;
 
 /**
+ * Abstract block context object
+ *
+ * Will be used as block constructor modification point after release.
+ * Important: Should not be modified by extension developers.
+ *
  * @SuppressWarnings(PHPMD.TooManyFields)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */

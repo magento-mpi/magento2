@@ -6,14 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Block\Html;
 
 /**
  * HTML anchor element block
- *
- * @author Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\View\Block\Html;
-
 class Link extends \Magento\View\Block\Template
 {
     /**
@@ -43,6 +40,7 @@ class Link extends \Magento\View\Block\Template
         if (!empty($attributes)) {
             return $this->serialize($attributes);
         }
+
         return '';
     }
 
@@ -58,12 +56,11 @@ class Link extends \Magento\View\Block\Template
     public function serialize($attributes = array(), $valueSeparator = '=', $fieldSeparator = ' ', $quote = '"')
     {
         $data = array();
-
         foreach ($attributes as $key => $value) {
             $data[] = $key . $valueSeparator . $quote . $value . $quote;
         }
-        $res = implode($fieldSeparator, $data);
-        return $res;
+
+        return implode($fieldSeparator, $data);
     }
 
     /**
@@ -77,8 +74,6 @@ class Link extends \Magento\View\Block\Template
             return parent::_toHtml();
         }
 
-        $html = '<a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($this->getAnchorText()) . '</a>';
-        return $html;
-
+        return '<a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($this->getAnchorText()) . '</a>';
     }
 }

@@ -2,19 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_DesignEditor
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Theme domain model class
- */
 namespace Magento\View\Design\Theme\Domain;
 
 use \Magento\View\Design\ThemeInterface;
 
+/**
+ * Theme domain model class factory
+ */
 class Factory
 {
     /**
@@ -42,8 +40,8 @@ class Factory
     /**
      * Create new config object
      *
-     * @param \Magento\View\Design\ThemeInterface $theme
-     * @return \Magento\Core\Model\Theme\Domain\Virtual|\Magento\Core\Model\Theme\Domain\Staging
+     * @param ThemeInterface $theme
+     * @return mixed
      * @throws \Magento\Exception
      */
     public function create(ThemeInterface $theme)

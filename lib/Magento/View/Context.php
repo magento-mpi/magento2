@@ -1,7 +1,5 @@
 <?php
 /**
- * Application Runtime Context
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -29,6 +27,8 @@ use Magento\UrlInterface;
 use Magento\Event\ManagerInterface;
 
 /**
+ * Application Runtime Context
+ *
  * @todo Reduce fields number
  * @todo Reduce class dependencies
  *
@@ -141,6 +141,7 @@ class Context
      * @param Logger $logger
      * @param App $app
      * @param AppState $appState
+     *
      * @todo reduce parameter number
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -333,6 +334,7 @@ class Context
      * Retrieve the module name
      *
      * @return string
+     *
      * @todo alias of getModuleName
      */
     public function getFrontName()

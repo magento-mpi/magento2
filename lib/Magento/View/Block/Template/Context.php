@@ -1,15 +1,18 @@
 <?php
 /**
- * Magento block context object. Contains all block dependencies. Should not be used by any other class
- *
  * {licence_notice}
  *
  * @copyright {copyright}
  * @license   {license_link}
  */
+
 namespace Magento\View\Block\Template;
 
 /**
+ * Magento block context object
+ *
+ * Contains all block dependencies. Should not be used by any other class
+ *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Context extends \Magento\View\Block\Context
@@ -139,6 +142,7 @@ class Context extends \Magento\View\Block\Context
 
     /**
      * Get dirs instance
+     *
      * @return \Magento\App\Dir
      */
     public function getDirs()

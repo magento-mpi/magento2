@@ -11,6 +11,9 @@ namespace Magento\View\Render;
 use Magento\View\RenderInterface;
 use Magento\View\TemplateEngineFactory;
 
+/**
+ * Class Html
+ */
 class Html implements RenderInterface
 {
     /**

@@ -6,20 +6,17 @@
  * @license     {license_link}
  */
 
-
-/**
- * HTML select element block
- *
- * @category   Magento
- * @package    Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\View\Block\Html;
 
+/**
+ * Date element block
+ */
 class Date extends \Magento\View\Block\Template
 {
     /**
-     * @inheritdoc
+     * Render block HTML
+     *
+     * @return string
      */
     protected function _toHtml()
     {
@@ -55,14 +52,19 @@ class Date extends \Magento\View\Block\Template
      */
     public function getEscapedValue()
     {
-
         if ($this->getFormat() && $this->getValue()) {
             return strftime($this->getFormat(), strtotime($this->getValue()));
         }
-
         return htmlspecialchars($this->getValue());
     }
 
+    /**
+     * Produce and return block's html output
+     *
+     * {@inheritdoc}
+     *
+     * @return string
+     */
     public function getHtml()
     {
         return $this->toHtml();

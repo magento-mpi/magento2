@@ -2,15 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Interface for 'locale' file resolution strategy
- */
 namespace Magento\View\Design\FileResolution\Strategy;
 
 use Magento\View\Design\ThemeInterface;
@@ -18,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Locale Interface
  *
- * @package Magento\View
+ * Interface for 'locale' file resolution strateg
  */
 interface LocaleInterface
 {
