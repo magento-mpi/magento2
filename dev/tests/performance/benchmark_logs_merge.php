@@ -28,12 +28,12 @@ $scvUrl = $shell->getOption('csv');
 $newLogsUrl = $shell->getOption('logs');
 
 if (!file_exists($xmlUrl)) {
-    echo 'xml not exist';
+    echo 'xml does not exist';
     exit(1);
 }
 
 if (!file_exists($scvUrl)) {
-    echo 'csv not exist';
+    echo 'csv does not exist';
     exit(1);
 }
 
