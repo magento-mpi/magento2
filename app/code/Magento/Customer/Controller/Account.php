@@ -796,10 +796,7 @@ class Account extends \Magento\App\Action\Action
 
         $errorMessages = array();
         if (iconv_strlen($password) <= 0) {
-            array_push(
-                $errorMessages,
-                __('New password field cannot be empty.')
-            );
+            $errorMessages[] = __('New password field cannot be empty.');
         }
         /** @var $customer \Magento\Customer\Model\Customer */
         $customer = $this->_createCustomer()->load($customerId);

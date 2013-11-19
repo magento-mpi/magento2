@@ -397,7 +397,7 @@ class Rma extends \Magento\Backend\App\Action
         $statuses = array();
         foreach ($requestedItems as $requestedItem) {
             if (isset($requestedItem['status'])) {
-                array_push($statuses, $requestedItem['status']);
+                $statuses[] = $requestedItem['status'];
             }
         }
         /* Merge RMA Items status with POST data*/
@@ -406,7 +406,7 @@ class Rma extends \Magento\Backend\App\Action
             ->addAttributeToFilter('rma_entity_id', $rmaId);
         foreach ($rmaItems as $rmaItem) {
             if (!isset($requestedItems[$rmaItem->getId()])) {
-                array_push($statuses, $rmaItem->getStatus());
+                $statuses[] = $rmaItem->getStatus();
             }
         }
         return $statuses;

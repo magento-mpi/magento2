@@ -278,7 +278,7 @@ class Group extends \Magento\Core\Model\AbstractModel
         foreach ($this->getStores() as $store) {
             /* @var $store \Magento\Core\Model\Store */
             if ($store->getLocaleCode() == $locale) {
-                array_push($stores, $store);
+                $stores[] = $store;
             }
         }
         return $stores;

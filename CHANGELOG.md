@@ -1,21 +1,41 @@
-* Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
+* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
-  * Added static test for check incorrect dependencies in library
-  * Moved Magento\Core\Model\Theme to Magento\View component
-  * Moved Magento\Core\Model\Design to Magento\View component
-  * Consistent declaration of page-types
   * Email-related logic from Core and Adminhtml modules consolidated in new Email module
-* Themes update:
-  * Templates and layout updates are updated in Authorizenet, Centinel, Checkout, GiftMessage, Ogone, Paygate, Shipping, Tax  modules, old files moved to magento_backup theme
-  * Plushe theme is responsive now
+* GitHub requests:
+  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
+  * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
+  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
+  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
 * Fixed bugs:
-  * Fixed unable to print order, invoice, or creditmemo in the front-end
-  * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
-  * Fixed broken click for price link when "Display Actual Price" is set to in cart
   * Fixed JavaScript error when printing order from frontend
   * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
   * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
   * Fixed Fatal error when creating Shipping label for returns
+  * Fixed posting coupon code with spaces
+  * Fixed several typos and minor mistakes
+
+2.0.0.0-dev52
+=============
+* Better Navigation menu rendering due to improved Caching of Categories
+* Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
+* Various improvements:
+  * Added a static test to check for incorrect dependencies in the library
+  * Moved Magento\Core\Model\Theme to the Magento\View component
+  * Moved Magento\Core\Model\Design to the Magento\View component
+  * Consistent declaration of page-types
+  * The Framework part of the Cache functionality moved out from modules
+* Themes update:
+  * Updated templates and layout updates in the Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules; old files moved to the "magento-backup" theme
+  * Refactored and removed duplicate Persistent module templates
+  * Plushe theme made responsive
+* Fixed bugs:
+  * Fixed inability to print order, invoice, or creditmemo in the frontend
+  * Fixed fatal error caused by the Mage_Backend_Block_System_Config_FormTest integration test
+  * Fixed the broken link when the MAP feature is enabled and actual product price is set to be displayed in the shopping cart
+* Moved the following methods from Core Helpers to the appropriate libraries:
+  * Moved the Data Helper date format related functions to \Magento\Core\Model\Locale
+  * Moved the Data Helper array decoration related functions to Magento\Stdlib\ArrayUtils
+  * Moved the Data Helper functions that copy data from one object to another to \Magento\Object\Copy
 
 2.0.0.0-dev51
 =============
@@ -49,18 +69,11 @@
      * Moved the String Helper to the Magento\Filter, Magento\Stdlib\String, Magento\Stdlib\ArrayUtils libraries
      * Moved the Data Helper to the Magento\Math, Magento\Filter, Magento\Convert, Magento\Encryption, Magento\Filesystem libraries and to Magento\Customer\Helper\Data libraries
      * Moved the Http Magento Helper to the Magento\HTTP library
-     * Moved the Data Helper date format related functions to \Magento\Core\Model\Locale
-     * Moved the Data Data Helper array decoration related functions to Magento\Stdlib\ArrayUtils
-     * Moved the Data Data Helper functions that copy data from one object to another to \Magento\Object\Copy
   *  The Hint Magento Helper, Http Magento Helper helpers were removed from the Magento\Core module
   * Implemented SOAP faults declaration in WSDL
   * Web API config reader was refactored to use Magento\Config\Reader\Filesystem
   * Created integrations module. Added 'Integrations Grid' and 'New/Edit' Integration pages in the admin
   * Removed obsolete page fragment code
-  * Framework part of Cache functionality moved out of modules
-* Themes update:
-  * Templates and layout updates are updated in Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules, old files moved to magento_backup theme
-  * Refactored and removed duplicated Persistent module templates
 * Fixed bugs:
   * Fixed inability to create an Invoice/Shipment/Credit Memo if the Sales Archive functionality is enabled
   * Fixed the Minimum Advertised Price link on the Product view

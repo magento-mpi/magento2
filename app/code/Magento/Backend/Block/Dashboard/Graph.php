@@ -324,9 +324,9 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                     $currentvalue = $thisdataarray[$j];
                     if (is_numeric($currentvalue)) {
                         $ylocation = round((strlen($this->_simpleEncoding)-1) * ($yorigin + $currentvalue) / $yrange);
-                        array_push($chartdata, substr($this->_simpleEncoding, $ylocation, 1) . $dataDelimiter);
+                        $chartdata[] = substr($this->_simpleEncoding, $ylocation, 1) . $dataDelimiter;
                     } else {
-                        array_push($chartdata, $dataMissing . $dataDelimiter);
+                        $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
                 // END SIMPLE ENCODING
@@ -344,14 +344,14 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
                         $secondchar = $ylocation % 64;
                         $mappedchar = substr($this->_extendedEncoding, $firstchar, 1)
                             . substr($this->_extendedEncoding, $secondchar, 1);
-                        array_push($chartdata, $mappedchar . $dataDelimiter);
+                        $chartdata[] = $mappedchar . $dataDelimiter;
                     } else {
-                        array_push($chartdata, $dataMissing . $dataDelimiter);
+                        $chartdata[] = $dataMissing . $dataDelimiter;
                     }
                 }
                 // ============= END EXTENDED ENCODING =============
             }
-            array_push($chartdata, $dataSetdelimiter);
+            $chartdata[] = $dataSetdelimiter;
         }
         $buffer = implode('', $chartdata);
 

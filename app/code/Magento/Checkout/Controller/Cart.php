@@ -520,10 +520,9 @@ class Cart
             return;
         }
 
-        $couponCode = (string) $this->getRequest()->getParam('coupon_code');
-        if ($this->getRequest()->getParam('remove') == 1) {
-            $couponCode = '';
-        }
+        $couponCode = $this->getRequest()->getParam('remove') == 1
+            ? ''
+            : trim($this->getRequest()->getParam('coupon_code'));
         $oldCouponCode = $this->_getQuote()->getCouponCode();
 
         if (!strlen($couponCode) && !strlen($oldCouponCode)) {

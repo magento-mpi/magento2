@@ -122,7 +122,7 @@ class Rcompared
             $attributes = $this->_catalogConfig->getProductAttributes();
             if (!in_array('status', $attributes)) {
                 // Status attribute is required even if it is not used in product listings
-                array_push($attributes, 'status');
+                $attributes[] = 'status';
             }
             $productCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->_getStore()->getId())
