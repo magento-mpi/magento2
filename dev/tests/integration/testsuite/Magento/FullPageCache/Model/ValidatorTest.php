@@ -75,8 +75,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      * @param boolean $isInvalidated
      *
      * @dataProvider getDataDependenciesDataProvider
-     * @covers \Magento\FullPageCache\Model\Validator::_getDataChangeDependencies
-     * @covers \Magento\FullPageCache\Model\Validator::_getDataDeleteDependencies
+     * @covers \Magento\FullPageCache\Model\Validator::checkDataChange
+     * @covers \Magento\FullPageCache\Model\Validator::checkDataDelete
      */
     public function testGetDataDependencies($type, $object, $isInvalidated)
     {

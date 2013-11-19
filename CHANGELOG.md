@@ -1,14 +1,29 @@
+* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Added Magento\Filesystem\Directory and Magento\Filesystem\File to the library
 * Various improvements:
   * Added static test for check incorrect dependencies in library
   * Moved Magento\Core\Model\Theme to Magento\View component
   * Moved Magento\Core\Model\Design to Magento\View component
   * Consistent declaration of page-types
+  * Email-related logic from Core and Adminhtml modules consolidated in new Email module
+* GitHub requests:
+  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
+  * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
+  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
+  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
 * Themes update:
+  * Templates and layout updates are updated in Authorizenet, Centinel, Checkout, GiftMessage, Ogone, Paygate, Shipping, Tax  modules, old files moved to magento_backup theme
   * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed unable to print order, invoice, or creditmemo in the front-end
   * Fixed integration test Mage_Backend_Block_System_Config_FormTest causes segfault
+  * Fixed broken click for price link when "Display Actual Price" is set to in cart
+  * Fixed JavaScript error when printing order from frontend
+  * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
+  * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
+  * Fixed Fatal error when creating Shipping label for returns
+  * Fixed posting coupon code with spaces
+  * Fixed several typos and minor mistakes
 
 2.0.0.0-dev51
 =============

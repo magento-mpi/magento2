@@ -81,7 +81,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\Mailer
+     * @var \Magento\Email\Model\Template\Mailer
      */
     protected $_templateMailer;
 
@@ -91,7 +91,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_configValueFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -125,9 +125,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
-     * @param \Magento\Core\Model\Email\Template\Mailer $templateMailer
+     * @param \Magento\Email\Model\Template\Mailer $templateMailer
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
@@ -142,9 +142,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
-        \Magento\Core\Model\Email\Template\Mailer $templateMailer,
+        \Magento\Email\Model\Template\Mailer $templateMailer,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
@@ -191,7 +191,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $copyTo = explode(',', $this->getEmailCopy());
         $copyMethod = $this->getEmailCopyMethod();
 
-        /** @var \Magento\Core\Model\Email\Info $emailInfo */
+        /** @var \Magento\Email\Model\Info $emailInfo */
         $emailInfo = $this->_emailInfoFactory->create();
 
         $receiverEmail = $this->_coreStoreConfig->getConfig(
@@ -216,7 +216,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         // Email copies are sent as separated emails if their copy method is 'copy'
         if ($copyTo && $copyMethod == 'copy') {
             foreach ($copyTo as $email) {
-                /** @var \Magento\Core\Model\Email\Info $emailInfo */
+                /** @var \Magento\Email\Model\Info $emailInfo */
                 $emailInfo = $this->_emailInfoFactory->create();
                 $emailInfo->addTo($email);
                 $this->_templateMailer->addEmailInfo($emailInfo);

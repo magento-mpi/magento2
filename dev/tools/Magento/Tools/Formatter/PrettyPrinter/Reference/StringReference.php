@@ -8,8 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_String;
@@ -38,30 +36,12 @@ class StringReference extends AbstractScalarReference
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($line, $heredocCloseTag, $this->node->value);
+            $this->processHeredoc($line, $heredocCloseTag, array($this->node->value), $treeNode);
         } elseif (null === $stringValue) {
             // if nothing there, then use the raw data
             $line->add('\'')->add(addcslashes($this->node->value, '\'\\'))->add('\'');
         } else {
             $line->add($stringValue);
         }
-    }
-
-    /**
-     * This method reproduces the heredoc structure.
-     * @param Line $line
-     * @param $heredocCloseTag
-     * @param $body
-     */
-    protected function processHeredoc(Line $line, $heredocCloseTag, $body)
-    {
-        $line->add('<<<')->add($heredocCloseTag)->add(new HardLineBreak());
-        $heredocLines = explode(HardLineBreak::EOL, $body);
-        if (!empty($heredocLines)) {
-            foreach ($heredocLines as $heredocLine) {
-                $line->add(new IndentConsumer())->add($heredocLine)->add(new HardLineBreak());
-            }
-        }
-        $line->add(new IndentConsumer())->add($heredocCloseTag);
     }
 }

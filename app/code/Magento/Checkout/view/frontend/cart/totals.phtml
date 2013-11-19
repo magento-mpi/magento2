@@ -3,7 +3,6 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,22 +10,18 @@
 <?php
 /**
  * Shopping cart totals template
- *
- * @see \Magento\Checkout\Block\Cart\Totals
  * @var $this \Magento\Checkout\Block\Cart\Totals
  */
 ?>
+<div class="cart totals">
 <?php if ($this->canApplyMsrp()): ?>
     <div class="cart-msrp-totals"><?php echo __('You will see the order total before you submit the order.'); ?></div>
 <?php else: ?>
-    <table id="shopping-cart-totals-table">
-        <col />
-        <col width="1" />
+    <table id="shopping-cart-totals-table" class="data table totals">
+        <?php echo $this->renderTotals(); ?>
         <tfoot>
             <?php echo $this->renderTotals('footer'); ?>
         </tfoot>
-        <tbody>
-            <?php echo $this->renderTotals(); ?>
-        </tbody>
     </table>
 <?php endif; ?>
+</div>

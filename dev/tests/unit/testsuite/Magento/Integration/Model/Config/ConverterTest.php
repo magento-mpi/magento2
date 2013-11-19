@@ -7,7 +7,7 @@
  */
 namespace Magento\Integration\Model\Config;
 
-use \Magento\Integration\Model\Config\Converter;
+use Magento\Integration\Model\Config\Converter;
 
 /**
  * Test for conversion of integration XML config into array representation.
