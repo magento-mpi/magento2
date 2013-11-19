@@ -17,6 +17,7 @@
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
+        <word>CHANGELOG</word>
         <!-- Library classes belonging to Enterprise Edition -->
         <word>Magento/JobQueue</word>
         <word>Magento\JobQueue</word>
@@ -30,7 +31,6 @@
         <word>BannerCustomerSegment</word>
         <word>CatalogEvent</word>
         <word>CatalogPermissions</word>
-        <word>CHANGELOG</word>
         <word>CustomAttribute</word>
         <word>CustomerCustomAttributes</word>
         <word>CustomerSegment</word>
