@@ -46,19 +46,14 @@ class Activate extends Link
      */
     protected function _getDataAttributes()
     {
+        $isIntegrationActive = $this->_row->getStatus() === Integration::STATUS_ACTIVE;
+
         return [
             'mage-init' => [
-                'integrationStatus' => [
-                    'status' => ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? 'activate' : 'deactivate',
+                'integrationPopup' => [
+                    'dialog' => $isIntegrationActive ? 'deactivate' : 'permissions',
                     'name' => $this->_row->getName(),
-                    'url' => $this->getUrl(
-                        $this->getUrlPattern(),
-                        ['id' => $this->_row->getId(), '_query' => ['popup_dialog' => 'permissions']]
-                    ),
-                    'url2' => $this->getUrl(
-                        '*/*/token',
-                        ['id' => $this->_row->getId(), '_query' => ['popup_dialog' => 'token']]
-                    )
+                    'url' => $this->getUrl($this->getUrlPattern(), ['id' => $this->_row->getId()]),
                 ]
             ]
         ];

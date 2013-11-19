@@ -35,7 +35,10 @@ class Token extends \Magento\Backend\Block\Widget\Form\Generic
 
 //        $model = $this->_coreRegistry->registry('current_integration');
 
-        $fieldset = $form->addFieldset('base_fieldset');
+        $fieldset = $form->addFieldset('base_fieldset', array(
+                    'legend'    =>  __('Access Tokens'),
+                    'class'    =>  'fieldset-wide'
+                ));
 /*
         if ($model->getIntegrationId()) {
             $fieldset->addField('integration_id', 'hidden', array(

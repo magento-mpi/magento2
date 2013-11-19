@@ -9,8 +9,8 @@
 -->
 
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="editor"/>
     <referenceContainer name="content">
         <block class="Magento\Integration\Block\Adminhtml\Integration\Token" name="integration_edit_content"/>
     </referenceContainer>
+    <remove name="footer"/>
 </layout>

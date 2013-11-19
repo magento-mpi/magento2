@@ -59,41 +59,53 @@
         }
     });
 
-    $.widget('mage.integrationStatus', {
+    $.widget('mage.integrationPopup', {
         options: {
-            status: '', // 'activate', 'deactivate', 'reauthorize'
-            url: '', // ex.: http://.../integration/activate/id/1?popup_dialog=permissions
-            url2: '',
+            dialog: '', // 'permissions', 'deactivate', 'reauthorize', 'tokens'
+            url: '', // ex.: http://.../integration/activate/id/1
             name: '' // Integration name
         },
 
         _create: function ()
         {
-            this._on({'click': '_showPermissionsPopup'});
+            this._on({'click': '_showPopup'});
         },
 
-        _showPermissionsPopup: function ()
+        dialogOptions: {
+            permissions: {
+                okButtonLabel: $.mage.__('Allow'),
+                minWidth: 600,
+            },
+            tokens: {
+                okButtonLabel: $.mage.__('Activate'),
+                minWidth: 700,
+            }
+        },
+
+        _showPopup: function ()
         {
-            if (['activate', 'deactivate', 'reauthorize'].indexOf(this.options.status) === -1) {
-                throw 'Invalid integration status requested';
+            if (['permissions', 'deactivate', 'reauthorize', 'tokens'].indexOf(this.options.dialog) === -1) {
+                throw 'Invalid dialog type';
             }
 
             var that = this;
+            var dialogOptions = this.dialogOptions[this.options.dialog];
 
             jQuery.ajax({
-                url: this.options.url,
+                url: this.options.url + '?popup_dialog=' + this.options.dialog,
                 showLoader: true,
                 dataType: 'html',
                 data: {formKey: window.FORM_KEY},
                 method: 'GET',
                 success: function (html) {
+                    this.that = that; // to be used in okAction() functions
                     $('.integration-popup-container').html(html);
                     $('.integration-popup-container').dialog({
                         title: that.options.name,
                         modal: true,
                         autoOpen: true,
                         minHeight: 450,
-                        minWidth: 600,
+                        minWidth: dialogOptions.minWidth,
                         dialogClass: 'integration-dialog',
                         position: {at: 'top+25%'},
                         buttons: [
@@ -104,11 +116,19 @@
                                 }
                             },
                             {
-                                text: $.mage.__('Allow'),
+                                text: dialogOptions.okButtonLabel,
                                 'class': 'primary',
-                                click: function() {
-                                    $(this).dialog("close");
-                                    that._showTokenPopup();
+                                click: function () {
+                                    switch (that.options.dialog) {
+                                        case 'permissions':
+                                            $(this).dialog('destroy');
+                                            that.options.dialog = 'tokens';
+                                            that._showPopup();
+                                            break;
+                                        case 'tokens':
+                                            window.alert('Not implemented');
+                                            break;
+                                    }
                                 }
                             }
                         ]
@@ -116,49 +136,5 @@
                 }
             });
         },
-
-        _showTokenPopup: function ()
-        {
-            var that = this;
-/*
-            // Testing w/ a silly dialog
-            $('.integration-popup-container').html('LLLL');
-            $('.integration-popup-container').dialog();
-*/
-
-            jQuery.ajax({
-                url: this.options.url2,
-                showLoader: true,
-                dataType: 'html',
-                data: {formKey: window.FORM_KEY},
-                method: 'GET',
-                success: function (html) {
-                    $('#integration-popup-container').html(html);
-                    $('#integration-popup-container').dialog({
-                        title: that.options.name,
-                        modal: true,
-                        autoOpen: true,
-                        minHeight: 450,
-                        minWidth: 600,
-                        buttons: [
-                            {
-                                text: $.mage.__('Cancel'),
-                                click: function() {
-                                    $(this).dialog("close");
-                                }
-                            },
-                            {
-                                text: $.mage.__('Activate'),
-                                'class': 'primary',
-                                click: function() {
-                                    window.alert('Not implemented');
-                                }
-                            }
-                        ]
-                    }).bind(this);
-                }
-            });
-        }
-
     });
 })(jQuery);

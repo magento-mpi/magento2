@@ -183,21 +183,6 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
         }
     }
 
-    public function tokenAction()
-    {
-        /*
-        $popupDialog = $this->getRequest()->getParam('popup_dialog');
-
-        if ($popupDialog) {
-            $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
-        } else {
-            $this->loadLayout();
-        }
-        */
-        $this->loadLayout();
-        $this->renderLayout();
-    }
-
     /**
      * Activates the integration. Also contains intermediate steps (permissions confirmation and tokens).
      */
