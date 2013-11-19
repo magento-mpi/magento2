@@ -58,6 +58,25 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     }
 
     /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_urlBuilder;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Model\Url $urlBuilder
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Model\Url $urlBuilder
+    ) {
+        parent::__construct($context, $customerSession);
+        $this->_urlBuilder = $urlBuilder;
+    }
+
+    /**
      * Action predispatch
      *
      * Check customer authentication for some actions
@@ -179,7 +198,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
             $registerForm->setShowAddressFields(true)
                 ->setBackUrl($this->_getHelper()->getMSLoginUrl())
                 ->setSuccessUrl($this->_getHelper()->getMSShippingAddressSavedUrl())
-                ->setErrorUrl($this->_getHelper()->getCurrentUrl());
+                ->setErrorUrl($this->_urlBuilder->getCurrentUrl());
         }
 
         $this->renderLayout();

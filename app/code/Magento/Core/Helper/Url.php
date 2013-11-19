@@ -36,27 +36,6 @@ class Url extends \Magento\Core\Helper\AbstractHelper
         $this->_storeManager = $storeManager;
     }
 
-
-    /**
-     * Retrieve current url
-     *
-     * @return string
-     */
-    public function getCurrentUrl()
-    {
-        $request = $this->_getRequest();
-        $port = $this->_getRequest()->getServer('SERVER_PORT');
-        if ($port) {
-            $defaultPorts = array(
-                \Magento\App\Request\Http::DEFAULT_HTTP_PORT,
-                \Magento\App\Request\Http::DEFAULT_HTTPS_PORT
-            );
-            $port = (in_array($port, $defaultPorts)) ? '' : ':' . $port;
-        }
-        $url = $request->getScheme() . '://' . $request->getHttpHost() . $port . $request->getServer('REQUEST_URI');
-        return $url;
-    }
-
     /**
      * Retrieve current url in base64 encoding
      *
@@ -64,13 +43,13 @@ class Url extends \Magento\Core\Helper\AbstractHelper
      */
     public function getCurrentBase64Url()
     {
-        return $this->urlEncode($this->getCurrentUrl());
+        return $this->urlEncode($this->_urlBuilder->getCurrentUrl());
     }
 
     public function getEncodedUrl($url = null)
     {
         if (!$url) {
-            $url = $this->getCurrentUrl();
+            $url = $this->_urlBuilder->getCurrentUrl();
         }
         return $this->urlEncode($url);
     }

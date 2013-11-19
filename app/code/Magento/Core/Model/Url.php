@@ -1253,4 +1253,25 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
 
         return $url;
     }
+
+    /**
+     * Retrieve current url
+     *
+     * @return string
+     */
+    public function getCurrentUrl()
+    {
+        $port = $this->_request->getServer('SERVER_PORT');
+        if ($port) {
+            $defaultPorts = array(
+                \Magento\App\Request\Http::DEFAULT_HTTP_PORT,
+                \Magento\App\Request\Http::DEFAULT_HTTPS_PORT
+            );
+            $port = (in_array($port, $defaultPorts)) ? '' : ':' . $port;
+        }
+        $requestUri = $this->_request->getServer('REQUEST_URI');
+        $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost()
+                . $port . $requestUri;
+        return $url;
+    }
 }
