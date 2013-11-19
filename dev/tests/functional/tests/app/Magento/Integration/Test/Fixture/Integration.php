@@ -33,7 +33,7 @@ class Integration extends DataFixture
             $this->_dataConfig,
             $this->_data
         );
-        $this->switchData(\Magento\Integration\Test\Repository\Integration::INTEGRATION_OAUTH);
+        $this->switchData(\Magento\Integration\Test\Repository\Integration::INTEGRATION_TAB);
     }
 
     /**

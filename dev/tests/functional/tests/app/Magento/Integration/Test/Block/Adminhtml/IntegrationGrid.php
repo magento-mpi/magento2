@@ -30,5 +30,6 @@ class IntegrationGrid extends Grid
                 'input' => 'select'
             ),
         );
+        $this->rowItem = 'tbody tr td[data-column=name]';
     }
 }

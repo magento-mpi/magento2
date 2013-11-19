@@ -28,17 +28,13 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Create new Integration with valid data
      *
-     * @param string $integrationDataSet
-     *
-     * @dataProvider integrationDataProvider
-     *
      * @ZephyrId MAGETWO-16694
      */
-    public function testCreateIntegration($integrationDataSet)
+    public function testCreateIntegration()
     {
         //Data
         $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
-        $integrationFixture->switchData($integrationDataSet);
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
         //Steps
         $newIntegrationPage = Factory::getPageFactory()->getAdminIntegrationNew();
         $newIntegrationPage->open();
@@ -49,106 +45,67 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     }
 
     /**
-     * Integration data
+     * Edit Integration
      *
-     * @return array
+     * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16759
      */
-    public function integrationDataProvider()
+    public function testEditIntegration(IntegrationFixture $integrationFixture)
     {
-        return array(
-            array(IntegrationRepository::INTEGRATION),
-//            array(IntegrationRepository::INTEGRATION_OAUTH)
-        );
+        //Precondition
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
+        $integrationFixture->persist();
+        //Steps
+        $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
+        $this->_openByName($integrationFixture->getName());
+        $editForm = $editIntegrationPage->getIntegrationFormBlock();
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
+        $editForm->update($integrationFixture)->save($integrationFixture);
+        //Verification
+        $this->_checkSaveSuccessMessage();
+        $this->_ensureMatchingIntegrationData($integrationFixture);
     }
 
-//    /**
-//     * Edit Integration
-//     *
-//     * @param IntegrationFixture $integrationFixture injectable
-//     *
-//     * @ZephyrId MAGETWO-16759
-//     */
-//    public function testEditIntegration(IntegrationFixture $integrationFixture)
-//    {
-//        //Precondition
-//        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
-//        $integrationFixture->persist();
-//        //Steps
-//        $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-//        $this->_openByName($integrationFixture->getName());
-//        $editForm = $editIntegrationPage->getIntegrationFormBlock();
-//        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_MANUAL);
-//        $editForm->update($integrationFixture)->save($integrationFixture);
-//        //Verification
-//        $this->_checkSaveSuccessMessage();
-//        $this->_ensureMatchingIntegrationData($integrationFixture);
-//    }
-//
-//    /**
-//     * Search Integration in the Integration's grid
-//     *
-//     * @param IntegrationFixture $integrationFixture injectable
-//     *
-//     * @ZephyrId MAGETWO-16721
-//     */
-//    public function testSearchIntegration(IntegrationFixture $integrationFixture)
-//    {
-//        //Preconditions
-//        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
-//        $integrationFixture->persist();
-//        //Steps
-//        Factory::getPageFactory()->getAdminIntegrationEdit();
-//        //Verification
-//        $this->_openByName($integrationFixture->getName());
-//    }
-//
-//    /**
-//     * Reset data in the New Integration form
-//     *
-//     * @param IntegrationFixture $integrationFixture injectable
-//     *
-//     * @ZephyrId MAGETWO-16822
-//     */
-//    public function testResetData(IntegrationFixture $integrationFixture)
-//    {
-//        //Data
-//        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_OAUTH);
-//        $originalFixture = clone $integrationFixture;
-//        //Preconditions
-//        $integrationFixture->persist();
-//        //Steps
-//        $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-//        $this->_openByName($integrationFixture->getName());
-//        $editForm = $editIntegrationPage->getIntegrationFormBlock();
-//        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_MANUAL);
-//        $editForm->update($integrationFixture)->reset($integrationFixture);
-//        //Verification
-//        $editForm = $editIntegrationPage->getIntegrationFormBlock();
-//        $editForm->reinitRootElement();
-//        $editForm->verify($originalFixture);
-//    }
-//
-//    /**
-//     * Navigate to the Integration page from Edit Integration page
-//     *
-//     * @param IntegrationFixture $integrationFixture injectable
-//     *
-//     * @ZephyrId MAGETWO-16823
-//     */
-//    public function testNavigation(IntegrationFixture $integrationFixture)
-//    {
-//        //Preconditions
-//        $integrationFixture->persist();
-//        //Steps
-//        $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-//        $this->_openByName($integrationFixture->getName());
-//        $editIntegrationPage->getIntegrationFormBlock()->back();
-//        //Verification
-//        $this->assertTrue(
-//            Factory::getPageFactory()->getAdminIntegration()->getGridBlock()->isVisible(),
-//            'Integration grid is not visible'
-//        );
-//    }
+    /**
+     * Search Integration in the Integration's grid
+     *
+     * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16721
+     */
+    public function testSearchIntegration(IntegrationFixture $integrationFixture)
+    {
+        //Preconditions
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
+        $integrationFixture->persist();
+        //Steps
+        Factory::getPageFactory()->getAdminIntegrationEdit();
+        //Verification
+        $this->_openByName($integrationFixture->getName());
+    }
+
+    /**
+     * Navigate to the Integration page from Edit Integration page
+     *
+     * @param IntegrationFixture $integrationFixture injectable
+     *
+     * @ZephyrId MAGETWO-16823
+     */
+    public function testNavigation(IntegrationFixture $integrationFixture)
+    {
+        //Preconditions
+        $integrationFixture->persist();
+        //Steps
+        $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
+        $this->_openByName($integrationFixture->getName());
+        $editIntegrationPage->getIntegrationFormBlock()->back();
+        //Verification
+        $this->assertTrue(
+            Factory::getPageFactory()->getAdminIntegration()->getGridBlock()->isVisible(),
+            'Integration grid is not visible'
+        );
+    }
 
     /**
      * Check success message after integration save.

@@ -24,7 +24,7 @@ class Info extends Tab
         $this->_mapping = array(
             'name' => '#integration_properties_name',
             'email' => '#integration_properties_email',
-            'endpoint' => '#integration_properties_endpoint',
+            'callback_url' => '#integration_properties_endpoint',
         );
     }
 }
