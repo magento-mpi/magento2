@@ -22,6 +22,16 @@ use Mtf\Repository\AbstractRepository;
 class Customer extends AbstractRepository
 {
     /**
+     * @var array attributes that represent a group type of 'General'
+     */
+    protected $groupGeneral = array('value' => 'General', 'input_value' => '1');
+
+    /**
+     * @var array attributes that represent a group type of 'Retailer'
+     */
+    protected $groupRetailer = array('value' => 'Retailer', 'input_value' => '3');
+
+    /**
      * {inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
@@ -32,8 +42,8 @@ class Customer extends AbstractRepository
         );
 
         $this->_data['customer_US_1'] = $this->_getUS1();
-        $this->_data['backend_customer'] = $this->_getBackendCustomer(array('value' => 'General', 'input_value' => '1'));
-        $this->_data['backend_retailer_customer'] = $this->_getBackendCustomer(array('value' => 'Retailer', 'input_value' => '3'));
+        $this->_data['backend_customer'] = $this->_getBackendCustomer($this->groupGeneral);
+        $this->_data['backend_retailer_customer'] = $this->_getBackendCustomer($this->groupRetailer);
     }
 
     protected function _getUS1()
