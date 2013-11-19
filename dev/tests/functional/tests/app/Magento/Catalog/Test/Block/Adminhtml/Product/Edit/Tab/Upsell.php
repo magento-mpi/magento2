@@ -35,29 +35,4 @@ class Upsell extends Tab {
         // @var Mtf\Client\Element
         $element->find(static::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
     }
-
-    /**
-     * @param \Magento\Catalog\Test\Fixture\Product $product
-     * @param array $upsellProducts
-     */
-    public static function addUpsellProducts($product, $upsellProducts)
-    {
-        /** @var Product $upsellProduct */
-        foreach ($upsellProducts as $upsellProduct) {
-            // locate the edit page.
-            $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-            $productEditPage->open(array('id' => $product->getProductId()));
-            $productEditPage->getProductBlockForm()
-                ->waitForElementVisible('[title="Save"][class*=action]', Locator::SELECTOR_CSS);
-            $productEditPage->directToUpsellTab();
-
-            $productEditPage->getProductBlockForm()
-                ->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-
-            $productEditPage->getProductUpsellGrid()->searchAndSelect(
-                array('name' => $upsellProduct->getProductName()));
-            $productEditPage->getProductBlockForm()->save($product);
-            $productEditPage->getMessagesBlock()->assertSuccessMessage();
-        }
-    }
 }

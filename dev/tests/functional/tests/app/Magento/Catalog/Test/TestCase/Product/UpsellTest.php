@@ -17,7 +17,7 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
+
 class UpsellTest extends Functional {
 
     /**
@@ -27,38 +27,6 @@ class UpsellTest extends Functional {
     {
         // Test Case MAGETWO-12391: STEP 1:
         Factory::getApp()->magentoBackendLoginUser();
-    }
-
-    protected function createConfigurable() {
-        //Data
-        $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $product->switchData('configurable');
-        //Page & Blocks
-        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
-        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        //Steps
-        $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct('configurable');
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
-        //Verifying
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        return $product;
-    }
-
-    protected function createSimple() {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple');
-        //Data
-        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        //Steps
-        $createProductPage->open();
-        $productBlockForm->fill($product);
-        $productBlockForm->save($product);
-        return $product;
     }
 
     /**
@@ -137,27 +105,44 @@ class UpsellTest extends Functional {
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
         $editProductPage->open(array('id' => $product1Fixture->getProductId()));
 
-        /* TODO: find a way to better way to access the upsell tab.  Right now they are only accessed when
-           filling in a form, based on the fixture.  But Upsell tab cannot be filled in by the fixture,
-          and instead uses search and select. */
-        //$upsell = new Upsell($editProductPage->getProductBlockForm()->getRootElement());
-
         // Step 1: (logged into Admin in setup)
         // Step 2: For Simple 1 add as up-sells:- Configurable 1 & Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
 
-        Upsell::addUpsellProducts($product1Fixture,
+        $this->addUpsellProducts($product1Fixture,
             array($product2Fixture, $configurableProductFixture));
-
-        $this->assertNotEmpty($product1Fixture->getProductId(), "no product id!");
 
         // Step 3: For Configurable add as up-sells: Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
-
-        Upsell::addUpsellProducts($configurableProductFixture, array($product2Fixture));
+        $this->addUpsellProducts($configurableProductFixture, array($product2Fixture));
         // Test on front end that the upsell products are visible.
 
         // Step 4-7: Go to frontend (implicit)
         $this->checkFrontEnd($product1Fixture, $product2Fixture, $configurableProductFixture);
    }
+
+    /**
+     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @param array $upsellProducts
+     */
+    private function addUpsellProducts($product, $upsellProducts)
+    {
+        /** @var Product $upsellProduct */
+        foreach ($upsellProducts as $upsellProduct) {
+            // locate the edit page.
+            $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
+            $productEditPage->open(array('id' => $product->getProductId()));
+            $productEditPage->getProductBlockForm()
+                ->waitForElementVisible('[title="Save"][class*=action]', Locator::SELECTOR_CSS);
+            $productEditPage->directToUpsellTab();
+
+            $productEditPage->getProductBlockForm()
+                ->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
+
+            $productEditPage->getProductUpsellGrid()->searchAndSelect(
+                array('name' => $upsellProduct->getProductName()));
+            $productEditPage->getProductBlockForm()->save($product);
+            $productEditPage->getMessagesBlock()->assertSuccessMessage();
+        }
+    }
 }
