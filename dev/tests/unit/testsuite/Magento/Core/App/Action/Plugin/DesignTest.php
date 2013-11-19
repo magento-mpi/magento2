@@ -8,7 +8,7 @@
 
 namespace Magento\Core\App\Action\Plugin;
 
-class DesignTests extends \PHPUnit_Framework_TestCase
+class DesignTest extends \PHPUnit_Framework_TestCase
 {
 
     public function testAroundDispatch()

@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\App\Action\Plugin;
 
-class LastUrlTests extends \PHPUnit_Framework_TestCase
+class LastUrlTest extends \PHPUnit_Framework_TestCase
 {
     public function testAfterDispatch()
     {

@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\App\Action\Plugin;
 
-class InstallTests extends \PHPUnit_Framework_TestCase
+class InstallTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\App\Action\Plugin\Install

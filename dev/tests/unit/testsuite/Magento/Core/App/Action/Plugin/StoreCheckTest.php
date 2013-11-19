@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\App\Action\Plugin;
 
-class StoreCheckTests extends \PHPUnit_Framework_TestCase
+class StoreCheckTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Core\App\Action\Plugin\StoreCheck
