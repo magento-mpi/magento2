@@ -40,8 +40,6 @@ class Upsell extends Tab {
         $element = $context ? $context : $this->_rootElement;
         // @var Mtf\Client\Element
         $element->find(static::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
-
-        //$this->productEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
     }
 
     /**
@@ -53,8 +51,6 @@ class Upsell extends Tab {
     public function setSearchElementsBlock(Element $context = null)
     {
         $element = $context ? $context : $this->_rootElement;
-
-        $element->find('up_sell_product_grid_filter_entity_id', Locator::SELECTOR_ID)->setValue('999');
     }
 
     /**

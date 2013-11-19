@@ -96,16 +96,14 @@ class UpsellTest extends Functional {
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
             'Wrong product page has been opened.');
 
-        /** @var Element $foundSimple1 */
-        $foundConfigurable1 = $productViewBlock->verifyProductUpsell($upsellConfigurable1);
-        if (null == $foundConfigurable1) {
-            $this->fail('Upsell product ' . $upsellConfigurable1->getProductName() .  'was not found in the first product page.');
+        // check for the upsell products.
+
+        if (!$productViewBlock->verifyProductUpsell($upsellConfigurable1) ){
+            $this->fail('Upsell product ' . $upsellConfigurable1->getProductName() .  ' was not found in the first product page.');
         }
 
-        /** @var Element $foundSimple1 */
-        $foundSimple2 = $productViewBlock->verifyProductUpsell($upsellSimple2);
-        if (null == $foundSimple2) {
-            $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  'was not found in the first product page.');
+        if (!$productViewBlock->verifyProductUpsell($upsellSimple2) ){
+            $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  ' was not found in the first product page.');
         }
 
         // Step 6.  Click on the configurable 1 product.
@@ -118,7 +116,7 @@ class UpsellTest extends Functional {
 
         //$foundConfigurable1->waitForElementVisible('product-addtocart-button', Locator::SELECTOR_ID);
 
-        $foundSimple2 = $productViewBlock->findProductUpsell($upsellSimple2);
+        $foundSimple2 = $productViewBlock->verifyProductUpsell($upsellSimple2);
         if (null == $foundSimple2) {
             $this->fail('Upsell product ' . $upsellSimple2->getProductName() .  'was not found in the config product page.');
         }
@@ -127,7 +125,7 @@ class UpsellTest extends Functional {
         // See that no upsells are present.
 
         /** @var Element $foundSimple1 */
-        $foundSimple2 = $productViewBlock->findProductUpsell($upsellSimple2);
+        $foundSimple2 = $productViewBlock->verifyProductUpsell($upsellSimple2);
         $foundSimple2->click();
         $productViewBlock->waitForElementVisible('product-addtocart-button', Locator::SELECTOR_ID);
         $match = $productViewBlock->find(
@@ -155,28 +153,10 @@ class UpsellTest extends Functional {
         $product2Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $product2Fixture->persist();
 
-        // Remove this product when blocker below is fixed.
-        /* @var Product */
-        $product3Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product3Fixture->persist();
-
         /* @var ConfigurableProduct */
         $configurableProductFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurableProductFixture->persist();
-        // BLOCKER: $configurable from Curl handler returns no productid.
-        // Use a UI-handler'd object
-        if (is_null($configurableProductFixture->getProductId())) {
-            //$configurableProductFixture = $this->createConfigurable();
-            //$this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id");
-        }
-
-        // RESTORE the following when the missing productid blocker is fixed.
-        //$this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id!");
-
-        // Flush cache
-//        $cachePage = Factory::getPageFactory()->getAdminCache();
-//        $cachePage->open();
-//        $cachePage->getActionsBlock()->flushMagentoCache();
+        $this->assertNotEmpty($configurableProductFixture->getProductId(), "no product id!");
 
         // Test Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
@@ -199,16 +179,10 @@ class UpsellTest extends Functional {
         // Step 3: For Configurable add as up-sells: Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
 
-        //BLOCKER  $configurableProductFixture did not get a productid from the curl driver.
-        //Upsell::addUpsellProducts($configurableProductFixture, array($product2Fixture));
-
-        //SUBSTITUTE UNTIL BLOCKER IS CLEARED
-        Upsell::addUpsellProducts($product3Fixture, array($product2Fixture));
-
-
+        Upsell::addUpsellProducts($configurableProductFixture, array($product2Fixture));
         // Test on front end that the upsell products are visible.
 
         // Step 4-7: Go to frontend (implicit)
-        $this->checkFrontEnd($product1Fixture, $product2Fixture, $product2Fixture);
+        $this->checkFrontEnd($product1Fixture, $product2Fixture, $configurableProductFixture);
    }
 }
