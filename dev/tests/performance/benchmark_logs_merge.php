@@ -39,38 +39,23 @@ if (!file_exists($scvUrl)) {
 
 $xml = simplexml_load_file($xmlUrl);
 $scv = readCsv($scvUrl);
-$result = array();
 
 foreach($xml as $key => $value) {
     unset($value->httpSample);
     unset($value->assertionResult);
 }
 
-foreach($scv as $line) {
-    if ($line[2] != '') {
-        if (!isset($result[$line[2]])) {
-            $result[$line[2]]['t'] = $line[1];
-            $result[$line[2]]['ts'] = $line[0];
-        } else {
-            if ($result[$line[2]]['t'] < $line[1]) {
-                $result[$line[2]]['t'] = $line[1];
-                $result[$line[2]]['ts'] = $line[0];
-            }
-        }
-    }
-}
-
-foreach($result as $key => $value) {
+foreach($scv as $key => $value) {
     $httpSample = $xml->addChild('httpSample');
 
-    $httpSample->addAttribute('t',$value['t']);
-    $httpSample->addAttribute('lt',$value['t']);
-    $httpSample->addAttribute('ts',$value['ts']);
+    $httpSample->addAttribute('t',$value[1]);
+    $httpSample->addAttribute('lt',$value[1]);
+    $httpSample->addAttribute('ts',$value[0]);
     $httpSample->addAttribute('s','true');
-    $httpSample->addAttribute('lb',$key);
+    $httpSample->addAttribute('lb',$value[2]);
     $httpSample->addAttribute('rc','200');
     $httpSample->addAttribute('rm','OK');
-    $httpSample->addAttribute('tn',$key);
+    $httpSample->addAttribute('tn',$value[2]);
 }
 
 $xml->asXML($newLogsUrl);
