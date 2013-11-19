@@ -61,29 +61,21 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     protected $_fileStorage;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory
      * @param \Magento\Core\Model\File\Storage\File $fileStorage
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\File\Storage\DatabaseFactory $dbStorageFactory,
         \Magento\Core\Model\File\Storage\File $fileStorage,
-        \Magento\App\Dir $dir,
         \Magento\Filesystem $filesystem
     ) {
         parent::__construct($context);
         $this->_filesystem = $filesystem;
         $this->_dbStorageFactory = $dbStorageFactory;
         $this->_fileStorage = $fileStorage;
-        $this->_dir = $dir;
     }
 
     /**
@@ -246,7 +238,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function getMediaRelativePath($fullPath)
     {
         $relativePath = ltrim(str_replace($this->getMediaBaseDir(), '', $fullPath), '\\/');
-        return str_replace(DS, '/', $relativePath);
+        return str_replace('\\', '/', $relativePath);
     }
 
     /**
@@ -286,17 +278,17 @@ class Database extends \Magento\Core\Helper\AbstractHelper
      * @param array $result
      * @return string
      */
-    public function saveUploadedFile($result = array())
+    public function saveUploadedFile($result)
     {
         if ($this->checkDbUsage()) {
-            $path = rtrim(str_replace(array('\\', '/'), DS, $result['path']), DS);
+            $path = rtrim(str_replace(array('\\', '/'), '/', $result['path']), '/');
             $file = '/' . ltrim($result['file'], '\\/');
 
             $uniqueResultFile = $this->getUniqueFilename($path, $file);
 
             if ($uniqueResultFile !== $file) {
-                $this->_filesystem->setWorkingDirectory($path);
-                $this->_filesystem->rename($path . $file, $path . $uniqueResultFile);
+                $dirWrite = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+                $dirWrite->renameFile($path . $file, $path . $uniqueResultFile);
             }
             $this->saveFile($path . $uniqueResultFile);
 
@@ -326,7 +318,7 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $this->_mediaBaseDirectory = rtrim($this->_dir->getDir('media'), '\\/');
+            $this->_mediaBaseDirectory = rtrim($this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA), '\\/');
         }
         return $this->_mediaBaseDirectory;
     }
