@@ -16,11 +16,6 @@ use Magento\Backend\App\Action;
 class Rma extends \Magento\Backend\App\Action
 {
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_title;
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
