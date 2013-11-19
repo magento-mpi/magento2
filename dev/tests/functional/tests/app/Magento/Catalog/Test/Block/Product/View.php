@@ -225,20 +225,46 @@ class View extends Block
     /**
      * Return option to add related simple product to the shopping cart
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct1
      * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
      * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
      */
-    public function getRelatedProductsOption($simpleProduct1, $simpleProduct2, $configurableProduct)
+    public function verifyConfigurableProduct($simpleProduct2, $configurableProduct)
     {
-        //Click on configurable product in related products section
-        $relatedConfigurableProductName = $configurableProduct->getProductName();
-        $this->_rootElement->find('[title="'. $relatedConfigurableProductName. '"]')->click();
+        //Open up configurable product if it presents in the related products section
+        if ($this->_rootElement->find('[title="'. $configurableProduct->getProductName() . '"]')->isVisible()) {
+            $configurableProductPage = Factory::getPageFactory()->getCatalogProductView();
+            $configurableProductPage->init($configurableProduct);
+            $configurableProductPage->open();
+            $configurableProductPage->getViewBlock()->addRelatedProductsToCart($simpleProduct2, $configurableProduct);
+        }
+    }
 
-        $this->waitForElementVisible('<strong>' . $relatedConfigurableProductName . '</strong>');
+    /**
+     * Return option to add related simple product to the shopping cart
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
+     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
+     */
+    public function addRelatedProductsToCart($simpleProduct2, $configurableProduct)
+    {
+        $configureButton = $this->_rootElement->find('.action.primary.customize');
+        $configureSection = $this->_rootElement->find('.product.options.configure');
+
+        if ($configureButton->isVisible()) {
+            $configureButton->click();
+            $bundleOptions = $configurableProduct->getSelectionData();
+            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
+        }
+        if ($configureSection->isVisible()) {
+            $productOptions = $configurableProduct->getProductOptions();
+            $this->getBundleBlock()->fillProductOptions($productOptions);
+        }
+
+        //$this->reinitRootElement();
         $relatedSimpleProductId = $simpleProduct2->getProductId();
         $this->_rootElement
             ->find('related-checkbox' . $relatedSimpleProductId, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
     /**

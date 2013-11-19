@@ -77,10 +77,10 @@ class Cart extends Block
      * Check if a product has been successfully added to the cart
      *
      * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @return mixed|\Mtf\Client\Element
      */
     public function checkAddedProduct($product)
     {
-        $flag = $this->_rootElement->find('[title="'. $product->getProductName(). '"]');
-        return $flag;
+        return $this->_rootElement->find('[title="'. $product->getProductName(). '"]');
     }
 }
