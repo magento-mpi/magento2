@@ -164,7 +164,7 @@ class ProductForm extends FormTabs
     {
         // TODO should be removed after suggest widget implementation as typified element
         $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
-       //  //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
+        //  //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
         $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
         $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
         $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';

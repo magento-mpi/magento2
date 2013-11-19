@@ -15,9 +15,9 @@ use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Catalog\Test\Fixture\Product;
 
-class Upsell extends Tab {
+class Upsell extends Tab
+{
 
     /**
      * Tab where upsells section is placed
