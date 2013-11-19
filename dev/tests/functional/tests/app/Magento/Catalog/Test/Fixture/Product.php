@@ -29,7 +29,6 @@ class Product extends DataFixture
     const GROUP_ADVANCED_SEO        = 'product_info_tabs_search-optimization';
     const GROUP_PRODUCT_WEBSITE     = 'product_info_tabs_websites';
     const GROUP_PRODUCT_INVENTORY   = 'product_info_tabs_advanced-inventory';
-    const GROUP_PRODUCT_UPSELLS     = 'product_info_tabs_upsell';
 
     /**
      * Possible options used for visibility field
@@ -289,13 +288,6 @@ class Product extends DataFixture
                     'value' => 'No',
                     'input_value' => '0',
                     'group' => static::GROUP_PRODUCT_INVENTORY,
-                    'input' => 'select',
-                    'input_name' => 'product[stock_data][manage_stock]'
-                ),
-                'upsell' => array(
-                    'value' => 'No',
-                    'input_value' => '0',
-                    'group' => static::GROUP_PRODUCT_UPSELLS,
                     'input' => 'select',
                     'input_name' => 'product[stock_data][manage_stock]'
                 )
