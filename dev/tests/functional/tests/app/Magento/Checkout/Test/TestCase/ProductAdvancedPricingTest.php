@@ -140,17 +140,26 @@ class ProductAdvancedPricingTest extends Functional
     }
 
     /**
-     * Verifies order in Backend.  Checks order data (price) for products in order.
+     * Verifies order in Backend.  Checks order data (price) against products in order.
      *
      * @param string $orderId
-     * @param Checkout $fixture
+     * @param \Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder $checkoutFixture
      */
-    protected function verifyOrderOnBackend($orderId, Checkout $fixture)
+    protected function verifyOrderOnBackend($orderId, Checkout $checkoutFixture)
     {
         Factory::getApp()->magentoBackendLoginUser();
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        /** @todo ACB add logic to look for product price data in block */
+
+        // Validate each of the products.
+        foreach ($checkoutFixture->getProducts() as $product) {
+            $specialPrice = $product->getProductSpecialPrice();
+            $this->assertContains(
+                $specialPrice,
+                Factory::getPageFactory()->getSalesOrderView()->getItemsOrderedBlock()->getPrice($product),
+                'Incorrect price for item ' . $product->getProductName()
+            );
+        }
     }
 }
