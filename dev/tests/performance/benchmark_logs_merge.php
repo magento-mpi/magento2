@@ -41,6 +41,11 @@ $xml = simplexml_load_file($xml_url);
 $scv = readCSV($scv_url);
 $result = array();
 
+foreach($xml as $key => $value) {
+    unset($value->httpSample);
+    unset($value->assertionResult);
+}
+
 foreach($scv as $line) {
     if ($line[2]!='') {
         if (!isset($result[$line[2]])) {
@@ -67,10 +72,10 @@ foreach($result as $key => $value) {
     $httpSample->addAttribute('rm','OK');
     $httpSample->addAttribute('tn',$key);
 
-    $assertionResult = $httpSample->addChild('assertionResult');
+    /*$assertionResult = $httpSample->addChild('assertionResult');
     $assertionResult->addChild('name', 'false');
     $assertionResult->addChild('failure', 'false');
-    $assertionResult->addChild('error', 'false');
+    $assertionResult->addChild('error', 'false');*/
 }
 
 $xml->asXML($new_logs_url);
