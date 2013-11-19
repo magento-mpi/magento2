@@ -8,6 +8,9 @@
 
 namespace Magento\Code;
 
+use Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Read;
+
 class Minifier
 {
     /**
@@ -16,7 +19,7 @@ class Minifier
     private $_strategy;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var Read
      */
     private $pubViewCacheDir;
 
@@ -36,7 +39,7 @@ class Minifier
         $directoryName
     ) {
         $this->_strategy = $strategy;
-        $this->pubViewCacheDir = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::PUB_VIEW_CACHE);
+        $this->pubViewCacheDir = $filesystem->getDirectoryRead(DirectoryList::PUB_VIEW_CACHE);
         $this->directoryName = $directoryName;
     }
 
@@ -51,14 +54,14 @@ class Minifier
         if ($this->_isFileMinified($originalFile)) {
             return $originalFile;
         }
-        $minifiedFile = $this->_findOriginalMinifiedFile($originalFile);
+        $originalFileRelative = $this->pubViewCacheDir->getRelativePath($originalFile);
+        $minifiedFile = $this->_findOriginalMinifiedFile($originalFileRelative);
         if (!$minifiedFile) {
-            $minifiedFile = $this->pubViewCacheDir
-                ->getAbsolutePath($this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile));
-            $this->_strategy->minifyFile($originalFile, $minifiedFile);
+            $minifiedFile = $this->directoryName . '/' . $this->_generateMinifiedFileName($originalFile);
+            $this->_strategy->minifyFile($originalFileRelative, $minifiedFile);
         }
 
-        return $minifiedFile;
+        return $this->pubViewCacheDir->getAbsolutePath($minifiedFile);
     }
 
     /**
@@ -96,7 +99,7 @@ class Minifier
     {
         $fileInfo = pathinfo($originalFile);
         $minifiedFile = $fileInfo['dirname'] . '/' . $fileInfo['filename'] . '.min.' . $fileInfo['extension'];
-        if ($this->pubViewCacheDir->isExist($this->pubViewCacheDir->getRelativePath($minifiedFile))) {
+        if ($this->pubViewCacheDir->isExist($minifiedFile)) {
             return $minifiedFile;
         }
         return false;

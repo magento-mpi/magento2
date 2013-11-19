@@ -8,8 +8,47 @@
 
 namespace Magento\Code\Minifier\Strategy;
 
+use Magento\Filesystem,
+    Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Write;
+
 class LiteTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filesystem;
+
+    /**
+     * @var Write | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $directory;
+
+    /**
+     * @var \Magento\Code\Minifier\AdapterInterface | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $adapter;
+
+    /**
+     * Set up before each test
+     */
+    public function setUp()
+    {
+        $this->directory = $this->getMock(
+            'Magento\Filesystem\Directory\Write',
+            array('stat', 'isExist', 'readFile', 'writeFile', 'touch'), array(), '', false
+        );
+        $this->filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->filesystem->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(DirectoryList::PUB_VIEW_CACHE)
+            ->will($this->returnValue($this->directory));
+        $this->adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
+    }
+
+    /**
+     * Test for minifyFile if case update is needed
+     */
     public function testGetMinifiedFile()
     {
         $originalFile = __DIR__ . '/original/some.js';
@@ -17,46 +56,44 @@ class LiteTest extends \PHPUnit_Framework_TestCase
         $content = 'content';
         $minifiedContent = 'minified content';
 
-        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->once())
-            ->method('read')
+        $this->directory->expects($this->once())
+            ->method('readFile')
             ->with($originalFile)
             ->will($this->returnValue($content));
-        $filesystem->expects($this->once())
-            ->method('write')
+        $this->directory->expects($this->once())
+            ->method('writeFile')
             ->with($minifiedFile, $minifiedContent);
 
-        $adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
-        $adapter->expects($this->once())
+        $this->adapter->expects($this->once())
             ->method('minify')
             ->with($content)
             ->will($this->returnValue($minifiedContent));
 
-        $strategy = new \Magento\Code\Minifier\Strategy\Lite($adapter, $filesystem);
+        $strategy = new Lite($this->adapter, $this->filesystem);
         $strategy->minifyFile($originalFile, $minifiedFile);
     }
 
+    /**
+     * Test for minifyFile if case update is NOT needed
+     */
     public function testGetMinifiedFileNoUpdateNeeded()
     {
         $originalFile = __DIR__ . '/original/some.js';
         $minifiedFile = __DIR__ . '/some.min.js';
 
-        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        $filesystem->expects($this->once())
-            ->method('has')
+        $this->directory->expects($this->once())
+            ->method('isExist')
             ->with($minifiedFile)
             ->will($this->returnValue(true));
-        $filesystem->expects($this->never())
-            ->method('read');
-        $filesystem->expects($this->never())
-            ->method('write');
 
-        $adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
-        $adapter->expects($this->never())
-            ->method('minify');
+        $this->directory->expects($this->never())
+            ->method('readFile');
+        $this->directory->expects($this->never())
+            ->method('writeFile');
 
-        $strategy = new \Magento\Code\Minifier\Strategy\Lite($adapter, $filesystem);
+        $this->adapter->expects($this->never())->method('minify');
 
+        $strategy = new Lite($this->adapter, $this->filesystem);
         $strategy->minifyFile($originalFile, $minifiedFile);
     }
 }
