@@ -18,6 +18,14 @@ interface ReadInterface
     public function getAbsolutePath($path = null);
 
     /**
+     * Get relative path
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getRelativePath($path = null);
+
+    /**
      * Retrieve list of all entities in given path
      *
      * @param string $path

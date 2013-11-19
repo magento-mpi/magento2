@@ -834,18 +834,17 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             return $this->norouteAction();
         }
 
-        if (!$this->readDirectory->isExist(sprintf('rma_item/%s', $fileName))) {
+        $filePath = sprintf('rma_item/%s', $fileName);
+        if (!$this->readDirectory->isExist($filePath)) {
             return $this->norouteAction();
         }
 
         if ($plain) {
             /** @var $readFile \Magento\Filesystem\File\Read */
-            $readFile = $this->readDirectory->openFile(sprintf('rma_item/%s', $fileName));
-            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo(
-                $this->readDirectory->getAbsolutePath(sprintf('rma_item/%s', $fileName)),
-                PATHINFO_EXTENSION
+            $readFile = $this->readDirectory->openFile($filePath);
+            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION
             )));
-            $fileStat = $this->readDirectory->stat(sprintf('rma_item/%s', $fileName));
+            $fileStat = $this->readDirectory->stat($filePath);
             $this->getResponse()
                 ->setHttpResponseCode(200)
                 ->setHeader('Pragma', 'public', true)
@@ -859,13 +858,9 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                 echo $buffer;
             }
         } else {
-            $name = pathinfo(
-                $this->readDirectory->getAbsolutePath(sprintf('rma_item/%s', $fileName)),
-                PATHINFO_BASENAME
-            );
-            $this->_prepareDownloadResponse($name, array(
+            $this->_prepareDownloadResponse(pathinfo($fileName, PATHINFO_BASENAME), array(
                 'type'  => 'filename',
-                'value' => $this->readDirectory->getAbsolutePath(sprintf('rma_item/%s', $fileName))
+                'value' => $this->readDirectory->getAbsolutePath($filePath)
             ));
         }
 

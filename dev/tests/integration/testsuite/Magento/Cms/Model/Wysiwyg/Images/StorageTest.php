@@ -60,8 +60,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetThumbsPath()
     {
-        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $filesystem = $objectManager->get('Magento\Filesystem');
         $session = $objectManager->get('Magento\Backend\Model\Session');
         $backendUrl = $objectManager->get('Magento\Backend\Model\Url');
         $imageFactory = $objectManager->get('Magento\Image\AdapterFactory');
@@ -91,7 +91,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $uploaderFactory
         );
         $this->assertStringStartsWith(
-            realpath(\Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir()),
+            str_replace('\\', '/', $filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA)),
             $model->getThumbsPath()
         );
     }

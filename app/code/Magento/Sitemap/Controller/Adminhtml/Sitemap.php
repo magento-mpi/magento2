@@ -132,7 +132,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
             //validate path to generate
             if (!empty($data['sitemap_filename']) && !empty($data['sitemap_path'])) {
                 $path = rtrim($data['sitemap_path'], '\\/')
-                      . DS . $data['sitemap_filename'];
+                      . '/' . $data['sitemap_filename'];
                 /** @var $validator \Magento\Core\Model\File\Validator\AvailablePath */
                 $validator = $this->_objectManager->create('Magento\Core\Model\File\Validator\AvailablePath');
                 /** @var $helper \Magento\Catalog\Helper\Catalog */
@@ -151,21 +151,17 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                 }
             }
 
-            /** @var \Magento\Filesystem $filesystem */
-            $filesystem = $this->_objectManager->get('Magento\Filesystem');
+            /** @var \Magento\Filesystem\Directory\Write $directory */
+            $directory = $this->_objectManager->get('Magento\Filesystem')
+                ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model->load($this->getRequest()->getParam('sitemap_id'));
                 $fileName = $model->getSitemapFilename();
 
-                $filesystem->setWorkingDirectory(
-                    $this->_objectManager->get('Magento\App\Dir')->getDir() . $model->getSitemapPath()
-                );
-                $filePath = $this->_objectManager->get('Magento\App\Dir')->getDir()
-                    . $model->getSitemapPath() . DS . $fileName;
-
-                if ($fileName && $filesystem->isFile($filePath)) {
-                    $filesystem->delete($filePath);
+                $path = $model->getSitemapPath() . '/' . $fileName;
+                if ($fileName && $directory->isFile($path)) {
+                    $directory->delete($path);
                 }
             }
 
@@ -215,8 +211,10 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
      */
     public function deleteAction()
     {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Filesystem');
+        /** @var \Magento\Filesystem\Directory\Write $directory */
+        $directory = $this->_objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+
         // check if we know what should be deleted
         $id = $this->getRequest()->getParam('sitemap_id');
         if ($id) {
@@ -229,8 +227,9 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
                 /* @var $sitemap \Magento\Sitemap\Model\Sitemap */
                 $model->load($id);
                 // delete file
-                if ($model->getSitemapFilename() && $filesystem->isFile($model->getPreparedFilename())) {
-                    $filesystem->delete($model->getPreparedFilename());
+                $path = $directory->getRelativePath($model->getPreparedFilename());
+                if ($model->getSitemapFilename() && $directory->isFile($path)) {
+                    $directory->delete($path);
                 }
                 $model->delete();
                 // display success message

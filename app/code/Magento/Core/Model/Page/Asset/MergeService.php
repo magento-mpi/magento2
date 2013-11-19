@@ -105,11 +105,9 @@ class MergeService
      */
     public function cleanMergedJsCss()
     {
-        $mergedDir = $this->_dirs->getDir(\Magento\App\Dir::PUB_VIEW_CACHE) . '/'
-            . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
-        $this->_filesystem->delete($mergedDir);
-
+        $cacheDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::PUB_VIEW_CACHE);
+        $cacheDir->delete($cacheDir->getRelativePath(\Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR));
         $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')
-            ->deleteFolder($mergedDir);
+            ->deleteFolder($cacheDir->getAbsolutePath(\Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR));
     }
 }
