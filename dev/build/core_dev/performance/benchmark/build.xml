@@ -287,7 +287,9 @@
 
     <target name="megre" description="Benchmark Logs Merge">
         <exec executable="php">
+            <arg value="-f"/>
             <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/benchmark_logs_merge.php"/>
+            <arg value="--"/>
             <arg value="--xml"/>
             <arg value="${env.bamboo_build_working_directory}/dev/tests/performance/report/${env.bamboo_buildResultKey}_response_time.jtl"/>
             <arg value="--csv"/>
