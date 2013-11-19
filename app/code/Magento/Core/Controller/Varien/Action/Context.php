@@ -52,6 +52,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $authentication;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
@@ -60,6 +65,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\HTTP\Authentication $authentication
+     * @param \Magento\Data\Form\FormKey $formKey
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -69,7 +75,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\FrontController $frontController,
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\HTTP\Authentication $authentication
+        \Magento\HTTP\Authentication $authentication,
+        \Magento\Data\Form\FormKey $formKey
     ) {
         $this->_request           = $request;
         $this->_response          = $response;
@@ -79,6 +86,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_eventManager      = $eventManager;
         $this->_logger            = $logger;
         $this->authentication     = $authentication;
+        $this->formKey            = $formKey;
     }
 
     /**
@@ -143,5 +151,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAuthentication()
     {
         return $this->authentication;
+    }
+
+    /**
+     * @return \Magento\Data\Form\FormKey
+     */
+    public function getFormKey()
+    {
+        return $this->formKey;
     }
 }

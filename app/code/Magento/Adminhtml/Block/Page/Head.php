@@ -25,12 +25,11 @@ class Head extends \Magento\Page\Block\Html\Head
     protected $_template = 'page/head.phtml';
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Data\Form\FormKey
      */
-    protected $_session;
+    protected $formKey;
 
     /**
-     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -41,10 +40,10 @@ class Head extends \Magento\Page\Block\Html\Head
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
      * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Session $session,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\App\Dir $dir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -55,13 +54,14 @@ class Head extends \Magento\Page\Block\Html\Head
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
         \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
+        \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
-        $this->_session = $session;
         parent::__construct(
             $locale, $dir, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
             $assetMergeService, $assetMinifyService, $data
         );
+        $this->formKey = $formKey;
     }
 
     /**
@@ -71,6 +71,6 @@ class Head extends \Magento\Page\Block\Html\Head
      */
     public function getFormKey()
     {
-        return $this->_session->getFormKey();
+        return $this->formKey->getFormKey();
     }
 }

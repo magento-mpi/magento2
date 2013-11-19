@@ -30,6 +30,11 @@ class Context extends \Magento\Core\Block\Template\Context
     protected $mathRandom;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
@@ -59,6 +64,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Math\Random $mathRandom
+     * @param \Magento\Data\Form\FormKey $formKey
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -91,7 +97,8 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Math\Random $mathRandom
+        \Magento\Math\Random $mathRandom,
+        \Magento\Data\Form\FormKey $formKey
     ) {
         parent::__construct(
             $request,
@@ -124,6 +131,7 @@ class Context extends \Magento\Core\Block\Template\Context
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
         $this->mathRandom = $mathRandom;
+        $this->formKey = $formKey;
     }
 
     /**
@@ -168,5 +176,13 @@ class Context extends \Magento\Core\Block\Template\Context
     public function getMathRandom()
     {
         return $this->mathRandom;
+    }
+
+    /**
+     * @return \Magento\Data\Form\FormKey
+     */
+    public function getFormKey()
+    {
+        return $this->formKey;
     }
 }

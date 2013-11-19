@@ -21,6 +21,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_rateFactory;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\Tax\Model\Calculation\RateFactory $rateFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
@@ -37,6 +42,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_rateFactory = $rateFactory;
+        $this->formKey = $context->getFormKey();
         parent::__construct($registry, $formFactory, $coreData, $context, $data);
     }
 
@@ -209,7 +215,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'add_button_caption' => __('Add New Tax Class'),
             'submit_data' => array(
                 'class_type' => $classType,
-                'form_key' => $this->_session->getFormKey(),
+                'form_key' => $this->formKey->getFormKey(),
             ),
             'entity_id_name' => 'class_id',
             'entity_value_name' => 'class_name',

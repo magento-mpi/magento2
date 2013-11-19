@@ -80,6 +80,9 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
     /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Math\Random */
     protected $_mathMock;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject|\Magento\Data\Form\FormKey */
+    protected $_formKey;
+
     protected function setUp()
     {
         // These mocks are accessed via context
@@ -113,6 +116,7 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
         $this->_localeMock          = $this->_makeMock('Magento\Core\Model\LocaleInterface');
         $appState                   = $this->_makeMock('Magento\App\State');
         $this->_mathMock            = $this->_makeMock('Magento\Math\Random');
+        $this->_formKey             = $this->_makeMock('Magento\Data\Form\FormKey');
 
         $appState->setAreaCode(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 
@@ -150,7 +154,8 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $filterManagerMock,
             $backendSessionMock,
             $this->_localeMock,
-            $this->_mathMock
+            $this->_mathMock,
+            $this->_formKey
         );
     }
 

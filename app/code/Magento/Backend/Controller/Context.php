@@ -66,6 +66,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\HTTP\Authentication $authentication
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Helper\Data $helper
      * @param \Magento\AuthorizationInterface $authorization
@@ -74,7 +75,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param bool $canUseBaseUrl
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -86,6 +87,7 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\HTTP\Authentication $authentication,
+        \Magento\Data\Form\FormKey $formKey,
         \Magento\Backend\Model\Session $session,
         \Magento\Backend\Helper\Data $helper,
         \Magento\AuthorizationInterface $authorization,
@@ -95,8 +97,16 @@ class Context extends \Magento\Core\Controller\Varien\Action\Context
         \Magento\Core\Model\LocaleInterface $locale,
         $canUseBaseUrl = false
     ) {
-        parent::__construct($logger, $request, $response, $objectManager, $frontController, $layout, $eventManager, 
-            $authentication
+        parent::__construct(
+            $logger,
+            $request,
+            $response,
+            $objectManager,
+            $frontController,
+            $layout,
+            $eventManager,
+            $authentication,
+            $formKey
         );
         $this->_canUseBaseUrl = $canUseBaseUrl;
         $this->_session = $session;

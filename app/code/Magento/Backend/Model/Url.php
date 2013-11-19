@@ -54,11 +54,6 @@ class Url extends \Magento\Core\Model\Url
     protected $_backendHelper;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_coreSession;
-
-    /**
      * Menu config
      *
      * @var \Magento\Backend\Model\Menu\Config
@@ -76,6 +71,11 @@ class Url extends \Magento\Core\Model\Url
     protected $_encryptor;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
@@ -89,6 +89,7 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param null $areaCode
      * @param array $data
      */
@@ -106,6 +107,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Data\Form\FormKey $formKey,
         $areaCode = null,
         array $data = array()
     ) {
@@ -124,10 +126,10 @@ class Url extends \Magento\Core\Model\Url
         );
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
-        $this->_coreSession = $session;
         $this->_menuConfig = $menuConfig;
         $this->_cache = $cache;
         $this->_session = $authSession;
+        $this->formKey = $formKey;
     }
 
     /**
@@ -210,7 +212,7 @@ class Url extends \Magento\Core\Model\Url
      */
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
-        $salt = $this->_coreSession->getFormKey();
+        $salt = $this->formKey->getFormKey();
         $request = $this->getRequest();
         if (!$routeName) {
             if ($request->getBeforeForwardInfo('route_name') !== null) {
