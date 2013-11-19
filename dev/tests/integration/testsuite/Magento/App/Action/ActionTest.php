@@ -90,7 +90,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
         /* Area-specific controller is used because area must be known at the moment of loading the design */
         $this->_object = $this->_objectManager->create(
-            'Magento\Core\Controller\Front\Action',
+            'Magento\App\Action\Action',
             array('context'  => $context)
         );
         $this->_objectManager->get('Magento\Config\ScopeInterface')->setCurrentScope('frontend');
@@ -116,7 +116,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                 'Magento\App\Action\Context'
             ),
             'frontend' => array(
-                'Magento\Core\Controller\Front\Action',
+                'Magento\App\Action\Action',
                 'frontend',
                 'default',
                 'magento_blank',
