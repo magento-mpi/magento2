@@ -375,11 +375,12 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Reset core session hosts after reseting session ID
      *
+     * @param bool $deleteOldSession
      * @return \Magento\Customer\Model\Session
      */
-    public function regenerateId()
+    public function regenerateId($deleteOldSession = true)
     {
-        parent::regenerateId();
+        parent::regenerateId($deleteOldSession);
         $this->_cleanHosts();
         return $this;
     }
