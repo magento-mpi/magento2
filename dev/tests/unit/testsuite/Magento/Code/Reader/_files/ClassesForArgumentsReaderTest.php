@@ -35,8 +35,13 @@ class ClassWithAllArgumentTypes
     protected $_optionalArrayValue;
 
     /**
+     * @var mixed
+     */
+    protected $_constValue;
+
+    /**
      * @param stdClass $stdClassObject
-     * @param classWithoutConstruct $withoutConstructorClassObject
+     * @param ClassWithoutConstruct $withoutConstructorClassObject
      * @param $someVariable
      * @param string $const
      * @param int $optionalNumValue
@@ -45,7 +50,7 @@ class ClassWithAllArgumentTypes
      */
     public function __construct(
         \stdClass $stdClassObject,
-        \classWithoutConstruct $withoutConstructorClassObject,
+        \ClassWithoutConstruct $withoutConstructorClassObject,
         $someVariable,
         $const = \ClassWithAllArgumentTypes::DEFAULT_VALUE,
         $optionalNumValue = 9807,
@@ -58,6 +63,7 @@ class ClassWithAllArgumentTypes
         $this->_optionalNumValue = $optionalNumValue;
         $this->_optionalStringValue = $optionalStringValue;
         $this->_optionalArrayValue = $optionalArrayValue;
+        $this->_constValue = $const;
     }
 }
 

@@ -89,6 +89,10 @@ class ClassArgumentAlreadyInjectedIntoContext
      */
     protected $_exA;
 
+    /**
+     * @param Context $context
+     * @param ClassA $exA
+     */
     public function __construct(\Context $context, \ClassA $exA)
     {
         $this->_context = $context;
@@ -98,6 +102,11 @@ class ClassArgumentAlreadyInjectedIntoContext
 
 class ClassArgumentWrongOrderForParentArguments extends ClassArgumentAlreadyInjectedIntoContext
 {
+    /**
+     * @param Context $context
+     * @param ClassA $exA
+     * @param ClassB $exB
+     */
     public function __construct(\Context $context, \ClassA $exA, \ClassB $exB)
     {
         parent::__construct($exA, $context);
@@ -106,8 +115,24 @@ class ClassArgumentWrongOrderForParentArguments extends ClassArgumentAlreadyInje
 
 class ClassArgumentWithOptionalParams
 {
+    /**
+     * @var Context
+     */
+    protected $_context;
+
+    /**
+     * @var array
+     */
+    protected $_data;
+
+    /**
+     * @param Context $context
+     * @param array $data
+     */
     public function __construct(\Context $context, array $data = array())
     {
+        $this->_context = $context;
+        $this->_data = $data;
     }
 }
 
