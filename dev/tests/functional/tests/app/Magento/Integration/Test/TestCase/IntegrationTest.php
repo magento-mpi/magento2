@@ -69,13 +69,13 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Navigate to the Integration page from Edit Integration page
      *
-     * @param IntegrationFixture $integrationFixture injectable
-     *
      * @ZephyrId MAGETWO-16823
      */
-    public function testNavigation(IntegrationFixture $integrationFixture)
+    public function testNavigation()
     {
         //Preconditions
+        $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
         $integrationFixture->persist();
         //Steps
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
