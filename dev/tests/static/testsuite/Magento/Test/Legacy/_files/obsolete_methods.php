@@ -936,4 +936,5 @@ return array(
         '\Magento\Core\Model\Session\AbstractSession',
         '\Magento\Core\Model\Session\SidResolver::getSessionIdQueryParam'
     ),
+    array('getCookie', '\Magento\Core\Model\Session\AbstractSession'),
 );

@@ -245,16 +245,6 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Retrieve cookie object
-     *
-     * @return \Magento\Core\Model\Cookie
-     */
-    public function getCookie()
-    {
-        return $this->_cookie;
-    }
-
-    /**
      * Init session with namespace
      *
      * @param string $namespace
