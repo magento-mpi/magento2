@@ -106,7 +106,7 @@ class Filesystem
      * Create an instance of directory with read permissions
      *
      * @param string $code
-     * @return \Magento\Filesystem\Directory\Write
+     * @return \Magento\Filesystem\Directory\WriteInterface
      * @throws \Magento\Filesystem\FilesystemException
      */
     public function getDirectoryWrite($code)

@@ -21,24 +21,28 @@ class Path
     const DIR_NAME = 'theme_customization';
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
+     * File name
+     *
      * @var string
      */
     protected $filename;
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * Initialize dependencies
      *
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param $filename
      */
-    public function __construct(\Magento\App\Dir $dir, $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME)
+    public function __construct(\Magento\Filesystem $filesystem, $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME)
     {
-        $this->_dir = $dir;
+        $this->filesystem = $filesystem;
         $this->filename = $filename;
     }
 
@@ -52,9 +56,9 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->_dir->getDir(\Magento\App\Dir::MEDIA)
-                . DIRECTORY_SEPARATOR . self::DIR_NAME
-                . DIRECTORY_SEPARATOR . $theme->getId();
+            $path = $this->filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA)
+                . '/' . self::DIR_NAME
+                . '/' . $theme->getId();
         }
         return $path;
     }
@@ -69,8 +73,8 @@ class Path
     {
         $path = null;
         if ($theme->getFullPath()) {
-            $physicalThemesDir = $this->_dir->getDir(\Magento\App\Dir::THEMES);
-            $path = \Magento\Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
+            $physicalThemesDir = $this->filesystem->getPath(\Magento\Filesystem\DirectoryList::THEMES);
+            $path = str_replace('\\', '/', $physicalThemesDir . '/' . $theme->getFullPath());
         }
         return $path;
     }
@@ -85,7 +89,7 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR . $this->filename;
+            $path = $this->getCustomizationPath($theme) . '/' . $this->filename;
         }
         return $path;
     }
