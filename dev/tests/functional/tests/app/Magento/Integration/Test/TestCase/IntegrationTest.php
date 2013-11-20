@@ -40,8 +40,8 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $newIntegrationPage->open();
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture)->save($integrationFixture);
         //Verification
-        $this->_checkSaveSuccessMessage();
-        $this->_ensureMatchingIntegrationData($integrationFixture);
+        $this->checkSaveSuccessMessage();
+        $this->ensureMatchingIntegrationData($integrationFixture);
     }
 
     /**
@@ -57,13 +57,13 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $integrationFixture->persist();
         //Steps
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-        $this->_openByName($integrationFixture->getName());
+        $this->openByName($integrationFixture->getName());
         $editForm = $editIntegrationPage->getIntegrationFormBlock();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
         $editForm->update($integrationFixture)->save($integrationFixture);
         //Verification
-        $this->_checkSaveSuccessMessage();
-        $this->_ensureMatchingIntegrationData($integrationFixture);
+        $this->checkSaveSuccessMessage();
+        $this->ensureMatchingIntegrationData($integrationFixture);
     }
 
     /**
@@ -79,7 +79,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $integrationFixture->persist();
         //Steps
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-        $this->_openByName($integrationFixture->getName());
+        $this->openByName($integrationFixture->getName());
         $editIntegrationPage->getIntegrationFormBlock()->back();
         //Verification
         $this->assertTrue(
@@ -110,8 +110,8 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         );
         $newIntegrationPage->getIntegrationFormBlock()->save($integrationFixture);
         //Verification
-        $this->_checkSaveSuccessMessage();
-        $this->_openByName($integrationFixture->getName());
+        $this->checkSaveSuccessMessage();
+        $this->openByName($integrationFixture->getName());
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
         $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
     }
@@ -119,7 +119,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Check success message after integration save.
      */
-    protected function _checkSaveSuccessMessage()
+    protected function checkSaveSuccessMessage()
     {
         $this->assertTrue(
             Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->waitForSuccessMessage(),
@@ -132,10 +132,10 @@ class IntegrationTest extends \Mtf\TestCase\Functional
      *
      * @param IntegrationFixture $integrationFixture
      */
-    protected function _ensureMatchingIntegrationData(IntegrationFixture $integrationFixture)
+    protected function ensureMatchingIntegrationData(IntegrationFixture $integrationFixture)
     {
         $editIntegrationPage = Factory::getPageFactory()->getAdminIntegrationEdit();
-        $this->_openByName($integrationFixture->getName());
+        $this->openByName($integrationFixture->getName());
         $editIntegrationPage->getIntegrationFormBlock()->verify($integrationFixture);
     }
 
@@ -144,7 +144,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
      *
      * @param string $integrationName
      */
-    protected function _openByName($integrationName)
+    protected function openByName($integrationName)
     {
         $integrationGridPage = Factory::getPageFactory()->getAdminIntegration();
         $integrationGridPage->open();
