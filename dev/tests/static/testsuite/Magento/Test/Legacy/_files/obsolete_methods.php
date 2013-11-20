@@ -948,4 +948,12 @@ return array(
         '\Magento\Core\Model\Session\AbstractSession::destroy'
     ),
     array('delete', '\Magento\Core\Model\Cookie', '\Magento\Core\Model\Cookie::set'),
+    array('getConfigDomain', '\Magento\Core\Model\Cookie'),
+    array('getDomain', '\Magento\Core\Model\Cookie'),
+    array('getDefaultLifetime', '\Magento\Core\Model\Cookie'),
+    array('getPath', '\Magento\Core\Model\Cookie'),
+    array('getHttponly', '\Magento\Core\Model\Cookie'),
+    array('isSecure', '\Magento\Core\Model\Cookie'),
+    array('getStore', '\Magento\Core\Model\Cookie'),
+    array('setStore', '\Magento\Core\Model\Cookie'),
 );

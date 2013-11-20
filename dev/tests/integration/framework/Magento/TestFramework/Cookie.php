@@ -28,7 +28,6 @@ class Cookie extends \Magento\Core\Model\Cookie
         \Magento\App\RequestInterface $request = null,
         \Magento\App\ResponseInterface $response = null
     ) {
-        $this->_storeManager = $storeManager;
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $request ?: $objectManager->get('Magento\App\RequestInterface');
         $response = $response ?: $objectManager->get('Magento\App\ResponseInterface');

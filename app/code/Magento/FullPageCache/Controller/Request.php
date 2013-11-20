@@ -71,13 +71,15 @@ class Request extends \Magento\Core\Controller\Front\Action
 
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
+        /** @var \Zend\Session\Config\ConfigInterface $sessionConfig */
+        $sessionConfig = $this->_objectManager->get('Zend\Session\Config\ConfigInterface');
         $cookieName = $session->getName();
         $cookieInfo = array(
-            'lifetime' => $this->_cookie->getDefaultLifetime(),
-            'path'     => $this->_cookie->getPath(),
-            'domain'   => $this->_cookie->getDomain(),
-            'secure'   => $this->_cookie->isSecure(),
-            'httponly' => $this->_cookie->getHttponly(),
+            'lifetime' => $sessionConfig->getCookieLifetime(),
+            'path'     => $sessionConfig->getCookiePath(),
+            'domain'   => $sessionConfig->getCookieDomain(),
+            'secure'   => $sessionConfig->getCookieSecure(),
+            'httponly' => $sessionConfig->getCookieHttpOnly()
         );
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {
             $sessionInfo[$cookieName] = $cookieInfo;

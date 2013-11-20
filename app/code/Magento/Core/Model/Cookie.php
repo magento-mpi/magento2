@@ -8,32 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
 
 /**
  * Core cookie model
- *
- * @category   Magento
- * @package    Magento_Core
- * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Core\Model;
-
 class Cookie
 {
-    const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
-    const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
-    const XML_PATH_COOKIE_LIFETIME  = 'web/cookie/cookie_lifetime';
-    const XML_PATH_COOKIE_HTTPONLY  = 'web/cookie/cookie_httponly';
-
-    protected $_lifetime;
-
-    /**
-     * Store object
-     *
-     * @var \Magento\Core\Model\Store
-     */
-    protected $_store;
-
     /**
      * @var \Magento\Core\Model\StoreManager
      */
@@ -75,31 +56,6 @@ class Cookie
     }
 
     /**
-     * Set Store object
-     *
-     * @param mixed $store
-     * @return \Magento\Core\Model\Cookie
-     */
-    public function setStore($store)
-    {
-        $this->_store = $this->_storeManager->getStore($store);
-        return $this;
-    }
-
-    /**
-     * Retrieve Store object
-     *
-     * @return \Magento\Core\Model\Store
-     */
-    public function getStore()
-    {
-        if (is_null($this->_store)) {
-            $this->_store = $this->_storeManager->getStore();
-        }
-        return $this->_store;
-    }
-
-    /**
      * Retrieve Request object
      *
      * @return \Magento\App\RequestInterface
@@ -120,62 +76,6 @@ class Cookie
     }
 
     /**
-     * Retrieve Domain for cookie
-     *
-     * @return string
-     */
-    public function getDomain()
-    {
-        $domain = $this->getConfigDomain();
-        if (empty($domain)) {
-            $domain = $this->_getRequest()->getHttpHost();
-        }
-        return $domain;
-    }
-
-    /**
-     * Retrieve Config Domain for cookie
-     *
-     * @return string
-     */
-    public function getConfigDomain()
-    {
-        return (string)$this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->getStore());
-    }
-
-    /**
-     * Retrieve Path for cookie
-     *
-     * @return string
-     */
-    public function getPath()
-    {
-        $path = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_PATH, $this->getStore());
-        if (empty($path)) {
-            $path = $this->_getRequest()->getBasePath();
-        }
-        return $path;
-    }
-
-    /**
-     * Retrieve cookie lifetime
-     *
-     * @return int
-     */
-    public function getDefaultLifetime()
-    {
-        if (!is_null($this->_lifetime)) {
-            $lifetime = $this->_lifetime;
-        } else {
-            $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $this->getStore());
-        }
-        if (!is_numeric($lifetime)) {
-            $lifetime = 3600;
-        }
-        return $lifetime;
-    }
-
-    /**
      * Set cookie lifetime
      *
      * @param int $lifetime
@@ -185,34 +85,6 @@ class Cookie
     {
         $this->_lifetime = (int)$lifetime;
         return $this;
-    }
-
-    /**
-     * Retrieve use HTTP only flag
-     *
-     * @return bool
-     */
-    public function getHttponly()
-    {
-        $httponly = $this->_coreStoreConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->getStore());
-        if (is_null($httponly)) {
-            return null;
-        }
-        return (bool)$httponly;
-    }
-
-    /**
-     * Is https secure request
-     * Use secure on adminhtml only
-     *
-     * @return bool
-     */
-    public function isSecure()
-    {
-        if ($this->getStore()->isAdmin()) {
-            return $this->_getRequest()->isSecure();
-        }
-        return false;
     }
 
     /**
@@ -238,27 +110,12 @@ class Cookie
 
         if ($period === true) {
             $period = 3600 * 24 * 365;
-        } elseif (is_null($period)) {
-            $period = $this->getDefaultLifetime();
         }
 
         if ($period == 0) {
             $expire = 0;
-        }
-        else {
+        } else {
             $expire = time() + $period;
-        }
-        if (is_null($path)) {
-            $path = $this->getPath();
-        }
-        if (is_null($domain)) {
-            $domain = $this->getDomain();
-        }
-        if (is_null($secure)) {
-            $secure = $this->isSecure();
-        }
-        if (is_null($httponly)) {
-            $httponly = $this->getHttponly();
         }
 
         setcookie($name, $value, $expire, $path, $domain, $secure, $httponly);
@@ -278,7 +135,7 @@ class Cookie
      */
     public function renew($name, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
-        if (($period === null) && !$this->getDefaultLifetime()) {
+        if ($period === null) {
             return $this;
         }
         $value = $this->_getRequest()->getCookie($name, false);

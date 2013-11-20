@@ -386,4 +386,24 @@ return array(
         '\Magento\Core\Model\Session\AbstractSession',
         '\Magento\Session\SidResolverInterface::SESSION_ID_QUERY_PARAM'
     ),
+    array(
+        'XML_PATH_COOKIE_DOMAIN',
+        '\Magento\Core\Model\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_DOMAIN'
+    ),
+    array(
+        'XML_PATH_COOKIE_PATH',
+        '\Magento\Core\Model\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_PATH'
+    ),
+    array(
+        'XML_PATH_COOKIE_LIFETIME',
+        '\Magento\Core\Model\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_LIFETIME'
+    ),
+    array(
+        'XML_PATH_COOKIE_HTTPONLY',
+        '\Magento\Core\Model\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_HTTPONLY'
+    ),
 );

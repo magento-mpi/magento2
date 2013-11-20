@@ -23,8 +23,10 @@ class AbstractSession extends \Magento\Object
 
     /**
      * Default options when a call destroy()
+     *
      * - send_expire_cookie: whether or not to send a cookie expiring the current session cookie
      * - clear_storage: whether or not to empty the storage object of any stored values
+     *
      * @var array
      */
     protected $defaultDestroyOptions = array(

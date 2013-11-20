@@ -107,4 +107,6 @@ return array(
     array('_skipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),
     array('_url', '\Magento\Core\Model\Session\AbstractSession'),
     array('_sidNameMap', '\Magento\Core\Model\Session\AbstractSession'),
+    array('_store', '\Magento\Core\Model\Cookie'),
+    array('_lifetime', '\Magento\Core\Model\Cookie'),
 );
