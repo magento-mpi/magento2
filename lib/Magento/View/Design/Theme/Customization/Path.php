@@ -31,15 +31,34 @@ class Path
     protected $filename;
 
     /**
-     * Initialize dependencies
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $mediaDirectoryRead;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $themeDirectoryRead;
+
+    /**
+     * Constructor
      *
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param $filename
      */
-    public function __construct(\Magento\App\Dir $dir, $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME)
-    {
-        $this->_dir = $dir;
-        $this->filename = $filename;
+    public function __construct(
+        \Magento\Filesystem $filesystem,
+        $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME
+    ) {
+        $this->filesystem           = $filesystem;
+        $this->filename             = $filename;
+        $this->mediaDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->themeDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::THEMES);
     }
 
     /**
@@ -52,9 +71,7 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->_dir->getDir(\Magento\App\Dir::MEDIA)
-                . DIRECTORY_SEPARATOR . self::DIR_NAME
-                . DIRECTORY_SEPARATOR . $theme->getId();
+            $path = $this->mediaDirectoryRead->getAbsolutePath(self::DIR_NAME . $theme->getId());
         }
         return $path;
     }
@@ -69,8 +86,7 @@ class Path
     {
         $path = null;
         if ($theme->getFullPath()) {
-            $physicalThemesDir = $this->_dir->getDir(\Magento\App\Dir::THEMES);
-            $path = \Magento\Filesystem::fixSeparator($physicalThemesDir . DIRECTORY_SEPARATOR . $theme->getFullPath());
+            $path = $this->themeDirectoryRead->getAbsolutePath($theme->getFullPath());
         }
         return $path;
     }
@@ -85,7 +101,9 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->getCustomizationPath($theme) . DIRECTORY_SEPARATOR . $this->filename;
+            $path = $this->mediaDirectoryRead
+                ->getAbsolutePath(self::DIR_NAME . $theme->getId() . '/' . $this->filename);
+
         }
         return $path;
     }

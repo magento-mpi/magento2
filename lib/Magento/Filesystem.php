@@ -642,6 +642,9 @@ class Filesystem
      * @param string $path
      * @param string $directory
      * @return bool
+     * @deprecated
+     *
+     * @replaceWith strpos($path, $directory) === 0
      */
     public function isPathInDirectory($path, $directory)
     {
