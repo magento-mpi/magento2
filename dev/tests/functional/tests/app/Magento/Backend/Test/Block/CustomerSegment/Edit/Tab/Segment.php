@@ -18,7 +18,8 @@ use Magento\Backend\Test\Block\Widget\Tab;
  * Class Segment
  * Customer segment form block
  *
- * @package Magento\Backend\Test\Block\CustomerSegment\Tab
+ * @package Magento\Backend\Test\Block\CustomerSegment\Edit\Tab
+ *
  */
 class Segment extends Tab {
     private $fieldPrefix = 'segment_';

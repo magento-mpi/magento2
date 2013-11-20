@@ -19,7 +19,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * Class CustomerGrid
  * Backend customer grid
  *
- * @package Magento\Customer\Test\Block\Backend
+ * @package Magento\CustomerSegment\Test\Block\Backend
  */
 class CustomerSegmentGrid extends Grid
 {

@@ -24,9 +24,9 @@ class CustomerSegmentTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
     }
     /**
-     * New customer creation in backend
+     * New customer segment creation in backend
      *
-     * @ZephyrId MAGETWO-12516
+     * @ZephyrId MAGETWO-12393
      */
     public function testCreateCustomerSegment()
     {
@@ -35,42 +35,63 @@ class CustomerSegmentTest extends Functional
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_retailer_customer');
         Factory::getApp()->magentoCustomerCreateCustomerBackend($customerFixture);
-
-        //Pages & Blocks
+        // Pages & Blocks
         $customerPage = Factory::getPageFactory()->getCustomer();
         $gridBlock = $customerPage->getCustomerGridBlock();
-        $pageActionsBlock = $customerPage->getPageActionsBlock();
-        $customerCreatePage = Factory::getPageFactory()->getCustomerNew();
-        $newCustomerForm = $customerCreatePage->getNewCustomerForm();
-        $messagesBlock = $customerCreatePage->getMessageBlock();
-
-        //Verifying
+        // Verifying
         $customerPage->open();
         $this->assertTrue($gridBlock->isRowVisible(array(
             'email' => $customerFixture->getEmail()
         )), 'Customer email "' . $customerFixture->getEmail() . '" not found in the grid');
-        // End Add Customer
-
-        //CustomerSegment test here
-        //data
+        // Start Customer Segment test
+        // data
         $customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentCustomerSegment();
-        //pages&blocks
+        $conditionsFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentCondition();
+        $conditionType = $conditionsFixture->getConditionType();
+        $conditionValue = $conditionsFixture->getConditionValue();
+        // pages & blocks
         $customerSegmentPage = Factory::getPageFactory()->getAdminCustomersegment();
         $pageActionsBlockCs = $customerSegmentPage->getPageActionsBlock();
         $customerSegmentCreatePage = Factory::getPageFactory()->getAdminCustomersegmentNew();
         $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
         $messagesBlock = $customerSegmentCreatePage->getMessageBlock();
-        //steps
+        // begin steps add a segment
         $customerSegmentPage->open();
         $pageActionsBlockCs->clickAddNew();
         $newCustomerSegmentForm->fill($customerSegmentFixture);
         $newCustomerSegmentForm->clickSaveAndContinue();
-        $messagesBlock->assertSuccessMessage($customerFixture);
+        $messagesBlock->assertSuccessMessage();
         // add a condition
         $tabsWidget = $customerSegmentCreatePage->getConditionsTab();
         $tabsWidget->openTab('magento_customersegment_segment_tabs_conditions_section');
-        $addConditionWidget = $customerSegmentCreatePage->getConditionsAdd();
-        $addConditionWidget->clickAddNew();
-        $customerSegmentConditionsFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentCustomerSegment();
+        $addWidget = $customerSegmentCreatePage->getConditions();
+        $addWidget->clickAddNew();
+        $selectWidget = $customerSegmentCreatePage->getConditions();
+        $selectWidget->selectCondition($conditionType);
+        $optionWidget = $customerSegmentCreatePage->getConditions();
+        $optionWidget->clickEllipsis();
+        $valueWidget = $customerSegmentCreatePage->getConditions();
+        $valueWidget->selectConditionValue($conditionValue);
+        $saveWidget = $customerSegmentCreatePage->getSave();
+        $saveWidget->clickSaveAndContinue();
+        $customerSegmentCreatePage->setMessageBlock();
+        $conditionMessageBlock = $customerSegmentCreatePage->getMessageBlock();
+        $conditionMessageBlock->assertSuccessMessage();
+        // verify matched customers
+        $customerTabWidget = $customerSegmentCreatePage->getCustomersTab();
+        $customerTabWidget->openTab('magento_customersegment_segment_tabs_customers_tab');
+        $customerSegmentCreatePage->setMessageBlock();
+        $customerMessageBlock = $customerSegmentCreatePage->getMessageBlock();
+        $customerMessageBlock->assertSuccessMessage();
+        $customerGridBlock = $customerSegmentCreatePage->getCustomerGridBlock();
+        $customerGridBlock->setGridEmail();
+        $gridEmail = $customerGridBlock->getGridEmail();
+        $this->assertEquals($customerFixture->getEmail(),
+            $gridEmail,
+            'Customer email "' . $customerFixture->getEmail() . '" not found in the grid'
+        );
+
+
     }
+
 }

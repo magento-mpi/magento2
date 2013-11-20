@@ -31,4 +31,24 @@ class SegmentCondition extends DataFixture {
         //Default data set
         $this->switchData('retailer_condition');
     }
+
+    /**
+     * Get condition type
+     *
+     * @return string
+     */
+    public function getConditionType()
+    {
+        return $this->getData('fields/conditions__1__new_child/value');
+    }
+
+    /**
+     * Get condition value
+     *
+     * @return string
+     */
+    public function getConditionValue()
+    {
+        return $this->getData('fields/conditions__1--1__value/value');
+    }
 }

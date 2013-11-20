@@ -16,6 +16,7 @@ use Magento\Backend\Test\Block\CustomerSegment\Actions;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
 use Magento\CustomerSegment\Test\Block\Backend\CustomerSegmentForm;
+use Magento\CustomerSegment\Test\Block\Backend\MatchedCustomerGrid;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
@@ -72,6 +73,16 @@ class CustomerSegmentNew extends Page {
     {
         return $this->_messagesBlock;
     }
+    /**
+     * Refresh global page message
+     *
+     */
+    public function setMessageBlock()
+    {
+        $this->_messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find('#messages .messages')
+        );
+    }
 
     /**
      * Get Conditions tabs block
@@ -86,7 +97,7 @@ class CustomerSegmentNew extends Page {
     }
 
     /**
-     * Get Conditions tabs block
+     * Get Customers tabs block
      *
      * @return FormTabs
      */
@@ -98,16 +109,41 @@ class CustomerSegmentNew extends Page {
     }
 
     /**
-     * Click Conditions add link
+     * Get add condition block
      *
      * @return Actions
      */
-    public function getConditionsAdd()
+    public function getConditions()
     {
         return Factory::getBlockFactory()->getMagentoBackendCustomerSegmentActions(
             $this->_browser->find('#conditions__1__children')
         );
     }
+
+    /**
+     * Get add condition block
+     *
+     * @return Actions
+     */
+    public function getSave()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendCustomerSegmentActions(
+            $this->_browser->find('.page-actions')
+        );
+    }
+
+    /**
+     * Get matched customer grid block
+     *
+     * @return MatchedCustomerGrid
+     */
+    public function getCustomerGridBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendMatchedCustomerGrid(
+            $this->_browser->find('#segmentGrid')
+        );
+    }
+
 
 
 }
