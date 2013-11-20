@@ -35,9 +35,16 @@ class Config implements \Zend\Session\Config\ConfigInterface
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
 
     /**
+     * Cookie default lifetime
+     */
+    const COOKIE_LIFETIME_DEFAULT = 3600;
+
+    /**
+     * All options
+     *
      * @var array
      */
-    protected $_data = array();
+    protected $options = array();
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -64,69 +71,34 @@ class Config implements \Zend\Session\Config\ConfigInterface
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
+     * @param array $options
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Stdlib\String $stringHelper,
-        \Magento\App\RequestInterface $request
+        \Magento\App\RequestInterface $request,
+        array $options = array()
     ) {
-        /**
-            TODO: $this->_data should contain all values, otherwise toArray() and getOptions() will not return
-            full set of options
-
-        */
-
-        
         $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
         $this->_stringHelper = $stringHelper;
         $this->_httpRequest = $request;
 
-        $this->_init();
-    }
-
-    /**
-     * @return $this
-     */
-    protected function _init()
-    {
-        $store = $this->_storeManager->getStore();
-
-        $this->setCookieHttpOnly(
-            $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $store)
-        );
-
-        $lifetime = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $store);
-        $lifetime = is_numeric($lifetime) ? $lifetime : 3600;
-        $this->setCookieLifetime($lifetime);
-
-        $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $store);
-        $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
-        $this->setCookieDomain($domain);
-
-        $path = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_PATH, $store);
-        if (empty($path)) {
-            $path = $this->_httpRequest->getBasePath();
+        foreach ($options as $option) {
+            $getter = 'get' . $this->_stringHelper->upperCaseWords($option, '_', '');
+            if (method_exists($this, $getter)) {
+                $value = $this->{$getter}();
+            } else {
+                $value = $this->getOption($option);
+            }
+            $this->options[$option] = $value;
         }
-        $this->setCookiePath($path);
-
-        $this->setCookieSecure($store->isAdmin() && $this->_httpRequest->isSecure());
-
-        return $this;
     }
 
     /**
-     * Retrieve Config Domain for cookie
+     * Set many options at once
      *
-     * @return string
-     */
-    public function getConfigDomain()
-    {
-        return (string)$this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
-    }
-
-    /**
      * @param array $options
      * @return $this
      * @throws \InvalidArgumentException
@@ -153,45 +125,49 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Get all options set
+     *
      * @return array
      */
     public function getOptions()
     {
-        return $this->_data;
+        return $this->options;
     }
 
     /**
+     * Set an individual option
+     *
      * @param string $option
      * @param mixed $value
      * @return $this
      */
     public function setOption($option, $value)
     {
-        //TODO: validate that option exists and is related to session
-
-        $option = $this->_getFixedOptionName($option);
-        if (!array_key_exists($option, $this->_data) || $this->_data[$option] != $value) {
-            $this->_setStorageOption($option, $value);
-            $this->_data[$option] = $value;
+        $option = $this->getFixedOptionName($option);
+        if (!array_key_exists($option, $this->options) || $this->options[$option] != $value) {
+            $this->setStorageOption($option, $value);
+            $this->options[$option] = $value;
         }
 
         return $this;
     }
 
     /**
+     * Get an individual option
+     *
      * @param string $option
      * @return mixed
      */
     public function getOption($option)
     {
-        $option = $this->_getFixedOptionName($option);
+        $option = $this->getFixedOptionName($option);
         if ($this->hasOption($option)) {
-            return $this->_data[$option];
+            return $this->options[$option];
         }
 
-        $value = $this->_getStorageOption($option);
-        if ($value !== null) {
-            $this->_data[$option] = $value;
+        $value = $this->getStorageOption($option);
+        if (null !== $value) {
+            $this->options[$option] = $value;
             return $value;
         }
 
@@ -199,13 +175,15 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Check to see if an internal option has been set for the key provided.
+     *
      * @param string $option
      * @return bool
      */
     public function hasOption($option)
     {
-        $option = $this->_getFixedOptionName($option);
-        return array_key_exists($option, $this->_data);
+        $option = $this->getFixedOptionName($option);
+        return array_key_exists($option, $this->options);
     }
 
     /**
@@ -217,13 +195,15 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Set session.name
+     *
      * @param string $name
      * @return $this
      * @throws \InvalidArgumentException
      */
     public function setName($name)
     {
-        $name = (string)$name;
+        $name = (string) $name;
         if (empty($name)) {
             throw new \InvalidArgumentException('Invalid session name; cannot be empty');
         }
@@ -232,14 +212,18 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Get session.name
+     *
      * @return string
      */
     public function getName()
     {
-        return (string)$this->getOption('session.name');
+        return (string) $this->getOption('session.name');
     }
 
     /**
+     * Set session.save_path
+     *
      * @param string $savePath
      * @return $this
      * @throws \InvalidArgumentException
@@ -258,11 +242,13 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Set session.save_path
+     *
      * @return string
      */
     public function getSavePath()
     {
-        return (string)$this->getOption('session.save_path');
+        return (string) $this->getOption('session.save_path');
     }
 
     /**
@@ -287,14 +273,26 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Get session.cookie_lifetime
+     *
      * @return int
      */
     public function getCookieLifetime()
     {
-        return (int)$this->getOption('session.cookie_lifetime');
+        if (!$this->hasOption('session.cookie_lifetime')) {
+            $lifetime = $this->_storeConfig->getConfig(
+                self::XML_PATH_COOKIE_LIFETIME,
+                $this->_storeManager->getStore()
+            );
+            $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
+            $this->setCookieLifetime($lifetime);
+        }
+        return (int) $this->getOption('session.cookie_lifetime');
     }
 
     /**
+     * Set session.cookie_path
+     *
      * @param string $cookiePath
      * @return $this
      * @throws \InvalidArgumentException
@@ -308,20 +306,30 @@ class Config implements \Zend\Session\Config\ConfigInterface
             throw new \InvalidArgumentException('Invalid cookie path');
         }
 
-        $this->cookiePath = $cookiePath;
         $this->setOption('session.cookie_path', $cookiePath);
         return $this;
     }
 
     /**
+     * Get session.cookie_path
+     *
      * @return string
      */
     public function getCookiePath()
     {
-        return (string)$this->getOption('session.cookie_path');
+        if (!$this->hasOption('session.cookie_path')) {
+            $path = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_PATH, $this->_storeManager->getStore());
+            if (empty($path)) {
+                $path = $this->_httpRequest->getBasePath();
+            }
+            $this->setCookiePath($path);
+        }
+        return (string) $this->getOption('session.cookie_path');
     }
 
     /**
+     * Set session.cookie_domain
+     *
      * @param string $cookieDomain
      * @return $this
      * @throws \InvalidArgumentException
@@ -345,68 +353,97 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Get session.cookie_domain
+     *
      * @return string
      */
     public function getCookieDomain()
     {
-        return (string)$this->getOption('session.cookie_domain');
+        if (!$this->hasOption('session.cookie_domain')) {
+            $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
+            $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
+            $this->setOption('session.cookie_domain', $domain);
+        }
+        return (string) $this->getOption('session.cookie_domain');
     }
 
     /**
+     * Set session.cookie_secure
+     *
      * @param bool $cookieSecure
      * @return $this
      */
     public function setCookieSecure($cookieSecure)
     {
-        $this->setOption('session.cookie_secure', (bool)$cookieSecure);
+        $this->setOption('session.cookie_secure', (bool) $cookieSecure);
         return $this;
     }
 
     /**
+     * Get session.cookie_secure
+     *
      * @return bool
      */
     public function getCookieSecure()
     {
-        return (bool)$this->getOption('session.cookie_secure');
+        if (!$this->hasOption('session.cookie_secure')) {
+            $this->setCookieSecure($this->_storeManager->getStore()->isAdmin() && $this->_httpRequest->isSecure());
+        }
+        return (bool) $this->getOption('session.cookie_secure');
     }
 
     /**
+     * Set session.cookie_httponly
+     *
      * @param bool $cookieHttpOnly
      * @return $this
      */
     public function setCookieHttpOnly($cookieHttpOnly)
     {
-        $this->setOption('session.cookie_httponly', (bool)$cookieHttpOnly);
+        $this->setOption('session.cookie_httponly', (bool) $cookieHttpOnly);
         return $this;
     }
 
     /**
+     * Get session.cookie_httponly
+     *
      * @return bool
      */
     public function getCookieHttpOnly()
     {
-        return (bool)$this->getOption('session.cookie_httponly');
+        if (!$this->hasOption('session.cookie_httponly')) {
+            $this->setCookieHttpOnly(
+                $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->_storeManager->getStore())
+            );
+        }
+        return (bool) $this->getOption('session.cookie_httponly');
     }
 
     /**
+     * Set session.use_cookies
+     *
      * @param bool $useCookies
      * @return $this
      */
     public function setUseCookies($useCookies)
     {
-        $this->setOption('session.use_cookies', (bool)$useCookies);
+        $this->setOption('session.use_cookies', (bool) $useCookies);
         return $this;
     }
 
     /**
+     * Get session.use_cookies
+     *
      * @return bool
      */
     public function getUseCookies()
     {
-        return (bool)$this->getOption('session.use_cookies');
+        return (bool) $this->getOption('session.use_cookies');
     }
 
     /**
+     * Set remember_me_seconds
+     *
      * @param int $rememberMeSeconds
      * @return $this
      * @throws \InvalidArgumentException
@@ -422,23 +459,45 @@ class Config implements \Zend\Session\Config\ConfigInterface
             throw new \InvalidArgumentException('Invalid remember_me_seconds; must be a positive integer');
         }
 
-        $this->_data['remember_me_seconds'] = $rememberMeSeconds;
+        $this->options['remember_me_seconds'] = $rememberMeSeconds;
         return $this;
     }
 
     /**
+     * Get remember_me_seconds
+     *
      * @return int
      */
     public function getRememberMeSeconds()
     {
-        return (int)$this->_data['remember_me_seconds'];
+        return (int) $this->options['remember_me_seconds'];
     }
 
     /**
+     * Set storage option in backend configuration store
+     *
+     * @param string $option
+     * @param mixed $value
+     * @return $this
+     * @throws \InvalidArgumentException
+     */
+    protected function setStorageOption($option, $value)
+    {
+        $result = ini_set($option, $value);
+        if ($result === false) {
+            throw new \InvalidArgumentException(sprintf('"%s" is not a valid sessions-related ini setting.', $option));
+        }
+
+        return $this;
+    }
+
+    /**
+     * Retrieve a storage option from a backend configuration store
+     *
      * @param string $option
      * @return mixed
      */
-    protected function _getStorageOption($option)
+    protected function getStorageOption($option)
     {
         $booleanOptions = array(
             'session.use_cookies',
@@ -456,38 +515,22 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
-     * @param string $option
-     * @param mixed $value
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    protected function _setStorageOption($option, $value)
-    {
-        $result = ini_set($option, $value);
-        if ($result === false) {
-            throw new \InvalidArgumentException(sprintf('"%s" is not a valid sessions-related ini setting.', $option));
-        }
-
-        return $this;
-    }
-
-    /**
+     * Fix session option name
+     *
      * @param string $option
      * @return string
      */
-    protected function _getFixedOptionName($option)
+    protected function getFixedOptionName($option)
     {
-        //TODO If it's required to add an ability to set options that may appear in php in future (and which can have
-        //  prefix different from 'session.' than it's required to make a list of all options that have 'session.'
-        //  prefix
-
         $option = strtolower($option);
 
         switch ($option) {
-            case 'url_rewriter_tags':   //TODO
+            case 'remember_me_seconds':
+                // do nothing; not an INI option
+                return;
+            case 'url_rewriter_tags':
                 $option = 'url_rewriter.tags';
                 break;
-
             default:
                 if (strpos($option, 'session.') !== 0) {
                     $option = 'session.' . $option;
