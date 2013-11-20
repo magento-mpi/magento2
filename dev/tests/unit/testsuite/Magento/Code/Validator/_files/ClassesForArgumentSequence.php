@@ -66,7 +66,7 @@ class ParentClass
         array $parentOptionalScalar = array()
     ) {
         $this->contextObject        = $contextObject;
-        $this->parentRequiredObject = $parentOptionalObject;
+        $this->parentRequiredObject = $parentRequiredObject;
         $this->parentOptionalScalar = $parentRequiredScalar;
         $this->parentOptionalObject = $parentOptionalObject;
         $this->data                 = $data;
@@ -81,6 +81,9 @@ class ValidChildClass extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -117,6 +120,9 @@ class InvalidChildClassRule01 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         array $parentRequiredScalar,
@@ -153,6 +159,9 @@ class InvalidChildClassRule02 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -189,6 +198,9 @@ class InvalidChildClassRule03 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -226,6 +238,9 @@ class InvalidChildClassRule04 extends ParentClass
     protected $childOptionalScalar;
     protected $argument;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -264,6 +279,9 @@ class InvalidChildClassRule05 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -301,6 +319,9 @@ class InvalidChildClassRule06 extends ParentClass
     protected $childOptionalScalar;
     protected $argument;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -339,6 +360,9 @@ class InvalidChildClassRule07 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -375,6 +399,9 @@ class InvalidChildClassRule08 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
@@ -411,6 +438,9 @@ class InvalidChildClassRule09 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ParentRequiredObject $parentRequiredObject,
         ContextObject $contextObject,
@@ -447,6 +477,9 @@ class InvalidChildClassRule10 extends ParentClass
     protected $childOptionalObject;
     protected $childOptionalScalar;
 
+    /**
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     */
     public function __construct(
         ContextObject $contextObject,
         ParentRequiredObject $parentRequiredObject,
