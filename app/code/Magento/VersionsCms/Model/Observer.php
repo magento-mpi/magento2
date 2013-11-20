@@ -677,7 +677,7 @@ class Observer
         }
 
         // add menu handle to layout update
-        $this->_view->getUpdate()->addHandle($menuLayout['handle']);
+        $this->_view->getLayout()->getUpdate()->addHandle($menuLayout['handle']);
 
         return $this;
     }
