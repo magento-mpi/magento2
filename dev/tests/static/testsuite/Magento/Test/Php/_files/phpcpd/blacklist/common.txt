@@ -64,7 +64,9 @@ Magento/Payment/Model/Method
 Magento/Payment/Model/Config
 Magento/ProductAlert/Model
 Magento/Rating/Model
+Magento/Reports/Block/Adminhtml
 Magento/Reports/Block/Product/Widget
+Magento/Reports/Controller/Adminhtml/Report
 Magento/Reports/Model/Resource/Helper
 Magento/Reports/Model/Resource
 Magento/Review/Block
@@ -102,5 +104,6 @@ Magento/Tax/Model/Sales/Total/Quote/Nominal
 Magento/Theme/Block/Adminhtml/System/Design/Theme/Edit
 Magento/User/Block/User/Edit
 var/generation
+Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
 

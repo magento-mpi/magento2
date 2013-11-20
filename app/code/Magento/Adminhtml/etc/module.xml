@@ -12,10 +12,6 @@
         <depends>
             <module name="Magento_Core"/>
             <module name="Magento_Backend"/>
-            <module name="Magento_Review"/>
-            <module name="Magento_SalesRule"/>
-            <module name="Magento_Downloadable"/>
-            <module name="Magento_Page"/>
             <module name="Magento_Weee"/>
         </depends>
     </module>

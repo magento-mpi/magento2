@@ -53,7 +53,7 @@ class Context
     protected $urlBuilder;
 
     /**
-     * @var \Magento\Core\Model\TranslateInterface
+     * @var \Magento\Phrase\TranslateInterface
      */
     protected $translator;
 
@@ -254,7 +254,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\TranslateInterface
+     * @return \Magento\Phrase\TranslateInterface
      */
     public function getTranslator()
     {

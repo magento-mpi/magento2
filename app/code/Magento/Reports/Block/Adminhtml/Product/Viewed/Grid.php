@@ -110,6 +110,7 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
      * @param \Magento\Reports\Model\Resource\Report\Collection\AbstractCollection $collection
      * @param \Magento\Object $filterData
      * @return \Magento\Reports\Block\Adminhtml\Grid\AbstractGrid
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _addOrderStatusFilter($collection, $filterData)
     {

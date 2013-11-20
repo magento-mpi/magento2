@@ -107,7 +107,7 @@
             </value>
         </param>
     </type>
-    <type name="Magento\Backend\Controller\Index">
+    <type name="Magento\Backend\Controller\Adminhtml\Index">
         <param name="searchModules">
             <value>
                 <products>
