@@ -44,18 +44,19 @@ class Activate extends Link
     /**
      * {@inheritDoc}
      */
+    protected function _getAttributes()
+    {
+        return array_merge(parent::_getAttributes(), ['onclick' => 'integration.popup.show(this);']);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     protected function _getDataAttributes()
     {
-        $isIntegrationActive = $this->_row->getStatus() === Integration::STATUS_ACTIVE;
-
         return [
-            'mage-init' => [
-                'integrationPopup' => [
-                    'dialog' => $isIntegrationActive ? 'deactivate' : 'permissions',
-                    'name' => $this->_row->getName(),
-                    'url' => $this->getUrl($this->getUrlPattern(), ['id' => $this->_row->getId()]),
-                ]
-            ]
+            'row-id' => $this->_row->getId(),
+            'row-dialog' => $this->_row->getStatus() === Integration::STATUS_ACTIVE ? 'deactivate' : 'permissions'
         ];
     }
 }

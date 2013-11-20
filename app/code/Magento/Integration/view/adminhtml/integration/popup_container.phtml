@@ -10,5 +10,12 @@
  * @var \Magento\Backend\Block\Template $this
  */
 ?>
-<div id="form-key" style="display:none;"><?php echo $this->getFormKey(); ?></div>
+<script type="text/javascript">
+    window.integration = new Integration(
+        '<?php echo $this->getUrl('*/*/activate', ['id' => ':id', '_query' => 'popup_dialog=permissions']); ?>',
+        '<?php echo $this->getUrl('*/*/activate', ['id' => ':id', '_query' => 'popup_dialog=tokens']); ?>',
+        '', // Not implemented
+        '' // Not implemented
+    );
+</script>
 <div class="integration-popup-container" style="display:none;"></div>
