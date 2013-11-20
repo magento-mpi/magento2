@@ -51,11 +51,11 @@ class Checksum
         }
         if (!($this->_directory->isExist($this->_directory->getRelativePath($destinationFile))
             && $this->_directory->isExist($this->_directory->getRelativePath($mergedMTimeFile))
-            && strcmp($filesMTimeData, $this->_directory->readFile(
-                    $this->_directory->getRelativePath($mergedMTimeFile))) == 0)
+            && (strcmp($filesMTimeData, $this->_directory->readFile(
+                    $this->_directory->getRelativePath($mergedMTimeFile))) == 0))
         ) {
-        $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
-        $this->_directory->writeFile($this->_directory->getRelativePath($mergedMTimeFile), $filesMTimeData);
+            $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
+            $this->_directory->writeFile($this->_directory->getRelativePath($mergedMTimeFile), $filesMTimeData);
         }
     }
 }
