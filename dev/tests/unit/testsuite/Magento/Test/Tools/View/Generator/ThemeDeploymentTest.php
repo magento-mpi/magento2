@@ -36,7 +36,8 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
+        $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
+        $filesystemAdapter->delete($this->_tmpDir);
     }
 
     /**

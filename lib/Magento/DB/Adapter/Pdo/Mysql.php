@@ -125,11 +125,11 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected $_debugFile           = 'var/debug/pdo_mysql.log';
 
     /**
-     * Io File Adapter
+     * Filesystem class
      *
-     * @var \Magento\Io\File
+     * @var \Magento\Filesystem
      */
-    protected $_debugIoAdapter;
+    protected $_filesystem;
 
     /**
      * Debug timer start value
@@ -220,17 +220,20 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
 
     /**
      * @param \Magento\App\Dir $dirs
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $config
      */
     public function __construct(
         \Magento\App\Dir $dirs,
+        \Magento\Filesystem $filesystem,
         \Magento\Stdlib\String $string,
         \Magento\Stdlib\DateTime $dateTime,
         array $config = array()
     ) {
         $this->_dirs = $dirs;
+        $this->_filesystem = $filesystem;
         $this->string = $string;
         $this->dateTime = $dateTime;
         parent::__construct($config);
@@ -1409,20 +1412,14 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected function _debugWriteToFile($str)
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
-        if (!$this->_debugIoAdapter) {
-            $this->_debugIoAdapter = new \Magento\Io\File();
-            $dir = $this->_dirs->getDir(\Magento\App\Dir::ROOT)
-                . DS . $this->_debugIoAdapter->dirname($this->_debugFile);
-            $this->_debugIoAdapter->checkAndCreateFolder($dir);
-            $this->_debugIoAdapter->open(array('path' => $dir));
-            $this->_debugFile = basename($this->_debugFile);
-        }
-
-        $this->_debugIoAdapter->streamOpen($this->_debugFile, 'a');
-        $this->_debugIoAdapter->streamLock();
-        $this->_debugIoAdapter->streamWrite($str);
-        $this->_debugIoAdapter->streamUnlock();
-        $this->_debugIoAdapter->streamClose();
+        $filename = $this->_dirs->getDir(\Magento\App\Dir::ROOT) . '/' . $this->_debugFile;
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists(dirname($filename));
+        $stream = $this->_filesystem->createAndOpenStream($filename, 'a');
+        $stream->lock();
+        $stream->write($str);
+        $stream->unlock();
+        $stream->close();
     }
 
     /**

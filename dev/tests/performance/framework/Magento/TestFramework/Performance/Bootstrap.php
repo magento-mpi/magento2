@@ -44,8 +44,13 @@ class Bootstrap
     public function cleanupReports()
     {
         $reportDir = $this->_config->getReportDir();
-        if (file_exists($reportDir) && !\Magento\Io\File::rmdirRecursive($reportDir)) {
-            throw new \Magento\Exception("Cannot cleanup reports directory '$reportDir'.");
+        try {
+            $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
+            $filesystemAdapter->delete($reportDir);
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            if (file_exists($reportDir)) {
+                throw new \Magento\Exception("Cannot cleanup reports directory '$reportDir'.");
+            }
         }
         mkdir($reportDir, 0777, true);
     }

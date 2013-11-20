@@ -496,8 +496,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     {
         $media = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('media');
-        \Magento\Io\File::rmdirRecursive("{$media}/import");
-        \Magento\Io\File::rmdirRecursive("{$media}/catalog");
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
+        $filesystem->delete("{$media}/import");
+        $filesystem->delete("{$media}/catalog");
     }
 
     /**

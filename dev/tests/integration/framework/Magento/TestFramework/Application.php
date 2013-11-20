@@ -382,7 +382,8 @@ class Application
      */
     protected function _cleanupFilesystem()
     {
-        \Magento\Io\File::rmdirRecursive($this->_installDir);
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
+        $filesystem->delete($this->_installDir);
     }
 
     /**

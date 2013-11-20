@@ -112,6 +112,14 @@ interface StreamInterface
     public function lock($exclusive = true);
 
     /**
+     * Portable advisory file locking with lock flag param
+     *
+     * @param int $lock
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function addLock($lock = LOCK_EX);
+
+    /**
      * File unlocking
      *
      * @throws \Magento\Filesystem\FilesystemException

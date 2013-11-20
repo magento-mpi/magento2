@@ -17,6 +17,8 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
+use Magento\Filesystem\FilesystemException;
+
 class Observer
 {
     /**
@@ -82,12 +84,20 @@ class Observer
     protected $_coreDir;
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param \Magento\App\Dir $coreDir
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Email\Model\Template\Mailer $templateMailer
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager,
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\Dir $coreDir,
@@ -95,7 +105,8 @@ class Observer
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Email\Model\Template\Mailer $templateMailer,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_emailInfoFactory = $emailInfoFactory;
@@ -103,6 +114,7 @@ class Observer
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_coreDir = $coreDir;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -145,8 +157,9 @@ class Observer
 
                 $direcotryDate = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $direcotryDate < $dateCompass) {
-                    $fs = new \Magento\Io\File();
-                    if (!$fs->rmdirRecursive($directory, true)) {
+                    try {
+                        $this->_filesystem->delete($directory);
+                    } catch (FilesystemException $e) {
                         $directory = str_replace($this->_coreDir->getDir() . DS, '', $directory);
                         throw new \Magento\Core\Exception(
                             __('We couldn\'t delete "%1" because the directory is not writable.', $directory)
@@ -175,10 +188,9 @@ class Observer
         $result = array();
 
         $logPath = rtrim($logPath, DS);
-        $fs = new \Magento\Io\File();
-        $fs->cd($logPath);
 
-        foreach ($fs->ls() as $entity) {
+        $entities = $this->_filesystem->getNestedKeys($logPath);
+        foreach ($entities as $entity) {
             if ($entity['leaf']) {
                 continue;
             }
