@@ -933,4 +933,5 @@ return array(
     array('_getFilesystem', 'Magento\Sitemap\Model\Sitemap'),
     array('_getUploadRoot', 'Magento\Backend\Model\Config\Backend\Image\Favicon'),
     array('_getUploadRoot', 'Magento\Backend\Model\Config\Backend\Image\Logo'),
+    array('_getUploadRoot', 'Magento\Core\Model\AbstractShell'),
 );
