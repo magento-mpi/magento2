@@ -8,123 +8,469 @@
  */
 namespace ArgumentSequence;
 
-class Context implements \Magento\ObjectManager\ContextInterface
+/**
+ * Constructor Arguments Sequence Rules:
+ * 
+ * 01. Parent Required Object Arguments
+ * 02. Parent Required Scalar Arguments
+ * 03. Child Required Object Arguments
+ * 04. Child Required Scalar Arguments
+ * 05. Parent Optional Object Arguments
+ * 06. Parent Optional Scalar Arguments
+ * 07. Child Optional Object Arguments
+ * 08. Child Optional Scalar Arguments
+ * 09. Context object must go first
+ * 10. Optional parameter with name data must go first among all optional scalar arguments
+ */
+
+class ContextObject implements \Magento\ObjectManager\ContextInterface
 {
 
 }
 
-class Required
+class ParentRequiredObject
+{
+
+}
+
+class ParentOptionalObject
+{
+
+}
+
+class ChildRequiredObject
+{
+
+}
+
+class ChildOptionalObject
 {
 
 }
 
 class ParentClass
 {
-    /**
-     * @var Context
-     */
-    protected $_context;
+    protected $contextObject;
+    protected $parentRequiredObject;
+    protected $parentRequiredScalar;
+    protected $parentOptionalObject;
+    protected $data;
+    protected $parentOptionalScalar;
 
-    /**
-     * @var mixed
-     */
-    protected $_param;
-
-    /**
-     * @var null
-     */
-    protected $_areaCode;
-
-    /**
-     * @param Context $context
-     * @param mixed $param
-     * @param null $areaCode
-     */
-    public function __construct(Context $context, $param, $areaCode = null)
-    {
-        $this->_context = $context;
-        $this->_param = $param;
-        $this->_areaCode = $areaCode;
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array()
+    ) {
+        $this->contextObject        = $contextObject;
+        $this->parentRequiredObject = $parentOptionalObject;
+        $this->parentOptionalScalar = $parentRequiredScalar;
+        $this->parentOptionalObject = $parentOptionalObject;
+        $this->data                 = $data;
+        $this->parentOptionalScalar = $parentOptionalScalar;
     }
 }
 
 class ValidChildClass extends ParentClass
 {
-    /**
-     * @var mixed
-     */
-    protected $_required;
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
 
-    /**
-     * @var null
-     */
-    protected $_optional;
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
 
-    /**
-     * @param Context $context
-     * @param mixed $param
-     * @param null $required
-     * @param null $areaCode
-     * @param null $optional
-     */
-    public function __construct(Context $context, $param, $required, $areaCode = null, $optional = null)
-    {
-        $this->_required = $required;
-        $this->_optional = $optional;
-        parent::__construct($context, $param, $areaCode);
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
     }
 }
 
-class InvalidChildClassOne extends ParentClass
+//Rule 01. Parent Required Object Arguments must go first
+class InvalidChildClassRule01 extends ParentClass
 {
-    /**
-     * @var mixed
-     */
-    protected $_required;
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
 
-    /**
-     * @var null
-     */
-    protected $_optional;
+    public function __construct(
+        ContextObject $contextObject,
+        array $parentRequiredScalar,
+        ParentRequiredObject $parentRequiredObject,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
 
-    /**
-     * @param mixed $required
-     * @param Context $context
-     * @param null $param
-     * @param null $areaCode
-     * @param null $optional
-     */
-    public function __construct($required, Context $context, $param, $areaCode = null, $optional = null)
-    {
-        $this->_required = $required;
-        $this->_optional = $optional;
-        parent::__construct($context, $param, $areaCode);
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
     }
 }
 
-class InvalidChildClassTwo extends ParentClass
+// Rule 02. Parent Required Scalar Arguments must go after Parent Required Object Arguments
+class InvalidChildClassRule02 extends ParentClass
 {
-    /**
-     * @var mixed
-     */
-    protected $_required;
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
 
-    /**
-     * @var null
-     */
-    protected $_optional;
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        ChildRequiredObject $childRequiredObject,
+        array $parentRequiredScalar,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
 
-    /**
-     * @param Context $context
-     * @param mixed $required
-     * @param null $param
-     * @param null $areaCode
-     * @param null $optional
-     */
-    public function __construct(Context $context, $required, $param, $areaCode = null, $optional = null)
-    {
-        $this->_required = $required;
-        $this->_optional = $optional;
-        parent::__construct($context, $param, $areaCode);
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 03. Child Required Object Arguments must go after Parent Required Scalar Arguments
+class InvalidChildClassRule03 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        array $childRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 04. Child Required Scalar Arguments must go after Child Required Object Arguments
+class InvalidChildClassRule04 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+    protected $argument;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ChildRequiredObject $argument,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+        $this->argument = $argument;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 05. Parent Optional Object Arguments must go after Child Required Scalar Arguments
+class InvalidChildClassRule05 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        array $parentOptionalScalar = array(),
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 06. Parent Optional Scalar Arguments must go after Parent Optional Object Arguments
+class InvalidChildClassRule06 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+    protected $argument;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array(),
+        ChildOptionalObject $argument = null
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+        $this->argument = $argument;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 07. Child Optional Object Arguments must go after Parent Optional Scalar Arguments
+class InvalidChildClassRule07 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        array $childOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 08. Child Optional Scalar Arguments must go after Child Optional Object Arguments
+class InvalidChildClassRule08 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array(),
+        array $parentOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+//Rule 09. Context object must go first
+class InvalidChildClassRule09 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+
+    public function __construct(
+        ParentRequiredObject $parentRequiredObject,
+        ContextObject $contextObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $data = array(),
+        array $parentOptionalScalar = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
+    }
+}
+
+// Rule 10. Optional parameter with name data must go first among all optional scalar arguments
+class InvalidChildClassRule10 extends ParentClass
+{
+    protected $childRequiredObject;
+    protected $childRequiredScalar;
+    protected $childOptionalObject;
+    protected $childOptionalScalar;
+
+    public function __construct(
+        ContextObject $contextObject,
+        ParentRequiredObject $parentRequiredObject,
+        array $parentRequiredScalar,
+        ChildRequiredObject $childRequiredObject,
+        array $childRequiredScalar,
+        ParentOptionalObject $parentOptionalObject = null,
+        array $parentOptionalScalar = array(),
+        array $data = array(),
+        ChildOptionalObject $childOptionalObject = null,
+        array $childOptionalScalar = array()
+    ) {
+        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredScalar = $childRequiredScalar;
+        $this->childOptionalObject = $childOptionalObject;
+        $this->childOptionalScalar = $childOptionalScalar;
+
+        parent::__construct(
+            $contextObject,
+            $parentRequiredObject,
+            $parentRequiredScalar,
+            $parentOptionalObject,
+            $data,
+            $parentOptionalScalar
+        );
     }
 }

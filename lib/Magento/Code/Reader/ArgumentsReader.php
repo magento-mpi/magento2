@@ -10,8 +10,6 @@ namespace Magento\Code\Reader;
 
 class ArgumentsReader
 {
-    const REQUIRED = 'required';
-    const OPTIONAL = 'optional';
     const NO_DEFAULT_VALUE = 'NO-DEFAULT';
 
     /**

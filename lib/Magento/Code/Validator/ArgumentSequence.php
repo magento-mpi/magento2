@@ -9,14 +9,17 @@
  */
 
 namespace Magento\Code\Validator;
-
-use Magento\Code\Generator\ConstructorBuilder;
-use Magento\Code\Reader\ArgumentsReader;
 use Magento\Code\ValidatorInterface;
 use Magento\Code\ValidationException;
 
 class ArgumentSequence implements ValidatorInterface
 {
+    const TYPE_OBJECT = 'object';
+    const TYPE_SCALAR = 'scalar';
+
+    const REQUIRED = 'required';
+    const OPTIONAL = 'optional';
+
     /**
      * @var \Magento\Code\Reader\ArgumentsReader
      */
@@ -138,63 +141,115 @@ class ArgumentSequence implements ValidatorInterface
         $classArgumentList = $this->_sortArguments($classArguments);
         $parentArgumentList = $this->_sortArguments($parentArguments);
 
-        $migratedArgs = array();
+        $requiredToOptionalObject = array();
+        $requiredToOptionalScalar = array();
         $output = array();
 
-        foreach (array('object', 'scalar') as $argumentType) {
-            $classArguments = $classArgumentList[$argumentType];
-            $parentArguments = $parentArgumentList[$argumentType];
+        /**
+         * Argument Sequence Matrix
+         *      1        2       3
+         * 1. P.R.O    C.O.O   C.R.O
+         * 2. P.R.S    C.O.S   C.R.S
+         * 3. P.O.O    C.R.O   C.O.O
+         * 4. P.O.S    C.R.S   C.O.S
+         *
+         * where code X.Y.Z
+         * X - parent (P)   / child (C)
+         * Y - required (R) / optional (O)
+         * Z - object (O)   / scalar (S)
+         */
 
-            $classArguments[ArgumentsReader::REQUIRED] = isset($classArguments[ArgumentsReader::REQUIRED])
-                ? $classArguments[ArgumentsReader::REQUIRED]
-                : array();
-
-            $classArguments[ArgumentsReader::OPTIONAL] = isset($classArguments[ArgumentsReader::OPTIONAL])
-                ? $classArguments[ArgumentsReader::OPTIONAL]
-                : array();
-
-            $parentArguments[ArgumentsReader::REQUIRED] = isset($parentArguments[ArgumentsReader::REQUIRED])
-                ? $parentArguments[ArgumentsReader::REQUIRED]
-                : array();
-
-            $parentArguments[ArgumentsReader::OPTIONAL] = isset($parentArguments[ArgumentsReader::OPTIONAL])
-                ? $parentArguments[ArgumentsReader::OPTIONAL]
-                : array();
-
-            foreach ($parentArguments[ArgumentsReader::REQUIRED] as $name => $argument) {
-                if (!isset($classArguments[ArgumentsReader::OPTIONAL][$name])) {
-                    $output[$name] = isset($classArguments[ArgumentsReader::REQUIRED][$name])
-                        ? $classArguments[ArgumentsReader::REQUIRED][$name]
-                        : $argument;
-                } else {
-                    $migratedArgs[$name] =  $classArguments[ArgumentsReader::OPTIONAL][$name];
-                }
+        // 1. Parent Required Object Arguments
+        foreach ($parentArgumentList[self::REQUIRED][self::TYPE_OBJECT] as $name => $argument) {
+            if (isset($classArgumentList[self::OPTIONAL][self::TYPE_OBJECT][$name])) {
+                // 1.2
+                $requiredToOptionalObject[$name] = $classArgumentList[self::OPTIONAL][self::TYPE_OBJECT][$name];
+            } elseif (isset($classArgumentList[self::REQUIRED][self::TYPE_OBJECT][$name])) {
+                // 1.3
+                $output[$name] = $classArgumentList[self::REQUIRED][self::TYPE_OBJECT][$name];
+            } else {
+                // 1.1
+                $output[$name] = $argument;
             }
+        }
 
-            foreach ($classArguments[ArgumentsReader::REQUIRED] as $name => $argument) {
-                if (!isset($output[$name])) {
-                    $output[$name] = $argument;
-                }
+        // 2. Parent Required Scalar Arguments
+        foreach ($parentArgumentList[self::REQUIRED][self::TYPE_SCALAR] as $name => $argument) {
+            if (isset($classArgumentList[self::OPTIONAL][self::TYPE_SCALAR][$name])) {
+                // 2.2
+                $requiredToOptionalScalar[$name] = $classArgumentList[self::OPTIONAL][self::TYPE_SCALAR][$name];
+            } elseif (isset($classArgumentList[self::REQUIRED][self::TYPE_SCALAR][$name])) {
+                // 2.3
+                $output[$name] = $classArgumentList[self::REQUIRED][self::TYPE_SCALAR][$name];
+            } else {
+                // 2.1
+                $output[$name] = $argument;
             }
+        }
 
-            foreach ($migratedArgs as $name => $argument) {
-                if (!isset($output[$name])) {
-                    $output[$name] = $argument;
-                }
+        // 1.3 Child Required Object Arguments
+        foreach ($classArgumentList[self::REQUIRED][self::TYPE_OBJECT] as $name => $argument) {
+            if (!isset($output[$name])) {
+                $output[$name] = $argument;
             }
+        }
 
-            foreach ($parentArguments[ArgumentsReader::OPTIONAL] as $name => $argument) {
-                if (!isset($output[$name])) {
-                    $output[$name] = isset($classArguments[ArgumentsReader::OPTIONAL][$name])
-                        ? $classArguments[ArgumentsReader::OPTIONAL][$name]
-                        : $argument;
-                }
+        // 2.3 Child Required Scalar Arguments
+        foreach ($classArgumentList[self::REQUIRED][self::TYPE_SCALAR] as $name => $argument) {
+            if (!isset($output[$name])) {
+                $output[$name] = $argument;
             }
+        }
 
-            foreach ($classArguments[ArgumentsReader::OPTIONAL] as $name => $argument) {
-                if (!isset($output[$name])) {
-                    $output[$name] = $argument;
-                }
+        // 1.2 Optional Object. Parent Required Object Arguments that become Optional in Child Class
+        foreach ($requiredToOptionalObject as $name => $argument) {
+            $output[$name] = $argument;
+        }
+
+        // 2.2 Optional Scalar. Parent Required Scalar Arguments that become Optional in Child Class
+        foreach ($requiredToOptionalScalar as $name => $argument) {
+            $output[$name] = $argument;
+        }
+
+        // 3. Parent Optional Object Arguments
+        foreach ($parentArgumentList[self::OPTIONAL][self::TYPE_OBJECT] as $name => $argument) {
+            if (isset($classArgumentList[self::OPTIONAL][self::TYPE_OBJECT][$name])) {
+                // 3.3 Use Child Optional Object
+                $output[$name] = $classArgumentList[self::OPTIONAL][self::TYPE_OBJECT][$name];
+            } elseif (!isset($output[$name])) {
+                // 3.2 Check whether this argument wasn't processed in Step 1.2 or 1.3
+                $output[$name] = $argument;
+            } else {
+                // 3.1 Use Parent Optional Object Argument
+                $output[$name] = $argument;
+            }
+        }
+
+        // 4. Parent Optional Scalar Arguments
+        foreach ($parentArgumentList[self::OPTIONAL][self::TYPE_SCALAR] as $name => $argument) {
+            if (isset($classArgumentList[self::OPTIONAL][self::TYPE_SCALAR][$name])) {
+                // 4.3 Use Child Optional Scalar
+                $output[$name] = $classArgumentList[self::OPTIONAL][self::TYPE_SCALAR][$name];
+            } elseif (!isset($output[$name])) {
+                // 4.2 Check whether this argument wasn't processed in Step 2.2 or 2.3
+                $output[$name] = $argument;
+            } else {
+                // 4.1 Use Parent Optional Scalar Argument
+                $output[$name] = $argument;
+            }
+        }
+
+        // 3.3 Child Optional Object Arguments
+        foreach ($classArgumentList[self::OPTIONAL][self::TYPE_OBJECT] as $name => $argument) {
+            if (!isset($output[$name])) {
+                $output[$name] = $argument;
+            }
+        }
+
+        // 4.3 Child Optional Scalar Arguments
+        foreach ($classArgumentList[self::OPTIONAL][self::TYPE_SCALAR] as $name => $argument) {
+            if (!isset($output[$name])) {
+                $output[$name] = $argument;
             }
         }
 
@@ -234,11 +289,13 @@ class ArgumentSequence implements ValidatorInterface
         $optionalScalar = $this->_sortScalarType($optionalScalar);
 
         return array(
-            'object' => array(
-                ArgumentsReader::REQUIRED => $requiredObject, ArgumentsReader::OPTIONAL => $optionalObject
+            self::REQUIRED => array(
+                self::TYPE_OBJECT => $requiredObject,
+                self::TYPE_SCALAR => $requiredScalar
             ),
-            'scalar' => array(
-                ArgumentsReader::REQUIRED => $requiredScalar, ArgumentsReader::OPTIONAL => $optionalScalar
+            self::OPTIONAL => array(
+                self::TYPE_OBJECT => $optionalObject,
+                self::TYPE_SCALAR => $optionalScalar
             ),
         );
     }
