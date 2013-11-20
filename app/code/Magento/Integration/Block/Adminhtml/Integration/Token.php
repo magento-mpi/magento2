@@ -33,48 +33,38 @@ class Token extends \Magento\Backend\Block\Widget\Form\Generic
         $htmlIdPrefix = 'integration_token_';
         $form->setHtmlIdPrefix($htmlIdPrefix);
 
-//        $model = $this->_coreRegistry->registry('current_integration');
-
         $fieldset = $form->addFieldset('base_fieldset', array(
-                    'legend'    =>  __('Access Tokens'),
+                    'legend'    =>  __('Integration Tokens for Extensions'),
                     'class'    =>  'fieldset-wide'
                 ));
-/*
-        if ($model->getIntegrationId()) {
-            $fieldset->addField('integration_id', 'hidden', array(
-                'name' => 'integration_id',
-            ));
-        }
-*/
+
         $fieldset->addField('token', 'text', array(
             'label'     => __('Token'),
             'name'      => 'token',
-            'required'  => true,
-            'disabled'  => true
+            'readonly'  => true
         ));
 
         $fieldset->addField('token-secret', 'text', array(
             'label'     => __('Token Secret'),
             'name'      => 'token-secret',
-            'required'  => true,
-            'disabled'  => true
+            'readonly'  => true
         ));
 
         $fieldset->addField('client-id', 'text', array(
             'label'     => __('Client ID'),
             'name'      => 'client-id',
-            'required'  => true,
-            'disabled'  => true
+            'readonly'  => true
         ));
 
         $fieldset->addField('client-secret', 'text', array(
             'label'     => __('Client Secret'),
             'name'      => 'client-secret',
-            'required'  => true,
-            'disabled'  => true
+            'readonly'  => true
         ));
 
-//        $form->setValues($model->getData());
+        // TODO: retrieve token associated to this integration to populate the form
+        // $form->setValues($model->getData());
+
         $this->setForm($form);
 
         return parent::_prepareForm();

@@ -61,39 +61,36 @@
 
     $.widget('mage.integrationPopup', {
         options: {
-            dialog: '', // 'permissions', 'deactivate', 'reauthorize', 'tokens'
             url: '', // ex.: http://.../integration/activate/id/1
             name: '' // Integration name
         },
 
         _create: function ()
         {
-            this._on({'click': '_showPopup'});
+            this._on({'click': '_showPermissionPopup'});
         },
 
-        dialogOptions: {
-            permissions: {
-                okButtonLabel: $.mage.__('Allow'),
-                minWidth: 600,
-            },
-            tokens: {
-                okButtonLabel: $.mage.__('Activate'),
-                minWidth: 700,
-            }
-        },
-
-        _showPopup: function ()
+        _showPermissionPopup: function ()
         {
-            if (['permissions', 'deactivate', 'reauthorize', 'tokens'].indexOf(this.options.dialog) === -1) {
+            this._showPopup('permissions', 'Allow');
+        },
+
+        _showTokenPopup: function ()
+        {
+            this._showPopup('tokens', 'Activate');
+        },
+
+        _showPopup: function (dialog, okButtonLabel)
+        {
+            if (['permissions', 'deactivate', 'reauthorize', 'tokens'].indexOf(dialog) === -1) {
                 throw 'Invalid dialog type';
             }
 
             var that = this;
-            var dialogOptions = this.dialogOptions[this.options.dialog];
-
             jQuery.ajax({
-                url: this.options.url + '?popup_dialog=' + this.options.dialog,
+                url: this.options.url + '?popup_dialog=' + dialog,
                 showLoader: true,
+                cache: false,
                 dataType: 'html',
                 data: {formKey: window.FORM_KEY},
                 method: 'GET',
@@ -105,9 +102,9 @@
                         modal: true,
                         autoOpen: true,
                         minHeight: 450,
-                        minWidth: dialogOptions.minWidth,
+                        minWidth: 600,
                         dialogClass: 'integration-dialog',
-                        position: {at: 'top+25%'},
+                        position: {at: 'center'},
                         buttons: [
                             {
                                 text: $.mage.__('Cancel'),
@@ -116,14 +113,13 @@
                                 }
                             },
                             {
-                                text: dialogOptions.okButtonLabel,
+                                text: $.mage.__(okButtonLabel),
                                 'class': 'primary',
                                 click: function () {
-                                    switch (that.options.dialog) {
+                                    switch (dialog) {
                                         case 'permissions':
                                             $(this).dialog('destroy');
-                                            that.options.dialog = 'tokens';
-                                            that._showPopup();
+                                            that._showTokenPopup();
                                             break;
                                         case 'tokens':
                                             window.alert('Not implemented');
@@ -132,7 +128,7 @@
                                 }
                             }
                         ]
-                    }).bind(this);
+                    });
                 }
             });
         },

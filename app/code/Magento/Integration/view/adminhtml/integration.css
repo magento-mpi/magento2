@@ -62,3 +62,7 @@
 .ui-dialog .ui-dialog-buttonpane {
     text-align: right;
 }
+
+#integration_token_base_fieldset input {
+    cursor: copy !important;
+}
