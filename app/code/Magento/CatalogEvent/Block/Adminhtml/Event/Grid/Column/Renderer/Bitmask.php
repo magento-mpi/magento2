@@ -17,16 +17,15 @@
  */
 namespace Magento\CatalogEvent\Block\Adminhtml\Event\Grid\Column\Renderer;
 
-class Bitmask
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
+class Bitmask extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     public function render(\Magento\Object $row)
     {
         $value = (int) $row->getData($this->getColumn()->getIndex());
         $result = array();
-        foreach ($this->getColumn()->getOptions() as $option => $label) {
-            if (($value & $option) == $option) {
-                $result[] = $label;
+        foreach ($this->getColumn()->getOptions() as $option) {
+            if (($value & $option['value']) == $option['value']) {
+                $result[] = $option['label'];
             }
         }
 
