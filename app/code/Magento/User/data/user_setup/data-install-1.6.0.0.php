@@ -40,15 +40,13 @@ if ($roleCollection->count() == 0) {
 
 $rulesCollection = $this->createRulesCollection()
     ->addFieldToFilter('role_id', $admGroupRole->getId())
-    ->addFieldToFilter('resource_id', 'all')
-    ->addFieldToFilter('role_type', RoleGroup::ROLE_TYPE);
+    ->addFieldToFilter('resource_id', 'all');
 
 if ($rulesCollection->count() == 0) {
     $this->createRules()->setData(array(
         'role_id'       => $admGroupRole->getId(),
         'resource_id'   => 'Magento_Adminhtml::all',
         'privileges'    => null,
-        'role_type'     => RoleGroup::ROLE_TYPE,
         'permission'    => 'allow'
         ))
     ->save();

@@ -23,8 +23,6 @@ namespace Magento\User\Model;
  * @method \Magento\User\Model\Rules setPrivileges(string $value)
  * @method int getAssertId()
  * @method \Magento\User\Model\Rules setAssertId(int $value)
- * @method string getRoleType()
- * @method \Magento\User\Model\Rules setRoleType(string $value)
  * @method string getPermission()
  * @method \Magento\User\Model\Rules setPermission(string $value)
  */

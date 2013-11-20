@@ -14,10 +14,10 @@ use Magento\Logger;
 use Magento\Service\Exception as ServiceException;
 use Magento\Service\ResourceNotFoundException;
 use Magento\User\Model\Resource\Role\CollectionFactory as RoleCollectionFactory;
+use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
-use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactory;
 
 /**
  * Authorization service.
@@ -50,6 +50,8 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected $_logger;
 
     /**
+     * Initialize dependencies.
+     *
      * @param AclBuilder $aclBuilder
      * @param UserIdentifier $userIdentifier
      * @param RoleFactory $roleFactory
@@ -95,7 +97,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 );
             }
             foreach ($resources as $resource) {
-                // TODO: Currently ACL files are located under adminhtml (except several), but should be made global
                 if (!$this->_aclBuilder->getAcl()->isAllowed($role->getId(), $resource)) {
                     return false;
                 }

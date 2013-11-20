@@ -95,7 +95,6 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $postedResources = $rule->getResources();
             if ($postedResources) {
-                /** TODO: role_type column should be removed from admin_rules table as it is excessive */
                 $row = array(
                     'resource_id' => $this->_rootResource->getId(),
                     'privileges'  => '', // not used yet

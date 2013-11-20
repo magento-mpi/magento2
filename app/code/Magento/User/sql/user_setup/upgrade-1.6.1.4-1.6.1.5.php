@@ -17,4 +17,5 @@ $connection->addColumn($installer->getTable('admin_role'), 'user_type', array(
     'nullable' => true,
     'comment'  => 'User type'
 ));
+$connection->dropColumn($installer->getTable('admin_rule'), 'role_type');
 $installer->endSetup();
