@@ -15,7 +15,7 @@ use Mtf\Repository\AbstractRepository;
  */
 class Integration extends AbstractRepository
 {
-    const INTEGRATION_TAB = 'integration';
+    const INTEGRATION_TAB = 'integration_tab';
 
     /**
      * {@inheritdoc}

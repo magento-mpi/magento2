@@ -47,13 +47,12 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Edit Integration
      *
-     * @param IntegrationFixture $integrationFixture injectable
-     *
      * @ZephyrId MAGETWO-16759
      */
-    public function testEditIntegration(IntegrationFixture $integrationFixture)
+    public function testEditIntegration()
     {
         //Precondition
+        $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
         $integrationFixture->persist();
         //Steps
@@ -65,24 +64,6 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         //Verification
         $this->_checkSaveSuccessMessage();
         $this->_ensureMatchingIntegrationData($integrationFixture);
-    }
-
-    /**
-     * Search Integration in the Integration's grid
-     *
-     * @param IntegrationFixture $integrationFixture injectable
-     *
-     * @ZephyrId MAGETWO-16721
-     */
-    public function testSearchIntegration(IntegrationFixture $integrationFixture)
-    {
-        //Preconditions
-        $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
-        $integrationFixture->persist();
-        //Steps
-        Factory::getPageFactory()->getAdminIntegrationEdit();
-        //Verification
-        $this->_openByName($integrationFixture->getName());
     }
 
     /**
