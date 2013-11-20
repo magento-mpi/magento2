@@ -109,8 +109,7 @@ class DirectTest extends \PHPUnit_Framework_TestCase
 
         $this->_directory->expects($this->once())
             ->method('writeFile')
-            ->with($mergedFile, 'script1script2')
-        ;
+            ->with($mergedFile, 'script1script2');
 
         $this->_object->mergeFiles(array('/pub/script_one.js', '/pub/script_two.js'), $mergedFile, $contentType);
     }

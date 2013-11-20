@@ -13,12 +13,14 @@
  */
 namespace Magento\Core\Model\Theme;
 
+use Magento\Filesystem\DirectoryList;
+
 class Collection extends \Magento\Data\Collection
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Read
      */
-    protected $_filesystem;
+    protected $_directory;
 
     /**
      * Model of collection item
@@ -26,13 +28,6 @@ class Collection extends \Magento\Data\Collection
      * @var string
      */
     protected $_itemObjectClass = 'Magento\Core\Model\Theme';
-
-    /**
-     * Base directory with design
-     *
-     * @var string
-     */
-    protected $_baseDir;
 
     /**
      * Target directory
@@ -43,42 +38,14 @@ class Collection extends \Magento\Data\Collection
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dirs,
         \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         parent::__construct($entityFactory);
-        $this->_filesystem = $filesystem;
-        $this->setBaseDir($dirs->getDir(\Magento\App\Dir::THEMES));
-    }
-
-    /**
-     * Set base directory path of design
-     *
-     * @param string $path
-     * @return \Magento\Core\Model\Theme\Collection
-     */
-    public function setBaseDir($path)
-    {
-        if ($this->isLoaded() && $this->_baseDir) {
-            $this->clearTargetPatterns()->clear();
-        }
-        $this->_baseDir = rtrim($path, DIRECTORY_SEPARATOR);
-        return $this;
-    }
-
-    /**
-     * Get base directory path
-     *
-     * @return string
-     */
-    public function getBaseDir()
-    {
-        return $this->_baseDir;
+        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
     }
 
     /**
@@ -150,7 +117,7 @@ class Collection extends \Magento\Data\Collection
 
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
-            $themeConfigs = $this->_filesystem->searchKeys($this->getBaseDir(), $directoryPath);
+            $themeConfigs = $this->_directory->search($directoryPath);
             $themeConfigs = str_replace('/', DIRECTORY_SEPARATOR, $themeConfigs);
             $pathsToThemeConfig = array_merge($pathsToThemeConfig, $themeConfigs);
         }
@@ -211,7 +178,7 @@ class Collection extends \Magento\Data\Collection
     protected function _preparePathData($configPath)
     {
         $themeDirectory = dirname($configPath);
-        $fullPath = trim(substr($themeDirectory, strlen($this->getBaseDir())), DIRECTORY_SEPARATOR);
+        $fullPath = trim(substr($themeDirectory, strlen(DirectoryList::THEMES)), DIRECTORY_SEPARATOR);
         $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
         $area = array_shift($pathPieces);
         return array('area' => $area, 'theme_path_pieces' => $pathPieces);
