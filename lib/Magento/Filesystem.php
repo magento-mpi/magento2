@@ -666,15 +666,4 @@ class Filesystem
         }
         return true;
     }
-
-    /**
-     * Return file statistic
-     *
-     * @param string $filename
-     * @param string|null $statParam
-     */
-    public function getStat($filename, $statParam = null)
-    {
-        return $this->_adapter->getStat($filename, $statParam);
-    }
 }
