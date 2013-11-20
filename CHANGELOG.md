@@ -7,6 +7,7 @@
   * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
 * Fixed bugs:
+  * Fixed report Products in Cart
   * Fixed JavaScript error when printing order from frontend
   * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
   * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
