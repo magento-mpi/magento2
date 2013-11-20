@@ -54,7 +54,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     public function testDelete()
     {
         $this->_model->set(self::SAMPLE_COOKIE_NAME, 'some_value');
-        $this->_model->delete(self::SAMPLE_COOKIE_NAME);
+        $this->_model->set(self::SAMPLE_COOKIE_NAME, null, 0);
         $this->assertFalse($this->_model->get(self::SAMPLE_COOKIE_NAME));
         $this->assertArrayNotHasKey(self::SAMPLE_COOKIE_NAME, $_COOKIE);
     }
