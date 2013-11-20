@@ -53,13 +53,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_escaper;
 
     /**
-     * Dir
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Url
      *
      * @var \Magento\UrlInterface
@@ -78,7 +71,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
      *
      * @param \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory
      * @param \Magento\UrlInterface $url
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
@@ -90,7 +82,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     public function __construct(
         \Magento\Sales\Model\Quote\Item\OptionFactory $itemOptionFactory,
         \Magento\UrlInterface $url,
-        \Magento\App\Dir $dir,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Escaper $escaper,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
@@ -101,7 +92,6 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     ) {
         $this->_itemOptionFactory = $itemOptionFactory;
         $this->_url = $url;
-        $this->_dir = $dir;
         $this->_escaper = $escaper;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
@@ -718,17 +708,18 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             if (!isset($value['quote_path'])) {
                 throw new \Exception();
             }
-            $quoteFileFullPath = $this->_dir->getDir() . $value['quote_path'];
-            if (!$this->_filesystem->isFile($quoteFileFullPath)
-                || !$this->_filesystem->isReadable($quoteFileFullPath)
-            ) {
+            $quotePath = $value['quote_path'];
+            $orderPath = $value['order_path'];
+            $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+
+            if (!$directory->isFile($quotePath) || !$directory->isReadable($quotePath)) {
                 throw new \Exception();
             }
-            $orderFileFullPath = $this->_dir->getDir() . $value['order_path'];
-            $dir = pathinfo($orderFileFullPath, PATHINFO_DIRNAME);
-            $this->_createWritableDir($dir);
-            $this->_coreFileStorageDatabase->copyFile($quoteFileFullPath, $orderFileFullPath);
-            $this->_filesystem->copy($quoteFileFullPath, $orderFileFullPath);
+            $this->_coreFileStorageDatabase->copyFile(
+                $directory->getAbsolutePath($quotePath),
+                $directory->getAbsolutePath($orderPath)
+            );
+            $directory->copyFile($quotePath, $orderPath);
         } catch (\Exception $e) {
             return $this;
         }
