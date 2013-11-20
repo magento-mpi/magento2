@@ -59,5 +59,9 @@
         <item>
             <path>lib/Zend</path>
         </item>
+        <item>
+            <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_constants.php</path>
+            <word>overriden</word>
+        </item>
     </whitelist>
 </config>

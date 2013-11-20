@@ -11,6 +11,8 @@
 
 /**
  * Test class for \Magento\ImportExport\Model\Import\Entity\Product
+ *
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 namespace Magento\ImportExport\Model\Import\Entity;
 
