@@ -40,17 +40,14 @@ class UpsellTest extends Functional
 
         /* @var Product */
         $product1Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product1Fixture->switchData('simple');
         $product1Fixture->persist();
 
         /* @var Product */
         $product2Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product1Fixture->switchData('simple');
         $product2Fixture->persist();
 
         /* @var ConfigurableProduct */
         $configurableProductFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $product1Fixture->switchData('configurable');
         $configurableProductFixture->persist();
 
         // Test Steps
