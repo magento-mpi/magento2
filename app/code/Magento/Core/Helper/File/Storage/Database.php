@@ -318,7 +318,8 @@ class Database extends \Magento\Core\Helper\AbstractHelper
     public function getMediaBaseDir()
     {
         if (null === $this->_mediaBaseDirectory) {
-            $this->_mediaBaseDirectory = rtrim($this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA), '\\/');
+            $mediaDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA);
+            $this->_mediaBaseDirectory = rtrim($mediaDir, '\\/');
         }
         return $this->_mediaBaseDirectory;
     }
