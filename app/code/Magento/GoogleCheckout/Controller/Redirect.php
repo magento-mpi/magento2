@@ -133,6 +133,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
 
     public function continueAction()
     {
+        /** @var \Magento\Checkout\Model\Session $session */
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
         if ($quoteId = $session->getGoogleCheckoutQuoteId()) {

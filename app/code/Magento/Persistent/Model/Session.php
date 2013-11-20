@@ -252,7 +252,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     public function removePersistentCookie()
     {
-        $this->_cookie->delete(\Magento\Persistent\Model\Session::COOKIE_NAME);
+        $this->_cookie->set(\Magento\Persistent\Model\Session::COOKIE_NAME, null, 0);
         return $this;
     }
 
@@ -289,8 +289,9 @@ class Session extends \Magento\Core\Model\AbstractModel
      *
      * @return \Magento\Core\Model\AbstractModel
      */
-    protected function _afterDeleteCommit() {
-        $this->_cookie->delete(\Magento\Persistent\Model\Session::COOKIE_NAME);
+    protected function _afterDeleteCommit()
+    {
+        $this->_cookie->set(\Magento\Persistent\Model\Session::COOKIE_NAME, null, 0);
         return parent::_afterDeleteCommit();
     }
 

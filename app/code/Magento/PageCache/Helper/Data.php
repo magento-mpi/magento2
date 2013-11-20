@@ -115,7 +115,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function removeNoCacheCookie()
     {
         if (!$this->_isNoCacheCookieLocked) {
-            $this->_cookie->delete(self::NO_CACHE_COOKIE);
+            $this->_cookie->set(self::NO_CACHE_COOKIE, null, 0);
         }
         return $this;
     }
@@ -139,7 +139,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function unlockNoCacheCookie()
     {
-        $this->_cookie->delete(self::NO_CACHE_LOCK_COOKIE);
+        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null, 0);
         $this->_isNoCacheCookieLocked = false;
         return $this;
     }

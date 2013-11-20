@@ -350,9 +350,6 @@
         <param name="cacheLimiter">
             <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_CACHE_LIMITER</value>
         </param>
-        <param name="url">
-            <instance type="Magento\Core\Model\Url\Proxy" />
-        </param>
     </type>
     <type name="Magento\Core\Model\StoreManager">
         <param name="request">

@@ -937,4 +937,15 @@ return array(
         '\Magento\Core\Model\Session\SidResolver::getSessionIdQueryParam'
     ),
     array('getCookie', '\Magento\Core\Model\Session\AbstractSession'),
+    array(
+        'unsetAll',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\AbstractSession::destroy'
+    ),
+    array(
+        'clear',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\AbstractSession::destroy'
+    ),
+    array('delete', '\Magento\Core\Model\Cookie', '\Magento\Core\Model\Cookie::set'),
 );

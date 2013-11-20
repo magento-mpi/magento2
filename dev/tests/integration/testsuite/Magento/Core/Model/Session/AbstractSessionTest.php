@@ -72,13 +72,13 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $this->_model->getName());
     }
 
-    public function testUnsetAll()
+    public function testDestroy()
     {
         $data = array('key' => 'value');
         $this->_model->setData($data);
 
         $this->assertEquals($data, $this->_model->getData());
-        $this->_model->unsetAll();
+        $this->_model->destroy();
 
         $this->assertEquals(array(), $this->_model->getData());
     }
