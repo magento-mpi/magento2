@@ -70,6 +70,9 @@
         <param name="authSession">
             <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
+        <param name="formKey">
+            <instance type="Magento\Data\Form\FormKey\Proxy" />
+        </param>
         <param name="areaCode">
             <value>adminhtml</value>
         </param>

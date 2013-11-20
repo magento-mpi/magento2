@@ -47,7 +47,7 @@ class FormKey
     public function getFormKey()
     {
         if (!$this->session->getData(self::FORM_KEY)) {
-            $this->session->setData(self::FORM_KEY, $this->session->mathRandom->getRandomString(16));
+            $this->session->setData(self::FORM_KEY, $this->mathRandom->getRandomString(16));
         }
         return $this->session->getData(self::FORM_KEY);
     }
