@@ -154,6 +154,13 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->getAllowedResources($userIdentifier);
     }
 
+    public function testGrantAllPermissions()
+    {
+        $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
+        $this->_service->grantAllPermissions($userIdentifier);
+        $this->_ensurePermissionsAreGranted($userIdentifier, array('Magento_Adminhtml::all'));
+    }
+
     /**
      * Create new User identifier
      *

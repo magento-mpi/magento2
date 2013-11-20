@@ -19,11 +19,14 @@ use Magento\User\Model\Resource\Rules\CollectionFactory as RulesCollectionFactor
 use Magento\User\Model\Role;
 use Magento\User\Model\RoleFactory;
 use Magento\User\Model\RulesFactory;
+use Magento\Core\Model\Acl\RootResource as RootAclResource;
 
 /**
  * Authorization service.
  *
  * @SuppressWarnings(PHPMD.LongVariable)
+ * TODO: Fix supression of excessive coupling
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
@@ -49,6 +52,11 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected $_logger;
 
     /**
+     * @var RootAclResource
+     */
+    protected $_rootAclResource;
+
+    /**
      * Initialize dependencies.
      *
      * @param AclBuilder $aclBuilder
@@ -58,6 +66,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param RulesFactory $rulesFactory
      * @param RulesCollectionFactory $rulesCollectionFactory
      * @param Logger $logger
+     * @param RootAclResource $rootAclResource
      */
     public function __construct(
         AclBuilder $aclBuilder,
@@ -66,7 +75,8 @@ class AuthorizationV1 implements AuthorizationV1Interface
         RoleCollectionFactory $roleCollectionFactory,
         RulesFactory $rulesFactory,
         RulesCollectionFactory $rulesCollectionFactory,
-        Logger $logger
+        Logger $logger,
+        RootAclResource $rootAclResource
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_userIdentifier = $userIdentifier;
@@ -75,6 +85,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_roleCollectionFactory = $roleCollectionFactory;
         $this->_logger = $logger;
+        $this->_rootAclResource = $rootAclResource;
     }
 
     /**
@@ -126,6 +137,14 @@ class AuthorizationV1 implements AuthorizationV1Interface
                 __('Error happened while granting permissions. Check exception log for details.')
             );
         }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function grantAllPermissions(UserIdentifier $userIdentifier)
+    {
+        $this->grantPermissions($userIdentifier, array($this->_rootAclResource->getId()));
     }
 
     /**
@@ -213,7 +232,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
      * @param Role $role
      * @param string[] $resources
      */
-    protected function _associateResourcesWithRole($role, $resources)
+    protected function _associateResourcesWithRole($role, array $resources)
     {
         /** @var \Magento\User\Model\Rules $rules */
         $rules = $this->_rulesFactory->create();

@@ -26,6 +26,14 @@ interface AuthorizationV1Interface
     public function grantPermissions(UserIdentifier $userIdentifier, array $resources);
 
     /**
+     * Grant permissions to the user to access all resources available in the system.
+     *
+     * @param UserIdentifier $userIdentifier
+     * @throws ServiceException
+     */
+    public function grantAllPermissions(UserIdentifier $userIdentifier);
+
+    /**
      * Check if the user has permission to access the requested resources.
      *
      * Access is prohibited if there is a lack of permissions to any of the requested resources.

@@ -127,15 +127,22 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     }
 
     /**
-     * Persist API permissions. Permissions are expected to be set to integration object by 'resource' key.
+     * Persist API permissions.
+     *
+     * Permissions are expected to be set to integration object by 'resource' key.
+     * If 'all_resources' is set and is evaluated to true, permissions to all resources will be granted.
      *
      * @param IntegrationModel $integration
      */
     protected function _saveApiPermissions(IntegrationModel $integration)
     {
-        if ($integration->getId() && is_array($integration->getData('resource'))) {
+        if ($integration->getId()) {
             $userIdentifier = $this->_createUserIdentifier($integration->getId());
-            $this->_authzService->grantPermissions($userIdentifier, $integration->getData('resource'));
+            if ($integration->getData('all_resources')) {
+                $this->_authzService->grantAllPermissions($userIdentifier);
+            } else if (is_array($integration->getData('resource'))) {
+                $this->_authzService->grantPermissions($userIdentifier, $integration->getData('resource'));
+            }
         }
     }
 
