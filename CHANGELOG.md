@@ -4,8 +4,18 @@
 * GitHub requests:
   * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
   * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
-  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
+  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
+  * [#373](https://github.com/magento/magento2/pull/373) -- [Magento/Sales] Fixed Typos
+  * [#382](https://github.com/magento/magento2/pull/382) -- [Magento/Core] Fixed Typos
+  * [#304](https://github.com/magento/magento2/pull/304) -- Removed Erroneous closing "
+  * [#323](https://github.com/magento/magento2/pull/323) -- InstanceController.php - made setBody protected
+  * [#349](https://github.com/magento/magento2/pull/349) -- Move Mage_Catalog menu declaration into Mage_Catalog module
+  * [#265](https://github.com/magento/magento2/pull/265) -- Update Merge.php
+  * [#271](https://github.com/magento/magento2/pull/273) -- Media image required attribute `_media_attribute_id` verification added for product import functionality
+  * [#305](https://github.com/magento/magento2/pull/305) -- Extra ", tidied up nested quotes
+  * [#352](https://github.com/magento/magento2/pull/352) -- Croatia added to the list of European Union countries
+  * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
 * Fixed bugs:
   * Fixed JavaScript error when printing order from frontend
   * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
