@@ -24,9 +24,9 @@ namespace Magento\User\Model;
  * @method string getRoleType()
  * @method \Magento\User\Model\Role setRoleType(string $value)
  * @method int getUserId()
- * @method \Magento\User\Model\Role setUserType(string $value)
- * @method string getUserType()
  * @method \Magento\User\Model\Role setUserId(int $value)
+ * @method string getUserType()
+ * @method \Magento\User\Model\Role setUserType(string $value)
  * @method string getRoleName()
  * @method \Magento\User\Model\Role setRoleName(string $value)
  */
