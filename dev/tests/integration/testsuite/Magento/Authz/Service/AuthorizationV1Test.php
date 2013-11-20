@@ -28,7 +28,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service = $objectManager->create(
             'Magento\\Authz\\Service\\AuthorizationV1',
             array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_GUEST),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
                 'logger' => $loggerMock
             )
         );
@@ -42,13 +42,6 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testBasicAuthFlow($userIdentifier, $resources)
     {
-        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_ADMIN) {
-            // TODO: Remove when services for admin roles are implemented
-            $this->setExpectedException(
-                '\Exception',
-                'Error happened while granting permissions. Check exception log for details.'
-            );
-        }
         /** Preconditions check */
         $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
 
@@ -64,19 +57,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
             'integration' => array(
                 'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
                 'resources' => array('Magento_Sales::invoice', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
-            ),
-            'admin' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_ADMIN),
-                'resources' => array('Magento_Sales::use', 'Magento_Cms::block')
-            ),
-            'guest' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_GUEST),
-                'resources' => array('Magento_Sales::ship', 'Magento_Cms::save'),
-            ),
-            'customer' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_CUSTOMER),
-                'resources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete'),
-            ),
+            )
         );
     }
 
@@ -89,14 +70,6 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
      */
     public function testChangePermissions($userIdentifier, $initialResources, $newResources)
     {
-        if ($userIdentifier->getUserType() == UserIdentifier::USER_TYPE_ADMIN) {
-            // TODO: Remove when services for admin roles are implemented
-            $this->setExpectedException(
-                '\Exception',
-                'Error happened while granting permissions. Check exception log for details.'
-            );
-        }
-
         $this->_service->grantPermissions($userIdentifier, $initialResources);
         /** Preconditions check */
         $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
@@ -117,23 +90,8 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
                 'newResources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete')
             ),
-            'admin' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_ADMIN),
-                'initialResources' => array('Magento_Sales::use', 'Magento_Cms::block'),
-                'newResources' => array('Magento_Sales::hold')
-            ),
-            'guest' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_GUEST),
-                'initialResources' => array('Magento_Sales::ship', 'Magento_Cms::save'),
-                'newResources' => array('Magento_Sales::use', 'Magento_Cms::block'),
-            ),
-            'customer' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_CUSTOMER),
-                'initialResources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete'),
-                'newResources' => array('Magento_Sales::ship', 'Magento_Cms::save'),
-            ),
             'integration clear permissions' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_CUSTOMER),
+                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
                 'initialResources' => array('Magento_Sales::hold', 'Magento_Cms::page_delete'),
                 'newResources' => array(),
             ),

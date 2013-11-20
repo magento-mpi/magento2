@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Authz\Service;
 
 use Magento\Acl\Builder as AclBuilder;
@@ -22,9 +23,7 @@ use Magento\User\Model\RulesFactory;
 /**
  * Authorization service.
  *
- * TODO: Fix code and remove warnings suppression
  * @SuppressWarnings(PHPMD.LongVariable)
- * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AuthorizationV1 implements AuthorizationV1Interface
 {
@@ -173,28 +172,11 @@ class AuthorizationV1 implements AuthorizationV1Interface
         $userType = $userIdentifier->getUserType();
         $userId = $userIdentifier->getUserId();
         switch ($userType) {
-            case UserIdentifier::USER_TYPE_ADMIN:
-                // TODO: Should be implemented if current approach is accepted
-                throw new \Exception("Not implemented yet.");
-                break;
             case UserIdentifier::USER_TYPE_INTEGRATION:
                 $roleName = $userType . $userId;
                 $roleType = \Magento\User\Model\Acl\Role\User::ROLE_TYPE;
                 $parentId = 0;
                 $userId = $userIdentifier->getUserId();
-                break;
-            case UserIdentifier::USER_TYPE_CUSTOMER:
-                /** Break is intentionally omitted. */
-            case UserIdentifier::USER_TYPE_GUEST:
-                $roleName = $userType;
-                $roleType = \Magento\User\Model\Acl\Role\User::ROLE_TYPE;
-                $parentId = 0;
-                $userId = 0;
-                if ($this->_getUserRole($userIdentifier)) {
-                    throw new \LogicException(
-                        "There should be not more than one role for '{$userType}' user type."
-                    );
-                }
                 break;
             default:
                 throw new \LogicException("Unknown user type: '{$userType}'.");
@@ -218,10 +200,9 @@ class AuthorizationV1 implements AuthorizationV1Interface
     protected function _getUserRole($userIdentifier)
     {
         $roleCollection = $this->_roleCollectionFactory->create();
-        /** @var Role $role */
         $userType = $userIdentifier->getUserType();
-        /** User ID does not matter for customer permissions check as there is a single customer role. */
-        $userId = ($userType == UserIdentifier::USER_TYPE_CUSTOMER) ? 0 : $userIdentifier->getUserId();
+        $userId = $userIdentifier->getUserId();
+        /** @var Role $role */
         $role = $roleCollection->setUserFilter($userId, $userType)->getFirstItem();
         return $role->getId() ? $role : false;
     }
