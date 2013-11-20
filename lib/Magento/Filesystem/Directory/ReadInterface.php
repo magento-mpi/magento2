@@ -106,12 +106,4 @@ interface ReadInterface
      * @return bool
      */
     public function isPathInDirectory($path, $directory);
-
-    /**
-     * Retrieves relative path
-     *
-     * @param string $path
-     * @return string
-     */
-    public function getRelativePath($path);
 }
