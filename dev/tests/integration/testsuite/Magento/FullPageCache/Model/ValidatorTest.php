@@ -75,20 +75,20 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
      * @param boolean $isInvalidated
      *
      * @dataProvider getDataDependenciesDataProvider
-     * @covers \Magento\FullPageCache\Model\Validator::_getDataChangeDependencies
-     * @covers \Magento\FullPageCache\Model\Validator::_getDataDeleteDependencies
+     * @covers \Magento\FullPageCache\Model\Validator::checkDataChange
+     * @covers \Magento\FullPageCache\Model\Validator::checkDataDelete
      */
     public function testGetDataDependencies($type, $object, $isInvalidated)
     {
         $cacheType = 'full_page';
-        /** @var \Magento\Core\Model\Cache\StateInterface $cacheState */
+        /** @var \Magento\App\Cache\StateInterface $cacheState */
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Cache\StateInterface');
+            ->get('Magento\App\Cache\StateInterface');
         $cacheState->setEnabled($cacheType, true);
 
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
+        /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
         $cacheTypeList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Cache\TypeListInterface');
+            ->get('Magento\App\Cache\TypeListInterface');
 
         // manual unset cache type
         $cacheTypeList->cleanType($cacheType);

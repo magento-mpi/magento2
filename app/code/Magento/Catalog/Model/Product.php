@@ -16,7 +16,6 @@
  * @method \Magento\Catalog\Model\Product setHasError(bool $value)
  * @method null|bool getHasError()
  * @method \Magento\Catalog\Model\Product setTypeId(string $typeId)
- * @method string \Magento\Catalog\Model\Product getTypeId()
  * @method \Magento\Catalog\Model\Product setAssociatedProductIds(array $productIds)
  * @method array getAssociatedProductIds()
  * @method \Magento\Catalog\Model\Product setNewVariationsAttributeSetId(int $value)
@@ -340,9 +339,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Get product price throught type instance
+     * Get product price through type instance
      *
-     * @return unknown
+     * @return float
      */
     public function getPrice()
     {
@@ -654,7 +653,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Clear chache related with product and protect delete from not admin
+     * Clear cache related with product and protect delete from not admin
      * Register indexing event before delete product
      *
      * @return \Magento\Catalog\Model\Product
@@ -861,7 +860,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
  ** Linked products API
  */
     /**
-     * Retrieve array of related roducts
+     * Retrieve array of related products
      *
      * @return array
      */
@@ -1319,7 +1318,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Check Product visilbe in catalog
+     * Check Product visible in catalog
      *
      * @return bool
      */
@@ -1669,9 +1668,9 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Retrieve weight throught type instance
+     * Retrieve weight through type instance
      *
-     * @return unknown
+     * @return float
      */
     public function getWeight()
     {
@@ -1926,7 +1925,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     }
 
     /**
-     * Get cahce tags associated with object id
+     * Get cache tags associated with object id
      *
      * @return array
      */

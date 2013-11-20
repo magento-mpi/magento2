@@ -7,9 +7,9 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Unset;
 
@@ -36,7 +36,7 @@ class UnsetStatement extends AbstractStatement
         // add the class line
         $line->add('unset(');
         // add the arguments
-        $this->processArgumentList($this->node->vars, $treeNode, $line, new SimpleListLineBreak());
+        $this->processArgumentList($this->node->vars, $treeNode, $line, new CallLineBreak());
         // add in the terminator
         $line->add(');')->add(new HardLineBreak());
     }

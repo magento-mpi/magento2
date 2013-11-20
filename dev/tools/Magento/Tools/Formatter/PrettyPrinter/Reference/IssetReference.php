@@ -7,8 +7,8 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
+use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Isset;
 
@@ -35,7 +35,7 @@ class IssetReference extends AbstractFunctionReference
         // add in the empty statement
         $line->add('isset(');
         // add in the actual variable reference
-        $this->processArgumentList($this->node->vars, $treeNode, $line, new SimpleListLineBreak());
+        $this->processArgumentList($this->node->vars, $treeNode, $line, new CallLineBreak());
         // add in the closer
         $line->add(')');
     }

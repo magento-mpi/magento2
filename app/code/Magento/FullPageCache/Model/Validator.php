@@ -23,17 +23,17 @@ class Validator
     protected $_deleteDependencies = array();
 
     /**
-     * @var \Magento\Core\Model\Cache\TypeListInterface
+     * @var \Magento\App\Cache\TypeListInterface
      */
     protected $_typeList;
 
     /**
-     * @param \Magento\Core\Model\Cache\TypeListInterface $typeList
+     * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param $changeDependencies
      * @param $deleteDependencies
      */
     public function __construct(
-        \Magento\Core\Model\Cache\TypeListInterface $typeList,
+        \Magento\App\Cache\TypeListInterface $typeList,
         $changeDependencies,
         $deleteDependencies
     ) {
