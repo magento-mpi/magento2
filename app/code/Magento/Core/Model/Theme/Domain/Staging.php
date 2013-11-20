@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme\Domain;
 
-class Staging
+class Staging implements \Magento\View\Design\Theme\Domain\StagingInterface
 {
     /**
      * Staging theme model instance

@@ -24,9 +24,9 @@ class Factory
      * @var array
      */
     protected $_types = array(
-        ThemeInterface::TYPE_PHYSICAL => 'Magento\Core\Model\Theme\Domain\Physical',
-        ThemeInterface::TYPE_VIRTUAL  => 'Magento\Core\Model\Theme\Domain\Virtual',
-        ThemeInterface::TYPE_STAGING  => 'Magento\Core\Model\Theme\Domain\Staging',
+        ThemeInterface::TYPE_PHYSICAL => 'Magento\View\Design\Theme\Domain\PhysicalInterface',
+        ThemeInterface::TYPE_VIRTUAL  => 'Magento\View\Design\Theme\Domain\VirtualInterface',
+        ThemeInterface::TYPE_STAGING  => 'Magento\View\Design\Theme\Domain\StagingInterface',
     );
 
     /**
