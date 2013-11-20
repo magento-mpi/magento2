@@ -17,17 +17,17 @@ class Design extends \Magento\Backend\App\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $registry
     ) {
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         parent::__construct($context);
     }
 
@@ -67,10 +67,12 @@ class Design extends \Magento\Backend\App\Action
 
         $this->_title->add($design->getId() ? __('Edit Store Design Change') : __('New Store Design Change'));
 
-        $this->_coreRegistry->register('design', $design);
+        $this->_registry->register('design', $design);
 
         $this->_addContent($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit'));
-        $this->_addLeft($this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs'));
+        $this->_addLeft(
+            $this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Design\Edit\Tabs', 'design_tabs')
+        );
 
         $this->_view->renderLayout();
     }
@@ -93,7 +95,8 @@ class Design extends \Magento\Backend\App\Action
             try {
                 $design->save();
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the design change.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                    ->addSuccess(__('You saved the design change.'));
             } catch (\Exception $e){
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage())
