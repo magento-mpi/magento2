@@ -32,7 +32,7 @@ class Converter implements \Magento\Config\ConverterInterface
             if ($integration->nodeType != XML_ELEMENT_NODE) {
                 continue;
             }
-            $integrationId = $integration->attributes->getNamedItem('id')->nodeValue;
+            $integrationId = $integration->attributes->getNamedItem('name')->nodeValue;
             $result[$integrationId] = array();
             $result[$integrationId][self::API_RESOURCES] = array();
             /** @var \DOMNodeList $resources */
