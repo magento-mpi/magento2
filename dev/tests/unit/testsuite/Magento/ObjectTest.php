@@ -278,63 +278,45 @@ string',
             'key1' => 'value1',
             'key2' => 'value2'
         ));
-        $xmlParts = array(
-            '<item>',
-            '<key1><![CDATA[value1]]></key1>',
-            '<key2><![CDATA[value2]]></key2>',
-            '</item>',
-            ''
-        );
-        $xml = implode("\n", $xmlParts);
+        $xml = '<item>
+<key1><![CDATA[value1]]></key1>
+<key2><![CDATA[value2]]></key2>
+</item>
+';
         $this->assertEquals($xml, $this->_object->toXml());
 
-        $xmlParts = array(
-            '<item>',
-            '<key2><![CDATA[value2]]></key2>',
-            '</item>',
-            ''
-        );
-        $xml = implode("\n", $xmlParts);
+        $xml = '<item>
+<key2><![CDATA[value2]]></key2>
+</item>
+';
         $this->assertEquals($xml, $this->_object->toXml(array('key2')));
 
-        $xmlParts = array(
-            '<my_item>',
-            '<key1><![CDATA[value1]]></key1>',
-            '<key2><![CDATA[value2]]></key2>',
-            '</my_item>',
-            ''
-        );
-        $xml = implode("\n", $xmlParts);
+        $xml = '<my_item>
+<key1><![CDATA[value1]]></key1>
+<key2><![CDATA[value2]]></key2>
+</my_item>
+';
         $this->assertEquals($xml, $this->_object->toXml(array(), 'my_item'));
 
-        $xmlParts = array(
-            '<key1><![CDATA[value1]]></key1>',
-            '<key2><![CDATA[value2]]></key2>',
-            ''
-        );
-        $xml = implode("\n", $xmlParts);
+        $xml = '<key1><![CDATA[value1]]></key1>
+<key2><![CDATA[value2]]></key2>
+';
         $this->assertEquals($xml, $this->_object->toXml(array(), false));
 
-        $xmlParts = array(
-            '<?xml version="1.0" encoding="UTF-8"?>',
-            '<item>',
-            '<key1><![CDATA[value1]]></key1>',
-            '<key2><![CDATA[value2]]></key2>',
-            '</item>',
-            ''
-        );
-        $xml = implode("\n", $xmlParts);
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+<item>
+<key1><![CDATA[value1]]></key1>
+<key2><![CDATA[value2]]></key2>
+</item>
+';
         $this->assertEquals($xml, $this->_object->toXml(array(), 'item', true));
 
-        $xmlParts = array(
-            '<?xml version="1.0" encoding="UTF-8"?>',
-            '<item>',
-            '<key1>value1</key1>',
-            '<key2>value2</key2>',
-            '</item>',
-            ''
-        );
-        $xml = implode("\n", $xmlParts);
+        $xml = '<?xml version="1.0" encoding="UTF-8"?>
+<item>
+<key1>value1</key1>
+<key2>value2</key2>
+</item>
+';
         $this->assertEquals($xml, $this->_object->convertToXml(array(), 'item', true, false));
     }
 

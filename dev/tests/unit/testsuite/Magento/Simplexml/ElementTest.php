@@ -65,9 +65,6 @@ class ElementTest extends \PHPUnit_Framework_TestCase
 </root>
 
 XML;
-        if ("\n" != PHP_EOL) {
-            $expected = str_replace(PHP_EOL, "\n", $expected);
-        }
         $this->assertEquals($expected, $xml->asNiceXml());
     }
 

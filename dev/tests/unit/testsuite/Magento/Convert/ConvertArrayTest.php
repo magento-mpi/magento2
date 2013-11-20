@@ -32,12 +32,11 @@ class ConvertArrayTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $result = $this->_model->assocToXml($data);
-        $xmlParts = array(
-            '<?xml version="1.0" encoding="UTF-8" standalone="yes"?>',
-            '<_><one>1</one><two><three>3</three><four>4</four></two></_>',
-            ''
-        );
-        $expectedResult = implode("\n", $xmlParts);
+        $expectedResult = <<<XML
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<_><one>1</one><two><three>3</three><four>4</four></two></_>
+
+XML;
         $this->assertInstanceOf('SimpleXMLElement', $result);
         $this->assertEquals($expectedResult, $result->asXML());
     }

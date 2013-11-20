@@ -29,7 +29,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $customer = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', '__wakeup'))
+            ->setMethods(array('getId'))
             ->getMock();
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
         $registry = $this->getMockBuilder('Magento\Core\Model\Registry')
@@ -45,7 +45,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $collectionElement = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId', '__wakeup'))
+            ->setMethods(array('setStore', 'setLocale', 'renderData', 'getReferenceId'))
             ->getMock();
         $collectionElement->expects($this->once())->method('setStore')
             ->with($store)
@@ -68,7 +68,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('getCollection', 'getFieldLabel', '__wakeup'))
+            ->setMethods(array('getCollection', 'getFieldLabel'))
             ->getMock();
         $profile->expects($this->once())->method('getCollection')
             ->will($this->returnValue($collection));

@@ -30,8 +30,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $customer = $this->getMock('Magento\Customer\Model\Customer', array(), array(), '', false);
         $customer->expects($this->once())->method('getId')->will($this->returnValue(1));
         $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
-        $args = array('getIncrementId', 'getCreatedAt', 'getCustomerName', 'getBaseGrandTotal',
-            'getStatusLabel', 'getId');
+        $args = array(
+            'getIncrementId', 'getCreatedAt', 'getCustomerName', 'getBaseGrandTotal', 'getStatusLabel', 'getId'
+        );
         $collectionElement = $this->getMock('Magento\Sales\Model\Recurring\Profile', $args, array(), '', false);
         $collectionElement->expects($this->once())->method('getIncrementId')
             ->will($this->returnValue(1));

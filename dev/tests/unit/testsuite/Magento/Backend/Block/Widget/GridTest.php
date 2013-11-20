@@ -52,16 +52,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($storeMock));
         $urlBuilderMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
-        $contextMock = $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '', false);
-        $contextMock->expects($this->any())
-            ->method('getStoreManager')
-            ->will($this->returnValue($storeManagerMock));
-        $contextMock->expects($this->any())
-            ->method('getApp')
-            ->will($this->returnValue($appMock));
-        $contextMock->expects($this->any())
-            ->method('getUrlBuilder')
-            ->will($this->returnValue($urlBuilderMock));
 
         $urlBuilderMock->expects($this->any())
             ->method('getUrl')
@@ -70,9 +60,10 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $block = $helper->getObject('Magento\Backend\Block\Widget\Grid', array(
-            'context' => $contextMock,
+            'app' => $appMock,
             'storeManager' => $storeManagerMock,
             'urlModel' => $urlMock,
+            'urlBuilder' => $urlBuilderMock,
             )
         );
 

@@ -33,9 +33,8 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
         $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_block = $helper->getObject('Magento\Page\Block\Switcher', array(
-            'storeManager' => $this->_storeManagerMock
-                )
+        $this->_block = $helper->getObject(
+            'Magento\Page\Block\Switcher', array('storeManager' => $this->_storeManagerMock)
         );
     }
 
