@@ -14,7 +14,7 @@ namespace Magento\Centinel\Test\Block;
 use PHPUnit_Extensions_Selenium2TestCase_WebDriverException;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Fixture\Checkout;;
+use Magento\Checkout\Test\Fixture\Checkout;
 
 
 /**
