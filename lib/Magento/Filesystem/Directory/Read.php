@@ -135,15 +135,22 @@ class Read implements ReadInterface
      * Search all entries for given regex pattern
      *
      * @param string $pattern
+     * @param string $path [optional]
      * @return array
      */
-    public function search($pattern)
+    public function search($pattern, $path = null)
     {
         clearstatcache();
+        if ($path) {
+            $absolutePath = $this->getAbsolutePath($this->getRelativePath($path));
+        } else {
+            $absolutePath = $this->path;
+        }
+
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
         $iterator = new \RegexIterator(
             new \RecursiveIteratorIterator(
-                new \RecursiveDirectoryIterator($this->path, $flags)
+                new \RecursiveDirectoryIterator($absolutePath, $flags)
             ),
             $pattern
         );
