@@ -112,4 +112,12 @@ return array(
     array('_filesystem', '\Magento\Core\Model\Page\Asset\MergeStrategy\Direct', '_directory'),
     array('_filesystem', '\Magento\Core\Model\Page\Asset\MergeStrategy\Checksum', '_directory'),
     array('_filesystem', '\Magento\Core\Model\Page\Asset\MergeStrategy\FileExists', '_directory'),
+    array('_baseDir', 'Magento\Core\Model\Resource\Setup\Migration'),
+    array('_dir', 'Magento\Core\Model\Resource\Setup\Migration'),
+    array('_filesystem', 'Magento\Core\Model\Resource\Setup\Migration', '_directory'),
+    array('_filesystem', 'Magento\Core\Model\Theme\Collection', '_directory'),
+    array('_mediaBaseDirectory', 'Magento\Core\Model\Resource\File\Storage\File'),
+    array('_dbHelper', 'Magento\Core\Model\Resource\File\Storage\File'),
+    array('_filesystem', 'Magento\Core\Model\Theme\CopyService', '_directory'),
+    array('_baseDir', 'Magento\Core\Model\Theme\Collection'),
 );
