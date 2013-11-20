@@ -21,7 +21,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Centinel
  */
-class Steps extends Functional
+abstract class Steps extends Functional
 {
     /**
      * Add products to cart
