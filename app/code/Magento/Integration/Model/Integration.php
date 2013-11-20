@@ -17,6 +17,8 @@ namespace Magento\Integration\Model;
  * @method Integration setEmail(\string $email)
  * @method \int getStatus()
  * @method Integration setStatus(\int $value)
+ * @method \int getType()
+ * @method Integration setType(\int $value)
  * @method \string getEndpoint()
  * @method Integration setEndpoint(\string $endpoint)
  * @method \string getCreatedAt()
@@ -27,10 +29,16 @@ namespace Magento\Integration\Model;
 class Integration extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
-     * Integration statuses.
+     * Integration constants.
      */
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
+    const TYPE_MANUAL = 0;
+    const TYPE_CONFIG = 1;
+    const NAME = 'name';
+    const EMAIL = 'email';
+    const ENDPOINT = 'endpoint_url';
+    const TYPE = 'type';
     /**#@-*/
 
     /**
