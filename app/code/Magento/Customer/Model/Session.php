@@ -69,11 +69,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_urlFactory;
 
     /**
-     * @var \Magento\Core\Model\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
@@ -84,7 +79,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
-     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      * @param null $sessionName
      */
@@ -99,7 +93,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
-        \Magento\Core\Model\Cookie $cookie,
         array $data = array(),
         $sessionName = null
     ) {
@@ -110,7 +103,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
-        $this->_cookie = $cookie;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
@@ -358,7 +350,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     {
         $this->setId(null);
         $this->setCustomerGroupId(\Magento\Customer\Model\Group::NOT_LOGGED_IN_ID);
-        $this->_cookie->delete($this->getName());
+        $this->destroy(array('clear_storage' => false));
         return $this;
     }
 

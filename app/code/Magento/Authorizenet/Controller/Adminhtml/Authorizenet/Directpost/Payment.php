@@ -186,9 +186,9 @@ class Payment
                 }
             }
             //clear sessions
-            $this->_getSession()->clear();
+            $this->_getSession()->destroy();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clear();
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->destroy();
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
         }
 

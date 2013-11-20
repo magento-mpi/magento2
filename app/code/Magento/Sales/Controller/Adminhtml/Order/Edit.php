@@ -24,7 +24,7 @@ class Edit extends \Magento\Sales\Controller\Adminhtml\Order\Create
      */
     public function startAction()
     {
-        $this->_getSession()->clear();
+        $this->_getSession()->destroy();
         $orderId = $this->getRequest()->getParam('order_id');
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
 

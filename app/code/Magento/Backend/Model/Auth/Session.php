@@ -41,17 +41,11 @@ class Session
     protected $_backendUrl;
 
     /**
-     * @var \Magento\Core\Model\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\Url $backendUrl
-     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      */
     public function __construct(
@@ -60,12 +54,10 @@ class Session
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\Url $backendUrl,
-        \Magento\Core\Model\Cookie $cookie,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        $this->_cookie = $cookie;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $this->init('admin');
     }
@@ -217,8 +209,7 @@ class Session
      */
     public function processLogout()
     {
-        $this->unsetAll();
-        $this->_cookie->delete($this->getName());
+        $this->destroy();
         return $this;
     }
 }

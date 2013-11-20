@@ -169,12 +169,12 @@ class Cookie extends \Magento\Core\Model\Cookie
                     self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $this->_customerSession->isLoggedIn()
                 );
             } else {
-                $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
+                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null ,0);
             }
         } else {
-            $this->delete(self::COOKIE_CUSTOMER);
-            $this->delete(self::COOKIE_CUSTOMER_GROUP);
-            $this->delete(self::COOKIE_CUSTOMER_LOGGED_IN);
+            $this->set(self::COOKIE_CUSTOMER, null ,0);
+            $this->set(self::COOKIE_CUSTOMER_GROUP, null ,0);
+            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null ,0);
         }
         return $this;
     }

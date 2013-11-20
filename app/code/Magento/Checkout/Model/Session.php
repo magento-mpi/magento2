@@ -115,11 +115,15 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     }
 
     /**
+     * Destroy/end a session
      * Unset all data associated with object
+     *
+     * @param  array $options
+     * @return void
      */
-    public function unsetAll()
+    public function destroy(array $options = null)
     {
-        parent::unsetAll();
+        parent::destroy($options);
         $this->_quote = null;
     }
 

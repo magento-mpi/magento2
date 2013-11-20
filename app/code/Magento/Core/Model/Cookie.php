@@ -298,40 +298,4 @@ class Cookie
     {
         return $this->_getRequest()->getCookie($name, false);
     }
-
-    /**
-     * Delete cookie
-     *
-     * @param string $name
-     * @param string $path
-     * @param string $domain
-     * @param int|bool $secure
-     * @param int|bool $httponly
-     * @return \Magento\Core\Model\Cookie
-     */
-    public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null)
-    {
-        /**
-         * Check headers sent
-         */
-        if (!$this->_getResponse()->canSendHeaders(false)) {
-            return $this;
-        }
-
-        if (is_null($path)) {
-            $path = $this->getPath();
-        }
-        if (is_null($domain)) {
-            $domain = $this->getDomain();
-        }
-        if (is_null($secure)) {
-            $secure = $this->isSecure();
-        }
-        if (is_null($httponly)) {
-            $httponly = $this->getHttponly();
-        }
-
-        setcookie($name, null, null, $path, $domain, $secure, $httponly);
-        return $this;
-    }
 }

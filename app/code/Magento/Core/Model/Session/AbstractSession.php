@@ -22,6 +22,17 @@ class AbstractSession extends \Magento\Object
     const HOST_KEY                      = '_session_hosts';
 
     /**
+     * Default options when a call destroy()
+     * - send_expire_cookie: whether or not to send a cookie expiring the current session cookie
+     * - clear_storage: whether or not to empty the storage object of any stored values
+     * @var array
+     */
+    protected $defaultDestroyOptions = array(
+        'send_expire_cookie' => true,
+        'clear_storage'      => true,
+    );
+
+    /**
      * URL host cache
      *
      * @var array
@@ -322,24 +333,31 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Unset all data
+     * Destroy/end a session
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @param  array $options
+     * @return void
      */
-    public function unsetAll()
+    public function destroy(array $options = null)
     {
-        $this->unsetData();
-        return $this;
-    }
+        if (!$this->isSessionExists()) {
+            return;
+        }
 
-    /**
-     * Alias for unsetAll
-     *
-     * @return \Magento\Core\Model\Session\AbstractSession
-     */
-    public function clear()
-    {
-        return $this->unsetAll();
+        if (null === $options) {
+            $options = $this->defaultDestroyOptions;
+        } else {
+            $options = array_merge($this->defaultDestroyOptions, $options);
+        }
+
+        session_destroy();
+        if ($options['send_expire_cookie']) {
+            $this->expireSessionCookie();
+        }
+
+        if ($options['clear_storage']) {
+            $this->unsetData();
+        }
     }
 
     /**

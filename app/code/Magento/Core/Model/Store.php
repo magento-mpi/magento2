@@ -831,7 +831,7 @@ class Store extends \Magento\Core\Model\AbstractModel
             $this->_getSession()->setCurrencyCode($code);
             if ($code == $this->getDefaultCurrency()) {
                 \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\App')->getCookie()->delete(self::COOKIE_CURRENCY, $code);
+                    ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, null, 0);
             } else {
                 \Magento\App\ObjectManager::getInstance()
                     ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, $code);
