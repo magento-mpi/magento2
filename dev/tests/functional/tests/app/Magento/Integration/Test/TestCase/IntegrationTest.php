@@ -91,7 +91,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     /**
      * Api tab verification
      *
-     * @ZephyrId MAGETWO-17045
+     * @ZephyrId MAGETWO-17305
      */
     public function testApiTabVerification()
     {
@@ -105,7 +105,8 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
         $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
         $newIntegrationPage->getApiTab()->changeRoleAccess('All');
-        $this->assertFalse($newIntegrationPage->getApiTab()->isResourceVisible(),
+        $this->assertFalse(
+            $newIntegrationPage->getApiTab()->isResourceVisible(),
             'Resources tree should not be visible.'
         );
         $newIntegrationPage->getIntegrationFormBlock()->save($integrationFixture);

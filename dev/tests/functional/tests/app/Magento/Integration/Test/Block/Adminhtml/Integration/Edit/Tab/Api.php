@@ -16,7 +16,13 @@ use Mtf\Client\Element\Locator;
  */
 class Api extends Tab
 {
+    /**
+     * Resource access dropdown
+     *
+     * @var string
+     */
     protected $resourceAccess = '#all';
+
     /**
      * {@inheritdoc}
      */
@@ -28,13 +34,23 @@ class Api extends Tab
         );
     }
 
+    /**
+     * Checks resources JStree visibility
+     *
+     * @return bool
+     */
     public function isResourceVisible()
     {
         return $this->_rootElement->find('[data-role="tree-resources-container"]')->isVisible();
     }
 
-    public function changeRoleAccess($param)
+    /**
+     * Change role access
+     *
+     * @param $accessType
+     */
+    public function changeRoleAccess($accessType)
     {
-        $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->setValue($param);
+        $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->setValue($accessType);
     }
 }

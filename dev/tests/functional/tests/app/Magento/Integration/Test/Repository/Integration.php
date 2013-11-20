@@ -30,7 +30,7 @@ class Integration extends AbstractRepository
     }
 
     /**
-     * Generate data for integration fixture tab.
+     * Get data for integration fixture tab.
      *
      * @return array
      */
