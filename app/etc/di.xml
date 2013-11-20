@@ -247,9 +247,4 @@
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
     </type>
-    <type name="Magento\Core\Model\Session\SidResolver">
-        <param name="session">
-            <instance type="Magento\Core\Model\Session" />
-        </param>
-    </type>
 </config>
