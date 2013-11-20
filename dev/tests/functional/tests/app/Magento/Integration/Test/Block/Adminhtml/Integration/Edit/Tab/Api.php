@@ -47,7 +47,7 @@ class Api extends Tab
     /**
      * Change role access
      *
-     * @param $accessType
+     * @param string $accessType
      */
     public function changeRoleAccess($accessType)
     {
