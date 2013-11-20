@@ -135,7 +135,8 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
                 array('product_name' => $productAttrNameTable),
                 "product_name.entity_id = e.entity_id
                 AND product_name.attribute_id = {$productAttrNameId}
-                AND product_name.store_id = main_table.store_id",
+                AND (product_name.store_id = main_table.store_id OR product_name.store_id = "
+                . \Magento\Core\Model\AppInterface::ADMIN_STORE_ID . ")",
                 array('name'=>'product_name.value'))
             ->joinInner(
                 array('product_price' => $productAttrPriceTable),
