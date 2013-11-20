@@ -63,6 +63,6 @@
     text-align: right;
 }
 
-#integration_token_base_fieldset input {
-    cursor: copy !important;
+#integration_token_base_fieldset input[readonly] {
+    cursor: copy;
 }
