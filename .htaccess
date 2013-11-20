@@ -1,4 +1,5 @@
 ############################################
+############################################
 ## uncomment these lines for CGI mode
 ## make sure to specify the correct cgi php binary file name
 ## it might be /cgi-bin/php-cgi
@@ -176,7 +177,7 @@
         order allow,deny
         deny from all
     </Files>
-
+SetEnv MAGE_MODE developer
 ############################################
 ## If running in cluster environment, uncomment this
 ## http://developer.yahoo.com/performance/rules.html#etags

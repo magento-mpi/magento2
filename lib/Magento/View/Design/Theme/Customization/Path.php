@@ -21,29 +21,44 @@ class Path
     const DIR_NAME = 'theme_customization';
 
     /**
-     * File name
-     *
+     * @var \Magento\App\Dir
+     */
+    protected $_dir;
+
+    /**
      * @var string
      */
     protected $filename;
 
     /**
-     * Filesystem instance
-     *
      * @var \Magento\Filesystem
      */
     protected $filesystem;
 
     /**
-     * Initialize dependencies
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $mediaDirectoryRead;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $themeDirectoryRead;
+
+    /**
+     * Constructor
      *
      * @param \Magento\Filesystem $filesystem
      * @param $filename
      */
-    public function __construct(\Magento\Filesystem $filesystem, $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME)
-    {
-        $this->filesystem = $filesystem;
-        $this->filename = $filename;
+    public function __construct(
+        \Magento\Filesystem $filesystem,
+        $filename = \Magento\View\ConfigInterface::CONFIG_FILE_NAME
+    ) {
+        $this->filesystem           = $filesystem;
+        $this->filename             = $filename;
+        $this->mediaDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->themeDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::THEMES);
     }
 
     /**
@@ -56,9 +71,7 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA)
-                . '/' . self::DIR_NAME
-                . '/' . $theme->getId();
+            $path = $this->mediaDirectoryRead->getAbsolutePath(self::DIR_NAME . $theme->getId());
         }
         return $path;
     }
@@ -73,8 +86,7 @@ class Path
     {
         $path = null;
         if ($theme->getFullPath()) {
-            $physicalThemesDir = $this->filesystem->getPath(\Magento\Filesystem\DirectoryList::THEMES);
-            $path = str_replace('\\', '/', $physicalThemesDir . '/' . $theme->getFullPath());
+            $path = $this->themeDirectoryRead->getAbsolutePath($theme->getFullPath());
         }
         return $path;
     }
@@ -89,7 +101,9 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->getCustomizationPath($theme) . '/' . $this->filename;
+            $path = $this->mediaDirectoryRead
+                ->getAbsolutePath(self::DIR_NAME . $theme->getId() . '/' . $this->filename);
+
         }
         return $path;
     }
