@@ -75,11 +75,10 @@ class ImageTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Magento\Io\File::rmdirRecursive(self::$_fixtureMediaDir);
-        \Magento\Io\File::rmdirRecursive(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath()
-        );
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $filesystem = $objectManager->create('Magento\Filesystem');
+        $filesystem->delete(self::$_fixtureMediaDir);
+        $filesystem->delete($objectManager->get('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath());
     }
 
     /**

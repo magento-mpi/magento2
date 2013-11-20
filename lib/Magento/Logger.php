@@ -31,23 +31,19 @@ class Logger
     protected $_dirs = null;
 
     /**
-     * @var \Magento\Io\File
+     * @var \Magento\Filesystem
      */
-    protected $_fileSystem;
-
+    protected $_filesystem;
 
     /**
      * @param \Magento\App\Dir $dirs
-     * @param \Magento\Io\File $fileSystem
+     * @param \Magento\Filesystem $filesystem
      * @param string $defaultFile
      */
-    public function __construct(
-        \Magento\App\Dir $dirs,
-        \Magento\Io\File $fileSystem,
-        $defaultFile = ''
-    ) {
+    public function __construct(\Magento\App\Dir $dirs, \Magento\Filesystem $filesystem, $defaultFile = '')
+    {
         $this->_dirs = $dirs;
-        $this->_fileSystem = $fileSystem;
+        $this->_filesystem = $filesystem;
         $this->addStreamLog(self::LOGGER_SYSTEM, $defaultFile)
             ->addStreamLog(self::LOGGER_EXCEPTION, $defaultFile);
     }
@@ -68,7 +64,10 @@ class Logger
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
             $logDir = $this->_dirs->getDir(\Magento\App\Dir::LOG);
-            $this->_fileSystem->checkAndCreateFolder($logDir);
+            if (!$this->_filesystem->isDirectory($logDir)) {
+                $this->_filesystem->setIsAllowCreateDirectories(true);
+                $this->_filesystem->createDirectory($logDir);
+            }
             $file = $logDir . DIRECTORY_SEPARATOR . $file;
         }
         if (!$writerClass || !is_subclass_of($writerClass, 'Zend_Log_Writer_Stream')) {

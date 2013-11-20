@@ -20,6 +20,25 @@ namespace Magento\Sales\Controller;
 class Download extends \Magento\Core\Controller\Front\Action
 {
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\Filesystem $filesystem
+     */
+    public function __construct(
+        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\Filesystem $filesystem
+    ) {
+        parent::__construct($context);
+        $this->_filesystem = $filesystem;
+    }
+
+    /**
      * Custom options downloader
      *
      * @param mixed $info
@@ -83,14 +102,13 @@ class Download extends \Magento\Core\Controller\Front\Action
         $directory = dirname($filePath);
         @mkdir($directory, 0777, true);
 
-        $io = new \Magento\Io\File();
-        $io->cd($directory);
-
-        $io->streamOpen($filePath);
-        $io->streamLock(true);
-        $io->streamWrite($file->getContent());
-        $io->streamUnlock();
-        $io->streamClose();
+        $this->_filesystem->setWorkingDirectory($directory);
+        $stream = $this->_filesystem->createStream($filePath);
+        $stream->open('w+');
+        $stream->lock();
+        $stream->write($filePath, $file->getContent());
+        $stream->unlock();
+        $stream->close();
 
         return true;
     }

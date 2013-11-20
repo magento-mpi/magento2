@@ -36,15 +36,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $dirMap = array(
-            array(\Magento\App\Dir::APP, __DIR__),
-            array(\Magento\App\Dir::THEMES, __DIR__ . '/design'),
+            array(\Magento\Filesystem\DirectoryList::ROOT, 'base'),
+            array(\Magento\Filesystem\DirectoryList::APP, __DIR__),
+            array(\Magento\Filesystem\DirectoryList::THEMES, __DIR__ . '/design'),
         );
         $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
-        $dirs->expects($this->any())->method('getDir')->will($this->returnValueMap($dirMap));
+        $dirs->expects($this->never())->method('getDir');
 
         $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', array(), array(), '', false);
 
         $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
+        $this->_filesystem->expects($this->any())->method('getPath')->will($this->returnValueMap($dirMap));
 
         $this->_templateEngine = $this->getMock('\Magento\View\TemplateEngineInterface');
 
@@ -57,13 +59,16 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $appState = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
         $appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('frontend'));
 
+        $storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $storeConfig->expects($this->any())->method('getConfigFlag')->will($this->returnValue(true));
+
         $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getEngineFactory')->will($this->returnValue($enginePool));
         $context->expects($this->any())->method('getDirs')->will($this->returnValue($dirs));
         $context->expects($this->any())->method('getFilesystem')->will($this->returnValue($this->_filesystem));
         $context->expects($this->any())->method('getViewFileSystem')->will($this->returnValue($this->_viewFileSystem));
         $context->expects($this->any())->method('getAppState')->will($this->returnValue($appState));
-
+        $context->expects($this->any())->method('getStoreConfig')->will($this->returnValue($storeConfig));
         $this->_block = new \Magento\Core\Block\Template(
             $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false),
             $context,
@@ -82,14 +87,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $this->expectOutputString('');
 
+        $directoryMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $directoryMock->expects($this->any())->method('isFile')->will($this->returnValue(true));
         $this->_filesystem
-            ->expects($this->once())
-            ->method('isPathInDirectory')
-            ->with('template.phtml', __DIR__)
-            ->will($this->returnValue(true))
-        ;
-        $this->_filesystem
-            ->expects($this->once())->method('isFile')->with('template.phtml')->will($this->returnValue(true));
+            ->expects($this->once())->method('getDirectoryRead')->with('base')->will($this->returnValue($directoryMock));
 
         $output = '<h1>Template Contents</h1>';
         $vars = array('var1' => 'value1', 'var2' => 'value2');

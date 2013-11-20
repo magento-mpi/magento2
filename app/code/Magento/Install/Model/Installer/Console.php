@@ -354,7 +354,10 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             /**
              * Change directories mode to be writable by apache user
              */
-            $this->_filesystem->changePermissions($this->_coreDir->getDir('var'), 0777, true);
+            $this->_filesystem
+                ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR)
+                ->changePermissions('', 0777);
+
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Core\Exception) {
@@ -393,11 +396,13 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_cleanUpDatabase();
 
         /* Remove temporary directories and local.xml */
-        foreach (glob($this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR) . '/*', GLOB_ONLYDIR) as $dir) {
-            $this->_filesystem->delete($dir);
+        $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        foreach ($varDirectory->read() as $path) {
+            if ($varDirectory->isDirectory($path)) {
+                $varDirectory->delete($path);
+            }
         }
-        $this->_filesystem->delete($this->_coreDir->getDir(\Magento\App\Dir::CONFIG)
-            . DIRECTORY_SEPARATOR . '/local.xml');
+        $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::CONFIG)->delete('local.xml');
         return true;
     }
 

@@ -97,7 +97,7 @@ class Write extends Read implements WriteInterface
      * @return bool
      * @throws FilesystemException
      */
-    public function create($path = '')
+    public function create($path = null)
     {
         $absolutePath = $this->getAbsolutePath($path);
         if ($this->driver->isDirectory($absolutePath)) {
@@ -212,7 +212,7 @@ class Write extends Read implements WriteInterface
         $folder = $this->driver->getParentDirectory($path);
         $this->create($folder);
         $this->assertWritable($folder);
-        return $this->driver->touch($path, $modificationTime);
+        return $this->driver->touch($this->getAbsolutePath($path), $modificationTime);
     }
 
     /**

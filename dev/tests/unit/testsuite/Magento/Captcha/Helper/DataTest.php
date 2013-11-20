@@ -16,16 +16,10 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dirMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_filesystem;
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
         $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
     }
 
@@ -50,7 +44,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
 
         return new \Magento\Captcha\Helper\Data(
-            $context, $this->_dirMock, $storeManager, $config, $this->_filesystem, $factory
+            $context, $storeManager, $config, $this->_filesystem, $factory
         );
     }
 
@@ -107,9 +101,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFonts()
     {
-        $this->_dirMock->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::LIB)
+        $this->_filesystem->expects($this->once())
+            ->method('getPath')
+            ->with(\Magento\Filesystem\DirectoryList::LIB)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);

@@ -18,6 +18,14 @@ interface ReadInterface
     public function getAbsolutePath($path = null);
 
     /**
+     * Get relative path
+     *
+     * @param string $path
+     * @return string
+     */
+    public function getRelativePath($path = null);
+
+    /**
      * Retrieve list of all entities in given path
      *
      * @param string $path
@@ -89,4 +97,13 @@ interface ReadInterface
      * @throws \Magento\Filesystem\FilesystemException
      */
     public function readFile($path);
+
+    /**
+     * Checks is directory contains path
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    public function isPathInDirectory($path, $directory);
 }

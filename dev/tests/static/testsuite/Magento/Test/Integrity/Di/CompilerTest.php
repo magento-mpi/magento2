@@ -190,7 +190,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     public function testConstructorIntegrity()
     {
         $autoloader = new \Magento\Autoload\IncludePath();
-        $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
+        $generatorIo = new \Magento\Code\Generator\Io(
+            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
+            $autoloader,
+            $this->_generationDir);
         $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
         $autoloader = new \Magento\Code\Generator\Autoloader($generator);
         spl_autoload_register(array($autoloader, 'load'));

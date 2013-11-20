@@ -21,9 +21,9 @@ class Checksum
     private $_strategy;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    private $_filesystem;
+    private $_directory;
 
     /**
      * @param \Magento\Core\Model\Page\Asset\MergeStrategyInterface $strategy
@@ -34,7 +34,7 @@ class Checksum
         \Magento\Filesystem $filesystem
     ) {
         $this->_strategy = $strategy;
-        $this->_filesystem = $filesystem;
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::PUB);
     }
 
     /**
@@ -47,13 +47,15 @@ class Checksum
         // Check whether we have already merged these files
         $filesMTimeData = '';
         foreach ($publicFiles as $file) {
-            $filesMTimeData .= $this->_filesystem->getMTime($file);
+            $filesMTimeData .= $this->_directory->stat($this->_directory->getRelativePath($file))['mtime'];
         }
-        if (!($this->_filesystem->has($destinationFile) && $this->_filesystem->has($mergedMTimeFile)
-            && (strcmp($filesMTimeData, $this->_filesystem->read($mergedMTimeFile)) == 0))
+        if (!($this->_directory->isExist($this->_directory->getRelativePath($destinationFile))
+            && $this->_directory->isExist($this->_directory->getRelativePath($mergedMTimeFile))
+            && strcmp($filesMTimeData, $this->_directory->readFile(
+                    $this->_directory->getRelativePath($mergedMTimeFile))) == 0)
         ) {
-            $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
-            $this->_filesystem->write($mergedMTimeFile, $filesMTimeData);
+        $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
+        $this->_directory->writeFile($this->_directory->getRelativePath($mergedMTimeFile), $filesMTimeData);
         }
     }
 }

@@ -22,7 +22,7 @@ namespace Magento\Core\Controller\Varien;
 
 use Magento\App\Action\AbstractAction;
 
-class Action extends \Magento\App\Action\AbstractAction
+class Action extends AbstractAction
 {
     const FLAG_NO_CHECK_INSTALLATION    = 'no-install-check';
     const FLAG_NO_DISPATCH              = 'no-dispatch';
@@ -1009,6 +1009,7 @@ class Action extends \Magento\App\Action\AbstractAction
     ) {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->create('Magento\Filesystem');
+        $dirRead = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
         $isFile = false;
         $file   = null;
         if (is_array($content)) {
@@ -1017,8 +1018,9 @@ class Action extends \Magento\App\Action\AbstractAction
             }
             if ($content['type'] == 'filename') {
                 $isFile         = true;
-                $file           = $content['value'];
-                $contentLength  = $filesystem->getFileSize($file);
+                $file           = $dirRead->getRelativePath($content['value']);
+                $fileStat       = $dirRead->stat($file);
+                $contentLength  = isset($fileStat['size']) ? $fileStat['size'] : 0;
             }
         }
 
@@ -1031,29 +1033,33 @@ class Action extends \Magento\App\Action\AbstractAction
             ->setHeader('Content-Disposition', 'attachment; filename="'.$fileName.'"', true)
             ->setHeader('Last-Modified', date('r'), true);
 
-        if (!is_null($content)) {
-            if ($isFile) {
-                $this->getResponse()->clearBody();
-                $this->getResponse()->sendHeaders();
-
-                if (!$filesystem->isFile($file)) {
-                    throw new \Magento\Core\Exception(__('File not found'));
-                }
-                $stream = $filesystem->createAndOpenStream($file, 'r');
-                while ($buffer = $stream->read(1024)) {
-                    print $buffer;
-                }
-                flush();
-                $stream->close();
-                if (!empty($content['rm'])) {
-                    $filesystem->delete($file);
-                }
-
-                exit(0);
-            } else {
-                $this->getResponse()->setBody($content);
-            }
+        if (null === $content) {
+            return $this;
         }
+
+        if ($isFile) {
+            $this->getResponse()->clearBody();
+            $this->getResponse()->sendHeaders();
+
+            if (!$dirRead->isFile($file)) {
+                throw new \Magento\Core\Exception(__('File not found'));
+            }
+            $stream = $dirRead->openFile($file);
+            while ($buffer = $stream->read(1024)) {
+                print $buffer;
+            }
+            flush();
+            $stream->close();
+            if (!empty($content['rm'])) {
+                $dirWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+                $dirWrite->delete($file);
+            }
+
+            exit(0);
+        } else {
+            $this->getResponse()->setBody($content);
+        }
+
         return $this;
     }
 }

@@ -11,6 +11,8 @@
  */
 namespace Magento\Core\Model\Page\Asset;
 
+use Magento\Filesystem\DirectoryList;
+
 class Merged implements \Iterator
 {
     /**
@@ -53,7 +55,6 @@ class Merged implements \Iterator
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\Page\Asset\MergeStrategyInterface $mergeStrategy
      * @param array $assets
      * @throws \InvalidArgumentException
@@ -61,13 +62,11 @@ class Merged implements \Iterator
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Logger $logger,
-        \Magento\App\Dir $dirs,
         \Magento\Core\Model\Page\Asset\MergeStrategyInterface $mergeStrategy,
         array $assets
     ) {
         $this->_objectManager = $objectManager;
         $this->_logger = $logger;
-        $this->_dirs = $dirs;
         $this->_mergeStrategy = $mergeStrategy;
 
         if (!$assets) {
@@ -149,18 +148,20 @@ class Merged implements \Iterator
      */
     protected function _getMergedFilePath(array $publicFiles)
     {
-        $jsDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\App\Dir::PUB_LIB));
-        $publicDir = \Magento\Filesystem::fixSeparator($this->_dirs->getDir(\Magento\App\Dir::STATIC_VIEW));
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $this->_objectManager->get('Magento\Filesystem');
+        $jsDir = $filesystem->getPath(DirectoryList::PUB_LIB);
+        $publicDir = $filesystem->getPath(DirectoryList::STATIC_VIEW);
+
         $prefixRemovals = array($jsDir, $publicDir);
 
         $relFileNames = array();
         foreach ($publicFiles as $file) {
-            $file = \Magento\Filesystem::fixSeparator($file);
-            $relFileNames[] = str_replace($prefixRemovals, '', $file);
+            $relFileNames[] = ltrim(str_replace($prefixRemovals, '', $file), '/');
         }
 
-        $mergedDir = $this->_dirs->getDir(\Magento\App\Dir::PUB_VIEW_CACHE) . '/'
-            . self::PUBLIC_MERGE_DIR;
+        $mergedDir = $filesystem->getDirectoryRead(DirectoryList::PUB_VIEW_CACHE)
+            ->getAbsolutePath(self::PUBLIC_MERGE_DIR);
         return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->_contentType;
     }
 

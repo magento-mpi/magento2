@@ -10,4 +10,5 @@
  */
 
 $designDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . '/media_for_change';
-\Magento\Io\File::rmdirRecursive($designDir);
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->create('Magento\Filesystem')->delete($designDir);

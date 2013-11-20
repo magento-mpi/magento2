@@ -24,13 +24,17 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         parent::setUp();
-        $ioFile = $this->getMock('Magento\Io\File', array('mkdir'));
-        $ioFile->expects($this->any())
-            ->method('mkdir')
-            ->will($this->returnValue(true));
-
-        $data = array('io' => $ioFile);
-        $this->_model = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter', array($data));
+        $filesystemMock = $this->getMock(
+            'Magento\Filesystem',
+            array('setIsAllowCreateDirectories', 'createDirectory'),
+            array(),
+            '',
+            false
+        );
+        $this->_model = $this->getMockForAbstractClass(
+            'Magento\Image\Adapter\AbstractAdapter',
+            array($filesystemMock)
+        );
     }
 
     /**

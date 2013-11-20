@@ -16,7 +16,7 @@ interface WriteInterface extends ReadInterface
      * @return bool
      * @throws \Magento\Filesystem\FilesystemException
      */
-    public function create($path);
+    public function create($path = null);
 
     /**
      * Delete given path

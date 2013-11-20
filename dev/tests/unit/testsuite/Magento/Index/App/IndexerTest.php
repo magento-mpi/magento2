@@ -50,7 +50,7 @@ class IndexerTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->any())->method('getDirectoryWrite')->will($this->returnValue($writeDir));
 
         $process = $this->getMock('Magento\Index\Model\Process',
-            array('getIndexer', 'reindexEverything'), array(), '', false);
+            array('getIndexer', 'reindexEverything', '__wakeup'), array(), '', false);
         $indexer = $this->getMock('Magento\Index\Model\Indexer',
             array('getProcessesCollection'), array(), '', false);
         $indexerInterface = $this->getMock('Magento\Index\Model\IndexerInterface');

@@ -106,7 +106,7 @@ class Filesystem
      * Create an instance of directory with read permissions
      *
      * @param string $code
-     * @return \Magento\Filesystem\Directory\Write
+     * @return \Magento\Filesystem\Directory\WriteInterface
      * @throws \Magento\Filesystem\FilesystemException
      */
     public function getDirectoryWrite($code)
@@ -642,9 +642,7 @@ class Filesystem
      * @param string $path
      * @param string $directory
      * @return bool
-     * @deprecated
-     *
-     * @replaceWith strpos($path, $directory) === 0
+     * @deprecated Use Magento\Filesystem\Directory\ReadInterface
      */
     public function isPathInDirectory($path, $directory)
     {
@@ -667,5 +665,16 @@ class Filesystem
             );
         }
         return true;
+    }
+
+    /**
+     * Return file statistic
+     *
+     * @param string $filename
+     * @param string|null $statParam
+     */
+    public function getStat($filename, $statParam = null)
+    {
+        return $this->_adapter->getStat($filename, $statParam);
     }
 }
