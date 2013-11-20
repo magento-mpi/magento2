@@ -112,7 +112,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
             if (!$section['is_changed']) {
                 continue;
             }
-            $filePath = $this->mapDir . DIRECTORY_SEPARATOR . $sectionFile;
+            $filePath = $this->mapDir . '/' . $sectionFile;
             $this->varDirectory->writeFile($filePath, serialize($section['data']));
         }
     }
@@ -193,7 +193,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         if (isset($this->sections[$sectionKey]['data'][$fileKey])) {
             $value = $this->sections[$sectionKey]['data'][$fileKey];
             if ('' !== (string)$value) {
-                $value = $this->baseDir . DIRECTORY_SEPARATOR . $value;
+                $value = $this->baseDir . '/' . $value;
             }
             return $value;
         }
@@ -219,7 +219,7 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
                 "Attempt to store fallback path '{$filePath}', which is not within '{$this->baseDir}'"
             );
         }
-        $value = substr($filePath, strlen($this->baseDir) + 1);
+        $value = ltrim(substr($filePath, strlen($this->baseDir)), '/\\');
 
         $sectionKey = $this->loadSection($area, $theme, $locale);
         $fileKey = "$fileType|$file|$module";

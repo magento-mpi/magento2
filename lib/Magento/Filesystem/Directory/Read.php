@@ -69,7 +69,7 @@ class Read implements ReadInterface
 
     /**
      * Retrieves absolute path
-     * E.g.: var/www/application/file.txt
+     * E.g.: /var/www/application/file.txt
      *
      * @param string $path
      * @return string
