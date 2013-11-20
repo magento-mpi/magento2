@@ -55,7 +55,6 @@ class Merged implements \Iterator
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\Page\Asset\MergeStrategyInterface $mergeStrategy
      * @param array $assets
      * @throws \InvalidArgumentException
@@ -63,13 +62,11 @@ class Merged implements \Iterator
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Logger $logger,
-        \Magento\App\Dir $dirs,
         \Magento\Core\Model\Page\Asset\MergeStrategyInterface $mergeStrategy,
         array $assets
     ) {
         $this->_objectManager = $objectManager;
         $this->_logger = $logger;
-        $this->_dirs = $dirs;
         $this->_mergeStrategy = $mergeStrategy;
 
         if (!$assets) {
@@ -160,7 +157,7 @@ class Merged implements \Iterator
 
         $relFileNames = array();
         foreach ($publicFiles as $file) {
-            $relFileNames[] = str_replace($prefixRemovals, '', $file);
+            $relFileNames[] = ltrim(str_replace($prefixRemovals, '', $file), '/');
         }
 
         $mergedDir = $filesystem->getDirectoryRead(DirectoryList::PUB_VIEW_CACHE)

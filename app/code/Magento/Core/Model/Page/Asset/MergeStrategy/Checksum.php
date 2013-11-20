@@ -49,9 +49,9 @@ class Checksum
         foreach ($publicFiles as $file) {
             $filesMTimeData .= $this->_directory->stat($this->_directory->getRelativePath($file))['mtime'];
         }
-        if (!($this->_directory->isExist($this->_directory->getRelativePath($destinationFile)))
+        if (!($this->_directory->isExist($this->_directory->getRelativePath($destinationFile))
             && $this->_directory->isExist($this->_directory->getRelativePath($mergedMTimeFile))
-            && (strcmp($filesMTimeData, $this->_directory->readFile(
+            && strcmp($filesMTimeData, $this->_directory->readFile(
                     $this->_directory->getRelativePath($mergedMTimeFile))) == 0)
         ) {
         $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
