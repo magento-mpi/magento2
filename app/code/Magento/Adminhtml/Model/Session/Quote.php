@@ -90,7 +90,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
         $this->_storeManager = $storeManager;
         $this->_orderFactory = $orderFactory;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('adminhtml_quote');
+        $this->start('adminhtml_quote');
         if ($this->_storeManager->hasSingleStore()) {
             $this->setStoreId($this->_storeManager->getStore(true)->getId());
         }

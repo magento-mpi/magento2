@@ -24,6 +24,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         array $data = array()
     ) {
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('adminhtml');
+        $this->start('adminhtml');
     }
 }

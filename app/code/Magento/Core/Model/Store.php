@@ -378,8 +378,9 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         if (!$this->_session) {
-            $this->_session = \Magento\App\ObjectManager::getInstance()->create('Magento\Core\Model\Session')
-                ->init('store_'.$this->getCode());
+            $this->_session = \Magento\App\ObjectManager::getInstance()
+                ->create('Magento\Core\Model\Session')
+                ->start('store_' . $this->getCode());
         }
         return $this->_session;
     }

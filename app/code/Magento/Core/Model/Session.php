@@ -46,7 +46,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('core', $sessionName);
+        $this->start('core', $sessionName);
     }
 
     /**

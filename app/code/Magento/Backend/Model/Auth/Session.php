@@ -59,7 +59,7 @@ class Session
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('admin');
+        $this->start('admin');
     }
 
     /**
@@ -75,9 +75,9 @@ class Session
      * @return \Magento\Backend\Model\Auth\Session
      * @see self::login()
      */
-    public function init($namespace, $sessionName = null)
+    public function start($namespace = 'default', $sessionName = null)
     {
-        parent::init($namespace, $sessionName);
+        parent::start($namespace, $sessionName);
         // @todo implement solution that keeps is_first_visit flag in session during redirects
         return $this;
     }

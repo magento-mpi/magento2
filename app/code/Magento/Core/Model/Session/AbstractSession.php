@@ -11,6 +11,8 @@
  */
 namespace Magento\Core\Model\Session;
 
+use Magento\Webapi\Exception;
+
 class AbstractSession extends \Magento\Object
 {
     const PARAM_SESSION_SAVE_METHOD     = 'session_save';
@@ -161,19 +163,11 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Configure session handler and start session
-     *
-     * @param string $sessionName
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * Init session handler
      */
-    public function start($sessionName = null)
+    protected function _initSessionHandler()
     {
-        if ($this->isSessionExists()) {
-            return $this;
-        }
-
         \Magento\Profiler::start('session_start');
-
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
@@ -201,35 +195,6 @@ class AbstractSession extends \Magento\Object
                 break;
         }
 
-//        // session cookie params
-//        $cookieParams = array(
-//            'lifetime' => 0, // 0 is browser session lifetime
-//            'path'     => $this->_sessionConfig->getCookiePath(),
-//            'domain'   => $this->_sessionConfig->getCookieDomain(),
-//            'secure'   => $this->_sessionConfig->getCookieSecure(),
-//            'httponly' => $this->_sessionConfig->getCookieHttpOnly()
-//        );
-//
-//        if (!$cookieParams['httponly']) {
-//            unset($cookieParams['httponly']);
-//            if (!$cookieParams['secure']) {
-//                unset($cookieParams['secure']);
-//                if (!$cookieParams['domain']) {
-//                    unset($cookieParams['domain']);
-//                }
-//            }
-//        }
-//
-//        if (isset($cookieParams['domain'])) {
-//            $cookieParams['domain'] = $this->_sessionConfig->getCookieDomain();
-//        }
-//
-//        call_user_func_array('session_set_cookie_params', $cookieParams);
-
-        if (!empty($sessionName)) {
-            $this->setSessionName($sessionName);
-        }
-
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId($this->_sidResolver->getSid($this));
 
@@ -240,7 +205,30 @@ class AbstractSession extends \Magento\Object
         session_start();
 
         \Magento\Profiler::stop('session_start');
+    }
 
+    /**
+     * Configure session handler and start session
+     *
+     * @param string $namespace
+     * @param string $sessionName
+     * @return \Magento\Core\Model\Session\AbstractSession
+     */
+    public function start($namespace = 'default', $sessionName = null)
+    {
+        if (!$this->isSessionExists()) {
+            if (!empty($sessionName)) {
+                $this->setSessionName($sessionName);
+            }
+            $this->_initSessionHandler();
+            $this->_validator->validate($this);
+            $this->_addHost();
+        }
+
+        if (!isset($_SESSION[$namespace])) {
+            $_SESSION[$namespace] = array();
+        }
+        $this->_data = &$_SESSION[$namespace];
         return $this;
     }
 
@@ -255,29 +243,6 @@ class AbstractSession extends \Magento\Object
             return false;
         }
         return true;
-    }
-
-    /**
-     * Init session with namespace
-     *
-     * @param string $namespace
-     * @param string $sessionName
-     * @return \Magento\Core\Model\Session\AbstractSession
-     */
-    public function init($namespace, $sessionName = null)
-    {
-        if (!isset($_SESSION)) {
-            $this->start($sessionName);
-        }
-        if (!isset($_SESSION[$namespace])) {
-            $_SESSION[$namespace] = array();
-        }
-
-        $this->_data = &$_SESSION[$namespace];
-
-        $this->_validator->validate($this);
-        $this->_addHost();
-        return $this;
     }
 
     /**

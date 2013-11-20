@@ -34,7 +34,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $sessionName = null
     ) {
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('catalog', $sessionName);
+        $this->start('catalog', $sessionName);
     }
 
     public function getDisplayMode()

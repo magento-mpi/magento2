@@ -111,7 +111,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_quoteFactory = $quoteFactory;
         $this->_remoteAddress = $remoteAddress;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('checkout', $sessionName);
+        $this->start('checkout', $sessionName);
     }
 
     /**

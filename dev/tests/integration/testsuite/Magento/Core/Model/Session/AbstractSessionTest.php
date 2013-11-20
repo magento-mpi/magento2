@@ -42,7 +42,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
 
     public function testInit()
     {
-        $this->_model->init('test');
+        $this->_model->start('test');
         $this->_model->setTestData('test');
         $data = $this->_model->getData();
         $this->assertArrayHasKey('test_data', $data);
@@ -114,7 +114,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
     public function testGetSessionIdForHost()
     {
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_model->init('test');
+        $this->_model->start('test');
         $this->assertEmpty($this->_model->getSessionIdForHost('localhost'));
         $this->assertNotEmpty($this->_model->getSessionIdForHost('test'));
     }
@@ -122,7 +122,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
     public function testIsValidForHost()
     {
         $_SERVER['HTTP_HOST'] = 'localhost';
-        $this->_model->init('test');
+        $this->_model->start('test');
         $this->assertFalse($this->_model->isValidForHost('test.com'));
         $this->assertTrue($this->_model->isValidForHost('localhost'));
     }

@@ -34,6 +34,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $sessionName = null
     ) {
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('magento_pbridge', $sessionName);
+        $this->start('magento_pbridge', $sessionName);
     }
 }

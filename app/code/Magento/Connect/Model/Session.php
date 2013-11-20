@@ -43,7 +43,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->_connectData = $connectData;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('adminhtml');
+        $this->start('adminhtml');
     }
 
     /**

@@ -35,7 +35,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $sessionName = null
     ) {
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->init('newsletter', $sessionName);
+        $this->start('newsletter', $sessionName);
     }
 
     public function addError($message)
