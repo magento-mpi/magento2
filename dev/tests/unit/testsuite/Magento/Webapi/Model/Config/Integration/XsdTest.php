@@ -19,7 +19,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_schemaFile = BP . '/app/code/Magento/Integration/etc/integration/api.xsd';
+        $this->_schemaFile = BP . '/app/code/Magento/Webapi/etc/integration/api.xsd';
     }
 
     /**
@@ -46,7 +46,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             /** Valid configurations */
             'valid' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -57,13 +57,13 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'valid with several entities' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
                         </resources>
                     </integration>
-                    <integration id="TestIntegration2">
+                    <integration name="TestIntegration2">
                         <resources>
                             <resource name="Magento_Catalog::product_read" />
                         </resources>
@@ -79,13 +79,13 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'empty integration' => array(
                 '<integrations>
-                    <integration id="TestIntegration" />
+                    <integration name="TestIntegration" />
                 </integrations>',
                 array("Element 'integration': Missing child element(s). Expected is ( resources ).")
             ),
             'empty resources' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                         </resources>
                     </integration>
@@ -100,7 +100,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             /** Excessive nodes */
             'irrelevant node in root' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -112,7 +112,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'irrelevant node in integration' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -124,7 +124,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'irrelevant node in resources' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -136,7 +136,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'irrelevant node in resource' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online">
@@ -154,7 +154,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             /** Excessive attributes */
             'invalid attribute in root' => array(
                 '<integrations invalid="invalid">
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -165,7 +165,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'invalid attribute in integration' => array(
                 '<integrations>
-                    <integration id="TestIntegration1" invalid="invalid">
+                    <integration name="TestIntegration1" invalid="invalid">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -176,7 +176,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'invalid attribute in resources' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources invalid="invalid">
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -187,7 +187,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'invalid attribute in resource' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" invalid="invalid" />
                             <resource name="Magento_Customer::online" />
@@ -198,7 +198,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
 
             /** Missing or empty required attributes */
-            'integration without id' => array(
+            'integration without name' => array(
                 '<integrations>
                     <integration>
                         <resources>
@@ -207,11 +207,11 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                         </resources>
                     </integration>
                 </integrations>',
-                array("Element 'integration': The attribute 'id' is required but missing.")
+                array("Element 'integration': The attribute 'name' is required but missing.")
             ),
-            'integration with empty id' => array(
+            'integration with empty name' => array(
                 '<integrations>
-                    <integration id="">
+                    <integration name="">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="Magento_Customer::online" />
@@ -220,15 +220,15 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 </integrations>',
                 array
                 (
-                    "Element 'integration', attribute 'id': [facet 'minLength'] The value '' has a length of '0'; "
+                    "Element 'integration', attribute 'name': [facet 'minLength'] The value '' has a length of '0'; "
                         . "this underruns the allowed minimum length of '2'.",
-                    "Element 'integration', attribute 'id': "
-                        . "'' is not a valid value of the atomic type 'integrationIdType'."
+                    "Element 'integration', attribute 'name': "
+                        . "'' is not a valid value of the atomic type 'integrationNameType'."
                 )
             ),
             'resource without name' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource />
@@ -239,7 +239,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             ),
             'resource with empty name' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::manage" />
                             <resource name="" />
@@ -257,7 +257,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
             /** Invalid values */
             'resource with invalid name' => array(
                 '<integrations>
-                    <integration id="TestIntegration1">
+                    <integration name="TestIntegration1">
                         <resources>
                             <resource name="Magento_Customer::online" />
                             <resource name="customer_manage" />
