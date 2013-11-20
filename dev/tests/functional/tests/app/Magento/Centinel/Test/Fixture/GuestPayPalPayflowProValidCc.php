@@ -9,16 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\Fixture;
+namespace Magento\Centinel\Test\Fixture;
 
 use Mtf\Factory\Factory;
+use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Guest checkout. PayPal Payflow Pro with 3D Secure payment method and free shipping method
  *
- * @package Magento\Checkout
+ * @package Magento\Centinel
  */
-class GuestPayPalPayflowPro3dSecure extends Checkout
+class GuestPayPalPayflowProValidCc extends Checkout
 {
     /**
      * Init validation data
@@ -47,11 +48,8 @@ class GuestPayPalPayflowPro3dSecure extends Checkout
         $this->_persistConfiguration(array(
             'free_shipping',
             'paypal_disabled_all_methods',
-            'paypal_payflow_pro_3d_secure',
             '3d_secure_credit_card_validation',
-            'default_tax_config',
-            'display_price',
-            'display_shopping_cart'
+            'paypal_payflow_pro_3d_secure'
         ));
 
         //Tax

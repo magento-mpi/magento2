@@ -11,7 +11,6 @@
 
 namespace Magento\Centinel\Test\Block;
 
-use PHPUnit_Extensions_Selenium2TestCase_WebDriverException;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
@@ -46,14 +45,14 @@ class Authentication extends Block
      */
     public function verifyCard(Checkout $fixture)
     {
-        $data = $fixture->getCreditCard()->getValidationData();
+        $data = $fixture->getCreditCard()->getValidationPassword();
         $this->waitForElementVisible($this->password);
-        $this->_rootElement->find($this->password, Locator::SELECTOR_CSS)->setValue($data['password']);
+        $this->_rootElement->find($this->password, Locator::SELECTOR_CSS)->setValue($data);
         $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
         //Workaround for https\http data transfer browser alert
         try {
             $this->_rootElement->acceptAlert();
-        } catch (PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
+        } catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
         }
     }
 }

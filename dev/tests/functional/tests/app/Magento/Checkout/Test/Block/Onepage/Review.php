@@ -27,15 +27,7 @@ class Review extends Block
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->continue = '#review-buttons-container button';
-    }
+    private $continue = '#review-buttons-container button';
 
     /**
      * Fill billing address

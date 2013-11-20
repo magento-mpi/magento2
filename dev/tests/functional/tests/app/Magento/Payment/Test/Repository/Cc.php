@@ -158,7 +158,9 @@ class Cc extends AbstractRepository
                     ),
                 ),
                 'validation' => array(
-                    'password' => '1234'
+                    'password' => array(
+                        'value' => '1234'
+                    )
                 )
             )
         );

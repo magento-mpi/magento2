@@ -9,37 +9,20 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\TestCase\Guest;
+namespace Magento\Centinel\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
-use Magento\Checkout\Test\Fixture\GuestPayPalPayflowPro3dSecure;
 
 /**
- * Class CheckoutOnepage3dSecureTest
- * Tests checkout via Magento one page checkout and 3D Secure payment methods.
+ * Class Steps
+ * Test steps for 3D Secure card validation
  *
- * @package Magento\Checkout
+ * @package Magento\Centinel
  */
-class CheckoutOnepage3dSecureTest extends Functional
+class Steps extends Functional
 {
-    /**
-     * Place order on frontend via one page checkout and PayPal PayflowPro 3D Secure payment method.
-     */
-    public function testOnepageCheckoutPayPalPayflowPro()
-    {
-        //Data
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflowPro3dSecure();
-        $fixture->persist();
-        //Steps
-        $this->_addProducts($fixture);
-        $this->_magentoCheckoutProcess($fixture);
-        $this->_validateAndPlaceOrder($fixture);
-        //Verifying
-        $this->_verifyOrder($fixture);
-    }
-
     /**
      * Add products to cart
      *
@@ -82,17 +65,25 @@ class CheckoutOnepage3dSecureTest extends Functional
     }
 
     /**
-     * Submit 3D Secure Verification form and place order
+     * Submit 3D Secure Verification form
      */
-    protected function _validateAndPlaceOrder(Checkout $fixture)
+    protected function _validateCc(Checkout $fixture)
     {
         /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         /** @var  \Magento\Centinel\Test\Block\Authentication $centinelBlock */
         $centinelBlock = $checkoutOnePage->getCentinelAuthenticationBlock();
         $centinelBlock->verifyCard($fixture);
-
         $checkoutOnePage->getReviewBlock()->waitForCardValidation();
+    }
+
+    /**
+     * Submit order on Order Review page
+     */
+    protected function _placeOrder()
+    {
+        /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
+        $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getReviewBlock()->placeOrder();
     }
 
@@ -120,21 +111,25 @@ class CheckoutOnepage3dSecureTest extends Functional
         $this->assertContains(
             $fixture->getGrandTotal(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderTotalsBlock()->getGrandTotal(),
-            'Incorrect grand total value for the order #' . $orderId);
+            'Incorrect grand total value for the order #' . $orderId
+        );
 
         $this->assertContains(
             $fixture->getVerificationResult(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderInfoBlock()->getVerificationResult(),
-            'Incorrect "3D Secure Verification Result" the order #' . $orderId);
+            'Incorrect "3D Secure Verification Result" the order #' . $orderId
+        );
 
         $this->assertContains(
             $fixture->getCardholderValidation(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderInfoBlock()->getCardholderValidation(),
-            'Incorrect "3D Secure Cardholder Validation" for the order #' . $orderId);
+            'Incorrect "3D Secure Cardholder Validation" for the order #' . $orderId
+        );
 
         $this->assertContains(
             $fixture->getEcommerceIndicator(),
             Factory::getPageFactory()->getSalesOrderView()->getOrderInfoBlock()->getEcommerceIndicator(),
-            'Incorrect "3D Secure Electronic Commerce Indicator" for the order #' . $orderId);
+            'Incorrect "3D Secure Electronic Commerce Indicator" for the order #' . $orderId
+        );
     }
 }
