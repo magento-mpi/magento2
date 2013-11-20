@@ -14,7 +14,7 @@ namespace Magento\View\Block\Html;
 class Link extends \Magento\View\Block\Template
 {
     /**
-     * Prepare link attributes as serialized and formated string
+     * Prepare link attributes as serialized and formatted string
      *
      * @return string
      */

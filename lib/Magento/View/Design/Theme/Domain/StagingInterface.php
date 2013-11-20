@@ -8,12 +8,15 @@
 
 namespace Magento\View\Design\Theme\Domain;
 
+/**
+ * Interface StagingInterface
+ */
 interface StagingInterface
 {
     /**
      * Copy changes from 'staging' theme
      *
-     * @return \Magento\Core\Model\Theme\Domain\Virtual
+     * @return \Magento\View\Design\Theme\Domain\StagingInterface
      */
     public function updateFromStagingTheme();
 }

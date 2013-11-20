@@ -13,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * Locale Interface
  *
- * Interface for 'locale' file resolution strateg
+ * Interface for 'locale' file resolution strategy
  */
 interface LocaleInterface
 {

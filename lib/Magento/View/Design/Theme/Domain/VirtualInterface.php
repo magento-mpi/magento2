@@ -8,6 +8,9 @@
 
 namespace Magento\View\Design\Theme\Domain;
 
+/**
+ * Interface VirtualInterface
+ */
 interface VirtualInterface
 {
     /**

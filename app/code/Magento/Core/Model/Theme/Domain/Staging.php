@@ -42,7 +42,7 @@ class Staging implements \Magento\View\Design\Theme\Domain\StagingInterface
     /**
      * Copy changes from 'staging' theme
      *
-     * @return \Magento\Core\Model\Theme\Domain\Virtual
+     * @return \Magento\View\Design\Theme\Domain\StagingInterface
      */
     public function updateFromStagingTheme()
     {

@@ -8,7 +8,6 @@
 namespace Magento\View;
 
 use Magento\View\TemplateEngineFactory;
-use Magento\View\TemplateEngineInterface;
 
 class TemplateEnginePool
 {
@@ -18,7 +17,7 @@ class TemplateEnginePool
     protected $factory;
 
     /**
-     * @var TemplateEngineInterface[]
+     * @var \Magento\View\TemplateEngineInterface[]
      */
     protected $engines = array();
 
@@ -34,7 +33,7 @@ class TemplateEnginePool
      * Retrieve a template engine instance by its unique name
      *
      * @param string $name
-     * @return TemplateEngineInterface
+     * @return \Magento\View\TemplateEngineInterface
      */
     public function get($name)
     {
