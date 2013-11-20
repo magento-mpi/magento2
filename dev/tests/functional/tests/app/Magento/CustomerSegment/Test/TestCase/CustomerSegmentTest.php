@@ -30,7 +30,7 @@ class CustomerSegmentTest extends Functional
      */
     public function testCreateCustomerSegment()
     {
-        // Start Add Customer via UI... replace with curl or direct
+        // Start Add Customer Precondition
         //Data
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_retailer_customer');
@@ -49,7 +49,7 @@ class CustomerSegmentTest extends Functional
         $this->assertTrue($gridBlock->isRowVisible(array(
             'email' => $customerFixture->getEmail()
         )), 'Customer email "' . $customerFixture->getEmail() . '" not found in the grid');
-        // End Add Customer via UI
+        // End Add Customer
 
         //CustomerSegment test here
         //data
@@ -66,5 +66,11 @@ class CustomerSegmentTest extends Functional
         $newCustomerSegmentForm->fill($customerSegmentFixture);
         $newCustomerSegmentForm->clickSaveAndContinue();
         $messagesBlock->assertSuccessMessage($customerFixture);
+        // add a condition
+        $tabsWidget = $customerSegmentCreatePage->getConditionsTab();
+        $tabsWidget->openTab('magento_customersegment_segment_tabs_conditions_section');
+        $addConditionWidget = $customerSegmentCreatePage->getConditionsAdd();
+        $addConditionWidget->clickAddNew();
+        $customerSegmentConditionsFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentCustomerSegment();
     }
 }
