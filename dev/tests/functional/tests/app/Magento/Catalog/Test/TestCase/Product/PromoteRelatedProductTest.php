@@ -134,9 +134,9 @@ class PromoteRelatedProductTest extends Functional
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
-        $this->assertTrue($checkoutCartBlock->checkAddedProduct($configurableProduct)->isVisible(),
+        $this->assertTrue($checkoutCartBlock->isProductInShoppingCart($configurableProduct),
             'Configurable product was not found in the shopping cart.');
-        $this->assertTrue($checkoutCartBlock->checkAddedProduct($simpleProduct2)->isVisible(),
+        $this->assertTrue($checkoutCartBlock->isProductInShoppingCart($simpleProduct2),
             'Related product was not found in the shopping cart.');
     }
 
