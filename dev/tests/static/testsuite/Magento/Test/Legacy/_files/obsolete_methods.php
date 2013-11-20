@@ -948,6 +948,8 @@ return array(
         '\Magento\Core\Model\Session\AbstractSession::destroy'
     ),
     array('delete', '\Magento\Core\Model\Cookie', '\Magento\Core\Model\Cookie::set'),
+    array('setSkipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),
+    array('getSkipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),
     array('getConfigDomain', '\Magento\Core\Model\Cookie'),
     array('getDomain', '\Magento\Core\Model\Cookie'),
     array('getDefaultLifetime', '\Magento\Core\Model\Cookie'),
