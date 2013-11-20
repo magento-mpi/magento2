@@ -895,7 +895,9 @@ return array(
     array('is_empty_date'),
     array('now'),
     array('uniqHash', '\Magento\Core\Helper\Data', '\Magento\Math\Random::getUniqueHash'),
-    array('getMerchantCountryCode', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantCountryCode'),
+    array('getMerchantCountryCode', '\Magento\Core\Helper\Data',
+        '\Magento\Customer\Helper\Data::getMerchantCountryCode'
+    ),
     array('getMerchantVatNumber', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::getMerchantVatNumber'),
     array('isCountryInEU', '\Magento\Core\Helper\Data', '\Magento\Customer\Helper\Data::isCountryInEU'),
     array('assocToXml', '\Magento\Core\Helper\Data', '\Magento\Convert\ConvertArray::assocToXml'),
@@ -933,4 +935,60 @@ return array(
     array('_filterPostData', '\Magento\Checkout\Controller\Onepage'),
     array('_filterPostData', '\Magento\Customer\Controller\Account'),
     array('_filterPostData', '\Magento\Customer\Controller\Adminhtml\Index'),
+    array('setRedirectWithCookieCheck', '\Magento\Core\Controller\Varien\Action'),
+    array('noCookiesAction', '\Magento\Core\Controller\Varien\Action'),
+    array('norouteAction', '\Magento\Core\Controller\Varien\Action'),
+    array('getActionMethodName', '\Magento\Core\Controller\Varien\Action'),
+    array('initLayoutMessages', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Model\Layout::initMessages'),
+    array('_initLayoutMessages', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Model\Layout::initMessages'),
+    array('preDispatch', '\Magento\Core\Controller\Varien\Action'),
+    array('postDispatch', '\Magento\Core\Controller\Varien\Action'),
+    array('hasAction', '\Magento\Core\Controller\Varien\Action'),
+    array('_startSession', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\Core\App\Action\Plugin\Session::aroundDispatch'
+    ),
+    array('_redirectSuccess', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\Response\RedirectInterface::success'
+    ),
+    array('_redirectUrl', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\Response\RedirectInterface::redirect'
+    ),
+    array('_redirectError', '\Magento\Core\Controller\Varien\Action', '\Magento\App\Response\RedirectInterface::error'),
+    array('_redirectReferer', '\Magento\Core\Controller\Varien\Action'),
+    array('_validateFormKey', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\Core\App\Action\FormKeyValidator::validate'
+    ),
+    array('_getRefererUrl', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\Response\RedirectInterface::getRefererUrl'
+    ),
+    array('_isUrlInternal', '\Magento\Core\Controller\Varien\Action'),
+    array('_filterDateTime', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Filter\DateTime::filter'),
+    array('_filterDates', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Filter\Date::filter'),
+
+    array('_initDesign', '\Magento\Core\Controller\Varien\Action', '\Magento\Core\Model\DesignLoader::load'),
+    array('_firePreDispatchEvents', '\Magento\Core\Controller\Varien\Action'),
+    array('_prepareDownloadResponse', '\Magento\Core\Controller\Varien\Action'),
+    array('_title', '\Magento\Core\Controller\Varien\Action', '\Magento\App\Action\Title::add'),
+    array('_renderTitles', '\Magento\Core\Controller\Varien\Action'),
+    array('getFlag', '\Magento\Core\Controller\Varien\Action', '\Magento\App\ActionFlag::get'),
+    array('setFlag', '\Magento\Core\Controller\Varien\Action', '\Magento\App\ActionFlag::set'),
+    array('loadLayout', '\Magento\Core\Controller\Varien\Action', '\Magento\App\ViewInterface::'),
+    array('addPageLayoutHandles', '\Magento\Core\Controller\Varien\Action', '\Magento\App\ViewInterface::loadLayout'),
+    array('getDefaultLayoutHandle', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\ViewInterface::getDefaultLayoutHandle'
+    ),
+    array('generateLayoutXml', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\ViewInterface::generateLayoutXml'
+    ),
+    array('renderLayout', '\Magento\Core\Controller\Varien\Action', '\Magento\App\ViewInterface::renderLayout'),
+    array('getLayout', '\Magento\Core\Controller\Varien\Action', '\Magento\App\ViewInterface::getLayout'),
+    array('loadLayoutUpdates', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\ViewInterface::loadLayoutUpdates'
+    ),
+    array('generateLayoutBlocks', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\ViewInterface::generateLayoutBlocks'
+    ),
+    array('addActionLayoutHandles', '\Magento\Core\Controller\Varien\Action',
+        '\Magento\App\ViewInterface::addActionLayoutHandles'
+    ),
 );
