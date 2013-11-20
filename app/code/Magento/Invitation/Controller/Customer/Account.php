@@ -88,7 +88,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return parent::dispatch($request);
         }
-        return \Magento\App\Action\Action::dispatch($request);
+        return parent::dispatch($request);
     }
 
     /**
@@ -150,6 +150,7 @@ class Account extends \Magento\Customer\Controller\Account
             if ($customerId) {
                 $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
+            $this->_redirect('customer/account/');
             return;
         } catch (\Magento\Core\Exception $e) {
             $_definedErrorCodes = array(
