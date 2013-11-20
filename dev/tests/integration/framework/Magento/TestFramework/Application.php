@@ -10,6 +10,7 @@
  */
 
 namespace Magento\TestFramework;
+use Magento\Filesystem\DirectoryList;
 
 /**
  * Encapsulates application installation, initialization and uninstall
@@ -382,8 +383,17 @@ class Application
      */
     protected function _cleanupFilesystem()
     {
-        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
-        $filesystem->delete($this->_installDir);
+        $iterator = new \RecursiveIteratorIterator(
+            new \RecursiveDirectoryIterator(
+                $this->_installDir,
+                \FilesystemIterator::SKIP_DOTS
+            ),
+            \RecursiveIteratorIterator::CHILD_FIRST
+        );
+        foreach ($iterator as $path) {
+            $path->isFile() ? unlink($path->getPathname()) : rmdir($path->getPathname());
+        }
+        rmdir($this->_installDir);
     }
 
     /**

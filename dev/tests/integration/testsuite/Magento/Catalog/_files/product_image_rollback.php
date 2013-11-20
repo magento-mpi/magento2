@@ -12,7 +12,11 @@
 /** @var $config \Magento\Catalog\Model\Product\Media\Config */
 $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->get('Magento\Catalog\Model\Product\Media\Config');
-$filesystem =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->create('Magento\Filesystem');
-$filesystem->delete($config->getBaseMediaPath());
-$filesystem->delete($config->getBaseTmpMediaPath());
+
+/** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+$mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Filesystem')
+    ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+
+$mediaDirectory->delete($config->getBaseMediaPath());
+$mediaDirectory->delete($config->getBaseTmpMediaPath());
