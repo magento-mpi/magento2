@@ -16,7 +16,6 @@ use Mtf\Repository\AbstractRepository;
 class Integration extends AbstractRepository
 {
     const INTEGRATION_TAB = 'integration';
-    const INTEGRATION = 'api';
 
     /**
      * {@inheritdoc}
@@ -28,7 +27,6 @@ class Integration extends AbstractRepository
             'data' => $defaultData
         );
         $this->_data[self::INTEGRATION_TAB] = $this->_getIntegrationTabData();
-        $this->_data[self::INTEGRATION] = array_replace_recursive($this->_getIntegrationTabData(), $this->_getApiTabData());
     }
 
     /**

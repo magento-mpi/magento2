@@ -108,11 +108,11 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     }
 
     /**
-     * Create new Integration with valid data
+     * Api tab verification
      *
-     * @ZephyrId MAGETWO-16694
+     * @ZephyrId MAGETWO-17045
      */
-    public function testVerifyResourcesTree()
+    public function testApiTabVerification()
     {
         //Data
         $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
