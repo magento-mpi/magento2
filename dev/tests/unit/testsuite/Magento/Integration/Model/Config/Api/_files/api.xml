@@ -15,7 +15,7 @@
             <resource name="Magento_Customer::manage" />
             <resource name="Magento_Customer::online" />
             <resource name="Magento_Customer::order_statuses_read" />
-            <resource name="Magento_SalesHistory::history" />
+            <resource name="Magento_Sales::capture" />
         </resources>
     </integration>
     <integration id="TestIntegration2">
