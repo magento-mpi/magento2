@@ -17,15 +17,15 @@ class EnterpriseConfigurator implements ConfiguratorInterface
     protected $_basePath;
 
     /**
-     * @var \Magento\Io\File
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
 
     /**
      * @param $basePath
-     * @param \Magento\Io\File $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct($basePath, \Magento\Io\File $filesystem)
+    public function __construct($basePath, \Magento\Filesystem $filesystem)
     {
         $this->_basePath = $basePath;
         $this->_filesystem = $filesystem;
@@ -44,7 +44,7 @@ class EnterpriseConfigurator implements ConfiguratorInterface
             . DIRECTORY_SEPARATOR;
 
         //enable enterprise edition modules
-        $this->_filesystem->cp(
+        $this->_filesystem->copy(
             $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml.dist',
             $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml'
         );

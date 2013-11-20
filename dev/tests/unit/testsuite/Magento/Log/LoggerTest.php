@@ -26,7 +26,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystemMock = $this->getMock('Magento\Io\File', array(), array(), '', false, false);
+        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
         $dirs = new \Magento\App\Dir(TESTS_TEMP_DIR);
         $logDir = $dirs->getDir(\Magento\App\Dir::LOG);
         if (!is_dir($logDir)) {
@@ -85,7 +85,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddLogWithSpecificKey()
     {
-        $this->_filesystemMock->expects($this->once())->method('checkAndCreateFolder');
+        $this->_filesystemMock->expects($this->once())->method('isDirectory');
+        $this->_filesystemMock->expects($this->once())->method('createDirectory');
+
         $key = uniqid();
         $this->_model->addStreamLog($key);
         $this->assertTrue($this->_model->hasLog($key));

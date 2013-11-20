@@ -125,4 +125,5 @@ return array(
     array('applyIndexChanges', 'Magento\Search\Model\Observer'),
     array('holdCommit', 'Magento\Search\Model\Observer'),
     array('getDefaultMenuLayoutCode', 'Magento\VersionsCms\Model\Hierarchy\Config'),
+    array('getServerIoDriver', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'),
 );

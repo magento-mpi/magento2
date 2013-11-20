@@ -121,6 +121,13 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $string;
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
@@ -133,6 +140,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Filesystem $filesystem,
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -150,6 +158,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -163,6 +172,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $this->_schedOperFactory = $schedOperFactory;
         $this->_storeManager = $storeManager;
         $this->_coreDir = $coreDir;
+        $this->_filesystem = $filesystem;
         $this->string = $string;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -464,16 +474,18 @@ class Operation extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Core\Exception(__("We couldn't read the file source because the file name is empty."));
         }
         $operation->addLogComment(__('Connecting to server'));
-        $fs = $this->getServerIoDriver();
         $operation->addLogComment(__('Reading import file'));
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath  = $fileInfo['file_name'];
         $tmpFilePath = sys_get_temp_dir() . DS . uniqid(time(), true) . '.' . $extension;
-        if (!$fs->read($filePath, $tmpFilePath)) {
+        try {
+            $contents = $this->_filesystem->read($filePath);
+            $this->_filesystem->setWorkingDirectory(dirname($tmpFilePath));
+            $this->_filesystem->write($tmpFilePath, $contents);
+        } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__("We couldn't read the import file."));
         }
-        $fs->close();
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($tmpFilePath);
         return $tmpFilePath;
@@ -491,25 +503,27 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\OperationInterface $operation,
         $fileContent
     ) {
-        $result = false;
-
         $operation->addLogComment(__('Save history file content "%1"', $this->getHistoryFilePath()));
         $this->_saveOperationHistory($fileContent);
 
         $fileInfo = $this->getFileInfo();
-        $fs       = $this->getServerIoDriver();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
-        $result   = $fs->write($fileName, $fileContent);
-        if (!$result) {
-            throw new \Magento\Core\Exception(
-                __('We couldn\'t write file "%1" to "%2" with the "%3" driver.', $fileName, $fileInfo['file_path'], $fileInfo['server_type'])
+        try{
+            $this->_filesystem->setWorkingDirectory($this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR));
+            $this->_filesystem->write(
+                $this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR) . '/' . $fileInfo['file_path'] . '/' . $fileName,
+                $fileContent
             );
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            throw new \Magento\Core\Exception(__(
+                    'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
+                    $fileName, $fileInfo['file_path'],
+                    $fileInfo['server_type']
+                ));
         }
         $operation->addLogComment(__('Save file content'));
 
-        $fs->close();
-
-        return $result;
+        return true;
     }
 
     /**
@@ -529,33 +543,6 @@ class Operation extends \Magento\Core\Model\AbstractModel
 
         $operation->initialize($this);
         return $operation;
-    }
-
-    /**
-     * Get and initialize file system driver by operation file section configuration
-     *
-     * @throws \Magento\Core\Exception
-     * @return \Magento\Io\AbstractIo
-     */
-    public function getServerIoDriver()
-    {
-        $fileInfo = $this->getFileInfo();
-        $availableTypes = $this->_operationFactory->create()
-            ->getServerTypesOptionArray();
-        if (!isset($fileInfo['server_type'])
-            || !$fileInfo['server_type']
-            || !isset($availableTypes[$fileInfo['server_type']])
-        ) {
-            throw new \Magento\Core\Exception(__('Please correct the server type.'));
-        }
-
-        $class = 'Magento\\Io\\' . ucfirst(strtolower($fileInfo['server_type']));
-        if (!class_exists($class)) {
-            throw new \Magento\Core\Exception(__('Please correct the server communication class "%1".', $class));
-        }
-        $driver = new $class;
-        $driver->open($this->_prepareIoConfiguration($fileInfo));
-        return $driver;
     }
 
     /**
@@ -596,13 +583,22 @@ class Operation extends \Magento\Core\Model\AbstractModel
     {
         $filePath = $this->getHistoryFilePath();
 
-        $fs = new \Magento\Io\File();
-        $fs->open(array(
-            'path' => dirname($filePath)
-        ));
-        if (!$fs->write(basename($filePath), $source)) {
+        $fileDir = dirname($filePath);
+        try {
+            $this->_filesystem->setWorkingDirectory(dirname($fileDir));
+            $this->_filesystem->setIsAllowCreateDirectories(true);
+            $this->_filesystem->ensureDirectoryExists($fileDir);
+            $this->_filesystem->setWorkingDirectory($fileDir);
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            $this->_filesystem->setWorkingDirectory(getcwd());
+        }
+
+        try {
+            $this->_filesystem->write($filePath, $source);
+        } catch(\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__("We couldn't save the file history file."));
         }
+
         return $this;
     }
 

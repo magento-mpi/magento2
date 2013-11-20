@@ -113,6 +113,12 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     protected $_regionCollFactory;
 
+    /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
 
     /**
      * @param \Magento\Logger $logger
@@ -122,6 +128,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -130,7 +137,8 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Shipping\Model\Carrier\Tablerate $carrierTablerate,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
-        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+        \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
+        \Magento\Filesystem $filesystem
     ) {
         parent::__construct($resource);
         $this->_coreConfig = $coreConfig;
@@ -139,6 +147,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_carrierTablerate = $carrierTablerate;
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -174,19 +183,19 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         // Render destination condition
         $orWhere = '(' . implode(') OR (', array(
-            "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = :postcode",
-            "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = ''",
+                "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = :postcode",
+                "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = ''",
 
-            // Handle asterix in dest_zip field
-            "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = '*'",
-            "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
-            "dest_country_id = '0' AND dest_region_id = :region_id AND dest_zip = '*'",
-            "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = '*'",
+                // Handle asterix in dest_zip field
+                "dest_country_id = :country_id AND dest_region_id = :region_id AND dest_zip = '*'",
+                "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
+                "dest_country_id = '0' AND dest_region_id = :region_id AND dest_zip = '*'",
+                "dest_country_id = '0' AND dest_region_id = 0 AND dest_zip = '*'",
 
-            "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = ''",
-            "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = :postcode",
-            "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
-        )) . ')';
+                "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = ''",
+                "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = :postcode",
+                "dest_country_id = :country_id AND dest_region_id = 0 AND dest_zip = '*'",
+            )) . ')';
         $select->where($orWhere);
 
         // Render condition by condition name
@@ -242,15 +251,22 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importErrors        = array();
         $this->_importedRows        = 0;
 
-        $io     = new \Magento\Io\File();
         $info   = pathinfo($csvFile);
-        $io->open(array('path' => $info['dirname']));
-        $io->streamOpen($info['basename'], 'r');
+
+        try {
+            $this->_filesystem->setIsAllowCreateDirectories(true);
+            $this->_filesystem->setWorkingDirectory(dirname($info['dirname']));
+            $this->_filesystem->ensureDirectoryExists($info['dirname']);
+            $this->_filesystem->setWorkingDirectory($info['dirname']);
+        } catch (\Magento\Filesystem\FilesystemException $e) {
+            $this->_filesystem->setWorkingDirectory(getcwd());
+        }
+        $stream = $this->_filesystem->createAndOpenStream($info['dirname'] . '/' . $info['basename'], 'r');
 
         // check and skip headers
-        $headers = $io->streamReadCsv();
+        $headers = $stream->readCsv();
         if ($headers === false || count($headers) < 5) {
-            $io->streamClose();
+            $stream->close();
             throw new \Magento\Core\Exception(__('Please correct Table Rates File Format.'));
         }
 
@@ -278,7 +294,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
             );
             $adapter->delete($this->getMainTable(), $condition);
 
-            while (false !== ($csvLine = $io->streamReadCsv())) {
+            while (false !== ($csvLine = $stream->readCsv())) {
                 $rowNumber ++;
 
                 if (empty($csvLine)) {
@@ -296,14 +312,14 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
                 }
             }
             $this->_saveImportData($importData);
-            $io->streamClose();
+            $stream->close();
         } catch (\Magento\Core\Exception $e) {
             $adapter->rollback();
-            $io->streamClose();
+            $stream->close();
             throw new \Magento\Core\Exception($e->getMessage());
         } catch (\Exception $e) {
             $adapter->rollback();
-            $io->streamClose();
+            $stream->close();
             $this->_logger->logException($e);
             throw new \Magento\Core\Exception(__('Something went wrong while importing table rates.'));
         }

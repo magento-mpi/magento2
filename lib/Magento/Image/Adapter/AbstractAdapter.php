@@ -62,10 +62,11 @@ abstract class AbstractAdapter implements AdapterInterface
     protected $_constrainOnly;
 
     /**
-     * IO model to work with files
-     * @var \Magento\Io\File
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
      */
-    protected $_ioFile;
+    protected $_filesystem;
 
     abstract public function open($fileName);
 
@@ -114,11 +115,11 @@ abstract class AbstractAdapter implements AdapterInterface
     /**
      * Initialize default values
      *
+     * @param \Magento\Filesystem $filesystem,
      * @param array $data
      */
-    public function __construct(array $data = array())
-    {
-        $this->_ioFile = isset($data['io']) ? $data['io'] : new \Magento\Io\File();
+    public function __construct(\Magento\Filesystem $filesystem, array $data = array()) {
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -518,12 +519,9 @@ abstract class AbstractAdapter implements AdapterInterface
 
         if (!is_writable($destination)) {
             try {
-                $result = $this->_ioFile->mkdir($destination);
-            } catch (\Exception $e) {
-                $result = false;
-            }
-
-            if (!$result) {
+                $this->_filesystem->setIsAllowCreateDirectories(true);
+                $this->_filesystem->createDirectory($destination);
+            } catch (\Magento\Filesystem\FilesystemException $e) {
                 throw new \Exception('Unable to write file into directory ' . $destination . '. Access forbidden.');
             }
         }

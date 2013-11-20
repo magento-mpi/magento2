@@ -57,6 +57,12 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     protected $_uploaderFactory;
 
     /**
+     * @var \Magento\Filesystem $filesystem
+     */
+    protected $_filesystem;
+
+    /**
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -65,6 +71,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      */
     public function __construct(
@@ -76,12 +83,14 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_uploaderFactory = $uploaderFactory;
+        $this->_filesystem = $filesystem;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -294,8 +303,8 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     {
         $path = $this->mediaDirectory->getAbsolutePath(self::IMAGE_PATH);
         if (!is_dir($path)) {
-            $ioAdapter = new \Magento\Io\File();
-            $ioAdapter->checkAndCreateFolder($path);
+            $this->_filesystem->setIsAllowCreateDirectories(true);
+            $this->_filesystem->ensureDirectoryExists($path);
         }
         return $path;
     }

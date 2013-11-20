@@ -39,13 +39,16 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $fixtureDir = realpath(__DIR__.'/../../../../_files');
         self::$_mediaDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem');
 
-        $ioFile = new \Magento\Io\File();
         if (!is_dir(self::$_mediaTmpDir)) {
-            $ioFile->mkdir(self::$_mediaTmpDir, 0777, true);
+            $filesystem->setIsAllowCreateDirectories(true);
+            $filesystem->createDirectory(self::$_mediaTmpDir, 0777);
         }
         if (!is_dir(self::$_mediaDir)) {
-            $ioFile->mkdir(self::$_mediaDir, 0777, true);
+            $filesystem->setIsAllowCreateDirectories(true);
+            $filesystem->createDirectory(self::$_mediaDir, 0777);
         }
 
         copy($fixtureDir . "/magento_image.jpg", self::$_mediaTmpDir . "/magento_image.jpg");
@@ -55,8 +58,10 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Magento\Io\File::rmdirRecursive(self::$_mediaTmpDir);
-        \Magento\Io\File::rmdirRecursive(self::$_mediaDir);
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem');
+        $filesystem->delete(self::$_mediaTmpDir);
+        $filesystem->delete(self::$_mediaDir);
     }
 
     protected function setUp()
