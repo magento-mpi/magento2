@@ -19,27 +19,19 @@ class Direct implements \Magento\Core\Model\Page\Asset\MergeStrategyInterface
     private $_directory;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    private $_dirs;
-
-    /**
      * @var \Magento\View\Url\CssResolver
      */
     private $_cssUrlResolver;
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dirs,
         \Magento\View\Url\CssResolver $cssUrlResolver
     ) {
         $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::PUB);
-        $this->_dirs = $dirs;
         $this->_cssUrlResolver = $cssUrlResolver;
     }
 
