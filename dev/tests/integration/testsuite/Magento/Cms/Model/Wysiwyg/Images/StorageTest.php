@@ -30,7 +30,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Magento\Io\File::rmdirRecursive(self::$_baseDir);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem')->delete(self::$_baseDir);
     }
 
     /**

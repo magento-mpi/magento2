@@ -489,6 +489,8 @@ abstract class AbstractType
                         $path = dirname($dst);
 
                         try {
+                            $this->_filesystem->setWorkingDirectory(dirname($path));
+                            $this->_filesystem->setIsAllowCreateDirectories(true);
                             $this->_filesystem->createDirectory($path, 0777);
                         } catch (\Magento\Filesystem\Exception $e) {
                             throw new \Magento\Core\Exception(

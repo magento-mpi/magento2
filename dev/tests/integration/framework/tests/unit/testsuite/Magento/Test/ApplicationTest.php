@@ -32,7 +32,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             new \Magento\Simplexml\Element('<data/>'),
             '',
             array(),
-            $appMode
+            $appMode,
+            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
         );
 
         $this->assertSame($dbInstance, $object->getDbInstance(), 'Db instance is not set in Application');

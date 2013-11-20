@@ -31,9 +31,9 @@ class Io
     private $_generationDirectory;
 
     /**
-     * @var \Magento\Io\IoInterface
+     * @var \Magento\Filesystem
      */
-    private $_ioObject;
+    private $_filesystem;
 
     /**
      * Autoloader instance
@@ -43,29 +43,21 @@ class Io
     private $_autoloader;
 
     /**
-     * @var string
-     */
-    private $_directorySeparator;
-
-    /**
-     * @param \Magento\Io\IoInterface $ioObject
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Autoload\IncludePath $autoLoader
-     * @param string $generationDirectory
+     * @param null $generationDirectory
      */
-    public function __construct(\Magento\Io\IoInterface $ioObject = null, \Magento\Autoload\IncludePath $autoLoader = null,
+    public function __construct(
+        \Magento\Filesystem $filesystem,
+        \Magento\Autoload\IncludePath $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_ioObject           = $ioObject ? : new \Magento\Io\File();
-        $this->_autoloader         = $autoLoader ? : new \Magento\Autoload\IncludePath();
-        $this->_directorySeparator = $this->_ioObject->dirsep();
-
+        $this->_filesystem = $filesystem;
+        $this->_autoloader = $autoLoader ? : new \Magento\Autoload\IncludePath();
         if ($generationDirectory) {
-            $this->_generationDirectory
-                = rtrim($generationDirectory, $this->_directorySeparator) . $this->_directorySeparator;
+            $this->_generationDirectory = rtrim($generationDirectory, '/') . '/';
         } else {
-            $this->_generationDirectory
-                = realpath(__DIR__ . str_replace('/', $this->_directorySeparator, '/../../../../'))
-                . $this->_directorySeparator . self::DEFAULT_DIRECTORY . $this->_directorySeparator;
+            $this->_generationDirectory = realpath(__DIR__ . '/../../../../') . '/' . self::DEFAULT_DIRECTORY . '/';
         }
     }
 
@@ -76,10 +68,10 @@ class Io
     public function getResultFileDirectory($className)
     {
         $fileName = $this->getResultFileName($className);
-        $pathParts = explode($this->_directorySeparator, $fileName);
+        $pathParts = explode('/', $fileName);
         unset($pathParts[count($pathParts) - 1]);
 
-        return implode($this->_directorySeparator, $pathParts) . $this->_directorySeparator;
+        return implode('/', $pathParts) . '/';
     }
 
     /**
@@ -101,7 +93,8 @@ class Io
     public function writeResultFile($fileName, $content)
     {
         $content = "<?php\n" . $content;
-        return $this->_ioObject->write($fileName, $content);
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        return $this->_filesystem->write($fileName, $content);
     }
 
     /**
@@ -135,7 +128,7 @@ class Io
      */
     public function fileExists($fileName)
     {
-        return $this->_ioObject->fileExists($fileName, true);
+        return $this->_filesystem->has($fileName);
     }
 
     /**
@@ -144,9 +137,14 @@ class Io
      */
     private function _makeDirectory($directory)
     {
-        if ($this->_ioObject->isWriteable($directory)) {
+        if ($this->_filesystem->isWritable($directory)) {
             return true;
         }
-        return $this->_ioObject->mkdir($directory, self::DIRECTORY_PERMISSION, true);
+        try {
+            $this->_filesystem->createDirectory($directory, self::DIRECTORY_PERMISSION);
+            return true;
+        } catch(\Magento\Filesystem\FilesystemException $e) {
+            return false;
+        }
     }
 }

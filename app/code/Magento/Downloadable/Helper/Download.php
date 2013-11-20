@@ -8,11 +8,15 @@
  * @license     {license_link}
  */
 
-namespace Magento\Downloadable\Helper;
-
 /**
  * Downloadable Products Download Helper
+ *
+ * @category    Magento
+ * @package     Magento_Downloadable
+ * @author      Magento Core Team <core@magentocommerce.com>
  */
+namespace Magento\Downloadable\Helper;
+
 class Download extends \Magento\Core\Helper\AbstractHelper
 {
     /**
@@ -47,7 +51,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     /**
      * Resource open handle
      *
-     * @var resource
+     * @var resource|\Magento\Filesystem\StreamInterface
      */
     protected $_handle          = null;
 
@@ -148,8 +152,9 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     /**
      * Retrieve Resource file handle (socket, file pointer etc)
      *
-     * @return resource
-     * @throws \Magento\Core\Exception|\Exception
+     * @return \Magento\Filesystem\StreamInterface|resource
+     * @throws \Magento\Core\Exception
+     * @throws \Exception
      */
     protected function _getHandle()
     {
@@ -194,8 +199,9 @@ class Download extends \Magento\Core\Helper\AbstractHelper
 
                 if ($this->_handle === false) {
                     throw new \Magento\Core\Exception(
-                        __('Something went wrong connecting to the host. Error#%1 - %2.', $errno, $errstr)
+                        __('Something went wrong connecting to the host. Error: %1.', $errstr)
                     );
+
                 }
 
                 $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
@@ -228,15 +234,15 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                     throw new \Magento\Core\Exception(__('Something went wrong while getting the requested content.'));
                 }
             } elseif ($this->_linkType == self::LINK_TYPE_FILE) {
-                $this->_handle = new \Magento\Io\File();
-                if (!is_file($this->_resourceFile)) {
+
+                $workingDir = $this->_dirModel->getDir(\Magento\App\Dir::VAR_DIR);
+                if (!$this->_filesystem->has($this->_resourceFile, $workingDir)) {
                     $this->_coreFileStorageDb->saveFileToFilesystem($this->_resourceFile);
                 }
-                $this->_handle->open(array('path' => $this->_dirModel->getDir(\Magento\App\Dir::VAR_DIR)));
-                if (!$this->_handle->fileExists($this->_resourceFile, true)) {
+                if (!$this->_filesystem->has($this->_resourceFile, $workingDir)) {
                     throw new \Magento\Core\Exception(__("We can't find this file."));
                 }
-                $this->_handle->streamOpen($this->_resourceFile, 'r');
+                $this->_handle = $this->_filesystem->createAndOpenStream($this->_resourceFile, 'r');
             } else {
                 throw new \Magento\Core\Exception(__('Invalid download link type.'));
             }
@@ -251,8 +257,9 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     {
         $handle = $this->_getHandle();
         if ($this->_linkType == self::LINK_TYPE_FILE) {
-            return $handle->streamStat('size');
-        } elseif ($this->_linkType == self::LINK_TYPE_URL) {
+            return $this->_filesystem->getFileSize($this->_resourceFile);
+        }
+        elseif ($this->_linkType == self::LINK_TYPE_URL) {
             if (isset($this->_urlHeaders['content-length'])) {
                 return $this->_urlHeaders['content-length'];
             }
@@ -348,8 +355,8 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     {
         $handle = $this->_getHandle();
         if ($this->_linkType == self::LINK_TYPE_FILE) {
-            while (true == ($buffer = $handle->streamRead())) {
-                print $buffer;
+            while (!$handle->eof()) {
+                print $handle->read(1024);
             }
         } elseif ($this->_linkType == self::LINK_TYPE_URL) {
             while (!feof($handle)) {

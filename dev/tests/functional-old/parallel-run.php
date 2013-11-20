@@ -194,7 +194,8 @@ while ($testCasesLeft > 0) {
                 );
 
                 $testCaseOutputDir = $outputDir . DIRECTORY_SEPARATOR . $testCaseId . DIRECTORY_SEPARATOR;
-                \Magento\Io\File::rmdirRecursive($testCaseOutputDir);
+                $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
+                $filesystemAdapter->delete($testCaseOutputDir);
                 mkdir($testCaseOutputDir);
 
                 $testCaseLogsDir = str_replace('/', DIRECTORY_SEPARATOR, $worker['dir'] . '/var/logs');

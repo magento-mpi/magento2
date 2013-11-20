@@ -107,9 +107,9 @@ class Cert extends \Magento\Core\Model\AbstractModel
     protected function _createCertFile($file)
     {
         $certDir = $this->_getBaseDir();
-        if (!is_dir($certDir)) {
-            $ioAdapter = new \Magento\Io\File();
-            $ioAdapter->checkAndCreateFolder($certDir);
+
+        if (!$this->filesystem->isDirectory($certDir)) {
+            $this->_filesystem->createDirectory($certDir);
         } else {
             $this->_removeOutdatedCertFile();
         }

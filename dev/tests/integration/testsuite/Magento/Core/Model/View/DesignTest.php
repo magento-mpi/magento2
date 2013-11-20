@@ -44,22 +44,22 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $filesystem->delete($themeDir . '/frontend');
         $filesystem->delete($themeDir . '/_merged');
 
-        $ioAdapter = new \Magento\Io\File();
-        $ioAdapter->cp(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-                ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.js',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-                ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.min.js'
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem')->copy(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                    ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.js',
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                    ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.min.js'
+            );
     }
 
     public static function tearDownAfterClass()
     {
-        $ioAdapter = new \Magento\Io\File();
-        $ioAdapter->rm(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-                ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.min.js'
-        );
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem')->delete(
+                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
+                    ->getDir(\Magento\App\Dir::PUB_LIB) . '/prototype/prototype.min.js'
+            );
     }
 
     protected function setUp()
