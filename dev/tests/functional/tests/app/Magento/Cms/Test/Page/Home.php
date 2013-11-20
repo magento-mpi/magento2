@@ -18,6 +18,7 @@ use Magento\Catalog\Test\Block\Search;
 use Magento\Page\Test\Block\Html\Title;
 use Magento\Page\Test\Block\Html\Topmenu;
 use Magento\Page\Test\Block\Links;
+use Magento\Page\Test\Block\Html\Footer;
 
 /**
  * Class Home
@@ -54,6 +55,11 @@ class Home extends Page
     private $titleBlock;
 
     /**
+     * @var Footer
+     */
+    private $footerBlock;
+
+    /**
      * Page Top Links block
      *
      * @var Links
@@ -74,6 +80,9 @@ class Home extends Page
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
+        );
+        $this->footerBlock = Factory::getBlockFactory()->getMagentoPageHtmlFooter(
+            $this->_browser->find('footer.footer', Locator::SELECTOR_CSS)
         );
         $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
             $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
@@ -118,5 +127,15 @@ class Home extends Page
     public function getTopLinks()
     {
         return $this->topLinks;
+    }
+
+    /**
+     * Get footer block
+     *
+     * @return Footer
+     */
+    public function getFooterBlock()
+    {
+        return $this->footerBlock;
     }
 }

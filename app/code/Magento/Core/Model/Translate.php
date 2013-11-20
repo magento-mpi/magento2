@@ -320,9 +320,9 @@ class Translate implements TranslateInterface
      */
     public function processAjaxPost($translate)
     {
-        /** @var \Magento\Core\Model\Cache\TypeListInterface $cacheTypeList */
-        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\Core\Model\Cache\TypeListInterface');
-        $cacheTypeList->invalidate(\Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER);
+        /** @var \Magento\App\Cache\TypeListInterface $cacheTypeList */
+        $cacheTypeList = $this->_translateFactory->create(array(), 'Magento\App\Cache\TypeListInterface');
+        $cacheTypeList->invalidate(\Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER);
         /** @var $parser \Magento\Core\Model\Translate\InlineParser */
         $parser = $this->_translateFactory->create(array(), 'Magento\Core\Model\Translate\InlineParser');
         $parser->processAjaxPost($translate, $this->getInlineObject());
@@ -644,7 +644,7 @@ class Translate implements TranslateInterface
     public function getCacheId()
     {
         if (is_null($this->_cacheId)) {
-            $this->_cacheId = \Magento\Core\Model\Cache\Type\Translate::TYPE_IDENTIFIER;
+            $this->_cacheId = \Magento\App\Cache\Type\Translate::TYPE_IDENTIFIER;
             if (isset($this->_config[self::CONFIG_KEY_LOCALE])) {
                 $this->_cacheId .= '_' . $this->_config[self::CONFIG_KEY_LOCALE];
             }

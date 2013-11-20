@@ -3,17 +3,16 @@
  * {license_notice}
  *
  * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 /* @var $this \Magento\Checkout\Block\Onepage\Progress */
 ?>
-<div class="block block-progress opc-block-progress">
-    <div class="block-title">
-        <strong><span><?php echo __('Your Checkout Progress') ?></span></strong>
+<div class="block progress onepage opc-block-progress">
+    <div class="title">
+        <strong><?php echo __('Your Checkout Progress') ?></strong>
     </div>
-    <div class="block-content">
+    <div class="content">
         <dl>
         <?php if ($this->getCheckout()->getStepData('billing', 'is_show')): ?>
         <?php if ($this->isStepComplete('billing')): ?>

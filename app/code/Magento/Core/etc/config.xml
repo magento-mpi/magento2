@@ -59,11 +59,6 @@
             <filesystem>
                 <media>{{media_dir}}</media>
             </filesystem>
-            <smtp>
-                <disable>0</disable>
-                <host>localhost</host>
-                <port>25</port>
-            </smtp>
             <media_storage_configuration>
                 <media_storage>0</media_storage>
                 <media_database>default_setup</media_database>
@@ -75,29 +70,108 @@
                     <design_theme_folder>theme</design_theme_folder>
                 </allowed_resources>
             </media_storage_configuration>
+            <filesystem>
+                <directory>
+                    <base>
+                        <read_only>true</read_only>
+                        <path/>
+                    </base>
+                    <app>
+                        <read_only>true</read_only>
+                        <path>app</path>
+                    </app>
+                    <code>
+                        <read_only>true</read_only>
+                        <path>app/code</path>
+                    </code>
+                    <design>
+                        <read_only>true</read_only>
+                        <path>app/design</path>
+                    </design>
+                    <etc>
+                        <read_only>false</read_only>
+                        <path>app/etc</path>
+                        <allow_create_dirs>false</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </etc>
+                    <lib>
+                        <read_only>true</read_only>
+                        <path>lib</path>
+                    </lib>
+                    <var>
+                        <read_only>false</read_only>
+                        <path>var</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </var>
+                    <tmp>
+                        <read_only>false</read_only>
+                        <path>var/tmp</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </tmp>
+                    <cache>
+                        <read_only>false</read_only>
+                        <path>var/cache</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </cache>
+                    <log>
+                        <read_only>false</read_only>
+                        <path>var/log</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </log>
+                    <session>
+                        <read_only>false</read_only>
+                        <path>var/session</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </session>
+                    <di>
+                        <read_only>false</read_only>
+                        <path>var/di</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </di>
+                    <generation>
+                        <read_only>false</read_only>
+                        <path>var/generation</path>
+                        <allow_create_dirs>true</allow_create_dirs>
+                        <permissions>777</permissions>
+                    </generation>
+                    <pub>
+                        <read_only>true</read_only>
+                        <path>pub</path>
+                        <permissions>777</permissions>
+                    </pub>
+                    <pub_lib>
+                        <read_only>true</read_only>
+                        <path>pub/lib</path>
+                    </pub_lib>
+                    <media>
+                        <read_only>false</read_only>
+                        <path>pub/media</path>
+                        <permissions>777</permissions>
+                    </media>
+                    <upload>
+                        <read_only>false</read_only>
+                        <path>pub/media/upload</path>
+                        <permissions>777</permissions>
+                    </upload>
+                    <static>
+                        <read_only>false</read_only>
+                        <path>pub/static</path>
+                        <permissions>777</permissions>
+                    </static>
+                    <view_cache>
+                        <read_only>false</read_only>
+                        <path>pub/cache</path>
+                        <permissions>777</permissions>
+                    </view_cache>
+                </directory>
+            </filesystem>
         </system>
-        <trans_email>
-            <ident_custom1>
-                <email>custom1@example.com</email>
-                <name>Custom 1</name>
-            </ident_custom1>
-            <ident_custom2>
-                <email>custom2@example.com</email>
-                <name>Custom 2</name>
-            </ident_custom2>
-            <ident_general>
-                <email>owner@example.com</email>
-                <name>Owner</name>
-            </ident_general>
-            <ident_sales>
-                <email>sales@example.com</email>
-                <name>Sales</name>
-            </ident_sales>
-            <ident_support>
-                <email>support@example.com</email>
-                <name>CustomerSupport</name>
-            </ident_support>
-        </trans_email>
         <web>
             <url>
                 <use_store>0</use_store>

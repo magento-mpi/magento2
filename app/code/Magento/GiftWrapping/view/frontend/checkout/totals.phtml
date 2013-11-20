@@ -9,11 +9,11 @@
  */
 ?>
 <?php foreach ($this->getValues() as $label => $value):?>
-<tr>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
-        <?php echo $label; ?>
+<tr class="totals giftwrapping">
+    <td class="mark" colspan="<?php echo $this->getColspan(); ?>">
+        <span><?php echo $label; ?></span>
     </td>
-    <td style="<?php echo $this->getStyle() ?>" class="a-right">
+    <td class="amount">
         <?php echo $this->helper('Magento\Checkout\Helper\Data')->formatPrice($value) ?>
     </td>
 </tr>
