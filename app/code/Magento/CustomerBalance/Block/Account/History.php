@@ -13,7 +13,7 @@
  */
 namespace Magento\CustomerBalance\Block\Account;
 
-class History extends \Magento\Core\Block\Template
+class History extends \Magento\View\Block\Template
 {
     /**
      * Balance history action names
@@ -42,7 +42,7 @@ class History extends \Magento\Core\Block\Template
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\Session $custoomerSession
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
@@ -50,7 +50,7 @@ class History extends \Magento\Core\Block\Template
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\Session $custoomerSession,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;

@@ -104,6 +104,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea($area);
 
+        /** @var \Magento\Core\Model\Resource\Theme\Collection $collection */
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
@@ -161,7 +162,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
             ),
             'custom parameter' => array(
                 'frontend',
-                'handle="email_template_test_handle" template="sample_email_content_custom.phtml"',
+                'handle="email_template_test_handle" template="Magento_Core::sample_email_content_custom.phtml"',
                 'Custom E-mail content for frontend/test_default theme',
             ),
         );

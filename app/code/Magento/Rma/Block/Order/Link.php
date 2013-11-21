@@ -25,7 +25,7 @@ class Link extends \Magento\Sales\Block\Order\Link
 
     /**
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
@@ -34,7 +34,7 @@ class Link extends \Magento\Sales\Block\Order\Link
      */
     public function __construct(
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Rma\Helper\Data $rmaHelper,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,

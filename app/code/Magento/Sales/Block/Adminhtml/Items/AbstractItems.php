@@ -90,7 +90,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
      * Retrieve item renderer block
      *
      * @param string $type
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      * @throws \RuntimeException
      */
     public function getItemRenderer($type)
@@ -110,7 +110,7 @@ class AbstractItems extends \Magento\Backend\Block\Template
      *
      * @param string $column
      * @param string $compositePart
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getColumnRenderer($column, $compositePart = '')
     {

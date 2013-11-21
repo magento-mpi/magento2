@@ -39,7 +39,7 @@ class Related
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\TargetRule\Model\Resource\Index $index
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
@@ -59,7 +59,7 @@ class Related
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Math\Random $mathRandom,
         \Magento\TargetRule\Model\Resource\Index $index,
         \Magento\TargetRule\Helper\Data $targetRuleData,

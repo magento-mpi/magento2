@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-class Checkout extends \Magento\Core\Block\Template
+class Checkout extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\EntityFactory
@@ -40,7 +40,7 @@ class Checkout extends \Magento\Core\Block\Template
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
@@ -49,7 +49,7 @@ class Checkout extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,

@@ -6,15 +6,12 @@
  * @license     {license_link}
  */
 
-/**
- * Interface for search path resolution during fallback process
- */
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
  * Rule Interface
  *
- * @package Magento\View
+ * Interface for search path resolution during fallback process
  */
 interface RuleInterface
 {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-class AbstractCart extends \Magento\Core\Block\Template
+class AbstractCart extends \Magento\View\Block\Template
 {
     /**
      * Block alias fallback
@@ -49,7 +49,7 @@ class AbstractCart extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
@@ -57,7 +57,7 @@ class AbstractCart extends \Magento\Core\Block\Template
     public function __construct(
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
@@ -88,7 +88,7 @@ class AbstractCart extends \Magento\Core\Block\Template
      *
      * @param  string $type
      * @throws \RuntimeException
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getItemRenderer($type)
     {

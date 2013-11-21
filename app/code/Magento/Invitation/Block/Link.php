@@ -32,7 +32,7 @@ class Link extends \Magento\Page\Block\Link
     protected $_invitationHelper;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Invitation\Helper\Data $invitationHelper
      * @param \Magento\Invitation\Model\Config $invitationConfiguration
@@ -40,7 +40,7 @@ class Link extends \Magento\Page\Block\Link
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Invitation\Helper\Data $invitationHelper,
         \Magento\Invitation\Model\Config $invitationConfiguration,

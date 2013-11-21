@@ -31,13 +31,13 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
@@ -346,7 +346,7 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
      * Retrieve renderer block for row-level item output
      *
      * @param string $type
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _getRowItemRenderer($type)
     {

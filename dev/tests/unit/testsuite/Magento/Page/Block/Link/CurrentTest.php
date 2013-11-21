@@ -39,7 +39,7 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilderMock = $this->getMock('\Magento\UrlInterface');
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_coreHelperMock = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_contextMock = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
+        $this->_contextMock = $this->getMock('Magento\View\Block\Template\Context', array(), array(), '', false);
         $this->_defaultPathMock = $this->getMock('\Magento\App\DefaultPathInterface');
         $this->_contextMock->expects($this->any())
             ->method('getUrlBuilder')

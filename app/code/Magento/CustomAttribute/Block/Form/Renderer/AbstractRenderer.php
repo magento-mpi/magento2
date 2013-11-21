@@ -18,7 +18,7 @@
  */
 namespace Magento\CustomAttribute\Block\Form\Renderer;
 
-abstract class AbstractRenderer extends \Magento\Core\Block\Template
+abstract class AbstractRenderer extends \Magento\View\Block\Template
 {
     /**
      * Attribute instance
@@ -56,13 +56,13 @@ abstract class AbstractRenderer extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_locale = $locale;

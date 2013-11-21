@@ -21,7 +21,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false);
-        $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
+        $helperFactory = $this->getMockBuilder('Magento\App\Helper\HelperFactory')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
             ->getMock();

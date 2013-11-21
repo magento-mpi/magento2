@@ -33,10 +33,10 @@ class FailedTest extends \PHPUnit_Framework_TestCase
             ->method('getUrlBuilder')
             ->will($this->returnValue($urlBuilder));
 
-        $this->_lastMessage = $this->getMockBuilder('Magento\Core\Model\Message\AbstractMessage')
+        $this->_lastMessage = $this->getMockBuilder('Magento\Message\AbstractMessage')
             ->disableOriginalConstructor()
             ->getMock();
-        $messages = $this->getMockBuilder('Magento\Core\Model\Message\Collection')
+        $messages = $this->getMockBuilder('Magento\Message\Collection')
             ->disableOriginalConstructor()
             ->getMock();
         $messages->expects($this->any())

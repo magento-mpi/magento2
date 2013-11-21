@@ -83,7 +83,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(false));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -126,7 +126,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -204,7 +204,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('isEnabled')
             ->will($this->returnValue(true));
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
         $helperFactoryMock->expects($this->once())
             ->method('get')
             ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
@@ -237,7 +237,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Return mock instance of \Magento\Core\Block\Template\Context object
+     * Return mock instance of \Magento\View\Block\Template\Context object
      *
      * @return \PHPUnit_Framework_MockObject_MockObject
      */
@@ -246,7 +246,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $methods = array('getHelperFactory', 'getRequest', 'getLayout', 'getEventManager', 'getUrlBuilder',
             'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
             'getDirs', 'getLogger', 'getFilesystem');
-        return $this->getMockBuilder('Magento\Core\Block\Template\Context')
+        return $this->getMockBuilder('Magento\View\Block\Template\Context')
             ->disableOriginalConstructor()
             ->setMethods($methods)
             ->getMock();

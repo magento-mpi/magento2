@@ -24,31 +24,31 @@ class Messages extends \Magento\Adminhtml\Block\Messages
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $coreRegistry = null;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Message $message
-     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
+     * @param \Magento\Message\Factory $messageFactory
+     * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Message $message,
-        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
+        \Magento\Message\Factory $messageFactory,
+        \Magento\Message\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
-        $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $message, $messageFactory, $data);
+        $this->coreRegistry = $registry;
+        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
     }
 
     protected function _getOrder()
     {
-        return $this->_coreRegistry->registry('sales_order');
+        return $this->coreRegistry->registry('sales_order');
     }
 
     protected function _prepareLayout()

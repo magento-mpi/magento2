@@ -22,26 +22,26 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     /**
      * @var \Magento\Backend\Model\Session
      */
-    protected $_backendSession;
+    protected $backendSession;
 
     /**
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Core\Model\Message $message
-     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Message\Factory $messageFactory
+     * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\Message $message,
-        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Message\Factory $messageFactory,
+        \Magento\Message\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
-        $this->_backendSession = $backendSession;
-        parent::__construct($coreData, $context, $message, $messageFactory, $data);
+        $this->backendSession = $backendSession;
+        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
     }
 
     /**
@@ -49,7 +49,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
      */
     protected function _prepareLayout()
     {
-        $this->addMessages($this->_backendSession->getMessages(true));
+        $this->addMessages($this->backendSession->getMessages(true));
         parent::_prepareLayout();
     }
 }

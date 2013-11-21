@@ -18,7 +18,7 @@
 
 namespace Magento\Newsletter\Block;
 
-class Subscribe extends \Magento\Core\Block\Template
+class Subscribe extends \Magento\View\Block\Template
 {
     /**
      * Newsletter session
@@ -31,13 +31,13 @@ class Subscribe extends \Magento\Core\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Newsletter\Model\Session $newsletterSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Newsletter\Model\Session $newsletterSession,
         array $data = array()
     ) {

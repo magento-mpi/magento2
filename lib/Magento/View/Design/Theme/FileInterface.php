@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Theme;
+
 /**
  * Theme file interface
  */
-namespace Magento\View\Design\Theme;
-
 interface FileInterface
 {
     /**
@@ -41,7 +39,7 @@ interface FileInterface
     /**
      * Get theme model
      *
-     * @return \Magento\Core\Model\Theme
+     * @return \Magento\View\Design\ThemeInterface
      */
     public function getTheme();
 

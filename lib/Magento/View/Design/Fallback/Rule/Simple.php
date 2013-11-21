@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Fallback\Rule;
+
 /**
  * Class with simple substitution parameters to values
  */
-namespace Magento\View\Design\Fallback\Rule;
-
 class Simple implements RuleInterface
 {
     /**
@@ -28,8 +28,6 @@ class Simple implements RuleInterface
     protected $pattern;
 
     /**
-     * Constructor
-     *
      * @param string $pattern
      * @param array $optionalParams
      */

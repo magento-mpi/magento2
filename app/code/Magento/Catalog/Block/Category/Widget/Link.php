@@ -28,7 +28,7 @@ class Link
      * @param \Magento\Catalog\Model\Resource\Category $resourceCategory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
@@ -36,7 +36,7 @@ class Link
         \Magento\Catalog\Model\Resource\Category $resourceCategory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($urlRewrite, $storeManager, $coreData, $context, $data);

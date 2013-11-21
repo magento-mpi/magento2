@@ -11,7 +11,7 @@
 
 namespace Magento\Checkout\Block\Onepage;
 
-class Failure extends \Magento\Core\Block\Template
+class Failure extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -20,13 +20,13 @@ class Failure extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {

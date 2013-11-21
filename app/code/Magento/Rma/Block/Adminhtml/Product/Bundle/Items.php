@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 
-class Items extends \Magento\Core\Block\Template
+class Items extends \Magento\View\Block\Template
 {
     /**
      * Core registry
@@ -28,13 +28,13 @@ class Items extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

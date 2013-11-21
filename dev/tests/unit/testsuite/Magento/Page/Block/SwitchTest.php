@@ -42,7 +42,7 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
     {
         $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface');
         $this->_coreHelperMock = $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false);
-        $this->_contextMock = $this->getMock('\Magento\Core\Block\Template\Context', array(), array(), '', false);
+        $this->_contextMock = $this->getMock('\Magento\View\Block\Template\Context', array(), array(), '', false);
         $this->_appMock = $this->getMock('\Magento\Core\Model\App', array(), array(), '', false);
 
         $this->_contextMock->expects($this->any())

@@ -18,7 +18,7 @@ class Page extends \Magento\GoogleOptimizer\Block\AbstractCode
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
@@ -27,7 +27,7 @@ class Page extends \Magento\GoogleOptimizer\Block\AbstractCode
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Core\Model\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,

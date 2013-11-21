@@ -33,7 +33,7 @@ class ActivateTest extends \PHPUnit_Framework_TestCase
         /** @var  $coreData \Magento\Core\Helper\Data */
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
 
-        /** @var \Magento\Core\Block\Template\Context $context */
+        /** @var \Magento\View\Block\Template\Context $context */
         $context = $this->getMock('Magento\Backend\Block\Template\Context', array('getUrlBuilder'), array(), '', false);
         $context->expects($this->once())
             ->method('getUrlBuilder')

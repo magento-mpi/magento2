@@ -252,7 +252,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
             } catch (\Magento\Core\Exception $exception) {
-                $messages = $exception->getMessages(\Magento\Core\Model\Message::ERROR);
+                $messages = $exception->getMessages(\Magento\Message\Factory::ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
                 }
@@ -308,7 +308,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()
                 ->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (\Magento\Core\Exception $exception) {
-            $messages = $exception->getMessages(\Magento\Core\Model\Message::ERROR);
+            $messages = $exception->getMessages(\Magento\Message\Factory::ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
             }
@@ -332,8 +332,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         $session = $this->_getSession();
 
         $callback = function ($error) use ($session) {
-            if (!($error instanceof \Magento\Core\Model\Message\Error)) {
-                $error = new \Magento\Core\Model\Message\Error($error);
+            if (!($error instanceof \Magento\Message\Error)) {
+                $error = new \Magento\Message\Error($error);
             }
             $session->addMessage($error);
         };
@@ -653,8 +653,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             $customer->addData($data);
             $errors = $customer->validate();
         } catch (\Magento\Core\Exception $exception) {
-            /* @var $error \Magento\Core\Model\Message\Error */
-            foreach ($exception->getMessages(\Magento\Core\Model\Message::ERROR) as $error) {
+            /* @var $error \Magento\Message\Error */
+            foreach ($exception->getMessages(\Magento\Message\Factory::ERROR) as $error) {
                 $errors[] = $error->getCode();
             }
         }

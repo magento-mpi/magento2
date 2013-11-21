@@ -19,7 +19,7 @@
 namespace Magento\Customer\Block\Address\Renderer;
 
 class DefaultRenderer
-    extends \Magento\Core\Block\AbstractBlock
+    extends \Magento\View\Block\AbstractBlock
     implements \Magento\Customer\Block\Address\Renderer\RendererInterface
 {
     /**
@@ -48,14 +48,14 @@ class DefaultRenderer
 
     /**
      * @param \Magento\Customer\Helper\Address $customerAddress
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Block\Context $context
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
      * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
-        \Magento\Core\Block\Context $context,
+        \Magento\View\Block\Context $context,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
         \Magento\Filter\FilterManager $filterManager,
         array $data = array()

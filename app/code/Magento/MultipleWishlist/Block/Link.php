@@ -29,13 +29,13 @@ class Link extends \Magento\Wishlist\Block\Link
     /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;

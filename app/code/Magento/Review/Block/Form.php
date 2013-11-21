@@ -17,7 +17,7 @@
  */
 namespace Magento\Review\Block;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     /**
      * Review data
@@ -55,7 +55,7 @@ class Form extends \Magento\Core\Block\Template
      * @param \Magento\Core\Model\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
@@ -66,7 +66,7 @@ class Form extends \Magento\Core\Block\Template
         \Magento\Core\Model\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,

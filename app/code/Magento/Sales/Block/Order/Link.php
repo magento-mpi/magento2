@@ -17,14 +17,14 @@ class Link extends \Magento\Page\Block\Link\Current
     protected $_registry;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,

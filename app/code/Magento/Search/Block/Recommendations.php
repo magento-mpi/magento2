@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Block;
 
-class Recommendations extends \Magento\Core\Block\Template
+class Recommendations extends \Magento\View\Block\Template
 {
     /**
      * Search data
@@ -37,14 +37,14 @@ class Recommendations extends \Magento\Core\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Search\Model\RecommendationsFactory $recommendationsFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Search\Model\RecommendationsFactory $recommendationsFactory,
         array $data = array()
