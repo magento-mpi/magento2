@@ -1,3 +1,8 @@
+* GitHub requests
+  * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
+  * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
+  * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
+  * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules
 * Move Magento\Core common blocks into library
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
