@@ -1,0 +1,17 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     base_default
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="product-options" id="product-options-wrapper">
+    <?php echo $this->getChildHtml('', true);?>
+    <?php if ($this->hasRequiredOptions()):?>
+        <p class="required"><?php echo __('* Required Fields') ?></p>
+    <?php endif;?>
+</div>
+<script type="text/javascript">(function($) {$('#product-options-wrapper dl').decorate('generic', ['last'])})(jQuery)</script>

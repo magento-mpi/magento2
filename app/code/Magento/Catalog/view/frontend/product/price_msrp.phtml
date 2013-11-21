@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,11 +19,11 @@
     $_product = $this->getProduct();
     $_msrpPrice = "";
 ?>
-    <div class="price-box map-info">
+    <div class="price-box map info">
     <?php $_price = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_product->getMsrp()) ?>
         <?php if ($_product->getMsrp()): ?>
             <?php $_msrpPrice = $this->helper('Magento\Core\Helper\Data')->currency($_product->getMsrp(),true,true) ?>
-            <span class="old-price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo $_msrpPrice ?></span>
+            <span class="old price" id="product-price-<?php echo $_product->getId() ?><?php echo $this->getIdSuffix() ?>"><?php echo $_msrpPrice ?></span>
         <?php endif; ?>
         <?php $popupId = 'msrp-click-' . $_product->getId() . $this->getRandomString(20); ?>
         <a href="#" id="<?php echo($popupId);?>"><?php echo __('Click for price') ?></a>
@@ -56,5 +54,3 @@
         })(jQuery);
         //]]>
     </script>
-
-

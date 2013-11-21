@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -28,7 +26,7 @@ $_id = $_product->getId();
 $_msrpPrice = '';
 $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
 ?>
-<div class="price-box map-info">
+<div class="price-box map info">
     <?php $_price = $this->helper('Magento\Tax\Helper\Data')->getPrice($_product, $_product->getMsrp()) ?>
     <?php if ($_product->getMsrp()): ?>
     <?php $_msrpPrice = $_coreHelper->currency($_product->getMsrp(), true, true) ?>
@@ -42,13 +40,13 @@ $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElemen
     <a href="#" id="<?php echo($popupId);?>"><?php echo __('Click for price'); ?></a>
 
     <?php else: ?>
-    <span class="msrp-price-hide-message">
+    <span class="msrp price message">
          <?php echo $_catalogHelper->getMsrpPriceMessage($_product) ?>
     </span>
     <?php endif; ?>
 
     <?php $helpLinkId = 'msrp-help-' . $_id . $this->getRandomString(20); ?>
-    <a href="#" id="<?php echo($helpLinkId);?>"><?php echo __("What's this?"); ?></a>
+    <a href="#" id="<?php echo($helpLinkId);?>" class="action show map"><span><?php echo __("What's this?"); ?></span></a>
 </div>
 
 <script type="text/javascript">
