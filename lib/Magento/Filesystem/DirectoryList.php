@@ -196,8 +196,9 @@ class DirectoryList extends Dir
      * @param string $code
      * @param array $configuration
      */
-    public function addDirectory($code, $configuration)
+    public function addDirectory($code, array $configuration)
     {
+
         $configuration['path'] = $this->makeAbsolute($configuration['path']);
         if (isset($configuration['read_only'])) {
             $configuration['read_only'] = $configuration['read_only'] == 'true' ? true : false;

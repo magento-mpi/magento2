@@ -19,16 +19,16 @@ class Write extends Read implements WriteInterface
      * Constructor
      *
      * @param $path
-     * @param \Magento\Filesystem\Driver $driver
+     * @param \Magento\Filesystem\DriverFactory $driverFactory
      * @param $mode
      */
     public function __construct(
         $path,
-        \Magento\Filesystem\Driver $driver,
+        \Magento\Filesystem\DriverFactory $driverFactory,
         $mode
     ) {
         $this->mode = $mode;
-        parent::__construct($path, $driver);
+        parent::__construct($path, $driverFactory);
     }
 
     /**

@@ -177,6 +177,9 @@
                         <uri>pub/cache</uri>
                         <permissions>511</permissions>
                     </view_cache>
+                    <socket>
+                        <driver>Magento\Filesystem\Driver\Socket</driver>
+                    </socket>
                 </directory>
             </filesystem>
         </system>

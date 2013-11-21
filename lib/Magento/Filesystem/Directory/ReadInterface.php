@@ -28,10 +28,10 @@ interface ReadInterface
     /**
      * Retrieve list of all entities in given path
      *
-     * @param string $path
+     * @param string|null $path
      * @return array
      */
-    public function read($path);
+    public function read($path = null);
 
     /**
      * Search all entries for given regex pattern

@@ -33,17 +33,18 @@ class Write extends Read implements WriteInterface
      *
      * @param array $config
      * @param \Magento\Filesystem\File\WriteFactory $fileFactory
-     * @param \Magento\Filesystem\Driver $driver
+     * @param \Magento\Filesystem\DriverInterface $driver
      */
     public function __construct
     (
         array $config,
         \Magento\Filesystem\File\WriteFactory $fileFactory,
-        \Magento\Filesystem\Driver $driver
+        \Magento\Filesystem\DriverInterface $driver
     ) {
         $this->setProperties($config);
-        $this->driver = $driver;
         $this->fileFactory = $fileFactory;
+
+        $this->driver = $driver;
     }
 
     /**

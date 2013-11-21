@@ -13,7 +13,7 @@ namespace Magento\Filesystem;
  * Class Driver
  * @package Magento\Filesystem
  */
-interface Driver
+interface DriverInterface
 {
     /**
      *
@@ -173,6 +173,17 @@ interface Driver
      * @throws FilesystemException
      */
     public function fileOpen($path, $mode);
+
+    /**
+     * Reads the line content from file pointer (with specified number of bytes from the current position).
+     *
+     * @param resource $resource
+     * @param int $length
+     * @param string $ending [optional]
+     * @return string
+     * @throws FilesystemException
+     */
+    public function fileReadLine($resource, $length, $ending = null);
 
     /**
      * Reads the specified number of bytes from the current position.

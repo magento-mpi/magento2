@@ -31,7 +31,7 @@ class Read implements ReadInterface
     /**
      * Filesystem driver
      *
-     * @var \Magento\Filesystem\Driver
+     * @var \Magento\Filesystem\DriverInterface
      */
     protected $driver;
 
@@ -40,16 +40,18 @@ class Read implements ReadInterface
      *
      * @param array $config
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
-     * @param \Magento\Filesystem\Driver $driver
+     * @param \Magento\Filesystem\DriverFactory $driver
      */
     public function __construct
     (
         array $config,
         \Magento\Filesystem\File\ReadFactory $fileFactory,
-        \Magento\Filesystem\Driver $driver
+        \Magento\Filesystem\DriverInterface $driver
     ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
+
+        $directoryDriver = isset($config['driver']) ? $config['driver'] : null;
         $this->driver = $driver;
     }
 
