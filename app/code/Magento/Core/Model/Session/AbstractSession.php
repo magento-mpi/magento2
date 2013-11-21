@@ -305,7 +305,7 @@ class AbstractSession extends \Magento\Object
      */
     public function destroy(array $options = null)
     {
-        if (!$this->isSessionExists()) {
+        if (session_status() !== PHP_SESSION_ACTIVE) {
             return;
         }
 
