@@ -55,7 +55,7 @@ class CreateOnFrontendTest extends Functional
 
         //Step 2 Set Billing Address
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
-        $addressEditPage->getEditForm()->editCustomerAddress($customer->getDefaultAddress());
+        $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
 
         //Verifying
         $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
@@ -66,6 +66,6 @@ class CreateOnFrontendTest extends Functional
         $accountIndexPage->open();
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
         $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
-        $this->assertTrue($addressEditPage->getEditForm()->verify($customer->getDefaultAddress()));
+        $this->assertTrue($addressEditPage->getEditForm()->verify($customer->getAddressData()));
     }
 }

@@ -119,4 +119,14 @@ class Customer extends DataFixture
         //Default data set
         $this->switchData('customer_US_1');
     }
+
+    /**
+     * @return \Magento\Customer\Test\Fixture\Address
+     */
+    public function getAddressData()
+    {
+        $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $customerAddress->switchData('address_data_US_1');
+        return $customerAddress;
+    }
 }
