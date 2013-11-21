@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Model\Theme\Domain;
 
-class Staging
+class Staging implements \Magento\View\Design\Theme\Domain\StagingInterface
 {
     /**
      * Staging theme model instance
@@ -42,7 +42,7 @@ class Staging
     /**
      * Copy changes from 'staging' theme
      *
-     * @return \Magento\Core\Model\Theme\Domain\Virtual
+     * @return \Magento\View\Design\Theme\Domain\StagingInterface
      */
     public function updateFromStagingTheme()
     {

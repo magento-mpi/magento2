@@ -31,7 +31,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      * Construct
      *
      * @var \Magento\Core\Model\Registry
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
@@ -39,7 +39,7 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,

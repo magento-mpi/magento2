@@ -140,7 +140,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     /**
      * Get context object
      *
-     * @return \Magento\Core\Block\Template\Context
+     * @return \Magento\View\Block\Template\Context
      */
     protected function _getContext()
     {
@@ -151,9 +151,9 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $locale->expects($this->once())->method('formatDate')
             ->will($this->returnValue('11-11-1999'));
 
-        /** @var  \Magento\Core\Block\Template\Context $context */
+        /** @var  \Magento\View\Block\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
-            'Magento\Core\Block\Template\Context',
+            'Magento\View\Block\Template\Context',
             array('locale' => $locale)
         );
         return $context;

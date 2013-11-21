@@ -27,7 +27,7 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rss\Model\RssFactory $rssFactory
@@ -36,7 +36,7 @@ class Salesrule extends \Magento\Rss\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rss\Model\RssFactory $rssFactory,

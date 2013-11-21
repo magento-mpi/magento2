@@ -13,7 +13,7 @@ namespace Magento\Page\Block\Html\Head;
 /**
  * Link page block
  */
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
     implements \Magento\Page\Block\Html\Head\AssetBlock
 {
     const VIRTUAL_CONTENT_TYPE = 'link';
@@ -21,13 +21,13 @@ class Link extends \Magento\Core\Block\Template
     /**
      * Contructor
      *
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory,
         \Magento\Core\Helper\Data $coreData,
         array $data = array()

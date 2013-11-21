@@ -12,7 +12,7 @@
 
 namespace Magento\CatalogEvent\Block\Event;
 
-abstract class AbstractEvent extends \Magento\Core\Block\Template
+abstract class AbstractEvent extends \Magento\View\Block\Template
 {
     /**
      * Event statuses titles
@@ -32,13 +32,13 @@ abstract class AbstractEvent extends \Magento\Core\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {

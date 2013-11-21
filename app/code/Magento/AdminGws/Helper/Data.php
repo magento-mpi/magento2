@@ -14,7 +14,7 @@
  */
 namespace Magento\AdminGws\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Transform comma-separeated ids string into array

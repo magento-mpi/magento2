@@ -17,12 +17,12 @@
  */
 namespace Magento\AdvancedCheckout\Block\Cart\Item;
 
-class Configure extends \Magento\Core\Block\Template
+class Configure extends \Magento\View\Block\Template
 {
     /**
      * Configure product view blocks
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

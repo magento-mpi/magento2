@@ -21,4 +21,6 @@ return array(
     array('_coreSession', 'Magento\FullPageCache\Model\Observer'),
     array('_application', 'Magento\FullPageCache\Model\Observer'),
     array('_app', 'Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content'),
+    array('_backendSession', 'Magento\AdvancedCheckout\Block\Adminhtml\Manage\Messages', 'backendSession'),
+    array('_coreMessage', 'Magento\AdvancedCheckout\Model\Cart', 'messageFactory'),
 );

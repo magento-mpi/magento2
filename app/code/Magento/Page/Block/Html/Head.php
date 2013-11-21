@@ -18,7 +18,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Head extends \Magento\Core\Block\Template
+class Head extends \Magento\View\Block\Template
 {
     /**
      * Block template
@@ -89,7 +89,7 @@ class Head extends \Magento\Core\Block\Template
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Page $page
      * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
@@ -102,7 +102,7 @@ class Head extends \Magento\Core\Block\Template
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,
         \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
@@ -145,7 +145,7 @@ class Head extends \Magento\Core\Block\Template
     public function getCssJsHtml()
     {
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block \Magento\Core\Block\AbstractBlock */
+            /** @var $block \Magento\View\Block\AbstractBlock */
             if ($block instanceof \Magento\Page\Block\Html\Head\AssetBlock) {
                 /** @var \Magento\Core\Model\Page\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();

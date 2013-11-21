@@ -26,14 +26,14 @@ class Success extends \Magento\Checkout\Block\Multishipping\AbstractMultishippin
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Type\Multishipping $multishipping,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()

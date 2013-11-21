@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftCard\Helper\Catalog\Product;
 
-class Configuration extends \Magento\Core\Helper\AbstractHelper
+class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
@@ -34,12 +34,12 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Escaper $escaper
     ) {
         $this->_ctlgProdConfigur = $ctlgProdConfigur;

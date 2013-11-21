@@ -17,7 +17,7 @@
  */
 namespace Magento\Review\Block;
 
-class Helper extends \Magento\Core\Block\Template
+class Helper extends \Magento\View\Block\Template
 {
     protected $_availableTemplates = array(
         'default' => 'helper/summary.phtml',
@@ -36,14 +36,14 @@ class Helper extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()

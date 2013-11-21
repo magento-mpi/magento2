@@ -73,7 +73,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Block\Template\Context', array(
+            ->create('Magento\View\Block\Template\Context', array(
                 'dirs' => new \Magento\App\Dir(__DIR__),
                 'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
             )),

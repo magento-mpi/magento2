@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block\Express;
 
-class Shortcut extends \Magento\Core\Block\Template
+class Shortcut extends \Magento\View\Block\Template
 {
     /**
      * Position of "OR" label against shortcut
@@ -104,7 +104,7 @@ class Shortcut extends \Magento\Core\Block\Template
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
@@ -118,7 +118,7 @@ class Shortcut extends \Magento\Core\Block\Template
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
@@ -141,7 +141,7 @@ class Shortcut extends \Magento\Core\Block\Template
     }
 
     /**
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {
