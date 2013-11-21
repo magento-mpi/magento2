@@ -677,10 +677,6 @@ class AbstractSession extends \Magento\Object
      */
     public function regenerateId($deleteOldSession = true)
     {
-        if (headers_sent()) {
-            throw new \LogicException('Can not regenerate session id because HTTP headers already sent.');
-            return $this;
-        }
         session_regenerate_id($deleteOldSession);
 
         if ($this->_sessionConfig->getUseCookies()) {
