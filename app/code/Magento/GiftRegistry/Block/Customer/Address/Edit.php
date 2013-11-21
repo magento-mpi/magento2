@@ -28,7 +28,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function getEntity()
     {
-        return $this->_coreRegistry->registry('magento_giftregistry_entity');
+        return $this->_registry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -38,7 +38,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function getAddress()
     {
-        return $this->_coreRegistry->registry('magento_giftregistry_address');
+        return $this->_registry->registry('magento_giftregistry_address');
     }
 
     /**

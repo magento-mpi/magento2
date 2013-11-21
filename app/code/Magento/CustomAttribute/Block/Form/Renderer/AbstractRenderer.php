@@ -49,27 +49,6 @@ abstract class AbstractRenderer extends \Magento\View\Block\Template
     protected $_fieldNameFormat = '%1$s';
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        $this->_locale = $locale;
-        parent::__construct($coreData, $context, $data);
-    }
-
-    /**
      * Set attribute instance
      *
      * @param \Magento\Eav\Model\Attribute $attribute

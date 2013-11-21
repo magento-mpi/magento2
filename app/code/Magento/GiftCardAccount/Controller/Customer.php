@@ -10,20 +10,24 @@
 
 namespace Magento\GiftCardAccount\Controller;
 
-class Customer extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Customer extends \Magento\App\Action\Action
 {
     /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      *
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
         }
+        return parent::dispatch($request);
     }
 
     /**
@@ -53,13 +57,13 @@ class Customer extends \Magento\Core\Controller\Front\Action
             $this->_redirect('*/*/*');
             return;
         }
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->loadLayoutUpdates();
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Card'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 }

@@ -21,27 +21,6 @@ class Switcher extends \Magento\View\Block\Template
 {
     protected $_storeInUrl;
 
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $data);
-    }
-
     public function getCurrentWebsiteId()
     {
         return $this->_storeManager->getStore()->getWebsiteId();

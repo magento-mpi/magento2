@@ -29,27 +29,19 @@ class Tracking extends \Magento\View\Block\Template
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_coreSession;
-
-    /**
-     * @param \Magento\Core\Model\Session $coreSession
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Session $coreSession,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_coreSession = $coreSession;
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -95,8 +87,8 @@ class Tracking extends \Magento\View\Block\Template
      */
     public function getErrorMessage()
     {
-        $message = $this->_coreSession->getErrorMessage();
-        $this->_coreSession->unsErrorMessage();
+        $message = $this->_session->getErrorMessage();
+        $this->_session->unsErrorMessage();
         return $message;
     }
 

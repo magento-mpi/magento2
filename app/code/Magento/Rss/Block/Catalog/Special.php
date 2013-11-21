@@ -38,22 +38,20 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_resourceIterator;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Core\Model\Resource\Iterator $resourceIterator
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
@@ -62,7 +60,7 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         $this->_productFactory = $productFactory;
         $this->_rssFactory = $rssFactory;
         $this->_resourceIterator = $resourceIterator;
-        parent::__construct($catalogData, $coreData, $context, $storeManager, $customerSession, $data);
+        parent::__construct($context, $coreData, $customerSession, $catalogData, $data);
     }
 
     protected function _construct()

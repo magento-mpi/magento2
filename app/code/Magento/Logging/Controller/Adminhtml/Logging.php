@@ -11,7 +11,9 @@
  */
 namespace Magento\Logging\Controller\Adminhtml;
 
-class Logging extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Logging extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -35,24 +37,31 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_archiveFactory;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logging\Model\EventFactory $eventFactory
      * @param \Magento\Logging\Model\ArchiveFactory $archiveFactory
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logging\Model\EventFactory $eventFactory,
-        \Magento\Logging\Model\ArchiveFactory $archiveFactory
+        \Magento\Logging\Model\ArchiveFactory $archiveFactory,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         parent::__construct($context);
-
         $this->_coreRegistry = $coreRegistry;
         $this->_eventFactory = $eventFactory;
         $this->_archiveFactory = $archiveFactory;
+        $this->_fileFactory = $fileFactory;
     }
 
     /**
@@ -60,11 +69,11 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Report'));
+        $this->_title->add(__('Report'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -72,8 +81,8 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -89,13 +98,13 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_redirect('adminhtml/*/');
             return;
         }
-        $this->_title(__("Log Entry #%1", $eventId));
+        $this->_title->add(__("Log Entry #%1", $eventId));
 
         $this->_coreRegistry->register('current_event', $model);
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_events');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -103,11 +112,11 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'log.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**
@@ -115,11 +124,11 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportXmlAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'log.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('logging.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('logging.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -127,11 +136,11 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function archiveAction()
     {
-        $this->_title(__('Admin Actions Archive'));
+        $this->_title->add(__('Admin Actions Archive'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Logging::system_magento_logging_backups');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -139,8 +148,8 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function archiveGridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -152,7 +161,11 @@ class Logging extends \Magento\Backend\Controller\Adminhtml\Action
             $this->getRequest()->getParam('basename')
         );
         if ($archive->getFilename()) {
-            $this->_prepareDownloadResponse($archive->getBaseName(), $archive->getContents(), $archive->getMimeType());
+            return $this->_fileFactory->create(
+                $archive->getBaseName(),
+                $archive->getContents(),
+                $archive->getMimeType()
+            );
         }
     }
 

@@ -23,13 +23,12 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -39,13 +38,12 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
         \Magento\Math\Random $mathRandom,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
@@ -56,13 +54,12 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $storeManager,
+            $context,
+            $coreData,
             $catalogConfig,
-            $coreRegistry,
+            $registry,
             $taxData,
             $catalogData,
-            $coreData,
-            $context,
             $mathRandom,
             $wishlistData,
             $customerSession,

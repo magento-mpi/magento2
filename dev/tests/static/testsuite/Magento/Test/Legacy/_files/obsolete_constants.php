@@ -256,7 +256,7 @@ return array(
     ),
     array('XML_NODE_DIRECT_FRONT_NAMES', 'Magento\App\Request\Http'),
     array('XML_NODE_USET_AGENT_SKIP', 'Magento\Core\Model\Session\AbstractSession'),
-    array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento\Core\Controller\Varien\Action'),
+    array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento\App\Action\Action'),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Magento\Core\Model\Design\FileResolution\StrategyPool'),
     array('XML_PATH_WEBAPI_REQUEST_INTERPRETERS', 'Magento\Webapi\Controller\Request\Rest\Interpreter\Factory'),
     array('XML_PATH_WEBAPI_RESPONSE_RENDERS', 'Magento\Webapi\Controller\Response\Rest\Renderer\Factor'),

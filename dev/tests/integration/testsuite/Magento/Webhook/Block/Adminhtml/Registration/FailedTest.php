@@ -23,14 +23,17 @@ class FailedTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Backend\Model\Session $session */
         $session = $objectManager->create('Magento\Backend\Model\Session');
-        $context = $objectManager->create('Magento\View\Block\Template\Context');
+        $context = $objectManager->create(
+            'Magento\Backend\Block\Template\Context',
+            array('backendSession' => $session)
+        );
         $messageCollection = $objectManager->create('Magento\Message\Collection');
         $message = $objectManager->create('Magento\Message\Notice', array('code' => ''));
         $messageCollection->addMessage($message);
         $session->setData('messages', $messageCollection);
 
         $block = $objectManager->create('Magento\Webhook\Block\Adminhtml\Registration\Failed',
-            array($session, $context));
+            array('context' => $context));
 
         $this->assertEquals($message->toString(), $block->getSessionError());
     }

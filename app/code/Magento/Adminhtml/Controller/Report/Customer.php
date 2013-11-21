@@ -18,8 +18,25 @@
  */
 namespace Magento\Adminhtml\Controller\Report;
 
-class Customer extends \Magento\Backend\Controller\Adminhtml\Action
+class Customer extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
     public function _initAction()
     {
         $act = $this->getRequest()->getActionName();
@@ -27,29 +44,29 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             $act = 'default';
         }
 
-        $this->loadLayout()
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Customers'),
-                __('Customers')
-            );
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        );
+        $this->_addBreadcrumb(
+            __('Customers'),
+            __('Customers')
+        );
         return $this;
     }
 
     public function accountsAction()
     {
-        $this->_title(__('New Accounts Report'));
+        $this->_title->add(__('New Accounts Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_accounts')
             ->_addBreadcrumb(
                 __('New Accounts'),
                 __('New Accounts')
-            )
-            ->renderLayout();
+            );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -57,11 +74,11 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportAccountsCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'new_accounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -69,22 +86,22 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportAccountsExcelAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'new_accounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     public function ordersAction()
     {
-        $this->_title(__('Order Count Report'));
+        $this->_title->add(__('Order Count Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_orders')
             ->_addBreadcrumb(__('Customers by Number of Orders'),
-                __('Customers by Number of Orders'))
-            ->renderLayout();
+                __('Customers by Number of Orders'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -92,11 +109,11 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportOrdersCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'customers_orders.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -104,22 +121,22 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportOrdersExcelAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName   = 'customers_orders.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     public function totalsAction()
     {
-        $this->_title(__('Order Total Report'));
+        $this->_title->add(__('Order Total Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Reports::report_customers_totals')
             ->_addBreadcrumb(__('Customers by Orders Total'),
-                __('Customers by Orders Total'))
-            ->renderLayout();
+                __('Customers by Orders Total'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -127,11 +144,11 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportTotalsCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'customer_totals.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -139,11 +156,11 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportTotalsExcelAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'customer_totals.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock  */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     protected function _isAllowed()

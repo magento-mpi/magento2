@@ -32,19 +32,19 @@ class Load extends \Magento\View\Block\Template
     protected $_adminhtmlJs = null;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
      * @param array $data
      */
     public function __construct(
-        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
         array $data = array()
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _toHtml()

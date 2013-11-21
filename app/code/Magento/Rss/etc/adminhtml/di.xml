@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\Rss\Controller\Adminhtml\Authenticate">
+        <plugin name="adminAuthentication" type="Magento\Rss\App\Action\Plugin\Authentication"/>
+    </type>
+</config>

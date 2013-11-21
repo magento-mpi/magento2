@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Controller\Adminhtml;
 
-class Wysiwyg extends \Magento\Backend\Controller\Adminhtml\Action
+class Wysiwyg extends \Magento\Backend\App\Action
 {
     /**
      * Template directives callback

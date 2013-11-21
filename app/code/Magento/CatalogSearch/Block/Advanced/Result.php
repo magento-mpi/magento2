@@ -27,13 +27,6 @@ class Result extends \Magento\View\Block\Template
     protected $_urlFactory;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Catalog layer
      *
      * @var \Magento\Catalog\Model\Layer
@@ -48,30 +41,25 @@ class Result extends \Magento\View\Block\Template
     protected $_catalogSearchAdvanced;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_catalogLayer = $catalogLayer;
-        $this->_storeManager = $storeManager;
         $this->_urlFactory = $urlFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _prepareLayout()

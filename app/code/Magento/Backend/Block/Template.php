@@ -23,11 +23,6 @@ class Template extends \Magento\View\Block\Template
     protected $_authorization;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -38,20 +33,25 @@ class Template extends \Magento\View\Block\Template
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Backend\Model\Session
+     */
+    protected $_backendSession;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
-        $this->_storeManager = $context->getStoreManager();
         $this->_locale = $context->getLocale();
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
-        parent::__construct($coreData, $context, $data);
+        $this->_backendSession = $context->getBackendSession();
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

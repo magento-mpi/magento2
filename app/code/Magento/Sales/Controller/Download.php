@@ -17,8 +17,25 @@
  */
 namespace Magento\Sales\Controller;
 
-class Download extends \Magento\Core\Controller\Front\Action
+class Download extends \Magento\App\Action\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileResponseFactory;
+
+    /**
+     * @param \Magento\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory
+    ) {
+        $this->_fileResponseFactory = $fileResponseFactory;
+        parent::__construct($context);
+    }
+
     /**
      * Custom options downloader
      *
@@ -42,12 +59,12 @@ class Download extends \Magento\Core\Controller\Front\Action
                     throw new \Exception();
                 }
             }
-            $this->_prepareDownloadResponse($info['title'], array(
+            $this->_fileResponseFactory->create($info['title'], array(
                'value' => $filePath,
                'type'  => 'filename'
             ));
         } catch (\Exception $e) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -96,7 +113,7 @@ class Download extends \Magento\Core\Controller\Front\Action
             ->load($this->getRequest()->getParam('id'));
 
         if (!$recurringProfile->getId()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
 
         $orderItemInfo = $recurringProfile->getData('order_item_info');
@@ -104,30 +121,30 @@ class Download extends \Magento\Core\Controller\Front\Action
             $request = unserialize($orderItemInfo['info_buyRequest']);
 
             if ($request['product'] != $orderItemInfo['product_id']) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
 
             $optionId = $this->getRequest()->getParam('option_id');
             if (!isset($request['options'][$optionId])) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
             // Check if the product exists
             $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($request['product']);
             if (!$product || !$product->getId()) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
             // Try to load the option
             $option = $product->getOptionById($optionId);
             if (!$option || !$option->getId() || $option->getType() != 'file') {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
             $this->_downloadFileAction($request['options'][$this->getRequest()->getParam('option_id')]);
         } catch (\Exception $e) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -141,7 +158,7 @@ class Download extends \Magento\Core\Controller\Front\Action
         $option = $this->_objectManager->create('Magento\Sales\Model\Quote\Item\Option')->load($quoteItemOptionId);
 
         if (!$option->getId()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
 
@@ -160,7 +177,7 @@ class Download extends \Magento\Core\Controller\Front\Action
         if (!$productOption || !$productOption->getId()
             || $productOption->getProductId() != $option->getProductId() || $productOption->getType() != 'file'
         ) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
 
@@ -168,7 +185,7 @@ class Download extends \Magento\Core\Controller\Front\Action
             $info = unserialize($option->getValue());
             $this->_downloadFileAction($info);
         } catch (\Exception $e) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
         exit(0);
     }

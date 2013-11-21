@@ -31,11 +31,8 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
     protected $_coreRegistry = null;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\Store\Group\Factory $storeGroupFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
@@ -43,9 +40,8 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\App $application,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Website\Factory $websiteFactory,
         \Magento\Core\Model\Store\Group\Factory $storeGroupFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
@@ -53,9 +49,7 @@ class Websites extends \Magento\Backend\Block\Store\Switcher
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct(
-            $coreData, $context, $application, $websiteFactory, $storeGroupFactory, $storeFactory, $data
-        );
+        parent::__construct($context, $coreData, $websiteFactory, $storeGroupFactory, $storeFactory, $data);
     }
 
     /**

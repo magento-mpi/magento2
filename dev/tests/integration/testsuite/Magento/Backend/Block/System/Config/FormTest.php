@@ -242,15 +242,6 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\App\ResponseInterface')->headersSentThrowsException = false;
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-            'Magento\Core\Controller\Front\Action',
-            array(
-                'request' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\App\Request\Http'),
-                'response' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\App')->getResponse()
-            )
-        );
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\RequestInterface')
             ->setParam('section', 'general');
         /** @var $block \Magento\Backend\Block\System\Config\Form */

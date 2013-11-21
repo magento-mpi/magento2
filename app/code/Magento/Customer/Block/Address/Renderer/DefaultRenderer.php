@@ -42,27 +42,19 @@ class DefaultRenderer
     protected $_attrDataFactory;
 
     /**
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $_filterManager;
-
-    /**
-     * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\View\Block\Context $context
+     * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Eav\Model\AttributeDataFactory $attrDataFactory
-     * @param \Magento\Filter\FilterManager $filterManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Helper\Address $customerAddress,
         \Magento\View\Block\Context $context,
+        \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Eav\Model\AttributeDataFactory $attrDataFactory,
-        \Magento\Filter\FilterManager $filterManager,
         array $data = array()
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_attrDataFactory = $attrDataFactory;
-        $this->_filterManager = $filterManager;
         parent::__construct($context, $data);
     }
 
@@ -154,6 +146,6 @@ class DefaultRenderer
         }
         $format = !is_null($format) ? $format : $this->getFormat($address);
 
-        return $this->_filterManager->template($format, array('variables' => $data));
+        return $this->filterManager->template($format, array('variables' => $data));
     }
 }

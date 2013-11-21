@@ -10,7 +10,9 @@
 
 namespace Magento\GiftCardAccount\Controller\Adminhtml;
 
-class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Giftcardaccount extends \Magento\Backend\App\Action
 {
     /**
      * Defines if status message of code pool is show
@@ -27,15 +29,31 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -43,7 +61,7 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Gift Card Accounts'));
+        $this->_title->add(__('Gift Card Accounts'));
 
         if ($this->_showCodePoolStatusMessage) {
             $usage = $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->getPoolUsageInfo();
@@ -57,9 +75,9 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
 
@@ -86,25 +104,28 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getCode() : __('New Account'));
+        $this->_title->add($model->getId() ? $model->getCode() : __('New Account'));
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
-        $this->loadLayout()
-            ->_addBreadcrumb($id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
-                             $id ? __('Edit Gift Card Account') : __('New Gift Card Account'))
-            ->_addContent(
-                $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            $id ? __('Edit Gift Card Account') : __('New Gift Card Account'),
+            $id ? __('Edit Gift Card Account') : __('New Gift Card Account')
+        );
+        $this->_addContent(
+                $this->_view->getLayout()
+                    ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit')
                     ->setData('form_action_url', $this->getUrl('adminhtml/*/save'))
+            )->_addLeft(
+                $this->_view->getLayout()
+                    ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
             )
-            ->_addLeft(
-                $this->getLayout()->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tabs')
-            )
-            ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount')
-            ->renderLayout();
+            ->_setActiveMenu('Magento_GiftCardAccount::customer_giftcardaccount');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -231,8 +252,8 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -248,7 +269,7 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We were unable to generate a new code pool.'));
         }
-        $this->_redirectReferer('*/*/');
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*/*/')));
     }
 
     /**
@@ -272,9 +293,9 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab\History')
                 ->toHtml()
         );
@@ -288,7 +309,7 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initGca($idFieldName = 'id')
     {
-        $this->_title(__('Gift Card Accounts'));
+        $this->_title->add(__('Gift Card Accounts'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount');
@@ -304,11 +325,11 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportMsxmlAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'giftcardaccounts.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -316,11 +337,11 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'giftcardaccounts.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('gift.card.account.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile($fileName));
     }
 
     /**
@@ -356,9 +377,8 @@ class Giftcardaccount extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _filterPostData($data)
     {
-        $data = $this->_filterDates($data, array('date_expires'));
-
-        return $data;
+        $inputFilter = new \Zend_Filter_Input(array('date_expires' => $this->_dateFilter), array(), $data);
+        return $inputFilter->getUnescaped();
     }
 
     /**

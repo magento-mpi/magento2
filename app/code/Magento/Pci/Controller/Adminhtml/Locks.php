@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Controller\Adminhtml;
 
-class Locks extends \Magento\Backend\Controller\Adminhtml\Action
+class Locks extends \Magento\Backend\App\Action
 {
     /**
      * Render page with grid
@@ -22,11 +22,11 @@ class Locks extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Locked Users'));
+        $this->_title->add(__('Locked Users'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_acl_locks');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -35,8 +35,8 @@ class Locks extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
 
     }
 

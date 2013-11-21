@@ -18,22 +18,22 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Customer;
 
-class Reward extends \Magento\Backend\Controller\Adminhtml\Action
+class Reward extends \Magento\Backend\App\Action
 {
     /**
      * Check if module functionality enabled
      *
-     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
-            && $this->getRequest()->getActionName() != 'noroute'
+            && $request->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -41,8 +41,8 @@ class Reward extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function historyAction()
     {
-        $this->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -51,8 +51,8 @@ class Reward extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function historyGridAction()
     {
-        $this->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

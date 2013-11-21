@@ -18,17 +18,17 @@ class Admin extends \Magento\App\Helper\AbstractHelper
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Helper\Context $context,
         \Magento\Sales\Model\Config $salesConfig
     ) {

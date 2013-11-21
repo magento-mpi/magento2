@@ -18,18 +18,25 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-class Unsubscribe extends \Magento\Core\Controller\Front\Action
-{
-    public function preDispatch()
-    {
-        parent::preDispatch();
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
+class Unsubscribe extends \Magento\App\Action\Action
+{
+    /**
+     * @param RequestInterface $request
+     * @return mixed
+     */
+    public function dispatch(RequestInterface $request)
+    {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
-            if(!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeUrl($this->_getRefererUrl());
+            $this->_actionFlag->set('', 'no-dispatch', true);
+            if (!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
+                $this->_objectManager->get('Magento\Customer\Model\Session')
+                    ->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
+        return parent::dispatch($request);
     }
 
     public function priceAction()
@@ -68,7 +75,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectUrl($product->getProductUrl());
+        $this->getResponse()->setRedirect($product->getProductUrl());
     }
 
     public function priceAllAction()
@@ -124,7 +131,7 @@ class Unsubscribe extends \Magento\Core\Controller\Front\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectUrl($product->getProductUrl());
+        $this->getResponse()->setRedirect($product->getProductUrl());
     }
 
     public function stockAllAction()

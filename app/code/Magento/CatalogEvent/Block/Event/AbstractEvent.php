@@ -21,32 +21,6 @@ abstract class AbstractEvent extends \Magento\View\Block\Template
      */
     protected $_statuses;
 
-    /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\LocaleInterface $locale,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $data);
-
-        $this->_locale = $locale;
-    }
-
     protected function _construct()
     {
         parent::_construct();

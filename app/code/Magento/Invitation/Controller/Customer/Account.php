@@ -8,19 +8,14 @@
  * @license     {license_link}
  */
 namespace Magento\Invitation\Controller\Customer;
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Invitation customer account frontend controller
  */
 class Account extends \Magento\Customer\Controller\Account
 {
-    /**
-     * Action list where need check enabled cookie
-     *
-     * @var array
-     */
-    protected $_cookieCheckActions = array('createPost');
-
     /**
      * Invitation Config
      *
@@ -36,76 +31,64 @@ class Account extends \Magento\Customer\Controller\Account
     protected $_invitationFactory;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Stdlib\String $string,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
-        parent::__construct(
-            $context,
-            $coreRegistry,
-            $customerSession,
-            $storeManager,
-            $urlFactory,
-            $customerFactory,
-            $formFactory,
-            $addressFactory,
-            $string
+        parent::__construct($context, $coreRegistry, $customerSession, $urlFactory, $customerFactory,
+            $formFactory, $addressFactory, $string, $formKeyValidator, $storeManager
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
     }
 
     /**
-     * Predispatch custom logic
-     *
-     * Bypassing direct parent predispatch
+     * Bypassing direct parent dispatch
      * Allowing only specific actions
      * Checking whether invitation functionality is enabled
      * Checking whether registration is allowed at all
      * No way to logged in customers
+     *
+     * @param RequestInterface $request
+     * @return mixed|void
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        \Magento\Core\Controller\Front\Action::preDispatch();
-
-        if (!preg_match('/^(create|createpost)/i', $this->getRequest()->getActionName())) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
-        }
-        if (!$this->_config->isEnabledOnFront()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+        if (!preg_match('/^(create|createpost)/i', $request->getActionName())
+            || !$this->_config->isEnabledOnFront()
+        ) {
+            throw new NotFoundException();
         }
         if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('customer/account/');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
+            return parent::dispatch($request);
         }
-
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -134,9 +117,9 @@ class Account extends \Magento\Customer\Controller\Account
     {
         try {
             $this->_initInvitation();
-            $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -167,6 +150,7 @@ class Account extends \Magento\Customer\Controller\Account
             if ($customerId) {
                 $invitation->accept($this->_storeManager->getWebsite()->getId(), $customerId);
             }
+            $this->_redirect('customer/account/');
             return;
         } catch (\Magento\Core\Exception $e) {
             $_definedErrorCodes = array(
@@ -197,31 +181,89 @@ class Account extends \Magento\Customer\Controller\Account
                 ->addException($e, __('Unable to save the customer.'));
         }
 
-        $this->_redirectError('');
+        $this->_redirect('magento_invitation/customer_account/create',
+            array('_current' => true, '_secure' => true));
 
         return $this;
     }
 
     /**
-     * Make success redirect constant
-     *
-     * @param string $defaultUrl
-     * @return \Magento\Invitation\Controller\Customer\Account
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param mixed $key
+     * @return bool|null
+     * @throws \Exception
      */
-    protected function _redirectSuccess($defaultUrl)
+    protected function _checkCustomerActive($customer, $key)
     {
-        return $this->_redirect('customer/account/');
+        if ($customer->getConfirmation()) {
+            if ($customer->getConfirmation() !== $key) {
+                throw new \Exception(__('Wrong confirmation key.'));
+            }
+            $this->_activateCustomer($customer);
+
+            // log in and send greeting email, then die happy
+            $this->_getSession()->setCustomerAsLoggedIn($customer);
+            $this->_redirect('customer/account/');
+            return true;
+        }
     }
 
     /**
-     * Make failure redirect constant
-     *
-     * @param string $defaultUrl
-     * @return \Magento\Invitation\Controller\Customer\Account
+     * Confirm customer account by id and confirmation key
      */
-    protected function _redirectError($defaultUrl)
+    public function confirmAction()
     {
-        return $this->_redirect('magento_invitation/customer_account/create',
-            array('_current' => true, '_secure' => true));
+        if ($this->_getSession()->isLoggedIn()) {
+            $this->_redirect('*/*/');
+            return;
+        }
+        try {
+            $customerId = $this->getRequest()->getParam('id', false);
+            $key     = $this->getRequest()->getParam('key', false);
+            if (empty($customerId) || empty($key)) {
+                throw new \Exception(__('Bad request.'));
+            }
+
+            $customer = $this->_loadCustomerById($customerId);
+            if (true === $this->_checkCustomerActive($customer, $key)) {
+                return;
+            }
+            // die happy
+            $this->_redirect('customer/account/');
+            return;
+        } catch (\Exception $e) {
+            // die unhappy
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('magento_invitation/customer_account/create',
+                array('_current' => true, '_secure' => true));
+            return;
+        }
     }
+
+    /**
+     * @param \Magento\Customer\Model\Customer $customer
+     * @param string $email
+     */
+    protected function _confirmByEmail($customer, $email)
+    {
+        try {
+            $customer->setWebsiteId($this->_storeManager->getStore()->getWebsiteId())->loadByEmail($email);
+            if (!$customer->getId()) {
+                throw new \Exception('');
+            }
+            if ($customer->getConfirmation()) {
+                $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
+                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+            } else {
+                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+            }
+            $this->_getSession()->setUsername($email);
+            $this->_redirect('customer/account/');
+        } catch (\Exception $e) {
+            $this->_getSession()->addException($e, __('Wrong email.'));
+            $this->_redirect('magento_invitation/customer_account/create',
+                array('_current' => true, '_secure' => true));
+        }
+    }
+
 }

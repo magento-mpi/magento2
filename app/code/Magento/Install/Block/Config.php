@@ -30,8 +30,8 @@ class Config extends \Magento\Install\Block\AbstractBlock
     protected $_installerConfig = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Core\Model\Session\Generic $session
@@ -39,15 +39,15 @@ class Config extends \Magento\Install\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Core\Model\Session\Generic $session,
         \Magento\Install\Model\Installer\Config $installerConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
+        parent::__construct($context, $coreData, $installer, $installWizard, $session, $data);
         $this->_installerConfig = $installerConfig;
     }
 

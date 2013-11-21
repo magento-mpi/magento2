@@ -18,19 +18,19 @@ class Cookie extends \Magento\View\Block\Template
     protected $_cookie;
 
     /**
-     * @param \Magento\Core\Model\Cookie $cookie
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Cookie $cookie,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Cookie $cookie,
         array $data = array()
     ) {
         $this->_cookie = $cookie;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
