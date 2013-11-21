@@ -102,7 +102,7 @@ class UpsellTest extends Functional
 
         // load the new block
         $upsellBlock = $productPage->getUpsellBlock();
-        $this->assertFalse($upsellBlock->isVisible(), "Usell view should not be visible");
+        $this->assertFalse($upsellBlock->isVisible(), "Upsell view should not be visible");
 
     }
 
@@ -122,7 +122,7 @@ class UpsellTest extends Functional
             $productBlock->showAdvanced();
             //$productBlock->waitForElementVisible('[title="Save"][class*=action]', Locator::SELECTOR_CSS);
             $productEditPage->getProductBlockForm()->openUpsellTab();
-            $productEditPage->getProductUpsellGrid()->searchAndSelect(array('name' => $upsellProduct->getProductName()));
+            $productEditPage->getUpsellBlock()->searchAndSelect(array('name' => $upsellProduct->getProductName()));
             $productBlock->save($product);
             $productEditPage->getMessagesBlock()->assertSuccessMessage();
         }

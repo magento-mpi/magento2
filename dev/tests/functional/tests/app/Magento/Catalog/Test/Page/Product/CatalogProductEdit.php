@@ -63,7 +63,7 @@ class CatalogProductEdit extends Page
     public function getUpsellBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabUpsell(
-            $this->_browser->find('product_info_tabs_upsell', Locator::SELECTOR_CSS)
+            $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
         );
     }
 
@@ -76,18 +76,6 @@ class CatalogProductEdit extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
             $this->_browser->find('body', Locator::SELECTOR_CSS)
-        );
-    }
-
-    /**
-     * Get the backend catalog product block for upsells
-     *
-     * @return \Magento\Catalog\Test\Block\Backend\ProductUpsellGrid
-     */
-    public function getProductUpsellGrid()
-    {
-        return Factory::getBlockFactory()->getMagentoCatalogBackendProductUpsellGrid(
-            $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
         );
     }
 
