@@ -21,17 +21,17 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_session;
 
     /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\Theme\FlyweightFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_themeFactory;
 
     /**
-     * @var \Magento\View\Design\Theme\FlyweightFactory|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Design\Theme\FlyweightFactory|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $themeFactory;
 
@@ -78,8 +78,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_customizationPath = \Magento\Filesystem::DIRECTORY_SEPARATOR
-            . implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array('var', 'theme'));
+        $this->_customizationPath = '/'
+            . implode('/', array('var', 'theme'));
 
         $this->_request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
@@ -254,7 +254,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         $this->directoryRead->expects($this->any())
             ->method('isExist')
-//            ->with($imagePath)
             ->will($this->returnValue(true));
 
         $this->assertEquals($thumbnailPath, $this->helper->getThumbnailPath($image));
