@@ -63,7 +63,7 @@ class CopyService
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\View\Design\Theme\Customization\Path $customization
     ) {
-        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);;
+        $this->_directory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
         $this->_updateFactory = $updateFactory;

@@ -14,6 +14,8 @@
  */
 namespace Magento\Install\Controller;
 
+use Magento\Filesystem\FilesystemException;
+
 class Index extends \Magento\Install\Controller\Action
 {
     /**
@@ -55,7 +57,10 @@ class Index extends \Magento\Install\Controller\Action
             $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
             foreach ($varDirectory->read() as $path) {
                 if ($varDirectory->isDirectory($path)) {
-                    $varDirectory->delete($path);
+                    try {
+                        $varDirectory->delete($path);
+                    } catch (FilesystemException $e) {
+                    }
                 }
             }
         }
