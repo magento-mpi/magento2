@@ -109,7 +109,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(true));
         $quoteMock->expects($this->any())->method('getStoreId')->will($this->returnValue(true));
         $this->_helperMock = $this->getMock('Magento\CustomerBalance\Helper\Data', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);
+        $this->_helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array(), array(), '', false);
 
         $this->_helperFactoryMock->expects($this->once())
             ->method('get')

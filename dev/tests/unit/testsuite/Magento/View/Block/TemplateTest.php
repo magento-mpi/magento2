@@ -47,7 +47,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
 
         $this->_templateEngine =
-            $this->getMock('Magento\View\TemplateEngineFactory', array('render', 'get'), array(), '', false);
+            $this->getMock('Magento\View\TemplateEnginePool', array('render', 'get'), array(), '', false);
 
         $this->_templateEngine->expects($this->any())
             ->method('get')
@@ -58,7 +58,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject('Magento\View\Block\Template', array(
             'filesystem' => $this->_filesystem,
-            'engineFactory' => $this->_templateEngine,
+            'enginePool' => $this->_templateEngine,
             'viewFileSystem' => $this->_viewFileSystem,
             'appState' => $appState,
             'dirs' => $dirs,

@@ -65,7 +65,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $locale = $this->getMock('\Magento\Core\Model\LocaleInterface');
         $locale->expects($this->once())->method('formatDate')
             ->will($this->returnValue('11-11-1999'));
-        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array(), array(), '', false);
+        $helperFactory = $this->getMock('Magento\App\Helper\HelperFactory', array(), array(), '', false);
         $helper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
         $helper->expects($this->once())->method('formatCurrency')
