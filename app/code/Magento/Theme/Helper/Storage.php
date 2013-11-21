@@ -82,9 +82,9 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $mediaDirectoryRead;
+    protected $mediaDirectoryWrite;
 
     /**
      * @param \Magento\Filesystem $filesystem
@@ -102,7 +102,8 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
         $this->filesystem = $filesystem;
         $this->_session = $session;
         $this->_themeFactory = $themeFactory;
-        $this->mediaDirectoryRead = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->mediaDirectoryWrite->create($this->getStorageRoot());
     }
 
     /**
@@ -226,10 +227,10 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
             if ($path && $path !== self::NODE_ROOT) {
                 $path = $this->convertIdToPath($path);
 
-                if ($this->mediaDirectoryRead->isDirectory($path)
+                if ($this->mediaDirectoryWrite->isDirectory($path)
                     && 0 === strpos($path, $currentPath)
                 ) {
-                    $currentPath = $this->mediaDirectoryRead->getRelativePath($path);
+                    $currentPath = $this->mediaDirectoryWrite->getRelativePath($path);
                 }
             }
             $this->_currentPath = $currentPath;
@@ -259,7 +260,7 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
     public function getThumbnailPath($imageName)
     {
         $imagePath = $this->getCurrentPath() . '/' . $imageName;
-        if (!$this->mediaDirectoryRead->isExist($imagePath)
+        if (!$this->mediaDirectoryWrite->isExist($imagePath)
             || 0 !== strpos($imagePath, $this->getStorageRoot())
         ) {
             throw new \InvalidArgumentException('The image not found.');
