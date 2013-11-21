@@ -25,7 +25,6 @@ use Magento\Core\Model\Acl\RootResource as RootAclResource;
  * Authorization service.
  *
  * @SuppressWarnings(PHPMD.LongVariable)
- * TODO: Fix supression of excessive coupling
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class AuthorizationV1 implements AuthorizationV1Interface
@@ -51,9 +50,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /** @var Logger */
     protected $_logger;
 
-    /**
-     * @var RootAclResource
-     */
+    /** @var RootAclResource */
     protected $_rootAclResource;
 
     /**
@@ -132,7 +129,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         } catch (ServiceException $e) {
             throw $e;
         } catch (\Exception $e) {
-            $this->_logger->log($e);
+            $this->_logger->logException($e);
             throw new ServiceException(
                 __('Error happened while granting permissions. Check exception log for details.')
             );
