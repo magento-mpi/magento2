@@ -287,6 +287,15 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( //Payment Action
                                                         'value' => 'Authorization' //Authorization
                                                     )
+                                                ),
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 0
+                                                            )
+                                                        )
+                                                    )
                                                 )
                                             )
                                         )
@@ -430,6 +439,15 @@ class Config extends AbstractRepository
                                                 'fields' => array(
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_paypal_payflow_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 0
+                                                            )
+                                                        )
                                                     )
                                                 )
                                             )
