@@ -37,35 +37,36 @@ class UpsellTest extends Functional
      */
     public function testCreateUpsell()
     {
-        $product1Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product1Fixture->switchData('simple');
-        $product1Fixture->persist();
+        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple1->switchData('simple');
+        $simple1->persist();
 
-        $product2Fixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product2Fixture->switchData('simple');
-        $product2Fixture->persist();
+        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple2->switchData('simple');
+        $simple2->persist();
 
-        $configurableProductFixture = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProductFixture->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable');
+        $configurable->persist();
 
         // Test Steps
         $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $editProductPage->open(array('id' => $product1Fixture->getProductId()));
+        $editProductPage->open(array('id' => $simple1->getProductId()));
 
         // Step 1: (logged into Admin in setup)
         // Step 2: For Simple 1 add as up-sells:- Configurable 1 & Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
 
-        $this->addUpsellProducts($product1Fixture, array($product2Fixture, $configurableProductFixture));
+        $this->addUpsellProducts($simple1, array($simple2, $configurable));
 
         // Step 3: For Configurable add as up-sells: Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
-        $this->addUpsellProducts($configurableProductFixture, array($product2Fixture));
+        $this->addUpsellProducts($configurable, array($simple2));
         // Test on front end that the upsell products are visible.
 
         // Step 4 Go to front end.
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($product1Fixture);
+        $productPage->init($simple1);
         $productPage->open();
 
         // Step 5: check for the upsell products.
@@ -74,30 +75,30 @@ class UpsellTest extends Functional
         $upsellBlock = $productPage->getUpsellBlock();
         $this->assertTrue($upsellBlock->isVisible(), "upsell view not found");
 
-        $this->assertTrue($upsellBlock->verifyProductUpsell($configurableProductFixture),
-            'Upsell product ' . $configurableProductFixture->getProductName() .
+        $this->assertTrue($upsellBlock->verifyProductUpsell($configurable),
+            'Upsell product ' . $configurable->getProductName() .
             ' was not found in the first product page.');
 
-        $this->assertTrue($upsellBlock->verifyProductUpsell($product2Fixture),
-            'Upsell product ' . $product2Fixture->getProductName() .
+        $this->assertTrue($upsellBlock->verifyProductUpsell($simple2),
+            'Upsell product ' . $simple2->getProductName() .
             ' was not found in the first product page.');
 
         // Step 6.  Click on the configurable 1 product.
         // See that the Simple 2 is in the upsells.
 
-        $upsellBlock->clickLink($configurableProductFixture);
+        $upsellBlock->clickLink($configurable);
 
         // load the block
         $upsellBlock = $productPage->getUpsellBlock();
         $this->assertTrue($upsellBlock->isVisible(), "Upsell view not found");
 
-        $this->assertTrue($upsellBlock->verifyProductUpsell($product2Fixture),
-            $product2Fixture->getProductName() . " not found on configurable page.");
+        $this->assertTrue($upsellBlock->verifyProductUpsell($simple2),
+            $simple2->getProductName() . " not found on configurable page.");
 
         // Step 7.  Click on the simple 2 product.
         // See that no upsells are present.
 
-        $upsellBlock->clickLink($product2Fixture);
+        $upsellBlock->clickLink($simple2);
 
         // load the new block
         $upsellBlock = $productPage->getUpsellBlock();
