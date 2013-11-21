@@ -116,9 +116,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_coreMessage;
+    protected $messageFactory;
 
     /**
      * @var \Magento\Adminhtml\Model\Session\Quote
@@ -173,7 +173,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Core\Model\Message $coreMessage
+     * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Customer\Helper\Data $customerData
@@ -189,7 +189,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Core\Model\Message $coreMessage,
+        \Magento\Message\Factory $messageFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Customer\Helper\Data $customerData,
@@ -204,7 +204,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     ) {
         $this->_cart = $cart;
         $this->_sessionQuote = $sessionQuote;
-        $this->_coreMessage = $coreMessage;
+        $this->messageFactory = $messageFactory;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_customerData = $customerData;
@@ -1520,13 +1520,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = $this->_coreMessage->success($message);
+            $messages[] = $this->messageFactory->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = $this->_coreMessage->error($warning);
+            $messages[] = $this->messageFactory->error($warning);
         }
         return $messages;
     }

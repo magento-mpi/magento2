@@ -49,7 +49,7 @@ abstract class AbstractForm extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
@@ -59,7 +59,7 @@ abstract class AbstractForm extends \Magento\Pbridge\Block\Iframe\AbstractIframe
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,

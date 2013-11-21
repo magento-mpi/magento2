@@ -11,7 +11,7 @@
  */
 namespace Magento\Backup\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Backup type constant for database backup
@@ -70,7 +70,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
@@ -78,7 +78,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Index\Model\Resource\Process\CollectionFactory $processFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Filesystem $filesystem,
         \Magento\AuthorizationInterface $authorization,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,

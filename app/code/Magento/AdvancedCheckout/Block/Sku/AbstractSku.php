@@ -17,7 +17,7 @@
 namespace Magento\AdvancedCheckout\Block\Sku;
 
 abstract class AbstractSku
-    extends \Magento\Core\Block\Template
+    extends \Magento\View\Block\Template
 {
     /**
      * Retrieve form action URL
@@ -39,14 +39,14 @@ abstract class AbstractSku
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Math\Random $mathRandom,

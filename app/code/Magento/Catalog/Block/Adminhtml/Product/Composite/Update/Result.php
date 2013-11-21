@@ -19,7 +19,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Composite\Update;
 
-class Result extends \Magento\Core\Block\Template
+class Result extends \Magento\View\Block\Template
 {
     /**
      * Adminhtml js

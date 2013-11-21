@@ -64,7 +64,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
         ));
         $this->dispatch('backend/catalog/product/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save product')), \Magento\Core\Model\Message::ERROR
+            $this->equalTo(array('Unable to save product')), \Magento\Message\Factory::ERROR
         );
         $this->assertRedirect($this->stringContains('/backend/catalog/product/edit'));
     }
@@ -78,7 +78,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/catalog/product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/catalog/product/new/'));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Message\Factory::SUCCESS
         );
     }
 
@@ -96,10 +96,10 @@ class ProductTest extends \Magento\Backend\Utility\Controller
             $this->stringStartsWith('http://localhost/index.php/backend/catalog/product/edit/id/1/')
         ));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), \Magento\Core\Model\Message::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Message\Factory::SUCCESS
         );
         $this->assertSessionMessages(
-            $this->contains('You duplicated the product.'), \Magento\Core\Model\Message::SUCCESS
+            $this->contains('You duplicated the product.'), \Magento\Message\Factory::SUCCESS
         );
     }
 

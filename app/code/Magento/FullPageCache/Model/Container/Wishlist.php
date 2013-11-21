@@ -47,7 +47,7 @@ class Wishlist extends \Magento\FullPageCache\Model\Container\AbstractContainer
         $block = $this->_placeholder->getAttribute('block');
         $template = $this->_placeholder->getAttribute('template');
 
-        /** @var $block \Magento\Core\Block\Template */
+        /** @var $block \Magento\View\Block\Template */
         $block = $this->_layout->createBlock($block);
         $block->setTemplate($template);
 

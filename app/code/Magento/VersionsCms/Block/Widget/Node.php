@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Widget;
 
 class Node
-    extends \Magento\Core\Block\Html\Link
+    extends \Magento\View\Block\Html\Link
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -44,14 +44,14 @@ class Node
     protected $_hierarchyNodeFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,

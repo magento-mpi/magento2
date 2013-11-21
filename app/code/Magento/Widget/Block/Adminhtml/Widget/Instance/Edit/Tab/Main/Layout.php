@@ -126,7 +126,7 @@ class Layout
      */
     public function getDisplayOnSelectHtml()
     {
-        $selectBlock = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $selectBlock = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName('widget_instance[{{id}}][page_group]')
             ->setId('widget_instance[{{id}}][page_group]')
             ->setClass('required-entry page_group_select select')

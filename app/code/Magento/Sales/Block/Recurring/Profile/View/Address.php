@@ -16,14 +16,14 @@ namespace Magento\Sales\Block\Recurring\Profile\View;
 class Address extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,

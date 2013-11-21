@@ -36,4 +36,12 @@ interface TranslateInterface
      * @param bool $isJson
      */
     public function processResponseBody(&$body, $isJson = false);
+
+    /**
+     * Set Translate inline mode
+     *
+     * @param bool $flag
+     * @return \Magento\TranslateInterface
+     */
+    public function setTranslateInline($flag);
 }

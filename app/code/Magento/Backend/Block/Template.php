@@ -15,7 +15,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Template extends \Magento\Core\Block\Template
+class Template extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\AuthorizationInterface

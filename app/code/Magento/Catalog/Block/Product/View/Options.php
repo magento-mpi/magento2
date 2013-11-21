@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
-class Options extends \Magento\Core\Block\Template
+class Options extends \Magento\View\Block\Template
 {
     protected $_product;
 
@@ -51,7 +51,7 @@ class Options extends \Magento\Core\Block\Template
     protected $_catalogProduct;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
@@ -61,7 +61,7 @@ class Options extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,

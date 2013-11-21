@@ -10,7 +10,7 @@
 
 namespace Magento\Sales\Helper;
 
-class Admin extends \Magento\Core\Helper\AbstractHelper
+class Admin extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Sales\Model\Config
@@ -24,12 +24,12 @@ class Admin extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Sales\Model\Config $salesConfig
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Sales\Model\Config $salesConfig
     ) {
         $this->_storeManager = $storeManager;

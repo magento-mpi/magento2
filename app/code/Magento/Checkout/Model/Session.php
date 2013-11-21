@@ -54,6 +54,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_customerSession;
 
     /**
+     * @var \Magento\Message\CollectionFactory
+     */
+    protected $_messageCollFactory;
+
+    /**
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
@@ -67,6 +72,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Message\CollectionFactory $messageCollFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param null $sessionName
@@ -76,6 +82,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Core\Model\Session\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Message\CollectionFactory $messageCollFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         $sessionName = null,
@@ -83,6 +90,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_customerSession = $customerSession;
+        $this->_messageCollFactory = $messageCollFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_remoteAddress = $remoteAddress;
         parent::__construct($context, $data);
@@ -323,7 +331,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param string $itemKey
      * @param bool $clear
      *
-     * @return null|\Magento\Core\Model\Message\Collection
+     * @return null|\Magento\Message\Collection
      */
     public function getItemAdditionalMessages($itemKey, $clear = false)
     {
@@ -345,7 +353,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * itemKey is a unique hash (e.g 'quote_item17') to distinguish item messages among message collections
      *
      * @param string $itemKey
-     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Message\AbstractMessage $message
      *
      * @return \Magento\Checkout\Model\Session
      */
@@ -353,7 +361,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = $this->_messageFactory->create();
+            $allMessages[$itemKey] = $this->_messageCollFactory->create();
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);
@@ -366,7 +374,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param int $itemId
      * @param bool $clear
      *
-     * @return null|\Magento\Core\Model\Message\Collection
+     * @return null|\Magento\Message\Collection
      */
     public function getQuoteItemMessages($itemId, $clear = false)
     {
@@ -377,11 +385,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * Adds new message to a list of quote item messages, saved in this session
      *
      * @param int $itemId
-     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Message\AbstractMessage $message
      *
      * @return \Magento\Checkout\Model\Session
      */
-    function addQuoteItemMessage($itemId, $message)
+    public function addQuoteItemMessage($itemId, $message)
     {
         return $this->addItemAdditionalMessage('quote_item' . $itemId, $message);
     }

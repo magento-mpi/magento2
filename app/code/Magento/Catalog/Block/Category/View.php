@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Category;
 
-class View extends \Magento\Core\Block\Template
+class View extends \Magento\View\Block\Template
 {
     /**
      * Core registry
@@ -34,14 +34,14 @@ class View extends \Magento\Core\Block\Template
     protected $_catalogLayer;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Model\Registry $registry,

@@ -18,7 +18,7 @@ namespace Magento\Backend\Block\Widget\Grid;
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class ColumnSet extends \Magento\Core\Block\Template
+class ColumnSet extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Backend\Model\Widget\Grid\Row\UrlGenerator
@@ -104,7 +104,7 @@ class ColumnSet extends \Magento\Core\Block\Template
     protected $_totals = null;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
@@ -112,7 +112,7 @@ class ColumnSet extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
@@ -226,7 +226,7 @@ class ColumnSet extends \Magento\Core\Block\Template
     /**
      * Prepare block for rendering
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

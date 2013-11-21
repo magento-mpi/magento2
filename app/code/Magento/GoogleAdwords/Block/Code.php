@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleAdwords\Block;
 
-class Code extends \Magento\Core\Block\Template
+class Code extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GoogleAdwords\Helper\Data
@@ -17,13 +17,13 @@ class Code extends \Magento\Core\Block\Template
     protected $_googleAdwordsData;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GoogleAdwords\Helper\Data $googleAdwordsData
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GoogleAdwords\Helper\Data $googleAdwordsData,
         array $data = array()

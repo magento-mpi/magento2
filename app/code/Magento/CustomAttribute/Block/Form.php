@@ -18,7 +18,7 @@
  */
 namespace Magento\CustomAttribute\Block;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     /**
      * Name of the block in layout update xml file
@@ -99,7 +99,7 @@ class Form extends \Magento\Core\Block\Template
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
@@ -107,7 +107,7 @@ class Form extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,

@@ -37,7 +37,7 @@ class Create extends \Magento\Rma\Block\Form
     protected $_itemFormFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
@@ -49,7 +49,7 @@ class Create extends \Magento\Rma\Block\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,

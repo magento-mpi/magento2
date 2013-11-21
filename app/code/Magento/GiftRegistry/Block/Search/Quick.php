@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Quick extends \Magento\Core\Block\Template
+class Quick extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\TypeFactory
@@ -31,14 +31,14 @@ class Quick extends \Magento\Core\Block\Template
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
@@ -79,7 +79,7 @@ class Quick extends \Magento\Core\Block\Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select'

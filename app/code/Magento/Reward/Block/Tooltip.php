@@ -13,7 +13,7 @@
  */
 namespace Magento\Reward\Block;
 
-class Tooltip extends \Magento\Core\Block\Template
+class Tooltip extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -40,7 +40,7 @@ class Tooltip extends \Magento\Core\Block\Template
     protected $_actionInstance;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardHelper
      * @param \Magento\Customer\Model\Session $customerSession
@@ -48,7 +48,7 @@ class Tooltip extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardHelper,
         \Magento\Customer\Model\Session $customerSession,
@@ -62,7 +62,7 @@ class Tooltip extends \Magento\Core\Block\Template
     }
 
     /**
-     * @return $this|\Magento\Core\Block\AbstractBlock
+     * @return $this|\Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

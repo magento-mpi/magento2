@@ -13,7 +13,7 @@
  */
 namespace Magento\Checkout\Block\Multishipping;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
 {
     /**
      * Checkout data
@@ -28,14 +28,14 @@ class Link extends \Magento\Core\Block\Template
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Helper\Data $checkoutData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Helper\Data $checkoutData,
         \Magento\Checkout\Model\Session $checkoutSession,

@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Block\Store;
 
-class Switcher extends \Magento\Core\Block\Template
+class Switcher extends \Magento\View\Block\Template
 {
     protected $_groups = array();
     protected $_stores = array();
@@ -38,14 +38,14 @@ class Switcher extends \Magento\Core\Block\Template
     protected $_storeGroupFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,

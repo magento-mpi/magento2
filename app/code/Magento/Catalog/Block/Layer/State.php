@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Layer;
 
-class State extends \Magento\Core\Block\Template
+class State extends \Magento\View\Block\Template
 {
     protected $_template = 'layer/state.phtml';
 
@@ -29,13 +29,13 @@ class State extends \Magento\Core\Block\Template
     protected $_catalogLayer;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Layer $catalogLayer,
         array $data = array()

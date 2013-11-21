@@ -234,9 +234,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     protected $_quoteItemFactory;
 
     /**
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_message;
+    protected $messageFactory;
 
     /**
      * @var \Magento\Sales\Model\Status\ListFactory
@@ -282,7 +282,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\GroupFactory $customerGroupFactory
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Sales\Model\Status\ListFactory $statusListFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory
@@ -308,7 +308,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\GroupFactory $customerGroupFactory,
         \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemCollFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Core\Model\Message $message,
+        \Magento\Message\Factory $messageFactory,
         \Magento\Sales\Model\Status\ListFactory $statusListFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\PaymentFactory $quotePaymentFactory,
@@ -329,7 +329,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $this->_customerGroupFactory = $customerGroupFactory;
         $this->_quoteItemCollFactory = $quoteItemCollFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
-        $this->_message = $message;
+        $this->messageFactory = $messageFactory;
         $this->_statusListFactory = $statusListFactory;
         $this->_productFactory = $productFactory;
         $this->_quotePaymentFactory = $quotePaymentFactory;
@@ -1636,7 +1636,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_string($message)) {
-            $message = $this->_message->error($message);
+            $message = $this->messageFactory->error($message);
         }
 
         $messages[$index] = $message;
@@ -1668,9 +1668,9 @@ class Quote extends \Magento\Core\Model\AbstractModel
     {
         $errors = array();
         foreach ($this->getMessages() as $message) {
-            /* @var $error \Magento\Core\Model\Message\AbstractMessage */
-            if ($message->getType() == \Magento\Core\Model\Message::ERROR) {
-                $errors[] = $message;
+            /* @var $error \Magento\Message\AbstractMessage */
+            if ($message->getType() == \Magento\Message\Factory::ERROR) {
+                array_push($errors, $message);
             }
         }
         return $errors;
@@ -1811,7 +1811,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         }
 
         $message = $messages[$type];
-        if ($message instanceof \Magento\Core\Model\Message\AbstractMessage) {
+        if ($message instanceof \Magento\Message\AbstractMessage) {
             $message = $message->getText();
         } elseif (!is_string($message)) {
             return $this;

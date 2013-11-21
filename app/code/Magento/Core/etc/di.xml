@@ -367,7 +367,7 @@
             <instance type="Magento\App\Request\Http\Proxy" />
         </param>
     </type>
-    <type name="Magento\Core\Helper\Context">
+    <type name="Magento\App\Helper\Context">
         <param name="urlBuilder">
             <instance type="Magento\Core\Model\Url\Proxy" />
         </param>
@@ -385,13 +385,13 @@
             <instance type="Magento\Core\Model\File\Storage\File\Proxy" />
         </param>
     </type>
-    <type name="Magento\View\Service">
-        <param name="design">
-            <instance type="Magento\Core\Model\View\Design\Proxy" />
-        </param>
-    </type>
     <type name="Magento\View\TemplateEngineFactory">
         <plugin name="debug_hints" type="Magento\Core\Model\TemplateEngine\Plugin\DebugHints" sortOrder="10"/>
+        <param name="engines">
+            <value>
+                <phtml>Magento\View\TemplateEngine\Php</phtml>
+            </value>
+        </param>
     </type>
     <type name="\Magento\Image">
         <param name="adapter">

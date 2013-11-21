@@ -13,7 +13,7 @@
  */
 namespace Magento\Rss\Block\Order;
 
-class Status extends \Magento\Core\Block\Template
+class Status extends \Magento\View\Block\Template
 {
     /**
      * Core registry
@@ -33,7 +33,7 @@ class Status extends \Magento\Core\Block\Template
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rss\Model\RssFactory $rssFactory
@@ -41,7 +41,7 @@ class Status extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Rss\Model\RssFactory $rssFactory,

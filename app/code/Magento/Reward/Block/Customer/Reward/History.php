@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class History extends \Magento\Core\Block\Template
+class History extends \Magento\View\Block\Template
 {
     /**
      * History records collection
@@ -44,7 +44,7 @@ class History extends \Magento\Core\Block\Template
     protected $_historyFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -52,7 +52,7 @@ class History extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,

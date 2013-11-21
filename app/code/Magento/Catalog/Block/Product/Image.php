@@ -30,7 +30,7 @@ namespace Magento\Catalog\Block\Product;
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Image extends \Magento\Core\Block\Template
+class Image extends \Magento\View\Block\Template
 {
     /**
      * Template image only
@@ -52,13 +52,13 @@ class Image extends \Magento\Core\Block\Template
     protected $_productImageView;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Product\Image\View $productImageView
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Product\Image\View $productImageView,
         array $data = array()

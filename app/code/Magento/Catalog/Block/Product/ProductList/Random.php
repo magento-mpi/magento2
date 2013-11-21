@@ -32,7 +32,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
     protected $_layerFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -46,7 +46,7 @@ class Random extends \Magento\Catalog\Block\Product\ListProduct
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,

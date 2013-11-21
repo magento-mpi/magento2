@@ -20,7 +20,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
     protected $_orderCollection;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -29,7 +29,7 @@ class Order extends \Magento\Backend\Helper\Dashboard\AbstractDashboard
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,

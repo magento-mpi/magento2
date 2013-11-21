@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\ProductList;
 
-class Toolbar extends \Magento\Core\Block\Template
+class Toolbar extends \Magento\View\Block\Template
 {
     /**
      * Products collection
@@ -142,14 +142,14 @@ class Toolbar extends \Magento\Core\Block\Template
     protected $_catalogSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Config $catalogConfig,

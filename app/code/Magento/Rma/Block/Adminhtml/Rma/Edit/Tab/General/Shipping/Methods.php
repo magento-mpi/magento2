@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Methods extends \Magento\Core\Block\Template
+class Methods extends \Magento\View\Block\Template
 {
     /**
      * Tax data
@@ -27,14 +27,14 @@ class Methods extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Registry $registry,

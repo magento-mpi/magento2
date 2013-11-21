@@ -92,7 +92,7 @@ class ItemTest extends \PHPUnit_Framework_TestCase
         $this->_model->getFilter()->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\Core\Block\Text')
+                ->createBlock('Magento\View\Block\Text')
         );
 
         $this->assertStringEndsWith('/x/y/z/?cat=3', $this->_model->getRemoveUrl());

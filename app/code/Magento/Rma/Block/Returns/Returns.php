@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Returns;
 
-class Returns extends \Magento\Core\Block\Template
+class Returns extends \Magento\View\Block\Template
 {
     /**
      * Rma data
@@ -37,7 +37,7 @@ class Returns extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -46,7 +46,7 @@ class Returns extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,

@@ -70,7 +70,7 @@ class View extends \Magento\Rma\Block\Form
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
@@ -86,7 +86,7 @@ class View extends \Magento\Rma\Block\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
@@ -392,7 +392,7 @@ class View extends \Magento\Rma\Block\Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('Magento\Core\Block\Html\Link')
+            ->createBlock('Magento\View\Block\Html\Link')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -409,7 +409,7 @@ class View extends \Magento\Rma\Block\Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento\Core\Block\Html\Link')
+            ->createBlock('Magento\View\Block\Html\Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
                 'title'     => __('Show Packages'),
@@ -430,7 +430,7 @@ class View extends \Magento\Rma\Block\Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento\Core\Block\Html\Link')
+            ->createBlock('Magento\View\Block\Html\Link')
             ->setData(array(
                 'href'      => $this->helper('Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),

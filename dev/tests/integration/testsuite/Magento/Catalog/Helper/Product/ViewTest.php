@@ -163,7 +163,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         sort($expectedMessages);
 
-        /** @var $message \Magento\Core\Model\Message\Notice */
+        /** @var $message \Magento\Message\Notice */
         foreach ($actualMessages as $key => $message) {
             $actualMessages[$key] = $message->getText();
         }

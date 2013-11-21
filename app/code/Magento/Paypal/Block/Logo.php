@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block;
 
-class Logo extends \Magento\Core\Block\Template
+class Logo extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Paypal\Model\Config
@@ -21,13 +21,13 @@ class Logo extends \Magento\Core\Block\Template
     protected $_paypalConfig;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Model\Config $paypalConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Model\Config $paypalConfig,
         array $data = array()

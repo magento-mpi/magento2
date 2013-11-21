@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block\Express;
 
-class Shortcut extends \Magento\Core\Block\Template
+class Shortcut extends \Magento\View\Block\Template
 {
     /**
      * Position of "OR" label against shortcut
@@ -96,12 +96,11 @@ class Shortcut extends \Magento\Core\Block\Template
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -110,7 +109,7 @@ class Shortcut extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Payment\Helper\Data $paymentData,
@@ -134,7 +133,7 @@ class Shortcut extends \Magento\Core\Block\Template
     }
 
     /**
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

@@ -78,6 +78,7 @@ try {
     $generatorIo = new \Magento\Code\Generator\Io(null, null, $generationDir);
     $generator = new \Magento\Code\Generator(null, null, $generatorIo);
     foreach (array('php', 'additional') as $type) {
+        sort($entities[$type]);
         foreach ($entities[$type] as $entityName) {
             switch ($generator->generateClass($entityName)) {
                 case \Magento\Code\Generator::GENERATION_SUCCESS:

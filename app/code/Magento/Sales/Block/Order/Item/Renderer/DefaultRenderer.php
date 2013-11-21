@@ -13,7 +13,7 @@ namespace Magento\Sales\Block\Order\Item\Renderer;
 /**
  * Order item render block
  */
-class DefaultRenderer extends \Magento\Core\Block\Template
+class DefaultRenderer extends \Magento\View\Block\Template
 {
     /**
      * Magento string lib
@@ -28,14 +28,14 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     protected $_productOptionFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Model\Product\OptionFactory $productOptionFactory,
@@ -180,7 +180,7 @@ class DefaultRenderer extends \Magento\Core\Block\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

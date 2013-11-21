@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
-class Sidebar extends \Magento\Core\Block\Template
+class Sidebar extends \Magento\View\Block\Template
 {
     /**
      * @var string
@@ -36,7 +36,7 @@ class Sidebar extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
@@ -44,7 +44,7 @@ class Sidebar extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,

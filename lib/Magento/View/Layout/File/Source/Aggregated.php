@@ -1,7 +1,5 @@
 <?php
 /**
- * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -14,6 +12,9 @@ use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\View\Layout\File\FileList\Factory;
 
+/**
+ * Source of layout files aggregated from a theme and its parents according to merging and overriding conventions
+ */
 class Aggregated implements SourceInterface
 {
     /**
@@ -63,9 +64,13 @@ class Aggregated implements SourceInterface
     }
 
     /**
+     * Retrieve files
+     *
      * Aggregate layout files from modules and a theme and its ancestors
      *
-     * {@inheritdoc}
+     * @param ThemeInterface $theme
+     * @param string $filePath
+     * @return \Magento\View\Layout\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

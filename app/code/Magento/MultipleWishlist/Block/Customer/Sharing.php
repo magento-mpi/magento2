@@ -27,7 +27,7 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
     protected $_wishlistData = null;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
@@ -35,7 +35,7 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Session\Generic $wishlistSession,

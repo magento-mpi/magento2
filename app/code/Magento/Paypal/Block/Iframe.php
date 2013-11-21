@@ -59,14 +59,14 @@ class Iframe extends \Magento\Payment\Block\Form
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -148,7 +148,7 @@ class Iframe extends \Magento\Payment\Block\Form
     /**
      * Before rendering html, check if is block rendering needed
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-class Success extends \Magento\Core\Block\Template
+class Success extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -50,7 +50,7 @@ class Success extends \Magento\Core\Block\Template
     protected $_orderConfig;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -61,7 +61,7 @@ class Success extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,

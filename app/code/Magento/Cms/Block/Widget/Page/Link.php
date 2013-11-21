@@ -19,7 +19,7 @@
 namespace Magento\Cms\Block\Widget\Page;
 
 class Link
-    extends \Magento\Core\Block\Html\Link
+    extends \Magento\View\Block\Html\Link
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -56,14 +56,14 @@ class Link
     protected $_cmsPage;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Cms\Model\Resource\Page $resourcePage
      * @param \Magento\Cms\Helper\Page $cmsPage
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Cms\Model\Resource\Page $resourcePage,
         \Magento\Cms\Helper\Page $cmsPage,

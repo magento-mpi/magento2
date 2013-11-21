@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class Info extends \Magento\Core\Block\Template
+class Info extends \Magento\View\Block\Template
 {
     /**
      * Reward pts model instance
@@ -44,7 +44,7 @@ class Info extends \Magento\Core\Block\Template
     protected $_rewardFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -52,7 +52,7 @@ class Info extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,

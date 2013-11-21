@@ -16,7 +16,7 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Rate;
 
-class Title extends \Magento\Core\Block\Template
+class Title extends \Magento\View\Block\Template
 {
     protected $_titles;
 
@@ -33,14 +33,14 @@ class Title extends \Magento\Core\Block\Template
     protected $_storeFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\Tax\Model\Calculation\Rate $rate,

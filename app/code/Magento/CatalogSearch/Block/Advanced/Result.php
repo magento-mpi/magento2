@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
-class Result extends \Magento\Core\Block\Template
+class Result extends \Magento\View\Block\Template
 {
     /**
      * Url factory
@@ -41,7 +41,7 @@ class Result extends \Magento\Core\Block\Template
     protected $_catalogSearchAdvanced;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Catalog\Model\Layer $catalogLayer
@@ -49,7 +49,7 @@ class Result extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Catalog\Model\Layer $catalogLayer,

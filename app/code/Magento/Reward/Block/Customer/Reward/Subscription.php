@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class Subscription extends \Magento\Core\Block\Template
+class Subscription extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -26,13 +26,13 @@ class Subscription extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()

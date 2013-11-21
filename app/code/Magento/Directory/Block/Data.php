@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Block;
 
-class Data extends \Magento\Core\Block\Template
+class Data extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\App\Cache\Type\Config
@@ -31,7 +31,7 @@ class Data extends \Magento\Core\Block\Template
     protected $_countryCollFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
@@ -39,7 +39,7 @@ class Data extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
@@ -95,7 +95,7 @@ class Data extends \Magento\Core\Block\Template
             $options = $this->getCountryCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName($name)
             ->setId($id)
             ->setTitle(__($title))
@@ -138,7 +138,7 @@ class Data extends \Magento\Core\Block\Template
             $options = $this->getRegionCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName('region')
             ->setTitle(__('State/Province'))
             ->setId('state')

@@ -31,7 +31,7 @@ class Form
     protected $_selectOptions;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
@@ -39,7 +39,7 @@ class Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
@@ -140,7 +140,7 @@ class Form
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);

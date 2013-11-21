@@ -1,7 +1,5 @@
 <?php
 /**
- * Factory that produces layout file instances
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,6 +11,9 @@ namespace Magento\View\Layout\File;
 use Magento\ObjectManager;
 use Magento\View\Design\ThemeInterface;
 
+/**
+ * Factory that produces layout file instances
+ */
 class Factory
 {
     /**

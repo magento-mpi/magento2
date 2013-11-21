@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Ogone\Block;
 
-class Placeform extends \Magento\Core\Block\Template
+class Placeform extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -29,7 +28,7 @@ class Placeform extends \Magento\Core\Block\Template
     protected $_ogoneApi;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Ogone\Model\Api $ogoneApi
@@ -37,7 +36,7 @@ class Placeform extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Ogone\Model\Api $ogoneApi,

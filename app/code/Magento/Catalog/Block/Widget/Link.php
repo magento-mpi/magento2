@@ -19,7 +19,7 @@
 namespace Magento\Catalog\Block\Widget;
 
 class Link
-    extends \Magento\Core\Block\Html\Link
+    extends \Magento\View\Block\Html\Link
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -50,13 +50,13 @@ class Link
     protected $_urlRewrite;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
         array $data = array()

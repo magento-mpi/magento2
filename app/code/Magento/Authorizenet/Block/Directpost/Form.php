@@ -32,7 +32,7 @@ class Form extends \Magento\Payment\Block\Form\Cc
     protected $_checkoutModel;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Authorizenet\Model\Directpost $model
@@ -40,7 +40,7 @@ class Form extends \Magento\Payment\Block\Form\Cc
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Authorizenet\Model\Directpost $model,

@@ -25,14 +25,14 @@ class Shipping extends \Magento\Sales\Block\Items\AbstractItems
     protected $_filterGridFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Filter\Object\GridFactory $filterGridFactory
      * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Filter\Object\GridFactory $filterGridFactory,
         \Magento\Checkout\Model\Type\Multishipping $multishipping,

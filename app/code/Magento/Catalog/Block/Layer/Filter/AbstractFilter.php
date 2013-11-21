@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Layer\Filter;
 
-abstract class AbstractFilter extends \Magento\Core\Block\Template
+abstract class AbstractFilter extends \Magento\View\Block\Template
 {
     /**
      * Catalog Layer Filter Attribute model
@@ -61,14 +61,14 @@ abstract class AbstractFilter extends \Magento\Core\Block\Template
     protected $_layerFilterFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Model\Layer\Filter\Factory $layerFilterFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Model\Layer\Filter\Factory $layerFilterFactory,

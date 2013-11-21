@@ -39,7 +39,7 @@ class ColumnSet
     protected $_productType;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
@@ -49,7 +49,7 @@ class ColumnSet
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,

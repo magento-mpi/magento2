@@ -17,7 +17,7 @@
  */
 namespace Magento\Review\Block;
 
-class Form extends \Magento\Core\Block\Template
+class Form extends \Magento\View\Block\Template
 {
     /**
      * Review data
@@ -47,7 +47,7 @@ class Form extends \Magento\Core\Block\Template
     protected $_reviewSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
@@ -57,7 +57,7 @@ class Form extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,

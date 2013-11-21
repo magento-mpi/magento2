@@ -9,7 +9,7 @@
 namespace Magento\View\Layout;
 
 /**
- * @package Magento\View
+ * Interface ProcessorInterface
  */
 interface ProcessorInterface
 {
@@ -59,6 +59,8 @@ interface ProcessorInterface
     public function getHandles();
 
     /**
+     * Add page handles
+     *
      * Add the first existing (declared in layout updates) page handle along with all parents to the update.
      * Return whether any page handles have been added or not.
      *

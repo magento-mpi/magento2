@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Navigation extends \Magento\Core\Block\Template
+class Navigation extends \Magento\View\Block\Template
 {
     protected $_categoryInstance = null;
 
@@ -74,7 +74,7 @@ class Navigation extends \Magento\Core\Block\Template
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
@@ -86,7 +86,7 @@ class Navigation extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,

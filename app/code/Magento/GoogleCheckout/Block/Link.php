@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleCheckout\Block;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -30,14 +30,14 @@ class Link extends \Magento\Core\Block\Template
     protected $paymentFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory,
         \Magento\Checkout\Model\Session $checkoutSession,

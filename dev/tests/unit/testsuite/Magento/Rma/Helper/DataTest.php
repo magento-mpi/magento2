@@ -27,7 +27,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getConfig')
             ->will($this->returnValueMap($storeConfigData));
 
-        $context = $this->getMock('Magento\Core\Helper\Context', array('getApp'), array(), '', false, false);
+        $context = $this->getMock('Magento\App\Helper\Context', array('getApp'), array(), '', false, false);
         $context->expects($this->any())->method('getApp')->will($this->returnValue($this->_getAppMock($mockConfig)));
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);

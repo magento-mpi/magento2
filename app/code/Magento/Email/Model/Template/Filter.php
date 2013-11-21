@@ -291,7 +291,7 @@ class Filter extends \Magento\Filter\Template
 
         $rootBlock = false;
         foreach ($layout->getAllBlocks() as $block) {
-            /* @var $block \Magento\Core\Block\AbstractBlock */
+            /* @var $block \Magento\View\Block\AbstractBlock */
             if (!$block->getParentBlock() && !$rootBlock) {
                 $rootBlock = $block;
             }

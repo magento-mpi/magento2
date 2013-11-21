@@ -43,7 +43,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     protected $_catalogSearchLayer;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
@@ -53,7 +53,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Layer $catalogLayer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,

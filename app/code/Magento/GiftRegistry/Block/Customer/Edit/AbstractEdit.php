@@ -64,7 +64,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected $_registry = null;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
@@ -75,7 +75,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
@@ -227,7 +227,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                 'id'    => $id,
                 'class' => 'select global-scope '. $class

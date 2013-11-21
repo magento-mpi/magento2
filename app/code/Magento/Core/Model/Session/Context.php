@@ -61,18 +61,18 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_cookie;
 
     /**
-     * Core message
+     * Core message factory
      *
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_message;
+    protected $messageFactory;
 
     /**
      * Core message collection factory
      *
-     * @var \Magento\Core\Model\Message\CollectionFactory
+     * @var \Magento\Message\CollectionFactory
      */
-    protected $_messageFactory;
+    protected $messagesFactory;
 
     /**
      * @var \Magento\App\RequestInterface
@@ -104,8 +104,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
-     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Message\CollectionFactory $messagesFactory
+     * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
@@ -122,8 +122,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
-        \Magento\Core\Model\Message $message,
+        \Magento\Message\CollectionFactory $messagesFactory,
+        \Magento\Message\Factory $messageFactory,
         \Magento\Core\Model\Cookie $cookie,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
@@ -143,8 +143,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_savePath = $savePath;
         $this->_cacheLimiter = $cacheLimiter;
         $this->sidMap = $sidMap;
-        $this->_messageFactory = $messageFactory;
-        $this->_message = $message;
+        $this->messagesFactory = $messagesFactory;
+        $this->messageFactory = $messageFactory;
         $this->_cookie = $cookie;
         $this->_request = $request;
         $this->_appState = $appState;
@@ -242,19 +242,19 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Message
-     */
-    public function getMessage()
-    {
-        return $this->_message;
-    }
-
-    /**
-     * @return \Magento\Core\Model\Message\CollectionFactory
+     * @return \Magento\Message\Factory
      */
     public function getMessageFactory()
     {
-        return $this->_messageFactory;
+        return $this->messageFactory;
+    }
+
+    /**
+     * @return \Magento\Message\CollectionFactory
+     */
+    public function getMessagesFactory()
+    {
+        return $this->messagesFactory;
     }
 
     /**

@@ -15,7 +15,7 @@
  */
 namespace Magento\Sales\Block\Billing\Agreement;
 
-class View extends \Magento\Core\Block\Template
+class View extends \Magento\View\Block\Template
 {
     /**
      * Payment methods array
@@ -61,7 +61,7 @@ class View extends \Magento\Core\Block\Template
     protected $_orderConfig;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
@@ -70,7 +70,7 @@ class View extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
@@ -147,7 +147,7 @@ class View extends \Magento\Core\Block\Template
     /**
      * Set pager
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

@@ -13,7 +13,7 @@ namespace Magento\Core\Helper;
 /**
  * Core data helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_DEFAULT_COUNTRY              = 'general/country/default';
     const XML_PATH_DEV_ALLOW_IPS                = 'dev/restrict/allow_ips';
@@ -68,7 +68,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_dbCompatibleMode;
 
     /**
-     * @param Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -76,7 +76,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,
@@ -252,15 +252,5 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function isSingleStoreModeEnabled()
     {
         return (bool) $this->_coreStoreConfig->getConfig(self::XML_PATH_SINGLE_STORE_MODE_ENABLED);
-    }
-
-    /**
-     * Returns the translate model for this instance.
-     *
-     * @return \Magento\Core\Model\Translate
-     */
-    public function getTranslator()
-    {
-        return $this->_translator;
     }
 }

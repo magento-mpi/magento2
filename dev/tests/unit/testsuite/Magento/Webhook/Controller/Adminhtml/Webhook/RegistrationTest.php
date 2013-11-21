@@ -308,7 +308,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($layoutMergeMock));
         $testElement = new \Magento\Simplexml\Element('<test>test</test>');
         $layoutMock->expects($this->never())->method('getNode')->will($this->returnValue($testElement));
-        $blockMock = $this->getMockBuilder('Magento\Core\Block\AbstractBlock')
+        $blockMock = $this->getMockBuilder('Magento\View\Block\AbstractBlock')
             ->disableOriginalConstructor()
             ->getMock();
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));

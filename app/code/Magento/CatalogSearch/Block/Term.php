@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Term extends \Magento\Core\Block\Template
+class Term extends \Magento\View\Block\Template
 {
     protected $_terms;
     protected $_minPopularity;
@@ -38,14 +38,14 @@ class Term extends \Magento\Core\Block\Template
     protected $_queryCollectionFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,

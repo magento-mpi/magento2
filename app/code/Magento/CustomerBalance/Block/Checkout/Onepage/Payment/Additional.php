@@ -17,7 +17,7 @@
  */
 namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
 
-class Additional extends \Magento\Core\Block\Template
+class Additional extends \Magento\View\Block\Template
 {
     /**
      * Customer balance instance
@@ -42,7 +42,7 @@ class Additional extends \Magento\Core\Block\Template
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -50,7 +50,7 @@ class Additional extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Checkout\Model\Session $checkoutSession,

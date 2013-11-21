@@ -30,15 +30,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     protected $_formData = null;
 
     /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_registry = null;
-
-
-    /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
@@ -49,7 +41,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,

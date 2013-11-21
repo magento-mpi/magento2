@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Block\Account;
 
-class Balance extends \Magento\Core\Block\Template
+class Balance extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\BalanceFactory
@@ -27,14 +27,14 @@ class Balance extends \Magento\Core\Block\Template
     protected $_session;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Customer\Model\Session $session,

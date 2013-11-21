@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Recent extends \Magento\Core\Block\Template
+class Recent extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\CollectionFactory
@@ -31,7 +31,7 @@ class Recent extends \Magento\Core\Block\Template
     protected $_orderConfig;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -39,7 +39,7 @@ class Recent extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,

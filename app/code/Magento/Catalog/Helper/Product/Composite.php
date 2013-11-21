@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-class Composite extends \Magento\Core\Helper\AbstractHelper
+class Composite extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Core registry
@@ -58,7 +58,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
      */
@@ -67,7 +67,7 @@ class Composite extends \Magento\Core\Helper\AbstractHelper
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\ViewInterface $view
     ) {

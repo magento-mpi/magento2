@@ -41,7 +41,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     /**
      * Prepare layout
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

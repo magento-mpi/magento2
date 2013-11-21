@@ -17,7 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block;
 
-class Behaviour extends \Magento\Core\Block\Template
+class Behaviour extends \Magento\View\Block\Template
 {
     /**
      * Wishlist data
@@ -34,14 +34,14 @@ class Behaviour extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,

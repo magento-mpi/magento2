@@ -39,7 +39,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Magento\Core\Block\Template';
+    protected $_iframeBlockType = 'Magento\View\Block\Template';
 
     /**
      * Default iframe template
@@ -91,7 +91,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
@@ -100,7 +100,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
@@ -172,7 +172,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Create and return iframe block
      *
-     * @return \Magento\Core\Block\Template
+     * @return \Magento\View\Block\Template
      */
     public function getIframeBlock()
     {

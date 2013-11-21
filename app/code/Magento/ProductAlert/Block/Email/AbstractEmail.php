@@ -17,7 +17,7 @@
  */
 namespace Magento\ProductAlert\Block\Email;
 
-abstract class AbstractEmail extends \Magento\Core\Block\Template
+abstract class AbstractEmail extends \Magento\View\Block\Template
 {
     /**
      * Product collection array

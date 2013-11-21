@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Checkout\Block;
 
-class Success extends \Magento\Core\Block\Template
+class Success extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -19,13 +18,13 @@ class Success extends \Magento\Core\Block\Template
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()

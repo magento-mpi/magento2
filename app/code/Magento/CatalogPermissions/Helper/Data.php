@@ -17,7 +17,7 @@
 
 namespace Magento\CatalogPermissions\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'catalog/magento_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
@@ -44,12 +44,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
         $this->_customerSession = $customerSession;

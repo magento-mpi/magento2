@@ -13,7 +13,7 @@
  */
 namespace Magento\Rss\Block;
 
-class ListBlock extends \Magento\Core\Block\Template
+class ListBlock extends \Magento\View\Block\Template
 {
     const XML_PATH_RSS_METHODS = 'rss';
 
@@ -30,14 +30,14 @@ class ListBlock extends \Magento\Core\Block\Template
     protected $_categoryFactory;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
@@ -82,7 +82,7 @@ class ListBlock extends \Magento\Core\Block\Template
      * @param string $label
      * @param array $param
      * @param bool $customerGroup
-     * @return  \Magento\Core\Helper\AbstractHelper
+     * @return  \Magento\App\Helper\AbstractHelper
      */
     public function addRssFeed($url, $label, $param = array(), $customerGroup = false)
     {
