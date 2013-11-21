@@ -30,6 +30,13 @@ class Review extends Block
     private $continue = '#review-buttons-container button';
 
     /**
+     * Centinel authentication block
+     *
+     * @var string
+     */
+    protected $centinelBlock = '#centinel-authenticate-block';
+
+    /**
      * Fill billing address
      */
     public function placeOrder()
@@ -43,6 +50,6 @@ class Review extends Block
      */
     public function waitForCardValidation()
     {
-        $this->waitForElementNotVisible('#centinel-authenticate-block');
+        $this->waitForElementNotVisible($this->centinelBlock);
     }
 }
