@@ -142,11 +142,11 @@ class CatalogProductView extends Page
     /**
      * Get upsell block
      *
-     * @return \Magento\Catalog\Test\Block\Product\Upsell
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Upsell
      */
     public function getUpsellBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogProductUpsell(
+        return Factory::getBlockFactory()->getMagentoCatalogProductProductListUpsell(
             $this->_browser->find($this->upsellSelector, Locator::SELECTOR_CSS)
         );
     }

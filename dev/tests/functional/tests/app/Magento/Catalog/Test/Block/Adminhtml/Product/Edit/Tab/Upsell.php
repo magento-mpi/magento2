@@ -12,13 +12,10 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Tab;
 
-class Upsell extends Tab
+class Upsell extends \Magento\Backend\Test\Block\Widget\Grid
 {
-
     /**
      * Tab where upsells section is placed
      */
@@ -32,7 +29,6 @@ class Upsell extends Tab
     public function open(Element $context = null)
     {
         $element = $context ? $context : $this->_rootElement;
-        // @var Mtf\Client\Element
         $element->find(static::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
     }
 }

@@ -10,15 +10,14 @@
  */
 
 
-namespace Magento\Catalog\Test\Block\Product;
+namespace Magento\Catalog\Test\Block\Product\ProductList;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use \Magento\Catalog\Test\Fixture\Product;
 
-class Upsell extends Block {
-
-
+class Upsell extends Block
+{
     /**
      * Link selector
      *
@@ -36,12 +35,10 @@ class Upsell extends Block {
     {
         $match = $this->_rootElement->find(
             '//ol[@class="products list items upsell"]//*/div/strong/a[@title="' . $upsell->getProductName() . '"]',
-            Locator::SELECTOR_XPATH);
+            Locator::SELECTOR_XPATH
+        );
 
-        if (!$match->isVisible()) {
-            return false;
-        };
-        return true;
+        return $match->isVisible();
     }
 
     /**
@@ -53,7 +50,9 @@ class Upsell extends Block {
      */
     public function clickLink($product)
     {
-        $link = $this->_rootElement->find(sprintf($this->linkSelector, $product->getProductName()), Locator::SELECTOR_XPATH);
+        $link = $this->_rootElement->find(sprintf($this->linkSelector, $product->getProductName()),
+            Locator::SELECTOR_XPATH
+        );
         if (!$link->isVisible()) {
             throw new \Exception(sprintf('"%s" link is not visible', $product->getProductName()));
         }

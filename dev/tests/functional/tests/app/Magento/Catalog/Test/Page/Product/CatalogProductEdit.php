@@ -94,21 +94,6 @@ class CatalogProductEdit extends Page
         );
     }
 
-    public function open(array $params = array())
-    {
-        $page = parent::open($params);
-        /**
-         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
-         */
-        $productBlockForm = $this->getProductBlockForm();
-
-        $productBlockForm->waitForElementVisible('[title="Save"][class*=action]', Locator::SELECTOR_CSS);
-        $productBlockForm->
-            getRootElement()->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-        return $page;
-    }
-
-
     /**
      * Get messages block
      *
@@ -151,19 +136,6 @@ class CatalogProductEdit extends Page
         return $this->productUpsellGrid;
     }
 
-    /**
-     * Open the Up-sells tab.
-     */
-    public function directToUpsellTab()
-    {
-        $productBlockForm = $this->getProductBlockForm();
-
-        // click the up-sell link to get to the tab.
-        $productBlockForm->waitForElementVisible(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID);
-
-        $productBlockForm->getRootElement()->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
-        $productBlockForm->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-    }
 
     /**
      * Get the backend catalog product block
