@@ -51,6 +51,13 @@ class CatalogProductView extends Page
     protected $messagesSelector = '.page.messages .messages';
 
     /**
+     * Related product selector
+     *
+     * @var string
+     */
+    protected $relatedProductSelector = '.block.related';
+
+    /**
      * Product View block
      *
      * @var \Magento\Catalog\Test\Block\Product\View
@@ -141,6 +148,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get related product block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Related
+     */
+    public function getRelatedProductBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductProductListRelated(
+            $this->_browser->find($this->relatedProductSelector, Locator::SELECTOR_CSS)
         );
     }
 }

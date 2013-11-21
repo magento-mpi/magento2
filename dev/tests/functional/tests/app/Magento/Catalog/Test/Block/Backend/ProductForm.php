@@ -180,11 +180,18 @@ class ProductForm extends FormTabs
         $this->waitForElementVisible('input#new_category_name');
     }
 
-    /**
-     * @return \Mtf\Client\Element
-     */
-    public function getRootElement()
+    public function openRelatedProductTab()
     {
-        return $this->_rootElement;
+        /**
+         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
+         */
+        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+
+        /**
+         * Wait for the "related tab" shows up and click on it
+         */
+        $this->waitForElementVisible('product_info_tabs_related', Locator::SELECTOR_ID);
+        $this->_rootElement->find('product_info_tabs_related', Locator::SELECTOR_ID)->click();
+        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
     }
 }

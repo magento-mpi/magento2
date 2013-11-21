@@ -193,25 +193,11 @@ class View extends Block
     }
 
     /**
-     * Add configurable product (with proper option) and related product to the shopping cart
-     *
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
-     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
-     */
-    public function addRelatedProductsToCart($simpleProduct2, $configurableProduct)
-    {
-        $this->fillOptions($configurableProduct);
-        $this->_rootElement
-            ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->click();
-        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
      * Fill in the option specified for the product
      *
      * @param Product $product
      */
-    private function fillOptions($product)
+    public function fillOptions($product)
     {
         $configureButton = $this->_rootElement->find('.action.primary.customize');
         $configureSection = $this->_rootElement->find('.product.options.configure');
