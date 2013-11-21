@@ -28,7 +28,7 @@ class CatalogProductEdit extends Page
      */
     const MCA = 'catalog/product/edit';
 
-    /*
+    /**
      * Selector for message block
      *
      * @var string
@@ -36,66 +36,11 @@ class CatalogProductEdit extends Page
     protected $messagesSelector = '#messages.messages .messages';
 
     /**
-     * Messages block
-     *
-     * @var \Magento\Core\Test\Block\Messages
-     */
-    protected $messagesBlock;
-
-    /**
-     * Product Form block
-     *
-     * @var ProductForm
-     */
-    protected $productFormBlock;
-
-    /**
-     * Messages block
-     *
-     * @var \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell
-     */
-    protected $productUpsellBlock;
-
-    /**
-     * Upsell grid block
-     *
-     * @var \Magento\Catalog\Test\Block\Backend\ProductUpsellGrid
-     */
-    protected $productUpsellGridBlock;
-
-    /**
-     * Catalog product grid on backend
-     *
-     * @var \Magento\Catalog\Test\Block\Backend\ProductEditGrid
-     */
-    protected $productEditGridBlock;
-
-    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
-        );
-
-        $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
-            $this->_browser->find('body', Locator::SELECTOR_CSS)
-        );
-
-        $this->productUpsellBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabUpsell(
-            $this->_browser->find('product_info_tabs_upsell', Locator::SELECTOR_CSS)
-        );
-
-        $this->productUpsellGridBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductUpsellGrid(
-            $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
-        );
-
-        $this->productEditGridBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
-            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
-        );
     }
 
     /**
@@ -105,19 +50,22 @@ class CatalogProductEdit extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
-     * Get messages block
+     * Get upsell block
      *
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell
      */
     public function getUpsellBlock()
     {
-        return $this->productUpsellBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabUpsell(
+            $this->_browser->find('product_info_tabs_upsell', Locator::SELECTOR_CSS)
+        );
     }
-
 
     /**
      * Get product form block
@@ -126,9 +74,10 @@ class CatalogProductEdit extends Page
      */
     public function getProductBlockForm()
     {
-        return $this->productFormBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find('body', Locator::SELECTOR_CSS)
+        );
     }
-
 
     /**
      * Get the backend catalog product block for upsells
@@ -137,9 +86,10 @@ class CatalogProductEdit extends Page
      */
     public function getProductUpsellGrid()
     {
-        return $this->productUpsellGridBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductUpsellGrid(
+            $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
+        );
     }
-
 
     /**
      * Get the backend catalog product block
@@ -148,6 +98,8 @@ class CatalogProductEdit extends Page
      */
     public function getProductEditGrid()
     {
-        return $this->productEditGridBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
+        );
     }
 }
