@@ -3079,7 +3079,7 @@ input.mage-error ~ .addafter {
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
   color: #676056;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
   padding: 7px 0 10px;
   display: inline-block;
@@ -3235,6 +3235,12 @@ input.mage-error ~ .addafter {
 }
 .fieldset .field {
   margin: 0 0 29px;
+}
+.with-note .note,
+.field .note {
+  color: #676056;
+  font-size: 12px;
+  font-weight: 400;
 }
 .fieldset .field .options-list {
   list-style: none;
@@ -5026,6 +5032,15 @@ table tbody tr:nth-child(odd):hover th {
 .field-store-switcher > .label + .control {
   display: inline-block;
 }
+.field-store-switcher > .tooltip + div > a {
+  color: #007dbd;
+  font-size: 12px;
+  font-weight: 400;
+}
+.field-store-switcher > .tooltip + div > a:focus,
+.field-store-switcher > .tooltip + div > a:hover {
+  text-decoration: underline;
+}
 .field-store-switcher > .label {
   margin: 0;
 }
@@ -5312,10 +5327,9 @@ table tbody tr:nth-child(odd):hover th {
   left: -999em;
 }
 .switcher-label {
-  font-size: 12px;
+  color: #676056;
+  font-size: 13px;
   font-weight: 600;
-  color: #979087;
-  text-shadow: 0 1px #fff;
   text-transform: uppercase;
 }
 .switcher-label:before {
@@ -5810,6 +5824,10 @@ table tbody tr:nth-child(odd):hover th {
 }
 .grid .filter .range select {
   margin: 0;
+  color: #676056;
+  font-size: 11px;
+  font-weight: 400;
+  color: #bcb795;
 }
 .grid .filter .date {
   position: relative;
@@ -8154,6 +8172,11 @@ table .col-draggable .draggable-handle {
   font-size: 14px;
   font-weight: 700;
 }
+.adminhtml-system-config-edit .payflow-settings-notice ul.options-list strong {
+  color: #676056;
+  font-size: 14px;
+  font-weight: 700;
+}
 /*
     CMS -> Banners
 -------------------------------------- */
@@ -9168,7 +9191,7 @@ table .col-draggable .draggable-handle {
 }
 .customer-current-activity-inner > h4 {
   color: #676056;
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 400;
   border-bottom: 1px solid #ededed;
   margin-top: 0;
@@ -10532,10 +10555,11 @@ ul.messages li.success-msg li:before {
   padding: 15px 15px 0 0;
 }
 .accordion .config .note {
-  font-size: 11px;
+  color: #676056;
+  font-size: 12px;
+  font-weight: 400;
   padding-left: 15px;
   margin: 5px 0;
-  color: #666;
 }
 .accordion .config .note a {
   color: #007dbd;

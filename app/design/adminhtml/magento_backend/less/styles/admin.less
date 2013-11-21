@@ -1215,7 +1215,7 @@ input.mage-error ~ .addafter {
 
 .fieldset-wrapper > .fieldset-wrapper-title .title,
 .fieldset > .legend span {
-    .style7();
+    .style10();
     padding: 7px 0 10px;
     display: inline-block;
 }
@@ -1396,6 +1396,10 @@ input.mage-error ~ .addafter {
 
 .fieldset .field {
     margin: 0 0 29px;
+}
+
+.with-note .note, .field .note {
+    .style19();
 }
 
 .fieldset .field .options-list {
@@ -3443,6 +3447,10 @@ table tbody tr:nth-child(odd):hover th {
     display: inline-block;
 }
 
+.field-store-switcher > .tooltip + div > a {
+    .style22();
+}
+
 .field-store-switcher > .label {
     margin: 0;
 }
@@ -3767,10 +3775,7 @@ table tbody tr:nth-child(odd):hover th {
 }
 
 .switcher-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: #979087;
-    text-shadow: 0 1px #fff;
+    .style2();
     text-transform: uppercase;
 }
 
@@ -4328,6 +4333,8 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid .filter .range select {
     margin: 0;
+    .style14();
+    color: #bcb795;
 }
 
 .grid .filter .date {
