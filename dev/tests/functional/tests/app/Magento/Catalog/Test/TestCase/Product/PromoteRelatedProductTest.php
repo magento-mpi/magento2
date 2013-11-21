@@ -42,7 +42,7 @@ class PromoteRelatedProductTest extends Functional
      */
     public function testPromoteRelatedProduct()
     {
-
+    $this->markTestSkipped("re-enable after review changes in MAGETWO-15967");
         // Setup preconditions for MAGETWO-12392
 
         // Precondition: create simple product 1
