@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <event name="adminhtml_catalog_product_attribute_edit_prepare_form">
+    <event name="adminhtml_catalog_product_attribute_edit_frontend_prepare_form">
         <observer name="magento_search" instance="Magento\Search\Model\Observer" method="eavAttributeEditFormInit" />
     </event>
     <event name="catelogsearch_searchable_attributes_load_after">
