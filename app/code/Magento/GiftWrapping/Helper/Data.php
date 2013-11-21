@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Gift wrapping allow section in configuration
@@ -67,13 +67,13 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_taxCalculation;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Tax\Model\Calculation $taxCalculation
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Tax\Model\Calculation $taxCalculation

@@ -42,7 +42,7 @@ class Eav extends \Magento\Eav\Helper\Data
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
      * @param \Magento\App\Resource $resource
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
@@ -50,7 +50,7 @@ class Eav extends \Magento\Eav\Helper\Data
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
         \Magento\App\Resource $resource,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {

@@ -73,7 +73,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
 
         $this->_block = new \Magento\Banner\Block\Widget\Banner(
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false),
+            $this->getMock('Magento\View\Block\Template\Context', array(), array(), '', false),
             $this->_bannerResource,
             $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
             $this->_checkoutSession,

@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class History extends \Magento\Core\Block\Template
+class History extends \Magento\View\Block\Template
 {
     /**
      * @var string
@@ -42,7 +42,7 @@ class History extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Order\Config $orderConfig
@@ -51,7 +51,7 @@ class History extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
@@ -86,7 +86,7 @@ class History extends \Magento\Core\Block\Template
     }
 
     /**
-     * @return $this|\Magento\Core\Block\AbstractBlock
+     * @return $this|\Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

@@ -7,7 +7,7 @@
  */
 namespace Magento\CustomerSegment\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * XPath where customer segment's on/off status is stored
@@ -25,12 +25,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     private $_segmentCollection;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\CustomerSegment\Model\Resource\Segment\Collection $segmentCollection
     ) {

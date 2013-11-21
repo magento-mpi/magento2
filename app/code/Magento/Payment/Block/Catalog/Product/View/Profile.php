@@ -11,7 +11,7 @@
  */
 namespace Magento\Payment\Block\Catalog\Product\View;
 
-class Profile extends \Magento\Core\Block\Template
+class Profile extends \Magento\View\Block\Template
 {
     /**
      * Recurring profile instance
@@ -45,7 +45,7 @@ class Profile extends \Magento\Core\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory
@@ -53,7 +53,7 @@ class Profile extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Payment\Model\Recurring\ProfileFactory $profileFactory,
@@ -92,7 +92,7 @@ class Profile extends \Magento\Core\Block\Template
         if ($this->_profile->getStartDateIsEditable()) {
             $this->setDateHtmlId('recurring_start_date');
             $calendar = $this->getLayout()
-                ->createBlock('Magento\Core\Block\Html\Date')
+                ->createBlock('Magento\View\Block\Html\Date')
                 ->setId('recurring_start_date')
                 ->setName(\Magento\Payment\Model\Recurring\Profile::BUY_REQUEST_START_DATETIME)
                 ->setClass('datetime-picker input-text')

@@ -11,7 +11,7 @@
 namespace Magento\Rule\Block;
 
 class Editable
-    extends \Magento\Core\Block\AbstractBlock
+    extends \Magento\View\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
@@ -30,13 +30,13 @@ class Editable
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Block\Context $context
      * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Context $context,
+        \Magento\View\Block\Context $context,
         \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {

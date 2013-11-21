@@ -18,7 +18,7 @@
  */
 namespace Magento\Pbridge\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form
@@ -122,7 +122,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -133,7 +133,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,

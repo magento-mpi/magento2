@@ -13,16 +13,16 @@ namespace Magento\Page\Block\Html;
 /**
  * Html page block
  */
-class Welcome extends \Magento\Core\Block\Template
+class Welcome extends \Magento\View\Block\Template
 {
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);

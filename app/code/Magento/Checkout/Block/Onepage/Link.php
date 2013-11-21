@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -26,13 +26,13 @@ class Link extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {

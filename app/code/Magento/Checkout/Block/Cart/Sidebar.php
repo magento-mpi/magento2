@@ -53,7 +53,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
@@ -66,7 +66,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
@@ -317,7 +317,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
     {
         $result = array();
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block \Magento\Core\Block\Template */
+            /** @var $block \Magento\View\Block\Template */
             $result[] = implode('|', array(
                 // skip $this->getNameInLayout() and '.'
                 substr($block->getNameInLayout(), strlen($this->getNameInLayout()) + 1),

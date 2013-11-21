@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Block;
 
-class Account extends \Magento\Core\Block\Template
+class Account extends \Magento\View\Block\Template
 {
 
 }

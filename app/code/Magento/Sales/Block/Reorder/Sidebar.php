@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Reorder;
 
-class Sidebar extends \Magento\Core\Block\Template
+class Sidebar extends \Magento\View\Block\Template
 {
     /**
      * @var string
@@ -44,7 +44,7 @@ class Sidebar extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -53,7 +53,7 @@ class Sidebar extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

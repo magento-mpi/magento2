@@ -7,6 +7,9 @@
  */
 namespace Magento\View\Design\Theme;
 
+/**
+ * Interface FileProviderInterface
+ */
 interface FileProviderInterface
 {
     /**

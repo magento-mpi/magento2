@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Theme js file service class
- */
 namespace Magento\View\Design\Theme\Customization\File;
 
+/**
+ * Theme JS file service class
+ */
 class Js extends \Magento\View\Design\Theme\Customization\AbstractFile
 {
     /**#@+
@@ -23,7 +21,7 @@ class Js extends \Magento\View\Design\Theme\Customization\AbstractFile
     /**#@-*/
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getType()
     {
@@ -31,7 +29,7 @@ class Js extends \Magento\View\Design\Theme\Customization\AbstractFile
     }
 
     /**
-     * {@inheritdoc}
+     * @return string
      */
     public function getContentType()
     {

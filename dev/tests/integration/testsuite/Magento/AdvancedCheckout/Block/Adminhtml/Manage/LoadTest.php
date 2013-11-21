@@ -40,10 +40,10 @@ class LoadTest extends \PHPUnit_Framework_TestCase
         $containerContent = 'Content in container';
 
         $parent = $this->_block->getNameInLayout();
-        $this->_layout->addBlock('Magento\Core\Block\Text', $blockName, $parent)->setText($content);
+        $this->_layout->addBlock('Magento\View\Block\Text', $blockName, $parent)->setText($content);
         $this->_layout->addContainer($containerName, 'Container', array(), $parent);
-        $this->_layout->addBlock('Magento\Core\Block\Text', '', $containerName)->setText($containerContent);
-        $this->_layout->addBlock('Magento\Core\Block\Text', $blockNameOne, $parent)->setText($contentOne);
+        $this->_layout->addBlock('Magento\View\Block\Text', '', $containerName)->setText($containerContent);
+        $this->_layout->addBlock('Magento\View\Block\Text', $blockNameOne, $parent)->setText($contentOne);
 
         $result = $this->_block->toHtml();
         $expectedDecoded = array(

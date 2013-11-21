@@ -17,7 +17,7 @@
  */
 namespace Magento\Captcha\Block\Captcha;
 
-class DefaultCaptcha extends \Magento\Core\Block\Template
+class DefaultCaptcha extends \Magento\View\Block\Template
 {
     protected $_template = 'default.phtml';
 
@@ -39,14 +39,14 @@ class DefaultCaptcha extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Captcha\Helper\Data $captchaData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         array $data = array()
     ) {

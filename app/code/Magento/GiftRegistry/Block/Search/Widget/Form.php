@@ -33,7 +33,7 @@ class Form
     /**
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftRegistry\Model\Source\Search $sourceSearch
@@ -42,7 +42,7 @@ class Form
     public function __construct(
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
@@ -142,7 +142,7 @@ class Form
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);

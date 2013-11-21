@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Helper;
 
-class Page extends \Magento\Core\Helper\AbstractHelper
+class Page extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_NO_ROUTE_PAGE        = 'web/default/cms_no_route';
     const XML_PATH_NO_COOKIES_PAGE      = 'web/default/cms_no_cookies';
@@ -91,7 +91,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Session\Pool $sessionFactory
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -104,7 +104,7 @@ class Page extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Session\Pool $sessionFactory,
         \Magento\Cms\Model\Page $page,
         \Magento\Event\ManagerInterface $eventManager,

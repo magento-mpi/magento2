@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Block\Checkout\Payment\Review;
 
-class Container extends \Magento\Core\Block\Template
+class Container extends \Magento\View\Block\Template
 {
     /**
      * Checkout session
@@ -31,13 +31,13 @@ class Container extends \Magento\Core\Block\Template
      *
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;

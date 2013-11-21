@@ -51,7 +51,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -66,7 +66,7 @@ class Products extends \Magento\Checkout\Block\Cart
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -12,7 +12,7 @@ namespace Magento\Backend\Block\Template;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\Core\Block\Template\Context
+class Context extends \Magento\View\Block\Template\Context
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -41,7 +41,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
-     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\App\Helper\HelperFactory $helperFactory
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
@@ -49,7 +49,7 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
-     * @param \Magento\View\TemplateEngineFactory $engineFactory
+     * @param \Magento\View\TemplateEnginePool $enginePool
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
@@ -73,7 +73,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
-        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\App\Helper\HelperFactory $helperFactory,
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
@@ -81,7 +81,7 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
-        \Magento\View\TemplateEngineFactory $engineFactory,
+        \Magento\View\TemplateEnginePool $enginePool,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
@@ -110,7 +110,7 @@ class Context extends \Magento\Core\Block\Template\Context
             $logger,
             $filesystem,
             $viewFileSystem,
-            $engineFactory,
+            $enginePool,
             $app,
             $appState,
             $escaper,

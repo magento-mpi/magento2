@@ -17,7 +17,7 @@
  */
 namespace Magento\ProductAlert\Block\Email;
 
-abstract class AbstractEmail extends \Magento\Core\Block\Template
+abstract class AbstractEmail extends \Magento\View\Block\Template
 {
     /**
      * Product collection array
@@ -40,13 +40,13 @@ abstract class AbstractEmail extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {

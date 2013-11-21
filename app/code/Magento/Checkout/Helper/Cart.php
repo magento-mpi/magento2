@@ -49,7 +49,7 @@ class Cart extends \Magento\Core\Helper\Url
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -57,7 +57,7 @@ class Cart extends \Magento\Core\Helper\Url
      * @param \Magento\Checkout\Model\Session $checkoutSession
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

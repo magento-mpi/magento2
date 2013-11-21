@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Form;
 
-class Element extends \Magento\Core\Block\Template
+class Element extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Directory\Model\Country
@@ -45,7 +45,7 @@ class Element extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
@@ -55,7 +55,7 @@ class Element extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
@@ -186,7 +186,7 @@ class Element extends \Magento\Core\Block\Template
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -243,7 +243,7 @@ class Element extends \Magento\Core\Block\Template
             $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('Magento\Core\Block\Html\Date')
+        $calendar = $this->getLayout()->createBlock('Magento\View\Block\Html\Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)

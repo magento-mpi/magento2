@@ -26,7 +26,7 @@ class BeginTest extends \PHPUnit_Framework_TestCase
     protected function _getBlockModel($contextFileSystem, $fileName = null)
     {
         $helper = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\View\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->once())->method('getFileSystem')->will($this->returnValue($contextFileSystem));
         $installer = $this->getMock('Magento\Install\Model\Installer', array(), array(), '', false);
         $wizard = $this->getMock('Magento\Install\Model\Wizard', array(), array(), '', false);

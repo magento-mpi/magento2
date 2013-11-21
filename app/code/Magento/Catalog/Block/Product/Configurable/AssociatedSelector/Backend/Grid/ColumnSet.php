@@ -40,7 +40,7 @@ class ColumnSet
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
@@ -50,7 +50,7 @@ class ColumnSet
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,

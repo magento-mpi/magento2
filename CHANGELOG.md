@@ -1,3 +1,4 @@
+* Move Magento\Core common blocks into library
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
   * Email-related logic from Core and Adminhtml modules consolidated in new Email module

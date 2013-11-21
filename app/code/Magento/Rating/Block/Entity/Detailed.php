@@ -17,7 +17,7 @@
  */
 namespace Magento\Rating\Block\Entity;
 
-class Detailed extends \Magento\Core\Block\Template
+class Detailed extends \Magento\View\Block\Template
 {
     /**
      * @var string
@@ -38,14 +38,14 @@ class Detailed extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         array $data = array()
