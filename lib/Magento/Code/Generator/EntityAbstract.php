@@ -78,7 +78,7 @@ abstract class EntityAbstract
             $this->_ioObject = $ioObject;
         } else {
             $this->_ioObject = new \Magento\Code\Generator\Io(
-                new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
+                new \Magento\Filesystem\Driver\Base(),
                 $this->_autoloader
             );
         }

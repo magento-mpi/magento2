@@ -109,7 +109,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
 
     public function testUnlock()
     {
-        $streamLock = $this->getMockBuilder('Magento\Filesystem\Stream\Local')
+        $streamLock = $this->getMockBuilder('Magento\Filesystem\File\Write')
             ->setMethods(array('unlock'))
             ->disableOriginalConstructor()
             ->getMock();
@@ -145,7 +145,7 @@ class ProcessTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsLocked($needUnlock)
     {
-        $streamLock = $this->getMockBuilder('Magento\Filesystem\Stream\Local')
+        $streamLock = $this->getMockBuilder('Magento\Filesystem\File\Write')
             ->setMethods(array('unlock'))
             ->disableOriginalConstructor()
             ->getMock();

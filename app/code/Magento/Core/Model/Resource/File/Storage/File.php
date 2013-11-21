@@ -111,7 +111,9 @@ class File
             $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA)->create($path);
         } catch (\Exception $e) {
             $this->_logger->log($e->getMessage());
-            throw new \Magento\Core\Exception(__('Unable to create directory: %1', DirectoryList::MEDIA. '/' . $path));
+            throw new \Magento\Core\Exception(
+                __('Unable to create directory: %1', DirectoryList::MEDIA . '/' . $path)
+            );
         }
 
         return true;

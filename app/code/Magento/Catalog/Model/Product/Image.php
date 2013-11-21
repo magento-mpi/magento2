@@ -300,7 +300,7 @@ class Image extends \Magento\Core\Model\AbstractModel
             return 0;
         }
 
-        $imageInfo = getimagesize($file);
+        $imageInfo = getimagesize($this->_mediaDirectory->getAbsolutePath($file));
 
         if (!isset($imageInfo[0]) || !isset($imageInfo[1])) {
             return 0;
@@ -367,7 +367,6 @@ class Image extends \Magento\Core\Model\AbstractModel
                 "catalog/placeholder/{$this->getDestinationSubdir()}_placeholder"
             );
             $configPlaceholder   = '/placeholder/' . $isConfigPlaceholder;
-
             if (!empty($isConfigPlaceholder) && $this->_fileExists($baseDir . $configPlaceholder)) {
                 $file = $configPlaceholder;
             } else {
@@ -448,7 +447,8 @@ class Image extends \Magento\Core\Model\AbstractModel
     public function getImageProcessor()
     {
         if (!$this->_processor) {
-            $this->_processor = $this->_imageFactory->create($this->getBaseFile());
+            $filename = $this->getBaseFile() ? $this->_mediaDirectory->getAbsolutePath($this->getBaseFile()) : null;
+            $this->_processor = $this->_imageFactory->create($filename);
         }
         $this->_processor->keepAspectRatio($this->_keepAspectRatio);
         $this->_processor->keepFrame($this->_keepFrame);
@@ -468,7 +468,6 @@ class Image extends \Magento\Core\Model\AbstractModel
         if (is_null($this->getWidth()) && is_null($this->getHeight())) {
             return $this;
         }
-
         $this->getImageProcessor()->resize($this->_width, $this->_height);
         return $this;
     }

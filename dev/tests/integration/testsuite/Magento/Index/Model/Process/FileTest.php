@@ -14,22 +14,19 @@
  */
 namespace Magento\Index\Model\Process;
 
+use Magento\Filesystem\DirectoryList;
+
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test lock name
      */
-    const FILE_NAME = 'index_test.lock';
+    const FILE_PATH = 'locks/index_test.lock';
 
     /**
      * @var \Magento\TestFramework\ObjectManager
      */
     protected $_objectManager;
-
-    /**
-     * @var string
-     */
-    protected $_fileDirectory;
 
     /**
      * @var resource
@@ -42,19 +39,18 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_filesystem;
+    protected $_varDirectory;
 
     protected function setUp()
     {
-        $this->_objectManager   = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_filesystem           = $this->_objectManager->create('Magento\Filesystem');
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var $dir \Magento\App\Dir */
-        $dir = $this->_objectManager->get('Magento\App\Dir');
-        $this->_fileDirectory   = $dir->getDir(\Magento\App\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
-        $fullFileName           = $this->_fileDirectory . DIRECTORY_SEPARATOR . self::FILE_NAME;
+        $filesystem = $this->_objectManager->create('Magento\Filesystem');
+        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+
+        $fullFileName = $this->_varDirectory->getAbsolutePath(self::FILE_PATH);
         $this->_testFileHandler = fopen($fullFileName, 'w');
     }
 
@@ -62,7 +58,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
     {
         unset($this->_objectManager);
         unset($this->_model);
-        unset($this->_fileDirectory);
+        unset($this->_varDirectory);
         fclose($this->_testFileHandler);
         unset($this->_testFileHandler);
     }
@@ -72,14 +68,9 @@ class FileTest extends \PHPUnit_Framework_TestCase
      */
     protected function _openFile()
     {
-        $this->_filesystem->setWorkingDirectory($this->_fileDirectory);
-        $this->_model  = $this->_objectManager->create(
+        $this->_model = $this->_objectManager->create(
             'Magento\Index\Model\Process\File',
-            array('streamHandler' => $this->_filesystem->createAndOpenStream(
-                    $this->_fileDirectory . '/' .  self::FILE_NAME,
-                    'w+'
-                )
-            )
+            array('streamHandler' => $this->_varDirectory->openFile(self::FILE_PATH, 'w+'))
         );
     }
 

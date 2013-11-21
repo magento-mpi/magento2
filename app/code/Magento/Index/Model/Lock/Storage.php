@@ -13,13 +13,10 @@
  */
 namespace Magento\Index\Model\Lock;
 
+use Magento\Filesystem\DirectoryList;
+
 class Storage
 {
-    /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
     /**
      * @var \Magento\Index\Model\Process\FileFactory
      */
@@ -33,25 +30,22 @@ class Storage
     protected $_fileHandlers = array();
 
     /**
-     * Filesystem instance
+     * Directory instance
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_filesystem;
+    protected $_varDirectory;
 
     /**
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Index\Model\Process\FileFactory $fileFactory
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\App\Dir $dirs,
         \Magento\Index\Model\Process\FileFactory $fileFactory,
         \Magento\Filesystem $filesystem
     ) {
-        $this->_dirs = $dirs;
         $this->_fileFactory   = $fileFactory;
-        $this->_filesystem = $filesystem;
+        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
     }
 
     /**
@@ -63,20 +57,11 @@ class Storage
     public function getFile($processId)
     {
         if (!isset($this->_fileHandlers[$processId])) {
-            $varDirectory = $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR) . '/locks';
-            try {
-                $this->_filesystem->setIsAllowCreateDirectories(true);
-                $this->_filesystem->setWorkingDirectory(dirname($varDirectory));
-                $this->_filesystem->ensureDirectoryExists($varDirectory);
-                $this->_filesystem->setWorkingDirectory($varDirectory);
-            } catch (\Magento\Filesystem\FilesystemException $e) {
-                $this->_filesystem->setWorkingDirectory(getcwd());
-            }
-
-            $fileName = $varDirectory . '/index_process_' . $processId . '.lock';
-            $stream = $this->_filesystem->createAndOpenStream($fileName, 'w+');
+            $this->_varDirectory->create('locks');
+            $fileName = 'locks/index_process_' . $processId . '.lock';
+            $stream = $this->_varDirectory->openFile($fileName, 'w+');
             $stream->write(date('r'));
-            $this->_fileHandlers[$processId] = $this->_fileFactory->create(array('streamHandler' => $stream));;
+            $this->_fileHandlers[$processId] = $this->_fileFactory->create(array('streamHandler' => $stream));
         }
         return $this->_fileHandlers[$processId];
     }

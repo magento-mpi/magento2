@@ -191,9 +191,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $autoloader = new \Magento\Autoload\IncludePath();
         $generatorIo = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
+            new \Magento\Filesystem\Driver\Base(),
             $autoloader,
-            $this->_generationDir);
+            $this->_generationDir
+        );
         $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
         $autoloader = new \Magento\Code\Generator\Autoloader($generator);
         spl_autoload_register(array($autoloader, 'load'));

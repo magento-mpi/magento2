@@ -280,11 +280,11 @@ interface DriverInterface
      * Lock file in selected mode
      *
      * @param $resource
-     * @param bool $exclusive
+     * @param int $lockMode
      * @return bool
      * @throws FilesystemException
      */
-    public function fileLock($resource, $exclusive = true);
+    public function fileLock($resource, $lockMode = LOCK_EX);
 
     /**
      * Unlock file

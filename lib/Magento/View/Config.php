@@ -95,15 +95,18 @@ class Config implements \Magento\View\ConfigInterface
 
         $configFiles = $this->moduleReader->getConfigurationFiles($this->filename);
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
-        if (empty($themeConfigFile) || !$this->rootDirectory->isExist($themeConfigFile)) {
+        if (empty($themeConfigFile) ||
+            !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
+        ) {
             $themeConfigFile = $this->viewFileSystem->getFilename(
                 $this->filename, $params
             );
         }
-        if ($themeConfigFile && $this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))) {
+        if ($themeConfigFile &&
+            $this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
+        ) {
             $configFiles[] = $themeConfigFile;
         }
-
         $config = new \Magento\Config\View($configFiles);
 
         $this->viewConfigs[$key] = $config;

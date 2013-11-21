@@ -305,7 +305,7 @@ class Export
         $stream = $this->_directory->openFile($file, 'w+');
 
         $stream->writeCsv($this->_getExportHeaders());
-        $stream->lock(true);
+        $stream->lock();
         $this->_exportIterateCollection('_exportCsvItem', array($stream));
         if ($this->getCountTotals()) {
             $stream->writeCsv($this->_getExportTotals());
@@ -426,7 +426,7 @@ class Export
 
         $this->_directory->create($this->_path);
         $stream = $this->_directory->openFile($file, 'w+');
-        $stream->lock(true);
+        $stream->lock();
 
         $convert->setDataHeader($this->_getExportHeaders());
         if ($this->getCountTotals()) {

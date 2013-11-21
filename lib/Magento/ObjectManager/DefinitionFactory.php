@@ -79,6 +79,7 @@ class DefinitionFactory
         } else {
             $autoloader = new \Magento\Autoload\IncludePath();
             $generatorIo = new \Magento\Code\Generator\Io(
+                new \Magento\Filesystem\Driver\Base(),
                 $autoloader,
                 $this->_generationDir
             );
