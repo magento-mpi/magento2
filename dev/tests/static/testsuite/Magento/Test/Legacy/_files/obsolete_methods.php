@@ -958,5 +958,6 @@ return array(
     array('isSecure', '\Magento\Core\Model\Cookie'),
     array('getStore', '\Magento\Core\Model\Cookie'),
     array('setStore', '\Magento\Core\Model\Cookie'),
+    array('setLifetime', '\Magento\Core\Model\Cookie'),
     array('init', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\AbstractSession::start'),
 );

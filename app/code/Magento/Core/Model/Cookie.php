@@ -76,18 +76,6 @@ class Cookie
     }
 
     /**
-     * Set cookie lifetime
-     *
-     * @param int $lifetime
-     * @return \Magento\Core\Model\Cookie
-     */
-    public function setLifetime($lifetime)
-    {
-        $this->_lifetime = (int)$lifetime;
-        return $this;
-    }
-
-    /**
      * Set cookie
      *
      * @param string $name The cookie name
