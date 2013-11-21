@@ -12,7 +12,6 @@
 namespace Magento\Centinel\Test\TestCase;
 
 use Mtf\Factory\Factory;
-use Magento\Centinel\Test\Fixture\GuestPayPalPayflowProValidCc;
 
 /**
  * Class PayPalPayflowProTest

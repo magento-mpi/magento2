@@ -146,7 +146,7 @@ class CheckoutOnepage extends Page
     }
 
     /**
-     * @return Magento\Centinel\Test\Block\Authentication
+     * @return \Magento\Centinel\Test\Block\Authentication
      */
     public function getCentinelAuthenticationBlock()
     {
