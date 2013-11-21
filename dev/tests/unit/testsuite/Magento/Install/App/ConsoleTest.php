@@ -21,7 +21,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
     protected $_installerMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Dir\Verification
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Filesystem\DirectoryList\Verification
      */
     protected $_dirVerifierMock;
 
@@ -53,7 +53,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $this->_instFactoryMock = $this->getMock('\Magento\Install\Model\Installer\ConsoleFactory',
             array('create'), array(), '', false);
         $this->_installerMock = $this->getMock('Magento\Install\Model\Installer\Console', array(), array(), '', false);
-        $this->_dirVerifierMock = $this->getMock('Magento\App\Dir\Verification', array(), array(), '', false);
+        $this->_dirVerifierMock = $this->getMock('Magento\Filesystem\DirectoryList\Verification', array(), array(), '', false);
         $this->_outputMock = $this->getMock('Magento\Install\App\Output', array(), array(), '', false);
         $this->_appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false);
         $this->_configLoaderMock = $this->getMockBuilder('Magento\App\ObjectManager\ConfigLoader')

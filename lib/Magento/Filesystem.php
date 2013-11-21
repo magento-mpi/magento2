@@ -130,7 +130,8 @@ class Filesystem
     public function getPath($code)
     {
         $config = $this->directoryList->getConfig($code);
-        return isset($config['path']) ? $config['path'] : '';
+        $path = isset($config['path']) ? $config['path'] : '';
+        return str_replace('\\', '/', $path);
     }
 
     /**
