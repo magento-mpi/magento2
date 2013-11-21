@@ -267,7 +267,9 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
     public static function tearDownAfterClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $mediaDir = $objectManager->get('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
-        $objectManager->create('Magento\Filesystem')->delete($mediaDir);
+        $mediaDirectory = $objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
+        $mediaDirectory->delete($config->getBaseMediaPath());
     }
 }

@@ -21,7 +21,7 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directory;
 
@@ -59,13 +59,11 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_strategy
             ->expects($this->never())
-            ->method('mergeFiles')
-        ;
+            ->method('mergeFiles');
 
         $this->_directory->expects($this->once())
             ->method('isExist')
-            ->will($this->returnValue(true))
-        ;
+            ->will($this->returnValue(true));
 
         $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
@@ -75,13 +73,11 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile, 'contentType')
-        ;
+            ->with($this->_filesArray, $this->_mergedFile, 'contentType');
 
         $this->_directory->expects($this->once())
             ->method('isExist')
-            ->will($this->returnValue(false))
-        ;
+            ->will($this->returnValue(false));
 
         $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }

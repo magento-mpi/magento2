@@ -58,7 +58,7 @@ class Logger
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
             $logDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::LOG);
             $logDir->create();
-            $file = $logDir->getRelativePath() . '/' . $file;
+            $file = $logDir->getAbsolutePath($file);
         }
         if (!$writerClass || !is_subclass_of($writerClass, 'Zend_Log_Writer_Stream')) {
             $writerClass = 'Zend_Log_Writer_Stream';

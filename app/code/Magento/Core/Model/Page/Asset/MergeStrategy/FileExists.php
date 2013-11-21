@@ -41,7 +41,7 @@ class FileExists
      */
     public function mergeFiles(array $publicFiles, $destinationFile, $contentType)
     {
-        if (!($this->_directory->isExist($this->_directory->getRelativePath($destinationFile)))) {
+        if (!$this->_directory->isExist($this->_directory->getRelativePath($destinationFile))) {
             $this->_strategy->mergeFiles($publicFiles, $destinationFile, $contentType);
         }
     }

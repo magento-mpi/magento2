@@ -10,16 +10,18 @@
  */
 
 // Copy images to tmp media path
+$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 /** @var \Magento\Catalog\Model\Product\Media\Config $config */
-$config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-    ->get('Magento\Catalog\Model\Product\Media\Config');
-$baseTmpMediaPath = $config->getBaseTmpMediaPath();
+$config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
-/** @var \Magento\Filesystem $filesystem */
-$filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-$filesystem->setIsAllowCreateDirectories(true);
-$filesystem->copy(__DIR__ . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
-$filesystem->copy(__DIR__ . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
+/** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
+$mediaDirectory = $objectManager->get('Magento\Filesystem')
+    ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+
+$baseTmpMediaPath = $config->getBaseTmpMediaPath();
+$mediaDirectory->create($baseTmpMediaPath);
+copy(__DIR__ . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
+copy(__DIR__ . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Product');

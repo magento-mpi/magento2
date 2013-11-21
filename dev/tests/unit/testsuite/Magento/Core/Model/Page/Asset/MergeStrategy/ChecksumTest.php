@@ -21,7 +21,7 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem\Directory\Write | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directory;
 
@@ -114,14 +114,12 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile, 'contentType')
-        ;
+            ->with($this->_filesArray, $this->_mergedFile, 'contentType');
 
         $this->_directory
             ->expects($this->once())
             ->method('writeFile')
-            ->with($this->_mergedMetaFile, '123456')
-        ;
+            ->with($this->_mergedMetaFile, '123456');
 
         $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }
@@ -152,19 +150,16 @@ class ChecksumTest extends \PHPUnit_Framework_TestCase
             ->method('readFile')
             ->with($this->_mergedMetaFile)
             ->will($this->returnValue('000000'));
-        ;
 
         $this->_strategy
             ->expects($this->once())
             ->method('mergeFiles')
-            ->with($this->_filesArray, $this->_mergedFile, 'contentType')
-        ;
+            ->with($this->_filesArray, $this->_mergedFile, 'contentType');
 
         $this->_directory
             ->expects($this->once())
             ->method('writeFile')
-            ->with($this->_mergedMetaFile, '123456')
-        ;
+            ->with($this->_mergedMetaFile, '123456');
 
         $this->_object->mergeFiles($this->_filesArray, $this->_mergedFile, 'contentType');
     }

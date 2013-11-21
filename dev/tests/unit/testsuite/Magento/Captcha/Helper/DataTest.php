@@ -20,7 +20,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
     }
 
     protected function _getHelper($store, $config, $factory)
