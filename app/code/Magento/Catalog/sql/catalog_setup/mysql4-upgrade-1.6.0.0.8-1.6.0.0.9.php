@@ -8,8 +8,13 @@
  * @license     {license_link}
  */
 
-$installFile = __DIR__ . DS . 'upgrade-1.6.0.0.8-1.6.0.0.9.php';
-if (file_exists($installFile)) {
+$installFile = __DIR__ . '/upgrade-1.6.0.0.8-1.6.0.0.9.php';
+
+/** @var \Magento\Filesystem\Directory\Read $modulesDirectory */
+$modulesDirectory = $this->_objectManager->get('Magento\Filesystem')->getDirectoryRead(
+    \Magento\Filesystem\DirectoryList::MODULES);
+
+if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))) {
     include $installFile;
 }
 

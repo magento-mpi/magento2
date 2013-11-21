@@ -511,12 +511,6 @@ abstract class AbstractType
                         }
                         $this->_fileStorageDb->saveFile($dst);
                         break;
-                    case 'move_uploaded_file':
-                        $src = $queueOptions['src_name'];
-                        $dst = $queueOptions['dst_name'];
-                        move_uploaded_file($src, $dst);
-                        $this->_fileStorageDb->saveFile($dst);
-                        break;
                     default:
                         break;
                 }
