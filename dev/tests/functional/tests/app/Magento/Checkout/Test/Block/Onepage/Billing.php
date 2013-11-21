@@ -12,6 +12,7 @@
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
 
@@ -52,8 +53,6 @@ class Billing extends Form
             'region' => '[id="billing:region_id"]',
             'postcode' => '[id="billing:postcode"]',
             'country' => '[id="billing:country_id"]',
-            'password' => '[id="billing:customer_password"]',
-            'confirmation' => '[id="billing:confirm_password"]',
         );
         $this->continue = '#billing-buttons-container button';
         $this->useForShipping = '[id="billing:use_for_shipping_no"]';
@@ -73,5 +72,17 @@ class Billing extends Form
         }
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
+    }
+
+    /**
+     * Fill form data. Unset 'email' field as it is absent in one page checkout form
+     *
+     * @param array $fields
+     * @param Element $element
+     */
+    protected function _fill(array $fields, Element $element = null)
+    {
+        unset($fields['email']);
+        parent::_fill($fields);
     }
 }

@@ -97,6 +97,28 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Returns the sku for the specified option.
+     *
+     * @param string $selectedOption
+     * @return string
+     */
+    public function getVariationSku($selectedOption)
+    {
+        $sku = '';
+        foreach ($this->getData('fields/variations-matrix/value') as $variation) {
+            $configurableAttributes = $variation['configurable_attribute'];
+            foreach ($configurableAttributes as $configurableAttribute) {
+                $attributeOption = $configurableAttribute['attribute_option'];
+                if ($attributeOption === $selectedOption) {
+                    $sku = $variation['value']['name']['value'];
+                    break 2;
+                }
+            }
+        }
+        return $sku;
+    }
+
+    /**
      * Get variations SKUs
      *
      * @return $this|ConfigurableProduct

@@ -47,6 +47,13 @@ class ProductAdvancedPricingTest extends Functional
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
+        // Frontend
+        // Login with customer created in checkout fixture
+        $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
+        $customerAccountLoginPage->open();
+        $customerAccountLoginPage->getLoginBlock()->login($checkoutFixture->getCustomer());
+
         // Add simple & configurable products with special price to cart
         $this->addProductToCart($simpleProduct);
         $this->addProductToCart($configurableProduct);
@@ -56,14 +63,14 @@ class ProductAdvancedPricingTest extends Functional
         $this->verifyCartItem($simpleProduct);
         $this->verifyCartItem($configurableProduct);
 
-        // Frontend
         // Proceed to one page checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
+
         // Place order
         // Use customer from checkout fixture
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
-        $checkoutOnePage->getLoginBlock()->checkoutMethod($checkoutFixture);
+        $checkoutOnePage->open();
         $checkoutOnePage->getBillingBlock()->fillBilling($checkoutFixture);
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($checkoutFixture);
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($checkoutFixture);

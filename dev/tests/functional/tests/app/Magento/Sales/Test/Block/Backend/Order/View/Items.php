@@ -40,19 +40,16 @@ class Items extends Block
     {
         $productName = $product->getProductName();
 
-        $productOptions = array();
         if ($product instanceof ConfigurableProduct) {
-            $sku = current($product->getVariationSkus());
+            // Find the price for the specific configurable product that was purchased
             $productOptions = $product->getProductOptions();
+            $checkoutOption = current($productOptions);
+
+            $productDisplay = $productName . ' SKU: ' . $product->getVariationSku($checkoutOption);
+            $productDisplay .= ' ' . key($productOptions) . ' ' . $checkoutOption;
         }
         else {
-            $sku = $product->getProductSku();
-        }
-        $productDisplay = $productName . ' SKU: ' . $sku;
-
-        if (!empty($productOptions)) {
-            // Working with a configurable product. Make sure we find the correct item on the invoice.
-            $productDisplay .= ' ' . key($productOptions) . ' ' . current($productOptions);
+            $productDisplay = $productName . ' SKU: ' . $product->getProductSku();
         }
         $selector = '//tr[normalize-space(td)="' . $productDisplay .'"]' . $this->priceSelector;
 
