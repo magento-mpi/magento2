@@ -55,15 +55,17 @@ class CustomerSegmentTest extends Functional
         $customerSegmentCreatePage = Factory::getPageFactory()->getAdminCustomersegmentNew();
         $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
         $messagesBlock = $customerSegmentCreatePage->getMessageBlock();
-        // begin steps add a segment
+        // begin steps to add a customer segment
         $customerSegmentPage->open();
+        // add General Properties
         $pageActionsBlockCs->clickAddNew();
         $newCustomerSegmentForm->fill($customerSegmentFixture);
         $newCustomerSegmentForm->clickSaveAndContinue();
         $messagesBlock->assertSuccessMessage();
-        // add a condition
+        // open conditions tab
         $tabsWidget = $customerSegmentCreatePage->getConditionsTab();
         $tabsWidget->openTab('magento_customersegment_segment_tabs_conditions_section');
+        // add a condition
         $addWidget = $customerSegmentCreatePage->getConditions();
         $addWidget->clickAddNew();
         $selectWidget = $customerSegmentCreatePage->getConditions();
@@ -77,21 +79,26 @@ class CustomerSegmentTest extends Functional
         $customerSegmentCreatePage->setMessageBlock();
         $conditionMessageBlock = $customerSegmentCreatePage->getMessageBlock();
         $conditionMessageBlock->assertSuccessMessage();
-        // verify matched customers
+        // open matched customers tab
         $customerTabWidget = $customerSegmentCreatePage->getCustomersTab();
         $customerTabWidget->openTab('magento_customersegment_segment_tabs_customers_tab');
         $customerSegmentCreatePage->setMessageBlock();
         $customerMessageBlock = $customerSegmentCreatePage->getMessageBlock();
         $customerMessageBlock->assertSuccessMessage();
+        // verify matched customers
         $customerGridBlock = $customerSegmentCreatePage->getCustomerGridBlock();
-        $customerGridBlock->setGridEmail();
-        $gridEmail = $customerGridBlock->getGridEmail();
         $this->assertEquals($customerFixture->getEmail(),
-            $gridEmail,
-            'Customer email "' . $customerFixture->getEmail() . '" not found in the grid'
+            $customerGridBlock->getGridEmail(),
+            'Matched Customer Email "' . $customerFixture->getEmail() . '" not found in the grid'
         );
-
-
+        $this->assertEquals($customerFixture->getGroup(),
+            $customerGridBlock->getGridGroup(),
+            'Matched Customer Group "' . $customerFixture->getGroup() . '" not found in the grid'
+        );
+        $fixtureName = $customerFixture->getFirstName() . " " . $customerFixture->getLastName();
+        $this->assertEquals($fixtureName,
+            $customerGridBlock->getGridName(),
+            'Matched Customer Name "' . $fixtureName . '" not found in the grid'
+        );
     }
-
 }

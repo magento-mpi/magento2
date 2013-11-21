@@ -34,22 +34,22 @@ class CustomerSegmentNew extends Page {
     /**
      * @var CustomerSegmentForm
      */
-    protected $_newCustomerSegmentForm;
+    protected $newCustomerSegmentForm;
 
     /**
      * @var Messages
      */
-    protected $_messagesBlock;
+    protected $messagesBlock;
     /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_newCustomerSegmentForm = Factory::getBlockFactory()
+        $this->newCustomerSegmentForm = Factory::getBlockFactory()
             ->getMagentoCustomerSegmentBackendCustomerSegmentForm($this->_browser->find('[id="page:main-container"]')
         );
-        $this->_messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
+        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('#messages .messages')
         );
     }
@@ -61,7 +61,7 @@ class CustomerSegmentNew extends Page {
      */
     public function getNewCustomerSegmentForm()
     {
-        return $this->_newCustomerSegmentForm;
+        return $this->newCustomerSegmentForm;
     }
 
     /**
@@ -71,15 +71,16 @@ class CustomerSegmentNew extends Page {
      */
     public function getMessageBlock()
     {
-        return $this->_messagesBlock;
+        return $this->messagesBlock;
     }
+
     /**
      * Refresh global page message
      *
      */
     public function setMessageBlock()
     {
-        $this->_messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
+        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('#messages .messages')
         );
     }
@@ -143,7 +144,4 @@ class CustomerSegmentNew extends Page {
             $this->_browser->find('#segmentGrid')
         );
     }
-
-
-
 }

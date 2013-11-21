@@ -52,7 +52,8 @@ class Actions extends Block {
     }
 
     /**
-     * Select Condition
+     * Select Condition type
+     * @param  string $type
      */
     public function selectCondition($type)
     {
@@ -61,6 +62,7 @@ class Actions extends Block {
 
     /**
      * Select Condition value
+     * @param  string $value
      */
     public function selectConditionValue($value)
     {

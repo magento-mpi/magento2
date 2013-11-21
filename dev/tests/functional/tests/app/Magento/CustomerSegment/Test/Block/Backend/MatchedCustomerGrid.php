@@ -23,26 +23,47 @@ use Magento\Backend\Test\Block\Widget\Grid;
  */
 class MatchedCustomerGrid extends Grid {
     /**
-     * The first row in grid.
-     *
-     * @var string
+     * Initialize block elements
      */
-    protected $colEmail;
+    protected function _init()
+    {
+        $this->filters = array(
+            'email' => array(
+                'selector' => '#segmentGrid_filter_grid_email'
+            )
+        );
+    }
 
     /**
-     * Retrieve the email in the first row
+     * Get Name text from matched customer grid
+     *
+     * @return string
      */
-    public function setGridEmail()
+    public function getGridName()
     {
-        $this->rowItem = $this->_rootElement->find('//table[@id="segmentGrid_table"]/tbody/tr/td[3]',
+        return $this->_rootElement->find('//table[@id="segmentGrid_table"]/tbody/tr/td[2]',
             Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
-     * getter for the email in the first row
+     * Get Email text from matched customer grid
+     *
+     * @return string
      */
     public function getGridEmail()
     {
-        return $this->colEmail;
+        return $this->_rootElement->find('//table[@id="segmentGrid_table"]/tbody/tr/td[3]',
+            Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get Group text from matched customer grid
+     *
+     * @return string
+     */
+    public function getGridGroup()
+    {
+        return $this->_rootElement->find('//table[@id="segmentGrid_table"]/tbody/tr/td[4]',
+            Locator::SELECTOR_XPATH)->getText();
     }
 }

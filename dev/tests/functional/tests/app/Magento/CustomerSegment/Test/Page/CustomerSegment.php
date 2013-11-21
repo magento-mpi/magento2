@@ -32,12 +32,12 @@ class CustomerSegment extends Page {
     /**
      * @var CustomerSegmentGrid
      */
-    protected $_customerSegmentGridBlock;
+    protected $customerSegmentGridBlock;
 
     /**
      * @var PageActions
      */
-    protected $_pageActionsBlock;
+    protected $pageActionsBlock;
 
     /**
      * Custom constructor
@@ -45,10 +45,10 @@ class CustomerSegment extends Page {
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_customerGridBlock = Factory::getBlockFactory()->getMagentoCustomerSegmentBackendCustomerSegmentGrid(
+        $this->customerGridBlock = Factory::getBlockFactory()->getMagentoCustomerSegmentBackendCustomerSegmentGrid(
             $this->_browser->find('#customersegmentGrid')
         );
-        $this->_pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
+        $this->pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
             $this->_browser->find('.page-actions')
         );
     }
@@ -60,7 +60,7 @@ class CustomerSegment extends Page {
      */
     public function getCustomerSegmentGridBlock()
     {
-        return $this->_customerSegmentGridBlock;
+        return $this->customerSegmentGridBlock;
     }
 
     /**
@@ -70,6 +70,6 @@ class CustomerSegment extends Page {
      */
     public function getPageActionsBlock()
     {
-        return $this->_pageActionsBlock;
+        return $this->pageActionsBlock;
     }
 }
