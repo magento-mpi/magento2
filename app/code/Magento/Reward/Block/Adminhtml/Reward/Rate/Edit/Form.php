@@ -21,11 +21,6 @@ namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Reward\Model\Source\WebsiteFactory
      */
     protected $_websitesFactory;
@@ -36,29 +31,26 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_groupsFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
         \Magento\Reward\Model\Source\Customer\GroupsFactory $groupsFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_websitesFactory = $websitesFactory;
         $this->_groupsFactory = $groupsFactory;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**

@@ -35,6 +35,9 @@
     <preference for="Magento\View\Design\Theme\ThemeProviderInterface" type="Magento\Core\Model\Theme\ThemeProvider" />
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
+    <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
+    <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
+    <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
@@ -434,6 +437,12 @@
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
+        <plugin name="clickjacking" type="Magento\App\FrontController\Plugin\Clickjacking" sortOrder="0"/>
+    </type>
+    <type name="Magento\App\Action\Action">
+        <plugin name="installInitializer" type="Magento\Core\App\Action\Plugin\Install" sortOrder="5"/>
+        <plugin name="sessionInitializer" type="Magento\Core\App\Action\Plugin\Session" sortOrder="10"/>
+        <plugin name="designLoader" type="Magento\Core\App\Action\Plugin\Design" sortOrder="20"/>
     </type>
     <type name="Magento\Core\Model\Locale">
         <param name="dateModel">

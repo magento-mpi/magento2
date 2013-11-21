@@ -28,20 +28,18 @@ class Subscribe extends \Magento\View\Block\Template
     protected $_newsletterSession;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Newsletter\Model\Session $newsletterSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Newsletter\Model\Session $newsletterSession,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_newsletterSession = $newsletterSession;
     }
 

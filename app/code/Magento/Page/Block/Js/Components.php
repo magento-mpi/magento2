@@ -13,27 +13,6 @@ namespace Magento\Page\Block\Js;
 class Components extends \Magento\View\Block\Template
 {
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\App\State $appState
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
-        \Magento\App\State $appState,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $data);
-        $this->_appState = $appState;
-    }
-
-    /**
      * @return bool
      */
     public function isDeveloperMode()

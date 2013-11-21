@@ -16,11 +16,6 @@ namespace Magento\AdminGws\Block\Adminhtml\Permissions\Tab\Rolesedit;
 class Gws extends \Magento\Backend\Block\Template
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -33,25 +28,22 @@ class Gws extends \Magento\Backend\Block\Template
     protected $_adminGwsRole;
 
     /**
-     * @param \Magento\AdminGws\Model\Role $adminGwsRole
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\AdminGws\Model\Role $adminGwsRole
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
-        \Magento\AdminGws\Model\Role $adminGwsRole,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\AdminGws\Model\Role $adminGwsRole,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_adminGwsRole = $adminGwsRole;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

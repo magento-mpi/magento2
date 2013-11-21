@@ -71,11 +71,6 @@ class Banner
     protected $_bannerResource;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_coreSession;
-
-    /**
      * @var \Magento\Checkout\Model\Session
      */
     protected $_checkoutSession;
@@ -107,35 +102,30 @@ class Banner
     protected $_renderedParams = array();
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Banner\Model\Resource\Banner $resource
-     * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Banner\Model\Resource\Banner $resource,
-        \Magento\Core\Model\Session $coreSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_bannerResource = $resource;
-        $this->_coreSession = $coreSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_filterProvider = $filterProvider;
-        $this->_currentStoreId  = $storeManager->getStore()->getId();
-        $this->_currentWebsiteId  = $storeManager->getWebsite()->getId();
+        $this->_currentStoreId  = $this->_storeManager->getStore()->getId();
+        $this->_currentWebsiteId  = $this->_storeManager->getWebsite()->getId();
     }
 
     /**
@@ -334,7 +324,7 @@ class Banner
                         }
                     }
                     if ($bannersSequence === null) {
-                        $bannersSequence = $this->_coreSession->_getData($this->getUniqueId());
+                        $bannersSequence = $this->_session->_getData($this->getUniqueId());
                     }
 
                     // Check that we have suggested banner to render
@@ -369,7 +359,7 @@ class Banner
                         $bannersSequence = array($bannerId);
                     }
 
-                    $this->_coreSession->setData($this->getUniqueId(), $bannersSequence);
+                    $this->_session->setData($this->getUniqueId(), $bannersSequence);
 
                     $_content = $bannerResource->getStoreContent($bannerId, $this->_currentStoreId);
                     if (!empty($_content)) {

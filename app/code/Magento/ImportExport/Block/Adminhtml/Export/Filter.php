@@ -34,31 +34,21 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_importExportData = null;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\ImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param array $data
      */
     public function __construct(
-        \Magento\ImportExport\Helper\Data $importExportData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\ImportExport\Helper\Data $importExportData,
         array $data = array()
     ) {
         $this->_importExportData = $importExportData;
-        $this->_locale = $locale;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     /**

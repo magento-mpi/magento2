@@ -55,13 +55,6 @@ class Images extends \Magento\App\Helper\AbstractHelper
     protected $_backendData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -76,10 +69,7 @@ class Images extends \Magento\App\Helper\AbstractHelper
     protected $_dir;
 
     /**
-     * Construct
-     *
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Filesystem $filesystem
@@ -88,7 +78,6 @@ class Images extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Filesystem $filesystem,
@@ -96,7 +85,6 @@ class Images extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Dir $dir
     ) {
         parent::__construct($context);
-        $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
         $this->_filesystem = $filesystem;

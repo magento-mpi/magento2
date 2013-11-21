@@ -38,11 +38,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_cmsHierarchy;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Backend\Model\Config\Source\Yesno
      */
     protected $_sourceYesno;
@@ -78,12 +73,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_hierarchyLock;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode $menuListmode
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listtype $menuListtype
@@ -92,16 +86,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Layout $menuLayout
      * @param \Magento\VersionsCms\Model\Hierarchy\Lock $hierarchyLock
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listmode $menuListmode,
         \Magento\VersionsCms\Model\Source\Hierarchy\Menu\Listtype $menuListtype,
@@ -112,12 +103,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         array $data = array()
     ) {
         $this->_cmsHierarchy = $cmsHierarchy;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 
         $this->_currentStore = $this->getRequest()->getParam('store');
-        $this->_storeManager = $storeManager;
         $this->_sourceYesno = $sourceYesno;
         $this->_menuListmode = $menuListmode;
         $this->_menuListtype = $menuListtype;

@@ -27,23 +27,23 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     protected $coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
-        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
     }
 
     protected function _getOrder()

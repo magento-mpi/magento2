@@ -16,7 +16,10 @@
  */
 namespace Magento\Invitation\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Index extends \Magento\App\Action\Action
 {
     /**
      * Customer Session
@@ -40,13 +43,13 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected $invitationFactory;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $session,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
@@ -60,22 +63,24 @@ class Index extends \Magento\Core\Controller\Front\Action
     /**
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_config->isEnabledOnFront()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+            throw new NotFoundException();
         }
 
         if (!$this->_session->authenticate($this)) {
             $this->getResponse()->setRedirect(
                 $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
             );
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
+        return parent::dispatch($request);
     }
 
     /**
@@ -133,14 +138,14 @@ class Index extends \Magento\Core\Controller\Front\Action
             return;
         }
 
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->loadLayoutUpdates();
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Send Invitations'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -149,16 +154,16 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->loadLayoutUpdates();
-        if ($block = $this->getLayout()->getBlock('invitations_list')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        if ($block = $this->_view->getLayout()->getBlock('invitations_list')) {
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('My Invitations'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 }

@@ -51,29 +51,27 @@ class Rviewed
     protected $_catalogStockStatus;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Reports\Model\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Reports\Model\EventFactory $eventFactory,
         array $data = array()
@@ -83,7 +81,7 @@ class Rviewed
         $this->_catalogConfig = $catalogConfig;
         $this->_productFactory = $productFactory;
         $this->_eventFactory = $eventFactory;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $coreRegistry, $data);
     }
 
     /**

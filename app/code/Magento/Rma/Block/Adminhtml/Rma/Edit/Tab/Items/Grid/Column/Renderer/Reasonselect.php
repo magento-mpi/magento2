@@ -23,14 +23,14 @@ class Reasonselect
 
     /**
      * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Rma\Model\Item\Status $itemStatus
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
-        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Rma\Model\Item\Status $itemStatus,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_itemFormFactory = $itemFormFactory;

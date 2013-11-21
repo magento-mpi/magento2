@@ -17,18 +17,38 @@
  */
 namespace Magento\ProductAlert\Controller;
 
-class Add extends \Magento\Core\Controller\Front\Action
-{
-    public function preDispatch()
-    {
-        parent::preDispatch();
+use Magento\App\Action\Context;
+use Magento\App\RequestInterface;
 
+class Add extends \Magento\App\Action\Action
+{
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     */
+    public function __construct(
+        \Magento\App\Action\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
+    ) {
+        $this->_storeManager = $storeManager;
+        parent::__construct($context);
+    }
+
+    public function dispatch(RequestInterface $request)
+    {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
-            if(!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
-                $this->_objectManager->get('Magento\Customer\Model\Session')->setBeforeUrl($this->_getRefererUrl());
+            $this->_actionFlag->set('', 'no-dispatch', true);
+            if (!$this->_objectManager->get('Magento\Customer\Model\Session')->getBeforeUrl()) {
+                $this->_objectManager->get('Magento\Customer\Model\Session')
+                    ->setBeforeUrl($this->_redirect->getRefererUrl());
             }
         }
+        return parent::dispatch($request);
     }
 
     public function testObserverAction()
@@ -41,7 +61,7 @@ class Add extends \Magento\Core\Controller\Front\Action
     public function priceAction()
     {
         $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
-        $backUrl    = $this->getRequest()->getParam(\Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED);
+        $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -52,8 +72,8 @@ class Add extends \Magento\Core\Controller\Front\Action
         if (!$product->getId()) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
-            if ($this->_isUrlInternal($backUrl)) {
-                $this->_redirectUrl($backUrl);
+            if ($this->_isInternal($backUrl)) {
+                $this->getResponse()->setRedirect($backUrl);
             } else {
                 $this->_redirect('/');
             }
@@ -74,14 +94,14 @@ class Add extends \Magento\Core\Controller\Front\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     public function stockAction()
     {
         $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
         /* @var $session \Magento\Catalog\Model\Session */
-        $backUrl    = $this->getRequest()->getParam(\Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED);
+        $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
             $this->_redirect('/');
@@ -91,7 +111,7 @@ class Add extends \Magento\Core\Controller\Front\Action
         if (!$product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId)) {
             /* @var $product \Magento\Catalog\Model\Product */
             $session->addError(__('There are not enough parameters.'));
-            $this->_redirectUrl($backUrl);
+            $this->getResponse()->setRedirect($backUrl);
             return ;
         }
 
@@ -108,6 +128,22 @@ class Add extends \Magento\Core\Controller\Front\Action
         catch (\Exception $e) {
             $session->addException($e, __('Unable to update the alert subscription.'));
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
+    }
+
+    /**
+     * Check if URL is internal
+     *
+     * @param string $url
+     * @return bool
+     */
+    protected function _isInternal($url)
+    {
+        if (strpos($url, 'http') === false) {
+            return false;
+        }
+        $currentStore = $this->_storeManager->getStore();
+        return strpos($url, $currentStore->getBaseUrl()) === 0
+            || strpos($url, $currentStore->getBaseUrl($currentStore::URL_TYPE_LINK, true)) === 0;
     }
 }

@@ -36,19 +36,19 @@ class View extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ProductAlert\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\ProductAlert\Helper\Data $helper,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_registry = $registry;
         $this->_helper = $helper;
     }

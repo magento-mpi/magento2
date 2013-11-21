@@ -15,8 +15,24 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Shipment;
 
-class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
+class AbstractShipment extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
     /**
      * Init layout, menu and breadcrumb
      *
@@ -24,8 +40,8 @@ class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_shipment')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_shipment')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Shipments'), __('Shipments'));
         return $this;
@@ -36,11 +52,11 @@ class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Shipments'));
+        $this->_title->add(__('Shipments'));
 
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'))
-            ->renderLayout();
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Shipment'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -51,7 +67,7 @@ class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
         if ($shipmentId = $this->getRequest()->getParam('shipment_id')) {
             $this->_forward('view', 'order_shipment', null, array('come_from'=>'shipment'));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -70,7 +86,7 @@ class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
                 $pdf->pages = array_merge ($pdf->pages, $pages->pages);
             }
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-            return $this->_prepareDownloadResponse('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_fileFactory->create('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('sales/*/');
     }
@@ -85,10 +101,10 @@ class AbstractShipment extends \Magento\Backend\Controller\Adminhtml\Action
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment')
                     ->getPdf(array($shipment));
                 $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-                $this->_prepareDownloadResponse('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
+                $this->_fileFactory->create('packingslip' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

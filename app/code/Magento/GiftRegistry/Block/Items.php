@@ -45,38 +45,29 @@ class Items extends \Magento\Checkout\Block\Cart
     protected $quoteItemFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
-     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
-        \Magento\UrlInterface $urlBuilder,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
@@ -86,9 +77,15 @@ class Items extends \Magento\Checkout\Block\Cart
         $this->itemFactory = $itemFactory;
         $this->quoteFactory = $quoteFactory;
         $this->quoteItemFactory = $quoteItemFactory;
-        $this->storeManager = $storeManager;
-        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
-            $catalogUrlBuilder, $urlBuilder, $data);
+        parent::__construct(
+            $context,
+            $coreData,
+            $catalogData,
+            $customerSession,
+            $checkoutSession,
+            $catalogUrlBuilder,
+            $data
+        );
     }
 
     /**
@@ -126,7 +123,7 @@ class Items extends \Magento\Checkout\Block\Cart
                 if ($this->_catalogData->canApplyMsrp($product)) {
                     $quoteItem->setCanApplyMsrp(true);
                     $product->setRealPriceHtml(
-                        $this->storeManager->getStore()->formatPrice($this->storeManager->getStore()->convertPrice(
+                        $this->_storeManager->getStore()->formatPrice($this->_storeManager->getStore()->convertPrice(
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );

@@ -47,16 +47,6 @@ class View extends \Magento\View\Block\Template
     protected $_registry;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Path to template file in theme.
      *
      * @var string
@@ -65,24 +55,19 @@ class View extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
         $this->_registry = $registry;
-        $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
+        parent::__construct($context, $coreData, $data);
+
     }
 
     /**

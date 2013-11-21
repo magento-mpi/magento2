@@ -33,16 +33,16 @@ class Status extends \Magento\View\Block\Template
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Rss\Model\Resource\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Rss\Model\Resource\OrderFactory $orderFactory,
@@ -51,7 +51,7 @@ class Status extends \Magento\View\Block\Template
         $this->_coreRegistry = $registry;
         $this->_rssFactory = $rssFactory;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _construct()

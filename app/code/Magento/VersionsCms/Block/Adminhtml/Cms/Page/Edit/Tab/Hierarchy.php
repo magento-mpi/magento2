@@ -44,17 +44,17 @@ class Hierarchy
     protected $_nodeCollFactory;
 
     /**
-     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory,
         array $data = array()
@@ -62,7 +62,7 @@ class Hierarchy
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_nodeCollFactory = $nodeCollFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

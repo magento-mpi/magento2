@@ -295,9 +295,7 @@ class Observer
             return;
         }
 
-        /** @var $action \Magento\Checkout\Controller\Onepage */
-        $action = $observer->getEvent()->getControllerAction();
-        $actionName = $action->getFullActionName();
+        $actionName = $observer->getEvent()->getRequest()->getFullActionName();
 
         if (in_array($actionName, $stopActions)) {
             return;
@@ -459,7 +457,7 @@ class Observer
             return;
         }
 
-        /** @var $controllerAction \Magento\Core\Controller\Front\Action */
+        /** @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (method_exists($controllerAction, 'redirectLogin')) {
             $this->_session->addNotice(__('To check out, please log in using your email address.'));

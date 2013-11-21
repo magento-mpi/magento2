@@ -26,18 +26,18 @@ class Form extends \Magento\View\Block\Template
     protected $_config;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData, 
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Model\Config $config,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_config = $config;
     }
 

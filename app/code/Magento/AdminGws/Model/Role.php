@@ -60,17 +60,17 @@ class Role extends \Magento\Object
     protected $_categoryCollFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $categoryCollFactory,
         array $data = array()
     ) {

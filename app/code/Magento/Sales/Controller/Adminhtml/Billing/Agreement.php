@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Billing;
 
-class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
+class Agreement extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -23,11 +23,11 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -40,11 +40,11 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Billing Agreements'));
+        $this->_title->add(__('Billing Agreements'));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_billing_agreement')
-            ->renderLayout();
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_billing_agreement');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -53,8 +53,8 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -66,12 +66,12 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
         $agreementModel = $this->_initBillingAgreement();
 
         if ($agreementModel) {
-            $this->_title(__('Billing Agreements'))
-                ->_title(sprintf("#%s", $agreementModel->getReferenceId()));
+            $this->_title->add(__('Billing Agreements'));
+            $this->_title->add(sprintf("#%s", $agreementModel->getReferenceId()));
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_billing_agreement')
-                ->renderLayout();
+            $this->_view->loadLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_billing_agreement');
+            $this->_view->renderLayout();
             return;
         }
 
@@ -86,8 +86,8 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
     public function ordersGridAction()
     {
         $this->_initBillingAgreement();
-        $this->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -97,8 +97,8 @@ class Agreement extends \Magento\Backend\Controller\Adminhtml\Action
     public function customerGridAction()
     {
         $this->_initCustomer();
-        $this->loadLayout(false)
-            ->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

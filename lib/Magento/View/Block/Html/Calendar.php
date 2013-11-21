@@ -23,29 +23,19 @@ class Calendar extends \Magento\View\Block\Template
     protected $_date;
 
     /**
-     * Core locale
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Date $date
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Date $date
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Date $date,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Date $date,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_date = $date;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

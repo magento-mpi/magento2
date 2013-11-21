@@ -74,7 +74,7 @@ class Observer
      */
     public function addPrivacyHeader(\Magento\Event\Observer $observer)
     {
-        /* @var $controllerAction \Magento\Core\Controller\Varien\Action */
+        /* @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getData('controller_action');
         $controllerAction->getResponse()->setHeader("P3P", 'CP="CAO PSA OUR"', true);
         return $this;

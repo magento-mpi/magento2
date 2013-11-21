@@ -23,34 +23,6 @@ class Locale extends \Magento\Install\Block\AbstractBlock
     protected $_template = 'locale.phtml';
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Core\Model\Session\Generic $session
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Install\Model\Installer $installer,
-        \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Core\Model\Session\Generic $session,
-        \Magento\Core\Model\LocaleInterface $locale,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
-        $this->_locale = $locale;
-    }
-
-
-    /**
      * Retrieve locale object
      *
      * @return \Zend_Locale

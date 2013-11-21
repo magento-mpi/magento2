@@ -39,19 +39,17 @@ class TemplateSelector extends \Magento\View\Block\Template
     protected $_resourceHelper;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         array $data = array()
@@ -59,7 +57,7 @@ class TemplateSelector extends \Magento\View\Block\Template
         $this->_setColFactory = $setColFactory;
         $this->_coreRegistry = $registry;
         $this->_resourceHelper = $resourceHelper;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

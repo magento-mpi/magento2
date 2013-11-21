@@ -23,13 +23,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_agreements = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -79,7 +72,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
         \Magento\Email\Model\TemplateFactory $emailTemplFactory
     ) {
-        $this->_eventManager = $context->getEventManager();
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_checkoutSession = $checkoutSession;

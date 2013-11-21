@@ -63,10 +63,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $observerData = new \Magento\Event\Observer();
         $arguments = array('request' => $request, 'response' => $response);
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+            ->create('Magento\App\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                'Magento\Core\Controller\Front\Action',
+                'Magento\App\Action\Action',
                 array('context' => $context)
             )
         )));
@@ -110,10 +110,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 ->get('Magento\TestFramework\Response')
         );
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Controller\Varien\Action\Context', $arguments);
+            ->create('Magento\App\Action\Context', $arguments);
         $observerData->setEvent(new \Magento\Event(array(
             'controller_action' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create(
-                'Magento\Core\Controller\Front\Action',
+                'Magento\App\Action\Action',
                 array('context' => $context)
             )
         )));

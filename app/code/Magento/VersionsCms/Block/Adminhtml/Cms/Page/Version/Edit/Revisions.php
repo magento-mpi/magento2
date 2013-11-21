@@ -40,22 +40,20 @@ class Revisions
     protected $_cmsConfig;
 
     /**
-     * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
@@ -65,7 +63,7 @@ class Revisions
         $this->_cmsData = $cmsData;
         $this->_revisionCollFactory = $revisionCollFactory;
         $this->_cmsConfig = $cmsConfig;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     protected function _construct()

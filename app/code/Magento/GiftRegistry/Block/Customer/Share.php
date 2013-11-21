@@ -26,24 +26,24 @@ class Share
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
-     * @param array $data
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param array $data\
      */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
 
-        parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
+        parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
     }
 
     /**

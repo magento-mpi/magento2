@@ -1,3 +1,6 @@
+* Moved general action-related functionality to \Magento\App\Action\Action in library. Removed Magento\Core\Controller\Varien\Action and related logic from Magento_Core module;
+* Moved view-related methods from action interface into \Magento\App\ViewInterface with corresponding implementation;
+* Moved redirect creation logic from action interface into \Magento\App\Response\RedirectInterface;
 * Move Magento\Core common blocks into library
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
