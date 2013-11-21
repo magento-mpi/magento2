@@ -7,6 +7,12 @@
  */
 namespace Magento\Integration\Service;
 
+use Magento\Authz\Model\UserIdentifier;
+use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
+use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
+use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
+use Magento\Integration\Model\Integration as IntegrationModel;
+
 /**
  * Integration Service.
  *
@@ -14,17 +20,30 @@ namespace Magento\Integration\Service;
  */
 class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interface
 {
-    /** @var \Magento\Integration\Model\Integration\Factory $_integrationFactory */
-    private $_integrationFactory;
+    /** @var IntegrationFactory */
+    protected $_integrationFactory;
+
+    /** @var AuthorizationInterface */
+    protected $_authzService;
+
+    /** @var UserIdentifierFactory */
+    protected $_userIdentifierFactory;
 
     /**
      * Construct and initialize Integration Factory
      *
-     * @param \Magento\Integration\Model\Integration\Factory $integrationFactory
+     * @param IntegrationFactory $integrationFactory
+     * @param AuthorizationInterface $authzService
+     * @param UserIdentifierFactory $userIdentifierFactory
      */
-    public function __construct(\Magento\Integration\Model\Integration\Factory $integrationFactory)
-    {
+    public function __construct(
+        IntegrationFactory $integrationFactory,
+        AuthorizationInterface $authzService,
+        UserIdentifierFactory $userIdentifierFactory
+    ) {
         $this->_integrationFactory = $integrationFactory;
+        $this->_authzService = $authzService;
+        $this->_userIdentifierFactory = $userIdentifierFactory;
     }
 
     /**
@@ -39,6 +58,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         $this->_checkIntegrationByName($integrationData['name']);
         $integration = $this->_integrationFactory->create($integrationData);
         $integration->save();
+        $this->_saveApiPermissions($integration);
         return $integration->getData();
     }
 
@@ -58,6 +78,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         }
         $integration->addData($integrationData);
         $integration->save();
+        $this->_saveApiPermissions($integration);
         return $integration->getData();
     }
 
@@ -71,6 +92,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     public function get($integrationId)
     {
         $integration = $this->_loadIntegrationById($integrationId);
+        $this->_addAllowedResources($integration);
         return $integration->getData();
     }
 
@@ -92,7 +114,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      * Load integration by id.
      *
      * @param int $integrationId
-     * @return \Magento\Integration\Model\Integration
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     protected function _loadIntegrationById($integrationId)
@@ -102,5 +124,53 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
             throw new \Magento\Integration\Exception(__("Integration with ID '%1' doesn't exist.", $integrationId));
         }
         return $integration;
+    }
+
+    /**
+     * Persist API permissions.
+     *
+     * Permissions are expected to be set to integration object by 'resource' key.
+     * If 'all_resources' is set and is evaluated to true, permissions to all resources will be granted.
+     *
+     * @param IntegrationModel $integration
+     */
+    protected function _saveApiPermissions(IntegrationModel $integration)
+    {
+        if ($integration->getId()) {
+            $userIdentifier = $this->_createUserIdentifier($integration->getId());
+            if ($integration->getData('all_resources')) {
+                $this->_authzService->grantAllPermissions($userIdentifier);
+            } else if (is_array($integration->getData('resource'))) {
+                $this->_authzService->grantPermissions($userIdentifier, $integration->getData('resource'));
+            }
+        }
+    }
+
+    /**
+     * Add the list of allowed resources to the integration object data by 'resource' key.
+     *
+     * @param IntegrationModel $integration
+     */
+    protected function _addAllowedResources(IntegrationModel $integration)
+    {
+        if ($integration->getId()) {
+            $userIdentifier = $this->_createUserIdentifier($integration->getId());
+            $integration->setData('resource', $this->_authzService->getAllowedResources($userIdentifier));
+        }
+    }
+
+    /**
+     * Instantiate new user identifier for an integration.
+     *
+     * @param int $integrationId
+     * @return UserIdentifier
+     */
+    protected function _createUserIdentifier($integrationId)
+    {
+        $userIdentifier = $this->_userIdentifierFactory->create(
+            UserIdentifier::USER_TYPE_INTEGRATION,
+            (int)$integrationId
+        );
+        return $userIdentifier;
     }
 }

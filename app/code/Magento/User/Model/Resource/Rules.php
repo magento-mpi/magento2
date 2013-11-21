@@ -96,7 +96,6 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             $postedResources = $rule->getResources();
             if ($postedResources) {
                 $row = array(
-                    'role_type'   => 'G',
                     'resource_id' => $this->_rootResource->getId(),
                     'privileges'  => '', // not used yet
                     'role_id'     => $roleId,

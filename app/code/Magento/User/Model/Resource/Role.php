@@ -161,7 +161,7 @@ class Role extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $binds = array(
             'role_id'   => $role->getId(),
-            'role_type' => 'U'
+            'role_type' => \Magento\User\Model\Acl\Role\User::ROLE_TYPE
         );
 
         $select = $read->select()

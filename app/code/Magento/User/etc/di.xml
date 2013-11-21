@@ -29,4 +29,12 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Acl\Builder">
+        <param name="ruleLoader">
+            <instance type="Magento\User\Model\Acl\Loader\Rule" />
+        </param>
+        <param name="roleLoader">
+            <instance type="Magento\User\Model\Acl\Loader\Role" />
+        </param>
+    </type>
 </config>

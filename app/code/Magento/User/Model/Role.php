@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Model;
+
 /**
  * Admin Role Model
  *
@@ -23,18 +25,13 @@
  * @method \Magento\User\Model\Role setRoleType(string $value)
  * @method int getUserId()
  * @method \Magento\User\Model\Role setUserId(int $value)
+ * @method string getUserType()
+ * @method \Magento\User\Model\Role setUserType(string $value)
  * @method string getRoleName()
  * @method \Magento\User\Model\Role setRoleName(string $value)
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model;
-
 class Role extends \Magento\Core\Model\AbstractModel
 {
-
     /**
      * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
      */

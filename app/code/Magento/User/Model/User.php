@@ -512,7 +512,7 @@ class User
      */
     public function getAclRole()
     {
-        return 'U' . $this->getUserId();
+        return $this->getRole()->getId();
     }
 
     /**

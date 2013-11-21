@@ -12,12 +12,12 @@
 /**
  * Test theme domain model
  */
-namespace Magento\Core\Model\Theme\Domain;
+namespace Magento\View\Design\Theme\Domain;
 
 class FactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @covers \Magento\Core\Model\Theme\Domain\Factory::create
+     * @covers \Magento\View\Design\Theme\Domain\Factory::create
      */
     public function testCreate()
     {
@@ -39,7 +39,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\Domain\Factory::create
+     * @covers \Magento\View\Design\Theme\Domain\Factory::create
      */
     public function testCreateWithWrongThemeType()
     {

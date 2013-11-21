@@ -10,7 +10,7 @@
 
 namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
-use Magento\Integration\Controller\Adminhtml\Integration;
+use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
 
 /**
  * Class for handling API section within integration
@@ -33,18 +33,14 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected $_rulesCollFactory;
 
     /**
-     * Acl builder
-     *
-     * @var \Magento\Acl\Builder
-     */
-    protected $_aclBuilder;
-
-    /**
      * Acl resource provider
      *
      * @var \Magento\Acl\Resource\ProviderInterface
      */
     protected $_aclResourceProvider;
+
+    /** @var \Magento\Core\Model\Registry */
+    protected $_registry;
 
     /**
      * Construct
@@ -53,8 +49,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
-     * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
+     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
@@ -62,14 +58,14 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
-        \Magento\Acl\Builder $aclBuilder,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
+        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_aclBuilder = $aclBuilder;
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
+        $this->_registry = $registry;
         parent::__construct($coreData, $context, $data);
     }
 
@@ -119,8 +115,13 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected function _construct()
     {
         parent::_construct();
-        //TODO : Fetch the selected resources once its persisted in the AuthZ tables
         $selectedResourceIds = array();
+        $currentIntegration = $this->_registry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
+        if ($currentIntegration
+            && isset($currentIntegration['resource']) && is_array($currentIntegration['resource'])
+        ) {
+            $selectedResourceIds = $currentIntegration['resource'];
+        }
         $this->setSelectedResources($selectedResourceIds);
     }
 
@@ -160,7 +161,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         foreach ($resources as $resource) {
             $item = array();
             $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = __($resource['title']);
+            $item['data'] = $resource['title'];
             $item['children'] = array();
             if (isset($resource['children'])) {
                 $item['state'] = 'open';

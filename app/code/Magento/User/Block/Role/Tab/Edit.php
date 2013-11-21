@@ -131,7 +131,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         foreach ($rulesSet->getItems() as $item) {
             $itemResourceId = $item->getResource_id();
             if ($acl->has($itemResourceId) && $item->getPermission() == 'allow') {
-                array_push($selectedResourceIds, $itemResourceId);
+                $selectedResourceIds[] = $itemResourceId;
             }
         }
 
@@ -174,7 +174,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         foreach ($resources as $resource) {
             $item = array();
             $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = __($resource['title']);
+            $item['data'] = $resource['title'];
             $item['children'] = array();
             if (isset($resource['children'])) {
                 $item['state'] = 'open';

@@ -56,26 +56,23 @@ class Role implements \Magento\Acl\LoaderInterface
             ->order('tree_level');
 
         foreach ($adapter->fetchAll($select) as $role) {
-            $parent = ($role['parent_id'] > 0) ?
-                \Magento\User\Model\Acl\Role\Group::ROLE_TYPE . $role['parent_id'] : null;
+            $parent = ($role['parent_id'] > 0) ? $role['parent_id'] : null;
             switch ($role['role_type']) {
                 case \Magento\User\Model\Acl\Role\Group::ROLE_TYPE:
-                    $roleId = $role['role_type'] . $role['role_id'];
                     $acl->addRole(
-                        $this->_groupFactory->create(array('roleId' => $roleId)),
+                        $this->_groupFactory->create(array('roleId' => $role['role_id'])),
                         $parent
                     );
                     break;
 
                 case \Magento\User\Model\Acl\Role\User::ROLE_TYPE:
-                    $roleId = $role['role_type'] . $role['user_id'];
-                    if (!$acl->hasRole($roleId)) {
+                    if (!$acl->hasRole($role['role_id'])) {
                         $acl->addRole(
-                            $this->_roleFactory->create(array('roleId' => $roleId)),
+                            $this->_roleFactory->create(array('roleId' => $role['role_id'])),
                             $parent
                         );
                     } else {
-                        $acl->addRoleParent($roleId, $parent);
+                        $acl->addRoleParent($role['role_id'], $parent);
                     }
                     break;
             }

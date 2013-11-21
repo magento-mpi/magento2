@@ -49,7 +49,7 @@ class Rule implements \Magento\Acl\LoaderInterface
         $rulesArr = $adapter->fetchAll($select);
 
         foreach ($rulesArr as $rule) {
-            $role = $rule['role_type'] . $rule['role_id'];
+            $role = $rule['role_id'];
             $resource = $rule['resource_id'];
             $privileges = !empty($rule['privileges']) ? explode(',', $rule['privileges']) : null;
 
