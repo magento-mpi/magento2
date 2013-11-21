@@ -114,7 +114,6 @@ class Context extends \Magento\View\Block\Context
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-
         array $data = array()
     ) {
         parent::__construct(
