@@ -38,7 +38,7 @@ class View extends \Magento\Catalog\Block\Layer\View
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Search\Model\Search\Layer $searchLayer
      * @param \Magento\Catalog\Model\Layer $layer
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
@@ -46,7 +46,7 @@ class View extends \Magento\Catalog\Block\Layer\View
         \Magento\Core\Helper\Data $coreData,
         \Magento\Search\Model\Search\Layer $searchLayer,
         \Magento\Catalog\Model\Layer $layer,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_searchData = $searchData;

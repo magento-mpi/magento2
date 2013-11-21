@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Result extends \Magento\Core\Block\Template
+class Result extends \Magento\View\Block\Template
 {
     /**
      * Catalog Product collection
@@ -52,7 +52,7 @@ class Result extends \Magento\Core\Block\Template
      * Construct
      *
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
@@ -60,7 +60,7 @@ class Result extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,

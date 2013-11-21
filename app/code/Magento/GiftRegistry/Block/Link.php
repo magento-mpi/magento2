@@ -24,14 +24,14 @@ class Link extends \Magento\Page\Block\Link\Current
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftHelper
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftHelper,
         \Magento\App\DefaultPathInterface $defaultPath,
         array $data = array()

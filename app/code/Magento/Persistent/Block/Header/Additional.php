@@ -18,7 +18,7 @@
 
 namespace Magento\Persistent\Block\Header;
 
-class Additional extends \Magento\Core\Block\Html\Link
+class Additional extends \Magento\View\Block\Html\Link
 {
     /**
      * Persistent session
@@ -30,13 +30,13 @@ class Additional extends \Magento\Core\Block\Html\Link
     /**
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_persistentSession = $persistentSession;

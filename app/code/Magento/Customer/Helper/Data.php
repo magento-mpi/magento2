@@ -13,7 +13,7 @@ namespace Magento\Customer\Helper;
 /**
  * Customer Data Helper
  */
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Query param name for last url visited
@@ -151,7 +151,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Customer\Model\Session $customerSession
@@ -164,7 +164,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Customer\Model\Session $customerSession,

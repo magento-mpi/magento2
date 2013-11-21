@@ -22,7 +22,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         'request'         => 'Magento\App\RequestInterface',
         'layout'          => 'Magento\View\LayoutInterface',
         'eventManager'    => 'Magento\Event\ManagerInterface',
-        'translator'      => 'Magento\Core\Model\Translate',
+        'translator'      => 'Magento\TranslateInterface',
         'cache'           => 'Magento\App\CacheInterface',
         'design'          => 'Magento\View\DesignInterface',
         'session'         => 'Magento\Core\Model\Session',
@@ -48,9 +48,9 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetBlock()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var $template \Magento\Core\Block\Template */
-        $template = $objectManager->getObject('Magento\Core\Block\Template');
-        $this->assertInstanceOf('Magento\Core\Block\Template', $template);
+        /** @var $template \Magento\View\Block\Template */
+        $template = $objectManager->getObject('Magento\View\Block\Template');
+        $this->assertInstanceOf('Magento\View\Block\Template', $template);
         foreach ($this->_blockDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $template);
         }
@@ -60,13 +60,13 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $appStateMock = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
         $appStateMock->expects($this->once())->method('getAreaCode')->will($this->returnValue($area));
 
-        $context = $objectManager->getObject('Magento\Core\Block\Template\Context');
-        $appStateProperty = new \ReflectionProperty('Magento\Core\Block\Template\Context', '_appState');
+        $context = $objectManager->getObject('Magento\View\Block\Template\Context');
+        $appStateProperty = new \ReflectionProperty('Magento\View\Block\Template\Context', '_appState');
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($context, $appStateMock);
 
-        /** @var $template \Magento\Core\Block\Template */
-        $template = $objectManager->getObject('Magento\Core\Block\Template', array('context' => $context));
+        /** @var $template \Magento\View\Block\Template */
+        $template = $objectManager->getObject('Magento\View\Block\Template', array('context' => $context));
         $this->assertEquals($area, $template->getArea());
     }
 

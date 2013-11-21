@@ -75,7 +75,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')

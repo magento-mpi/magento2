@@ -77,7 +77,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $cacheState = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(
             'Magento\App\Cache\StateInterface');
 
-        $cacheState->setEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP, true);
+        $cacheState->setEnabled(\Magento\View\Block\AbstractBlock::CACHE_GROUP, true);
 
         /** @var $session \Magento\Catalog\Model\Session */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Catalog\Model\Session');
@@ -85,7 +85,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
         $this->_observer->processPreDispatch($observerData);
 
-        $this->assertFalse($cacheState->isEnabled(\Magento\Core\Block\AbstractBlock::CACHE_GROUP));
+        $this->assertFalse($cacheState->isEnabled(\Magento\View\Block\AbstractBlock::CACHE_GROUP));
         $this->assertTrue(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Catalog\Model\Session')->getParamsMemorizeDisabled());
     }

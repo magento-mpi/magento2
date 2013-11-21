@@ -411,7 +411,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * Get order item extra info block
      *
      * @param \Magento\Sales\Model\Quote\Item $item
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getItemExtraInfo($item)
     {

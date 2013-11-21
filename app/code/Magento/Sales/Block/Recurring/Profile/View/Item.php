@@ -25,7 +25,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
     protected $_product;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -35,7 +35,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,

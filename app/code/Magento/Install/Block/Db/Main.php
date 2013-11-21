@@ -13,7 +13,7 @@
  */
 namespace Magento\Install\Block\Db;
 
-class Main extends \Magento\Core\Block\Template
+class Main extends \Magento\View\Block\Template
 {
     /**
      * Array of Database blocks keyed by name
@@ -38,14 +38,14 @@ class Main extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
         array $data = array()
@@ -78,7 +78,7 @@ class Main extends \Magento\Core\Block\Template
      * Retrieve database block by type
      *
      * @param  string $type database model type
-     * @return bool|\Magento\Core\Block\Template
+     * @return bool|\Magento\View\Block\Template
      */
     public function getDatabaseBlock($type)
     {

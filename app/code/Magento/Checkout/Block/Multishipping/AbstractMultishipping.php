@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Multishipping;
 
-class AbstractMultishipping extends \Magento\Core\Block\Template
+class AbstractMultishipping extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Type\Multishipping
@@ -26,13 +26,13 @@ class AbstractMultishipping extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {

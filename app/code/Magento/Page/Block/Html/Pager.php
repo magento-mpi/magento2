@@ -19,7 +19,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Pager extends \Magento\Core\Block\Template
+class Pager extends \Magento\View\Block\Template
 {
     protected $_collection = null;
     protected $_pageVarName    = 'p';

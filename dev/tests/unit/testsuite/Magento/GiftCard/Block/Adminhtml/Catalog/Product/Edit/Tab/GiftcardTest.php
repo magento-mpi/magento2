@@ -29,7 +29,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             ->setMethods($methods)
             ->getMock();
 
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+        $helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
 
         $contextMock->expects($this->any())
             ->method('getHelperFactory')

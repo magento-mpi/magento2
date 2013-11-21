@@ -37,7 +37,7 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,

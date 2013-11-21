@@ -31,7 +31,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     /**
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur
      * @param array $data
@@ -39,7 +39,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
     public function __construct(
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur,
         array $data = array()

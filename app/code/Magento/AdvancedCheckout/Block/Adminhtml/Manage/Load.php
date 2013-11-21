@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
-class Load extends \Magento\Core\Block\Template
+class Load extends \Magento\View\Block\Template
 {
     /*
      * Returns string text with response of loading some blocks
@@ -34,13 +34,13 @@ class Load extends \Magento\Core\Block\Template
     /**
      * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Adminhtml\Helper\Js $adminhtmlJs,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;

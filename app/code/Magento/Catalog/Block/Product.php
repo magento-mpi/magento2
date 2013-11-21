@@ -8,10 +8,9 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Catalog\Block;
 
-class Product extends \Magento\Core\Block\Template
+class Product extends \Magento\View\Block\Template
 {
     protected $_finalPrice = array();
 
@@ -27,13 +26,13 @@ class Product extends \Magento\Core\Block\Template
      *
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;

@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Block;
 
-class Currency extends \Magento\Core\Block\Template
+class Currency extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -41,7 +41,7 @@ class Currency extends \Magento\Core\Block\Template
      * @param \Magento\Directory\Helper\Url $directoryUrl
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
@@ -50,7 +50,7 @@ class Currency extends \Magento\Core\Block\Template
         \Magento\Directory\Helper\Url $directoryUrl,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         array $data = array()

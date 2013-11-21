@@ -102,7 +102,7 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_initLayout()
             ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))
-            ->_addJs($this->getLayout()->createBlock('Magento\Core\Block\Template', '', array(
+            ->_addJs($this->getLayout()->createBlock('Magento\View\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Backend::system/variable/js.phtml')
             )))
             ->renderLayout();

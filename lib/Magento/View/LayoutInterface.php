@@ -8,6 +8,9 @@
 
 namespace Magento\View;
 
+/**
+ * Interface LayoutInterface
+ */
 interface LayoutInterface
 {
     /**
@@ -192,7 +195,7 @@ interface LayoutInterface
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string|\Magento\View\Block\AbstractBlock $block
      * @param string $name
      * @param string $parent
      * @param string $alias
@@ -239,7 +242,7 @@ interface LayoutInterface
     /**
      * Retrieve messages block
      *
-     * @return \Magento\Core\Block\Messages
+     * @return \Magento\View\Block\Messages
      */
     public function getMessagesBlock();
 

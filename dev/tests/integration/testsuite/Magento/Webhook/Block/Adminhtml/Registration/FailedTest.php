@@ -23,9 +23,9 @@ class FailedTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Backend\Model\Session $session */
         $session = $objectManager->create('Magento\Backend\Model\Session');
-        $context = $objectManager->create('Magento\Core\Block\Template\Context');
-        $messageCollection = $objectManager->create('Magento\Core\Model\Message\Collection');
-        $message = $objectManager->create('Magento\Core\Model\Message\Notice', array('code' => ''));
+        $context = $objectManager->create('Magento\View\Block\Template\Context');
+        $messageCollection = $objectManager->create('Magento\Message\Collection');
+        $message = $objectManager->create('Magento\Message\Notice', array('code' => ''));
         $messageCollection->addMessage($message);
         $session->setData('messages', $messageCollection);
 
