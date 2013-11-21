@@ -50,6 +50,7 @@ class Index extends \Magento\Install\Controller\Action
         \Magento\Filesystem $filesystem,
         \Magento\Logger $logger
     ) {
+        $this->logger = $logger;
         $this->_filesystem = $filesystem;
         parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
     }
