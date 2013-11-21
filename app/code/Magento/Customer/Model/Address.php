@@ -31,7 +31,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_customerFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -47,7 +46,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -62,7 +60,7 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     ) {
         $this->_customerFactory = $customerFactory;
         parent::__construct(
-            $eventManager, $directoryData, $context, $registry, $eavConfig, $addressConfig, $regionFactory,
+            $directoryData, $context, $registry, $eavConfig, $addressConfig, $regionFactory,
             $countryFactory, $resource, $resourceCollection, $data
         );
     }

@@ -101,24 +101,25 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         ));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Email\Model\Template\Filter');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea($area);
-
-        /** @var \Magento\Core\Model\Resource\Theme\Collection $collection */
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
-        $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig(
-                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
-                $themeId
-            );
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'test_default', 'adminhtml' => 'test_default');
         $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
         $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea($area);
+
+        $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
+        $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
+        $objectManager->get('Magento\Core\Model\StoreManagerInterface')
+            ->getStore()->setConfig(
+                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
+                $themeId
+            );
+
+
 
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $objectManager->create('Magento\Core\Model\Layout');

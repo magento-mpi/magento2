@@ -23,11 +23,6 @@ extends \Magento\View\Block\Template
     protected $_balanceInstance;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
@@ -43,28 +38,25 @@ extends \Magento\View\Block\Template
     protected $_balanceFactory;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;
         $this->_orderCreate = $orderCreate;
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -80,7 +72,7 @@ extends \Magento\View\Block\Template
     /**
      * Return store manager instance
      *
-     * @return \Magento\Core\Model\StoreManager
+     * @return \Magento\Core\Model\StoreManagerInterface
      */
     protected function _getStoreManagerModel()
     {

@@ -47,25 +47,25 @@ class Renderer extends \Magento\View\Block\Template
      *
      * @var \Magento\Catalog\Helper\Product\Configuration
      */
-    protected $_productConfigur = null;
+    protected $_productConfig = null;
 
     /**
-     * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Helper\Product\Configuration $productConfigur,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
-        $this->_productConfigur = $productConfigur;
+        $this->_productConfig = $productConfig;
         $this->_checkoutSession = $checkoutSession;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -257,7 +257,7 @@ class Renderer extends \Magento\View\Block\Template
     public function getProductOptions()
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
-        $helper = $this->_productConfigur;
+        $helper = $this->_productConfig;
         return $helper->getCustomOptions($this->getItem());
     }
 
@@ -300,7 +300,7 @@ class Renderer extends \Magento\View\Block\Template
             'checkout/cart/delete',
             array(
                 'id'=>$this->getItem()->getId(),
-                \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED => $encodedUrl
+                \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED => $encodedUrl
             )
         );
     }
@@ -396,7 +396,7 @@ class Renderer extends \Magento\View\Block\Template
     public function getFormatedOptionValue($optionValue)
     {
         /* @var $helper \Magento\Catalog\Helper\Product\Configuration */
-        $helper = $this->_productConfigur;
+        $helper = $this->_productConfig;
         $params = array(
             'max_length' => 55,
             'cut_replacer' => ' <a href="#" class="dots" onclick="return false">...</a>'

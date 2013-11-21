@@ -81,7 +81,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreHelper;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

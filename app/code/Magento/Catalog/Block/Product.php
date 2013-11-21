@@ -22,21 +22,19 @@ class Product extends \Magento\View\Block\Template
     protected $_productFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     public function getProduct()

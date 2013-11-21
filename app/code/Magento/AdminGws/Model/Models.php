@@ -30,7 +30,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_categoryFactory = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager = null;
 
@@ -38,13 +38,13 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\AdminGws\Model\Role $role,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;

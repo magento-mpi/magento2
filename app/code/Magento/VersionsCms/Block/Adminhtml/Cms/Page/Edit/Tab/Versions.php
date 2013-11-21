@@ -54,25 +54,21 @@ class Versions
     protected $_versionCollFactory;
 
     /**
-     * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\VersionsCms\Model\Resource\Page\Version\CollectionFactory $versionCollFactory
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Config $cmsConfig,
@@ -84,7 +80,7 @@ class Versions
         $this->_backendAuthSession = $backendAuthSession;
         $this->_cmsConfig = $cmsConfig;
         $this->_versionCollFactory = $versionCollFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     public function _construct()

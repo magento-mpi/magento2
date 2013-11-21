@@ -25,23 +25,23 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     protected $backendSession;
 
     /**
-     * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
+     * @param \Magento\Backend\Model\Session $backendSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
+        \Magento\Backend\Model\Session $backendSession,
         array $data = array()
     ) {
         $this->backendSession = $backendSession;
-        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
     }
 
     /**

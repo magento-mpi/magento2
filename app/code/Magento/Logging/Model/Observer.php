@@ -107,10 +107,10 @@ class Observer
      */
     public function controllerPredispatch($observer)
     {
-        /* @var $action \Magento\Core\Controller\Varien\Action */
+        /* @var $action \Magento\App\Action\Action */
         $action = $observer->getEvent()->getControllerAction();
         /* @var $request \Magento\App\RequestInterface */
-        $request = $observer->getEvent()->getControllerAction()->getRequest();
+        $request = $observer->getEvent()->getRequest();
 
         $beforeForwardInfo = $request->getBeforeForwardInfo();
 
@@ -119,7 +119,7 @@ class Observer
         $actionName = $request->getRequestedActionName();
 
         if (empty($beforeForwardInfo)) {
-            $fullActionName = $action->getFullActionName();
+            $fullActionName = $request->getFullActionName();
         } else {
             $fullActionName = array($request->getRequestedRouteName());
 

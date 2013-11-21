@@ -66,13 +66,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -102,7 +95,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -112,7 +104,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -122,7 +113,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_eventManager = $eventManager;
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
@@ -383,7 +373,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             ))
         );
 
-        $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl
@@ -405,7 +395,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
             '_store_to_url' => true,
         )));
 
-        $urlParamName = \Magento\Core\Controller\Front\Action::PARAM_NAME_URL_ENCODED;
+        $urlParamName = \Magento\App\Action\Action::PARAM_NAME_URL_ENCODED;
         $params = array(
             'item' => is_string($item) ? $item : $item->getWishlistItemId(),
             $urlParamName => $continueUrl

@@ -77,7 +77,7 @@ class Template extends AbstractBlock
     protected $_coreData;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -87,15 +87,15 @@ class Template extends AbstractBlock
     protected $_appState;
 
     /**
+     * @param Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
      * @param array $data
-     *
+     * 
      * @todo Remove injection of the core helper from this class and its descendants, because it's no longer used
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
@@ -103,7 +103,7 @@ class Template extends AbstractBlock
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->templateEnginePool = $context->getEnginePool();
-        $this->_storeManager = $context->getApp();
+        $this->_storeManager = $context->getStoreManager();
         $this->_appState = $context->getAppState();
         parent::__construct($context, $data);
     }

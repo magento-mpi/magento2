@@ -48,32 +48,35 @@ class Profile
     protected $_coreRegistry = null;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
-            $pbridgeData, $data);
+        parent::__construct(
+            $context,
+            $coreData,
+            $customerSession,
+            $pbridgeSession,
+            $regionFactory,
+            $pbridgeData,
+            $data
+        );
     }
 
     /**

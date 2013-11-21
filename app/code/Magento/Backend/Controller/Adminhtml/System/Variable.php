@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Controller\Adminhtml\System;
 
-class Variable extends \Magento\Backend\Controller\Adminhtml\Action
+class Variable extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,11 +27,11 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -45,8 +45,8 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initLayout()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Adminhtml::system_variable')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Adminhtml::system_variable')
             ->_addBreadcrumb(__('Custom Variables'), __('Custom Variables'));
         return $this;
     }
@@ -58,7 +58,7 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initVariable()
     {
-        $this->_title(__('Custom Variables'));
+        $this->_title->add(__('Custom Variables'));
 
         $variableId = $this->getRequest()->getParam('variable_id', null);
         $storeId = (int)$this->getRequest()->getParam('store', 0);
@@ -77,10 +77,10 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Custom Variables'));
+        $this->_title->add(__('Custom Variables'));
 
         $this->_initLayout();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -98,14 +98,16 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $variable = $this->_initVariable();
 
-        $this->_title($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
+        $this->_title->add($variable->getId() ? $variable->getCode() : __('New Custom Variable'));
 
         $this->_initLayout()
-            ->_addContent($this->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit'))
-            ->_addJs($this->getLayout()->createBlock('Magento\View\Block\Template', '', array(
+            ->_addContent(
+                $this->_view->getLayout()->createBlock('Magento\Backend\Block\System\Variable\Edit')
+            )
+            ->_addJs($this->_view->getLayout()->createBlock('Magento\View\Block\Template', '', array(
                 'data' => array('template' => 'Magento_Backend::system/variable/js.phtml')
-            )))
-            ->renderLayout();
+            )));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -119,9 +121,9 @@ class Variable extends \Magento\Backend\Controller\Adminhtml\Action
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
         $this->getResponse()->setBody($response->toJson());
     }

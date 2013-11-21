@@ -25,23 +25,23 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     protected $sessionQuote;
 
     /**
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
+     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
+        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->sessionQuote = $sessionQuote;
-        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
     }
 
     /**

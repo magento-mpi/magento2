@@ -64,6 +64,18 @@ abstract class AbstractHelper
     protected $_httpHeader;
 
     /**
+     * Event manager
+     *
+     * @var \Magento\Event\ManagerInterface
+     */
+    protected $_eventManager;
+
+    /**
+     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
+     */
+    protected $_remoteAddress;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      */
     public function __construct(\Magento\App\Helper\Context $context)
@@ -75,6 +87,9 @@ abstract class AbstractHelper
         $this->_app = $context->getApp();
         $this->_urlBuilder = $context->getUrlBuilder();
         $this->_httpHeader = $context->getHttpHeader();
+        $this->_eventManager = $context->getEventManager();
+        $this->_remoteAddress = $context->getRemoteAddress();
+        $this->_cacheConfig = $context->getCacheConfig();
     }
 
     /**

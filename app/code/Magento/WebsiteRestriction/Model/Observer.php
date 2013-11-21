@@ -53,6 +53,11 @@ class Observer
     protected $_urlFactory;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -68,7 +73,8 @@ class Observer
         \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\UrlFactory $urlFactory
+        \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_config = $config;
         $this->_storeManager = $storeManager;
@@ -77,6 +83,7 @@ class Observer
         $this->_session = $session;
         $this->_storeConfig = $storeConfig;
         $this->_urlFactory = $urlFactory;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**
@@ -86,7 +93,7 @@ class Observer
      */
     public function restrictWebsite($observer)
     {
-        /* @var $controller \Magento\Core\Controller\Front\Action */
+        /* @var $controller \Magento\App\Action\Action */
         $controller = $observer->getEvent()->getControllerAction();
 
         if (!$this->_storeManager->getStore()->isAdmin()) {
@@ -101,13 +108,13 @@ class Observer
                 return;
             }
             /* @var $request \Magento\App\RequestInterface */
-            $request    = $controller->getRequest();
+            $request    = $observer->getEvent()->getRequest();
             /* @var $response \Magento\App\ResponseInterface */
             $response   = $controller->getResponse();
             switch ($this->_config->getMode()) {
                 // show only landing page with 503 or 200 code
                 case \Magento\WebsiteRestriction\Model\Mode::ALLOW_NONE:
-                    if ($controller->getFullActionName() !== 'restriction_index_stub') {
+                    if ($request->getFullActionName() !== 'restriction_index_stub') {
                         $request->setModuleName('restriction')
                             ->setControllerName('index')
                             ->setActionName('stub')
@@ -143,20 +150,20 @@ class Observer
                             $allowedActionNames[] = $cmsPageViewAction;
                             $pageIdentifier = $this->_config->getLandingPageCode();
                             // Restrict access to CMS pages too
-                            if (!in_array($controller->getFullActionName(), $allowedActionNames)
-                                || ($controller->getFullActionName() === $cmsPageViewAction
+                            if (!in_array($request->getFullActionName(), $allowedActionNames)
+                                || ($request->getFullActionName() === $cmsPageViewAction
                                     && $request->getAlias('rewrite_request_path') !== $pageIdentifier)
                             ) {
                                 $redirectUrl = $this->getUrl('', array('_direct' => $pageIdentifier));
                             }
-                        } elseif (!in_array($controller->getFullActionName(), $allowedActionNames)) {
+                        } elseif (!in_array($request->getFullActionName(), $allowedActionNames)) {
                             // to login form
                             $redirectUrl = $this->getUrl('customer/account/login');
                         }
 
                         if ($redirectUrl) {
                             $response->setRedirect($redirectUrl);
-                            $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+                            $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                         }
                         if ($this->_storeConfig->getConfigFlag(
                             \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
@@ -170,7 +177,7 @@ class Observer
                         $response->setRedirect(
                             $this->_session->getWebsiteRestrictionAfterLoginUrl(true)
                         );
-                        $controller->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+                        $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                     }
                     break;
             }

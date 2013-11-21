@@ -28,20 +28,20 @@ class Link extends \Magento\Page\Block\Link\Current
     protected $_rmaHelper = null;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Rma\Helper\Data $rmaHelper
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
-        \Magento\Rma\Helper\Data $rmaHelper,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\Rma\Helper\Data $rmaHelper,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $defaultPath, $data);
+        parent::__construct($context, $coreData, $defaultPath, $data);
         $this->_rmaHelper = $rmaHelper;
     }
 

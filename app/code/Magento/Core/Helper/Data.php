@@ -41,11 +41,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Cache\ConfigInterface
-     */
-    protected $_cacheConfig;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -53,7 +48,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -73,14 +68,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_dbCompatibleMode;
 
     /**
-     * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
-     */
-    protected $_remoteAddress;
-
-    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param bool $dbCompatibleMode
@@ -88,15 +78,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         $dbCompatibleMode = true
     ) {
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_remoteAddress = $context->getRemoteAddress();
         parent::__construct($context);
-        $this->_cacheConfig = $context->getCacheConfig();
+        $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_appState = $appState;

@@ -18,16 +18,30 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product\Action;
 
-class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Attribute extends \Magento\Backend\App\Action
 {
+    /**
+     * @param Action\Context $context
+     * @param \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
+     */
+    public function __construct(
+        Action\Context $context,
+        \Magento\Catalog\Helper\Product\Edit\Action\Attribute $helper
+    ) {
+        parent::__construct($context);
+        $this->_helper = $helper;
+    }
+
     public function editAction()
     {
         if (!$this->_validateProducts()) {
             return;
         }
 
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -57,7 +71,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             if ($attributesData) {
                 $dateFormat = $this->_objectManager->get('Magento\Core\Model\LocaleInterface')
                     ->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT);
-                $storeId    = $this->_getHelper()->getSelectedStoreId();
+                $storeId    = $this->_helper->getSelectedStoreId();
 
                 foreach ($attributesData as $attributeCode => $value) {
                     $attribute = $this->_objectManager->get('Magento\Eav\Model\Config')
@@ -94,14 +108,14 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                 }
 
                 $this->_objectManager->get('Magento\Catalog\Model\Product\Action')
-                    ->updateAttributes($this->_getHelper()->getProductIds(), $attributesData, $storeId);
+                    ->updateAttributes($this->_helper->getProductIds(), $attributesData, $storeId);
             }
             if ($inventoryData) {
                 $stockItem = $this->_objectManager->create('Magento\CatalogInventory\Model\Stock\Item');
                 $stockItem->setProcessIndexEvents(false);
                 $stockItemSaved = false;
 
-                foreach ($this->_getHelper()->getProductIds() as $productId) {
+                foreach ($this->_helper->getProductIds() as $productId) {
                     $stockItem->setData(array());
                     $stockItem->loadByProduct($productId)
                         ->setProductId($productId);
@@ -130,7 +144,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             if ($websiteAddData || $websiteRemoveData) {
                 /* @var $actionModel \Magento\Catalog\Model\Product\Action */
                 $actionModel = $this->_objectManager->get('Magento\Catalog\Model\Product\Action');
-                $productIds  = $this->_getHelper()->getProductIds();
+                $productIds  = $this->_helper->getProductIds();
 
                 if ($websiteRemoveData) {
                     $actionModel->updateWebsites($productIds, $websiteRemoveData, 'remove');
@@ -150,7 +164,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             }
 
             $this->_getSession()->addSuccess(
-                __('A total of %1 record(s) were updated.', count($this->_getHelper()->getProductIds()))
+                __('A total of %1 record(s) were updated.', count($this->_helper->getProductIds()))
             );
         }
         catch (\Magento\Core\Exception $e) {
@@ -161,7 +175,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
         }
 
-        $this->_redirect('catalog/product/', array('store'=>$this->_getHelper()->getSelectedStoreId()));
+        $this->_redirect('catalog/product/', array('store'=>$this->_helper->getSelectedStoreId()));
     }
 
     /**
@@ -172,7 +186,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
     protected function _validateProducts()
     {
         $error = false;
-        $productIds = $this->_getHelper()->getProductIds();
+        $productIds = $this->_helper->getProductIds();
         if (!is_array($productIds)) {
             $error = __('Please select products for attributes update.');
         } else if (!$this->_objectManager->create('Magento\Catalog\Model\Product')->isProductsHasSku($productIds)) {
@@ -185,16 +199,6 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         return !$error;
-    }
-
-    /**
-     * Rertive data manipulation helper
-     *
-     * @return \Magento\Catalog\Helper\Product\Edit\Action\Attribute
-     */
-    protected function _getHelper()
-    {
-        return $this->_objectManager->get('Magento\Catalog\Helper\Product\Edit\Action\Attribute');
     }
 
     protected function _isAllowed()
@@ -236,9 +240,9 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
         } catch (\Exception $e) {
             $this->_getSession()
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
-            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());

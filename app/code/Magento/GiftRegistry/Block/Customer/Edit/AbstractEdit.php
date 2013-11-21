@@ -61,55 +61,34 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $locale;
-
-    /**
-     * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Cache\Type\Config $configCacheType
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Cache\Type\Config $configCacheType,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
-        parent::__construct(
-            $configCacheType, $coreData, $context, $storeManager,
-            $regionCollFactory, $countryCollFactory, $data
-        );
-
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
-        $this->storeManager = $storeManager;
-        $this->locale = $locale;
+        parent::__construct($context, $coreData, $configCacheType, $regionCollFactory, $countryCollFactory, $data);
     }
 
     /**
@@ -130,7 +109,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getEntity()
     {
-        return $this->_coreRegistry->registry('magento_giftregistry_entity');
+        return $this->_registry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -237,7 +216,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
             ->setValue($this->formatDate($value, $formatType))
             ->setClass($class . ' product-custom-option datetime-picker input-text validate-date')
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->locale->getDateFormat($formatType));
+            ->setDateFormat($this->_locale->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

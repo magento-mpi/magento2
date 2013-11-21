@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Controller;
 
-class Cart extends \Magento\Core\Controller\Front\Action
+class Cart extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -20,11 +20,11 @@ class Cart extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -37,7 +37,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $this->_forward('noRoute');
+        $this->_forward('noroute');
     }
 
     /**
@@ -90,7 +90,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
             }
             $this->_redirect('checkout/cart');
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -110,7 +110,7 @@ class Cart extends \Magento\Core\Controller\Front\Action
             $card->unsetData();
         }
 
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

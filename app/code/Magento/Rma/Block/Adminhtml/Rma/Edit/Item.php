@@ -33,21 +33,21 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_itemFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Sales\Model\Order\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Sales\Model\Order\ItemFactory $itemFactory,
         array $data = array()
@@ -55,7 +55,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_rmaData = $rmaData;
         $this->_itemFormFactory = $itemFormFactory;
         $this->_itemFactory = $itemFactory;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**

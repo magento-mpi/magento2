@@ -53,13 +53,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $_customerWebsiteSegments = array();
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * @var \Magento\Log\Model\Visitor
      */
     protected $_visitor;
@@ -91,7 +84,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Log\Model\Visitor $visitor
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -107,7 +99,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Log\Model\Visitor $visitor,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -121,7 +112,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
         $this->_resourceCustomer = $resourceCustomer;
         $this->_configShare = $configShare;
         $this->_visitor = $visitor;
-        $this->_eventManager = $eventManager;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

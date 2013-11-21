@@ -18,7 +18,7 @@
  */
 namespace Magento\Cms\Controller;
 
-class Page extends \Magento\Core\Controller\Front\Action
+class Page extends \Magento\App\Action\Action
 {
     /**
      * View CMS page action
@@ -29,7 +29,7 @@ class Page extends \Magento\Core\Controller\Front\Action
         $pageId = $this->getRequest()
             ->getParam('page_id', $this->getRequest()->getParam('id', false));
         if (!$this->_objectManager->get('Magento\Cms\Helper\Page')->renderPage($this, $pageId)) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 }

@@ -101,11 +101,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Core\Model\App
-     */
-    protected $_app;
-
-    /**
      * @var \Magento\App\Dir
      */
     protected $_dirModel;
@@ -121,7 +116,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\App\Dir $dirModel
      * @param \Magento\Filesystem $filesystem
      */
@@ -131,7 +125,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
         \Magento\App\Dir $dirModel,
         \Magento\Filesystem $filesystem
     ) {
@@ -139,7 +132,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_app = $app;
         $this->_dirModel = $dirModel;
         $this->_filesystem = $filesystem;
         parent::__construct($context);
@@ -322,26 +314,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
         $this->_linkType        = $linkType;
 
         return $this;
-    }
-
-    /**
-     * Retrieve Http Request Object
-     *
-     * @return \Magento\App\RequestInterface
-     */
-    public function getHttpRequest()
-    {
-        return $this->_app->getFrontController()->getRequest();
-    }
-
-    /**
-     * Retrieve Http Response Object
-     *
-     * @return \Magento\App\ResponseInterface
-     */
-    public function getHttpResponse()
-    {
-        return $this->_app->getFrontController()->getResponse();
     }
 
     public function output()

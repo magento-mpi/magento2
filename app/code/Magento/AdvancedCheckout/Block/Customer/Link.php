@@ -24,17 +24,18 @@ class Link extends \Magento\Page\Block\Link\Current
     /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\AdvancedCheckout\Helper\Data $customerHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\AdvancedCheckout\Helper\Data $customerHelper,
         \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\AdvancedCheckout\Helper\Data $customerHelper,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $defaultPath, $data);
+        parent::__construct($context, $coreData, $defaultPath, $data);
         $this->_customerHelper = $customerHelper;
     }
 

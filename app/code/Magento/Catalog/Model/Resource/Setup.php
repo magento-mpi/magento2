@@ -35,13 +35,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_indexerFactory;
 
     /**
-     * Migration setup model factory
-     *
-     * @var \Magento\Core\Model\Resource\Setup\MigrationFactory
-     */
-    protected $_resourceMigrationFactory;
-
-    /**
      * Attribute resource model factory
      *
      * @var \Magento\Catalog\Model\Resource\Eav\AttributeFactory
@@ -57,7 +50,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      * @param string $resourceName
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Index\Model\IndexerFactory $indexerFactory
-     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $resourceMigrationFactory
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory
      * @param string $moduleName
      * @param string $connectionName
@@ -69,14 +61,12 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $resourceName,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Index\Model\IndexerFactory $indexerFactory,
-        \Magento\Core\Model\Resource\Setup\MigrationFactory $resourceMigrationFactory,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory,
         $moduleName = 'Magento_Catalog',
         $connectionName = ''
     ) {
         $this->_categoryFactory = $categoryFactory;
         $this->_indexerFactory = $indexerFactory;
-        $this->_resourceMigrationFactory = $resourceMigrationFactory;
         $this->_eavAttributeResourceFactory = $eavAttributeResourceFactory;
         parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
@@ -112,7 +102,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
      */
     public function createSetupMigration($data = array())
     {
-        return $this->_resourceMigrationFactory->create($data);
+        return $this->_migrationFactory->create($data);
     }
 
     /**

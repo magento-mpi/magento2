@@ -17,7 +17,7 @@
 
 namespace Magento\Invitation\Controller\Adminhtml\Report;
 
-class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
+class Invitation extends \Magento\Backend\App\Action
 {
     /**
      * Invitation Config
@@ -27,14 +27,22 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_config;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Invitation\Model\Config $config
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Invitation\Model\Config $config,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         parent::__construct($context);
+        $this->_fileFactory = $fileFactory;
         $this->_config = $config;
     }
 
@@ -45,15 +53,15 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function _initAction()
     {
-        $this->loadLayout()
-            ->_addBreadcrumb(
-                __('Reports'),
-                __('Reports')
-            )
-            ->_addBreadcrumb(
-                __('Invitations'),
-                __('Invitations')
-            );
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(
+            __('Reports'),
+            __('Reports')
+        );
+        $this->_addBreadcrumb(
+            __('Invitations'),
+            __('Invitations')
+        );
         return $this;
     }
 
@@ -62,13 +70,13 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Invitations Report'));
+        $this->_title->add(__('Invitations Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Invitation::report_magento_invitation_general')
             ->_addBreadcrumb(__('General Report'),
-            __('General Report'))
-            ->renderLayout();
+            __('General Report'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -76,11 +84,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName   = 'invitation_general.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -88,11 +96,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportExcelAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'invitation_general.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -100,13 +108,13 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function customerAction()
     {
-        $this->_title(__('Invited Customers Report'));
+        $this->_title->add(__('Invited Customers Report'));
 
         $this->_initAction()
             ->_setActiveMenu('Magento_Invitation::report_magento_invitation_customer')
             ->_addBreadcrumb(__('Invitation Report by Customers'),
-            __('Invitation Report by Customers'))
-            ->renderLayout();
+            __('Invitation Report by Customers'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -114,11 +122,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportCustomerCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'invitation_customer.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -126,11 +134,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportCustomerExcelAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
         $fileName = 'invitation_customer.xml';
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**
@@ -138,12 +146,12 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function orderAction()
     {
-        $this->_title(__('Conversion Rate Report'));
+        $this->_title->add(__('Conversion Rate Report'));
 
         $this->_initAction()->_setActiveMenu('Magento_Invitation::report_magento_invitation_order')
             ->_addBreadcrumb(__('Invitation Report by Customers'),
-            __('Invitation Report by Order Conversion Rate'))
-            ->renderLayout();
+            __('Invitation Report by Order Conversion Rate'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -151,11 +159,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportOrderCsvAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'invitation_order.csv';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getCsvFile());
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getCsvFile());
     }
 
     /**
@@ -163,11 +171,11 @@ class Invitation extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function exportOrderExcelAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $fileName = 'invitation_order.xml';
         /** @var \Magento\Backend\Block\Widget\Grid\ExportInterface $exportBlock */
-        $exportBlock = $this->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
-        $this->_prepareDownloadResponse($fileName, $exportBlock->getExcelFile($fileName));
+        $exportBlock = $this->_view->getLayout()->getChildBlock('adminhtml.report.grid', 'grid.export');
+        return $this->_fileFactory->create($fileName, $exportBlock->getExcelFile($fileName));
     }
 
     /**

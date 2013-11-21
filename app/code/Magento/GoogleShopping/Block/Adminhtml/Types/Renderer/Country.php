@@ -29,13 +29,13 @@ class Country
     protected $_config;
 
     /**
-     * @param \Magento\GoogleShopping\Model\Config $config
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\GoogleShopping\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\GoogleShopping\Model\Config $config,
         \Magento\Backend\Block\Context $context,
+        \Magento\GoogleShopping\Model\Config $config,
         array $data = array()
     ) {
         $this->_config = $config;

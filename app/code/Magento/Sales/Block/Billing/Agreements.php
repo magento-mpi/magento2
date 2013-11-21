@@ -42,22 +42,22 @@ class Agreements extends \Magento\View\Block\Template
     protected $_agreementCollection;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_agreementCollection = $agreementCollection;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
