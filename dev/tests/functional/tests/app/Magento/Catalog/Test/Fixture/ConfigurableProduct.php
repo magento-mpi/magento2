@@ -97,6 +97,28 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Returns the sku for the specified option.
+     *
+     * @param string $selectedOption
+     * @return string
+     */
+    public function getVariationSku($selectedOption)
+    {
+        $sku = '';
+        foreach ($this->getData('fields/variations-matrix/value') as $variation) {
+            $configurableAttributes = $variation['configurable_attribute'];
+            foreach ($configurableAttributes as $configurableAttribute) {
+                $attributeOption = $configurableAttribute['attribute_option'];
+                if ($attributeOption === $selectedOption) {
+                    $sku = $variation['value']['name']['value'];
+                    break 2;
+                }
+            }
+        }
+        return $sku;
+    }
+
+    /**
      * Get variations SKUs
      *
      * @return $this|ConfigurableProduct
@@ -268,7 +290,8 @@ class ConfigurableProduct extends Product
                         'attribute_name' => '%attribute_1_name%',
                         'option_name' => '%attribute_1_option_label_1%'
                     )
-                )
+                ),
+                'special_price' => '10'
             )
         );
 
@@ -289,5 +312,16 @@ class ConfigurableProduct extends Product
             $options[$selection['attribute_name']] = $selection['option_name'];
         }
         return $options;
+    }
+
+    /**
+     * Return special price for first configurable option
+     * This value is used to validate value on the cart and order
+     *
+     * @return string
+     */
+    public function getProductSpecialPrice()
+    {
+        return $this->getData('checkout/special_price');
     }
 }
