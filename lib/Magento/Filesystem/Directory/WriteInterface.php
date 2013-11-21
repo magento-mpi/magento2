@@ -75,7 +75,7 @@ interface WriteInterface extends ReadInterface
      * @param string $path
      * @return bool
      */
-    public function isWritable($path);
+    public function isWritable($path = null);
 
     /**
      * Open file in given mode

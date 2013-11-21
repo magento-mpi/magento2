@@ -47,7 +47,7 @@ interface ReadInterface
      * @param string $path
      * @return bool
      */
-    public function isExist($path);
+    public function isExist($path = null);
 
     /**
      * Gathers the statistics of the given path
