@@ -654,7 +654,9 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             $destFile = $this->_fileStorageDb->getUniqueFilename($this->_mediaConfig->getBaseMediaUrlAddition(), $file);
         } else {
             $destFile = dirname($file) . '/'
-                . \Magento\Core\Model\File\Uploader::getNewFileName($this->_mediaConfig->getMediaPath($file));
+                . \Magento\Core\Model\File\Uploader::getNewFileName(
+                    $this->_mediaDirectory->getAbsolutePath($this->_mediaConfig->getMediaPath($file))
+                );
         }
 
         return $destFile;
@@ -677,8 +679,8 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 
             if ($this->_fileStorageDb->checkDbUsage()) {
                 $this->_fileStorageDb->copyFile(
-                        $this->_mediaConfig->getMediaShortUrl($file),
-                       $this->_mediaConfig->getMediaShortUrl($destinationFile)
+                    $this->_mediaDirectory->getAbsolutePath($this->_mediaConfig->getMediaShortUrl($file)),
+                    $this->_mediaConfig->getMediaShortUrl($destinationFile)
                 );
                 $this->_mediaDirectory->delete($this->_mediaConfig->getMediaPath($destinationFile));
             } else {

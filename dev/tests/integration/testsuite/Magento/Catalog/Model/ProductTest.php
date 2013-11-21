@@ -123,8 +123,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
 
         $mediaDirectory->create($config->getBaseTmpMediaPath());
-        $targetFile = $config->getBaseTmpMediaPath() . '/' . basename($sourceFile);
-        copy($sourceFile, $targetFile);
+        $targetFile = $config->getTmpMediaPath(basename($sourceFile));
+        copy($sourceFile, $mediaDirectory->getAbsolutePath($targetFile));
 
         return $targetFile;
     }
