@@ -15,7 +15,7 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Backend\ProductForm;
-use Magento\Catalog\Test\Block\Backend\RelatedProductEditGrid;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
  * Class CatalogProductEdit
@@ -52,9 +52,9 @@ class CatalogProductEdit extends Page
     /**
      * Catalog product grid on backend under "related products" tab when editing
      *
-     * @var RelatedProductEditGrid
+     * @var Related
      */
-    private $relatedProductEditGrid;
+    private $relatedProductGrid;
 
     /**
      * Custom constructor
@@ -71,7 +71,7 @@ class CatalogProductEdit extends Page
             $this->_browser->find('body', Locator::SELECTOR_CSS)
         );
 
-        $this->relatedProductEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendRelatedProductEditGrid(
+        $this->relatedProductGrid = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
@@ -99,10 +99,10 @@ class CatalogProductEdit extends Page
     /**
      * Get the backend catalog product block
      *
-     * @return RelatedProductEditGrid
+     * @return Related
      */
-    public function getRelatedProductEditGrid()
+    public function getRelatedProductGrid()
     {
-        return $this->relatedProductEditGrid;
+        return $this->relatedProductGrid;
     }
 }

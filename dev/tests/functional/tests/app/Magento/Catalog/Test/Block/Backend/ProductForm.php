@@ -18,6 +18,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
  * Class ProductForm
@@ -190,8 +191,8 @@ class ProductForm extends FormTabs
         /**
          * Wait for the "related tab" shows up and click on it
          */
-        $this->waitForElementVisible('product_info_tabs_related', Locator::SELECTOR_ID);
-        $this->_rootElement->find('product_info_tabs_related', Locator::SELECTOR_ID)->click();
+        $this->waitForElementVisible(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID);
+        $this->_rootElement->find(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID)->click();
         $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
     }
 }

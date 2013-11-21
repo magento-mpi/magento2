@@ -10,18 +10,23 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\Block\Backend;
+namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
- * Class RelatedProductEditGrid
+ * Class Related
  * Backend catalog product grid under "related products" tag when editing
  *
  * @package Magento\Catalog\Test\Block
  */
-class RelatedProductEditGrid extends Grid
+class Related extends Grid
 {
+    /*
+     * Related Products Tab
+     */
+    const RELATED_PRODUCT_GRID = 'product_info_tabs_related';
+
     /**
      * Initialize block elements
      */

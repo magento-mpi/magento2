@@ -70,7 +70,7 @@ class RelatedProductTest extends Functional
         $productEditPage->open(array('id' => $product->getProductId()));
         $productEditPage->getProductBlockForm()->openRelatedProductTab();
         foreach ($relatedProducts as $relatedProduct) {
-            $productEditPage->getRelatedProductEditGrid()
+            $productEditPage->getRelatedProductGrid()
                 ->searchAndSelect(array('name' => $relatedProduct->getProductName()));
         }
         $productEditPage->getProductBlockForm()->save($product);
