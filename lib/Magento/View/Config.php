@@ -100,9 +100,10 @@ class Config implements \Magento\View\ConfigInterface
                 $this->filename, $params
             );
         }
-        if ($themeConfigFile && $this->rootDirectory->isExist($themeConfigFile)) {
+        if ($themeConfigFile && $this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))) {
             $configFiles[] = $themeConfigFile;
         }
+
         $config = new \Magento\Config\View($configFiles);
 
         $this->viewConfigs[$key] = $config;

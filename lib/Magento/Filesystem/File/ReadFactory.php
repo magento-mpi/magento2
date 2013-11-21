@@ -8,6 +8,8 @@
 
 namespace Magento\Filesystem\File;
 
+use Magento\Filesystem\DriverInterface;
+
 class ReadFactory
 {
     /**
@@ -27,10 +29,14 @@ class ReadFactory
      * Create a readable file
      *
      * @param string $path
+     * @param DriverInterface $driver
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function create($path)
+    public function create($path, DriverInterface $driver)
     {
-        return $this->objectManager->create('Magento\Filesystem\File\Read', array('path' => $path));
+        return $this->objectManager->create('Magento\Filesystem\File\Read', array(
+            'path' => $path,
+            'driver' => $driver
+        ));
     }
 }

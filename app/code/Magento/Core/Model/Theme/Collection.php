@@ -56,7 +56,7 @@ class Collection extends \Magento\Data\Collection
      */
     public function addDefaultPattern($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', 'theme.xml')));
+        $this->addTargetPattern(implode('/', array($area, '*', 'theme.xml')));
         return $this;
     }
 
@@ -117,7 +117,6 @@ class Collection extends \Magento\Data\Collection
 
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
-
             $directoryPath = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
                 switch ($matches[0]) {
                     case '*':
@@ -130,6 +129,7 @@ class Collection extends \Magento\Data\Collection
             }, $directoryPath);
 
             $themeConfigs = $this->_directory->search('#' . $directoryPath . '#');
+
             foreach ($themeConfigs as &$relPathToTheme) {
                 $relPathToTheme = $this->_directory->getAbsolutePath($relPathToTheme);
             }
@@ -178,6 +178,7 @@ class Collection extends \Magento\Data\Collection
             $theme = $this->getNewEmptyItem()->addData($this->_prepareConfigurationData($themeConfigPath));
             $this->addItem($theme);
         }
+
         $this->_setIsLoaded();
 
         return $this;
@@ -193,8 +194,8 @@ class Collection extends \Magento\Data\Collection
     {
         $themeDirectory = dirname($configPath);
         $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())),
-            DIRECTORY_SEPARATOR);
-        $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
+            '/');
+        $pathPieces = explode('/', $fullPath);
         $area = array_shift($pathPieces);
         return array('area' => $area, 'theme_path_pieces' => $pathPieces);
     }
@@ -248,6 +249,7 @@ class Collection extends \Magento\Data\Collection
         /** @var $theme \Magento\View\Design\ThemeInterface */
         foreach ($this->getItems() as $itemKey => $theme) {
             $removeItem = false;
+
             foreach ($filters as $filter) {
                 if ($filter['type'] == 'and' && $theme->getDataUsingMethod($filter['field']) != $filter['value']) {
                     $removeItem = true;

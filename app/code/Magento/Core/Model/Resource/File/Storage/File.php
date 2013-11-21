@@ -104,7 +104,7 @@ class File
         }
 
         $path = (strlen($dir['path']))
-            ? $dir['path'] . DS . $dir['name']
+            ? $dir['path'] . '/' . $dir['name']
             : $dir['name'];
 
         try {

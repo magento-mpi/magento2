@@ -111,7 +111,7 @@ class DefinitionFactory
      */
     public function createRelations()
     {
-        $path = $this->_definitionDir . DIRECTORY_SEPARATOR . 'relations.php';
+        $path = $this->_definitionDir . '/' . 'relations.php';
         if (is_readable($path)) {
             return new \Magento\ObjectManager\Relations\Compiled($this->_unpack(file_get_contents($path)));
         } else {

@@ -8,6 +8,7 @@
 
 namespace Magento\Filesystem\File;
 
+use Magento\Filesystem\DriverInterface;
 use Magento\Filesystem\FilesystemException;
 
 class Read implements ReadInterface
@@ -42,17 +43,13 @@ class Read implements ReadInterface
      * Constructor
      *
      * @param $path
-     * @param \Magento\Filesystem\DriverFactory $driverFactory
+     * @param DriverInterface $driver
      */
-    public function __construct
-    (
-        $path,
-        \Magento\Filesystem\DriverFactory $driverFactory
-    ) {
+    public function __construct($path, DriverInterface $driver)
+    {
         $this->path = $path;
 
-        $directoryDriver = isset($config['driver']) ? $config['driver'] : $driverFactory::BASE;
-        $this->driver = $driverFactory->get($directoryDriver);
+        $this->driver = $driver;
 
         $this->open();
     }

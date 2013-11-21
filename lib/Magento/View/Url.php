@@ -150,6 +150,7 @@ class Url
                 return $url;
             }
         }
+
         throw new \Magento\Exception(
             "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
         );

@@ -103,6 +103,7 @@ class Action extends \Magento\Core\Controller\Varien\Action
         $themeModel = $themesCollection->addDefaultPattern($areaCode)
             ->addFilter('theme_path', $this->_viewDesign->getConfigurationDesignTheme($areaCode))
             ->getFirstItem();
+
         $this->_viewDesign->setArea($areaCode)->setDesignTheme($themeModel);
         return $this;
     }

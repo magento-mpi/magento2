@@ -10,6 +10,8 @@
 
 namespace Magento\Filesystem\File;
 
+use Magento\Filesystem\DriverInterface;
+
 class WriteFactory
 {
     /**
@@ -29,11 +31,17 @@ class WriteFactory
      * Create a readable file
      *
      * @param string $path
+     * @param DriverInterface $driver
      * @param string $mode
      * @return \Magento\Filesystem\File\WriteInterface
      */
-    public function create($path, $mode)
+    public function create($path, DriverInterface $driver, $mode)
     {
-        return $this->objectManager->create('Magento\Filesystem\File\Write', array('path' => $path, 'mode' => $mode));
+        return $this->objectManager->create('Magento\Filesystem\File\Write',
+            array(
+                'path' => $path,
+                'driver' => $driver,
+                'mode' => $mode
+            ));
     }
 }

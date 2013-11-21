@@ -15,6 +15,8 @@ use Magento\Filesystem\FilesystemException;
 
 class Socket extends Base
 {
+    protected $handles = array();
+
     /**
      * @param $path
      * @return bool
@@ -22,14 +24,16 @@ class Socket extends Base
      */
     public function isExists($path)
     {
-        clearstatcache();
-        $result = @file_exists($path);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution %s',
-                    $this->getWarningMessage()
-                ));
+        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+
+        $status = $headers[0];
+
+        if (strpos($status, '200 OK') === false) {
+            $result = false;
+        } else {
+            $result = true;
         }
+
         return $result;
     }
 
@@ -42,14 +46,25 @@ class Socket extends Base
      */
     public function stat($path)
     {
-        clearstatcache();
-        $result = @stat($path);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Cannot gather stats! %s',
-                    $this->getWarningMessage()
-                ));
-        }
+        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+
+        $result = array(
+            'dev' => 0,
+            'ino' => 0,
+            'mode' => 0,
+            'nlink' => 0,
+            'uid' => 0,
+            'gid' => 0,
+            'rdev' => 0,
+            'atime' => 0,
+            'ctime' => 0,
+            'blksize' => 0,
+            'blocks' => 0,
+            'size' => isset($headers['content-length']) ? $headers['content-length'] : 0,
+            'type' => isset($headers['content-type']) ? $headers['content-type'] : '',
+            'mtime' => isset($headers['last-modified']) ? $headers['last-modified'] : 0,
+            'disposition' => isset($headers['content-disposition']) ? $headers['content-disposition'] : null
+        );
         return $result;
     }
 
@@ -378,15 +393,33 @@ class Socket extends Base
             . 'User-Agent: Magento ver/' . \Magento\Core\Model\App::VERSION . "\r\n"
             . 'Connection: close' . "\r\n"
             . "\r\n";
+
         fwrite($result, $headers);
 
-        if (!$result) {
-            throw new FilesystemException(
-                __('File "%s" cannot be opened %s',
-                    $path,
-                    $this->getWarningMessage()
-                ));
+        // trim headers
+        while (!feof($result)) {
+            $str = fgets($result, 1024);
+            if ($str == "\r\n") {
+                break;
+            }
         }
+
+        return $result;
+    }
+
+    /**
+     * Reads the line content from file pointer (with specified number of bytes from the current position).
+     *
+     * @param resource $resource
+     * @param int $length
+     * @param string $ending [optional]
+     * @return string
+     * @throws FilesystemException
+     */
+    public function fileReadLine($resource, $length, $ending = null)
+    {
+        $result = @stream_get_line($resource, $length, $ending);
+
         return $result;
     }
 }

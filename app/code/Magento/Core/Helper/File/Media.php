@@ -51,7 +51,7 @@ class Media extends \Magento\Core\Helper\AbstractHelper
     public function collectFileInfo($mediaDirectory, $path)
     {
         $path = ltrim($path, '\\/');
-        $fullPath = $mediaDirectory . DS . $path;
+        $fullPath = $mediaDirectory . '/' . $path;
 
         if (!file_exists($fullPath) || !is_file($fullPath)) {
             throw new \Magento\Core\Exception(__('File %1 does not exist', $fullPath));

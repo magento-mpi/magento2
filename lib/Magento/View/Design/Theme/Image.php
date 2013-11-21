@@ -110,7 +110,7 @@ class Image
     public function createPreviewImageCopy($previewImagePath)
     {
         $previewDir = $this->_themeImagePath->getImagePreviewDirectory();
-        $destinationFilePath = $previewDir . DIRECTORY_SEPARATOR . $previewImagePath;
+        $destinationFilePath = $previewDir . '/' . $previewImagePath;
         if (empty($previewImagePath) && !$this->_filesystem->has($destinationFilePath)) {
             return false;
         }
@@ -120,7 +120,7 @@ class Image
             $destinationFileName = \Magento\File\Uploader::getNewFileName($destinationFilePath);
             $isCopied = $this->_filesystem->copy(
                 $destinationFilePath,
-                $previewDir . DIRECTORY_SEPARATOR . $destinationFileName
+                $previewDir . '/' . $destinationFileName
             );
             $this->_theme->setPreviewImage($destinationFileName);
         } catch (\Exception $e) {
@@ -140,7 +140,7 @@ class Image
         $this->_theme->setPreviewImage(null);
         if ($previewImage) {
             return $this->_filesystem->delete(
-                $this->_themeImagePath->getImagePreviewDirectory() . DIRECTORY_SEPARATOR . $previewImage
+                $this->_themeImagePath->getImagePreviewDirectory() . '/' . $previewImage
             );
         }
         return false;

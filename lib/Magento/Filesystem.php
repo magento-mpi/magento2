@@ -115,6 +115,11 @@ class Filesystem
     const UPLOAD = 'upload';
 
     /**
+     * Virtual directory to access files via socket connections (using http or https schemes)
+     */
+    const SOCKET = 'socket';
+
+    /**
      * @var \Magento\Filesystem\DirectoryList
      */
     protected $directoryList;
@@ -189,6 +194,25 @@ class Filesystem
     }
 
     /**
+     * Solve issue with object manager serialization.
+     */
+    public function __wakeup()
+    {
+        $objectManager = \Magento\App\ObjectManager::getInstance();
+
+        $this->readFactory = $objectManager->get('Magento\Filesystem\Directory\ReadFactory');
+        $this->writeFactory = $objectManager->get('Magento\Filesystem\Directory\WriteFactory');
+    }
+
+    function __sleep()
+    {
+        return [
+            'directoryList'
+        ];
+    }
+
+
+    /**
      * Create an instance of directory with write permissions
      *
      * @param string $code
@@ -217,6 +241,7 @@ class Filesystem
             if (isset($config['read_only']) && $config['read_only']) {
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
+
             $this->writeInstances[$code] = $this->writeFactory->create($config);
         }
         return $this->writeInstances[$code];

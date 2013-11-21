@@ -10,6 +10,8 @@
 
 namespace Magento\Downloadable\Helper;
 
+use Magento\Filesystem;
+
 /**
  * Downloadable Products Download Helper
  */
@@ -111,16 +113,10 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
-     * Media Directory (readable).
+     * Working Directory (Could be MEDIA or SOCKET).
      * @var \Magento\Filesystem\Directory\Read
      */
-    protected $_mediaDirectory;
-
-    /**
-     * Directory to access files via socket connections (using http or https schemes)
-     * @var \Magento\Filesystem\Directory\Read
-     */
-    protected $_socketDirectory;
+    protected $_workingDirectory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -147,8 +143,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_app = $app;
         $this->_filesystem = $filesystem;
-        $this->_mediaDirectory = $filesystem->getDirectoryRead($filesystem::MEDIA);
-        $this->_socketDirectory = $filesystem->getDirectoryRead($filesystem::SOCKET);
+
         parent::__construct($context);
     }
 
@@ -166,33 +161,13 @@ class Download extends \Magento\Core\Helper\AbstractHelper
 
         if (is_null($this->_handle)) {
             if ($this->_linkType == self::LINK_TYPE_URL) {
-                $this->_handle = $this->_socketDirectory->openFile($this->_resourceFile);
-
-                while ($str = $this->_handle->readLine(1024, "\r\n")) {
-                    if ($str == "\r\n") {
-                        break;
-                    }
-                    $match = array();
-                    if (preg_match('#^([^:]+): (.*)\s+$#', $str, $match)) {
-                        $k = strtolower($match[1]);
-                        if ($k == 'set-cookie') {
-                            continue;
-                        } else {
-                            $this->_urlHeaders[$k] = trim($match[2]);
-                        }
-                    } elseif (preg_match('#^HTTP/[0-9\.]+ (\d+) (.*)\s$#', $str, $match)) {
-                        $this->_urlHeaders['code'] = $match[1];
-                        $this->_urlHeaders['code-string'] = trim($match[2]);
-                    }
-                }
-
-                if (!isset($this->_urlHeaders['code']) || $this->_urlHeaders['code'] != 200) {
-                    throw new \Magento\Core\Exception(__('Something went wrong while getting the requested content.'));
-                }
+                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::SOCKET);
+                $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile);
             } elseif ($this->_linkType == self::LINK_TYPE_FILE) {
+                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
                 $fileExists = $this->_downloadableFile->ensureFileInFilesystem($this->_resourceFile);
                 if ($fileExists) {
-                    $this->_handle = $this->_mediaDirectory->openFile($this->_resourceFile, '???');
+                    $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile, '???');
                 } else {
                     throw new \Magento\Core\Exception(__('Invalid download link type.'));
                 }
@@ -208,16 +183,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFilesize()
     {
-        $handle = $this->_getHandle();
-        if ($this->_linkType == self::LINK_TYPE_FILE) {
-            // @TODO
-            return $handle->streamStat('size');
-        } elseif ($this->_linkType == self::LINK_TYPE_URL) {
-            if (isset($this->_urlHeaders['content-length'])) {
-                return $this->_urlHeaders['content-length'];
-            }
-        }
-        return null;
+        return $this->_workingDirectory->stat($this->_resourceFile)['size'];
     }
 
     /**
@@ -233,10 +199,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
                 return $this->_downloadableFile->getFileType($this->_resourceFile);
             }
         } elseif ($this->_linkType == self::LINK_TYPE_URL) {
-            if (isset($this->_urlHeaders['content-type'])) {
-                $contentType = explode('; ', $this->_urlHeaders['content-type']);
-                return $contentType[0];
-            }
+            return $this->_workingDirectory->stat($this->_resourceFile)['type'];
         }
         return $this->_contentType;
     }
@@ -250,8 +213,9 @@ class Download extends \Magento\Core\Helper\AbstractHelper
         if ($this->_linkType == self::LINK_TYPE_FILE) {
             return pathinfo($this->_resourceFile, PATHINFO_BASENAME);
         } elseif ($this->_linkType == self::LINK_TYPE_URL) {
-            if (isset($this->_urlHeaders['content-disposition'])) {
-                $contentDisposition = explode('; ', $this->_urlHeaders['content-disposition']);
+            $stat = $this->_workingDirectory->stat($this->_resourceFile);
+            if (isset($stat['disposition'])) {
+                $contentDisposition = explode('; ', $stat['disposition']);
                 if (!empty($contentDisposition[1]) && strpos($contentDisposition[1], 'filename=') !== false) {
                     return substr($contentDisposition[1], 9);
                 }
@@ -313,7 +277,7 @@ class Download extends \Magento\Core\Helper\AbstractHelper
             }
         } elseif ($this->_linkType == self::LINK_TYPE_URL) {
             while (!$handle->eof()) {
-                print $handle->readLine(1024);
+                print $handle->read(1024);
             }
         }
     }

@@ -32,7 +32,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         $appLocaleDir = $this->_applicationDirs->getDir(\Magento\App\Dir::LOCALE);
         // Create pattern similar to app/locale/*/config.xml
-        $filePattern = $appLocaleDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . $filename;
+        $filePattern = $appLocaleDir . '/' . '*' . '/' . $filename;
         $fileList = glob($filePattern, GLOB_BRACE);
         return $fileList;
     }

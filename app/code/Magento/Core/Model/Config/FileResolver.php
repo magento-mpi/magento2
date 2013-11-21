@@ -44,15 +44,15 @@ class FileResolver implements \Magento\Config\FileResolverInterface
             case 'primary':
                 $appConfigDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
                 // Create pattern similar to app/etc/{*config.xml,*/*config.xml}
-                $filePattern = $appConfigDir . DIRECTORY_SEPARATOR
-                    . '{*' . $filename . ',*' . DIRECTORY_SEPARATOR . '*' . $filename . '}';
+                $filePattern = $appConfigDir . '/'
+                    . '{*' . $filename . ',*' . '/' . '*' . $filename . '}';
                 $fileList = glob($filePattern, GLOB_BRACE);
                 break;
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             default:
-                $fileList = $this->_moduleReader->getConfigurationFiles($scope . DIRECTORY_SEPARATOR . $filename);
+                $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
         return $fileList;
