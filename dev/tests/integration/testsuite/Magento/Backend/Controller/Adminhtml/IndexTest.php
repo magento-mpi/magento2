@@ -48,13 +48,11 @@ class IndexTest extends \Magento\Backend\Utility\Controller
      */
     public function testGlobalSearchAction()
     {
-        $this->_login();
         $this->getRequest()->setParam('isAjax', 'true');
         $this->getRequest()->setPost('query', 'dummy');
         $this->dispatch('backend/admin/index/globalSearch');
 
         $actual = $this->getResponse()->getBody();
         $this->assertEquals(array(), json_decode($actual));
-        $this->_logout();
     }
 }
