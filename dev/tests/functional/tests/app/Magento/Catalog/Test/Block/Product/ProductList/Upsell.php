@@ -23,7 +23,7 @@ class Upsell extends Block
      *
      * @var string
      */
-    protected $linkSelector = '//*[@class="block upsell"]//*/a[contains(text(), "%s")]';
+    protected $linkSelector = '.product.name [title="%s"]';
 
     /**
      * Verify upsell item
@@ -33,11 +33,8 @@ class Upsell extends Block
      */
     public function verifyProductUpsell(Product $upsell)
     {
-        $match = $this->_rootElement->find(
-            '//ol[@class="products list items upsell"]//*/div/strong/a[@title="' . $upsell->getProductName() . '"]',
-            Locator::SELECTOR_XPATH
-        );
-
+        $match = $this->_rootElement->find(sprintf($this->linkSelector,
+                $upsell->getProductName()), Locator::SELECTOR_CSS);
         return $match->isVisible();
     }
 
@@ -51,11 +48,8 @@ class Upsell extends Block
     public function clickLink($product)
     {
         $link = $this->_rootElement->find(sprintf($this->linkSelector, $product->getProductName()),
-            Locator::SELECTOR_XPATH
+            Locator::SELECTOR_CSS
         );
-        if (!$link->isVisible()) {
-            throw new \Exception(sprintf('"%s" link is not visible', $product->getProductName()));
-        }
         $link->click();
     }
 }
