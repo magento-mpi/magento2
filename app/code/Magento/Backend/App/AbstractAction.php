@@ -150,28 +150,28 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      * @return \Magento\Backend\App\AbstractAction
      */
-    protected function _addContent(\Magento\Core\Block\AbstractBlock $block)
+    protected function _addContent(\Magento\View\Block\AbstractBlock $block)
     {
         return $this->_moveBlockToContainer($block, 'content');
     }
 
     /**
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      * @return \Magento\Backend\App\AbstractAction
      */
-    protected function _addLeft(\Magento\Core\Block\AbstractBlock $block)
+    protected function _addLeft(\Magento\View\Block\AbstractBlock $block)
     {
         return $this->_moveBlockToContainer($block, 'left');
     }
 
     /**
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      * @return \Magento\Backend\App\AbstractAction
      */
-    protected function _addJs(\Magento\Core\Block\AbstractBlock $block)
+    protected function _addJs(\Magento\View\Block\AbstractBlock $block)
     {
         return $this->_moveBlockToContainer($block, 'js');
     }
@@ -181,11 +181,11 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      *
      * The block will be moved to the container from previous parent after all other elements
      *
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      * @param string $containerName
      * @return \Magento\Backend\App\AbstractAction
      */
-    private function _moveBlockToContainer(\Magento\Core\Block\AbstractBlock $block, $containerName)
+    private function _moveBlockToContainer(\Magento\View\Block\AbstractBlock $block, $containerName)
     {
         $this->_view->getLayout()->setChild($containerName, $block->getNameInLayout(), '');
         return $this;
