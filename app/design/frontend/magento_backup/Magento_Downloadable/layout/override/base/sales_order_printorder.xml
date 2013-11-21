@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <referenceBlock name="sales.order.print">
+        <block class="Magento\Downloadable\Block\Sales\Order\Item\Renderer\Downloadable" as="downloadable" template="sales/order/items/renderer/downloadable.phtml"/>
+    </referenceBlock>
+</layout>

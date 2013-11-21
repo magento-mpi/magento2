@@ -7235,6 +7235,9 @@ body {
 .block.newsletter {
   text-align: left;
 }
+.block.newsletter .fieldset {
+  margin: 0;
+}
 .block.newsletter .title {
   display: none;
 }

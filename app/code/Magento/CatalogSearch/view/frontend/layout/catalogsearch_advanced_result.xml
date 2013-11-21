@@ -8,7 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <update handle="page_two_columns_right"/>
+    <update handle="page_two_columns_left"/>
+    <referenceBlock name="page.main.title">
+        <action method="setPageTitle">
+            <argument translate="true" name="title" xsi:type="string">Catalog Advanced Search</argument>
+        </action>
+    </referenceBlock>
     <referenceContainer name="content">
         <block class="Magento\CatalogSearch\Block\Advanced\Result" name="catalogsearch_advanced_result" template="advanced/result.phtml">
             <block class="Magento\Catalog\Block\Product\ListProduct" name="search_result_list" template="product/list.phtml">
