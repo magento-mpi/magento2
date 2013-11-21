@@ -10,10 +10,9 @@
 
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
-use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 use Magento\Object;
 
-class Edit extends Button
+class Edit extends IntegrationAbstract
 {
     /**
      * Return 'onclick' action for the button (redirect to the integration edit page).
@@ -35,15 +34,5 @@ class Edit extends Button
     protected function _getTitleAttribute(Object $row)
     {
         return $this->_isDisabled($row) ? '' : __('Edit');
-    }
-
-    /**
-     * @param \Magento\Object $row
-     * @return bool
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     */
-    protected function _isDisabled(Object $row)
-    {
-        return false; // @todo Need a mechanism to figure out if integration came from config file
     }
 }
