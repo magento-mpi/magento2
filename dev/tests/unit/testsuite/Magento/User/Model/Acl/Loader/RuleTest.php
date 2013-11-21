@@ -70,10 +70,10 @@ class RuleTest extends \PHPUnit_Framework_TestCase
 
         $aclMock = $this->getMock('Magento\Acl');
         $aclMock->expects($this->any())->method('has')->will($this->returnValue(true));
-        $aclMock->expects($this->at(1))->method('allow')->with('G1', null, null);
-        $aclMock->expects($this->at(2))->method('allow')->with('G1', 'Magento_Adminhtml::all', null);
-        $aclMock->expects($this->at(4))->method('allow')->with('U2', 1, null);
-        $aclMock->expects($this->at(6))->method('deny')->with('U3', 1, null);
+        $aclMock->expects($this->at(1))->method('allow')->with('1', null, null);
+        $aclMock->expects($this->at(2))->method('allow')->with('1', 'Magento_Adminhtml::all', null);
+        $aclMock->expects($this->at(4))->method('allow')->with('2', 1, null);
+        $aclMock->expects($this->at(6))->method('deny')->with('3', 1, null);
 
         $this->_model->populateAcl($aclMock);
     }
