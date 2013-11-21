@@ -31,6 +31,44 @@ class Cart extends Block
     protected $clearShoppingCart = '#empty_cart_button';
 
     /**
+     * Cart item sub-total xpath selector
+     *
+     * @var string
+     */
+    protected $itemSubTotalSelector = '//td[@class="col subtotal excl tax"]//span[@class="price"]';
+
+    /**
+     * Cart item unit price xpath selector
+     *
+     * @var string
+     */
+    protected $itemUnitPriceSelector = '//td[@class="col price excl tax"]//span[@class="price"]';
+
+    /**
+     * Get sub-total for the specified item in the cart
+     *
+     * @param string $productName
+     * @return string
+     */
+    public function getCartItemSubTotal($productName)
+    {
+        $selector = '//tr[normalize-space(td)="'. $productName .'"]' . $this->itemSubTotalSelector;
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get unit price for the specified item in the cart
+     *
+     * @param string $productName
+     * @return string
+     */
+    public function getCartItemUnitPrice($productName)
+    {
+        $selector = '//tr[normalize-space(td)="'. $productName .'"]' . $this->itemUnitPriceSelector;
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
      * Get proceed to checkout block
      *
      * @return \Magento\Checkout\Test\Block\Onepage\Link
