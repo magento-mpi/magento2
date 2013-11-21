@@ -81,6 +81,13 @@ class Cart extends Block
      */
     public function isProductInShoppingCart($product)
     {
-        return $this->_rootElement->find('[title="'. $product->getProductName(). '"]')->isVisible();
+        if ($product instanceof \Magento\Catalog\Test\Fixture\ConfigurableProduct) {
+            $productOptions = $product->getProductOptions();
+            $productName = $product->getProductName() . ' ' . key($productOptions) . ' ' . current($productOptions);
+        } else {
+            $productName = $product->getProductName();
+        }
+        return $this->_rootElement
+            ->find('//tr[normalize-space(td)="'. $productName .'"]', Locator::SELECTOR_XPATH)->isVisible();
     }
 }
