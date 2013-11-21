@@ -63,7 +63,7 @@ class Synchronization
             /** @var Write $file */
             $file = $this->pubDirectory->openFile($this->pubDirectory->getRelativePath($filePath), 'w');
             try{
-                $file->lock(true);
+                $file->lock();
                 $file->write($storage->getContent());
                 $file->unlock();
                 $file->close();

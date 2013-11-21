@@ -973,7 +973,7 @@ class Extended
         $this->_directory->create($this->_path);
         $stream = $this->_directory->openFile($file, 'w+');
 
-        $stream->lock(true);
+        $stream->lock();
         $stream->writeCsv($this->_getExportHeaders());
         $this->_exportIterateCollection('_exportCsvItem', array($stream));
 
@@ -1107,7 +1107,7 @@ class Extended
 
         $this->_directory->create($this->_path);
         $stream = $this->_directory->openFile($file, 'w+');
-        $stream->lock(true);
+        $stream->lock();
 
         $convert->setDataHeader($this->_getExportHeaders());
         if ($this->getCountTotals()) {

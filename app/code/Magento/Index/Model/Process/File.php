@@ -11,7 +11,7 @@
 namespace Magento\Index\Model\Process;
 
 use Magento\Filesystem\FilesystemException;
-use Magento\Filesystem\StreamInterface;
+use Magento\Filesystem\File\WriteInterface;
 
 /**
  * Process file entity
@@ -21,7 +21,7 @@ class File
     /**
      * Stream handle instance
      *
-     * @var StreamInterface
+     * @var WriteInterface
      */
     protected $_streamHandler;
 
@@ -43,9 +43,9 @@ class File
     protected $_processLocked = null;
 
     /**
-     * @param StreamInterface $streamHandler
+     * @param WriteInterface $streamHandler
      */
-    public function __construct(StreamInterface $streamHandler)
+    public function __construct(WriteInterface $streamHandler)
     {
         $this->_streamHandler = $streamHandler;
     }
@@ -58,12 +58,12 @@ class File
      */
     public function processLock($nonBlocking = true)
     {
-        $lock = LOCK_EX;
+        $lockMode = LOCK_EX;
         if ($nonBlocking) {
-            $lock = $lock | LOCK_NB;
+            $lockMode = $lockMode | LOCK_NB;
         }
         try {
-            $this->_streamHandler->addLock($lock);
+            $this->_streamHandler->lock($lockMode);
             $this->_streamLocked  = true;
         } catch (FilesystemException $e) {
             $this->_streamLocked = false;
@@ -105,7 +105,7 @@ class File
             return $this->_processLocked;
         } else {
             try {
-                $this->_streamHandler->addLock(LOCK_EX | LOCK_NB);
+                $this->_streamHandler->lock(LOCK_EX | LOCK_NB);
                 if ($needUnlock) {
                     $this->_streamHandler->unlock();
                     $this->_streamLocked = false;

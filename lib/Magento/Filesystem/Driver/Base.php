@@ -549,13 +549,12 @@ class Base implements \Magento\Filesystem\Driver
      * Lock file in selected mode
      *
      * @param $resource
-     * @param bool $exclusive
+     * @param int $lockMode
      * @return bool
      * @throws FilesystemException
      */
-    public function fileLock($resource, $exclusive = true)
+    public function fileLock($resource, $lockMode = LOCK_EX)
     {
-        $lockMode = $exclusive ? LOCK_EX : LOCK_SH;
         $result = @flock($resource, $lockMode);
         if (!$result) {
             throw new FilesystemException(

@@ -110,12 +110,12 @@ class Write extends Read implements WriteInterface
     /**
      * Portable advisory file locking
      *
-     * @param bool $exclusive
+     * @param int $lockMode
      * @return bool
      */
-    public function lock($exclusive = true)
+    public function lock($lockMode = LOCK_EX)
     {
-        return $this->driver->fileLock($this->resource, $exclusive);
+        return $this->driver->fileLock($this->resource, $lockMode);
     }
 
     /**
