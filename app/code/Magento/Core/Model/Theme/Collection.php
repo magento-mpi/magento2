@@ -56,7 +56,7 @@ class Collection extends \Magento\Data\Collection
      */
     public function addDefaultPattern($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', 'theme.xml')));
+        $this->addTargetPattern(implode('/', array($area, '*', 'theme.xml')));
         return $this;
     }
 
@@ -125,7 +125,7 @@ class Collection extends \Magento\Data\Collection
                     case '?':
                         return '.';
                     default:
-                        return '\\'.$matches[0];
+                        return '\\' . $matches[0];
                 }
             }, $directoryPath);
 
@@ -192,9 +192,8 @@ class Collection extends \Magento\Data\Collection
     protected function _preparePathData($configPath)
     {
         $themeDirectory = dirname($configPath);
-        $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())),
-            DIRECTORY_SEPARATOR);
-        $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
+        $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())), '/');
+        $pathPieces = explode('/', $fullPath);
         $area = array_shift($pathPieces);
         return array('area' => $area, 'theme_path_pieces' => $pathPieces);
     }

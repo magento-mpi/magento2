@@ -38,7 +38,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Filesystem', array('directoryList' => $directoryList));
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Theme\Collection', array('filesystem' => $filesystem));
-//        $this->_model->setBaseDir(dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files'. DIRECTORY_SEPARATOR . 'design');
     }
 
     /**
@@ -73,7 +72,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                'themePath'    => implode(DIRECTORY_SEPARATOR, array('frontend', 'magento_default', 'theme.xml')),
+                'themePath'    => implode('/', array('frontend', 'magento_default', 'theme.xml')),
                 'expectedData' => array(
                     'area'                 => 'frontend',
                     'theme_title'          => 'Default',
