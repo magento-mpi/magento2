@@ -13,6 +13,8 @@
   * Fixed Fatal error when creating Shipping label for returns
   * Fixed posting coupon code with spaces
   * Fixed several typos and minor mistakes
+  * Fixed assigning status on an order
+  * Fixed viewing and editing order status from the order status grid
 
 2.0.0.0-dev52
 =============
