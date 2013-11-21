@@ -41,12 +41,15 @@ class RelatedProductTest extends Functional
     {
         // Precondition: create simple product 1
         $simpleProduct1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct1->switchData('simple');
         $simpleProduct1->persist();
         // Precondition: create simple product 2
         $simpleProduct2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct2->switchData('simple');
         $simpleProduct2->persist();
         // Precondition: create configurable product
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurableProduct->switchData('configurable');
         $configurableProduct->persist();
 
         $this->addRelatedProduct($simpleProduct1, array($simpleProduct2, $configurableProduct));
@@ -63,16 +66,16 @@ class RelatedProductTest extends Functional
      */
     private function addRelatedProduct($product, $relatedProducts)
     {
+        $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
+        $productEditPage->open(array('id' => $product->getProductId()));
+        $productEditPage->getProductBlockForm()->openRelatedProductTab();
         foreach ($relatedProducts as $relatedProduct) {
-            $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-            $productEditPage->open(array('id' => $product->getProductId()));
-            $productEditPage->getProductBlockForm()->openRelatedProductTab();
             $productEditPage->getRelatedProductEditGrid()
                 ->searchAndSelect(array('name' => $relatedProduct->getProductName()));
-            $productEditPage->getProductBlockForm()->save($product);
-            //Verify that the product was successfully saved
-            $productEditPage->getMessagesBlock()->assertSuccessMessage("You saved the product.", $productEditPage);
         }
+        $productEditPage->getProductBlockForm()->save($product);
+        //Verify that the product was successfully saved
+        $productEditPage->getMessagesBlock()->assertSuccessMessage("You saved the product.", $productEditPage);
     }
 
     /**
