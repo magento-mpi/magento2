@@ -28,7 +28,7 @@ class EavTest extends \PHPUnit_Framework_TestCase
         $this->_model = $helper->getObject('Magento\Rma\Helper\Eav', array(
             'collectionFactory' => $collectionFactory,
             'attributeConfig' => $attributeConfig,
-            'context' => $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false)
+            'context' => $this->getMock('Magento\App\Helper\Context', array(), array(), '', false)
         ));
     }
 

@@ -27,19 +27,19 @@ class Edit extends \Magento\Backend\Block\Template
     protected $_searchData = null;
 
     /**
-     * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Search\Helper\Data $searchData
      * @param array $data
      */
     public function __construct(
-        \Magento\Search\Helper\Data $searchData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Search\Helper\Data $searchData,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

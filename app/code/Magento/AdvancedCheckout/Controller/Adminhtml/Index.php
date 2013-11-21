@@ -17,7 +17,10 @@
  */
 namespace Magento\AdvancedCheckout\Controller\Adminhtml;
 
-class Index extends \Magento\Backend\Controller\Adminhtml\Action
+
+use Magento\Backend\App\Action;
+
+class Index extends \Magento\Backend\App\Action
 {
     /**
      * Flag that indicates whether page must be reloaded with correct params or not
@@ -34,11 +37,11 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_registry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $registry
     ) {
         parent::__construct($context);
@@ -155,16 +158,17 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Renderer for page title
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      */
     protected function _initTitle()
     {
-        $this->_title(__('Customers'))->_title(__('Customers'));
+        $this->_title->add(__('Customers'));
+        $this->_title->add(__('Customers'));
         $customer = $this->_registry->registry('checkout_current_customer');
         if ($customer) {
-            $this->_title($customer->getName());
+            $this->_title->add($customer->getName());
         }
-        $this->_title(__('Shopping Cart'));
+        $this->_title->add(__('Shopping Cart'));
         return $this;
     }
 
@@ -173,9 +177,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function errorAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_initTitle();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -188,9 +192,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->loadLayout();
+            $this->_view->loadLayout();
             $this->_initTitle();
-            $this->renderLayout();
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -214,8 +218,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->loadLayout();
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -333,13 +337,13 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 ->collectTotals()
                 ->save();
 
-            $this->loadLayout();
+            $this->_view->loadLayout();
             if (!$quote->getCouponCode()) {
-                $this->getLayout()
+                $this->_view->getLayout()
                     ->getBlock('form_coupon')
                     ->setInvalidCouponCode($code);
             }
-            $this->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -363,8 +367,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             if ($this->_redirectFlag) {
                 return;
             }
-            $this->loadLayout();
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Exception $e) {
             $this->_processException($e);
         }
@@ -482,7 +486,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         // Render page
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $helper->renderConfigureResult($configureResult);
 
         return $this;
     }
@@ -528,7 +532,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         // Render page
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $helper->renderConfigureResult($configureResult);
         return $this;
     }
 
@@ -573,7 +577,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         // Render page
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $helper->renderConfigureResult($configureResult);
         return $this;
     }
 
@@ -660,7 +664,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         // Render page
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
-        $helper->renderConfigureResult($this, $configureResult);
+        $helper->renderConfigureResult($configureResult);
 
         return $this;
     }
@@ -699,7 +703,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         $asJson = $this->getRequest()->getParam('json');
         $block = $this->getRequest()->getParam('block');
 
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         if ($asJson) {
             $update->addHandle('checkout_index_manage_load_block_json');
         } else {
@@ -720,8 +724,10 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $result = $this->getLayout()->renderElement('content');
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $result = $this->_view->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('checkout/*/showUpdateResult');
@@ -825,7 +831,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->getCartModel()->updateQuoteItems($items);
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
-                        /* @var $error \Magento\Core\Model\Message\Error */
+                        /* @var $error \Magento\Message\Error */
                         $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getCode());
                     }
                 }
@@ -1021,6 +1027,6 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             $cart->saveAffectedProducts($this->getCartModel(), true);
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 }

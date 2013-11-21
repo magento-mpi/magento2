@@ -54,19 +54,11 @@ class Rule extends \Magento\Core\Model\AbstractModel
     protected $_taxClass;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * @var \Magento\Tax\Model\Calculation
      */
     protected $_calculation;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxHelper
@@ -77,7 +69,6 @@ class Rule extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxHelper,
@@ -87,7 +78,6 @@ class Rule extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_calculation = $calculation;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 

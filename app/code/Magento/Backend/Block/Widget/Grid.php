@@ -94,11 +94,6 @@ class Grid extends \Magento\Backend\Block\Widget
     protected $_template = 'Magento_Backend::widget/grid.phtml';
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\Url
      */
     protected $_urlModel;
@@ -109,23 +104,20 @@ class Grid extends \Magento\Backend\Block\Widget
     protected $_backendSession;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_urlModel = $urlModel;
         $this->_backendSession = $context->getBackendSession();
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _construct()
@@ -200,7 +192,7 @@ class Grid extends \Magento\Backend\Block\Widget
      * Retrieve export block
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getExportBlock()
     {
@@ -234,7 +226,7 @@ class Grid extends \Magento\Backend\Block\Widget
      * Retrieve column by id
      *
      * @param string $columnId
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getColumn($columnId)
     {
@@ -396,7 +388,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Get massaction block
      *
-     * @return bool|\Magento\Core\Block\AbstractBlock
+     * @return bool|\Magento\View\Block\AbstractBlock
      */
     public function getMassactionBlock()
     {
@@ -428,7 +420,7 @@ class Grid extends \Magento\Backend\Block\Widget
     /**
      * Initialize grid before rendering
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _beforeToHtml()
     {

@@ -90,6 +90,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBasePathWithPath()
     {
+
         $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock);
         $this->_model->setBasePath('http:\/test.com\one/two');
         $this->assertEquals('http://test.com/one/two', $this->_model->getBasePath());
@@ -104,6 +105,7 @@ class HttpTest extends \PHPUnit_Framework_TestCase
 
     public function testGetBaseUrlWithUrl()
     {
+
         $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock);
         $this->_model->setBaseUrl('http:\/test.com\one/two');
         $this->assertEquals('http://test.com/one/two', $this->_model->getBaseUrl());
@@ -241,5 +243,16 @@ class HttpTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock);
         $this->assertFalse($this->_model->isStraight());
+    }
+
+    public function testGetFullActionName()
+    {
+        $this->_model = new Request($this->_routerListMock, $this->_infoProcessorMock);
+        /* empty request */
+        $this->assertEquals('__', $this->_model->getFullActionName());
+        $this->_model->setRouteName('test')
+            ->setControllerName('controller')
+            ->setActionName('action');
+        $this->assertEquals('test/controller/action', $this->_model->getFullActionName('/'));
     }
 }

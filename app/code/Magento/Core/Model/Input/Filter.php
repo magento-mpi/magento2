@@ -85,7 +85,7 @@ namespace Magento\Core\Model\Input;
 class Filter implements \Zend_Filter_Interface
 {
     /**
-     * @var \Magento\Core\Model\Factory\Helper
+     * @var \Magento\App\Helper\HelperFactory
      */
     protected $_helperFactory;
 
@@ -95,11 +95,11 @@ class Filter implements \Zend_Filter_Interface
     protected $_objectManager;
 
     /**
-     * @param \Magento\Core\Model\Factory\Helper $helperFactory
+     * @param \Magento\App\Helper\HelperFactory $helperFactory
      * @param \Magento\ObjectManager $objectManager
      */
     function __construct(
-        \Magento\Core\Model\Factory\Helper $helperFactory,
+        \Magento\App\Helper\HelperFactory $helperFactory,
         \Magento\ObjectManager $objectManager
     ) {
         $this->_helperFactory = $helperFactory;
@@ -254,11 +254,11 @@ class Filter implements \Zend_Filter_Interface
      * Call specified helper method for $value filtration
      *
      * @param mixed $value
-     * @param \Magento\Core\Helper\AbstractHelper $helper
+     * @param \Magento\App\Helper\AbstractHelper $helper
      * @param array $filterData
      * @return mixed
      */
-    protected function _applyFiltrationWithHelper($value, \Magento\Core\Helper\AbstractHelper $helper, array $filterData)
+    protected function _applyFiltrationWithHelper($value, \Magento\App\Helper\AbstractHelper $helper, array $filterData)
     {
         if (!isset($filterData['method']) || empty($filterData['method'])) {
             throw new \Exception("Helper filtration method is not set");
@@ -276,7 +276,7 @@ class Filter implements \Zend_Filter_Interface
      * Try to create Magento helper for filtration based on $filterData. Return false on failure
      *
      * @param $filterData
-     * @return bool|\Magento\Core\Helper\AbstractHelper
+     * @return bool|\Magento\App\Helper\AbstractHelper
      * @throws \Exception
      */
     protected function _getFiltrationHelper($filterData)
@@ -286,7 +286,7 @@ class Filter implements \Zend_Filter_Interface
             $helper = $filterData['helper'];
             if (is_string($helper)) {
                 $helper = $this->_helperFactory->get($helper);
-            } elseif (!($helper instanceof \Magento\Core\Helper\AbstractHelper)) {
+            } elseif (!($helper instanceof \Magento\App\Helper\AbstractHelper)) {
                 throw new \Exception("Filter '{$helper}' not found");
             }
         }

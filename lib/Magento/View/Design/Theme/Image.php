@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Theme;
+
 /**
  * Theme Image model class
  */
-namespace Magento\View\Design\Theme;
-
 class Image
 {
     /**
@@ -54,8 +54,6 @@ class Image
     protected $_theme;
 
     /**
-     * Initialize dependencies
-     *
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Image\Factory $imageFactory
      * @param Image\Uploader $uploader

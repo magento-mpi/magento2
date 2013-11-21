@@ -21,6 +21,8 @@ Magento/GiftCardAccount/Block/
 Magento/GiftWrapping/Block
 Magento/GiftWrapping/Model/Total/Quote/Tax
 Magento/ScheduledImportExport/Model/Import/Entity/Eav/Customer
+Magento/ScheduledImportExport/Block/Adminhtml/Scheduled/Operation/Edit/Form
+Magento/WebsiteRestriction/Model/System/Config/Backend
 Magento/Invitation
 Magento/Logging/Block
 Magento/MultipleWishlist/Model/Resource/Item

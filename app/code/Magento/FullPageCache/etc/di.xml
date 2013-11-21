@@ -42,9 +42,6 @@
         <param name="designChange">
             <instance type="Magento\Core\Model\Design\Proxy" />
         </param>
-        <param name="design">
-            <instance type="Magento\Core\Model\View\Design\Proxy" />
-        </param>
     </type>
     <type name="Magento\Log\Model\Visitor">
         <param name="ignoredUserAgents">

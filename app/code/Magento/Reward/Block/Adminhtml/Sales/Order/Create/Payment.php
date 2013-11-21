@@ -28,11 +28,6 @@ class Payment extends \Magento\Backend\Block\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Sales\Model\AdminOrder\Create
      */
     protected $_orderCreate;
@@ -43,28 +38,25 @@ class Payment extends \Magento\Backend\Block\Template
     protected $_rewardFactory;
 
     /**
-     * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        $this->_storeManager = $storeManager;
         $this->_orderCreate = $orderCreate;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

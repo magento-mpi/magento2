@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_ENABLED = 'magento_giftregistry/general/enabled';
     const XML_PATH_SEND_LIMIT = 'magento_giftregistry/sharing_email/send_limit';
@@ -71,7 +71,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
@@ -81,7 +81,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,

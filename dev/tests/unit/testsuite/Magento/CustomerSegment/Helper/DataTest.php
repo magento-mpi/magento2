@@ -42,7 +42,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $this->_segmentCollection = $this->getMock(
             'Magento\CustomerSegment\Model\Resource\Segment\Collection', array('toOptionArray'), array(), '', false
         );
-        $helperContext = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
+        $helperContext = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
         $helperContext->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
         $this->_helper = new \Magento\CustomerSegment\Helper\Data(
             $helperContext,

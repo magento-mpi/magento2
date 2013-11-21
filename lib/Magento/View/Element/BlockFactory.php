@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,6 +10,9 @@ namespace Magento\View\Element;
 
 use Magento\ObjectManager;
 
+/**
+ * Class BlockFactory
+ */
 class BlockFactory
 {
     /**
@@ -28,7 +29,7 @@ class BlockFactory
     }
 
     /**
-     * @param $blockName
+     * @param string $blockName
      * @param array $arguments
      * @return mixed
      * @throws \LogicException

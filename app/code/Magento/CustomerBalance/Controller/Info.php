@@ -14,25 +14,27 @@
  */
 namespace Magento\CustomerBalance\Controller;
 
-class Info extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Info extends \Magento\App\Action\Action
 {
     /**
-     * Only logged in users can use this functionality,
-     * this function checks if user is logged in before all other actions
+     * Authenticate customer
      *
+     * @param RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
+            $this->_actionFlag->set('', 'no-dispatch', true);
         }
+        return parent::dispatch($request);
     }
 
     /**
      * Store Credit dashboard
-     *
      */
     public function indexAction()
     {
@@ -40,13 +42,13 @@ class Info extends \Magento\Core\Controller\Front\Action
             $this->_redirect('customer/account/');
             return;
         }
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $this->loadLayoutUpdates();
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayoutUpdates();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Store Credit'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 }

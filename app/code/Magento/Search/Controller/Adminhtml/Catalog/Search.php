@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Catalog;
 
-class Search extends \Magento\Backend\Controller\Adminhtml\Action
+class Search extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -36,12 +36,12 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Construct
      *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\CatalogSearch\Model\QueryFactory $queryFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\CatalogSearch\Model\QueryFactory $queryFactory
     ) {
@@ -77,7 +77,7 @@ class Search extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_coreRegistry->register('current_catalog_search', $model);
 
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 }

@@ -2,15 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Class for choosing the strategy for file resolution
- */
 namespace Magento\View\Design\FileResolution;
 
 use Magento\Exception;
@@ -22,7 +17,7 @@ use Magento\ObjectManager;
 /**
  * Strategy Pool
  *
- * @package Magento\View
+ * Class for choosing the strategy for file resolution
  */
 class StrategyPool
 {

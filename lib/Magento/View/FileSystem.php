@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View;
+
 /**
  * Model that finds file paths by their fileId
  */
-namespace Magento\View;
-
 class FileSystem
 {
     /**
@@ -18,7 +18,7 @@ class FileSystem
      *
      * @var \Magento\View\Design\FileResolution\StrategyPool
      */
-    protected $_resolutionPool = null;
+    protected $_resolutionPool;
 
     /**
      * @var \Magento\View\Service
@@ -26,8 +26,6 @@ class FileSystem
     protected $_viewService;
 
     /**
-     * View files system model
-     *
      * @param \Magento\View\Design\FileResolution\StrategyPool $resolutionPool
      * @param \Magento\View\Service $viewService
      */

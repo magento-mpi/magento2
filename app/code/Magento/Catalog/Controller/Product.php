@@ -11,7 +11,7 @@
 namespace Magento\Catalog\Controller;
 
 class Product
-    extends \Magento\Core\Controller\Front\Action
+    extends \Magento\App\Action\Action
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**
@@ -68,11 +68,11 @@ class Product
                 if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
                     $this->_redirect('');
                 } elseif (!$this->getResponse()->isRedirect()) {
-                    $this->_forward('noRoute');
+                    $this->_forward('noroute');
                 }
             } else {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
             }
         }
     }
@@ -86,11 +86,11 @@ class Product
             if (isset($_GET['store']) && !$this->getResponse()->isRedirect()) {
                 $this->_redirect('');
             } elseif (!$this->getResponse()->isRedirect()) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
             }
             return;
         }
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }
