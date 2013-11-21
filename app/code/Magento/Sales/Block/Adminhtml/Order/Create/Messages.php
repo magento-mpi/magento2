@@ -41,7 +41,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
         array $data = array()
     ) {
         $this->sessionQuote = $sessionQuote;
-        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
     }
 
     /**

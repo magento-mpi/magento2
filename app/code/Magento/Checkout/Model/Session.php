@@ -54,11 +54,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_customerSession;
 
     /**
-     * @var \Magento\Message\CollectionFactory
-     */
-    protected $_messageCollFactory;
-
-    /**
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
@@ -72,7 +67,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Message\CollectionFactory $messageCollFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param null $sessionName
@@ -82,7 +76,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Core\Model\Session\Context $context,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Message\CollectionFactory $messageCollFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         $sessionName = null,
@@ -90,7 +83,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_customerSession = $customerSession;
-        $this->_messageCollFactory = $messageCollFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_remoteAddress = $remoteAddress;
         parent::__construct($context, $data);
@@ -361,7 +353,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     {
         $allMessages = $this->getAdditionalMessages();
         if (!isset($allMessages[$itemKey])) {
-            $allMessages[$itemKey] = $this->_messageCollFactory->create();
+            $allMessages[$itemKey] = $this->messagesFactory->create();
         }
         $allMessages[$itemKey]->add($message);
         $this->setAdditionalMessages($allMessages);

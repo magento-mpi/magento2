@@ -43,7 +43,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
-        parent::__construct($coreData, $context, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
     }
 
     protected function _getOrder()
