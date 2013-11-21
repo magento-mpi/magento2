@@ -73,16 +73,4 @@ class Billing extends Form
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
     }
-
-    /**
-     * Fill form data. Unset 'email' field as it is absent in one page checkout form
-     *
-     * @param array $fields
-     * @param Element $element
-     */
-    protected function _fill(array $fields, Element $element = null)
-    {
-        unset($fields['email']);
-        parent::_fill($fields);
-    }
 }
