@@ -61,6 +61,12 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     }
 
     /**
+     * @var \Magento\Core\Model\Url
+     */
+    protected $_urlBuilder;
+
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Url $urlBuilder
