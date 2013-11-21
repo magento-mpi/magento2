@@ -19,14 +19,13 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_adapter = new \Magento\Filesystem\Adapter\Local();
-
-        \Magento\Io\File::rmdirRecursive(self::_getTmpDir());
+        $this->_adapter->delete(self::_getTmpDir());
         mkdir(self::_getTmpDir(), 0777, true);
     }
 
     protected function tearDown()
     {
-        \Magento\Io\File::rmdirRecursive(self::_getTmpDir());
+        $this->_adapter->delete(self::_getTmpDir());
     }
 
     protected static function _getTmpDir()

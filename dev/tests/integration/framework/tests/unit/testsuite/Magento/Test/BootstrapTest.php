@@ -88,8 +88,12 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         );
         $this->_shell = $this->getMock('Magento\Shell', array('execute'));
         $this->_object = new \Magento\TestFramework\Bootstrap(
-            $this->_settings, $this->_envBootstrap, $this->_docBlockBootstrap, $this->_profilerBootstrap,
-            $this->_shell, __DIR__
+            $this->_settings,
+            $this->_envBootstrap,
+            $this->_docBlockBootstrap,
+            $this->_profilerBootstrap,
+            $this->_shell,
+            __DIR__
         );
     }
 
@@ -127,8 +131,12 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         ;
         // invoke the constructor explicitly
         $this->_object->__construct(
-            $settings, $this->_envBootstrap, $this->_docBlockBootstrap, $this->_profilerBootstrap,
-            $this->_shell, __DIR__
+            $settings,
+            $this->_envBootstrap,
+            $this->_docBlockBootstrap,
+            $this->_profilerBootstrap,
+            $this->_shell,
+            __DIR__
         );
         $this->_object
             ->expects($this->any())

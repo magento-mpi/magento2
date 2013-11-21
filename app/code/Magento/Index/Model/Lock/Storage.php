@@ -33,15 +33,25 @@ class Storage
     protected $_fileHandlers = array();
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Index\Model\Process\FileFactory $fileFactory
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\Dir $dirs,
-        \Magento\Index\Model\Process\FileFactory $fileFactory
+        \Magento\Index\Model\Process\FileFactory $fileFactory,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_dirs = $dirs;
         $this->_fileFactory   = $fileFactory;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -53,15 +63,20 @@ class Storage
     public function getFile($processId)
     {
         if (!isset($this->_fileHandlers[$processId])) {
-            $file = $this->_fileFactory->create();
-            $varDirectory = $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR) . DIRECTORY_SEPARATOR . 'locks';
-            $file->setAllowCreateFolders(true);
+            $varDirectory = $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR) . '/locks';
+            try {
+                $this->_filesystem->setIsAllowCreateDirectories(true);
+                $this->_filesystem->setWorkingDirectory(dirname($varDirectory));
+                $this->_filesystem->ensureDirectoryExists($varDirectory);
+                $this->_filesystem->setWorkingDirectory($varDirectory);
+            } catch (\Magento\Filesystem\FilesystemException $e) {
+                $this->_filesystem->setWorkingDirectory(getcwd());
+            }
 
-            $file->open(array('path' => $varDirectory));
-            $fileName = 'index_process_' . $processId . '.lock';
-            $file->streamOpen($fileName);
-            $file->streamWrite(date('r'));
-            $this->_fileHandlers[$processId] = $file;
+            $fileName = $varDirectory . '/index_process_' . $processId . '.lock';
+            $stream = $this->_filesystem->createAndOpenStream($fileName, 'w+');
+            $stream->write(date('r'));
+            $this->_fileHandlers[$processId] = $this->_fileFactory->create(array('streamHandler' => $stream));;
         }
         return $this->_fileHandlers[$processId];
     }

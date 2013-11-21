@@ -290,6 +290,24 @@ class Local implements \Magento\Filesystem\StreamInterface
     }
 
     /**
+     * Portable advisory file locking with lock flag param
+     *
+     * @param int $lock
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function addLock($lock = LOCK_EX)
+    {
+        $this->_assertOpened();
+        $this->_isLocked = flock($this->_fileHandle, $lock);
+        if (!$this->_isLocked) {
+            throw new \Magento\Filesystem\FilesystemException(
+                sprintf('The stream "%s" can not be locked', $this->_path)
+            );
+        }
+    }
+
+
+    /**
      * File unlocking
      *
      * @throws \Magento\Filesystem\FilesystemException

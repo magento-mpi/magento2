@@ -17,6 +17,9 @@
  */
 namespace Magento\Catalog\Model\Product;
 
+use Magento\Core\Model\Store;
+use Magento\Filesystem\DirectoryList;
+
 class Image extends \Magento\Core\Model\AbstractModel
 {
     protected $_width;
@@ -43,9 +46,9 @@ class Image extends \Magento\Core\Model\AbstractModel
     protected $_watermarkImageOpacity = 70;
 
     /**
-     * @var \Magento\Filesystem $filesystem
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_filesystem;
+    protected $_mediaDirectory;
 
     /**
      * @var \Magento\Image\Factory
@@ -84,13 +87,6 @@ class Image extends \Magento\Core\Model\AbstractModel
     protected $_catalogProductMediaConfig;
 
     /**
-     * Dir
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -101,7 +97,6 @@ class Image extends \Magento\Core\Model\AbstractModel
      * Construct
      *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
@@ -119,7 +114,6 @@ class Image extends \Magento\Core\Model\AbstractModel
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Dir $dir,
         \Magento\Catalog\Model\Product\Media\Config $catalogProductMediaConfig,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
@@ -134,16 +128,11 @@ class Image extends \Magento\Core\Model\AbstractModel
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        $this->_dir = $dir;
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $baseDir = $this->_catalogProductMediaConfig->getBaseMediaPath();
-        $this->_filesystem = $filesystem;
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($baseDir);
-        $this->_filesystem->setIsAllowCreateDirectories(false);
-        $this->_filesystem->setWorkingDirectory($baseDir);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_mediaDirectory->create($this->_catalogProductMediaConfig->getBaseMediaPath());
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         $this->_viewFileSystem = $viewFileSystem;
@@ -307,7 +296,7 @@ class Image extends \Magento\Core\Model\AbstractModel
             return 0;
         }
 
-        if (!$this->_filesystem->isFile($file)) {
+        if (!$this->_mediaDirectory->isExist($file)) {
             return 0;
         }
 
@@ -388,7 +377,7 @@ class Image extends \Magento\Core\Model\AbstractModel
 
         $baseFile = $baseDir . $file;
 
-        if (!$file || !$this->_filesystem->isFile($baseFile)) {
+        if (!$file || !$this->_mediaDirectory->isFile($baseFile)) {
             throw new \Exception(__('We can\'t find the image file.'));
         }
 
@@ -458,7 +447,9 @@ class Image extends \Magento\Core\Model\AbstractModel
     public function getImageProcessor()
     {
         if (!$this->_processor) {
-            $this->_processor = $this->_imageFactory->create($this->getBaseFile());
+            $this->_processor = $this->_imageFactory->create(
+                $this->_mediaDirectory->getAbsolutePath($this->getBaseFile())
+            );
         }
         $this->_processor->keepAspectRatio($this->_keepAspectRatio);
         $this->_processor->keepFrame($this->_keepFrame);
@@ -567,7 +558,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         if ($this->_isBaseFilePlaceholder && $this->_newFile === true) {
             return $this;
         }
-        $filename = $this->getNewFile();
+        $filename = $this->_mediaDirectory->getAbsolutePath($this->getNewFile());
         $this->getImageProcessor()->save($filename);
         $this->_coreFileStorageDatabase->saveFile($filename);
         return $this;
@@ -583,9 +574,7 @@ class Image extends \Magento\Core\Model\AbstractModel
                 "Magento_Catalog::images/product/placeholder/{$this->getDestinationSubdir()}.jpg"
             );
         } else {
-            $baseDir = $this->_dir->getDir(\Magento\App\Dir::MEDIA);
-            $path = str_replace($baseDir . DS, "", $this->_newFile);
-            $url = $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA) . str_replace(DS, '/', $path);;
+            $url = $this->_storeManager->getStore()->getBaseUrl(Store::URL_TYPE_MEDIA) . $this->_newFile;
         }
 
         return $url;
@@ -650,20 +639,23 @@ class Image extends \Magento\Core\Model\AbstractModel
         if (!$file = $this->getWatermarkFile()) {
             return $filePath;
         }
-
         $baseDir = $this->_catalogProductMediaConfig->getBaseMediaPath();
 
-        if ($this->_fileExists($baseDir . '/watermark/stores/' . $this->_storeManager->getStore()->getId() . $file)) {
-            $filePath = $baseDir . '/watermark/stores/' . $this->_storeManager->getStore()->getId() . $file;
-        } elseif ($this->_fileExists($baseDir . '/watermark/websites/' . $this->_storeManager->getWebsite()->getId() . $file)) {
-            $filePath = $baseDir . '/watermark/websites/' . $this->_storeManager->getWebsite()->getId() . $file;
-        } elseif ($this->_fileExists($baseDir . '/watermark/default/' . $file)) {
-            $filePath = $baseDir . '/watermark/default/' . $file;
-        } elseif ($this->_fileExists($baseDir . '/watermark/' . $file)) {
-            $filePath = $baseDir . '/watermark/' . $file;
-        } else {
+        $candidates = array(
+            $baseDir . '/watermark/stores/' . $this->_storeManager->getStore()->getId() . $file,
+            $baseDir . '/watermark/websites/' . $this->_storeManager->getWebsite()->getId() . $file,
+            $baseDir . '/watermark/default/' . $file,
+            $baseDir . '/watermark/' . $file
+        );
+        foreach ($candidates as $candidate) {
+            if ($this->_mediaDirectory->isExist($candidate)) {
+                $filePath = $this->_mediaDirectory->getAbsolutePath($candidate);
+                break;
+            }
+        }
+        if (!$filePath) {
             $viewFile = $this->_viewFileSystem->getViewFile($file);
-            if ($this->_filesystem->isFile($viewFile)) {
+            if ($this->_mediaDirectory->isFile($this->_mediaDirectory->getRelativePath($viewFile))) {
                 $filePath = $viewFile;
             }
         }
@@ -776,11 +768,10 @@ class Image extends \Magento\Core\Model\AbstractModel
 
     public function clearCache()
     {
-        $directory = $this->_dir->getDir(\Magento\App\Dir::MEDIA) . DS . 'catalog' . DS . 'product'
-            . DS . 'cache' . DS;
-        $this->_filesystem->delete($directory);
+        $directory = $this->_catalogProductMediaConfig->getBaseMediaPath() . '/cache';
+        $this->_mediaDirectory->delete($directory);
 
-        $this->_coreFileStorageDatabase->deleteFolder($directory);
+        $this->_coreFileStorageDatabase->deleteFolder($this->_mediaDirectory->getAbsolutePath($directory));
     }
 
     /**
@@ -792,10 +783,12 @@ class Image extends \Magento\Core\Model\AbstractModel
      */
     protected function _fileExists($filename)
     {
-        if ($this->_filesystem->isFile($filename)) {
+        if ($this->_mediaDirectory->isFile($filename)) {
             return true;
         } else {
-            return $this->_coreFileStorageDatabase->saveFileToFilesystem($filename);
+            return $this->_coreFileStorageDatabase->saveFileToFilesystem(
+                $this->_mediaDirectory->getAbsolutePath($filename)
+            );
         }
     }
 }

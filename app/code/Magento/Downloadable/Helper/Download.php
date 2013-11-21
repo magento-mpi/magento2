@@ -18,45 +18,45 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     /**
      * Link type url
      */
-    const LINK_TYPE_URL = 'url';
+    const LINK_TYPE_URL         = 'url';
 
     /**
      * Link type file
      */
-    const LINK_TYPE_FILE = 'file';
+    const LINK_TYPE_FILE        = 'file';
 
     /**
      * Config path to content disposition
      */
-    const XML_PATH_CONTENT_DISPOSITION = 'catalog/downloadable/content_disposition';
+    const XML_PATH_CONTENT_DISPOSITION  = 'catalog/downloadable/content_disposition';
 
     /**
      * Type of link
      *
      * @var string
      */
-    protected $_linkType = self::LINK_TYPE_FILE;
+    protected $_linkType        = self::LINK_TYPE_FILE;
 
     /**
      * Resource file
      *
      * @var string
      */
-    protected $_resourceFile = null;
+    protected $_resourceFile    = null;
 
     /**
      * Resource open handle
      *
      * @var resource
      */
-    protected $_handle = null;
+    protected $_handle          = null;
 
     /**
      * Remote server headers
      *
      * @var array
      */
-    protected $_urlHeaders = array();
+    protected $_urlHeaders      = array();
 
     /**
      * MIME Content-type for a file
@@ -276,12 +276,10 @@ class Download extends \Magento\Core\Helper\AbstractHelper
         if (self::LINK_TYPE_FILE == $linkType) {
             //check LFI protection
             $this->_filesystem->checkLfiProtection($resourceFile);
-
-            $resourceFile = $this->_mediaDirectory->getAbsolutePath($resourceFile);
         }
 
-        $this->_resourceFile = $resourceFile;
-        $this->_linkType = $linkType;
+        $this->_resourceFile    = $resourceFile;
+        $this->_linkType        = $linkType;
 
         return $this;
     }

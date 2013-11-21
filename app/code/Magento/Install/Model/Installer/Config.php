@@ -182,7 +182,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
             $directory = $this->_filesystem->getDirectoryRead(DirectoryList::PUB_LIB);
             $files = $directory->search('/.+\.(html?|js|css|gif|jpe?g|png)$/');
 
-            $staticFile = $files ? $files[0] : null;
+            $staticFile = isset($files[0]) ? $files[0] : null;
             $staticUrl = $baseUrl . $this->_filesystem->getUri(DirectoryList::PUB_LIB) . '/' . $staticFile;
             $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');

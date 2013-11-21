@@ -61,7 +61,7 @@ try {
         $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
 
-    $cssUrlResolver = new \Magento\View\Url\CssResolver($filesystem, $dirs);
+    $cssUrlResolver = new \Magento\View\Url\CssResolver($filesystem);
     $deployment = new \Magento\Tools\View\Generator\ThemeDeployment(
         $cssUrlResolver,
         $config->getDestinationDir(),

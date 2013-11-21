@@ -25,18 +25,23 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
      */
     protected $_tmpDir;
 
+    /**
+     * @var \Magento\Filesystem | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filesystem;
+
     protected function setUp()
     {
-        $filesystem =  new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
-        $dirs = new \Magento\App\Dir($filesystem->normalizePath(__DIR__ . '/../../../../../../'));
-        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($filesystem, $dirs);
+        $this->filesystem =  $this->getMock('Magento\Filesystem', array('getDirectoryWrite', 'getPath'), array(), '', false);
+        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem);
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
         mkdir($this->_tmpDir);
     }
 
     protected function tearDown()
     {
-        \Magento\Io\File::rmdirRecursive($this->_tmpDir);
+        $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
+        $filesystemAdapter->delete($this->_tmpDir);
     }
 
     /**
@@ -85,6 +90,11 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.php';
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
+
+        $this->filesystem->expects($this->any())
+            ->method('getPath')
+            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->will($this->returnValue(BP));
 
         $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
             $forbidden);
@@ -142,6 +152,11 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.php';
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
+
+        $this->filesystem->expects($this->any())
+            ->method('getPath')
+            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->will($this->returnValue(BP));
 
         $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
             $forbidden, true);

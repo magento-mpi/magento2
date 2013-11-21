@@ -9,6 +9,9 @@
  */
 namespace Magento\Filesystem\DirectoryList;
 
+use Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\FilesystemException;
+
 class Verification
 {
     /**
@@ -17,12 +20,12 @@ class Verification
      * @var array
      */
     protected static $productionDirs = array(
-        \Magento\Filesystem\DirectoryList::MEDIA,
-        \Magento\Filesystem\DirectoryList::VAR_DIR,
-        \Magento\Filesystem\DirectoryList::TMP,
-        \Magento\Filesystem\DirectoryList::CACHE,
-        \Magento\Filesystem\DirectoryList::LOG,
-        \Magento\Filesystem\DirectoryList::SESSION,
+        DirectoryList::MEDIA,
+        DirectoryList::VAR_DIR,
+        DirectoryList::TMP,
+        DirectoryList::CACHE,
+        DirectoryList::LOG,
+        DirectoryList::SESSION,
     );
 
     /**
@@ -31,13 +34,13 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
-        \Magento\Filesystem\DirectoryList::MEDIA,
-        \Magento\Filesystem\DirectoryList::STATIC_VIEW,
-        \Magento\Filesystem\DirectoryList::VAR_DIR,
-        \Magento\Filesystem\DirectoryList::TMP,
-        \Magento\Filesystem\DirectoryList::CACHE,
-        \Magento\Filesystem\DirectoryList::LOG,
-        \Magento\Filesystem\DirectoryList::SESSION,
+        DirectoryList::MEDIA,
+        DirectoryList::STATIC_VIEW,
+        DirectoryList::VAR_DIR,
+        DirectoryList::TMP,
+        DirectoryList::CACHE,
+        DirectoryList::LOG,
+        DirectoryList::SESSION,
     );
 
     /**
@@ -95,7 +98,7 @@ class Verification
             } else {
                 try {
                     $directory->create();
-                } catch (\Magento\Filesystem\FilesystemException $e) {
+                } catch (FilesystemException $e) {
                     $fails[] = $directory->getAbsolutePath();
                 }
             }

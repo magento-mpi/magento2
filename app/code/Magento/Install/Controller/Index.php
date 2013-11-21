@@ -14,6 +14,8 @@
  */
 namespace Magento\Install\Controller;
 
+use Magento\Filesystem\FilesystemException;
+
 class Index extends \Magento\Install\Controller\Action
 {
     /**
@@ -24,6 +26,11 @@ class Index extends \Magento\Install\Controller\Action
     protected $_filesystem;
 
     /**
+     * @var \Magento\Logger
+     */
+    protected $logger;
+
+    /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\View\DesignInterface $viewDesign
@@ -31,6 +38,7 @@ class Index extends \Magento\Install\Controller\Action
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
@@ -39,7 +47,8 @@ class Index extends \Magento\Install\Controller\Action
         \Magento\Core\Model\Theme\CollectionFactory $collectionFactory,
         \Magento\Core\Model\App $app,
         \Magento\App\State $appState,
-        \Magento\Filesystem $filesystem
+        \Magento\Filesystem $filesystem,
+        \Magento\Logger $logger
     ) {
         $this->_filesystem = $filesystem;
         parent::__construct($context, $configScope, $viewDesign, $collectionFactory, $app, $appState);
@@ -55,7 +64,12 @@ class Index extends \Magento\Install\Controller\Action
             $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
             foreach ($varDirectory->read() as $path) {
                 if ($varDirectory->isDirectory($path)) {
-                    $varDirectory->delete($path);
+                    try {
+                        $varDirectory->delete($path);
+                    } catch (FilesystemException $e) {
+                        $this->logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
+                        $this->logger->log($e->getMessage());
+                    }
                 }
             }
         }

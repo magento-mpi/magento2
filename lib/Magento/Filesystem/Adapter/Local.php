@@ -352,4 +352,25 @@ class Local implements
     {
         return new \Magento\Filesystem\Stream\Local($path);
     }
+
+    /**
+     * Return file statistic
+     * TODO cover with tests and update interface if it's needed
+     *
+     * @param string $filePath
+     * @param string|null $statParam
+     * @return array
+     * @throws \Magento\Filesystem\FilesystemException
+     */
+    public function getStat($filePath, $statParam = null)
+    {
+        if (!$this->isFile($filePath)) {
+            throw new \Magento\Filesystem\FilesystemException('Failed to get statistic for file ' . $filePath);
+        }
+        $statInfo = stat($filePath);
+        if ($statParam && isset($statInfo[$statParam])) {
+            return $statInfo[$statParam];
+        }
+        return $statInfo;
+    }
 }

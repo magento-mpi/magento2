@@ -23,7 +23,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public static function tearDownAfterClass()
     {
-        \Magento\Io\File::rmdirRecursive(self::$_tmpDir);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+            ->delete(self::$_tmpDir);
     }
 
     public function testInstall()

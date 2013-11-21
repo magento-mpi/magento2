@@ -164,7 +164,6 @@ class MigrationTest extends \PHPUnit_Framework_TestCase
             $contextMock,
             $this->getMock('Magento\Filesystem', array(), array(), '', false),
             $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\App\Dir', array(), array(), '', false),
             'core_setup',
             ''
         );

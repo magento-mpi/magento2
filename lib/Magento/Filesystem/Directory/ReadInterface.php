@@ -28,7 +28,7 @@ interface ReadInterface
     /**
      * Retrieve list of all entities in given path
      *
-     * @param string|null $path
+     * @param string $path [optional]
      * @return array
      */
     public function read($path = null);

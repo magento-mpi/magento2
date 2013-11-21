@@ -28,10 +28,11 @@ class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
         $tmpDir =
             \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir()
                 . DIRECTORY_SEPARATOR . 'WizardTest';
+        $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local());
         if (is_file($tmpDir)) {
             unlink($tmpDir);
         } elseif (is_dir($tmpDir)) {
-            \Magento\Io\File::rmdirRecursive($tmpDir);
+            $filesystem->delete($tmpDir);
         }
         // deliberately create a file instead of directory to emulate broken access to static directory
         touch($tmpDir);

@@ -17,6 +17,8 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
+use Magento\Filesystem\DirectoryList;
+
 class Gallery extends \Magento\Backend\Controller\Adminhtml\Action
 {
     public function uploadAction()
@@ -29,9 +31,10 @@ class Gallery extends \Magento\Backend\Controller\Adminhtml\Action
             $uploader->addValidateCallback('catalog_product_image', $imageAdapter, 'validateUploadFile');
             $uploader->setAllowRenameFiles(true);
             $uploader->setFilesDispersion(true);
-            $result = $uploader->save(
-                $this->_objectManager->get('Magento\Catalog\Model\Product\Media\Config')->getBaseTmpMediaPath()
-            );
+            /** @var \Magento\Filesystem\Directory\Read $mediaDirectory */
+            $mediaDirectory = $this->_objectManager->get('Magento\Filesystem')->getDirectoryRead(DirectoryList::MEDIA);
+            $config = $this->_objectManager->get('Magento\Catalog\Model\Product\Media\Config');
+            $result = $uploader->save($mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath()));
 
             $this->_eventManager->dispatch('catalog_product_gallery_upload_image_after', array(
                 'result' => $result,

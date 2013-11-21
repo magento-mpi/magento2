@@ -200,9 +200,6 @@ class DirectoryList extends Dir
     {
 
         $configuration['path'] = $this->makeAbsolute($configuration['path']);
-        if (isset($configuration['read_only'])) {
-            $configuration['read_only'] = $configuration['read_only'] == 'true' ? true : false;
-        }
         $this->directories[$code] = $configuration;
     }
 

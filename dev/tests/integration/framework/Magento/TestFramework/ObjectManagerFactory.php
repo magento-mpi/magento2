@@ -81,7 +81,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $directoryListConfig->configure($directories);
 
         /** @var \Magento\Filesystem\DirectoryList\Verification $verification */
-        $verification = $objectManager->get('Magento\App\Dir\Verification');
+        $verification = $objectManager->get('Magento\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
 
         return $objectManager;

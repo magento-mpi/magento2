@@ -56,10 +56,10 @@ abstract class EntityAbstract
     protected $_classGenerator;
 
     /**
-     * @param string $sourceClassName
-     * @param string $resultClassName
-     * @param \Magento\Code\Generator\Io $ioObject
-     * @param \Magento\Code\Generator\CodeGenerator\CodeGeneratorInterface $classGenerator
+     * @param null $sourceClassName
+     * @param null $resultClassName
+     * @param Io $ioObject
+     * @param CodeGenerator\CodeGeneratorInterface $classGenerator
      * @param \Magento\Autoload\IncludePath $autoLoader
      */
     public function __construct(
@@ -77,7 +77,10 @@ abstract class EntityAbstract
         if ($ioObject) {
             $this->_ioObject = $ioObject;
         } else {
-            $this->_ioObject = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $this->_autoloader);
+            $this->_ioObject = new \Magento\Code\Generator\Io(
+                new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
+                $this->_autoloader
+            );
         }
         if ($classGenerator) {
             $this->_classGenerator = $classGenerator;

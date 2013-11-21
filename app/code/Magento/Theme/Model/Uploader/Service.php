@@ -22,11 +22,11 @@ class Service
     protected $_filePath;
 
     /**
-     * File system helper
+     * Filesystem instance
      *
-     * @var \Magento\Io\File
+     * @var \Magento\Filesystem
      */
-    protected $_fileIo;
+    protected $_filesystem;
 
     /**
      * File size
@@ -60,18 +60,18 @@ class Service
     /**
      * Constructor
      *
-     * @param \Magento\Io\File $fileIo
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\File\Size $fileSize
      * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
      * @param array $uploadLimits keys are 'css' and 'js' for file type, values defines maximum file size, example: 2M
      */
     public function __construct(
-        \Magento\Io\File $fileIo,
+        \Magento\Filesystem $filesystem,
         \Magento\File\Size $fileSize,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
         array $uploadLimits = array()
     ) {
-        $this->_fileIo = $fileIo;
+        $this->_filesystem = $filesystem;
         $this->_fileSize = $fileSize;
         $this->_uploaderFactory = $uploaderFactory;
         if (isset($uploadLimits['css'])) {
@@ -142,7 +142,7 @@ class Service
      */
     public function getFileContent($filePath)
     {
-        return $this->_fileIo->read($filePath);
+        return $this->_filesystem->read($filePath);
     }
 
     /**

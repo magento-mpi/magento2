@@ -70,12 +70,12 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_configMock = $this->getMock('Magento\Core\Model\File\Storage\Config', array(), array(), '', false);
         $this->_sync= $this->getMock('Magento\Core\Model\File\Storage\Synchronization', array(), array(), '', false);
         $this->_dirVerificationMock = $this->getMock(
-            'Magento\App\Dir\Verification', array(), array(), '', false
+            'Magento\Filesystem\DirectoryList\Verification', array(), array(), '', false
         );
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
-            array('Magento\App\Dir\Verification', $this->_dirVerificationMock),
+            array('Magento\Filesystem\DirectoryList\Verification', $this->_dirVerificationMock),
             array('Magento\App\State', $this->_appState),
             array('Magento\Core\Model\File\Storage\Request', $this->_requestMock),
             array('Magento\Core\Model\File\Storage\Synchronization', $this->_sync),

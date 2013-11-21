@@ -26,8 +26,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Core\Model\StoreManager');
         $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\Store\Config');
+        $filesystem =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Filesystem');
         $model = new \Magento\ScheduledImportExport\Model\Observer(
-            $coreDir, $operationFactory, $emailInfoFactory, $templateMailer, $storeConfig, $storeManager
+            $coreDir, $operationFactory, $emailInfoFactory, $templateMailer, $storeConfig, $storeManager, $filesystem
         );
         $model->scheduledLogClean('not_used', true);
         /** @var $dirs \Magento\App\Dir */

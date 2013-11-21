@@ -33,20 +33,30 @@ class ErrorProcessor
     protected $_logger;
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * Initialize dependencies. Register custom shutdown function.
      *
      * @param \Magento\Core\Helper\Data $helper
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Logger $logger
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Core\Helper\Data $helper,
         \Magento\Core\Model\App $app,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_coreHelper = $helper;
         $this->_app = $app;
         $this->_logger = $logger;
+        $this->_filesystem = $filesystem;
         $this->registerShutdownFunction();
     }
 
@@ -244,12 +254,12 @@ class ErrorProcessor
      */
     protected function _saveFatalErrorReport($reportData)
     {
-        $file = new \Magento\Io\File();
         $reportDir = BP . '/var/report/api';
-        $file->checkAndCreateFolder($reportDir, 0777);
+        $this->_filesystem->setIsAllowCreateDirectories(true);
+        $this->_filesystem->ensureDirectoryExists($reportDir, 0777);
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
         $reportFile = "$reportDir/$reportId";
-        $file->write($reportFile, serialize($reportData), 0777);
+        $this->_filesystem->write($reportFile, serialize($reportData));
         return $reportId;
     }
 }

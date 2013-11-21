@@ -78,7 +78,10 @@ class DefinitionFactory
             $result = new $definitionModel($definitions);
         } else {
             $autoloader = new \Magento\Autoload\IncludePath();
-            $generatorIo = new \Magento\Code\Generator\Io(new \Magento\Io\File(), $autoloader, $this->_generationDir);
+            $generatorIo = new \Magento\Code\Generator\Io(
+                $autoloader,
+                $this->_generationDir
+            );
             $generator = new \Magento\Code\Generator(null, $autoloader, $generatorIo);
             $autoloader = new \Magento\Code\Generator\Autoloader($generator);
             spl_autoload_register(array($autoloader, 'load'));
