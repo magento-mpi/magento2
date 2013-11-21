@@ -40,27 +40,28 @@ if (!file_exists($scvUrl)) {
 $xml = simplexml_load_file($xmlUrl);
 $scv = readCsv($scvUrl);
 
-foreach($xml as $key => $value) {
+foreach ($xml as $key => $value) {
     unset($value->httpSample);
     unset($value->assertionResult);
 }
 
-foreach($scv as $key => $value) {
+foreach ($scv as $key => $value) {
     $httpSample = $xml->addChild('httpSample');
 
-    $httpSample->addAttribute('t',$value[1]);
-    $httpSample->addAttribute('lt',$value[1]);
-    $httpSample->addAttribute('ts',$value[0]);
-    $httpSample->addAttribute('s','true');
-    $httpSample->addAttribute('lb',$value[2]);
-    $httpSample->addAttribute('rc','200');
-    $httpSample->addAttribute('rm','OK');
-    $httpSample->addAttribute('tn',$value[2]);
+    $httpSample->addAttribute('t', $value[1]);
+    $httpSample->addAttribute('lt', $value[1]);
+    $httpSample->addAttribute('ts', $value[0]);
+    $httpSample->addAttribute('s', 'true');
+    $httpSample->addAttribute('lb', $value[2]);
+    $httpSample->addAttribute('rc', '200');
+    $httpSample->addAttribute('rm', 'OK');
+    $httpSample->addAttribute('tn', $value[2]);
 }
 
 $xml->asXML($newLogsUrl);
 
-function readCsv($csvFile){
+function readCsv($csvFile)
+{
     $fileHandle = fopen($csvFile, 'r');
     $lineOfText = array();
     while (!feof($fileHandle) ) {
