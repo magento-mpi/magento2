@@ -938,4 +938,5 @@ return array(
     array('getMediaBaseDirectory', 'Magento\Core\Model\Resource\File\Storage\File'),
     array('getBaseDir', 'Magento\Core\Model\Theme\Collection'),
     array('setBaseDir', 'Magento\Core\Model\Theme\Collection'),
+    array('correctPath', 'Magento\Cms\Helper\Wysiwyg\Images'),
 );
