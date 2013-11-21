@@ -15,6 +15,7 @@
   * Fixed several typos and minor mistakes
   * Fixed assigning status on an order
   * Fixed viewing and editing order status from the order status grid
+  * Fixed ability to select the category on the conditions tab on the Related Products Rule
 
 2.0.0.0-dev52
 =============
