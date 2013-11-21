@@ -656,24 +656,6 @@
 }
 
 /*
-    Reports - Customer's wishlists
--------------------------------------- */
-.multiplewishlist-report-customer-wishlist-wishlist .col-period {
-    width: 70px;
-}
-
-.multiplewishlist-report-customer-wishlist-wishlist .col-whishlist-qty,
-.multiplewishlist-report-customer-wishlist-wishlist .col-available-qty,
-.multiplewishlist-report-customer-wishlist-wishlist .col-qty-diff {
-    text-align: right;
-    width: 100px;
-}
-
-.multiplewishlist-report-customer-wishlist-wishlist .grid .range {
-    text-align: left;
-}
-
-/*
     Reports - Customer Segment Report
 -------------------------------------- */
 .filter-segments {
