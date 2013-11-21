@@ -159,7 +159,7 @@ class View extends \Magento\Rma\Block\Form
         $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = $this->_itemFormFactory->create('Magento\Rma\Model\Item\Form');
+        $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);
