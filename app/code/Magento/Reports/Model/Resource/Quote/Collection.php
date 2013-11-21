@@ -123,6 +123,11 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
         $this->getSelect()
             ->useStraightJoin(true)
             ->reset(\Zend_Db_Select::COLUMNS)
+            ->columns(
+                array(
+                    'name' => $this->getConnection()->getIfNullSql('product_name.value', 'product_name_default.value')
+                )
+            )
             ->joinInner(
                 array('quote_items' => $this->getTable('sales_flat_quote_item')),
                 'quote_items.quote_id = main_table.entity_id',
@@ -131,13 +136,18 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
                 array('e' => $this->getTable('catalog_product_entity')),
                 'e.entity_id = quote_items.product_id',
                 null)
-            ->joinInner(
+            ->joinLeft(
                 array('product_name' => $productAttrNameTable),
                 "product_name.entity_id = e.entity_id
                 AND product_name.attribute_id = {$productAttrNameId}
-                AND (product_name.store_id = main_table.store_id OR product_name.store_id = "
-                . \Magento\Core\Model\AppInterface::ADMIN_STORE_ID . ")",
-                array('name'=>'product_name.value'))
+                AND product_name.store_id = main_table.store_id"
+            )
+            ->joinInner(
+                array('product_name_default' => $productAttrNameTable),
+                "product_name_default.entity_id = e.entity_id
+                AND product_name_default.attribute_id = {$productAttrNameId}
+                AND product_name_default.store_id = " . \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
+            )
             ->joinInner(
                 array('product_price' => $productAttrPriceTable),
                 "product_price.entity_id = e.entity_id AND product_price.attribute_id = {$productAttrPriceId}",
