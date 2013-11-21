@@ -56,6 +56,11 @@ class SalesOrderView extends Page
     protected $titleBlock;
 
     /**
+     * @var Payment Information block
+     */
+    protected $paymentInfo;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -72,6 +77,9 @@ class SalesOrderView extends Page
         );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page-title .title')
+        );
+        $this->paymentInfo = Factory::getBlockFactory()->getMagentoBackendSalesOrderInfo(
+            $this->_browser->find('.order-payment-method')
         );
     }
 
@@ -113,5 +121,15 @@ class SalesOrderView extends Page
     public function getTitleBlock()
     {
         return $this->titleBlock;
+    }
+
+    /**
+     * Get Payment Information block
+     *
+     * @return \Magento\Backend\Test\Block\Sales\Order\Info
+     */
+    public function getOrderInfoBlock()
+    {
+        return $this->paymentInfo;
     }
 }

@@ -34,6 +34,7 @@ class Cc extends AbstractRepository
         $this->_data['visa_default'] = $this->_getVisaDefault();
         $this->_data['visa_direct'] = $this->_getVisaDirect();
         $this->_data['visa_authorizenet'] = $this->_getVisaAuthorizeNet();
+        $this->_data['visa_payflowpro_3d_secure'] = $this->_getVisaPayPalPayflowPro3dSecure();
     }
 
     protected function _getVisaDefault()
@@ -123,6 +124,42 @@ class Cc extends AbstractRepository
                     ),
                     'credit_card_cvv' => array(
                         'value' => '123'
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getVisaPayPalPayflowPro3dSecure()
+    {
+        return array(
+            'config' => array(
+                'constraint' => 'Success',
+            ),
+            'data' => array(
+                'fields' => array(
+                    'credit_card_type' => array(
+                        'value' => 'Visa',
+                        'input' => 'select'
+                    ),
+                    'credit_card_number' => array(
+                        'value' => '4000000000000002'
+                    ),
+                    'expiration_month' => array(
+                        'value' => '01 - January',
+                        'input' => 'select'
+                    ),
+                    'expiration_year' => array(
+                        'value' => date('Y') + 2,
+                        'input' => 'select'
+                    ),
+                    'credit_card_cvv' => array(
+                        'value' => '123'
+                    ),
+                ),
+                'validation' => array(
+                    'password' => array(
+                        'value' => '1234'
                     )
                 )
             )

@@ -33,4 +33,14 @@ class Cc extends DataFixture
         //Default data set
         $this->switchData('visa_default');
     }
+
+    /**
+     * Retrive Credit Card validation password for 3D Secure
+     *
+     * @return string
+     */
+    public function getValidationPassword()
+    {
+        return $this->getData('validation/password/value');
+    }
 }

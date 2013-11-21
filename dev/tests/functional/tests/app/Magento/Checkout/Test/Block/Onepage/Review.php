@@ -27,15 +27,14 @@ class Review extends Block
      *
      * @var string
      */
-    private $continue;
+    private $continue = '#review-buttons-container button';
 
     /**
-     * Initialize block elements
+     * Centinel authentication block
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        $this->continue = '#review-buttons-container button';
-    }
+    protected $centinelBlock = '#centinel-authenticate-block';
 
     /**
      * Fill billing address
@@ -44,5 +43,13 @@ class Review extends Block
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
+    }
+
+    /**
+     * Wait for 3D Secure card validation
+     */
+    public function waitForCardValidation()
+    {
+        $this->waitForElementNotVisible($this->centinelBlock);
     }
 }
