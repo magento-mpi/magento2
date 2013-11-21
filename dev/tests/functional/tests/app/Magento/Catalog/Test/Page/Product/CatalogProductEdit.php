@@ -43,9 +43,11 @@ class CatalogProductEdit extends Page
     protected $messagesBlock;
 
     /**
+     * Product Form block
+     *
      * @var ProductForm
      */
-    private $productFormBlock;
+    protected $productFormBlock;
 
     /**
      * Messages block
@@ -55,16 +57,18 @@ class CatalogProductEdit extends Page
     protected $productUpsellBlock;
 
     /**
+     * Upsell grid block
+     *
      * @var \Magento\Catalog\Test\Block\Backend\ProductUpsellGrid
      */
-    protected $productUpsellGrid;
+    protected $productUpsellGridBlock;
 
     /**
      * Catalog product grid on backend
      *
      * @var \Magento\Catalog\Test\Block\Backend\ProductEditGrid
      */
-    private $productEditGrid;
+    protected $productEditGridBlock;
 
     /**
      * Custom constructor
@@ -85,11 +89,11 @@ class CatalogProductEdit extends Page
             $this->_browser->find('product_info_tabs_upsell', Locator::SELECTOR_CSS)
         );
 
-        $this->productUpsellGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductUpsellGrid(
+        $this->productUpsellGridBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductUpsellGrid(
             $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
         );
 
-        $this->productEditGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+        $this->productEditGridBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
@@ -133,7 +137,7 @@ class CatalogProductEdit extends Page
      */
     public function getProductUpsellGrid()
     {
-        return $this->productUpsellGrid;
+        return $this->productUpsellGridBlock;
     }
 
 
@@ -144,6 +148,6 @@ class CatalogProductEdit extends Page
      */
     public function getProductEditGrid()
     {
-        return $this->productEditGrid;
+        return $this->productEditGridBlock;
     }
 }
