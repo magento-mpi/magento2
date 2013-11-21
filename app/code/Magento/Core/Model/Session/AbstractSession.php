@@ -11,8 +11,6 @@
  */
 namespace Magento\Core\Model\Session;
 
-use Magento\Webapi\Exception;
-
 class AbstractSession extends \Magento\Object
 {
     const PARAM_SESSION_SAVE_METHOD     = 'session_save';
@@ -53,7 +51,7 @@ class AbstractSession extends \Magento\Object
      *
      * @var \Magento\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * @var \Magento\Core\Model\Session\Validator
@@ -677,6 +675,9 @@ class AbstractSession extends \Magento\Object
      */
     public function regenerateId($deleteOldSession = true)
     {
+        if ($this->isSessionExists()) {
+            return $this;
+        }
         session_regenerate_id($deleteOldSession);
 
         if ($this->_sessionConfig->getUseCookies()) {
