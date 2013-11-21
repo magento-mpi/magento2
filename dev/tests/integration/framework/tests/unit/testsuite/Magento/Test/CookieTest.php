@@ -50,12 +50,4 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($cookieValue, $this->_model->get(self::SAMPLE_COOKIE_NAME));
         $this->assertEquals($cookieValue, $_COOKIE[self::SAMPLE_COOKIE_NAME]);
     }
-
-    public function testDelete()
-    {
-        $this->_model->set(self::SAMPLE_COOKIE_NAME, 'some_value');
-        $this->_model->set(self::SAMPLE_COOKIE_NAME, null, 0);
-        $this->assertFalse($this->_model->get(self::SAMPLE_COOKIE_NAME));
-        $this->assertArrayNotHasKey(self::SAMPLE_COOKIE_NAME, $_COOKIE);
-    }
 }
