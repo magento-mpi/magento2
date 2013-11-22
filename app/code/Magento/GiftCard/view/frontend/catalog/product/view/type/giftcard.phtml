@@ -116,14 +116,22 @@
             <div class="field sender required">
                 <label for="giftcard_sender_name" class="label"><span><?php echo __('Sender Name'); ?></span></label>
                 <div class="control">
-                    <input type="text" id="giftcard_sender_name" name="giftcard_sender_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultSenderName()) ?>" />
+                    <input type="text"
+                           id="giftcard_sender_name"
+                           name="giftcard_sender_name"
+                           class="required-entry input-text"
+                           value="<?php echo $this->escapeHtml($this->getDefaultSenderName()) ?>" />
                 </div>
             </div>
             <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field sender email required">
                     <label for="giftcard_sender_email" class="label"><span><?php echo __('Sender Email'); ?></span></label>
                     <div class="control">
-                        <input type="text" id="giftcard_sender_email" name="giftcard_sender_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultSenderEmail()) ?>"/>
+                        <input type="text"
+                               id="giftcard_sender_email"
+                               name="giftcard_sender_email"
+                               class="validate-email required-entry input-text"
+                               value="<?php echo $this->escapeHtml($this->getDefaultSenderEmail()) ?>"/>
                     </div>
                 </div>
             <?php endif; ?>
@@ -131,14 +139,22 @@
             <div class="field recipient required">
                 <label for="giftcard_recipient_name" class="label"><span><?php echo __('Recipient Name'); ?></span></label>
                 <div class="control">
-                    <input type="text" id="giftcard_recipient_name" name="giftcard_recipient_name" class="required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_recipient_name')) ?>" />
+                    <input type="text"
+                           id="giftcard_recipient_name"
+                           name="giftcard_recipient_name"
+                           class="required-entry input-text"
+                           value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_recipient_name')) ?>" />
                 </div>
             </div>
             <?php if ($this->isEmailAvailable($_product)): ?>
                 <div class="field recipient email required">
                     <label for="giftcard_recipient_email" class="label"><span><?php echo __('Recipient Email'); ?></span></label>
                     <div class="control">
-                        <input type="text" id="giftcard_recipient_email" name="giftcard_recipient_email" class="validate-email required-entry input-text" value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_recipient_email')) ?>" />
+                        <input type="text"
+                               id="giftcard_recipient_email"
+                               name="giftcard_recipient_email"
+                               class="validate-email required-entry input-text"
+                               value="<?php echo $this->escapeHtml($this->getDefaultValue('giftcard_recipient_email')) ?>" />
                     </div>
                 </div>
             <?php endif; ?>

@@ -21,7 +21,8 @@ $_attributes = $this->decorateArray($this->getAllowAttributes());
             </label>
             <div class="control">
                 <select name="super_attribute[<?php echo $_attribute->getAttributeId() ?>]"
-                        data-validate="{required:true}" id="attribute<?php echo $_attribute->getAttributeId() ?>"
+                        data-validate="{required:true}"
+                        id="attribute<?php echo $_attribute->getAttributeId() ?>"
                         class="super-attribute-select">
                     <option><?php echo __('Choose an Option...') ?></option>
                 </select>

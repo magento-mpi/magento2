@@ -31,15 +31,17 @@
                         $attributes .= $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'image', $_image->getFile())->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($_resizedWidth,$_resizedHeight) . '"';
                     }
                 };?>
-                <li class="item thumb">1
+                <li class="item thumb">
                     <a<?php echo $attributes; ?> class="magento-zoom" title="<?php echo $this->escapeHtml($_image->getLabel()) ?>">
                         <?php if ($whiteBorders): ?>
                             <span class="img" style="position:relative; z-index:1; display:block; width:<?php echo $thumbHeight;?>px; height:<?php echo $thumbHeight;?>px;">
-                <img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thumbnail', $_image->getFile())->resize($thumbWidth,$thumbHeight); ?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
+                <img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thumbnail', $_image->getFile())->resize($thumbWidth,$thumbHeight); ?>"
+                     alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
                 </span>
                         <?php else: ?>
                             <span class="img" style="position:relative; z-index:1; display:block; width:<?php echo $thumbHeight;?>px; height:<?php echo $thumbHeight;?>px;">
-                    <img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thumbnail', $_image->getFile())->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($thumbWidth,$thumbHeight); ?>" alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
+                    <img src="<?php echo $this->helper('Magento\Catalog\Helper\Image')->init($_product, 'thumbnail', $_image->getFile())->constrainOnly(TRUE)->keepAspectRatio(TRUE)->keepFrame(FALSE)->resize($thumbWidth,$thumbHeight); ?>"
+                         alt="<?php echo $this->escapeHtml($_image->getLabel()) ?>" />
                 </span>
                         <?php endif; ?>
                     </a>

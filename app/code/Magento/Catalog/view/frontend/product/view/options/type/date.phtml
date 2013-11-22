@@ -44,9 +44,17 @@
         <?php endif; ?>
 
         <?php if ($_option->getIsRequire()): ?>
-            <input type="hidden" name="validate_datetime_<?php echo $_optionId ?>" class="validate-datetime-<?php echo $_optionId ?>" value="" data-validate="{'validate-required-datetime':<?php echo $_optionId?>}"/>
+            <input type="hidden"
+                   name="validate_datetime_<?php echo $_optionId ?>"
+                   class="validate-datetime-<?php echo $_optionId ?>"
+                   value=""
+                   data-validate="{'validate-required-datetime':<?php echo $_optionId?>}"/>
         <?php else: ?>
-            <input type="hidden" name="validate_datetime_<?php echo $_optionId ?>" class="validate-datetime-<?php echo $_optionId ?>" value="" data-validate="{'validate-optional-datetime':<?php echo $_optionId?>}"/>
+            <input type="hidden"
+                   name="validate_datetime_<?php echo $_optionId ?>"
+                   class="validate-datetime-<?php echo $_optionId ?>"
+                   value=""
+                   data-validate="{'validate-optional-datetime':<?php echo $_optionId?>}"/>
         <?php endif; ?>
 
         <script type="text/javascript">

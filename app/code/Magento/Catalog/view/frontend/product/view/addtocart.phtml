@@ -14,7 +14,10 @@
     <div class="field qty">
         <label class="label" for="qty"><span><?php echo __('Qty') ?></span></label>
         <div class="control">
-            <input type="text" name="qty" id="qty" maxlength="12"
+            <input type="text"
+                   name="qty"
+                   id="qty"
+                   maxlength="12"
                    value="<?php echo $this->getProductDefaultQty() * 1 ?>"
                    title="<?php echo __('Qty') ?>" class="input-text qty"
                 <?php if ($_product->getStockItem() && $_product->getStockItem()->getIsQtyDecimal()) : ?>
@@ -26,7 +29,10 @@
     </div>
     <?php endif; ?>
     <div class="actions">
-        <button type="submit" title="<?php echo $buttonTitle ?>" class="action primary tocart" id="product-addtocart-button">
+        <button type="submit"
+                title="<?php echo $buttonTitle ?>"
+                class="action primary tocart"
+                id="product-addtocart-button">
             <span><?php echo $buttonTitle ?></span>
         </button>
         <?php echo $this->getChildHtml('', true) ?>

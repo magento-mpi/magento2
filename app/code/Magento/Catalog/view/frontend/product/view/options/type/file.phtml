@@ -49,7 +49,10 @@
     </div>
     <?php endif; ?>
     <div class="control" id="input-box-<?php echo $_fileName ?>" <?php echo $_fileExists ? 'style="display:none"' : '' ?>>
-        <input type="file" name="<?php echo $_fileName; ?>" class="product-custom-option<?php echo $_option->getIsRequire() ? ' required' : '' ?>" <?php echo $_fileExists ? 'disabled="disabled"' : '' ?> />
+        <input type="file"
+               name="<?php echo $_fileName; ?>"
+               class="product-custom-option<?php echo $_option->getIsRequire() ? ' required' : '' ?>"
+               <?php echo $_fileExists ? 'disabled="disabled"' : '' ?> />
         <input type="hidden" name="<?php echo $_fieldNameAction; ?>" value="<?php echo $_fieldValueAction; ?>" />
         <?php if ($_option->getFileExtension()): ?>
             <p class="note">

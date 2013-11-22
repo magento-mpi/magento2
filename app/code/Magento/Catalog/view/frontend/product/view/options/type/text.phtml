@@ -29,8 +29,10 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
                 $_textValidate['maxlength'] = $_option->getMaxCharacters();
             }
             ?>
-            <input type="text" id="options_<?php echo $_option->getId() ?>_text"
-                   class="input-text product-custom-option"  <?php if (!empty($_textValidate)) echo 'data-validate=' . json_encode($_textValidate); ?>
+            <input type="text"
+                   id="options_<?php echo $_option->getId() ?>_text"
+                   class="input-text product-custom-option"
+                   <?php if (!empty($_textValidate)) echo 'data-validate=' . json_encode($_textValidate); ?>
                    name="options[<?php echo $_option->getId() ?>]"
                    value="<?php echo $this->escapeHtml($this->getDefaultValue()) ?>"/>
         <?php elseif ($_option->getType() == \Magento\Catalog\Model\Product\Option::OPTION_TYPE_AREA): ?>
@@ -43,8 +45,10 @@ $class = ($_option->getIsRequire()) ? ' required' : '';
             }
             ?>
             <textarea id="options_<?php echo $_option->getId() ?>_text"
-                      class="product-custom-option" <?php if (!empty($_textAreaValidate)) echo 'data-validate=' . json_encode($_textAreaValidate); ?>
-                      name="options[<?php echo $_option->getId() ?>]" rows="5"
+                      class="product-custom-option"
+                      <?php if (!empty($_textAreaValidate)) echo 'data-validate=' . json_encode($_textAreaValidate); ?>
+                      name="options[<?php echo $_option->getId() ?>]"
+                      rows="5"
                       cols="25"><?php echo $this->escapeHtml($this->getDefaultValue()) ?></textarea>
         <?php endif; ?>
         <?php if ($_option->getMaxCharacters()): ?>
