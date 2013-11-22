@@ -129,10 +129,6 @@ class Bootstrap
      */
     public function runBootstrap()
     {
-        if ($this->_settings->get('TESTS_OB_ENABLED')) {
-            ob_start();
-        }
-
         $this->_envBootstrap->emulateHttpRequest($_SERVER);
         $this->_envBootstrap->emulateSession($_SESSION);
 
