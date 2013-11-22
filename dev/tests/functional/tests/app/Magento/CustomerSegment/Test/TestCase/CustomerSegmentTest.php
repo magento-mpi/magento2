@@ -87,6 +87,7 @@ class CustomerSegmentTest extends Functional
         $customerMessageBlock->assertSuccessMessage();
         // verify matched customers
         $customerGridBlock = $customerSegmentCreatePage->getCustomerGridBlock();
+        $customerGridBlock->search(array('email' => $customerFixture->getEmail()));
         $this->assertEquals($customerFixture->getEmail(),
             $customerGridBlock->getGridEmail(),
             'Matched Customer Email "' . $customerFixture->getEmail() . '" not found in the grid'

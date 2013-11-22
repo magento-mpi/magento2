@@ -27,6 +27,7 @@ class MatchedCustomerGrid extends Grid {
      */
     protected function _init()
     {
+        parent::_init();
         $this->filters = array(
             'email' => array(
                 'selector' => '#segmentGrid_filter_grid_email'
