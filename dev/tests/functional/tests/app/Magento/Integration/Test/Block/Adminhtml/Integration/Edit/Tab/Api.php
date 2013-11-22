@@ -21,7 +21,7 @@ class Api extends Tab
      *
      * @var string
      */
-    protected $resourceAccess = '#all';
+    protected $resourceAccess = '#all_resources';
 
     /**
      * {@inheritdoc}
@@ -49,8 +49,16 @@ class Api extends Tab
      *
      * @param string $accessType
      */
-    public function changeRoleAccess($accessType)
+    public function setRoleAccess($accessType)
     {
         $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->setValue($accessType);
+    }
+
+    /**
+     * Verify role access
+     */
+    public function getRoleAccess()
+    {
+        return $this->_rootElement->find($this->resourceAccess, Locator::SELECTOR_CSS, 'select')->getValue();
     }
 }

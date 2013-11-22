@@ -103,18 +103,31 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $newIntegrationPage->open();
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture);
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
+        //Verification of JStree visibility
         $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
-        $newIntegrationPage->getApiTab()->changeRoleAccess('All');
+        $newIntegrationPage->getApiTab()->setRoleAccess('All');
         $this->assertFalse(
             $newIntegrationPage->getApiTab()->isResourceVisible(),
             'Resources tree should not be visible.'
         );
-        $newIntegrationPage->getIntegrationFormBlock()->save($integrationFixture);
-        //Verification
+        $newIntegrationPage->getIntegrationFormBlock()->save();
+        //Verification of JStree visibility
         $this->checkSaveSuccessMessage();
         $this->openByName($integrationFixture->getName());
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
-        $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
+        $this->assertEquals('All', $newIntegrationPage->getApiTab()->getRoleAccess());
+        $this->assertFalse(
+            $newIntegrationPage->getApiTab()->isResourceVisible(),
+            'Resources tree should not be visible.'
+        );
+        $integrationFixture->switchData(IntegrationRepository::INTEGRATION);
+        $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture);
+        $newIntegrationPage->getIntegrationFormBlock()->save($integrationFixture);
+        //Verification of saved values
+        $this->checkSaveSuccessMessage();
+        $this->openByName($integrationFixture->getName());
+        $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
+        $newIntegrationPage->getIntegrationFormBlock()->verify($integrationFixture);
     }
 
     /**
@@ -123,7 +136,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
     protected function checkSaveSuccessMessage()
     {
         $this->assertTrue(
-            Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->waitForSuccessMessage(),
+            Factory::getPageFactory()->getAdminIntegration()->getMessageBlock()->assertSuccessMessage(),
             'Integration save success message was not found.'
         );
     }

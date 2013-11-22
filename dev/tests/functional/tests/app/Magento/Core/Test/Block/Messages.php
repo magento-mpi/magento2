@@ -42,7 +42,7 @@ class Messages extends Block
      */
     public function assertSuccessMessage()
     {
-        $this->waitForElementVisible($this->successMessageSelector, Locator::SELECTOR_XPATH);
+        return $this->waitForElementVisible($this->successMessageSelector, Locator::SELECTOR_XPATH);
     }
 
     /**
