@@ -31,6 +31,15 @@ interface IntegrationV1Interface
      */
     public function get($integrationId);
 
+    /**
+     * Find Integration by name.
+     *
+     * @param int $integrationName
+     * @return array Integration data
+     * @throws \Magento\Integration\Exception
+     */
+    public function findByName($integrationName);
+
 
     /**
      * Update a Integration.

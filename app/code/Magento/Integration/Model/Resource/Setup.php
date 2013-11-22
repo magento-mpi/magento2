@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_VersionsCms
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -21,6 +19,8 @@ class Setup extends \Magento\Core\Model\Resource\Setup
     protected $_integrationManager;
 
     /**
+     * Construct resource Setup Model
+     *
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param \Magento\Integration\Model\Manager $integrationManager
      * @param string $resourceName

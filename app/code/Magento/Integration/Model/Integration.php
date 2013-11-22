@@ -29,12 +29,16 @@ namespace Magento\Integration\Model;
 class Integration extends \Magento\Core\Model\AbstractModel
 {
     /**#@+
-     * Integration constants.
+     * Integration data value constants.
      */
     const STATUS_INACTIVE = 0;
     const STATUS_ACTIVE = 1;
     const TYPE_MANUAL = 0;
     const TYPE_CONFIG = 1;
+
+    /**#@+
+     * Integration data key constants.
+     */
     const NAME = 'name';
     const EMAIL = 'email';
     const ENDPOINT = 'endpoint_url';

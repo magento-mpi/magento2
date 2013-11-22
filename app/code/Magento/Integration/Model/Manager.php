@@ -43,12 +43,15 @@ class Manager
     }
 
     /**
-     * Process integrations from config files
+     * Process integrations from config files for the given array of integration names
      *
      * @param array $integrationNames
      */
     public function processIntegrationConfig(array $integrationNames)
     {
+        if (empty($integrationNames)) {
+            return;
+        }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
         foreach ($integrationNames as $name) {

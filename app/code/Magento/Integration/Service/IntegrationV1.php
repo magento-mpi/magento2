@@ -47,11 +47,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     }
 
     /**
-     * Create a new Integration
-     *
-     * @param array $integrationData
-     * @return array Integration data
-     * @throws \Magento\Integration\Exception
+     * {@inheritdoc}
      */
     public function create(array $integrationData)
     {
@@ -83,11 +79,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     }
 
     /**
-     * Get the details of a specific Integration.
-     *
-     * @param int $integrationId
-     * @return array Integration data
-     * @throws \Magento\Integration\Exception
+     * {@inheritdoc}
      */
     public function get($integrationId)
     {
@@ -95,6 +87,19 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         $this->_addAllowedResources($integration);
         return $integration->getData();
     }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function findByName($name)
+    {
+        if (!isset($name) || trim($name) === '') {
+            return null;
+        }
+        $integration = $this->_integrationFactory->create()->load($name, 'name');
+        return $integration->getData();
+    }
+
 
     /**
      * Check if an integration exists by the name
