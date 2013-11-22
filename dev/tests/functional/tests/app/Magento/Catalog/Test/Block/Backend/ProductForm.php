@@ -138,6 +138,7 @@ class ProductForm extends FormTabs
     {
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
     }
+
     /**
      * Open the Up-sells tab.
      */
@@ -149,6 +150,7 @@ class ProductForm extends FormTabs
         $this->_rootElement->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
         $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
     }
+
     /**
      * Clear parent category field
      */
