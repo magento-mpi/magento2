@@ -75,7 +75,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
     protected $_orderFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -91,7 +90,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
@@ -105,7 +103,6 @@ class Address extends \Magento\Customer\Model\Address\AbstractAddress
         array $data = array()
     ) {
         parent::__construct(
-            $eventManager,
             $directoryData,
             $context,
             $registry,

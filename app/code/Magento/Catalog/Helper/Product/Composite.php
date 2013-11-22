@@ -34,7 +34,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     protected $_catalogProduct = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -49,40 +49,48 @@ class Composite extends \Magento\App\Helper\AbstractHelper
     protected $_customerFactory;
 
     /**
+     * @var \Magento\App\ViewInterface
+     */
+    protected $_view;
+
+    /**
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\ViewInterface $view
      */
     public function __construct(
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Product $catalogProduct,
         \Magento\App\Helper\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\ViewInterface $view
     ) {
         $this->_customerFactory = $customerFactory;
         $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_catalogProduct = $catalogProduct;
+        $this->_view = $view;
         parent::__construct($context);
     }
 
     /**
      * Init layout of product configuration update result
      *
-     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @return \Magento\Catalog\Helper\Product\Composite
      */
-    protected function _initUpdateResultLayout($controller)
+    protected function _initUpdateResultLayout()
     {
-        $controller->getLayout()->getUpdate()
-            ->addHandle('CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT');
-        $controller->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+        $this->_view->getLayout()->getUpdate()->addHandle('CATALOG_PRODUCT_COMPOSITE_UPDATE_RESULT');
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
         return $this;
     }
 
@@ -90,16 +98,15 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      * Prepares and render result of composite product configuration update for a case
      * when single configuration submitted
      *
-     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @param \Magento\Object $updateResult
      * @return \Magento\Catalog\Helper\Product\Composite
      */
-    public function renderUpdateResult($controller, \Magento\Object $updateResult)
+    public function renderUpdateResult(\Magento\Object $updateResult)
     {
         $this->_coreRegistry->register('composite_update_result', $updateResult);
 
-        $this->_initUpdateResultLayout($controller);
-        $controller->renderLayout();
+        $this->_initUpdateResultLayout();
+        $this->_view->renderLayout();
     }
 
      /**
@@ -108,21 +115,22 @@ class Composite extends \Magento\App\Helper\AbstractHelper
       * $isOk - true or false, whether action was completed nicely or with some error
       * If $isOk is FALSE (some error during configuration), so $productType must be null
       *
-      * @param \Magento\Backend\Controller\Adminhtml\Action $controller
       * @param bool $isOk
       * @param string $productType
       * @return \Magento\Catalog\Helper\Product\Composite
       */
-    protected function _initConfigureResultLayout($controller, $isOk, $productType)
+    protected function _initConfigureResultLayout($isOk, $productType)
     {
-        $update = $controller->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         if ($isOk) {
             $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE')
                 ->addHandle('catalog_product_view_type_' . $productType);
         } else {
             $update->addHandle('CATALOG_PRODUCT_COMPOSITE_CONFIGURE_ERROR');
         }
-        $controller->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
         return $this;
     }
 
@@ -133,11 +141,10 @@ class Composite extends \Magento\App\Helper\AbstractHelper
      *  - 'ok' = true, and 'product_id', 'buy_request', 'current_store_id', 'current_customer' or 'current_customer_id'
      *  - 'error' = true, and 'message' to show
      *
-     * @param \Magento\Backend\Controller\Adminhtml\Action $controller
      * @param \Magento\Object $configureResult
      * @return \Magento\Catalog\Helper\Product\Composite
      */
-    public function renderConfigureResult($controller, \Magento\Object $configureResult)
+    public function renderConfigureResult(\Magento\Object $configureResult)
     {
         try {
             if (!$configureResult->getOk()) {
@@ -184,7 +191,7 @@ class Composite extends \Magento\App\Helper\AbstractHelper
             $this->_coreRegistry->register('composite_configure_result_error_message', $e->getMessage());
         }
 
-        $this->_initConfigureResultLayout($controller, $isOk, $productType);
-        $controller->renderLayout();
+        $this->_initConfigureResultLayout($isOk, $productType);
+        $this->_view->renderLayout();
     }
 }

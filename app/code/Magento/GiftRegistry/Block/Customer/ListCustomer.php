@@ -31,45 +31,27 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     protected $typeFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * Filter manager
-     *
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $filter;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
-        $this->storeManager = $storeManager;
-        $this->filter = $filter;
-        parent::__construct($coreData, $context, $customerSession, $subscriberFactory, $data);
+        parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
     }
 
     /**
@@ -84,7 +66,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filter->truncate($value, array(
+        return $this->filterManager->truncate($value, array(
             'length' => $length,
             'etc' => $etc,
             'remainder' => $remainder,
@@ -128,7 +110,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
     public function canAddNewEntity()
     {
         $collection = $this->typeFactory->create()->getCollection()
-            ->addStoreData($this->storeManager->getStore()->getId())
+            ->addStoreData($this->_storeManager->getStore()->getId())
             ->applyListedFilter();
 
         return (bool)$collection->getSize();

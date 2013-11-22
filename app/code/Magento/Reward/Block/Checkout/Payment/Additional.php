@@ -28,11 +28,6 @@ class Additional extends \Magento\View\Block\Template
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
@@ -48,21 +43,19 @@ class Additional extends \Magento\View\Block\Template
     protected $_checkoutSession;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
@@ -70,9 +63,8 @@ class Additional extends \Magento\View\Block\Template
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_rewardData = $rewardData;
-        $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

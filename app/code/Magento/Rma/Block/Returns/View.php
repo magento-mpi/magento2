@@ -70,34 +70,34 @@ class View extends \Magento\Rma\Block\Form
     protected $_eavConfig;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Factory $modelFactory
+     * @param \Magento\Eav\Model\Form\Factory $formFactory
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Model\Factory $modelFactory
-     * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Factory $modelFactory,
+        \Magento\Eav\Model\Form\Factory $formFactory,
+        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory,
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $historiesFactory,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Model\Factory $modelFactory,
-        \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
@@ -110,7 +110,7 @@ class View extends \Magento\Rma\Block\Form
         $this->_itemFormFactory = $itemFormFactory;
         $this->_customerSession = $customerSession;
         $this->_eavConfig = $eavConfig;
-        parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     public function _construct()
@@ -159,7 +159,7 @@ class View extends \Magento\Rma\Block\Form
         $itemModel = $this->_itemFactory->create();
 
         /* @var $itemForm \Magento\Rma\Model\Item\Form */
-        $itemForm = $this->_itemFormFactory->create('Magento\Rma\Model\Item\Form');
+        $itemForm = $this->_itemFormFactory->create();
         $itemForm->setFormCode('default')
             ->setStore($this->getStore())
             ->setEntity($itemModel);

@@ -118,7 +118,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(array($this, 'translateCallback')));
 
         $this->_context = new \Magento\Backend\Block\Template\Context(
-            $this->_storeManagerMock,
             $this->_requestMock,
             $this->_layoutMock,
             $this->_eventManagerMock,
@@ -138,13 +137,14 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $this->_filesystemMock,
             $viewFileSystemMock,
             $templatePoolMock,
-            $authorizationMock,
             $appMock,
             $appState,
             $escaperMock,
             $filterManagerMock,
-            $backendSessionMock,
             $this->_localeMock,
+            $this->_storeManagerMock,
+            $authorizationMock,
+            $backendSessionMock,
             $this->_mathMock
         );
     }

@@ -24,26 +24,26 @@ class Link extends \Magento\Sales\Block\Order\Link
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Rma\Helper\Data $rmaHelper
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
+     * @param \Magento\Rma\Helper\Data $rmaHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\View\Block\Template\Context $context,
-        \Magento\Rma\Helper\Data $rmaHelper,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
+        \Magento\Rma\Helper\Data $rmaHelper,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_rmaHelper = $rmaHelper;
-        parent::__construct($context, $registry, $coreData, $defaultPath, $data);
+        parent::__construct($context, $coreData, $defaultPath, $registry, $data);
     }
 
     /**

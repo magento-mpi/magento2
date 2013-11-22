@@ -19,17 +19,17 @@ class Customer extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Customer\Model\Session $session
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
-        \Magento\Customer\Model\Session $session,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Customer\Model\Session $session,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_customerSession = $session;
     }
 

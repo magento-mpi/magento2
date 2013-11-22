@@ -24,6 +24,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     protected $_emailConfig;
 
+    /**
+     * @var /Magento\Core\Model\Resource\Email\Template\CollectionFactory
+     */
+    protected $_templatesFactory;
+
     protected function setUp()
     {
         $this->_coreRegistry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);

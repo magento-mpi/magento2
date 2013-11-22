@@ -54,6 +54,11 @@ class Context extends \Magento\View\Block\Context
     protected $_appState;
 
     /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -78,6 +83,7 @@ class Context extends \Magento\View\Block\Context
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -107,6 +113,7 @@ class Context extends \Magento\View\Block\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         parent::__construct(
@@ -132,6 +139,7 @@ class Context extends \Magento\View\Block\Context
             $data
         );
 
+        $this->_storeManager = $storeManager;
         $this->_appState = $appState;
         $this->_dirs = $dirs;
         $this->_logger = $logger;
@@ -198,5 +206,15 @@ class Context extends \Magento\View\Block\Context
     public function getAppState()
     {
         return $this->_appState;
+    }
+
+    /**
+     * Get store manager
+     *
+     * @return \Magento\Core\Model\StoreManagerInterface
+     */
+    public function getStoreManager()
+    {
+        return $this->_storeManager;
     }
 }

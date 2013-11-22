@@ -21,7 +21,7 @@ namespace Magento\Reward\Helper;
 class Customer extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

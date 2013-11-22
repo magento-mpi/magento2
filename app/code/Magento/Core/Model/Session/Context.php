@@ -85,7 +85,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -109,7 +109,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Cookie $cookie
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Url $url
      * @param $saveMethod
@@ -127,7 +127,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Cookie $cookie,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\Dir $dir,
         \Magento\Core\Model\Url $url,
         $saveMethod,
@@ -266,7 +266,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\StoreManager
+     * @return \Magento\Core\Model\StoreManagerInterface
      */
     public function getStoreManager()
     {

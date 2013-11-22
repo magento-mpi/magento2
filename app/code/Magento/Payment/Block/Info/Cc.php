@@ -16,13 +16,6 @@ namespace Magento\Payment\Block\Info;
 class Cc extends \Magento\Payment\Block\Info
 {
     /**
-     * Locale model
-     *
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * Payment config model
      *
      * @var \Magento\Payment\Model\Config
@@ -30,25 +23,18 @@ class Cc extends \Magento\Payment\Block\Info
     protected $_paymentConfig;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Model\Config $paymentConfig,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $storeManager, $data);
-        $this->_locale = $locale;
+        parent::__construct($context, $coreData, $data);
         $this->_paymentConfig = $paymentConfig;
     }
     /**

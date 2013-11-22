@@ -38,16 +38,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_bannerResource = $this->getMock(
-            'Magento\Banner\Model\Resource\Banner',
-            array(
-                'filterByTypes',
-                'getExistingBannerIdsBySpecifiedIds',
-                'getCatalogRuleRelatedBannerIds',
-                'getSalesRuleRelatedBannerIds',
-                'getBannersContent',
-            ),
-            array(), '', false
-        );
+            'Magento\Banner\Model\Resource\Banner', array(), array(), '', false);
 
         $this->_checkoutSession = $this->getMock(
             'Magento\Checkout\Model\Session', array('getQuoteId', 'getQuote'), array(), '', false
@@ -71,28 +62,20 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->once())->method('getStore')->will($this->returnValue($currentStore));
         $storeManager->expects($this->once())->method('getWebsite')->will($this->returnValue($currentWebsite));
 
-        $this->_block = new \Magento\Banner\Block\Widget\Banner(
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-            $this->getMock('Magento\View\Block\Template\Context', array(), array(), '', false),
-            $this->_bannerResource,
-            $this->getMock('Magento\Core\Model\Session', array(), array(), '', false),
-            $this->_checkoutSession,
-            $this->_customerSession,
-            $filterProviderMock,
-            $storeManager,
-            array(
+
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_block = $helper->getObject('Magento\Banner\Block\Widget\Banner',
+        array(
+            'resource' => $this->_bannerResource,
+            'checkoutSession' => $this->_checkoutSession,
+            'customerSession' => $this->_customerSession,
+            'filterProvider'  => $filterProviderMock,
+            'storeManager' => $storeManager,
+            'data' =>  array(
                 'types' => array('footer', 'header'),
                 'rotate' => \Magento\Banner\Block\Widget\Banner::BANNER_WIDGET_RORATE_NONE,
             )
-        );
-    }
-
-    protected function tearDown()
-    {
-        $this->_block = null;
-        $this->_bannerResource = null;
-        $this->_checkoutSession = null;
-        $this->_customerSession = null;
+        )) ;
     }
 
     public function testGetBannersContentFixed()
@@ -103,6 +86,7 @@ class BannerTest extends \PHPUnit_Framework_TestCase
         ));
 
         $this->_bannerResource->expects($this->at(0))->method('filterByTypes')->with(array('footer', 'header'));
+
         $this->_bannerResource
             ->expects($this->at(1))
             ->method('getExistingBannerIdsBySpecifiedIds')

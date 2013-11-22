@@ -17,7 +17,7 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy;
 
-class Widget extends \Magento\Backend\Controller\Adminhtml\Action
+class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Chooser Source action
@@ -39,7 +39,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _getTreeBlock()
     {
-        return $this->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
+        return $this->_view->getLayout()->createBlock('Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Chooser', '', array(
             'data' => array(
                 'id' => $this->getRequest()->getParam('uniq_id')
             )

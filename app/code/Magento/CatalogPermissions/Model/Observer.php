@@ -73,21 +73,29 @@ class Observer
     protected $_storeManager;
 
     /**
+     * @var \Magento\App\ActionFlag
+     */
+    protected $_actionFlag;
+
+    /**
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex
+     * @param Permission\Index $permissionIndex
      * @param \Magento\CatalogPermissions\Helper\Data $catalogPermData
+     * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex,
-        \Magento\CatalogPermissions\Helper\Data $catalogPermData
+        \Magento\CatalogPermissions\Helper\Data $catalogPermData,
+        \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_storeManager    = $storeManager;
         $this->_catalogPermData = $catalogPermData;
         $this->_permissionIndex = $permissionIndex;
         $this->_customerSession = $customerSession;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**
@@ -531,12 +539,13 @@ class Observer
             return $this;
         }
 
+        /** @var \Magento\App\Action\Action $action */
         $action = $observer->getEvent()->getControllerAction();
         if (!$this->_catalogPermData->isAllowedCatalogSearch()
-            && !$action->getFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH)
+            && !$this->_actionFlag->get('', \Magento\App\Action\Action::FLAG_NO_DISPATCH)
             && $action->getRequest()->isDispatched()
         ) {
-            $action->setFlag('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
             $action->getResponse()->setRedirect($this->_catalogPermData->getLandingPageUrl());
         }
 

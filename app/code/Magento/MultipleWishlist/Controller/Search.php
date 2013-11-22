@@ -9,13 +9,15 @@
  */
 
 namespace Magento\MultipleWishlist\Controller;
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Search extends \Magento\Core\Controller\Front\Action
+class Search extends \Magento\App\Action\Action
 {
     /**
      * Localization filter
@@ -97,7 +99,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -110,7 +112,7 @@ class Search extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\LocaleInterface $locale
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -158,16 +160,16 @@ class Search extends \Magento\Core\Controller\Front\Action
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
-     * @return \Magento\MultipleWishlist\Controller\Search
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isModuleEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            throw new NotFoundException();
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -175,13 +177,13 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -191,7 +193,7 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     public function resultsAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
 
         try {
             $params = $this->getRequest()->getParam('params');
@@ -224,39 +226,47 @@ class Search extends \Magento\Core\Controller\Front\Action
             $this->_customerSession->addError(__('We could not perform the search.'));
         }
 
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $layout = $this->_view->getLayout();
+        $layout->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $layout->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
      * View customer wishlist
+     *
+     * @throws NotFoundException
      */
     public function viewAction()
     {
         $wishlistId = $this->getRequest()->getParam('wishlist_id');
         if (!$wishlistId) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         /** @var \Magento\Wishlist\Model\Wishlist $wishlist */
         $wishlist = $this->_wishlistFactory->create();
         $wishlist->load($wishlistId);
         if (!$wishlist->getId()
             || (!$wishlist->getVisibility() && $wishlist->getCustomerId != $this->_customerSession->getCustomerId())) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $this->_coreRegistry->register('wishlist', $wishlist);
-        $this->loadLayout();
-        $block = $this->getLayout()->getBlock('customer.wishlist.info');
+        $this->_view->loadLayout();
+        $block = $this->_view->getLayout()->getBlock('customer.wishlist.info');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
 
-        $this->_initLayoutMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session', 'Magento\Wishlist\Model\Session'));
-        $this->renderLayout();
+        $messageStores = array(
+            'Magento\Customer\Model\Session',
+            'Magento\Checkout\Model\Session',
+            'Magento\Wishlist\Model\Session'
+        );
+        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -304,8 +314,8 @@ class Search extends \Magento\Core\Controller\Front\Action
 
         if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-        } else if ($this->_getRefererUrl()) {
-            $redirectUrl = $this->_getRefererUrl();
+        } else if ($this->_redirect->getRefererUrl()) {
+            $redirectUrl = $this->_redirect->getRefererUrl();
         }
 
         if ($notSalable) {
@@ -349,6 +359,6 @@ class Search extends \Magento\Core\Controller\Front\Action
         // save cart and collect totals
         $cart->save()->getQuote()->collectTotals();
 
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 }

@@ -13,7 +13,7 @@
  */
 namespace Magento\Theme\Controller\Adminhtml\System\Design;
 
-class Theme extends \Magento\Backend\Controller\Adminhtml\Action
+class Theme extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -23,14 +23,22 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -39,9 +47,9 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Theme::system_design_theme');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -49,8 +57,8 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -76,9 +84,9 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
             }
             $this->_coreRegistry->register('current_theme', $theme);
 
-            $this->loadLayout();
+            $this->_view->loadLayout();
             /** @var $tab \Magento\Theme\Block\Adminhtml\System\Design\Theme\Edit\Tab_Css */
-            $tab = $this->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
+            $tab = $this->_view->getLayout()->getBlock('theme_edit_tabs_tab_css_tab');
             if ($tab && $tab->canShowTab()) {
                 /** @var $helper \Magento\Core\Helper\Theme */
                 $helper = $this->_objectManager->get('Magento\Core\Helper\Theme');
@@ -86,7 +94,7 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
                 $tab->setFiles($files);
             }
             $this->_setActiveMenu('Magento_Theme::system_design_theme');
-            $this->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
@@ -267,7 +275,7 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
             /** @var $customCssFile \Magento\View\Design\Theme\FileInterface */
             $customCssFile = reset($customCssFiles);
             if ($customCssFile && $customCssFile->getContent()) {
-                $this->_prepareDownloadResponse(
+                $this->_fileFactory->create(
                     $customCssFile->getFileName(),
                     array(
                         'type'  => 'filename',
@@ -277,7 +285,7 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
             }
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file'));
-            $this->_redirectUrl($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
@@ -307,13 +315,13 @@ class Theme extends \Magento\Backend\Controller\Adminhtml\Action
                 );
             }
 
-            $this->_prepareDownloadResponse($fileName, array(
+            $this->_fileFactory->create($fileName, array(
                 'type'  => 'filename',
                 'value' => $themeCss[$fileName]['path']
             ));
         } catch (\Exception $e) {
             $this->_getSession()->addException($e, __('We cannot find file "%1".', $fileName));
-            $this->_redirectUrl($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }

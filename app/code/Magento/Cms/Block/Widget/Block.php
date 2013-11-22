@@ -33,13 +33,6 @@ class Block extends \Magento\View\Block\Template implements \Magento\Widget\Bloc
     static protected $_widgetUsageMap = array();
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Block factory
      *
      * @var \Magento\Cms\Model\BlockFactory
@@ -47,27 +40,22 @@ class Block extends \Magento\View\Block\Template implements \Magento\Widget\Bloc
     protected $_blockFactory;
 
     /**
-     * Construct
-     * 
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Cms\Model\BlockFactory $blockFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_filterProvider = $filterProvider;
         $this->_blockFactory = $blockFactory;
-        $this->_storeManager = $storeManager;
     }
 
     /**

@@ -29,21 +29,19 @@ class State extends \Magento\View\Block\Template
     protected $_catalogLayer;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\Layer $catalogLayer,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Model\Layer $catalogLayer,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

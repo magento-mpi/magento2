@@ -104,13 +104,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerAddress = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -148,7 +141,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Helper\Context $context
@@ -161,7 +153,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Address $customerAddress,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\Helper\Context $context,
@@ -173,7 +164,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Escaper $escaper,
         \Magento\Math\Random $mathRandom
     ) {
-        $this->_eventManager = $eventManager;
         $this->_customerAddress = $customerAddress;
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;

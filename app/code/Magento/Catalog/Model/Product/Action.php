@@ -21,13 +21,6 @@ namespace Magento\Catalog\Model\Product;
 class Action extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Index indexer
      *
      * @var \Magento\Index\Model\Indexer
@@ -46,7 +39,6 @@ class Action extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory
      * @param \Magento\Index\Model\Indexer $indexIndexer
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -56,7 +48,6 @@ class Action extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Catalog\Model\Product\WebsiteFactory $productWebsiteFactory,
         \Magento\Index\Model\Indexer $indexIndexer,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -65,7 +56,6 @@ class Action extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_productWebsiteFactory = $productWebsiteFactory;
         $this->_indexIndexer = $indexIndexer;
-        $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 

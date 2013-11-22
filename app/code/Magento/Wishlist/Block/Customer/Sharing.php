@@ -40,22 +40,22 @@ class Sharing extends \Magento\View\Block\Template
     protected $_wishlistSession;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Session\Generic $wishlistlSession
+     * @param \Magento\Core\Model\Session\Generic $wishlistSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\Core\Model\Session\Generic $wishlistlSession,
+        \Magento\Core\Model\Session\Generic $wishlistSession,
         array $data = array()
     ) {
         $this->_wishlistConfig = $wishlistConfig;
-        $this->_wishlistSession = $wishlistlSession;
-        parent::__construct($coreData, $context, $data);
+        $this->_wishlistSession = $wishlistSession;
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

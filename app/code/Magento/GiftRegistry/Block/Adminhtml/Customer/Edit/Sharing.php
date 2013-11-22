@@ -19,32 +19,23 @@ class Sharing
     protected $systemStore;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
-
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
         $this->systemStore = $systemStore;
-        $this->storeManager = $storeManager;
     }
 
     protected function _prepareForm()
@@ -71,7 +62,7 @@ class Sharing
             'note'     => 'Enter list of emails, comma-separated.'
         ));
 
-        if (!$this->storeManager->isSingleStoreMode()) {
+        if (!$this->_storeManager->isSingleStoreMode()) {
             $fieldset->addField('store_id', 'select', array(
                 'label'    => __('Send From'),
                 'required' => true,
