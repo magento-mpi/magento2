@@ -32,7 +32,8 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->filesystem =  $this->getMock('Magento\Filesystem', array('getDirectoryWrite', 'getPath'), array(), '', false);
+        $methods = array('getDirectoryWrite', 'getPath', '__wakeup');
+        $this->filesystem =  $this->getMock('Magento\Filesystem', $methods , array(), '', false);
         $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem);
         $this->_tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'tool_theme_deployment';
         mkdir($this->_tmpDir);

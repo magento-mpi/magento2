@@ -63,7 +63,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->tmpDir = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'fallback';
+        $this->tmpDir = TESTS_TEMP_DIR . '/' . 'fallback';
         mkdir($this->tmpDir);
 
         $this->fallback = $this->getMock(
@@ -125,9 +125,9 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     {
         $this->fallback->expects($this->once())
             ->method('getFile')
-            ->will($this->returnValue(TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.txt'));
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/' . 'test.txt'));
 
-        $expectedFile = $this->tmpDir . DIRECTORY_SEPARATOR . 'a_t_.ser';
+        $expectedFile = $this->tmpDir . '/a_t_.ser';
 
         $this->model->getFile('a', $this->themeModel, 'does not matter', 'Some_Module');
         $this->assertFileNotExists($expectedFile);
@@ -144,7 +144,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
     {
         $this->fallback->expects($this->once())
             ->method('getFile')
-            ->will($this->returnValue(TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'test.txt'));
+            ->will($this->returnValue(TESTS_TEMP_DIR . '/test.txt'));
         $model = new CachingProxy(
             $this->fallback,
             $this->getFilesystemMock(),
@@ -203,7 +203,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
             'getFile' => array(
                 'getFile',
                 array('area51', $themeModel, 'file.txt', 'Some_Module'),
-                TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'fallback' . DIRECTORY_SEPARATOR . 'file.txt',
+                TESTS_TEMP_DIR . '/fallback/file.txt',
             ),
             'getLocaleFile' => array(
                 'getLocaleFile',
@@ -223,7 +223,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetViewFilePathToMap()
     {
-        $materializedFilePath = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . 'path' . DIRECTORY_SEPARATOR . 'file.txt';
+        $materializedFilePath = TESTS_TEMP_DIR . '/path/file.txt';
 
         $result = $this->model->setViewFilePathToMap(
             'area51',
@@ -258,7 +258,8 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
             array('getRelativePath','isFile', 'readFile', 'isDirectory', 'create', 'writeFile'),
             array(), '', false
         );
-        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', 'getDirectoryWrite'), array(), '', false);
+        $methods = array('getDirectoryRead', 'getDirectoryWrite', '__wakeup');
+        $filesystem = $this->getMock('Magento\Filesystem', $methods , array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(DirectoryList::ROOT)
