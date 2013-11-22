@@ -190,8 +190,9 @@ class Curl implements \Zend_Http_Client_Adapter_Interface
             $response = trim($response[1]);
         }
 
-        if (stripos($response, "Transfer-Encoding: chunked\r\n")) {
-            $response = str_ireplace("Transfer-Encoding: chunked\r\n", '', $response);
+        // CUrl will handle chunked data but leave the header.
+        if (stripos($response, 'Transfer-Encoding: chunked')) {
+            $response = str_ireplace(["Transfer-Encoding: chunked\r\n", "Transfer-Encoding: chunked\n"], '', $response);
         }
 
         return $response;
