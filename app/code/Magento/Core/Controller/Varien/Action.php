@@ -1009,7 +1009,7 @@ class Action extends AbstractAction
     ) {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->create('Magento\Filesystem');
-        $dirRead = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
+        $dirRead = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::VAR_DIR);
         $isFile = false;
         $file   = null;
         if (is_array($content)) {

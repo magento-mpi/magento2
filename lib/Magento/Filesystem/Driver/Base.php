@@ -403,7 +403,7 @@ class Base implements \Magento\Filesystem\DriverInterface
     public function fileRead($resource, $length)
     {
         $result = @fread($resource, $length);
-        if (!$result) {
+        if ($result === null) {
             throw new FilesystemException(
                 sprintf('File cannot be read %s',
                     $this->getWarningMessage()

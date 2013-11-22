@@ -236,6 +236,8 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
      * @param \Magento\Object $object
      * @throws \Magento\Core\Exception
      * @return \Magento\Shipping\Model\Resource\Carrier\Tablerate
+     * @todo: this method should be refactored as soon as updated design will be provided
+     * @see https://wiki.corp.x.com/display/MCOMS/Magento+Filesystem+Decisions
      */
     public function uploadAndImport(\Magento\Object $object)
     {
@@ -255,7 +257,7 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         try {
             $this->_filesystem->setIsAllowCreateDirectories(true);
-            $this->_filesystem->setWorkingDirectory(dirname($info['dirname']));
+            $this->_filesystem->setWorkingDirectory($info['dirname']);
             $this->_filesystem->ensureDirectoryExists($info['dirname']);
             $this->_filesystem->setWorkingDirectory($info['dirname']);
         } catch (\Magento\Filesystem\FilesystemException $e) {
