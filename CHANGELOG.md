@@ -10,6 +10,7 @@
   * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
   * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
+  * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
 * Fixed bugs:
   * Fixed notice while create event for Private Sales
   * Fixed CMS Hierarchy doesn't work for CMS page in Navigation Menu
