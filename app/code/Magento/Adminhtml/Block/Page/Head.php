@@ -32,7 +32,6 @@ class Head extends \Magento\Page\Block\Html\Head
     /**
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
@@ -46,7 +45,6 @@ class Head extends \Magento\Page\Block\Html\Head
     public function __construct(
         \Magento\Core\Model\Session $session,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\App\Dir $dir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Helper\Data $coreData,
@@ -59,7 +57,7 @@ class Head extends \Magento\Page\Block\Html\Head
     ) {
         $this->_session = $session;
         parent::__construct(
-            $locale, $dir, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
+            $locale, $storeManager, $fileStorageDatabase, $coreData, $context, $objectManager, $page,
             $assetMergeService, $assetMinifyService, $data
         );
     }

@@ -113,12 +113,10 @@ class Header extends \Magento\Core\Block\Template
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Logo::UPLOAD_DIR;
         $storeLogoPath = $this->_storeConfig->getConfig('design/header/logo_src');
-        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA))
-            . $folderName . '/' . $storeLogoPath;
-        $absolutePath = $this->_dirs->getDir(\Magento\App\Dir::MEDIA) . DIRECTORY_SEPARATOR
-            . $folderName . DIRECTORY_SEPARATOR . $storeLogoPath;
+        $path = $folderName . '/' . $storeLogoPath;
+        $logoUrl = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA)) . $path;
 
-        if (!is_null($storeLogoPath) && $this->_isFile($absolutePath)) {
+        if (!is_null($storeLogoPath) && $this->_isFile($path)) {
             $url = $logoUrl;
         } else {
             $url = $this->getViewFileUrl('images/logo.gif');
@@ -130,17 +128,17 @@ class Header extends \Magento\Core\Block\Template
     /**
      * If DB file storage is on - find there, otherwise - just file_exists
      *
-     * @param string $filename
+     * @param string $filename relative path
      * @return bool
      */
     protected function _isFile($filename)
     {
         $helper = $this->_helperFactory->get('Magento\Core\Helper\File\Storage\Database');
 
-        if ($helper->checkDbUsage() && !is_file($filename)) {
+        if ($helper->checkDbUsage() && !$this->mediaDirectory->isFile($filename)) {
             $helper->saveFileToFilesystem($filename);
         }
 
-        return is_file($filename);
+        return $this->mediaDirectory->isFile($filename);
     }
 }
