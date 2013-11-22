@@ -124,6 +124,11 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
     {
         $_SERVER['HTTP_HOST'] = 'localhost';
         $this->_model->start('test');
+
+        $reflection = new \ReflectionMethod($this->_model, '_addHost');
+        $reflection->setAccessible(true);
+        $reflection->invoke($this->_model);
+
         $this->assertFalse($this->_model->isValidForHost('test.com'));
         $this->assertTrue($this->_model->isValidForHost('localhost'));
     }
