@@ -109,4 +109,5 @@ return array(
     array('_sidNameMap', '\Magento\Core\Model\Session\AbstractSession'),
     array('_store', '\Magento\Core\Model\Cookie'),
     array('_lifetime', '\Magento\Core\Model\Cookie'),
+    array('_httpResponse', '\Magento\Core\Model\Cookie'),
 );

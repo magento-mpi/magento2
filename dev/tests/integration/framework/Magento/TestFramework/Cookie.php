@@ -20,18 +20,15 @@ class Cookie extends \Magento\Core\Model\Cookie
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\App\RequestInterface $request = null,
-        \Magento\App\ResponseInterface $response = null
+        \Magento\App\RequestInterface $request = null
     ) {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $request ?: $objectManager->get('Magento\App\RequestInterface');
-        $response = $response ?: $objectManager->get('Magento\App\ResponseInterface');
-        parent::__construct($request, $response, $coreStoreConfig, $storeManager);
+        parent::__construct($request, $coreStoreConfig, $storeManager);
     }
 
     /**
@@ -42,8 +39,8 @@ class Cookie extends \Magento\Core\Model\Cookie
      * @param int $period Lifetime period
      * @param string $path
      * @param string $domain
-     * @param int|bool $secure
-     * @param bool $httponly
+     * @param bool|int|string $secure
+     * @param bool|string $httponly
      * @return \Magento\TestFramework\Cookie
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)

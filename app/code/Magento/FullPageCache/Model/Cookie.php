@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Full page cache cookie model
- *
- * @category   Magento
- * @package    Magento_FullPageCache
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\FullPageCache\Model;
 
+/**
+ * Full page cache cookie model
+ */
 class Cookie extends \Magento\Core\Model\Cookie
 {
     /**
@@ -73,7 +69,7 @@ class Cookie extends \Magento\Core\Model\Cookie
      *
      * @var \Magento\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * @var \Magento\Customer\Model\Session
@@ -82,7 +78,6 @@ class Cookie extends \Magento\Core\Model\Cookie
 
     /**
      * @param \Magento\App\RequestInterface $httpRequest
-     * @param \Magento\App\ResponseInterface $httpResponse
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -91,14 +86,13 @@ class Cookie extends \Magento\Core\Model\Cookie
      */
     public function __construct(
         \Magento\App\RequestInterface $httpRequest,
-        \Magento\App\ResponseInterface $httpResponse,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $_fpcCache,
         \Magento\Customer\Model\Session $customerSession
     ) {
-        parent::__construct($httpRequest, $httpResponse, $coreStoreConfig, $storeManager);
+        parent::__construct($httpRequest, $coreStoreConfig, $storeManager);
         $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
         $this->_customerSession = $customerSession;
@@ -131,13 +125,12 @@ class Cookie extends \Magento\Core\Model\Cookie
      * @param int $period Lifetime period
      * @param string $path
      * @param string $domain
-     * @param int|bool $secure
-     * @param bool $httponly
+     * @param bool|int|string $secure
+     * @param bool|string $httponly
      * @return \Magento\Core\Model\Cookie
      */
-    public function setObscure(
-        $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
-    ) {
+    public function setObscure($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
+    {
         $value = md5($this->_getSalt() . $value);
         return $this->set($name, $value, $period, $path, $domain, $secure, $httponly);
     }
@@ -169,12 +162,12 @@ class Cookie extends \Magento\Core\Model\Cookie
                     self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $this->_customerSession->isLoggedIn()
                 );
             } else {
-                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null ,0);
+                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null, 0);
             }
         } else {
-            $this->set(self::COOKIE_CUSTOMER, null ,0);
-            $this->set(self::COOKIE_CUSTOMER_GROUP, null ,0);
-            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null ,0);
+            $this->set(self::COOKIE_CUSTOMER, null, 0);
+            $this->set(self::COOKIE_CUSTOMER_GROUP, null, 0);
+            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null, 0);
         }
         return $this;
     }

@@ -26,11 +26,6 @@ class Cookie
     protected $_httpRequest;
 
     /**
-     * @var \Magento\App\ResponseInterface
-     */
-    protected $_httpResponse;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -39,18 +34,15 @@ class Cookie
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\App\ResponseInterface $response
      * @param Store\Config $coreStoreConfig
      * @param StoreManager $storeManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\App\ResponseInterface $response,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManager $storeManager
     ) {
         $this->_httpRequest = $request;
-        $this->_httpResponse = $response;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
     }
@@ -66,16 +58,6 @@ class Cookie
     }
 
     /**
-     * Retrieve Response object
-     *
-     * @return \Magento\App\ResponseInterface
-     */
-    protected function _getResponse()
-    {
-        return $this->_httpResponse;
-    }
-
-    /**
      * Set cookie
      *
      * @param string $name The cookie name
@@ -83,8 +65,8 @@ class Cookie
      * @param int $period Lifetime period
      * @param string $path
      * @param string $domain
-     * @param int|bool $secure
-     * @param bool $httponly
+     * @param bool|int|string $secure
+     * @param bool|string $httponly
      * @return \Magento\Core\Model\Cookie
      */
     public function set($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
@@ -92,7 +74,7 @@ class Cookie
         /**
          * Check headers sent
          */
-        if (!$this->_getResponse()->canSendHeaders(false)) {
+        if (headers_sent()) {
             return $this;
         }
 
@@ -118,7 +100,8 @@ class Cookie
      * @param int $period Lifetime period
      * @param string $path
      * @param string $domain
-     * @param int|bool $secure
+     * @param bool|int|string $secure
+     * @param string|bool $httponly
      * @return \Magento\Core\Model\Cookie
      */
     public function renew($name, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
@@ -136,7 +119,7 @@ class Cookie
     /**
      * Retrieve cookie or false if not exists
      *
-     * @param string $neme The cookie name
+     * @param string $name The cookie name
      * @return mixed
      */
     public function get($name = null)
