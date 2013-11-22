@@ -74,18 +74,12 @@ class Head extends \Magento\Core\Block\Template
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
 
     /**
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\Core\Helper\Data $coreData
@@ -98,7 +92,6 @@ class Head extends \Magento\Core\Block\Template
      */
     public function __construct(
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\App\Dir $dir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\Core\Helper\Data $coreData,
@@ -116,7 +109,6 @@ class Head extends \Magento\Core\Block\Template
         $this->_assetMinifyService = $assetMinifyService;
         $this->_pageAssets = $page->getAssets();
         $this->_storeManager = $storeManager;
-        $this->_dir = $dir;
         $this->_locale = $locale;
     }
 
@@ -398,10 +390,10 @@ class Head extends \Magento\Core\Block\Template
     {
         $folderName = \Magento\Backend\Model\Config\Backend\Image\Favicon::UPLOAD_DIR;
         $storeConfig = $this->_storeConfig->getConfig('design/head/shortcut_icon');
-        $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $folderName . '/' . $storeConfig;
-        $absolutePath = $this->_dir->getDir('media') . '/' . $folderName . '/' . $storeConfig;
+        $path = $folderName . '/' . $storeConfig;
+        $faviconFile = $this->_storeManager->getStore()->getBaseUrl('media') . $path;
 
-        if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
+        if (!is_null($storeConfig) && $this->_isFile($path)) {
             $url = $faviconFile;
         } else {
             $url = $this->getViewFileUrl('Magento_Page::favicon.ico');
@@ -412,15 +404,15 @@ class Head extends \Magento\Core\Block\Template
     /**
      * If DB file storage is on - find there, otherwise - just file_exists
      *
-     * @param string $filename
+     * @param string $filename relative file path
      * @return bool
      */
     protected function _isFile($filename)
     {
-        if ($this->_fileStorageDatabase->checkDbUsage() && !is_file($filename)) {
+        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->mediaDirectory->isFile($filename)) {
             $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
-        return is_file($filename);
+        return $this->mediaDirectory->isFile($filename);
     }
 
     /**
