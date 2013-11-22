@@ -142,6 +142,8 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
                 $this->_authzService->grantAllPermissions($userIdentifier);
             } else if (is_array($integration->getData('resource'))) {
                 $this->_authzService->grantPermissions($userIdentifier, $integration->getData('resource'));
+            } else {
+                $this->_authzService->grantPermissions($userIdentifier, array());
             }
         }
     }

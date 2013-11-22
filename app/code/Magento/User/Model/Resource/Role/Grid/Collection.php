@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Role\Grid;
+
+use Magento\User\Model\Acl\Role\Group as RoleGroup;
 
 /**
  * Admin role data grid collection
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource\Role\Grid;
-
 class Collection extends \Magento\User\Model\Resource\Role\Collection
 {
     /**
@@ -26,7 +21,7 @@ class Collection extends \Magento\User\Model\Resource\Role\Collection
     protected function _initSelect()
     {
         parent::_initSelect();
-        $this->addFieldToFilter('role_type', \Magento\User\Model\Acl\Role\Group::ROLE_TYPE);
+        $this->addFieldToFilter('role_type', RoleGroup::ROLE_TYPE);
         return $this;
     }
 }

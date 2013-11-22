@@ -56,12 +56,11 @@ class RuleTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
             array(
                 'role_id' => 1,
-                'role_type' => 'G',
                 'resource_id' => 'Magento_Adminhtml::all',
                 'permission' => 'allow'
             ),
-            array('role_id' => 2, 'role_type' => 'U', 'resource_id' => 1, 'permission' => 'allow'),
-            array('role_id' => 3, 'role_type' => 'U', 'resource_id' => 1, 'permission' => 'deny'),
+            array('role_id' => 2, 'resource_id' => 1, 'permission' => 'allow'),
+            array('role_id' => 3, 'resource_id' => 1, 'permission' => 'deny'),
         )));
 
         $this->_resourceMock->expects($this->once())

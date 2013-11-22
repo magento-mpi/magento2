@@ -2,12 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\User\Model\Acl\Loader;
+
+use Magento\User\Model\Acl\Role\Group as RoleGroup;
+use Magento\User\Model\Acl\Role\User as RoleUser;
 
 class Role implements \Magento\Acl\LoaderInterface
 {
@@ -58,14 +60,14 @@ class Role implements \Magento\Acl\LoaderInterface
         foreach ($adapter->fetchAll($select) as $role) {
             $parent = ($role['parent_id'] > 0) ? $role['parent_id'] : null;
             switch ($role['role_type']) {
-                case \Magento\User\Model\Acl\Role\Group::ROLE_TYPE:
+                case RoleGroup::ROLE_TYPE:
                     $acl->addRole(
                         $this->_groupFactory->create(array('roleId' => $role['role_id'])),
                         $parent
                     );
                     break;
 
-                case \Magento\User\Model\Acl\Role\User::ROLE_TYPE:
+                case RoleUser::ROLE_TYPE:
                     if (!$acl->hasRole($role['role_id'])) {
                         $acl->addRole(
                             $this->_roleFactory->create(array('roleId' => $role['role_id'])),

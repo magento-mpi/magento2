@@ -45,7 +45,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
                     'getId',
                     'getName',
                     'getEmail',
-                    'getAuthentication',
                     'getEndpoint',
                     'load',
                     'loadByName',
@@ -58,7 +57,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             'integration_id' => self::VALUE_INTEGRATION_ID,
             'name' => self::VALUE_INTEGRATION_NAME,
             'email' => self::VALUE_INTEGRATION_EMAIL,
-            'authentication' => 1,
             'endpoint' => self::VALUE_INTEGRATION_ENDPOINT
         );
         $this->_integrationFactory->expects($this->any())
@@ -85,7 +83,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
                     'getId',
                     'getName',
                     'getEmail',
-                    'getAuthentication',
                     'getEndpoint',
                     'load',
                     'loadByName',
@@ -177,7 +174,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             'integration_id' => self::VALUE_INTEGRATION_ID,
             'name' => self::VALUE_INTEGRATION_ANOTHER_NAME,
             'email' => self::VALUE_INTEGRATION_EMAIL,
-            'authentication' => 1,
             'endpoint' => self::VALUE_INTEGRATION_ENDPOINT
         );
         $this->_integrationMock->expects($this->any())
@@ -208,7 +204,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             'integration_id' => self::VALUE_INTEGRATION_ID,
             'name' => self::VALUE_INTEGRATION_ANOTHER_NAME,
             'email' => self::VALUE_INTEGRATION_EMAIL,
-            'authentication' => 1,
             'endpoint' => self::VALUE_INTEGRATION_ENDPOINT
         );
         $this->_service->update($integrationData);
@@ -260,9 +255,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->method('getEmail')
             ->will($this->returnValue(self::VALUE_INTEGRATION_EMAIL));
         $this->_integrationMock->expects($this->any())
-            ->method('getAuthentication')
-            ->will($this->returnValue('1'));
-        $this->_integrationMock->expects($this->any())
             ->method('getEndpoint')
             ->will($this->returnValue(self::VALUE_INTEGRATION_ENDPOINT));
     }
@@ -286,7 +278,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
                     'getId',
                     'getName',
                     'getEmail',
-                    'getAuthentication',
                     'getEndpoint',
                     'load',
                     'loadByName',
@@ -304,9 +295,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         $integrationMock->expects($this->any())
             ->method('getEmail')
             ->will($this->returnValue(self::VALUE_INTEGRATION_EMAIL));
-        $integrationMock->expects($this->any())
-            ->method('getAuthentication')
-            ->will($this->returnValue('1'));
         $integrationMock->expects($this->any())
             ->method('getEndpoint')
             ->will($this->returnValue(self::VALUE_INTEGRATION_ENDPOINT));
