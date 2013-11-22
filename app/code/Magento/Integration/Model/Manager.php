@@ -1,8 +1,5 @@
 <?php
 /**
- * Event manager
- * Used to dispatch global events
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -27,7 +24,7 @@ class Manager
     protected $_integrationService;
 
     /**
-     * Event config
+     * Integration config
      *
      * @var Config
      */
@@ -47,12 +44,19 @@ class Manager
 
     /**
      * Process integrations from config files
+     *
+     * @param array $integrationNames
      */
-    public function processIntegrationConfig()
+    public function processIntegrationConfig(array $integrationNames)
     {
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
-        foreach ($integrations as $integrationDetails) {
+        foreach ($integrationNames as $name) {
+            /**
+             * TODO: Check if the integration already exists for the same module. Then upgrade it.
+             * If its in another module, error out(?). Need to verify. For now overriding similar to modules
+             */
+            $integrationDetails = $integrations[$name];
             $integrationData = array(Integration::NAME => $integrationDetails[Integration::NAME]);
             if (isset($integrationDetails[Integration::EMAIL])) {
                 $integrationData[Integration::EMAIL] = $integrationDetails[Integration::EMAIL];

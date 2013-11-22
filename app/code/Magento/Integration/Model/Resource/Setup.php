@@ -39,8 +39,15 @@ class Setup extends \Magento\Core\Model\Resource\Setup
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
     }
 
-    public function initIntegrationProcessing()
+    /**
+     * Initiate integration processing
+     *
+     * @param array $integrationNames
+     * @return array of integration names sent to the next invocation
+     */
+    public function initIntegrationProcessing(array $integrationNames)
     {
-        $this->_integrationManager->processIntegrationConfig();
+        $this->_integrationManager->processIntegrationConfig($integrationNames);
+        return $integrationNames;
     }
 }

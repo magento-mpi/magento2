@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="config_integration" translate="label,description" instance="Magento\Webapi\Model\Cache\Type">
+        <label>Integrations Configuration</label>
+        <description>Integration Configuration file.</description>
+    </type>
+</config>
