@@ -235,7 +235,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = $this->_filesystem->getPath(DirectoryList::PUB_LIB) . DS;
+        $jsPath = $this->_filesystem->getPath(DirectoryList::PUB_LIB) . '/';
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }
@@ -249,7 +249,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             return false;
         }
 
-        $themePath = $this->_filesystem->getPath(DirectoryList::STATIC_VIEW) . DS;
+        $themePath = $this->_filesystem->getPath(DirectoryList::STATIC_VIEW) . '/';
         if (strncmp($filePath, $themePath, strlen($themePath)) !== 0) {
             return true;
         }
@@ -282,15 +282,15 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         /** @var $theme \Magento\View\Design\ThemeInterface */
         $theme = $params['themeModel'];
         if ($theme->getThemePath()) {
-            $designPath = str_replace('/', DS, $theme->getThemePath());
+            $designPath = $theme->getThemePath();
         } elseif ($theme->getId()) {
             $designPath = self::PUBLIC_THEME_DIR . $theme->getId();
         } else {
             $designPath = self::PUBLIC_VIEW_DIR;
         }
 
-        $publicFile = $params['area'] . DS . $designPath . DS . $params['locale'] .
-            ($params['module'] ? DS . $params['module'] : '') . DS . $file;
+        $publicFile = $params['area'] . '/' . $designPath . '/' . $params['locale'] .
+            ($params['module'] ? '/' . $params['module'] : '') . '/' . $file;
 
         return $publicFile;
     }
@@ -304,16 +304,16 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = $this->_filesystem->getPath(DirectoryList::THEMES) . DS;
+        $designDir = $this->_filesystem->getPath(DirectoryList::THEMES) . '/';
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
         } else {
             // modular file
             $module = $params['module'];
-            $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . DS;
+            $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . '/';
             $publicFile = substr($filename, strlen($moduleDir));
-            $publicFile = self::PUBLIC_MODULE_DIR . DS . $module . DS . $publicFile;
+            $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . DS . $publicFile;
         }
         return $publicFile;
     }
@@ -353,7 +353,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _buildPublicViewFilename($file)
     {
-        return $this->_viewService->getPublicDir() . DS . $file;
+        return $this->_viewService->getPublicDir() . '/' . $file;
     }
 
     /**

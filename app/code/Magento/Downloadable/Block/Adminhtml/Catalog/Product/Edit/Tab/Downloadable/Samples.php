@@ -37,13 +37,6 @@ class Samples
     protected $_downloadableFile = null;
 
     /**
-     * Core file storage database
-     *
-     * @var \Magento\Core\Helper\File\Storage\Database
-     */
-    protected $_coreFileStorageDb = null;
-
-    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
@@ -66,7 +59,6 @@ class Samples
     protected $_urlFactory;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -77,7 +69,6 @@ class Samples
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
@@ -87,7 +78,6 @@ class Samples
         \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
-        $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
@@ -155,21 +145,26 @@ class Samples
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = $fileHelper->getFilePath(
-                $this->_sampleModel->getBasePath(), $item->getSampleFile()
-            );
-            if ($item->getSampleFile() && !is_file($file)) {
-                $this->_coreFileStorageDb->saveFileToFilesystem($file);
+
+            $sampleFile = $item->getSampleFile();
+            if ($sampleFile) {
+                $file = $fileHelper->getFilePath(
+                    $this->_sampleModel->getBasePath(), $sampleFile
+                );
+
+                $fileExist = $fileHelper->ensureFileInFilesystem($file);
+
+                if ($fileExist) {
+                    $tmpSampleItem['file_save'] = array(
+                        array(
+                            'file' => $sampleFile,
+                            'name' => $fileHelper->getFileFromPathFile($sampleFile),
+                            'size' => $fileHelper->getFileSize($file),
+                            'status' => 'old'
+                        ));
+                }
             }
-            if ($item->getSampleFile() && is_file($file)) {
-                $tmpSampleItem['file_save'] = array(
-                    array(
-                        'file' => $item->getSampleFile(),
-                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
-                        'size' => filesize($file),
-                        'status' => 'old'
-                    ));
-            }
+
             if ($this->getProduct() && $item->getStoreTitle()) {
                 $tmpSampleItem['store_title'] = $item->getStoreTitle();
             }

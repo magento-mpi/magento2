@@ -32,16 +32,20 @@ class Config
      *
      * @var \Magento\Filesystem
      */
-    protected $_filesystem;
+    protected $filesystem;
 
     /**
-     * @param \Magento\Install\Model\Config\Data $dataStorage
-     * @param \Magento\App\Dir $coreDir
+     * Constructor
+     *
+     * @param Config\Data $dataStorage
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Install\Model\Config\Data $dataStorage, \Magento\App\Dir $coreDir)
-    {
+    public function __construct(
+        \Magento\Install\Model\Config\Data  $dataStorage,
+        \Magento\Filesystem                 $filesystem
+    ) {
         $this->_dataStorage = $dataStorage;
-        $this->_filesystem = $coreDir;
+        $this->filesystem   = $filesystem;
     }
 
     /**

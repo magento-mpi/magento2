@@ -181,10 +181,10 @@ class StrategyPool
     {
         switch ($className) {
             case 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy':
-                $mapDir = $this->dirs->getDir(Dir::VAR_DIR) . DIRECTORY_SEPARATOR
+                $mapDir = $this->dirs->getDir(Dir::VAR_DIR) . '/'
                     . self::FALLBACK_MAP_DIR;
                 $arguments = array(
-                    'mapDir' => str_replace('/', DIRECTORY_SEPARATOR, $mapDir),
+                    'mapDir' => $mapDir,
                     'baseDir' => $this->dirs->getDir(Dir::ROOT),
                 );
                 break;

@@ -330,7 +330,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     {
         $modName    = (string)$this->_moduleConfig['name'];
 
-        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
+        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . '/' . $this->_resourceName;
         if (!is_dir($filesDir) || !is_readable($filesDir)) {
             return array();
         }
@@ -343,9 +343,9 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         while (false !== ($file = $handlerDir->read())) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
-                $dbFiles[$matches[1]] = $filesDir . DS . $file;
+                $dbFiles[$matches[1]] = $filesDir . '/' . $file;
             } else if (preg_match($regExpType, $file, $matches)) {
-                $typeFiles[$matches[1]] = $filesDir . DS . $file;
+                $typeFiles[$matches[1]] = $filesDir . '/' . $file;
             }
         }
         $handlerDir->close();

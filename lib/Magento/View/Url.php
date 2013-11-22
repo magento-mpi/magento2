@@ -132,9 +132,9 @@ class Url
     {
         foreach ($this->_fileUrlMap as $urlMap) {
             $dir = $this->_filesystem->getPath($urlMap['value']);
+            $publicFilePath = str_replace('\\', '/', $publicFilePath);
             if (strpos($publicFilePath, $dir) === 0) {
                 $relativePath = ltrim(substr($publicFilePath, strlen($dir)), '\\/');
-                $relativePath = str_replace('\\', '/', $relativePath);
                 $url = $this->_urlBuilder->getBaseUrl(
                     array(
                         '_type' => $urlMap['key'],
@@ -150,6 +150,7 @@ class Url
                 return $url;
             }
         }
+
         throw new \Magento\Exception(
             "Cannot build URL for the file '$publicFilePath' because it does not reside in a public directory."
         );

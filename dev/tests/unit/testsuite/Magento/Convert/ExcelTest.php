@@ -87,7 +87,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
         $file = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.xml';
 
         $stream = new \Magento\Filesystem\File\Write($file, new \Magento\Filesystem\Driver\Base(), 'w+');
-        $stream->lock(true);
+        $stream->lock();
 
         if (!$callback) {
             $convert = new \Magento\Convert\Excel(new \ArrayIterator($this->_testData));

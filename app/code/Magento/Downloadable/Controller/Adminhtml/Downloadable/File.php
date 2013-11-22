@@ -30,17 +30,27 @@ class File extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_sample;
 
     /**
+     * Downloadable file helper.
+     *
+     * @var \Magento\Downloadable\Helper\File
+     */
+    protected $_fileHelper;
+
+    /**
      * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Downloadable\Model\Link $link
      * @param \Magento\Downloadable\Model\Sample $sample
+     * @param \Magento\Downloadable\Helper\File $fileHelper
      */
     public function __construct(
         \Magento\Backend\Controller\Context $context,
         \Magento\Downloadable\Model\Link $link,
-        \Magento\Downloadable\Model\Sample $sample
+        \Magento\Downloadable\Model\Sample $sample,
+        \Magento\Downloadable\Helper\File $fileHelper
     ) {
         $this->_link = $link;
         $this->_sample = $sample;
+        $this->_fileHelper = $fileHelper;
         parent::__construct($context);
     }
 
@@ -58,12 +68,15 @@ class File extends \Magento\Backend\Controller\Adminhtml\Action
         } elseif ($type == 'link_samples') {
             $tmpPath = $this->_link->getBaseSampleTmpPath();
         }
-        $result = array();
+
         try {
             $uploader = $this->_objectManager->create('Magento\Core\Model\File\Uploader', array('fileId' => $type));
-            $uploader->setAllowRenameFiles(true);
-            $uploader->setFilesDispersion(true);
-            $result = $uploader->save($tmpPath);
+
+            $result = $this->_fileHelper->uploadFromTmp($tmpPath, $uploader);
+
+            if (!$result) {
+                throw new \Exception('File can not be moved from temporary folder to the destination folder.');
+            }
 
             /**
              * Workaround for prototype 1.7 methods "isJSON", "evalJSON" on Windows OS
@@ -72,8 +85,8 @@ class File extends \Magento\Backend\Controller\Adminhtml\Action
             $result['path'] = str_replace(DS, "/", $result['path']);
 
             if (isset($result['file'])) {
-                $fullPath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
-                $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->saveFile($fullPath);
+                $relativePath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
+                $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->saveFile($relativePath);
             }
 
             $result['cookie'] = array(
@@ -84,7 +97,7 @@ class File extends \Magento\Backend\Controller\Adminhtml\Action
                 'domain'   => $this->_getSession()->getCookieDomain()
             );
         } catch (\Exception $e) {
-            $result = array('error'=>$e->getMessage(), 'errorcode'=>$e->getCode());
+            $result = array('error' => $e->getMessage(), 'errorcode' => $e->getCode());
         }
 
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode($result));

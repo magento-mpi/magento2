@@ -72,9 +72,10 @@ try {
 
     // 1.2 Generation of Factory and Additional Classes
     $generatorIo = new \Magento\Code\Generator\Io(
-        new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
+        new \Magento\Filesystem\Driver\Base(),
         null,
-        $generationDir);
+        $generationDir
+    );
     $generator = new \Magento\Code\Generator(null, null, $generatorIo);
     foreach (array('php', 'additional') as $type) {
         foreach ($entities[$type] as $entityName) {

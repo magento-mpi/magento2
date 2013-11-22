@@ -44,13 +44,6 @@ class Links
     protected $_downloadableFile = null;
 
     /**
-     * Core file storage database
-     *
-     * @var \Magento\Core\Helper\File\Storage\Database
-     */
-    protected $_coreFileStorageDb = null;
-
-    /**
      * @var \Magento\Core\Model\StoreManager
      */
     protected $_storeManager;
@@ -83,7 +76,6 @@ class Links
     protected $_urlFactory;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -96,7 +88,6 @@ class Links
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Helper\Data $coreData,
@@ -109,7 +100,6 @@ class Links
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_storeManager = $storeManager;
         $this->_sourceModel = $sourceModel;
@@ -254,40 +244,50 @@ class Links
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = $fileHelper->getFilePath(
-                $this->_link->getBasePath(), $item->getLinkFile()
-            );
 
-            if ($item->getLinkFile() && !is_file($file)) {
-                $this->_coreFileStorageDb->saveFileToFilesystem($file);
+            $linkFile = $item->getLinkFile();
+            if ($linkFile) {
+                $file = $fileHelper->getFilePath(
+                    $this->_link->getBasePath(), $linkFile
+                );
+
+                $fileExist = $fileHelper->ensureFileInFilesystem($file);
+
+                if ($fileExist) {
+                    $name = '<a href="'
+                        . $this->getUrl('adminhtml/downloadable_product_edit/link', array(
+                            'id' => $item->getId(),
+                            '_secure' => true
+                        )) . '">' . $fileHelper->getFileFromPathFile($linkFile) . '</a>';
+                    $tmpLinkItem['file_save'] = array(
+                        array(
+                            'file' => $linkFile,
+                            'name' => $name,
+                            'size' => $fileHelper->getFileSize($file),
+                            'status' => 'old'
+                        ));
+                }
             }
 
-            if ($item->getLinkFile() && is_file($file)) {
-                $name = '<a href="'
-                    . $this->getUrl('adminhtml/downloadable_product_edit/link', array(
-                        'id' => $item->getId(),
-                        '_secure' => true
-                    )) . '">' . $fileHelper->getFileFromPathFile($item->getLinkFile()) . '</a>';
-                $tmpLinkItem['file_save'] = array(
-                    array(
-                        'file' => $item->getLinkFile(),
-                        'name' => $name,
-                        'size' => filesize($file),
-                        'status' => 'old'
-                    ));
+            $sampleFile = $item->getSampleFile();
+            if ($sampleFile) {
+                $file = $fileHelper->getFilePath(
+                    $this->_link->getBaseSamplePath(), $sampleFile
+                );
+
+                $fileExist = $fileHelper->ensureFileInFilesystem($file);
+
+                if ($fileExist) {
+                    $tmpLinkItem['sample_file_save'] = array(
+                        array(
+                            'file' => $item->getSampleFile(),
+                            'name' => $fileHelper->getFileFromPathFile($sampleFile),
+                            'size' => $fileHelper->getFileSize($file),
+                            'status' => 'old'
+                        ));
+                }
             }
-            $sampleFile = $fileHelper->getFilePath(
-                $this->_link->getBaseSamplePath(), $item->getSampleFile()
-            );
-            if ($item->getSampleFile() && is_file($sampleFile)) {
-                $tmpLinkItem['sample_file_save'] = array(
-                    array(
-                        'file' => $item->getSampleFile(),
-                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
-                        'size' => filesize($sampleFile),
-                        'status' => 'old'
-                    ));
-            }
+
             if ($item->getNumberOfDownloads() == '0') {
                 $tmpLinkItem['is_unlimited'] = ' checked="checked"';
             }

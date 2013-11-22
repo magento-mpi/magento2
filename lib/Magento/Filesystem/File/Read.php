@@ -8,6 +8,7 @@
 
 namespace Magento\Filesystem\File;
 
+use Magento\Filesystem\DriverInterface;
 use Magento\Filesystem\FilesystemException;
 
 class Read implements ReadInterface
@@ -34,7 +35,7 @@ class Read implements ReadInterface
     protected $resource;
 
     /**
-     * @var \Magento\Filesystem\Driver
+     * @var \Magento\Filesystem\DriverInterface
      */
     protected $driver;
 
@@ -42,15 +43,14 @@ class Read implements ReadInterface
      * Constructor
      *
      * @param $path
-     * @param \Magento\Filesystem\Driver $driver
+     * @param DriverInterface $driver
      */
-    public function __construct
-    (
-        $path,
-        \Magento\Filesystem\Driver $driver
-    ) {
+    public function __construct($path, DriverInterface $driver)
+    {
         $this->path = $path;
+
         $this->driver = $driver;
+
         $this->open();
     }
 
@@ -90,6 +90,18 @@ class Read implements ReadInterface
     public function read($length)
     {
         return $this->driver->fileRead($this->resource, $length);
+    }
+
+    /**
+     * Reads the line with specified number of bytes from the current position.
+     *
+     * @param int $length The number of bytes to read
+     * @param $ending [optional]
+     * @return string
+     */
+    public function readLine($length, $ending = null)
+    {
+        return $this->driver->fileReadLine($this->resource, $length, $ending);
     }
 
     /**

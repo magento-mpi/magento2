@@ -225,7 +225,6 @@ class Storage
      */
     public function getDirsCollection($currentPath)
     {
-        $ddd = $this->mediaWriteDirectory;
         if (!$this->mediaWriteDirectory->isExist($currentPath)) {
             throw new \Magento\Core\Exception(__('We cannot find a directory with this name.'));
         }

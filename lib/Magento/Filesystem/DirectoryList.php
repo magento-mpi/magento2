@@ -128,6 +128,11 @@ class DirectoryList extends Dir
     const UPLOAD = 'upload';
 
     /**
+     * Virtual directory to access files via socket connections (using http or https schemes)
+     */
+    const SOCKET = 'socket';
+
+    /**
      * Root path
      *
      * @var string
@@ -153,6 +158,7 @@ class DirectoryList extends Dir
         self::SESSION       => array('path' => 'var/session'),
         self::DI            => array('path' => 'var/di'),
         self::GENERATION    => array('path' => 'var/generation'),
+        self::SOCKET        => array('path' => null),
         self::PUB           => array('path' => 'pub'),
         self::PUB_LIB       => array('path' => 'pub/lib'),
         self::MEDIA         => array('path' => 'pub/media'),
@@ -169,7 +175,7 @@ class DirectoryList extends Dir
     public function __construct($root, array $uris = array(), array $dirs = array())
     {
         parent::__construct($root, $uris, $dirs);
-        $this->root = $root;
+        $this->root = str_replace('\\', '/', $root);
 
         foreach ($this->directories as $code => $configuration) {
             $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
@@ -196,9 +202,13 @@ class DirectoryList extends Dir
      * @param string $code
      * @param array $configuration
      */
-    public function addDirectory($code, $configuration)
+    public function addDirectory($code, array $configuration)
     {
+        if (!isset($configuration['path'])) {
+            $configuration['path'] = null;
+        }
         $configuration['path'] = $this->makeAbsolute($configuration['path']);
+
         $this->directories[$code] = $configuration;
     }
 
@@ -210,7 +220,16 @@ class DirectoryList extends Dir
      */
     protected function makeAbsolute($path)
     {
-        return $this->getRoot() . '/' . $path;
+        if ($path === null) {
+            $result = '';
+        } else {
+            $result = $this->getRoot();
+            if (!empty($path)) {
+                $result .= '/' . $path;
+            }
+        }
+
+        return $result;
     }
 
     /**

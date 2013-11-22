@@ -10,6 +10,8 @@
  */
 namespace Magento\Index\Model\Lock;
 
+use Magento\Filesystem\DirectoryList;
+
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -26,40 +28,29 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFile()
     {
-        $this->_dirsMock = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
-        $this->_dirsMock->expects($this->any())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::VAR_DIR)
-            ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR. 'var'));
+        $streamMock = $this->getMockBuilder('Magento\Filesystem\File\Write')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $directoryMock = $this->getMockBuilder('Magento\Filesystem\Directory\Write')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $directoryMock->expects($this->exactly(2))
+            ->method('create');
+
+        $directoryMock->expects($this->any())
+            ->method('openFile')
+            ->will($this->returnValue($streamMock));
 
         $filesystemMock = $this->getMockBuilder('Magento\Filesystem')
-            ->setMethods(
-                array(
-                    'setIsAllowCreateDirectories',
-                    'setWorkingDirectory',
-                    'ensureDirectoryExists',
-                    'createAndOpenStream',
-                    'isPathInDirectory',
-                    'write'
-                ))
             ->disableOriginalConstructor()
             ->getMock();
+        $filesystemMock->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->with(DirectoryList::VAR_DIR)
+            ->will($this->returnValue($directoryMock));
 
-        $streamMock = $this->getMockBuilder('Magento\Filesystem\Stream\Local')
-            ->setMethods(array('write', 'addLock', 'unlock'))
-            ->disableOriginalConstructor()
-            ->getMock();
         $fileModel = $this->getMock('Magento\Index\Model\Process\File', array(), array($streamMock), '');
-
-        $filesystemMock->expects($this->exactly(2))
-            ->method('setIsAllowCreateDirectories')
-            ->with(true);
-        $filesystemMock->expects($this->any())
-            ->method('createAndOpenStream')
-            ->will($this->returnValue($streamMock));
-        $filesystemMock->expects($this->any())
-            ->method('isPathInDirectory')
-            ->will($this->returnValue(true));
 
         $fileFactory = $this->getMock(
             'Magento\Index\Model\Process\FileFactory',
@@ -72,7 +63,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($fileModel));
 
-        $storage = new \Magento\Index\Model\Lock\Storage($this->_dirsMock, $fileFactory, $filesystemMock);
+        $storage = new \Magento\Index\Model\Lock\Storage($fileFactory, $filesystemMock);
 
         /**
          * List if test process IDs.

@@ -9,14 +9,16 @@
  */
 namespace Magento\Module;
 
+use Magento\Filesystem;
+
 class Dir
 {
     /**
      * Directory registry
      *
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_applicationDirs;
+    protected $_filesystem;
 
     /**
      * @var \Magento\Stdlib\String
@@ -24,12 +26,12 @@ class Dir
     protected $_string;
 
     /**
-     * @param \Magento\App\Dir $applicationDirs
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      */
-    public function __construct(\Magento\App\Dir $applicationDirs, \Magento\Stdlib\String $string)
+    public function __construct(Filesystem $filesystem, \Magento\Stdlib\String $string)
     {
-        $this->_applicationDirs = $applicationDirs;
+        $this->_filesystem = $filesystem;
         $this->_string = $string;
     }
 
@@ -43,14 +45,14 @@ class Dir
      */
     public function getDir($moduleName, $type = '')
     {
-        $result = $this->_applicationDirs->getDir(\Magento\App\Dir::MODULES)
-            . DIRECTORY_SEPARATOR
-            . $this->_string->upperCaseWords($moduleName, '_', DIRECTORY_SEPARATOR);
+        $result = $this->_filesystem->getPath(Filesystem::MODULES)
+            . '/'
+            . $this->_string->upperCaseWords($moduleName, '_', '/');
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
                 throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
             }
-            $result .= DIRECTORY_SEPARATOR . $type;
+            $result .= '/' . $type;
         }
         return $result;
     }
