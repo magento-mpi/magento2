@@ -12,7 +12,6 @@
   * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
   * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules  
 * Fixed bugs:
-  * Fixed notice while create event for Private Sales
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
   * Fixed JavaScript error when printing order from frontend
