@@ -15,6 +15,7 @@ use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
 use Magento\Catalog\Test\Fixture\Product;
@@ -130,6 +131,24 @@ class ProductForm extends FormTabs
         $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
     }
 
+    /**
+     * show the Advanced block.
+     */
+    public function showAdvanced()
+    {
+        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+    }
+    /**
+     * Open the Up-sells tab.
+     */
+    public function openUpsellTab()
+    {
+        // click the up-sell link to get to the tab.
+        $this->waitForElementVisible(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID);
+
+        $this->_rootElement->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
+        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
+    }
     /**
      * Clear parent category field
      */

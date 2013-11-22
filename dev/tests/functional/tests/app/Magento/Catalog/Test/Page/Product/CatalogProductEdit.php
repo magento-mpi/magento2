@@ -11,10 +11,11 @@
 
 namespace Magento\Catalog\Test\Page\Product;
 
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
+use Magento\Catalog\Test\Block\Backend\ProductForm;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Block\Backend\ProductForm;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
@@ -28,7 +29,7 @@ class CatalogProductEdit extends Page
      */
     const MCA = 'catalog/product/edit';
 
-    /*
+    /**
      * Selector for message block
      *
      * @var string
@@ -36,44 +37,11 @@ class CatalogProductEdit extends Page
     protected $messagesSelector = '#messages.messages .messages';
 
     /**
-     * Messages block
-     *
-     * @var \Magento\Core\Test\Block\Messages
-     */
-    protected $messagesBlock;
-
-    /**
-     * Product form block
-     *
-     * @var ProductForm
-     */
-    private $productFormBlock;
-
-    /**
-     * Catalog product grid on backend under "related products" tab when editing
-     *
-     * @var Related
-     */
-    private $relatedProductGrid;
-
-    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
-        );
-
-        $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
-            $this->_browser->find('body', Locator::SELECTOR_CSS)
-        );
-
-        $this->relatedProductGrid = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
-            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
-        );
     }
 
     /**
@@ -83,7 +51,21 @@ class CatalogProductEdit extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get upsell block
+     *
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell
+     */
+    public function getUpsellBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabUpsell(
+            $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
+        );
     }
 
     /**
@@ -93,7 +75,9 @@ class CatalogProductEdit extends Page
      */
     public function getProductBlockForm()
     {
-        return $this->productFormBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find('body', Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -103,6 +87,8 @@ class CatalogProductEdit extends Page
      */
     public function getRelatedProductGrid()
     {
-        return $this->relatedProductGrid;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
+        );
     }
 }

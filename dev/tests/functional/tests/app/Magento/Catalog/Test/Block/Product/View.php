@@ -140,7 +140,7 @@ class View extends Block
     /**
      * Get bundle product price in form "From: To:"
      *
-     * @return array F.e. array('price_from' => '$110', 'price_to' => '$120')
+     * @return array e.g. array('price_from' => '$110', 'price_to' => '$120')
      */
     protected function _getPriceFromTo()
     {
@@ -154,20 +154,6 @@ class View extends Block
             $price['price_to'] = $priceTo->find('.price')->getText();
         }
         return $price;
-    }
-
-    /**
-     * Return configurable product options
-     *
-     * @return array
-     */
-    public function getProductOptions()
-    {
-        for ($i =2; $i<=3; $i++) {
-            $options[] = $this->_rootElement
-                ->find(".super-attribute-select option:nth-child($i)")->getText();
-        }
-        return $options;
     }
 
     /**
@@ -211,13 +197,5 @@ class View extends Block
             $productOptions = $product->getProductOptions();
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }
-    }
-
-    /**
-     * @return \Mtf\Client\Element
-     */
-    public function getRootElement()
-    {
-        return $this->_rootElement;
     }
 }
