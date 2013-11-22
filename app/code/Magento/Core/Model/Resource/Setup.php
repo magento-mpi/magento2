@@ -102,6 +102,13 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_connectionName = 'core_setup';
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param $resourceName
      * @param $moduleName
@@ -123,6 +130,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $this->_themeFactory = $context->getThemeFactory();
         $this->_themeResourceFactory = $context->getThemeResourceFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
+        $this->filesystem = $context->getFilesystem();
         $this->_connectionName = $connectionName ?: $this->_connectionName;
     }
 

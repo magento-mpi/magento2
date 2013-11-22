@@ -49,11 +49,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     protected $_eavAttributeResourceFactory;
 
     /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * Construct
      * 
      * @param \Magento\Core\Model\Resource\Setup\Context $context
@@ -83,7 +78,6 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
         $this->_indexerFactory = $indexerFactory;
         $this->_resourceMigrationFactory = $resourceMigrationFactory;
         $this->_eavAttributeResourceFactory = $eavAttributeResourceFactory;
-        $this->filesystem = $context->getFilesystem();
         parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
     }
 
