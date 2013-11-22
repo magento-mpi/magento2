@@ -39,7 +39,7 @@ class GeneralProperties extends AbstractRepository {
             'data' => array(
                 'fields' => array(
                     'name' => array(
-                        'value' => 'All Retail Customers',
+                        'value' => 'All Retail Customers %isolation%',
                         'group' => 'magento_customersegment_segment_tabs_general_section'
                     ),
                     'description' => array(

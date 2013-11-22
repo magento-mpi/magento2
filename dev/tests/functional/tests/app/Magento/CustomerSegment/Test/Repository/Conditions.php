@@ -66,7 +66,7 @@ class Conditions extends AbstractRepository {
                         'group' => 'magento_customersegment_segment_tabs_conditions_section'
                     ),
                     'name' => array(
-                        'value' => 'All Retail Customers',
+                        'value' => '%name%',
                         'group' => 'magento_customersegment_segment_tabs_conditions_section',
                         'input' => 'text'
                     ),
