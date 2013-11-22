@@ -10,6 +10,8 @@
 
 namespace Magento\Core\Block;
 
+use Magento\Filesystem\DirectoryList;
+
 /**
  * Base html block
  */
@@ -86,11 +88,18 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_appState;
 
     /**
-     * Directory instance
+     * Root directory instance
      *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directory;
+
+    /**
+     * Media directory instance
+     *
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $mediaDirectory;
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
@@ -295,13 +304,26 @@ class Template extends \Magento\Core\Block\AbstractBlock
      *
      * @return \Magento\Filesystem\Directory\ReadInterface
      */
-    protected function getDirectory()
+    protected function getRootDirectory()
     {
         if (null === $this->directory) {
-            $this->directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
+            $this->directory = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT);
         }
 
         return $this->directory;
+    }
+
+    /**
+     * Get media directory
+     *
+     * @return \Magento\Filesystem\Directory\Read
+     */
+    protected function getMediaDirectory()
+    {
+        if (null === $this->mediaDirectory) {
+            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        }
+        return $this->mediaDirectory;
     }
 
     /**
@@ -319,11 +341,11 @@ class Template extends \Magento\Core\Block\AbstractBlock
     {
         $appDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::APP);
         $themesDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::THEMES);
-        $isFile = $this->getDirectory()->isFile($this->getDirectory()->getRelativePath($fileName));
+        $isFile = $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
 
         return (
-            $this->getDirectory()->isPathInDirectory($fileName, $appDir)
-            || $this->getDirectory()->isPathInDirectory($fileName, $themesDir)
+            $this->getRootDirectory()->isPathInDirectory($fileName, $appDir)
+            || $this->getRootDirectory()->isPathInDirectory($fileName, $themesDir)
             || $this->_getAllowSymlinks()
         ) && $isFile;
     }
