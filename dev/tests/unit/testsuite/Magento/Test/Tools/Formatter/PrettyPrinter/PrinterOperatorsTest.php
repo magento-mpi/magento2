@@ -131,12 +131,9 @@ class PrinterOperatorsTest extends TestBase
                 "<?php\nclass Zoo\n{".
                 "\n    public function zoo()".
                 "\n    {".
-                "\n        \$alligator = (\$bear !== \$cat || \$dragon" .
-                "\n        ) > \$elephant && \$fox->isSlick() ? 'a' : (" .
-                "\n        (" .
-                "\n        \$bear !== \$cat || \$dragon" .
-                "\n        ) > \$elephant && \$fox->isSlick() ? 'x' : 'y'" .
-                "\n        );" .
+                "\n        \$alligator = (\$bear !== \$cat ||" .
+                "\n            \$dragon) > \$elephant && \$fox->isSlick() ? 'a' : ((\$bear !== \$cat ||" .
+                "\n            \$dragon) > \$elephant && \$fox->isSlick() ? 'x' : 'y');" .
                 "\n    }\n}\n"
             ),
             array(

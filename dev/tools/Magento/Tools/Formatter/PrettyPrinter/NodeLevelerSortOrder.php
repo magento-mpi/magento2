@@ -37,10 +37,11 @@ class NodeLevelerSortOrder extends LineSizeCheck
      * @param int $sortOrder
      * @param int $level Starting level for the traversal.
      */
-    public function __construct($sortOrder, $level = -1)
+    public function __construct($sortOrder, $level = 0)
     {
-        parent::__construct($level);
-        $this->originalLevel = $level + 1;
+        // need to subtract one since the node entry will naturally increment the level
+        parent::__construct($level - 1);
+        $this->originalLevel = $level;
         $this->sortOrder = $sortOrder;
         $this->lineBreakData[self::LINE_NUMBER] = 0;
     }
@@ -93,6 +94,7 @@ class NodeLevelerSortOrder extends LineSizeCheck
             // determine where the lines go
             $lastTerminator = null;
             $originalFirstChild = $this->getFirstChild($treeNode);
+            $originalChildren = $treeNode->getChildren();
             /** @var Line $currentLine */
             foreach ($currentLines as $currentLine) {
                 // if this is the first pass, replace the current line
@@ -102,6 +104,10 @@ class NodeLevelerSortOrder extends LineSizeCheck
                     $treeNode->addChild(AbstractSyntax::getNodeLine($currentLine), $originalFirstChild, false);
                 } else {
                     $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($currentLine));
+                    // if there were children prior to the split, then move those to the new sibling
+                    if (!empty($originalChildren)) {
+                        NodeLeveler::copyChildren($originalChildren, $treeNode);
+                    }
                 }
                 $lastTerminator = $currentLine->getLastToken();
             }

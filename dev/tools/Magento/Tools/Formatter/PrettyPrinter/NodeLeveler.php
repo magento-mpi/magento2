@@ -110,7 +110,7 @@ class NodeLeveler extends LevelNodeVisitor
      * @param mixed $children Array of children or single child to copy.
      * @param TreeNode $target Node to copy to.
      */
-    protected function copyChildren($children, TreeNode $target)
+    public static function copyChildren($children, TreeNode $target)
     {
         if (null !== $children) {
             if (is_array($children)) {
@@ -131,7 +131,7 @@ class NodeLeveler extends LevelNodeVisitor
     protected function copyChildrenFromNode(TreeNode $source, TreeNode $target)
     {
         if ($source->hasChildren()) {
-            $this->copyChildren($source->getChildren(), $target);
+            self::copyChildren($source->getChildren(), $target);
         }
     }
 

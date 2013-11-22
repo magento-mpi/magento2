@@ -210,7 +210,11 @@ class TestClass
     {
         if (isset(
             $abcdefghijklmnopqrstuvwxyz
-        ) && isset($abcdefghijklmnopqrstuvwxyz) && isset($abcdefghijklmnopqrstuvwxyz)
+        ) && isset(
+            $abcdefghijklmnopqrstuvwxyz
+        ) && isset(
+            $abcdefghijklmnopqrstuvwxyz
+        )
         ) {
             $callback = 'hello';
             $callback = 'good';
@@ -248,7 +252,13 @@ class TestClass
         if (strcasecmp(
             'FALSE',
             $results
-        ) === 0 || strcasecmp('TRUE', $results) === 0 || strcasecmp('NULL', $results) === 0
+        ) === 0 || strcasecmp(
+            'TRUE',
+            $results
+        ) === 0 || strcasecmp(
+            'NULL',
+            $results
+        ) === 0
         ) {
             $tokens[sizeof($tokens) - 1] = strtolower($results);
             // reset the last item in the array due to php's "copy-on-write" rule for arrays
@@ -635,8 +645,29 @@ class MC3
 }
 
 FMC3;
+        $originalMethodCall4 = <<<'OMC4'
+<?php
+class MC4 { public function mC4(){
+        $select->where("{$inversion} (" . "quote.coupon_code IS NOT NULL AND quote.coupon_code <> "
+            . $select->getAdapter()->quote('') . ")");}}
+OMC4;
+        $formattedMethodCall4 = <<<'FMC4'
+<?php
+class MC4
+{
+    public function mC4()
+    {
+        $select->where(
+            "{$inversion} (" .
+            "quote.coupon_code IS NOT NULL AND quote.coupon_code <> " .
+            $select->getAdapter()->quote(
+                ''
+            ) . ")"
+        );
+    }
+}
 
-
+FMC4;
 
         return array(
             array(
@@ -666,6 +697,7 @@ FMC3;
             array($originalMethodCall, $formattedMethodCall),
             array($originalMethodCall2, $formattedMethodCall2),
             array($originalMethodCall3, $formattedMethodCall3),
+            array($originalMethodCall4, $formattedMethodCall4),
         );
     }
 }
