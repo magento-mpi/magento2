@@ -204,12 +204,12 @@ class Line
         return $this->getCurrentLines($level);
     }
 
-    public function splitLineBySortOrder($sortOrder)
+    public function splitLineBySortOrder($sortOrder, &$lineBreakData)
     {
         // reset the index information for the line breaks
         $this->resetLineBreakIndex();
         // get the array of arrays containing the compiled tokens
-        return $this->getCurrentLinesBySortOrder($sortOrder);
+        return $this->getCurrentLinesBySortOrder($sortOrder, $lineBreakData);
     }
 
     /**
@@ -290,13 +290,13 @@ class Line
     /**
      * This method breaks the current line into additional lines, based on the sort order.
      * @param $sortOrder
+     * @param $lineBreakData
      * @return array
      */
-    private function getCurrentLinesBySortOrder($sortOrder)
+    private function getCurrentLinesBySortOrder($sortOrder, &$lineBreakData)
     {
         $currentLines = array();
         $index = 0;
-        $lineBreakData = array();
         // break down the line by only resolving the line breaks based on sort order
         foreach ($this->tokens as $token) {
             // if no current line, create one and put it in the array

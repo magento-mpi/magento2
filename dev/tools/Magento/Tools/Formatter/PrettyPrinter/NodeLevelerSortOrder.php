@@ -11,6 +11,21 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 
 class NodeLevelerSortOrder extends LineSizeCheck
 {
+    const INDENT_LEVEL = 'indent_level';
+    const LINE_NUMBER = 'line';
+
+    /**
+     * This member hold line break data used when splitting lines.
+     * @var array
+     */
+    protected $lineBreakData;
+
+    /**
+     * This member holds the original level.
+     * @var int
+     */
+    protected $originalLevel;
+
     /**
      * This member holds the sort order to be used for the leveling.
      * @var int
@@ -25,7 +40,9 @@ class NodeLevelerSortOrder extends LineSizeCheck
     public function __construct($sortOrder, $level = -1)
     {
         parent::__construct($level);
+        $this->originalLevel = $level + 1;
         $this->sortOrder = $sortOrder;
+        $this->lineBreakData[self::LINE_NUMBER] = 0;
     }
 
     /**
@@ -35,6 +52,9 @@ class NodeLevelerSortOrder extends LineSizeCheck
     public function nodeEntry(TreeNode $treeNode)
     {
         parent::nodeEntry($treeNode);
+        // up the line number
+        $this->lineBreakData[self::LINE_NUMBER]++;
+        $this->lineBreakData[self::INDENT_LEVEL] = $this->level - $this->originalLevel;
         /** @var Line $lineData */
         $line = $treeNode->getData()->line;
         if (!$this->fitsOnLine($line)) {
@@ -67,7 +87,7 @@ class NodeLevelerSortOrder extends LineSizeCheck
     protected function getLineTreeForSortOrder(Line $line, TreeNode $treeNode)
     {
         // split the line by sort order
-        $currentLines = $line->splitLineBySortOrder($this->sortOrder);
+        $currentLines = $line->splitLineBySortOrder($this->sortOrder, $this->lineBreakData);
         // if more than a single line returned, break up the node
         if (sizeof($currentLines) > 1) {
             // determine where the lines go

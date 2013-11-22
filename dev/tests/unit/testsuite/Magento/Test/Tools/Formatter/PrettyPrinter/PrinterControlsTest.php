@@ -86,14 +86,11 @@ class PrinterControlsTest extends TestBase
         $originalIf5 = <<<'ORIGINALIF5'
 <?php class If5 {
 protected function alpha() {
-        if ($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
+        if($response->getResultCode() == self::RESPONSE_CODE_VOID_ERROR) {
             throw new \Magento\Paypal\Exception(__('You cannot void a verification transaction.'));
-        } elseif ($response->getResultCode() != self::RESPONSE_CODE_APPROVED
+        }elseif($response->getResultCode() != self::RESPONSE_CODE_APPROVED
             && $response->getResultCode() != self::RESPONSE_CODE_FRAUDSERVICE_FILTER
-        ) {
-            throw new \Magento\Core\Exception($response->getRespmsg());
-        }
-}}
+        ){throw new \Magento\Core\Exception($response->getRespmsg());}}}
 ORIGINALIF5;
         $formattedIf5 = <<<'FORMATTEDIF5'
 <?php
@@ -112,6 +109,31 @@ class If5
 }
 
 FORMATTEDIF5;
+        $originalIf6 = <<<'ORIGINALIF6'
+<?php class If6 {
+public function if6() {
+    if ($this->_request->getActionName() === $action &&
+        (null === $module || $this->_request->getModuleName() === $module)
+        && (null === $controller || $this->_request->getControllerName() === $controller)
+    )
+    {return;}}}
+ORIGINALIF6;
+        $formattedIf6 = <<<'FORMATTEDIF6'
+<?php
+class If6
+{
+    public function if6()
+    {
+        if ($this->_request->getActionName() === $action && (null === $module ||
+            $this->_request->getModuleName() === $module) && (null === $controller ||
+            $this->_request->getControllerName() === $controller)
+        ) {
+            return;
+        }
+    }
+}
+
+FORMATTEDIF6;
 
         return array(
             array(
@@ -142,6 +164,7 @@ FORMATTEDIF5;
                 "        }\n    }\n}\n"
             ),
             array($originalIf5, $formattedIf5),
+            array($originalIf6, $formattedIf6),
         );
     }
 
@@ -175,10 +198,7 @@ class TestClass {
             $callback = 'bye';
             if (isset($abcdefghijklmnopqrstuvwxyz)) {
                 $callback = 'asdf';
-            }
-        }
-    }
-}
+            }}}}
 ORIGINALCODESNIPPET;
         $formattedCodeSnippet = <<<'FORMATTEDCODESNIPPET'
 <?php
@@ -271,9 +291,7 @@ FORMATTEDCODESNIPPET;
 class TestIfCase{
     public function main($results) {
         if ($otherCode) {
-            $files = array_merge(
-                $files,
-                glob($this->_path . '/*.php', GLOB_NOSORT),
+            $files = array_merge($files,glob($this->_path . '/*.php', GLOB_NOSORT),
                 glob($this->_path . '/pub/*.php', GLOB_NOSORT),
                 self::getFiles(array("{$this->_path}/downloader"), '*.php'),
                 self::getFiles(array("{$this->_path}/lib/{Mage,Magento,Varien}"), '*.php')
@@ -523,6 +541,101 @@ class CSample7
 }
 
 FC7;
+        $originalMethodCall = <<<'OMC'
+<?php
+class MC1 {
+    public function mC1() {
+        $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()+$creditmemo->getGwItemsBasePrice()
+            +$creditmemo->getGwBasePrice()+$creditmemo->getGwCardBasePrice());}}
+OMC;
+        $formattedMethodCall = <<<'FMC'
+<?php
+class MC1
+{
+    public function mC1()
+    {
+        $creditmemo->setBaseGrandTotal(
+            $creditmemo->getBaseGrandTotal() +
+            $creditmemo->getGwItemsBasePrice() +
+            $creditmemo->getGwBasePrice() +
+            $creditmemo->getGwCardBasePrice()
+        );
+    }
+}
+
+FMC;
+        $originalMethodCall2 = <<<'OMC2'
+<?php
+class MC2 {
+    public function mC2() {
+        if (
+        $creditmemo->setBaseGrandTotal($creditmemo->getBaseGrandTotal()+$creditmemo->getGwItemsBasePrice()
+            +$creditmemo->getGwBasePrice()+$creditmemo->getGwCardBasePrice())){echo 'hi';}}}
+OMC2;
+        $formattedMethodCall2 = <<<'FMC2'
+<?php
+class MC2
+{
+    public function mC2()
+    {
+        if ($creditmemo->setBaseGrandTotal(
+            $creditmemo->getBaseGrandTotal() +
+            $creditmemo->getGwItemsBasePrice() +
+            $creditmemo->getGwBasePrice() +
+            $creditmemo->getGwCardBasePrice()
+        )
+        ) {
+            echo 'hi';
+        }
+    }
+}
+
+FMC2;
+        $originalMethodCall3 = <<<'OMC3'
+<?php
+class MC3 { public function mC3(){
+        // redirect to first allowed website or store scope
+        if ($this->_role->getWebsiteIds()) {
+            return $this->_redirect($controller, $this->_backendUrl->getUrl(
+                    'adminhtml/system_config/edit',
+                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                ));}
+        $this->_redirect($controller, $this->_backendUrl->getUrl('adminhtml/system_config/edit', array(
+                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getAnyStoreView()->getCode())
+                ));}}
+OMC3;
+        $formattedMethodCall3 = <<<'FMC3'
+<?php
+class MC3
+{
+    public function mC3()
+    {
+        // redirect to first allowed website or store scope
+        if ($this->_role->getWebsiteIds()) {
+            return $this->_redirect(
+                $controller,
+                $this->_backendUrl->getUrl(
+                    'adminhtml/system_config/edit',
+                    array('website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode())
+                )
+            );
+        }
+        $this->_redirect(
+            $controller,
+            $this->_backendUrl->getUrl(
+                'adminhtml/system_config/edit',
+                array(
+                    'website' => $this->_storeManager->getAnyStoreView()->getWebsite()->getCode(),
+                    'store' => $this->_storeManager->getAnyStoreView()->getCode()
+                )
+            )
+        );
+    }
+}
+
+FMC3;
+
 
 
         return array(
@@ -550,6 +663,9 @@ FC7;
             array($originalClosure5, $formattedClosure5),
             array($originalClosure6, $formattedClosure6),
             array($originalClosure7, $formattedClosure7),
+            array($originalMethodCall, $formattedMethodCall),
+            array($originalMethodCall2, $formattedMethodCall2),
+            array($originalMethodCall3, $formattedMethodCall3),
         );
     }
 }

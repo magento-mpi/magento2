@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\SyntaxFactory;
-use Magento\Tools\Formatter\PrettyPrinter\WrapperLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
 
@@ -61,10 +60,9 @@ abstract class AbstractOperator extends AbstractSyntax
             if ($childPrecedence > $parentPrecedence ||
                 $parentPrecedence == $childPrecedence && $parentAssociativity != $childPosition
             ) {
-                $lineBreak = new WrapperLineBreak();
-                $treeNode->getData()->line->add('(')->add($lineBreak);
+                $treeNode->getData()->line->add('(');
                 $child->resolve($treeNode);
-                $treeNode->getData()->line->add($lineBreak)->add(')');
+                $treeNode->getData()->line->add(')');
             } else {
                 $treeNode = $child->resolve($treeNode);
             }
