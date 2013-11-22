@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Model\Config\Api;
+namespace Magento\Webapi\Model\Config\Integration;
 
 /**
  * Integration config schema locator.
@@ -31,7 +31,7 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Integration') . DIRECTORY_SEPARATOR .
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_Webapi') . DIRECTORY_SEPARATOR .
             DIRECTORY_SEPARATOR . 'integration' . DIRECTORY_SEPARATOR . 'api.xsd';
     }
 

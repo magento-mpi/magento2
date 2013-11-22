@@ -21,6 +21,9 @@
                 <argument name="file" xsi:type="string">Magento_Integration::js/integration.js</argument>
             </arguments>
         </block>
+        <action method="setCanLoadExtJs">
+            <argument name="flag" xsi:type="string">1</argument>
+        </action>
     </referenceBlock>
     <referenceBlock name="content">
         <block class="Magento\Backend\Block\Template" name="integration.popup.container" template="Magento_Integration::integration/popup_container.phtml" before="-"/>

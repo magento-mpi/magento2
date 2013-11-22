@@ -188,10 +188,10 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function activateAction()
     {
-        $popupDialog = $this->getRequest()->getParam('popup_dialog');
+        $dialogName = $this->getRequest()->getParam('popup_dialog');
 
-        if ($popupDialog) {
-            $this->loadLayout(['popup', $this->getDefaultLayoutHandle() . '_' . $popupDialog]);
+        if ($dialogName) {
+            $this->loadLayout(sprintf('%s_%s_popup', $this->getDefaultLayoutHandle(), $dialogName));
         } else {
             $this->loadLayout();
         }

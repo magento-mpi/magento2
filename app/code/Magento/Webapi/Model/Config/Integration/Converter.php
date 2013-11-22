@@ -5,7 +5,7 @@
  * @copyright {copyright}
  * @license   {license_link}
  */
-namespace Magento\Integration\Model\Config\Api;
+namespace Magento\Webapi\Model\Config\Integration;
 
 /**
  * Converter of api.xml content into array format.
@@ -32,9 +32,9 @@ class Converter implements \Magento\Config\ConverterInterface
             if ($integration->nodeType != XML_ELEMENT_NODE) {
                 continue;
             }
-            $integrationId = $integration->attributes->getNamedItem('id')->nodeValue;
-            $result[$integrationId] = array();
-            $result[$integrationId][self::API_RESOURCES] = array();
+            $integrationName = $integration->attributes->getNamedItem('name')->nodeValue;
+            $result[$integrationName] = array();
+            $result[$integrationName][self::API_RESOURCES] = array();
             /** @var \DOMNodeList $resources */
             $resources = $integration->getElementsByTagName('resource');
             /** @var \DOMElement $resource */
@@ -43,7 +43,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     continue;
                 }
                 $resource = $resource->attributes->getNamedItem('name')->nodeValue;
-                $result[$integrationId][self::API_RESOURCES][] = $resource;
+                $result[$integrationName][self::API_RESOURCES][] = $resource;
             }
         }
         return $result;
