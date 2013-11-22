@@ -214,10 +214,10 @@ class View extends Block
     }
 
     /**
-     * @return \Mtf\Client\Element
+     * Click "ADD TO CART" button
      */
-    public function getRootElement()
+    public function clickAddToCartButton()
     {
-        return $this->_rootElement;
+        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 }
