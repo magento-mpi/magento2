@@ -59,11 +59,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     }
 
     /**
-     * Update an Integration.
-     *
-     * @param array $integrationData
-     * @return array Integration data
-     * @throws \Magento\Integration\Exception
+     * {@inheritdoc}
      */
     public function update(array $integrationData)
     {
