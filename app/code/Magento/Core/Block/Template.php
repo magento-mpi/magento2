@@ -216,11 +216,10 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     public function fetchView($fileName)
     {
-        $rootDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::ROOT);
-        $viewShortPath = str_replace($rootDir, '', $fileName);
-        \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
+        $relativeFilePath = $this->getRootDirectory()->getRelativePath($fileName);
+        \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath));
 
-        if ($this->isTemplateFileValid($fileName)) {
+        if ($this->isTemplateFileValid($relativeFilePath)) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
             $templateEngine = $this->_templateEngineFactory->get($extension);
             $html = $templateEngine->render($this, $fileName, $this->_viewVars);
@@ -339,14 +338,26 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     protected function isTemplateFileValid($fileName)
     {
-        $appDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::APP);
-        $themesDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::THEMES);
-        $isFile = $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
+        $fileName = str_replace('\\', '/', $fileName);
 
+        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(\Magento\Filesystem::THEMES));
+        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(\Magento\Filesystem::APP));
         return (
-            $this->getRootDirectory()->isPathInDirectory($fileName, $appDir)
-            || $this->getRootDirectory()->isPathInDirectory($fileName, $themesDir)
+            $this->isPathInDirectory($fileName, $appDir)
+            || $this->isPathInDirectory($fileName, $themesDir)
             || $this->_getAllowSymlinks()
-        ) && $isFile;
+        ) && $this->getRootDirectory()->isFile($fileName);
+    }
+
+    /**
+     * Checks whether path related to the directory
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    protected function isPathInDirectory($path, $directory)
+    {
+        return 0 === strpos($path, $directory);
     }
 }
