@@ -88,6 +88,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($value, $this->config->$getter());
     }
 
+    // @codingStandardsIgnoreStart
     public function optionsProvider()
     {
         return array(
@@ -208,6 +209,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+    // @codingStandardsIgnoreEnd
 
     public function testGetOptions()
     {
