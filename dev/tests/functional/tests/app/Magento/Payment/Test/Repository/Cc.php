@@ -34,7 +34,7 @@ class Cc extends AbstractRepository
         $this->_data['visa_default'] = $this->_getVisaDefault();
         $this->_data['visa_direct'] = $this->_getVisaDirect();
         $this->_data['visa_authorizenet'] = $this->_getVisaAuthorizeNet();
-        $this->_data['visa_payflowpro_3d_secure'] = $this->_getVisaPayPalPayflowPro3dSecure();
+        $this->_data['visa_3d_secure_valid'] = $this->_getVisa3dSecureValid();
     }
 
     protected function _getVisaDefault()
@@ -130,7 +130,7 @@ class Cc extends AbstractRepository
         );
     }
 
-    protected function _getVisaPayPalPayflowPro3dSecure()
+    protected function _getVisa3dSecureValid()
     {
         return array(
             'config' => array(

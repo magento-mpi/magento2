@@ -39,6 +39,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
         $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
+        $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
@@ -818,5 +819,45 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Data for PayPal Payments Pro Edition method with 3D Secure
+     */
+    protected function _getPayPalPaymentsPro3dSecure()
+    {
+        $data = array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_group_all_in_one' => array( // PayPal All-in-One Payment Solutions
+                                'groups' => array(
+                                    'wpp_us' => array( // Payments Pro (Includes Express Checkout)
+                                        'groups' => array(
+                                            'wpp_settings' => array( // Basic Settings - PayPal Express Checkout
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array( // Advanced Settings
+                                                        'fields' => array(
+                                                            'centinel' => array( // 3D Secure Card Validation
+                                                                'value' => 1
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+        return array_merge_recursive($data, $this->_getPaypalDirect());
     }
 }

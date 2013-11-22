@@ -16,12 +16,12 @@ use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class Steps
- * Test steps for 3D Secure card validation
+ * Class CentinelPaymentsTestAbstract
+ * Test for 3D Secure card validation
  *
  * @package Magento\Centinel
  */
-abstract class Steps extends Functional
+abstract class AbstractCentinelPaymentsTest extends Functional
 {
     /**
      * Add products to cart

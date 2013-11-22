@@ -12,11 +12,11 @@
 namespace Magento\Centinel\Test\Fixture;
 
 /**
- * Guest checkout. PayPal Payflow Pro with 3D Secure payment method and free shipping method
+ * Guest checkout. PayPal Payments Pro with 3D Secure payment method and free shipping method
  *
  * @package Magento\Centinel
  */
-class GuestPayPalPayflowProValidCc extends AbstractPayPalValidCc
+class GuestPayPalPaymentsProValidCc extends AbstractPayPalValidCc
 {
     /**
      * {inheritdoc}
@@ -26,26 +26,29 @@ class GuestPayPalPayflowProValidCc extends AbstractPayPalValidCc
         parent::_initData();
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$10',
-                'comment_history' => 'Authorized amount of $10'
+                'grand_total' => '$15',
+                'comment_history' => 'Authorized amount of $15'
             ),
             'payment_info' => array(
                 'verification_result' => 'Successful',
                 'cardholder_validation' => 'Enrolled',
                 'electronic_commerce_indicator' => 'Card Issuer Liability',
             ),
-            'product_type' => 'simple_required',
+            'product_type' => 'simple_with_new_category',
             'checkout_data' => array(
                 'billing_address' => 'address_US_1',
-                'shipping_methods' => 'free_shipping',
-                'payment_method' => 'paypal_payflow_pro',
+                'shipping_methods' => 'flat_rate',
+                'payment_method' => 'paypal_direct',
                 'credit_card' => 'visa_3d_secure_valid',
             ),
             'configuration' => array(
-                'free_shipping',
+                'flat_rate',
                 'paypal_disabled_all_methods',
-                'paypal_payflow_pro_3d_secure',
+                'paypal_payments_pro_3d_secure',
                 '3d_secure_credit_card_validation',
+                'default_tax_config',
+                'display_price',
+                'display_shopping_cart'
             ),
         );
     }

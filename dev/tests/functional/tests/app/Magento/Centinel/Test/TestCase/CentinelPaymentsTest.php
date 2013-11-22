@@ -12,6 +12,7 @@
 namespace Magento\Centinel\Test\TestCase;
 
 use Mtf\Factory\Factory;
+use Mtf\Fixture\DataFixture;
 
 /**
  * Class PayPalPayflowProTest
@@ -19,18 +20,19 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Centinel
  */
-class PayPalPayflowProTest extends Steps
+class PayPalPayValidCcTest extends AbstractCentinelPaymentsTest
 {
     /**
      * Place order on frontend via one page checkout and PayPal PayflowPro 3D Secure payment method
      * with valid credit card.
      *
-     * @ZephyrId MAGETWO-12437
+     * @param DataFixture $fixture
+     * @dataProvider validCreditCardDataProvider
+     * @ZephyrId MAGETWO-12437, MAGETWO-12439
      */
-    public function testValidCreditCard()
+    public function testValidCreditCard(DataFixture $fixture)
     {
         //Data
-        $fixture = Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProValidCc();
         $fixture->persist();
         //Steps
         $this->_addProducts($fixture);
@@ -39,5 +41,16 @@ class PayPalPayflowProTest extends Steps
         $this->_placeOrder();
         //Verifying
         $this->_verifyOrder($fixture);
+    }
+
+    /**
+     * @return array
+     */
+    public function validCreditCardDataProvider()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProValidCc()),
+            array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPaymentsProValidCc()),
+        );
     }
 }
