@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Install state block
- *
- * @category   Magento
- * @package    Magento_Install
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Install\Block;
 
+/**
+ * Install state block
+ */
 class State extends \Magento\Core\Block\Template
 {
     /**
@@ -32,29 +28,19 @@ class State extends \Magento\Core\Block\Template
     protected $_wizard;
 
     /**
-     * Core Cookie
-     *
-     * @var \Magento\Core\Model\Cookie
-     */
-    protected $_cookie;
-
-    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Install\Model\Wizard $wizard
-     * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Block\Template\Context $context,
         \Magento\Install\Model\Wizard $wizard,
-        \Magento\Core\Model\Cookie $cookie,
         array $data = array()
     ) {
         parent::__construct($coreData, $context, $data);
         $this->_wizard = $wizard;
-        $this->_cookie = $cookie;
 
         $this->assign('steps', $this->_wizard->getSteps());
     }
@@ -85,7 +71,7 @@ class State extends \Magento\Core\Block\Template
      */
     public function isDownloaderInstall()
     {
-        $session = $this->_cookie->get('magento_downloader_session');
+        $session = $this->_request->getCookie('magento_downloader_session', false);
         return $session ? true : false;
     }
 }
