@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Downloadable product links
  *
- * @see \Magento\Downloadable\Block\Catalog\Product\Samples
+ * @var $this \Magento\Downloadable\Block\Catalog\Product\Samples
  */
 ?>
 
@@ -23,7 +21,7 @@
             <dd>
                 <a href="<?php echo $this->getSampleUrl($_sample) ?>" <?php echo $this->getIsOpenInNewWindow()?'onclick="this.target=\'_blank\'"':''; ?>
                    class="sample">
-                    <?php echo  $this->escapeHtml($_sample->getTitle()) ?>
+                    <?php echo $this->escapeHtml($_sample->getTitle()) ?>
                 </a>
             </dd>
         <?php endforeach; ?>

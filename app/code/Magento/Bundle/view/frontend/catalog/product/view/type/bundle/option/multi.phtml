@@ -2,13 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 ?>
-<?php /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option_Multi */ ?>
+<?php /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Multi */ ?>
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
 <div class="field option <?php echo ($_option->getRequired()) ? ' required': ''; ?>">
@@ -26,7 +25,7 @@
                     size="5"
                     id="bundle-option-<?php echo $_option->getId() ?>"
                     name="bundle_option[<?php echo $_option->getId() ?>][]"
-                    class="bundle-option-<?php echo $_option->getId() ?> multiselect change-container-classname product-bundle-option"
+                    class="bundle-option-<?php echo $_option->getId() ?> multiselect product bundle option change-container-classname"
                     <?php if ($_option->getRequired()) echo 'data-validate={required:true}' ?>>
                 <?php if(!$_option->getRequired()): ?>
                     <option value=""><?php echo __('None') ?></option>

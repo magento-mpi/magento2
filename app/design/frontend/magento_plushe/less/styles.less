@@ -3792,9 +3792,19 @@ span.widget.link {
     }
 }
 
+.product.details .price-box .price-excluding-tax,
+.product.details .price-box .price-including-tax {
+    display: block;
+}
+
 .old-price,
 .old.price {
     text-decoration: line-through;
+}
+
+.special-price,
+.special.price {
+    color: @secondary1;
 }
 
 .stock[title] {
@@ -3894,9 +3904,6 @@ span.widget.link {
         .price {
             text-decoration: line-through;
         }
-    }
-    .special-price {
-        color: @secondary1;
     }
     .stock {
         margin: 15px 0;
@@ -4193,9 +4200,21 @@ and (max-width : 768px) {
         }
     }
     .product.options.bottom {
+        .box-sizing();
         float: left;
+        padding: 0 10px 20px 30px;
         width: 500px;
         clear: left;
+    }
+
+    .prices.tier {
+        background: @primary2;
+        + .price-box {
+            font-size: @baseFontSizeBigger;
+            .price {
+                color: @secondary1;
+            }
+        }
     }
 }
 

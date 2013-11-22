@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -25,7 +24,7 @@
             <?php endforeach; ?>
         </dl>
     <?php endif; ?>
-    <!-- downloadable -->
+    <?php /* downloadable */ ?>
     <?php if ($links = $this->getLinks()): ?>
         <dl class="item options">
             <dt><?php echo $this->getLinksTitle() ?></dt>
@@ -34,7 +33,7 @@
             <?php endforeach; ?>
         </dl>
     <?php endif; ?>
-    <!-- EOF downloadable -->
+    <?php /* EOF downloadable */ ?>
     <?php if ($addtInfoBlock = $this->getProductAdditionalInformationBlock()): ?>
         <?php echo $addtInfoBlock->setItem($this->getItem())->toHtml() ?>
     <?php endif; ?>

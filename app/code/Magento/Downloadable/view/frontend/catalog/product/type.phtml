@@ -2,7 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -10,7 +9,7 @@
 /**
  * Downloadable product type
  *
- * @see \Magento\Downloadable\Block\Catalog\Product\View\Type
+ * @var $this \Magento\Downloadable\Block\Catalog\Product\View\Type
  */
 ?>
 <?php $_product = $this->getProduct() ?>
@@ -25,5 +24,4 @@
     </p>
 <?php endif; ?>
 <?php echo $this->getChildHtml('product_type_data_extra') ?>
-<?php echo $this->getPriceHtml($_product) ?>
 <?php echo $this->getChildHtml('samples') ?>

@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -39,7 +37,7 @@
                 <strong class="product name"><?php echo $this->escapeHtml($_item->getName()) ?></strong>
             </td>
         <?php else: ?>
-            <td class="col value"><div class="option value"><?php echo $this->getValueHtml($_item) ?></div></td>
+            <td class="col value"><?php echo $this->getValueHtml($_item) ?></td>
         <?php endif; ?>
         <td class="col sku"><?php echo $this->escapeHtml($_item->getSku()) ?></td>
         <td class="col price">
@@ -88,7 +86,7 @@
             <?php if ($this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable('order_item', $parentItem) && $parentItem->getGiftMessageId()): ?>
                 <a href="#"
                    id="order-item-gift-message-link-<?php echo $parentItem->getId() ?>"
-                   class="gift-message-link"
+                   class="action show"
                    aria-controls="order-item-gift-message-<?php echo $parentItem->getId()?>"
                    data-item-id="<?php echo $parentItem->getId() ?>">
                     <?php echo __('Gift Message') ?>

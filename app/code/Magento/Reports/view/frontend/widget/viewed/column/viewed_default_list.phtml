@@ -32,7 +32,7 @@ if ($exist = $this->getRecentlyViewedProducts()) {
     $description = false;
 }
 ?>
-<?php if ($_products = $this->getRecentlyViewedProducts()): ?>
+<?php if ($exist): ?>
 <div class="block <?php echo $class; ?>">
     <div class="title">
         <strong><?php echo $title; ?></strong>
@@ -41,7 +41,7 @@ if ($exist = $this->getRecentlyViewedProducts()) {
         <?php $suffix = $this->getNameInLayout(); ?>
         <ol class="mini products list items" id="widget-viewed-<?php echo $suffix; ?>">
             <?php $iterator = 1; ?>
-            <?php foreach($_products as $_product): ?>
+            <?php foreach($items as $_product): ?>
                 <?php echo ($iterator++==1) ? '<li class="item product">' : '</li><li class="item product">' ?>
                 <div class="product">
                     <a class="product photo" href="<?php echo $_product->getProductUrl() ?>"
@@ -63,15 +63,15 @@ if ($exist = $this->getRecentlyViewedProducts()) {
                             </div>
                             <?php else: ?>
                                 <?php if ($_product->getIsSalable()): ?>
-                                    <p class="availability in-stock"><span><?php echo __('In stock') ?></span></p>
+                                    <p class="stock available"><span><?php echo __('In stock') ?></span></p>
                                 <?php else: ?>
-                                    <p class="availability out-of-stock"><span><?php echo __('Out of stock') ?></span></p>
+                                    <p class="stock unavailable"><span><?php echo __('Out of stock') ?></span></p>
                                 <?php endif; ?>
                             <?php endif; ?>
                         </div>
                     </div>
                 </div>
-                <?php echo ($iterator==count($_products)+1) ? '</li>' : '' ?>
+                <?php echo ($iterator==count($items)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
         </ol>
     </div>

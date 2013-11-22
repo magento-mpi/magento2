@@ -2,14 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 ?>
 
-<?php /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option_Checkbox */ ?>
+<?php /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Checkbox */ ?>
 <?php $_option = $this->getOption() ?>
 <?php $_selections = $_option->getSelections() ?>
 <div class="field option <?php echo ($_option->getRequired()) ? ' required': ''; ?>">
@@ -26,7 +24,7 @@
             <?php else:?>
                 <?php foreach($_selections as $_selection): ?>
                     <div class="field choice">
-                        <input class="change-container-classname checkbox bundle-option-<?php echo $_option->getId() ?> product-bundle-option"
+                        <input class="bundle-option-<?php echo $_option->getId() ?> checkbox product bundle option change-container-classname"
                                id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>"
                                type="checkbox"
                                <?php if ($_option->getRequired()) echo 'data-validate="{\'validate-one-required-by-name\':true}"'?>

@@ -8512,9 +8512,17 @@ span.widget.link {
 .pricing p:last-child {
   margin-bottom: 0;
 }
+.product.details .price-box .price-excluding-tax,
+.product.details .price-box .price-including-tax {
+  display: block;
+}
 .old-price,
 .old.price {
   text-decoration: line-through;
+}
+.special-price,
+.special.price {
+  color: #da370a;
 }
 .stock[title] {
   line-height: 16px;
@@ -8733,9 +8741,6 @@ span.widget.link {
 }
 .product.info.main .old-price .price {
   text-decoration: line-through;
-}
-.product.info.main .special-price {
-  color: #da370a;
 }
 .product.info.main .stock {
   margin: 15px 0;
@@ -9304,9 +9309,23 @@ body.type-bundle {
   width: 360px;
 }
 .bundle.options.container .product.options.bottom {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   float: left;
+  padding: 0 10px 20px 30px;
   width: 500px;
   clear: left;
+}
+.bundle.options.container .prices.tier {
+  background: #e5e5e5;
+}
+.bundle.options.container .prices.tier + .price-box {
+  font-size: 16px;
+}
+.bundle.options.container .prices.tier + .price-box .price {
+  color: #da370a;
 }
 .fieldset.bundle.options {
   border: 0;

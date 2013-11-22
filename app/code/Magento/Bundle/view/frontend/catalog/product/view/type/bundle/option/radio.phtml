@@ -2,13 +2,12 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 ?>
-<?php /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option_Radio */ ?>
+<?php /* @var $this \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option\Radio */ ?>
 <?php $_option = $this->getOption(); ?>
 <?php $_selections  = $_option->getSelections(); ?>
 <?php $_default     = $_option->getDefaultSelection(); ?>
@@ -29,7 +28,7 @@
                 <?php if (!$_option->getRequired()): ?>
                     <div class="field choice">
                         <input type="radio"
-                               class="radio product-bundle-option"
+                               class="radio product bundle option"
                                id="bundle-option-<?php echo $_option->getId() ?>"
                                name="bundle_option[<?php echo $_option->getId() ?>]"
                                <?php echo ($_default && $_default->isSalable())?'':' checked="checked" ' ?>
@@ -42,7 +41,7 @@
                 <?php foreach ($_selections as $_selection): ?>
                     <div class="field choice">
                         <input type="radio"
-                               class="radio change-container-classname product-bundle-option"
+                               class="radio product bundle option change-container-classname"
                                id="bundle-option-<?php echo $_option->getId() ?>-<?php echo $_selection->getSelectionId() ?>"
                                <?php if ($_option->getRequired()) echo 'data-validate="{\'validate-one-required-by-name\':true}"'?>
                                name="bundle_option[<?php echo $_option->getId() ?>]"

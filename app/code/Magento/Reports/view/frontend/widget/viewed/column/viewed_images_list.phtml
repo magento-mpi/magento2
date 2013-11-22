@@ -28,7 +28,7 @@ if ($exist = $this->getRecentlyViewedProducts()) {
     $description = false;
 }
 ?>
-<?php if ($_products = $this->getRecentlyViewedProducts()): ?>
+<?php if ($exist): ?>
     <div class="block <?php echo $class; ?>">
         <div class="title">
             <strong><?php echo $title; ?></strong>
@@ -37,12 +37,12 @@ if ($exist = $this->getRecentlyViewedProducts()) {
             <?php $suffix = $this->getNameInLayout(); ?>
             <ol class="items" id="widget-viewed-<?php echo $suffix; ?>">
                 <?php $iterator = 1; ?>
-                <?php foreach($_products as $_product): ?>
+                <?php foreach($items as $_product): ?>
                     <?php echo ($iterator++==1) ? '<li class="item product">' : '</li><li class="item product">' ?>
                         <a class="product photo" href="<?php echo $_product->getProductUrl() ?>" title="<?php echo $this->stripTags($_product->getName(), null, true) ?>">
                             <?php echo $imageBlock->init($_product, $image)->toHtml() ?>
                         </a>
-                    <?php echo ($iterator==count($_products)+1) ? '</li>' : '' ?>
+                    <?php echo ($iterator==count($items)+1) ? '</li>' : '' ?>
             <?php endforeach; ?>
             </ol>
         </div>

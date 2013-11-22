@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend bundle product slide
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -67,13 +65,13 @@
                 }, this)
             );
         },
-        _show: function  () {
+        _show: function() {
             $(this.options.bundleOptionsContainer).slideDown(800);
             $('html, body').animate({
                 scrollTop: $(this.options.bundleOptionsContainer).offset().top
             }, 600);
         },
-        _hide: function  () {
+        _hide: function() {
             $('html, body').animate({
                 scrollTop: 0
             }, 600);
