@@ -58,6 +58,7 @@ class Reader
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
+     * @param \Magento\Filesystem $filesystem
      * @param string $fileName
      * @param string $domDocumentClass
      */
@@ -66,6 +67,7 @@ class Reader
         Converter $converter,
         SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
+        \Magento\Filesystem $filesystem,
         $fileName = 'config.xml',
         $domDocumentClass = 'Magento\Config\Dom'
     ) {
@@ -74,6 +76,7 @@ class Reader
         $this->_converter = $converter;
         $this->_domDocumentClass = $domDocumentClass;
         $this->_fileName = $fileName;
+        $this->_baseDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
     }
 
     /**
@@ -101,12 +104,12 @@ class Reader
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
                     $domDocument = new $class(
-                        file_get_contents($file),
+                        $this->_baseDirectory->readFile($file),
                         array(),
                         $this->_schemaFile
                     );
                 } else {
-                    $domDocument->merge(file_get_contents($file));
+                    $domDocument->merge($this->_baseDirectory->readFile($file));
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
                 throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());

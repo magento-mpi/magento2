@@ -12,16 +12,22 @@ namespace Magento\Module\Declaration;
 class FileResolver implements \Magento\Config\FileResolverInterface
 {
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_applicationDirs;
+    protected $_modulesDirectory;
 
     /**
-     * @param \Magento\App\Dir $applicationDirs
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    public function __construct(\Magento\App\Dir $applicationDirs)
+    protected $_configDirectory;
+
+    /**
+     * @param \Magento\Filesystem $filesystem
+     */
+    public function __construct(\Magento\Filesystem $filesystem)
     {
-        $this->_applicationDirs = $applicationDirs;
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $this->_configDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
     }
 
     /**
@@ -30,12 +36,9 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $appCodeDir =  $this->_applicationDirs->getDir(\Magento\App\Dir::MODULES);
-        $moduleFilePattern = $appCodeDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR
-            . 'etc' . DIRECTORY_SEPARATOR . 'module.xml';
-        $moduleFileList = glob($moduleFilePattern);
+        $moduleFileList = $this->_modulesDirectory->search('*/*/etc/module.xml');
 
-        $mageScopePath = $appCodeDir . DIRECTORY_SEPARATOR . 'Magento' . DIRECTORY_SEPARATOR;
+        $mageScopePath = 'Magento/';
         $output = array(
             'base' => array(),
             'mage' => array(),
@@ -46,9 +49,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
             $output[$scope][] = $file;
         }
 
-        $appConfigDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
-        $globalEnablerPattern = $appConfigDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.xml';
-        $output['base'] = glob($globalEnablerPattern);
+        $output['base'] = $this->_configDirectory->search('*/module.xml');
         // Put global enablers at the end of the file list
         return array_merge($output['mage'], $output['custom'], $output['base']);
     }

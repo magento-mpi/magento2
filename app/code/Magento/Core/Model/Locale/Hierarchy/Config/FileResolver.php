@@ -13,16 +13,16 @@ class FileResolver implements \Magento\Config\FileResolverInterface
 {
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_applicationDirs;
+    protected $_localeDirectory;
 
     /**
-     * @param \Magento\App\Dir $applicationDirs
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\App\Dir $applicationDirs)
+    public function __construct(\Magento\Filesystem $filesystem)
     {
-        $this->_applicationDirs = $applicationDirs;
+        $this->_localeDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::LOCALE);
     }
 
     /**
@@ -30,10 +30,8 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $appLocaleDir = $this->_applicationDirs->getDir(\Magento\App\Dir::LOCALE);
-        // Create pattern similar to app/locale/*/config.xml
-        $filePattern = $appLocaleDir . '/' . '*' . '/' . $filename;
-        $fileList = glob($filePattern, GLOB_BRACE);
+        // Create pattern similar to */config.xml
+        $fileList = $this->_localeDirectory->search('*/' . $filename);
         return $fileList;
     }
 }
