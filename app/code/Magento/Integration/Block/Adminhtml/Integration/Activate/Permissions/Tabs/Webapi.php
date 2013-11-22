@@ -75,7 +75,7 @@ class Webapi extends Template implements TabInterface
     }
 
     /**
-     * Make ACL resource array compatible with Ext Tree component.
+     * Make ACL resource array compatible with jsTree component.
      *
      * @param array $resources
      * @return array
@@ -85,10 +85,11 @@ class Webapi extends Template implements TabInterface
         $output = array();
         foreach ($resources as $resource) {
             $item = array();
-            $item['id'] = $resource['id'];
-            $item['text'] = __($resource['title']);
+            $item['attr']['data-id'] = $resource['id'];
+            $item['data'] = $resource['title'];
             $item['children'] = array();
             if (isset($resource['children'])) {
+                $item['state'] = 'open';
                 $item['children'] = $this->_mapResources($resource['children']);
             }
             $output[] = $item;

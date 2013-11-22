@@ -14,7 +14,7 @@
 }
 
 .integration-popup-container #resource-tree {
-    max-height: 400px;
+    max-height: 170px;
     overflow: auto;
 }
 
