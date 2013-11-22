@@ -11,6 +11,12 @@
   * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
 * Fixed bugs:
+  * Fixed notice while create event for Private Sales
+  * Fixed CMS Hierarchy doesn't work for CMS page in Navigation Menu
+  * Fixed unability to share a Gift Registry by sending sharing emails
+  * Fixed error when Magento cannot be reinstalled to the same database with table prefix
+  * Fixed Fatal Error on Product Attribute page when Solr is enabled
+  * Fixed report Products in Cart
   * Fixed JavaScript error when printing order from frontend
   * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
   * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
