@@ -284,15 +284,9 @@ class AbstractSession extends \Magento\Object
      *
      * @param string $name
      * @return \Magento\Core\Model\Session\AbstractSession
-     * @throws \InvalidArgumentException
      */
     public function setSessionName($name)
     {
-        if ($this->isSessionExists()) {
-            throw new \InvalidArgumentException(
-                'Cannot set session name after a session has already started'
-            );
-        }
         session_name($name);
         return $this;
     }

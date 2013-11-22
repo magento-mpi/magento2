@@ -33,10 +33,11 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Session\AbstractSession _model */
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Model\Session\AbstractSession',
-            array($objectManager->create(
-                'Magento\Core\Model\Session\Context',
-                array('sidResolver' => $this->_sidResolver)
-            ))
+            array(
+                $objectManager->create('Magento\Core\Model\Session\Context'),
+                $this->_sidResolver,
+                $objectManager->create('Zend\Session\Config\ConfigInterface'),
+            )
         );
     }
 
