@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
 
 /**
  * Admin rule resource model
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource;
-
 class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**

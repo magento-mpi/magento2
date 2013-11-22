@@ -168,7 +168,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
         } catch (ServiceException $e) {
             throw $e;
         } catch (\Exception $e) {
-            $this->_logger->log($e);
+            $this->_logger->logException($e);
             throw new ServiceException(
                 __('Error happened while getting a list of allowed resources. Check exception log for details.')
             );
