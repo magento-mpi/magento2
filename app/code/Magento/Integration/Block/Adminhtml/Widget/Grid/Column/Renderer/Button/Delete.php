@@ -10,9 +10,10 @@
 
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
+use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 use Magento\Object;
 
-class Delete extends ButtonAbstract
+class Delete extends Button
 {
     /**
      * Return 'onclick' action for the button (redirect to the integration edit page).

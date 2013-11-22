@@ -10,6 +10,7 @@
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 use Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer;
+use Magento\Integration\Model\Integration;
 use \Magento\Object;
 
 class Button extends AbstractRenderer
@@ -31,11 +32,10 @@ class Button extends AbstractRenderer
      *
      * @param \Magento\Object $row
      * @return bool
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function _isDisabled(Object $row)
     {
-        return false;
+        return ($row->hasData(Integration::TYPE) && $row->getData(Integration::TYPE) === Integration::TYPE_CONFIG);
     }
 
     /**
