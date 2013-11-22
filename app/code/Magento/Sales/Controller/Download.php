@@ -99,12 +99,10 @@ class Download extends \Magento\Core\Controller\Front\Action
             return false;
         }
 
-        $directory = dirname($filePath);
-        @mkdir($directory, 0777, true);
-
-        $this->_filesystem->setWorkingDirectory($directory);
-        $stream = $this->_filesystem->createStream($filePath);
-        $stream->open('w+');
+        /** @var \Magento\Filesystem\Directory\WriteInterface $directory */
+        $directory = $this->_objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+        $stream = $directory->openFile($filePath, 'w+');
         $stream->lock();
         $stream->write($filePath, $file->getContent());
         $stream->unlock();
