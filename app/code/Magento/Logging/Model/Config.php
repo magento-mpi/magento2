@@ -45,11 +45,11 @@ class Config
 
     /**
      * @param \Magento\Logging\Model\Config\Data $dataStorage
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\Logging\Model\Config\Data $dataStorage,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_xmlConfig = $dataStorage->get('logging');
         $this->_store = $storeManager->getStore();

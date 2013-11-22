@@ -18,7 +18,7 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order\View;
 
-class Giftmessage extends \Magento\Backend\Controller\Adminhtml\Action
+class Giftmessage extends \Magento\Backend\App\Action
 {
     public function saveAction()
     {

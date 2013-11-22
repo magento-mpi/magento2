@@ -9,6 +9,8 @@
  */
 
 namespace Magento\MultipleWishlist\Controller;
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
 
 /**
  * Multiple wishlist frontend search controller
@@ -46,12 +48,20 @@ class Index extends \Magento\Wishlist\Controller\Index
     protected $_wishlistCollectionFactory;
 
     /**
-     * Construct
+     * List of protected actions
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @var array
+     */
+    protected $_protectedActions = array(
+        'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
+    );
+
+    /**
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
-     * @param \Magento\Core\Model\Url|\Magento\UrlInterface $url
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
@@ -59,10 +69,11 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
-        \Magento\Core\Model\Url $url,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Core\Model\Session\Generic $wishlistSession,
@@ -74,29 +85,24 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_wishlistSession = $wishlistSession;
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
-        parent::__construct($context, $coreRegistry, $wishlistConfig, $url);
+        parent::__construct($context, $coreRegistry, $wishlistConfig, $fileResponseFactory, $formKeyValidator);
     }
 
     /**
      * Check if multiple wishlist is enabled on current store before all other actions
      *
-     * @return \Magento\MultipleWishlist\Controller\Index
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
-
-        $action = $this->getRequest()->getActionName();
-        $protectedActions = array(
-            'createwishlist', 'editwishlist', 'deletewishlist', 'copyitems', 'moveitem', 'moveitems'
-        );
         if (!$this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isMultipleEnabled()
-            && in_array($action, $protectedActions)
+            && in_array($request->getActionName(), $this->_protectedActions)
         ) {
-            $this->norouteAction();
+            throw new NotFoundException();
         }
-
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -147,7 +153,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         if (!$helper->isMultipleEnabled() ) {
             $wishlistId = $this->getRequest()->getParam('wishlist_id');
             if ($wishlistId && $wishlistId != $helper->getDefaultWishlist()->getId() ) {
-                $this->_redirectUrl($helper->getListUrl());
+                $this->getResponse()->setRedirect($helper->getListUrl());
             }
         }
         parent::indexAction();
@@ -209,7 +215,7 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Edit wishlist properties
      *
-     * @return \Magento\Core\Controller\Varien\Action|\Zend_Controller_Response_Abstract
+     * @return \Magento\App\Action\Action|\Zend_Controller_Response_Abstract
      */
     public function editwishlistAction()
     {
@@ -260,13 +266,14 @@ class Index extends \Magento\Wishlist\Controller\Index
      *
      * @return void
      * @throws \Magento\Core\Exception
+     * @throws NotFoundException
      */
     public function deletewishlistAction()
     {
         try {
             $wishlist = $this->_getWishlist();
             if (!$wishlist) {
-                return $this->norouteAction();
+                throw new NotFoundException();
             }
             if ($this->_objectManager->get('Magento\MultipleWishlist\Helper\Data')->isWishlistDefault($wishlist)) {
                 throw new \Magento\Core\Exception(__('The default wish list cannot be deleted.'));
@@ -334,6 +341,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Copy wishlist item to given wishlist
      *
      * @return void
+     * @throws NotFoundException
      */
     public function copyitemAction()
     {
@@ -346,7 +354,7 @@ class Index extends \Magento\Wishlist\Controller\Index
 
         $wishlist = $this->_getWishlist(isset($requestParams['wishlist_id']) ? $requestParams['wishlist_id'] : null);
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $itemId = isset($requestParams['item_id']) ? $requestParams['item_id'] : null;
         $qty = isset($requestParams['qty']) ? $requestParams['qty'] : null;
@@ -388,10 +396,10 @@ class Index extends \Magento\Wishlist\Controller\Index
         $wishlist->save();
         if ($this->_getSession()->hasBeforeWishlistUrl())
         {
-            $this->_redirectUrl($this->_getSession()->getBeforeWishlistUrl());
+            $this->getResponse()->setRedirect($this->_getSession()->getBeforeWishlistUrl());
             $this->_getSession()->unsBeforeWishlistUrl();
         } else {
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
         }
     }
 
@@ -399,12 +407,13 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Copy wishlist items to given wishlist
      *
      * @return void
+     * @throws NotFoundException
      */
     public function copyitemsAction()
     {
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $itemIds = $this->getRequest()->getParam('selected', array());
         $notFound = array();
@@ -461,7 +470,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 __('%1 items were copied to %2: %3.', count($copied), $wishlistName, $names)
             );
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**
@@ -508,12 +517,13 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Move wishlist item to given wishlist
      *
      * @return void
+     * @throws NotFoundException
      */
     public function moveitemAction()
     {
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $itemId = $this->getRequest()->getParam('item_id');
 
@@ -558,17 +568,18 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
         }
         $wishlist->save();
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     /**
      * Move wishlist items to given wishlist
+     * @throws NotFoundException
      */
     public function moveitemsAction()
     {
         $wishlist = $this->_getWishlist();
         if (!$wishlist) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
         $itemIds = $this->getRequest()->getParam('selected', array());
         $moved = array();
@@ -640,6 +651,6 @@ class Index extends \Magento\Wishlist\Controller\Index
                 __('%1 items were moved to %2: %3.', count($moved), $wishlistName, $names)
             );
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 }

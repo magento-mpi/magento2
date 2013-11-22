@@ -25,27 +25,27 @@ class Totals
     protected $_giftWrappingData = null;
 
     /**
-     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Sales\Helper\Data $salesData,
         \Magento\Sales\Model\Config $salesConfig,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($salesData, $sessionQuote, $orderCreate, $coreData, $context, $salesConfig, $data);
+        parent::__construct($context, $coreData, $sessionQuote, $orderCreate, $salesData, $salesConfig, $data);
     }
 
     /**

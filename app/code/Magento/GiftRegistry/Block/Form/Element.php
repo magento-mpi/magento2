@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Form;
 
-class Element extends \Magento\Core\Block\Template
+class Element extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Directory\Model\Country
@@ -34,43 +34,25 @@ class Element extends \Magento\Core\Block\Template
     protected $_regionCollection;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $locale;
-
-    /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
         $this->_configCacheType = $configCacheType;
         $this->country = $country;
         $this->region = $region;
-
-        parent::__construct($coreData, $context, $data);
-
-        $this->storeManager = $storeManager;
-        $this->locale = $locale;
+        parent::__construct($context, $coreData, $data);
     }
 
 
@@ -186,7 +168,7 @@ class Element extends \Magento\Core\Block\Template
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -243,13 +225,13 @@ class Element extends \Magento\Core\Block\Template
             $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('Magento\Core\Block\Html\Date')
+        $calendar = $this->getLayout()->createBlock('Magento\View\Block\Html\Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)
             ->setClass('datetime-picker input-text' . $class)
             ->setImage($this->getViewFileUrl('Magento_Core::calendar.gif'))
-            ->setDateFormat($this->locale->getDateFormat($formatType));
+            ->setDateFormat($this->_locale->getDateFormat($formatType));
         return $calendar->getHtml();
     }
 

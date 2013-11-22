@@ -13,7 +13,7 @@
  */
 namespace Magento\Reports\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const REPORT_PERIOD_TYPE_DAY    = 'day';
     const REPORT_PERIOD_TYPE_MONTH  = 'month';
@@ -25,11 +25,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_itemFactory;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Reports\Model\ItemFactory $itemFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Reports\Model\ItemFactory $itemFactory
     ) {
         parent::__construct($context);

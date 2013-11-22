@@ -33,34 +33,26 @@ class Row
     protected $_websiteCollFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
      * @param \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory
-     * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
-        \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_websiteCollFactory = $websiteCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
-        parent::__construct($categoryTree, $coreData, $context, $registry, $data);
+        parent::__construct($context, $coreData, $categoryTree, $registry, $data);
     }
 
     protected function _prepareLayout()

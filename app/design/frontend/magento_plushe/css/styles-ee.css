@@ -16426,7 +16426,10 @@ body.account .column.main .block.event .item {
   min-width: 20px;
   max-width: 100%;
   padding: 0;
-  width: auto;
+}
+.returns .block.returns.tracking .data.table .data.table .col.answers .product.photo,
+.returns .data.table.returns.items .data.table .col.answers .product.photo {
+  width: 50%;
 }
 .returns .block.returns.tracking .data.table .action.details,
 .returns .data.table.returns.items .action.details {

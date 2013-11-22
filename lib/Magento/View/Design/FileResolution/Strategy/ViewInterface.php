@@ -2,15 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Interface for 'view' file resolution strategy
- */
 namespace Magento\View\Design\FileResolution\Strategy;
 
 use Magento\View\Design\ThemeInterface;
@@ -18,7 +13,7 @@ use Magento\View\Design\ThemeInterface;
 /**
  * View Interface
  *
- * @package Magento\View
+ * Interface for 'view' file resolution strategy
  */
 interface ViewInterface
 {

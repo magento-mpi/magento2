@@ -82,6 +82,7 @@ Magento/Sitemap/Block/Adminhtml/Edit
 Magento/CatalogRule/Model
 Magento/Tax/Block/Checkout
 Magento/Tax/Model/Sales/Pdf
+Magento/Tax/Model/Config/Price
 Magento/Usa/Model/Shipping/Carrier
 Magento/Webapi/Model
 Magento/Webhook/Model

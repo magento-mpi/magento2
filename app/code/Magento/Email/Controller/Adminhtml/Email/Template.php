@@ -17,7 +17,7 @@
  */
 namespace Magento\Email\Controller\Adminhtml\Email;
 
-class Template extends \Magento\Backend\Controller\Adminhtml\Action
+class Template extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,11 +27,11 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -40,23 +40,23 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
 
     public function indexAction()
     {
-        $this->_title(__('Email Templates'));
+        $this->_title->add(__('Email Templates'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
             return;
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Email::template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -74,7 +74,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function editAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $template = $this->_initTemplate('id');
         $this->_setActiveMenu('Magento_Email::template');
         $this->_addBreadcrumb(__('Transactional Emails'), __('Transactional Emails'), $this->getUrl('adminhtml/*'));
@@ -85,13 +85,13 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_addBreadcrumb(__('New Template'), __('New System Template'));
         }
 
-        $this->_title($template->getId() ? $template->getTemplateCode() : __('New Template'));
+        $this->_title->add($template->getId() ? $template->getTemplateCode() : __('New Template'));
 
-        $this->_addContent($this->getLayout()
+        $this->_addContent($this->_view->getLayout()
             ->createBlock('Magento\Email\Block\Adminhtml\Template\Edit', 'template_edit')
             ->setEditMode((bool)$this->getRequest()->getParam('id'))
         );
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -175,8 +175,8 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
 
     public function previewAction()
     {
-        $this->loadLayout('systemPreview');
-        $this->renderLayout();
+        $this->_view->loadLayout('systemPreview');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -192,7 +192,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
             $template->setData('orig_template_code', $templateCode);
             $template->setData('template_variables', \Zend_Json::encode($template->getVariablesOptionArray(true)));
 
-            $templateBlock = $this->getLayout()->createBlock('Magento\Email\Block\Adminhtml\Template\Edit');
+            $templateBlock = $this->_view->getLayout()->createBlock('Magento\Email\Block\Adminhtml\Template\Edit');
             $template->setData('orig_template_used_default_for', $templateBlock->getUsedDefaultForPaths(false));
 
             $this->getResponse()->setBody(
@@ -211,7 +211,7 @@ class Template extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initTemplate($idFieldName = 'template_id')
     {
-        $this->_title(__('Email Templates'));
+        $this->_title->add(__('Email Templates'));
 
         $id = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\Email\Model\BackendTemplate');

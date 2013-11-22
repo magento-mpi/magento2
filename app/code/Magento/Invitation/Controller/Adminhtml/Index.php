@@ -10,7 +10,9 @@
 
 namespace Magento\Invitation\Controller\Adminhtml;
 
-class Index extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Index extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,13 +29,6 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_invitationFactory;
 
     /**
-     * Store Manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Invitation Config
      *
      * @var \Magento\Invitation\Model\Config
@@ -41,24 +36,29 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_config;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Invitation\Model\Config $config
+        \Magento\Invitation\Model\Config $config,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
-        $this->_invitationFactory = $invitationFactory;
         $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $coreRegistry;
+        $this->_invitationFactory = $invitationFactory;
         $this->_config = $config;
+        parent::__construct($context);
     }
 
     /**
@@ -66,9 +66,10 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Invitations'));
-        $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
-        $this->renderLayout();
+        $this->_title->add(__('Invitations'));
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -79,7 +80,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initInvitation()
     {
-        $this->_title(__('Invitations'));
+        $this->_title->add(__('Invitations'));
 
         $invitation =  $this->_invitationFactory->create()->load($this->getRequest()->getParam('id'));
         if (!$invitation->getId()) {
@@ -97,8 +98,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     {
         try {
             $this->_initInvitation();
-            $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('invitations/*/');
@@ -110,8 +112,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function newAction()
     {
-        $this->loadLayout()->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
+        $this->_view->renderLayout();
     }
 
     /**

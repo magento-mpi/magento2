@@ -14,7 +14,9 @@
  */
 namespace Magento\CustomerBalance\Controller\Adminhtml;
 
-class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Customerbalance extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -34,15 +36,15 @@ class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_balance;
 
     /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerBalance\Model\Balance $balance
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerBalance\Model\Balance $balance,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_balanceFactory = $balance;
@@ -52,30 +54,30 @@ class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
     }
 
     /**
-     * Check is enabled module in config
+     * Dispatch request
      *
-     * @return \Magento\CustomerBalance\Controller\Adminhtml\Customerbalance
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
+        $this->_request = $request;
         if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
-            if ($this->getRequest()->getActionName() != 'noroute') {
-                $this->_forward('noroute');
+            if ($request->getActionName() != 'noroute') {
+                return $this->_forward('noroute');
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
      * Customer balance form
-     *
      */
     public function formAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -85,9 +87,9 @@ class Customerbalance extends \Magento\Backend\Controller\Adminhtml\Action
     public function gridHistoryAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock(
+            $this->_view->getLayout()->createBlock(
                 'Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance\History\Grid'
             )->toHtml()
         );

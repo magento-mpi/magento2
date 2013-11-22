@@ -15,7 +15,7 @@
  */
 namespace Magento\Customer\Helper;
 
-class Address extends \Magento\Core\Helper\AbstractHelper
+class Address extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * VAT Validation parameters XML paths
@@ -77,7 +77,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
     protected $_addressConfig;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\Element\BlockFactory $blockFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -85,7 +85,7 @@ class Address extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Customer\Model\Address\Config|\Magento\Customer\Model\Address\Config $addressConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\View\Element\BlockFactory $blockFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

@@ -20,29 +20,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit;
 class Buttons extends \Magento\Customer\Block\Adminhtml\Edit
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManager $storeManager,
-        array $data = array()
-    ) {
-        parent::__construct($coreData, $context, $registry, $data);
-        $this->_storeManager = $storeManager;
-    }
-
-    /**
      * Add "Manage Shopping Cart" button on customer management page
      *
      * @return \Magento\AdvancedCheckout\Block\Adminhtml\Customer\Edit\Buttons

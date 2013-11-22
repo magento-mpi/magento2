@@ -28,26 +28,26 @@ class AbstractType extends \Magento\Adminhtml\Block\Widget
     protected $_optionPrice;
 
     /**
-     * @param \Magento\Catalog\Model\Config\Source\Product\Options\Price $optionPrice
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Catalog\Model\Config\Source\Product\Options\Price $optionPrice
      * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\Config\Source\Product\Options\Price $optionPrice,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Catalog\Model\Config\Source\Product\Options\Price $optionPrice,
         array $data = array()
     ) {
         $this->_optionPrice = $optionPrice;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _prepareLayout()
     {
         $this->setChild('option_price_type',
             $this->getLayout()
-                ->addBlock('Magento\Core\Block\Html\Select',
+                ->addBlock('Magento\View\Block\Html\Select',
                     $this->getNameInLayout() . '.option_price_type',
                     $this->getNameInLayout())
                 ->setData(array(

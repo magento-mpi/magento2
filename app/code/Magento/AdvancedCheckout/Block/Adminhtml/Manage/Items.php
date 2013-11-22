@@ -35,24 +35,24 @@ class Items extends \Magento\Backend\Block\Template
     protected $_wishlistFactory;
 
     /**
-     * @param \Magento\Tax\Model\Config $taxConfig
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Tax\Model\Config $taxConfig,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Tax\Model\Config $taxConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
         $this->_registry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_wishlistFactory = $wishlistFactory;
     }
 

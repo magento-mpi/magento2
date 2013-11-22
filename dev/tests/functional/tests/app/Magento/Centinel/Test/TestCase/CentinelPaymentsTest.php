@@ -20,7 +20,7 @@ use Mtf\Fixture\DataFixture;
  *
  * @package Magento\Centinel
  */
-class PayPalPayValidCcTest extends AbstractCentinelPaymentsTest
+class CentinelPaymentsTest extends AbstractCentinelPaymentsTest
 {
     /**
      * Place order on frontend via one page checkout and PayPal PayflowPro 3D Secure payment method

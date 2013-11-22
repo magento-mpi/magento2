@@ -68,9 +68,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * Prepare event and run \Magento\PricePermissions\Model\Observer::adminhtmlBlockHtmlBefore
      *
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      */
-    protected function _runAdminhtmlBlockHtmlBefore(\Magento\Core\Block\AbstractBlock $block)
+    protected function _runAdminhtmlBlockHtmlBefore(\Magento\View\Block\AbstractBlock $block)
     {
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);

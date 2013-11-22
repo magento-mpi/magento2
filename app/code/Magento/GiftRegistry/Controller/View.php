@@ -13,7 +13,10 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-class View extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class View extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -23,11 +26,11 @@ class View extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -36,15 +39,17 @@ class View extends \Magento\Core\Controller\Front\Action
 
     /**
      * Check if gift registry is enabled on current store before all other actions
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+            throw new NotFoundException();
         }
+        return parent::dispatch($request);
     }
 
     /**
@@ -65,13 +70,13 @@ class View extends \Magento\Core\Controller\Front\Action
         $entity->setCustomer($customer);
         $this->_coreRegistry->register('current_entity', $entity);
 
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

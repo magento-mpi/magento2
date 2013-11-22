@@ -15,8 +15,25 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Creditmemo;
 
-class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
+class AbstractCreditmemo extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     */
+    public function __construct(
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory
+    ) {
+        $this->_fileFactory = $fileFactory;
+        parent::__construct($context);
+    }
+
     /**
      * Init layout, menu and breadcrumb
      *
@@ -24,8 +41,8 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_creditmemo')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_creditmemo')
             ->_addBreadcrumb(__('Sales'), __('Sales'))
             ->_addBreadcrumb(__('Credit Memos'), __('Credit Memos'));
         return $this;
@@ -37,8 +54,8 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
     public function indexAction()
     {
         $this->_initAction()
-            ->_addContent($this->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo'))
-            ->renderLayout();
+            ->_addContent($this->_view->getLayout()->createBlock('Magento\Sales\Block\Adminhtml\Creditmemo'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -49,7 +66,7 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
         if ($creditmemoId = $this->getRequest()->getParam('creditmemo_id')) {
             $this->_forward('view', 'order_creditmemo', null, array('come_from' => 'sales_creditmemo'));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -95,7 +112,7 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
             }
             $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
 
-            return $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
+            return $this->_fileFactory->create('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
         }
         $this->_redirect('sales/*/');
     }
@@ -110,10 +127,10 @@ class AbstractCreditmemo extends \Magento\Backend\Controller\Adminhtml\Action
                 $pdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Creditmemo')
                     ->getPdf(array($creditmemo));
                 $date = $this->_objectManager->get('Magento\Core\Model\Date')->date('Y-m-d_H-i-s');
-                $this->_prepareDownloadResponse('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
+                return $this->_fileFactory->create('creditmemo' . $date . '.pdf', $pdf->render(), 'application/pdf');
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 

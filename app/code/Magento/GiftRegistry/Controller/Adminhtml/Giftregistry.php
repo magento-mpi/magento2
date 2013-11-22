@@ -10,7 +10,9 @@
 
 namespace Magento\GiftRegistry\Controller\Adminhtml;
 
-class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Giftregistry extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -20,11 +22,11 @@ class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -38,14 +40,14 @@ class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_GiftRegistry::customer_magento_giftregistry')
             ->_addBreadcrumb(
                 __('Gift Registry'),
                 __('Gift Registry')
             );
 
-        $this->_title(__('Gift Registry Types'));
+        $this->_title->add(__('Gift Registry Types'));
         return $this;
     }
 
@@ -76,7 +78,8 @@ class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -93,17 +96,17 @@ class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         $this->_initAction();
-        $this->_title(__('New Gift Registry Type'));
+        $this->_title->add(__('New Gift Registry Type'));
 
-        $block = $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
+        $block = $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->_addBreadcrumb(__('New Type'), __('New Type'))
             ->_addContent($block)
-            ->_addLeft($this->getLayout()->createBlock(
+            ->_addLeft($this->_view->getLayout()->createBlock(
                 'Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
-            )
-            ->renderLayout();
+            );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -120,17 +123,17 @@ class Giftregistry extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         $this->_initAction();
-        $this->_title(__('%1', $model->getLabel()));
+        $this->_title->add(__('%1', $model->getLabel()));
 
-        $block = $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
+        $block = $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
         $this->_addBreadcrumb(__('Edit Type'), __('Edit Type'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
-            )
-            ->renderLayout();
+                $this->_view->getLayout()->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Tabs')
+            );
+        $this->_view->renderLayout();
     }
 
     /**

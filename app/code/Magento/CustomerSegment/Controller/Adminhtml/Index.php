@@ -13,7 +13,9 @@
  */
 namespace Magento\CustomerSegment\Controller\Adminhtml;
 
-class Index extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Index extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -28,13 +30,13 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_conditionFactory;
 
     /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Backend\Controller\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_conditionFactory = $conditionFactory;
@@ -71,11 +73,11 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Customer Segments'));
+        $this->_title->add(__('Customer Segments'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -92,7 +94,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function editAction()
     {
-        $this->_title(__('Customer Segments'));
+        $this->_title->add(__('Customer Segments'));
 
         try {
             $model = $this->_initSegment();
@@ -102,7 +104,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Segment'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Segment'));
 
         // set entered data if was error when we do save
         $data = $this->_session->getPageData(true);
@@ -114,10 +116,10 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_initAction();
 
-        $block =  $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
+        $block =  $this->_view->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit')
             ->setData('form_action_url', $this->getUrl('customersegment/*/save'));
 
-        $this->getLayout()->getBlock('head')
+        $this->_view->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
@@ -126,8 +128,10 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $model->getId() ? __('Edit Segment') : __('New Segment'))
             ->_addContent($block)
             ->_addLeft(
-                $this->getLayout()->createBlock('Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs'))
-            ->renderLayout();
+                $this->_view->getLayout()->createBlock(
+                    'Magento\CustomerSegment\Block\Adminhtml\Customersegment\Edit\Tabs')
+            );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -161,8 +165,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CustomerSegment::customer_customersegment')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_CustomerSegment::customer_customersegment')
             ->_addBreadcrumb(
                 __('Segments'),
                 __('Segments')
@@ -301,7 +305,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function chooserDaterangeAction()
     {
-        $block = $this->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
+        $block = $this->_view->getLayout()->createBlock('Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Daterange');
         if ($block) {
             // set block data from request
             $block->setTargetElementId($this->getRequest()->getParam('value_element_id'));
@@ -319,8 +323,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -328,7 +332,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function chooserGridAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

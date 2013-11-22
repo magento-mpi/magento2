@@ -94,7 +94,7 @@ class Observer
      */
     public function coreBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\Core\Block\AbstractBlock */
+         /** @var $block \Magento\View\Block\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {

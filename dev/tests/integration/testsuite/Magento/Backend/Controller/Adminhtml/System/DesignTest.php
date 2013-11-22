@@ -17,7 +17,7 @@ namespace Magento\Backend\Controller\Adminhtml\System;
 class DesignTest extends \Magento\Backend\Utility\Controller
 {
     /**
-     * @covers \Magento\Backend\Controller\Adminhtml\Action::_addLeft
+     * @covers \Magento\Backend\App\Action::_addLeft
      */
     public function testEditAction()
     {

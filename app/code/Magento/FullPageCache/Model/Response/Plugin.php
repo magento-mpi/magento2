@@ -7,6 +7,7 @@
  */
 
 namespace Magento\FullPageCache\Model\Response;
+use Magento\App\RequestInterface;
 use \Magento\Core\Model,
     \Magento\Core\Helper;
 
@@ -25,23 +26,23 @@ class Plugin
     protected $_coreSession;
 
     /**
-     * @var \Magento\Core\Model\App
+     * @var \Magento\App\RequestInterface
      */
-    protected $_application;
+    protected $_request;
 
     /**
      * @param Helper\Url $urlHelper
      * @param Model\Session $coreSession
-     * @param Model\App $application
+     * @param RequestInterface $request
      */
     public function __construct(
         Helper\Url $urlHelper,
         Model\Session $coreSession,
-        Model\App $application
+        RequestInterface $request
     ) {
         $this->_urlHelper = $urlHelper;
         $this->_coreSession = $coreSession;
-        $this->_application = $application;
+        $this->_request = $request;
    }
 
     /**
@@ -56,7 +57,7 @@ class Plugin
         if (!$url) {
             return $arguments;
         }
-        $httpHost = $this->_application->getFrontController()->getRequest()->getHttpHost();
+        $httpHost = $this->_request->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
         if ($httpHost != $urlHost && $this->_coreSession->getMessages()->count() > 0) {
             $arguments[0] = $this->_urlHelper->addRequestParam(

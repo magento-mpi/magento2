@@ -18,23 +18,22 @@
  */
 namespace Magento\AdvancedCheckout\Controller;
 
-class Sku extends \Magento\Core\Controller\Front\Action
+class Sku extends \Magento\App\Action\Action
 {
     /**
      * Check functionality is enabled and applicable to the Customer
      *
-     * @return \Magento\AdvancedCheckout\Controller\Sku
+     * @param \Magento\App\RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
-
         // guest redirected to "Login or Create an Account" page
         /** @var $customerSession \Magento\Customer\Model\Session */
         $customerSession = $this->_objectManager->get('Magento\Customer\Model\Session');
         if (!$customerSession->authenticate($this)) {
-            $this->setFlag('', 'no-dispatch', true);
-            return $this;
+            $this->_actionFlag->set('', 'no-dispatch', true);
+            return parent::dispatch($request);
         }
 
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
@@ -42,8 +41,7 @@ class Sku extends \Magento\Core\Controller\Front\Action
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
             $this->_redirect('customer/account');
         }
-
-        return $this;
+        parent::dispatch($request);
     }
 
     /**
@@ -53,13 +51,13 @@ class Sku extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Order by SKU'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

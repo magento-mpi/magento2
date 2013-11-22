@@ -14,16 +14,16 @@ class Translate implements \Magento\Phrase\RendererInterface
     /**
      * Basic object for translation
      *
-     * @var \Magento\Phrase\TranslateInterface
+     * @var \Magento\TranslateInterface
      */
     protected $_translator;
 
     /**
      * Renderer construct
      *
-     * @param \Magento\Phrase\TranslateInterface $translator
+     * @param \Magento\TranslateInterface $translator
      */
-    public function __construct(\Magento\Phrase\TranslateInterface $translator)
+    public function __construct(\Magento\TranslateInterface $translator)
     {
         $this->_translator = $translator;
     }

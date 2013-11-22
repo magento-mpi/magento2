@@ -16,6 +16,6 @@
  */
 namespace Magento\Page\Block\Js;
 
-class Translate extends \Magento\Core\Block\Template
+class Translate extends \Magento\View\Block\Template
 {
 }

@@ -11,7 +11,7 @@
 namespace Magento\Rule\Block;
 
 class Editable
-    extends \Magento\Core\Block\AbstractBlock
+    extends \Magento\View\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
@@ -22,26 +22,16 @@ class Editable
     protected $_coreData;
 
     /**
-     * Filter manager
-     *
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $filter;
-
-    /**
+     * @param \Magento\View\Block\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Context $context
-     * @param \Magento\Filter\FilterManager $filter
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Context $context,
-        \Magento\Filter\FilterManager $filter,
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        $this->filter = $filter;
         parent::__construct($context, $data);
     }
 
@@ -73,7 +63,7 @@ class Editable
             if ($this->_translator->isAllowed()) {
                 $html .= $this->escapeHtml($valueName);
             } else {
-                $html .= $this->escapeHtml($this->filter->truncate($valueName, array('length' => 33, 'etc' => '...')));
+                $html .= $this->escapeHtml($this->filterManager->truncate($valueName, array('length' => 33, 'etc' => '...')));
             }
 
             $html .= '</a><span class="element"> ' . $element->getElementHtml();

@@ -63,7 +63,7 @@
                     </frontend>
                 </routers>
                 <default>
-                    <no_route>admin/index/noRoute</no_route>
+                    <no_route>admin/noroute/index</no_route>
                 </default>
             </web>
         </admin>
