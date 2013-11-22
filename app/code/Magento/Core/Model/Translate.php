@@ -178,19 +178,30 @@ class Translate
     protected $_appState;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $directory;
+
+    /**
      * @param \Magento\View\DesignInterface $viewDesign
-     * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
-     * @param \Magento\Core\Model\Translate\Factory $translateFactory
+     * @param Locale\Hierarchy\Config $config
+     * @param Translate\Factory $translateFactory
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\Phrase\Renderer\Placeholder $placeholderRender
      * @param \Magento\Module\ModuleList $moduleList
      * @param \Magento\Module\Dir\Reader $modulesReader
-     * @param \Magento\Core\Model\Config $coreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Model\Resource\Translate $translate
-     * @param \Magento\Core\Model\App $app
+     * @param Config $coreConfig
+     * @param StoreManager $storeManager
+     * @param Resource\Translate $translate
+     * @param App $app
      * @param \Magento\App\State $appState
+     * @param \Magento\Filesystem $filesystem
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -207,7 +218,8 @@ class Translate
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Resource\Translate $translate,
         \Magento\Core\Model\App $app,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -222,6 +234,8 @@ class Translate
         $this->_translateResource = $translate;
         $this->_app = $app;
         $this->_appState = $appState;
+        $this->filesystem = $filesystem;
+        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
     }
 
     /**
@@ -467,8 +481,8 @@ class Translate
      */
     protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = $this->_modulesReader->getModuleDir(\Magento\App\Dir::LOCALE, $moduleName);
-        $file .= DS . $locale . '.csv';
+        $file = $this->_modulesReader->getModuleDir(\Magento\Filesystem\DirectoryList::LOCALE, $moduleName);
+        $file .='/' . $locale . '.csv';
         return $file;
     }
 
@@ -480,7 +494,7 @@ class Translate
      */
     protected function _getThemeTranslationFile($locale)
     {
-        return $this->_viewFileSystem->getFilename(\Magento\App\Dir::LOCALE . DS . $locale . '.csv');
+        return $this->_viewFileSystem->getFilename(\Magento\Filesystem\DirectoryList::LOCALE . '/' . $locale . '.csv');
     }
 
     /**
@@ -492,7 +506,7 @@ class Translate
     protected function _getFileData($file)
     {
         $data = array();
-        if (file_exists($file)) {
+        if ($this->directory->isExist($this->directory->getRelativePath($file))) {
             $parser = new \Magento\File\Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);
