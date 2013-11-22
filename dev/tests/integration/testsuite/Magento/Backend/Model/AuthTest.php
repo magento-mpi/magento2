@@ -77,6 +77,9 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThan(time() - 10, $this->_model->getAuthStorage()->getUpdatedAt());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLogout()
     {
         $this->_model->login(

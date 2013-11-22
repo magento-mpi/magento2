@@ -117,6 +117,7 @@ class AuthTest extends \Magento\TestFramework\TestCase\AbstractController
 
     /**
      * @covers \Magento\Backend\Controller\Adminhtml\Auth::logoutAction
+     * @magentoAppIsolation enabled
      * @magentoDbIsolation enabled
      */
     public function testLogoutAction()

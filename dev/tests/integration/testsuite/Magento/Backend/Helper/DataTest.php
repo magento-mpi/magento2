@@ -88,6 +88,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @covers \Magento\Backend\Helper\Data::getCurrentUserId
+     * @magentoAppIsolation enabled
      */
     public function testGetCurrentUserId()
     {
