@@ -48,7 +48,7 @@ class Cookie extends \Magento\Core\Model\Cookie
      *
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
+    public function set($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
     {
         $_COOKIE[$name] = $value;
         return $this;

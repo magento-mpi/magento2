@@ -87,7 +87,7 @@ class Cookie
      * @param bool $httponly
      * @return \Magento\Core\Model\Cookie
      */
-    public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
+    public function set($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
     {
         /**
          * Check headers sent
@@ -121,7 +121,7 @@ class Cookie
      * @param int|bool $secure
      * @return \Magento\Core\Model\Cookie
      */
-    public function renew($name, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
+    public function renew($name, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
     {
         if ($period === null) {
             return $this;
