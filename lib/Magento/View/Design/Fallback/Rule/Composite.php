@@ -6,15 +6,12 @@
  * @license     {license_link}
  */
 
-/**
- * Composite rule that represents sequence of child fallback rules
- */
 namespace Magento\View\Design\Fallback\Rule;
 
 /**
  * Composite Rules
  *
- * @package Magento\View
+ * Composite rule that represents sequence of child fallback rules
  */
 class Composite implements RuleInterface
 {
@@ -24,8 +21,6 @@ class Composite implements RuleInterface
     protected $rules = array();
 
     /**
-     * Constructor
-     *
      * @param RuleInterface[] $rules
      * @throws \InvalidArgumentException
      */
@@ -42,7 +37,8 @@ class Composite implements RuleInterface
     /**
      * Retrieve sequentially combined directory patterns from child fallback rules
      *
-     * {@inheritdoc}
+     * @param array $params
+     * @return array
      */
     public function getPatternDirs(array $params)
     {

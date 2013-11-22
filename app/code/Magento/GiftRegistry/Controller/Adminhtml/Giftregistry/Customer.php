@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftRegistry\Controller\Adminhtml\Giftregistry;
 
-class Customer extends \Magento\Backend\Controller\Adminhtml\Action
+class Customer extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,23 +27,28 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
+     * @var \Magento\App\Action\Title
      */
-    protected $storeManager;
+    protected $_title;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        parent::__construct($context);
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
-        $this->storeManager = $storeManager;
+        parent::__construct($context);
     }
 
     protected function _initEntity($requestParam = 'id')
@@ -65,8 +70,8 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -78,12 +83,12 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             $model = $this->_initEntity();
             $customer = $this->_objectManager->create('Magento\Customer\Model\Customer')->load($model->getCustomerId());
 
-            $this->_title(__('Customers'))
-                ->_title(__('Customers'))
-                ->_title($customer->getName())
-                ->_title(__("Edit '%1' Gift Registry", $model->getTitle()));
+            $this->_title->add(__('Customers'));
+            $this->_title->add(__('Customers'));
+            $this->_title->add($customer->getName());
+            $this->_title->add(__("Edit '%1' Gift Registry", $model->getTitle()));
 
-            $this->loadLayout()->renderLayout();
+            $this->_view->loadLayout()->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
             $this->_redirect('customer/index/edit', array(
@@ -106,7 +111,7 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function addAction()
     {
-        if ($quoteIds = $this->getRequest()->getParam('products')){
+        if ($quoteIds = $this->getRequest()->getParam('products')) {
             $model = $this->_initEntity();
             try {
                 $skippedItems = $model->addQuoteItems($quoteIds);
@@ -187,8 +192,8 @@ class Customer extends \Magento\Backend\Controller\Adminhtml\Action
             $emails = explode(',', $data);
             $emailsForSend = array();
 
-            if ($this->storeManager->hasSingleStore()) {
-                $storeId = $this->storeManager->getStore(true)->getId();
+            if ($this->_storeManager->hasSingleStore()) {
+                $storeId = $this->_storeManager->getStore(true)->getId();
             } else {
                 $storeId = $this->getRequest()->getParam('store_id');
             }

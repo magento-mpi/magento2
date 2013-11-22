@@ -174,7 +174,7 @@ class Extended
     /**
      * Initialize child blocks
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -207,7 +207,7 @@ class Extended
     /**
      * Retrieve column set block
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getColumnSet()
     {

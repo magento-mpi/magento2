@@ -57,24 +57,22 @@ class Grid
     protected $_productFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Url $urlModel,
         \Magento\Rma\Model\Resource\ItemFactory $itemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -82,7 +80,7 @@ class Grid
         $this->_productFactory = $productFactory;
         $this->_rmaData = $rmaData;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     /**

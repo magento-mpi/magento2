@@ -36,7 +36,7 @@ class Customer extends \Magento\CustomAttribute\Helper\Data
     /**
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\CustomerCustomAttributes\Helper\Data $dataHelper
      * @param \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator
@@ -44,7 +44,7 @@ class Customer extends \Magento\CustomAttribute\Helper\Data
     public function __construct(
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\CustomerCustomAttributes\Helper\Data $dataHelper,
         \Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator $inputValidator

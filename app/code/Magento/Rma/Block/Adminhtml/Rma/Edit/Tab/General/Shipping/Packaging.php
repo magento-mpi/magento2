@@ -54,20 +54,20 @@ class Packaging extends \Magento\Backend\Block\Template
     protected $_sizeFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Usa\Model\Shipping\Carrier\Usps\Source\SizeFactory $sizeFactory,
@@ -78,7 +78,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $this->_rmaData = $rmaData;
         $this->_orderFactory = $orderFactory;
         $this->_sizeFactory = $sizeFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

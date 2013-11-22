@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" label="RMA Return View Image" design_abstraction="custom">
     <referenceContainer name="content">
-        <block class="Magento\Core\Block\Template" name="magento_rma_item_form_template">
+        <block class="Magento\View\Block\Template" name="magento_rma_item_form_template">
             <block class="Magento\Rma\Block\Form\Renderer\Image" name="magento_rma_item_form_template_image" as="image" template="form/view/image.phtml"/>
         </block>
     </referenceContainer>

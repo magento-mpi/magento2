@@ -175,13 +175,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_errorInfos;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -192,7 +185,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_itemOptionFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -206,7 +198,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -217,7 +208,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_errorInfos = $statusListFactory->create();
         $this->_locale = $locale;
         $this->_itemOptionFactory = $itemOptionFactory;

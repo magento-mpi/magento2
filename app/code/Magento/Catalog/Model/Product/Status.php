@@ -39,13 +39,6 @@ class Status extends \Magento\Core\Model\AbstractModel
     protected $_attribute;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Catalog product action
      *
      * @var \Magento\Catalog\Model\Product\Action
@@ -64,7 +57,6 @@ class Status extends \Magento\Core\Model\AbstractModel
      *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Action $catalogProductAction
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -74,7 +66,6 @@ class Status extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Action $catalogProductAction,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -83,7 +74,6 @@ class Status extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_catalogProductAction = $catalogProductAction;
-        $this->_eventManager = $eventManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 

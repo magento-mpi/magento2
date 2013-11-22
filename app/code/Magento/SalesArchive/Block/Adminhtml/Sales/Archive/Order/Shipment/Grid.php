@@ -26,25 +26,23 @@ class Grid
     protected $_coreUrl = null;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
      * @param \Magento\Core\Helper\Url $coreUrl
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Url $urlModel,
         \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Core\Helper\Url $coreUrl,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
         array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $data);
     }
 
     public function _construct()

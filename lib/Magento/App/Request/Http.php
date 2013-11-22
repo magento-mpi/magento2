@@ -530,4 +530,17 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
         }
         return 'http://localhost/';
     }
+
+    /**
+     * Retrieve full action name
+     *
+     * @param string $delimiter
+     * @return mixed|string
+     */
+    public function getFullActionName($delimiter = '_')
+    {
+        return $this->getRequestedRouteName() . $delimiter .
+            $this->getRequestedControllerName() . $delimiter .
+            $this->getRequestedActionName();
+    }
 }

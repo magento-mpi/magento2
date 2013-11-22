@@ -1,7 +1,5 @@
 <?php
 /**
- * Helper to work with CSS files
- *
  * {license_notice}
  *
  * @copyright {copyright}
@@ -10,6 +8,9 @@
 
 namespace Magento\View\Url;
 
+/**
+ * Helper to work with CSS files
+ */
 class CssResolver
 {
     /**
@@ -41,6 +42,8 @@ class CssResolver
     }
 
     /**
+     * Replace relative URLs
+     *
      * Go through CSS content and modify relative urls, when content is read at $originalPath and then put to $newPath
      *
      * @param string $cssContent

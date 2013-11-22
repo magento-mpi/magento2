@@ -10,7 +10,9 @@
 
 namespace Magento\TargetRule\Controller\Adminhtml;
 
-class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Targetrule extends \Magento\Backend\App\Action
 {
 
     /**
@@ -21,15 +23,23 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -39,7 +49,8 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_TargetRule::catalog_targetrule');
         return $this;
     }
 
@@ -49,10 +60,10 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Related Products Rules'));
+        $this->_title->add(__('Related Products Rules'));
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -60,8 +71,8 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -79,7 +90,7 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function editAction()
     {
-        $this->_title(__('Related Products Rule'));
+        $this->_title->add(__('Related Products Rule'));
 
         /* @var $model \Magento\TargetRule\Model\Rule */
         $model  = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
@@ -94,7 +105,7 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Related Products Rule'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
         $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
         if (!empty($data)) {
@@ -104,7 +115,7 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_coreRegistry->register('current_target_rule', $model);
 
         $this->_initAction();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -138,7 +149,9 @@ class Targetrule extends \Magento\Backend\Controller\Adminhtml\Action
             $hasError       = false;
 
             try {
-                $data = $this->_filterDates($data, array('from_date', 'to_date'));
+                $inputFilter = new \Zend_Filter_Input(
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                $data = $inputFilter->getUnescaped();
                 $ruleId = $this->getRequest()->getParam('rule_id');
                 if ($ruleId) {
                     $model->load($ruleId);

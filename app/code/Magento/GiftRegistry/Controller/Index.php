@@ -13,7 +13,10 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Index extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -23,13 +26,21 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
+        $this->_formKeyValidator = $formKeyValidator;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -38,22 +49,23 @@ class Index extends \Magento\Core\Controller\Front\Action
      * Only logged in users can use this functionality,
      * this function checks if user is logged in before all other actions
      *
-     * @return \Magento\GiftRegistry\Controller\Index
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return $this;
+            throw new NotFoundException();
         }
 
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->getResponse()->setRedirect($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->getResponse()->setRedirect(
+                $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl()
+            );
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -61,17 +73,17 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $block = $this->getLayout()->getBlock('giftregistry_list');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $block = $this->_view->getLayout()->getBlock('giftregistry_list');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -120,7 +132,7 @@ class Index extends \Magento\Core\Controller\Front\Action
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\GiftRegistry\Model\Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                 $this->_getCheckoutSession()->addError($e->getMessage());
-                $this->_redirectReferer('*/*');
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
             } else {
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('giftregistry');
@@ -160,7 +172,7 @@ class Index extends \Magento\Core\Controller\Front\Action
                         ->load((int)$wishlistItem->getProductId());
                     $query['options'] = \Magento\GiftRegistry\Block\Product\View::FLAG;
                     $query['entity'] = $this->getRequest()->getParam('entity');
-                    $this->_redirectUrl($product->getUrlModel()->getUrl($product, array('_query' => $query)));
+                    $this->getResponse()->setRedirect($product->getUrlModel()->getUrl($product, array('_query' => $query)));
                     return;
                 }
                 $this->_getSession()->addError($e->getMessage());
@@ -203,14 +215,14 @@ class Index extends \Magento\Core\Controller\Front\Action
     {
         try {
             $entity = $this->_initEntity();
-            $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
-            $headBlock = $this->getLayout()->getBlock('head');
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $headBlock = $this->_view->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Share Gift Registry'));
             }
-            $this->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
-            $this->renderLayout();
+            $this->_view->getLayout()->getBlock('giftregistry.customer.share')->setEntity($entity);
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -228,14 +240,13 @@ class Index extends \Magento\Core\Controller\Front\Action
     {
         try {
             $this->_coreRegistry->register('current_entity', $this->_initEntity());
-            $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
-            $this->_initLayoutMessages('Magento\Checkout\Model\Session');
-            $headBlock = $this->getLayout()->getBlock('head');
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->initMessages(array('Magento\Customer\Model\Session', 'Magento\Checkout\Model\Session'));
+            $headBlock = $this->_view->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle(__('Gift Registry Items'));
             }
-            $this->renderLayout();
+            $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
@@ -248,7 +259,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function updateItemsAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('*/*/');
         }
 
@@ -278,7 +289,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function sendAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             $this->_redirect('*/*/share', array('_current' => true));
             return;
         }
@@ -331,17 +342,17 @@ class Index extends \Magento\Core\Controller\Front\Action
      */
     public function addSelectAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $block = $this->getLayout()->getBlock('giftregistry_addselect');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $block = $this->_view->getLayout()->getBlock('giftregistry_addselect');
         if ($block) {
-            $block->setRefererUrl($this->_getRefererUrl());
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Create Gift Registry'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -375,19 +386,19 @@ class Index extends \Magento\Core\Controller\Front\Action
             $this->_coreRegistry->register('magento_giftregistry_entity', $model);
             $this->_coreRegistry->register('magento_giftregistry_address', $model->exportAddress());
 
-            $this->loadLayout();
-            $this->_initLayoutMessages('Magento\Customer\Model\Session');
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
 
             if ($model->getId()) {
                 $pageTitle = __('Edit Gift Registry');
             } else {
                 $pageTitle = __('Create Gift Registry');
             }
-            $headBlock = $this->getLayout()->getBlock('head');
+            $headBlock = $this->_view->getLayout()->getBlock('head');
             if ($headBlock) {
                 $headBlock->setTitle($pageTitle);
             }
-            $this->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*/');
@@ -404,7 +415,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             return;
         }
 
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             $this->_redirect('*/*/edit', array('type_id', $typeId));
             return ;
         }

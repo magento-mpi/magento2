@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Controller\Adminhtml;
 
-class Category extends \Magento\Backend\Controller\Adminhtml\Action
+class Category extends \Magento\Backend\App\Action
 {
     /**
      * Initialize requested category and put it into registry.
@@ -24,7 +24,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initCategory($getRootInstead = false)
     {
-        $this->_title(__('Categories'));
+        $this->_title->add(__('Categories'));
 
         $categoryId = (int)$this->getRequest()->getParam('id', false);
         $storeId    = (int)$this->getRequest()->getParam('store');
@@ -119,7 +119,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->_title($categoryId ? $category->getName() : __('Categories'));
+        $this->_title->add($categoryId ? $category->getName() : __('Categories'));
 
         /**
          * Check if we have data in session (if during category save was exception)
@@ -154,13 +154,13 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
                 ->setLastViewedStore($this->getRequest()->getParam('store'));
             $this->_objectManager->get('Magento\Backend\Model\Auth\Session')
                 ->setLastEditedCategory($category->getId());
-            $this->loadLayout();
+            $this->_view->loadLayout();
 
             $eventResponse = new \Magento\Object(array(
-                'content' => $this->getLayout()->getBlock('category.edit')->getFormHtml()
-                    . $this->getLayout()->getBlock('category.tree')
+                'content' => $this->_view->getLayout()->getBlock('category.edit')->getFormHtml()
+                    . $this->_view->getLayout()->getBlock('category.tree')
                         ->getBreadcrumbsJavascript($breadcrumbsPath, 'editingCategoryBreadcrumbs'),
-                'messages' => $this->getLayout()->getMessagesBlock()->getGroupedHtml(),
+                'messages' => $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml(),
             ));
             $this->_eventManager->dispatch(
                 'category_prepare_ajax_response',
@@ -175,18 +175,18 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Catalog::catalog_categories');
-        $this->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
+        $this->_view->getLayout()->getBlock('head')->setCanLoadExtJs(true)->setContainerCssClass('catalog-categories');
 
         $this->_addBreadcrumb(__('Manage Catalog Categories'), __('Manage Categories'));
 
-        $block = $this->getLayout()->getBlock('catalog.wysiwyg.js');
+        $block = $this->_view->getLayout()->getBlock('catalog.wysiwyg.js');
         if ($block) {
             $block->setStoreId($storeId);
         }
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -200,7 +200,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
         $storeMediaUrl = $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore($storeId)
             ->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA);
 
-        $content = $this->getLayout()->createBlock(
+        $content = $this->_view->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Helper\Form\Wysiwyg\Content',
             '',
             array(
@@ -233,7 +233,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
+                $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
                     ->getTreeJson($category)
             );
         }
@@ -347,8 +347,8 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
         if ($this->getRequest()->getPost('return_session_messages_only')) {
             $category->load($category->getId()); // to obtain truncated category name
 
-            /** @var $block \Magento\Core\Block\Messages */
-            $block = $this->_objectManager->get('Magento\Core\Block\Messages');
+            /** @var $block \Magento\View\Block\Messages */
+            $block = $this->_objectManager->get('Magento\View\Block\Messages');
             $block->setMessages($this->_getSession()->getMessages(true));
             $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'messages' => $block->getGroupedHtml(),
@@ -452,7 +452,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
         if (!$category) {
             return;
         }
-        $this->getResponse()->setBody($this->getLayout()->createBlock(
+        $this->getResponse()->setBody($this->_view->getLayout()->createBlock(
             'Magento\Catalog\Block\Adminhtml\Category\Tab\Product', 'category.product.grid'
         )->toHtml());
     }
@@ -476,7 +476,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
 
         $category = $this->_initCategory(true);
 
-        $block = $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree');
+        $block = $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree');
         $root  = $block->getRoot();
         $this->getResponse()->setBody($this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
             'data' => $block->getTree(),
@@ -514,7 +514,7 @@ class Category extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function suggestCategoriesAction()
     {
-        $this->getResponse()->setBody($this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
+        $this->getResponse()->setBody($this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
             ->getSuggestedCategoriesJson($this->getRequest()->getParam('label_part')));
     }
 

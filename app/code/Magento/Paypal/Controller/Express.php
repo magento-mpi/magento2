@@ -45,9 +45,8 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
     protected $_customerHelper;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -59,9 +58,8 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\UrlInterface $urlBuilder,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -76,7 +74,6 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
         parent::__construct(
             $context,
             $customerSession,
-            $urlBuilder,
             $quoteFactory,
             $checkoutSession,
             $orderFactory,
@@ -90,8 +87,8 @@ class Express extends \Magento\Paypal\Controller\Express\AbstractExpress
      */
     public function redirectLogin()
     {
-        $this->setFlag('', 'no-dispatch', true);
-        $this->_customerSession->setBeforeAuthUrl($this->_getRefererUrl());
+        $this->_actionFlag->set('', 'no-dispatch', true);
+        $this->_customerSession->setBeforeAuthUrl($this->_redirect->getRefererUrl());
         $this->getResponse()->setRedirect(
             $this->_urlHelper->addRequestParam($this->_customerHelper->getLoginUrl(), array('context' => 'checkout'))
         );

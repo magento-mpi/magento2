@@ -15,16 +15,16 @@ class CustomerRegistration
     protected $_restrictionConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $restrictionConfig
      */
     public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\WebsiteRestriction\Model\ConfigInterface $restrictionConfig
     ) {
         $this->_storeManager = $storeManager;

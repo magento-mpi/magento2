@@ -28,19 +28,19 @@ class Result extends \Magento\Backend\Block\Template
     protected $_pbridgeData = null;
 
     /**
-     * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      */
     public function __construct(
-        \Magento\Pbridge\Helper\Data $pbridgeData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Controller\Adminhtml\Cms;
 
-class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
+class Hierarchy extends \Magento\Backend\App\Action
 {
     /**
      * Current Scope
@@ -56,34 +56,34 @@ class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
 
     /**
      * Controller pre dispatch method
      *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Hierarchy
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\VersionsCms\Helper\Hierarchy')->isEnabled()) {
-            if ($this->getRequest()->getActionName() != 'noroute') {
+            if ($request->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -116,8 +116,8 @@ class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_hierarchy')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('CMS Page Trees'), __('CMS Page Trees'));
         return $this;
@@ -154,7 +154,7 @@ class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Hierarchy'));
+        $this->_title->add(__('Hierarchy'));
 
         $this->_initScope();
 
@@ -170,7 +170,8 @@ class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_coreRegistry->register('current_hierarchy_node', $nodeModel);
 
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -334,8 +335,8 @@ class Hierarchy extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function pageGridAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

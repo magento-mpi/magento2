@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftCard\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\View\LayoutInterface
@@ -21,11 +21,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_layout;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\View\LayoutInterface $layout
     ) {
         $this->_layout = $layout;
@@ -34,12 +34,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * Instantiate giftardaccounts block when a gift card email should be sent
-     * @return \Magento\Core\Block\Template
+     * @return \Magento\View\Block\Template
      */
     public function getEmailGeneratedItemsBlock()
     {
-        /** @var $block \Magento\Core\Block\Template */
-        $block = $this->_layout->createBlock('Magento\Core\Block\Template');
+        /** @var $block \Magento\View\Block\Template */
+        $block = $this->_layout->createBlock('Magento\View\Block\Template');
         $block->setTemplate('Magento_GiftCard::email/generated.phtml');
         return $block;
     }

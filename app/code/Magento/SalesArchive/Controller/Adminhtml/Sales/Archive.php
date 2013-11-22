@@ -14,7 +14,7 @@
  */
 namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
 
-class Archive extends \Magento\Backend\Controller\Adminhtml\Action
+class Archive extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\SalesArchive\Model\Archive
@@ -22,15 +22,24 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_archiveModel;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\SalesArchive\Model\Archive $archiveModel
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\SalesArchive\Model\Archive $archiveModel
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\SalesArchive\Model\Archive $archiveModel,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_archiveModel = $archiveModel;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
+        $this->_title = $title;
     }
 
     /**
@@ -40,8 +49,8 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _renderGrid()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
         return $this;
     }
 
@@ -50,11 +59,11 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function ordersAction()
     {
-        $this->_title(__('Orders'));
+        $this->_title->add(__('Orders'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_orders');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -70,11 +79,11 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function invoicesAction()
     {
-        $this->_title(__('Invoices'));
+        $this->_title->add(__('Invoices'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_invoices');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -91,11 +100,11 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function creditmemosAction()
     {
-        $this->_title(__('Credit Memos'));
+        $this->_title->add(__('Credit Memos'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_creditmemos');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -111,11 +120,11 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function shipmentsAction()
     {
-        $this->_title(__('Shipments'));
+        $this->_title->add(__('Shipments'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_SalesArchive::sales_archive_shipments');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -284,8 +293,8 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
     protected function _export($type)
     {
         $action = strtolower((string)$this->getRequest()->getParam('action'));
-        $this->loadLayout(false);
-        $layout = $this->getLayout();
+        $this->_view->loadLayout(false);
+        $layout = $this->_view->getLayout();
 
         switch ($action) {
             case 'invoice':
@@ -308,9 +317,9 @@ class Archive extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         if ($type == 'csv') {
-            $this->_prepareDownloadResponse($fileName, $grid->getCsvFile());
+            return $this->_fileFactory->create($fileName, $grid->getCsvFile());
         } else {
-            $this->_prepareDownloadResponse($fileName, $grid->getExcelFile($fileName));
+            return $this->_fileFactory->create($fileName, $grid->getExcelFile($fileName));
         }
     }
 

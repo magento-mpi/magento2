@@ -63,29 +63,27 @@ class Ordered
     protected $_ordersFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\CatalogInventory\Model\Stock\Status $stockStatus
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Url $urlModel,
         \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\CatalogInventory\Model\Stock\Status $stockStatus,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $ordersFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
@@ -95,7 +93,7 @@ class Ordered
         $this->_ordersFactory = $ordersFactory;
         $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $coreRegistry, $data);
     }
 
     /**

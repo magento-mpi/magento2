@@ -107,7 +107,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /** @var \Magento\Email\Model\Sender */
     protected $_sender;
 
-    /** @var \Magento\Core\Model\StoreManager */
+    /** @var \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
     /** @var \Magento\Eav\Model\Config */
@@ -119,13 +119,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
-
-    /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -183,12 +176,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Email\Model\Sender $sender
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $resource
@@ -206,12 +198,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Email\Model\Sender $sender,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $resource,
@@ -228,7 +219,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;

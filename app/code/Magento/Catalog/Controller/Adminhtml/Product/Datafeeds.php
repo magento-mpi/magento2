@@ -11,7 +11,7 @@
 
 namespace Magento\Catalog\Controller\Adminhtml\Product;
 
-class Datafeeds extends \Magento\Backend\Controller\Adminhtml\Action
+class Datafeeds extends \Magento\Backend\App\Action
 {
 
     public function indexAction()

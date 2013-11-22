@@ -12,7 +12,7 @@ namespace Magento\Webhook\Controller\Adminhtml\Webhook;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Subscription extends \Magento\Backend\Controller\AbstractAction
+class Subscription extends \Magento\Backend\App\AbstractAction
 {
     /** Param Key for extracting subscription id from Request */
     const PARAM_SUBSCRIPTION_ID = 'id';
@@ -38,19 +38,16 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
     private $_subscriptionService;
 
     /**
-     * Class constructor
-     *
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
-     * @param \Magento\Backend\Controller\Context $context
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Backend\Controller\Context $context
+        \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
     ) {
         parent::__construct($context);
-
         $this->_registry = $registry;
         $this->_subscriptionService = $subscriptionService;
     }
@@ -60,13 +57,13 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
      */
     public function indexAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook')
-            ->_title(__('System'))
-            ->_title(__('Web Services'))
-            ->_title(__('WebHook Subscriptions'));
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Webhook::system_api_webapi_webhook');
+        $this->_title->add(__('System'));
+        $this->_title->add(__('Web Services'));
+        $this->_title->add(__('WebHook Subscriptions'));
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -94,18 +91,18 @@ class Subscription extends \Magento\Backend\Controller\AbstractAction
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_SUBSCRIPTION, $subscriptionData);
             }
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Webapi::system_webapi')
-                ->_title(__('System'))
-                ->_title(__('Web Services'))
-                ->_title(__('WebHook Subscriptions'));
+            $this->_view->loadLayout();
+            $this->_setActiveMenu('Magento_Webapi::system_webapi');
+            $this->_title->add(__('System'));
+            $this->_title->add(__('Web Services'));
+            $this->_title->add(__('WebHook Subscriptions'));
             if ($this->_registry->registry(self::REGISTRY_KEY_WEBHOOK_ACTION) === self::ACTION_NEW) {
-                $this->_title(__('Add Subscription'));
+                $this->_title->add(__('Add Subscription'));
             } else {
-                $this->_title(__('Edit Subscription'));
+                $this->_title->add(__('Edit Subscription'));
             }
 
-            $this->renderLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');

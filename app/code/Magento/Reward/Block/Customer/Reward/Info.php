@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class Info extends \Magento\Core\Block\Template
+class Info extends \Magento\View\Block\Template
 {
     /**
      * Reward pts model instance
@@ -39,38 +39,30 @@ class Info extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Reward\Model\RewardFactory
      */
     protected $_rewardFactory;
 
     /**
-     * @param \Magento\Reward\Helper\Data $rewardData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
         $this->_customerSession = $customerSession;
-        $this->_storeManager = $storeManager;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
