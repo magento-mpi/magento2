@@ -14,6 +14,8 @@ namespace Magento\Catalog\Test\Page\Product;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Block\Backend\ProductForm;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
  * Class CatalogProductEdit
@@ -41,6 +43,20 @@ class CatalogProductEdit extends Page
     protected $messagesBlock;
 
     /**
+     * Product form block
+     *
+     * @var ProductForm
+     */
+    private $productFormBlock;
+
+    /**
+     * Catalog product grid on backend under "related products" tab when editing
+     *
+     * @var Related
+     */
+    private $relatedProductGrid;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -49,6 +65,14 @@ class CatalogProductEdit extends Page
 
         $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
+
+        $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find('body', Locator::SELECTOR_CSS)
+        );
+
+        $this->relatedProductGrid = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
+            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
 
@@ -60,5 +84,25 @@ class CatalogProductEdit extends Page
     public function getMessagesBlock()
     {
         return $this->messagesBlock;
+    }
+
+    /**
+     * Get product form block
+     *
+     * @return ProductForm
+     */
+    public function getProductBlockForm()
+    {
+        return $this->productFormBlock;
+    }
+
+    /**
+     * Get the backend catalog product block
+     *
+     * @return Related
+     */
+    public function getRelatedProductGrid()
+    {
+        return $this->relatedProductGrid;
     }
 }

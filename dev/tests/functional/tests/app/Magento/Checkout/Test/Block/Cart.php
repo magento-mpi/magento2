@@ -110,4 +110,21 @@ class Cart extends Block
             $clearShoppingCart->click();
         }
     }
+
+    /**
+     * Check if a product has been successfully added to the cart
+     *
+     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @return boolean
+     */
+    public function isProductInShoppingCart($product)
+    {
+        $productName = $product->getProductName();
+        if ($product instanceof \Magento\Catalog\Test\Fixture\ConfigurableProduct) {
+            $productOptions = $product->getProductOptions();
+            $productName = $productName . ' ' . key($productOptions) . ' ' . current($productOptions);
+        }
+        return $this->_rootElement
+            ->find('//tr[normalize-space(td)="'. $productName .'"]', Locator::SELECTOR_XPATH)->isVisible();
+    }
 }

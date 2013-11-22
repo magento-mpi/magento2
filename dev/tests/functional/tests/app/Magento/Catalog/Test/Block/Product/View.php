@@ -94,18 +94,7 @@ class View extends Block
      */
     public function addToCart(Product $product)
     {
-        $configureButton = $this->_rootElement->find('.action.primary.customize');
-        $configureSection = $this->_rootElement->find('.product.options.configure');
-
-        if ($configureButton->isVisible()) {
-            $configureButton->click();
-            $bundleOptions = $product->getSelectionData();
-            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
-        }
-        if ($configureSection->isVisible()) {
-            $productOptions = $product->getProductOptions();
-            $this->getBundleBlock()->fillProductOptions($productOptions);
-        }
+        $this->fillOptions($product);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
@@ -201,5 +190,34 @@ class View extends Block
             }
         }
         return true;
+    }
+
+    /**
+     * Fill in the option specified for the product
+     *
+     * @param Product $product
+     */
+    public function fillOptions($product)
+    {
+        $configureButton = $this->_rootElement->find('.action.primary.customize');
+        $configureSection = $this->_rootElement->find('.product.options.configure');
+
+        if ($configureButton->isVisible()) {
+            $configureButton->click();
+            $bundleOptions = $product->getSelectionData();
+            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
+        }
+        if ($configureSection->isVisible()) {
+            $productOptions = $product->getProductOptions();
+            $this->getBundleBlock()->fillProductOptions($productOptions);
+        }
+    }
+
+    /**
+     * @return \Mtf\Client\Element
+     */
+    public function getRootElement()
+    {
+        return $this->_rootElement;
     }
 }
