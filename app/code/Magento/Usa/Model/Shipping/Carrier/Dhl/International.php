@@ -180,6 +180,13 @@ class International
     protected $dateTime;
 
     /**
+     * Modules directory with read permissions
+     *
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $modulesDirectory;
+
+    /**
      * Dhl International Class constructor
      *
      * Sets necessary data
@@ -205,6 +212,7 @@ class International
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Filesystem $filesystem
      * @param array $data
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -230,8 +238,10 @@ class International
         \Magento\Stdlib\String $string,
         \Magento\Math\Division $mathDivision,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MODULES);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
         $this->_pdfFactory = $pdfFactory;
@@ -460,6 +470,7 @@ class International
      * Get allowed shipping methods
      *
      * @return array
+     * @throws \Magento\Core\Exception
      */
     public function getAllowedMethods()
     {
@@ -491,7 +502,7 @@ class International
     /**
      * Get configuration data of carrier
      *
-     * @param strin $type
+     * @param string $type
      * @param string $code
      * @return array|bool
      */
@@ -1125,6 +1136,7 @@ class International
      * Returns weight unit (kg or pound)
      *
      * @return string
+     * @throws \Magento\Core\Exception
      */
     protected function _getWeightUnit()
     {
@@ -1147,8 +1159,12 @@ class International
     protected function getCountryParams($countryCode)
     {
         if (empty($this->_countryParams)) {
-            $dhlConfigPath = $this->_configReader->getModuleDir('etc', 'Magento_Usa')  . DS . 'dhl' . DS;
-            $countriesXml = file_get_contents($dhlConfigPath . 'international' . DS . 'countries.xml');
+
+            $usaEtcPath = $this->_configReader->getModuleDir('etc', 'Magento_Usa');
+            $countriesXmlPath = $this->modulesDirectory->getRelativePath(
+                $usaEtcPath  . '/dhl/international/countries.xml'
+            );
+            $countriesXml = $this->modulesDirectory->readFile($countriesXmlPath);
             $this->_countryParams = new \Magento\Simplexml\Element($countriesXml);
         }
         if (isset($this->_countryParams->$countryCode)) {
