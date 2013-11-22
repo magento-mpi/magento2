@@ -142,8 +142,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_cookie
             ->expects($this->once())
-            ->method('delete')
-            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE)
+            ->method('set')
+            ->with(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE, null, 0)
         ;
         $this->_observer->deleteNoCacheCookie(new \Magento\Event\Observer());
     }
