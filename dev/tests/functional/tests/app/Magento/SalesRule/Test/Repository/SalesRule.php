@@ -15,6 +15,9 @@ use Magento\SalesRule\Test\Block\PromoQuoteForm;
 class SalesRule extends AbstractRepository
 {
     const SIMPLE = 'sales_rule_simple';
+
+    const ACTIONS = 'sales_rule_actions';
+
     /**
      * @param array $defaultConfig
      * @param array $defaultData
@@ -27,6 +30,21 @@ class SalesRule extends AbstractRepository
         );
 
         $this->_data[self::SIMPLE] = $this->_getSalesRuleSimple();
+        $this->_data[self::ACTIONS] = $this->_getSalesRuleActions();
+    }
+
+    protected function _getSalesRuleActions()
+    {
+        return [
+            'data' => [
+                'fields' => [
+                    'discount_amount' => [
+                        'value' => '50',
+                        'group' => PromoQuoteForm::RULE_ACTIONS_TAB
+                    ]
+                ]
+            ]
+        ];
     }
 
     protected function _getSalesRuleSimple()

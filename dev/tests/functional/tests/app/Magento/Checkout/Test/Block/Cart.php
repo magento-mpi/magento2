@@ -11,6 +11,7 @@
 
 namespace Magento\Checkout\Test\Block;
 
+use \Exception;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -122,6 +123,23 @@ class Cart extends Block
     public function paypalCheckout()
     {
         $this->_rootElement->find('[data-action=checkout-form-submit]', Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Returns the total discount price
+     *
+     * @var string
+     */
+    public function getDiscountTotal()
+    {
+        $element = $this->_rootElement->find(
+            '//table[@id="shopping-cart-totals-table"]//tr[normalize-space(td)="Discount"]//td[@class="amount"]//span[@class="price"]',
+            Locator::SELECTOR_XPATH
+        );
+        if (!isset($element) || !$element->isVisible()) {
+            throw new Exception('Error could not find the Discount Total in the HTML');
+        }
+        return $element->getText();
     }
 
     /**

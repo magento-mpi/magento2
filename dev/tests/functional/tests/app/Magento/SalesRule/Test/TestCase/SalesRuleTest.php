@@ -16,9 +16,13 @@ use Mtf\TestCase\Functional;
 use Magento\Customer\Test\Fixture\Customer;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
+use Magento\CustomerSegment\Test\Fixture\SegmentCondition;
+use Magento\SalesRule\Test\Page\SalesRuleNew;
+use Magento\SalesRule\Test\Repository\SalesRule as Repository;
 
 class SalesRuleTest extends Functional
 {
+    const CUSTOMER_SEGMENT = 'Customer Segment';
     /**
      * @var Customer
      */
@@ -33,6 +37,16 @@ class SalesRuleTest extends Functional
     protected $customerSegment;
 
     /**
+     * @var int
+     */
+    protected $customerSegmentId;
+
+    /**
+     * @var SegmentCondition
+     */
+    protected $customerSegmentFixture;
+
+    /**
      * Setup the preconditions of this test
      */
     protected function setUp()
@@ -41,11 +55,39 @@ class SalesRuleTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         // Create a customer
         $this->customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $this->customerFixture->switchData('backend_retailer_customer');
         Factory::getApp()->magentoCustomerCreateCustomer($this->customerFixture);
+        // Customer needs to be in a group and front end customer creation doesn't set group
+        $customerGridPage = Factory::getPageFactory()->getCustomer();
+        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
+        $customerGrid = $customerGridPage->getCustomerGridBlock();
+        // Edit Customer just created
+        $customerGridPage->open();
+        $customerGrid->searchAndOpen([
+            'email' => $this->customerFixture->getEmail()
+        ]);
+        $editCustomerForm = $customerEditPage->getEditCustomerForm();
+        // Set group to Retailer
+        $editCustomerForm->openTab('customer_info_tabs_account');
+        $editCustomerForm->fill($this->customerFixture);
+        // Save Customer Edit
+        $editCustomerForm->save();
         // Create a product
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         Factory::getApp()->magentoCatalogCreateProduct($this->productFixture);
-        // TODO Create a customer segment
+        // Create the customer segment
+        $this->customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentCustomerSegment();
+        $this->customerSegmentId = Factory::getApp()->magentoCustomerSegmentCustomerSegment($this->customerSegmentFixture);
+        // Create Customer Segment Condition
+        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentCondition();
+        $customerSegmentConditionFixture->setPlaceHolders(
+            [
+                'segment_id' => $this->customerSegmentId,
+                'name' => $this->customerSegmentFixture->getSegmentName()
+            ]
+        );
+        $customerSegmentConditionFixture->switchData('retailer_condition_curl');
+        Factory::getApp()->magentoCustomerSegmentCustomerSegmentCondition($customerSegmentConditionFixture);
     }
 
     /**
@@ -71,6 +113,23 @@ class SalesRuleTest extends Functional
         $newSalesRuleForm = $salesRulePageNew->getPromoQuoteForm();
         // Use fixture to populate
         $newSalesRuleForm->fill($fixture);
+        // Setup Condition open tab
+        $salesRulePageNew->getConditionsFormTab()->openTab(SalesRuleNew::CONDITIONS_TAB_ID);
+        // Add new condition
+        $salesRulePageNew->getConditionsActions()->clickAddNew();
+        // Select Customer Segment
+        $salesRulePageNew->getConditionsActions()->selectCondition(self::CUSTOMER_SEGMENT);
+        // Click ellipsis
+        $salesRulePageNew->getConditionsActions()->clickEllipsis();
+        // Set Customer Segment Id
+        $salesRulePageNew->getConditionsActions()->selectConditionValue($this->customerSegmentId);
+        // Apply change
+        $salesRulePageNew->getConditionsActions()->clickApply();
+        // Setup Discount
+        $salesRulePageNew->getActionsFormTab()->openTab(SalesRuleNew::ACTIONS_TAB_ID);
+        $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
+        $conditionsFixture->switchData(Repository::ACTIONS);
+        $salesRulePageNew->getPromoQuoteForm()->fill($conditionsFixture);
         // Save new rule
         $newSalesRuleForm->clickSave();
         // Verify success message
@@ -102,6 +161,9 @@ class SalesRuleTest extends Functional
         $productPage->getViewBlock()->addToCart($this->productFixture);
         // Open Cart
         $checkoutCartPage->open();
-        // TODO Verify Cart Price Rule is applied
+        // Verify correct discount applied
+        $discount = $checkoutCartPage->getCartBlock()->getDiscountTotal();
+        $this->assertEquals('-$5.00',$discount,"Discount was not correctly applied");
+        // TODO delete cart price rule so next run is clean
     }
 }

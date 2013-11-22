@@ -102,6 +102,12 @@ class Customer extends AbstractRepository
                         'group' => 'customer_info_tabs_account',
                         'input' => 'select',
                         'input_value' => $groupType['input_value']
+                    ),
+                    'password' => array(
+                        'value' => '123123q'
+                    ),
+                    'confirmation' => array(
+                        'value' => '123123q'
                     )
                 ),
                 'addresses' => array()

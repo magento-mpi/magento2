@@ -14,12 +14,15 @@ class PromoQuoteForm extends FormTabs
 {
     const RULE_INFO_TAB = 'promo_catalog_edit_tabs_main_section_content';
     const RULE_COND_TAB = 'promo_catalog_edit_tabs_conditions_section_content';
+    const RULE_ACTIONS_TAB  = 'promo_catalog_edit_tabs_actions_section_content';
 
     protected $_tabClasses = [
         self::RULE_INFO_TAB =>
             '\\Magento\\SalesRule\\Test\\Block\\Edit\\Tab\\RuleInformation',
         self::RULE_COND_TAB =>
-            '\\Magento\\SalesRule\\Test\\Block\\Edit\\Tab\\RuleConditions'
+            '\\Magento\\SalesRule\\Test\\Block\\Edit\\Tab\\RuleConditions',
+        self::RULE_ACTIONS_TAB =>
+            '\\Magento\\SalesRule\\Test\\Block\\Edit\\Tab\\RuleInformation',
     ];
 
     /**
