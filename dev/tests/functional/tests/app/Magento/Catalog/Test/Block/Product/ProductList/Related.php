@@ -55,8 +55,8 @@ class Related extends Block{
     public function addRelatedProductsToCart($productViewBlock, $simpleProduct2, $configurableProduct)
     {
         $productViewBlock->fillOptions($configurableProduct);
-        $productViewBlock->getRootElement()
+        $this->_rootElement
             ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->click();
-        $productViewBlock->getRootElement()->find('#product-addtocart-button', Locator::SELECTOR_CSS)->click();
+        $productViewBlock->clickAddToCartButton();
     }
 }

@@ -157,6 +157,20 @@ class View extends Block
     }
 
     /**
+     * Return configurable product options
+     *
+     * @return array
+     */
+    public function getProductOptions()
+    {
+        for ($i =2; $i<=3; $i++) {
+            $options[] = $this->_rootElement
+                ->find(".super-attribute-select option:nth-child($i)")->getText();
+        }
+        return $options;
+    }
+
+    /**
      * Verify configurable product options
      *
      * @param ConfigurableProduct $product
@@ -197,5 +211,13 @@ class View extends Block
             $productOptions = $product->getProductOptions();
             $this->getBundleBlock()->fillProductOptions($productOptions);
         }
+    }
+
+    /**
+     * Click "ADD TO CART" button
+     */
+    public function clickAddToCartButton()
+    {
+        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 }
