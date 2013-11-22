@@ -22,14 +22,14 @@ use Mtf\Client\Element\Locator;
 class Messages extends Block
 {
     /**
-     * Success message
+     * Success message selector.
      *
      * @var string
      */
     protected $successMessageSelector = '//*[contains(@data-ui-id, "message-success")]';
 
     /**
-     * Error message
+     * Error message selector.
      *
      * @var string
      */
