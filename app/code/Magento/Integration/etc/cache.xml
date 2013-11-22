@@ -10,6 +10,6 @@
 <config>
     <type name="config_integration" translate="label,description" instance="Magento\Webapi\Model\Cache\Type">
         <label>Integrations Configuration</label>
-        <description>Integration Configuration file.</description>
+        <description>Integration configuration file.</description>
     </type>
 </config>

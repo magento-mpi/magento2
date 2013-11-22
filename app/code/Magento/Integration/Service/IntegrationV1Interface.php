@@ -35,7 +35,7 @@ interface IntegrationV1Interface
      * Find Integration by name.
      *
      * @param int $integrationName
-     * @return array Integration data
+     * @return array|null Integration data or null if not found
      * @throws \Magento\Integration\Exception
      */
     public function findByName($integrationName);

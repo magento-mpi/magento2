@@ -23,7 +23,7 @@ class TypeIntegration extends \Magento\Cache\Frontend\Decorator\TagScope
     /**
      * Cache tag used to distinguish the cache type from all other cache
      */
-    const CACHE_TAG = 'INTAPI';
+    const CACHE_TAG = 'INTEGRATION_API_CONFIG';
 
     /**
      * @param \Magento\App\Cache\Type\FrontendPool $cacheFrontendPool

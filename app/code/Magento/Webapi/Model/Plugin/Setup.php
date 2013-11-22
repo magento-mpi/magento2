@@ -37,11 +37,11 @@ class Setup
     protected $_authzService;
 
     /**
-     * Object Manager
+     * Factory to create UserIdentifier
      *
-     * @var \Magento\ObjectManager
+     * @var \Magento\Authz\Model\UserIdentifier\Factory
      */
-    protected $_objectManager;
+    protected $_userIdentifierFactory;
 
 
     /**
@@ -50,18 +50,18 @@ class Setup
      * @param \Magento\Webapi\Model\IntegrationConfig $integrationConfig
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Authz\Service\AuthorizationV1 $authzService
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
      */
     public function __construct(
         \Magento\Webapi\Model\IntegrationConfig $integrationConfig,
         \Magento\Authz\Service\AuthorizationV1 $authzService,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\ObjectManager $objectManager
+        \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
     ) {
         $this->_integrationConfig = $integrationConfig;
         $this->_authzService = $authzService;
         $this->_integrationService = $integrationService;
-        $this->_objectManager = $objectManager;
+        $this->_userIdentifierFactory = $userIdentifierFactory;
     }
 
     /**
@@ -80,11 +80,10 @@ class Setup
             if (isset($integrations[$name])) {
                 $integrationData = $this->_integrationService->findByName($name);
                 if (isset($integrationData['id'])) {
-                    $data = array(
-                        'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
-                        'userId' => $integrationData['id']
+                    $userIdentifier = $this->_userIdentifierFactory->create(
+                        UserIdentifier::USER_TYPE_INTEGRATION,
+                        (int)$integrationData['id']
                     );
-                    $userIdentifier = $this->_objectManager->create('Magento\Authz\Model\UserIdentifier', $data);
                     $this->_authzService->grantPermissions(
                         $userIdentifier,
                         $integrations[$name]['resources']

@@ -67,7 +67,7 @@ class Manager
             if (isset($integrationDetails[Integration::ENDPOINT])) {
                 $integrationData[Integration::ENDPOINT] = $integrationDetails[Integration::ENDPOINT];
             }
-            $integrationData[Integration::TYPE] = Integration::TYPE_CONFIG;
+            $integrationData[Integration::SETUP_TYPE] = Integration::TYPE_CONFIG;
             $this->_integrationService->create($integrationData);
         }
     }

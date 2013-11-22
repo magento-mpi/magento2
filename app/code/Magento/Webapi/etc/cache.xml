@@ -14,6 +14,6 @@
     </type>
     <type name="config_integration_api" translate="label,description" instance="Magento\Webapi\Model\Cache\TypeIntegration">
         <label>Integrations Api Configuration</label>
-        <description>Integrations Api Configuration file.</description>
+        <description>Integrations api configuration file.</description>
     </type>
 </config>
