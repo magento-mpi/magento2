@@ -82,7 +82,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         /** @var $session \Magento\Checkout\Model\Session  */
         $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Session');
+            ->get('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 3);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for bundle product');
