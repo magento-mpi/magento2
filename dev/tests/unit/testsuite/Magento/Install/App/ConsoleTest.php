@@ -71,8 +71,30 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
 
     protected function _createModel($params = array())
     {
+        $directory = $this->getMock(
+            'Magento\Filesystem\Directory\Read',
+            array('isExist','getRelativePath'),
+            array(),
+            '',
+            false
+        );
+        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
+        $filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->will($this->returnValue($directory));
+        if (isset($params['config'])) {
+            $directory->expects($this->once())
+                ->method('getRelativePath')
+                ->with($params['config'])
+                ->will($this->returnValue($params['config']));
+            $directory->expects($this->once())
+                ->method('isExist')
+                ->with($params['config'])
+                ->will($this->returnValue(true));
+        }
         return new \Magento\Install\App\Console($this->_instFactoryMock, $this->_outputMock,
-            $this->_appStateMock, $this->_configLoaderMock, $this->_objectManagerMock, $params
+            $this->_appStateMock, $this->_configLoaderMock, $this->_objectManagerMock,  $filesystem, $params
         );
     }
 
