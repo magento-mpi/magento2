@@ -14,21 +14,17 @@
  */
 namespace Magento\TestFramework;
 
-class Cookie extends \Magento\Core\Model\Cookie
+class Cookie extends \Magento\Stdlib\Cookie
 {
     /**
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\App\RequestInterface $request = null
     ) {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $request = $request ?: $objectManager->get('Magento\App\RequestInterface');
-        parent::__construct($request, $coreStoreConfig, $storeManager);
+        parent::__construct($request);
     }
 
     /**

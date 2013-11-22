@@ -37,7 +37,7 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\Cookie
+     * @var \Magento\Stdlib\Cookie
      */
     protected $_coreCookie;
 
@@ -69,7 +69,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Cookie $coreCookie
+     * @param \Magento\Stdlib\Cookie $coreCookie
      * @param \Magento\Core\Model\App $coreApp
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -83,7 +83,7 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\App\State $appState,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Cookie $coreCookie,
+        \Magento\Stdlib\Cookie $coreCookie,
         \Magento\Core\Model\App $coreApp,
         \Magento\Core\Model\Session $coreSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,

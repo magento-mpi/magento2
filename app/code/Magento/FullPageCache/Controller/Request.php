@@ -19,19 +19,19 @@ class Request extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @var \Magento\Core\Model\Cookie
+     * @var \Magento\Stdlib\Cookie
      */
     protected $_cookie;
 
     /**
      * @param \Magento\Core\Controller\Varien\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Stdlib\Cookie $cookie
      */
     public function __construct(
         \Magento\Core\Controller\Varien\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\Cookie $cookie
+        \Magento\Stdlib\Cookie $cookie
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_cookie = $cookie;

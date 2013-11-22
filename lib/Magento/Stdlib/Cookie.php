@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento\Stdlib;
 
 /**
  * Core cookie model
@@ -16,35 +16,17 @@ namespace Magento\Core\Model;
 class Cookie
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\App\RequestInterface
      */
     protected $_httpRequest;
 
     /**
-     * Core store config
-     *
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
      * @param \Magento\App\RequestInterface $request
-     * @param Store\Config $coreStoreConfig
-     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\RequestInterface $request,
-        Store\Config $coreStoreConfig,
-        StoreManagerInterface $storeManager
+        \Magento\App\RequestInterface $request
     ) {
         $this->_httpRequest = $request;
-        $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -67,7 +49,7 @@ class Cookie
      * @param string $domain
      * @param bool|int|string $secure
      * @param bool|string $httponly
-     * @return \Magento\Core\Model\Cookie
+     * @return \Magento\Stdlib\Cookie
      */
     public function set($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
     {
@@ -102,7 +84,7 @@ class Cookie
      * @param string $domain
      * @param bool|int|string $secure
      * @param string|bool $httponly
-     * @return \Magento\Core\Model\Cookie
+     * @return \Magento\Stdlib\Cookie
      */
     public function renew($name, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
     {

@@ -486,7 +486,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if (!$this->getFlag('', self::FLAG_NO_START_SESSION)) {
             $checkCookie = in_array($this->getRequest()->getActionName(), $this->_cookieCheckActions)
                 && !$this->getRequest()->getParam('nocookie', false);
-            $cookies = $this->_objectManager->get('Magento\Core\Model\Cookie')->get();
+            $cookies = $this->_objectManager->get('Magento\Stdlib\Cookie')->get();
             /** @var $session \Magento\Core\Model\Session */
             $session = $this->_objectManager->get('Magento\Core\Model\Session')->start();
 

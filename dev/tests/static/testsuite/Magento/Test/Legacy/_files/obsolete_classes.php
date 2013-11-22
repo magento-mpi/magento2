@@ -1427,4 +1427,5 @@ return array(
     array('Magento\Core\Model\Fieldset\Config\SchemaLocator', 'Magento\Object\Copy\Config\SchemaLocator'),
     array('Magento\Core\Model\EntryPoint\Media', '\Magento\Core\App\Media'),
     array('Magento\Core\Model\ModuleManager', 'Magento\Module\Manager'),
+    array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
 );

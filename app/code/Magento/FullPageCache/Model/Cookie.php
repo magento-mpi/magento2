@@ -13,7 +13,7 @@ namespace Magento\FullPageCache\Model;
 /**
  * Full page cache cookie model
  */
-class Cookie extends \Magento\Core\Model\Cookie
+class Cookie extends \Magento\Stdlib\Cookie
 {
     /**
      * Cookie names
@@ -78,21 +78,17 @@ class Cookie extends \Magento\Core\Model\Cookie
 
     /**
      * @param \Magento\App\RequestInterface $httpRequest
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $_fpcCache
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
         \Magento\App\RequestInterface $httpRequest,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\FullPageCache\Model\Cache $_fpcCache,
         \Magento\Customer\Model\Session $customerSession
     ) {
-        parent::__construct($httpRequest, $coreStoreConfig, $storeManager);
+        parent::__construct($httpRequest);
         $this->_eventManager = $eventManager;
         $this->_fpcCache = $_fpcCache;
         $this->_customerSession = $customerSession;
@@ -127,7 +123,7 @@ class Cookie extends \Magento\Core\Model\Cookie
      * @param string $domain
      * @param bool|int|string $secure
      * @param bool|string $httponly
-     * @return \Magento\Core\Model\Cookie
+     * @return \Magento\Stdlib\Cookie
      */
     public function setObscure($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
     {

@@ -45,7 +45,7 @@ class Session
     /**
      * Cookie model
      *
-     * @var \Magento\Core\Model\Cookie
+     * @var \Magento\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -70,7 +70,7 @@ class Session
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Persistent\Model\SessionFactory $sessionFactory
      */
     public function __construct(
@@ -78,7 +78,7 @@ class Session
         \Magento\Persistent\Helper\Session $persistentSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\Persistent\Model\SessionFactory $sessionFactory
     ) {
         $this->_persistentData = $persistentData;

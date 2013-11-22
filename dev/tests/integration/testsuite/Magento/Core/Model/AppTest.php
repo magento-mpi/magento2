@@ -41,7 +41,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCookie()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Cookie', $this->_model->getCookie());
+        $this->assertInstanceOf('Magento\Stdlib\Cookie', $this->_model->getCookie());
     }
 
     /**

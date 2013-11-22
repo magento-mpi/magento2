@@ -82,7 +82,7 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->_model->login(
             \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertNotEmpty($this->_model->getAuthStorage()->getData());
-        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('\Magento\Core\Model\Cookie');
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('\Magento\Stdlib\Cookie');
         $cookie->set($this->_model->getAuthStorage()->getName(), 'session_id');
         $this->_model->logout();
         $this->assertEmpty($this->_model->getAuthStorage()->getData());
