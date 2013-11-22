@@ -112,7 +112,7 @@ class Config
             $data['filesystem_prerequisites']['writables'] : array();
         foreach ($items as $nodeKey => $item) {
             $value = $item;
-            $value['path'] = $this->_filesystem->getPath($nodeKey);
+            $value['path'] = $this->filesystem->getPath($nodeKey);
             $paths[$nodeKey] = $value;
         }
 

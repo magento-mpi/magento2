@@ -7,19 +7,20 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
+/** @var $installer \Magento\Catalog\Model\Resource\Setup */
+$installer = $this;
 $installFile = __DIR__ . '/upgrade-1.6.0.0.8-1.6.0.0.9.php';
 
 /** @var \Magento\Filesystem\Directory\Read $modulesDirectory */
-$modulesDirectory = $this->_objectManager->get('Magento\Filesystem')->getDirectoryRead(
+$modulesDirectory = $this->filesystem->getDirectoryRead(
     \Magento\Filesystem\DirectoryList::MODULES);
 
 if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))) {
     include $installFile;
 }
 
-/** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer = $this;
+
+
 /** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 $memoryTables = array(

@@ -192,9 +192,8 @@ class Collection extends \Magento\Data\Collection
     protected function _preparePathData($configPath)
     {
         $themeDirectory = dirname($configPath);
-        $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())),
-            DIRECTORY_SEPARATOR);
-        $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
+        $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())), '/');
+        $pathPieces = explode('/', $fullPath);
         $area = array_shift($pathPieces);
         return array('area' => $area, 'theme_path_pieces' => $pathPieces);
     }
