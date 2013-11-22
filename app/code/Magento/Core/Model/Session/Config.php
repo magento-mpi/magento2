@@ -52,7 +52,7 @@ class Config implements \Zend\Session\Config\ConfigInterface
     protected $_storeConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -67,15 +67,27 @@ class Config implements \Zend\Session\Config\ConfigInterface
     protected $_httpRequest;
 
     /**
+     * List of boolean options
+     *
+     * @var array
+     */
+    protected $booleanOptions = array(
+        'session.use_cookies',
+        'session.use_only_cookies',
+        'session.use_trans_sid',
+        'session.cookie_httponly'
+    );
+
+    /**
      * @param \Magento\Core\Model\Store\Config $storeConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
      * @param array $options
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $storeConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
         array $options = array()
@@ -252,6 +264,8 @@ class Config implements \Zend\Session\Config\ConfigInterface
     }
 
     /**
+     * Set session.cookie_lifetime
+     *
      * @param int $cookieLifetime
      * @return $this
      * @throws \InvalidArgumentException
@@ -470,7 +484,7 @@ class Config implements \Zend\Session\Config\ConfigInterface
      */
     public function getRememberMeSeconds()
     {
-        return (int) $this->options['remember_me_seconds'];
+        return (int) isset($this->options['remember_me_seconds']) ? $this->options['remember_me_seconds'] : 1209600;
     }
 
     /**
@@ -499,15 +513,8 @@ class Config implements \Zend\Session\Config\ConfigInterface
      */
     protected function getStorageOption($option)
     {
-        $booleanOptions = array(
-            'session.use_cookies',
-            'session.use_only_cookies',
-            'session.use_trans_sid',
-            'session.cookie_httponly'
-        );
-
         $value = ini_get($option);
-        if (in_array($option, $booleanOptions)) {
+        if (in_array($option, $this->booleanOptions)) {
             $value = (bool) $value;
         }
 
@@ -539,5 +546,36 @@ class Config implements \Zend\Session\Config\ConfigInterface
         }
 
         return $option;
+    }
+
+    /**
+     * Intercept get*() and set*() methods
+     *
+     * Intercepts getters and setters and passes them to getOption() and setOption(),
+     * respectively.
+     *
+     * @param  string $method
+     * @param  array $args
+     * @return mixed
+     * @throws \BadMethodCallException on non-getter/setter method
+     */
+    public function __call($method, $args)
+    {
+        $prefix = substr($method, 0, 3);
+        $option = substr($method, 3);
+        $key    = strtolower(preg_replace('#(?<=[a-z])([A-Z])#', '_\1', $option));
+
+        if ($prefix === 'set') {
+            $value  = array_shift($args);
+            return $this->setOption($key, $value);
+        } elseif ($prefix === 'get') {
+            return $this->getOption($key);
+        } else {
+            throw new \BadMethodCallException(sprintf(
+                'Method "%s" does not exist in %s',
+                $method,
+                get_class($this)
+            ));
+        }
     }
 }
