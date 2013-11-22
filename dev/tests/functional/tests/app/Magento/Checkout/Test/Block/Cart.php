@@ -31,6 +31,13 @@ class Cart extends Block
     protected $clearShoppingCart = '#empty_cart_button';
 
     /**
+     * Unit Price value
+     *
+     * @var string
+     */
+    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
+
+    /**
      * Get proceed to checkout block
      *
      * @return \Magento\Checkout\Test\Block\Onepage\Link
@@ -71,5 +78,17 @@ class Cart extends Block
         if ($clearShoppingCart->isVisible()) {
             $clearShoppingCart->click();
         }
+    }
+
+    /**
+     * Get product price "Unit Price" by product name
+     *
+     * @param $productName
+     * @return string
+     */
+    public function getProductPriceByName($productName)
+    {
+        $priceSelector = sprintf($this->cartProductPrice, $productName);
+        return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
     }
 }
