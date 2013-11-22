@@ -14,7 +14,7 @@ use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 use Magento\Integration\Model\Integration;
 use Magento\Object;
 
-abstract class IntegrationAbstract extends Button
+abstract class ButtonAbstract extends Button
 {
     /**
      * Determine whether current integration came from config file, thus can not be removed or edited.
