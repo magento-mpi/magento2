@@ -70,8 +70,10 @@ class CustomerSegment {
         $response = $curl->read();
         $curl->close();
 
-        preg_match("/customersegment\/edit\/id\/([0-9]+)/", $response, $matches);
-        $segmentId =  isset($matches[1]) ? $matches[1] : null;
+        if (preg_match_all("/customersegment\/edit\/id\/([0-9]+)/", $response, $matches)) {
+            $lastSegmentId = $matches[1][count($matches[1])-1];
+        }
+        $segmentId =  isset($lastSegmentId) ? $lastSegmentId : null;
 
         return $segmentId;
     }

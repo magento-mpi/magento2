@@ -62,7 +62,7 @@ class Conditions extends AbstractRepository {
             'data' => array(
                 'fields' => array(
                     'segment_id' => array(
-                        'value' => '1',
+                        'value' => '%segment_id%',
                         'group' => 'magento_customersegment_segment_tabs_conditions_section'
                     ),
                     'name' => array(
