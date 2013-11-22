@@ -299,23 +299,23 @@ class AbstractSession extends \Magento\Object
      */
     public function destroy(array $options = null)
     {
-        if (session_status() !== PHP_SESSION_ACTIVE) {
-            return;
-        }
-
         if (null === $options) {
             $options = $this->defaultDestroyOptions;
         } else {
             $options = array_merge($this->defaultDestroyOptions, $options);
         }
 
+        if ($options['clear_storage']) {
+            $this->unsetData();
+        }
+
+        if (session_status() !== PHP_SESSION_ACTIVE) {
+            return;
+        }
+
         session_destroy();
         if ($options['send_expire_cookie']) {
             $this->expireSessionCookie();
-        }
-
-        if ($options['clear_storage']) {
-            $this->unsetData();
         }
     }
 

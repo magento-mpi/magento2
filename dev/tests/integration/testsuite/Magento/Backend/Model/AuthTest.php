@@ -66,9 +66,6 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $storage);
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoginSuccessful()
     {
         $this->_model->login(

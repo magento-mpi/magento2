@@ -73,9 +73,6 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('test', $this->_model->getName());
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testDestroy()
     {
         $data = array('key' => 'value');
