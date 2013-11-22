@@ -50,17 +50,25 @@ class Registration
     );
 
     /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $directoryRead;
+
+    /**
      * Initialize dependencies
      *
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Model\Theme\Collection $filesystemCollection
+     * @param Collection $filesystemCollection
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
-        \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory,
-        \Magento\Core\Model\Theme\Collection $filesystemCollection
+        \Magento\Core\Model\Resource\Theme\CollectionFactory    $collectionFactory,
+        \Magento\Core\Model\Theme\Collection                    $filesystemCollection,
+        \Magento\Filesystem                                     $filesystem
     ) {
-        $this->_collectionFactory = $collectionFactory;
-        $this->_themeCollection = $filesystemCollection;
+        $this->_collectionFactory   = $collectionFactory;
+        $this->_themeCollection     = $filesystemCollection;
+        $this->directoryRead        = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
     }
 
     /**
@@ -141,7 +149,7 @@ class Registration
         if (!$theme->getPreviewImage() || !$themeDirectory) {
             return $this;
         }
-        $imagePath = realpath($themeDirectory . '/' . $theme->getPreviewImage());
+        $imagePath = $this->directoryRead->getAbsolutePath($themeDirectory . '/' . $theme->getPreviewImage());
         if (0 === strpos($imagePath, $themeDirectory)) {
             $theme->getThemeImage()->createPreviewImage($imagePath);
         }
