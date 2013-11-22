@@ -87,7 +87,7 @@ class CatalogProductEdit extends Page
      */
     public function getRelatedProductGrid()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogBackendProductEditGrid(
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
