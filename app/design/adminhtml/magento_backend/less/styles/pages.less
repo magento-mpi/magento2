@@ -1,9 +1,9 @@
-/**
- * {license_notice}
- *
- * @copyright  {copyright}
- * @license    {license_link}
- */
+// /**
+//  * {license_notice}
+//  *
+//  * @copyright  {copyright}
+//  * @license    {license_link}
+//  */
 
 /*
     Product Creation
@@ -248,45 +248,6 @@
 }
 
 /*
-    Invitations
---------------------------------------*/
-.invitee_information,
-.inviter_information {
-    width: 48.9362%;
-}
-
-.invitee_information {
-    float: left;
-}
-
-.inviter_information {
-    float: right;
-}
-
-.invitation_information .data-table th,
-.invitee_information .data-table th,
-.inviter_information .data-table th {
-    width: 20%;
-    white-space: nowrap;
-}
-
-.invitation_information .data-table textarea,
-.invitation_information .data-table input {
-    width: 100%;
-}
-
-.invitations-history ul {
-    margin: 0;
-    padding-left: 25px;
-}
-
-.invitations-history ul .status:before {
-    display: inline-block;
-    content: "|";
-    margin: 0 10px;
-}
-
-/*
     Configuration -> Design
 -------------------------------------- */
 #row_design_theme_ua_regexp .design_theme_ua_regexp {
@@ -298,6 +259,17 @@
 }
 #row_design_theme_ua_regexp .note {
     clear: both;
+}
+
+/*
+    Configuration -> Payment Methods
+-------------------------------------- */
+.adminhtml-system-config-edit .payflow-settings-notice .important-label {
+    .style32();
+}
+
+.adminhtml-system-config-edit .payflow-settings-notice ul.options-list strong {
+    .style28();
 }
 
 /*
@@ -674,27 +646,6 @@
 }
 
 /*
-    Reports - Customer Segment Report
--------------------------------------- */
-.filter-segments {
-    list-style: none;
-    padding: 0;
-}
-
-.adminhtml-report-customer-customersegment-detail .col-id {
-    width: 35px;
-}
-
-.adminhtml-report-customer-customersegment-detail .col-period {
-    white-space: nowrap;
-    width: 70px;
-}
-
-.adminhtml-report-customer-customersegment-detail .col-zip {
-    width: 50px;
-}
-
-/*
     Reports - Most Viewed
 -------------------------------------- */
 .adminhtml-report-product-viewed .col-period {
@@ -753,56 +704,6 @@
 .adminhtml-report-product-downloads .col-qty,
 .adminhtml-report-product-downloads .col-price {
     width: 80px;
-}
-
-/*
-    Reports - Order Conversion Rate
--------------------------------------- */
-.adminhtml-report-invitation-order .col-period {
-    white-space: nowrap;
-    width: 70px;
-}
-
-.adminhtml-report-invitation-order .col-inv-sent,
-.adminhtml-report-invitation-order .col-inv-acc,
-.adminhtml-report-invitation-order .col-acc,
-.adminhtml-report-invitation-order .col-rate {
-    text-align: right;
-    width: 23%;
-}
-
-/*
-    Reports - Invitations - Customer
--------------------------------------- */
-.adminhtml-report-invitation-customer .col-id {
-    width: 35px;
-}
-
-.adminhtml-report-invitation-customer .col-period {
-    white-space: nowrap;
-    width: 70px;
-}
-
-.adminhtml-report-invitation-customer .col-inv-sent,
-.adminhtml-report-invitation-customer .col-inv-acc {
-    text-align: right;
-    width: 120px;
-}
-
-/*
-    Reports - Invitations - General
--------------------------------------- */
-.adminhtml-report-invitation-index .col-period {
-    white-space: nowrap;
-}
-
-.adminhtml-report-invitation-index .col-inv-sent,
-.adminhtml-report-invitation-index .col-inv-acc,
-.adminhtml-report-invitation-index .col-inv-disc,
-.adminhtml-report-invitation-index .col-inv-acc-rate,
-.adminhtml-report-invitation-index .col-inv-disc-rate {
-    text-align: right;
-    width: 19%;
 }
 
 /*
@@ -945,31 +846,6 @@
 }
 
 /*
-    Reports - Customer Segments
--------------------------------------- */
-
-.adminhtml-report-customer-customersegment-segment .col-id {
-    width: 35px;
-}
-
-.adminhtml-report-customer-customersegment-segment .col-status {
-    width: 65px;
-}
-
-.adminhtml-report-customer-customersegment-segment .col-qty {
-    width: 145px;
-}
-
-.adminhtml-report-customer-customersegment-segment .col-segment,
-.adminhtml-report-customer-customersegment-segment .col-website {
-    width: 35%;
-}
-
-.adminhtml-report-customer-customersegment-segment .col-select {
-    width: 45px;
-}
-
-/*
     Reports - Low Stock
 -------------------------------------- */
 
@@ -1104,12 +980,9 @@
     width: 150px;
 }
 
-/*
-    Gift Registry
---------------------------------------*/
+
 .table-fieldset-alt,
-.type-options,
-.giftregistry-custom-attributes {
+.type-options {
     margin-bottom: 20px;
 }
 
@@ -1305,7 +1178,6 @@
 .action-switch-to-analytics:visited,
 .action-switch-to-hub:link,
 .action-switch-to-hub:visited {
-    font-family: 'CallunaSans', Arial, sans-serif;
     font-weight: 400;
     font-size: 16px;
     color: #19a3d1;
@@ -1338,6 +1210,14 @@
 /*
     Sales
 -------------------------------------- */
+
+#order-totals strong {
+    .style28();
+}
+
+#order-shipping-method-summary a {
+    .style3();
+}
 
 .customer-current-activity {
     float: left;
@@ -1580,50 +1460,13 @@
 }
 
 .sales-order-create-index #order-data .fieldset-wrapper .actions .action-add {
-    background: #f58227;
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2Y1ODIyNyIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNmMDcyMWMiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #f58227), color-stop(100%, #f0721c));
-    background: -webkit-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -o-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: -ms-linear-gradient(top, #f58227 0%, #f0721c 100%);
-    background: linear-gradient(to bottom, #f58227 0%, #f0721c 100%);
-    border: 1px solid #e4731c;
-    border-radius: 5px;
-    margin: 0 20px 0 0;
-    box-shadow: inset 0 1px 1px rgba(255, 255, 255, .1);
-    color: #fff;
-    margin-top: 7px;
-    margin-bottom: 8px;
-    padding: 4px 14px;
-    text-shadow: 0 1px 1px #8e3b05;
-    text-decoration: none;
+    margin: 7px 8px 8px 0;
 }
 
 .sales-order-create-index .order-additional-area.fieldset-wrapper .actions {
     float: none;
     margin: 0 0 8px;
     padding: 0;
-}
-
-.sales-order-create-index #order-data .fieldset-wrapper .actions .action-add:hover {
-    color: #fff;
-    background: #e47821;
-    background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iI2U0NzgyMSIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiNkZTY4MTciIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
-    background: -moz-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #e47821), color-stop(100%, #de6817));
-    background: -webkit-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -o-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: -ms-linear-gradient(top, #e47821 0%, #de6817 100%);
-    background: linear-gradient(to bottom, #e47821 0%, #de6817 100%);
-}
-
-.eq-ie8 .sales-order-create-index #order-data .fieldset-wrapper .actions .action-add {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#f58227', endColorstr='#f0721c', GradientType=0);
-}
-
-.eq-ie8 .sales-order-create-index #order-data .fieldset-wrapper .action-add:hover {
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#e47821', endColorstr='#de6817', GradientType=0);
 }
 
 .sales-order-create-index #order-data .fieldset-wrapper .actions .action-delete {
@@ -1648,17 +1491,23 @@
 }
 
 .create-order-sidebar-container > div .head h5 {
+    .style9();
     margin: 17px 0 7px;
 }
 
 .customer-current-activity-inner > h4 {
+    .style10();
     border-bottom: 1px solid #ededed;
     margin-top: 0;
     padding: 0 0 16px;
 }
 
 .customer-current-activity-inner .data-table th {
-    font-size: 11px;
+    .style18();
+}
+
+.customer-current-activity-inner .data-table td {
+    .style19();
 }
 
 .customer-current-activity .action-refresh {
@@ -1698,6 +1547,7 @@
 }
 
 .customer-current-activity .auto-scroll {
+    .style18();
     overflow: auto;
     max-height: 150px;
 }
@@ -1833,11 +1683,7 @@
     color: #963535;
 }
 
-.adminhtml-giftwrapping-index th.col-id {
-    text-align: left;
-}
 
-.adminhtml-giftwrapping-index .col-id,
 .checkout-agreement-index .col-id,
 [class^=" sales-billing-"] .col-id,
 [class^=" sales-transactions-"] .col-id {
@@ -1872,8 +1718,7 @@
 
 [class^=" sales-order-"] .col-subtotal,
 [class^=" sales-order-"] .col-price,
-[class^=" adminhtml-rma-"] .col-price,
-.adminhtml-giftwrapping-index .col-price {
+[class^=" adminhtml-rma-"] .col-price {
     text-align: right;
     width: 50px;
 }
@@ -1885,14 +1730,12 @@
 
 [class^=" sales-"] .col-actions,
 [class^=" adminhtml-rma-"] .col-actions,
-[class^=" adminhtml-rma-"] .col-default,
-.adminhtml-giftwrapping-index .col-actions {
+[class^=" adminhtml-rma-"] .col-default {
     width: 50px;
 }
 
 [class^=" sales-"] .col-select,
-[class^=" adminhtml-rma-"] .col-select,
-.adminhtml-giftwrapping-index .col-select {
+[class^=" adminhtml-rma-"] .col-select {
     width: 60px;
 }
 
@@ -1920,7 +1763,6 @@
 [class^=" adminhtml-rma-"] .col-order-number,
 [class^=" adminhtml-rma-"] .col-rma-number,
 [class^=" sales-transactions-"] .col-order-id,
-.adminhtml-giftwrapping-index .col-status,
 .sales-order-view .col-refunded {
     white-space: normal;
     width: 75px;
@@ -1967,7 +1809,6 @@
     width: 190px;
 }
 
-.adminhtml-giftwrapping-index .col-websites,
 .checkout-agreement-index .col-store-view {
     white-space: nowrap;
     width: 200px;
@@ -2006,7 +1847,6 @@
     text-align: right;
 }
 
-.adminhtml-giftwrapping-index .col-price .label,
 [class^=" sales-order-"] .col-price .label,
 [class^=" sales-order-"] .col-subtotal .label {
     display: inline-block;
@@ -2014,8 +1854,6 @@
     white-space: nowrap;
 }
 
-.adminhtml-giftwrapping-index .col-price .price-excl-tax .price,
-.adminhtml-giftwrapping-index .col-price .price-incl-tax .price,
 [class^=" sales-order-"] .col-price .price-excl-tax .price,
 [class^=" sales-order-"] .col-price .price-incl-tax .price,
 [class^=" sales-order-"] .col-subtotal .price-excl-tax .price,
@@ -2412,7 +2250,8 @@ table.items-to-invoice tbody tr:hover td {
 .popup-window-title .title {
     color: #676056;
     display: block;
-    font: 20px/1 'CallunaSans', Arial, sans-serif;
+    font-size: 20px;
+    line-height: 1;
 }
 
 .popup-window-title .actions {
@@ -2454,7 +2293,6 @@ table.items-to-invoice tbody tr:hover td {
 .popup-fieldset-title .title {
     color: #666;
     display: inline-block;
-    font-family: 'CallunaSans', Arial, sans-serif;
     font-size: 18px;
     font-weight: normal;
     padding: 7px 0 10px;
@@ -2622,59 +2460,6 @@ table.items-to-invoice tbody tr:hover td {
 .grid tr.even .rma-popup .form-list tr,
 .grid tr.on-mouse .rma-popup .form-list tr {
     background: #fff !important;
-}
-
-.adminhtml-giftwrapping-edit .field-image .control {
-    line-height: 28px;
-}
-
-.adminhtml-giftwrapping-edit .field-image a {
-    display: inline-block;
-    margin: 0 5px 0 0;
-}
-
-.adminhtml-giftwrapping-edit .field-image img {
-    vertical-align: middle;
-}
-
-.adminhtml-giftwrapping-new .field-image .input-file,
-.adminhtml-giftwrapping-edit .field-image .input-file {
-    display: inline-block;
-    margin: 0 15px 0 0;
-    width: auto;
-}
-
-.adminhtml-giftwrapping-new .field-image .addafter,
-.adminhtml-giftwrapping-edit .field-image .addafter {
-    border: 0;
-    box-shadow: none;
-    display: inline-block;
-    margin: 0 15px 0 0;
-    height: auto;
-    width: auto;
-}
-
-.adminhtml-giftwrapping-new .field-image .delete-image,
-.adminhtml-giftwrapping-edit .field-image .delete-image {
-    display: inline-block;
-    white-space: nowrap;
-}
-
-.adminhtml-giftwrapping-edit .field-image .delete-image input {
-    margin: -3px 5px 0 0;
-    width: auto;
-    display: inline-block;
-}
-
-.adminhtml-giftwrapping-edit .field-image .addon .delete-image input:focus + label {
-    border: 0;
-    box-shadow: none;
-}
-
-.adminhtml-giftwrapping-edit .store-switcher {
-    float: left;
-    position: relative;
-    bottom: -14px;
 }
 
 /*
