@@ -80,7 +80,8 @@ class ObjectManagerFactory
         $diConfig = new $configClass($relations, $definitions);
         $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
-        $configData = $this->_loadPrimaryConfig($directories, $appMode);
+        $configDirectoryPath = $directories->getDir(DIR::CONFIG);
+        $configData = $this->_loadPrimaryConfig($configDirectoryPath, $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
@@ -143,15 +144,15 @@ class ObjectManagerFactory
     /**
      * Load primary config data
      *
-     * @param DirectoryList $directories
+     * @param string $configDirectoryPath
      * @param string $appMode
      * @return array
      * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig(DirectoryList $directories, $appMode)
+    protected function _loadPrimaryConfig($configDirectoryPath, $appMode)
     {
         $configData = null;
-        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
+        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($configDirectoryPath, $appMode);
         try {
             $configData = $primaryLoader->load();
         } catch (\Exception $e) {

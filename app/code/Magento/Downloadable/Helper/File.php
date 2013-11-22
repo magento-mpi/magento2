@@ -147,7 +147,7 @@ class File extends \Magento\Core\Helper\AbstractHelper
             $this->getFilePath($basePath, $destFile)
         );
 
-        return str_replace('\\', '/', $destFile);
+        return $destFile;
     }
 
     /**
@@ -159,24 +159,10 @@ class File extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFilePath($path, $file)
     {
-        $file = $this->_prepareFileForPath($file);
+        $path = rtrim($path, '/');
+        $file = ltrim($file, '/');
 
-        if(substr($file, 0, 1) == DS) {
-            return $path . DS . substr($file, 1);
-        }
-
-        return $path . DS . $file;
-    }
-
-    /**
-     * Replace slashes with directory separator
-     *
-     * @param string $file
-     * @return string
-     */
-    protected function _prepareFileForPath($file)
-    {
-        return str_replace('/', DS, $file);
+        return $path . '/' . $file;
     }
 
     /**
@@ -187,7 +173,7 @@ class File extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFileFromPathFile($pathFile)
     {
-        $file = substr($pathFile, strrpos($this->_prepareFileForPath($pathFile), DS)+1);
+        $file = substr($pathFile, strrpos($pathFile, '/')+1);
 
         return $file;
     }
@@ -195,13 +181,11 @@ class File extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get filesize in bytes.
      * @param $file
-     * @return null
+     * @return int
      */
     public function getFileSize($file)
     {
-        $fileStat = $this->_mediaDirectory->stat($file);
-
-        return isset($fileStat[7]) ? $fileStat[7] : null;
+        return $this->_mediaDirectory->stat($file)['size'];
     }
 
     public function getFileType($filePath)

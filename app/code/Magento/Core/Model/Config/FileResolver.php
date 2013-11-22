@@ -19,20 +19,20 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_applicationDirs;
+    protected $_configDirectory;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\App\Dir $applicationDirs
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\App\Dir $applicationDirs
+        \Magento\Filesystem $filesystem
     ) {
         $this->_moduleReader = $moduleReader;
-        $this->_applicationDirs = $applicationDirs;
+        $this->_configDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
     }
 
     /**
@@ -42,11 +42,14 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $appConfigDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
-                // Create pattern similar to app/etc/{*config.xml,*/*config.xml}
-                $filePattern = $appConfigDir . '/'
-                    . '{*' . $filename . ',*' . '/' . '*' . $filename . '}';
-                $fileList = glob($filePattern, GLOB_BRACE);
+                // Create pattern similar to (*config.xml|*/*config.xml)
+                $filename = preg_quote($filename);
+                $filePattern = '#(.*' . $filename . '|.*?\/.*' . $filename . ')#';
+                $files = $this->_configDirectory->search($filePattern);
+                $fileList = array();
+                foreach ($files as $file) {
+                    $fileList[] = $this->_configDirectory->getAbsolutePath($file);
+                }
                 break;
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
@@ -55,6 +58,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
+
         return $fileList;
     }
 }

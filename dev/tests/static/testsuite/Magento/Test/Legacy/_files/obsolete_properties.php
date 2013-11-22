@@ -120,4 +120,8 @@ return array(
     array('_dbHelper', 'Magento\Core\Model\Resource\File\Storage\File'),
     array('_filesystem', 'Magento\Core\Model\Theme\CopyService', '_directory'),
     array('_baseDir', 'Magento\Core\Model\Theme\Collection'),
+    array('_filesystem', 'Magento\Downloadable\Controller\Adminhtml\Downloadable\File'),
+    array('_dirModel', 'Magento\Downloadable\Controller\Adminhtml\Downloadable\File'),
+    array('_dirModel', 'Magento\Downloadable\Model\Link'),
+    array('_dirModel', 'Magento\Downloadable\Model\Sample'),
 );
