@@ -17,7 +17,7 @@
  */
 namespace Magento\Backup\Controller\Adminhtml;
 
-class Backup extends \Magento\Backend\App\Action
+class Index extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
