@@ -35,12 +35,12 @@ class Cookie
     /**
      * @param \Magento\App\RequestInterface $request
      * @param Store\Config $coreStoreConfig
-     * @param StoreManager $storeManager
+     * @param StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager
+        Store\Config $coreStoreConfig,
+        StoreManagerInterface $storeManager
     ) {
         $this->_httpRequest = $request;
         $this->_coreStoreConfig = $coreStoreConfig;
