@@ -14,6 +14,8 @@ namespace Magento\Checkout\Test\Block;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Cart
@@ -47,24 +49,24 @@ class Cart extends Block
     /**
      * Get sub-total for the specified item in the cart
      *
-     * @param string $productName
+     * @param Product $product
      * @return string
      */
-    public function getCartItemSubTotal($productName)
+    public function getCartItemSubTotal($product)
     {
-        $selector = '//tr[normalize-space(td)="'. $productName .'"]' . $this->itemSubTotalSelector;
+        $selector = '//tr[normalize-space(td)="'. $this->getProductName($product) .'"]' . $this->itemSubTotalSelector;
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param string $productName
+     * @param Product $product
      * @return string
      */
-    public function getCartItemUnitPrice($productName)
+    public function getCartItemUnitPrice($product)
     {
-        $selector = '//tr[normalize-space(td)="'. $productName .'"]' . $this->itemUnitPriceSelector;
+        $selector = '//tr[normalize-space(td)="'. $this->getProductName($product) .'"]' . $this->itemUnitPriceSelector;
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
@@ -114,17 +116,30 @@ class Cart extends Block
     /**
      * Check if a product has been successfully added to the cart
      *
-     * @param \Magento\Catalog\Test\Fixture\Product $product
+     * @param Product $product
      * @return boolean
      */
     public function isProductInShoppingCart($product)
     {
-        $productName = $product->getProductName();
-        if ($product instanceof \Magento\Catalog\Test\Fixture\ConfigurableProduct) {
-            $productOptions = $product->getProductOptions();
-            $productName = $productName . ' ' . key($productOptions) . ' ' . current($productOptions);
-        }
         return $this->_rootElement
-            ->find('//tr[normalize-space(td)="'. $productName .'"]', Locator::SELECTOR_XPATH)->isVisible();
+            ->find('//tr[normalize-space(td)="'. $this->getProductName($product) .'"]', Locator::SELECTOR_XPATH)->isVisible();
+    }
+
+    /**
+     * Return the name of the specified product.
+     *
+     * @param Product $product
+     * @return string
+     */
+    private function getProductName($product)
+    {
+        $productName = $product->getProductName();
+        if ($product instanceof ConfigurableProduct) {
+            $productOptions = $product->getProductOptions();
+            if (!empty($productOptions)) {
+                $productName = $productName . ' ' . key($productOptions) . ' ' . current($productOptions);
+            }
+        }
+        return $productName;
     }
 }

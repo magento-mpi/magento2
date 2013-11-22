@@ -107,23 +107,10 @@ class ProductAdvancedPricingTest extends Functional
         $productName = $product->getProductName();
         $specialPrice = $product->getProductSpecialPrice();
 
-        $productOptions = array();
-        if ($product instanceof ConfigurableProduct) {
-            $productOptions = $product->getProductOptions();
-        }
-
-        if (!empty($productOptions)) {
-            // Working with a configurable product. Make sure we find the correct item in the cart.
-            // This test deals with the first option being selected at checkout.
-            $productName = $product->getProductName()
-                . ' ' . key($productOptions)
-                . ' ' . current($productOptions);
-        }
-
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
 
-        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($productName);
-        $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($productName);
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $subTotal = $checkoutCartPage->getCartBlock()->getCartItemSubTotal($product);
         $this->assertContains(
             $specialPrice,
             $unitPrice,
