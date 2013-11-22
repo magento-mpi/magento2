@@ -150,6 +150,7 @@ class DirectoryList extends Dir
         self::MODULES       => array('path' => 'app/code'),
         self::THEMES        => array('path' => 'app/design'),
         self::CONFIG        => array('path' => 'app/etc'),
+        self::LOCALE        => array('path' => 'app/i18n'),
         self::LIB           => array('path' => 'lib'),
         self::VAR_DIR       => array('path' => 'var'),
         self::TMP           => array('path' => 'var/tmp'),
@@ -257,5 +258,16 @@ class DirectoryList extends Dir
             );
         }
         return $this->directories[$code];
+    }
+
+    /**
+     * \Directory path getter
+     *
+     * @param string $code One of self const
+     * @return string|bool
+     */
+    public function getDir($code = self::ROOT)
+    {
+        return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }
 }

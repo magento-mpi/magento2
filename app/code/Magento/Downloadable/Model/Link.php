@@ -96,7 +96,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseTmpPath()
     {
-        return 'downloadable' . DS . 'tmp' . DS . 'links';
+        return 'downloadable/tmp/links';
     }
 
     /**
@@ -106,7 +106,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBasePath()
     {
-        return 'downloadable' . DS . 'files' . DS . 'links';
+        return 'downloadable/files/links';
     }
 
     /**
@@ -116,7 +116,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseSampleTmpPath()
     {
-        return 'downloadable' . DS . 'tmp' . DS . 'link_samples';
+        return 'downloadable/tmp/link_samples';
     }
 
     /**
@@ -126,7 +126,7 @@ class Link extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseSamplePath()
     {
-        return 'downloadable' . DS . 'files' . DS . 'link_samples';
+        return 'downloadable/files/link_samples';
     }
 
     /**

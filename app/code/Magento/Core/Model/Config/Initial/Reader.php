@@ -104,12 +104,12 @@ class Reader
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
                     $domDocument = new $class(
-                        $this->_baseDirectory->readFile($file),
+                        $this->_baseDirectory->readFile($this->_baseDirectory->getRelativePath($file)),
                         array(),
                         $this->_schemaFile
                     );
                 } else {
-                    $domDocument->merge($this->_baseDirectory->readFile($file));
+                    $domDocument->merge($this->_baseDirectory->readFile($this->_baseDirectory->getRelativePath($file)));
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
                 throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());

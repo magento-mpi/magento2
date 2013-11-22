@@ -22,6 +22,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function __construct(\Magento\Filesystem $filesystem)
     {
+        // @TODO 'i18n' directory file resolving rules are not defined
         $this->_localeDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::LOCALE);
     }
 
@@ -30,8 +31,13 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        // Create pattern similar to */config.xml
-        $fileList = $this->_localeDirectory->search('*/' . $filename);
+        if (!$this->_localeDirectory->isExist()) {
+            $fileList = array();
+        } else {
+            // Create pattern similar to */config.xml
+            $path = '#.*?\/' . preg_quote($filename) . '#';
+            $fileList = $this->_localeDirectory->search($path);
+        }
         return $fileList;
     }
 }

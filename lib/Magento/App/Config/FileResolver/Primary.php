@@ -15,16 +15,16 @@ namespace Magento\App\Config\FileResolver;
 class Primary implements \Magento\Config\FileResolverInterface
 {
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
+     * @var string
      */
-    protected $_configDirectory;
+    protected $_configDirectoryPath;
 
     /**
-     * @param \Magento\Filesystem $filesystem
+     * @param string $configDirectoryPath
      */
-    public function __construct(\Magento\Filesystem $filesystem)
+    public function __construct($configDirectoryPath)
     {
-        $this->_configDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
+        $this->_configDirectoryPath = $configDirectoryPath;
     }
 
     /**
@@ -37,11 +37,12 @@ class Primary implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $fileList = $this->_configDirectory->search('*/' . $filename);
+        $fileList = glob($this->_configDirectoryPath . '/*/' . $filename);
 
-        if ($this->_configDirectory->isFile($filename)) {
-            array_unshift($fileList, $this->_configDirectory->getAbsolutePath($filename));
+        if (is_file($this->_configDirectoryPath . '/' . $filename)) {
+            array_unshift($fileList, $this->_configDirectoryPath . '/' . $filename);
         }
+
         return $fileList;
     }
 }

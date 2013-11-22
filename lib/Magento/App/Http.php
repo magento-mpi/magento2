@@ -104,6 +104,7 @@ class Http implements \Magento\AppInterface
             $this->_eventManager->dispatch('controller_front_send_response_after', $eventParams);
             return 0;
         } catch(\Exception $exception) {
+            echo $exception->getMessage() . "\n";
             try {
                 if ($this->_state->getMode() == State::MODE_DEVELOPER) {
                     header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);

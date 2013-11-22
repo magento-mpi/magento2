@@ -236,7 +236,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected function _needToProcessFile($filePath)
     {
         $jsPath = $this->_filesystem->getPath(DirectoryList::PUB_LIB) . '/';
-        $filePath = str_replace('\\', '/', $filePath);
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
         }

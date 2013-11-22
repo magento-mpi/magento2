@@ -14,11 +14,11 @@ use Magento\Filesystem;
 class Dir
 {
     /**
-     * Directory registry
+     * Modules root directory
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_filesystem;
+    protected $_modulesDirectory;
 
     /**
      * @var \Magento\Stdlib\String
@@ -31,7 +31,7 @@ class Dir
      */
     public function __construct(Filesystem $filesystem, \Magento\Stdlib\String $string)
     {
-        $this->_filesystem = $filesystem;
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES);
         $this->_string = $string;
     }
 
@@ -45,15 +45,16 @@ class Dir
      */
     public function getDir($moduleName, $type = '')
     {
-        $result = $this->_filesystem->getPath(Filesystem::MODULES)
-            . '/'
-            . $this->_string->upperCaseWords($moduleName, '_', '/');
+        $path = $this->_string->upperCaseWords($moduleName, '_', '/');
         if ($type) {
             if (!in_array($type, array('etc', 'sql', 'data', 'i18n', 'view'))) {
                 throw new \InvalidArgumentException("Directory type '$type' is not recognized.");
             }
-            $result .= '/' . $type;
+            $path .= '/' . $type;
         }
+
+        $result = $this->_modulesDirectory->getAbsolutePath($path);
+
         return $result;
     }
 }

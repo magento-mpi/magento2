@@ -36,20 +36,24 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $moduleFileList = $this->_modulesDirectory->search('*/*/etc/module.xml');
-
-        $mageScopePath = 'Magento/';
         $output = array(
             'base' => array(),
             'mage' => array(),
             'custom' => array(),
         );
-        foreach ($moduleFileList as $file) {
+
+        $files = $this->_modulesDirectory->search('#.*?\/.*?\/etc\/module\.xml#');
+        $mageScopePath = 'Magento/';
+        foreach ($files as $file) {
             $scope = strpos($file, $mageScopePath) === 0 ? 'mage' : 'custom';
-            $output[$scope][] = $file;
+            $output[$scope][] = $this->_modulesDirectory->getAbsolutePath($file);
         }
 
-        $output['base'] = $this->_configDirectory->search('*/module.xml');
+        $baseFiles = $this->_configDirectory->search('#' . preg_quote('.*?\/module\.xml') . '#');
+        foreach ($baseFiles as $file) {
+            $output['base'][] = $this->_configDirectory->getAbsolutePath($file);
+        }
+
         // Put global enablers at the end of the file list
         return array_merge($output['mage'], $output['custom'], $output['base']);
     }

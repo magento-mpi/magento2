@@ -939,4 +939,6 @@ return array(
     array('getBaseDir', 'Magento\Core\Model\Theme\Collection'),
     array('setBaseDir', 'Magento\Core\Model\Theme\Collection'),
     array('correctPath', 'Magento\Cms\Helper\Wysiwyg\Images'),
+    array('getLinkDir', 'Magento\Downloadable\Model\Link'),
+    array('getSampleDir', 'Magento\Downloadable\Model\Sample'),
 );

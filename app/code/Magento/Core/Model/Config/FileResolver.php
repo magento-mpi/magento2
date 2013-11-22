@@ -43,8 +43,13 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         switch ($scope) {
             case 'primary':
                 // Create pattern similar to (*config.xml|*/*config.xml)
-                $filePattern = '(*' . $filename . '|*/*' . $filename . ')';
-                $fileList = $this->_configDirectory->search($filePattern);
+                $filename = preg_quote($filename);
+                $filePattern = '#(.*' . $filename . '|.*?\/.*' . $filename . ')#';
+                $files = $this->_configDirectory->search($filePattern);
+                $fileList = array();
+                foreach ($files as $file) {
+                    $fileList[] = $this->_configDirectory->getAbsolutePath($file);
+                }
                 break;
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
@@ -53,6 +58,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
+
         return $fileList;
     }
 }
