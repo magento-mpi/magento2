@@ -33,6 +33,9 @@
                 <argument name="use_ajax" xsi:type="string">1</argument>
                 <argument name="default_sort" xsi:type="string">integration_id</argument>
                 <argument name="default_dir" xsi:type="string">asc</argument>
+                <argument name="grid_url" xsi:type="url" path="*/*/grid">
+                    <param name="_current">1</param>
+                </argument>
             </arguments>
             <block class="Magento\Backend\Block\Widget\Grid\ColumnSet" as="grid.columnSet" name="integration.grid.columnSet">
                 <arguments>

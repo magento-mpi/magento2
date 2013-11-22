@@ -55,10 +55,10 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_setActiveMenu('Magento_Integration::system_integrations');
-        $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
-        $this->_title(__('Integrations'));
+        $this->loadLayout()
+            ->_setActiveMenu('Magento_Integration::system_integrations')
+            ->_addBreadcrumb(__('Integrations'), __('Integrations'))
+            ->_title(__('Integrations'));
         $this->renderLayout();
     }
 
