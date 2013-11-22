@@ -1,6 +1,3 @@
-* Moved general action-related functionality to \Magento\App\Action\Action in library. Removed Magento\Core\Controller\Varien\Action and related logic from Magento_Core module;
-* Moved view-related methods from action interface into \Magento\App\ViewInterface with corresponding implementation;
-* Moved redirect creation logic from action interface into \Magento\App\Response\RedirectInterface;
 * Move Magento\Core common blocks into library
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
@@ -10,6 +7,10 @@
   * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
   * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
+  * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
+  * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
+  * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
+  * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules  
 * Fixed bugs:
   * Fixed notice while create event for Private Sales
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
