@@ -74,16 +74,11 @@ class Registration
     /**
      * Theme registration
      *
-     * @param string $baseDir
      * @param string $pathPattern
      * @return \Magento\View\Design\ThemeInterface
      */
-    public function register($baseDir = '', $pathPattern = '')
+    public function register($pathPattern = '')
     {
-        if (!empty($baseDir)) {
-            $this->_themeCollection->setBaseDir($baseDir);
-        }
-
         if (empty($pathPattern)) {
             $this->_themeCollection->addDefaultPattern('*');
         } else {
