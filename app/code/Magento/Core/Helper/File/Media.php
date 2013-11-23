@@ -63,10 +63,10 @@ class Media extends \Magento\Core\Helper\AbstractHelper
 
         $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
         $relativePath = $dir->getRelativePath($fullPath);
-        if (!($dir->isFile($relativePath))) {
+        if (!$dir->isFile($relativePath)) {
             throw new \Magento\Core\Exception(__('File %1 does not exist', $fullPath));
         }
-        if (!($dir->isReadable($relativePath))) {
+        if (!$dir->isReadable($relativePath)) {
             throw new \Magento\Core\Exception(__('File %1 is not readable', $fullPath));
         }
 
