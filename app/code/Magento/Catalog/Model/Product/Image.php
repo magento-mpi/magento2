@@ -17,8 +17,8 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Core\Model\Store;
-use Magento\Filesystem\DirectoryList;
+use Magento\Core\Model\Store,
+    Magento\Filesystem\DirectoryList;
 
 class Image extends \Magento\Core\Model\AbstractModel
 {
