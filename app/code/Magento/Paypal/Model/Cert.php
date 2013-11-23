@@ -21,7 +21,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
     /**
      * Certificate base path
      */
-    const BASEPATH_PAYPAL_CERT  = 'cert/paypal';
+    const BASEPATH_PAYPAL_CERT = 'cert/paypal/';
 
     /**
      * @var Write
@@ -91,12 +91,12 @@ class Cert extends \Magento\Core\Model\AbstractModel
         }
 
         $certFileName = sprintf('cert_%s_%s.pem', $this->getWebsiteId(), strtotime($this->getUpdatedAt()));
-        $certFile = $this->_getBaseDir() . DS . $certFileName;
+        $certFile = self::BASEPATH_PAYPAL_CERT . $certFileName;
 
-        if (!file_exists($certFile)) {
+        if (!$this->varDirectory->isExist($certFile)) {
             $this->_createCertFile($certFile);
         }
-        return $certFile;
+        return $this->varDirectory->getAbsolutePath($certFile);
     }
 
     /**
@@ -106,15 +106,10 @@ class Cert extends \Magento\Core\Model\AbstractModel
      */
     protected function _createCertFile($file)
     {
-        $certDir = $this->_getBaseDir();
-
-        if (!$this->filesystem->isDirectory($certDir)) {
-            $this->_filesystem->createDirectory($certDir);
-        } else {
+        if ($this->varDirectory->isDirectory(self::BASEPATH_PAYPAL_CERT)) {
             $this->_removeOutdatedCertFile();
         }
-
-        file_put_contents($file, $this->encryptor->decrypt($this->getContent()));
+        $this->varDirectory->writeFile($file, $this->encryptor->decrypt($this->getContent()));
     }
 
     /**
@@ -124,25 +119,12 @@ class Cert extends \Magento\Core\Model\AbstractModel
      */
     protected function _removeOutdatedCertFile()
     {
-        $certDir = $this->_getBaseDir();
-        if (is_dir($certDir)) {
-            $entries = scandir($certDir);
-            foreach ($entries as $entry) {
-                if ($entry != '.' && $entry != '..' && strpos($entry, 'cert_' . $this->getWebsiteId()) !== false) {
-                    unlink($certDir . DS . $entry);
-                }
-            }
-        }
-    }
+        $pattern = sprintf('#cert_%s#' . $this->getWebsiteId());
 
-    /**
-     * Retrieve base directory for certificate
-     *
-     * @return string
-     */
-    protected function _getBaseDir()
-    {
-        return $this->varDirectory->getAbsolutePath(self::BASEPATH_PAYPAL_CERT);
+        $entries = $this->varDirectory->search($pattern, self::BASEPATH_PAYPAL_CERT);
+        foreach ($entries as $entry) {
+            $this->varDirectory->delete($entry);
+        }
     }
 
     /**

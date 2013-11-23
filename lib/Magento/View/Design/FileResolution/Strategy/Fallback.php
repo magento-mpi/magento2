@@ -169,7 +169,7 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     {
         $path = '';
         foreach ($fallbackRule->getPatternDirs($params) as $dir) {
-            $path = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
+            $path = "{$dir}/{$file}";
             if ($this->rootDirectory->isExist($this->rootDirectory->getRelativePath($path))) {
                 return $path;
             }

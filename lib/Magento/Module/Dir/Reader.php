@@ -54,11 +54,12 @@ class Reader
     {
         $result = array();
         foreach (array_keys($this->_modulesList->getModules()) as $moduleName) {
-            $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
+            $file = $this->getModuleDir('etc', $moduleName) . '/' . $filename;
             if (file_exists($file)) {
                 $result[] = $file;
             }
         }
+
         return $result;
     }
 

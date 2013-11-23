@@ -78,7 +78,7 @@ class Config
         /** @var Write $file */
         $file = $this->pubDirectory->openFile($this->pubDirectory->getRelativePath($this->cacheFilePath), 'w');
         try{
-            $file->lock(true);
+            $file->lock();
             $file->write(json_encode($this->config));
             $file->unlock();
             $file->close();

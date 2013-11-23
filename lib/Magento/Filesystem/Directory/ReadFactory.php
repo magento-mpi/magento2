@@ -33,6 +33,12 @@ class ReadFactory
      */
     public function create(array $config)
     {
-        return $this->objectManager->create('Magento\Filesystem\Directory\Read', array('config' => $config));
+        $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
+        $driver = $this->objectManager->get($directoryDriver);
+        return $this->objectManager->create('Magento\Filesystem\Directory\Read',
+            array(
+                'config' => $config,
+                'driver' => $driver
+            ));
     }
 }

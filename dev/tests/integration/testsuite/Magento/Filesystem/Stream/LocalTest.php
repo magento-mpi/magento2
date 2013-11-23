@@ -111,7 +111,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
     public function testLock()
     {
         $this->_stream->open(new \Magento\Filesystem\Stream\Mode('r'));
-        $this->_stream->lock(true);
+        $this->_stream->lock();
         $this->assertAttributeEquals(true, '_isLocked', $this->_stream);
         $this->_stream->unlock();
         $this->assertAttributeEquals(false, '_isLocked', $this->_stream);

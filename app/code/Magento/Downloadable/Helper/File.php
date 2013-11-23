@@ -27,31 +27,56 @@ class File extends \Magento\Core\Helper\AbstractHelper
     protected $_coreFileStorageDatabase = null;
 
     /**
-     * @var \Magento\Filesystem $filesystem
+     * Filesystem object.
+     *
+     * @var \Magento\Filesystem
      */
     protected $_filesystem;
+
+    /**
+     * Media Directory object (writable).
+     *
+     * @var \Magento\Filesystem\Directory\WriteInterface
+     */
+    protected $_mediaDirectory;
+
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Helper\Context $context
      * @param array $mimeTypes
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem,
+        \Magento\Core\Helper\Context $context,
         array $mimeTypes = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite($filesystem::MEDIA);
         parent::__construct($context);
         if (!empty($mimeTypes)) {
             foreach ($mimeTypes as $key => $value) {
                 self::$_mimeTypes[$key] = $value;
             }
         }
+    }
+
+    /**
+     * Upload file from temporary folder.
+     * @param $tmpPath
+     * @param \Magento\Core\Model\File\Uploader $uploader
+     * @return array | bool
+     */
+    public function uploadFromTmp($tmpPath, \Magento\Core\Model\File\Uploader $uploader)
+    {
+        $uploader->setAllowRenameFiles(true);
+        $uploader->setFilesDispersion(true);
+        $absoluteTmpPath = $this->_mediaDirectory->getAbsolutePath($tmpPath);
+        $result = $uploader->save($absoluteTmpPath);
+
+        return $result;
     }
 
     /**
@@ -66,7 +91,7 @@ class File extends \Magento\Core\Helper\AbstractHelper
     {
         if (isset($file[0])) {
             $fileName = $file[0]['file'];
-            if ('new' === $file[0]['status']) {
+            if ($file[0]['status'] == 'new') {
                 try {
                     $fileName = $this->_moveFileFromTmp(
                         $baseTmpPath, $basePath, $file[0]['file']
@@ -78,6 +103,21 @@ class File extends \Magento\Core\Helper\AbstractHelper
             return $fileName;
         }
         return '';
+    }
+
+    /**
+     * Check if file exist in filesystem and try to re-create it from database record if negative.
+     * @param $file
+     * @return bool|int
+     */
+    public function ensureFileInFilesystem($file)
+    {
+        $result = true;
+        if (!$this->_mediaDirectory->isFile($file)) {
+            $result = $this->_coreFileStorageDatabase->saveFileToFilesystem($file);
+        }
+
+        return $result;
     }
 
     /**
@@ -95,29 +135,18 @@ class File extends \Magento\Core\Helper\AbstractHelper
         }
 
         $destFile = dirname($file) . '/'
-            . \Magento\Core\Model\File\Uploader::getNewFileName($this->getFilePath($basePath, $file));
-
-        $destDirectory = dirname($this->getFilePath($basePath, $file));
-        $sourceDirectory = dirname($this->getFilePath($baseTmpPath, $file));
-        try {
-            $this->_filesystem->setIsAllowCreateDirectories(true);
-            $this->_filesystem->ensureDirectoryExists($destDirectory);
-            $this->_filesystem->setWorkingDirectory($sourceDirectory);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->_filesystem->setWorkingDirectory(getcwd());
-        }
+                  . \Magento\Core\Model\File\Uploader::getNewFileName($this->getFilePath($basePath, $file));
 
         $this->_coreFileStorageDatabase->copyFile(
             $this->getFilePath($baseTmpPath, $file),
             $this->getFilePath($basePath, $destFile)
         );
 
-        $this->_filesystem->rename(
+        $this->_mediaDirectory->renameFile(
             $this->getFilePath($baseTmpPath, $file),
-            $this->getFilePath($basePath, $destFile),
-            null,
-            $destDirectory
+            $this->getFilePath($basePath, $destFile)
         );
+
         return $destFile;
     }
 
@@ -130,24 +159,10 @@ class File extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFilePath($path, $file)
     {
-        $file = $this->_prepareFileForPath($file);
+        $path = rtrim($path, '/');
+        $file = ltrim($file, '/');
 
-        if(substr($file, 0, 1) == DS) {
-            return $path . DS . substr($file, 1);
-        }
-
-        return $path . DS . $file;
-    }
-
-    /**
-     * Replace slashes with directory separator
-     *
-     * @param string $file
-     * @return string
-     */
-    protected function _prepareFileForPath($file)
-    {
-        return str_replace('/', DS, $file);
+        return $path . '/' . $file;
     }
 
     /**
@@ -158,11 +173,19 @@ class File extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFileFromPathFile($pathFile)
     {
-        $file = '';
-
-        $file = substr($pathFile, strrpos($this->_prepareFileForPath($pathFile), DS)+1);
+        $file = substr($pathFile, strrpos($pathFile, '/')+1);
 
         return $file;
+    }
+
+    /**
+     * Get filesize in bytes.
+     * @param $file
+     * @return int
+     */
+    public function getFileSize($file)
+    {
+        return $this->_mediaDirectory->stat($file)['size'];
     }
 
     public function getFileType($filePath)
@@ -787,6 +810,6 @@ class File extends \Magento\Core\Helper\AbstractHelper
             'xzaz' => 'application/vnd.zzazz.deck+xml',
             'xzip' => 'application/zip',
             'xzmm' => 'application/vnd.handheld-entertainment+xml',
-            'xodt' => 'application/x-vnd.oasis.opendocument.spreadsheet'
+            'xodt' => 'application/x-vnd.oasis.opendocument.spreadsheet' // @TODO
         );
 }

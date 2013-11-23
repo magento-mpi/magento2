@@ -141,7 +141,7 @@ class Registration
         if (!$theme->getPreviewImage() || !$themeDirectory) {
             return $this;
         }
-        $imagePath = realpath($themeDirectory . DIRECTORY_SEPARATOR . $theme->getPreviewImage());
+        $imagePath = realpath($themeDirectory . '/' . $theme->getPreviewImage());
         if (0 === strpos($imagePath, $themeDirectory)) {
             $theme->getThemeImage()->createPreviewImage($imagePath);
         }

@@ -41,7 +41,7 @@ try {
         case 'ee':
             $configurator = new EnterpriseConfigurator(
                 $basePath,
-                new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
+                new Magento\Filesystem\Driver\Base()
             );
             break;
         default:

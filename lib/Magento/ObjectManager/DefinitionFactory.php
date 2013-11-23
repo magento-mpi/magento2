@@ -79,6 +79,7 @@ class DefinitionFactory
         } else {
             $autoloader = new \Magento\Autoload\IncludePath();
             $generatorIo = new \Magento\Code\Generator\Io(
+                new \Magento\Filesystem\Driver\Base(),
                 $autoloader,
                 $this->_generationDir
             );
@@ -111,7 +112,7 @@ class DefinitionFactory
      */
     public function createRelations()
     {
-        $path = $this->_definitionDir . DIRECTORY_SEPARATOR . 'relations.php';
+        $path = $this->_definitionDir . '/' . 'relations.php';
         if (is_readable($path)) {
             return new \Magento\ObjectManager\Relations\Compiled($this->_unpack(file_get_contents($path)));
         } else {

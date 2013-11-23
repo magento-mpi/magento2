@@ -104,14 +104,16 @@ class File
         }
 
         $path = (strlen($dir['path']))
-            ? $dir['path'] . DS . $dir['name']
+            ? $dir['path'] . '/' . $dir['name']
             : $dir['name'];
 
         try {
             $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA)->create($path);
         } catch (\Exception $e) {
             $this->_logger->log($e->getMessage());
-            throw new \Magento\Core\Exception(__('Unable to create directory: %1', DirectoryList::MEDIA. '/' . $path));
+            throw new \Magento\Core\Exception(
+                __('Unable to create directory: %1', DirectoryList::MEDIA . '/' . $path)
+            );
         }
 
         return true;

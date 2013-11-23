@@ -71,7 +71,7 @@ class Path
     {
         $path = null;
         if ($theme->getId()) {
-            $path = $this->mediaDirectoryRead->getAbsolutePath(self::DIR_NAME . $theme->getId());
+            $path = $this->mediaDirectoryRead->getAbsolutePath(self::DIR_NAME . '/' . $theme->getId());
         }
         return $path;
     }
@@ -102,7 +102,7 @@ class Path
         $path = null;
         if ($theme->getId()) {
             $path = $this->mediaDirectoryRead
-                ->getAbsolutePath(self::DIR_NAME . $theme->getId() . '/' . $this->filename);
+                ->getAbsolutePath(self::DIR_NAME . '/' . $theme->getId() . '/' . $this->filename);
 
         }
         return $path;

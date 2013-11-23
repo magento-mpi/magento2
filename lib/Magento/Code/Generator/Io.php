@@ -38,16 +38,34 @@ class Io
     private $_autoloader;
 
     /**
-     * @param \Magento\Autoload\IncludePath $autoLoader
+     * @var \Magento\Filesystem\Driver\Base
+     */
+    private $filesystemDriver;
+    /**
+     * @param \Magento\Filesystem\Driver\Base   $filesystemDriver
+     * @param \Magento\Autoload\IncludePath     $autoLoader
      * @param null $generationDirectory
      */
     public function __construct(
-        \Magento\Autoload\IncludePath $autoLoader = null,
+        \Magento\Filesystem\Driver\Base $filesystemDriver,
+        \Magento\Autoload\IncludePath   $autoLoader = null,
         $generationDirectory = null
     ) {
-        $this->_autoloader = $autoLoader ? : new \Magento\Autoload\IncludePath();
-        if ($generationDirectory) {
-            $this->_generationDirectory = rtrim($generationDirectory, '/') . '/';
+        $this->_autoloader          = $autoLoader ? : new \Magento\Autoload\IncludePath();
+        $this->filesystemDriver     = $filesystemDriver;
+        $this->initGeneratorDirectory($generationDirectory);
+    }
+
+    /**
+     * Get path to generation directory
+     *
+     * @param $directory
+     * @return string
+     */
+    protected function initGeneratorDirectory($directory = null)
+    {
+        if ($directory) {
+            $this->_generationDirectory = rtrim($directory, '/') . '/';
         } else {
             $this->_generationDirectory = realpath(__DIR__ . '/../../../../') . '/' . self::DEFAULT_DIRECTORY . '/';
         }
@@ -85,7 +103,7 @@ class Io
     public function writeResultFile($fileName, $content)
     {
         $content = "<?php\n" . $content;
-        return file_put_contents($fileName, $content);
+        return $this->filesystemDriver->filePutContents($fileName, $content);
     }
 
     /**
@@ -119,7 +137,7 @@ class Io
      */
     public function fileExists($fileName)
     {
-        return file_exists($fileName);
+        return $this->filesystemDriver->isExists($fileName);
     }
 
     /**
@@ -128,11 +146,11 @@ class Io
      */
     private function _makeDirectory($directory)
     {
-        if (is_writable($directory)) {
+        if ($this->filesystemDriver->isWritable($directory)) {
             return true;
         }
         try {
-            mkdir($directory, self::DIRECTORY_PERMISSION, true);
+            $this->filesystemDriver->createDirectory($directory, self::DIRECTORY_PERMISSION);
             return true;
         } catch (\Magento\Filesystem\FilesystemException $e) {
             return false;

@@ -10,6 +10,7 @@
 
 namespace Magento\Filesystem\File;
 
+use Magento\Filesystem\DriverInterface;
 use Magento\Filesystem\FilesystemException;
 use Magento\Webapi\Exception;
 
@@ -18,15 +19,12 @@ class Write extends Read implements WriteInterface
     /**
      * Constructor
      *
-     * @param $path
-     * @param \Magento\Filesystem\Driver $driver
-     * @param $mode
+     * @param string $path
+     * @param DriverInterface $driver
+     * @param string $mode
      */
-    public function __construct(
-        $path,
-        \Magento\Filesystem\Driver $driver,
-        $mode
-    ) {
+    public function __construct($path, DriverInterface $driver, $mode)
+    {
         $this->mode = $mode;
         parent::__construct($path, $driver);
     }
@@ -110,12 +108,12 @@ class Write extends Read implements WriteInterface
     /**
      * Portable advisory file locking
      *
-     * @param bool $exclusive
+     * @param int $lockMode
      * @return bool
      */
-    public function lock($exclusive = true)
+    public function lock($lockMode = LOCK_EX)
     {
-        return $this->driver->fileLock($this->resource, $exclusive);
+        return $this->driver->fileLock($this->resource, $lockMode);
     }
 
     /**

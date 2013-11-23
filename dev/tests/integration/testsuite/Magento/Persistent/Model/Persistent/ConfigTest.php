@@ -21,8 +21,25 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
+        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create(
+                'Magento\Filesystem\DirectoryList',
+                array(
+                    'root' => \Magento\Filesystem\DirectoryList::ROOT,
+                    'uris' => array(),
+                    'dirs' => array(
+                        \Magento\Filesystem\DirectoryList::MODULES => dirname(__DIR__)
+                    ),
+                )
+            );
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Filesystem', array('directoryList' => $directoryList));
+
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $this->_objectManager->create('Magento\Persistent\Model\Persistent\Config');
+        $this->_model = $this->_objectManager->create(
+            'Magento\Persistent\Model\Persistent\Config',
+            array('filesystem' => $filesystem)
+        );
     }
 
     public function testCollectInstancesToEmulate()

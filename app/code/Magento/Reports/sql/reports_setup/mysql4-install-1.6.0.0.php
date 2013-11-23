@@ -114,6 +114,9 @@ $table = $installer->getConnection()
 $installer->getConnection()->createTable($table);
 
 $installFile = __DIR__ . DS . 'install-1.6.0.0.php';
-if (file_exists($installFile)) {
+
+$modulesDirectory = $this->filesystem->getDirectoryRead(
+    \Magento\Filesystem\DirectoryList::MODULES);
+if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))) {
     include $installFile;
 }

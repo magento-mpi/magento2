@@ -31,7 +31,7 @@ class Read implements ReadInterface
     /**
      * Filesystem driver
      *
-     * @var \Magento\Filesystem\Driver
+     * @var \Magento\Filesystem\DriverInterface
      */
     protected $driver;
 
@@ -40,16 +40,17 @@ class Read implements ReadInterface
      *
      * @param array $config
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
-     * @param \Magento\Filesystem\Driver $driver
+     * @param \Magento\Filesystem\DriverInterface $driver
      */
     public function __construct
     (
         array $config,
         \Magento\Filesystem\File\ReadFactory $fileFactory,
-        \Magento\Filesystem\Driver $driver
+        \Magento\Filesystem\DriverInterface $driver
     ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
+
         $this->driver = $driver;
     }
 
@@ -61,10 +62,9 @@ class Read implements ReadInterface
      */
     protected function setProperties(array $config)
     {
-        if (empty($config['path'])) {
-            throw new FilesystemException('Cannot create directory without path');
+        if (!empty($config['path'])) {
+            $this->path = rtrim($this->fixSeparator($config['path']), '/') . '/';
         }
-        $this->path = rtrim($this->fixSeparator($config['path']), '/') . '/';
     }
 
     /**
@@ -208,7 +208,7 @@ class Read implements ReadInterface
      */
     public function openFile($path)
     {
-        return $this->fileFactory->create($this->getAbsolutePath($path));
+        return $this->fileFactory->create($this->getAbsolutePath($path), $this->driver);
     }
 
     /**

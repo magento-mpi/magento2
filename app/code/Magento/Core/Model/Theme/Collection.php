@@ -56,7 +56,7 @@ class Collection extends \Magento\Data\Collection
      */
     public function addDefaultPattern($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', 'theme.xml')));
+        $this->addTargetPattern(implode('/', array($area, '*', 'theme.xml')));
         return $this;
     }
 
@@ -117,8 +117,22 @@ class Collection extends \Magento\Data\Collection
 
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
-            $themeConfigs = $this->_directory->search($directoryPath);
-            $themeConfigs = str_replace('/', DIRECTORY_SEPARATOR, $themeConfigs);
+
+            $directoryPath = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
+                switch ($matches[0]) {
+                    case '*':
+                        return '.*';
+                    case '?':
+                        return '.';
+                    default:
+                        return '\\' . $matches[0];
+                }
+            }, $directoryPath);
+
+            $themeConfigs = $this->_directory->search('#' . $directoryPath . '#');
+            foreach ($themeConfigs as &$relPathToTheme) {
+                $relPathToTheme = $this->_directory->getAbsolutePath($relPathToTheme);
+            }
             $pathsToThemeConfig = array_merge($pathsToThemeConfig, $themeConfigs);
         }
 
@@ -178,8 +192,8 @@ class Collection extends \Magento\Data\Collection
     protected function _preparePathData($configPath)
     {
         $themeDirectory = dirname($configPath);
-        $fullPath = trim(substr($themeDirectory, strlen(DirectoryList::THEMES)), DIRECTORY_SEPARATOR);
-        $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
+        $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())), '/');
+        $pathPieces = explode('/', $fullPath);
         $area = array_shift($pathPieces);
         return array('area' => $area, 'theme_path_pieces' => $pathPieces);
     }

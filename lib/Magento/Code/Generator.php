@@ -52,9 +52,11 @@ class Generator
         \Magento\Code\Generator\Io $ioObject = null,
         \Magento\Filesystem $filesystem = null
     ) {
-        $this->_generator  = $generator;
-        $this->_autoloader = $autoloader ? : new \Magento\Autoload\IncludePath();
-        $this->_ioObject = $ioObject ? : new \Magento\Code\Generator\Io($filesystem, $this->_autoloader);
+        //todo: remove $filesystem from constructor
+        $this->_generator   = $generator;
+        $this->_autoloader  = $autoloader ? : new \Magento\Autoload\IncludePath();
+        $this->_ioObject    = $ioObject ? : new \Magento\Code\Generator\Io(
+            new \Magento\Filesystem\Driver\Base(), $this->_autoloader);
     }
 
     /**

@@ -168,27 +168,11 @@ class Images extends \Magento\Core\Helper\AbstractHelper
      */
     public function convertIdToPath($id)
     {
-        if ($id === 'root') {
+        if ($id === \Magento\Theme\Helper\Storage::NODE_ROOT) {
             return $this->getStorageRoot();
         } else {
             return $this->getStorageRoot() . $this->idDecode($id);
         }
-    }
-
-    /**
-     * File system path correction
-     *
-     * @param string $path Original path
-     * @param boolean $trim Trim slashes or not
-     * @return string
-     */
-    public function correctPath($path, $trim = true)
-    {
-        $path = strtr($path, "\\\/", DS . DS);
-        if ($trim) {
-            $path = trim($path, DS);
-        }
-        return $path;
     }
 
     /**

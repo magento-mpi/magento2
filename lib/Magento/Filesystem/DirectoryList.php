@@ -128,6 +128,11 @@ class DirectoryList extends Dir
     const UPLOAD = 'upload';
 
     /**
+     * Virtual directory to access files via socket connections (using http or https schemes)
+     */
+    const SOCKET = 'socket';
+
+    /**
      * Root path
      *
      * @var string
@@ -145,6 +150,7 @@ class DirectoryList extends Dir
         self::MODULES       => array('path' => 'app/code'),
         self::THEMES        => array('path' => 'app/design'),
         self::CONFIG        => array('path' => 'app/etc'),
+        self::LOCALE        => array('path' => 'app/i18n'),
         self::LIB           => array('path' => 'lib'),
         self::VAR_DIR       => array('path' => 'var'),
         self::TMP           => array('path' => 'var/tmp'),
@@ -153,6 +159,7 @@ class DirectoryList extends Dir
         self::SESSION       => array('path' => 'var/session'),
         self::DI            => array('path' => 'var/di'),
         self::GENERATION    => array('path' => 'var/generation'),
+        self::SOCKET        => array('path' => null),
         self::PUB           => array('path' => 'pub'),
         self::PUB_LIB       => array('path' => 'pub/lib'),
         self::MEDIA         => array('path' => 'pub/media'),
@@ -169,7 +176,7 @@ class DirectoryList extends Dir
     public function __construct($root, array $uris = array(), array $dirs = array())
     {
         parent::__construct($root, $uris, $dirs);
-        $this->root = $root;
+        $this->root = str_replace('\\', '/', $root);
 
         foreach ($this->directories as $code => $configuration) {
             $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
@@ -196,9 +203,13 @@ class DirectoryList extends Dir
      * @param string $code
      * @param array $configuration
      */
-    public function addDirectory($code, $configuration)
+    public function addDirectory($code, array $configuration)
     {
+        if (!isset($configuration['path'])) {
+            $configuration['path'] = null;
+        }
         $configuration['path'] = $this->makeAbsolute($configuration['path']);
+
         $this->directories[$code] = $configuration;
     }
 
@@ -210,7 +221,16 @@ class DirectoryList extends Dir
      */
     protected function makeAbsolute($path)
     {
-        return $this->getRoot() . '/' . $path;
+        if ($path === null) {
+            $result = '';
+        } else {
+            $result = $this->getRoot();
+            if (!empty($path)) {
+                $result .= '/' . $path;
+            }
+        }
+
+        return $result;
     }
 
     /**
@@ -238,5 +258,16 @@ class DirectoryList extends Dir
             );
         }
         return $this->directories[$code];
+    }
+
+    /**
+     * \Directory path getter
+     *
+     * @param string $code One of self const
+     * @return string|bool
+     */
+    public function getDir($code = self::ROOT)
+    {
+        return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }
 }

@@ -65,6 +65,7 @@ class EntryPoint implements EntryPointInterface
             }
             return $this->_locator->create($applicationName, $arguments)->execute();
         } catch (\Exception $exception) {
+            var_dump($exception);
             if (isset($this->_parameters[state::PARAM_MODE])
                 && $this->_parameters[State::PARAM_MODE] == State::MODE_DEVELOPER
             ) {

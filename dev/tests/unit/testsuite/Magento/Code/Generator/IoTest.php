@@ -16,7 +16,6 @@ class IoTest extends \PHPUnit_Framework_TestCase
     /**#@+
      * Source and result class parameters
      */
-    const DIRECTORY_SEPARATOR  = '/';
     const GENERATION_DIRECTORY = 'generation_directory';
     const CLASS_NAME           = 'class_name';
     const CLASS_FILE_NAME      = 'class/file/name';
@@ -39,12 +38,7 @@ class IoTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_filesystemMock;
-
-    /**
-     * @var \Magento\Filesystem\Adapter\Local|\PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_adapterLocalMock;
+    protected $_filesystemDriverMock;
 
     /**
      * @var \Magento\Autoload\IncludePath|\PHPUnit_Framework_MockObject_MockObject
@@ -53,14 +47,11 @@ class IoTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_generationDirectory
-            = rtrim(self::GENERATION_DIRECTORY, self::DIRECTORY_SEPARATOR) . self::DIRECTORY_SEPARATOR;
+        $this->_generationDirectory = rtrim(self::GENERATION_DIRECTORY, '/') . '/';
 
-        $this->_adapterLocalMock = $this->getMock('Magento\Filesystem\Adapter\Local');
-
-        $this->_filesystemMock = $this->getMock('Magento\Filesystem',
-            array('isWritable', 'write', 'createDirectory', 'has'),
-            array($this->_adapterLocalMock)
+        $this->_filesystemDriverMock = $this->getMock('Magento\Filesystem\Driver\Base',
+            array('isWritable', 'filePutContents', 'createDirectory', 'isExists'),
+            array()
         );
 
         $this->_autoLoaderMock = $this->getMock(
@@ -71,7 +62,7 @@ class IoTest extends \PHPUnit_Framework_TestCase
             ->with(self::CLASS_NAME)
             ->will($this->returnValue(self::CLASS_FILE_NAME));
 
-        $this->_object = new \Magento\Code\Generator\Io($this->_filesystemMock,
+        $this->_object = new \Magento\Code\Generator\Io($this->_filesystemDriverMock,
             $this->_autoLoaderMock,
             self::GENERATION_DIRECTORY
         );
@@ -83,24 +74,25 @@ class IoTest extends \PHPUnit_Framework_TestCase
         unset($this->_filesystemMock);
         unset($this->_autoLoaderMock);
         unset($this->_object);
+        unset($this->_filesystemDriverMock);
     }
 
     public function testGetResultFileDirectory()
     {
-        $expectedDirectory = self::GENERATION_DIRECTORY . self::DIRECTORY_SEPARATOR . 'class/file/';
+        $expectedDirectory = self::GENERATION_DIRECTORY . '/' . 'class/file/';
         $this->assertEquals($expectedDirectory, $this->_object->getResultFileDirectory(self::CLASS_NAME));
     }
 
     public function testGetResultFileName()
     {
-        $expectedFileName = self::GENERATION_DIRECTORY . self::DIRECTORY_SEPARATOR . self::CLASS_FILE_NAME;
+        $expectedFileName = self::GENERATION_DIRECTORY . '/' . self::CLASS_FILE_NAME;
         $this->assertEquals($expectedFileName, $this->_object->getResultFileName(self::CLASS_NAME));
     }
 
     public function testWriteResultFile()
     {
-        $this->_filesystemMock->expects($this->once())
-            ->method('write')
+        $this->_filesystemDriverMock->expects($this->once())
+            ->method('filePutContents')
             ->with($this->equalTo(self::FILE_NAME), $this->equalTo("<?php\n" . self::FILE_CONTENT))
             ->will($this->returnValue(true));
 
@@ -109,7 +101,7 @@ class IoTest extends \PHPUnit_Framework_TestCase
 
     public function testMakeGenerationDirectoryWritable()
     {
-        $this->_filesystemMock->expects($this->once())
+        $this->_filesystemDriverMock->expects($this->once())
             ->method('isWritable')
             ->with($this->equalTo($this->_generationDirectory))
             ->will($this->returnValue(true));
@@ -119,12 +111,12 @@ class IoTest extends \PHPUnit_Framework_TestCase
 
     public function testMakeGenerationDirectoryReadOnly()
     {
-        $this->_filesystemMock->expects($this->once())
+        $this->_filesystemDriverMock->expects($this->once())
             ->method('isWritable')
             ->with($this->equalTo($this->_generationDirectory))
             ->will($this->returnValue(false));
 
-        $this->_filesystemMock->expects($this->once())
+        $this->_filesystemDriverMock->expects($this->once())
             ->method('createDirectory')
             ->with($this->equalTo($this->_generationDirectory), $this->anything())
             ->will($this->returnValue(true));
@@ -139,8 +131,8 @@ class IoTest extends \PHPUnit_Framework_TestCase
 
     public function testFileExists()
     {
-        $this->_filesystemMock->expects($this->once())
-            ->method('has')
+        $this->_filesystemDriverMock->expects($this->once())
+            ->method('isExists')
             ->with($this->equalTo(self::FILE_NAME))
             ->will($this->returnValue(false));
 

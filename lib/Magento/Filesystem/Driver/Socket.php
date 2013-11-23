@@ -9,24 +9,13 @@
  */
 namespace Magento\Filesystem\Driver;
 
+use Magento\Filesystem\Driver\Base;
 use Magento\Filesystem\FilesystemException;
 
 
-class Base implements \Magento\Filesystem\DriverInterface
+class Socket extends Base
 {
-    /**
-     * Returns last warning message string
-     *
-     * @return string
-     */
-    protected function getWarningMessage()
-    {
-        $warning = error_get_last();
-        if ($warning && $warning['type'] == E_WARNING) {
-            return 'Warning!' . $warning['message'];
-        }
-        return null;
-    }
+    protected $handles = array();
 
     /**
      * @param $path
@@ -35,14 +24,16 @@ class Base implements \Magento\Filesystem\DriverInterface
      */
     public function isExists($path)
     {
-        clearstatcache();
-        $result = @file_exists($path);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution %s',
-                    $this->getWarningMessage()
-                ));
+        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+
+        $status = $headers[0];
+
+        if (strpos($status, '200 OK') === false) {
+            $result = false;
+        } else {
+            $result = true;
         }
+
         return $result;
     }
 
@@ -55,14 +46,25 @@ class Base implements \Magento\Filesystem\DriverInterface
      */
     public function stat($path)
     {
-        clearstatcache();
-        $result = @stat($path);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Cannot gather stats! %s',
-                    $this->getWarningMessage()
-                ));
-        }
+        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+
+        $result = array(
+            'dev' => 0,
+            'ino' => 0,
+            'mode' => 0,
+            'nlink' => 0,
+            'uid' => 0,
+            'gid' => 0,
+            'rdev' => 0,
+            'atime' => 0,
+            'ctime' => 0,
+            'blksize' => 0,
+            'blocks' => 0,
+            'size' => isset($headers['content-length']) ? $headers['content-length'] : 0,
+            'type' => isset($headers['content-type']) ? $headers['content-type'] : '',
+            'mtime' => isset($headers['last-modified']) ? $headers['last-modified'] : 0,
+            'disposition' => isset($headers['content-disposition']) ? $headers['content-disposition'] : null
+        );
         return $result;
     }
 
@@ -165,17 +167,6 @@ class Base implements \Magento\Filesystem\DriverInterface
                 ));
         }
         return $result;
-    }
-
-    /**
-     * Returns parent directory's path
-     *
-     * @param string $path
-     * @return string
-     */
-    public function getParentDirectory($path)
-    {
-        return dirname($path);
     }
 
     /**
@@ -360,14 +351,59 @@ class Base implements \Magento\Filesystem\DriverInterface
      */
     public function fileOpen($path, $mode)
     {
-        $result = @fopen($path, $mode);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('File "%s" cannot be opened %s',
-                    $path,
-                    $this->getWarningMessage()
-                ));
+        $urlProp = parse_url($path);
+        if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
+            throw new FilesystemException(__('Please correct the download URL scheme.'));
         }
+
+        if (!isset($urlProp['host'])) {
+            throw new FilesystemException(__('Please correct the download URL host.'));
+        }
+
+        $hostname = $urlProp['host'];
+        $port = 80;
+        if (isset($urlProp['port'])) {
+            $port = (int)$urlProp['port'];
+        }
+
+        $path = '/';
+        if (isset($urlProp['path'])) {
+            $path = $urlProp['path'];
+        }
+
+        $query = '';
+        if (isset($urlProp['query'])) {
+            $query = '?' . $urlProp['query'];
+        }
+
+        try {
+            $result = fsockopen($hostname, $port, $errorNumber, $errorMessage);
+        } catch (\Exception $e) {
+            throw new FilesystemException($e->getMessage());
+        }
+
+        if ($result === false) {
+            throw new FilesystemException(
+                __('Something went wrong connecting to the host. Error#%1 - %2.', $errorNumber, $errorMessage)
+            );
+        }
+
+        $headers = 'GET ' . $path . $query . ' HTTP/1.0' . "\r\n"
+            . 'Host: ' . $hostname . "\r\n"
+            . 'User-Agent: Magento ver/' . \Magento\Core\Model\App::VERSION . "\r\n"
+            . 'Connection: close' . "\r\n"
+            . "\r\n";
+
+        fwrite($result, $headers);
+
+        // trim headers
+        while (!feof($result)) {
+            $str = fgets($result, 1024);
+            if ($str == "\r\n") {
+                break;
+            }
+        }
+
         return $result;
     }
 
@@ -383,225 +419,7 @@ class Base implements \Magento\Filesystem\DriverInterface
     public function fileReadLine($resource, $length, $ending = null)
     {
         $result = @stream_get_line($resource, $length, $ending);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('File cannot be read %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
 
-    /**
-     * Reads the specified number of bytes from the current position.
-     *
-     * @param resource $resource
-     * @param int $length
-     * @return string
-     * @throws FilesystemException
-     */
-    public function fileRead($resource, $length)
-    {
-        $result = @fread($resource, $length);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('File cannot be read %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Reads one CSV row from the file
-     *
-     * @param resource $resource
-     * @param int $length [optional]
-     * @param string $delimiter [optional]
-     * @param string $enclosure [optional]
-     * @param string $escape [optional]
-     * @return array|bool|null
-     * @throws FilesystemException
-     */
-    public function fileGetCsv($resource, $length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
-    {
-        $result = @fgetcsv($resource, $length, $delimiter, $enclosure, $escape);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('Wrong CSV handle %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Returns position of read/write pointer
-     *
-     * @param resource $resource
-     * @return int
-     * @throws FilesystemException
-     */
-    public function fileTell($resource)
-    {
-        $result = @ftell($resource);
-        if ($result === null) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Seeks to the specified offset
-     *
-     * @param resource $resource
-     * @param int $offset
-     * @param int $whence
-     * @return int
-     * @throws FilesystemException
-     */
-    public function fileSeek($resource, $offset, $whence = SEEK_SET)
-    {
-        $result = @fseek($resource, $offset, $whence);
-        if ($result === -1) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of fileSeek %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Returns true if pointer at the end of file or in case of exception
-     *
-     * @param resource $resource
-     * @return boolean
-     */
-    public function endOfFile($resource)
-    {
-        return feof($resource);
-    }
-
-    /**
-     * Close file
-     *
-     * @param resource $resource
-     * @return boolean
-     * @throws FilesystemException
-     */
-    public function fileClose($resource)
-    {
-        $result = @fclose($resource);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of fileClose %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Writes data to file
-     *
-     * @param resource $resource
-     * @param string $data
-     * @return int
-     * @throws FilesystemException
-     */
-    public function fileWrite($resource, $data)
-    {
-        $result = @fwrite($resource, $data);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of fileWrite %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Writes one CSV row to the file.
-     *
-     * @param resource $resource
-     * @param array $data
-     * @param string $delimiter
-     * @param string $enclosure
-     * @return int
-     * @throws FilesystemException
-     */
-    public function filePutCsv($resource, array $data, $delimiter = ',', $enclosure = '"')
-    {
-        $result = @fputcsv($resource, $data, $delimiter, $enclosure);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of filePutCsv %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Flushes the output
-     *
-     * @param resource $resource
-     * @return bool
-     * @throws FilesystemException
-     */
-    public function fileFlush($resource)
-    {
-        $result = @fflush($resource);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of fileFlush %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Lock file in selected mode
-     *
-     * @param $resource
-     * @param int $lockMode
-     * @return bool
-     * @throws FilesystemException
-     */
-    public function fileLock($resource, $lockMode = LOCK_EX)
-    {
-        $result = @flock($resource, $lockMode);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of fileLock %s',
-                    $this->getWarningMessage()
-                ));
-        }
-        return $result;
-    }
-
-    /**
-     * Unlock file
-     *
-     * @param $resource
-     * @return bool
-     * @throws FilesystemException
-     */
-    public function fileUnlock($resource)
-    {
-        $result = @flock($resource, LOCK_UN);
-        if (!$result) {
-            throw new FilesystemException(
-                sprintf('Error occurred during execution of fileUnlock %s',
-                    $this->getWarningMessage()
-                ));
-        }
         return $result;
     }
 }
