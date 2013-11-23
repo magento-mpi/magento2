@@ -33,13 +33,13 @@ class PrinterControlsTest extends TestBase
                 "            echo 'hi';\n        }\n    }\n}\n"
             ),
             array(
-                "<?php class F1 {public function a(){foreach (\$as as \$k=>\$a){break 2;}}}",
-                "<?php\nclass F1\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
+                "<?php class G1 {public function a(){foreach (\$as as \$k=>\$a){break 2;}}}",
+                "<?php\nclass G1\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
                 "            break 2;\n        }\n    }\n}\n"
             ),
             array(
-                "<?php class F1 {public function a(){foreach (\$as as \$k=>\$a){continue 22;}}}",
-                "<?php\nclass F1\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
+                "<?php class G2 {public function a(){foreach (\$as as \$k=>\$a){continue 22;}}}",
+                "<?php\nclass G2\n{\n    public function a()\n    {\n        foreach (\$as as \$k => \$a) {\n" .
                 "            continue 22;\n        }\n    }\n}\n"
             ),
             array(
