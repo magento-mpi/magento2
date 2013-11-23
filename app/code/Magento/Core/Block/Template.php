@@ -321,7 +321,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     protected function getMediaDirectory()
     {
-        if (null === $this->mediaDirectory) {
+        if (!$this->mediaDirectory) {
             $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
         }
         return $this->mediaDirectory;
