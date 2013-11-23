@@ -383,6 +383,9 @@ class Application
      */
     protected function _cleanupFilesystem()
     {
+        if (!is_dir($this->_installDir)) {
+            return;
+        }
         $iterator = new \RecursiveIteratorIterator(
             new \RecursiveDirectoryIterator(
                 $this->_installDir,
