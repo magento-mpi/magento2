@@ -16,10 +16,10 @@ namespace Magento\Centinel\Test\Fixture;
  *
  * @package Magento\Centinel
  */
-class GuestPayPalPayflowProValidCc extends AbstractPayPalValidCc
+class GuestPayPalPayflowProValidCc extends AbstractValidCc
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     protected function _initData()
     {

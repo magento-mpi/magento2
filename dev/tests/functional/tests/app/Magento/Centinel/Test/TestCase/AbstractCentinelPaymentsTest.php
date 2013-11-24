@@ -132,4 +132,37 @@ abstract class AbstractCentinelPaymentsTest extends Functional
             'Incorrect "3D Secure Electronic Commerce Indicator" for the order #' . $orderId
         );
     }
+
+    /**
+     * Create Customer
+     *
+     * @param Checkout $fixture
+     */
+    protected function _createCustomer(Checkout $fixture)
+    {
+        //Data
+        $customer = $fixture->getCustomer();
+
+        //Page
+        $homePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $createPage = Factory::getPageFactory()->getCustomerAccountCreate();
+        $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
+        $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
+
+        //Create Account
+        $homePage->open();
+        $topLinks = $homePage->getTopLinks();
+        $topLinks->openLink('register');
+
+        $createPage->getCreateForm()->create($customer);
+
+        //Set Billing Address
+        $accountIndexPage->getDashboardAddress()->editBillingAddress();
+        $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
+
+        //Log Out
+        $customerMenu = $homePage->getCustomerMenu();
+        $customerMenu->toggle();
+        $customerMenu->openLink('Log Out');
+    }
 }

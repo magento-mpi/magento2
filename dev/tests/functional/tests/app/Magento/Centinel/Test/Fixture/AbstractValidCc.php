@@ -15,11 +15,11 @@ use Mtf\Factory\Factory;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Guest checkout. PayPal Payments Pro with 3D Secure payment method and free shipping method
+ * Guest checkout. 3D Secure payment method.
  *
  * @package Magento\Centinel
  */
-abstract class AbstractPayPalValidCc extends Checkout
+abstract class AbstractValidCc extends Checkout
 {
     /**
      * Create required data
@@ -41,9 +41,17 @@ abstract class AbstractPayPalValidCc extends Checkout
             $simple
         );
 
+        //Customer
+        if ($this->getCustomerName()) {
+            $this->customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+            $this->customer->switchData($this->getCustomerName());
+        }
+
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $this->billingAddress->switchData($this->getBillingAddressName());
+        if ($this->getBillingAddressName()) {
+            $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+            $this->billingAddress->switchData($this->getBillingAddressName());
+        }
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $this->shippingMethods->switchData($this->getShippingMethodName());
@@ -143,5 +151,15 @@ abstract class AbstractPayPalValidCc extends Checkout
     public function getProductTypeName()
     {
         return $this->getData('product_type');
+    }
+
+    /**
+     * Get Customer
+     *
+     * @return string
+     */
+    public function getCustomerName()
+    {
+        return $this->getData('customer/name');
     }
 }

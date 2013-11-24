@@ -12,11 +12,11 @@
 namespace Magento\Centinel\Test\Fixture;
 
 /**
- * Guest checkout. PayPal Payments Pro with 3D Secure payment method and free shipping method
+ * Registered checkout. Authorise.Net with 3D Secure payment method and free shipping method
  *
  * @package Magento\Centinel
  */
-class GuestPayPalPaymentsProValidCc extends AbstractValidCc
+class RegisteredAuthorisenetValidCc extends AbstractValidCc
 {
     /**
      * {@inheritdoc}
@@ -35,20 +35,20 @@ class GuestPayPalPaymentsProValidCc extends AbstractValidCc
                 'electronic_commerce_indicator' => 'Card Issuer Liability',
             ),
             'product_type' => 'simple_with_new_category',
+            'customer' => array(
+                'name' => 'customer_US_1',
+                'is_registered' => true,
+            ),
             'checkout_data' => array(
-                'billing_address' => 'address_US_1',
+                'billing_address' => null,
                 'shipping_methods' => 'flat_rate',
-                'payment_method' => 'paypal_direct',
+                'payment_method' => 'authorizenet',
                 'credit_card' => 'visa_3d_secure_valid',
             ),
             'configuration' => array(
                 'flat_rate',
-                'paypal_disabled_all_methods',
-                'paypal_payments_pro_3d_secure',
+                'authorizenet_3d_secure',
                 '3d_secure_credit_card_validation',
-                'default_tax_config',
-                'display_price',
-                'display_shopping_cart'
             ),
         );
     }

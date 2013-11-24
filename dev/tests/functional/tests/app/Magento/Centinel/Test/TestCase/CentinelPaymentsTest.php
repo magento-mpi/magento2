@@ -13,9 +13,10 @@ namespace Magento\Centinel\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
+use Magento\Centinel\Test\Fixture\RegisteredAuthorisenetValidCc;
 
 /**
- * Class PayPalPayflowProTest
+ * Class CentinelPaymentsTest
  * Tests CreditCard validation via Magento one page checkout and 3D Secure payment methods.
  *
  * @package Magento\Centinel
@@ -28,18 +29,26 @@ class CentinelPaymentsTest extends AbstractCentinelPaymentsTest
      *
      * @param DataFixture $fixture
      * @dataProvider validCreditCardDataProvider
-     * @ZephyrId MAGETWO-12437, MAGETWO-12439
+     * @ZephyrId MAGETWO-12437, MAGETWO-12439, MAGETWO-12828
      */
     public function testValidCreditCard(DataFixture $fixture)
     {
         //Data
         $fixture->persist();
+
         //Steps
+        if ($fixture->getCustomerName()) {
+            $this->_createCustomer($fixture);
+        }
         $this->_addProducts($fixture);
         $this->_magentoCheckoutProcess($fixture);
         $this->_validateCc($fixture);
         $this->_placeOrder();
+
         //Verifying
+        if ($fixture instanceof RegisteredAuthorisenetValidCc) {
+            $this->markTestSkipped('MAGETWO-17484');
+        }
         $this->_verifyOrder($fixture);
     }
 
@@ -51,6 +60,7 @@ class CentinelPaymentsTest extends AbstractCentinelPaymentsTest
         return array(
             array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPayflowProValidCc()),
             array(Factory::getFixtureFactory()->getMagentoCentinelGuestPayPalPaymentsProValidCc()),
+            array(Factory::getFixtureFactory()->getMagentoCentinelRegisteredAuthorisenetValidCc()),
         );
     }
 }

@@ -42,6 +42,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
+        $this->_data['authorizenet_3d_secure'] = $this->_getAuthorizeNet3dSecure();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
         //Payment Services
         $this->_data['3d_secure_credit_card_validation'] = $this->_get3dSecureCreditCardValidation();
@@ -143,7 +144,7 @@ class Config extends AbstractRepository
                                         'value' => 'authorize'
                                     ),
                                     'trans_key' => array( //Transaction Key
-                                        'value' => '67RY59y59p25JQsZ'
+                                        'value' => '"67RY59y59p25JQsZ"'
                                     ),
                                     'cgi_url' => array( //Gateway URL
                                         'value' => 'https://test.authorize.net/gateway/transact.dll'
@@ -167,6 +168,31 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    protected function _getAuthorizeNet3dSecure()
+    {
+        $data = array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'authorizenet' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'centinel' => array( //3D Secure Card Validation
+                                        'value' => 1 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        return array_merge_recursive($data, $this->_getAuthorizeNet());
     }
 
     protected function _getPaypalDisabled()
@@ -370,7 +396,16 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( //Payment Action
                                                         'value' => 'Authorization' //Authorization
                                                     )
-                                                )
+                                                ),
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array(
+                                                                'value' => 0
+                                                            )
+                                                        ),
+                                                    )
+                                                ),
                                             )
                                         )
                                     )

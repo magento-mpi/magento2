@@ -67,6 +67,13 @@ class Home extends Page
     private $topLinks;
 
     /**
+     * Page Top Customer menu block
+     *
+     * @var Links
+     */
+    private $customerMenu;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -87,6 +94,11 @@ class Home extends Page
         $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
             $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
         );
+
+        $this->customerMenu = Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
+            $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
+        );
+
     }
 
     /**
@@ -137,5 +149,15 @@ class Home extends Page
     public function getFooterBlock()
     {
         return $this->footerBlock;
+    }
+
+    /**
+     * Get customer menu block
+     *
+     * @return Customer Menu
+     */
+    public function getCustomerMenu()
+    {
+        return $this->customerMenu;
     }
 }

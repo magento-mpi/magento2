@@ -50,6 +50,16 @@ class Customer extends DataFixture
     }
 
     /**
+     * Get customer password
+     *
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->getData('fields/password/value');
+    }
+
+    /**
      * Get first name
      *
      * @return string
