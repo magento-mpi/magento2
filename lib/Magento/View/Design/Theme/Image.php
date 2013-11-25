@@ -166,7 +166,7 @@ class Image
                 $this->removePreviewImage();
             }
             $this->createPreviewImage($tmpFilePath);
-            $this->_filesystem->delete($tmpFilePath);
+            $this->_mediaDirectory->delete($tmpFilePath);
         }
         return $this;
     }

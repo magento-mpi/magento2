@@ -172,7 +172,9 @@ class Write extends Read implements WriteInterface
      */
     public function delete($path = null)
     {
-        $this->assertExist($path);
+        if (!$this->isExist($path)) {
+            return true;
+        }
         $absolutePath = $this->getAbsolutePath($path);
         if ($this->driver->isFile($absolutePath)) {
             $this->driver->deleteFile($absolutePath);

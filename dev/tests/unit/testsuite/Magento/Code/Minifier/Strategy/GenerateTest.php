@@ -38,7 +38,7 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             'Magento\Filesystem\Directory\Write',
             array('stat', 'isExist', 'readFile', 'writeFile', 'touch'), array(), '', false
         );
-        $this->filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite', '__wakeup'), array(), '', false);
         $this->filesystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with(DirectoryList::PUB_VIEW_CACHE)

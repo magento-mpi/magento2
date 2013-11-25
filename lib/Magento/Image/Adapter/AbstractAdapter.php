@@ -68,6 +68,16 @@ abstract class AbstractAdapter implements AdapterInterface
      */
     protected $_filesystem;
 
+    /**
+     * @var \Magento\Filesystem\Directory\Write
+     */
+    protected $directoryWrite;
+
+    /**
+     * @var \Magento\Logger
+     */
+    protected $logger;
+
     abstract public function open($fileName);
 
     abstract public function save($destination = null, $newName = null);
@@ -119,7 +129,8 @@ abstract class AbstractAdapter implements AdapterInterface
      * @param array $data
      */
     public function __construct(\Magento\Filesystem $filesystem, array $data = array()) {
-        $this->_filesystem = $filesystem;
+        $this->_filesystem      = $filesystem;
+        $this->directoryWrite   = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
     }
 
     /**
@@ -515,13 +526,14 @@ abstract class AbstractAdapter implements AdapterInterface
         } else {
             $newFileName = $newName;
         }
-        $fileName = $destination . DIRECTORY_SEPARATOR . $newFileName;
+        $fileName = $destination . '/' . $newFileName;
 
         if (!is_writable($destination)) {
             try {
-                $this->_filesystem->setIsAllowCreateDirectories(true);
-                $this->_filesystem->createDirectory($destination);
+                $this->directoryWrite->create($this->directoryWrite->getRelativePath($destination));
             } catch (\Magento\Filesystem\FilesystemException $e) {
+                $this->logger->addStreamLog(\Magento\Logger::LOGGER_SYSTEM);
+                $this->logger->log($e->getMessage());
                 throw new \Exception('Unable to write file into directory ' . $destination . '. Access forbidden.');
             }
         }

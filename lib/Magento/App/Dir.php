@@ -304,7 +304,7 @@ class Dir
      * @param string $code
      * @return array
      */
-    protected function _getChildren($code)
+    private function _getChildren($code)
     {
         $result = array();
         if (!isset(self::$_defaults[$code])) {

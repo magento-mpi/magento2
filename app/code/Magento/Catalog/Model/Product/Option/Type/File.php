@@ -38,7 +38,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
     protected $_filesystem;
 
     /**
-     * @var \Magento\Filesystem\Directory\WriteInterface
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $_rootDirectory;
 
@@ -360,9 +360,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             $filePath = $dispersion;
 
-            $fileHash = md5($this->_rootDirectory->readFile(
-                    $this->_rootDirectory->getRelativePath($fileInfo['tmp_name'])
-            ));
+            $tmpDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
+            $fileHash = md5($tmpDirectory->readFile($tmpDirectory->getRelativePath($fileInfo['tmp_name'])));
             $filePath .= '/' . $fileHash . '.' . $extension;
             $fileFullPath = $this->_mediaDirectory->getAbsolutePath($this->_quotePath . $filePath);
 
@@ -382,7 +381,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
             $_width = 0;
             $_height = 0;
 
-            if ($this->_rootDirectory->isReadable($this->_rootDirectory->getRelativePath($fileInfo['tmp_name']))) {
+            if ($tmpDirectory->isReadable($tmpDirectory->getRelativePath($fileInfo['tmp_name']))) {
                 $_imageSize = getimagesize($fileInfo['tmp_name']);
                 if ($_imageSize) {
                     $_width = $_imageSize[0];

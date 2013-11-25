@@ -17,7 +17,7 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $filesystem = $this->getMock('Magento\Filesystem', array('getPath'), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array('getPath', '__wakeup'), array(), '', false);
         $filesystem->expects($this->any())
             ->method('getPath')
             ->with(\Magento\Filesystem\DirectoryList::ROOT)

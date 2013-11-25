@@ -10,7 +10,7 @@
 
 namespace Magento\Core\Block;
 
-use Magento\Filesystem\DirectoryList;
+use Magento\Filesystem;
 
 /**
  * Base html block
@@ -49,7 +49,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_dirs;
 
     /**
-     * @var \Magento\Filesystem
+     * @var Filesystem
      */
     protected $_filesystem;
 
@@ -216,9 +216,10 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     public function fetchView($fileName)
     {
-        $rootDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::ROOT);
-        $viewShortPath = str_replace($rootDir, '', $fileName);
-        \Magento\Profiler::start('TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $viewShortPath));
+        $relativeFilePath = $this->getRootDirectory()->getRelativePath($fileName);
+        \Magento\Profiler::start(
+            'TEMPLATE:' . $fileName, array('group' => 'TEMPLATE', 'file_name' => $relativeFilePath)
+        );
 
         if ($this->isTemplateFileValid($fileName)) {
             $extension = pathinfo($fileName, PATHINFO_EXTENSION);
@@ -307,7 +308,7 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected function getRootDirectory()
     {
         if (null === $this->directory) {
-            $this->directory = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT);
+            $this->directory = $this->_filesystem->getDirectoryRead(Filesystem::ROOT);
         }
 
         return $this->directory;
@@ -320,8 +321,8 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     protected function getMediaDirectory()
     {
-        if (null === $this->mediaDirectory) {
-            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        if (!$this->mediaDirectory) {
+            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
         }
         return $this->mediaDirectory;
     }
@@ -339,14 +340,26 @@ class Template extends \Magento\Core\Block\AbstractBlock
      */
     protected function isTemplateFileValid($fileName)
     {
-        $appDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::APP);
-        $themesDir = $this->_filesystem->getPath(\Magento\Filesystem\DirectoryList::THEMES);
-        $isFile = $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
+        $fileName = str_replace('\\', '/', $fileName);
 
+        $themesDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::THEMES));
+        $appDir = str_replace('\\', '/', $this->_filesystem->getPath(Filesystem::APP));
         return (
-            $this->getRootDirectory()->isPathInDirectory($fileName, $appDir)
-            || $this->getRootDirectory()->isPathInDirectory($fileName, $themesDir)
+            $this->isPathInDirectory($fileName, $appDir)
+            || $this->isPathInDirectory($fileName, $themesDir)
             || $this->_getAllowSymlinks()
-        ) && $isFile;
+        ) && $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
+    }
+
+    /**
+     * Checks whether path related to the directory
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    protected function isPathInDirectory($path, $directory)
+    {
+        return 0 === strpos($path, $directory);
     }
 }

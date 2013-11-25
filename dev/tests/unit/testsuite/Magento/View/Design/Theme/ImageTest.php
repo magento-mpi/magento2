@@ -53,7 +53,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             array('isExist', 'copyFile', 'getRelativePath', 'delete'), array(), '', false, false
         );
         $this->_filesystemMock = $this->getMock(
-            'Magento\Filesystem', array('getDirectoryWrite'), array(), '', false, false
+            'Magento\Filesystem', array('getDirectoryWrite', '__wakeup'), array(), '', false, false
         );
         $this->_filesystemMock->expects($this->once())
             ->method('getDirectoryWrite')
@@ -208,8 +208,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $this->_directoryMock->expects($this->at(0))->method('getRelativePath')->will($this->returnArgument(0));
         $this->_directoryMock->expects($this->at(1))->method('delete')->with($this->stringContains('test.png'));
 
-        $this->_directoryMock->expects($this->at(2))->method('getRelativePath')->will($this->returnArgument(0));
-        $this->_directoryMock->expects($this->at(3))->method('delete')->with($tmpFilePath);
+        $this->_directoryMock->expects($this->at(2))->method('delete')->with($tmpFilePath);
 
         $this->_model->uploadPreviewImage($scope);
     }

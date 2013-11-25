@@ -40,6 +40,11 @@ class ErrorProcessor
     protected $_filesystem;
 
     /**
+     * @var \Magento\Filesystem\Directory\Write
+     */
+    protected $directoryWrite;
+
+    /**
      * Initialize dependencies. Register custom shutdown function.
      *
      * @param \Magento\Core\Helper\Data $helper
@@ -57,6 +62,7 @@ class ErrorProcessor
         $this->_app = $app;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
+        $this->directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->registerShutdownFunction();
     }
 
@@ -254,12 +260,9 @@ class ErrorProcessor
      */
     protected function _saveFatalErrorReport($reportData)
     {
-        $reportDir = BP . '/var/report/api';
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($reportDir, 0777);
+        $this->directoryWrite->create('report/api');
         $reportId = abs(intval(microtime(true) * rand(100, 1000)));
-        $reportFile = "$reportDir/$reportId";
-        $this->_filesystem->write($reportFile, serialize($reportData));
+        $this->directoryWrite->writeFile('report/api/' . $reportId, serialize($reportData));
         return $reportId;
     }
 }
