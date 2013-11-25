@@ -2,6 +2,7 @@
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
   * Email-related logic from Core and Adminhtml modules consolidated in new Email module
+  * Removed deprecated annotation from getArea methods
 * Application areas rework:
   * Areas are independent from Store
 * GitHub requests:
