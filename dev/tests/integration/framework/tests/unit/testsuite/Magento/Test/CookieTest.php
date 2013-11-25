@@ -27,8 +27,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
     {
         $this->_model = new \Magento\TestFramework\Cookie(
             new \Magento\TestFramework\Request(
-                $this->getMock('Magento\Core\Model\ConfigInterface'),
+                $this->getMock('Magento\App\Route\ConfigInterface'),
                 'http://example.com',
+                array(),
                 $this->getMock('Magento\App\Request\PathInfoProcessorInterface')
             )
         );
