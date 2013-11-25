@@ -24,6 +24,7 @@ abstract class IntegrationAbstract extends Button
      */
     protected function _isDisabled(Object $row)
     {
-        return ($row->hasData(Integration::TYPE) && $row->getData(Integration::TYPE) === Integration::TYPE_CONFIG);
+        return ($row->hasData(Integration::SETUP_TYPE)
+            && $row->getData(Integration::SETUP_TYPE) === Integration::TYPE_CONFIG);
     }
 }

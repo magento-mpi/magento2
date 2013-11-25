@@ -36,7 +36,6 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource
      * @param array $data
      */
     public function __construct(
@@ -44,11 +43,9 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-        $this->_authTypeSource = $authTypeSource;
     }
 
     /**
