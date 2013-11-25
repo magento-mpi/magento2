@@ -20,6 +20,7 @@
   * Fixed Fatal error when creating Shipping label for returns
   * Fixed posting coupon code with spaces
   * Fixed several typos and minor mistakes
+  * Fixed bug with international DHL quotes
 
 2.0.0.0-dev52
 =============
