@@ -20,7 +20,7 @@
         <xs:sequence>
             <xs:element name="resources" type="resourcesType"/>
         </xs:sequence>
-        <xs:attribute name="id" type="integrationIdType" use="required"/>
+        <xs:attribute name="name" type="integrationNameType" use="required"/>
     </xs:complexType>
     <xs:complexType name="resourcesType">
         <xs:sequence>
@@ -39,7 +39,7 @@
             <xs:pattern value=".+_.+::.+"/>
         </xs:restriction>
     </xs:simpleType>
-    <xs:simpleType name="integrationIdType">
+    <xs:simpleType name="integrationNameType">
         <xs:restriction base="xs:string">
             <xs:minLength value="2"/>
         </xs:restriction>

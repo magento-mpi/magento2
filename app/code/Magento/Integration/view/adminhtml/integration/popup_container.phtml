@@ -1,0 +1,21 @@
+<?php
+/**
+ * Popup container template.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
+ * @var \Magento\Backend\Block\Template $this
+ */
+?>
+<script type="text/javascript">
+    window.integration = new Integration(
+        '<?php echo $this->getUrl('*/*/activate', ['id' => ':id', '_query' => 'popup_dialog=permissions']); ?>',
+        '<?php echo $this->getUrl('*/*/activate', ['id' => ':id', '_query' => 'popup_dialog=tokens']); ?>',
+        '', // Not implemented
+        '' // Not implemented
+    );
+</script>
+<div class="integration-popup-container" style="display:none;"></div>

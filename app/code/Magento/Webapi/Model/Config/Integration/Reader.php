@@ -5,23 +5,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Model\Config\Api;
+namespace Magento\Webapi\Model\Config\Integration;
 
 /**
  * Service config data reader.
  */
 class Reader extends \Magento\Config\Reader\Filesystem
 {
-    /**
-     * List of id attributes for merge
-     *
-     * @var array
-     */
-    protected $_idAttributes = array(
-        '/config/service' => 'class',
-        '/config/service/rest-route' => 'method',
-    );
-
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param \Magento\Integration\Model\Config\Api\Converter $converter

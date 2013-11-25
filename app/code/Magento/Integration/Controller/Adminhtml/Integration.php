@@ -27,6 +27,9 @@ class Integration extends \Magento\Backend\App\Action
      */
     protected $_registry = null;
 
+    /** @var \Magento\Logger */
+    protected $_logger;
+
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
@@ -34,13 +37,16 @@ class Integration extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Logger $logger
     ) {
         $this->_registry = $registry;
+        $this->_logger = $logger;
         $this->_integrationService = $integrationService;
         parent::__construct($context);
     }
@@ -136,10 +142,10 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function saveAction()
     {
+        /** @var array $integrationData */
+        $integrationData = array();
         try {
             $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
-            /** @var array $integrationData */
-            $integrationData = array();
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
                 if (!$integrationData[Info::DATA_ID]) {
@@ -150,16 +156,19 @@ class Integration extends \Magento\Backend\App\Action
             }
             /** @var array $data */
             $data = $this->getRequest()->getPost();
-            //Merge Post-ed data
-            $integrationData = array_merge($integrationData, $data);
-            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!isset($integrationData[Info::DATA_ID])) {
-                $this->_integrationService->create($integrationData);
+            if (!empty($data)) {
+                $integrationData = array_merge($integrationData, $data);
+                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+                if (!isset($integrationData[Info::DATA_ID])) {
+                    $this->_integrationService->create($integrationData);
+                } else {
+                    $this->_integrationService->update($integrationData);
+                }
+                $this->_getSession()
+                    ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
             } else {
-                $this->_integrationService->update($integrationData);
+                $this->_getSession()->addError(__('The integration was not saved.'));
             }
-            $this->_getSession()->addSuccess(__('The integration \'%1\' has been saved.',
-                    $integrationData[Info::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
@@ -168,10 +177,26 @@ class Integration extends \Magento\Backend\App\Action
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_logger->logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         }
+    }
+
+    /**
+     * Activates the integration. Also contains intermediate steps (permissions confirmation and tokens).
+     */
+    public function activateAction()
+    {
+        $dialogName = $this->getRequest()->getParam('popup_dialog');
+
+        if ($dialogName) {
+            $this->loadLayout(sprintf('%s_%s_popup', $this->getDefaultLayoutHandle(), $dialogName));
+        } else {
+            $this->loadLayout();
+        }
+
+        $this->renderLayout();
     }
 
     /**
