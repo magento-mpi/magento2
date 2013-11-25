@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Block\Product;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
@@ -90,9 +90,9 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param Product $product
+     * @param AbstractProduct $product
      */
-    public function addToCart(Product $product)
+    public function addToCart(AbstractProduct $product)
     {
         $this->fillOptions($product);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();

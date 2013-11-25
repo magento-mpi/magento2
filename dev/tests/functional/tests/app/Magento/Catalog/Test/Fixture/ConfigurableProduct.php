@@ -20,7 +20,7 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Catalog\Test\Fixture
  */
-class ConfigurableProduct extends Product
+class ConfigurableProduct extends AbstractProduct
 {
     /**
      * Mapping data into ui tabs
@@ -171,6 +171,7 @@ class ConfigurableProduct extends Product
      */
     protected function _initData()
     {
+        parent::_initData();
         $this->_dataConfig = array(
             'constraint' => 'Success',
 
@@ -179,16 +180,8 @@ class ConfigurableProduct extends Product
                 'set' => 4,
             ),
         );
-        $this->_data = array(
+        $data = array(
             'fields' => array(
-                'name' => array(
-                    'value' => 'Configurable Product %isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'sku' => array(
-                    'value' => 'configurable_sku_%isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                ),
                 'price' => array(
                     'value' => '10',
                     'group' => static::GROUP_PRODUCT_DETAILS
@@ -295,6 +288,8 @@ class ConfigurableProduct extends Product
                 'special_price' => '10'
             )
         );
+
+        $this->_data = array_merge_recursive($this->_data, $data);
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogConfigurableProduct($this->_dataConfig, $this->_data);

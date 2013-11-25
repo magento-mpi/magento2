@@ -33,5 +33,9 @@ class Bundle extends AbstractRepository
         $this->_data['bundle_fixed_required'] = $this->_data['default'];
         $this->_data['bundle_fixed'] = $this->_data['default'];
         $this->_data['bundle_fixed']['data']['category_name'] = '%category::getCategoryName%';
+
+        $this->_data['bundle_dynamic_required'] = $this->_data['default'];
+        $this->_data['bundle_dynamic'] = $this->_data['default'];
+        $this->_data['bundle_dynamic']['data']['category_name'] = '%category::getCategoryName%';
     }
 }
