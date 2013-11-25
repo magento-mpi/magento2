@@ -44,27 +44,25 @@ class Wishlist
     protected $_itemFactory = null;
 
     /**
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $coreRegistry, $data);
     }
 
     /**

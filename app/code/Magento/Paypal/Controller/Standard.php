@@ -15,7 +15,7 @@
  */
 namespace Magento\Paypal\Controller;
 
-class Standard extends \Magento\Core\Controller\Front\Action
+class Standard extends \Magento\App\Action\Action
 {
     /**
      * Order instance
@@ -60,7 +60,7 @@ class Standard extends \Magento\Core\Controller\Front\Action
     {
         $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
         $session->setPaypalStandardQuoteId($session->getQuoteId());
-        $this->loadLayout(false)->renderLayout();
+        $this->_view->loadLayout(false)->renderLayout();
         $session->unsQuoteId();
         $session->unsRedirectUrl();
     }

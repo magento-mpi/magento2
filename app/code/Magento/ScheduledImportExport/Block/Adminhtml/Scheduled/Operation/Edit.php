@@ -40,25 +40,25 @@ class Edit
     protected $_operationFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_operationFactory = $operationFactory;
         $this->_coreRegistry = $registry;
         $this->_importExportData = $importExportData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

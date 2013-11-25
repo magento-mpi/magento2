@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Helper\Adminhtml;
 
-class Event extends \Magento\Core\Helper\AbstractHelper
+class Event extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Categories first and second level for admin
@@ -44,12 +44,12 @@ class Event extends \Magento\Core\Helper\AbstractHelper
     /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $factory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory
     ) {

@@ -51,29 +51,27 @@ class Rcompared
     protected $_reportsEventResource;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Data\CollectionFactory $collectionFactory
+     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Reports\Model\Resource\Event $reportsEventResource
      * @param \Magento\Sales\Helper\Admin $adminhtmlSales
-     * @param \Magento\Data\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Url $urlModel
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Url $urlModel,
+        \Magento\Data\CollectionFactory $collectionFactory,
+        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Reports\Model\Resource\Event $reportsEventResource,
         \Magento\Sales\Helper\Admin $adminhtmlSales,
-        \Magento\Data\CollectionFactory $collectionFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Url $urlModel,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Product\Compare\ListCompareFactory $compareListFactory,
         array $data = array()
@@ -83,7 +81,7 @@ class Rcompared
         $this->_adminhtmlSales = $adminhtmlSales;
         $this->_productFactory = $productFactory;
         $this->_compareListFactory = $compareListFactory;
-        parent::__construct($collectionFactory, $coreData, $context, $storeManager, $urlModel, $coreRegistry, $data);
+        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $coreRegistry, $data);
     }
 
     /**
@@ -124,7 +122,7 @@ class Rcompared
             $attributes = $this->_catalogConfig->getProductAttributes();
             if (!in_array('status', $attributes)) {
                 // Status attribute is required even if it is not used in product listings
-                array_push($attributes, 'status');
+                $attributes[] = 'status';
             }
             $productCollection = $this->_productFactory->create()->getCollection()
                 ->setStoreId($this->_getStore()->getId())

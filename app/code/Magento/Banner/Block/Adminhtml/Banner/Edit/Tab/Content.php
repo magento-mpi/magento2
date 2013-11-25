@@ -36,34 +36,23 @@ class Content extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_wysiwygConfig;
 
     /**
-     * Application model
-     *
-     * @var \Magento\Core\Model\App
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\App $app
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\App $app,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         array $data = array()
     ) {
         $this->_wysiwygConfigModel = $wysiwygConfig;
-        $this->_storeManager = $app;
-
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
 

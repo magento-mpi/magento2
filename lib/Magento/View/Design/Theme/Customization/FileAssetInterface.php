@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Theme\Customization;
+
 /**
  * Theme asset file interface
  */
-namespace Magento\View\Design\Theme\Customization;
-
 interface FileAssetInterface
 {
     /**

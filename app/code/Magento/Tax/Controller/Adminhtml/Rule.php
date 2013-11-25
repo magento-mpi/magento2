@@ -17,7 +17,9 @@
  */
 namespace Magento\Tax\Controller\Adminhtml;
 
-class Rule extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Rule extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,11 +29,11 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -40,9 +42,9 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
 
     public function indexAction()
     {
-        $this->_title(__('Tax Rules'));
+        $this->_title->add(__('Tax Rules'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }
@@ -54,7 +56,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
 
     public function editAction()
     {
-        $this->_title(__('Tax Rules'));
+        $this->_title->add(__('Tax Rules'));
 
         $taxRuleId  = $this->getRequest()->getParam('rule');
         $ruleModel  = $this->_objectManager->create('Magento\Tax\Model\Calculation\Rule');
@@ -73,13 +75,13 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             $ruleModel->setData($data);
         }
 
-        $this->_title($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : __('New Tax Rule'));
+        $this->_title->add($ruleModel->getId() ? sprintf("%s", $ruleModel->getCode()) : __('New Tax Rule'));
 
         $this->_coreRegistry->register('tax_rule', $ruleModel);
 
         $this->_initAction()
-            ->_addBreadcrumb($taxRuleId ? __('Edit Rule') :  __('New Rule'), $taxRuleId ?  __('Edit Rule') :  __('New Rule'))
-            ->renderLayout();
+            ->_addBreadcrumb($taxRuleId ? __('Edit Rule') :  __('New Rule'), $taxRuleId ?  __('Edit Rule') :  __('New Rule'));
+        $this->_view->renderLayout();
     }
 
     public function saveAction()
@@ -109,7 +111,7 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             }
 
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRuleData($postData);
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }
         $this->getResponse()->setRedirect($this->getUrl('tax/rule'));
@@ -139,18 +141,18 @@ class Rule extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Something went wrong deleting this tax rule.'));
         }
 
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     /**
      * Initialize action
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Tax::sales_tax_rules')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Tax::sales_tax_rules')
             ->_addBreadcrumb(__('Tax'), __('Tax'))
             ->_addBreadcrumb(__('Tax Rules'), __('Tax Rules'));
         return $this;

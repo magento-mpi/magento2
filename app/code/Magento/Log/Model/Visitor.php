@@ -39,13 +39,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_ignoredUserAgents;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -108,7 +101,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\Session $session
@@ -130,7 +122,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\Session $session,
@@ -147,7 +138,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_eventManager = $eventManager;
         $this->_customerFactory = $customerFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;

@@ -34,31 +34,33 @@ class Iframe extends \Magento\Pbridge\Block\Iframe\AbstractIframe
     protected $_pbridgeSession;
 
     /**
-     * Construct
-     *
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
-     * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
         $this->_pbridgeSession = $pbridgeSession;
-        parent::__construct($coreData, $context, $customerSession, $pbridgeSession, $regionFactory, $storeManager,
-            $pbridgeData, $data);
+        parent::__construct(
+            $context,
+            $coreData,
+            $customerSession,
+            $pbridgeSession,
+            $regionFactory,
+            $pbridgeData,
+            $data
+        );
     }
 
     /**

@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Controller\Adminhtml;
 
-class Pbridge extends \Magento\Backend\Controller\Adminhtml\Action
+class Pbridge extends \Magento\Backend\App\Action
 {
     /**
      * Load only action layout handles
@@ -26,12 +26,12 @@ class Pbridge extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initActionLayout()
     {
-        $this->addActionLayoutHandles();
-        $this->loadLayoutUpdates();
-        $this->generateLayoutXml();
-        $this->generateLayoutBlocks();
-        $this->_isLayoutLoaded = true;
-        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+        $this->_view->addActionLayoutHandles();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $this->_view->setIsLayoutLoaded(true);
+        $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
         return $this;
     }
 
@@ -58,7 +58,7 @@ class Pbridge extends \Magento\Backend\Controller\Adminhtml\Action
         if ($methodCode) {
             $methodInstance = $this->_objectManager->get('Magento\Payment\Helper\Data')->getMethodInstance($methodCode);
             if ($methodInstance) {
-                $block = $this->getLayout()->createBlock($methodInstance->getFormBlockType());
+                $block = $this->_view->getLayout()->createBlock($methodInstance->getFormBlockType());
                 $block->setMethod($methodInstance);
                 if($this->getRequest()->getParam('data')) {
                     $block->setFormParams($this->getRequest()->getParam('data', null));
@@ -83,7 +83,7 @@ class Pbridge extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_objectManager->get('Magento\Pbridge\Helper\Data')->setStoreId($this->getRequest()->getParam('store'));
         }
         $this->_initActionLayout();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

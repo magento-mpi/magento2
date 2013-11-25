@@ -14,7 +14,7 @@
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
 class Attribute
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Customer Address Entity Type instance
@@ -46,14 +46,14 @@ class Attribute
     protected $_attrSetFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\AttributeFactory $attrFactory
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attrSetFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\AttributeFactory $attrFactory,
@@ -86,8 +86,8 @@ class Attribute
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Adminhtml::stores_attributes')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Adminhtml::stores_attributes')
             ->_addBreadcrumb(
                 __('Customer'),
                 __('Customer'))
@@ -119,9 +119,9 @@ class Attribute
      */
     public function indexAction()
     {
-        $this->_title(__('Customer Attributes'));
-        $this->_initAction()
-            ->renderLayout();
+        $this->_title->add(__('Customer Attributes'));
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -130,7 +130,7 @@ class Attribute
      */
     public function newAction()
     {
-        $this->addActionLayoutHandles();
+        $this->_view->addActionLayoutHandles();
         $this->_forward('edit');
     }
 
@@ -145,7 +145,7 @@ class Attribute
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title(__('Customer Attributes'));
+        $this->_title->add(__('Customer Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -162,9 +162,9 @@ class Attribute
                 return;
             }
 
-            $this->_title($attributeObject->getFrontendLabel());
+            $this->_title->add($attributeObject->getFrontendLabel());
         } else {
-            $this->_title(__('New Customer Address Attribute'));
+            $this->_title->add(__('New Customer Address Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);
@@ -178,8 +178,8 @@ class Attribute
             : __('New Customer Attribute');
 
         $this->_initAction()
-            ->_addBreadcrumb($label, $label)
-            ->renderLayout();
+            ->_addBreadcrumb($label, $label);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -200,9 +200,9 @@ class Attribute
                     __('An attribute with this code already exists.')
                 );
 
-                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
-                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+                $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
         $this->getResponse()->setBody($response->toJson());

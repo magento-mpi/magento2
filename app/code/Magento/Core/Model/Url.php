@@ -126,7 +126,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     protected $_app;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -164,7 +164,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $session,
         $areaCode = null,
         array $data = array()
@@ -1224,7 +1224,9 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         $referer = parse_url($this->_app->getRequest()->getServer('HTTP_REFERER'), PHP_URL_HOST);
         foreach ($this->_storeManager->getStores() as $store) {
             $storeDomains[] = parse_url($store->getBaseUrl(), PHP_URL_HOST);
-            $storeDomains[] = parse_url($store->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LINK, true), PHP_URL_HOST);
+            $storeDomains[] = parse_url($store->getBaseUrl(
+                \Magento\Core\Model\Store::URL_TYPE_LINK, true), PHP_URL_HOST
+            );
         }
         $storeDomains = array_unique($storeDomains);
         if (empty($referer) || in_array($referer, $storeDomains)) {
@@ -1243,7 +1245,7 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
     public function getRedirectUrl($url)
     {
         $this->_prepareSessionUrlWithParams($url, array(
-            'name' => \Magento\Core\Controller\Front\Action::SESSION_NAMESPACE
+            'name' => \Magento\Core\App\Action\Plugin\LastUrl::SESSION_NAMESPACE
         ));
 
         $query = $this->getQuery(false);
@@ -1251,6 +1253,27 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             $url .= (strpos($url, '?') === false ? '?' : '&') . $query;
         }
 
+        return $url;
+    }
+
+    /**
+     * Retrieve current url
+     *
+     * @return string
+     */
+    public function getCurrentUrl()
+    {
+        $port = $this->_request->getServer('SERVER_PORT');
+        if ($port) {
+            $defaultPorts = array(
+                \Magento\App\Request\Http::DEFAULT_HTTP_PORT,
+                \Magento\App\Request\Http::DEFAULT_HTTPS_PORT
+            );
+            $port = (in_array($port, $defaultPorts)) ? '' : ':' . $port;
+        }
+        $requestUri = $this->_request->getServer('REQUEST_URI');
+        $url = $this->_request->getScheme() . '://' . $this->_request->getHttpHost()
+                . $port . $requestUri;
         return $url;
     }
 }

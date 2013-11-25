@@ -19,7 +19,7 @@
 namespace Magento\AdvancedCheckout\Controller;
 
 class Cart
-    extends \Magento\Core\Controller\Front\Action
+    extends \Magento\App\Action\Action
     implements \Magento\Catalog\Controller\Product\View\ViewInterface
 {
     /**

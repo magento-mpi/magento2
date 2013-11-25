@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-class Success extends \Magento\Core\Block\Template
+class Success extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
@@ -50,8 +50,8 @@ class Success extends \Magento\Core\Block\Template
     protected $_orderConfig;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -61,8 +61,8 @@ class Success extends \Magento\Core\Block\Template
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -77,7 +77,7 @@ class Success extends \Magento\Core\Block\Template
         $this->_agreementFactory = $agreementFactory;
         $this->_profileCollFactory = $profileCollFactory;
         $this->_orderConfig = $orderConfig;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

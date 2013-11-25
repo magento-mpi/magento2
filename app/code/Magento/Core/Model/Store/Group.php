@@ -90,7 +90,7 @@ class Group extends \Magento\Core\Model\AbstractModel
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -99,7 +99,7 @@ class Group extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Config\Data $configDataResource
      * @param \Magento\Core\Model\Store $store
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -109,7 +109,7 @@ class Group extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Config\Data $configDataResource,
         \Magento\Core\Model\Store $store,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -278,7 +278,7 @@ class Group extends \Magento\Core\Model\AbstractModel
         foreach ($this->getStores() as $store) {
             /* @var $store \Magento\Core\Model\Store */
             if ($store->getLocaleCode() == $locale) {
-                array_push($stores, $store);
+                $stores[] = $store;
             }
         }
         return $stores;

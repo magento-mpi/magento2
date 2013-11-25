@@ -15,7 +15,7 @@
 namespace Magento\CustomerCustomAttributes\Controller\Adminhtml\Customer;
 
 class Formtype
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -45,7 +45,7 @@ class Formtype
     protected $_elementsFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Eav\Model\Form\TypeFactory $formTypeFactory
      * @param \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory
@@ -53,7 +53,7 @@ class Formtype
      * @param \Magento\Eav\Model\Resource\Form\Element\CollectionFactory $elementsFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Eav\Model\Form\TypeFactory $formTypeFactory,
         \Magento\Eav\Model\Form\FieldsetFactory $fieldsetFactory,
@@ -75,8 +75,8 @@ class Formtype
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CustomerCustomAttributes::customer_formtype')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_CustomerCustomAttributes::customer_formtype')
             ->_addBreadcrumb(__('Customer'),
                 __('Customer'))
             ->_addBreadcrumb(__('Manage Form Types'),
@@ -90,8 +90,8 @@ class Formtype
      */
     public function indexAction()
     {
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -123,8 +123,8 @@ class Formtype
     {
         $this->_coreRegistry->register('edit_mode', 'new');
         $this->_initFormType();
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -166,7 +166,7 @@ class Formtype
             }
         }
 
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 
     /**
@@ -177,8 +177,8 @@ class Formtype
     {
         $this->_coreRegistry->register('edit_mode', 'edit');
         $this->_initFormType();
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -305,7 +305,7 @@ class Formtype
                 $redirectUrl = $this->getUrl('adminhtml/*/edit', array('type_id' => $formType->getId()));
             }
         }
-        $this->_redirectUrl($redirectUrl);
+        $this->getResponse()->setRedirect($redirectUrl);
     }
 
     /**

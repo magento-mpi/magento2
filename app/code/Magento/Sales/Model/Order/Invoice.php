@@ -170,13 +170,6 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_paymentData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -229,19 +222,19 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_emailInfoFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
-     * @param \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param Invoice\Config $invoiceConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
      * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $invoiceItemCollFactory
-     * @param \Magento\Sales\Model\Order\Invoice\CommentFactory $invoiceCommentFactory
+     * @param Invoice\CommentFactory $invoiceCommentFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Comment\CollectionFactory $commentCollFactory
      * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
@@ -252,7 +245,6 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Context $context,
@@ -273,7 +265,6 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;

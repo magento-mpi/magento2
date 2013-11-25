@@ -31,24 +31,24 @@ class Conditions
     protected $_conditionsBlock;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock
      * @param \Magento\Rule\Block\Conditions $conditionsBlock
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldsetBlock,
         \Magento\Rule\Block\Conditions $conditionsBlock,
         array $data = array()
     ) {
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
         $this->_fieldsetBlock = $fieldsetBlock;
         $this->_conditionsBlock = $conditionsBlock;
     }

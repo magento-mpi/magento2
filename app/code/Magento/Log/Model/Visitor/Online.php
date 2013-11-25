@@ -45,12 +45,6 @@ class Online extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\App\CacheInterface
-     */
-    protected $_cache;
-
-    /**
-     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -59,7 +53,6 @@ class Online extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\App\CacheInterface $cache,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -67,7 +60,6 @@ class Online extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_cache = $cache;
         $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -109,7 +101,7 @@ class Online extends \Magento\Core\Model\AbstractModel
      */
     public function getPrepareAt()
     {
-        return $this->_cache->load('log_visitor_online_prepare_at');
+        return $this->_cacheManager->load('log_visitor_online_prepare_at');
     }
 
     /**
@@ -123,7 +115,7 @@ class Online extends \Magento\Core\Model\AbstractModel
         if (is_null($time)) {
             $time = time();
         }
-        $this->_cache->save($time, 'log_visitor_online_prepare_at');
+        $this->_cacheManager->save($time, 'log_visitor_online_prepare_at');
         return $this;
     }
 

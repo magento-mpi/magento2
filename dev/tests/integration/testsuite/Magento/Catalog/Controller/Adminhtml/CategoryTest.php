@@ -38,7 +38,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/catalog/category/save');
 
         $this->assertSessionMessages(
-            $this->equalTo(array('You saved the category.')), \Magento\Core\Model\Message::SUCCESS
+            $this->equalTo(array('You saved the category.')), \Magento\Message\Factory::SUCCESS
         );
 
         /** @var $category \Magento\Catalog\Model\Category */
@@ -289,7 +289,7 @@ class CategoryTest extends \Magento\Backend\Utility\Controller
         ));
         $this->dispatch('backend/catalog/category/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save the category')), \Magento\Core\Model\Message::ERROR
+            $this->equalTo(array('Unable to save the category')), \Magento\Message\Factory::ERROR
         );
     }
 }

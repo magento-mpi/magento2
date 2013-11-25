@@ -27,23 +27,23 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
     protected $_wishlistData = null;
 
     /**
-     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
+     * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param array $data
      */
     public function __construct(
-        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Session\Generic $wishlistSession,
+        \Magento\Wishlist\Helper\Data $wishlistData,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($coreData, $context, $wishlistConfig, $wishlistSession, $data);
+        parent::__construct($context, $coreData, $wishlistConfig, $wishlistSession, $data);
     }
 
     /**
