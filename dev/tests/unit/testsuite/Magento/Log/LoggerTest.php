@@ -46,6 +46,9 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue(true));
         $this->_directory->expects($this->any())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0));
+        $this->_directory->expects($this->any())
             ->method('getRelativePath')
             ->will($this->returnValue($logDir));
 

@@ -110,6 +110,11 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_pdfItemsFactory;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
@@ -143,6 +148,7 @@ abstract class AbstractPdf extends \Magento\Object
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translate = $translate;
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_filesystem = $filesystem;
         $this->_shippingConfig = $shippingConfig;
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;
@@ -819,8 +825,9 @@ abstract class AbstractPdf extends \Magento\Object
      */
     protected function _setFontRegular($object, $size = 7)
     {
+        $baseDirHandle = $this->_filesystem->getDirectoryRead(\Magento\Filesystem\DirectoyList::ROOT);
         $font = \Zend_Pdf_Font::fontWithPath(
-            $this->_coreDir->getDir() . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf'
+            $baseDirHandle->readFile('/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf')
         );
         $object->setFont($font, $size);
         return $font;

@@ -20,59 +20,6 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     const PUB_LIB = '/zzz/qqq/js00';
 
     /**
-     * @dataProvider getSafePathDataProvider
-     * @param string $filePath
-     * @param string $basePath
-     * @param string $expectedResult
-     */
-    public function testGetSafePath($filePath, $basePath, $expectedResult)
-    {
-        /** @var $dirs \Magento\App\Dir */
-        $dirs = $this->getMock('Magento\App\Dir', null, array(), '', false);
-
-        /** @var $processorFactory \Magento\View\Layout\ProcessorFactory */
-        $processorFactory = $this->getMock(
-            'Magento\View\Layout\ProcessorFactory',
-            array('create'),
-            array(),
-            '',
-            false
-        );
-
-        /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = $this->getMock('Magento\Core\Model\Resource\Theme\Collection', null, array(), '', false);
-
-        /** @var $context \Magento\Core\Helper\Context */
-        $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
-
-        $fileSystem = $this->getMockBuilder('Magento\View\FileSystem')->disableOriginalConstructor()
-            ->getMock();
-
-        $helper = new \Magento\Core\Helper\Theme(
-            $context,
-            $dirs,
-            $processorFactory,
-            $themeCollection,
-            $fileSystem
-        );
-
-        $result = $helper->getSafePath($filePath, $basePath);
-
-        $this->assertEquals($expectedResult, $result);
-    }
-
-    /**
-     * @return array
-     */
-    public function getSafePathDataProvider()
-    {
-        return array(
-            array('/1/2/3/4/5/6.test', '/1/2/3/', '4/5/6.test'),
-            array('/1/2/3/4/5/6.test', '/1/2/3', '4/5/6.test'),
-        );
-    }
-
-    /**
      * @dataProvider getCssFilesDataProvider
      * @param string $layoutStr
      * @param array $expectedResult

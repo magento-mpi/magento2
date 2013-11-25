@@ -15,9 +15,9 @@ class DirTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\App\Dir|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_applicationDirs;
+    protected $filesystemMock;
 
     /**
      * @var \Magento\Stdlib\String|\PHPUnit_Framework_MockObject_MockObject
@@ -26,23 +26,17 @@ class DirTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_applicationDirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
-        $this->_applicationDirs
-            ->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::MODULES)
-            ->will($this->returnValue('app' . DIRECTORY_SEPARATOR . 'code'));
-
+        $this->filesystemMock = $this->getMock('\Magento\Filesystem', array(), array(), '', false, false);
         $this->_stringMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '', false, false);
         $this->_stringMock->expects($this->once())->method('upperCaseWords')
             ->will($this->returnValue('Test' . DIRECTORY_SEPARATOR . 'Module'));
-        $this->_model = new \Magento\Module\Dir($this->_applicationDirs, $this->_stringMock);
+        $this->_model = new \Magento\Module\Dir($this->filesystemMock, $this->_stringMock);
     }
 
     public function testGetDirModuleRoot()
     {
         $this->assertEquals(
-            str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Test/Module'),
+            str_replace('/', DIRECTORY_SEPARATOR, '/Test/Module'),
             $this->_model->getDir('Test_Module')
         );
     }
@@ -50,7 +44,7 @@ class DirTest extends \PHPUnit_Framework_TestCase
     public function testGetDirModuleSubDir()
     {
         $this->assertEquals(
-            str_replace('/', DIRECTORY_SEPARATOR, 'app/code/Test/Module/etc'),
+            str_replace('/', DIRECTORY_SEPARATOR, '/Test/Module/etc'),
             $this->_model->getDir('Test_Module', 'etc')
         );
     }

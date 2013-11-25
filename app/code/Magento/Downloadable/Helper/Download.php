@@ -239,7 +239,11 @@ class Download extends \Magento\Core\Helper\AbstractHelper
     {
         if (self::LINK_TYPE_FILE == $linkType) {
             //check LFI protection
-            $this->_filesystem->checkLfiProtection($resourceFile);
+            if (preg_match('#\.\.[\\\/]#', $resourceFile)) {
+                throw new \InvalidArgumentException(
+                    'Requested file may not include parent directory traversal ("../", "..\\" notation)'
+                );
+            }
         }
 
         $this->_resourceFile    = $resourceFile;

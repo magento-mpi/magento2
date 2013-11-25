@@ -26,10 +26,10 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
         $stringMock = $this->getMock('Magento\Stdlib\String', array(), array(), '', false, false);
         $storeConfigMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
         $translateMock = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false, false);
-        $coreDirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
-        $coreDirMock->expects($this->once())
-            ->method('getDir')
-            ->will($this->returnValue(BP));
+        $filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
+//        $coreDirMock->expects($this->once())
+//            ->method('getDir')
+//            ->will($this->returnValue(BP));
         $shippingConfigMock = $this->getMock('Magento\Shipping\Model\Config', array(), array(), '', false,
             false);
         $this->_pdfConfigMock =
@@ -48,7 +48,7 @@ class InvoiceTest extends \PHPUnit_Framework_TestCase
             $stringMock,
             $storeConfigMock,
             $translateMock,
-            $coreDirMock,
+            $filesystemMock,
             $shippingConfigMock,
             $this->_pdfConfigMock,
             $totalFactoryMock,
