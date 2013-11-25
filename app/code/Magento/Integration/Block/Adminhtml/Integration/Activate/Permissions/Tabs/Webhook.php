@@ -10,7 +10,7 @@
 namespace Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs;
 
 use Magento\Backend\Block\Widget\Tab\TabInterface;
-use Magento\Core\Block\Template;
+use Magento\View\Block\Template;
 
 class Webhook extends Template implements TabInterface
 {

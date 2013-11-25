@@ -194,12 +194,12 @@ class Integration extends \Magento\Backend\App\Action
         $dialogName = $this->getRequest()->getParam('popup_dialog');
 
         if ($dialogName) {
-            $this->loadLayout(sprintf('%s_%s_popup', $this->getDefaultLayoutHandle(), $dialogName));
+            $this->_view->loadLayout(sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName));
         } else {
-            $this->loadLayout();
+            $this->_view->loadLayout();
         }
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
