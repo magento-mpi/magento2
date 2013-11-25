@@ -201,7 +201,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     }
 
     /**
-     * Retrive quote address
+     * Retrieve quote address
      *
      * @return \Magento\Sales\Model\Quote\Address
      */

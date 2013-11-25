@@ -164,7 +164,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Init and retreive attribute collection
+     * Init and retrieve attribute collection
      *
      * @return \Magento\Eav\Model\Resource\Entity\Attribute\Collection
      */
@@ -194,7 +194,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive new incrementId
+     * Retrieve new incrementId
      *
      * @param int $storeId
      * @return string
@@ -249,7 +249,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive entity id field
+     * Retrieve entity id field
      *
      * @return string|null
      */
@@ -259,7 +259,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive entity table name
+     * Retrieve entity table name
      *
      * @return string|null
      */
@@ -310,7 +310,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive entity type id
+     * Retrieve entity type id
      *
      * @return string|null
      */
@@ -320,7 +320,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive entity type code
+     * Retrieve entity type code
      *
      * @return string|null
      */
@@ -330,7 +330,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive attribute codes
+     * Retrieve attribute codes
      *
      * @return array|null
      */
@@ -354,7 +354,7 @@ class Type extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive resource entity object
+     * Retrieve resource entity object
      *
      * @return \Magento\Core\Model\Resource\AbstractResource
      */

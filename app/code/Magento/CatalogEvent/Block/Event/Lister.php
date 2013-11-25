@@ -48,7 +48,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
-    ) {
+    ) {      
         $this->_catalogEventData = $catalogEventData;
         $this->_eventCollectionFactory = $eventCollectionFactory;
         parent::__construct($context, $coreData, $data);
@@ -129,7 +129,7 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     }
 
     /**
-     * Retreive category url
+     * Retrieve category url
      *
      * @param \Magento\Catalog\Model\Category $category
      * @return string
