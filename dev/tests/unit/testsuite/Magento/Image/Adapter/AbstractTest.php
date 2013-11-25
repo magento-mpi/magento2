@@ -21,22 +21,42 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Filesystem\Directory\Write
+     */
+    protected $directoryWriteMock;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject |\Magento\Filesystem
+     */
+    protected $filesystemMock;
+
+
     protected function setUp()
     {
-        parent::setUp();
-        $filesystemMock = $this->getMock(
+        $this->directoryWriteMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
+        $this->filesystemMock = $this->getMock(
             'Magento\Filesystem',
-            array('setIsAllowCreateDirectories', 'createDirectory'),
+            array('getDirectoryWrite', 'createDirectory'),
             array(),
             '',
             false
         );
-        $this->_model = $this->getMockForAbstractClass(
-            'Magento\Image\Adapter\AbstractAdapter',
-            array($filesystemMock)
+        $this->filesystemMock->expects($this->once())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($this->directoryWriteMock));
+
+        $this->_model = $this->getMockForAbstractClass('Magento\Image\Adapter\AbstractAdapter',
+            array($this->filesystemMock)
         );
     }
 
+    protected function tearDown()
+    {
+        $this->directoryWriteMock   = null;
+        $this->_model               = null;
+        $this->filesystemMock       = null;
+    }
     /**
      * Test adaptResizeValues with null as a value one of parameters
      *

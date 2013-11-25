@@ -30,7 +30,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function testGet()
     {
-        $path = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        $path = __DIR__ . '/_files';
 
         $this->_appDirsMock->expects($this->once())
             ->method('getDir')
@@ -38,8 +38,8 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($path));
 
         $expectedFilesList = array(
-            $path . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . 'hierarchy_config.xml',
-            $path . DIRECTORY_SEPARATOR . 'default' . DIRECTORY_SEPARATOR . 'hierarchy_config.xml'
+            $path . '/custom/hierarchy_config.xml',
+            $path . '/default/hierarchy_config.xml'
         );
 
         $this->assertEquals($expectedFilesList, $this->_model->get('hierarchy_config.xml', 'scope'));

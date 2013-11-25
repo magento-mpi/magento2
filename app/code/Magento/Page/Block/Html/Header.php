@@ -135,10 +135,10 @@ class Header extends \Magento\Core\Block\Template
     {
         $helper = $this->_helperFactory->get('Magento\Core\Helper\File\Storage\Database');
 
-        if ($helper->checkDbUsage() && !$this->mediaDirectory->isFile($filename)) {
+        if ($helper->checkDbUsage() && !$this->getMediaDirectory()->isFile($filename)) {
             $helper->saveFileToFilesystem($filename);
         }
 
-        return $this->mediaDirectory->isFile($filename);
+        return $this->getMediaDirectory()->isFile($filename);
     }
 }
