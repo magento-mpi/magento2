@@ -46,7 +46,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         $themeDir->delete('theme/_merged');
 
         $pubLibPath = $filesystem->getPath(\Magento\Filesystem::PUB_LIB);
-        copy($pubLibPath . 'prototype/prototype.js', $pubLibPath . 'prototype/prototype.min.js');
+        copy($pubLibPath . '/prototype/prototype.js', $pubLibPath . '/prototype/prototype.min.js');
     }
 
     public static function tearDownAfterClass()
