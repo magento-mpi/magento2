@@ -49,11 +49,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -69,11 +64,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_quoteFactory;
 
     /**
-     * @var \Magento\App\RequestInterface
-     */
-    protected $_request;
-
-    /**
      * @var \Magento\HTTP\PhpEnvironment\RemoteAddress
      */
     protected $_remoteAddress;
@@ -83,7 +73,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Message\CollectionFactory $messageCollFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -96,7 +85,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Message\CollectionFactory $messageCollFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -105,7 +93,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
-        $this->_storeManager = $storeManager;
         $this->_customerSession = $customerSession;
         $this->_messageCollFactory = $messageCollFactory;
         $this->_quoteFactory = $quoteFactory;

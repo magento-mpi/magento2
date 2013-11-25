@@ -44,11 +44,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_coreUrl = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\Config\Share
      */
     protected $_configShare;
@@ -72,7 +67,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -86,7 +80,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
@@ -98,7 +91,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;
-        $this->_storeManager = $storeManager;
         $this->_configShare = $configShare;
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
@@ -106,7 +98,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
-            $namespace .= '_' . ($storeManager->getWebsite()->getCode());
+            $namespace .= '_' . ($this->_storeManager->getWebsite()->getCode());
         }
 
         $this->start($namespace, $sessionName);

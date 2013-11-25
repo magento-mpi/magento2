@@ -37,16 +37,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_saveMethod;
 
     /**
-     * @var string
-     */
-    protected $_savePath;
-
-    /**
-     * @var string
-     */
-    protected $_cacheLimiter;
-
-    /**
      * Core message
      *
      * @var \Magento\Core\Model\Message
@@ -76,11 +66,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -89,11 +74,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Core\Model\Message $message
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\App\Dir $dir
-     * @param $saveMethod
-     * @param null $savePath
-     * @param null $cacheLimiter
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param string $saveMethod
      */
     public function __construct(
         \Magento\Core\Model\Session\Validator $validator,
@@ -104,25 +86,19 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Message $message,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\App\Dir $dir,
-        $saveMethod,
-        $savePath = null,
-        $cacheLimiter = null
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        $saveMethod
     ) {
         $this->_validator = $validator;
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
         $this->_storeConfig = $coreStoreConfig;
         $this->_saveMethod = $saveMethod;
-        $this->_savePath = $savePath;
-        $this->_cacheLimiter = $cacheLimiter;
         $this->_messageFactory = $messageFactory;
         $this->_message = $message;
         $this->_request = $request;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
-        $this->_dir = $dir;
     }
 
     /**
@@ -160,25 +136,9 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @return string
      */
-    public function getCacheLimiter()
-    {
-        return $this->_cacheLimiter;
-    }
-
-    /**
-     * @return string
-     */
     public function getSaveMethod()
     {
         return $this->_saveMethod;
-    }
-
-    /**
-     * @return string
-     */
-    public function getSavePath()
-    {
-        return $this->_savePath;
     }
 
     /**
@@ -187,14 +147,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAppState()
     {
         return $this->_appState;
-    }
-
-    /**
-     * @return \Magento\App\Dir
-     */
-    public function getDir()
-    {
-        return $this->_dir;
     }
 
     /**

@@ -960,5 +960,10 @@ return array(
     array('setStore', '\Magento\Stdlib\Cookie'),
     array('setLifetime', '\Magento\Stdlib\Cookie'),
     array('_getResponse', '\Magento\Stdlib\Cookie'),
+    array('_getRequest', '\Magento\Stdlib\Cookie'),
     array('init', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\AbstractSession::start'),
+    array('getCacheLimiter', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
 );

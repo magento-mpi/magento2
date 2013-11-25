@@ -51,11 +51,6 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
     protected $_orderFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Customer\Model\CustomerFactory
      */
     protected $_customerFactory;
@@ -71,7 +66,6 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
@@ -81,13 +75,11 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
-        $this->_storeManager = $storeManager;
         $this->_orderFactory = $orderFactory;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $this->start('adminhtml_quote');

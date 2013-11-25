@@ -406,4 +406,19 @@ return array(
         '\Magento\Stdlib\Cookie',
         '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_HTTPONLY'
     ),
+    array(
+        'PARAM_SESSION_SAVE_METHOD',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'PARAM_SESSION_SAVE_PATH',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'PARAM_SESSION_CACHE_LIMITER',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
 );

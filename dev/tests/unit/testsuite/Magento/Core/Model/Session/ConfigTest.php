@@ -38,28 +38,43 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $_requestMock;
 
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\App\Dir
+     */
+    protected $_dir;
+
     protected function setUp()
     {
         $this->_configMock = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false, false);
-        $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManagerInterface', array(), array(), '',
-            false, false);
+        $this->_storeManagerMock = $this->getMock('\Magento\Core\Model\StoreManager', array('getStore'),
+            array(), '', false, false);
+        $storeMock = $this->getMock('\Magento\Core\Model\Store', array('isAdmin', '__wakeup'), array(),
+            '', false, false);
+        $this->_storeManagerMock->expects($this->atLeastOnce())->method('getStore')
+            ->will($this->returnValue($storeMock));
+
         $this->_stringHelperMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '',
             false, false);
-        $this->_requestMock = $this->getMock('\Magento\App\RequestInterface', array(), array(), '',
+        $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array('getBasePath', 'isSecure'), array(), '',
             false, false);
+        $this->_requestMock->expects($this->atLeastOnce())->method('getBasePath')->will($this->returnValue('/'));
+        $this->_appState = $this->getMock('\Magento\App\State', array('isInstalled'), array(), '', false, false);
+        $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
+        $this->_dir = $this->getMock('\Magento\App\Dir', array(), array(), '', false, false);
 
         $this->config = new \Magento\Core\Model\Session\Config(
             $this->_configMock,
             $this->_storeManagerMock,
             $this->_stringHelperMock,
             $this->_requestMock,
-            array(
-                'cookie_lifetime',
-                'cookie_path',
-                'cookie_domain',
-                'cookie_secure',
-                'cookie_httponly'
-            )
+            $this->_appState,
+            $this->_dir,
+            __DIR__
         );
     }
 

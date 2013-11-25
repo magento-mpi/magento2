@@ -13,13 +13,15 @@ namespace Magento\Core\Model\Session;
 
 class AbstractSession extends \Magento\Object
 {
-    const PARAM_SESSION_SAVE_METHOD     = 'session_save';
-    const PARAM_SESSION_SAVE_PATH       = 'session_save_path';
-    const PARAM_SESSION_CACHE_LIMITER   = 'session_cache_limiter';
+    /**
+     * Configuration path to log exception file
+     */
+    const XML_PATH_LOG_EXCEPTION_FILE = 'dev/log/exception_file';
 
-    const XML_PATH_LOG_EXCEPTION_FILE   = 'dev/log/exception_file';
-
-    const HOST_KEY                      = '_session_hosts';
+    /**
+     * Session key for list of hosts
+     */
+    const HOST_KEY = '_session_hosts';
 
     /**
      * Default options when a call destroy()
@@ -98,21 +100,6 @@ class AbstractSession extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
-     * @var string
-     */
-    protected $_savePath;
-
-    /**
-     * @var string
-     */
-    protected $_cacheLimiter;
-
-    /**
      * @var \Magento\Session\SidResolverInterface
      */
     protected $_sidResolver;
@@ -138,15 +125,12 @@ class AbstractSession extends \Magento\Object
         $this->_eventManager = $context->getEventManager();
         $this->_logger = $context->getLogger();
         $this->_coreStoreConfig = $context->getStoreConfig();
-        $this->_savePath = $this->_savePath ?: $context->getSavePath();
         $this->_saveMethod = $this->_saveMethod ?: $context->getSaveMethod();
-        $this->_cacheLimiter = $this->_cacheLimiter ?: $context->getCacheLimiter();
         $this->_messageFactory = $context->getMessageFactory();
         $this->_message = $context->getMessage();
         $this->_request = $context->getRequest();
         $this->_appState = $context->getAppState();
         $this->_storeManager = $context->getStoreManager();
-        $this->_dir = $context->getDir();
         $this->_sidResolver = $sidResolver;
         $this->_sessionConfig = $sessionConfig;
         parent::__construct($data);
@@ -176,11 +160,9 @@ class AbstractSession extends \Magento\Object
                 break;
             case 'memcache':
                 ini_set('session.save_handler', 'memcache');
-                session_save_path($this->getSessionSavePath());
                 break;
             case 'memcached':
                 ini_set('session.save_handler', 'memcached');
-                session_save_path($this->getSessionSavePath());
                 break;
             case 'eaccelerator':
                 ini_set('session.save_handler', 'eaccelerator');
@@ -195,10 +177,6 @@ class AbstractSession extends \Magento\Object
 
         // potential custom logic for session id (ex. switching between hosts)
         $this->setSessionId($this->_sidResolver->getSid($this));
-
-        if ($this->_cacheLimiter) {
-            session_cache_limiter($this->_cacheLimiter);
-        }
 
         session_start();
 
@@ -645,19 +623,6 @@ class AbstractSession extends \Magento\Object
             return $this->_saveMethod;
         }
         return 'files';
-    }
-
-    /**
-     * Get session save path
-     *
-     * @return string
-     */
-    public function getSessionSavePath()
-    {
-        if ($this->_appState->isInstalled() && $this->_savePath) {
-            return $this->_savePath;
-        }
-        return $this->_dir->getDir('session');
     }
 
     /**

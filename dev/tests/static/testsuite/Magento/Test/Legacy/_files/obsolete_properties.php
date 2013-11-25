@@ -112,4 +112,10 @@ return array(
     array('_httpResponse', '\Magento\Stdlib\Cookie'),
     array('_storeManager', '\Magento\Stdlib\Cookie'),
     array('_coreStoreConfig', '\Magento\Stdlib\Cookie'),
+    array('_savePath', '\Magento\Core\Model\Session\Context'),
+    array('_cacheLimiter', '\Magento\Core\Model\Session\Context'),
+    array('_dir', '\Magento\Core\Model\Session\Context'),
+    array('_cacheLimiter', 'Magento\Core\Model\Session\AbstractSession'),
+    array('_dir', 'Magento\Core\Model\Session\AbstractSession'),
+    array('_savePath', 'Magento\Core\Model\Session\AbstractSession'),
 );

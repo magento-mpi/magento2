@@ -30,16 +30,6 @@ class Cookie
     }
 
     /**
-     * Retrieve Request object
-     *
-     * @return \Magento\App\RequestInterface
-     */
-    protected function _getRequest()
-    {
-        return $this->_httpRequest;
-    }
-
-    /**
      * Set cookie
      *
      * @param string $name The cookie name
@@ -91,7 +81,7 @@ class Cookie
         if ($period === null) {
             return $this;
         }
-        $value = $this->_getRequest()->getCookie($name, false);
+        $value = $this->_httpRequest->getCookie($name, false);
         if ($value !== false) {
             $this->set($name, $value, $period, $path, $domain, $secure, $httponly);
         }
@@ -106,6 +96,6 @@ class Cookie
      */
     public function get($name = null)
     {
-        return $this->_getRequest()->getCookie($name, false);
+        return $this->_httpRequest->getCookie($name, false);
     }
 }

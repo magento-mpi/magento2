@@ -15,6 +15,21 @@ namespace Magento\Core\Model\Session;
 class Config implements \Zend\Session\Config\ConfigInterface
 {
     /**
+     * Configuration path for session save method
+     */
+    const PARAM_SESSION_SAVE_METHOD     = 'session_save';
+
+    /**
+     * Configuration path for session save path
+     */
+    const PARAM_SESSION_SAVE_PATH       = 'session_save_path';
+
+    /**
+     * Configuration path for session cache limiter
+     */
+    const PARAM_SESSION_CACHE_LIMITER   = 'session_cache_limiter';
+
+    /**
      * Configuration path for cookie domain
      */
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
@@ -79,33 +94,70 @@ class Config implements \Zend\Session\Config\ConfigInterface
     );
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
+     * @var \Magento\App\Dir
+     */
+    protected $_dir;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
-     * @param array $options
+     * @param \Magento\App\State $appState
+     * @param \Magento\App\Dir $dir
+     * @param null|string $savePath
+     * @param null|string $cacheLimiter
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
-        array $options = array()
+        \Magento\App\State $appState,
+        \Magento\App\Dir $dir,
+        $savePath = null,
+        $cacheLimiter = null
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_storeManager = $storeManager;
         $this->_stringHelper = $stringHelper;
         $this->_httpRequest = $request;
+        $this->_appState = $appState;
+        $this->_dir = $dir;
 
-        foreach ($options as $option) {
-            $getter = 'get' . $this->_stringHelper->upperCaseWords($option, '_', '');
-            if (method_exists($this, $getter)) {
-                $value = $this->{$getter}();
-            } else {
-                $value = $this->getOption($option);
-            }
-            $this->options[$option] = $value;
+        if (!$this->_appState->isInstalled() || !$savePath) {
+            $savePath = $this->_dir->getDir('session');
         }
+        $this->setSavePath($savePath);
+
+        if ($cacheLimiter) {
+            $this->setOption('session.cache_limiter', $cacheLimiter);
+        }
+
+        $lifetime = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_LIFETIME, $this->_storeManager->getStore());
+        $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
+        $this->setCookieLifetime($lifetime);
+
+        $path = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_PATH, $this->_storeManager->getStore());
+        if (empty($path)) {
+            $path = $this->_httpRequest->getBasePath();
+        }
+        $this->setCookiePath($path);
+
+        $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
+        $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
+        $this->setOption('session.cookie_domain', $domain);
+
+        $this->setCookieSecure($this->_storeManager->getStore()->isAdmin() && $this->_httpRequest->isSecure());
+
+        $this->setCookieHttpOnly(
+            $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->_storeManager->getStore())
+        );
     }
 
     /**
@@ -293,14 +345,6 @@ class Config implements \Zend\Session\Config\ConfigInterface
      */
     public function getCookieLifetime()
     {
-        if (!$this->hasOption('session.cookie_lifetime')) {
-            $lifetime = $this->_storeConfig->getConfig(
-                self::XML_PATH_COOKIE_LIFETIME,
-                $this->_storeManager->getStore()
-            );
-            $lifetime = is_numeric($lifetime) ? $lifetime : self::COOKIE_LIFETIME_DEFAULT;
-            $this->setCookieLifetime($lifetime);
-        }
         return (int) $this->getOption('session.cookie_lifetime');
     }
 
@@ -373,11 +417,6 @@ class Config implements \Zend\Session\Config\ConfigInterface
      */
     public function getCookieDomain()
     {
-        if (!$this->hasOption('session.cookie_domain')) {
-            $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
-            $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
-            $this->setOption('session.cookie_domain', $domain);
-        }
         return (string) $this->getOption('session.cookie_domain');
     }
 
@@ -400,9 +439,6 @@ class Config implements \Zend\Session\Config\ConfigInterface
      */
     public function getCookieSecure()
     {
-        if (!$this->hasOption('session.cookie_secure')) {
-            $this->setCookieSecure($this->_storeManager->getStore()->isAdmin() && $this->_httpRequest->isSecure());
-        }
         return (bool) $this->getOption('session.cookie_secure');
     }
 
@@ -425,11 +461,6 @@ class Config implements \Zend\Session\Config\ConfigInterface
      */
     public function getCookieHttpOnly()
     {
-        if (!$this->hasOption('session.cookie_httponly')) {
-            $this->setCookieHttpOnly(
-                $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->_storeManager->getStore())
-            );
-        }
         return (bool) $this->getOption('session.cookie_httponly');
     }
 
