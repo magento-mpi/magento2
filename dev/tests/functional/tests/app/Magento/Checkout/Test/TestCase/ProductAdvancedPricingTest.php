@@ -13,8 +13,7 @@ namespace Magento\Checkout\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder;
 
 
@@ -85,9 +84,9 @@ class ProductAdvancedPricingTest extends Functional
     /**
      * Add a product to the cart.
      *
-     * @param Product $product
+     * @param AbstractProduct $product
      */
-    private function addProductToCart(Product $product)
+    private function addProductToCart(AbstractProduct $product)
     {
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($product);
@@ -100,9 +99,9 @@ class ProductAdvancedPricingTest extends Functional
     /**
      * Verifies the unit price and subtotal for cart item.
      *
-     * @param Product|ConfigurableProduct $product
+     * @param AbstractProduct $product
      */
-    private function verifyCartItem(Product $product)
+    private function verifyCartItem(AbstractProduct $product)
     {
         $productName = $product->getProductName();
         $specialPrice = $product->getProductSpecialPrice();
