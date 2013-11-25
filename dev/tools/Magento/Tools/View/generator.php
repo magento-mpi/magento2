@@ -48,19 +48,20 @@ $logger->log('Deploying...', \Zend_Log::INFO);
 try {
     $config = new \Magento\Tools\View\Generator\Config(BP, $options);
 
-    $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);
-    $dirs = new \Magento\App\Dir($config->getSourceDir());
     $objectManager = new \Magento\ObjectManager\ObjectManager();
     $entityFactory = new Magento\Core\Model\EntityFactory($objectManager);
-    $themes = new \Magento\Core\Model\Theme\Collection($filesystem, $dirs, $entityFactory);
+    $filesystem = $entityFactory->create('Magento\Filesystem', array(
+        'directoryList' => new \Magento\Filesystem\DirectoryList(BP),
+        'adapter' => new \Magento\Filesystem\Adapter\Local()
+    ));
+    $themes = new \Magento\Core\Model\Theme\Collection($filesystem, $entityFactory);
     $themes->setItemObjectClass('\Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
 
-    $fallbackFactory = new \Magento\View\Design\Fallback\Factory($dirs);
+    $fallbackFactory = new \Magento\View\Design\Fallback\Factory($filesystem);
     $generator = new \Magento\Tools\View\Generator\CopyRule($filesystem, $themes,
         $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
-
     $cssUrlResolver = new \Magento\View\Url\CssResolver($filesystem);
     $deployment = new \Magento\Tools\View\Generator\ThemeDeployment(
         $cssUrlResolver,
