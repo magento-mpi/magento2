@@ -156,7 +156,6 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     public function testGetFilename($file, $params)
     {
         $this->_emulateFixtureTheme();
-        $file = $this->_viewFileSystem->getFilename($file, $params);
         $this->assertFileExists($this->_viewFileSystem->getFilename($file, $params));
     }
 
