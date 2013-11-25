@@ -73,7 +73,6 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-
     public function testAfterInitIntegrationProcessingNoIntegrations()
     {
         $this->_integrationConfigMock->expects($this->never())
@@ -120,6 +119,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             Integration::ENDPOINT => 'http://endpoint.com',
             Integration::SETUP_TYPE => 1,
         );
+
         $integrationsData2 = array(
             'id' => 2,
             Integration::NAME => 'TestIntegration2',
@@ -152,7 +152,6 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with(UserIdentifier::USER_TYPE_INTEGRATION, 2)
             ->will($this->returnValue($userIdentifierMock2));
-
 
         $this->_authzServiceMock->expects($this->at(0))
             ->method('grantPermissions')

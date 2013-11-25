@@ -65,7 +65,6 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_integrationManager->processIntegrationConfig(array());
     }
 
-
     public function testProcessIntegrationConfigSuccess()
     {
         $this->_integrationConfigMock->expects($this->once())
@@ -90,6 +89,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
             Integration::ENDPOINT => 'http://endpoint.com',
             Integration::SETUP_TYPE => 1,
         );
+
         $integrationsData2 = array(
             Integration::NAME => 'TestIntegration2',
             Integration::EMAIL => 'test-integration2@magento.com',
