@@ -7,14 +7,10 @@ app/design/adminhtml/magento_backend/css/styles-ee.css
 app/design/adminhtml/magento_backend/less/styles-ee.less
 app/design/adminhtml/magento_backend/Magento_Enterprise/
 app/design/frontend/magento_iphone_html5
-app/design/frontend/magento_plushe/Magento_CatalogEvent
 app/design/frontend/magento_plushe/Magento_Enterprise
-app/design/frontend/magento_plushe/Magento_GiftCard
 app/design/frontend/magento_plushe/Magento_GiftCardAccount
 app/design/frontend/magento_plushe/Magento_Invitation
 app/design/frontend/magento_plushe/Magento_Reward
-app/design/frontend/magento_plushe/Magento_Search
-app/design/frontend/magento_plushe/Magento_TargetRule
 app/design/frontend/magento_plushe/Magento_WebsiteRestriction
 app/design/frontend/magento_plushe/less/styles-ee.less
 app/design/frontend/magento_plushe/less/responsive/responsive-ee.less
