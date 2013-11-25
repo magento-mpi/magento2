@@ -10,9 +10,9 @@
 * GitHub requests:
   * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
   * [#199](https://github.com/magento/magento2/pull/199) -- Replaced function calls to array_push with adding the elements directly
-  * [#182](https://github.com/magento/magento2/pull/182) -- By default use collection _idFieldName for toOption* methods.
+  * [#182](https://github.com/magento/magento2/pull/182) -- By default use collection _idFieldName for toOption* methods
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
-  * [#339](https://github.com/magento/magento2/pull/339) -- Correcting 'cahce' typo in documentation.
+  * [#339](https://github.com/magento/magento2/pull/339) -- Correcting 'cahce' typo in documentation
   * [#232](https://github.com/magento/magento2/pull/232) -- Update app/code/core/Mage/Checkout/controllers/CartController.php (fix issue #27632)
 * Fixed bugs:
   * Fixed JavaScript error when printing orders from the frontend
