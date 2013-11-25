@@ -6,8 +6,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Model;
 
+use Magento\Integration\Model\Cache\Type;
 /**
  * Integration Config Model.
  *
@@ -28,14 +30,11 @@ class Config
     protected $_configReader;
 
     /**
+     * Array of integrations
+     *
      * @var array
      */
     protected $_integrations;
-
-    /**
-     * @var array
-     */
-    protected $_api;
 
     /**
      * @param Cache\Type $configCacheType
@@ -57,34 +56,14 @@ class Config
     public function getIntegrations()
     {
         if (null === $this->_integrations) {
-            $integrations = $this->_loadFromCache();
+            $integrations = $this->_configCacheType->load(self::CACHE_ID);
             if ($integrations && is_string($integrations)) {
                 $this->_integrations = unserialize($integrations);
             } else {
                 $this->_integrations = $this->_configReader->read();
-                $this->_saveToCache(serialize($this->_integrations));
+                $this->_configCacheType->save(serialize($this->_integrations), self::CACHE_ID, array(Type::CACHE_TAG));
             }
         }
         return $this->_integrations;
-    }
-
-    /**
-     * Load integrations from cache
-     */
-    protected function _loadFromCache()
-    {
-        return $this->_configCacheType->load(self::CACHE_ID);
-    }
-
-    /**
-     * Save integrations into the cache
-     *
-     * @param string $data serialized version of the Integration registry
-     * @return \Magento\Integration\Model\Config
-     */
-    protected function _saveToCache($data)
-    {
-        $this->_configCacheType->save($data, self::CACHE_ID, array(\Magento\Integration\Model\Cache\Type::CACHE_TAG));
-        return $this;
     }
 }

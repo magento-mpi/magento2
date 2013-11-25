@@ -1,8 +1,5 @@
 <?php
 /**
- * Event manager
- * Used to dispatch global events
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -27,7 +24,7 @@ class Manager
     protected $_integrationService;
 
     /**
-     * Event config
+     * Integration config
      *
      * @var Config
      */
@@ -46,21 +43,27 @@ class Manager
     }
 
     /**
-     * Process integrations from config files
+     * Process integrations from config files for the given array of integration names
+     *
+     * @param array $integrationNames
      */
-    public function processIntegrationConfig()
+    public function processIntegrationConfig(array $integrationNames)
     {
+        if (empty($integrationNames)) {
+            return;
+        }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
-        foreach ($integrations as $integrationDetails) {
-            $integrationData = array(Integration::NAME => $integrationDetails[Integration::NAME]);
+        foreach ($integrationNames as $name) {
+             $integrationDetails = $integrations[$name];
+            $integrationData = array(Integration::NAME => $name);
             if (isset($integrationDetails[Integration::EMAIL])) {
                 $integrationData[Integration::EMAIL] = $integrationDetails[Integration::EMAIL];
             }
             if (isset($integrationDetails[Integration::ENDPOINT])) {
                 $integrationData[Integration::ENDPOINT] = $integrationDetails[Integration::ENDPOINT];
             }
-            $integrationData[Integration::TYPE] = Integration::TYPE_CONFIG;
+            $integrationData[Integration::SETUP_TYPE] = Integration::TYPE_CONFIG;
             $this->_integrationService->create($integrationData);
         }
     }

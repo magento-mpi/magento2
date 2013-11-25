@@ -19,10 +19,10 @@
     </legend><br />
 
     <div class="field">
-        <label class="label" for="all"><span><?php echo __('Resource Access') ?></span></label>
+        <label class="label" for="all_resources"><span><?php echo __('Resource Access') ?></span></label>
 
         <div class="control">
-            <select id="all" name="all" onchange="jQuery('[data-role=tree-resources-container]').toggle()" class="select">
+            <select id="all_resources" name="all_resources" onchange="jQuery('[data-role=tree-resources-container]').toggle()" class="select">
                 <option value="0" <?php echo ($this->isEverythingAllowed()?'':'selected="selected"'); ?>><?php echo __('Custom') ?></option>
                 <option value="1" <?php echo ($this->isEverythingAllowed()?'selected="selected"':''); ?>><?php echo __('All') ?></option>
             </select>

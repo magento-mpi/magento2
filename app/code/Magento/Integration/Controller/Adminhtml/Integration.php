@@ -157,6 +157,9 @@ class Integration extends \Magento\Backend\App\Action
             /** @var array $data */
             $data = $this->getRequest()->getPost();
             if (!empty($data)) {
+                if (!isset($data['resource'])) {
+                    $integrationData['resource'] = array();
+                }
                 $integrationData = array_merge($integrationData, $data);
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
                 if (!isset($integrationData[Info::DATA_ID])) {

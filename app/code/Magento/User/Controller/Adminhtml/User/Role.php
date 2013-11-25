@@ -6,6 +6,10 @@
  * @license     {license_link}
  */
 
+namespace Magento\User\Controller\Adminhtml\User;
+
+use Magento\User\Model\Acl\Role\Group as RoleGroup;
+
 /**
  * \Magento\User roles controller
  */
@@ -13,7 +17,6 @@ namespace Magento\User\Controller\Adminhtml\User;
 
 class Role extends \Magento\Backend\App\AbstractAction
 {
-
     /**
      * Core registry
      *
@@ -100,7 +103,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $role = $this->_roleFactory->create()->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
-        if ($role->getId() && $role->getRoleType() != 'G') {
+        if ($role->getId() && $role->getRoleType() != RoleGroup::ROLE_TYPE) {
             $role->unsetData($role->getIdFieldName());
         }
 
@@ -226,7 +229,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
             $role->setName($roleName)
                  ->setPid($this->getRequest()->getParam('parent_id', false))
-                 ->setRoleType('G');
+                 ->setRoleType(RoleGroup::ROLE_TYPE);
             $this->_eventManager->dispatch(
                 'admin_permissions_role_prepare_save',
                 array('object' => $role, 'request' => $this->getRequest())
