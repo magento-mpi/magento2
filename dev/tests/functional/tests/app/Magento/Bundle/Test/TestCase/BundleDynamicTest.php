@@ -13,16 +13,9 @@ namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 use Magento\Bundle\Test\Fixture\Bundle;
 
-/**
- * Class BundleTest
- * Bundle product creation tests
- *
- * @package Magento\Bundle\Test\TestCase
- */
-class BundleTest extends Functional
+class BundleDynamicTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -33,15 +26,13 @@ class BundleTest extends Functional
     }
 
     /**
-     * Creating bundle (fixed) product and assigning it to category
-     *
-     * @zephyrId MAGETWO-12622
+     * Create bundle
      */
     public function testCreate()
     {
         //Data
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
-        $bundle->switchData('bundle_fixed');
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleDynamic();
+        $bundle->switchData('bundle_dynamic');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
@@ -65,13 +56,12 @@ class BundleTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param Bundle $product
      */
     protected function assertOnGrid($product)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
@@ -96,12 +86,11 @@ class BundleTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
 
-        $actualPrices = $productViewBlock->getProductPrice();
-        $expectedPrices = $product->getProductPrice();
-        foreach ($actualPrices as $priceType => $actualPrice) {
-            $this->assertContains($expectedPrices[$priceType], $actualPrice);
-        }
+        $actualPrice = $productViewBlock->getProductPrice();
+        $expectedPrice = $product->getProductPrice();
+        $this->assertContains($expectedPrice, $actualPrice);
 
+        // @TODO: add click on "Customize and Add To Cart" button and assert options count
         $productOptionsBlock = $productPage->getOptionsBlock();
         $actualOptions = $productOptionsBlock->getBundleOptions();
         $expectedOptions = $product->getBundleOptions();

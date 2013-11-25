@@ -17,7 +17,7 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 
 /**
  * Class ProductForm
@@ -113,9 +113,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param Product $fixture
+     * @param AbstractProduct $fixture
      */
-    public function addNewCategory(Product $fixture)
+    public function addNewCategory(AbstractProduct $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)

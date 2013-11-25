@@ -101,6 +101,17 @@ class Option extends Block
     }
 
     /**
+     * Set block number
+     *
+     * @param int $blockNumber
+     */
+    public function setBlockNumber($blockNumber)
+    {
+        $this->blockNumber = $blockNumber;
+        $this->_init();
+    }
+
+    /**
      * Expand block
      */
     public function expand()

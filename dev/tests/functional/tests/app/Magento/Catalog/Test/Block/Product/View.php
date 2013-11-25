@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Block\Product;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
@@ -75,9 +75,9 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param Product $product
+     * @param AbstractProduct $product
      */
-    public function addToCart(Product $product)
+    public function addToCart(AbstractProduct $product)
     {
         $configureButton = $this->_rootElement->find('.action.primary.customize');
         $configureSection = $this->_rootElement->find('.product.options.configure');
