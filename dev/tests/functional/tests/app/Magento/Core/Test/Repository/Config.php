@@ -398,7 +398,7 @@ class Config extends AbstractRepository
                                                     )
                                                 ),
                                                 'groups' => array(
-                                                    'wpp_settings_advanced' => array(
+                                                    'settings_ec_advanced' => array(
                                                         'fields' => array(
                                                             'debug' => array(
                                                                 'value' => 0
