@@ -167,7 +167,7 @@ class Integration extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         }

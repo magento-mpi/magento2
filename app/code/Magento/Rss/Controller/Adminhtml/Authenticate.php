@@ -16,7 +16,7 @@ namespace Magento\Rss\Controller\Adminhtml;
 class Authenticate extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
-     * @var \Magento\Core\Model\Logger
+     * @var \Magento\Logger
      */
     protected $_logger;
 
