@@ -363,23 +363,19 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
             return (bool)$this->getData('secure');
         }
 
-        $store = $this->getStore();
-
-        if ($store->isAdmin() && !$store->isAdminUrlSecure()) {
-            return false;
-        }
-        if (!$store->isAdmin() && !$store->isFrontUrlSecure()) {
+        if (!$this->getStore()->isUrlSecure()) {
             return false;
         }
 
         if (!$this->hasData('secure')) {
-            if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK && !$store->isAdmin()) {
+            if ($this->getType() == \Magento\Core\Model\Store::URL_TYPE_LINK) {
                 $pathSecure = $this->_urlSecurityInfo->isSecure('/' . $this->getActionPath());
                 $this->setData('secure', $pathSecure);
             } else {
                 $this->setData('secure', true);
             }
         }
+
         return $this->getData('secure');
     }
 

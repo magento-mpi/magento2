@@ -76,6 +76,11 @@ class Url extends \Magento\Core\Model\Url
     protected $_encryptor;
 
     /**
+     * @var \Magento\Backend\App\ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
@@ -88,6 +93,7 @@ class Url extends \Magento\Core\Model\Url
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Backend\App\ConfigInterface $config
      * @param null $areaCode
      * @param array $data
      */
@@ -104,6 +110,7 @@ class Url extends \Magento\Core\Model\Url
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Backend\App\ConfigInterface $config,
         $areaCode = null,
         array $data = array()
     ) {
@@ -112,6 +119,7 @@ class Url extends \Magento\Core\Model\Url
             $routeConfig, $request, $urlSecurityInfo, $coreStoreConfig,
             $app, $storeManager, $session, $areaCode, $data
         );
+        $this->_config = $config;
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $session;
@@ -130,7 +138,7 @@ class Url extends \Magento\Core\Model\Url
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_adminhtml');
+        return $this->_config->getFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -234,7 +242,7 @@ class Url extends \Magento\Core\Model\Url
      */
     public function useSecretKey()
     {
-        return $this->_coreStoreConfig->getConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_config->getFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**

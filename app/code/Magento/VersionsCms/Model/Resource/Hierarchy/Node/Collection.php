@@ -84,7 +84,7 @@ class Collection
         }
 
         if ($withAdmin) {
-            $storeIds = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, $store);
+            $storeIds = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $store);
         } else {
             $storeIds = array($store);
         }

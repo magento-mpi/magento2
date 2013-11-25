@@ -113,6 +113,12 @@ class Store extends \Magento\Core\Model\AbstractModel
     const BASE_URL_PLACEHOLDER            = '{{base_url}}';
 
     /**
+     * Identifier of default store
+     * used for loading data of default scope
+     */
+    const DEFAULT_STORE_ID = 0;
+
+    /**
      * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
@@ -320,10 +326,8 @@ class Store extends \Magento\Core\Model\AbstractModel
         $properties = parent::__sleep();
         $properties = array_diff($properties, array(
             '_coreFileStorageDatabase',
-            '_eventDispatcher',
-            '_cacheManager',
             '_coreStoreConfig',
-            '_coreConfig'
+            '_config'
         ));
         return $properties;
     }
@@ -334,16 +338,12 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventManager = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Event\ManagerInterface');
-        $this->_cacheManager    = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\App\CacheInterface');
+        $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
+            ->get('Magento\Core\Helper\File\Storage\Database');
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Config');
-        $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Core\Helper\File\Storage\Database');
     }
 
     /**
@@ -579,14 +579,14 @@ class Store extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Remove script file name from url in case when server rewrites are enabled
+     * Append script file name to url in case when server rewrites are disabled
      *
      * @param   string $url
      * @return  string
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->isAdmin()
+        if ($this->getId() === self::DEFAULT_STORE_ID
             || !$this->getConfig(self::XML_PATH_USE_REWRITES)
             || !$this->_appState->isInstalled()
         ) {
@@ -653,8 +653,8 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isUseStoreInUrl()
     {
         return $this->_appState->isInstalled()
-        && $this->getConfig(self::XML_PATH_STORE_IN_URL)
-        && !$this->isAdmin();
+            && $this->getConfig(self::XML_PATH_STORE_IN_URL)
+            && $this->getId() != self::DEFAULT_STORE_ID;
     }
 
     /**
@@ -665,31 +665,6 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function getId()
     {
         return $this->_getData('store_id');
-    }
-
-    /**
-     * Check if store is admin store
-     *
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->getId() == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
-    }
-
-
-    /**
-     * Check if backend URLs should be secure
-     *
-     * @return boolean
-     */
-    public function isAdminUrlSecure()
-    {
-        if ($this->_isAdminSecure === null) {
-            $this->_isAdminSecure = (boolean) (int) (string) $this->_config
-                ->getValue(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_ADMIN, 'default');
-        }
-        return $this->_isAdminSecure;
     }
 
     /**
@@ -704,6 +679,14 @@ class Store extends \Magento\Core\Model\AbstractModel
                 $this->getId());
         }
         return $this->_isFrontSecure;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUrlSecure()
+    {
+        return $this->isFrontUrlSecure();
     }
 
     /**

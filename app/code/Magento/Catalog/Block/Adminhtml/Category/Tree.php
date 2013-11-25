@@ -107,7 +107,7 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
 
     protected function _getDefaultStoreId()
     {
-        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
+        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
     }
 
     public function getCategoryCollection()

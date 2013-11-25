@@ -58,6 +58,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoAppArea adminhtml
+     */
     public function testGetThumbsPath()
     {
         $filesystem = new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local);

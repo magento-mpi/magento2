@@ -78,6 +78,11 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
     protected $_catalogProductLink;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -93,6 +98,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Logger $logger
+     * @param \Magento\App\State $appState
      * @param array $data
      */
     public function __construct(
@@ -109,11 +115,13 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Logger $logger,
+        \Magento\App\State $appState,
         array $data = array()
     ) {
         $this->_catalogProductLink = $catalogProductLink;
         $this->_storeManager = $storeManager;
         $this->_catalogProductStatus = $catalogProductStatus;
+        $this->_appState = $appState;
         parent::__construct($productFactory, $catalogProductOption, $eavConfig, $catalogProductType,
             $eventManager, $coreData, $fileStorageDb, $filesystem, $coreRegistry, $logger, $data);
     }
@@ -174,7 +182,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (!$product->hasData($this->_keyAssociatedProducts)) {
             $associatedProducts = array();
 
-            if (!$this->_storeManager->getStore()->isAdmin()) {
+            if ($this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
                 $this->setSaleableStatus($product);
             }
 

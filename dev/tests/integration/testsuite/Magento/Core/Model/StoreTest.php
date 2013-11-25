@@ -282,6 +282,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testCRUD()
     {
@@ -297,8 +298,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
@@ -326,8 +325,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData($data);
 
         /* emulate admin store */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
         $this->_model->save();
     }
 

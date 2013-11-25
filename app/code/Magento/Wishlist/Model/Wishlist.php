@@ -101,6 +101,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Context $context
@@ -141,6 +146,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
+        $this->_appState = $context->getAppState();
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -299,11 +305,11 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     public function getItemCollection()
     {
         if (is_null($this->_itemCollection)) {
-            /** @var $currentWebsiteOnly boolean */
-            $currentWebsiteOnly = !$this->_storeManager->getStore()->isAdmin();
+            /** @var $current boolean */
+            $current = $this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
             $this->_itemCollection = $this->_wishlistCollFactory->create()
                 ->addWishlistFilter($this)
-                ->addStoreFilter($this->getSharedStoreIds($currentWebsiteOnly))
+                ->addStoreFilter($this->getSharedStoreIds($current))
                 ->setVisibilityFilter();
         }
 

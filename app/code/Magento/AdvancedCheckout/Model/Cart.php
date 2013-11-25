@@ -171,6 +171,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_locale;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Message\Factory $messageFactory
@@ -184,6 +189,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\App\State $appState
      * @param array $data
      */
     public function __construct(
@@ -200,6 +206,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\App\State $appState,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -215,6 +222,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_quoteFactory = $quoteFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
+        $this->_appState = $appState;
     }
 
     /**
@@ -305,7 +313,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      */
     public function getActualQuote()
     {
-        if ($this->_storeManager->getStore()->isAdmin()) {
+        if ($this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
             return $this->_quote->getQuote();
         } else {
             if (!$this->getCustomer()) {
@@ -384,15 +392,15 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
-
+        $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
         if ($quote->getId() && $quote->getStoreId()) {
             $storeId = $quote->getStoreId();
-        } elseif ($customer !== null && $customer->getStoreId() && !$customer->getStore()->isAdmin()) {
+        } elseif ($customer !== null && $customer->getStoreId() && $customer->getStoreId() != $defaultStoreId) {
             $storeId = $customer->getStoreId();
         } else {
             $customerStoreIds = $this->getQuoteSharedStoreIds(); //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
-            if ($this->_storeManager->getStore($storeId)->isAdmin()) {
+            if ($storeId != $defaultStoreId) {
                 $defaultStore = $this->_storeManager->getAnyStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
@@ -1185,7 +1193,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             return true;
         }
 
-        return ($this->_storeManager->getStore()->isAdmin())
+        return $this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
             ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_WEBSITE
             : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
     }

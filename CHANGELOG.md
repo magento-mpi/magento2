@@ -2,6 +2,8 @@
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
   * Email-related logic from Core and Adminhtml modules consolidated in new Email module
+* Application areas rework:
+  * Areas are independent from Store
 * GitHub requests:
   * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
   * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations

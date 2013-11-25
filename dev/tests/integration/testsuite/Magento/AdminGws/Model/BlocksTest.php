@@ -35,7 +35,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoConfigFixture admin_store catalog/magento_catalogpermissions/enabled 1
+     * @magentoConfigFixture default/catalog/magento_catalogpermissions/enabled 1
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Magento/AdminGws/_files/role_websites_login.php
      */
@@ -48,7 +48,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoConfigFixture admin_store catalog/magento_catalogpermissions/enabled 1
+     * @magentoConfigFixture default/catalog/magento_catalogpermissions/enabled 1
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Magento/AdminGws/_files/role_stores_login.php
      */

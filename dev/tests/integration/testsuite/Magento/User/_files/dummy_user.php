@@ -12,6 +12,8 @@
 /**
  * Create dummy user
  */
+\Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+    ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
 $user = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\User\Model\User');
 $user->setFirstname('Dummy')

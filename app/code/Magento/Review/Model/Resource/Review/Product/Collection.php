@@ -448,7 +448,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $this->_getConditionSql('rdt.customer_id', array('is' => new \Zend_Db_Expr('NULL'))),
                         $this->_getConditionSql(
                             'rdt.store_id',
-                            array('eq' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+                            array('eq' => \Magento\Core\Model\Store::DEFAULT_STORE_ID)
                         )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);
@@ -459,7 +459,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
                         $this->_getConditionSql('rdt.customer_id', array('is' => new \Zend_Db_Expr('NULL'))),
                         $this->_getConditionSql(
                             'rdt.store_id',
-                            array('neq' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+                            array('neq' => \Magento\Core\Model\Store::DEFAULT_STORE_ID)
                         )
                     );
                     $conditionSql = implode(' AND ', $conditionParts);

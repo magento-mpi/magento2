@@ -113,9 +113,6 @@ class Balance extends \Magento\Core\Model\AbstractModel
         if ($this->hasWebsiteId()) {
             $websiteId = $this->getWebsiteId();
         } else {
-            if ($this->_storeManager->isAdmin()) {
-                throw new \Magento\Core\Exception(__('A website ID must be set.'));
-            }
             $websiteId = $this->_storeManager->getStore()->getWebsiteId();
         }
         $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $websiteId);

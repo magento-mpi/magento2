@@ -130,9 +130,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConfig($key, $store = null)
     {
-        $store = $this->_storeManager->getStore($store);
-        $areaCode = $store->isAdmin() ? 'admin' : 'customer';
-        return $store->getConfig($areaCode . '/captcha/' . $key);
+        return $this->_storeManager->getStore($store)->getConfig('customer/captcha/' . $key);
     }
 
     /**

@@ -57,16 +57,24 @@ abstract class AbstractFlat extends \Magento\App\Helper\AbstractHelper
     protected $_processFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * Construct
      *
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Index\Model\ProcessFactory $processFactory,
-        \Magento\App\Helper\Context $context
+        \Magento\App\Helper\Context $context,
+        \Magento\App\State $appState
     ) {
         $this->_processFactory = $processFactory;
+        $this->_appState = $appState;
         parent::__construct($context);
     }
 
@@ -77,7 +85,9 @@ abstract class AbstractFlat extends \Magento\App\Helper\AbstractHelper
      */
     public function isAvailable()
     {
-        return $this->isEnabled() && !$this->getProcess()->isLocked()
+        return $this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+            && $this->isEnabled()
+            && !$this->getProcess()->isLocked()
             && $this->getProcess()->getStatus() != \Magento\Index\Model\Process::STATUS_RUNNING;
     }
 
