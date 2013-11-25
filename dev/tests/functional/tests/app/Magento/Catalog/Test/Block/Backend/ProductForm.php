@@ -15,12 +15,11 @@ use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
 use Magento\Catalog\Test\Fixture\AbstractProduct;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
  * Class ProductForm
