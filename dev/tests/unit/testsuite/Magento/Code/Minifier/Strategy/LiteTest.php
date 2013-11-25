@@ -10,6 +10,7 @@ namespace Magento\Code\Minifier\Strategy;
 
 use Magento\Filesystem,
     Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Read,
     Magento\Filesystem\Directory\Write;
 
 class LiteTest extends \PHPUnit_Framework_TestCase
@@ -20,9 +21,14 @@ class LiteTest extends \PHPUnit_Framework_TestCase
     protected $filesystem;
 
     /**
+     * @var Read | \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rootDirectory;
+
+    /**
      * @var Write | \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $directory;
+    protected $pubViewCacheDir;
 
     /**
      * @var \Magento\Code\Minifier\AdapterInterface | \PHPUnit_Framework_MockObject_MockObject
@@ -34,15 +40,27 @@ class LiteTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->directory = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
-            array('stat', 'isExist', 'readFile', 'writeFile', 'touch'), array(), '', false
+        $this->rootDirectory = $this->getMock(
+            'Magento\Filesystem\Directory\Read',
+            array('stat', 'isExist', 'readFile'), array(), '', false
         );
-        $this->filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite', '__wakeup'), array(), '', false);
+        $this->pubViewCacheDir = $this->getMock(
+            'Magento\Filesystem\Directory\Write',
+            array('stat', 'isExist', 'writeFile', 'touch'), array(), '', false
+        );
+        $this->filesystem = $this->getMock(
+            'Magento\Filesystem',
+            array('getDirectoryWrite', 'getDirectoryRead', '__wakeup'),
+            array(), '', false
+        );
+        $this->filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(DirectoryList::ROOT)
+            ->will($this->returnValue($this->rootDirectory));
         $this->filesystem->expects($this->once())
             ->method('getDirectoryWrite')
             ->with(DirectoryList::PUB_VIEW_CACHE)
-            ->will($this->returnValue($this->directory));
+            ->will($this->returnValue($this->pubViewCacheDir));
         $this->adapter = $this->getMockForAbstractClass('Magento\Code\Minifier\AdapterInterface', array(), '', false);
     }
 
@@ -56,11 +74,11 @@ class LiteTest extends \PHPUnit_Framework_TestCase
         $content = 'content';
         $minifiedContent = 'minified content';
 
-        $this->directory->expects($this->once())
+        $this->rootDirectory->expects($this->once())
             ->method('readFile')
             ->with($originalFile)
             ->will($this->returnValue($content));
-        $this->directory->expects($this->once())
+        $this->pubViewCacheDir->expects($this->once())
             ->method('writeFile')
             ->with($minifiedFile, $minifiedContent);
 
@@ -81,14 +99,14 @@ class LiteTest extends \PHPUnit_Framework_TestCase
         $originalFile = __DIR__ . '/original/some.js';
         $minifiedFile = __DIR__ . '/some.min.js';
 
-        $this->directory->expects($this->once())
+        $this->pubViewCacheDir->expects($this->once())
             ->method('isExist')
             ->with($minifiedFile)
             ->will($this->returnValue(true));
 
-        $this->directory->expects($this->never())
+        $this->rootDirectory->expects($this->never())
             ->method('readFile');
-        $this->directory->expects($this->never())
+        $this->pubViewCacheDir->expects($this->never())
             ->method('writeFile');
 
         $this->adapter->expects($this->never())->method('minify');

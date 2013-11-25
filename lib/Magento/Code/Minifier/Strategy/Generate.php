@@ -12,6 +12,7 @@
 namespace Magento\Code\Minifier\Strategy;
 
 use Magento\Filesystem\DirectoryList,
+    Magento\Filesystem\Directory\Read,
     Magento\Filesystem\Directory\Write;
 
 class Generate implements \Magento\Code\Minifier\StrategyInterface
@@ -20,6 +21,11 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
      * @var \Magento\Code\Minifier\AdapterInterface
      */
     protected $adapter;
+
+    /**
+     * @var Read
+     */
+    protected $rootDirectory;
 
     /**
      * @var Write
@@ -35,6 +41,7 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
         \Magento\Filesystem $filesystem
     ) {
         $this->adapter = $adapter;
+        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->pubViewCacheDir = $filesystem->getDirectoryWrite(DirectoryList::PUB_VIEW_CACHE);
     }
 
@@ -47,10 +54,10 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
     public function minifyFile($originalFile, $targetFile)
     {
         if ($this->_isUpdateNeeded($originalFile, $targetFile)) {
-            $content = $this->pubViewCacheDir->readFile($originalFile);
+            $content = $this->rootDirectory->readFile($originalFile);
             $content = $this->adapter->minify($content);
             $this->pubViewCacheDir->writeFile($targetFile, $content);
-            $this->pubViewCacheDir->touch($targetFile, $this->pubViewCacheDir->stat($originalFile)['mtime']);
+            $this->pubViewCacheDir->touch($targetFile, $this->rootDirectory->stat($originalFile)['mtime']);
         }
     }
 
@@ -66,7 +73,7 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
         if (!$this->pubViewCacheDir->isExist($minifiedFile)) {
             return true;
         }
-        $originalFileMtime = $this->pubViewCacheDir->stat($originalFile)['mtime'];
+        $originalFileMtime = $this->rootDirectory->stat($originalFile)['mtime'];
         $minifiedFileMtime = $this->pubViewCacheDir->stat($minifiedFile)['mtime'];
         return ($originalFileMtime != $minifiedFileMtime);
     }
