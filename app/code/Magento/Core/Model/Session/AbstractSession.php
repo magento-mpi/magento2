@@ -270,7 +270,6 @@ class AbstractSession extends \Magento\Object
      * Destroy/end a session
      *
      * @param  array $options
-     * @return void
      */
     public function destroy(array $options = null)
     {
