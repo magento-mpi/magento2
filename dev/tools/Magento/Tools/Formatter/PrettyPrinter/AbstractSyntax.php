@@ -13,6 +13,7 @@ use PHPParser_Node_Arg;
 use PHPParser_Node_Expr_ArrayItem;
 use PHPParser_Node_Expr_Closure;
 use PHPParser_Node_Expr_FuncCall;
+use PHPParser_Node_Expr_MethodCall;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
@@ -115,7 +116,8 @@ abstract class AbstractSyntax
         ) {
             $closure = true;
         } elseif ($argument instanceof PHPParser_Node_Arg &&
-            $argument->value instanceof PHPParser_Node_Expr_FuncCall
+            ($argument->value instanceof PHPParser_Node_Expr_FuncCall ||
+            $argument->value instanceof PHPParser_Node_Expr_MethodCall)
         ) {
             $closure = $this->hasClosure($argument->value->args);
         }

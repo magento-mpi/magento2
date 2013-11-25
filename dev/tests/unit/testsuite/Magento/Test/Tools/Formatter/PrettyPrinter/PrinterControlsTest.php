@@ -491,11 +491,13 @@ class CSample5
 {
     public function cS5()
     {
-        $this->_block->expects($this->any())->method('_getLayoutProcessor')->will($this->returnCallback(
-            function () use ($layoutUtility) {
-                return $layoutUtility->getLayoutUpdateFromFixture(glob(__DIR__ . '/_files/layout/*.xml'));
-            }
-        ));
+        $this->_block->expects($this->any())->method('_getLayoutProcessor')->will(
+            $this->returnCallback(
+                function () use ($layoutUtility) {
+                    return $layoutUtility->getLayoutUpdateFromFixture(glob(__DIR__ . '/_files/layout/*.xml'));
+                }
+            )
+        );
     }
 }
 
