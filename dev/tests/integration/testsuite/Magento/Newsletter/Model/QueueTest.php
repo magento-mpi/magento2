@@ -68,8 +68,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\App\Dir'),
-                $objectManager->get('Magento\Email\Model\Template\Config'),
+                $objectManager->get('Magento\Email\Model\Template\Config')
             )
         );
         $emailTemplate->expects($this->once())
@@ -115,8 +114,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
                 $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\App\Dir'),
-                $objectManager->get('Magento\Email\Model\Template\Config'),
+                $objectManager->get('Magento\Email\Model\Template\Config')
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));
