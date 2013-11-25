@@ -10,7 +10,9 @@
   * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
   * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
   * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
-  * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules  
+  * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules
+  * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
+  * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
