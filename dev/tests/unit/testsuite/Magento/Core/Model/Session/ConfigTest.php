@@ -60,9 +60,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_stringHelperMock = $this->getMock('\Magento\Stdlib\String', array(), array(), '',
             false, false);
-        $this->_requestMock = $this->getMock('\Magento\App\Request\Http', array('getBasePath', 'isSecure'), array(), '',
-            false, false);
+        $this->_requestMock = $this->getMock('\Magento\App\Request\Http',
+            array('getBasePath', 'isSecure', 'getHttpHost'), array(), '', false, false);
         $this->_requestMock->expects($this->atLeastOnce())->method('getBasePath')->will($this->returnValue('/'));
+        $this->_requestMock->expects($this->atLeastOnce())
+            ->method('getHttpHost')->will($this->returnValue('init.host'));
         $this->_appState = $this->getMock('\Magento\App\State', array('isInstalled'), array(), '', false, false);
         $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
         $this->_dir = $this->getMock('\Magento\App\Dir', array(), array(), '', false, false);
