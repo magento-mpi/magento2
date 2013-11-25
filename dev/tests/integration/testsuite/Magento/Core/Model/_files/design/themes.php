@@ -13,6 +13,11 @@
         \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE,
         \Magento\Core\Model\App\Area::PART_CONFIG
     );
+\Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+    \Magento\Filesystem\DirectoryList::PARAM_APP_DIRS => array(
+        \Magento\Filesystem\DirectoryList::THEMES => realpath(__DIR__),
+    ),
+));
 \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->configure(array(
     'preferences' => array(
         'Magento\Core\Model\Theme' => 'Magento\Core\Model\Theme\Data'
