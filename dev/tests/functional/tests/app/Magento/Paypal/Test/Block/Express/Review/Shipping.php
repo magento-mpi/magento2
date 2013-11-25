@@ -31,6 +31,7 @@ class Shipping extends Form
         $this->_mapping = array(
             'firstname' => '[id="shipping:firstname"]',
             'lastname' => '[id="shipping:lastname"]',
+            'company' => '[id="shipping:company"]',
             'telephone' => '[id="shipping:telephone"]',
             'street_1' => '[id="shipping:street1"]',
             'city' => '[id="shipping:city"]',

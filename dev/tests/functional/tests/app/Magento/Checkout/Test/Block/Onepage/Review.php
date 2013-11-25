@@ -43,6 +43,6 @@ class Review extends Block
     public function placeOrder()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#review-please-wait');
     }
 }

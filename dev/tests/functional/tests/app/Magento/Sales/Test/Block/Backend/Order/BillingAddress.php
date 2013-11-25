@@ -28,6 +28,7 @@ class BillingAddress extends Form
         $this->_mapping = array(
             'firstname' => '#order-billing_address_firstname',
             'lastname' => '#order-billing_address_lastname',
+            'company' => '#order-billing_address_company',
             'telephone' => '#order-billing_address_telephone',
             'street_1' => '#order-billing_address_street0',
             'city' => '#order-billing_address_city',

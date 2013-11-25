@@ -28,7 +28,7 @@ class Login extends Form
      *
      * @var string
      */
-    private $submitLogin;
+    protected $submitLogin = '#submitLogin';
 
     /**
      * Initialize block elements
@@ -40,8 +40,6 @@ class Login extends Form
             'login_email' => '#login_email',
             'login_password' => '#login_password'
         );
-        //Elements
-        $this->submitLogin = '#submitLogin';
     }
 
     /**
@@ -51,6 +49,7 @@ class Login extends Form
      */
     public function login(Customer $fixture)
     {
+        $this->waitForElementVisible($this->submitLogin);
         $this->fill($fixture);
         $this->_rootElement->find($this->submitLogin, Locator::SELECTOR_CSS)->click();
     }

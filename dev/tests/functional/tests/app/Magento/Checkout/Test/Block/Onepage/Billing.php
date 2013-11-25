@@ -46,6 +46,7 @@ class Billing extends Form
             'firstname' => '[id="billing:firstname"]',
             'lastname' => '[id="billing:lastname"]',
             'email' => '[id="billing:email"]',
+            'company' => '[id="billing:company"]',
             'telephone' => '[id="billing:telephone"]',
             'street_1' => '[id="billing:street1"]',
             'city' => '[id="billing:city"]',
@@ -70,6 +71,6 @@ class Billing extends Form
             $this->_rootElement->find($this->useForShipping, Locator::SELECTOR_CSS)->click();
         }
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#billing-please-wait');
     }
 }

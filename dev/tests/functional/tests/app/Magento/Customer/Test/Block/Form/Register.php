@@ -39,6 +39,7 @@ class Register extends Form
             'firstname' => '#firstname',
             'lastname' => '#lastname',
             'email' => '#email_address',
+            'company' => '#company',
             'telephone' => '#telephone',
             'street_1' => '#street_1',
             'city' => '#city',

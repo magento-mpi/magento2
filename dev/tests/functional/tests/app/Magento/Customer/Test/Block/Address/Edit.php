@@ -39,6 +39,7 @@ class Edit extends Form
         $this->_mapping = array(
             'firstname' => '#firstname',
             'lastname' => '#lastname',
+            'company' => '#company',
             'telephone' => '#telephone',
             'street_1' => '#street_1',
             'city' => '#city',
