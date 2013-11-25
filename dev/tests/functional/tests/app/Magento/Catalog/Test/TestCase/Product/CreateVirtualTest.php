@@ -13,14 +13,15 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\VirtualProduct;
 
 /**
- * Create product
+ * Class CreateTest
+ * Test product creation
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class CreateProductTest extends Functional
+class CreateVirtualTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -31,14 +32,14 @@ class CreateProductTest extends Functional
     }
 
     /**
-     * Create simple product with settings in advanced inventory tab
+     * Create product
      *
-     * @ZephyrId MAGETWO-12914
+     * @ZephyrId MAGETWO-12514
      */
-    public function testCreateProductAdvancedInventory()
+    public function testCreateProduct()
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $product->switchData('simple_advanced_inventory');
+        $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
+        $product->switchData('virtual');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
         $createProductPage->init($product);
@@ -47,6 +48,7 @@ class CreateProductTest extends Functional
         $createProductPage->open();
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -66,6 +68,7 @@ class CreateProductTest extends Functional
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
+        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
@@ -80,7 +83,6 @@ class CreateProductTest extends Functional
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
@@ -89,6 +91,7 @@ class CreateProductTest extends Functional
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
