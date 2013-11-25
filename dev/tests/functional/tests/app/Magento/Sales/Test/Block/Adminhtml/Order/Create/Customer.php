@@ -38,17 +38,13 @@ class Customer extends Grid
     protected $editLink = 'td[data-column=email]';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'email' => array(
-                'selector' => '#sales_order_create_customer_grid_filter_email'
-            ),
-        );
-    }
+    protected $filters = array(
+        'email' => array(
+            'selector' => '#sales_order_create_customer_grid_filter_email'
+        )
+    );
 
     /**
      * Select customer if it is present in fixture or click create new customer button

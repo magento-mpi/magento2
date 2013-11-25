@@ -14,8 +14,7 @@ namespace Magento\Backend\Test\Block\Page;
 use Mtf\Block\Block;
 
 /**
- * Class Header
- * Adminhtml header block
+ * Header block
  *
  * @package Magento\Backend\Test\Block
  */

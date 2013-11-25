@@ -43,6 +43,27 @@ class SalesOrder extends Page
     protected $messageBlock = '#messages .messages';
 
     /**
+     * Order actions block
+     *
+     * @var string
+     */
+    protected $orderActionsBlock = '.page-actions';
+
+    /**
+     * Order view tabs block
+     *
+     * @var string
+     */
+    protected $formTabsBlock = '#sales_order_view_tabs';
+
+    /**
+     * Transactions grid
+     *
+     * @var string
+     */
+    protected $transctionGrid = '#order_transactions';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -75,14 +96,26 @@ class SalesOrder extends Page
     }
 
     /**
+     * Get order actions block
+     *
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Actions
+     */
+    public function getOrderActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderActions(
+            $this->_browser->find('.page-actions', Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
      * Get Order view tabs block
      *
      * @return \Magento\Backend\Test\Block\Widget\FormTabs
      */
-    public function getTabsWidget()
+    public function getFormTabsBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find('#sales_order_view_tabs')
+            $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -106,7 +139,7 @@ class SalesOrder extends Page
     public function getTransactionsGrid()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderTransactionsGrid(
-            $this->_browser->find('#order_transactions')
+            $this->_browser->find($this->transctionGrid, Locator::SELECTOR_CSS)
         );
     }
 }

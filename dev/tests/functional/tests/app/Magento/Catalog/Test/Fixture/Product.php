@@ -24,17 +24,17 @@ class Product extends AbstractProduct
         $this->_dataConfig = array(
             'constraint' => 'Success',
 
-            'grid_filter'       => array('name'),
+            'grid_filter' => array('name'),
 
             'create_url_params' => array(
                 'type' => 'simple',
-                'set'  => 4,
+                'set' => 4,
             ),
             'input_prefix' => 'product'
         );
 
         $data = array(
-            'price'  => array(
+            'price' => array(
                 'value' => '10',
                 'group' => static::GROUP_PRODUCT_DETAILS
             ),
@@ -44,10 +44,10 @@ class Product extends AbstractProduct
                 'group' => static::GROUP_PRODUCT_DETAILS,
                 'input' => 'select'
             ),
-            'qty'    => array(
+            'qty' => array(
                 'value' => 1000,
                 'group' => static::GROUP_PRODUCT_DETAILS,
-                'input_name'  => 'product[quantity_and_stock_status][qty]'
+                'input_name' => 'product[quantity_and_stock_status][qty]'
             ),
             'weight' => array(
                 'value' => '1',
@@ -58,14 +58,14 @@ class Product extends AbstractProduct
                 'input_value' => 1,
                 'group' => static::GROUP_PRODUCT_WEBSITE,
                 'input' => 'checkbox',
-                'input_name'  => 'product[website_ids][]'
+                'input_name' => 'product[website_ids][]'
             ),
             'inventory_manage_stock' => array(
                 'value' => 'No',
                 'input_value' => '0',
                 'group' => static::GROUP_PRODUCT_INVENTORY,
                 'input' => 'select',
-                'input_name'  => 'product[stock_data][manage_stock]'
+                'input_name' => 'product[stock_data][manage_stock]'
             )
         );
 

@@ -11,11 +11,9 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Shipping;
 
-use Magento\Backend\Test\Block\Template;
-use Magento\Sales\Test\Fixture\Order;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
+use Magento\Sales\Test\Fixture\Order;
 
 /**
  * Class Method

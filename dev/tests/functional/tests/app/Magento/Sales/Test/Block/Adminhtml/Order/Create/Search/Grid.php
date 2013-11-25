@@ -40,17 +40,13 @@ class Grid extends GridInterface
     protected $configureBlock = '//span[text()="Configure Product"]//ancestor::div[@role="dialog"]';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'sku' => array(
-                'selector' => '#sales_order_create_search_grid_filter_sku'
-            ),
-        );
-    }
+    protected $filters = array(
+        'sku' => array(
+            'selector' => '#sales_order_create_search_grid_filter_sku'
+        )
+    );
 
     /**
      * Get catalog product composite configure block

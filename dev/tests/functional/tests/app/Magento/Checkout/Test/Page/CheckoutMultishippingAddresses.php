@@ -33,7 +33,7 @@ class CheckoutMultishippingAddresses extends Page
      *
      * @var string
      */
-    private $addressesBlock = '#checkout_multishipping_form';
+    protected $addressesBlock = '#checkout_multishipping_form';
 
     /**
      * Custom constructor

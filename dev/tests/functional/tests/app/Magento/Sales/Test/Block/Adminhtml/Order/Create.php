@@ -160,7 +160,7 @@ class Create extends Block
     protected function getTemplateBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_CSS)
+            $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)
         );
     }
 

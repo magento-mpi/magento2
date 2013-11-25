@@ -30,21 +30,17 @@ class Grid extends GridInterface
     protected $addNewOrder = "../*[@class='page-actions']//*[@id='add']";
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'id' => array(
-                'selector' => '#sales_order_grid_filter_real_order_id'
-            ),
-            'status' => array(
-                'selector' => '#sales_order_grid_filter_status',
-                'input' => 'select'
-            )
-        );
-    }
+    protected $filters = array(
+        'id' => array(
+            'selector' => '#sales_order_grid_filter_real_order_id'
+        ),
+        'status' => array(
+            'selector' => '#sales_order_grid_filter_status',
+            'input' => 'select'
+        ),
+    );
 
     /**
      * Start to create new order

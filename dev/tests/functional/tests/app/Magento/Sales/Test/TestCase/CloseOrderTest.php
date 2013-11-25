@@ -74,7 +74,7 @@ class CloseOrderTest extends Functional
             'The shipment has been created.',
             'No success message on shipment creation'
         );
-        $tabsWidget = $orderPage->getTabsWidget();
+        $tabsWidget = $orderPage->getFormTabsBlock();
 
         //Verification on invoice tab
         $tabsWidget->openTab('sales_order_view_tabs_order_invoices');

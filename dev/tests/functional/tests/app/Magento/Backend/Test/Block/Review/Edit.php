@@ -28,7 +28,7 @@ class Edit extends Form
      *
      * @var string
      */
-    protected $postedBy = 'customer';
+    protected $customer = '#customer';
 
     /**
      * Rating status
@@ -51,7 +51,7 @@ class Edit extends Form
      */
     public function getPostedBy()
     {
-        return $this->_rootElement->find($this->postedBy, Locator::SELECTOR_ID)->getText();
+        return $this->_rootElement->find($this->customer, Locator::SELECTOR_CSS)->getText();
     }
 
     /**

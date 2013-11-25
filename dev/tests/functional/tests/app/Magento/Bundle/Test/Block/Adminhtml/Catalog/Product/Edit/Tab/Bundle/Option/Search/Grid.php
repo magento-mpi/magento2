@@ -37,20 +37,17 @@ class Grid extends GridInterface
     protected $selectItem = 'tbody tr .col-id';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => 'input[name=name]'
-            ),
-            'sku' => array(
-                'selector' => 'input[name=sku]'
-            ),
-        );
-    }
+    protected $filters = array(
+        'name' => array(
+            'selector' => 'input[name=name]'
+        ),
+        'sku' => array(
+            'selector' => 'input[name=sku]'
+        ),
+    );
+
 
     /**
      * Press 'Add Selected Products' button

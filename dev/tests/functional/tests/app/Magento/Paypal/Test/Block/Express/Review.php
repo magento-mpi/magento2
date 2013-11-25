@@ -63,15 +63,11 @@ class Review extends Form
     protected $shippingBlock = '#shipping-address';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        //Elements
-        $this->_mapping = array(
-            'telephone' => '[id="shipping:telephone"]'
-        );
-    }
+    protected $_mapping = array(
+        'telephone' => '[id="shipping:telephone"]'
+    );
 
     /**
      * Get billing address block

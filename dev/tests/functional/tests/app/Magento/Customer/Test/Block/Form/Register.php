@@ -31,25 +31,22 @@ class Register extends Form
     protected $submit = '.action.submit';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '#firstname',
-            'lastname' => '#lastname',
-            'email' => '#email_address',
-            'company' => '#company',
-            'telephone' => '#telephone',
-            'street_1' => '#street_1',
-            'city' => '#city',
-            'region' => '#region_id',
-            'postcode' => '#zip',
-            'country' => '#country',
-            'password' => '#password',
-            'confirmation' => '#confirmation',
-        );
-    }
+    protected $_mapping = array(
+        'firstname' => '#firstname',
+        'lastname' => '#lastname',
+        'email' => '#email_address',
+        'company' => '#company',
+        'telephone' => '#telephone',
+        'street_1' => '#street_1',
+        'city' => '#city',
+        'region' => '#region_id',
+        'postcode' => '#zip',
+        'country' => '#country',
+        'password' => '#password',
+        'confirmation' => '#confirmation',
+    );
 
     /**
      * Fill billing address

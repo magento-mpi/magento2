@@ -23,17 +23,14 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 class Grid extends GridInterface
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'id' => array(
-                'selector' => '#order_transactions_filter_txn_id'
-            )
-        );
-    }
+    protected $filters = array(
+        'id' => array(
+            'selector' => '#order_transactions_filter_txn_id'
+        )
+    );
+
 
     /**
      * Get Transaction type

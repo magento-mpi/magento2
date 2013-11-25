@@ -24,22 +24,19 @@ use Mtf\Client\Element\Locator;
 class Shipping extends Form
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '[id="shipping:firstname"]',
-            'lastname' => '[id="shipping:lastname"]',
-            'company' => '[id="shipping:company"]',
-            'telephone' => '[id="shipping:telephone"]',
-            'street_1' => '[id="shipping:street1"]',
-            'city' => '[id="shipping:city"]',
-            'region' => '[id="shipping:region_id"]',
-            'postcode' => '[id="shipping:postcode"]',
-            'country' => '[id="shipping:country_id"]',
-        );
-    }
+    protected $_mapping = array(
+        'firstname' => '[id="shipping:firstname"]',
+        'lastname' => '[id="shipping:lastname"]',
+        'company' => '[id="shipping:company"]',
+        'telephone' => '[id="shipping:telephone"]',
+        'street_1' => '[id="shipping:street1"]',
+        'city' => '[id="shipping:city"]',
+        'region' => '[id="shipping:region_id"]',
+        'postcode' => '[id="shipping:postcode"]',
+        'country' => '[id="shipping:country_id"]',
+    );
 
     /**
      * Verify form data. Unset 'email' field as it absent in current form

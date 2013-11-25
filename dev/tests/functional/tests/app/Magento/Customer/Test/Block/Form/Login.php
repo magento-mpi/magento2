@@ -39,16 +39,12 @@ class Login extends Form
     protected $registerButton = '.action.create';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        //Initialize mapping
-        $this->_mapping = array(
-            'email' => '#email',
-            'password' => '#pass'
-        );
-    }
+    protected $_mapping = array(
+        'email' => '#email',
+        'password' => '#pass'
+    );
 
     /**
      * Fill customer login data

@@ -23,17 +23,13 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 class Grid extends GridInterface
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'id' => array(
-                'selector' => '#order_invoices_filter_increment_id'
-            )
-        );
-    }
+    protected $filters = array(
+        'id' => array(
+            'selector' => '#order_invoices_filter_increment_id'
+        )
+    );
 
     /**
      * Get first invoice amount

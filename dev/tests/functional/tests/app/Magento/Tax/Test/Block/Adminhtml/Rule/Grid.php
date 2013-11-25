@@ -30,29 +30,25 @@ class Grid extends GridInterface
     protected $addNewRule = "../*[@class='page-actions']//*[@id='add']";
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => '#taxRuleGrid_filter_code'
-            ),
-            'customer_tax_class' => array(
-                'selector' => '#taxRuleGrid_filter_customer_tax_classes',
-                'input' => 'select'
-            ),
-            'product_tax_class' => array(
-                'selector' => '#taxRuleGrid_filter_product_tax_classes',
-                'input' => 'select'
-            ),
-            'tax_rate' => array(
-                'selector' => '#taxRuleGrid_filter_tax_rates',
-                'input' => 'select'
-            )
-        );
-    }
+    protected $filters = array(
+        'name' => array(
+            'selector' => '#taxRuleGrid_filter_code'
+        ),
+        'customer_tax_class' => array(
+            'selector' => '#taxRuleGrid_filter_customer_tax_classes',
+            'input' => 'select'
+        ),
+        'product_tax_class' => array(
+            'selector' => '#taxRuleGrid_filter_product_tax_classes',
+            'input' => 'select'
+        ),
+        'tax_rate' => array(
+            'selector' => '#taxRuleGrid_filter_tax_rates',
+            'input' => 'select'
+        )
+    );
 
     /**
      * Check if specific row exists in grid

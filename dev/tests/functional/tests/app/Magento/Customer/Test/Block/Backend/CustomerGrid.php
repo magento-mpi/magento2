@@ -31,17 +31,14 @@ class CustomerGrid extends Grid
     protected $addNewCustomer = "../*[@class='page-actions']//*[@id='add']";
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'email' => array(
-                'selector' => '#customerGrid_filter_email'
-            ),
-        );
-    }
+    protected $filters = array(
+        'email' => array(
+            'selector' => '#customerGrid_filter_email'
+        )
+    );
+
 
     /**
      * Add new customer

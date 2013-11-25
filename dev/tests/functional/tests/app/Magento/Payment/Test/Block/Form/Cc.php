@@ -14,7 +14,6 @@ namespace Magento\Payment\Test\Block\Form;
 use Mtf\Fixture;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class Cc
@@ -25,26 +24,15 @@ use Mtf\Client\Element\Locator;
 class Cc extends Form
 {
     /**
-     * Payment method code
-     *
-     * @var string
+     * {@inheritdoc}
      */
-    protected $paymentCode = '';
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Initialize mapping
-        $this->_mapping = array(
-            'credit_card_type' => '#' . $this->paymentCode . '_cc_type',
-            'credit_card_number' => '#' . $this->paymentCode . '_cc_number',
-            'expiration_month' => '#' . $this->paymentCode . '_expiration',
-            'expiration_year' => '#' . $this->paymentCode . '_expiration_yr',
-            'credit_card_cvv' => '#' . $this->paymentCode . '_cc_cid',
-        );
-    }
+    protected $_mapping = array(
+        'credit_card_type' => '_cc_type',
+        'credit_card_number' => '_cc_number',
+        'expiration_month' => '_expiration',
+        'expiration_year' => '_expiration_yr',
+        'credit_card_cvv' => '_cc_cid',
+    );
 
     /**
      * Fill credit card form
@@ -55,8 +43,10 @@ class Cc extends Form
     public function fill(Fixture $fixture, Element $element = null)
     {
         /** @var $fixture \Magento\Checkout\Test\Fixture\Checkout */
-        $this->paymentCode = $fixture->getPaymentMethod()->getPaymentCode();
-        $this->_init();
+        $paymentCode = $fixture->getPaymentMethod()->getPaymentCode();
+        foreach ($this->_mapping as $key => $value) {
+            $this->_mapping[$key] = '#' . $paymentCode . $this->_mapping[$key];
+        }
         parent::fill($fixture->getCreditCard(), $element);
     }
 }

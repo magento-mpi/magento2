@@ -24,19 +24,14 @@ use Mtf\Client\Element\Locator;
 class Matrix extends Form
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        //Element mapping
-        $this->_mapping = array(
-            'name' => '//*[@data-column="name"]/input',
-            'sku' => '//*[@data-column="sku"]/input',
-            'qty' => '//*[@data-column="qty"]/input',
-            'weight' => '//*[@data-column="weight"]/input'
-        );
-    }
+    protected $_mapping = array(
+        'name' => '//*[@data-column="name"]/input',
+        'sku' => '//*[@data-column="sku"]/input',
+        'qty' => '//*[@data-column="qty"]/input',
+        'weight' => '//*[@data-column="weight"]/input'
+    );
 
     /**
      * Fill qty to current variations

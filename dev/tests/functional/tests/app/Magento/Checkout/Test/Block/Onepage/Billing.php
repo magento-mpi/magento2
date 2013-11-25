@@ -38,23 +38,20 @@ class Billing extends Form
     protected $useForShipping = '[id="billing:use_for_shipping_no"]';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '[id="billing:firstname"]',
-            'lastname' => '[id="billing:lastname"]',
-            'email' => '[id="billing:email"]',
-            'company' => '[id="billing:company"]',
-            'telephone' => '[id="billing:telephone"]',
-            'street_1' => '[id="billing:street1"]',
-            'city' => '[id="billing:city"]',
-            'region' => '[id="billing:region_id"]',
-            'postcode' => '[id="billing:postcode"]',
-            'country' => '[id="billing:country_id"]',
-        );
-    }
+    protected $_mapping = array(
+        'firstname' => '[id="billing:firstname"]',
+        'lastname' => '[id="billing:lastname"]',
+        'email' => '[id="billing:email"]',
+        'company' => '[id="billing:company"]',
+        'telephone' => '[id="billing:telephone"]',
+        'street_1' => '[id="billing:street1"]',
+        'city' => '[id="billing:city"]',
+        'region' => '[id="billing:region_id"]',
+        'postcode' => '[id="billing:postcode"]',
+        'country' => '[id="billing:country_id"]',
+    );
 
     /**
      * Fill billing address

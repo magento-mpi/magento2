@@ -31,16 +31,12 @@ class Login extends Form
     protected $submitLogin = '#submitLogin';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        //Initialize mapping
-        $this->_mapping = array(
-            'login_email' => '#login_email',
-            'login_password' => '#login_password'
-        );
-    }
+    protected $_mapping = array(
+        'login_email' => '#login_email',
+        'login_password' => '#login_password'
+    );
 
     /**
      * Login to Paypal account
