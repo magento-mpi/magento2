@@ -64,14 +64,14 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $mergeService->expects($this->once())
             ->method('cleanMergedJsCss');
 
-        $session = $this->getMock('Magento\Adminhtml\Model\Session', array(), array(), '', false);
+        $session = $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false);
         $session->expects($this->once())
             ->method('addSuccess')
             ->with('The JavaScript/CSS cache has been cleaned.');
 
         $valueMap = array(
             array('Magento\Core\Model\Page\Asset\MergeService', $mergeService),
-            array('Magento\Adminhtml\Model\Session', $session),
+            array('Magento\Core\Model\Session\AbstractSession', $session),
         );
         $objectManager->expects($this->any())
             ->method('get')
