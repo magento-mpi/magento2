@@ -16,13 +16,14 @@ use Mtf\TestCase\Functional;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 class Related extends Block{
     /**
      * Verify that the simple product 2 and configurable product (if any) present as related products
      *
      * @param Product $simpleProduct2
-     * @param Product $configurableProduct
+     * @param ConfigurableProduct $configurableProduct
      */
     public function verifyRelatedProducts($simpleProduct2, $configurableProduct=null)
     {
@@ -49,8 +50,8 @@ class Related extends Block{
      * Add configurable product (with proper option) and related product to the shopping cart
      *
      * @param \Magento\Catalog\Test\Block\Product\View $productViewBlock
-     * @param \Magento\Catalog\Test\Fixture\Product $simpleProduct2
-     * @param \Magento\Catalog\Test\Fixture\Product $configurableProduct
+     * @param Product $simpleProduct2
+     * @param ConfigurableProduct $configurableProduct
      */
     public function addRelatedProductsToCart($productViewBlock, $simpleProduct2, $configurableProduct)
     {

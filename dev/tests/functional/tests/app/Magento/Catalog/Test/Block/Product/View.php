@@ -195,7 +195,7 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param Product $product
+     * @param AbstractProduct $product
      */
     public function fillOptions($product)
     {
