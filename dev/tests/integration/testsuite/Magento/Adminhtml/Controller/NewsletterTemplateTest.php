@@ -132,7 +132,8 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been deleted.')), \Magento\Core\Model\Message::SUCCESS
+            $this->equalTo(array('The newsletter template has been deleted.')),
+            \Magento\Core\Model\Message::SUCCESS
         );
     }
 }
