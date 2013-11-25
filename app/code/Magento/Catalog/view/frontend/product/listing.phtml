@@ -96,16 +96,6 @@ $imageBlock =  $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Im
         <?php echo ($iterator==count($_productCollection)+1) ? '</li>' : '' ?>
         <?php endforeach; ?>
     </ol>
-    <script type="text/javascript">
-        /* head.js("<?php echo $this->getViewFileUrl('Magento_Catalog::js/mage-attributes-processing.js') ?>"); */
-        /*
-        * TODO:
-        * CHANGELOG.md:
-        *     Removed file containing jQuery that did not meet the Magento 2 coding standard. Replaced with redirect-url widget
-        *     app/code/Magento/Catalog/view/frontend/js/mage-attributes-processing.js
-        * check what for mage-attributes-processing.js was used here and wether its removing broked anything
-        * */
-    </script>
 </div>
 <div class="toolbar-bottom">
     <?php echo $this->getToolbarHtml() ?>

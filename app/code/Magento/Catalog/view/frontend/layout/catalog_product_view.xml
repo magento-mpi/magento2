@@ -8,14 +8,16 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="root">
-        <action method="setTemplate">
-            <argument name="template" xsi:type="string">1column.phtml</argument>
-        </action>
-    </referenceBlock>
+    <update handle="page_one_column"/>
     <referenceBlock name="page.main.title">
         <arguments>
             <argument name="css_class" xsi:type="string">product</argument>
+            <argument name="add_base_attribute" xsi:type="string">itemprop="name"</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceBlock name="root">
+        <arguments>
+            <argument name="add_attribute" xsi:type="string">itemscope itemtype="http://schema.org/Product"</argument>
         </arguments>
     </referenceBlock>
     <referenceBlock name="head">
@@ -61,6 +63,7 @@
                     <argument name="at_code" xsi:type="string">sku</argument>
                     <argument name="css_class" xsi:type="string">sku</argument>
                     <argument name="at_label" xsi:type="string">default</argument>
+                    <argument name="add_attribute" xsi:type="string">itemprop="sku"</argument>
                 </arguments>
             </block>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.rating" template="product/view/rating.phtml"/>
@@ -71,6 +74,7 @@
                     <argument name="css_class" xsi:type="string">overview</argument>
                     <argument name="at_label" translate="true" xsi:type="string">none</argument>
                     <argument name="title" translate="true" xsi:type="string">Overview</argument>
+                    <argument name="add_attribute" xsi:type="string">itemprop="description"</argument>
                 </arguments>
             </block>
             <container name="alert.urls" as="alert_urls" label="Alert Urls"/>

@@ -77,7 +77,7 @@
             $('html, body').animate({
                 scrollTop: 0
             }, 600);
-            $(this.options.bundleOptionsContainer).slideUp(function(){800});
+            $(this.options.bundleOptionsContainer).slideUp(800);
         }
     });
 }(jQuery));

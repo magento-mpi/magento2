@@ -8,7 +8,9 @@
 ?>
 <?php /** @var $this \Magento\Catalog\Block\Product\Image */ ?>
 
-<img class="photo image" style="width:<?php echo $this->getProductImageView()->getWidth()?>px;
-    height:<?php echo $this->getProductImageView()->getHeight()?>px;"
-    src="<?php echo $this->getProductImageView()->getUrl() ?>"
-    alt="<?php echo $this->stripTags($this->getProductImageView()->getLabel(), null, true) ?>" />
+<img class="photo image"
+     style="width:<?php echo $this->getProductImageView()->getWidth()?>px;
+     height:<?php echo $this->getProductImageView()->getHeight()?>px;"
+     <?php echo $this->getAddAttribute(); ?>
+     src="<?php echo $this->getProductImageView()->getUrl() ?>"
+     alt="<?php echo $this->stripTags($this->getProductImageView()->getLabel(), null, true) ?>" />
