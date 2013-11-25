@@ -12,44 +12,53 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Catalog\Test\Fixture;
 
 /**
- * Class GuestPaypalDirect
- * PayPal Payments Pro Method
- * Guest checkout using PayPal Payments Pro method and offline shipping method
+ * Guest checkout with taxes, Check/Money order payment method and offline shipping method
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class GuestPaypalDirect extends Checkout
+class CheckMoneyOrder extends Checkout
 {
     /**
-     * Prepare data for guest checkout with PayPal Payments Pro Method
+     * Prepare Check/Money order data
      */
     protected function _initData()
     {
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81'
-            )
+                'grand_total' => '$141.81',
+                'sub_total' => '$131.00',
+                'tax' => '$10.81',
+            ),
+            'product_price_with_tax' => array(
+                'Product' => array(
+                    'value' => '$10.00',
+                ),
+                'ConfigurableProduct' => array(
+                    'value' => '$11.00',
+                ),
+                'Bundle' => array(
+                    'value' => '$110.00',
+                ),
+            ),
         );
     }
 
     /**
-     * Setup fixture
+     * Persists prepared data into application
      */
     public function persist()
     {
         //Configuration
         $this->_persistConfiguration(array(
-            'flat_rate',
-            'paypal_disabled_all_methods',
-            'paypal_direct',
-            'default_tax_config',
+            'free_shipping',
+            'check_money_order',
             'display_price',
             'display_shopping_cart',
-            'default_tax_config'
+            'default_tax_config',
         ));
 
         //Tax
@@ -80,12 +89,41 @@ class GuestPaypalDirect extends Checkout
         $this->billingAddress->switchData('address_US_1');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
-        $this->shippingMethods->switchData('flat_rate');
+        $this->shippingMethods->switchData('free_shipping');
 
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
-        $this->paymentMethod->switchData('paypal_direct');
+        $this->paymentMethod->switchData('check_money_order');
+    }
 
-        $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_direct');
+    /**
+     * Get Product Price with tax for product of particular class
+     *
+     * @param Fixture\Product $product
+     * @return string
+     */
+    public function getProductPriceWithTax($product)
+    {
+        $className = explode('\\', get_class($product));
+        return $this->getData('product_price_with_tax/' . $className[count($className) - 1] . '/value');
+    }
+
+    /**
+     * Get order subtotal
+     *
+     * @return string
+     */
+    public function getSubtotal()
+    {
+        return $this->getData('totals/sub_total');
+    }
+
+    /**
+     * Get order tax
+     *
+     * @return string
+     */
+    public function getTax()
+    {
+        return $this->getData('totals/tax');
     }
 }
