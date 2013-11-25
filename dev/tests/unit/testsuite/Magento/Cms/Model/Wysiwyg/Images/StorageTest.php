@@ -103,18 +103,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
         $this->_backendUrlMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
-        $this->_imageHelperMock->expects($this->once())
-            ->method('getStorageRoot')
-            ->will($this->returnValue('someDirectory'));
-
-        $this->_filesystemMock->expects($this->once())
-            ->method('setWorkingDirectory')
-            ->with('someDirectory');
-
-        $this->_filesystemMock->expects($this->once())
-            ->method('setIsAllowCreateDirectories')
-            ->with(true);
-
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_model = $objectManagerHelper->getObject('Magento\Cms\Model\Wysiwyg\Images\Storage', array(
             'session' => $this->_sessionMock,

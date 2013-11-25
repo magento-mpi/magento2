@@ -125,10 +125,10 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
     public function prepareDestinationDataProvider()
     {
         return array(
-            array(__DIR__, 'name.txt', __DIR__ . DIRECTORY_SEPARATOR . 'name.txt'),
-            array(__DIR__ . DIRECTORY_SEPARATOR . 'name.txt', null, __DIR__ . DIRECTORY_SEPARATOR . 'name.txt'),
-            array(null, 'name.txt', '_fileSrcPath' . DIRECTORY_SEPARATOR . 'name.txt'),
-            array(null, null, '_fileSrcPath' . DIRECTORY_SEPARATOR . '_fileSrcName'),
+            array(__DIR__, 'name.txt', __DIR__ . '/name.txt'),
+            array(__DIR__ . '/name.txt', null, __DIR__ . '/name.txt'),
+            array(null, 'name.txt', '_fileSrcPath' . '/name.txt'),
+            array(null, null, '_fileSrcPath' . '/_fileSrcName'),
         );
     }
 
