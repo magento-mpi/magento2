@@ -54,6 +54,13 @@ abstract class Grid extends Block
     protected $rowItem;
 
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = '//td[@data-column="action"]//a';
+
+    /**
      * An element locator which allows to select entities in grid
      *
      * @var string
@@ -158,7 +165,7 @@ abstract class Grid extends Block
         $this->search($filter);
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
-            $rowItem->click();
+            $rowItem->find($this->editLink, Locator::SELECTOR_XPATH)->click();
         } else {
             throw new \Exception('Searched item was not found.');
         }

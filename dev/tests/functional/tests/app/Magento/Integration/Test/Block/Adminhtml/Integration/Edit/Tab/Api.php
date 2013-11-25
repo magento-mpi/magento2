@@ -24,13 +24,27 @@ class Api extends Tab
     protected $resourceAccess = '#all_resources';
 
     /**
+     * JQuery tree element
+     *
+     * @var string
+     */
+    protected $jqeryTree = '[data-role="tree-resources-container"]';
+
+    /**
      * {@inheritdoc}
      */
     protected function _init()
     {
         parent::_init();
         $this->_mapping = array(
-            'resource_access' => $this->resourceAccess,
+            'resource_access' => array(
+                'selector' => $this->resourceAccess,
+                'input' => 'select',
+            ),
+            'resources' => array(
+                'selector' => $this->jqeryTree,
+                'input' => 'jquerytree'
+            )
         );
     }
 
@@ -41,7 +55,7 @@ class Api extends Tab
      */
     public function isResourceVisible()
     {
-        return $this->_rootElement->find('[data-role="tree-resources-container"]')->isVisible();
+        return $this->_rootElement->find($this->jqeryTree)->isVisible();
     }
 
     /**
@@ -55,7 +69,9 @@ class Api extends Tab
     }
 
     /**
-     * Verify role access
+     * Get role access
+     *
+     * @return string
      */
     public function getRoleAccess()
     {

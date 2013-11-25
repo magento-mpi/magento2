@@ -16,7 +16,7 @@ use Mtf\Repository\AbstractRepository;
 class Integration extends AbstractRepository
 {
     const INTEGRATION_TAB = 'integration_tab';
-    const INTEGRATION = 'api_tab';
+    const ALL_INTEGRATION_TABS = 'api_tab';
 
     /**
      * {@inheritdoc}
@@ -28,7 +28,7 @@ class Integration extends AbstractRepository
             'data' => $defaultData
         );
         $this->_data[self::INTEGRATION_TAB] = $this->_getIntegrationTabData();
-        $this->_data[self::INTEGRATION] = array_replace_recursive($this->_getIntegrationTabData(), $this->_getApiTabData());
+        $this->_data[self::ALL_INTEGRATION_TABS] = array_replace_recursive($this->_getIntegrationTabData(), $this->_getApiTabData());
     }
 
     /**
@@ -71,14 +71,11 @@ class Integration extends AbstractRepository
                     'resource_access' => array(
                         'value' => 'Custom',
                         'input_value' => '0',
-                        'group' => 'integration_edit_tabs_api_section',
-                        'input' => 'select'
+                        'group' => 'integration_edit_tabs_api_section'
                     ),
                     'resources' => array(
                         'value' => array('Dashboard'),
-                        'input' => 'jquerytree',
-                        'group' => 'integration_edit_tabs_api_section',
-                        'selector' => '[data-role="tree-resources-container"]'
+                        'group' => 'integration_edit_tabs_api_section'
                     ),
                 )
             )

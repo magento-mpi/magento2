@@ -103,7 +103,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
         $newIntegrationPage->open();
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture);
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
-        //Verification of JStree visibility
+        //Verification of JStree visibility by switching role access
         $this->assertTrue($newIntegrationPage->getApiTab()->isResourceVisible(), 'Resources tree should be visible.');
         $newIntegrationPage->getApiTab()->setRoleAccess('All');
         $this->assertFalse(
@@ -111,7 +111,6 @@ class IntegrationTest extends \Mtf\TestCase\Functional
             'Resources tree should not be visible.'
         );
         $newIntegrationPage->getIntegrationFormBlock()->save();
-        //Verification of JStree visibility
         $this->checkSaveSuccessMessage();
         $this->openByName($integrationFixture->getName());
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
@@ -120,10 +119,10 @@ class IntegrationTest extends \Mtf\TestCase\Functional
             $newIntegrationPage->getApiTab()->isResourceVisible(),
             'Resources tree should not be visible.'
         );
-        $integrationFixture->switchData(IntegrationRepository::INTEGRATION);
+        $integrationFixture->switchData(IntegrationRepository::ALL_INTEGRATION_TABS);
         $newIntegrationPage->getIntegrationFormBlock()->fill($integrationFixture);
         $newIntegrationPage->getIntegrationFormBlock()->save($integrationFixture);
-        //Verification of saved values
+        //Verification of saved values of JStree
         $this->checkSaveSuccessMessage();
         $this->openByName($integrationFixture->getName());
         $newIntegrationPage->getIntegrationFormBlock()->openApiTab();
