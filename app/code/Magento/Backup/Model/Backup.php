@@ -78,13 +78,14 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Filesystem $filesystem,
         $data = array()
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct($data);
 
         $adapter = new \Magento\Filesystem\Adapter\Zlib(self::COMPRESS_RATE);
-        $this->_filesystem = new \Magento\Filesystem($adapter);
+        $this->_filesystem = $filesystem;
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_helper = $helper;
         $this->_locale = $locale;

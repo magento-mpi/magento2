@@ -347,17 +347,15 @@ class Observer
      */
     public function deleteExpiredImages()
     {
-        $directoryRead = $this->_filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
-        $directoryWrite = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $mediaDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
         foreach ($this->_storeManager->getWebsites(true) as $website) {
             $expire = time() - $this->_helper->getConfig('timeout', $website->getDefaultStore()) * 60;
-            $imageDirectory = $this->_helper->getImgDir($website);
-            foreach ($directoryRead->read($imageDirectory) as $filePath) {
-                $stat = $directoryRead->stat($filePath);
-                if ($directoryRead->isFile($filePath)
-                    && pathinfo($filePath, PATHINFO_EXTENSION) == 'png'
-                    && $stat['mtime'] < $expire) {
-                    $directoryWrite->delete($filePath);
+            $path = $mediaDirectory->getRelativePath($this->_helper->getImgDir($website));
+
+            foreach ($mediaDirectory->search('#\.png$#', $path) as $filePath) {
+                $stat = $mediaDirectory->stat($filePath);
+                if ($stat['mtime'] < $expire) {
+                    $mediaDirectory->delete($filePath);
                 }
             }
         }

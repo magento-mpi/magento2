@@ -29,10 +29,7 @@ class Favicon extends \Magento\Backend\Model\Config\Backend\Image
      */
     protected function _getUploadDir()
     {
-        $uploadDir = $this->_appendScopeInfo(self::UPLOAD_DIR);
-        $uploadRoot = $this->_getUploadRoot(self::UPLOAD_ROOT);
-        $uploadDir = $uploadRoot . '/' . $uploadDir;
-        return $uploadDir;
+        return $this->_mediaDirectory->getAbsolutePath($this->_appendScopeInfo(self::UPLOAD_DIR));
     }
 
     /**

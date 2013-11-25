@@ -135,12 +135,12 @@ class Filesystem
     protected $writeFactory;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read[]
+     * @var \Magento\Filesystem\Directory\ReadInterface[]
      */
     protected $readInstances = array();
 
     /**
-     * @var \Magento\Filesystem\Directory\Write[]
+     * @var \Magento\Filesystem\Directory\WriteInterface[]
      */
     protected $writeInstances = array();
 
@@ -216,7 +216,7 @@ class Filesystem
      * Create an instance of directory with write permissions
      *
      * @param string $code
-     * @return \Magento\Filesystem\Directory\Read
+     * @return \Magento\Filesystem\Directory\ReadInterface
      */
     public function getDirectoryRead($code)
     {
