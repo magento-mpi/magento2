@@ -13,16 +13,9 @@ namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
 use Magento\Bundle\Test\Fixture\Bundle;
 
-/**
- * Class BundleTest
- * Bundle product creation tests
- *
- * @package Magento\Bundle\Test\TestCase
- */
-class BundleTest extends Functional
+class BundleFixedTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -38,7 +31,7 @@ class BundleTest extends Functional
     public function testCreate()
     {
         //Data
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_fixed');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
@@ -63,13 +56,12 @@ class BundleTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param Bundle $product
      */
     protected function assertOnGrid($product)
     {
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
-        //@var Magento\Catalog\Test\Block\Backend\ProductGrid
         $gridBlock = $productGridPage->getProductGrid();
         $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
     }
@@ -100,6 +92,7 @@ class BundleTest extends Functional
             $this->assertContains($expectedPrices[$priceType], $actualPrice);
         }
 
+        // @TODO: add click on "Customize and Add To Cart" button and assert options count
         $productOptionsBlock = $productPage->getOptionsBlock();
         $actualOptions = $productOptionsBlock->getBundleOptions();
         $expectedOptions = $product->getBundleOptions();
