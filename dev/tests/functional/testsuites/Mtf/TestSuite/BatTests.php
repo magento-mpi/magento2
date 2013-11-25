@@ -17,7 +17,7 @@ class BatTests
     {
         $suite = new \PHPUnit_Framework_TestSuite('Tests');
 
-        $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleTest');
+        $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleFixedTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\CreateTest');
