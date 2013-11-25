@@ -10,11 +10,6 @@ namespace Magento\User\Controller\Adminhtml\User;
 
 use Magento\User\Model\Acl\Role\Group as RoleGroup;
 
-/**
- * \Magento\User roles controller
- */
-namespace Magento\User\Controller\Adminhtml\User;
-
 class Role extends \Magento\Backend\App\AbstractAction
 {
     /**
@@ -79,7 +74,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Preparing layout for output
      *
-     * @return \Magento\User\Controller\Adminhtml\User\Role
+     * @return Role
      */
     protected function _initAction()
     {
@@ -278,6 +273,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      * @param int $userId
      * @param int $roleId
      * @return bool
+     * @throws \Exception
      */
     protected function _deleteUserFromRole($userId, $roleId)
     {
@@ -288,7 +284,6 @@ class Role extends \Magento\Backend\App\AbstractAction
                 ->deleteFromRole();
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
         return true;
     }
