@@ -11,13 +11,6 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     implements \Magento\App\Resource\ConnectionAdapterInterface
 {
     /**
-     * Dirs instance
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
      * Filesystem class
      *
      * @var \Magento\Filesystem
@@ -50,7 +43,6 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     protected $_isActive;
 
     /**
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -64,7 +56,6 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
      * @param bool $active
      */
     public function __construct(
-        \Magento\App\Dir $dirs,
         \Magento\Filesystem $filesystem,
         \Magento\Stdlib\String $string,
         \Magento\Stdlib\DateTime $dateTime,
@@ -77,7 +68,6 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
         $type = 'pdo_mysql',
         $active = false
     ) {
-        $this->_dirs = $dirs;
         $this->_filesystem = $filesystem;
         $this->string = $string;
         $this->dateTime = $dateTime;
