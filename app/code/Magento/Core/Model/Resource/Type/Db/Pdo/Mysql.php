@@ -131,7 +131,6 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     {
         $className = $this->_getDbAdapterClassName();
         $adapter = new $className(
-            $this->_dirs,
             $this->_filesystem,
             $this->string,
             $this->dateTime,

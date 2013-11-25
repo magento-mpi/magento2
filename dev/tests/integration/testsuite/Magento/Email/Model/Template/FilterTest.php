@@ -94,26 +94,17 @@ class FilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Dir::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::THEMES => dirname(__DIR__) . '/_files/design'
-            )
-        ));
-        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Email\Model\Template\Filter');
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea($area);
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->_model = $objectManager->create('Magento\Email\Model\Template\Filter');
+        $objectManager->get('Magento\Core\Model\App')->loadArea($area);
 
-        $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Resource\Theme\Collection');
+        $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
+        $objectManager->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig(
                 \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
                 $themeId
             );
-
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $themes = array('frontend' => 'test_default', 'adminhtml' => 'test_default');
         $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
@@ -125,7 +116,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals(
             $area,
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')->getArea()
+            $objectManager->get('Magento\View\LayoutInterface')->getArea()
         );
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('test_default');
 
