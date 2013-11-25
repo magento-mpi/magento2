@@ -325,6 +325,7 @@ return array(
     array('getConfigDataModel', 'Magento\Core\Model\Config'),
     array('getConnectionTypeInstance', 'Magento\App\Resource'),
     array('getContainers', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
+    array('getCurrentUrl', 'Magento\Core\Helper\Url', 'Magento\Core\Model\Url'),
     array('getCustomerData', 'Magento\Sales\Block\Adminhtml\Order\Create\Form\Account'),
     array('getDataForSave', 'Magento\Wishlist\Model\Item'),
     array('getDataMaxSize'),

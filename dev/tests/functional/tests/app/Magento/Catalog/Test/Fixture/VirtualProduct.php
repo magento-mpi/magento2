@@ -11,10 +11,12 @@
 
 namespace Magento\Catalog\Test\Fixture;
 
+use Mtf\System\Config;
 use Mtf\Factory\Factory;
 
-class Product extends AbstractProduct
+class VirtualProduct extends AbstractProduct
 {
+
     /**
      * {inheritdoc}
      */
@@ -27,7 +29,7 @@ class Product extends AbstractProduct
             'grid_filter'       => array('name'),
 
             'create_url_params' => array(
-                'type' => 'simple',
+                'type' => 'virtual',
                 'set'  => 4,
             ),
             'input_prefix' => 'product'
@@ -49,10 +51,6 @@ class Product extends AbstractProduct
                 'group' => static::GROUP_PRODUCT_DETAILS,
                 'input_name'  => 'product[quantity_and_stock_status][qty]'
             ),
-            'weight' => array(
-                'value' => '1',
-                'group' => static::GROUP_PRODUCT_DETAILS
-            ),
             'product_website_1' => array(
                 'value' => 'Yes',
                 'input_value' => 1,
@@ -72,6 +70,6 @@ class Product extends AbstractProduct
         $this->_data['fields'] = array_merge($this->_data['fields'], $data);
 
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCatalogProduct($this->_dataConfig, $this->_data);
+            ->getMagentoCatalogVirtualProduct($this->_dataConfig, $this->_data);
     }
 }
