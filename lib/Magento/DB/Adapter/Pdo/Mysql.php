@@ -9,6 +9,8 @@
  */
 namespace Magento\DB\Adapter\Pdo;
 
+use Magento\Filesystem\DirectoryList;
+
 class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\AdapterInterface
 {
     const DEBUG_CONNECT         = 0;
@@ -202,13 +204,6 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected $_queryHook = null;
 
     /**
-     * Dirs instance
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
      * @var \Magento\Stdlib\String
      */
     protected $string;
@@ -219,20 +214,17 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected $dateTime;
 
     /**
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $config
      */
     public function __construct(
-        \Magento\App\Dir $dirs,
         \Magento\Filesystem $filesystem,
         \Magento\Stdlib\String $string,
         \Magento\Stdlib\DateTime $dateTime,
         array $config = array()
     ) {
-        $this->_dirs = $dirs;
         $this->_filesystem = $filesystem;
         $this->string = $string;
         $this->dateTime = $dateTime;
@@ -1412,10 +1404,8 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     protected function _debugWriteToFile($str)
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
-        $filename = $this->_dirs->getDir(\Magento\App\Dir::ROOT) . '/' . $this->_debugFile;
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists(dirname($filename));
-        $stream = $this->_filesystem->createAndOpenStream($filename, 'a');
+
+        $stream = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT)->openFile($this->_debugFile, 'a');
         $stream->lock();
         $stream->write($str);
         $stream->unlock();
