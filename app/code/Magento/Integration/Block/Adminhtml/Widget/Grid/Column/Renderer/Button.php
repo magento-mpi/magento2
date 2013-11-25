@@ -14,16 +14,15 @@ use \Magento\Object;
 
 class Button extends AbstractRenderer
 {
-    /** @var array Contains list of element's attributes */
-    protected $_attributes = [];
-
     /**
      * {@inheritDoc}
      */
     public function render(Object $row)
     {
-        $this->_prepareAttributes($row);
-        return sprintf('<button %s>%s</button>', $this->_getAttributesStr(), $this->_getValue($row));
+        /** @var array $attributes */
+        $attributes = $this->_prepareAttributes($row);
+        return sprintf(
+            '<button %s>%s</button>', $this->_getAttributesStr($attributes), $this->_getValue($row));
     }
 
     /**
@@ -55,9 +54,11 @@ class Button extends AbstractRenderer
      * If received attribute value is empty - attribute is not added to final HTML.
      *
      * @param \Magento\Object $row
+     * @return array
      */
     protected function _prepareAttributes(Object $row)
     {
+        $attributes = [];
         foreach ($this->_getValidAttributes() as $attributeName) {
             $methodName = sprintf('_get%sAttribute', ucfirst($attributeName));
             $rowMethodName = sprintf('get%s', ucfirst($attributeName));
@@ -66,20 +67,10 @@ class Button extends AbstractRenderer
                 : $this->getColumn()->$rowMethodName();
 
             if ($attributeValue) {
-                $this->_addAttribute($attributeName, $attributeValue);
+                $attributes[] = sprintf('%s="%s"', $attributeName, $this->escapeHtml($attributeValue));
             }
         }
-    }
-
-    /**
-     * Add attribute to the list of element attributes.
-     *
-     * @param string $name  Attribute name, i.e. 'title', 'name', etc.
-     * @param string $value Attribute value
-     */
-    protected function _addAttribute($name, $value)
-    {
-        $this->_attributes[] = sprintf('%s="%s"', $name, $this->escapeHtml($value));
+        return $attributes;
     }
 
     /**
@@ -102,10 +93,11 @@ class Button extends AbstractRenderer
     /**
      * Get list of attributes rendered as a string (ready to be inserted into tag).
      *
+     * @param array $attributes Array of attributes
      * @return string
      */
-    protected function _getAttributesStr()
+    protected function _getAttributesStr($attributes)
     {
-        return join(' ', $this->_attributes);
+        return join(' ', $attributes);
     }
 }
