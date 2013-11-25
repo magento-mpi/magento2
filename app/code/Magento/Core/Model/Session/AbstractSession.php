@@ -169,9 +169,6 @@ class AbstractSession extends \Magento\Object
                 break;
             default:
                 session_module_name($this->getSessionSaveMethod());
-                if (is_writable($this->getSessionSavePath())) {
-                    session_save_path($this->getSessionSavePath());
-                }
                 break;
         }
 
