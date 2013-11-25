@@ -32,6 +32,8 @@
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
+use Magento\Filesystem\DirectoryList;
+
 class Operation extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -44,7 +46,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * File history directory
      *
      */
-    const FILE_HISTORY_DIRECTORY = 'history';
+    const FILE_HISTORY_DIRECTORY = 'history/';
 
     /**
      * Email config prefix
@@ -111,11 +113,6 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_coreDir;
-
-    /**
      * @var \Magento\Stdlib\String
      */
     protected $string;
@@ -125,10 +122,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      *
      * @var \Magento\Filesystem
      */
-    protected $_filesystem;
+    protected $filesystem;
 
     /**
-     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
@@ -146,7 +142,6 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\App\Dir $coreDir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
@@ -171,8 +166,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $this->_operationFactory = $operationFactory;
         $this->_schedOperFactory = $schedOperFactory;
         $this->_storeManager = $storeManager;
-        $this->_coreDir = $coreDir;
-        $this->_filesystem = $filesystem;
+        $this->filesystem = $filesystem;
         $this->string = $string;
 
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
@@ -436,8 +430,10 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $operation->addLogComment($e->getMessage());
         }
 
+        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
         $filePath = $this->getHistoryFilePath();
-        if (!file_exists($filePath)) {
+
+        if ($logDirectory->isExist($logDirectory->getRelativePath($filePath))) {
             $filePath = __('File has been not created');
         }
 
@@ -478,11 +474,15 @@ class Operation extends \Magento\Core\Model\AbstractModel
 
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath  = $fileInfo['file_name'];
-        $tmpFilePath = sys_get_temp_dir() . DS . uniqid(time(), true) . '.' . $extension;
+
+        $varDirectory = $this->filesystem->getDirectoryRead(DirectoryList::VAR_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
+        $tmpFile = uniqid(time(), true) . '.' . $extension;
+        $tmpFilePath = $tmpDirectory->getAbsolutePath(uniqid(time(), true) . '.' . $extension);
+
         try {
-            $contents = $this->_filesystem->read($filePath);
-            $this->_filesystem->setWorkingDirectory(dirname($tmpFilePath));
-            $this->_filesystem->write($tmpFilePath, $contents);
+            $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));
+            $tmpDirectory->writeFile($tmpFile, $contents);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__("We couldn't read the import file."));
         }
@@ -508,12 +508,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
 
         $fileInfo = $this->getFileInfo();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
-        try{
-            $this->_filesystem->setWorkingDirectory($this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR));
-            $this->_filesystem->write(
-                $this->_coreDir->getDir(\Magento\App\Dir::VAR_DIR) . '/' . $fileInfo['file_path'] . '/' . $fileName,
-                $fileContent
-            );
+        try {
+            $varDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+            $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__(
                     'We couldn\'t write file "%1" to "%2" with the "%3" driver.',
@@ -581,42 +578,15 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     protected function _saveOperationHistory($source)
     {
-        $filePath = $this->getHistoryFilePath();
+        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
+        $filePath = $logDirectory->getRelativePath($this->getHistoryFilePath());
 
-        $fileDir = dirname($filePath);
         try {
-            $this->_filesystem->setWorkingDirectory(dirname($fileDir));
-            $this->_filesystem->setIsAllowCreateDirectories(true);
-            $this->_filesystem->ensureDirectoryExists($fileDir);
-            $this->_filesystem->setWorkingDirectory($fileDir);
+            $logDirectory->writeFile($filePath, $source);
         } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->_filesystem->setWorkingDirectory(getcwd());
-        }
-
-        try {
-            $this->_filesystem->write($filePath, $source);
-        } catch(\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__("We couldn't save the file history file."));
         }
-
         return $this;
-    }
-
-    /**
-     * Get dir path of history operation files
-     *
-     * @return string
-     */
-    protected function _getHistoryDirPath()
-    {
-        $dirPath = $this->_coreDir->getDir(\Magento\App\Dir::LOG) . DS . self::LOG_DIRECTORY
-            . date('Y' . DS . 'm' . DS . 'd') . DS . self::FILE_HISTORY_DIRECTORY . DS;
-
-        if (!is_dir($dirPath)) {
-            mkdir($dirPath, 0777, true);
-        }
-
-        return $dirPath;
     }
 
     /**
@@ -627,7 +597,9 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     public function getHistoryFilePath()
     {
-        $dirPath = $this->_getHistoryDirPath();
+        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
+        $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
+        $logDirectory->create($dirPath);
 
         $fileName = join('_', array(
             $this->_getRunTime(),
@@ -644,7 +616,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             throw new \Magento\Core\Exception(__('Unknown file format'));
         }
 
-        return $dirPath . $fileName . '.' . $extension;
+        return $logDirectory->getAbsolutePath($dirPath . $fileName . '.' . $extension);
     }
 
     /**

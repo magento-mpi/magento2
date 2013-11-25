@@ -97,6 +97,11 @@ class DirectoryList extends Dir
     const TMP = 'tmp';
 
     /**
+     * System base temporary folder
+     */
+    const SYS_TMP = 'sys_tmp';
+
+    /**
      * File system caching directory (if file system caching is used)
      */
     const CACHE = 'cache';
@@ -194,6 +199,13 @@ class DirectoryList extends Dir
         foreach ($this->_getDefaultReplacements($uris) as $code => $replacement) {
             $this->directories[$code]['uri'] = $replacement;
         }
+
+        $this->directories[self::SYS_TMP] = array(
+            'path' => sys_get_temp_dir(),
+            'read_only' => false,
+            'allow_create_dirs' => true,
+            'permissions' => 0777
+        );
     }
 
     /**
