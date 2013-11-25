@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Authorizenet Data Helper
- *
- * @category   Magento
- * @package    Magento_Authorizenet
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Authorizenet\Helper;
 
+/**
+ * Authorizenet Data Helper
+ */
 interface HelperInterface
 {
     /**

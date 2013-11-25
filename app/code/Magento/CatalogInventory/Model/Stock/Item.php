@@ -992,7 +992,7 @@ class Item extends \Magento\Core\Model\AbstractModel
     /**
      * Check if notification message should be added despite of backorders notification flag
      *
-     * @return string
+     * @return bool
      */
     protected function _hasDefaultNotificationMessage()
     {

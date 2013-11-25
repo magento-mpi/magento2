@@ -8,7 +8,6 @@
  */
 -->
 <config>
-    <preference for="Magento\Centinel\ModelService" type="Magento\Centinel\Model\Adminhtml\Service" />
     <virtualType name="Magento\Centinel\Model\Session" type="Magento\Core\Model\Session\Generic">
         <param name="sessionNamespace">
             <value>centinel_validator</value>
@@ -17,12 +16,15 @@
             <value>adminhtml</value>
         </param>
     </virtualType>
-    <type name="Magento\Centinel\Model\Adminhtml\Service">
+    <type name="Magento\Centinel\Model\Service">
         <param name="url">
             <instance type="Magento\Backend\Model\Url" />
         </param>
         <param name="centinelSession">
             <instance type="Magento\Core\Model\Session" />
+        </param>
+        <param name="urlPrefix">
+            <value>adminhtml/centinel_index/</value>
         </param>
     </type>
 </config>

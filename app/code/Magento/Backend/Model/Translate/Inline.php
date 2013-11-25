@@ -22,8 +22,6 @@ class Inline extends \Magento\Core\Model\Translate\Inline
      */
     protected function _getAjaxUrl()
     {
-        $store = $this->_parser->getStoreManager()->getStore();
-        return $this->_url->getUrl(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE . '/ajax/translate',
-            array('_secure' => $store->isCurrentlySecure()));
+        return $this->_url->getUrl(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE . '/ajax/translate');
     }
 }

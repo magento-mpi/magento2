@@ -586,7 +586,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->getId() === self::DEFAULT_STORE_ID
+        if (($this->hasForceUseRewrites() && $this->getForceUseRewrites())
             || !$this->getConfig(self::XML_PATH_USE_REWRITES)
             || !$this->_appState->isInstalled()
         ) {
@@ -652,9 +652,9 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function isUseStoreInUrl()
     {
-        return $this->_appState->isInstalled()
-            && $this->getConfig(self::XML_PATH_STORE_IN_URL)
-            && $this->getId() != self::DEFAULT_STORE_ID;
+        return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
+            && $this->_appState->isInstalled()
+            && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -675,8 +675,10 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isFrontUrlSecure()
     {
         if ($this->_isFrontSecure === null) {
-            $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
-                $this->getId());
+            $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(
+                \Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
+                $this->getId()
+            );
         }
         return $this->_isFrontSecure;
     }

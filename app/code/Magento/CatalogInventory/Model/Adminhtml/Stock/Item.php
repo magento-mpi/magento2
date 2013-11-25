@@ -6,16 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
 
 /**
  * Catalog Inventory Stock Model for adminhtml area
- *
- * @category    Magento
- * @package     Magento_CatalogInventory
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CatalogInventory\Model\Adminhtml\Stock;
-
 class Item extends \Magento\CatalogInventory\Model\Stock\Item
 {
     /**
@@ -28,7 +23,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
         if ($this->_customerGroupId === null) {
             return \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         }
-        return $this->_customerGroupId;
+        return parent::getCustomerGroupId();
     }
 
     /**
@@ -44,7 +39,7 @@ class Item extends \Magento\CatalogInventory\Model\Stock\Item
     /**
      * Check if notification message should be added despite of backorders notification flag
      *
-     * @return string
+     * @return bool
      */
     protected function _hasDefaultNotificationMessage()
     {

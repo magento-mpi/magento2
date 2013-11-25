@@ -10,7 +10,7 @@
  */
 namespace Magento\Captcha\Block\Adminhtml\Captcha;
 
-class DefaultTest extends \PHPUnit_Framework_TestCase
+class DefaultCaptchaTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @var \Magento\Captcha\Block\Captcha\DefaultCaptcha
@@ -29,7 +29,7 @@ class DefaultTest extends \PHPUnit_Framework_TestCase
      * @magentoAppIsolation enabled
      * @magentoAppArea adminhtml
      */
-    public function testGetRefreshUrlWhenFrontendStore()
+    public function testGetRefreshUrl()
     {
         $this->assertContains('backend/admin/refresh/refresh', $this->_block->getRefreshUrl());
     }

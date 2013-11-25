@@ -66,7 +66,10 @@ class MethodTest extends \PHPUnit_Framework_TestCase
             array()
         );
 
-        $this->_allowCurrencyCode = new \ReflectionProperty('Magento\Pbridge\Model\Payment\Method', '_allowCurrencyCode');
+        $this->_allowCurrencyCode = new \ReflectionProperty(
+            'Magento\Pbridge\Model\Payment\Method',
+            '_allowCurrencyCode'
+        );
         $this->_allowCurrencyCode->setAccessible(true);
         $this->_paymentCode = new \ReflectionProperty('Magento\Payment\Model\Method\AbstractMethod', '_code');
         $this->_paymentCode->setAccessible(true);

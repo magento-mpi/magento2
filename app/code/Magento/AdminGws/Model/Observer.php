@@ -349,9 +349,11 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this;
         }
 
-        $store = $this->_storeManager
-            ->getStore($this->_request->getParam('store', \Magento\Core\Model\Store::DEFAULT_STORE_ID));
-        if ($this->_role->hasStoreAccess($store->getId())) {
+        $storeCode = $this->_request->getParam('store');
+        $storeId = $storeCode
+            ? $this->_storeManager->getStore($storeCode)->getId()
+            : \Magento\Core\Model\Store::DEFAULT_STORE_ID;
+        if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
 

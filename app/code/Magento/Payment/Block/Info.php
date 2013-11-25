@@ -130,11 +130,7 @@ class Info extends \Magento\View\Block\Template
         }
 
         $methodStore = $this->_storeManager->getStore($method->getStore());
-        if ($methodStore->getId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
-            return false;
-        } else {
-            return true;
-        }
+        return $methodStore->getId() != \Magento\Core\Model\Store::DEFAULT_STORE_ID;
     }
 
     /**

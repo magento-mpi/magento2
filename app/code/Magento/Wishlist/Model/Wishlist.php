@@ -101,9 +101,9 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @var \Magento\App\State
+     * @var bool
      */
-    protected $_appState;
+    protected $_useCurrentWebsite;
 
     /**
      * @param \Magento\Catalog\Helper\Product $catalogProduct
@@ -119,6 +119,7 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param bool $useCurrentWebsite
      * @param array $data
      */
     public function __construct(
@@ -135,8 +136,10 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
+        $useCurrentWebsite = true,
         array $data = array()
     ) {
+        $this->_useCurrentWebsite = $useCurrentWebsite;
         $this->_catalogProduct = $catalogProduct;
         $this->_wishlistData = $wishlistData;
         $this->_storeManager = $storeManager;
@@ -146,7 +149,6 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         $this->_productFactory = $productFactory;
         $this->mathRandom = $mathRandom;
         $this->dateTime = $dateTime;
-        $this->_appState = $context->getAppState();
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -305,11 +307,9 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     public function getItemCollection()
     {
         if (is_null($this->_itemCollection)) {
-            /** @var $current boolean */
-            $current = $this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE;
             $this->_itemCollection = $this->_wishlistCollFactory->create()
                 ->addWishlistFilter($this)
-                ->addStoreFilter($this->getSharedStoreIds($current))
+                ->addStoreFilter($this->getSharedStoreIds())
                 ->setVisibilityFilter();
         }
 
@@ -469,13 +469,12 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve shared store ids for current website or all stores if $current is false
      *
-     * @param bool $current Use current website or not
      * @return array
      */
-    public function getSharedStoreIds($current = true)
+    public function getSharedStoreIds()
     {
         if (is_null($this->_storeIds) || !is_array($this->_storeIds)) {
-            if ($current) {
+            if ($this->_useCurrentWebsite) {
                 $this->_storeIds = $this->getStore()->getWebsite()->getStoreIds();
             } else {
                 $_storeIds = array();

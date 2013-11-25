@@ -60,22 +60,22 @@ class Flat extends \Magento\Catalog\Helper\Flat\AbstractFlat
     /**
      * Construct
      *
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\Catalog\Model\Resource\Category\Flat $catalogCategoryFlat
-     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\App\State $appState
+     * @param bool $isAvailable
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Index\Model\ProcessFactory $processFactory,
         \Magento\Catalog\Model\Resource\Category\Flat $catalogCategoryFlat,
-        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\App\State $appState
+        $isAvailable = true
     ) {
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($processFactory, $context, $appState);
+        parent::__construct($context, $processFactory, $isAvailable);
     }
 
     /**

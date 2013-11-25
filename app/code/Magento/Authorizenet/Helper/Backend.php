@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Authorizenet Backend Data Helper
- *
- * @category   Magento
- * @package    Magento_Authorizenet
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Authorizenet\Helper;
 
+/**
+ * Authorizenet Backend Data Helper
+ */
 class Backend extends Data
 {
     /**

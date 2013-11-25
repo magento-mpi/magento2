@@ -84,6 +84,7 @@ class Observer
         $this->_session = $session;
         $this->_storeConfig = $storeConfig;
         $this->_urlFactory = $urlFactory;
+        $this->_actionFlag = $actionFlag;
     }
 
     /**

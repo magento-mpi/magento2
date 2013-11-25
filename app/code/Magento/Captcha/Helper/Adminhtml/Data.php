@@ -58,4 +58,15 @@ class Data extends \Magento\Captcha\Helper\Data
     {
         return $this->_backendConfig->getValue('admin/captcha/' . $key);
     }
+
+    /**
+     * Get website code
+     *
+     * @param mixed $website
+     * @return string
+     */
+    protected function _getWebsiteCode($website = null)
+    {
+        return 'admin';
+    }
 }

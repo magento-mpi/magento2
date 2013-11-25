@@ -308,13 +308,35 @@ class Url extends \Magento\Object implements \Magento\UrlInterface
         }
         $path = $prefix . $key;
 
-        $cacheId = $this->getStore()->getCode() . '/' . $path;
+        $cacheId = $this->_getConfigCacheId($path);
         if (!isset(self::$_configDataCache[$cacheId])) {
-            $data = $this->getStore()->getConfig($path);
+            $data = $this->_getConfig($path);
             self::$_configDataCache[$cacheId] = $data;
         }
 
         return self::$_configDataCache[$cacheId];
+    }
+
+    /**
+     * Get cache id for config path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _getConfigCacheId($path)
+    {
+        return $this->getStore()->getCode() . '/' . $path;
+    }
+
+    /**
+     * Get config data by path
+     *
+     * @param string $path
+     * @return null|string
+     */
+    protected function _getConfig($path)
+    {
+        return $this->getStore()->getConfig($path);
     }
 
     /**

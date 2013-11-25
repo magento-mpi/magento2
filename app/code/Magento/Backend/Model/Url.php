@@ -81,6 +81,16 @@ class Url extends \Magento\Core\Model\Url
     protected $_config;
 
     /**
+     * @var \Magento\Core\Model\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var \Magento\Core\Model\ConfigInterface
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
@@ -94,6 +104,8 @@ class Url extends \Magento\Core\Model\Url
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Backend\App\ConfigInterface $config
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param null $areaCode
      * @param array $data
      */
@@ -111,6 +123,8 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Backend\App\ConfigInterface $config,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\ConfigInterface $coreConfig,
         $areaCode = null,
         array $data = array()
     ) {
@@ -126,6 +140,8 @@ class Url extends \Magento\Core\Model\Url
         $this->_menuConfig = $menuConfig;
         $this->_cache = $cache;
         $this->_session = $authSession;
+        $this->_storeFactory = $storeFactory;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -156,6 +172,7 @@ class Url extends \Magento\Core\Model\Url
         } else {
             $this->setNoSecret(false);
         }
+        unset($data['_store_to_url']);
         return parent::setRouteParams($data, $unsetOldParams);
     }
 
@@ -377,5 +394,42 @@ class Url extends \Magento\Core\Model\Url
             }
         }
         return $path;
+    }
+
+    /**
+     * Get fake store for the url instance
+     *
+     * @return \Magento\Core\Model\Store
+     */
+    public function getStore()
+    {
+        return $this->_storeFactory->create(array('url' => $this, 'data' => array(
+                'code' => 'admin',
+                'force_use_rewrites' => true,
+                'disable_store_in_url' => true,
+        )));
+    }
+
+    /**
+     * Get cache id for config path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _getConfigCacheId($path)
+    {
+        return 'admin/' . $path;
+    }
+
+    /**
+     * Get config data by path
+     * Use only global config values for backend
+     *
+     * @param string $path
+     * @return null|string
+     */
+    protected function _getConfig($path)
+    {
+        return $this->_coreConfig->getValue($path, 'default');
     }
 }

@@ -171,9 +171,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_locale;
 
     /**
-     * @var \Magento\App\State
+     * @var string
      */
-    protected $_appState;
+    protected $_itemFailedStatus;
 
     /**
      * @param \Magento\Checkout\Model\Cart $cart
@@ -189,7 +189,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\App\State $appState
+     * @param string $itemStatusFailed
      * @param array $data
      */
     public function __construct(
@@ -206,7 +206,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\App\State $appState,
+        $itemStatusFailed = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -222,7 +222,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_quoteFactory = $quoteFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
-        $this->_appState = $appState;
     }
 
     /**
@@ -307,23 +306,19 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     }
 
     /**
-     * Return quote instance depending on current area
+     * Return quote instance
      *
      * @return \Magento\Adminhtml\Model\Session\Quote|\Magento\Sales\Model\Quote
      */
     public function getActualQuote()
     {
-        if ($this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
-            return $this->_quote->getQuote();
-        } else {
-            if (!$this->getCustomer()) {
-                $customer = $this->_customerData->getCustomer();
-                if ($customer) {
-                    $this->setCustomer($customer);
-                }
+        if (!$this->getCustomer()) {
+            $customer = $this->_customerData->getCustomer();
+            if ($customer) {
+                $this->setCustomer($customer);
             }
-            return $this->getQuote();
         }
+        return $this->getQuote();
     }
 
     /**
@@ -1193,9 +1188,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             return true;
         }
 
-        return $this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
-            ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_WEBSITE
-            : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
+        return $this->_itemFailedStatus;
     }
 
     /**

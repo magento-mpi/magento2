@@ -110,13 +110,21 @@ class Balance extends \Magento\Core\Model\AbstractModel
     public function loadByCustomer()
     {
         $this->_ensureCustomer();
-        if ($this->hasWebsiteId()) {
-            $websiteId = $this->getWebsiteId();
-        } else {
-            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
-        }
-        $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $websiteId);
+        $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $this->getWebsiteId());
         return $this;
+    }
+
+    /**
+     * Get website id
+     *
+     * @return int
+     */
+    public function getWebsiteId()
+    {
+        if ($this->hasWebsiteId()) {
+            return $this->_getData('website_id');
+        }
+        return $this->_storeManager->getStore()->getWebsiteId();
     }
 
     /**

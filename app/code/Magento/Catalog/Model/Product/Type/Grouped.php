@@ -182,9 +182,7 @@ class Grouped extends \Magento\Catalog\Model\Product\Type\AbstractType
         if (!$product->hasData($this->_keyAssociatedProducts)) {
             $associatedProducts = array();
 
-            if ($this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
-                $this->setSaleableStatus($product);
-            }
+            $this->setSaleableStatus($product);
 
             $collection = $this->getAssociatedProductCollection($product)
                 ->addAttributeToSelect('*')

@@ -47,4 +47,12 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('1', $this->_model->getConfig('qwe'));
     }
+
+    /**
+     * @covers \Magento\Captcha\Helper\Adminhtml\Data::_getWebsiteCode
+     */
+    public function testGetWebsiteId()
+    {
+        $this->assertStringEndsWith('/admin/', $this->_model->getImgDir());
+    }
 }

@@ -95,12 +95,18 @@ class Service extends \Magento\Object
     protected $_validationState;
 
     /**
+     * @var string
+     */
+    protected $_urlPrefix;
+
+    /**
      * @param \Magento\Centinel\Model\Config $config
      * @param \Magento\Centinel\Model\Api $api
      * @param \Magento\UrlInterface $url
      * @param \Magento\Core\Model\Session\AbstractSession $centinelSession
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
+     * @param string $urlPrefix
      * @param array $data
      */
     public function __construct(
@@ -110,6 +116,7 @@ class Service extends \Magento\Object
         \Magento\Core\Model\Session\AbstractSession $centinelSession,
         \Magento\Core\Model\Session $session,
         \Magento\Centinel\Model\StateFactory $stateFactory,
+        $urlPrefix = 'centinel/index/',
         array $data = array()
     ) {
         $this->_config = $config;
@@ -118,6 +125,7 @@ class Service extends \Magento\Object
         $this->_centinelSession = $centinelSession;
         $this->_session = $session;
         $this->_stateFactory = $stateFactory;
+        $this->_urlPrefix = $urlPrefix;
         parent::__construct($data);
     }
 
@@ -155,7 +163,7 @@ class Service extends \Magento\Object
      * @param bool $current
      * @return string
      */
-    private function _getUrl($suffix, $current = false)
+    protected function _getUrl($suffix, $current = false)
     {
         $params = array(
             '_secure'  => true,
@@ -163,7 +171,7 @@ class Service extends \Magento\Object
             'form_key' => $this->_session->getFormKey(),
             'isIframe' => true
         );
-        return $this->_url->getUrl('centinel/index/' . $suffix, $params);
+        return $this->_url->getUrl($this->_urlPrefix . $suffix, $params);
     }
 
     /**

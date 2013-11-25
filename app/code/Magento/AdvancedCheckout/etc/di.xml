@@ -8,6 +8,12 @@
  */
 -->
 <config>
+    <preference for="Magento\AdvancedCheckout\Model\Cart" type="Magento\AdvancedCheckout\Model\Backend\Cart" />
+    <type name="Magento\AdvancedCheckout\Model\Backend\Cart">
+        <param name="itemStatusFailed">
+            <value type="const">Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_WEBSITE</value>
+        </param>
+    </type>
     <type name="Magento\AdvancedCheckout\Helper\Data">
         <param name="cart">
             <instance type="Magento\AdvancedCheckout\Model\Cart\Proxy" />
