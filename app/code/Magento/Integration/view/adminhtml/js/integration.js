@@ -30,7 +30,7 @@
                     $('body').trigger('processStart');
                 },
                 success: function (html) {
-                    var popup = $('.integration-popup-container');
+                    var popup = $('#integration-popup-container');
 
                     popup.html(html);
 
@@ -51,6 +51,7 @@
                         minHeight: 450,
                         minWidth: 600,
                         dialogClass: 'integration-dialog',
+                        position: {at: 'center'},
                         buttons: buttons
                     });
                 },

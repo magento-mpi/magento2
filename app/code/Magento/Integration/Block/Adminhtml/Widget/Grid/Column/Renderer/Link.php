@@ -112,7 +112,7 @@ class Link extends AbstractRenderer
      */
     protected function _getAttributes()
     {
-        /** @var Magento\Core\Helper\Data $helper */
+        /** @var \Magento\Core\Helper\Data $helper */
         $helper = $this->helper('Magento\Core\Helper\Data');
         $attributes = ['title' => $this->getCaption()];
 
