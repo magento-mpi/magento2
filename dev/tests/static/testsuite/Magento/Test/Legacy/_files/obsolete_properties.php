@@ -124,4 +124,5 @@ return array(
     array('_dirModel', 'Magento\Downloadable\Controller\Adminhtml\Downloadable\File'),
     array('_dirModel', 'Magento\Downloadable\Model\Link'),
     array('_dirModel', 'Magento\Downloadable\Model\Sample'),
+    array('_dir', 'Magento\App\Dir'),
 );

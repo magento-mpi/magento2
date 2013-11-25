@@ -52,20 +52,32 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir = null;
+    protected $filesystem;
 
+    /**
+     * @var \Magento\Filesystem\Directory\Write
+     */
+    protected $varDirectory;
+
+    /**
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param array $data
+     */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($data);
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_dir = $dir;
+        $this->filesystem = $filesystem;
+        $this->varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
     }
 
     /**
@@ -74,7 +86,7 @@ class Import extends \Magento\Object
     public function __destruct()
     {
         if (!empty($this->_uploadedFile)) {
-            unlink($this->_uploadedFile);
+            $this->varDirectory->delete($this->varDirectory->getRelativePath($this->_uploadedFile));
         }
     }
 
@@ -129,7 +141,8 @@ class Import extends \Magento\Object
      */
     public function getDataFromCsv()
     {
-        if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
+        $path = $this->varDirectory->getRelativePath($this->_uploadedFile);
+        if (!$this->_uploadedFile || !($this->varDirectory->isExist($path))) {
             throw new \Magento\Core\Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
             );
@@ -138,9 +151,9 @@ class Import extends \Magento\Object
         $csvData = array();
 
         try {
-            $fileHandler = fopen($this->_uploadedFile, 'r');
+            $fileHandler = $this->varDirectory->openFile($path, 'r');
             if ($fileHandler) {
-                $colNames = fgetcsv($fileHandler);
+                $colNames = $fileHandler->readCsv();
 
                 foreach ($colNames as &$colName) {
                     $colName = trim($colName);
@@ -160,7 +173,7 @@ class Import extends \Magento\Object
                     }
                 }
 
-                while (($currentRow = fgetcsv($fileHandler)) !== false) {
+                while (($currentRow = $colNames) !== false) {
                     $csvDataRow = array('qty' => '');
                     foreach ($requiredColumnsPositions as $index) {
                         if (isset($currentRow[$index])) {
@@ -171,7 +184,7 @@ class Import extends \Magento\Object
                         $csvData[] = $csvDataRow;
                     }
                 }
-                fclose($fileHandler);
+                $fileHandler->close();
             }
         } catch (\Exception $e) {
             throw new \Magento\Core\Exception(__('The file is corrupt.'));
@@ -186,7 +199,7 @@ class Import extends \Magento\Object
      */
     protected function _getWorkingDir()
     {
-        return $this->_dir->getDir('var') . DS . 'import_sku' . DS;
+        return $this->filesystem->getPath($this->varDirectory) . '/import_sku/';
     }
 
     /**
