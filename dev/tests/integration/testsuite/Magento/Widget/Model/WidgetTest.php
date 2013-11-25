@@ -90,16 +90,11 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPlaceholderImageUrlAtTheme()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Dir $dir */
-        $dir = $objectManager->get('Magento\App\Dir');
-
-        $property = new \ReflectionProperty($dir, '_dirs');
-        $property->setAccessible(true);
-        $dirs = $property->getValue($dir);
-        $dirs[\Magento\App\Dir::THEMES] = dirname(__DIR__) . '/_files/design';
-        $property->setValue($dir, $dirs);
-
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Filesystem\DirectoryList::PARAM_APP_DIRS => array(
+                \Magento\Filesystem::THEMES => dirname(__DIR__) . '/_files/design'
+            )
+        ));
         $actualFile = $this->testGetPlaceholderImageUrl(
             'Magento\Catalog\Block\Product\Widget\NewWidget',
             'Magento_Catalog/images/product_widget_new.gif'
