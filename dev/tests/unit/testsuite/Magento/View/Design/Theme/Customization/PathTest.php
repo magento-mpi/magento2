@@ -63,7 +63,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->_dir->expects($this->once())->method('getDir')->with(\Magento\App\Dir::MEDIA)
             ->will($this->returnValue('/media_dir'));
         $expectedPath = implode(
-            DIRECTORY_SEPARATOR,
+            '/',
             array('/media_dir', \Magento\View\Design\Theme\Customization\Path::DIR_NAME, '123')
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomizationPath($this->_theme->setId(123)));
@@ -78,13 +78,10 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->_appState->expects($this->any())->method('getAreaCode')->will($this->returnValue('area51'));
         $this->_dir->expects($this->once())->method('getDir')->with(\Magento\App\Dir::THEMES)
             ->will($this->returnValue('/themes_dir'));
-        $expectedPath = implode(
-            \Magento\Filesystem::DIRECTORY_SEPARATOR,
-            array('/themes_dir', 'area51', 'path')
-        );
+        $expectedPath = implode('/', array('/themes_dir', 'area51', 'path'));
         $this->assertEquals(
-            \Magento\Filesystem::fixSeparator($expectedPath),
-            \Magento\Filesystem::fixSeparator($this->_model->getThemeFilesPath($this->_theme->setThemePath('path')))
+            $expectedPath,
+            $this->_model->getThemeFilesPath($this->_theme->setThemePath('path'))
         );
         $this->assertNull($this->_model->getCustomizationPath($this->_theme->setThemePath(null)));
     }
@@ -97,9 +94,13 @@ class PathTest extends \PHPUnit_Framework_TestCase
         $this->_dir->expects($this->once())->method('getDir')->with(\Magento\App\Dir::MEDIA)
             ->will($this->returnValue('/media_dir'));
         $expectedPath = implode(
-            DIRECTORY_SEPARATOR,
-            array('/media_dir', \Magento\View\Design\Theme\Customization\Path::DIR_NAME, '123',
-                \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG)
+            '/',
+            array(
+                '/media_dir',
+                \Magento\View\Design\Theme\Customization\Path::DIR_NAME,
+                '123',
+                \Magento\Core\Model\Theme::FILENAME_VIEW_CONFIG
+            )
         );
         $this->assertEquals($expectedPath, $this->_model->getCustomViewConfigPath($this->_theme->setId(123)));
         $this->assertNull($this->_model->getCustomViewConfigPath($this->_theme->setId(null)));

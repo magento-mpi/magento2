@@ -140,8 +140,8 @@ class UploaderTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('test_filename'));
 
         $this->assertEquals(
-            \Magento\Filesystem::fixSeparator($result),
-            \Magento\Filesystem::fixSeparator($this->_model->uploadPreviewImage($testScope, '/tmp'))
+            $result,
+            $this->_model->uploadPreviewImage($testScope, '/tmp')
         );
     }
 }

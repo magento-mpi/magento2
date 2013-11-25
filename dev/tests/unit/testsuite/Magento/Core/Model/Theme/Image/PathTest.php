@@ -88,8 +88,8 @@ class PathTest extends \PHPUnit_Framework_TestCase
     public function testImagePreviewDirectoryGetter()
     {
         $this->assertEquals(
-            \Magento\Filesystem::fixSeparator('/media/theme/preview'),
-            \Magento\Filesystem::fixSeparator($this->_model->getImagePreviewDirectory())
+            '/media/theme/preview',
+            $this->_model->getImagePreviewDirectory()
         );
     }
 
@@ -99,8 +99,8 @@ class PathTest extends \PHPUnit_Framework_TestCase
     public function testTemporaryDirectoryGetter()
     {
         $this->assertEquals(
-            \Magento\Filesystem::fixSeparator('/media/theme/origin'),
-            \Magento\Filesystem::fixSeparator($this->_model->getTemporaryDirectory())
+            '/media/theme/origin',
+            $this->_model->getTemporaryDirectory()
         );
     }
 }
