@@ -56,9 +56,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_customizationPath;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem\Directory\Write|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $directoryRead;
+    protected $directoryWrite;
 
     /**
      * @var \Magento\Core\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
@@ -89,7 +89,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
 
         $this->contextHelper    = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
-        $this->directoryRead    = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->directoryWrite    = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $this->themeFactory     = $this->getMock('Magento\View\Design\Theme\FlyweightFactory',
             array(), array(), '', false);
         $this->theme            = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
@@ -97,8 +97,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             array(), array(), '', false);
 
         $this->_filesystem->expects($this->once())
-            ->method('getDirectoryRead')
-            ->will($this->returnValue($this->directoryRead));
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($this->directoryWrite));
+        $this->directoryWrite->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue(true));
         $this->contextHelper->expects($this->once())
             ->method('getRequest')
             ->will($this->returnValue($this->_request));
@@ -252,7 +255,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(\Magento\Theme\Helper\Storage::PARAM_CONTENT_TYPE))
             ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE));
 
-        $this->directoryRead->expects($this->any())
+        $this->directoryWrite->expects($this->any())
             ->method('isExist')
             ->will($this->returnValue(true));
 

@@ -482,8 +482,6 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
             $this->_sitemapIncrement++;
             $fileName = $this->_getCurrentSitemapFilename($this->_sitemapIncrement);
         }
-        $this->_fileHandler = $this->_getFileObject();
-        $this->_fileHandler->setAllowCreateFolders(true);
 
         $path = rtrim($this->getSitemapPath(), '/') . '/' . $fileName;
         $this->_stream = $this->_directory->openFile($path);
