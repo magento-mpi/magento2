@@ -45,11 +45,6 @@ class Grid extends GridAbstract
     /**
      * {@inheritdoc}
      */
-    protected $editLink = '//td[contains(@class,"col-action")]//a';
-
-    /**
-     * {@inheritdoc}
-     */
     protected function _init()
     {
         parent::_init();

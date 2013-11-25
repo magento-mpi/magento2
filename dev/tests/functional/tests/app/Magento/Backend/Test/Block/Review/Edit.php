@@ -24,27 +24,25 @@ use Magento\Backend\Test\Block\Widget\Form;
 class Edit extends Form
 {
     /**
-     * Posted by selector
+     * Posted by field
      *
      * @var string
      */
-    protected $postedBySelector = 'customer';
+    protected $postedBy = 'customer';
 
     /**
-     * Status selector
+     * Rating status
      *
      * @var string
      */
-    protected $statusSelector = 'status_id';
+    protected $status = '[name=status_id]';
 
     /**
-     * {@inheritdoc}
+     * 'Save Review' button
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->saveButton = '#save_button';
-    }
+    protected $saveButton = '[data-ui-id$=save-button]';
 
     /**
      * Get data from 'Posted By' field
@@ -53,7 +51,7 @@ class Edit extends Form
      */
     public function getPostedBy()
     {
-        return $this->_rootElement->find($this->postedBySelector, Locator::SELECTOR_ID)->getText();
+        return $this->_rootElement->find($this->postedBy, Locator::SELECTOR_ID)->getText();
     }
 
     /**
@@ -63,7 +61,7 @@ class Edit extends Form
      */
     public function getStatus()
     {
-        return $this->_rootElement->find($this->statusSelector, Locator::SELECTOR_ID, 'select')->getText();
+        return $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->getText();
     }
 
     /**
@@ -71,7 +69,7 @@ class Edit extends Form
      */
     public function approveReview()
     {
-        $this->_rootElement->find($this->statusSelector, Locator::SELECTOR_ID, 'select')->setValue('Approved');
+        $this->_rootElement->find($this->status, Locator::SELECTOR_CSS, 'select')->setValue('Approved');
         $this->save();
     }
 }

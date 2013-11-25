@@ -28,11 +28,18 @@ use Magento\Catalog\Test\Fixture\Product;
 class ProductForm extends FormTabs
 {
     /**
+     * 'Save' split button
+     *
+     * @var string
+     */
+    protected $saveButton = '#save-split-button-button';
+
+    /**
      * Choose affected attribute set dialog popup window
      *
-     * @var AffectedAttributeSet
+     * @var string
      */
-    private $affectedAttributeSetBlock;
+    protected $affectedAttributeSetBlock = "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..";
 
     /**
      * Initialize block elements
@@ -44,18 +51,8 @@ class ProductForm extends FormTabs
             'product_info_tabs_bundle_content' =>
                 '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle',
             'product_info_tabs_super_config_content' =>
-                '\\Magento\\Backend\\Test\\Block\\Catalog\\Product\\Edit\\Tab\\Super\\Config'
+                '\\Magento\\Catalog\\Test\\Block\\Adminhtml\\Product\\Edit\\Tab\\Super\\Config'
         );
-        //Elements
-        $this->saveButton = '#save-split-button-button';
-        //Blocks
-        $this->affectedAttributeSetBlock = Factory::getBlockFactory()->
-            getMagentoCatalogProductConfigurableAffectedAttributeSet(
-                $this->_rootElement->find(
-                    "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..",
-                    Locator::SELECTOR_XPATH
-                )
-            );
     }
 
     /**
@@ -65,7 +62,9 @@ class ProductForm extends FormTabs
      */
     protected function getAffectedAttributeSetBlock()
     {
-        return $this->affectedAttributeSetBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogProductConfigurableAffectedAttributeSet(
+            $this->_rootElement->find($this->affectedAttributeSetBlock,Locator::SELECTOR_XPATH)
+        );
     }
 
     /**

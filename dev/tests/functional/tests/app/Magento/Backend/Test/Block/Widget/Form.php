@@ -25,28 +25,25 @@ use Mtf\Block\Form as FormInstance;
 class Form extends FormInstance
 {
     /**
-     * Save button
+     * 'Save' button
      *
      * @var string
      */
-    protected $saveButton;
+    protected $saveButton = '#save';
 
     /**
-     * Delete button
+     * 'Save And Continue Edit' button
      *
      * @var string
      */
-    protected $deleteButton;
+    protected $saveAndContinueButton = '#save_and_continue';
 
     /**
-     * Initialize block elements
+     * 'Delete' button
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        //Elements
-        $this->saveButton = '#save';
-        $this->deleteButton = 'delete-button-button';
-    }
+    protected $deleteButton = '#delete-button-button';
 
     /**
      * Update the root form
@@ -75,6 +72,14 @@ class Form extends FormInstance
      */
     public function delete(Fixture $fixture = null)
     {
-        $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Click save and continue button on form
+     */
+    public function clickSaveAndContinue()
+    {
+        $this->_rootElement->find($this->saveAndContinueButton, Locator::SELECTOR_CSS)->click();
     }
 }

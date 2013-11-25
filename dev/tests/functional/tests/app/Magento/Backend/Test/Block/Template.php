@@ -12,8 +12,8 @@
 
 namespace Magento\Backend\Test\Block;
 
-use Mtf\Client;
 use Mtf\Block\Block;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Template
@@ -24,12 +24,25 @@ use Mtf\Block\Block;
 class Template extends Block
 {
     /**
+     * Magento loader
+     *
+     * @var string
+     */
+    protected $loader = '.loading_mask .loader';
+
+    /**
+     * Magento varienLoader.js loader
+     *
+     * @var string
+     */
+    protected $loaderOld = '#loading-mask #loading_mask_loader';
+
+    /**
      * Wait until loader will be disappeared
      */
     public function waitLoader()
     {
-        $this->waitForElementNotVisible('.loading-mask');
-        $this->waitForElementNotVisible('.loader');
-        $this->waitForElementNotVisible('.loading-old');
+        $this->waitForElementNotVisible($this->loader, Locator::SELECTOR_CSS);
+        $this->waitForElementNotVisible($this->loaderOld, Locator::SELECTOR_CSS);
     }
 }

@@ -11,8 +11,6 @@
 
 namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
@@ -29,7 +27,14 @@ class Grid extends GridInterface
      *
      * @var string
      */
-    private $addProducts;
+    protected $addProducts = 'button.add';
+
+    /**
+     * An element locator which allows to select entities in grid
+     *
+     * @var string
+     */
+    protected $selectItem = 'tbody tr .col-id';
 
     /**
      * Initialize block elements
@@ -45,8 +50,6 @@ class Grid extends GridInterface
                 'selector' => 'input[name=sku]'
             ),
         );
-        $this->addProducts = 'button.add';
-        $this->selectItem = 'tbody tr .col-id';
     }
 
     /**

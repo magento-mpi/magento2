@@ -32,35 +32,35 @@ class Review extends Form
      *
      * @var string
      */
-    private $placeOrder;
+    protected $placeOrder = '#review-button';
 
     /**
      * 'Update Order Data' button
      *
      * @var string
      */
-    private $updateOrder;
+    protected $updateOrder = '#update-order';
 
     /**
      * Shipping methods dropdown
      *
      * @var string
      */
-    protected  $shippingMethod;
+    protected $shippingMethod = '#shipping_method';
 
     /**
      * Billing address block
      *
-     * @var Review\Billing
+     * @var string
      */
-    private $billingBlock;
+    protected $billingBlock ='#billing-address';
 
     /**
      * Shipping address block
      *
-     * @var Review\Shipping
+     * @var string
      */
-    private $shippingBlock;
+    protected $shippingBlock = '#shipping-address';
 
     /**
      * Initialize block elements
@@ -68,18 +68,9 @@ class Review extends Form
     protected function _init()
     {
         //Elements
-        $this->placeOrder = '#review-button';
-        $this->shippingMethod = '#shipping_method';
-        $this->updateOrder = '#update-order';
         $this->_mapping = array(
             'telephone' => '[id="shipping:telephone"]'
         );
-
-        //Blocks
-        $this->billingBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewBilling(
-            $this->_rootElement->find('#billing-address', Locator::SELECTOR_CSS));
-        $this->shippingBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewShipping(
-            $this->_rootElement->find('#shipping-address', Locator::SELECTOR_CSS));
     }
 
     /**
@@ -89,7 +80,9 @@ class Review extends Form
      */
     public function getBillingBlock()
     {
-        return $this->billingBlock;
+        return Factory::getBlockFactory()->getMagentoPaypalExpressReviewBilling(
+            $this->_rootElement->find($this->billingBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -99,7 +92,9 @@ class Review extends Form
      */
     public function getShippingBlock()
     {
-        return $this->shippingBlock;
+        return Factory::getBlockFactory()->getMagentoPaypalExpressReviewShipping(
+            $this->_rootElement->find($this->shippingBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**

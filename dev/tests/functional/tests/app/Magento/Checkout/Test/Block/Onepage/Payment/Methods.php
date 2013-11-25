@@ -18,7 +18,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Methods
- * One page checkout status
+ * One page checkout status payment method block
  *
  * @package Magento\Checkout\Test\Block\Onepage\Payment
  */
@@ -29,16 +29,7 @@ class Methods extends Block
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->continue = '#payment-buttons-container button';
-    }
+    protected $continue = '#payment-buttons-container button';
 
     /**
      * Select payment method

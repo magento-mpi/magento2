@@ -24,11 +24,11 @@ use Magento\Customer\Test\Fixture\Customer;
 class Register extends Form
 {
     /**
-     * Continue checkout button
+     * 'Submit' form button
      *
      * @var string
      */
-    private $submit;
+    protected $submit = '.action.submit';
 
     /**
      * Initialize block elements
@@ -49,7 +49,6 @@ class Register extends Form
             'password' => '#password',
             'confirmation' => '#confirmation',
         );
-        $this->submit = '.buttons-set button';
     }
 
     /**
@@ -61,6 +60,6 @@ class Register extends Form
     {
         $this->fill($fixture);
         $this->fill($fixture->getDefaultBillingAddress());
-        $this->_rootElement->find('//button[@class="action submit"]', Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
     }
 }

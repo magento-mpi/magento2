@@ -15,8 +15,6 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
-use Magento\Catalog\Test\Block\Backend\ProductForm;
 
 /**
  * Class CatalogProductNew
@@ -32,16 +30,18 @@ class CatalogProductNew extends Page
     const MCA = 'catalog/product/new';
 
     /**
-     * @var ProductForm
+     * Product form block
+     *
+     * @var string
      */
-    private $productFormBlock;
+    protected $productFormBlock = 'body';
 
     /**
      * Global messages block
      *
-     * @var Messages
+     * @var string
      */
-    private $messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Custom constructor
@@ -49,13 +49,6 @@ class CatalogProductNew extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
-            $this->_browser->find('body', Locator::SELECTOR_CSS)
-        );
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
-        );
     }
 
     /**
@@ -74,11 +67,13 @@ class CatalogProductNew extends Page
     /**
      * Get product form block
      *
-     * @return ProductForm
+     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
      */
     public function getProductBlockForm()
     {
-        return $this->productFormBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find($this->productFormBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -88,25 +83,8 @@ class CatalogProductNew extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
-    }
-
-    /**
-     * Check for Java Script error message
-     *
-     * @param DataFixture $fixture
-     * @return mixed
-     */
-    protected function waitForProductSaveJavascriptError(DataFixture $fixture = null)
-    {
-        $browser = $this->_browser;
-        $selector = '[class=mage-error]';
-        $strategy = Locator::SELECTOR_CSS;
-        return $this->_browser->waitUntil(
-            function () use ($browser, $selector, $strategy) {
-                $productSavedMessage = $browser->find($selector, $strategy);
-                return $productSavedMessage->isVisible() ? true : null;
-            }
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 }

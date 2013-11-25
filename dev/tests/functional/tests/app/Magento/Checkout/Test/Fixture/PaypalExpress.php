@@ -19,7 +19,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Express Method
  * Guest checkout using "Checkout with PayPal" button from product page and Free Shipping
  *
- * @ZephyrId MAGETWO-12415
  * @package Magento\Checkout\Test\Fixture
  */
 class PaypalExpress extends Checkout

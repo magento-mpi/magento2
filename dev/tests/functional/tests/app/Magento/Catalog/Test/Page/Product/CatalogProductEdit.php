@@ -26,19 +26,12 @@ class CatalogProductEdit extends Page
      */
     const MCA = 'catalog/product/edit';
 
-    /*
-     * Selector for message block
-     *
-     * @var string
-     */
-    protected $messagesSelector = '#messages.messages .messages';
-
     /**
      * Messages block
      *
-     * @var \Magento\Core\Test\Block\Messages
+     * @var string
      */
-    protected $messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Custom constructor
@@ -46,10 +39,6 @@ class CatalogProductEdit extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -59,6 +48,8 @@ class CatalogProductEdit extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

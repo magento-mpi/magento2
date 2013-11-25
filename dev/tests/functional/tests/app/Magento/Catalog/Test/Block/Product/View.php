@@ -16,7 +16,6 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
 /**
  * Class View
@@ -31,51 +30,35 @@ class View extends Block
      *
      * @var string
      */
-    private $addToCart;
+    protected $addToCart = '#product-addtocart-button';
 
     /**
      * 'Check out with PayPal' button
      *
      * @var string
      */
-    private $paypalCheckout;
+    protected $paypalCheckout = '[data-action=checkout-form-submit]';
 
     /**
      * Product name element
      *
      * @var string
      */
-    private $productName;
+    protected $productName = '.page.title.product span';
 
     /**
      * Product price element
      *
      * @var string
      */
-    private $productPrice;
+    protected $productPrice = '.price-box .price';
 
     /**
      * Bundle options block
      *
-     * @var Bundle
+     * @var string
      */
-    private $bundleBlock;
-
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->addToCart = '#product-addtocart-button';
-        $this->paypalCheckout = '[data-action=checkout-form-submit]';
-        $this->productName = '.page.title.product span';
-        $this->productPrice = '.price-box .price';
-
-        //Blocks
-        $this->bundleBlock = Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find('#product-options-wrapper', Locator::SELECTOR_CSS));
-    }
+    protected $bundleBlock = '#product-options-wrapper';
 
     /**
      * Get bundle options block
@@ -84,7 +67,9 @@ class View extends Block
      */
     public function getBundleBlock()
     {
-        return $this->bundleBlock;
+        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
+            $this->_rootElement->find($this->bundleBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -165,20 +150,6 @@ class View extends Block
             $price['price_to'] = $priceTo->find('.price')->getText();
         }
         return $price;
-    }
-
-    /**
-     * Return configurable product options
-     *
-     * @return array
-     */
-    public function getProductOptions()
-    {
-        for ($i =2; $i<=3; $i++) {
-            $options[] = $this->_rootElement
-                ->find(".super-attribute-select option:nth-child($i)")->getText();
-        }
-        return $options;
     }
 
     /**

@@ -11,6 +11,7 @@
 
 namespace Magento\Tax\Test\Block\Adminhtml\Rule;
 
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -21,6 +22,13 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  */
 class Grid extends GridInterface
 {
+    /**
+     * 'Add New' rule button
+     *
+     * @var string
+     */
+    protected $addNewRule = "../*[@class='page-actions']//*[@id='add']";
+
     /**
      * Initialize block elements
      */
@@ -57,5 +65,13 @@ class Grid extends GridInterface
     {
         $this->search(array('name' => $filter['name']));
         return parent::isRowVisible($filter, $isSearchable);
+    }
+
+    /**
+     * Add new rule
+     */
+    public function addNewRule()
+    {
+        $this->_rootElement->find($this->addNewRule, Locator::SELECTOR_XPATH)->click();
     }
 }

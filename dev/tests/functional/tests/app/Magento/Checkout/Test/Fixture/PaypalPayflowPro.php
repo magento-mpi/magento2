@@ -19,7 +19,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Payflow Pro Method
  * Guest checkout using PayPal Payments Pro method and offline shipping method
  *
- * @ZephyrId MAGETWO-15570
+ * @ZephyrId MAGETWO-12414
  * @package Magento\Checkout\Test\Fixture
  */
 class PaypalPayflowPro extends Checkout

@@ -29,7 +29,7 @@ class Cc extends Form
      *
      * @var string
      */
-    private $paymentCode = '';
+    protected $paymentCode = '';
 
     /**
      * Initialize block elements

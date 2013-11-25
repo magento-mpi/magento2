@@ -17,7 +17,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Method
- * One page checkout status
+ * One page checkout status shipping method block
  *
  * @package Magento\Checkout\Test\Block\Onepage\Shipping
  */
@@ -28,15 +28,7 @@ class Method extends Block
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->continue = '#shipping-method-buttons-container button';
-    }
+    protected $continue = '#shipping-method-buttons-container button';
 
     /**
      * Select shipping method

@@ -18,7 +18,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Shipping
- * One page checkout status
+ * One page checkout status shipping block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -29,7 +29,7 @@ class Shipping extends Form
      *
      * @var string
      */
-    private $continue;
+    protected $continue = '#shipping-buttons-container button';
 
     /**
      * Initialize block elements
@@ -48,7 +48,6 @@ class Shipping extends Form
             'postcode' => '[id="shipping:postcode"]',
             'country' => '[id="shipping:country_id"]',
         );
-        $this->continue = '#shipping-buttons-container button';
     }
 
     /**

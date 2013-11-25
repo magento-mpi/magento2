@@ -29,7 +29,7 @@ class Edit extends Form
      *
      * @var string
      */
-    private $saveAddress;
+    protected $saveAddress = '.action.submit';
 
     /**
      * Initialize block elements
@@ -47,7 +47,6 @@ class Edit extends Form
             'postcode' => '#zip',
             'country' => '#country',
         );
-        $this->saveAddress = '.action.submit';
     }
 
     /**

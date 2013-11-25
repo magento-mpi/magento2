@@ -11,12 +11,9 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Magento\Page\Test\Block\Html\Title;
-use Magento\Sales\Test\Block\Backend\Order\CustomerInformation;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Sales\Order;
 
 /**
  * Class SalesOrderView
@@ -34,26 +31,30 @@ class SalesOrderView extends Page
     /**
      * Sales order grid
      *
-     * @var Order\Totals
+     * @var string
      */
-    private $orderTotalsBlock;
+    protected $orderTotalsBlock = '.order-totals';
 
     /**
      * Sales order grid
      *
-     * @var Order\Totals
+     * @var string
      */
-    private $orderHistoryBlock;
+    protected $orderHistoryBlock = '.order-comments-history';
 
     /**
-     * @var CustomerInformation
+     * Order information block
+     *
+     * @var string
      */
-    protected $customerInformationBlock;
+    protected $customerInformationBlock = '.order-account-information';
 
     /**
-     * @var Title
+     * Page title block
+     *
+     * @var string
      */
-    protected $titleBlock;
+    protected $titleBlock = '.page-title .title';
 
     /**
      * Custom constructor
@@ -61,57 +62,53 @@ class SalesOrderView extends Page
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->orderTotalsBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderTotals(
-            $this->_browser->find('.order-totals', Locator::SELECTOR_CSS)
-        );
-        $this->orderHistoryBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderHistory(
-            $this->_browser->find('.order-comments-history', Locator::SELECTOR_CSS)
-        );
-        $this->customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
-            $this->_browser->find('.order-account-information')
-        );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
-            $this->_browser->find('.page-title .title')
-        );
     }
 
     /**
      * Get order totals block
      *
-     * @return \Magento\Backend\Test\Block\Sales\Order\Totals
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Totals
      */
     public function getOrderTotalsBlock()
     {
-        return $this->orderTotalsBlock;
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderTotals(
+            $this->_browser->find($this->orderTotalsBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get order totals block
      *
-     * @return \Magento\Backend\Test\Block\Sales\Order\History
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\History
      */
     public function getOrderHistoryBlock()
     {
-        return $this->orderHistoryBlock;
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderHistory(
+            $this->_browser->find($this->orderHistoryBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get order information block
      *
-     * @return CustomerInformation
+     * @return \Magento\Sales\Test\Block\Backend\Order\CustomerInformation
      */
     public function getOrderCustomerInformationBlock()
     {
-        return $this->customerInformationBlock;
+        return Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
+            $this->_browser->find($this->customerInformationBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get page title block
      *
-     * @return Title
+     * @return \Magento\Page\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {
-        return $this->titleBlock;
+        return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+            $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

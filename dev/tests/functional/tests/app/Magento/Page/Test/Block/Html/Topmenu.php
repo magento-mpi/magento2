@@ -29,16 +29,7 @@ class Topmenu extends Block
      *
      * @var string
      */
-    private $moreParentCategories;
-
-    /**
-     * Initialize for block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->moreParentCategories = '.more.parent';
-    }
+    protected $moreParentCategories = '.more.parent';
 
     /**
      * Select category from top menu by name and click on it

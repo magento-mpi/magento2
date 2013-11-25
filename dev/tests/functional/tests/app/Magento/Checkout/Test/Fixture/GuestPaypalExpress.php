@@ -18,7 +18,6 @@ use Mtf\Factory\Factory;
  * PayPal Express Method
  * Guest checkout using PayPal Express Checkout method and offline shipping method
  *
- * @ZephyrId MAGETWO-12413
  * @package Magento\Checkout\Test\Fixture
  */
 class GuestPaypalExpress extends Checkout

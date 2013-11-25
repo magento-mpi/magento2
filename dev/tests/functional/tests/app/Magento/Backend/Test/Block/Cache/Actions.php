@@ -24,18 +24,18 @@ use Mtf\Factory\Factory;
 class Actions extends Block
 {
     /**
-     * Flush cache button selector
+     * 'Flush Magento Cache' button
      *
      * @var string
      */
-    private $flushMagentoCacheButton;
+    protected $flushMagentoCacheButton = '#flush_magento';
 
     /**
-     * Flush Cache Storage button selector
+     * 'Flush Cache Storage' button
      *
      * @var string
      */
-    private $flushCacheStorageButton;
+    protected $flushCacheStorageButton = '#flush_system';
 
     /**
      * Selector for messages block
@@ -53,15 +53,6 @@ class Actions extends Block
         'cache_storage_flushed' => 'You flushed the cache storage.',
         'cache_magento_flushed' => 'The Magento cache storage has been flushed.',
     );
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->flushMagentoCacheButton = '#flush_magento';
-        $this->flushCacheStorageButton = '#flush_system';
-    }
 
     /**
      * Flush magento cache

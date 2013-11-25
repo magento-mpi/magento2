@@ -510,10 +510,10 @@ class Config extends AbstractRepository
                             'display' => array( // Price Display Settings
                                 'fields' => array(
                                     'type' => array( // Display Product Prices In Catalog
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'shipping' => array( // Display Shipping Prices
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     )
                                 )
                             )
@@ -542,28 +542,28 @@ class Config extends AbstractRepository
                             'cart_display' => array( // Shipping Cart Display Settings
                                 'fields' => array(
                                     'price' => array( // Display Prices
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'subtotal' => array( // Display Subtotal
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'shipping' => array( // Display Shipping Amount
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'gift_wrapping' => array( // Display Gift Wrapping Prices
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'printed_card' => array( // Display Printed Card Prices
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'grandtotal' => array( // Include Tax In Grand Total
-                                        'value' => 'No'
+                                        'value' => 0 //No
                                     ),
                                     'full_summary' => array( // Display Full Tax Summary
-                                        'value' => 'No'
+                                        'value' => 0 //No
                                     ),
                                     'zero_tax' => array( // Display Zero Tax Subtotal
-                                        'value' => 'No'
+                                        'value' => 0 //No
                                     )
                                 )
                             )

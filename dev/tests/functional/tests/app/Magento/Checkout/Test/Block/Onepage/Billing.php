@@ -17,7 +17,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Billing
- * One page checkout status
+ * One page checkout status billing block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -28,14 +28,14 @@ class Billing extends Form
      *
      * @var string
      */
-    private $continue;
+    protected $continue = '#billing-buttons-container button';
 
     /**
      * 'Ship to different address' radio button
      *
      * @var string
      */
-    private $useForShipping;
+    protected $useForShipping = '[id="billing:use_for_shipping_no"]';
 
     /**
      * Initialize block elements
@@ -54,8 +54,6 @@ class Billing extends Form
             'postcode' => '[id="billing:postcode"]',
             'country' => '[id="billing:country_id"]',
         );
-        $this->continue = '#billing-buttons-container button';
-        $this->useForShipping = '[id="billing:use_for_shipping_no"]';
     }
 
     /**

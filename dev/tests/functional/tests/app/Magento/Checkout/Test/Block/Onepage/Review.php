@@ -16,7 +16,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Review
- * One page checkout status
+ * One page checkout status review block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -27,15 +27,7 @@ class Review extends Block
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->continue = '#review-buttons-container button';
-    }
+    protected $continue = '#review-buttons-container button';
 
     /**
      * Fill billing address

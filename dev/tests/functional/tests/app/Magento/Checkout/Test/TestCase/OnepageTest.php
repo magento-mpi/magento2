@@ -28,6 +28,8 @@ class OnepageTest extends Functional
      *
      * @param Checkout $fixture
      * @dataProvider dataProviderOnepageCheckout
+     *
+     * @ZephyrId MAGETWO-12832, MAGETWO-12968
      */
     public function testOnepageCheckout(Checkout $fixture)
     {

@@ -1,0 +1,128 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    Mtf
+ * @package     Mtf
+ * @subpackage  functional_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+
+namespace Magento\Sales\Test\TestCase;
+
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
+use Magento\Sales\Test\Fixture\Order;
+
+/**
+ * Class CreateOrderTest
+ * Tests for creating order on backend
+ *
+ * @package Magento\Sales\Test\TestCase
+ */
+class CreateOrderTest extends Functional
+{
+    /**
+     * Login to backend as a precondition to test
+     */
+    protected function setUp()
+    {
+        Factory::getApp()->magentoBackendLoginUser();
+    }
+
+    /**
+     * Test for creating order on backend
+     *
+     * @param Order $fixture
+     * @dataProvider dataProviderOrderFixtures
+     * @ZephyrId MAGETWO-12520, MAGETWO-12395
+     */
+    public function testCreateOrder(Order $fixture)
+    {
+        //Data
+        $fixture->persist();
+        //Page
+        $orderCreatePage = Factory::getPageFactory()->getSalesOrderCreateIndex();
+        $orderGridPage = Factory::getPageFactory()->getSalesOrder();
+        //Steps
+        $orderGridPage->open();
+        $orderGridPage->getOrderGridBlock()->addNewOrder();
+        $orderCreatePage->getCustomerBlock()->selectCustomer($fixture);
+        $orderCreatePage->getStoreBlock()->selectStoreView($fixture);
+        $orderCreatePage->getCreateBlock()->addProducts($fixture);
+        $orderCreatePage->getCreateBlock()->fillAddresses($fixture);
+        $orderCreatePage->getCreateBlock()->selectShippingMethod($fixture);
+        $orderCreatePage->getCreateBlock()->selectPaymentMethod($fixture);
+        $orderCreatePage->getCreateBlock()->submitOrder();
+        //Verification
+        $this->_checkOrderAndCustomer($fixture);
+    }
+
+    /**
+     * Check order's grand total
+     *
+     * @param Order $fixture
+     */
+    protected function _checkOrderAndCustomer(Order $fixture)
+    {
+        $orderViewPage = Factory::getPageFactory()->getSalesOrderView();
+        $orderGridPage = Factory::getPageFactory()->getSalesOrder();
+        $orderGrid = $orderGridPage->getOrderGridBlock();
+        //Verification data
+        $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
+        $orderId = substr($orderViewPage->getTitleBlock()->getTitle(), 1);
+        $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
+        //Test flow - order grand total check
+        $orderGridPage->open();
+        $orderGrid->searchAndOpen(array(
+            'id' => $orderId
+        ));
+        $this->assertEquals($fixture->getGrandTotal(), $grandTotal);
+        $this->_checkCustomer($fixture, $email);
+    }
+
+    /**
+     * Check that customer exists
+     *
+     * @param Order $fixture
+     * @param string $email
+     */
+    protected function _checkCustomer($fixture, $email)
+    {
+        //Pages
+        $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
+        $customerViewPage = Factory::getPageFactory()->getCustomerEdit();
+        //Block
+        $customerGrid = $customerGridPage->getGridBlock();
+
+        //Test flow - customer saved check
+        $customerGridPage->open();
+        $customerGrid->searchAndOpen(array(
+            'email' => $email
+        ));
+        $customerPageTitle = $customerViewPage->getTitleBlock()->getTitle();
+
+        $customer = $fixture->getCustomer();
+        if (!empty($customer)) {
+            $firstName = $fixture->getCustomer()->getFirstName();
+            $lastName = $fixture->getCustomer()->getLastName();
+        } else {
+            $firstName = $fixture->getBillingAddress()->getFirstName()['value'];
+            $lastName = $fixture->getBillingAddress()->getLastName()['value'];
+        }
+
+        $this->assertEquals($customerPageTitle, $firstName . ' ' . $lastName);
+    }
+
+    /**
+     * @return array
+     */
+    public function dataProviderOrderFixtures()
+    {
+        return array(
+            array(Factory::getFixtureFactory()->getMagentoSalesOrderWithCustomer()),
+            array(Factory::getFixtureFactory()->getMagentoSalesOrder())
+        );
+    }
+}

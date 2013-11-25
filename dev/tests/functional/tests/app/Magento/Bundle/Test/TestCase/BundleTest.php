@@ -33,7 +33,9 @@ class BundleTest extends Functional
     }
 
     /**
-     * Create bundle
+     * Creating bundle (fixed) product and assigning it to category
+     *
+     * @zephyrId MAGETWO-12622
      */
     public function testCreate()
     {
