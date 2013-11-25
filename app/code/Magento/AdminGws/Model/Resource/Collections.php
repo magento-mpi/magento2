@@ -52,7 +52,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Retreive role ids that has higher/other gws roles
+     * Retrieve role ids that has higher/other gws roles
      *
      * @param int $isAll
      * @param array $allowedWebsites
@@ -117,7 +117,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Retreive user ids that has higher/other gws roles
+     * Retrieve user ids that has higher/other gws roles
      *
      * @param int $isAll
      * @param array $allowedWebsites

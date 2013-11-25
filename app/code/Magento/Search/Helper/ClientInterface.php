@@ -20,7 +20,7 @@ interface ClientInterface
     public function prepareClientOptions($options = array());
 
     /**
-     * Retrive supported by Solr languages including locale codes (language codes) that are specified in configuration
+     * Retrieve supported by Solr languages including locale codes (language codes) that are specified in configuration
      * Array(
      *      'language_code1' => 'locale_code',
      *      'language_code2' => Array('locale_code1', 'locale_code2')
