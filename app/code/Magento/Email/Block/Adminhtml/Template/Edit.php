@@ -320,7 +320,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Retrive email template model
+     * Retrieve email template model
      *
      * @return \Magento\Email\Model\Template
      */
@@ -376,7 +376,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Convert xml config pathes to decorated names
+     * Convert xml config paths to decorated names
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param array $paths
