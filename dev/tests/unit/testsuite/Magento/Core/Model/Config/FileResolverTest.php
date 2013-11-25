@@ -16,8 +16,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $appConfigDir = __DIR__ . DIRECTORY_SEPARATOR . 'FileResolver'
-            . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc';
+        $appConfigDir = __DIR__ . '/FileResolver/_files/app/etc';
 
         $applicationDirs = $this->getMock('Magento\App\Dir', array(), array('getDir'), '', false);
         $applicationDirs->expects($this->any())
@@ -32,14 +31,14 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(
                 array(
                     array(
-                        'adminhtml' . DIRECTORY_SEPARATOR . 'di.xml',
+                        'adminhtml/di.xml',
                         array(
                             'app/code/Custom/FirstModule/adminhtml/di.xml',
                             'app/code/Custom/SecondModule/adminhtml/di.xml',
                         )
                     ),
                     array(
-                        'frontend' . DIRECTORY_SEPARATOR . 'di.xml',
+                        'frontend/di.xml',
                         array(
                             'app/code/Custom/FirstModule/frontend/di.xml',
                             'app/code/Custom/SecondModule/frontend/di.xml',
@@ -73,13 +72,12 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     public function getMethodDataProvider()
     {
-        $appConfigDir = __DIR__ . DIRECTORY_SEPARATOR . 'FileResolver'
-            . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc';
+        $appConfigDir = __DIR__ . '/FileResolver/_files/app/etc';
         return array(
             array(
                 array(
-                    $appConfigDir . DIRECTORY_SEPARATOR . 'config.xml',
-                    $appConfigDir . DIRECTORY_SEPARATOR . 'custom' . DIRECTORY_SEPARATOR . 'config.xml',
+                    $appConfigDir . '/config.xml',
+                    $appConfigDir . '/custom/config.xml',
                 ),
                 'primary',
                 'config.xml',

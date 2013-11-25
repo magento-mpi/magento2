@@ -118,13 +118,6 @@ class Storage extends \Magento\Object
     protected $_storageCollectionFactory;
 
     /**
-     * Dir
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Uploader factory
      *
      * @var \Magento\Core\Model\File\UploaderFactory
@@ -205,7 +198,7 @@ class Storage extends \Magento\Object
             $subDirectories = $this->_directoryDatabaseFactory->create();
             $subDirectories->getSubdirectories($path);
             foreach ($subDirectories as $directory) {
-                $fullPath = rtrim($path, DS) . DS . $directory['name'];
+                $fullPath = rtrim($path, '/') . '/' . $directory['name'];
                 $this->_directory->create($fullPath);
             }
         }
@@ -395,9 +388,11 @@ class Storage extends \Magento\Object
             throw new \Magento\Core\Exception(__('We cannot delete directory %1.', $path));
         }
 
-       if (strpos($pathCmp, $rootCmp) === 0) {
-         $this->_directory->delete($this->_directory->getRelativePath(
-                $this->getThumbnailRoot() . substr($pathCmp, strlen($rootCmp)))
+        if (strpos($pathCmp, $rootCmp) === 0) {
+            $this->_directory->delete(
+                $this->_directory->getRelativePath(
+                    $this->getThumbnailRoot() . substr($pathCmp, strlen($rootCmp))
+                )
             );
         }
     }
