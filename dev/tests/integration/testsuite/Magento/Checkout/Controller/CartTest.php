@@ -24,8 +24,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfigureActionWithSimpleProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for simple product');
@@ -39,8 +38,12 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for simple product doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for simple product doesn\'t contain "Update Cart" button'
+        );
     }
 
     /**
@@ -51,8 +54,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfigureActionWithSimpleProductAndCustomOption()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Session');
+        $session =$this->_objectManager->get('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for simple product with custom option');
@@ -66,11 +68,19 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for simple product with custom option doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for simple product with custom option doesn\'t contain "Update Cart" button'
+        );
 
-        $this->assertSelectCount('input.product-custom-option[type="text"]', 1, $response->getBody(),
-            'Response for simple product with custom option doesn\'t contain custom option input field');
+        $this->assertSelectCount(
+            'input.product-custom-option[type="text"]',
+            1,
+            $response->getBody(),
+            'Response for simple product with custom option doesn\'t contain custom option input field'
+        );
     }
 
     /**
@@ -81,8 +91,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfigureActionWithBundleProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Checkout\Model\Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 3);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for bundle product');
@@ -96,8 +105,12 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for bundle product doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for bundle product doesn\'t contain "Update Cart" button'
+        );
     }
 
     /**
@@ -108,8 +121,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfigureActionWithDownloadableProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for downloadable product');
@@ -123,11 +135,19 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for downloadable product doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for downloadable product doesn\'t contain "Update Cart" button'
+        );
 
-        $this->assertSelectCount('#downloadable-links-list', 1, $response->getBody(),
-            'Response for downloadable product doesn\'t contain links for download');
+        $this->assertSelectCount(
+            '#downloadable-links-list',
+            1,
+            $response->getBody(),
+            'Response for downloadable product doesn\'t contain links for download'
+        );
     }
 
     /**
@@ -138,8 +158,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
     public function testConfigureActionWithConfigurableProduct()
     {
         /** @var $session \Magento\Checkout\Model\Session  */
-        $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Checkout\Model\Session');
+        $session = $this->_objectManager->get('Magento\Checkout\Model\Session');
 
         $quoteItem = $this->_getQuoteItemIdByProductId($session->getQuote(), 1);
         $this->assertNotNull($quoteItem, 'Cannot get quote item for configurable product');
@@ -153,11 +172,19 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
             'Magento\Checkout\Model\Session'
         );
 
-        $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
-            'Response for configurable product doesn\'t contain "Update Cart" button');
+        $this->assertSelectCount(
+            'button[type="button"][title="Update Cart"]',
+            1,
+            $response->getBody(),
+            'Response for configurable product doesn\'t contain "Update Cart" button'
+        );
 
-        $this->assertSelectCount('select.super-attribute-select', 1, $response->getBody(),
-            'Response for configurable product doesn\'t contain select for super attribute');
+        $this->assertSelectCount(
+            'select.super-attribute-select',
+            1,
+            $response->getBody(),
+            'Response for configurable product doesn\'t contain select for super attribute'
+        );
     }
 
     /**
