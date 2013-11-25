@@ -102,19 +102,6 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     }
 
     /**
-     * Destroy/end a session
-     * Unset all data associated with object
-     *
-     * @param  array $options
-     * @return void
-     */
-    public function destroy(array $options = null)
-    {
-        parent::destroy($options);
-        $this->_quote = null;
-    }
-
-    /**
      * Set customer instance
      *
      * @param \Magento\Customer\Model\Customer|null $customer
@@ -402,9 +389,17 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         return $this->addItemAdditionalMessage('quote_item' . $itemId, $message);
     }
 
-    public function clear()
+    /**
+     * Destroy/end a session
+     * Unset all data associated with object
+     *
+     * @param  array $options
+     * @return void
+     */
+    public function destroy(array $options = null)
     {
         $this->_eventManager->dispatch('checkout_quote_destroy', array('quote'=>$this->getQuote()));
+        parent::destroy($options);
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);
