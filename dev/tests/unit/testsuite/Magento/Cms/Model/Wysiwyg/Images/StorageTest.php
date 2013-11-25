@@ -92,7 +92,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_imageHelperMock = $this->getMock('Magento\Cms\Helper\Wysiwyg\Images', array(), array(), '', false);
         $this->_resizeParameters = array('width' => 100, 'height' => 50);
 
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_storageCollectionFactoryMock = $this->getMock(
             'Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory');
         $this->_storageFileFactoryMock = $this->getMock('Magento\Core\Model\File\Storage\FileFactory');
@@ -113,7 +112,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             'filesystem' => $this->_filesystemMock,
             'imageFactory' => $this->_adapterFactoryMock,
             'viewUrl' => $this->_viewUrlMock,
-            'dir' => $this->_dirMock,
             'storageCollectionFactory' => $this->_storageCollectionFactoryMock,
             'storageFileFactory' => $this->_storageFileFactoryMock,
             'storageDatabaseFactory' => $this->_storageDatabaseFactoryMock,
