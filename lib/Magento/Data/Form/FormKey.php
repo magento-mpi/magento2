@@ -28,6 +28,8 @@ class FormKey
     protected $session;
 
     /**
+     * @todo Abstract session will be moved into libraries. Dependency from core module will be replaced.
+     *
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Core\Model\Session\AbstractSession $session
      */
