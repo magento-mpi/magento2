@@ -97,10 +97,10 @@ class Media extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Insert gallery value to db and retrive last id
+     * Insert gallery value to db and retrieve last id
      *
      * @param array $data
-     * @return interger
+     * @return integer
      */
     public function insertGallery($data)
     {

@@ -42,7 +42,7 @@ class Country extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     }
 
     /**
-     * Retreive all options
+     * Retrieve all options
      *
      * @return array
      */

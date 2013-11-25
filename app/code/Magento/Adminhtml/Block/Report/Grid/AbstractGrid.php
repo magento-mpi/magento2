@@ -105,7 +105,7 @@ class AbstractGrid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * Add column to grid
-     * Overriden to add support for visibility_filter column option
+     * Overridden to add support for visibility_filter column option
      * It stands for conditional visibility of the column depending on filter field values
      * Value of visibility_filter supports (filter_field_name => filter_field_value) pairs
      *

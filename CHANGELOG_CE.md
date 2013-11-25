@@ -5,12 +5,22 @@
 * GitHub requests:
   * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
   * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
-  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods.
+  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods
   * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
   * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
   * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
   * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
   * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules  
+  * [#373](https://github.com/magento/magento2/pull/373) -- [Magento/Sales] Fixed Typos
+  * [#382](https://github.com/magento/magento2/pull/382) -- [Magento/Core] Fixed Typos
+  * [#304](https://github.com/magento/magento2/pull/304) -- Removed Erroneous closing "
+  * [#323](https://github.com/magento/magento2/pull/323) -- InstanceController.php - made setBody protected
+  * [#349](https://github.com/magento/magento2/pull/349) -- Move Mage_Catalog menu declaration into Mage_Catalog module
+  * [#265](https://github.com/magento/magento2/pull/265) -- Update Merge.php
+  * [#271](https://github.com/magento/magento2/pull/273) -- Media image required attribute `_media_attribute_id` verification added for product import functionality
+  * [#305](https://github.com/magento/magento2/pull/305) -- Extra ", tidied up nested quotes
+  * [#352](https://github.com/magento/magento2/pull/352) -- Croatia added to the list of European Union countries
+  * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
@@ -20,9 +30,7 @@
   * Fixed Fatal error when creating Shipping label for returns
   * Fixed posting coupon code with spaces
   * Fixed several typos and minor mistakes
-  * Fixed assigning status on an order
-  * Fixed viewing and editing order status from the order status grid
-  * Fixed ability to select the category on the conditions tab on the Related Products Rule
+  * Fixed error on attempt to insert image to CMS pages under version control
 
 2.0.0.0-dev52
 =============
@@ -33,7 +41,6 @@
   * Moved Magento\Core\Model\Theme to the Magento\View component
   * Moved Magento\Core\Model\Design to the Magento\View component
   * Consistent declaration of page-types
-  * The Framework part of the Cache functionality moved out from modules
 * Themes update:
   * Updated templates and layout updates in the Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules; old files moved to the "magento-backup" theme
   * Refactored and removed duplicate Persistent module templates

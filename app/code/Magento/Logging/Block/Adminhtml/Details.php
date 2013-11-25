@@ -157,7 +157,7 @@ class Details extends \Magento\Backend\Block\Widget\Container
     }
 
     /**
-     * Unserialize and retrive event info
+     * Unserialize and retrieve event info
      *
      * @return string
      */
