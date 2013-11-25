@@ -11,19 +11,21 @@
  */
 namespace Magento\Backup\Model\Fs;
 
+use Magento\Filesystem\DirectoryList;
+
 class Collection extends \Magento\Data\Collection\Filesystem
 {
+    /**
+     * @var \Magento\Filesystem\Directory\WriteInterface
+     */
+    protected $_varDirectory;
+
     /**
      * Folder, where all backups are stored
      *
      * @var string
      */
-    protected $_baseDir;
-
-    /**
-     * @var \Magento\Filesystem
-     */
-    protected $_filesystem;
+    protected $_path;
 
     /**
      * Backup data
@@ -31,13 +33,6 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * @var \Magento\Backup\Helper\Data
      */
     protected $_backupData = null;
-
-    /**
-     * Directory model
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
 
     /**
      * Backup model
@@ -50,14 +45,12 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * @param \Magento\Backup\Helper\Data $backupData
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Backup\Model\Backup $backup
      */
     public function __construct(
         \Magento\Backup\Helper\Data $backupData,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\App\Dir $dir,
         \Magento\Backup\Model\Backup $backup
     ) {
         $this->_backupData = $backupData;
@@ -65,13 +58,10 @@ class Collection extends \Magento\Data\Collection\Filesystem
 
         $this->_backupData = $backupData;
         $this->_filesystem = $filesystem;
-        $this->_dir = $dir;
         $this->_backup = $backup;
-        $this->_baseDir = $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'backups';
+        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
 
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($this->_baseDir);
-        $this->_filesystem->setWorkingDirectory($this->_baseDir);
+        $this->_varDirectory->create($this->_path);
         $this->_hideBackupsForApache();
 
         // set collection specific params
@@ -83,7 +73,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $extensions = implode('|', $extensions);
 
         $this->setOrder('time', self::SORT_ORDER_DESC)
-            ->addTargetDir($this->_baseDir)
+            ->addTargetDir($this->_varDirectory->getAbsolutePath($this->_path))
             ->setFilesFilter('/^[a-z0-9\-\_]+\.' . $extensions . '$/')
             ->setCollectRecursively(false);
     }
@@ -93,10 +83,10 @@ class Collection extends \Magento\Data\Collection\Filesystem
      */
     protected function _hideBackupsForApache()
     {
-        $htaccessPath = $this->_baseDir . DS . '.htaccess';
-        if (!$this->_filesystem->isFile($htaccessPath)) {
-            $this->_filesystem->write($htaccessPath, 'deny from all');
-            $this->_filesystem->changePermissions($htaccessPath, 0644);
+        $filename = '.htaccess';
+        if (!$this->_varDirectory->isFile($filename)) {
+            $this->_varDirectory->writeFile($filename, 'deny from all');
+            $this->_varDirectory->changePermissions($filename, 0644);
         }
     }
 
@@ -109,11 +99,11 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $row = parent::_generateRow($filename);
-        foreach ($this->_backup->load($row['basename'], $this->_baseDir)
+        foreach ($this->_backup->load($row['basename'], $this->_varDirectory->getAbsolutePath($this->_path))
             ->getData() as $key => $value) {
             $row[$key] = $value;
         }
-        $row['size'] = $this->_filesystem->getFileSize($filename);
+        $row['size'] = $this->_varDirectory->stat($this->_varDirectory->getRelativePath($filename))['size'];
         $row['id'] = $row['time'] . '_' . $row['type'];
         return $row;
     }

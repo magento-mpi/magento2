@@ -17,6 +17,8 @@
  */
 namespace Magento\Shipping\Model\Resource\Carrier;
 
+use Magento\Filesystem\DirectoryList;
+
 class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -253,17 +255,9 @@ class Tablerate extends \Magento\Core\Model\Resource\Db\AbstractDb
         $this->_importErrors        = array();
         $this->_importedRows        = 0;
 
-        $info   = pathinfo($csvFile);
-
-        try {
-            $this->_filesystem->setIsAllowCreateDirectories(true);
-            $this->_filesystem->setWorkingDirectory($info['dirname']);
-            $this->_filesystem->ensureDirectoryExists($info['dirname']);
-            $this->_filesystem->setWorkingDirectory($info['dirname']);
-        } catch (\Magento\Filesystem\FilesystemException $e) {
-            $this->_filesystem->setWorkingDirectory(getcwd());
-        }
-        $stream = $this->_filesystem->createAndOpenStream($info['dirname'] . '/' . $info['basename'], 'r');
+        $tmpDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
+        $path = $tmpDirectory->getRelativePath($csvFile);
+        $stream = $tmpDirectory->openFile($path);
 
         // check and skip headers
         $headers = $stream->readCsv();
