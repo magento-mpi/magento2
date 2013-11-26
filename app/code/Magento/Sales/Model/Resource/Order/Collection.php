@@ -115,7 +115,7 @@ class Collection extends \Magento\Sales\Model\Resource\Collection\AbstractCollec
 
     /**
      * Join table sales_flat_order_address to select for billing and shipping order addresses.
-     * Create corillation map
+     * Create correlation map
      *
      * @return \Magento\Sales\Model\Resource\Order\Collection
      */

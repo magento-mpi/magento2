@@ -86,7 +86,7 @@ class Tracking extends \Magento\Adminhtml\Block\Template
     }
 
     /**
-     * Retrive save button html
+     * Retrieve save button html
      *
      * @return string
      */

@@ -70,7 +70,7 @@ abstract class AbstractDb extends \Magento\Core\Model\Resource\AbstractResource
     protected $_idFieldName;
 
     /**
-     * Primery key auto increment flag
+     * Primary key auto increment flag
      *
      * @var bool
      */
