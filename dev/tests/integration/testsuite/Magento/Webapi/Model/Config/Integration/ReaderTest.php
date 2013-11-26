@@ -41,7 +41,6 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         );
         $this->_fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($configFiles));
 
-        echo (var_export($this->_configReader->read(), true));
         $expectedResult = require __DIR__ . '/_files/api.php';
         $this->assertEquals(
             $expectedResult,
