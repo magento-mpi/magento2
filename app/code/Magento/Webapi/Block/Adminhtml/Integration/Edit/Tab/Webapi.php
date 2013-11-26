@@ -1,7 +1,5 @@
 <?php
 /**
- * Main Web API properties edit form.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,7 +11,7 @@ namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
 
 /**
- * Class for handling API section within integration
+ * Class for handling API section within integration.
  */
 class Webapi extends \Magento\Backend\Block\Widget\Form
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -42,6 +40,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     /** @var \Magento\Core\Model\Registry */
     protected $_registry;
 
+    /** @var \Magento\Integration\Helper\Data */
+    protected $_integrationData;
+
     /**
      * Construct
      *
@@ -51,6 +52,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
      */
     public function __construct(
@@ -60,12 +62,14 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_registry = $registry;
+        $this->_integrationData = $integrationData;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -143,32 +147,9 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     public function getTree()
     {
         $resources = $this->_aclResourceProvider->getAclResources();
-        $rootArray = $this->_mapResources(
+        $rootArray = $this->_integrationData->mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );
         return $rootArray;
-    }
-
-    /**
-     * Map resources
-     *
-     * @param array $resources
-     * @return array
-     */
-    protected function _mapResources(array $resources)
-    {
-        $output = array();
-        foreach ($resources as $resource) {
-            $item = array();
-            $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = $resource['title'];
-            $item['children'] = array();
-            if (isset($resource['children'])) {
-                $item['state'] = 'open';
-                $item['children'] = $this->_mapResources($resource['children']);
-            }
-            $output[] = $item;
-        }
-        return $output;
     }
 }
