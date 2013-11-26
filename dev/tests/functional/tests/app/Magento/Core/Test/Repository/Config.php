@@ -44,6 +44,8 @@ class Config extends AbstractRepository
         //Shipping methods
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
+        $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
+        $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
     }
@@ -107,6 +109,82 @@ class Config extends AbstractRepository
                                     ),
                                     'sallowspecific' => array( //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _disableAllShippingCarriers()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'ups' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 0
+                                    )
+                                )
+                            ),
+                            'usps' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 0
+                                    )
+                                )
+                            ),
+                            'fedex' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 0
+                                    )
+                                )
+                            ),
+                            'dhl' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 0
+                                    )
+                                )
+                            ),
+                            'dhlint' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 0
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getShippingCarrierUps()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'ups' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 1
                                     )
                                 )
                             )

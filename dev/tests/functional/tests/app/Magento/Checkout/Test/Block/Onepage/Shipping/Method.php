@@ -41,11 +41,16 @@ class Method extends Block
     /**
      * Select shipping method
      *
-     * @param Checkout $fixture
+     * @param Checkout|\Magento\Shipping\Test\Fixture\Method $fixture
      */
-    public function selectShippingMethod(Checkout $fixture)
+    public function selectShippingMethod($fixture)
     {
-        $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
+            $shippingMethod = $fixture->getData('fields');
+        }
+        else {
+            $shippingMethod = $fixture->getShippingMethods()->getData('fields');
+        }
         $selector = '//dt[text()="' . $shippingMethod['shipping_service']
             . '"]/following-sibling::*//*[contains(text(), "' . $shippingMethod['shipping_method'] . '")]';
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();

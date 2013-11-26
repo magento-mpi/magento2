@@ -33,6 +33,7 @@ class Method extends AbstractRepository
 
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['flat_rate'] = $this->_getFlatRate();
+        $this->_data['ups'] = $this->_getUps();
     }
 
     protected function _getFreeShipping()
@@ -54,6 +55,18 @@ class Method extends AbstractRepository
                 'fields' => array(
                     'shipping_service' => 'Flat Rate',
                     'shipping_method' => 'Fixed'
+                )
+            )
+        );
+    }
+
+    protected function _getUps()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'United Parcel Service',
+                    'shipping_method' => 'Ground'
                 )
             )
         );
