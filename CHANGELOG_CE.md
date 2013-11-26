@@ -21,6 +21,8 @@
   * [#305](https://github.com/magento/magento2/pull/305) -- Extra ", tidied up nested quotes
   * [#352](https://github.com/magento/magento2/pull/352) -- Croatia added to the list of European Union countries
   * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
+  * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
+  * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
@@ -31,6 +33,9 @@
   * Fixed posting coupon code with spaces
   * Fixed several typos and minor mistakes
   * Fixed error on attempt to insert image to CMS pages under version control
+  * Fixed order status grid so that you can assign state, edit, and view custom order status
+  * Fixed Related Products Rule page so someone can select category on conditions tab
+  * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
 
 2.0.0.0-dev52
 =============

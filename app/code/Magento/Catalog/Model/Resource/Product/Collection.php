@@ -1491,7 +1491,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function addFilterByRequiredOptions()
     {
-        $this->addAttributeToFilter('required_options', array(array('neq' => '1'), array('null' => true)), 'left');
+        $this->addAttributeToFilter('required_options', array(array('neq' => 1), array('null' => true)), 'left');
         return $this;
     }
 

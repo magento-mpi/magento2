@@ -511,10 +511,10 @@ class Config extends AbstractRepository
                             'display' => array( // Price Display Settings
                                 'fields' => array(
                                     'type' => array( // Display Product Prices In Catalog
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     ),
                                     'shipping' => array( // Display Shipping Prices
-                                        'value' => 'Excluding Tax'
+                                        'value' => 1 //Excluding Tax
                                     )
                                 )
                             )

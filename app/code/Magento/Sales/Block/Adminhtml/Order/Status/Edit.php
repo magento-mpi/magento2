@@ -16,6 +16,7 @@ class Edit extends \Magento\Sales\Block\Adminhtml\Order\Status\NewStatus
     {
         parent::_construct();
         $this->_mode = 'edit';
+        $this->_blockGroup = 'Magento_Sales';
     }
 
     /**
