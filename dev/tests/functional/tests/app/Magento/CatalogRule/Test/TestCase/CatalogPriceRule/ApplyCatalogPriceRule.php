@@ -51,45 +51,53 @@ class ApplyCatalogPriceRule extends Functional
         $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetInstance();
         $frontendApp->persist();
 
-        // Create and Apply new Catalog Price
+        // Create new Catalog Price Rule
+        $catalogRulePage = $this->createNewCatalogPrice();
 
         // Update Banner with related Promotion
 
         // Verify applied catalog price rules
-        //$this->assertOnCategory($products);
     }
 
     /**
-     * Assert price on category and product page
-     *
-     * @param Product $product
+     * Create and Apply new Catalog Price Rule
      */
-    protected function assertOnCategory($product)
+    public function createNewCatalogPrice()
     {
-        //Pages
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
-        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
-        $productPage = Factory::getPageFactory()->getCatalogProductView();
-        //Steps
-        $frontendHomePage->open();
-        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        // Admin login
+        Factory::getApp()->magentoBackendLoginUser();
 
-        //Verify rule applied to price on Category page
-        $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
-            'Product ' . $product->getProductName() . ' missing on category page.');
-        // TODO: Apply catalog price rule
-        $priceAppliedRule = $product->getProductPrice();
-        $this->assertContains($priceAppliedRule, $productListBlock->getProductPrice(), 'Invalid product price.');
+        // Open catalog price rule page
+        $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
+        $catalogRulePage->open();
 
-        //Verify rule applied to price on Product page
-        $productViewBlock = $productPage->getViewBlock();
-        $productListBlock->openProductViewPage($product->getProductName());
-        $this->assertContains($priceAppliedRule, $productViewBlock->getProductPrice(), 'Invalid product price.');
+        // Add a new catalog price rule
+        $pageActionsBlock = $catalogRulePage->getPageActionsBlock();
+        $pageActionsBlock->clickAddNew();
 
-        // Add products to Cart
-        // Verify rule applied to products on shopping cart
-        // Go to One Page Checkout
-        // Verify rule applied to products during checkout
+        // Fill and save the Form
+        $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
+        $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
+        $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
+        $newCatalogRuleForm->fill($catalogRuleFixture);
+        $newCatalogRuleForm->save();
+
+        // Verify success message
+        $messagesBlock = $catalogRulePage->getMessagesBlock();
+        $messagesBlock->assertSuccessMessage();
+
+        // Verify attention message
+
+        // Verify catalog rule is in grid
+        $catalogRulePage->open();
+        $gridBlock = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $this->assertTrue($gridBlock->isRowVisible(array(
+                'name' => $catalogRuleFixture->getRuleName()
+            )), 'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid');
+
+        // Apply catalog price rule
+
+        // Verify applied message
+
     }
 }
