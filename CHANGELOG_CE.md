@@ -21,6 +21,8 @@
   * [#305](https://github.com/magento/magento2/pull/305) -- Extra ", tidied up nested quotes
   * [#352](https://github.com/magento/magento2/pull/352) -- Croatia added to the list of European Union countries
   * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
+  * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
+  * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
