@@ -62,6 +62,8 @@ class CreateOnFrontendTest extends Functional
         //Verifying
         $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
         $messages = $accountIndexPage->getMessages();
+        //Wait for messages
+        $messages->assertSuccessMessage();
         $this->assertContains('The address has been saved', $messages->getSuccessMessages());
 
         //Verify customer address against previously entered data
