@@ -15,6 +15,10 @@ use Mtf\System\Config;
 class AdminUser extends DataFixture
 {
 
+    /**
+     * @param Config $configuration
+     * @param array $placeholders
+     */
     public function __construct(Config $configuration, $placeholders = array())
     {
         parent::__construct($configuration, $placeholders);
@@ -51,13 +55,15 @@ class AdminUser extends DataFixture
                     'value' => '123123q'
                 ),
                 'roles' => array(
-                    'value' => array('%role_id%')
+                    'value' => array('1')
                 ),
                 'username' => array(
                     'value' => 'test%isolation%'
                 ),
             ),
         );
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoUserAdminUser($this->_dataConfig, $this->_data);
     }
 
     /**
