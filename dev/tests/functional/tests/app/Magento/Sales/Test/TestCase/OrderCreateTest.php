@@ -141,7 +141,7 @@ class OrderCreateTest extends Functional
             $lastName = $fixture->getBillingAddress()->getLastName()['value'];
         }
 
-        $this->assertEquals($customerPageTitle,  $firstName . ' ' . $lastName);
+        $this->assertEquals($customerPageTitle, $firstName . ' ' . $lastName);
     }
 
     /**

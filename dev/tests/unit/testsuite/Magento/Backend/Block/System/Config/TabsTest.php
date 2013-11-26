@@ -34,7 +34,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
     protected $_urlBuilderMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Core\Model\Factory\Helper
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Helper\HelperFactory
      */
     protected $_helperFactoryMock;
 
@@ -48,7 +48,7 @@ class TabsTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilderMock = $this->getMock('Magento\Backend\Model\Url', array(), array(), '', false);
 
         $this->_helperFactoryMock = $this->getMock(
-            'Magento\Core\Model\Factory\Helper', array('get'), array(), '', false, false
+            'Magento\App\Helper\HelperFactory', array('get'), array(), '', false, false
         );
         $backendHelperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $this->_helperFactoryMock

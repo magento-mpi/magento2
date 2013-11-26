@@ -23,25 +23,23 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $systemStore;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->entityFactory = $entityFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
 
         $this->systemStore = $systemStore;
     }

@@ -27,25 +27,25 @@ class Items extends \Magento\Rma\Block\Form
     protected $_rmaEav = null;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
-     * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rma\Helper\Eav $rmaEav
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
-        \Magento\Rma\Helper\Eav $rmaEav,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rma\Helper\Eav $rmaEav,
         array $data = array()
     ) {
         $this->_rmaEav = $rmaEav;
-        parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     /**

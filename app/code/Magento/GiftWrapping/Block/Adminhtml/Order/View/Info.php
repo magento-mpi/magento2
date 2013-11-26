@@ -26,35 +26,25 @@ class Info
     protected $_wrappingFactory;
 
     /**
-     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_wrappingFactory = $wrappingFactory;
-        parent::__construct(
-            $giftWrappingData,
-            $coreData,
-            $context,
-            $registry,
-            $storeManager,
-            $wrappingCollFactory,
-            $data
-        );
+        parent::__construct($context, $coreData, $giftWrappingData, $registry, $wrappingCollFactory, $data);
     }
 
     /**

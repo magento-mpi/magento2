@@ -72,7 +72,7 @@ class Reward extends \Magento\Core\Model\AbstractModel
     protected $_rewardCustomer = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 

@@ -31,24 +31,22 @@ class Form
     protected $_selectOptions;
 
     /**
-     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftRegistry\Model\Source\Search $sourceSearch
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
         array $data = array()
     ) {
-        parent::__construct($giftRegistryData, $coreData, $context, $typeFactory, $storeManager, $data);
+        parent::__construct($context, $coreData, $giftRegistryData, $typeFactory, $data);
         $this->sourceSearch = $sourceSearch;
     }
 
@@ -142,7 +140,7 @@ class Form
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);

@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Factory for \Magento\Core\Model\Theme\File
- */
 namespace Magento\View\Design\Theme;
 
+/**
+ * Theme File Factory
+ */
 class FileFactory
 {
     /**
@@ -23,8 +21,6 @@ class FileFactory
     protected $_objectManager;
 
     /**
-     * Factory constructor
-     *
      * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(\Magento\ObjectManager $objectManager)
@@ -36,7 +32,7 @@ class FileFactory
      * Create class instance with specified parameters
      *
      * @param array $data
-     * @return \Magento\Core\Model\Theme\File
+     * @return \Magento\View\Design\Theme\FileInterface
      */
     public function create(array $data = array())
     {

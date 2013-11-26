@@ -27,26 +27,26 @@ class Form
     protected $_systemStore;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
         $this->_themeLabelFactory = $themeLabelFactory;
         $this->_systemStore = $systemStore;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**

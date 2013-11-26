@@ -52,22 +52,20 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     protected $_websitesFactory;
 
     /**
-     * @param \Magento\Reward\Helper\Data $rewardData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory
      * @param \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reward\Model\Resource\Reward\CollectionFactory $rewardsFactory,
         \Magento\Reward\Model\Source\WebsiteFactory $websitesFactory,
@@ -77,7 +75,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_rewardData = $rewardData;
         $this->_rewardsFactory = $rewardsFactory;
         $this->_websitesFactory = $websitesFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     /**

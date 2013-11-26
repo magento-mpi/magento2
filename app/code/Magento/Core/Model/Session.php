@@ -8,6 +8,7 @@
  * @license     {license_link}
  */
 
+namespace Magento\Core\Model;
 
 /**
  * Core session model
@@ -18,8 +19,6 @@
  * @method \Magento\Core\Model\Session setCookieShouldBeReceived(bool $flag)
  * @method \Magento\Core\Model\Session unsCookieShouldBeReceived()
  */
-namespace Magento\Core\Model;
-
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**

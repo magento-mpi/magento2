@@ -31,7 +31,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
         $objectManager = $this->getMock('Magento\ObjectManager', array(), array('create'), '', false);
         $objectManager->expects($this->once())
             ->method('create')
-            ->with('Magento\Core\Model\Theme\Domain\Virtual', array('theme' => $themeMock))
+            ->with('Magento\View\Design\Theme\Domain\VirtualInterface', array('theme' => $themeMock))
             ->will($this->returnValue($newThemeMock));
 
         $themeDomainFactory = new \Magento\View\Design\Theme\Domain\Factory($objectManager);

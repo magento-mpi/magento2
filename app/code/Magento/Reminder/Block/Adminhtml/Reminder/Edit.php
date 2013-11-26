@@ -28,22 +28,22 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     protected $_reminderData = null;
 
     /**
-     * @param \Magento\Reminder\Helper\Data $reminderData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Reminder\Helper\Data $reminderData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Reminder\Helper\Data $reminderData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Reminder\Helper\Data $reminderData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_reminderData = $reminderData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

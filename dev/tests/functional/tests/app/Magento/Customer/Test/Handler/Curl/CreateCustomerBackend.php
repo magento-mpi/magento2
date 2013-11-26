@@ -40,8 +40,8 @@ class CreateCustomerBackend extends Curl
             if (null === $value) {
                 continue;
             }
-                $data[$key] = $value;
-            }
+            $data[$key] = $value;
+        }
 
         $curlData['account'] = $data;
         return $curlData;

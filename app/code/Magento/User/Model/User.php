@@ -96,13 +96,6 @@ class User
     protected $_userData = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -143,7 +136,6 @@ class User
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\User\Helper\Data $userData
      * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -162,7 +154,6 @@ class User
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\User\Helper\Data $userData,
         \Magento\Email\Model\Sender $sender,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -179,7 +170,6 @@ class User
         $this->_encryptor = $encryptor;
         $this->dateTime = $dateTime;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_eventManager = $eventManager;
         $this->_userData = $userData;
         $this->_sender = $sender;
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -22,21 +22,21 @@ class Button extends \Magento\Sales\Block\Adminhtml\Order\AbstractOrder
     protected $_orderCollection;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\SalesArchive\Model\Resource\Order\Collection $orderCollection,
         array $data = array()
     ) {
         $this->_orderCollection = $orderCollection;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($context, $coreData, $registry, $data);
     }
 
     protected function _prepareLayout()

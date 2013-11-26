@@ -29,16 +29,14 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     protected $viewUrl;
 
     /**
-     * @var \Magento\UrlInterface
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $storeManager;
+    protected $_storeManager;
 
     /**
-     * Initialize dependencies
-     *
      * @param \Magento\App\Dir $dir
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\UrlInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Dir $dir,
@@ -47,7 +45,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     ) {
         $this->dir = $dir;
         $this->viewUrl = $viewUrl;
-        $this->storeManager = $storeManager;
+        $this->_storeManager = $storeManager;
     }
 
     /**
@@ -57,7 +55,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getPreviewImageDirectoryUrl()
     {
-        return $this->storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
             . self::PREVIEW_DIRECTORY_PATH . '/';
     }
 

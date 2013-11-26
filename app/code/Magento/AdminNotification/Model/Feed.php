@@ -43,16 +43,10 @@ class Feed extends \Magento\Core\Model\AbstractModel
     protected $_inboxFactory;
 
     /**
-     * @var \Magento\App\CacheInterface
-     */
-    protected $_cache;
-
-    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
-     * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -62,7 +56,6 @@ class Feed extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
-        \Magento\App\CacheInterface $cache,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -70,7 +63,6 @@ class Feed extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_inboxFactory = $inboxFactory;
-        $this->_cache = $cache;
     }
 
     /**
@@ -78,7 +70,9 @@ class Feed extends \Magento\Core\Model\AbstractModel
      *
      */
     protected function _construct()
-    {}
+    {
+
+    }
 
     /**
      * Retrieve feed url
@@ -158,7 +152,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function getLastUpdate()
     {
-        return $this->_cache->load('admin_notifications_lastcheck');
+        return $this->_cacheManager->load('admin_notifications_lastcheck');
     }
 
     /**
@@ -168,7 +162,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function setLastUpdate()
     {
-        $this->_cache->save(time(), 'admin_notifications_lastcheck');
+        $this->_cacheManager->save(time(), 'admin_notifications_lastcheck');
         return $this;
     }
 

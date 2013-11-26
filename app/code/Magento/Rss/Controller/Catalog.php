@@ -13,7 +13,7 @@
  */
 namespace Magento\Rss\Controller;
 
-class Catalog extends \Magento\Core\Controller\Front\Action
+class Catalog extends \Magento\App\Action\Action
 {
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -21,11 +21,11 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {
         $this->_storeConfig = $storeConfig;
@@ -83,7 +83,7 @@ class Catalog extends \Magento\Core\Controller\Front\Action
     protected function _render()
     {
         $this->getResponse()->setHeader('Content-Type', 'text/xml; charset=UTF-8');
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 }

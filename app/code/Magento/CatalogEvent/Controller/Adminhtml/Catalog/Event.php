@@ -11,7 +11,7 @@
  */
 namespace Magento\CatalogEvent\Controller\Adminhtml\Catalog;
 
-class Event extends \Magento\Backend\Controller\Adminhtml\Action
+class Event extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -21,13 +21,6 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry;
 
     /**
-     * Store model manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Event model factory
      *
      * @var \Magento\CatalogEvent\Model\EventFactory
@@ -35,40 +28,51 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_eventFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\Core\Filter\DateTime
+     */
+    protected $_dateTimeFilter;
+
+    /**
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogEvent\Model\EventFactory $eventFactory
+     * @param \Magento\Core\Filter\DateTime $dateTimeFilter
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\CatalogEvent\Model\EventFactory $eventFactory
+        \Magento\CatalogEvent\Model\EventFactory $eventFactory,
+        \Magento\Core\Filter\DateTime $dateTimeFilter,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        parent::__construct($context);
-
-        $this->_coreRegistry = $coreRegistry;
         $this->_storeManager = $storeManager;
+        $this->_coreRegistry = $coreRegistry;
         $this->_eventFactory = $eventFactory;
+        $this->_dateTimeFilter = $dateTimeFilter;
+        parent::__construct($context);
     }
 
     /**
      * Check is enabled module in config
      *
-     * @return \Magento\CatalogEvent\Controller\Adminhtml\Catalog\Event
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\CatalogEvent\Helper\Data')->isEnabled()) {
             if ($this->getRequest()->getActionName() != 'noroute') {
                 $this->_forward('noroute');
+                return parent::dispatch($request);
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -78,10 +82,10 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function _initAction()
     {
-        $this->loadLayout()
-            ->_addBreadcrumb(__('Catalog'), __('Catalog'))
-            ->_addBreadcrumb(__('Events'), __('Events'))
-            ->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
+        $this->_view->loadLayout();
+        $this->_addBreadcrumb(__('Catalog'), __('Catalog'));
+        $this->_addBreadcrumb(__('Events'), __('Events'));
+        $this->_setActiveMenu('Magento_CatalogEvent::catalog_magento_catalogevent_events');
         return $this;
     }
 
@@ -92,9 +96,9 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Events'));
+        $this->_title->add(__('Events'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -112,7 +116,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function editAction()
     {
-        $this->_title(__('Events'));
+        $this->_title->add(__('Events'));
 
         /** @var \Magento\CatalogEvent\Model\Event $event */
         $event = $this->_eventFactory->create()
@@ -124,7 +128,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
             $event->setCategoryId($this->getRequest()->getParam('category_id'));
         }
 
-        $this->_title($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
+        $this->_title->add($event->getId() ? sprintf("#%s", $event->getId()) : __('New Event'));
 
         $sessionData = $this->_getSession()->getEventData(true);
         if (!empty($sessionData)) {
@@ -134,7 +138,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_coreRegistry->register('magento_catalogevent_event', $event);
 
         $this->_initAction();
-        $layout = $this->getLayout();
+        $layout = $this->_view->getLayout();
         $layout->getBlock('head')->setCanLoadExtJs(true);
         if (($switchBlock = $layout->getBlock('store_switcher'))) {
             if (!$event->getId() || $this->_storeManager->isSingleStoreMode()) {
@@ -144,7 +148,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
                     ->setSwitchUrl($this->getUrl('adminhtml/*/*', array('_current' => true, 'store' => null)));
             }
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -264,7 +268,7 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $id = $this->getRequest()->getParam('id', null);
         $this->getResponse()->setBody(
-            $this->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
+            $this->_view->getLayout()->createBlock('Magento\CatalogEvent\Block\Adminhtml\Event\Edit\Category')
                 ->getTreeArray($id, true, 1)
         );
     }
@@ -288,9 +292,15 @@ class Event extends \Magento\Backend\Controller\Adminhtml\Action
     protected function _filterPostData($data)
     {
         if (isset($data['catalogevent'])) {
-            $_data = $data['catalogevent'];
-            $_data = $this->_filterDateTime($_data, array('date_start', 'date_end'));
-            $data['catalogevent'] = $_data;
+            $inputFilter = new \Zend_Filter_Input(
+                array(
+                    'date_start' => $this->_dateTimeFilter,
+                    'date_end' => $this->_dateTimeFilter,
+                ),
+                array(),
+                $data['catalogevent']
+            );
+            $data['catalogevent'] = $inputFilter->getUnescaped();
         }
         return $data;
     }

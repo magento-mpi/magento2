@@ -290,32 +290,8 @@
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>Invitation</word>
-            <path>app/design/adminhtml/magento_backend/css/admin.css</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>CustomerSegment</word>
-            <word>GiftCard</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Invitation</word>
-            <word>Reward</word>
-            <word>TargetRule</word>
-            <path>app/design/adminhtml/magento_backend/css/debug.css</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
             <word>GiftCard</word>
             <path>app/design/adminhtml/magento_basic/boxes.css</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Invitation</word>
-            <path>app/design/adminhtml/magento_backend/css/pages.css</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test -->

@@ -11,18 +11,19 @@
  */
 namespace Magento\AdminNotification\Controller\Adminhtml;
 
-class Notification extends \Magento\Backend\Controller\AbstractAction
+class Notification extends \Magento\Backend\App\AbstractAction
 {
     public function indexAction()
     {
-        $this->_title(__('Notifications'));
+        $this->_title->add(__('Notifications'));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_AdminNotification::system_adminnotification')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_AdminNotification::system_adminnotification')
             ->_addBreadcrumb(
                 __('Messages Inbox'),
                 __('Messages Inbox')
-            )->renderLayout();
+            );
+        $this->_view->renderLayout();
     }
 
     public function markAsReadAction()
@@ -43,7 +44,7 @@ class Notification extends \Magento\Backend\Controller\AbstractAction
                 );
             }
 
-            $this->_redirectReferer();
+            $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }
         $this->_redirect('adminhtml/*/');
@@ -158,7 +159,7 @@ class Notification extends \Magento\Backend\Controller\AbstractAction
                     __("We couldn't remove the messages because of an error."));
             }
         }
-        $this->_redirectReferer();
+        $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
     }
 
     protected function _isAllowed()

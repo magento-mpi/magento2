@@ -22,36 +22,28 @@ class Update
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\StoreFactory
      */
     protected $_storeFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\System\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\System\StoreFactory $storeFactory,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_storeFactory = $storeFactory;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**

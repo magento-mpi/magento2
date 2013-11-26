@@ -13,7 +13,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Editor\Tools;
 
-class Settings extends \Magento\Core\Block\Template
+class Settings extends \Magento\View\Block\Template
 {
 
 }
