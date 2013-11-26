@@ -33,6 +33,9 @@
   * Fixed posting coupon code with spaces
   * Fixed several typos and minor mistakes
   * Fixed error on attempt to insert image to CMS pages under version control
+  * Fixed order status grid so that you can assign state, edit, and view custom order status
+  * Fixed Related Products Rule page so someone can select category on conditions tab
+  * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
 
 2.0.0.0-dev52
 =============
