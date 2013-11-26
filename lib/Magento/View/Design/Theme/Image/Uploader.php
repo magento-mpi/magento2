@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Theme\Image;
+
 /**
  * Theme Image Uploader
  */
-namespace Magento\View\Design\Theme\Image;
-
 class Uploader
 {
     /**
@@ -34,7 +34,6 @@ class Uploader
      * @var \Magento\File\UploaderFactory
      */
     protected $_uploaderFactory;
-
 
     /**
      * @param \Magento\Filesystem $filesystem

@@ -115,7 +115,7 @@ class Registration
         if (in_array($tempId, $inheritanceChain)) {
             throw new \Magento\Core\Exception(__('Circular-reference in theme inheritance detected for "%1"', $tempId));
         }
-        array_push($inheritanceChain, $tempId);
+        $inheritanceChain[] = $tempId;
         $parentTheme = $theme->getParentTheme();
         if ($parentTheme) {
             $this->_registerThemeRecursively($parentTheme, $inheritanceChain);

@@ -10,7 +10,7 @@
 
 namespace Magento\CatalogRule\Controller\Adminhtml\Promo;
 
-class Widget extends \Magento\Backend\Controller\Adminhtml\Action
+class Widget extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -20,11 +20,11 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -42,7 +42,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
 
         switch ($request->getParam('attribute')) {
             case 'sku':
-                $block = $this->getLayout()->createBlock(
+                $block = $this->_view->getLayout()->createBlock(
                     'Magento\CatalogRule\Block\Adminhtml\Promo\Widget\Chooser\Sku', 'promo_widget_chooser_sku',
                     array('data' => array('js_form_object' => $request->getParam('form')),
                 ));
@@ -64,7 +64,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
                 }
 
 
-                $block = $this->getLayout()->createBlock(
+                $block = $this->_view->getLayout()->createBlock(
                         'Magento\Catalog\Block\Adminhtml\Category\Checkboxes\Tree', 'promo_widget_chooser_category_ids',
                         array('data' => array('js_form_object' => $request->getParam('form')))
                     )
@@ -100,7 +100,7 @@ class Widget extends \Magento\Backend\Controller\Adminhtml\Action
                 return;
             }
             $this->getResponse()->setBody(
-                $this->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
+                $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Category\Tree')
                     ->getTreeJson($category)
             );
         }

@@ -13,15 +13,8 @@ namespace Magento\GiftRegistry\Block\Cart;
 /**
  * Cart link block
  */
-class Link extends \Magento\Core\Block\Template
+class Link extends \Magento\View\Block\Template
 {
-    /**
-     * Filter manager
-     *
-     * @var \Magento\Filter\FilterManager
-     */
-    protected $filter;
-
     /**
      * Gift registry data
      *
@@ -30,22 +23,19 @@ class Link extends \Magento\Core\Block\Template
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param \Magento\Filter\FilterManager $filter
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Filter\FilterManager $filter,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
-        $this->filter = $filter;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -60,7 +50,7 @@ class Link extends \Magento\Core\Block\Template
      */
     public function truncateString($value, $length = 80, $etc = '...', &$remainder = '', $breakWords = true)
     {
-        return $this->filter->truncate($value, array(
+        return $this->filterManager->truncate($value, array(
             'length' => $length,
             'etc' => $etc,
             'remainder' => $remainder,

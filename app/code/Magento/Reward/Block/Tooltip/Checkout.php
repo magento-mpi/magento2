@@ -21,39 +21,36 @@ class Checkout extends \Magento\Reward\Block\Tooltip
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Reward\Model\Reward $rewardInstance
-     * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Reward $rewardInstance,
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
         parent::__construct(
             $context,
+            $coreData,
             $rewardHelper,
             $customerSession,
             $rewardInstance,
-            $storeManager,
-            $coreData,
             $data
         );
     }
 
     /**
-     * @return $this|\Magento\Core\Block\AbstractBlock
+     * @return $this|\Magento\View\Block\AbstractBlock
      */
     protected function _prepareLayout()
     {

@@ -13,37 +13,42 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     /**
      * Fixture XML instruction(s) to be used in tests
      */
-    const FIXTURE_LAYOUT_XML = '<block class="Magento\Core\Block\Template" template="fixture.phtml"/>';
+    const FIXTURE_LAYOUT_XML = '<block class="Magento\View\Block\Template" template="fixture.phtml"/>';
 
     /**
      * @var \Magento\Core\Model\Layout\Merge
      */
-    private $_model;
+    protected $_model;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_resource;
+    protected $_resource;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_appState;
+    protected $_appState;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_cache;
+    protected $_cache;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_theme;
+    protected $_theme;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_store;
+    protected $_store;
+
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_logger;
 
     protected function setUp()
     {
@@ -65,6 +70,8 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
         $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
 
+        $this->_logger = $this->getMock('Magento\Logger', array('log'), array(), '', false);
+
         $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
         $this->_theme = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false, false);
@@ -81,6 +88,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
             'appState' => $this->_appState,
             'cache' => $this->_cache,
             'theme' => $this->_theme,
+            'logger' => $this->_logger
         ));
     }
 
@@ -162,8 +170,8 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($handles, $this->_model->getHandles());
         $expectedResult = '
             <root>
-                <block class="Magento\Core\Block\Template" template="fixture_template_one.phtml"/>
-                <block class="Magento\Core\Block\Template" template="fixture_template_two.phtml"/>
+                <block class="Magento\View\Block\Template" template="fixture_template_one.phtml"/>
+                <block class="Magento\View\Block\Template" template="fixture_template_two.phtml"/>
             </root>
         ';
         $actualResult = '<root>' . $this->_model->asString() . '</root>';
@@ -217,6 +225,13 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFileLayoutUpdatesXml()
     {
+        $errorString = "Theme layout update file '" . __DIR__ . "/_files/layout/file_wrong.xml' is not valid.\n"
+            . "Premature end of data in tag layout line 10\n"
+            . " Line: 12";
+        $this->_logger->expects($this->atLeastOnce())
+            ->method('log')
+            ->with($errorString, \Zend_Log::ERR, \Magento\Logger::LOGGER_SYSTEM);
+
         $actualXml = $this->_model->getFileLayoutUpdatesXml();
         $this->assertXmlStringEqualsXmlFile(__DIR__ . '/_files/merged.xml', $actualXml->asNiceXml());
     }

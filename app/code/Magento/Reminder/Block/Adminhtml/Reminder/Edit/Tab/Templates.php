@@ -16,14 +16,7 @@ namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 class Templates
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
-    /**
-     * Store Manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
+        /**
      * Email Template Factory
      *
      * @var \Magento\Backend\Model\Config\Source\Email\TemplateFactory
@@ -31,25 +24,22 @@ class Templates
     protected $_templateFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Backend\Model\Config\Source\Email\TemplateFactory $templateFactory,
         array $data = array()
     ) {
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
-        $this->_storeManager = $storeManager;
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
         $this->_templateFactory = $templateFactory;
     }
 

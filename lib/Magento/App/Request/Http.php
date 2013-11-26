@@ -36,7 +36,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     protected $_controllerModule = null;
 
     /**
-     * Streight request flag.
+     * Straight request flag.
      * If flag is determined no additional logic is applicable
      *
      * @var $_isStraight bool
@@ -529,5 +529,18 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
             return $scheme . $host . $port . rtrim($path, '/') . '/';
         }
         return 'http://localhost/';
+    }
+
+    /**
+     * Retrieve full action name
+     *
+     * @param string $delimiter
+     * @return mixed|string
+     */
+    public function getFullActionName($delimiter = '_')
+    {
+        return $this->getRequestedRouteName() . $delimiter .
+            $this->getRequestedControllerName() . $delimiter .
+            $this->getRequestedActionName();
     }
 }

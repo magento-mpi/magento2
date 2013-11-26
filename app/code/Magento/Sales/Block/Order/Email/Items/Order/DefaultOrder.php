@@ -18,7 +18,7 @@
  */
 namespace Magento\Sales\Block\Order\Email\Items\Order;
 
-class DefaultOrder extends \Magento\Core\Block\Template
+class DefaultOrder extends \Magento\View\Block\Template
 {
     /**
      * Retrieve current order model instance
@@ -69,7 +69,7 @@ class DefaultOrder extends \Magento\Core\Block\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

@@ -17,7 +17,7 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 
 /**
  * Class ProductForm
@@ -114,9 +114,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param Product $fixture
+     * @param AbstractProduct $fixture
      */
-    public function addNewCategory(Product $fixture)
+    public function addNewCategory(AbstractProduct $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
@@ -164,7 +164,7 @@ class ProductForm extends FormTabs
     {
         // TODO should be removed after suggest widget implementation as typified element
         $this->_rootElement->find($elementId, Locator::SELECTOR_ID)->setValue($name);
-       //  //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
+        //*[@id="attribute-category_ids-container"]  //*[@id="new_category_form_fieldset"]
         $categoryListLocation = $parentLocation . '//div[@class="mage-suggest-dropdown"]'; //
         $this->waitForElementVisible($categoryListLocation, Locator::SELECTOR_XPATH);
         $categoryLocation = $parentLocation . '//li[contains(@data-suggest-option, \'"label":"' . $name . '",\')]//a';

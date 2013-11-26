@@ -13,7 +13,10 @@
  */
 namespace Magento\GiftRegistry\Controller;
 
-class Search extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Search extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -23,44 +26,42 @@ class Search extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $locale;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        parent::__construct($context);
+        $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
-        $this->storeManager = $storeManager;
         $this->locale = $locale;
+        parent::__construct($context);
+
     }
 
     /**
      * Check if gift registry is enabled on current store before all other actions
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\GiftRegistry\Helper\Data')->isEnabled()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
-            return;
+            throw new NotFoundException();
         }
+        return parent::dispatch($request);
     }
 
     /**
@@ -82,7 +83,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     protected function _initType($typeId)
     {
         $type = $this->_objectManager->create('Magento\GiftRegistry\Model\Type')
-            ->setStoreId($this->storeManager->getStore()->getId())
+            ->setStoreId($this->_storeManager->getStore()->getId())
             ->load($typeId);
 
         $this->_coreRegistry->register('current_giftregistry_type', $type);
@@ -219,13 +220,13 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     public function indexAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -233,8 +234,8 @@ class Search extends \Magento\Core\Controller\Front\Action
      */
     public function resultsAction()
     {
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
 
         $params = $this->getRequest()->getParam('params');
         if ($params) {
@@ -247,17 +248,17 @@ class Search extends \Magento\Core\Controller\Front\Action
             $results = $this->_objectManager->create('Magento\GiftRegistry\Model\Entity')->getCollection()
                 ->applySearchFilters($this->_filterInputParams($params));
 
-            $this->getLayout()->getBlock('giftregistry.search.results')
+            $this->_view->getLayout()->getBlock('giftregistry.search.results')
                 ->setSearchResults($results);
         } else {
             $this->_redirect('*/*/index', array('_current' => true));
             return;
         }
-        $headBlock = $this->getLayout()->getBlock('head');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -266,7 +267,7 @@ class Search extends \Magento\Core\Controller\Front\Action
     public function advancedAction()
     {
         $this->_initType($this->getRequest()->getParam('type_id'));
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

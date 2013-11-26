@@ -10,7 +10,7 @@
 
 /**
  * System cache model
- * support id and tags preffix support,
+ * support id and tags prefix support,
  */
 
 namespace Magento\App;

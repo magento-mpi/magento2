@@ -18,7 +18,7 @@
  */
 namespace Magento\Pbridge\Controller;
 
-class PbridgeIpn extends \Magento\Core\Controller\Front\Action
+class PbridgeIpn extends \Magento\App\Action\Action
 {
     /**
      * Pbridge ipn factory
@@ -30,11 +30,11 @@ class PbridgeIpn extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Pbridge\Model\Payment\Method\Pbridge\IpnFactory $pbridgeIpnFactory
     ) {
         $this->_pbridgeIpnFactory = $pbridgeIpnFactory;

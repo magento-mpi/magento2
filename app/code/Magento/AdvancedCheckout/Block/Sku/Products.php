@@ -30,57 +30,46 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_coreUrl;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\AdvancedCheckout\Model\Cart
      */
     protected $_cart;
 
     /**
-     * @var \Magento\Catalog\Model\Resource\Url
-     */
-    protected $_catalogUrlResource;
-
-    /**
-     * @param \Magento\AdvancedCheckout\Model\Cart $cart
-     * @param \Magento\Catalog\Model\Resource\Url $catalogUrlResource
-     * @param \Magento\Core\Helper\Url $coreUrl
-     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
-     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
-     * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\AdvancedCheckout\Model\Cart $cart
+     * @param \Magento\Core\Helper\Url $coreUrl
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param array $data
      */
     public function __construct(
-        \Magento\AdvancedCheckout\Model\Cart $cart,
-        \Magento\Catalog\Model\Resource\Url $catalogUrlResource,
-        \Magento\Core\Helper\Url $coreUrl,
-        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
-        \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
-        \Magento\UrlInterface $urlBuilder,
+        \Magento\AdvancedCheckout\Model\Cart $cart,
+        \Magento\Core\Helper\Url $coreUrl,
+        \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         array $data = array()
     ) {
         $this->_cart = $cart;
-        $this->_catalogUrlResource = $catalogUrlResource;
         $this->_coreUrl = $coreUrl;
         $this->_checkoutData = $checkoutData;
-        $this->_storeManager = $storeManager;
-        parent::__construct($catalogData, $coreData, $context, $customerSession, $checkoutSession, $storeManager,
-            $catalogUrlBuilder, $urlBuilder, $data);
+        parent::__construct(
+            $context,
+            $coreData,
+            $catalogData,
+            $customerSession,
+            $checkoutSession,
+            $catalogUrlBuilder,
+            $data
+        );
     }
 
     /**
@@ -149,7 +138,7 @@ class Products extends \Magento\Checkout\Block\Cart
         }
 
         if ($products) {
-            $products = $this->_catalogUrlResource->getRewriteByProductStore($products);
+            $products = $this->_catalogUrlBuilder->getRewriteByProductStore($products);
             foreach ($this->getItems() as $item) {
                 if ($item->getProductType() == 'undefined') {
                     continue;

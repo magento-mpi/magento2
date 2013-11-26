@@ -38,7 +38,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
      * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
      * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
@@ -46,7 +46,7 @@ class Data extends \Magento\CustomAttribute\Helper\Data
         \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
         \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_customerAddress = $customerAddress;

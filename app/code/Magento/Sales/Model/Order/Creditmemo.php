@@ -164,13 +164,6 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_paymentData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -223,19 +216,19 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
     protected $_emailInfoFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
-     * @param \Magento\Sales\Model\Order\Creditmemo\Config $creditmemoConfig
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param Creditmemo\Config $creditmemoConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Item\CollectionFactory $cmItemCollFactory
      * @param \Magento\Core\Model\CalculatorFactory $calculatorFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Sales\Model\Order\Creditmemo\CommentFactory $commentFactory
+     * @param Creditmemo\CommentFactory $commentFactory
      * @param \Magento\Sales\Model\Resource\Order\Creditmemo\Comment\CollectionFactory $commentCollFactory
      * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
@@ -246,7 +239,6 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Context $context,
@@ -267,7 +259,6 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -837,7 +828,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
         $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
-        // Check if at least one recepient is found
+        // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
@@ -913,7 +904,7 @@ class Creditmemo extends \Magento\Sales\Model\AbstractModel
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
-        // Check if at least one recepient is found
+        // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }

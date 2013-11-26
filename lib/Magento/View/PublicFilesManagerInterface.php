@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View;
+
 /**
  * FileSystem Interface
  */
-namespace Magento\View;
-
 interface PublicFilesManagerInterface
 {
     /**

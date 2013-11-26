@@ -17,7 +17,9 @@
  */
 namespace Magento\GiftWrapping\Controller\Adminhtml;
 
-class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Giftwrapping extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -27,11 +29,11 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -45,9 +47,10 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_GiftWrapping::sales_magento_giftwrapping');
 
-        $this->_title(__('Gift Wrapping'));
+        $this->_title->add(__('Gift Wrapping'));
         return $this;
     }
 
@@ -84,7 +87,8 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -94,8 +98,8 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $model = $this->_initModel();
         $this->_initAction();
-        $this->_title(__('New Gift Wrapping'));
-        $this->renderLayout();
+        $this->_title->add(__('New Gift Wrapping'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -109,8 +113,8 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
         if ($formData) {
             $model->addData($formData);
         }
-        $this->_title(__('%1', $model->getDesign()));
-        $this->renderLayout();
+        $this->_title->add(__('%1', $model->getDesign()));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -301,7 +305,7 @@ class Giftwrapping extends \Magento\Backend\Controller\Adminhtml\Action
      * @deprecated since 1.12.0.0
      */
     public function orderOptionsAction() {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

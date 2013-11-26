@@ -21,15 +21,15 @@ class User extends \Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Select
     protected $eventFactory;
 
     /**
-     * @param \Magento\Logging\Model\Resource\EventFactory $eventFactory
      * @param \Magento\Backend\Block\Context $context
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param \Magento\Logging\Model\Resource\EventFactory $eventFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Logging\Model\Resource\EventFactory $eventFactory,
         \Magento\Backend\Block\Context $context,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
+        \Magento\Logging\Model\Resource\EventFactory $eventFactory,
         array $data = array()
     ) {
         $this->eventFactory = $eventFactory;

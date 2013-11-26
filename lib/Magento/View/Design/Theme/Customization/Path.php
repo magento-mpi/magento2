@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -13,6 +11,9 @@
  */
 namespace Magento\View\Design\Theme\Customization;
 
+/**
+ * Theme Customization Path
+ */
 class Path
 {
     /**
@@ -31,8 +32,6 @@ class Path
     protected $filename;
 
     /**
-     * Initialize dependencies
-     *
      * @param \Magento\App\Dir $dir
      * @param $filename
      */
