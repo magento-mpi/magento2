@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Integration
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +10,6 @@ namespace Magento\Integration\Block\Adminhtml\Integration;
 
 /**
  * Main Integration properties edit form
- *
- * @category   Magento
- * @package    Magento_Integration
- * @author     Magento Core Team <core@magentocommerce.com>
  *
  * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */

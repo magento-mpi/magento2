@@ -23,9 +23,9 @@ class Webapi extends Template implements TabInterface
     protected $_resourceProvider;
 
     public function __construct(
-        ProviderInterface $resourceProvider,
-        CoreHelper $coreData,
         Context $context,
+        CoreHelper $coreData,
+        ProviderInterface $resourceProvider,
         array $data = array()
     ) {
         $this->_resourceProvider = $resourceProvider;

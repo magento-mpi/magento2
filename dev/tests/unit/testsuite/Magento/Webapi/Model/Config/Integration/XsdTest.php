@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Integration\Model\Config\Api;
+namespace Magento\Webapi\Model\Config\Integration;
 
 /**
  * Test for validation rules implemented by XSD schema for API integration configuration.

@@ -14,15 +14,15 @@ class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
-     * @param \Magento\Integration\Model\Config\Api\Converter $converter
-     * @param \Magento\Integration\Model\Config\Api\SchemaLocator $schemeLocator
+     * @param \Magento\Webapi\Model\Config\Integration\Converter $converter
+     * @param \Magento\Webapi\Model\Config\Integration\SchemaLocator $schemeLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
-        \Magento\Integration\Model\Config\Api\Converter $converter,
-        \Magento\Integration\Model\Config\Api\SchemaLocator $schemeLocator,
+        \Magento\Webapi\Model\Config\Integration\Converter $converter,
+        \Magento\Webapi\Model\Config\Integration\SchemaLocator $schemeLocator,
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'integration\api.xml'
     ) {
