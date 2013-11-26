@@ -16,17 +16,17 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $baseDir = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/../FileResolver/_files');
+        $baseDir = __DIR__ . '/../FileResolver/_files';
         $applicationDirs = $this->getMock('Magento\App\Dir', array(), array('getDir'), '', false);
         $applicationDirs->expects($this->any())->method('getDir')
             ->will($this->returnValueMap(array(
                 array(
                     \Magento\App\Dir::CONFIG,
-                    $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
+                    $baseDir . '/app/etc',
                 ),
                 array(
                     \Magento\App\Dir::MODULES,
-                        $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
+                        $baseDir . '/app/code',
                 ),
             )));
         $fileResolver = new \Magento\Module\Declaration\FileResolver($applicationDirs);

@@ -189,7 +189,6 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     public function testRunBootstrapProfilerEnabled()
     {
         $baseDir = $this->_integrationTestsDir;
-        $dirSep = DIRECTORY_SEPARATOR;
         $this->_injectApplicationMock(array(
             'TESTS_PROFILER_FILE'                   => 'profiler.csv',
             'TESTS_BAMBOO_PROFILER_FILE'            => 'profiler_bamboo.csv',
@@ -198,12 +197,12 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
         $this->_profilerBootstrap
             ->expects($this->once())
             ->method('registerFileProfiler')
-            ->with("{$baseDir}{$dirSep}profiler.csv")
+            ->with("{$baseDir}/profiler.csv")
         ;
         $this->_profilerBootstrap
             ->expects($this->once())
             ->method('registerBambooProfiler')
-            ->with("{$baseDir}{$dirSep}profiler_bamboo.csv", "{$baseDir}{$dirSep}profiler_metrics.php")
+            ->with("{$baseDir}/profiler_bamboo.csv", "{$baseDir}/profiler_metrics.php")
         ;
         $this->_object->runBootstrap();
     }

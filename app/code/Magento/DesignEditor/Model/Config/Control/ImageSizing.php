@@ -44,7 +44,6 @@ class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
      */
     public function getSchemaFile()
     {
-        return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor') . DIRECTORY_SEPARATOR
-            . 'image_sizing.xsd';
+        return $this->_moduleReader->getModuleDir('etc', 'Magento_DesignEditor') . '/image_sizing.xsd';
     }
 }

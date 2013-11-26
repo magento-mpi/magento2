@@ -58,7 +58,7 @@ try {
         echo "Assuming that 'source-point' is a commit ID." . PHP_EOL;
     }
 
-    $logFile = $targetDir . DIRECTORY_SEPARATOR . $changelogFile;
+    $logFile = $targetDir . '/' . $changelogFile;
     echo "Source log file is '$logFile'" . PHP_EOL;
     $targetLog = file_exists($logFile) ? file_get_contents($logFile) : '';
 

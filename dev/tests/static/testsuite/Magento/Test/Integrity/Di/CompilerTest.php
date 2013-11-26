@@ -53,7 +53,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $this->_shell = new \Magento\Shell();
         $basePath = \Magento\TestFramework\Utility\Files::init()->getPathToSource();
-        $basePath = str_replace(DIRECTORY_SEPARATOR, '/', $basePath);
+        $basePath = str_replace('\\', '/', $basePath);
 
         $this->_tmpDir = realpath(__DIR__) . '/tmp';
         $this->_generationDir =  $this->_tmpDir . '/generation';

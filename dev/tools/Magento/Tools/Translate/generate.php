@@ -174,7 +174,7 @@ function parseDir($path, $basicModuleName, $exclude = array(), $_isRecursion = f
             }
             elseif (is_dir($path.$dir_element) && $dir_element != '.svn' && $dir_element != 'sql') {
                 $skipDirs[] = realpath($path);
-                parseDir($path.$dir_element.DIRECTORY_SEPARATOR, $basicModuleName, $exclude, true);
+                parseDir($path.$dir_element . '/', $basicModuleName, $exclude, true);
             }
         }
         unset($dir_element);

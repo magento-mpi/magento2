@@ -30,7 +30,7 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fixtureBasePath = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/..');
+        $fixtureBasePath = __DIR__ . '/..';
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())
             ->method('get')

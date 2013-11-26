@@ -61,14 +61,14 @@ class Loader
     {
         $localConfig = new \Magento\Config\Dom('<config/>', $this->_idAttributes);
 
-        $localConfigFile = $this->_dir . DIRECTORY_SEPARATOR . self::LOCAL_CONFIG_FILE;
+        $localConfigFile = $this->_dir . '/' . self::LOCAL_CONFIG_FILE;
         if (file_exists($localConfigFile)) {
             // 1. app/etc/local.xml
             $localConfig->merge(file_get_contents($localConfigFile));
 
             // 2. app/etc/<dir>/<file>.xml
             if (preg_match('/^[a-z\d_-]+(\/|\\\)+[a-z\d_-]+\.xml$/', $this->_customFile)) {
-                $localConfigExtraFile = $this->_dir . DIRECTORY_SEPARATOR . $this->_customFile;
+                $localConfigExtraFile = $this->_dir . '/' . $this->_customFile;
                 $localConfig->merge(file_get_contents($localConfigExtraFile));
             }
         }

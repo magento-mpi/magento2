@@ -65,7 +65,7 @@ class DefinitionFactory
     public function createClassDefinition($definitions)
     {
         if (!$definitions) {
-            $path = $this->_definitionDir . DIRECTORY_SEPARATOR . 'definitions.php';
+            $path = $this->_definitionDir . '/definitions.php';
             if (is_readable($path)) {
                 $definitions = file_get_contents($path);
             }
@@ -99,7 +99,7 @@ class DefinitionFactory
      */
     public function createPluginDefinition()
     {
-        $path = $this->_definitionDir . DIRECTORY_SEPARATOR . 'plugins.php';
+        $path = $this->_definitionDir . '/plugins.php';
         if (is_readable($path)) {
             return new \Magento\Interception\Definition\Compiled($this->_unpack(file_get_contents($path)));
         } else {

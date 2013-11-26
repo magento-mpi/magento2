@@ -65,7 +65,6 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
      */
     protected function _testExpectedVersusActualFilename($expected, $actual)
     {
-        $expected = str_replace('/', DIRECTORY_SEPARATOR, $expected);
         $this->assertStringMatchesFormat($expected, $actual);
         $this->assertFileExists($actual);
     }

@@ -76,7 +76,6 @@ class StrategyPoolTest extends \PHPUnit_Framework_TestCase
 
         $strategy = new \StdClass;
         $mapDir = 'base_dir/var/' . StrategyPool::FALLBACK_MAP_DIR;
-        $mapDir = str_replace('/', DIRECTORY_SEPARATOR, $mapDir);
         $map = array(
             array(
                 'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy',

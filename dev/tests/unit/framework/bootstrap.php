@@ -7,7 +7,7 @@
  */
 
 define('BP', realpath(__DIR__ . '/../../../../'));
-define('TESTS_TEMP_DIR', dirname(__DIR__) . DIRECTORY_SEPARATOR . 'tmp');
+define('TESTS_TEMP_DIR', dirname(__DIR__) . '/tmp');
 define('DS', DIRECTORY_SEPARATOR);
 
 require BP . '/app/functions.php';

@@ -250,7 +250,7 @@ class Packager
         foreach ($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
-            $dest = $targetPath . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName;
+            $dest = $targetPath . '/' . $filePath . '/' . $fileName;
             if(@file_exists($dest)) {
                 @unlink($dest);
                 $this->removeEmptyDirectory(dirname($dest));

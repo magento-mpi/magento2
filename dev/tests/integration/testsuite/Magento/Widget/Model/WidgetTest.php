@@ -58,7 +58,7 @@ class WidgetTest extends \PHPUnit_Framework_TestCase
         if (file_exists($expectedPubFile)) {
             unlink($expectedPubFile);
         }
-        $expectedPubFile = str_replace('/', DIRECTORY_SEPARATOR, $expectedPubFile);
+
         $url = $this->_model->getPlaceholderImageUrl($type);
         $this->assertStringEndsWith($expectedFile, $url);
         $this->assertFileExists($expectedPubFile);

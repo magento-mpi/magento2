@@ -88,8 +88,6 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getTemporaryDirectory()
     {
-        return implode(DIRECTORY_SEPARATOR, array(
-            $this->dir->getDir(\Magento\App\Dir::MEDIA), 'theme', 'origin'
-        ));
+        return $this->dir->getDir(\Magento\App\Dir::MEDIA) . '/theme/origin';
     }
 }

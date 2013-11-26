@@ -26,8 +26,8 @@ class FileTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         try {
-            $this->_dir = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'directory';
-            $this->_file = $this->_dir . DIRECTORY_SEPARATOR . 'file.txt';
+            $this->_dir = __DIR__ . '/_files/directory';
+            $this->_file = $this->_dir . '/file.txt';
             mkdir($this->_dir, 0700, true);
             if (touch($this->_file)) {
                 chmod($this->_file, 0700);

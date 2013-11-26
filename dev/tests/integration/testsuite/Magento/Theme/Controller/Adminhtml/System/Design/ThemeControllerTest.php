@@ -65,9 +65,9 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
          * Copy file to writable directory.
          * Uploader can copy(upload) and then remove this temporary file.
          */
-        $fileName = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'simple-js-file.js'));
+        $fileName = __DIR__ . '_files/simple-js-file.js';
         $varDir = $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR);
-        $destinationFilePath = $varDir . DIRECTORY_SEPARATOR . 'simple-js-file.js';
+        $destinationFilePath = $varDir . '/simple-js-file.js';
 
         $this->_filesystem->copy($fileName, $destinationFilePath);
         $this->_filesystem->has($destinationFilePath);

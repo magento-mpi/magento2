@@ -264,12 +264,12 @@ class Application
     {
         $this->_ensureDirExists($this->_installDir);
         $this->_ensureDirExists($this->_installEtcDir);
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'media');
-        $this->_ensureDirExists($this->_installDir . DIRECTORY_SEPARATOR . 'static');
+        $this->_ensureDirExists($this->_installDir . '/media');
+        $this->_ensureDirExists($this->_installDir . '/static');
 
         // Copy configuration files
         $globalConfigFiles = glob(
-            $this->_globalConfigDir . DIRECTORY_SEPARATOR . '{*,*' . DIRECTORY_SEPARATOR . '*}.xml', GLOB_BRACE
+            $this->_globalConfigDir . '/{*,*/*}.xml', GLOB_BRACE
         );
         foreach ($globalConfigFiles as $file) {
             $targetFile = $this->_installEtcDir . str_replace($this->_globalConfigDir, '', $file);
@@ -280,7 +280,7 @@ class Application
         foreach ($this->_moduleEtcFiles as $file) {
             $targetModulesDir = $this->_installEtcDir . '/modules';
             $this->_ensureDirExists($targetModulesDir);
-            copy($file, $targetModulesDir . DIRECTORY_SEPARATOR . basename($file));
+            copy($file, $targetModulesDir . '/' . basename($file));
         }
 
         /* Make sure that local.xml contains an invalid installation date */

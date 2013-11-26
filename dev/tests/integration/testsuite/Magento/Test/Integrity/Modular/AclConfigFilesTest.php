@@ -30,7 +30,7 @@ class AclConfigFilesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_schemeFile = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-                ->getDir('lib') . str_replace('/', DIRECTORY_SEPARATOR, '/Magento/Acl/etc/acl.xsd');
+                ->getDir('lib') . '/Magento/Acl/etc/acl.xsd';
     }
 
     /**

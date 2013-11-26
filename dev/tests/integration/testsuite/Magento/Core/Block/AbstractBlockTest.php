@@ -46,7 +46,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testCssWithWrongImage()
     {
-        $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        $dirPath = __DIR__ . '/_files';
         /** @var $dirs \Magento\App\Dir */
         $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
 

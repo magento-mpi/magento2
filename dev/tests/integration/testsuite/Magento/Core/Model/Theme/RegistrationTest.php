@@ -43,7 +43,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     protected function registerThemes()
     {
         $basePath = realpath(__DIR__ . '/../_files/design');
-        $pathPattern = implode(DIRECTORY_SEPARATOR, array('frontend', '*', 'theme.xml'));
+        $pathPattern = 'frontend/*/theme.xml';
         $this->_model->register($basePath, $pathPattern);
         return $this;
     }

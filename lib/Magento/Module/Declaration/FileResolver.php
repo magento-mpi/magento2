@@ -31,11 +31,10 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     public function get($filename, $scope)
     {
         $appCodeDir =  $this->_applicationDirs->getDir(\Magento\App\Dir::MODULES);
-        $moduleFilePattern = $appCodeDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR
-            . 'etc' . DIRECTORY_SEPARATOR . 'module.xml';
+        $moduleFilePattern = $appCodeDir . '/*/*/etc/module.xml';
         $moduleFileList = glob($moduleFilePattern);
 
-        $mageScopePath = $appCodeDir . DIRECTORY_SEPARATOR . 'Magento' . DIRECTORY_SEPARATOR;
+        $mageScopePath = $appCodeDir . '/Magento/';
         $output = array(
             'base' => array(),
             'mage' => array(),
@@ -47,7 +46,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         }
 
         $appConfigDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
-        $globalEnablerPattern = $appConfigDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . 'module.xml';
+        $globalEnablerPattern = $appConfigDir . '/*/module.xml';
         $output['base'] = glob($globalEnablerPattern);
         // Put global enablers at the end of the file list
         return array_merge($output['mage'], $output['custom'], $output['base']);

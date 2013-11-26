@@ -146,8 +146,8 @@ class Connect
     {
         if(!$this->_sconfig || $reload) {
             $this->_sconfig = new \Magento\Connect\Singleconfig(
-                $this->getConfig()->magento_root . DIRECTORY_SEPARATOR
-                . $this->getConfig()->downloader_path . DIRECTORY_SEPARATOR
+                $this->getConfig()->magento_root . '/'
+                . $this->getConfig()->downloader_path . '/'
                 . \Magento\Connect\Singleconfig::DEFAULT_SCONFIG_FILENAME
             );
         }

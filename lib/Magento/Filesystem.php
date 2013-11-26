@@ -150,11 +150,6 @@ class Filesystem
     protected $writeInstances = array();
 
     /**
-     * @deprecated
-     */
-    const DIRECTORY_SEPARATOR = '/';
-
-    /**
      * @var \Magento\Filesystem\AdapterInterface
      * @deprecated
      */
@@ -516,14 +511,14 @@ class Filesystem
     {
         $baseDirectory = $this->_getCheckedPath($baseDirectory);
         $this->_checkPathInWorkingDirectory(
-            rtrim($baseDirectory, self::DIRECTORY_SEPARATOR)
-            . self::DIRECTORY_SEPARATOR
-            . ltrim($pattern, self::DIRECTORY_SEPARATOR)
+            rtrim($baseDirectory, '/')
+            . '/'
+            . ltrim($pattern, '/')
         );
         return $this->_adapter->searchKeys(
-            rtrim($baseDirectory, self::DIRECTORY_SEPARATOR)
-            . self::DIRECTORY_SEPARATOR
-            . ltrim(self::fixSeparator($pattern), self::DIRECTORY_SEPARATOR)
+            rtrim($baseDirectory, '/')
+            . '/'
+            . ltrim(self::fixSeparator($pattern), '/')
         );
     }
 
@@ -734,7 +729,7 @@ class Filesystem
     public static function normalizePath($path, $isRelative = false)
     {
         $fixedPath = self::fixSeparator($path);
-        $parts = explode(self::DIRECTORY_SEPARATOR, $fixedPath);
+        $parts = explode('/', $fixedPath);
         $result = array();
 
         foreach ($parts as $part) {
@@ -752,7 +747,7 @@ class Filesystem
                 $result[] = $part;
             }
         }
-        return implode(self::DIRECTORY_SEPARATOR, $result);
+        return implode('/', $result);
     }
 
     /**
@@ -765,7 +760,7 @@ class Filesystem
      */
     public static function fixSeparator($path)
     {
-        return rtrim(str_replace('\\', self::DIRECTORY_SEPARATOR, $path), self::DIRECTORY_SEPARATOR);
+        return rtrim(str_replace('\\', '/', $path), '/');
     }
 
     /**

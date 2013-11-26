@@ -144,7 +144,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             foreach ($fontsConfig as $fontName => $fontConfig) {
                 $fonts[$fontName] = array(
                     'label' => $fontConfig['label'],
-                    'path' => $libDir . DIRECTORY_SEPARATOR . $fontConfig['path']
+                    'path' => $libDir . '/' . $fontConfig['path']
                 );
             }
         }

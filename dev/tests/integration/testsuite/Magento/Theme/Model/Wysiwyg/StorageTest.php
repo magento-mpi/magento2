@@ -80,7 +80,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $result = $method->invokeArgs($this->_storageModel, array($tmpImagePath));
 
         $expectedResult = $this->_helperStorage->getThumbnailDirectory($tmpImagePath)
-            . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image;
+            . '/' . $image;
 
         $this->assertEquals($expectedResult, $result);
         $this->assertFileExists($result);
@@ -107,8 +107,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected function _copyFileToTmpCustomizationPath($sourceFile)
     {
         $targetFile = $this->_helperStorage->getStorageRoot()
-            . \Magento\Filesystem::DIRECTORY_SEPARATOR
-            . basename($sourceFile);
+            . '/' . basename($sourceFile);
 
         $this->_filesystem->ensureDirectoryExists(pathinfo($targetFile, PATHINFO_DIRNAME));
         $this->_filesystem->copy($sourceFile, $targetFile);

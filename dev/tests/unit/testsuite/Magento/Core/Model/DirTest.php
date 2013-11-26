@@ -77,8 +77,8 @@ class DirTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDir()
     {
-        $newRoot = __DIR__ . DIRECTORY_SEPARATOR . 'root';
-        $newMedia = __DIR__ . DIRECTORY_SEPARATOR . 'media';
+        $newRoot = __DIR__ . '/root';
+        $newMedia = __DIR__ . '/media';
         $dir = new \Magento\App\Dir(__DIR__, array(), array(
             \Magento\App\Dir::ROOT => $newRoot,
             \Magento\App\Dir::MEDIA => $newMedia,
