@@ -137,9 +137,9 @@ class CopyRule
                 default:
                     return '\\'.$matches[0];
             }
-        }, $dirPattern, -1, $placeholderCount);
+        }, $dirPattern, -1, $count);
         $directoryHandler = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-        if ($placeholderCount) {
+        if ($count) {
             // autodetect pattern base directory because the filesystem interface requires it
             $firstPlaceholderPos = strpos($pattern, '.*');
             $patternBaseDir = substr($pattern, 0, $firstPlaceholderPos);

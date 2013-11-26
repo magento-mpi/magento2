@@ -20,7 +20,7 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_filesystem;
+    protected $_directoryMock;
 
     /**
      * @var \Magento\Core\Model\Theme\Collection
@@ -34,22 +34,31 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array('searchKeys', 'isDirectory'), array(
-            $this->getMockForAbstractClass('Magento\Filesystem\AdapterInterface')
-        ));
+        $filesystemMock = $this->getMock(
+            'Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false
+        );
+        $this->_directoryMock = $this->getMock(
+            '\Magento\Filesystem\Directory\Read',
+            array('search', 'isDirectory'),
+            array(),
+            '',
+            false
+        );
+        $filesystemMock->expects($this->any())
+            ->method('getDirectoryRead')
+            ->will($this->returnValue($this->_directoryMock));
         $this->_themeCollection = $this->getMock(
             'Magento\Core\Model\Theme\Collection',
             array('isLoaded'),
             array(
-                $this->_filesystem,
-                new \Magento\App\Dir(__DIR__),
+                $filesystemMock,
                 $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false)
             )
         );
         $this->_themeCollection->expects($this->any())->method('isLoaded')->will($this->returnValue(true));
         $this->_fallbackRule = $this->getMockForAbstractClass('Magento\View\Design\Fallback\Rule\RuleInterface');
         $this->_object = new \Magento\Tools\View\Generator\CopyRule(
-            $this->_filesystem,
+            $filesystemMock,
             $this->_themeCollection,
             $this->_fallbackRule
         );
@@ -58,7 +67,7 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_object = null;
-        $this->_filesystem = null;
+        $this->_directoryMock = null;
         $this->_themeCollection = null;
         $this->_fallbackRule = null;
     }
@@ -81,12 +90,12 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             ->method('getPatternDirs')
             ->will($this->returnValueMap($patternDirMap))
         ;
-        $this->_filesystem
+        $this->_directoryMock
             ->expects($this->atLeastOnce())
-            ->method('searchKeys')
+            ->method('search')
             ->will($this->returnValueMap($filesystemGlobMap))
         ;
-        $this->_filesystem
+        $this->_directoryMock
             ->expects($this->atLeastOnce())
             ->method('isDirectory')
             ->will($this->returnValue(true))
