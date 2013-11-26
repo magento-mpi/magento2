@@ -14,7 +14,7 @@ use Magento\Integration\Model\Config\Reader as ConfigReader;
 /**
  * Integration config reader test.
  */
-class IntegrationTest extends \PHPUnit_Framework_TestCase
+class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_fileResolverMock;
