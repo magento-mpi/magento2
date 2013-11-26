@@ -14,6 +14,7 @@ namespace Magento\Checkout\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Core\Test\Fixture\Config;
 
 
 /**
@@ -32,12 +33,52 @@ class ShippingCarrierTest extends Functional
     protected $checkoutFixture;
 
     /**
+     * Store configuration fixture
+     *
+     * @var Config
+     */
+    protected $configFixture;
+
+    /**
+     * Array of products used during checkout.  Simple, configurable, and bundle product.
+     *
+     * @var \Magento\Catalog\Test\Fixture\Product[]
+     */
+    protected $products = array();
+
+    /**
      * Create and persist checkout fixture
      */
     protected function setUp()
     {
-        $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutExistingCustomer();
+        // Setup precondition data that will be shared by each data-set in the data provider
+        // Create simple, configurable, and bundled products
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData('simple_required');
+        $simple->persist();
+
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
+        $configurable->persist();
+
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
+        $bundle->switchData('bundle_fixed_required');
+        $bundle->persist();
+
+        $this->products = array(
+            $simple,
+            $configurable,
+            $bundle
+        );
+
+        // Create customer via checkout fixture
+        $this->checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutExistingCustomerCheckMoneyOrder();
         $this->checkoutFixture->persist();
+
+        // Enable store configuration - Shipping Settings -> Origin for this test
+        $this->configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $this->configFixture->switchData('shipping_origin_us');
+        $this->configFixture->persist();
     }
 
     /**
@@ -62,8 +103,7 @@ class ShippingCarrierTest extends Functional
         $customerAccountLoginPage->getLoginBlock()->login($this->checkoutFixture->getCustomer());
 
         // Add simple, configurable, and bundle products to cart
-        $products = $this->checkoutFixture->getProducts();
-        foreach ($products as $product) {
+        foreach ($this->products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
@@ -71,10 +111,9 @@ class ShippingCarrierTest extends Functional
             Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
-        // Enable shipping method in store configuration
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData($shippingMethodConfig);
-        $configFixture->persist();
+        // Enable shipping method in store configuration based on method specified in data provider
+        $this->configFixture->switchData($shippingMethodConfig);
+        $this->configFixture->persist();
 
         // Proceed to one page checkout
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
@@ -86,7 +125,7 @@ class ShippingCarrierTest extends Functional
         $checkoutOnePage->open();
         $checkoutOnePage->getBillingBlock()->fillBilling($this->checkoutFixture);
 
-        // Select shipping method at checkout
+        // Select shipping method at checkout based on method specified in data provider
         $shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $shippingMethods->switchData($shippingMethodCheckout);
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethods);
@@ -108,8 +147,8 @@ class ShippingCarrierTest extends Functional
 
         // Perform clean up
         // Disable all shipping carriers
-        $configFixture->switchData('shipping_disable_all_carriers');
-        $configFixture->persist();
+        $this->configFixture->switchData('shipping_disable_all_carriers');
+        $this->configFixture->persist();
     }
 
     /**

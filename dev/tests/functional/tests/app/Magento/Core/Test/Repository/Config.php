@@ -41,6 +41,8 @@ class Config extends AbstractRepository
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
+        //Shipping settings
+        $this->_data['shipping_origin_us'] = $this->_getShippingOriginUs();
         //Shipping methods
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
@@ -48,6 +50,47 @@ class Config extends AbstractRepository
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
+    }
+
+    /**
+     * Set Shipping Settings Origin to US.
+     *
+     * @return array
+     */
+    protected function _getShippingOriginUs()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'US'
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => '12' //California
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => '90232'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'Culver City'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => '10441 Jefferson Blvd'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     protected function _getFreeShipping()
@@ -119,6 +162,92 @@ class Config extends AbstractRepository
         );
     }
 
+    protected function _getShippingCarrierUps()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'ups' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => 1 //Yes
+                                    ),
+                                    'active_rma' => array( //Enabled for RMA
+                                        'value' => 0 //No
+                                    ),
+                                    'type' => array( //UPS Type
+                                        'value' => 'UPS_XML' //United Parcel Service XML
+                                    ),
+                                    'is_account_live' => array( //Live account
+                                        'value' => 0 //No
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => 'magento200'
+                                    ),
+                                    'username' => array( //User ID
+                                        'value' => 'magento'
+                                    ),
+                                    'mode_xml' => array( //Mode
+                                        'value' => 0 //Development
+                                    ),
+                                    'gateway_xml_url' => array( //Gateway XML URL
+                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Rate'
+                                    ),
+                                    'origin_shipment' => array( //Origin of the Shipment
+                                        'value' => 'Shipments Originating in United States'
+                                    ),
+                                    'access_license_number' => array( //Access License Number
+                                        'value' => 'ECAB751ABF189ECA'
+                                    ),
+                                    'negotiated_active' => array( //Enable Negotiated Rates
+                                        'value' => 0 //No
+                                    ),
+                                    'shipper_number' => array( //Shipper Number
+                                        'value' => '207W88'
+                                    ),
+                                    'container' => array( //Container
+                                        'value' => 'CP' //Customer Packaging
+                                    ),
+                                    'dest_type' => array( //Destination Type
+                                        'value' => 'RES' //Residential
+                                    ),
+                                    'tracking_xml_url' => array( //Tracking XML URL
+                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Track'
+                                    ),
+                                    'unit_of_measure' => array( //Weight Unit
+                                        'value' => 'LBS'
+                                    ),
+                                    'allowed_methods' => array( //Allowed Methods
+                                        'value' => ['11','12','14','54','59','65','01','02','03','07','08']//Select all
+                                    ),
+                                    'sallowspecific' => array( //Ship to Applicable Countries
+                                        'value' => 0 //All Allowed Countries
+                                    ),
+                                    'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => 0 //No
+                                    ),
+                                    'debug' => array( //Debug
+                                        'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable all shipping carriers
+     *
+     * @return array
+     */
     protected function _disableAllShippingCarriers()
     {
         return array(
@@ -161,30 +290,6 @@ class Config extends AbstractRepository
                                 'fields' => array(
                                     'active' => array(
                                         'value' => 0
-                                    )
-                                )
-                            )
-                        )
-                    )
-                )
-            )
-        );
-    }
-
-    protected function _getShippingCarrierUps()
-    {
-        return array(
-            'data' => array(
-                'sections' => array(
-                    'carriers' => array(
-                        'section' => 'carriers',
-                        'website' => null,
-                        'store' => null,
-                        'groups' => array(
-                            'ups' => array(
-                                'fields' => array(
-                                    'active' => array(
-                                        'value' => 1
                                     )
                                 )
                             )
