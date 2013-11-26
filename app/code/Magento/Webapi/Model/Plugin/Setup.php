@@ -8,6 +8,7 @@
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
+use Magento\Integration\Model\Integration;
 
 /**
  * Plugin for Magento\Core\Model\Resource\Setup model to manage resource permissions of
@@ -68,21 +69,22 @@ class Setup
      * Process integration resource permissions after the integration is created
      *
      * @param array $integrationNames Name of integrations passed as array from the invocation chain
+     * @return array
      */
-    public function afterInitIntegrationProcessing(array $integrationNames)
+    public function afterInitIntegrationProcessing($integrationNames)
     {
         if (empty($integrationNames)) {
-            return;
+            return $integrationNames;
         }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
         foreach ($integrationNames as $name) {
             if (isset($integrations[$name])) {
                 $integrationData = $this->_integrationService->findByName($name);
-                if (isset($integrationData['id'])) {
+                if (isset($integrationData[Integration::ID])) {
                     $userIdentifier = $this->_userIdentifierFactory->create(
                         UserIdentifier::USER_TYPE_INTEGRATION,
-                        (int)$integrationData['id']
+                        (int)$integrationData[Integration::ID]
                     );
                     $this->_authzService->grantPermissions(
                         $userIdentifier,
@@ -91,5 +93,6 @@ class Setup
                 }
             }
         }
+        return $integrationNames;
     }
 }

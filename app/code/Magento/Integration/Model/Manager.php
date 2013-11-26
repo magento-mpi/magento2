@@ -46,16 +46,17 @@ class Manager
      * Process integrations from config files for the given array of integration names
      *
      * @param array $integrationNames
+     * @return array
      */
     public function processIntegrationConfig(array $integrationNames)
     {
         if (empty($integrationNames)) {
-            return;
+            return $integrationNames;
         }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
         foreach ($integrationNames as $name) {
-             $integrationDetails = $integrations[$name];
+            $integrationDetails = $integrations[$name];
             $integrationData = array(Integration::NAME => $name);
             if (isset($integrationDetails[Integration::EMAIL])) {
                 $integrationData[Integration::EMAIL] = $integrationDetails[Integration::EMAIL];
@@ -64,7 +65,18 @@ class Manager
                 $integrationData[Integration::ENDPOINT] = $integrationDetails[Integration::ENDPOINT];
             }
             $integrationData[Integration::SETUP_TYPE] = Integration::TYPE_CONFIG;
-            $this->_integrationService->create($integrationData);
+            // If it already exists, update it
+            $data = $this->_integrationService->findByName($name);
+            if (isset($data[Integration::ID])) {
+                //If Integration already exists, update it.
+                //For now we will just overwrite the integration with same name but we will need a long term solution
+                $integrationData[Integration::ID] = $data[Integration::ID];
+                $this->_integrationService->update($integrationData);
+            } else {
+                $this->_integrationService->create($integrationData);
+            }
+
         }
+        return $integrationNames;
     }
 }

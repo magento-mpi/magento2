@@ -12,9 +12,9 @@
 $installer = $this;
 $installer->getConnection()->addColumn(
     $installer->getTable('integration'),
-    'type',
+    'setup_type',
     array(
-        'setup_type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
+        'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
         'unsigned' => true,
         'nullable' => false,
         'default' => 0,

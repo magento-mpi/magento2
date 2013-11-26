@@ -113,7 +113,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
             );
 
         $integrationsData1 = array(
-            'id' => 1,
+            Integration::ID => 1,
             Integration::NAME => 'TestIntegration1',
             Integration::EMAIL => 'test-integration1@magento.com',
             Integration::ENDPOINT => 'http://endpoint.com',
@@ -121,7 +121,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         );
 
         $integrationsData2 = array(
-            'id' => 2,
+            Integration::ID => 2,
             Integration::NAME => 'TestIntegration2',
             Integration::EMAIL => 'test-integration2@magento.com',
             Integration::SETUP_TYPE => 1,

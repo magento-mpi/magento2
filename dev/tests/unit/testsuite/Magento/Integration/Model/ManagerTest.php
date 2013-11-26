@@ -43,7 +43,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->_integrationServiceMock = $this->getMockBuilder('\Magento\Integration\Service\IntegrationV1')
             ->disableOriginalConstructor()
-            ->setMethods(['create'])->getMock();
+            ->setMethods(['findByName', 'update', 'create'])->getMock();
 
         $this->_integrationManager = new \Magento\Integration\Model\Manager(
             $this->_integrationConfigMock,
@@ -82,8 +82,14 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             );
+        $intLookupData1 = array(
+            Integration::ID => 1,
+            Integration::NAME => 'TestIntegration1',
+            Integration::SETUP_TYPE => 1,
+        );
 
-        $integrationsData1 = array(
+        $intUpdateData1 = array(
+            Integration::ID => 1,
             Integration::NAME => 'TestIntegration1',
             Integration::EMAIL => 'test-integration1@magento.com',
             Integration::ENDPOINT => 'http://endpoint.com',
@@ -97,12 +103,20 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->_integrationServiceMock->expects($this->at(0))
-            ->method('create')
-            ->with($integrationsData1);
-
-        $this->_integrationServiceMock->expects($this->at(1))
+            ->method('findByName')
+            ->with('TestIntegration1')
+            ->will($this->returnValue($intLookupData1));
+        $this->_integrationServiceMock->expects($this->once())
             ->method('create')
             ->with($integrationsData2);
+
+        $this->_integrationServiceMock->expects($this->at(2))
+            ->method('findByName')
+            ->with('TestIntegration2')
+            ->will($this->returnValue(array()));
+        $this->_integrationServiceMock->expects($this->once())
+            ->method('update')
+            ->with($intUpdateData1);
 
         $this->_integrationManager->processIntegrationConfig(array('TestIntegration1', 'TestIntegration2'));
     }

@@ -45,6 +45,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**#@+
      * Integration data key constants.
      */
+    const ID = 'integration_id';
     const NAME = 'name';
     const EMAIL = 'email';
     const ENDPOINT = 'endpoint_url';
