@@ -48,8 +48,8 @@ class ApplyCatalogPriceRule extends Functional
         $banner->persist();
 
         // Create Frontend App
-        //$frontendApp = Factory::getFixtureFactory()->getMagentoWidgetInstance();
-        //$frontendApp->persist();
+        $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetInstance();
+        $frontendApp->persist();
 
         // Create and Apply new Catalog Price
 
