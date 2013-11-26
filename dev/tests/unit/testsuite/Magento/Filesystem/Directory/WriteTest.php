@@ -56,9 +56,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     public function testCreate()
     {
         $this->driver->expects($this->once())
-            ->method('isWritable')
-            ->will($this->returnValue(true));
-        $this->driver->expects($this->once())
             ->method('isDirectory')
             ->will($this->returnValue(false));
         $this->driver->expects($this->once())
@@ -74,16 +71,5 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             ->method('isWritable')
             ->will($this->returnValue(true));
         $this->assertTrue($this->write->isWritable('correct-path'));
-    }
-
-    /**
-     * @expectedException \Magento\Filesystem\FilesystemException
-     */
-    public function testAssertWritable()
-    {
-        $this->driver->expects($this->once())
-            ->method('isWritable')
-            ->will($this->returnValue(false));
-        $this->write->create('wrong-path');
     }
 }

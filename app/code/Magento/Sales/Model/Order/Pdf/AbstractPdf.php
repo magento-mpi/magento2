@@ -90,6 +90,11 @@ abstract class AbstractPdf extends \Magento\Object
     protected $_mediaDirectory;
 
     /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $_rootDirectory;
+
+    /**
      * @var \Magento\Shipping\Model\Config
      */
     protected $_shippingConfig;
@@ -108,11 +113,6 @@ abstract class AbstractPdf extends \Magento\Object
      * @var \Magento\Sales\Model\Order\Pdf\ItemsFactory
      */
     protected $_pdfItemsFactory;
-
-    /**
-     * @var \Magento\Filesystem
-     */
-    protected $_filesystem;
 
     /**
      * @param \Magento\Payment\Helper\Data $paymentData
@@ -148,7 +148,7 @@ abstract class AbstractPdf extends \Magento\Object
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translate = $translate;
         $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->_filesystem = $filesystem;
+        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
         $this->_shippingConfig = $shippingConfig;
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;
@@ -825,9 +825,8 @@ abstract class AbstractPdf extends \Magento\Object
      */
     protected function _setFontRegular($object, $size = 7)
     {
-        $baseDirHandle = $this->_filesystem->getDirectoryRead(\Magento\Filesystem\DirectoyList::ROOT);
         $font = \Zend_Pdf_Font::fontWithPath(
-            $baseDirHandle->readFile('/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf')
+            $this->_rootDirectory->getAbsolutePath('lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf')
         );
         $object->setFont($font, $size);
         return $font;
@@ -843,7 +842,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected function _setFontBold($object, $size = 7)
     {
         $font = \Zend_Pdf_Font::fontWithPath(
-            $this->_coreDir->getDir() . '/lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf'
+            $this->_rootDirectory->getAbsolutePath('lib/LinLibertineFont/LinLibertine_Bd-2.8.1.ttf')
         );
         $object->setFont($font, $size);
         return $font;
@@ -859,7 +858,7 @@ abstract class AbstractPdf extends \Magento\Object
     protected function _setFontItalic($object, $size = 7)
     {
         $font = \Zend_Pdf_Font::fontWithPath(
-            $this->_coreDir->getDir() . '/lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf'
+            $this->_rootDirectory->getAbsolutePath('lib/LinLibertineFont/LinLibertine_It-2.8.2.ttf')
         );
         $object->setFont($font, $size);
         return $font;
