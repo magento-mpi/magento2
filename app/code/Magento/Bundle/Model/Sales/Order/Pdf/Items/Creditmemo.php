@@ -31,7 +31,7 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param array $data
@@ -41,13 +41,13 @@ class Creditmemo extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractIte
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\App\Dir $coreDir,
+        \Magento\Filesystem $filesystem,
         \Magento\Data\Collection\Db $resourceCollection = null,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         array $data = array()
     ) {
         $this->string = $string;
-        parent::__construct($taxData, $context, $registry, $coreDir, $resource, $resourceCollection, $data);
+        parent::__construct($taxData, $context, $registry, $filesystem, $resource, $resourceCollection, $data);
     }
 
     /**
