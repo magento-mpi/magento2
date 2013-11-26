@@ -74,7 +74,7 @@ class Setup
     public function afterInitIntegrationProcessing($integrationNames)
     {
         if (empty($integrationNames)) {
-            return $integrationNames;
+            return array();
         }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();

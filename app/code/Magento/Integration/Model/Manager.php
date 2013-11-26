@@ -8,6 +8,7 @@
 namespace Magento\Integration\Model;
 
 use Magento\Integration\Model\Integration;
+use Magento\Integration\Model\Config\Converter;
 
 /**
  * Class to manage integrations installed from config file
@@ -51,18 +52,19 @@ class Manager
     public function processIntegrationConfig(array $integrationNames)
     {
         if (empty($integrationNames)) {
-            return $integrationNames;
+            return array();
         }
         /** @var array $integrations */
         $integrations = $this->_integrationConfig->getIntegrations();
         foreach ($integrationNames as $name) {
             $integrationDetails = $integrations[$name];
             $integrationData = array(Integration::NAME => $name);
-            if (isset($integrationDetails[Integration::EMAIL])) {
-                $integrationData[Integration::EMAIL] = $integrationDetails[Integration::EMAIL];
+            if (isset($integrationDetails[Converter::KEY_EMAIL])) {
+                $integrationData[Integration::EMAIL] = $integrationDetails[Converter::KEY_EMAIL];
             }
-            if (isset($integrationDetails[Integration::ENDPOINT])) {
-                $integrationData[Integration::ENDPOINT] = $integrationDetails[Integration::ENDPOINT];
+            if (isset($integrationDetails[Converter::KEY_AUTHENTICATION_ENDPOINT_URL])) {
+                $integrationData[Integration::ENDPOINT] =
+                    $integrationDetails[Converter::KEY_AUTHENTICATION_ENDPOINT_URL];
             }
             $integrationData[Integration::SETUP_TYPE] = Integration::TYPE_CONFIG;
             // If it already exists, update it
