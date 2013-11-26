@@ -40,7 +40,7 @@ class CheckMoneyOrder extends Checkout
                 'ConfigurableProduct' => array(
                     'value' => '$11.00',
                 ),
-                'Bundle' => array(
+                'BundleFixed' => array(
                     'value' => '$110.00',
                 ),
             ),
@@ -74,7 +74,7 @@ class CheckMoneyOrder extends Checkout
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_fixed_required');
         $bundle->persist();
 
