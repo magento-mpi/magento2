@@ -122,7 +122,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     {
         $integration = $this->_integrationFactory->create()->load($integrationId);
         if (!$integration->getId()) {
-            throw new \Magento\Integration\Exception(__("Integration with ID '%1' doesn't exist.", $integrationId));
+            throw new \Magento\Integration\Exception(__("Integration with ID '%1' does not exist.", $integrationId));
         }
         return $integration;
     }

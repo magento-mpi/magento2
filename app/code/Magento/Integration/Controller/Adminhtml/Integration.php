@@ -9,6 +9,8 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Exception as IntegrationException;
+
 /**
  * Controller for integrations management.
  */
@@ -108,19 +110,30 @@ class Integration extends \Magento\Backend\App\Action
         /** Try to recover integration data from session if it was added during previous request which failed. */
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         if ($integrationId) {
-            $integrationData = $this->_integrationService->get($integrationId);
-            $restoredIntegration = $this->_getSession()->getIntegrationData();
-            if (isset($restoredIntegration[Info::DATA_ID])
-                && $integrationId == $restoredIntegration[Info::DATA_ID]
-            ) {
-                $integrationData = array_merge($integrationData, $restoredIntegration);
-            }
-            if (!$integrationData[Info::DATA_ID]) {
-                $this->_getSession()->addError(__('This integration no longer exists.'));
-                $this->_redirect('*/*/');
+            try {
+                $integrationData = $this->_integrationService->get($integrationId);
+                $restoredIntegration = $this->_getSession()->getIntegrationData();
+                if (isset($restoredIntegration[Info::DATA_ID])
+                    && $integrationId == $restoredIntegration[Info::DATA_ID]
+                ) {
+                    $integrationData = array_merge($integrationData, $restoredIntegration);
+                }
+                if (!$integrationData[Info::DATA_ID]) {
+                    $this->_getSession()->addError(__('This integration no longer exists.'));
+                    $this->_redirect('*/*/');
+                    return;
+                }
+                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+            } catch (IntegrationException $e) {
+                $this->_getSession()->addError($e->getMessage());
+                $this->_redirect('*/*');
+                return;
+            } catch (\Exception $e) {
+                $this->_logger->logException($e);
+                $this->_getSession()->addError(__('Internal error. See details in exception log.'));
+                $this->_redirect('*/*');
                 return;
             }
-            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         } else {
             $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');
