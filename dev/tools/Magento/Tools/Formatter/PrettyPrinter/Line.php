@@ -74,16 +74,15 @@ class Line
                 $lastToken = $this->getLastToken();
                 // if the last token depends on the next value, give it a chance to operate
                 if ($lastToken instanceof LineCondition) {
-                    if ($lastToken->removeToken($token)) {
-                        // remove the last token from the string before adding the new token
-                        array_pop($this->tokens);
-                    }
+                    $token = $lastToken->processToken($this->tokens, $token);
                 }
-                // just add the token to the end of the list
-                $this->tokens[] = $token;
-                // persist line break information
-                if ($token instanceof ConditionalLineBreak) {
-                    $this->saveLineBreakToken($token);
+                if (null !== $token) {
+                    // just add the token to the end of the list
+                    $this->tokens[] = $token;
+                    // persist line break information
+                    if ($token instanceof ConditionalLineBreak) {
+                        $this->saveLineBreakToken($token);
+                    }
                 }
             }
         }

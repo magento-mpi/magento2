@@ -12,6 +12,7 @@ use Magento\Tools\Formatter\Tree\TreeNode;
 class NodeLevelerSortOrder extends LineSizeCheck
 {
     const INDENT_LEVEL = 'indent_level';
+
     const LINE_NUMBER = 'line';
 
     /**

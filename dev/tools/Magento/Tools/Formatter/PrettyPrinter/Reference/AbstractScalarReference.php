@@ -10,6 +10,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 use Magento\Tools\Formatter\ParserLexer;
 use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HeredocTerminatingLineCondition;
 use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar;
@@ -89,9 +90,7 @@ class AbstractScalarReference extends AbstractReference
             // otherwise, just add the line
             $this->addToLine($treeNode, new IndentConsumer())->add($bodyLines);
         }
-        $this->addToLine(
-            $treeNode,
-            new IndentConsumer()
-        )->add($heredocCloseTag)->add(new HardConditionalLineBreak(';'));
+        $this->addToLine($treeNode, new IndentConsumer())->add($heredocCloseTag);
+        $this->addToLine($treeNode, new HardConditionalLineBreak(new HeredocTerminatingLineCondition()));
     }
 }

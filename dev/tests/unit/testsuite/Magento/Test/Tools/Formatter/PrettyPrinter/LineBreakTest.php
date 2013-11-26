@@ -11,7 +11,9 @@ use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HeredocTerminatingLineCondition;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\LineBreakCondition;
 use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 
@@ -215,8 +217,26 @@ class LineBreakTest extends TestBase
             array($constNumber, 0, "const ONE = '1';\n"),
             array($constNumber, 1, "const ONE = '1';\n"),
             array($constNumber, 2, "const ONE = '1';\n"),
-            array(array("HEREDOC", new HardConditionalLineBreak(';'), ';'), 0, "HEREDOC;"),
-            array(array("HEREDOC", new HardConditionalLineBreak(';'), ',"other")'), 0, "HEREDOC\n,\"other\")"),
+            array(array("HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ';'), 0, "HEREDOC;"),
+            array(
+                array(
+                    "HEREDOC",
+                    new HardConditionalLineBreak(new LineBreakCondition(';')),
+                    ',"other")'
+                ),
+                0,
+                "HEREDOC\n,\"other\")"
+            ),
+            array(
+                array(
+                    "HEREDOC",
+                    new HardConditionalLineBreak(new HeredocTerminatingLineCondition()),
+                    new CallLineBreak(),
+                    ');'
+                ),
+                1,
+                "HEREDOC\n);"
+            ),
         );
     }
 

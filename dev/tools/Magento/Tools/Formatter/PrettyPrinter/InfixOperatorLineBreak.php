@@ -59,13 +59,14 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
      */
     public function getValue($level, $index, $total, array &$lineBreakData)
     {
-        switch($level) {
-            case 0;
+        switch ($level) {
+            case 0:
                 $retval = ' ';
                 break;
             default:
-                if (isset($lineBreakData[NodeLevelerSortOrder::INDENT_LEVEL]) &&
-                    $lineBreakData[NodeLevelerSortOrder::INDENT_LEVEL] > 0
+                if (isset(
+                    $lineBreakData[NodeLevelerSortOrder::INDENT_LEVEL]
+                ) && $lineBreakData[NodeLevelerSortOrder::INDENT_LEVEL] > 0
                 ) {
                     $retval = new HardLineBreak();
                 } else {
