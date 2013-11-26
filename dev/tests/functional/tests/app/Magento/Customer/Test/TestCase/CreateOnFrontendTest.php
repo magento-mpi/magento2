@@ -48,6 +48,8 @@ class CreateOnFrontendTest extends Functional
 
         //Verifying
         $messages = $accountIndexPage->getMessages();
+        //Wait for messages
+        $messages->assertSuccessMessage();
         $this->assertContains('Thank you for registering', $messages->getSuccessMessages());
 
         //Check that customer redirected to Dashboard after registration
