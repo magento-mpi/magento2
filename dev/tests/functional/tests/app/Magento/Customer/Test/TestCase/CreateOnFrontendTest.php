@@ -47,13 +47,10 @@ class CreateOnFrontendTest extends Functional
         $createPage->getCreateForm()->create($customer);
 
         //Verifying
-        $messages = $accountIndexPage->getMessages();
-        //Wait for messages
-        $messages->assertSuccessMessage();
-        $this->assertContains('Thank you for registering', $messages->getSuccessMessages());
+        $this->assertContains('Thank you for registering', $accountIndexPage->getMessages()->getSuccessMessages());
 
         //Check that customer redirected to Dashboard after registration
-        $this->assertTrue($accountIndexPage->getDashboardHeaderPanelTitle()->isVisible());
+        $this->assertContains('My Dashboard', $accountIndexPage->getDashboardHeaderPanelTitle()->getTitle());
 
         //Step 2 Set Billing Address
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
@@ -61,10 +58,7 @@ class CreateOnFrontendTest extends Functional
 
         //Verifying
         $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
-        $messages = $accountIndexPage->getMessages();
-        //Wait for messages
-        $messages->assertSuccessMessage();
-        $this->assertContains('The address has been saved', $messages->getSuccessMessages());
+        $this->assertContains('The address has been saved', $accountIndexPage->getMessages()->getSuccessMessages());
 
         //Verify customer address against previously entered data
         $accountIndexPage->open();

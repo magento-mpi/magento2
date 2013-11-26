@@ -66,7 +66,7 @@ class CustomerAccountIndex extends Page
             $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS)
         );
         $this->dashboardHeaderPanelTitle = Factory::getBlockFactory()->getMagentoCustomerDashboardHeaderPanelTitle(
-            $this->_browser->find('//*[@data-ui-id="page-title" and contains(text(), "My Dashboard")]',
+            $this->_browser->find('//*[@data-ui-id="page-title"]',
                 Locator::SELECTOR_XPATH
             )
         );

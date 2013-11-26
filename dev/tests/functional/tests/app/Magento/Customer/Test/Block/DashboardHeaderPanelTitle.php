@@ -22,5 +22,13 @@ use Mtf\Block\Block;
  */
 class DashboardHeaderPanelTitle extends Block
 {
-
+    /**
+     * Return title
+     *
+     * @return string
+     */
+    public function getTitle()
+    {
+        return $this->_rootElement->getText();
+    }
 }
