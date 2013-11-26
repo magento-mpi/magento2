@@ -40,7 +40,6 @@ $>php -f generate.php -- --output translateFile.csv
 USAGE
 );
 
-define('DS', DIRECTORY_SEPARATOR);
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 
 $args       = array();
@@ -65,7 +64,7 @@ if (!is_writeable(dirname($args['output']))) {
 }
 
 require_once __DIR__ . '/config.inc.php';
-require_once BASE_PATH . DS . 'lib/Varien/File/Csv.php';
+require_once BASE_PATH . '/lib/Varien/File/Csv.php';
 
 $CONFIG['generate'] = array(
     'base_dir'      => BASE_PATH,

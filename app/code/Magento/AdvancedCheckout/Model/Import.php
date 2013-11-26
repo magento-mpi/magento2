@@ -186,7 +186,7 @@ class Import extends \Magento\Object
      */
     protected function _getWorkingDir()
     {
-        return $this->_dir->getDir('var') . DS . 'import_sku' . DS;
+        return $this->_dir->getDir('var') . '/import_sku/';
     }
 
     /**

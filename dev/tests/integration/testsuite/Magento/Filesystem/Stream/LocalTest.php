@@ -28,9 +28,9 @@ class LocalTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_openedFile = __DIR__ . DS . '..' . DS . '_files' . DS . 'popup.csv';
+        $this->_openedFile = __DIR__ . '/../_files/popup.csv';
         $this->_stream = new \Magento\Filesystem\Stream\Local($this->_openedFile);
-        $this->_writeFileName = __DIR__ . DS . '..' . DS . '_files' . DS . 'new.css';
+        $this->_writeFileName = __DIR__ . '/../_files/new.css';
     }
 
     protected function tearDown()
@@ -45,7 +45,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
      */
     public function testOpenException()
     {
-        $stream = new \Magento\Filesystem\Stream\Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'invalid.css');
+        $stream = new \Magento\Filesystem\Stream\Local(__DIR__ . '/../_files/invalid.css');
         $stream->open(new \Magento\Filesystem\Stream\Mode('r'));
     }
 
@@ -70,7 +70,7 @@ class LocalTest extends \PHPUnit_Framework_TestCase
 
     public function testReadCsv()
     {
-        $stream = new \Magento\Filesystem\Stream\Local(__DIR__ . DS . '..' . DS . '_files' . DS . 'data.csv');
+        $stream = new \Magento\Filesystem\Stream\Local(__DIR__ . '/../_files/data.csv');
         $stream->open(new \Magento\Filesystem\Stream\Mode('r'));
         $data = $stream->readCsv(0);
         $this->assertEquals(array('field1', 'field2'), $data);

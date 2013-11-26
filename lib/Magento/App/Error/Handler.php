@@ -64,7 +64,7 @@ class Handler extends \Magento\Error\Handler
                     $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                 }
             }
-            require_once($this->_dir->getDir(\Magento\App\Dir::PUB) . DS . 'errors' . DS . 'report.php');
+            require_once($this->_dir->getDir(\Magento\App\Dir::PUB) . '/errors/report.php');
         }
     }
 

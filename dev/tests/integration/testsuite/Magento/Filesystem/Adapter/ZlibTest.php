@@ -57,6 +57,6 @@ class ZlibTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getFixturesPath()
     {
-        return __DIR__ . DS . '..' . DS . '_files' . DS;
+        return __DIR__ . '/../_files/';
     }
 }

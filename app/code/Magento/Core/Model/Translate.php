@@ -468,7 +468,7 @@ class Translate
     protected function _getModuleTranslationFile($moduleName, $locale)
     {
         $file = $this->_modulesReader->getModuleDir(\Magento\App\Dir::LOCALE, $moduleName);
-        $file .= DS . $locale . '.csv';
+        $file .= '/' . $locale . '.csv';
         return $file;
     }
 
@@ -480,7 +480,7 @@ class Translate
      */
     protected function _getThemeTranslationFile($locale)
     {
-        return $this->_viewFileSystem->getFilename(\Magento\App\Dir::LOCALE . DS . $locale . '.csv');
+        return $this->_viewFileSystem->getFilename(\Magento\App\Dir::LOCALE . '/' . $locale . '.csv');
     }
 
     /**

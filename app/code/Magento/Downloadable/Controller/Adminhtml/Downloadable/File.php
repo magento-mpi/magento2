@@ -81,11 +81,11 @@ class File extends \Magento\Backend\Controller\Adminhtml\Action
             /**
              * Workaround for prototype 1.7 methods "isJSON", "evalJSON" on Windows OS
              */
-            $result['tmp_name'] = str_replace(DS, "/", $result['tmp_name']);
-            $result['path'] = str_replace(DS, "/", $result['path']);
+            $result['tmp_name'] = str_replace('\\', '/', $result['tmp_name']);
+            $result['path'] = str_replace('\\', '/', $result['path']);
 
             if (isset($result['file'])) {
-                $relativePath = rtrim($tmpPath, DS) . DS . ltrim($result['file'], DS);
+                $relativePath = rtrim($tmpPath, '/') . '/' . ltrim($result['file'], '/');
                 $this->_objectManager->get('Magento\Core\Helper\File\Storage\Database')->saveFile($relativePath);
             }
 

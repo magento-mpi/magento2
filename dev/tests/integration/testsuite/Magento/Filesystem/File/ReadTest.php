@@ -221,7 +221,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
      */
     private function getFileInstance($path)
     {
-        $fullPath = __DIR__ . DS . '..' . DS . '_files' . DS . $path;
+        $fullPath = __DIR__ . '/../_files/' . $path;
         return Bootstrap::getObjectManager()
             ->create('Magento\Filesystem\File\Read', array('path' => $fullPath));
     }

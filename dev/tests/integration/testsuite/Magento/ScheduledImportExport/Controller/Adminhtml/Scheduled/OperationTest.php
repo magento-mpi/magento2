@@ -122,7 +122,7 @@ class OperationTest
         // Create export directory if not exist
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('var');
-        $exportDir = $varDir . DS . 'export';
+        $exportDir = $varDir . '/export';
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);
         }

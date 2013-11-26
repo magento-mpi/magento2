@@ -374,7 +374,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             );
         }
 
-        $fileName = str_replace(DS, '/', $fileName);
+        $fileName = str_replace('\\', '/', $fileName);
 
         $attrCode = $this->getAttribute()->getAttributeCode();
         $mediaGalleryData = $product->getData($attrCode);
@@ -625,7 +625,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             );
         }
 
-        return str_replace(DS, '/', $destinationFile);
+        return str_replace('\\', '/', $destinationFile);
     }
 
     /**
@@ -676,7 +676,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                 );
             }
 
-            return str_replace(DS, '/', $destinationFile);
+            return str_replace('\\', '/', $destinationFile);
         } catch (\Exception $e) {
             $file = $this->_mediaConfig->getMediaPath($file);
             throw new \Magento\Core\Exception(
@@ -713,9 +713,9 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
      */
     protected function _getNotDuplicatedFilename($fileName, $dispretionPath)
     {
-        $fileMediaName = $dispretionPath . DS
+        $fileMediaName = $dispretionPath . '/'
                   . \Magento\Core\Model\File\Uploader::getNewFileName($this->_mediaConfig->getMediaPath($fileName));
-        $fileTmpMediaName = $dispretionPath . DS
+        $fileTmpMediaName = $dispretionPath . '/'
                   . \Magento\Core\Model\File\Uploader::getNewFileName($this->_mediaConfig->getTmpMediaPath($fileName));
 
         if ($fileMediaName != $fileTmpMediaName) {

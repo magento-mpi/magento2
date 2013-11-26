@@ -1297,7 +1297,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
+        $tmpFileName = sys_get_temp_dir() . '/shipping_labels_'
                      . uniqid(mt_rand()) . time() . '.png';
         imagepng($image, $tmpFileName);
         $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);

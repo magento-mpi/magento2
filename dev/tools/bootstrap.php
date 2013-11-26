@@ -7,10 +7,9 @@
  */
 require_once __DIR__ . '/../../app/autoload.php';
 define('BP', __DIR__ . '/../..');
-define('DS', DIRECTORY_SEPARATOR);
 \Magento\Autoload\IncludePath::addIncludePath(array(
-    BP . DS . 'app' . DS . 'code',
-    BP . DS . 'lib',
+    BP . '/app/code',
+    BP . '/lib',
 ));
 
 function tool_autoloader($className)

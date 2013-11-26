@@ -98,19 +98,19 @@ abstract class AbstractModel extends \Magento\Object
         }
 
         if (!$this->_logInstance) {
-            $dirName  = date('Y' . DS .'m' . DS .'d' . DS);
+            $dirName  = date('Y/m/d/');
             $fileName = join('_', array(
                 str_replace(':', '-', $this->getRunAt()),
                 $this->getScheduledOperationId(),
                 $this->getOperationType(),
                 $this->getEntity()
             ));
-            $dirPath = $this->_dir->getDir('var') . DS . \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
+            $dirPath = $this->_dir->getDir('var') . '/' . \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
                 . $dirName;
             if (!is_dir($dirPath)) {
                 mkdir($dirPath, 0777, true);
             }
-            $fileName = substr(strstr(\Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY, DS), 1)
+            $fileName = substr(strstr(\Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY, '/'), 1)
                 . $dirName . $fileName . '.log';
             $this->_logInstance = $this->_adapterFactory->create(array('fileName' => $fileName))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);

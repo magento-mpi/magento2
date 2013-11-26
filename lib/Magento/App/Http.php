@@ -122,7 +122,7 @@ class Http implements \Magento\AppInterface
                             $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                         }
                     }
-                    require_once ($this->_dir->getDir(Dir::PUB) . DS . 'errors' . DS . 'report.php');
+                    require_once ($this->_dir->getDir(Dir::PUB) . '/errors/report.php');
                 }
             } catch (\Exception $exception) {
                 header($_SERVER['SERVER_PROTOCOL'] . ' 500 Internal Server Error', true, 500);

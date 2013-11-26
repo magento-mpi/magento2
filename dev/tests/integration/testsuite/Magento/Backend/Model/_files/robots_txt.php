@@ -10,7 +10,7 @@
  */
 
 copy(
-    __DIR__ . DS . 'robots.txt',
+    __DIR__ . '/robots.txt',
     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir()
-        . DS . 'robots.txt'
+        . '/robots.txt'
 );

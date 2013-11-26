@@ -20,8 +20,7 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
         $this->dispatch("catalog/category/view/foo/bar");
-        $fixtureFileName = __DIR__ . DS . "LayoutTest" . DS . 'Magento' . DS . 'Catalog' . DS . 'Service'
-            . DS . 'TestProduct.php';
+        $fixtureFileName = __DIR__ . '/LayoutTest/Magento/Catalog/Service/TestProduct.php';
         include $fixtureFileName;
         $invoker = $objectManager->create(
             'Magento\Core\Model\DataService\Invoker',

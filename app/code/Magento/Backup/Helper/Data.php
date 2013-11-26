@@ -147,7 +147,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getBackupsDir()
     {
-        return $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'backups';
+        return $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/backups';
     }
 
     /**
@@ -211,12 +211,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             '.git',
             '.svn',
             'maintenance.flag',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'session',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'cache',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'full_page_cache',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'locks',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'report',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/session',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/cache',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/full_page_cache',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/locks',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/log',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/report',
         );
     }
 
@@ -231,12 +231,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
             '.svn',
             '.git',
             'maintenance.flag',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'session',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'locks',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'log',
-            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . DS . 'report',
-            $this->_dir->getDir() . DS . 'errors',
-            $this->_dir->getDir() . DS . 'index.php',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/session',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/locks',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/log',
+            $this->_dir->getDir(\Magento\App\Dir::VAR_DIR) . '/report',
+            $this->_dir->getDir() . '/errors',
+            $this->_dir->getDir() . '/index.php',
         );
     }
 
@@ -295,7 +295,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     protected function getMaintenanceFlagFilePath()
     {
-        return $this->_dir->getDir() . DS . 'maintenance.flag';
+        return $this->_dir->getDir() . '/maintenance.flag';
     }
 
     /**

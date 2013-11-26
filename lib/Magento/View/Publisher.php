@@ -313,7 +313,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             $module = $params['module'];
             $moduleDir = $this->_modulesReader->getModuleDir('theme', $module) . '/';
             $publicFile = substr($filename, strlen($moduleDir));
-            $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . DS . $publicFile;
+            $publicFile = self::PUBLIC_MODULE_DIR . '/' . $module . '/' . $publicFile;
         }
         return $publicFile;
     }

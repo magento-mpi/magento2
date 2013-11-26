@@ -84,7 +84,7 @@ class Uploader extends \Magento\Core\Model\File\Uploader
      */
     public function move($fileName)
     {
-        $filePath = realpath($this->getTmpDir() . DS . $fileName);
+        $filePath = realpath($this->getTmpDir() . '/' . $fileName);
         $this->_setUploadFile($filePath);
         $result = $this->save($this->getDestDir());
         $result['name'] = self::getCorrectFileName($result['name']);

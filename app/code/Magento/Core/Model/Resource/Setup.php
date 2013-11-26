@@ -374,14 +374,14 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $modName    = (string)$this->_moduleConfig['name'];
         $files      = array();
 
-        $filesDir   = $this->_modulesReader->getModuleDir('data', $modName) . DS . $this->_resourceName;
+        $filesDir   = $this->_modulesReader->getModuleDir('data', $modName) . '/' . $this->_resourceName;
         if (is_dir($filesDir) && is_readable($filesDir)) {
             $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
             $handlerDir = dir($filesDir);
             while (false !== ($file = $handlerDir->read())) {
                 $matches = array();
                 if (preg_match($regExp, $file, $matches)) {
-                    $files[$matches[1]] = $filesDir . DS . $file;
+                    $files[$matches[1]] = $filesDir . '/' . $file;
                 }
             }
             $handlerDir->close();

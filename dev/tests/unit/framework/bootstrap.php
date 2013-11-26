@@ -8,7 +8,6 @@
 
 define('BP', realpath(__DIR__ . '/../../../../'));
 define('TESTS_TEMP_DIR', dirname(__DIR__) . '/tmp');
-define('DS', DIRECTORY_SEPARATOR);
 
 require BP . '/app/functions.php';
 require BP . '/app/autoload.php';
@@ -32,8 +31,8 @@ function tool_autoloader($className)
     if (strpos($className, 'Magento\\Tools\\') === false) {
         return false;
     }
-    $filePath = str_replace('\\', DS, $className);
-    $filePath = BP . DS . 'dev' . DS . 'tools' . DS . $filePath . '.php';
+    $filePath = str_replace('\\', '/', $className);
+    $filePath = BP . '/dev/tools/' . $filePath . '.php';
 
     if (file_exists($filePath)) {
         include_once($filePath);

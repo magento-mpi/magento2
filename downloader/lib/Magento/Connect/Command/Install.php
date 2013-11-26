@@ -291,7 +291,7 @@ final class Install extends \Magento\Connect\Command
                             $this->ui()->output('Changed locally: ');
                             foreach ($modifications as $row) {
                                 if (!$ftp) {
-                                    $this->ui()->output($config->magento_root . DS . $row);
+                                    $this->ui()->output($config->magento_root . '/' . $row);
                                 } else {
                                     $this->ui()->output($row);
                                 }

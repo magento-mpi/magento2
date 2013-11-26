@@ -368,7 +368,7 @@ final class Controller
             return;
         }
 
-        $target = $this->_mageDir . DS . "var/" . uniqid() . $info['name'];
+        $target = $this->_mageDir . '/var/' . uniqid() . $info['name'];
         $res = move_uploaded_file($info['tmp_name'], $target);
         if(false === $res) {
             echo "Error moving uploaded file";
@@ -1011,7 +1011,7 @@ final class Controller
                 ->setBackupExtension($this->_getExtensionType($type))
                 ->setTime(time())
                 ->setName($archiveName)
-                ->setBackupsDir(\Mage::getBaseDir('var') . DS . 'backups');
+                ->setBackupsDir(\Mage::getBaseDir('var') . '/backups');
 
             \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\Registry')
@@ -1055,12 +1055,12 @@ final class Controller
             '.git',
             '.svn',
             'maintenance.flag',
-            \Mage::getBaseDir('var') . DS . 'session',
-            \Mage::getBaseDir('var') . DS . 'cache',
-            \Mage::getBaseDir('var') . DS . 'full_page_cache',
-            \Mage::getBaseDir('var') . DS . 'locks',
-            \Mage::getBaseDir('var') . DS . 'log',
-            \Mage::getBaseDir('var') . DS . 'report'
+            \Mage::getBaseDir('var') . '/session',
+            \Mage::getBaseDir('var') . '/cache',
+            \Mage::getBaseDir('var') . '/full_page_cache',
+            \Mage::getBaseDir('var') . '/locks',
+            \Mage::getBaseDir('var') . '/log',
+            \Mage::getBaseDir('var') . '/report'
         );
     }
 

@@ -141,7 +141,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
         $backupData = $this->_helper->extractDataFromFilename($fileName);
 
         $this->addData(array(
-            'id'   => $filePath . DS . $fileName,
+            'id'   => $filePath . '/' . $fileName,
             'time' => (int)$backupData->getTime(),
             'path' => $filePath,
             'extension' => $this->_helper->getExtensionByType($backupData->getType()),
@@ -442,6 +442,6 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      */
     protected function _getFilePath()
     {
-        return $this->getPath() . DS . $this->getFileName();
+        return $this->getPath() . '/' . $this->getFileName();
     }
 }

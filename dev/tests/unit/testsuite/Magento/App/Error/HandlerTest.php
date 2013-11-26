@@ -61,7 +61,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_dirMock->expects($this->atLeastOnce())
             ->method('getDir')
             ->with(\Magento\App\Dir::PUB)
-            ->will($this->returnValue(dirname(__DIR__) . DS . '..' . DS . '_files'));
+            ->will($this->returnValue(dirname(__DIR__) . '/../_files'));
 
         $exception = new \Exception('TestMessage');
         $handler->processException($exception);

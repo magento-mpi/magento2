@@ -394,7 +394,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function getWorkingDir()
     {
-        return $this->_dir->getDir('var') . DS . 'importexport' . DS;
+        return $this->_dir->getDir('var') . '/importexport/';
     }
 
     /**

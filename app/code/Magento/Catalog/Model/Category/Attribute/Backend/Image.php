@@ -78,7 +78,7 @@ class Image extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             return $this;
         }
 
-        $path = $this->_dir->getDir(\Magento\App\Dir::MEDIA) . DS . 'catalog' . DS . 'category' . DS;
+        $path = $this->_dir->getDir(\Magento\App\Dir::MEDIA) . '/catalog/category/';
 
         try {
             /** @var $uploader \Magento\Core\Model\File\Uploader */

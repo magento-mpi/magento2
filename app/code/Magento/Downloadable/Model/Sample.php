@@ -94,7 +94,7 @@ class Sample extends \Magento\Core\Model\AbstractModel
      */
     public function getBaseTmpPath()
     {
-        return 'downloadable' . DS . 'tmp' . DS . 'samples';
+        return 'downloadable/tmp/samples';
     }
 
     /**
@@ -104,7 +104,7 @@ class Sample extends \Magento\Core\Model\AbstractModel
      */
     public function getBasePath()
     {
-        return 'downloadable' . DS . 'files' . DS . 'samples';
+        return 'downloadable/files/samples';
     }
 
     /**

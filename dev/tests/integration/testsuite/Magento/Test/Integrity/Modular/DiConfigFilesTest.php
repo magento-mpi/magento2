@@ -33,9 +33,9 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
         /** @var $dir \Magento\App\Dir */
         $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
 
-        $configPath = $dir->getDir(\Magento\App\Dir::APP) . DS . 'etc' . DS . '*' . DS;
-        self::$_primaryFiles = glob($configPath . DS. 'di.xml');
-        array_unshift(self::$_primaryFiles, $dir->getDir(\Magento\App\Dir::APP) . DS . 'etc' . DS . 'di.xml');
+        $configPath = $dir->getDir(\Magento\App\Dir::APP) . '/etc/*/';
+        self::$_primaryFiles = glob($configPath . '/di.xml');
+        array_unshift(self::$_primaryFiles, $dir->getDir(\Magento\App\Dir::APP) . '/etc/di.xml');
 
         //init module global configs
         /** @var $modulesReader \Magento\Module\Dir\Reader */
@@ -46,7 +46,7 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
         //init module area configs
         $areas = array('adminhtml', 'frontend');
         foreach ($areas as $area) {
-            $moduleAreaFiles = $modulesReader->getConfigurationFiles($area . DS . 'di.xml');
+            $moduleAreaFiles = $modulesReader->getConfigurationFiles($area . '/di.xml');
             self::$_moduleAreaFiles[$area] = $moduleAreaFiles;
         }
     }

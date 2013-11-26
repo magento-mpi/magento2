@@ -79,7 +79,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         // Create export directory if not exist
         $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
             ->getDir('var');
-        $exportDir = $varDir . DS . $fileInfo['file_path'];
+        $exportDir = $varDir . '/' . $fileInfo['file_path'];
         if (!is_dir($exportDir)) {
             mkdir($exportDir, 0777);
         }
@@ -96,7 +96,7 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());
 
-        $filePath = $exportDir . DS . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];
+        $filePath = $exportDir . '/' . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];
         $this->assertFileExists($filePath);
 
         // Restore current working directory

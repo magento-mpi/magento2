@@ -10,7 +10,7 @@
  */
 
 $robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir()
-    . DS . 'robots.txt';
+    . '/robots.txt';
 if (is_file($robotsTxtPath)) {
     @unlink($robotsTxtPath);
 }

@@ -92,7 +92,6 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $model = $this->_buildModel($area, $themePath, null);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
-        $expectedFilename = str_replace('/', DS, $expectedFilename);
         $actualFilename = $model->getFile($area, $themeModel, $file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);
