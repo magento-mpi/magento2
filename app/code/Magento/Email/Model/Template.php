@@ -10,8 +10,6 @@
 
 namespace Magento\Email\Model;
 
-use Magento\Filesystem\DirectoryList;
-
 /**
  * Template model
  *
@@ -195,7 +193,7 @@ class Template extends \Magento\Core\Model\Template
         $fileName = $store->getConfig(self::XML_PATH_DESIGN_EMAIL_LOGO);
         if ($fileName) {
             $uploadDir = \Magento\Backend\Model\Config\Backend\Email\Logo::UPLOAD_DIR;
-            $mediaDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
+            $mediaDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
             if ($mediaDirectory->isFile($uploadDir . '/' . $fileName)) {
                 return $this->_storeManager->getStore()->getBaseUrl('media') . $uploadDir . '/' . $fileName;
             }
@@ -281,7 +279,7 @@ class Template extends \Magento\Core\Model\Template
         $templateTypeCode = $templateType == 'html' ? self::TYPE_HTML : self::TYPE_TEXT;
         $this->setTemplateType($templateTypeCode);
 
-        $modulesDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::MODULES);
+        $modulesDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $templateText = $modulesDirectory->readFile($modulesDirectory->getRelativePath($templateFile));
 
         if (preg_match('/<!--@subject\s*(.*?)\s*@-->/u', $templateText, $matches)) {

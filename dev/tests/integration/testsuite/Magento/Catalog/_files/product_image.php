@@ -10,7 +10,7 @@
  */
 
 $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$mediaPath = $objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem\DirectoryList::MEDIA);
+$mediaPath = $objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::MEDIA);
 $additionalPath = $objectManager->get('Magento\Catalog\Model\Product\Media\Config')->getBaseMediaPath();
 $dir = $mediaPath . '/' . $additionalPath . '/m/a';
 if (!is_dir($dir)) {

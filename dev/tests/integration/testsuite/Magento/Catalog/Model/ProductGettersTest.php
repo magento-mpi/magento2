@@ -268,7 +268,7 @@ class ProductGettersTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $mediaDirectory = $objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+            ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         $mediaDirectory->delete($config->getBaseMediaPath());
     }

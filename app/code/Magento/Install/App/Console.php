@@ -60,7 +60,7 @@ class Console implements \Magento\AppInterface
         \Magento\Filesystem $filesystem,
         array $arguments = array()
     ) {
-        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $this->_loader = $loader;
         $this->_state  = $state;
         $this->_installerFactory = $installerFactory;
@@ -78,11 +78,11 @@ class Console implements \Magento\AppInterface
     protected function _buildInitArguments(array $args)
     {
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
-            $args[\Magento\App\Dir::PARAM_APP_URIS] =
+            $args[\Magento\Filesystem\DirectoryList::PARAM_APP_URIS] =
                 unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
         }
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
-            $args[\Magento\App\Dir::PARAM_APP_DIRS] =
+            $args[\Magento\Filesystem\DirectoryList::PARAM_APP_DIRS] =
                 unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
         }
         return $args;

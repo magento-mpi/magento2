@@ -9,7 +9,6 @@
 namespace Magento\Core\Model\Page\Asset;
 
 use Magento\Filesystem,
-    Magento\Filesystem\DirectoryList,
     Magento\Filesystem\Directory\Write;
 
 class MergeServiceTest extends \PHPUnit_Framework_TestCase
@@ -186,7 +185,7 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::PUB_VIEW_CACHE)
+            ->with(\Magento\Filesystem::PUB_VIEW_CACHE)
             ->will($this->returnValue($this->_directory));
 
         $mergedDir = '_merged';

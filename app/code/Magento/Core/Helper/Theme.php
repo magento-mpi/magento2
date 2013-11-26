@@ -13,8 +13,6 @@
  */
 namespace Magento\Core\Helper;
 
-use Magento\Filesystem\DirectoryList;
-
 class Theme extends \Magento\Core\Helper\AbstractHelper
 {
     /**
@@ -104,7 +102,7 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
             'skipProxy'  => true
         );
 
-        $rootDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $rootDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $files = array();
         foreach ($elements as $fileId) {
             $fileId = (string)$fileId;
@@ -131,9 +129,9 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
      */
     public function getGroupedCssFiles($theme)
     {
-        $jsDir = $this->_filesystem->getPath(DirectoryList::PUB_LIB);
-        $codeDir = $this->_filesystem->getPath(DirectoryList::MODULES);
-        $designDir = $this->_filesystem->getPath(DirectoryList::THEMES);
+        $jsDir = $this->_filesystem->getPath(\Magento\Filesystem::PUB_LIB);
+        $codeDir = $this->_filesystem->getPath(\Magento\Filesystem::MODULES);
+        $designDir = $this->_filesystem->getPath(\Magento\Filesystem::THEMES);
 
         $groups = array();
         $themes = array();

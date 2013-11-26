@@ -44,10 +44,10 @@ interface ReadInterface
     /**
      * Check a file or directory exists
      *
-     * @param string $path
+     * @param string $path [optional]
      * @return bool
      */
-    public function isExist($path);
+    public function isExist($path = null);
 
     /**
      * Gathers the statistics of the given path

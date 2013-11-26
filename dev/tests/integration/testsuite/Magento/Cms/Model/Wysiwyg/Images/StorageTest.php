@@ -92,7 +92,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $uploaderFactory
         );
         $this->assertStringStartsWith(
-            str_replace('\\', '/', $filesystem->getPath(\Magento\Filesystem\DirectoryList::MEDIA)),
+            str_replace('\\', '/', $filesystem->getPath(\Magento\Filesystem::MEDIA)),
             $model->getThumbsPath()
         );
     }

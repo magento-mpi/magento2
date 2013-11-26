@@ -20,7 +20,7 @@ class CssResolverTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Filesystem', array('getPath', '__wakeup'), array(), '', false);
         $filesystem->expects($this->any())
             ->method('getPath')
-            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue('/base_dir/'));
         $this->object = new CssResolver($filesystem);
     }

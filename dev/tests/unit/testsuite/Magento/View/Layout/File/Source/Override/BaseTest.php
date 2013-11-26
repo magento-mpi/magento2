@@ -9,7 +9,6 @@
 namespace Magento\View\Layout\File\Source\Override;
 
 use Magento\Filesystem,
-    Magento\Filesystem\DirectoryList,
     Magento\Filesystem\Directory\Read,
     Magento\View\Layout\File\Factory;
 
@@ -46,7 +45,7 @@ class BaseTest extends \PHPUnit_Framework_TestCase
         );
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::THEMES)
+            ->with(\Magento\Filesystem::THEMES)
             ->will($this->returnValue($this->directory));
         $this->fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
         $this->model = new \Magento\View\Layout\File\Source\Override\Base(

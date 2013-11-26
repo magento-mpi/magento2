@@ -94,7 +94,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystem->expects($this->any())
             ->method('getPath')
-            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue(BP));
 
         $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
@@ -156,7 +156,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystem->expects($this->any())
             ->method('getPath')
-            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue(BP));
 
         $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,

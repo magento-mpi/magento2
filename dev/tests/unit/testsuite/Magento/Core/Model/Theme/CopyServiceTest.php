@@ -144,7 +144,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
         );
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Filesystem\DirectoryList::MEDIA)
+            ->with(\Magento\Filesystem::MEDIA)
             ->will($this->returnValue($this->_dirWriteMock));
 
         /* Init \Magento\Core\Model\Resource\Layout\Collection model  */

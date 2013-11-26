@@ -49,7 +49,7 @@ class Data extends \Magento\Core\Helper\Data
         $dbCompatibleMode = true
     ) {
         $this->filesystem       = $filesystem;
-        $this->readDirectory    = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->readDirectory    = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
         $this->_xmlConverter    = $xmlConverter;
         parent::__construct(
             $context,

@@ -111,7 +111,7 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _checkFullPath($fullPath, $recursive, $existence)
     {
         $result = true;
-        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+        $directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $path = $directory->getRelativePath($fullPath);
         if ($recursive && $directory->isDirectory($path)) {
             $pathsToCheck = $directory->read($path);

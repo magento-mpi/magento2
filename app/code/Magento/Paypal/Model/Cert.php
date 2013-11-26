@@ -13,8 +13,7 @@
  */
 namespace Magento\Paypal\Model;
 
-use Magento\Filesystem\Directory\Write,
-    Magento\Filesystem\DirectoryList;
+use Magento\Filesystem\Directory\WriteInterface;
 
 class Cert extends \Magento\Core\Model\AbstractModel
 {
@@ -24,7 +23,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
     const BASEPATH_PAYPAL_CERT = 'cert/paypal/';
 
     /**
-     * @var Write
+     * @var WriteInterface
      */
     protected $varDirectory;
 
@@ -51,7 +50,7 @@ class Cert extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->encryptor = $encryptor;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

@@ -22,7 +22,6 @@ use Magento\View\Design\FileResolution\Strategy\View\NotifiableInterface;
 use Magento\View\Design\FileResolution\Strategy\ViewInterface;
 use Magento\View\Design\ThemeInterface;
 use Magento\Filesystem\Directory\Write;
-use Magento\Filesystem\DirectoryList;
 
 /**
  * Caching Proxy
@@ -87,8 +86,8 @@ class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, Not
         $canSaveMap = true
     ) {
         $this->fallback = $fallback;
-        $this->varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
-        $rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->varDirectory = $filesystem->getDirectoryWrite(Filesystem::VAR_DIR);
+        $rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
         if (!$rootDirectory->isDirectory($rootDirectory->getRelativePath($baseDir))) {
             throw new \InvalidArgumentException("Wrong base directory specified: '{$baseDir}'");
         }

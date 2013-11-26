@@ -57,11 +57,11 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
         );
         $this->filesystem->expects($this->at(0))
             ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue($this->rootDirectory));
         $this->filesystem->expects($this->at(1))
             ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem\DirectoryList::PUB_VIEW_CACHE)
+            ->with(\Magento\Filesystem::PUB_VIEW_CACHE)
             ->will($this->returnValue($this->pubViewCacheDir));
         $this->minifier = new Minifier($this->strategy, $this->filesystem, $this->minifyDir);
     }

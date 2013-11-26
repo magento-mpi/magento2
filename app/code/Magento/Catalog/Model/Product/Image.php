@@ -17,8 +17,7 @@
  */
 namespace Magento\Catalog\Model\Product;
 
-use Magento\Core\Model\Store,
-    Magento\Filesystem\DirectoryList;
+use Magento\Core\Model\Store;
 
 class Image extends \Magento\Core\Model\AbstractModel
 {
@@ -131,7 +130,7 @@ class Image extends \Magento\Core\Model\AbstractModel
         $this->_catalogProductMediaConfig = $catalogProductMediaConfig;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_mediaDirectory->create($this->_catalogProductMediaConfig->getBaseMediaPath());
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;

@@ -13,8 +13,6 @@
  */
 namespace Magento\Index\Model\Lock;
 
-use Magento\Filesystem\DirectoryList;
-
 class Storage
 {
     /**
@@ -45,7 +43,7 @@ class Storage
         \Magento\Filesystem $filesystem
     ) {
         $this->_fileFactory   = $fileFactory;
-        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
     }
 
     /**

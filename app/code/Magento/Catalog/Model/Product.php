@@ -26,8 +26,6 @@
  */
 namespace Magento\Catalog\Model;
 
-use Magento\Filesystem\DirectoryList;
-
 class Product extends \Magento\Catalog\Model\AbstractModel
 {
     /**
@@ -1110,7 +1108,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function getMediaGalleryImages()
     {
-        $directory = $this->_filesystem->getDirectoryRead(DirectoryList::MEDIA);
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
         if(!$this->hasData('media_gallery_images') && is_array($this->getMediaGallery('images'))) {
             $images = $this->_collectionFactory->create();
             foreach ($this->getMediaGallery('images') as $image) {

@@ -9,7 +9,6 @@
 namespace Magento\Core\Model\Page\Asset\MergeStrategy;
 
 use Magento\Filesystem,
-    Magento\Filesystem\DirectoryList,
     Magento\Filesystem\Directory\Write;
 
 class DirectTest extends \PHPUnit_Framework_TestCase
@@ -37,11 +36,11 @@ class DirectTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_cssUrlResolver = $this->getMock('Magento\View\Url\CssResolver', array(), array(), '', false);
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::PUB)
+            ->with(\Magento\Filesystem::PUB)
             ->will($this->returnValue($this->_directory));
         $this->_directory->expects($this->any())
             ->method('getRelativePath')

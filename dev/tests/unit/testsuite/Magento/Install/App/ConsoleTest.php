@@ -81,7 +81,7 @@ class ConsoleTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem\DirectoryList::ROOT)
+            ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue($directory));
         if (isset($params['config'])) {
             $directory->expects($this->once())

@@ -688,7 +688,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         /** @var \Magento\Filesystem\Directory\Write $directory */
         $directory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::TMP);
+            ->getDirectoryWrite(\Magento\Filesystem::TMP);
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;

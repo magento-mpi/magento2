@@ -60,7 +60,7 @@ class File extends \Magento\Eav\Model\Attribute\Data\AbstractData
         parent::__construct($locale, $logger);
         $this->_coreData = $coreData;
         $this->_fileValidator = $fileValidator;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
     }
 
     /**

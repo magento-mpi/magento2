@@ -241,7 +241,7 @@ class International
         \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_usaData = $usaData;
         $this->_coreDate = $coreDate;
         $this->_pdfFactory = $pdfFactory;

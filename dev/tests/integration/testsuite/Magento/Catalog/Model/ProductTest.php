@@ -40,7 +40,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+            ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
             $mediaDirectory->delete($config->getBaseMediaPath());
@@ -120,7 +120,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+            ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
         $mediaDirectory->create($config->getBaseTmpMediaPath());
         $targetFile = $config->getTmpMediaPath(basename($sourceFile));

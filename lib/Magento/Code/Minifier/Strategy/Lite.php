@@ -14,8 +14,7 @@
  */
 namespace Magento\Code\Minifier\Strategy;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\Read,
+use Magento\Filesystem\Directory\Read,
     Magento\Filesystem\Directory\Write;
 
 class Lite implements \Magento\Code\Minifier\StrategyInterface
@@ -44,8 +43,8 @@ class Lite implements \Magento\Code\Minifier\StrategyInterface
         \Magento\Filesystem $filesystem
     ) {
         $this->adapter = $adapter;
-        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
-        $this->pubViewCacheDir = $filesystem->getDirectoryWrite(DirectoryList::PUB_VIEW_CACHE);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $this->pubViewCacheDir = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB_VIEW_CACHE);
     }
 
     /**

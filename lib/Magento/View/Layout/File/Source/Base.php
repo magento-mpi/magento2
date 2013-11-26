@@ -12,10 +12,8 @@ namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\App\Dir;
 use Magento\Filesystem;
-use Magento\Filesystem\DirectoryList;
-use Magento\Filesystem\Directory\Read;
+use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\Layout\File\Factory;
 
 class Base implements SourceInterface
@@ -26,7 +24,7 @@ class Base implements SourceInterface
     private $fileFactory;
 
     /**
-     * @var Read
+     * @var ReadInterface
      */
     protected $modulesDirectory;
 
@@ -38,7 +36,7 @@ class Base implements SourceInterface
         Filesystem $filesystem,
         Factory $fileFactory
     ) {
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES);
         $this->fileFactory = $fileFactory;
     }
 

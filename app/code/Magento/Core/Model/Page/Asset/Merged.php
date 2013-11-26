@@ -11,8 +11,6 @@
  */
 namespace Magento\Core\Model\Page\Asset;
 
-use Magento\Filesystem\DirectoryList;
-
 class Merged implements \Iterator
 {
     /**
@@ -150,8 +148,8 @@ class Merged implements \Iterator
     {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $jsDir = $filesystem->getPath(DirectoryList::PUB_LIB);
-        $publicDir = $filesystem->getPath(DirectoryList::STATIC_VIEW);
+        $jsDir = $filesystem->getPath(\Magento\Filesystem::PUB_LIB);
+        $publicDir = $filesystem->getPath(\Magento\Filesystem::STATIC_VIEW);
 
         $prefixRemovals = array($jsDir, $publicDir);
 
@@ -160,7 +158,7 @@ class Merged implements \Iterator
             $relFileNames[] = ltrim(str_replace($prefixRemovals, '', $file), '/');
         }
 
-        $mergedDir = $filesystem->getDirectoryRead(DirectoryList::PUB_VIEW_CACHE)
+        $mergedDir = $filesystem->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE)
             ->getAbsolutePath(self::PUBLIC_MERGE_DIR);
         return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->_contentType;
     }

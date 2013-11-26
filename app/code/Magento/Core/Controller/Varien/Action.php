@@ -1009,7 +1009,7 @@ class Action extends AbstractAction
     ) {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->create('Magento\Filesystem');
-        $dirRead = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $dirRead = $filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
         $isFile = false;
         $file   = null;
         if (is_array($content)) {
@@ -1051,7 +1051,7 @@ class Action extends AbstractAction
             flush();
             $stream->close();
             if (!empty($content['rm'])) {
-                $dirWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+                $dirWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
                 $dirWrite->delete($file);
             }
 

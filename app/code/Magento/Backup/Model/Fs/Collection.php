@@ -11,8 +11,6 @@
  */
 namespace Magento\Backup\Model\Fs;
 
-use Magento\Filesystem\DirectoryList;
-
 class Collection extends \Magento\Data\Collection\Filesystem
 {
     /**
@@ -59,7 +57,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
         $this->_backupData = $backupData;
         $this->_filesystem = $filesystem;
         $this->_backup = $backup;
-        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
 
         $this->_varDirectory->create($this->_path);
         $this->_hideBackupsForApache();

@@ -56,7 +56,7 @@ class Logger
     {
         $file = $fileOrWrapper ?: "{$loggerKey}.log";
         if (!preg_match('#^[a-z][a-z0-9+.-]*\://#i', $file)) {
-            $logDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::LOG);
+            $logDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
             $logDir->create();
             $file = $logDir->getAbsolutePath($file);
         }

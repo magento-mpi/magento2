@@ -167,7 +167,7 @@ class Read implements ReadInterface
     /**
      * Check a file or directory exists
      *
-     * @param null $path
+     * @param string $path [optional]
      * @return bool
      * @throws \Magento\Filesystem\FilesystemException
      */

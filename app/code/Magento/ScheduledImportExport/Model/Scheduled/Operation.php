@@ -32,8 +32,6 @@
  */
 namespace Magento\ScheduledImportExport\Model\Scheduled;
 
-use Magento\Filesystem\DirectoryList;
-
 class Operation extends \Magento\Core\Model\AbstractModel
 {
     /**
@@ -430,7 +428,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
             $operation->addLogComment($e->getMessage());
         }
 
-        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
         $filePath = $this->getHistoryFilePath();
 
         if ($logDirectory->isExist($logDirectory->getRelativePath($filePath))) {
@@ -475,8 +473,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $extension = pathinfo($fileInfo['file_name'], PATHINFO_EXTENSION);
         $filePath  = $fileInfo['file_name'];
 
-        $varDirectory = $this->filesystem->getDirectoryRead(DirectoryList::VAR_DIR);
-        $tmpDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::SYS_TMP);
+        $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
+        $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
         $tmpFile = uniqid(time(), true) . '.' . $extension;
         $tmpFilePath = $tmpDirectory->getAbsolutePath(uniqid(time(), true) . '.' . $extension);
 
@@ -509,7 +507,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $fileInfo = $this->getFileInfo();
         $fileName = $operation->getScheduledFileName() . '.' . $fileInfo['file_format'];
         try {
-            $varDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+            $varDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
             $varDirectory->writeFile($fileInfo['file_path'] . '/' . $fileName, $fileContent);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__(
@@ -578,7 +576,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     protected function _saveOperationHistory($source)
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
         $filePath = $logDirectory->getRelativePath($this->getHistoryFilePath());
 
         try {
@@ -597,7 +595,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
      */
     public function getHistoryFilePath()
     {
-        $logDirectory = $this->filesystem->getDirectoryWrite(DirectoryList::LOG);
+        $logDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
         $dirPath = self::LOG_DIRECTORY . date('Y/m/d') . '/' . self::FILE_HISTORY_DIRECTORY;
         $logDirectory->create($dirPath);
 

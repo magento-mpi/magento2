@@ -17,8 +17,6 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-use Magento\Filesystem\DirectoryList;
-
 class Gallery extends \Magento\Core\Block\Template
 {
     /**
@@ -96,7 +94,7 @@ class Gallery extends \Magento\Core\Block\Template
     {
         $file = $this->getCurrentImage()->getPath();
 
-        if ($this->_filesystem->getDirectoryRead(DirectoryList::MEDIA)->isFile($file)) {
+        if ($this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA)->isFile($file)) {
             $size = getimagesize($file);
             if (isset($size[0])) {
                 if ($size[0] > 600) {

@@ -9,8 +9,6 @@
  */
 namespace Magento\DB\Adapter\Pdo;
 
-use Magento\Filesystem\DirectoryList;
-
 class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\AdapterInterface
 {
     const DEBUG_CONNECT         = 0;
@@ -1405,7 +1403,7 @@ class Mysql extends \Zend_Db_Adapter_Pdo_Mysql implements \Magento\DB\Adapter\Ad
     {
         $str = '## ' . date('Y-m-d H:i:s') . "\r\n" . $str;
 
-        $stream = $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT)->openFile($this->_debugFile, 'a');
+        $stream = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT)->openFile($this->_debugFile, 'a');
         $stream->lock();
         $stream->write($str);
         $stream->unlock();

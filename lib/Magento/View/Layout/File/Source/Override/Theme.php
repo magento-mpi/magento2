@@ -15,7 +15,6 @@ use Magento\View\Design\ThemeInterface;
 use Magento\Filesystem;
 use Magento\View\Layout\File\Factory;
 use Magento\Exception;
-use Magento\Filesystem\DirectoryList;
 
 class Theme implements SourceInterface
 {
@@ -54,7 +53,7 @@ class Theme implements SourceInterface
             preg_quote("~{$themePath}/{$namespace}_{$module}/layout/override/theme/*/{$filePath}.xml~")
         );
 
-        $files = $this->filesystem->getDirectoryRead(DirectoryList::THEMES)->search($patternForSearch);
+        $files = $this->filesystem->getDirectoryRead(Filesystem::THEMES)->search($patternForSearch);
 
         if (empty($files)) {
             return array();

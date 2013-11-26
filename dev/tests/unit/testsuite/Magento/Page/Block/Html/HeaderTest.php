@@ -11,8 +11,6 @@
 
 namespace Magento\Page\Block\Html;
 
-use Magento\Filesystem\DirectoryList;
-
 class HeaderTest extends \PHPUnit_Framework_TestCase
 {
     /**

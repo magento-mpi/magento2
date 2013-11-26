@@ -9,8 +9,7 @@
  */
 namespace Magento\Filesystem\DirectoryList;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\FilesystemException;
+use Magento\Filesystem\FilesystemException;
 
 class Verification
 {
@@ -20,12 +19,12 @@ class Verification
      * @var array
      */
     protected static $productionDirs = array(
-        DirectoryList::MEDIA,
-        DirectoryList::VAR_DIR,
-        DirectoryList::TMP,
-        DirectoryList::CACHE,
-        DirectoryList::LOG,
-        DirectoryList::SESSION,
+        \Magento\Filesystem::MEDIA,
+        \Magento\Filesystem::VAR_DIR,
+        \Magento\Filesystem::TMP,
+        \Magento\Filesystem::CACHE,
+        \Magento\Filesystem::LOG,
+        \Magento\Filesystem::SESSION,
     );
 
     /**
@@ -34,13 +33,13 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
-        DirectoryList::MEDIA,
-        DirectoryList::STATIC_VIEW,
-        DirectoryList::VAR_DIR,
-        DirectoryList::TMP,
-        DirectoryList::CACHE,
-        DirectoryList::LOG,
-        DirectoryList::SESSION,
+        \Magento\Filesystem::MEDIA,
+        \Magento\Filesystem::STATIC_VIEW,
+        \Magento\Filesystem::VAR_DIR,
+        \Magento\Filesystem::TMP,
+        \Magento\Filesystem::CACHE,
+        \Magento\Filesystem::LOG,
+        \Magento\Filesystem::SESSION,
     );
 
     /**

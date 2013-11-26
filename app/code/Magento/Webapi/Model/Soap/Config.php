@@ -8,8 +8,7 @@
 namespace Magento\Webapi\Model\Soap;
 
 use Magento\Webapi\Model\Config\Converter,
-    Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\Read;
+    Magento\Filesystem\Directory\ReadInterface;
 
 /**
  * Webapi Config Model for Soap.
@@ -25,7 +24,7 @@ class Config
     const KEY_IS_REQUIRED = 'inputRequired';
     /**#@-*/
 
-    /** @var Read */
+    /** @var ReadInterface */
     protected $modulesDirectory;
 
     /** @var \Magento\Webapi\Model\Config */
@@ -60,7 +59,7 @@ class Config
         \Magento\Webapi\Model\Config $config
     ) {
         // TODO: Check if Service specific XSD is already cached
-        $this->modulesDirectory = $filesystem->getDirectoryRead(DirectoryList::MODULES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_config = $config;
         $this->_objectManager = $objectManager;
     }

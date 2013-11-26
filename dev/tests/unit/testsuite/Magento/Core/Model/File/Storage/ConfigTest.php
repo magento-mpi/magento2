@@ -7,8 +7,6 @@
  */
 namespace Magento\Core\Model\File\Storage;
 
-use Magento\Filesystem\DirectoryList;
-
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -48,7 +46,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::PUB)
+            ->with(\Magento\Filesystem::PUB)
             ->will($this->returnValue($directory));
         $model = new \Magento\Core\Model\File\Storage\Config(
             $fileStorageMock,

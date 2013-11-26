@@ -13,8 +13,6 @@
  */
 namespace Magento\Core\Model\Theme;
 
-use Magento\Filesystem\DirectoryList;
-
 class Collection extends \Magento\Data\Collection
 {
     /**
@@ -45,7 +43,7 @@ class Collection extends \Magento\Data\Collection
         \Magento\Core\Model\EntityFactory $entityFactory
     ) {
         parent::__construct($entityFactory);
-        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::THEMES);
+        $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
     }
 
     /**

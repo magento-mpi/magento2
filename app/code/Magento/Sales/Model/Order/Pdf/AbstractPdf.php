@@ -13,8 +13,6 @@
  */
 namespace Magento\Sales\Model\Order\Pdf;
 
-use Magento\Filesystem\DirectoryList;
-
 abstract class AbstractPdf extends \Magento\Object
 {
     /**
@@ -147,8 +145,8 @@ abstract class AbstractPdf extends \Magento\Object
         $this->string = $string;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_translate = $translate;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
-        $this->_rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $this->_rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $this->_shippingConfig = $shippingConfig;
         $this->_pdfConfig = $pdfConfig;
         $this->_pdfTotalFactory = $pdfTotalFactory;

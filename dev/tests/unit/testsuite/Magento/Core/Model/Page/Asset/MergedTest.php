@@ -131,11 +131,11 @@ class MergedTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->at(0))
             ->method('getPath')
-            ->with($this->equalTo(\Magento\Filesystem\DirectoryList::PUB_LIB))
+            ->with($this->equalTo(\Magento\Filesystem::PUB_LIB))
             ->will($this->returnValue('pub/lib'));
         $this->_filesystem->expects($this->at(1))
             ->method('getPath')
-            ->with($this->equalTo(\Magento\Filesystem\DirectoryList::STATIC_VIEW))
+            ->with($this->equalTo(\Magento\Filesystem::STATIC_VIEW))
             ->will($this->returnValue('pub/static'));
         $readDirectoryMock = $this->getMockBuilder('\Magento\Filesystem\Directory\Read')
             ->disableOriginalConstructor()
@@ -148,7 +148,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->any())
             ->method('getDirectoryRead')
-            ->with($this->equalTo(\Magento\Filesystem\DirectoryList::PUB_VIEW_CACHE))
+            ->with($this->equalTo(\Magento\Filesystem::PUB_VIEW_CACHE))
             ->will($this->returnValue($readDirectoryMock));
 
         $this->_mergeStrategy

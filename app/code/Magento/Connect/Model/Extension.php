@@ -75,7 +75,7 @@ class Extension extends \Magento\Object
         $this->_convertArray    = $convertArray;
         $this->_session         = $session;
         $this->filesystem       = $filesystem;
-        $this->writeDirectory   = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->writeDirectory   = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->logger           = $logger;
         parent::__construct($data);
 

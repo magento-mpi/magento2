@@ -101,7 +101,7 @@ class Images extends \Magento\Core\Helper\AbstractHelper
         $this->_coreData = $coreData;
         $this->_dir = $dir;
         $this->_storeManager = $storeManager;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_directory->create(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);
     }
 

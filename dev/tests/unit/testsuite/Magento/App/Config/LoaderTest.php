@@ -9,8 +9,6 @@
 
 namespace Magento\App\Config;
 
-use Magento\Filesystem\DirectoryList;
-
 class LoaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,7 +17,7 @@ class LoaderTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var DirectoryList | \PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Filesystem\DirectoryList | \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_dirs;
 

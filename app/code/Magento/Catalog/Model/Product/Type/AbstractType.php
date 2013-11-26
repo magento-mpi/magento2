@@ -17,8 +17,6 @@
  */
 namespace Magento\Catalog\Model\Product\Type;
 
-use Magento\Filesystem\DirectoryList;
-
 abstract class AbstractType
 {
     /**
@@ -491,7 +489,7 @@ abstract class AbstractType
                         $path = dirname($dst);
 
                         try {
-                            $this->_filesystem->getDirectoryWrite(DirectoryList::ROOT)->create($path);
+                            $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT)->create($path);
                         } catch (\Magento\Filesystem\Exception $e) {
                             throw new \Magento\Core\Exception(
                                 __("We can't create writeable directory \"%1\".", $path)

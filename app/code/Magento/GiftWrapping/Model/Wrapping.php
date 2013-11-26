@@ -14,8 +14,7 @@
  */
 namespace Magento\GiftWrapping\Model;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\WriteInterface;
+use Magento\Filesystem\Directory\WriteInterface;
 
 class Wrapping extends \Magento\Core\Model\AbstractModel
 {
@@ -81,7 +80,7 @@ class Wrapping extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_uploaderFactory = $uploaderFactory;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }

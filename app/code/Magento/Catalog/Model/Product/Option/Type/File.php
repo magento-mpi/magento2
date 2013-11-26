@@ -17,8 +17,6 @@
  */
 namespace Magento\Catalog\Model\Product\Option\Type;
 
-use Magento\Filesystem\DirectoryList;
-
 class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 {
     /**
@@ -128,8 +126,8 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
         $this->_escaper = $escaper;
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
         $this->_filesystem = $filesystem;
-        $this->_rootDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT);
-        $this->_mediaDirectory = $this->_filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_rootDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $this->_mediaDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_fileSize = $fileSize;
         $this->_data = $data;
         parent::__construct($checkoutSession, $coreStoreConfig, $data);
@@ -360,7 +358,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
 
             $filePath = $dispersion;
 
-            $tmpDirectory = $this->_filesystem->getDirectoryRead(DirectoryList::SYS_TMP);
+            $tmpDirectory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::SYS_TMP);
             $fileHash = md5($tmpDirectory->readFile($tmpDirectory->getRelativePath($fileInfo['tmp_name'])));
             $filePath .= '/' . $fileHash . '.' . $extension;
             $fileFullPath = $this->_mediaDirectory->getAbsolutePath($this->_quotePath . $filePath);
@@ -388,7 +386,7 @@ class File extends \Magento\Catalog\Model\Product\Option\Type\DefaultType
                     $_height = $_imageSize[1];
                 }
             }
-            $uri = $this->_filesystem->getUri(DirectoryList::MEDIA);
+            $uri = $this->_filesystem->getUri(\Magento\Filesystem::MEDIA);
             $this->setUserValue(array(
                 'type'          => $fileInfo['type'],
                 'title'         => $fileInfo['name'],

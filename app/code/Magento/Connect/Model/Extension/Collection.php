@@ -50,7 +50,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     ) {
         parent::__construct($entityFactory);
         $this->filesystem = $filesystem;
-        $this->connectDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->connectDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->connectDirectory->create('connect');
         $this->addTargetDir($this->connectDirectory->getAbsolutePath('connect'));
     }

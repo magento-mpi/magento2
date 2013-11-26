@@ -11,8 +11,6 @@
 
 namespace Magento\Install\Model;
 
-use Magento\Filesystem\DirectoryList;
-
 class InstallerTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -34,7 +32,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        self::$_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        self::$_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         self::$_tmpDir = self::$_varDirectory->getAbsolutePath('InstallerTest');
         self::$_tmpConfigFile = self::$_tmpDir . '/local.xml';
         self::$_varDirectory->create(self::$_varDirectory->getRelativePath(self::$_tmpDir));
@@ -61,7 +59,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
                         'root' => __DIR__,
                         'uris' => array(),
                         'dirs' => array(
-                            DirectoryList::CONFIG => self::$_tmpDir
+                            \Magento\Filesystem::CONFIG => self::$_tmpDir
                         )
                     )
                 );

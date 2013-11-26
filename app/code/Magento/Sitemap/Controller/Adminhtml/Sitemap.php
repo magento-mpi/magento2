@@ -153,7 +153,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
 
             /** @var \Magento\Filesystem\Directory\Write $directory */
             $directory = $this->_objectManager->get('Magento\Filesystem')
-                ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+                ->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
             if ($this->getRequest()->getParam('sitemap_id')) {
                 $model->load($this->getRequest()->getParam('sitemap_id'));
@@ -213,7 +213,7 @@ class Sitemap extends  \Magento\Backend\Controller\Adminhtml\Action
     {
         /** @var \Magento\Filesystem\Directory\Write $directory */
         $directory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+            ->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
         // check if we know what should be deleted
         $id = $this->getRequest()->getParam('sitemap_id');

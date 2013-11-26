@@ -53,7 +53,7 @@ class Download extends \Magento\Core\Controller\Front\Action
 
             /** @var \Magento\Filesystem\Directory\Read $directory */
             $directory = $this->_objectManager->get('Magento\Filesystem')
-                ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+                ->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
             $relativePath = $info['order_path'];
             $filePath = $directory->getAbsolutePath($relativePath);
@@ -101,7 +101,7 @@ class Download extends \Magento\Core\Controller\Front\Action
 
         /** @var \Magento\Filesystem\Directory\WriteInterface $directory */
         $directory = $this->_objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+            ->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $stream = $directory->openFile($filePath, 'w+');
         $stream->lock();
         $stream->write($filePath, $file->getContent());

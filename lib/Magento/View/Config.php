@@ -13,8 +13,7 @@
  */
 namespace Magento\View;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\Read;
+use Magento\Filesystem\Directory\ReadInterface;
 
 class Config implements \Magento\View\ConfigInterface
 {
@@ -33,7 +32,7 @@ class Config implements \Magento\View\ConfigInterface
     protected $moduleReader;
 
     /**
-     * @var Read
+     * @var ReadInterface
      */
     protected $rootDirectory;
 
@@ -71,7 +70,7 @@ class Config implements \Magento\View\ConfigInterface
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
-        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $this->viewService = $viewService;
         $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;

@@ -10,8 +10,6 @@
  */
 namespace Magento\Index\Model\Lock;
 
-use Magento\Filesystem\DirectoryList;
-
 class StorageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -47,7 +45,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $filesystemMock->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::VAR_DIR)
+            ->with(\Magento\Filesystem::VAR_DIR)
             ->will($this->returnValue($directoryMock));
 
         $fileModel = $this->getMock('Magento\Index\Model\Process\File', array(), array($streamMock), '');

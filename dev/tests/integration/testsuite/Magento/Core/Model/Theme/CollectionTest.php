@@ -27,10 +27,10 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->create(
                 'Magento\Filesystem\DirectoryList',
                 array(
-                    'root' => \Magento\Filesystem\DirectoryList::ROOT,
+                    'root' => \Magento\Filesystem::ROOT,
                     'uris' => array(),
                     'dirs' => array(
-                        \Magento\Filesystem\DirectoryList::THEMES => dirname(__DIR__) . '/_files/design'
+                        \Magento\Filesystem::THEMES => dirname(__DIR__) . '/_files/design'
                     ),
                 )
             );

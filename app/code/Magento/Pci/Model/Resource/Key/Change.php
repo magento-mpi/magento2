@@ -51,7 +51,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     ) {
         $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::CONFIG);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::CONFIG);
         $this->_structure = $structure;
     }
 

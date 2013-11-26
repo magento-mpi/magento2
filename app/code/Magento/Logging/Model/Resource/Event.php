@@ -46,7 +46,7 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
     ) {
         parent::__construct($resource);
         $this->_archiveFactory = $archiveFactory;
-        $this->directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 

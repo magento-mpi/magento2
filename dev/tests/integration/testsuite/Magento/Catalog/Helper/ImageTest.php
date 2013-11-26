@@ -11,8 +11,6 @@
 
 namespace Magento\Catalog\Helper;
 
-use Magento\Filesystem\DirectoryList;
-
 class ImageTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -35,7 +33,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
-        $mediaDirectory = $objectManager->get('Magento\Filesystem')->getDirectoryWrite(DirectoryList::MEDIA);
+        $mediaDirectory = $objectManager->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
         // image fixtures
         $fixtureMediaDir = $mediaDirectory->getAbsolutePath($config->getBaseMediaPath());
@@ -80,7 +78,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
-        $mediaDirectory = $objectManager->get('Magento\Filesystem')->getDirectoryWrite(DirectoryList::MEDIA);
+        $mediaDirectory = $objectManager->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
         $mediaDirectory->delete($config->getBaseMediaPath());
         $mediaDirectory->delete($config->getBaseTmpMediaPath());

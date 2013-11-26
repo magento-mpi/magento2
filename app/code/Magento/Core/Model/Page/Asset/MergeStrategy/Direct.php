@@ -31,7 +31,7 @@ class Direct implements \Magento\Core\Model\Page\Asset\MergeStrategyInterface
         \Magento\Filesystem $filesystem,
         \Magento\View\Url\CssResolver $cssUrlResolver
     ) {
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::PUB);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB);
         $this->_cssUrlResolver = $cssUrlResolver;
     }
 

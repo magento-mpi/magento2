@@ -34,7 +34,7 @@ class Checksum
         \Magento\Filesystem $filesystem
     ) {
         $this->_strategy = $strategy;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::PUB);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB);
     }
 
     /**

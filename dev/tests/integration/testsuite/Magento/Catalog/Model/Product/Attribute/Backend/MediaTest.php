@@ -10,7 +10,6 @@
  */
 
 namespace Magento\Catalog\Model\Product\Attribute\Backend;
-use Magento\Filesystem\DirectoryList;
 
 /**
  * Test class for \Magento\Catalog\Model\Product\Attribute\Backend\Media.
@@ -38,7 +37,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
         $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
-        $mediaDirectory = $objectManager->get('Magento\Filesystem')->getDirectoryWrite(DirectoryList::MEDIA);
+        $mediaDirectory = $objectManager->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
         self::$_mediaTmpDir = $mediaDirectory->getAbsolutePath($config->getBaseTmpMediaPath());
         self::$_mediaDir = $mediaDirectory->getAbsolutePath($config->getBaseMediaPath());
@@ -60,7 +59,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
         $mediaDirectory = $objectManager->get('Magento\Filesystem')
-            ->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+            ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
         if ($mediaDirectory->isExist($config->getBaseMediaPath())) {
             $mediaDirectory->delete($config->getBaseMediaPath());

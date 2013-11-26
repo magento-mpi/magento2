@@ -170,7 +170,7 @@ class Storage extends \Magento\Object
         $this->_backendUrl = $backendUrl;
         $this->_cmsWysiwygImages = $cmsWysiwygImages;
         $this->_coreFileStorageDb = $coreFileStorageDb;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
         $this->_dir = $dir;

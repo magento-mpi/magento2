@@ -13,8 +13,6 @@
  */
 namespace Magento\Tools\View\Generator;
 
-use Magento\Filesystem\DirectoryList;
-
 class CopyRule
 {
     /**
@@ -140,7 +138,7 @@ class CopyRule
                     return '\\'.$matches[0];
             }
         }, $dirPattern, -1, $placeholderCount);
-        $directoryHandler = $this->_filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $directoryHandler = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         if ($placeholderCount) {
             // autodetect pattern base directory because the filesystem interface requires it
             $firstPlaceholderPos = strpos($pattern, '.*');

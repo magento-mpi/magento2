@@ -8,7 +8,6 @@
 namespace Magento\Log;
 
 use Magento\Filesystem,
-    Magento\Filesystem\DirectoryList,
     Magento\Filesystem\Directory\Write;
 
 class LoggerTest extends \PHPUnit_Framework_TestCase
@@ -40,7 +39,7 @@ class LoggerTest extends \PHPUnit_Framework_TestCase
         $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::LOG)
+            ->with(\Magento\Filesystem::LOG)
             ->will($this->returnValue($this->_directory));
         $this->_directory->expects($this->any())
             ->method('create')

@@ -10,7 +10,6 @@
  */
 
 namespace Magento\TestFramework;
-use Magento\Filesystem\DirectoryList;
 
 /**
  * Encapsulates application installation, initialization and uninstall

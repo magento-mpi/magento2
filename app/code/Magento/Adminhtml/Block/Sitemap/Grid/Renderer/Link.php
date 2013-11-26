@@ -58,7 +58,7 @@ class Link extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abstract
         $url = $this->escapeHtml($sitemap->getSitemapUrl($row->getSitemapPath(), $row->getSitemapFilename()));
 
         $fileName = preg_replace('/^\//', '', $row->getSitemapPath() . $row->getSitemapFilename());
-        if ($this->_filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT)->isFile($fileName)) {
+        if ($this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT)->isFile($fileName)) {
             return sprintf('<a href="%1$s">%1$s</a>', $url);
         }
 

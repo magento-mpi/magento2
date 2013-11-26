@@ -12,7 +12,6 @@
 namespace Magento\View\Design\FileResolution\Strategy\Fallback;
 
 use Magento\Filesystem;
-use Magento\Filesystem\DirectoryList;
 use Magento\Io\File;
 use Magento\TestFramework\Helper\ProxyTesting;
 
@@ -262,11 +261,11 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Filesystem', $methods , array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::ROOT)
+            ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue($directoryRead));
         $filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(DirectoryList::VAR_DIR)
+            ->with(\Magento\Filesystem::VAR_DIR)
             ->will($this->returnValue($this->directoryWrite));
         return $filesystem;
     }

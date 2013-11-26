@@ -16,7 +16,6 @@
 namespace Magento\Core\Model;
 
 use Magento\App\CacheInterface;
-use Magento\Filesystem\DirectoryList;
 
 class App implements \Magento\Core\Model\AppInterface
 {
@@ -410,7 +409,7 @@ class App implements \Magento\Core\Model\AppInterface
         if (session_module_name() == 'files') {
             /** @var \Magento\Filesystem $filesystem */
             $filesystem = $this->_objectManager->create('Magento\Filesystem');
-            $sessionDirectory = $filesystem->getDirectoryWrite(DirectoryList::SESSION);
+            $sessionDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::SESSION);
             foreach ($sessionDirectory->read() as $path) {
                 $sessionDirectory->delete($path);
             }

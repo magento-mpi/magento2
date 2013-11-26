@@ -176,7 +176,7 @@ class Sitemap extends \Magento\Core\Model\AbstractModel
     ) {
         $this->_escaper = $escaper;
         $this->_sitemapData = $sitemapData;
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $this->_categoryFactory = $categoryFactory;
         $this->_productFactory = $productFactory;
         $this->_cmsFactory = $cmsFactory;

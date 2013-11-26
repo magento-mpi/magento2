@@ -180,6 +180,6 @@ abstract class AbstractFile
      */
     protected function getDirectoryWrite()
     {
-        return $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+        return $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
     }
 }

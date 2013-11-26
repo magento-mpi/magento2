@@ -41,7 +41,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     protected function _generateRow($filename)
     {
         $filename = preg_replace('~[/\\\]+~', '/', $filename);
-        $path = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $path = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         return array(
             'filename' => $filename,
             'basename' => basename($filename),

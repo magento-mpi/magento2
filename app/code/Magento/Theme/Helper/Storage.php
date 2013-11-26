@@ -102,7 +102,7 @@ class Storage extends \Magento\Core\Helper\AbstractHelper
         $this->filesystem = $filesystem;
         $this->_session = $session;
         $this->_themeFactory = $themeFactory;
-        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->mediaDirectoryWrite->create($this->getStorageRoot());
     }
 

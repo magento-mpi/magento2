@@ -82,7 +82,7 @@ class Export
                 $this->addExportType($type['urlPath'], $type['label']);
             }
         }
-        $this->_directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->_directory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
     }
 
     /**

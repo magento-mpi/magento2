@@ -32,7 +32,7 @@ class Archive extends \Magento\Object
      */
     public function __construct(\Magento\Filesystem $fileSystem)
     {
-        $this->directory = $fileSystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $this->directory = $fileSystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
     }
 
     /**

@@ -81,7 +81,7 @@ class Config
         $this->_layout = $layout;
         $this->_appState = $appState;
         $this->_persistentFactory = $persistentFactory;
-        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MODULES);
+        $this->_modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
     }
 
     /**

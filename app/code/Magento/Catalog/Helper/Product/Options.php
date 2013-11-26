@@ -32,7 +32,7 @@ class Options extends \Magento\Core\Helper\AbstractHelper
     public function __construct(\Magento\Core\Helper\Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
-        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
+        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
     }
 
     /**

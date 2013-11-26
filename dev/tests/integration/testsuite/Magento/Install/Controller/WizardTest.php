@@ -11,8 +11,6 @@
 
 namespace Magento\Install\Controller;
 
-use Magento\Filesystem\DirectoryList;
-
 class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
@@ -29,7 +27,7 @@ class WizardTest extends \Magento\TestFramework\TestCase\AbstractController
     {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        $varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $tmpDir =  'WizardTest';
         $varDirectory->delete($tmpDir);
         // deliberately create a file instead of directory to emulate broken access to static directory

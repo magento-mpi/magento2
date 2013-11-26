@@ -11,8 +11,7 @@
  */
 namespace Magento\View;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\Write;
+use Magento\Filesystem\Directory\WriteInterface;
 
 class Publisher implements \Magento\View\PublicFilesManagerInterface
 {
@@ -79,7 +78,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $_modulesReader;
 
     /**
-     * @var Write
+     * @var WriteInterface
      */
     protected $rootDirectory;
 
@@ -104,7 +103,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
         $allowDuplication
     ) {
         $this->_filesystem = $filesystem;
-        $this->rootDirectory = $filesystem->getDirectoryWrite(DirectoryList::ROOT);
+        $this->rootDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $this->_cssUrlResolver = $cssUrlResolver;
         $this->_viewService = $viewService;
         $this->_viewFileSystem = $viewFileSystem;
@@ -182,7 +181,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             $cssContent = $this->_getPublicCssContent($sourcePath, $targetPath, $filePath, $params);
         }
 
-        $targetDirectory = $this->_filesystem->getDirectoryWrite(DirectoryList::STATIC_VIEW);
+        $targetDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::STATIC_VIEW);
         $sourcePathRelative = $this->rootDirectory->getRelativePath($sourcePath);
         $targetPathRelative = $targetDirectory->getRelativePath($targetPath);
 
@@ -235,7 +234,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _needToProcessFile($filePath)
     {
-        $jsPath = $this->_filesystem->getPath(DirectoryList::PUB_LIB) . '/';
+        $jsPath = $this->_filesystem->getPath(\Magento\Filesystem::PUB_LIB) . '/';
         $filePath = str_replace('\\', '/', $filePath);
         if (strncmp($filePath, $jsPath, strlen($jsPath)) === 0) {
             return false;
@@ -250,7 +249,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             return false;
         }
 
-        $themePath = $this->_filesystem->getPath(DirectoryList::STATIC_VIEW) . '/';
+        $themePath = $this->_filesystem->getPath(\Magento\Filesystem::STATIC_VIEW) . '/';
         if (strncmp($filePath, $themePath, strlen($themePath)) !== 0) {
             return true;
         }
@@ -305,7 +304,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
      */
     protected function _buildPublicViewSufficientFilename($filename, array $params)
     {
-        $designDir = $this->_filesystem->getPath(DirectoryList::THEMES) . '/';
+        $designDir = $this->_filesystem->getPath(\Magento\Filesystem::THEMES) . '/';
         if (0 === strpos($filename, $designDir)) {
             // theme file
             $publicFile = substr($filename, strlen($designDir));
@@ -372,7 +371,7 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
             $filePath = $this->_viewService->extractScope($fileId, $params);
         } else {
             /* Check if module file overridden on theme level based on _module property and file path */
-            $themesPath = $this->_filesystem->getPath(DirectoryList::THEMES);
+            $themesPath = $this->_filesystem->getPath(\Magento\Filesystem::THEMES);
             if ($params['module'] && strpos($parentFilePath, $themesPath) === 0) {
                 /* Add module directory to relative URL */
                 $filePath = dirname($params['module'] . '/' . $parentFileName)

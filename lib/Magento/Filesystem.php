@@ -84,6 +84,11 @@ class Filesystem
     const TMP = 'tmp';
 
     /**
+     * System base temporary folder
+     */
+    const SYS_TMP = 'sys_tmp';
+
+    /**
      * File system caching directory (if file system caching is used)
      */
     const CACHE = 'cache';

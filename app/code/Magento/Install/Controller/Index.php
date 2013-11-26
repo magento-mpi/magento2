@@ -62,7 +62,7 @@ class Index extends \Magento\Install\Controller\Action
     {
         $this->setFlag('', self::FLAG_NO_CHECK_INSTALLATION, true);
         if (!$this->_appState->isInstalled()) {
-            $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+            $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
             foreach ($varDirectory->read() as $path) {
                 if ($varDirectory->isDirectory($path)) {
                     try {

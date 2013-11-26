@@ -8,8 +8,6 @@
 
 namespace Magento\View\Layout\File\Source\Override;
 
-use \Magento\Filesystem\DirectoryList;
-
 class ThemeTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -38,7 +36,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         $this->_directory = $this->getMock('Magento\Filesystem\Directory\Read', array('search'), array(), '', false);
 
         $this->_filesystem->expects($this->any())->method('getDirectoryRead')
-            ->with(DirectoryList::THEMES)
+            ->with(\Magento\Filesystem::THEMES)
             ->will($this->returnValue($this->_directory));
 
         $this->_fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);

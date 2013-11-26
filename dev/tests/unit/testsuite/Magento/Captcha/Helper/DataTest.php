@@ -103,7 +103,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $this->_filesystem->expects($this->once())
             ->method('getPath')
-            ->with(\Magento\Filesystem\DirectoryList::LIB)
+            ->with(\Magento\Filesystem::LIB)
             ->will($this->returnValue(TESTS_TEMP_DIR . '/lib'));
 
         $factoryMock = $this->getMock('Magento\Captcha\Model\CaptchaFactory', array(), array(), '', false);
@@ -130,7 +130,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
         $this->_filesystem->expects($this->once())
             ->method('getDirectoryWrite')
-            ->with(\Magento\Filesystem\DirectoryList::MEDIA)
+            ->with(\Magento\Filesystem::MEDIA)
             ->will($this->returnValue($dirWriteMock));
 
         $dirWriteMock->expects($this->once())

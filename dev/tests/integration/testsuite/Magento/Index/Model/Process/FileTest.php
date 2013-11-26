@@ -14,8 +14,6 @@
  */
 namespace Magento\Index\Model\Process;
 
-use Magento\Filesystem\DirectoryList;
-
 class FileTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -48,7 +46,7 @@ class FileTest extends \PHPUnit_Framework_TestCase
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         $filesystem = $this->_objectManager->create('Magento\Filesystem');
-        $this->_varDirectory = $filesystem->getDirectoryWrite(DirectoryList::VAR_DIR);
+        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
 
         $fullFileName = $this->_varDirectory->getAbsolutePath(self::FILE_PATH);
         $this->_testFileHandler = fopen($fullFileName, 'w');

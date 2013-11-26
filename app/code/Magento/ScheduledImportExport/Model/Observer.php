@@ -17,7 +17,6 @@
  */
 namespace Magento\ScheduledImportExport\Model;
 
-use Magento\Filesystem\DirectoryList;
 use Magento\Filesystem\FilesystemException;
 
 class Observer
@@ -105,7 +104,7 @@ class Observer
         $this->_templateMailer = $templateMailer;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_storeManager = $storeManager;
-        $this->_logDirectory = $filesystem->getDirectoryWrite(DirectoryList::LOG);
+        $this->_logDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::LOG);
     }
 
     /**

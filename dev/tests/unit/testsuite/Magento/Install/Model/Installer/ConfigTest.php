@@ -40,7 +40,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_filesystemMock->expects($this->any())
             ->method('getPath')
-            ->with(\Magento\Filesystem\DirectoryList::CONFIG)
+            ->with(\Magento\Filesystem::CONFIG)
             ->will($this->returnValue(TESTS_TEMP_DIR));
         $this->_filesystemMock->expects($this->any())
             ->method('getDirectoryWrite')

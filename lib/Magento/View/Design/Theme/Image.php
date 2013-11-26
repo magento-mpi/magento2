@@ -11,8 +11,7 @@
  */
 namespace Magento\View\Design\Theme;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\Write;
+use Magento\Filesystem\Directory\WriteInterface;
 
 class Image
 {
@@ -52,7 +51,7 @@ class Image
     protected $_theme;
 
     /**
-     * @var Write
+     * @var WriteInterface
      */
     protected $_mediaDirectory;
 
@@ -74,7 +73,7 @@ class Image
         \Magento\Logger $logger,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
-        $this->_mediaDirectory = $filesystem->getDirectoryWrite(DirectoryList::MEDIA);
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_imageFactory = $imageFactory;
         $this->_uploader = $uploader;
         $this->_themeImagePath = $themeImagePath;

@@ -57,8 +57,8 @@ class Path
     ) {
         $this->filesystem           = $filesystem;
         $this->filename             = $filename;
-        $this->mediaDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
-        $this->themeDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::THEMES);
+        $this->mediaDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->themeDirectoryRead   = $this->filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
     }
 
     /**

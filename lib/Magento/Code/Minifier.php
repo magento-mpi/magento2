@@ -8,8 +8,7 @@
 
 namespace Magento\Code;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\Filesystem\Directory\Read;
+use Magento\Filesystem\Directory\Read;
 
 class Minifier
 {
@@ -44,8 +43,8 @@ class Minifier
         $directoryName
     ) {
         $this->_strategy = $strategy;
-        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
-        $this->pubViewCacheDir = $filesystem->getDirectoryRead(DirectoryList::PUB_VIEW_CACHE);
+        $this->rootDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $this->pubViewCacheDir = $filesystem->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE);
         $this->directoryName = $directoryName;
     }
 

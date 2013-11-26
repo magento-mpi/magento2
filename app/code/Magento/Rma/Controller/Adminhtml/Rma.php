@@ -43,7 +43,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     ) {
         $this->_coreRegistry    = $coreRegistry;
         $this->filesystem       = $filesystem;
-        $this->readDirectory    = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->readDirectory    = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
         parent::__construct($context);
     }
 

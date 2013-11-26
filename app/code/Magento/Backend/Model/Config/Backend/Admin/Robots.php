@@ -56,7 +56,7 @@ class Robots extends \Magento\Core\Model\Config\Value
             $resourceCollection,
             $data
         );
-        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::ROOT);
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $this->_file = 'robots.txt';
     }
 

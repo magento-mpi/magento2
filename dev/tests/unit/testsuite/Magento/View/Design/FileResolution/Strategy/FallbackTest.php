@@ -14,8 +14,6 @@
  */
 namespace Magento\View\Design\FileResolution\Strategy;
 
-use Magento\Filesystem\DirectoryList;
-
 /**
  * Fallback Test
  *
@@ -234,7 +232,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(DirectoryList::THEMES)
+            ->with(\Magento\Filesystem::THEMES)
             ->will($this->returnValue($directoryMock));
 
         return $filesystem;

@@ -10,8 +10,6 @@
 
 namespace Magento\Core\Model\Resource\Setup;
 
-use Magento\Filesystem\DirectoryList;
-
 /**
  * Resource setup model with methods needed for migration process between Magento versions
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -146,7 +144,7 @@ class Migration extends \Magento\Core\Model\Resource\Setup
         $moduleName = 'Magento_Core',
         $connectionName = ''
     ) {
-        $this->_directory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $this->_coreHelper = $helper;
         $this->_pathToMapFile = $confPathToMapFile;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);

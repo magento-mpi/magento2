@@ -16,8 +16,6 @@
  */
 namespace Magento\Install\Model\Installer;
 
-use Magento\Filesystem\DirectoryList;
-
 class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     const TMP_INSTALL_DATE_VALUE= 'd-d-d-d-d';
@@ -70,7 +68,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_filesystem = $filesystem;
-        $this->_configDirectory = $filesystem->getDirectoryWrite(DirectoryList::CONFIG);
+        $this->_configDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::CONFIG);
     }
 
     public function setConfigData($data)
@@ -94,9 +92,9 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         $data = $this->getConfigData();
 
         $defaults = array(
-            'root_dir' => $this->_filesystem->getPath(DirectoryList::ROOT),
-            'app_dir'  => $this->_filesystem->getPath(DirectoryList::APP),
-            'var_dir'  => $this->_filesystem->getPath(DirectoryList::VAR_DIR),
+            'root_dir' => $this->_filesystem->getPath(\Magento\Filesystem::ROOT),
+            'app_dir'  => $this->_filesystem->getPath(\Magento\Filesystem::APP),
+            'var_dir'  => $this->_filesystem->getPath(\Magento\Filesystem::VAR_DIR),
             'base_url' => $this->_request->getDistroBaseUrl(),
         );
         foreach ($defaults as $index => $value) {
@@ -179,11 +177,11 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected function _checkUrl($baseUrl)
     {
         try {
-            $directory = $this->_filesystem->getDirectoryRead(DirectoryList::PUB_LIB);
+            $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::PUB_LIB);
             $files = $directory->search('/.+\.(html?|js|css|gif|jpe?g|png)$/');
 
             $staticFile = isset($files[0]) ? $files[0] : null;
-            $staticUrl = $baseUrl . $this->_filesystem->getUri(DirectoryList::PUB_LIB) . '/' . $staticFile;
+            $staticUrl = $baseUrl . $this->_filesystem->getUri(\Magento\Filesystem::PUB_LIB) . '/' . $staticFile;
             $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
         } catch (\Exception $e){

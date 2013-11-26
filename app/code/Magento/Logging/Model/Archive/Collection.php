@@ -44,7 +44,7 @@ class Collection extends \Magento\Data\Collection\Filesystem
     ) {
         parent::__construct($entityFactory);
         $basePath = $archive->getBasePath();
-        $dir = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::VAR_DIR);
+        $dir = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $dir->create($dir->getRelativePath($basePath));
         $this->addTargetDir($basePath);
         $this->_locale = $locale;

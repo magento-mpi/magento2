@@ -81,7 +81,7 @@ class Storage
         \Magento\ObjectManager $objectManager,
         \Magento\Image\AdapterFactory $imageFactory
     ) {
-        $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->mediaWriteDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_helper = $helper;
         $this->_objectManager = $objectManager;
         $this->_imageFactory = $imageFactory;

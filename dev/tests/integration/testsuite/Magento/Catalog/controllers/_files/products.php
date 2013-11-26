@@ -15,7 +15,7 @@ $obectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 /** @var \Magento\Catalog\Model\Product\Media\Config $config */
 $config = $obectManager->get('Magento\Catalog\Model\Product\Media\Config');
 /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
-$mediaDirectory = $obectManager->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem\DirectoryList::MEDIA);
+$mediaDirectory = $obectManager->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 $mediaDirectory->create($baseTmpMediaPath);

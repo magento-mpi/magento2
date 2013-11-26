@@ -17,7 +17,6 @@ use Magento\Filesystem;
 use Magento\View\Design\Fallback\Factory;
 use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\Filesystem\DirectoryList;
 use Magento\Filesystem\Directory\Read;
 
 /**
@@ -60,7 +59,7 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
      */
     public function __construct(Filesystem $filesystem, Factory $fallbackFactory)
     {
-        $this->rootDirectory = $filesystem->getDirectoryRead(DirectoryList::ROOT);
+        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
         $this->fallbackFactory = $fallbackFactory;
     }
 
