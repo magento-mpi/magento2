@@ -46,7 +46,7 @@ class DomTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fixturePath = realpath(__DIR__ . '/../../_files') . DIRECTORY_SEPARATOR;
+        $fixturePath = realpath(__DIR__ . '/../../_files') . '/';
         $this->_fileList = array(
             $fixturePath . 'config_one.xml',
             $fixturePath . 'config_two.xml',

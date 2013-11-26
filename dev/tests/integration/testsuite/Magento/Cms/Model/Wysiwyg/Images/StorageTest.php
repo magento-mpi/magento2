@@ -25,7 +25,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
                 ->get('Magento\Cms\Helper\Wysiwyg\Images')
                 ->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
         mkdir(self::$_baseDir, 0777);
-        touch(self::$_baseDir . DIRECTORY_SEPARATOR . '1.swf');
+        touch(self::$_baseDir . '/1.swf');
     }
 
     public static function tearDownAfterClass()

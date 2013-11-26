@@ -31,7 +31,7 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'acl.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir/acl.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()

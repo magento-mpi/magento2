@@ -200,7 +200,7 @@ class Dir
 
         // dirs
         foreach (self::$_defaults as $code => $path) {
-            $this->_setDir($code, $baseDir . ($path ? DIRECTORY_SEPARATOR . $path : ''));
+            $this->_setDir($code, $baseDir . ($path ? '/' . $path : ''));
         }
         foreach ($dirs as $code => $path) {
             $this->_setDir($code, $path);
@@ -264,7 +264,7 @@ class Dir
      */
     private function _setDir($code, $path)
     {
-        $this->_dirs[$code] = str_replace(array('\\', '/'), DIRECTORY_SEPARATOR, $path);
+        $this->_dirs[$code] = str_replace('\\', '/', $path);
     }
 
     /**

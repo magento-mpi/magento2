@@ -16,7 +16,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $baseDir = __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/FileResolver/_files');
+        $baseDir = __DIR__ . '/FileResolver/_files';
 
         $applicationDirs = $this->getMock('Magento\App\Dir', array(), array('getDir'), '', false);
         $applicationDirs->expects($this->any())
@@ -24,11 +24,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap(array(
                 array(
                     \Magento\App\Dir::CONFIG,
-                    $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'etc',
+                    $baseDir . '/app/etc',
                 ),
                 array(
                     \Magento\App\Dir::MODULES,
-                    $baseDir . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR .'code',
+                    $baseDir . '/app/code',
                 ),
             )));
         $this->_model = new \Magento\Module\Declaration\FileResolver($applicationDirs);
@@ -37,13 +37,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     public function testGet()
     {
         $expectedResult = array(
-            __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/FileResolver/_files/app/code/Module/Four/etc/module.xml'),
-            __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/FileResolver/_files/app/code/Module/One/etc/module.xml'),
-            __DIR__ . str_replace(
-                '/', DIRECTORY_SEPARATOR, '/FileResolver/_files/app/code/Module/Three/etc/module.xml'
-            ),
-            __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/FileResolver/_files/app/code/Module/Two/etc/module.xml'),
-            __DIR__ . str_replace('/', DIRECTORY_SEPARATOR, '/FileResolver/_files/app/etc/custom/module.xml'),
+            __DIR__ . '/FileResolver/_files/app/code/Module/Four/etc/module.xml',
+            __DIR__ . '/FileResolver/_files/app/code/Module/One/etc/module.xml',
+            __DIR__ . '/FileResolver/_files/app/code/Module/Three/etc/module.xml',
+            __DIR__ . '/FileResolver/_files/app/code/Module/Two/etc/module.xml',
+            __DIR__ . '/FileResolver/_files/app/etc/custom/module.xml'
         );
         $this->assertEquals($expectedResult, $this->_model->get('module.xml', 'global'));
     }

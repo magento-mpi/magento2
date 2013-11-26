@@ -120,7 +120,7 @@ class Config
      */
     protected function _getTestsRelativePath($path)
     {
-        return $this->_testsBaseDir . DIRECTORY_SEPARATOR . $path;
+        return $this->_testsBaseDir . '/' . $path;
     }
 
     /**

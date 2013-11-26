@@ -21,11 +21,8 @@ class DomTest extends \Magento\Acl\Resource\Config\Converter\DomTest
     {
         return array(
             array(
-                include __DIR__ . DIRECTORY_SEPARATOR . '_files'
-                    . DIRECTORY_SEPARATOR . 'converted_valid_webapi_acl.php',
-                file_get_contents(
-                    __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'valid_webapi_acl.xml'
-                ),
+                include __DIR__ . '/_files/converted_valid_webapi_acl.php',
+                file_get_contents(__DIR__ . '/_files/valid_webapi_acl.xml'),
             ),
         );
     }

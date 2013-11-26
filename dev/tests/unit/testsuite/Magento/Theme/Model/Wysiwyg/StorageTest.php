@@ -69,7 +69,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             $this->_imageFactory
         );
 
-        $this->_storageRoot = \Magento\Filesystem::DIRECTORY_SEPARATOR . 'root';
+        $this->_storageRoot = '/root';
     }
 
     protected function tearDown()
@@ -198,7 +198,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testCreateFolder($isWritable)
     {
         $newDirectoryName = 'dir1';
-        $fullNewPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
+        $fullNewPath = $this->_storageRoot . '/' . $newDirectoryName;
 
         $this->directoryWrite->expects($this->any())
             ->method('isWritable')
@@ -227,7 +227,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $expectedResult = array(
             'name'       => $newDirectoryName,
             'short_name' => $newDirectoryName,
-            'path'       => \Magento\Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName,
+            'path'       => '/' . $newDirectoryName,
             'id'         => $newDirectoryName
         );
 
@@ -254,7 +254,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     public function testCreateFolderDirectoryAlreadyExist()
     {
         $newDirectoryName = 'mew';
-        $fullNewPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . $newDirectoryName;
+        $fullNewPath = $this->_storageRoot . '/' . $newDirectoryName;
 
         $this->directoryWrite->expects($this->any())
             ->method('isWritable')
@@ -328,8 +328,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
 
         $paths = array(
-            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'font1.ttf',
-            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'font2.ttf'
+            $this->_storageRoot . '/' . 'font1.ttf',
+            $this->_storageRoot . '/' . 'font2.ttf'
         );
 
         $this->directoryWrite->expects($this->once())
@@ -365,7 +365,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnArgument(0));
 
         $paths = array(
-            $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'picture1.jpg'
+            $this->_storageRoot . '/picture1.jpg'
         );
 
         $this->directoryWrite->expects($this->once())
@@ -374,7 +374,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
 
         $this->directoryWrite->expects($this->once())
             ->method('isFile')
-            ->with($this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'picture1.jpg')
+            ->with($this->_storageRoot . '/picture1.jpg')
             ->will($this->returnValue(true));
 
         $result = $this->_storageModel->getFilesCollection();
@@ -389,10 +389,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testTreeArray()
     {
-        $currentPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir';
+        $currentPath = $this->_storageRoot . '/dir';
         $dirs = array(
-            $currentPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir_one',
-            $currentPath . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'dir_two'
+            $currentPath . '/dir_one',
+            $currentPath . '/dir_two'
         );
 
         $expectedResult = array(
@@ -444,8 +444,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     {
         $image = 'image.jpg';
         $storagePath = $this->_storageRoot;
-        $imagePath = $storagePath . \Magento\Filesystem::DIRECTORY_SEPARATOR . $image;
-        $thumbnailDir = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR
+        $imagePath = $storagePath . '/' . $image;
+        $thumbnailDir = $this->_storageRoot . '/'
             . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
 
         $session = $this->getMock('Magento\Backend\Model\Session', array('getStoragePath'), array(), '', false);
@@ -484,8 +484,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
      */
     public function testDeleteDirectory()
     {
-        $directoryPath = $this->_storageRoot . \Magento\Filesystem::DIRECTORY_SEPARATOR . '..'
-            . \Magento\Filesystem::DIRECTORY_SEPARATOR . 'root';
+        $directoryPath = $this->_storageRoot . '/../root';
 
         $this->_helperStorage->expects($this->atLeastOnce())
             ->method('getStorageRoot')

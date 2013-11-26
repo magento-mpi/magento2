@@ -38,10 +38,10 @@ class Primary implements \Magento\Config\FileResolverInterface
     public function get($filename, $scope)
     {
         $configDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
-        $fileList = glob($configDir . DIRECTORY_SEPARATOR . '*' . DIRECTORY_SEPARATOR . $filename);
+        $fileList = glob($configDir . '/*/' . $filename);
 
-        if (file_exists($configDir . DIRECTORY_SEPARATOR . $filename)) {
-            array_unshift($fileList, $configDir . DIRECTORY_SEPARATOR . $filename);
+        if (file_exists($configDir . '/' . $filename)) {
+            array_unshift($fileList, $configDir . '/' . $filename);
         }
         return $fileList;
     }

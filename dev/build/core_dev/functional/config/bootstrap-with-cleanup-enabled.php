@@ -11,4 +11,4 @@
 
 !defined('SELENIUM_TESTS_INSTALLATION') && define('SELENIUM_TESTS_INSTALLATION', 'enabled');
 !defined('SELENIUM_TESTS_INSTALLATION_CLEANUP') && define('SELENIUM_TESTS_INSTALLATION_CLEANUP', 'enabled');
-require __DIR__ . DIRECTORY_SEPARATOR . 'bootstrap.php';
+require __DIR__ . '/bootstrap.php';

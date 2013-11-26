@@ -31,7 +31,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $this->_filePath = __DIR__ . '/_files/';
         $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $this->_converterMock = $this->getMock('Magento\Core\Model\Config\Initial\Converter');
         $schemaLocatorMock =

@@ -18,12 +18,8 @@ class Mage_Selenium_Uimap_TabTest extends Unit_PHPUnit_TestCase
     public function test__construct()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
-        $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR
-                . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR . 'default'
-                . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'Mage'
-                . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR . 'data'
-                . DIRECTORY_SEPARATOR . 'UimapTests.yml');
+        $dataArray = $fileHelper
+            ->loadYamlFile(SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml');
         $tabContainer = $dataArray['tab'];
         $tabId = 'tabId';
         $instance = new Mage_Selenium_Uimap_Tab($tabId, $tabContainer);
@@ -37,12 +33,8 @@ class Mage_Selenium_Uimap_TabTest extends Unit_PHPUnit_TestCase
     public function testGetFieldsetNames()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
-        $dataArray = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR
-                . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR . 'default'
-                . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'Mage'
-                . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR . 'data'
-                . DIRECTORY_SEPARATOR . 'UimapTests.yml');
+        $dataArray = $fileHelper
+            ->loadYamlFile(SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/UimapTests.yml');
         $tabContainer = $dataArray['tab'];
         $instance = new Mage_Selenium_Uimap_Tab('tabId', $tabContainer);
         $elements = $instance->getFieldsetNames();

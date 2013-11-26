@@ -37,12 +37,8 @@ class Mage_Selenium_Uimap_PageTest extends Unit_PHPUnit_TestCase
     public function testGetMainButtons()
     {
         $fileHelper = new Mage_Selenium_Helper_File($this->_testConfig);
-        $pageContainers = $fileHelper->loadYamlFile
-                (SELENIUM_TESTS_BASEDIR
-                . DIRECTORY_SEPARATOR . 'fixture' . DIRECTORY_SEPARATOR .  'default'
-                . DIRECTORY_SEPARATOR . 'core' . DIRECTORY_SEPARATOR . 'Mage'
-                . DIRECTORY_SEPARATOR . 'UnitTest' . DIRECTORY_SEPARATOR . 'uimap'
-                . DIRECTORY_SEPARATOR . 'frontend' . DIRECTORY_SEPARATOR . 'UnitTests.yml');
+        $pageContainers = $fileHelper
+            ->loadYamlFile(SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/uimap/frontend/UnitTests.yml');
         $uipage = new Mage_Selenium_Uimap_Page('pageId', $pageContainers['get_main_buttons']);
         $mainButtons = $uipage->getMainButtons();
         $this->assertInstanceOf('Mage_Selenium_Uimap_ElementsCollection', $mainButtons);

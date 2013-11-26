@@ -611,7 +611,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Theme\Collection');
         $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/Core/Model/_files/design/')
-            ->addTargetPattern(implode(DIRECTORY_SEPARATOR, array('frontend', 'vendor_default', 'theme.xml')))
+            ->addTargetPattern('frontend/vendor_default/theme.xml')
             ->getFirstItem()
             ->save();
 
@@ -626,7 +626,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
         // publish static content
         $this->_viewUrl->getViewFileUrl('css/base64.css', $params);
-        $this->assertFileEquals($filePath, str_replace('/', DIRECTORY_SEPARATOR, "{$publishedPath}/css/base64.css"));
+        $this->assertFileEquals($filePath, "{$publishedPath}/css/base64.css");
 
         $this->_model->setDesignTheme(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\Design\ThemeInterface'));

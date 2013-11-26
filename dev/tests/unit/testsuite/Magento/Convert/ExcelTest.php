@@ -32,7 +32,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getSampleOutputFile()
     {
-        return __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'output.txt';
+        return __DIR__ . '/_files/output.txt';
     }
 
     /**
@@ -84,7 +84,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
     protected function _writeFile($callback = false)
     {
         $name = md5(microtime());
-        $file = TESTS_TEMP_DIR . DIRECTORY_SEPARATOR . $name . '.xml';
+        $file = TESTS_TEMP_DIR . '/' . $name . '.xml';
 
         $stream = new \Magento\Filesystem\File\Write($file, new \Magento\Filesystem\Driver\Base(), 'w+');
         $stream->lock();

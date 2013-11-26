@@ -250,7 +250,7 @@ extends \Magento\Connect\Command
 
                     $dir = $config->getChannelCacheDir($pChan);
                     @mkdir($dir, 0777, true);
-                    $file = $dir.DIRECTORY_SEPARATOR.$pName."-".$pVer.".tgz";
+                    $file = $dir . '/' . $pName."-".$pVer.".tgz";
                     if(!@file_exists($file)) {
                         $rest->downloadPackageFileOfRelease($pName, $pVer, $file);
                     }

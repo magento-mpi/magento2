@@ -34,7 +34,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_baseDir = realpath(__DIR__ . '/../../../_files/fallback');
-        $this->_viewDir = $this->_baseDir . DIRECTORY_SEPARATOR . 'design';
+        $this->_viewDir = $this->_baseDir . '/design';
     }
 
     /**
@@ -150,7 +150,6 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $model = $this->_buildModel($area, $themePath, $locale);
         $themeModel = $this->_getThemeModel($area, $themePath);
 
-        $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
         $actualFilename = $model->getFile($area, $themeModel, 'i18n/' . $locale . '.csv');
 
         if ($expectedFilename) {
@@ -197,7 +196,6 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $model = $this->_buildModel();
         $themeModel = $this->_getThemeModel($area, $themePath);
 
-        $expectedFilename = str_replace('/', DIRECTORY_SEPARATOR, $expectedFilename);
         $actualFilename = $model->getViewFile($area, $themeModel, $locale, $file, $module);
         if ($expectedFilename) {
             $this->assertStringMatchesFormat($expectedFilename, $actualFilename);

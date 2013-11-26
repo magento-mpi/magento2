@@ -51,7 +51,7 @@ class Config
         if (!is_dir($destinationDir)) {
             throw new \Magento\Exception('Destination directory does not exist: ' . $destinationDir);
         }
-        if (glob($destinationDir . DIRECTORY_SEPARATOR . '*')) {
+        if (glob($destinationDir . '/*')) {
             throw new \Magento\Exception("Destination directory must be empty: {$destinationDir}");
         }
 

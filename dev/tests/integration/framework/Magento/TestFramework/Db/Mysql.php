@@ -21,7 +21,7 @@ class Mysql extends \Magento\TestFramework\Db\AbstractDb
      */
     public function cleanup()
     {
-        $script = $this->_varPath . DIRECTORY_SEPARATOR . 'drop_create_database.sql';
+        $script = $this->_varPath . '/drop_create_database.sql';
         $this->_createScript($script, "DROP DATABASE `{$this->_schema}`; CREATE DATABASE `{$this->_schema}`");
         $this->_shell->execute(
             'mysql --protocol=TCP --host=%s --user=%s --password=%s %s < %s',

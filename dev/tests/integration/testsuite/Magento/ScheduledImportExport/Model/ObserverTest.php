@@ -35,7 +35,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         /** @var $dirs \Magento\App\Dir */
         $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
         $this->assertFileExists($dirs->getDir(\Magento\App\Dir::LOG)
-            . DIRECTORY_SEPARATOR
+            . '/'
             . \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
         );
     }

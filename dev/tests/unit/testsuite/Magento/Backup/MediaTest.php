@@ -49,7 +49,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->method('getDbBackupFilename')
             ->will($this->returnValue('var/backup/2.gz'));
 
-        $rootDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        $rootDir = __DIR__ . '/_files';
 
         $model = new \Magento\Backup\Media($snapshot);
         $model->setRootDir($rootDir);
@@ -58,8 +58,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->assertEquals(
             array(
-                $rootDir . DIRECTORY_SEPARATOR . 'code',
-                $rootDir . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'tmp',
+                $rootDir . '/code',
+                $rootDir . '/var/tmp',
             ),
             $snapshot->getIgnorePaths()
         );

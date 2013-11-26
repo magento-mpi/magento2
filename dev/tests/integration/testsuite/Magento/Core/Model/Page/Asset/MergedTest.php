@@ -37,7 +37,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\App\Dir $dirs */
         $dirs = $objectManager->get('Magento\App\Dir');
         self::$_viewPublicMergedDir = $dirs->getDir(\Magento\App\Dir::PUB_VIEW_CACHE)
-            . DIRECTORY_SEPARATOR . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
+            . '/' . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
     }
 
     protected function setUp()

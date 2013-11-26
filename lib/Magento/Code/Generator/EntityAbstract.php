@@ -244,7 +244,7 @@ abstract class EntityAbstract
             && !in_array($pathParts[2], array('Block', 'Helper', 'Model'))
         ) {
             $controllerPath = preg_replace('/^([0-9A-Za-z]*)_([0-9A-Za-z]*)/', '\\1_\\2_controllers', $sourceClassName);
-            $filePath = stream_resolve_include_path(str_replace('_', DIRECTORY_SEPARATOR, $controllerPath) . '.php');
+            $filePath = stream_resolve_include_path(str_replace('_', '/', $controllerPath) . '.php');
             $isSourceClassValid = !empty($filePath);
         } else {
             $isSourceClassValid =$autoloader::getFile($sourceClassName);

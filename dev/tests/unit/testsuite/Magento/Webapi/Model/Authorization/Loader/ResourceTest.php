@@ -68,8 +68,7 @@ class ResourceTest extends \PHPUnit_Framework_TestCase
      */
     public function testPopulateAcl()
     {
-        $aclFilePath = __DIR__ . DIRECTORY_SEPARATOR .  '..' . DIRECTORY_SEPARATOR .  '..'
-            . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'acl.xml';
+        $aclFilePath = __DIR__ . '/../../_files/acl.xml';
         $aclDom = new \DOMDocument();
         $aclDom->loadXML(file_get_contents($aclFilePath));
         $domConverter = new \Magento\Webapi\Model\Acl\Resource\Config\Converter\Dom();

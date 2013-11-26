@@ -16,9 +16,7 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $appConfigDir = __DIR__ . DIRECTORY_SEPARATOR
-            . '_files' . DIRECTORY_SEPARATOR . 'primary'
-            . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'etc';
+        $appConfigDir = __DIR__ . '/_files/primary/app/etc';
 
         $applicationDirsMock = $this->getMock('Magento\App\Dir', array(), array('getDir'), '', false);
         $applicationDirsMock->expects($this->any())
@@ -45,14 +43,13 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
      */
     public function getMethodDataProvider()
     {
-        $appConfigDir = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR . 'primary'
-            . DIRECTORY_SEPARATOR .  'app' . DIRECTORY_SEPARATOR . 'etc';
+        $appConfigDir = __DIR__ . '/_files/primary/app/etc';
 
         return array(
             array(
                 array(
-                    $appConfigDir . DIRECTORY_SEPARATOR . 'di.xml',
-                    $appConfigDir . DIRECTORY_SEPARATOR . 'some_config' .DIRECTORY_SEPARATOR.  'di.xml',
+                    $appConfigDir . '/di.xml',
+                    $appConfigDir . '/some_config/di.xml',
                 ),
                 'primary',
                 'di.xml',
