@@ -69,7 +69,7 @@ class Content extends \Magento\Backend\Block\Widget
 
 
     /**
-     * Retrive uploader block
+     * Retrieve uploader block
      *
      * @return \Magento\Backend\Block\Media\Uploader
      */
@@ -79,7 +79,7 @@ class Content extends \Magento\Backend\Block\Widget
     }
 
     /**
-     * Retrive uploader block html
+     * Retrieve uploader block html
      *
      * @return string
      */

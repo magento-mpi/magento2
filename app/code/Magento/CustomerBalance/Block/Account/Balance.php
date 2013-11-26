@@ -46,7 +46,7 @@ class Balance extends \Magento\View\Block\Template
     }
 
     /**
-     * Retreive current customers balance in base currency
+     * Retrieve current customers balance in base currency
      *
      * @return float
      */

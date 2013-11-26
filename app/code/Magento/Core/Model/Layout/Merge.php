@@ -576,11 +576,17 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme);
+        $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {
-            $fileStr = file_get_contents($file->getFilename());
+            $fileStr = (string)file_get_contents($file->getFilename());
             $fileStr = $this->_substitutePlaceholders($fileStr);
             /** @var $fileXml \Magento\View\Layout\Element */
             $fileXml = $this->_loadXmlString($fileStr);
+            if (!$fileXml instanceof \Magento\View\Layout\Element) {
+                $this->_logXmlErrors($file->getFilename(), libxml_get_errors());
+                libxml_clear_errors();
+                continue;
+            }
             if (!$file->isBase() && $fileXml->xpath(self::XPATH_HANDLE_DECLARATION)) {
                 throw new \Magento\Exception(sprintf(
                     "Theme layout update file '%s' must not declare page types.",
@@ -592,9 +598,32 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
             $handleStr = '<handle ' . $handleAttributes . '>' . $fileXml->innerXml() . '</handle>';
             $layoutStr .= $handleStr;
         }
+        libxml_use_internal_errors($useErrors);
         $layoutStr = '<layouts xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">' . $layoutStr . '</layouts>';
         $layoutXml = $this->_loadXmlString($layoutStr);
         return $layoutXml;
+    }
+
+    /**
+     * Log xml errors to system log
+     *
+     * @param string $fileName
+     * @param array $libXmlErrors
+     */
+    protected function _logXmlErrors($fileName, $libXmlErrors)
+    {
+        $errors = array();
+        if (count($libXmlErrors)) {
+            foreach ($libXmlErrors as $error) {
+                $errors[] = "{$error->message} Line: {$error->line}";
+            }
+
+            $this->_logger->log(sprintf(
+                "Theme layout update file '%s' is not valid.\n%s",
+                $fileName,
+                implode("\n", $errors)
+            ), \Zend_Log::ERR);
+        }
     }
 
     /**

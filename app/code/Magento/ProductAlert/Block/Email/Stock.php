@@ -46,7 +46,7 @@ class Stock extends \Magento\ProductAlert\Block\Email\AbstractEmail
     }
 
     /**
-     * Retrive unsubscribe url for product
+     * Retrieve unsubscribe url for product
      *
      * @param int $productId
      * @return string

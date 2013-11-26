@@ -205,7 +205,7 @@ class Save extends \Magento\Object
     }
 
     /**
-     * Retrive allowed quote items for gift messages
+     * Retrieve allowed quote items for gift messages
      *
      * @return array
      */
@@ -219,7 +219,7 @@ class Save extends \Magento\Object
     }
 
     /**
-     * Retrive allowed quote items products for gift messages
+     * Retrieve allowed quote items products for gift messages
      *
      * @return array
      */
@@ -332,7 +332,7 @@ class Save extends \Magento\Object
     }
 
     /**
-     * Retrive mapped type for entity
+     * Retrieve mapped type for entity
      *
      * @param string $type
      * @return string

@@ -296,7 +296,7 @@ class Index extends \Magento\App\Action\Action
 
         try {
             /** @var $entity \Magento\GiftRegistry\Model\Entity */
-            $entity = $this->_initEntity()->setData($this->getRequest()->getPost());
+            $entity = $this->_initEntity()->addData($this->getRequest()->getPost());
 
             $result = $entity->sendShareRegistryEmails();
 

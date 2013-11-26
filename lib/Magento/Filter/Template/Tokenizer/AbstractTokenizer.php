@@ -45,7 +45,7 @@ abstract class AbstractTokenizer
     }
 
     /**
-     * Move current index to previus char.
+     * Move current index to previous char.
      *
      * If index out of bounds returns false
      *
