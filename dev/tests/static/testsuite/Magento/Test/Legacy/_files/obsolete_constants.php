@@ -11,6 +11,7 @@
  */
 return array(
     array('BACKORDERS_BELOW'),
+    array('DS'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
     array('CACHE_TAG', 'Magento\Core\Model\AppInterface'),
