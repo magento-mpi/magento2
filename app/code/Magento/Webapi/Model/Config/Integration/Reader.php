@@ -13,6 +13,16 @@ namespace Magento\Webapi\Model\Config\Integration;
 class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
+     * List of id attributes for merge
+     *
+     * @var array
+     */
+    protected $_idAttributes = array(
+        '/integrations/integration' => 'name',
+        '/integrations/integration/resources/resource' => 'name'
+    );
+
+    /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param \Magento\Webapi\Model\Config\Integration\Converter $converter
      * @param \Magento\Webapi\Model\Config\Integration\SchemaLocator $schemeLocator
