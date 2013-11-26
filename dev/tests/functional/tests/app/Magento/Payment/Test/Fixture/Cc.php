@@ -35,7 +35,7 @@ class Cc extends DataFixture
     }
 
     /**
-     * Retrive Credit Card validation password for 3D Secure
+     * Get Credit Card validation password for 3D Secure
      *
      * @return string
      */

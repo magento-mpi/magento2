@@ -19,6 +19,7 @@ use Magento\Page\Test\Block\Html\Title;
 use Magento\Page\Test\Block\Html\Topmenu;
 use Magento\Page\Test\Block\Links;
 use Magento\Page\Test\Block\Html\Footer;
+use Magento\Customer\Test\Block\Account\Customer;
 
 /**
  * Class Home
@@ -69,7 +70,7 @@ class Home extends Page
     /**
      * Page Top Customer menu block
      *
-     * @var Links
+     * @var Customer
      */
     private $customerMenu;
 
@@ -154,7 +155,7 @@ class Home extends Page
     /**
      * Get customer menu block
      *
-     * @return Customer Menu
+     * @return Customer
      */
     public function getCustomerMenu()
     {
