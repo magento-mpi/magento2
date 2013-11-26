@@ -61,7 +61,7 @@ class Giftmessage extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCr
     }
 
     /**
-     * Retrive items allowed for gift messages.
+     * Retrieve items allowed for gift messages.
      *
      * If no items available return false.
      *

@@ -42,7 +42,7 @@ class Region extends \Magento\Eav\Model\Entity\Attribute\Source\Table
     }
 
     /**
-     * Retreive all region options
+     * Retrieve all region options
      *
      * @return array
      */
