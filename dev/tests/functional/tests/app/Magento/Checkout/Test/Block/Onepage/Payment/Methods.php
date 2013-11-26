@@ -50,7 +50,7 @@ class Methods extends Block
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find('[for=p_method_' . $paymentCode . ']', Locator::SELECTOR_CSS)->click();
 
         $dataConfig = $payment->getDataConfig();
         if (isset($dataConfig['payment_form_class'])) {
