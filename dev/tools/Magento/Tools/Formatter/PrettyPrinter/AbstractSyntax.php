@@ -9,11 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
-use PHPParser_Node_Arg;
-use PHPParser_Node_Expr_ArrayItem;
-use PHPParser_Node_Expr_Closure;
-use PHPParser_Node_Expr_FuncCall;
-use PHPParser_Node_Expr_MethodCall;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
@@ -83,48 +78,6 @@ abstract class AbstractSyntax
     }
 
     /**
-     * This method searches for a closure node in the arguments.
-     * @param array $arguments Array of arguments to process.
-     */
-    protected function hasClosure(array $arguments)
-    {
-        $closure = false;
-        // only need to look if something was specified
-        if (!empty($arguments)) {
-            foreach ($arguments as $argument) {
-                if ($this->hasClosureArgument($argument)) {
-                    $closure = true;
-                    break;
-                }
-            }
-        }
-        return $closure;
-    }
-
-    /**
-     * This method returns if the passed in argument contains a closure reference.
-     * @param mixed $argument Argument to check.
-     * @return bool
-     */
-    protected function hasClosureArgument($argument)
-    {
-        $closure = false;
-        if ($argument instanceof PHPParser_Node_Arg &&
-            $argument->value instanceof PHPParser_Node_Expr_Closure ||
-            $argument instanceof PHPParser_Node_Expr_ArrayItem &&
-            $argument->value instanceof PHPParser_Node_Expr_Closure
-        ) {
-            $closure = true;
-        } elseif ($argument instanceof PHPParser_Node_Arg &&
-            ($argument->value instanceof PHPParser_Node_Expr_FuncCall ||
-            $argument->value instanceof PHPParser_Node_Expr_MethodCall)
-        ) {
-            $closure = $this->hasClosure($argument->value->args);
-        }
-        return $closure;
-    }
-
-    /**
      * This method processes the argument list as a parenthesis wrapped argument list.
      * @param array $arguments Array of arguments to process.
      * @param TreeNode $treeNode TreeNode representing the current node.
@@ -134,7 +87,8 @@ abstract class AbstractSyntax
     protected function processArgsList(array $arguments, TreeNode $treeNode, LineBreak $lineBreak)
     {
         // search for a closure as one of the arguments
-        if ($this->hasClosure($arguments)) {
+        $closure = new ClosureDetection($arguments);
+        if ($closure->hasClosure()) {
             // force the multi-line argument list
             $this->addToLine($treeNode, '(')->add(new HardLineBreak());
             foreach ($arguments as $index => $argument) {
