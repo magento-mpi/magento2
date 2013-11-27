@@ -256,7 +256,7 @@
                 </arguments>
             </block>
             <block class="Magento\Page\Block\Js\Components" name="head.components" as="components" template="Magento_Adminhtml::page/js/components.phtml"/>
-            <block class="Magento\View\Block\Html\Calendar" name="head.calendar" as="calendar" template="Magento_Adminhtml::page/js/calendar.phtml"/>
+            <block class="Magento\View\Element\Html\Calendar" name="head.calendar" as="calendar" template="Magento_Adminhtml::page/js/calendar.phtml"/>
         </block>
         <block class="Magento\Adminhtml\Block\Page\Notices" name="global_notices" as="global_notices" template="page/notices.phtml"/>
         <block class="Magento\Adminhtml\Block\Page\Header" name="header" as="header">

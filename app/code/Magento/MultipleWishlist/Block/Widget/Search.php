@@ -134,7 +134,7 @@ class Search extends \Magento\View\Element\Template
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName('search_by')
             ->setId($this->getBlockId() . '-search_by')
             ->setOptions($options);

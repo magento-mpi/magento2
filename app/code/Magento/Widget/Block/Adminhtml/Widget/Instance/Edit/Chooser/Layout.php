@@ -16,7 +16,7 @@ namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
  * @method getArea()
  * @method getTheme()
  */
-class Layout extends \Magento\View\Block\Html\Select
+class Layout extends \Magento\View\Element\Html\Select
 {
     /**
      * @var \Magento\Core\Model\Layout\PageType\Config

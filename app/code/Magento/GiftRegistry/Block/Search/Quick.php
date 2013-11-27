@@ -79,7 +79,7 @@ class Quick extends \Magento\View\Element\Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setData(array(
                 'id'    => 'quick_search_type_id',
                 'class' => 'select'

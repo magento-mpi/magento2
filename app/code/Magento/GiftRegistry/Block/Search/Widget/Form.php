@@ -140,7 +140,7 @@ class Form
             $this->getSearchFormOptions()
         );
 
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName('search_by')
             ->setId('search-by')
             ->setOptions($options);

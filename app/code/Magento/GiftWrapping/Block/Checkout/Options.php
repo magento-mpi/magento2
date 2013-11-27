@@ -103,7 +103,7 @@ class Options extends \Magento\View\Element\Template
      */
     public function getDesignSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setData(array(
             'id'    => 'giftwrapping-${_id_}',
             'class' => 'select'

@@ -392,7 +392,7 @@ class View extends \Magento\Rma\Block\Form
         $data['id'] = $this->getRma()->getId();
         $url = $this->getUrl('*/rma/printLabel', $data);
         return $this->getLayout()
-            ->createBlock('Magento\View\Block\Html\Link')
+            ->createBlock('Magento\View\Element\Html\Link')
             ->setData(array(
                 'label'   => __('Print Shipping Label'),
                 'onclick' => 'setLocation(\'' . $url . '\')'
@@ -409,7 +409,7 @@ class View extends \Magento\Rma\Block\Form
     public function getShowPackagesButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento\View\Block\Html\Link')
+            ->createBlock('Magento\View\Element\Html\Link')
             ->setData(array(
                 'href'      => "javascript:void(0)",
                 'title'     => __('Show Packages'),
@@ -430,7 +430,7 @@ class View extends \Magento\Rma\Block\Form
     public function getPrintShippingLabelButton()
     {
         return $this->getLayout()
-            ->createBlock('Magento\View\Block\Html\Link')
+            ->createBlock('Magento\View\Element\Html\Link')
             ->setData(array(
                 'href'      => $this->helper('Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel(
                     $this->getRma(),

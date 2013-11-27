@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Widget;
 
 class Node
-    extends \Magento\View\Block\Html\Link
+    extends \Magento\View\Element\Html\Link
     implements \Magento\Widget\Block\BlockInterface
 {
     /**

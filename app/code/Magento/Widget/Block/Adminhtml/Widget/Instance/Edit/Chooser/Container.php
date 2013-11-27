@@ -18,7 +18,7 @@
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance\Edit\Chooser;
 
-class Container extends \Magento\View\Block\Html\Select
+class Container extends \Magento\View\Element\Html\Select
 {
     /**
      * @var \Magento\View\Layout\ProcessorFactory

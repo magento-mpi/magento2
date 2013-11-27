@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block\Html;
+namespace Magento\View\Element\Html;
 
 /**
  * Date element block

@@ -270,7 +270,7 @@ class Form extends \Magento\View\Element\Template
     {
         $block = $this->getData('_select_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Magento\View\Block\Html\Select');
+            $block = $this->getLayout()->createBlock('Magento\View\Element\Html\Select');
             $this->setData('_select_block', $block);
         }
         return $block;
@@ -280,7 +280,7 @@ class Form extends \Magento\View\Element\Template
     {
         $block = $this->getData('_date_block');
         if (is_null($block)) {
-            $block = $this->getLayout()->createBlock('Magento\View\Block\Html\Date');
+            $block = $this->getLayout()->createBlock('Magento\View\Element\Html\Date');
             $this->setData('_date_block', $block);
         }
         return $block;

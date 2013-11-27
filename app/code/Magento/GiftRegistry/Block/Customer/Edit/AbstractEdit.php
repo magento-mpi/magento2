@@ -227,7 +227,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setData(array(
                 'id'    => $id,
                 'class' => 'select global-scope '. $class

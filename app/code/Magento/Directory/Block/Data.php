@@ -95,7 +95,7 @@ class Data extends \Magento\View\Element\Template
             $options = $this->getCountryCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName($name)
             ->setId($id)
             ->setTitle(__($title))
@@ -138,7 +138,7 @@ class Data extends \Magento\View\Element\Template
             $options = $this->getRegionCollection()->toOptionArray();
             $this->_configCacheType->save(serialize($options), $cacheKey);
         }
-        $html = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $html = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName('region')
             ->setTitle(__('State/Province'))
             ->setId('state')

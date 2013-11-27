@@ -85,9 +85,9 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
             'date_format'  => $this->_locale->getDateFormat(\Magento\Core\Model\LocaleInterface::FORMAT_TYPE_SHORT),
             'image'        => $this->getViewFileUrl('images/grid-cal.gif')
         );
-        /** @var $selectBlock \Magento\View\Block\Html\Date */
+        /** @var $selectBlock \Magento\View\Element\Html\Date */
         $dateBlock = $this->_layout->getBlockFactory()->createBlock(
-            'Magento\View\Block\Html\Date', array('data' => $arguments)
+            'Magento\View\Element\Html\Date', array('data' => $arguments)
         );
         $fromValue = null;
         $toValue   = null;
@@ -147,9 +147,9 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
                 'class'        => 'multiselect multiselect-export-filter',
                 'extra_params' => 'multiple="multiple" size="' . ($size > 5 ? 5 : ($size < 2 ? 2 : $size))
             );
-            /** @var $selectBlock \Magento\View\Block\Html\Select */
+            /** @var $selectBlock \Magento\View\Element\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Magento\View\Block\Html\Select', array('data' => $arguments)
+                'Magento\View\Element\Html\Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)
@@ -216,9 +216,9 @@ class Filter extends \Magento\Adminhtml\Block\Widget\Grid
                 'id'           => $this->getFilterElementId($attribute->getAttributeCode()),
                 'class'        => 'select select-export-filter'
             );
-            /** @var $selectBlock \Magento\View\Block\Html\Select */
+            /** @var $selectBlock \Magento\View\Element\Html\Select */
             $selectBlock = $this->_layout->getBlockFactory()->createBlock(
-                'Magento\View\Block\Html\Select', array('data' => $arguments)
+                'Magento\View\Element\Html\Select', array('data' => $arguments)
             );
             return $selectBlock->setOptions($options)
                 ->setValue($value)
