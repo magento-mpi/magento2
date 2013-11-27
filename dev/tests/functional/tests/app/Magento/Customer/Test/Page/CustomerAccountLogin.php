@@ -16,7 +16,6 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Customer\Test\Block\Form\Login;
-use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 
 /**
  * Class CustomerAccountLogin
