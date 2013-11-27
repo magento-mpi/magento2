@@ -35,21 +35,26 @@ class Role extends DataFixture
      */
     protected function _initData()
     {
-        $this->_data = array(
-            'fields' => array(
-                'all' => array(
-                    'value' => 0,
-                ),
-                'gws_is_all' => array(
-                    'value' => 1,
-                ),
-                'rolename' => array(
-                    'value' => 'auto%isolation%',
-                ),
-            )
-        );
-
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoUserResource($this->_dataConfig, $this->_data);
+            ->getMagentoUserRole($this->_dataConfig, $this->_data);
+    }
+
+    /**
+     * @param array $resource
+     */
+    public function setResource(array $resource)
+    {
+        $this->_data['fields']['resource']['value'] = $resource;
+    }
+
+    /**
+     * @param array $resource
+     */
+    public function addResource(array $resource)
+    {
+        $this->_data['fields']['resource']['value'] = array_merge_recursive(
+            $this->_data['fields']['resource']['value'],
+            $resource
+        );
     }
 }

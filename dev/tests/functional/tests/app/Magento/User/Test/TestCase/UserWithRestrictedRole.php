@@ -35,7 +35,9 @@ class UserWithRestrictedRole extends Functional
         $userFixture->persist();
         //Create new Acl Role - Role Resources: Sales
         $roleFixture = Factory::getFixtureFactory()->getMagentoUserRole();
-        $roleFixture->switchData('role_sales');
+        $roleFixture->switchData('custom_permissions_all_scopes');
+        $resourceRepo = Factory::getRepositoryFactory()->getMagentoUserRoleResource(array(), array());
+        $roleFixture->setResource($resourceRepo->get('Magento_Sales::sales_order'));
         $data = $roleFixture->persist();
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
