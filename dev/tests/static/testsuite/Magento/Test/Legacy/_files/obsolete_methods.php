@@ -940,12 +940,12 @@ return array(
     array(
         'unsetAll',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Core\Model\Session\AbstractSession::destroy'
+        '\Magento\Core\Model\Session\AbstractSession::clearStorage'
     ),
     array(
         'clear',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Core\Model\Session\AbstractSession::destroy'
+        '\Magento\Core\Model\Session\AbstractSession::clearStorage'
     ),
     array('delete', '\Magento\Stdlib\Cookie', '\Magento\Stdlib\Cookie::set'),
     array('setSkipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),

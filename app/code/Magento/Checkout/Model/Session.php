@@ -405,6 +405,18 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     }
 
     /**
+     * Unset all session data and quote
+     *
+     * @return $this
+     */
+    public function clearStorage()
+    {
+        parent::clearStorage();
+        $this->_quote = null;
+        return $this;
+    }
+
+    /**
      * Clear misc checkout parameters
      */
     public function clearHelperData()

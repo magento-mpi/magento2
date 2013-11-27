@@ -322,8 +322,8 @@ class Observer
                      * if admin password is expired and access to 'My Account' page is denied
                      * than we need to do force logout with error message
                      */
-                    $this->_authSession->destroy();
-                    $this->_session->destroy();
+                    $this->_authSession->clearStorage();
+                    $this->_session->clearStorage();
                     $this->_session->addError(
                         __('Your password has expired; please contact your administrator.')
                     );

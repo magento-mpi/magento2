@@ -280,7 +280,7 @@ class AbstractSession extends \Magento\Object
         }
 
         if ($options['clear_storage']) {
-            $this->unsetData();
+            $this->clearStorage();
         }
 
         if (session_status() !== PHP_SESSION_ACTIVE) {
@@ -291,6 +291,17 @@ class AbstractSession extends \Magento\Object
         if ($options['send_expire_cookie']) {
             $this->expireSessionCookie();
         }
+    }
+
+    /**
+     * Unset all session data
+     *
+     * @return $this
+     */
+    public function clearStorage()
+    {
+        $this->unsetData();
+        return $this;
     }
 
     /**

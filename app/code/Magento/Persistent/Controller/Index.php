@@ -119,7 +119,7 @@ class Index extends \Magento\Core\Controller\Front\Action
             ->setCustomerId(null)
             ->setCustomerGroupId(null);
         if ($this->_clearCheckoutSession) {
-            $this->_checkoutSession->clearQuote();
+            $this->_checkoutSession->clearStorage();
         }
         $this->_getHelper()->getSession()->removePersistentCookie();
         return $this;
