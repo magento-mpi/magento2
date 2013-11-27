@@ -150,7 +150,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Message
+     * @return \Magento\Message\Factory
      */
     public function getMessageFactory()
     {
