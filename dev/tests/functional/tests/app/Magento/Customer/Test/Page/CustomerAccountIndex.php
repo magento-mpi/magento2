@@ -18,6 +18,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
 use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 use Magento\Customer\Test\Block\Account\Dashboard\Address;
+use Magento\Page\Test\Block\Html\Title;
 
 /**
  * Frontend Customer Dashboard page
@@ -46,11 +47,11 @@ class CustomerAccountIndex extends Page
     protected $dashboardAddress;
 
     /**
-     * Dashboard header panel title
+     * Dashboard title
      *
-     * @var DashboardHeaderPanelTitle
+     * @var Title
      */
-    protected $dashboardHeaderPanelTitle;
+    protected $titleBlock;
 
     /**
      * Custom constructor
@@ -65,10 +66,8 @@ class CustomerAccountIndex extends Page
         $this->dashboardAddress = Factory::getBlockFactory()->getMagentoCustomerAccountDashboardAddress(
             $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS)
         );
-        $this->dashboardHeaderPanelTitle = Factory::getBlockFactory()->getMagentoCustomerDashboardHeaderPanelTitle(
-            $this->_browser->find('//*[@data-ui-id="page-title"]',
-                Locator::SELECTOR_XPATH
-            )
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+            $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
     }
 
@@ -93,12 +92,12 @@ class CustomerAccountIndex extends Page
     }
 
     /**
-     * Get dashboard panel title
+     * Get title block
      *
-     * @return DashboardHeaderPanelTitle
+     * @return Title
      */
-    public function getDashboardHeaderPanelTitle()
+    public function getTitleBlock()
     {
-        return $this->dashboardHeaderPanelTitle;
+        return $this->titleBlock;
     }
 }

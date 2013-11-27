@@ -51,7 +51,7 @@ class CreateOnFrontendTest extends Functional
         $this->assertContains('Thank you for registering', $accountIndexPage->getMessages()->getSuccessMessages());
 
         //Check that customer redirected to Dashboard after registration
-        $this->assertContains('My Dashboard', $accountIndexPage->getDashboardHeaderPanelTitle()->getTitle());
+        $this->assertContains('My Dashboard', $accountIndexPage->getTitleBlock()->getTitle());
 
         //Step 2 Set Billing Address
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
