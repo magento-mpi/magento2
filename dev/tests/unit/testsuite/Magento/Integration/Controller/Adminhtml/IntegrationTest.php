@@ -335,7 +335,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             Info::DATA_NAME => 'nameTest',
             Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
-            Info::DATA_ENDPOINT => 'http://magento.ll/endpoint'
+            Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
+            Info::DATA_SETUP_TYPE => 0
         );
     }
 }

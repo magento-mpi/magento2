@@ -9,6 +9,7 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Model\Integration as IntegrationKeyConstants;
 /**
  * Controller for integrations management.
  */
@@ -124,6 +125,12 @@ class Integration extends Action
                 && $integrationId == $restoredIntegration[Info::DATA_ID]
             ) {
                 $integrationData = array_merge($integrationData, $restoredIntegration);
+            }
+            if (isset($integrationData[Info::DATA_SETUP_TYPE]) &&
+                $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG) {
+                //Cannot edit Integrations created from Config. No error necessary just redirect Grid
+                $this->_redirect('*/*/');
+                return;
             }
             if (!$integrationData[Info::DATA_ID]) {
                 $this->_getSession()->addError(__('This integration no longer exists.'));
