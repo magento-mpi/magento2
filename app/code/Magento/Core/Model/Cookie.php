@@ -18,10 +18,10 @@
  */
 namespace Magento\Core\Model;
 
-use Magento\Cookie\Configurator;
-use Magento\Cookie\Manager;
+use Magento\Cookie\ConfigInterface;
+use Magento\Cookie\ManagerInterface;
 
-class Cookie implements Configurator, Manager
+class Cookie implements ConfigInterface, ManagerInterface
 {
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';

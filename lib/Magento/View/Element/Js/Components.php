@@ -10,13 +10,16 @@
 
 namespace Magento\View\Element\Js;
 
-class Components extends \Magento\View\Element\Template
+use Magento\App\State;
+use Magento\View\Element\Template;
+
+class Components extends Template
 {
     /**
      * @return bool
      */
     public function isDeveloperMode()
     {
-        return $this->_appState->getMode() == \Magento\App\State::MODE_DEVELOPER;
+        return $this->_appState->getMode() == State::MODE_DEVELOPER;
     }
 }

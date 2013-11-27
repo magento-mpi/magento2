@@ -7,7 +7,7 @@
  */
 namespace Magento\Cookie;
 
-interface Manager
+interface ManagerInterface
 {
     /**
      * Postpone cookie expiration time if cookie value defined
@@ -18,7 +18,7 @@ interface Manager
      * @param string $domain
      * @param int|bool $secure
      * @param int|bool $httponly
-     * @return \Magento\Cookie\Manager
+     * @return \Magento\Cookie\ManagerInterface
      */
     public function renew($name, $period = null, $path = null, $domain = null, $secure = null, $httponly = null);
 
@@ -38,7 +38,7 @@ interface Manager
      * @param string $domain
      * @param int|bool $secure
      * @param int|bool $httponly
-     * @return \Magento\Cookie\Manager
+     * @return \Magento\Cookie\ManagerInterface
      */
     public function delete($name, $path = null, $domain = null, $secure = null, $httponly = null);
 
@@ -52,7 +52,7 @@ interface Manager
      * @param string $domain
      * @param int|bool $secure
      * @param bool $httponly
-     * @return \Magento\Cookie\Manager
+     * @return \Magento\Cookie\ManagerInterface
      */
     public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null);
 }

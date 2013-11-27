@@ -1464,4 +1464,7 @@ return array(
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),
     array('Magento\Page\Block\Template\Container'),
     array('Magento\Page\Block\Redirect', 'Magento\View\Element\Redirect'),
+    array('Magento\Page\Block\Js\Translate'),
+    array('Magento\Page\Block\Js\Components', 'Magento\View\Element\Js\Components'),
+    array('Magento\Page\Block\Js\Cookie', 'Magento\View\Element\Js\Cookie'),
 );

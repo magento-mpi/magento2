@@ -7,7 +7,7 @@
  */
 namespace Magento\Cookie;
 
-interface Configurator
+interface ConfigInterface
 {
     /**
      * Retrieve cookie lifetime

@@ -10,28 +10,31 @@
 
 namespace Magento\View\Element\Js;
 
-use Magento\View\Block\Template;
+use Magento\Cookie\ConfigInterface;
+use Magento\Core\Helper\Data;
+use Magento\View\Element\Template;
+use Magento\View\Element\Template\Context;
 
-class Cookie extends \Magento\View\Element\Template
+class Cookie extends Template
 {
     /**
-     * @var \Magento\Cookie\Configurator
+     * @var ConfigInterface
      */
-    protected $_cookie;
+    protected $_cookieConfig;
 
     /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Cookie\Configurator $cookie
+     * @param Context $context
+     * @param Data $coreData
+     * @param ConfigInterface $cookieConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Cookie\Configurator $cookie,
+        Context $context,
+        Data $coreData,
+        ConfigInterface $cookieConfig,
         array $data = array()
     ) {
-        $this->_cookie = $cookie;
+        $this->_cookieConfig = $cookieConfig;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -42,7 +45,7 @@ class Cookie extends \Magento\View\Element\Template
      */
     public function getDomain()
     {
-        $domain = $this->getCookie()->getDomain();
+        $domain = $this->_cookieConfig->getDomain();
         if (!empty($domain[0]) && ($domain[0] !== '.')) {
             $domain = '.'.$domain;
         }
@@ -56,6 +59,6 @@ class Cookie extends \Magento\View\Element\Template
      */
     public function getPath()
     {
-        return $this->getCookie()->getPath();
+        return $this->_cookieConfig->getPath();
     }
 }
