@@ -14,10 +14,16 @@ use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
-
+/**
+ * Curl handler for persisting Magento user
+ *
+ * @package Magento\Core\Test\Handler\Curl
+ */
 class CreateUser extends Curl
 {
     /**
+     * Prepare data for using in the executr method
+     *
      * @param array $fields
      * @return array
      */
@@ -46,7 +52,6 @@ class CreateUser extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
-
         return $response;
     }
 }

@@ -8,6 +8,7 @@
 
 namespace Magento\User\Test\Fixture;
 
+use Magento\Core\Model\Layout\Argument\HandlerFactory;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 use Mtf\System\Config;
@@ -25,10 +26,18 @@ class AdminUser extends DataFixture
         $this->_placeholders['role_id'] = array($this, 'roleProvider');
     }
 
-    //TODO implement provider
+
+    /**
+     * Retrieve specify data from role.
+     *
+     * @return mixed
+     */
     protected function roleProvider()
     {
-         return '1';
+        $role = Factory::getFixtureFactory()->getMagentoUserRole();
+        $role->switchData('role_sales');
+        $data = $role->persist();
+        return $data['id'];
     }
 
     /**
@@ -39,13 +48,13 @@ class AdminUser extends DataFixture
         $this->_data = array(
             'fields' => array(
                 'email' => array(
-                    'value' => 'test%isolation%@example.com'
+                    'value' => 'email%isolation%@example.com'
                 ),
                 'firstname' => array(
-                    'value' => 'test%isolation%'
+                    'value' => 'firstname%isolation%'
                 ),
                 'lastname' => array(
-                    'value' => 'test%isolation%'
+                    'value' => 'lastname%isolation%'
                 ),
                 'password' => array(
                     'value' => '%password%'
@@ -57,7 +66,7 @@ class AdminUser extends DataFixture
                     'value' => array('1')
                 ),
                 'username' => array(
-                    'value' => 'test%isolation%'
+                    'value' => 'admin%isolation%'
                 ),
             ),
         );
@@ -66,12 +75,27 @@ class AdminUser extends DataFixture
     }
 
     /**
-     *
      * @return string
      */
     public function getEmail()
     {
         return $this->getData('fields/email/value');
+    }
+
+    /**
+     * @return string
+     */
+    public function getPassword()
+    {
+        return $this->getData('fields/password/value');
+    }
+
+    /**
+     * @return string
+     */
+    public function getUsername()
+    {
+        return $this->getData('fields/username/value');
     }
 
     /**

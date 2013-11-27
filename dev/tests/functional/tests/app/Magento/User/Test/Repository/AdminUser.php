@@ -11,12 +11,15 @@ namespace Magento\User\Test\Repository;
 use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
+/**
+ * Class Admin User Repository
+ *
+ * @package namespace Magento\User\Test\Repository
+ */
 class AdminUser extends AbstractRepository
 {
-
     /**
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * {inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
@@ -24,10 +27,12 @@ class AdminUser extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
-        $this->_data['user_with_restricted_resource'] = $this->_getUserWithRestrictedResource();
+        $this->_data['user_with_sales_resource'] = $this->_getUserWithRestrictedResource();
     }
 
     /**
+     * Build data for user with restricted resource
+     *
      * @return array
      */
     protected function _getUserWithRestrictedResource()
