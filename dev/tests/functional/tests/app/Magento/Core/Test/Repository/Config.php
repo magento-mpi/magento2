@@ -46,6 +46,7 @@ class Config extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
+        $this->_data['check_money_order'] = $this->getCheckmo();
     }
 
     protected function _getFreeShipping()
@@ -542,28 +543,28 @@ class Config extends AbstractRepository
                             'cart_display' => array( // Shipping Cart Display Settings
                                 'fields' => array(
                                     'price' => array( // Display Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => 1,
                                     ),
                                     'subtotal' => array( // Display Subtotal
-                                        'value' => 1 //Excluding Tax
+                                        'value' => 1,
                                     ),
                                     'shipping' => array( // Display Shipping Amount
-                                        'value' => 1 //Excluding Tax
+                                        'value' => 1,
                                     ),
                                     'gift_wrapping' => array( // Display Gift Wrapping Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => 1,
                                     ),
                                     'printed_card' => array( // Display Printed Card Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => 1,
                                     ),
                                     'grandtotal' => array( // Include Tax In Grand Total
-                                        'value' => 0 //No
+                                        'value' => 0,
                                     ),
                                     'full_summary' => array( // Display Full Tax Summary
-                                        'value' => 0 //No
+                                        'value' => 0,
                                     ),
                                     'zero_tax' => array( // Display Zero Tax Subtotal
-                                        'value' => 0 //No
+                                        'value' => 0,
                                     )
                                 )
                             )
@@ -715,6 +716,41 @@ class Config extends AbstractRepository
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * Enable Check/Money order
+     *
+     * @return array
+     */
+    protected function getCheckmo()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'checkmo' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 1, //Yes
+                                    ),
+                                    'order_status' => array(
+                                        'value' => 'pending', //New Order Status
+                                    ),
+                                    'allowspecific' => array(
+                                        'value' => 0, //All Allowed Counries
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 }
