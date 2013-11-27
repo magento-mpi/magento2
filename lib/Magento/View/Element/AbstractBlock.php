@@ -225,9 +225,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function setLayout(\Magento\View\LayoutInterface $layout)
     {
         $this->_layout = $layout;
-        $this->_eventManager->dispatch('core_block_abstract_prepare_layout_before', array('block' => $this));
         $this->_prepareLayout();
-        $this->_eventManager->dispatch('core_block_abstract_prepare_layout_after', array('block' => $this));
         return $this;
     }
 
@@ -616,7 +614,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     public function toHtml()
     {
-        $this->_eventManager->dispatch('core_block_abstract_to_html_before', array('block' => $this));
+        $this->_eventManager->dispatch('view_block_abstract_to_html_before', array('block' => $this));
         if ($this->_storeConfig->getConfig('advanced/modules_disable_output/' . $this->getModuleName())) {
             return '';
         }

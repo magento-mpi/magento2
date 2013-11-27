@@ -11,7 +11,7 @@ namespace Magento\View\Element;
 /**
  * Class Messages
  */
-class Messages extends \Magento\View\Element\Template
+class Messages extends Template
 {
     /**
      * Messages collection
@@ -270,7 +270,7 @@ class Messages extends \Magento\View\Element\Template
             'layout'       => $this->getLayout(),
             'transport'    => $transport,
         );
-        $this->_eventManager->dispatch('core_message_block_render_grouped_html_after', $params);
+        $this->_eventManager->dispatch('view_message_block_render_grouped_html_after', $params);
         $html = $transport->getData('output');
     }
 
