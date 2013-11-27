@@ -269,6 +269,11 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_config;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -281,6 +286,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -298,6 +304,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -311,8 +318,9 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->_dir = $dir;
         $this->_config = $coreConfig;
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
+        $this->_sidResolver = $sidResolver;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     public function __sleep()
@@ -362,8 +370,9 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         if (!$this->_session) {
-            $this->_session = \Magento\App\ObjectManager::getInstance()->create('Magento\Core\Model\Session')
-                ->init('store_'.$this->getCode());
+            $this->_session = \Magento\App\ObjectManager::getInstance()
+                ->create('Magento\Core\Model\Session')
+                ->start('store_' . $this->getCode());
         }
         return $this->_session;
     }
@@ -815,7 +824,7 @@ class Store extends \Magento\Core\Model\AbstractModel
             $this->_getSession()->setCurrencyCode($code);
             if ($code == $this->getDefaultCurrency()) {
                 \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\App')->getCookie()->delete(self::COOKIE_CURRENCY, $code);
+                    ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, null, 0);
             } else {
                 \Magento\App\ObjectManager::getInstance()
                     ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, $code);
@@ -1077,7 +1086,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function getCurrentUrl($fromStore = true)
     {
-        $sidQueryParam = $this->_getSession()->getSessionIdQueryParam();
+        $sidQueryParam = $this->_sidResolver->getSessionIdQueryParam($this->_getSession());
         $requestString = $this->getUrlModel()->escape(ltrim(
             \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\App')->getRequest()->getRequestString(),

@@ -255,7 +255,7 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
     /**
      * Set cookie instance
      *
-     * @param \Magento\Core\Model\Cookie $product
+     * @param \Magento\Stdlib\Cookie $cookie
      * @return \Magento\Sendfriend\Model\Sendfriend
      */
     public function setCookie($cookie)
@@ -267,12 +267,12 @@ class Sendfriend extends \Magento\Core\Model\AbstractModel
      * Retrieve Cookie instance
      *
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Model\Cookie
+     * @return \Magento\Stdlib\Cookie
      */
     public function getCookie()
     {
         $cookie = $this->_getData('_cookie');
-        if (!$cookie instanceof \Magento\Core\Model\Cookie) {
+        if (!$cookie instanceof \Magento\Stdlib\Cookie) {
             throw new \Magento\Core\Exception(__('Please define a correct Cookie instance.'));
         }
         return $cookie;

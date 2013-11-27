@@ -54,11 +54,6 @@ class Url extends \Magento\Core\Model\Url
     protected $_backendHelper;
 
     /**
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_coreSession;
-
-    /**
      * Menu config
      *
      * @var \Magento\Backend\Model\Menu\Config
@@ -76,18 +71,25 @@ class Url extends \Magento\Core\Model\Url
     protected $_encryptor;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param Menu\Config $menuConfig
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param null $areaCode
      * @param array $data
      */
@@ -98,26 +100,36 @@ class Url extends \Magento\Core\Model\Url
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Session $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Data\Form\FormKey $formKey,
         $areaCode = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct(
-            $routeConfig, $request, $urlSecurityInfo, $coreStoreConfig,
-            $app, $storeManager, $session, $areaCode, $data
+            $routeConfig,
+            $request,
+            $urlSecurityInfo,
+            $coreStoreConfig,
+            $app,
+            $storeManager,
+            $session,
+            $sidResolver,
+            $areaCode,
+            $data
         );
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
-        $this->_coreSession = $session;
         $this->_menuConfig = $menuConfig;
         $this->_cache = $cache;
         $this->_session = $authSession;
+        $this->formKey = $formKey;
     }
 
     /**
@@ -200,7 +212,7 @@ class Url extends \Magento\Core\Model\Url
      */
     public function getSecretKey($routeName = null, $controller = null, $action = null)
     {
-        $salt = $this->_coreSession->getFormKey();
+        $salt = $this->formKey->getFormKey();
         $request = $this->getRequest();
         if (!$routeName) {
             if ($request->getBeforeForwardInfo('route_name') !== null) {

@@ -596,8 +596,8 @@ class Observer
         $this->_cookie->updateCustomerCookies();
 
         if (!$this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER)) {
-            $this->_cookie->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED);
-            $this->_cookie->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST);
+            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED, null, 0);
+            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, null, 0);
             \Magento\FullPageCache\Model\Cookie::registerViewedProducts(array(), 0, false);
         }
 
@@ -680,7 +680,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE);
+        $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null, 0);
         return $this;
     }
 
@@ -763,7 +763,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->delete(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE);
+        $this->_cookie->set(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE, null, 0);
         return $this;
     }
 

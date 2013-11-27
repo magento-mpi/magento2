@@ -25,9 +25,9 @@ class Head extends \Magento\Page\Block\Html\Head
     protected $_template = 'page/head.phtml';
 
     /**
-     * @var \Magento\App\Action\Title
+     * @var \Magento\Data\Form\FormKey
      */
-    protected $_titles;
+    protected $formKey;
 
     /**
      * @param \Magento\View\Block\Template\Context $context
@@ -38,6 +38,7 @@ class Head extends \Magento\Page\Block\Html\Head
      * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
      * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
      * @param \Magento\App\Action\Title $titles
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
@@ -49,6 +50,7 @@ class Head extends \Magento\Page\Block\Html\Head
         \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
         \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
         \Magento\App\Action\Title $titles,
+        \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
         $this->_titles = $titles;
@@ -62,6 +64,7 @@ class Head extends \Magento\Page\Block\Html\Head
             $assetMinifyService,
             $data
         );
+        $this->formKey = $formKey;
     }
 
     /**
@@ -71,7 +74,7 @@ class Head extends \Magento\Page\Block\Html\Head
      */
     public function getFormKey()
     {
-        return $this->_session->getFormKey();
+        return $this->formKey->getFormKey();
     }
 
     /**

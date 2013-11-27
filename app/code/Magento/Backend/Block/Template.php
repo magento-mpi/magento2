@@ -38,6 +38,12 @@ class Template extends \Magento\View\Block\Template
     protected $_backendSession;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
@@ -51,6 +57,7 @@ class Template extends \Magento\View\Block\Template
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();
+        $this->formKey = $context->getFormKey();
         parent::__construct($context, $coreData, $data);
     }
 
@@ -61,7 +68,7 @@ class Template extends \Magento\View\Block\Template
      */
     public function getFormKey()
     {
-        return $this->_session->getFormKey();
+        return $this->formKey->getFormKey();
     }
 
     /**

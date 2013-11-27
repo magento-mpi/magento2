@@ -50,13 +50,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context                 $context
      * @param \Magento\PageCache\Model\CacheControlFactory $ccFactory
-     * @param \Magento\Core\Model\Cookie                   $cookie
+     * @param \Magento\Stdlib\Cookie                       $cookie
      * @param \Magento\Core\Model\Store\Config             $coreStoreConfig
      */
     function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\PageCache\Model\CacheControlFactory $ccFactory,
-        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($context);
@@ -115,7 +115,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function removeNoCacheCookie()
     {
         if (!$this->_isNoCacheCookieLocked) {
-            $this->_cookie->delete(self::NO_CACHE_COOKIE);
+            $this->_cookie->set(self::NO_CACHE_COOKIE, null, 0);
         }
         return $this;
     }
@@ -139,7 +139,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function unlockNoCacheCookie()
     {
-        $this->_cookie->delete(self::NO_CACHE_LOCK_COOKIE);
+        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null, 0);
         $this->_isNoCacheCookieLocked = false;
         return $this;
     }

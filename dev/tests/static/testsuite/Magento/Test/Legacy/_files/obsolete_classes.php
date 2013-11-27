@@ -1462,4 +1462,6 @@ return array(
     array('Magento\Core\Helper\AbstractHelper', 'Magento\App\Helper\AbstractHelper'),
     array('Magento\Core\Helper\Context', 'Magento\App\Helper\Context'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Block\Template\Context'),
+    array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
+    array('Magento\Core\Model\Logger', 'Magento\Logger'),
 );

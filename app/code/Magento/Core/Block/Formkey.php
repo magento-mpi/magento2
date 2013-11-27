@@ -16,12 +16,33 @@ namespace Magento\Core\Block;
 class Formkey extends \Magento\View\Block\Template
 {
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param Template\Context $context
+     * @param \Magento\Data\Form\FormKey $formKey
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Block\Template\Context $context,
+        \Magento\Data\Form\FormKey $formKey,
+        array $data = array()
+    ) {
+        $this->formKey = $formKey;
+        parent::__construct($coreData, $context, $data);
+    }
+
+    /**
      * Get form key
      *
      * @return string
      */
     public function getFormKey()
     {
-        return $this->_session->getFormKey();
+        return $this->formKey->getFormKey();
     }
 }

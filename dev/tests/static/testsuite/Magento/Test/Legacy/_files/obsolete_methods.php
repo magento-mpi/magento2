@@ -1000,4 +1000,44 @@ return array(
     array('_saveCache', '\Magento\App\Helper\AbstractHelper'),
     array('_removeCache', '\Magento\App\Helper\AbstractHelper'),
     array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
+    array(
+        'getEncryptedSessionId',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\AbstractSession::getSessionId'
+    ),
+    array(
+        'getSessionIdQueryParam',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\SidResolver::getSessionIdQueryParam'
+    ),
+    array('getCookie', '\Magento\Core\Model\Session\AbstractSession'),
+    array(
+        'unsetAll',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\AbstractSession::clearStorage'
+    ),
+    array(
+        'clear',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\AbstractSession::clearStorage'
+    ),
+    array('delete', '\Magento\Stdlib\Cookie', '\Magento\Stdlib\Cookie::set'),
+    array('setSkipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),
+    array('getSkipSessionIdFlag', '\Magento\Core\Model\Session\AbstractSession'),
+    array('getConfigDomain', '\Magento\Stdlib\Cookie'),
+    array('getDomain', '\Magento\Stdlib\Cookie'),
+    array('getDefaultLifetime', '\Magento\Stdlib\Cookie'),
+    array('getPath', '\Magento\Stdlib\Cookie'),
+    array('getHttponly', '\Magento\Stdlib\Cookie'),
+    array('isSecure', '\Magento\Stdlib\Cookie'),
+    array('getStore', '\Magento\Stdlib\Cookie'),
+    array('setStore', '\Magento\Stdlib\Cookie'),
+    array('setLifetime', '\Magento\Stdlib\Cookie'),
+    array('_getResponse', '\Magento\Stdlib\Cookie'),
+    array('_getRequest', '\Magento\Stdlib\Cookie'),
+    array('init', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\AbstractSession::start'),
+    array('getCacheLimiter', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
 );

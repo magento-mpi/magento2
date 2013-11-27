@@ -284,8 +284,7 @@ class Backup extends \Magento\Backend\App\Action
             $helper->invalidateCache()->invalidateIndexer();
 
             $adminSession = $this->_getSession();
-            $adminSession->unsetAll();
-            $adminSession->getCookie()->delete($adminSession->getSessionName());
+            $adminSession->destroy();
 
             $response->setRedirectUrl($this->getUrl('*'));
         } catch (\Magento\Backup\Exception\CantLoadSnapshot $e) {

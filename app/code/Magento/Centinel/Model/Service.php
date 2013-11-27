@@ -81,13 +81,6 @@ class Service extends \Magento\Object
     protected $_centinelSession;
 
     /**
-     * Session
-     *
-     * @var \Magento\Core\Model\Session
-     */
-    protected $_session;
-
-    /**
      * Store manager
      *
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -109,14 +102,19 @@ class Service extends \Magento\Object
     protected $_validationState;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\Centinel\Model\Config $config
      * @param \Magento\Centinel\Model\Api $api
      * @param \Magento\UrlInterface $backendUrl
      * @param \Magento\UrlInterface $frontendUrl
      * @param \Magento\Core\Model\Session\AbstractSession $centinelSession
-     * @param \Magento\Core\Model\Session $session
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Centinel\Model\StateFactory $stateFactory
+     * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
@@ -125,9 +123,9 @@ class Service extends \Magento\Object
         \Magento\UrlInterface $backendUrl,
         \Magento\UrlInterface $frontendUrl,
         \Magento\Core\Model\Session\AbstractSession $centinelSession,
-        \Magento\Core\Model\Session $session,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Centinel\Model\StateFactory $stateFactory,
+        \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
         $this->_config = $config;
@@ -135,9 +133,9 @@ class Service extends \Magento\Object
         $this->_backendUrl = $backendUrl;
         $this->_frontendUrl = $frontendUrl;
         $this->_centinelSession = $centinelSession;
-        $this->_session = $session;
         $this->_storeManager = $storeManager;
         $this->_stateFactory = $stateFactory;
+        $this->formKey = $formKey;
         parent::__construct($data);
     }
 
@@ -179,7 +177,7 @@ class Service extends \Magento\Object
         $params = array(
             '_secure'  => true,
             '_current' => $current,
-            'form_key' => $this->_session->getFormKey(),
+            'form_key' => $this->formKey->getFormKey(),
             'isIframe' => true
         );
         if ($this->_storeManager->getStore()->isAdmin()) {
