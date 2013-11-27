@@ -128,7 +128,7 @@ class Integration extends Action
             }
             if (isset($integrationData[Info::DATA_SETUP_TYPE]) &&
                 $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG) {
-                //Cannot edit Integrations created from Config. No error necessary just redirect Grid
+                //Cannot edit Integrations created from Config. No error necessary just redirect to grid
                 $this->_redirect('*/*/');
                 return;
             }
