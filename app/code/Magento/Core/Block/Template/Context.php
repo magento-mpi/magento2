@@ -12,13 +12,6 @@ namespace Magento\Core\Block\Template;
 class Context extends \Magento\Core\Block\Context
 {
     /**
-     * Dirs instance
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
      * Logger instance
      *
      * @var \Magento\Logger
@@ -127,17 +120,6 @@ class Context extends \Magento\Core\Block\Context
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
         $this->_engineFactory = $engineFactory;
-    }
-
-    /**
-     * todo remove this after MAGETWO-17471
-     * Get dirs instance
-     * @return \Magento\App\Dir
-     * @deprecated
-     */
-    public function getDirs()
-    {
-        return $this->_dirs;
     }
 
     /**

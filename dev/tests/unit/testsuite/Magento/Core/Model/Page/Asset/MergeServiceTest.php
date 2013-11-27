@@ -41,11 +41,6 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dirs;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_state;
 
     protected function setUp()
@@ -55,19 +50,17 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Store\Config', array('getConfigFlag'), array(), '', false
         );
         $this->_filesystem = $this->getMock('Magento\Filesystem',
-            array('getDirectoryWrite'), array(), '', false);
+            array('getDirectoryWrite', 'getPath'), array(), '', false);
         $this->_directory = $this->getMock(
             'Magento\Filesystem\Directory\Write',
             array('delete', 'getRelativePath'), array(), '', false
         );
-        $this->_dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_state = $this->getMock('Magento\App\State', array(), array(), '', false);
 
         $this->_object = new \Magento\Core\Model\Page\Asset\MergeService(
             $this->_objectManager,
             $this->_storeConfig,
             $this->_filesystem,
-            $this->_dirs,
             $this->_state
         );
     }

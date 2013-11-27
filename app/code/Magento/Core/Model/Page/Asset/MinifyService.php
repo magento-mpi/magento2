@@ -41,11 +41,6 @@ class MinifyService
     protected $_minifiers = array();
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -53,18 +48,15 @@ class MinifyService
     /**
      * @param \Magento\Core\Model\Store\Config $config
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Core\Model\Store\Config $config,
         \Magento\ObjectManager $objectManager,
-        \Magento\App\Dir $dirs,
         \Magento\App\State $appState
     ) {
         $this->_storeConfig = $config;
         $this->_objectManager = $objectManager;
-        $this->_dirs = $dirs;
         $this->_appState = $appState;
     }
 
