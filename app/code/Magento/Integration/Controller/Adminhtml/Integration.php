@@ -12,13 +12,23 @@ use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Backend\App\Action
+class Integration extends Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
 
     /** Keys used for registering data into the registry */
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
+
+    /** Request parameter which define the dialog window requested */
+    const PARAM_DIALOG_ID = 'popup_dialog';
+
+    /**#@+
+     * Allowed values for PARAM_DIALOG_ID request parameter
+     */
+    const DIALOG_PERMISSIONS = 'permissions';
+    const DIALOG_TOKENS = 'tokens';
+    /**#@-*/
 
     /**
      * Core registry
@@ -191,15 +201,37 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function activateAction()
     {
-        $dialogName = $this->getRequest()->getParam('popup_dialog');
+        $dialogName = $this->getRequest()->getParam(self::PARAM_DIALOG_ID);
 
-        if ($dialogName) {
-            $this->_view->loadLayout(sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName));
+        if (in_array($dialogName, [self::DIALOG_PERMISSIONS, self::DIALOG_TOKENS])) {
+            $this->_view->loadLayout($this->_getPopupHandleNames($dialogName));
         } else {
             $this->_view->loadLayout();
         }
 
         $this->_view->renderLayout();
+    }
+
+    /**
+     * @param string $dialogName
+     * @return array
+     */
+    protected function _getPopupHandleNames($dialogName)
+    {
+        $handles = [sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName)];
+
+        if ($dialogName === self::DIALOG_PERMISSIONS) {
+            $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()
+                ->xpath('//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id');
+
+            if (is_array($handleNodes)) {
+                foreach ($handleNodes as $node) {
+                    $handles[] = (string)$node;
+                }
+            }
+        }
+
+        return $handles;
     }
 
     /**

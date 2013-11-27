@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs;
+namespace Magento\Webapi\Block\Adminhtml\Integration\Activate\Permissions\Tab;
 
 use Magento\Backend\Block\Widget\Tab\TabInterface;
 use Magento\View\Block\Template;
