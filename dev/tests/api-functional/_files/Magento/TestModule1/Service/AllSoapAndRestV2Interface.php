@@ -15,30 +15,30 @@ interface AllSoapAndRestV2Interface
 
     /**
      * @param int $id
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V2\Item
      */
     public function item($id);
 
     /**
      * @param string $name
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V2\Item
      */
     public function create($name);
 
     /**
-     * @param Item $item
-     * @return Item
+     * @param \Magento\TestModule1\Service\Entity\V2\Item $item
+     * @return \Magento\TestModule1\Service\Entity\V2\Item
      */
     public function update(Item $item);
 
     /**
-     * @return array
+     * @return \Magento\TestModule1\Service\Entity\V2\Item[]
      */
     public function items();
 
     /**
      * @param int $id
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V2\Item
      */
     public function delete($id);
 

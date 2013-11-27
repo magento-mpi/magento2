@@ -12,62 +12,52 @@ use Magento\TestModule2\Service\Entity\V1\Item;
 class SubsetRestV1 implements \Magento\TestModule2\Service\SubsetRestV1Interface
 {
     /**
-     * @param int $id
-     * @return Item
+     * {@inheritdoc}
      */
     public function item($id)
     {
-        $response = new Item();
-        $response->setId($id);
-        return $response;
+        $item = new Item();
+        $item->setId($id);
+        return $item;
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function items()
     {
-        $r1 = new Item();
-        $r1->setId('1');
-        $r1->setName('testItem1');
-        $r2 = new Item();
-        $r2->setId('2');
-        $r2->setName('testItem2');
-        return [$r1, $r2];
+        $itemA = new Item();
+        $itemA->setId('1');
+        $itemA->setName('testItem1');
+        $itemB = new Item();
+        $itemB->setId('2');
+        $itemB->setName('testItem2');
+        return [$itemA, $itemB];
     }
 
     /**
-     * @param array $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function create($request)
+    public function create($name)
     {
-        $result = array(
-            'id' => rand(),
-            'name' => $request['name']
-        );
-        return $result;
+        $item = new Item();
+        return $item->setId(rand())->setName($name);
     }
 
     /**
-     * @param array $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function update($request)
+    public function update(Item $item)
     {
-        return array(
-            'id' => $request['id']
-        );
+        return $item->setName($item->getName() . ' Updated');
     }
 
     /**
-     * @param array $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function remove($request)
+    public function remove($id)
     {
-        return array(
-            'id' => $request['id']
-        );
+        $item = new Item();
+        return $item->setId('1');
     }
 }

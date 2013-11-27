@@ -82,11 +82,7 @@ class Config
         $this->_config = $config;
         $this->_objectManager = $objectManager;
         $this->_configHelper = $configHelper;
-        // TODO: Reconsider data retrieval
-        try {
-            $this->_serviceMetadata = $reader->getData();
-        } catch (\Exception $e) {
-        }
+        $this->_serviceMetadata = $reader->getData($this->_getSoapServices());
     }
 
     /**
@@ -126,8 +122,6 @@ class Config
 
     /**
      * Collect the list of services with their operations available in SOAP.
-     * The list of services is taken from webapi.xml configuration files.
-     * The list of methods in contrast to REST is taken from PHP Interface using reflection.
      *
      * @return array
      */
@@ -198,49 +192,6 @@ class Config
             }
         }
         return $services;
-    }
-
-    /**
-     * Load and return Service XSD for the provided Service Class
-     *
-     * TODO: Remove warnings suppression
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
-     * @param $serviceClass
-     * @return \DOMDocument
-     */
-    public function getServiceSchemaDOM($serviceClass)
-    {
-        // TODO: Check if Service specific XSD is already cached
-        /*
-        TODO: Re-implement
-        $modulesDir = $this->_dir->getDir(\Magento\App\Dir::MODULES);
-
-        // TODO: Change pattern to match interface instead of class. Think about sub-services.
-        if (!preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
-            // TODO: Generate exception when error handling strategy is defined
-        }
-
-        $vendorName = $matches[1];
-        $moduleName = $matches[2];
-        */
-        /** Convert "_Catalog_Attribute" into "Catalog/Attribute" */
-        /*
-        $servicePath = str_replace('_', '/', ltrim($matches[3], '_'));
-        $version = $matches[4];
-        $schemaPath = "{$modulesDir}/{$vendorName}/{$moduleName}/etc/schema/{$servicePath}{$version}.xsd";
-
-        if ($this->_filesystem->isFile($schemaPath)) {
-            $schema = $this->_filesystem->read($schemaPath);
-        } else {
-            $schema = '';
-        }
-        */
-
-        // TODO: Should happen only once the cache is in place
-        $serviceSchema = $this->_objectManager->create('DOMDocument');
-        // $serviceSchema->loadXML($schema);
-
-        return $serviceSchema;
     }
 
     /**

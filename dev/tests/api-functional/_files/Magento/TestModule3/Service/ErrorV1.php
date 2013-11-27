@@ -31,7 +31,7 @@ class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
         throw new \Magento\Service\Exception('Generic service exception', 3456);
     }
 
-    public function parameterizedServiceException(array $parameters)
+    public function parameterizedServiceException($parameters)
     {
         throw new \Magento\Service\Exception('Parameterized service exception', 1234, null, $parameters['details']);
     }

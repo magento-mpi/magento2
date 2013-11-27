@@ -22,8 +22,7 @@ class Parameter extends \Magento\Service\Entity\AbstractDto
 
     /**
      * @param string $name
-     *
-     * @return Parameter
+     * @return \Magento\TestModule3\Service\Entity\V1\Parameter
      */
     public function setName($name)
     {
@@ -41,8 +40,7 @@ class Parameter extends \Magento\Service\Entity\AbstractDto
 
     /**
      * @param string $value
-     *
-     * @return Parameter
+     * @return \Magento\TestModule3\Service\Entity\V1\Parameter
      */
     public function setValue($value)
     {

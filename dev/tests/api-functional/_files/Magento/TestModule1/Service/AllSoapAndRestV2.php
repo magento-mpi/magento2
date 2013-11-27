@@ -14,8 +14,7 @@ class AllSoapAndRestV2 implements
     \Magento\TestModule1\Service\AllSoapAndRestV2Interface
 {
     /**
-     * @param int $request
-     * @return Item
+     * {@inheritdoc}
      */
     public function item($id)
     {
@@ -30,7 +29,7 @@ class AllSoapAndRestV2 implements
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function items()
     {
@@ -48,8 +47,7 @@ class AllSoapAndRestV2 implements
     }
 
     /**
-     * @param string $name
-     * @return Item
+     * {@inheritdoc}
      */
     public function create($name)
     {
@@ -61,8 +59,7 @@ class AllSoapAndRestV2 implements
     }
 
     /**
-     * @param Item $item
-     * @return Item
+     * {@inheritdoc}
      */
     public function update(Item $item)
     {
@@ -78,9 +75,7 @@ class AllSoapAndRestV2 implements
     }
 
     /**
-     * @param int $id
-     * @return Item
-     * @throws \Magento\Webapi\Exception
+     * {@inheritdoc}
      */
     public function delete($id)
     {

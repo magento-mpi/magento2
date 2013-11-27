@@ -31,7 +31,7 @@ class Item extends \Magento\Service\Entity\AbstractDto
     /**
      * @param int $id
      *
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V1\Item
      */
     public function setId($id)
     {
@@ -42,7 +42,7 @@ class Item extends \Magento\Service\Entity\AbstractDto
     /**
      * @param string $name
      *
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V1\Item
      */
     public function setName($name)
     {

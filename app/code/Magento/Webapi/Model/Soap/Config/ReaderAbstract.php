@@ -92,12 +92,6 @@ abstract class ReaderAbstract
         if (!$this->_directoryScanner) {
             $this->_directoryScanner = new \Zend\Code\Scanner\DirectoryScanner();
             foreach (array_keys($this->_modulesList->getModules()) as $moduleName) {
-
-                // TODO: Remove temporary module name limitation
-                if ($moduleName != 'Magento_TestModule5') {
-                    continue;
-                }
-
                 $directory = $this->_moduleDir->getDir($moduleName) . DS . 'Service';
                 if (is_dir($directory)) {
                     $this->_directoryScanner->addDirectory($directory);
@@ -121,13 +115,13 @@ abstract class ReaderAbstract
     /**
      * Read configuration data from the service files using class reflector.
      *
+     * @param array $declaredSoapServices
+     * @return array
      * @throws \InvalidArgumentException
      * @throws \LogicException
-     * @return array
      */
-    public function getData()
+    public function getData($declaredSoapServices)
     {
-
         if (!$this->_data) {
             $cachedData = $this->_cache->load($this->getCacheId());
             if ($cachedData && is_string($cachedData)) {
@@ -146,8 +140,13 @@ abstract class ReaderAbstract
                     /** @var \Zend\Code\Scanner\ClassScanner $class */
                     $class = current($classes);
                     $className = $class->getName();
-                    if (preg_match(self::SERVICE_CLASS_PATTERN, $className)) {
-                        $classData = $this->_classReflector->reflectClassMethods($className);
+                    if (preg_match(self::SERVICE_CLASS_PATTERN, $className)
+                        && array_key_exists($className, $declaredSoapServices)
+                    ) {
+                        $classData = $this->_classReflector->reflectClassMethods(
+                            $className,
+                            $declaredSoapServices[$className]['methods']
+                        );
                         $this->_addData($classData);
                     }
                 }

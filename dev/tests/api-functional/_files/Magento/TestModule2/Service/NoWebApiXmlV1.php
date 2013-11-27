@@ -7,69 +7,63 @@
  */
 namespace Magento\TestModule2\Service;
 
+use Magento\TestModule2\Service\Entity\V1\Item;
+
 class NoWebApiXmlV1 implements \Magento\TestModule2\Service\NoWebApiXmlV1Interface
 {
     /**
-     * @param array $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function item($request)
+    public function item($id)
     {
-        return array(
-            'id' => $request['id']
-        );
-    }
-
-    /**
-     * @param array $request
-     * @return array
-     */
-    public function items()
-    {
-        return array(
-            array(
-                'id' => 1,
-                'name' => 'testItem1'
-            ),
-            array(
-                'id' => 2,
-                'name' => 'testItem2'
-            )
-        );
-    }
-
-    /**
-     * @param array $request
-     * @return array
-     */
-    public function create($request)
-    {
-        $result = array(
-            'id' => rand(),
-            'name' => $request['name']
-        );
+        if ($id == null) {
+            throw new \Magento\Webapi\Exception("Invalid Id");
+        }
+        $result = new Item();
+        $result->setId($id);
+        $result->setName('testProduct1');
         return $result;
     }
 
     /**
-     * @param array $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function update($request)
+    public function items()
     {
-        return array(
-            'id' => $request['id']
-        );
+        $result1 = new Item();
+        $result1->setId(1);
+        $result1->setName('testProduct1');
+
+        $result2 = new Item();
+        $result2->setId(2);
+        $result2->setName('testProduct2');
+
+        return [$result1, $result2];
     }
 
     /**
-     * @param array $request
-     * @return array
+     * {@inheritdoc}
      */
-    public function remove($request)
+    public function create($name)
     {
-        return array(
-            'id' => $request['id']
-        );
+        $result = new Item();
+        $result->setId(rand());
+        $result->setName($name);
+        return $result;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function update(Item $item)
+    {
+        if ($item->getId() == null) {
+            throw new \Magento\Webapi\Exception("Invalid Id");
+        }
+
+        $result = new Item();
+        $result->setId($item->getId());
+        $result->setName('Updated'.$item->getName());
+        return $result;
     }
 }

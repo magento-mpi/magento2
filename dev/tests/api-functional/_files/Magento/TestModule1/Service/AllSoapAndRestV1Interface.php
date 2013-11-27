@@ -12,27 +12,26 @@ use Magento\TestModule1\Service\Entity\V1\Item;
 
 interface AllSoapAndRestV1Interface
 {
-
     /**
      * @param int $id
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V1\Item
      */
     public function item($id);
 
     /**
      * @param string $name
-     * @return Item
+     * @return \Magento\TestModule1\Service\Entity\V1\Item
      */
     public function create($name);
 
     /**
-     * @param Item $item
-     * @return Item
+     * @param \Magento\TestModule1\Service\Entity\V1\Item $item
+     * @return \Magento\TestModule1\Service\Entity\V1\Item
      */
     public function update(Item $item);
 
     /**
-     * @return array
+     * @return \Magento\TestModule1\Service\Entity\V1\Item[]
      */
     public function items();
 }

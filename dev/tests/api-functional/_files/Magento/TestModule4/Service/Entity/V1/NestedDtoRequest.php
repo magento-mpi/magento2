@@ -13,7 +13,7 @@ namespace Magento\TestModule4\Service\Entity\V1;
 class NestedDtoRequest extends \Magento\Service\Entity\AbstractDto
 {
     /**
-     * @return DtoRequest
+     * @return \Magento\TestModule4\Service\Entity\V1\DtoRequest
      */
     public function getDetails()
     {
@@ -23,7 +23,7 @@ class NestedDtoRequest extends \Magento\Service\Entity\AbstractDto
     /**
      * @param \Magento\TestModule4\Service\Entity\V1\DtoRequest $details
      *
-     * @return NestedDtoRequest
+     * @return \Magento\TestModule4\Service\Entity\V1\DtoRequest
      */
     public function setDetails(DtoRequest $details)
     {

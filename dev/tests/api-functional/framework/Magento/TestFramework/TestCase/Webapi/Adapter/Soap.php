@@ -7,10 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\TestFramework\TestCase\Webapi\Adapter;
 
-class Soap
-    implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased as WsdlDiscoveryStrategy;
+use Magento\Webapi\Controller\Soap\Handler as SoapHandler;
+
+class Soap implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
 {
     const WSDL_BASE_PATH = '/soap?wsdl=1';
 
@@ -54,6 +57,12 @@ class Soap
         $result = (is_array($soapResponse) || is_object($soapResponse))
             ? $this->_normalizeResponse($soapResponse)
             : $soapResponse;
+
+        /** Remove result wrappers */
+        $result = isset($result[SoapHandler::RESULT_NODE_NAME]) ? $result[SoapHandler::RESULT_NODE_NAME] : $result;
+        $result = isset($result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME])
+            ? $result[WsdlDiscoveryStrategy::ARRAY_ITEM_KEY_NAME]
+            : $result;
         return $result;
     }
 
@@ -93,6 +102,9 @@ class Soap
         $soapClient = new \Zend\Soap\Client($wsdlUrl);
         $soapClient->setSoapVersion(SOAP_1_2);
         $soapClient->setStreamContext($context);
+        if (TESTS_XDEBUG_ENABLED) {
+            $soapClient->setCookie('XDEBUG_SESSION', 1);
+        }
         return $soapClient;
     }
 

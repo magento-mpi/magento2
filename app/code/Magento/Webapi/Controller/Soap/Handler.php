@@ -143,7 +143,7 @@ class Handler
         } elseif (!(is_string($data) || is_numeric($data) || is_null($data))) {
             throw new \InvalidArgumentException("Service returned result in invalid format.");
         }
-        return array('result' => $data);
+        return array(self::RESULT_NODE_NAME => $data);
     }
 
     /**

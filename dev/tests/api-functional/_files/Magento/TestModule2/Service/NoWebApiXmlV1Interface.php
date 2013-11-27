@@ -5,47 +5,33 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\TestModule2\Service;
+
+use Magento\TestModule2\Service\Entity\V1\Item;
 
 interface NoWebApiXmlV1Interface
 {
     /**
-     * Return a single item.
-     *
-     * @param $request array
-     * @return array
+     * @param int $id
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
-    public function item($request);
+    public function item($id);
 
     /**
-     * TODO: Nested complexType XSD references not supported yet. Need to fix it.
-     * Return multiple items.
-     *
-     * @return array
+     * @param string $name
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
-    //public function items();
+    public function create($name);
 
     /**
-     * Create an item.
-     *
-     * @param $request array
-     * @return array
+     * @param \Magento\TestModule2\Service\Entity\V1\Item $item
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
-    public function create($request);
+    public function update(Item $item);
 
     /**
-     * Update an item.
-     *
-     * @param $request array
-     * @return array
+     * @return \Magento\TestModule2\Service\Entity\V1\Item[]
      */
-    public function update($request);
-
-    /**
-     * Delete an item.
-     *
-     * @param $request array
-     * @return array
-     */
-    public function remove($request);
+    public function items();
 }

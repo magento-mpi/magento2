@@ -68,11 +68,19 @@ class TypeProcessor
      *
      * @param string $type
      * @return string
+     * @throws \LogicException
      */
     public function process($type)
     {
         $typeName = $this->_helper->normalizeType($type);
         if (!$this->_helper->isTypeSimple($typeName)) {
+            if ((!$this->_helper->isArrayType($type) && !class_exists($type))
+                || !class_exists(str_replace('[]', '', $type))
+            ) {
+                throw new \LogicException(
+                    sprintf('Class "%s" does not exist. Please note that namespace must be specified.', $type)
+                );
+            }
             $complexTypeName = $this->_helper->translateTypeName($type);
             if (!isset($this->_types[$complexTypeName])) {
                 $this->_processComplexType($type);

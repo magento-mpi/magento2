@@ -11,9 +11,7 @@ namespace Magento\TestModule4\Service;
 class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
 {
     /**
-     * @param int $id
-     *
-     * @return Entity\V1\DtoResponse
+     * {@inheritdoc}
      */
     public function getData($id)
     {
@@ -27,9 +25,7 @@ class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
     }
 
     /**
-     * @param int $id
-     * @param Entity\V1\DtoRequest $request
-     * @return Entity\V1\DtoResponse
+     * {@inheritdoc}
      */
     public function updateData($id, Entity\V1\DtoRequest $request)
     {
@@ -43,9 +39,7 @@ class DtoServiceV1 implements \Magento\TestModule4\Service\DtoServiceV1Interface
     }
 
     /**
-     * @param int $id
-     * @param Entity\V1\NestedDtoRequest $request
-     * @return Entity\V1\DtoResponse
+     * {@inheritdoc}
      */
     public function nestedData($id, Entity\V1\NestedDtoRequest $request)
     {

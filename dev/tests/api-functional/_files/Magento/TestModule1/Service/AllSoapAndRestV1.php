@@ -13,8 +13,7 @@ use Magento\TestModule1\Service\Entity\V1\Item;
 class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1Interface
 {
     /**
-     * @param int $request
-     * @return Item
+     * {@inheritdoc}
      */
     public function item($id)
     {
@@ -28,7 +27,7 @@ class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1I
     }
 
     /**
-     * @return array
+     * {@inheritdoc}
      */
     public function items()
     {
@@ -44,8 +43,7 @@ class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1I
     }
 
     /**
-     * @param string $name
-     * @return Item
+     * {@inheritdoc}
      */
     public function create($name)
     {
@@ -56,8 +54,7 @@ class AllSoapAndRestV1 implements \Magento\TestModule1\Service\AllSoapAndRestV1I
     }
 
     /**
-     * @param Item $item
-     * @return Item
+     * {@inheritdoc}
      */
     public function update(Item $item)
     {

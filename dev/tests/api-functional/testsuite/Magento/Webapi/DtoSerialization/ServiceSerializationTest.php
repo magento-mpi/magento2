@@ -29,6 +29,7 @@ class ServiceSerializationTest extends \Magento\TestFramework\TestCase\WebapiAbs
 
     protected function setUp()
     {
+        $this->_markTestAsRestOnly();
         $this->_version = 'V1';
         //$this->_soapService = 'testModule1AllSoapAndRestV1';
         $this->_restResourcePath = "/$this->_version/testmodule4/";

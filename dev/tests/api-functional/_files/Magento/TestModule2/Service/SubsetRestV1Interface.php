@@ -15,38 +15,38 @@ interface SubsetRestV1Interface
      * Return a single item.
      *
      * @param int $id
-     * @return Item
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
     public function item($id);
 
     /**
      * Return multiple items.
      *
-     * @return array
+     * @return \Magento\TestModule2\Service\Entity\V1\Item[]
      */
     public function items();
 
     /**
      * Create an item.
      *
-     * @param $request array
-     * @return array
+     * @param string $name
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
-    public function create($request);
+    public function create($name);
 
     /**
      * Update an item.
      *
-     * @param $request array
-     * @return array
+     * @param \Magento\TestModule2\Service\Entity\V1\Item $item
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
-    public function update($request);
+    public function update(Item $item);
 
     /**
      * Delete an item.
      *
-     * @param $request array
-     * @return array
+     * @param int $id
+     * @return \Magento\TestModule2\Service\Entity\V1\Item
      */
-    public function remove($request);
+    public function remove($id);
 }

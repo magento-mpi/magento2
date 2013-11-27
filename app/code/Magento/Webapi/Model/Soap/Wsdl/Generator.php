@@ -395,6 +395,7 @@ class Generator
 
     /**
      * Collect data about complex types call info.
+     *
      * Walks through all requested services and checks all methods 'in' and 'out' parameters.
      *
      * @param array $requestedServices

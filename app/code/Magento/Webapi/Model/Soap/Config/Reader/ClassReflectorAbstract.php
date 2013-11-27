@@ -46,10 +46,11 @@ abstract class ClassReflectorAbstract
     /**
      * Reflect methods in given class and set retrieved data into reader.
      *
+     * @param array $methodsDeclaredInSoap
      * @param string $className
      * @return array
      */
-    public function reflectClassMethods($className)
+    public function reflectClassMethods($className, $methodsDeclaredInSoap)
     {
         $data = array(
             'service' => $className,
@@ -57,7 +58,10 @@ abstract class ClassReflectorAbstract
         $classReflection = new \Zend\Server\Reflection\ReflectionClass(new \ReflectionClass($className));
         /** @var $methodReflection ReflectionMethod */
         foreach ($classReflection->getMethods() as $methodReflection) {
-            $data['methods'][$methodReflection->getName()] = $this->extractMethodData($methodReflection);
+            $methodName = $methodReflection->getName();
+            if (array_key_exists($methodName, $methodsDeclaredInSoap)) {
+                $data['methods'][$methodName] = $this->extractMethodData($methodReflection);
+            }
         }
         // TODO: Consider moving getServiceName() to helper
         return array('services' => array($this->_configHelper->getServiceName($className) => $data));
@@ -72,7 +76,7 @@ abstract class ClassReflectorAbstract
      */
     public function extractMethodData(ReflectionMethod $method)
     {
-        $methodData = array('documentation' => $method->getDescription());
+        $methodData = array('documentation' => $method->getDescription(), 'interface' => array());
         $prototypes = $method->getPrototypes();
         /** Take the fullest interface that also includes optional parameters. */
         /** @var \Zend\Server\Reflection\Prototype $prototype */

@@ -12,23 +12,22 @@ interface DtoServiceV1Interface
 {
     /**
      * @param int $id
-     * @return Entity\V1\DtoResponse
+     * @return \Magento\TestModule4\Service\Entity\V1\DtoResponse
      */
     public function getData($id);
 
     /**
      * @param int $id
-     * @param Entity\V1\DtoRequest $request
-     * @return Entity\V1\DtoResponse
+     * @param \Magento\TestModule4\Service\Entity\V1\DtoRequest $request
+     * @return \Magento\TestModule4\Service\Entity\V1\DtoResponse
      */
     public function updateData($id, Entity\V1\DtoRequest $request);
 
 
     /**
      * @param int $id
-     * @param Entity\V1\NestedDtoRequest $request
-     *
-     * @return mixed
+     * @param \Magento\TestModule4\Service\Entity\V1\NestedDtoRequest $request
+     * @return \Magento\TestModule4\Service\Entity\V1\DtoResponse
      */
     public function nestedData($id, Entity\V1\NestedDtoRequest $request);
 }
