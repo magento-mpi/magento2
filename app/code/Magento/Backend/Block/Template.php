@@ -51,7 +51,7 @@ class Template extends \Magento\View\Element\Template
         $this->_authorization = $context->getAuthorization();
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();
-        \Magento\View\Element\parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -99,6 +99,6 @@ class Template extends \Magento\View\Element\Template
     protected function _toHtml()
     {
         $this->_eventManager->dispatch('adminhtml_block_html_before', array('block' => $this));
-        return \Magento\View\Element\parent::_toHtml();
+        return parent::_toHtml();
     }
 }

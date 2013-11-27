@@ -96,7 +96,7 @@ class Context extends \Magento\View\Element\Template\Context
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
         $this->mathRandom = $mathRandom;
-        \Magento\View\Element\Template\parent::__construct(
+        parent::__construct(
             $request,
             $layout,
             $eventManager,

@@ -68,7 +68,7 @@ class Context extends \Magento\View\Element\Context
         array $data = array()
     ) {
         $this->_authorization = $authorization;
-        \Magento\View\Element\parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
+        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
             $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app,
             $escaper, $filterManager, $locale, $data
         );
