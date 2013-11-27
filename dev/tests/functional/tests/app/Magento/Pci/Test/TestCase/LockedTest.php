@@ -17,10 +17,11 @@ class LockedTest extends Functional
     public function testLockedAdminUser()
     {
         $password = '123123q';
-        $incorrectPassword = 'honey';
+        $incorrectPassword = 'honey boo boo';
 
         //Create test user and set incorrect password
         $user = Factory::getFixtureFactory()->getMagentoUserAdminUser(array('password' => $password));
+        $user->switchData('admin_default');
         $user->persist();
 
         //Page
@@ -30,11 +31,11 @@ class LockedTest extends Functional
 
         $passwordDataSet = array(
             'incorrect password #1' => $incorrectPassword,
-            '1' => $incorrectPassword,
-            '2' => $incorrectPassword,
-            '3' => $incorrectPassword,
-            '4' => $incorrectPassword,
-            '5' => $incorrectPassword,
+            'incorrect password #2' => $incorrectPassword,
+            'incorrect password #3' => $incorrectPassword,
+            'incorrect password #4' => $incorrectPassword,
+            'incorrect password #5' => $incorrectPassword,
+            'incorrect password #6' => $incorrectPassword,
             'correct value' => $password,
         );
 
