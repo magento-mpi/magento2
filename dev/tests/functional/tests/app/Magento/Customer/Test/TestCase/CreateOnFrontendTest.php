@@ -29,6 +29,7 @@ class CreateOnFrontendTest extends Functional
      */
     public function testCreateCustomer()
     {
+        $this->markTestSkipped('CICD-776');
         //Data
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->switchData('customer_US_1');
