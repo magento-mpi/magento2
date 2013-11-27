@@ -9,6 +9,8 @@
  */
 namespace Magento\Core\Model\Config\Initial;
 
+use Magento\Filesystem;
+
 class Reader
 {
     /**
@@ -54,7 +56,13 @@ class Reader
     protected $_schemaFile;
 
     /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $rootDirectory;
+
+    /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
+     * @param \Magento\Filesystem $filesystem
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
@@ -63,6 +71,7 @@ class Reader
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
+        \Magento\Filesystem $filesystem,
         Converter $converter,
         SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
@@ -74,6 +83,7 @@ class Reader
         $this->_converter = $converter;
         $this->_domDocumentClass = $domDocumentClass;
         $this->_fileName = $fileName;
+        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
     }
 
     /**
@@ -98,15 +108,16 @@ class Reader
         $domDocument = null;
         foreach ($fileList as $file) {
             try {
+                $contents = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($file));
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
                     $domDocument = new $class(
-                        file_get_contents($file),
+                        $contents,
                         array(),
                         $this->_schemaFile
                     );
                 } else {
-                    $domDocument->merge(file_get_contents($file));
+                    $domDocument->merge($contents);
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
                 throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());

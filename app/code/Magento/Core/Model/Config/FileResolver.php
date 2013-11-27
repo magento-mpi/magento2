@@ -16,23 +16,23 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      *
      * @var \Magento\Module\Dir\Reader
      */
-    protected $_moduleReader;
+    protected $moduleReader;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_applicationDirs;
+    protected $filesystem;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\App\Dir $applicationDirs
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\App\Dir $applicationDirs
+        \Magento\Filesystem $filesystem
     ) {
-        $this->_moduleReader = $moduleReader;
-        $this->_applicationDirs = $applicationDirs;
+        $this->moduleReader = $moduleReader;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -42,17 +42,19 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $appConfigDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
+                $appConfigDir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
                 // Create pattern similar to app/etc/{*config.xml,*/*config.xml}
-                $filePattern = $appConfigDir . '/'
-                    . '{*' . $filename . ',*' . '/' . '*' . $filename . '}';
-                $fileList = glob($filePattern, GLOB_BRACE);
+                $fileListRelative = $appConfigDir->search('~' . '\S+' . preg_quote($filename) . '~');
+                $fileList = array();
+                foreach ($fileListRelative as $file) {
+                    $fileList[] = $appConfigDir->getAbsolutePath($file);
+                }
                 break;
             case 'global':
-                $fileList = $this->_moduleReader->getConfigurationFiles($filename);
+                $fileList = $this->moduleReader->getConfigurationFiles($filename);
                 break;
             default:
-                $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
+                $fileList = $this->moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
         return $fileList;

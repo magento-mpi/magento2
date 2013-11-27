@@ -7,6 +7,8 @@
  */
 namespace Magento\Core\Model\Config\Initial;
 
+use Magento\Filesystem;
+
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -15,12 +17,12 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\Config\FileResolverInterface
+     * @var \Magento\Config\FileResolverInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_fileResolverMock;
 
     /**
-     * @var \Magento\Core\Model\Config\Initial\Converter
+     * @var \Magento\Core\Model\Config\Initial\Converter|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_converterMock;
 
@@ -28,6 +30,11 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      * @var string
      */
     protected $_filePath;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $rootDirectory;
 
     protected function setUp()
     {
@@ -40,8 +47,19 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $validationStateMock->expects($this->once())->method('isValidated')->will($this->returnValue(true));
         $schemaFile = $this->_filePath . 'config.xsd';
         $schemaLocatorMock->expects($this->once())->method('getSchema')->will($this->returnValue($schemaFile));
+        $this->rootDirectory = $this->getMock(
+            'Magento\Filesystem\Directory\Read',
+            array('readFile', 'getRelativePath'),
+            array(), '', false
+        );
+        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
+        $filesystem->expects($this->once())
+            ->method('getDirectoryRead')
+            ->with(Filesystem::ROOT)
+            ->will($this->returnValue($this->rootDirectory));
         $this->_model = new \Magento\Core\Model\Config\Initial\Reader(
             $this->_fileResolverMock,
+            $filesystem,
             $this->_converterMock,
             $schemaLocatorMock,
             $validationStateMock
@@ -75,7 +93,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             $this->_filePath . 'initial_config1.xml',
             $this->_filePath . 'initial_config2.xml'
         );
-        $expectedConfig = include ($this->_filePath . 'initial_config_merged.php');
+        $expectedConfig = array(
+            'data' => array(),
+            'metadata' => array()
+        );
 
         $this->_fileResolverMock->expects($this->at(0))
             ->method('get')
@@ -91,6 +112,14 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->method('convert')
             ->with($this->anything())
             ->will($this->returnValue($expectedConfig));
+
+        $this->rootDirectory->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0));
+
+        $this->rootDirectory->expects($this->any())
+            ->method('readFile')
+            ->will($this->returnValue('<config></config>'));
 
         $this->assertEquals($expectedConfig, $this->_model->read());
     }
