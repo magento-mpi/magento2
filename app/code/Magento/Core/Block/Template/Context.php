@@ -62,7 +62,6 @@ class Context extends \Magento\Core\Block\Context
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
@@ -89,7 +88,6 @@ class Context extends \Magento\Core\Block\Context
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
-        \Magento\App\Dir $dirs,
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
@@ -125,7 +123,6 @@ class Context extends \Magento\Core\Block\Context
         );
 
         $this->_appState = $appState;
-        $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
@@ -133,8 +130,10 @@ class Context extends \Magento\Core\Block\Context
     }
 
     /**
+     * todo remove this after MAGETWO-17471
      * Get dirs instance
      * @return \Magento\App\Dir
+     * @deprecated
      */
     public function getDirs()
     {

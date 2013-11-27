@@ -134,7 +134,6 @@ class Storage extends \Magento\Object
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Image\AdapterFactory $imageFactory
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory
      * @param \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory
      * @param \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory
@@ -155,7 +154,6 @@ class Storage extends \Magento\Object
         \Magento\Filesystem $filesystem,
         \Magento\Image\AdapterFactory $imageFactory,
         \Magento\View\Url $viewUrl,
-        \Magento\App\Dir $dir,
         \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory $storageCollectionFactory,
         \Magento\Core\Model\File\Storage\FileFactory $storageFileFactory,
         \Magento\Core\Model\File\Storage\DatabaseFactory $storageDatabaseFactory,
@@ -173,7 +171,6 @@ class Storage extends \Magento\Object
         $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_imageFactory = $imageFactory;
         $this->_viewUrl = $viewUrl;
-        $this->_dir = $dir;
         $this->_storageCollectionFactory = $storageCollectionFactory;
         $this->_storageFileFactory = $storageFileFactory;
         $this->_storageDatabaseFactory = $storageDatabaseFactory;

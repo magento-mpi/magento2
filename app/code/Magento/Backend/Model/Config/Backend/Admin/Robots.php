@@ -31,7 +31,6 @@ class Robots extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -42,7 +41,6 @@ class Robots extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManager $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dir,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

@@ -14,9 +14,9 @@ namespace Magento\Backup;
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dirMock;
+    protected $_filesystemMock;
 
     /**
      * @var \Magento\Backup\Factory
@@ -25,7 +25,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
     }
     /**
@@ -37,7 +37,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $snapshot = $this->getMock(
             'Magento\Backup\Snapshot',
             array('create', 'rollback', 'getDbBackupFilename'),
-            array($this->_dirMock, $this->_backupFactoryMock)
+            array($this->_filesystemMock, $this->_backupFactoryMock)
         );
         $snapshot->expects($this->any())
             ->method('create')
@@ -85,7 +85,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $snapshot = $this->getMock('Magento\Backup\Snapshot',
             array($method),
-            array($this->_dirMock, $this->_backupFactoryMock));
+            array($this->_filesystemMock, $this->_backupFactoryMock));
         $snapshot->expects($this->once())
             ->method($method)
             ->with($parameter)

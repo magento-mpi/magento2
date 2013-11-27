@@ -45,7 +45,6 @@ class Context extends \Magento\Core\Block\Template\Context
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
@@ -77,7 +76,6 @@ class Context extends \Magento\Core\Block\Template\Context
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
-        \Magento\App\Dir $dirs,
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
@@ -106,7 +104,6 @@ class Context extends \Magento\Core\Block\Template\Context
             $viewUrl,
             $viewConfig,
             $cacheState,
-            $dirs,
             $logger,
             $filesystem,
             $viewFileSystem,

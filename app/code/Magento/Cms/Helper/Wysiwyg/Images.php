@@ -69,13 +69,6 @@ class Images extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
-     * Dir
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Construct
      *
      * @param \Magento\Core\Helper\Context $context
@@ -84,7 +77,6 @@ class Images extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\Core\Helper\Context $context,
@@ -92,14 +84,12 @@ class Images extends \Magento\Core\Helper\AbstractHelper
         \Magento\Backend\Helper\Data $backendData,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Dir $dir
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
         $this->_eventManager = $eventManager;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
-        $this->_dir = $dir;
         $this->_storeManager = $storeManager;
         $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_directory->create(\Magento\Cms\Model\Wysiwyg\Config::IMAGE_DIRECTORY);

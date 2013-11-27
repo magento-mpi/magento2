@@ -52,20 +52,26 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir = null;
+    protected $_filesystem;
 
+    /**
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param array $data
+     */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($data);
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_dir = $dir;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -186,7 +192,7 @@ class Import extends \Magento\Object
      */
     protected function _getWorkingDir()
     {
-        return $this->_dir->getDir('var') . '/import_sku/';
+        return $this->_filesystem->getPath(\Magento\Filesystem::VAR_DIR) . '/import_sku/';
     }
 
     /**
@@ -198,7 +204,7 @@ class Import extends \Magento\Object
      */
     protected function _getMethodByExtension($extension)
     {
-        foreach($this->_allowedExtensions as $allowedExtension) {
+        foreach ($this->_allowedExtensions as $allowedExtension) {
             if ($allowedExtension == $extension) {
                 return 'getDataFrom' . ucfirst($allowedExtension);
             }

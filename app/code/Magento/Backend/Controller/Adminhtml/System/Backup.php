@@ -127,7 +127,8 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
             }
 
             if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
-                $backupManager->setRootDir($this->_objectManager->get('Magento\App\Dir')->getDir())
+                $backupManager
+                    ->setRootDir($this->_objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::ROOT))
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
@@ -258,7 +259,8 @@ class Backup extends \Magento\Backend\Controller\Adminhtml\Action
 
             if ($type != \Magento\Backup\Helper\Data::TYPE_DB) {
 
-                $backupManager->setRootDir($this->_objectManager->get('Magento\App\Dir')->getDir())
+                $backupManager
+                    ->setRootDir($this->_objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::ROOT))
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
 
                 if ($this->getRequest()->getParam('use_ftp', false)) {

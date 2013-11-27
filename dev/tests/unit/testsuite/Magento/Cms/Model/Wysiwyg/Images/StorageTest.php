@@ -43,11 +43,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $_resizeParameters;
 
     /**
-     * @var \Magento\App\Dir|PHPUnit_Framework_MockObject_MockObject
-     */
-    protected $_dirMock;
-
-    /**
      * @var \Magento\Cms\Model\Wysiwyg\Images\Storage\CollectionFactory|PHPUnit_Framework_MockObject_MockObject
      */
     protected $_storageCollectionFactoryMock;
