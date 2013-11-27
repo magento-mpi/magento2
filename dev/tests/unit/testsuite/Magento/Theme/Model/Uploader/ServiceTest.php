@@ -122,7 +122,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
     public function testGetFileContent()
     {
         $fileName = 'file.name';
-        $this->_filesystemMock->expects($this->once())->method('readFile')->with($fileName)
+        $this->_directoryMock->expects($this->once())->method('readFile')->with($fileName)
             ->will($this->returnValue('content from my file'));
         $this->_service = new \Magento\Theme\Model\Uploader\Service(
             $this->_filesystemMock,
@@ -148,7 +148,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_filesystemMock->expects($this->once())->method('readFile')->with($fileName)
+        $this->_directoryMock->expects($this->once())->method('readFile')->with($fileName)
             ->will($this->returnValue('content'));
 
         $this->_uploader->expects($this->once())
@@ -201,7 +201,7 @@ class ServiceTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        $this->_filesystemMock->expects($this->once())->method('readFile')->with($fileName)
+        $this->_directoryMock->expects($this->once())->method('readFile')->with($fileName)
             ->will($this->returnValue('content'));
 
         $this->_uploader->expects($this->once())
