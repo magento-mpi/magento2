@@ -8,40 +8,33 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Js;
+namespace Magento\View\Element\Js;
+
+use Magento\View\Block\Template;
 
 class Cookie extends \Magento\View\Element\Template
 {
     /**
-     * @var \Magento\Core\Model\Cookie
+     * @var \Magento\Cookie\Configurator
      */
     protected $_cookie;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Cookie\Configurator $cookie
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Cookie\Configurator $cookie,
         array $data = array()
     ) {
         $this->_cookie = $cookie;
         parent::__construct($context, $coreData, $data);
     }
 
-    /**
-     * Get cookie model instance
-     *
-     * @return \Magento\Core\Model\Cookie
-     */
-    public function getCookie()
-    {
-        return $this->_cookie;
-    }
     /**
      * Get configured cookie domain
      *

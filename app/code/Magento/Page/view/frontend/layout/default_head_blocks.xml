@@ -101,6 +101,6 @@
             </arguments>
         </block>
         <!-- Preload resources for widgets -->
-        <block class="Magento\Page\Block\Js\Components" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
+        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
     </referenceBlock>
 </layout>

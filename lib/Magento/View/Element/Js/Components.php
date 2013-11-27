@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Js;
+namespace Magento\View\Element\Js;
 
 class Components extends \Magento\View\Element\Template
 {

@@ -255,7 +255,7 @@
                     </argument>
                 </arguments>
             </block>
-            <block class="Magento\Page\Block\Js\Components" name="head.components" as="components" template="Magento_Adminhtml::page/js/components.phtml"/>
+            <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Adminhtml::page/js/components.phtml"/>
             <block class="Magento\View\Element\Html\Calendar" name="head.calendar" as="calendar" template="Magento_Adminhtml::page/js/calendar.phtml"/>
         </block>
         <block class="Magento\Adminhtml\Block\Page\Notices" name="global_notices" as="global_notices" template="page/notices.phtml"/>
@@ -265,8 +265,8 @@
         <block class="Magento\Adminhtml\Block\Widget\Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
         <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in \Magento\Core\Model\Layout::createBlock() -->
         <block class="Magento\Adminhtml\Block\Admin\Formkey" name="formkey" as="formkey" template="Magento_Adminhtml::admin/formkey.phtml"/>
-        <!-- deprecated since 1.7.0.0 see \Magento\Page\Block\Js\Translate -->
-        <block class="Magento\Page\Block\Js\Translate" name="js_translate" as="js_translate" template="Magento_Adminhtml::page/js/translate.phtml"/>
+        <!-- deprecated since 1.7.0.0 see \Magento\View\Block\Template -->
+        <block class="Magento\View\Block\Template" name="js_translate" as="js_translate" template="Magento_Adminhtml::page/js/translate.phtml"/>
         <container name="main-top" label="main-top" as="main-top">
             <block class="Magento\Page\Block\Html\Title" name="page-title" template="title.phtml"/>
         </container>

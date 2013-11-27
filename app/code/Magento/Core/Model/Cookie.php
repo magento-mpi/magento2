@@ -18,7 +18,10 @@
  */
 namespace Magento\Core\Model;
 
-class Cookie
+use Magento\Cookie\Configurator;
+use Magento\Cookie\Manager;
+
+class Cookie implements Configurator, Manager
 {
     const XML_PATH_COOKIE_DOMAIN    = 'web/cookie/cookie_domain';
     const XML_PATH_COOKIE_PATH      = 'web/cookie/cookie_path';
@@ -60,7 +63,7 @@ class Cookie
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param Store\Config $coreStoreConfig
-     * @param StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,

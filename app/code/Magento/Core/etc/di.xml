@@ -35,6 +35,8 @@
     <preference for="Magento\View\Design\Theme\ThemeProviderInterface" type="Magento\Core\Model\Theme\ThemeProvider" />
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
     <preference for="Magento\View\Design\Theme\Customization\ConfigInterface" type="Magento\Core\Model\Theme\Customization\Config" />
+    <preference for="Magento\Cookie\Configurator" type="Magento\Core\Model\Cookie" />
+    <preference for="Magento\Cookie\Manager" type="Magento\Core\Model\Cookie" />
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
