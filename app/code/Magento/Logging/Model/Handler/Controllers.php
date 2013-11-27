@@ -281,7 +281,7 @@ class Controllers
      */
     public function postDispatchReport($config, $eventModel, $processor)
     {
-        $fullActionNameParts = explode('_report_', $config['group_name'], 2);
+        $fullActionNameParts = explode('_report_', $config['controller_action'], 2);
         if (empty($fullActionNameParts[1])) {
             return false;
         }

@@ -19,7 +19,7 @@
  */
 namespace Magento\Banner\Block\Adminhtml\Permission;
 
-class Monitor extends \Magento\Adminhtml\Block\Template
+class Monitor extends \Magento\Backend\Block\Template
 {
     /**
      * Preparing layout

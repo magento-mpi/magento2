@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content;
 
-class Newfolder extends \Magento\Adminhtml\Block\Template
+class Newfolder extends \Magento\Backend\Block\Template
 {
 
 }
