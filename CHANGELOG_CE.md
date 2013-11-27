@@ -36,6 +36,7 @@
   * Fixed order status grid so that you can assign state, edit, and view custom order status
   * Fixed Related Products Rule page so someone can select category on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
+  * Fixed bug with international DHL quotes
 
 2.0.0.0-dev52
 =============
