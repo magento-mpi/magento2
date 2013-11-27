@@ -118,7 +118,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Model\Config $coreConfig
@@ -134,7 +134,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Helper\Data $importExportData,
         \Magento\Core\Model\Config $coreConfig,
@@ -158,7 +158,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $this->_uploaderFactory = $uploaderFactory;
         $this->_indexer = $indexer;
         $this->_behaviorFactory = $behaviorFactory;
-        parent::__construct($logger, $dir, $adapterFactory, $data);
+        parent::__construct($logger, $filesystem, $adapterFactory, $data);
     }
 
     /**
@@ -394,7 +394,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     public function getWorkingDir()
     {
-        return $this->_dir->getDir('var') . '/importexport/';
+        return $this->_varDirectory->getAbsolutePath('importexport/');
     }
 
     /**

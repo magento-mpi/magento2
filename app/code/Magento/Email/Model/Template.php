@@ -119,11 +119,6 @@ class Template extends \Magento\Core\Model\Template
     protected $_emailFilterFactory;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Types of template
      */
     const TYPE_TEXT = 1;

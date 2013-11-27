@@ -39,11 +39,6 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_installConfig;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Application Root Directory
      *
      * @var string
@@ -54,13 +49,11 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Install\Model\Config $installConfig
-     * @param \Magento\App\Dir $dir
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\Filesystem $filesystem,
-        \Magento\Install\Model\Config $installConfig,
-        \Magento\App\Dir $dir
+        \Magento\Install\Model\Config $installConfig
     ) {
         parent::__construct($installer);
         $this->_filesystem = $filesystem;
