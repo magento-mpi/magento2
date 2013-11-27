@@ -15,7 +15,7 @@
  */
 namespace Magento\Sales\Block\Billing;
 
-class Agreements extends \Magento\View\Block\Template
+class Agreements extends \Magento\View\Element\Template
 {
     /**
      * Payment methods array

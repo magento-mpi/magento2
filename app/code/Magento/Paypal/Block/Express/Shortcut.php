@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block\Express;
 
-class Shortcut extends \Magento\View\Block\Template
+class Shortcut extends \Magento\View\Element\Template
 {
     /**
      * Position of "OR" label against shortcut

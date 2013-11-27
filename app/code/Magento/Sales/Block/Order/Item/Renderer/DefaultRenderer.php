@@ -13,7 +13,7 @@ namespace Magento\Sales\Block\Order\Item\Renderer;
 /**
  * Order item render block
  */
-class DefaultRenderer extends \Magento\View\Block\Template
+class DefaultRenderer extends \Magento\View\Element\Template
 {
     /**
      * Magento string lib

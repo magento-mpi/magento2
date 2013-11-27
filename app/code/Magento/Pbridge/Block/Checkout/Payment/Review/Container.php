@@ -17,7 +17,7 @@
  */
 namespace Magento\Pbridge\Block\Checkout\Payment\Review;
 
-class Container extends \Magento\View\Block\Template
+class Container extends \Magento\View\Element\Template
 {
     /**
      * Checkout session

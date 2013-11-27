@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogInventory\Block;
 
-class Qtyincrements extends \Magento\View\Block\Template
+class Qtyincrements extends \Magento\View\Element\Template
 {
     /**
      * Qty Increments cache

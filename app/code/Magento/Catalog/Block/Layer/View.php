@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Layer;
 
-class View extends \Magento\View\Block\Template
+class View extends \Magento\View\Element\Template
 {
     /**
      * State block name

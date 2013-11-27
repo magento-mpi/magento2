@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
-class Pagination extends \Magento\View\Block\Template
+class Pagination extends \Magento\View\Element\Template
 {
     /**
      * Current Hierarchy Node Page Instance
@@ -79,7 +79,7 @@ class Pagination extends \Magento\View\Block\Template
     /**
      * Add context menu params to block data
      *
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     protected function _loadNodePaginationParams()
     {

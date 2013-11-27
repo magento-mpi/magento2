@@ -17,7 +17,7 @@
  */
 namespace Magento\Authorizenet\Block\Directpost;
 
-class Iframe extends \Magento\View\Block\Template
+class Iframe extends \Magento\View\Element\Template
 {
     /**
      * Core registry

@@ -6,10 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block;
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\AbstractBlock;
-use Magento\View\Element\AbstractBlock;
+namespace Magento\View\Element;
 
 /**
  * Base html block
@@ -90,7 +87,7 @@ class Template extends AbstractBlock
     protected $_appState;
 
     /**
-     * @param Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      * 

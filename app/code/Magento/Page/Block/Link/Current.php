@@ -18,7 +18,7 @@ namespace Magento\Page\Block\Link;
  * @method null|bool                       getCurrent()
  * @method \Magento\Page\Block\Link\Current setCurrent(bool $value)
  */
-class Current extends \Magento\View\Block\Template
+class Current extends \Magento\View\Element\Template
 {
     /**
      * @var string

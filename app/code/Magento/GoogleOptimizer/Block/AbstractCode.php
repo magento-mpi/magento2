@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleOptimizer\Block;
 
-abstract class AbstractCode extends \Magento\View\Block\Template
+abstract class AbstractCode extends \Magento\View\Element\Template
 {
     /**
      * @var Entity name in registry

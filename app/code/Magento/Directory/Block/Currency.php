@@ -13,7 +13,7 @@
  */
 namespace Magento\Directory\Block;
 
-class Currency extends \Magento\View\Block\Template
+class Currency extends \Magento\View\Element\Template
 {
     /**
      * Directory url

@@ -48,7 +48,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     public function testGetBlock()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var $template \Magento\View\Block\Template */
+        /** @var $template \Magento\View\Element\Template */
         $template = $objectManager->getObject('Magento\View\Block\Template');
         $this->assertInstanceOf('Magento\View\Block\Template', $template);
         foreach ($this->_blockDependencies as $propertyName => $propertyType) {
@@ -65,7 +65,7 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($context, $appStateMock);
 
-        /** @var $template \Magento\View\Block\Template */
+        /** @var $template \Magento\View\Element\Template */
         $template = $objectManager->getObject('Magento\View\Block\Template', array('context' => $context));
         $this->assertEquals($area, $template->getArea());
     }

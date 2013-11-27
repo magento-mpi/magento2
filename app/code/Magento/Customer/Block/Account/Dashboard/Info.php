@@ -18,7 +18,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Info extends \Magento\View\Block\Template
+class Info extends \Magento\View\Element\Template
 {
     /**
      * Cached subscription object

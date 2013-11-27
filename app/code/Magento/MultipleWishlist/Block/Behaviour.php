@@ -17,7 +17,7 @@
  */
 namespace Magento\MultipleWishlist\Block;
 
-class Behaviour extends \Magento\View\Block\Template
+class Behaviour extends \Magento\View\Element\Template
 {
     /**
      * Wishlist data

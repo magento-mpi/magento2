@@ -17,7 +17,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid;
 
-class Serializer extends \Magento\View\Block\Template
+class Serializer extends \Magento\View\Element\Template
 {
     /**
      * Preparing global layout

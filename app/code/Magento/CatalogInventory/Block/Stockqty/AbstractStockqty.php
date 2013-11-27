@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogInventory\Block\Stockqty;
 
-abstract class AbstractStockqty extends \Magento\View\Block\Template
+abstract class AbstractStockqty extends \Magento\View\Element\Template
 {
     const XML_PATH_STOCK_THRESHOLD_QTY = 'cataloginventory/options/stock_threshold_qty';
 

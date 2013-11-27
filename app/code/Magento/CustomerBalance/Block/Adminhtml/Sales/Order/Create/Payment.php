@@ -15,7 +15,7 @@
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 
 class Payment
-extends \Magento\View\Block\Template
+extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\Balance

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class Subscription extends \Magento\View\Block\Template
+class Subscription extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

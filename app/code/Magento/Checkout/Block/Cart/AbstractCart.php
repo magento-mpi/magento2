@@ -17,7 +17,7 @@
  */
 namespace Magento\Checkout\Block\Cart;
 
-class AbstractCart extends \Magento\View\Block\Template
+class AbstractCart extends \Magento\View\Element\Template
 {
     /**
      * Block alias fallback

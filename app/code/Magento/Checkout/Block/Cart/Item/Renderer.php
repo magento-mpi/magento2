@@ -20,7 +20,7 @@
  */
 namespace Magento\Checkout\Block\Cart\Item;
 
-class Renderer extends \Magento\View\Block\Template
+class Renderer extends \Magento\View\Element\Template
 {
     /** @var \Magento\Checkout\Model\Session */
     protected $_checkoutSession;

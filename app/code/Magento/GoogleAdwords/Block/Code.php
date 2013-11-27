@@ -9,7 +9,7 @@
  */
 namespace Magento\GoogleAdwords\Block;
 
-class Code extends \Magento\View\Block\Template
+class Code extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\GoogleAdwords\Helper\Data

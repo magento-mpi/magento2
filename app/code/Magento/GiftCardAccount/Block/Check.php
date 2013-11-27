@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftCardAccount\Block;
 
-class Check extends \Magento\View\Block\Template
+class Check extends \Magento\View\Element\Template
 {
     /**
      * Core registry

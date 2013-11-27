@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Block\Account;
 
-class Balance extends \Magento\View\Block\Template
+class Balance extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\BalanceFactory

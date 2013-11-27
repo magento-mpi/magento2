@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Totals extends \Magento\View\Block\Template
+class Totals extends \Magento\View\Element\Template
 {
     /**
      * Associated array of totals

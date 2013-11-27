@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Shipment extends \Magento\View\Block\Template
+class Shipment extends \Magento\View\Element\Template
 {
     /**
      * @var string

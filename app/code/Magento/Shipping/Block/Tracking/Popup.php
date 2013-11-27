@@ -10,7 +10,7 @@
 
 namespace Magento\Shipping\Block\Tracking;
 
-class Popup extends \Magento\View\Block\Template
+class Popup extends \Magento\View\Element\Template
 {
     /**
      * Core registry

@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Items;
 
-class AbstractItems extends \Magento\View\Block\Template
+class AbstractItems extends \Magento\View\Element\Template
 {
     /**
      * Block alias fallback

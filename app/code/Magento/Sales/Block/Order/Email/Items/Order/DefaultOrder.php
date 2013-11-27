@@ -18,7 +18,7 @@
  */
 namespace Magento\Sales\Block\Order\Email\Items\Order;
 
-class DefaultOrder extends \Magento\View\Block\Template
+class DefaultOrder extends \Magento\View\Element\Template
 {
     /**
      * Retrieve current order model instance

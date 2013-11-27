@@ -17,7 +17,7 @@
  */
 namespace Magento\Captcha\Block;
 
-class Captcha extends \Magento\View\Block\Template
+class Captcha extends \Magento\View\Element\Template
 {
     /**
      * Captcha data

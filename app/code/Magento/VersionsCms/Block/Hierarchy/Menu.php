@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
-class Menu extends \Magento\View\Block\Template
+class Menu extends \Magento\View\Element\Template
 {
     const TAG_UL    = 'ul';
     const TAG_OL    = 'ol';
@@ -121,7 +121,7 @@ class Menu extends \Magento\View\Block\Template
     /**
      * Add context menu params to block data
      *
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     protected function _loadNodeMenuParams()
     {

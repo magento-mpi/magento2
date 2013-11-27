@@ -17,7 +17,7 @@
  */
 namespace Magento\CustomerBalance\Block\Checkout\Onepage\Payment;
 
-class Additional extends \Magento\View\Block\Template
+class Additional extends \Magento\View\Element\Template
 {
     /**
      * Customer balance instance

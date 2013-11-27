@@ -13,7 +13,7 @@
  */
 namespace Magento\Centinel\Block;
 
-class Authentication extends \Magento\View\Block\Template
+class Authentication extends \Magento\View\Element\Template
 {
     /**
      * Checkout session

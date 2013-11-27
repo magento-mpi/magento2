@@ -11,7 +11,7 @@ namespace Magento\View\Block\Html;
 /**
  * HTML anchor element block
  */
-class Link extends \Magento\View\Block\Template
+class Link extends \Magento\View\Element\Template
 {
     /**
      * Prepare link attributes as serialized and formatted string

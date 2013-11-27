@@ -894,7 +894,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
         if (!empty($node['template'])) {
             $templateFileName = (string)$node['template'];
-            if ($block instanceof \Magento\View\Block\Template) {
+            if ($block instanceof \Magento\View\Element\Template) {
                 $block->assign($dictionary);
             }
             $block->setTemplate($templateFileName);
@@ -1638,7 +1638,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             if (!empty($options['dataServiceName'])) {
                 $dictionary = $this->_dataServiceGraph->get($options['dataServiceName']);
             }
-            /** @var $block \Magento\View\Block\Template */
+            /** @var $block \Magento\View\Element\Template */
             $block = $this->createBlock($options['type'], '')
                 ->setData($data)
                 ->assign($dictionary)

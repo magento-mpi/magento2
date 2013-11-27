@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Checkout;
 
-class Options extends \Magento\View\Block\Template
+class Options extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection

@@ -34,11 +34,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * Instantiate giftardaccounts block when a gift card email should be sent
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     public function getEmailGeneratedItemsBlock()
     {
-        /** @var $block \Magento\View\Block\Template */
+        /** @var $block \Magento\View\Element\Template */
         $block = $this->_layout->createBlock('Magento\View\Block\Template');
         $block->setTemplate('Magento_GiftCard::email/generated.phtml');
         return $block;

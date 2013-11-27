@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
-class Options extends \Magento\View\Block\Template
+class Options extends \Magento\View\Element\Template
 {
     protected $_product;
 

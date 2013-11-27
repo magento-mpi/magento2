@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Breadcrumbs extends \Magento\View\Block\Template
+class Breadcrumbs extends \Magento\View\Element\Template
 {
     /**
      * Array of breadcrumbs

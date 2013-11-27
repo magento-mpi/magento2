@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Category;
 
-class View extends \Magento\View\Block\Template
+class View extends \Magento\View\Element\Template
 {
     /**
      * Core registry

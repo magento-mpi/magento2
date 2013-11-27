@@ -18,7 +18,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Info extends \Magento\View\Block\Template
+class Info extends \Magento\View\Element\Template
 {
     protected $_template = 'order/info.phtml';
 

@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Returns;
 
-class Returns extends \Magento\View\Block\Template
+class Returns extends \Magento\View\Element\Template
 {
     /**
      * Rma data

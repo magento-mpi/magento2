@@ -9,7 +9,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class Comments extends \Magento\View\Block\Template
+class Comments extends \Magento\View\Element\Template
 {
     /**
      * @param \Magento\View\Block\Template\Context $context

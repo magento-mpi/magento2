@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 
-class Items extends \Magento\View\Block\Template
+class Items extends \Magento\View\Element\Template
 {
     /**
      * Core registry

@@ -16,7 +16,7 @@
  */
 namespace Magento\Tax\Block\Adminhtml\Rate;
 
-class Title extends \Magento\View\Block\Template
+class Title extends \Magento\View\Element\Template
 {
     protected $_titles;
 

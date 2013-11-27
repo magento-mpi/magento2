@@ -10,7 +10,7 @@
 
 namespace Magento\Ogone\Block;
 
-class Placeform extends \Magento\View\Block\Template
+class Placeform extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory

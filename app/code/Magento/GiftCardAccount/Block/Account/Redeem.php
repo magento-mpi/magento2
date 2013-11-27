@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Account;
 
-class Redeem extends \Magento\View\Block\Template
+class Redeem extends \Magento\View\Element\Template
 {
     /**
      * Customer balance data

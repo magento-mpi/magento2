@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
-class Form extends \Magento\View\Block\Template
+class Form extends \Magento\View\Element\Template
 {
     /**
      * Currency factory

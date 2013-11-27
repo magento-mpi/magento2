@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Gallery extends \Magento\View\Block\Template
+class Gallery extends \Magento\View\Element\Template
 {
     /**
      * Core registry

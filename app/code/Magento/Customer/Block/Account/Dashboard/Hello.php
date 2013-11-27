@@ -11,7 +11,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Hello extends \Magento\View\Block\Template
+class Hello extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

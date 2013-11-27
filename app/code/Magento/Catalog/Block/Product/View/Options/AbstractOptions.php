@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\View\Options;
 
-abstract class AbstractOptions extends \Magento\View\Block\Template
+abstract class AbstractOptions extends \Magento\View\Element\Template
 {
     /**
      * Product object

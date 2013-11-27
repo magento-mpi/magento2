@@ -14,7 +14,7 @@ namespace Magento\View\Block;
 class TemplateTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Block\Template
+     * @var \Magento\View\Element\Template
      */
     protected $_block;
 

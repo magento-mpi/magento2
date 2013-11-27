@@ -17,7 +17,7 @@
  */
 namespace Magento\Payment\Block\Info;
 
-abstract class AbstractContainer extends \Magento\View\Block\Template
+abstract class AbstractContainer extends \Magento\View\Element\Template
 {
     /**
      * Payment data

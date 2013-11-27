@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Order;
 
-class History extends \Magento\View\Block\Template
+class History extends \Magento\View\Element\Template
 {
     /**
      * @var string

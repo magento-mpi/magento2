@@ -10,7 +10,7 @@
 
 namespace Magento\Page\Block\Js;
 
-class Components extends \Magento\View\Block\Template
+class Components extends \Magento\View\Element\Template
 {
     /**
      * @return bool

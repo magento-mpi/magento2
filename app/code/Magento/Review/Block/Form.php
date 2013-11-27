@@ -17,7 +17,7 @@
  */
 namespace Magento\Review\Block;
 
-class Form extends \Magento\View\Block\Template
+class Form extends \Magento\View\Element\Template
 {
     /**
      * Review data

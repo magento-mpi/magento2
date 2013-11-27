@@ -18,7 +18,7 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Result extends \Magento\View\Block\Template
+class Result extends \Magento\View\Element\Template
 {
     /**
      * Catalog Product collection

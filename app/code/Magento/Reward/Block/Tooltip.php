@@ -13,7 +13,7 @@
  */
 namespace Magento\Reward\Block;
 
-class Tooltip extends \Magento\View\Block\Template
+class Tooltip extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

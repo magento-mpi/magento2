@@ -18,7 +18,7 @@
 
 namespace Magento\Newsletter\Block;
 
-class Subscribe extends \Magento\View\Block\Template
+class Subscribe extends \Magento\View\Element\Template
 {
     /**
      * Newsletter session

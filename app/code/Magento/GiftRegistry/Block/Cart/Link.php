@@ -13,7 +13,7 @@ namespace Magento\GiftRegistry\Block\Cart;
 /**
  * Cart link block
  */
-class Link extends \Magento\View\Block\Template
+class Link extends \Magento\View\Element\Template
 {
     /**
      * Gift registry data

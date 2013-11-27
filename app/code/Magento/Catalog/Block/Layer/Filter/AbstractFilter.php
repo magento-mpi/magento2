@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Layer\Filter;
 
-abstract class AbstractFilter extends \Magento\View\Block\Template
+abstract class AbstractFilter extends \Magento\View\Element\Template
 {
     /**
      * Catalog Layer Filter Attribute model

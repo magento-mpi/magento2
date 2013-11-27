@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleCheckout\Block;
 
-class Link extends \Magento\View\Block\Template
+class Link extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session

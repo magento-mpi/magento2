@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Block\Checkout\Payment;
 
-class Additional extends \Magento\View\Block\Template
+class Additional extends \Magento\View\Element\Template
 {
     /**
      * Reward data

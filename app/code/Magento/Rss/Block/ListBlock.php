@@ -13,7 +13,7 @@
  */
 namespace Magento\Rss\Block;
 
-class ListBlock extends \Magento\View\Block\Template
+class ListBlock extends \Magento\View\Element\Template
 {
     const XML_PATH_RSS_METHODS = 'rss';
 

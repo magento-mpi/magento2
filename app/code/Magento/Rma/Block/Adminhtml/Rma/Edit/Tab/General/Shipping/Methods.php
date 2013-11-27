@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Methods extends \Magento\View\Block\Template
+class Methods extends \Magento\View\Element\Template
 {
     /**
      * Tax data

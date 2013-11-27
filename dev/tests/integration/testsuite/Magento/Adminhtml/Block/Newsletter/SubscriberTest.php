@@ -22,7 +22,7 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         /** @var $block \Magento\Adminhtml\Block\Newsletter\Subscriber */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Newsletter\Subscriber', 'block');
-        /** @var $childBlock \Magento\View\Block\Template */
+        /** @var $childBlock \Magento\View\Element\Template */
         $childBlock = $layout->addBlock('Magento\View\Block\Template', 'grid', 'block');
 
         $expected = 'test_data';

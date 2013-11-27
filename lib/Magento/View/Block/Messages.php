@@ -11,7 +11,7 @@ namespace Magento\View\Block;
 /**
  * Class Messages
  */
-class Messages extends \Magento\View\Block\Template
+class Messages extends \Magento\View\Element\Template
 {
     /**
      * Messages collection
@@ -82,7 +82,7 @@ class Messages extends \Magento\View\Block\Template
     protected $collectionFactory;
 
     /**
-     * @param Template\Context $context
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory

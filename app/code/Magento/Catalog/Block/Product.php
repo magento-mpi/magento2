@@ -10,7 +10,7 @@
 
 namespace Magento\Catalog\Block;
 
-class Product extends \Magento\View\Block\Template
+class Product extends \Magento\View\Element\Template
 {
     protected $_finalPrice = array();
 

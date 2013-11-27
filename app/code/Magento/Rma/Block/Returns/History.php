@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Returns;
 
-class History extends \Magento\View\Block\Template
+class History extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory

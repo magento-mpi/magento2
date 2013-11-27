@@ -10,7 +10,7 @@
 
 namespace Magento\Checkout\Block;
 
-class Success extends \Magento\View\Block\Template
+class Success extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Sales\Model\OrderFactory

@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Navigation extends \Magento\View\Block\Template
+class Navigation extends \Magento\View\Element\Template
 {
     protected $_categoryInstance = null;
 

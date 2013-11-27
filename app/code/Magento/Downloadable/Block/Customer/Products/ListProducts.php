@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Block\Customer\Products;
 
-class ListProducts extends \Magento\View\Block\Template
+class ListProducts extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

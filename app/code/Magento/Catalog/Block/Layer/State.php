@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Layer;
 
-class State extends \Magento\View\Block\Template
+class State extends \Magento\View\Element\Template
 {
     protected $_template = 'layer/state.phtml';
 

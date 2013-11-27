@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block;
 
-class Switcher extends \Magento\View\Block\Template
+class Switcher extends \Magento\View\Element\Template
 {
     protected $_storeInUrl;
 

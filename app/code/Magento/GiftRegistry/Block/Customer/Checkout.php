@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-class Checkout extends \Magento\View\Block\Template
+class Checkout extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\EntityFactory

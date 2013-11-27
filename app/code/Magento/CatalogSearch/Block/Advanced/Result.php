@@ -17,7 +17,7 @@
  */
 namespace Magento\CatalogSearch\Block\Advanced;
 
-class Result extends \Magento\View\Block\Template
+class Result extends \Magento\View\Element\Template
 {
     /**
      * Url factory

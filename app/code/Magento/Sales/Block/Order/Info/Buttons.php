@@ -14,7 +14,7 @@
  */
 namespace Magento\Sales\Block\Order\Info;
 
-class Buttons extends \Magento\View\Block\Template
+class Buttons extends \Magento\View\Element\Template
 {
     /**
      * @var string

@@ -9,7 +9,7 @@
  */
 namespace Magento\Rma\Block\Order;
 
-class Button extends \Magento\View\Block\Template
+class Button extends \Magento\View\Element\Template
 {
     /**
      * Core registry

@@ -172,7 +172,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Create and return iframe block
      *
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     public function getIframeBlock()
     {

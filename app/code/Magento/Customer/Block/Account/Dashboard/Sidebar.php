@@ -18,7 +18,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Sidebar extends \Magento\View\Block\Template
+class Sidebar extends \Magento\View\Element\Template
 {
     protected $_cartItemsCount;
 

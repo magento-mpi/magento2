@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Product;
 
-class Info extends \Magento\View\Block\Template
+class Info extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\GiftWrapping\Model\WrappingFactory

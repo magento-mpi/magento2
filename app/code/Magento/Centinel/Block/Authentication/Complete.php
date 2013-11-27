@@ -14,7 +14,7 @@
  */
 namespace Magento\Centinel\Block\Authentication;
 
-class Complete extends \Magento\View\Block\Template
+class Complete extends \Magento\View\Element\Template
 {
     /**
      * Core registry

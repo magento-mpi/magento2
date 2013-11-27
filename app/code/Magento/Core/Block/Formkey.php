@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Block;
 
-class Formkey extends \Magento\View\Block\Template
+class Formkey extends \Magento\View\Element\Template
 {
     /**
      * Get form key

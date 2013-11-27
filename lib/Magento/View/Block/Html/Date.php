@@ -11,7 +11,7 @@ namespace Magento\View\Block\Html;
 /**
  * Date element block
  */
-class Date extends \Magento\View\Block\Template
+class Date extends \Magento\View\Element\Template
 {
     /**
      * Render block HTML

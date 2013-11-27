@@ -18,7 +18,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Head extends \Magento\View\Block\Template
+class Head extends \Magento\View\Element\Template
 {
     /**
      * Block template

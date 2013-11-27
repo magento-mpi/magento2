@@ -13,7 +13,7 @@ namespace Magento\View\Block\Html;
  *
  * Prepares localization data for calendar
  */
-class Calendar extends \Magento\View\Block\Template
+class Calendar extends \Magento\View\Element\Template
 {
     /**
      * Date model

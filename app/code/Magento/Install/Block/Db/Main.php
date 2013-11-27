@@ -13,7 +13,7 @@
  */
 namespace Magento\Install\Block\Db;
 
-class Main extends \Magento\View\Block\Template
+class Main extends \Magento\View\Element\Template
 {
     /**
      * Array of Database blocks keyed by name
@@ -78,7 +78,7 @@ class Main extends \Magento\View\Block\Template
      * Retrieve database block by type
      *
      * @param  string $type database model type
-     * @return bool|\Magento\View\Block\Template
+     * @return bool|\Magento\View\Element\Template
      */
     public function getDatabaseBlock($type)
     {

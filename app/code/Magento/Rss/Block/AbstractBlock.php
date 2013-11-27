@@ -10,7 +10,7 @@
 
 namespace Magento\Rss\Block;
 
-class AbstractBlock extends \Magento\View\Block\Template
+class AbstractBlock extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

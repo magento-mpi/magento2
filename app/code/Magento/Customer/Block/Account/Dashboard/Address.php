@@ -18,7 +18,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Address extends \Magento\View\Block\Template
+class Address extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

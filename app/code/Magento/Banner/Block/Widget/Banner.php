@@ -18,7 +18,7 @@
 namespace Magento\Banner\Block\Widget;
 
 class Banner
-    extends \Magento\View\Block\Template
+    extends \Magento\View\Element\Template
     implements \Magento\Widget\Block\BlockInterface
 {
     /**

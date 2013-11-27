@@ -189,7 +189,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
         $ajaxUrl = $urlModel->getUrl($urlPrefix . '/ajax/translate',
             array('_secure' => $store->isCurrentlySecure()));
 
-        /** @var $block \Magento\View\Block\Template */
+        /** @var $block \Magento\View\Element\Template */
         $block = $this->_layout->createBlock('Magento\View\Block\Template');
 
         $block->setAjaxUrl($ajaxUrl);

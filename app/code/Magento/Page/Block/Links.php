@@ -11,7 +11,7 @@ namespace Magento\Page\Block;
 /**
  * Links list block
  */
-class Links extends \Magento\View\Block\Template
+class Links extends \Magento\View\Element\Template
 {
     /** @var string */
     protected $_template = 'Magento_Page::links.phtml';

@@ -13,7 +13,7 @@
  */
 namespace Magento\Paypal\Block;
 
-class Logo extends \Magento\View\Block\Template
+class Logo extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Paypal\Model\Config

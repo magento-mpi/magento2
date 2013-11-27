@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Header extends \Magento\View\Block\Template
+class Header extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session

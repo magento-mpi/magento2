@@ -17,7 +17,7 @@
  */
 namespace Magento\Core\Block\Store;
 
-class Switcher extends \Magento\View\Block\Template
+class Switcher extends \Magento\View\Element\Template
 {
     protected $_groups = array();
     protected $_stores = array();

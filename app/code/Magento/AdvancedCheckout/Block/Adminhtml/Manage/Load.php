@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
-class Load extends \Magento\View\Block\Template
+class Load extends \Magento\View\Element\Template
 {
     /*
      * Returns string text with response of loading some blocks

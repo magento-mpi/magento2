@@ -15,7 +15,7 @@
  */
 namespace Magento\Install\Block;
 
-abstract class AbstractBlock extends \Magento\View\Block\Template
+abstract class AbstractBlock extends \Magento\View\Element\Template
 {
     /**
      * Installer model

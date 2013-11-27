@@ -11,7 +11,7 @@
 
 namespace Magento\Checkout\Block\Onepage;
 
-class Failure extends \Magento\View\Block\Template
+class Failure extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Checkout\Model\Session
