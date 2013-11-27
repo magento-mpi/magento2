@@ -3,13 +3,13 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Adminhtml
+ * @package     Magento_Backend
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
 /**
- * Adminhtml form key content block
+ * Backend form key content block
  */
 namespace Magento\Backend\Block\Admin;
 
