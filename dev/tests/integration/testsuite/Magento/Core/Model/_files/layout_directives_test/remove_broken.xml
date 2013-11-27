@@ -8,7 +8,7 @@
  */
 -->
 <layout>
-    <block name="test.broken.block" type="Magento\View\Block\Text"/>
+    <block name="test.broken.block" type="Magento\View\Element\Text"/>
     <remove name="test.broken.block"/>
     <block class="Magento\View\Element\Template" name="bug.without.name.action.is.ignored">
         <action method="insert">

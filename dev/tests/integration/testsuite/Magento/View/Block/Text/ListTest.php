@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block\Text;
+namespace Magento\View\Element\Text;
 
 class ListTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,7 +17,7 @@ class ListTest extends \PHPUnit_Framework_TestCase
     protected $_layout;
 
     /**
-     * @var \Magento\View\Block\Text\ListText
+     * @var \Magento\View\Element\Text\ListText
      */
     protected $_block;
 
@@ -25,15 +25,15 @@ class ListTest extends \PHPUnit_Framework_TestCase
     {
         $this->_layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\LayoutInterface');
-        $this->_block = $this->_layout->createBlock('Magento\View\Block\Text\ListText');
+        $this->_block = $this->_layout->createBlock('Magento\View\Element\Text\ListText');
     }
 
     public function testToHtml()
     {
         $children = array(
-            array('block1', 'Magento\View\Block\Text', 'text1'),
-            array('block2', 'Magento\View\Block\Text', 'text2'),
-            array('block3', 'Magento\View\Block\Text', 'text3'),
+            array('block1', 'Magento\View\Element\Text', 'text1'),
+            array('block2', 'Magento\View\Element\Text', 'text2'),
+            array('block3', 'Magento\View\Element\Text', 'text3'),
         );
         foreach ($children as $child) {
             $this->_layout->addBlock($child[1], $child[0], $this->_block->getNameInLayout())
@@ -46,10 +46,10 @@ class ListTest extends \PHPUnit_Framework_TestCase
     public function testToHtmlWithContainer()
     {
         $listName = $this->_block->getNameInLayout();
-        $block1 = $this->_layout->addBlock('Magento\View\Block\Text', '', $listName);
+        $block1 = $this->_layout->addBlock('Magento\View\Element\Text', '', $listName);
         $this->_layout->addContainer('container', 'Container', array(), $listName);
-        $block2 = $this->_layout->addBlock('Magento\View\Block\Text', '', 'container');
-        $block3 = $this->_layout->addBlock('Magento\View\Block\Text', '', $listName);
+        $block2 = $this->_layout->addBlock('Magento\View\Element\Text', '', 'container');
+        $block3 = $this->_layout->addBlock('Magento\View\Element\Text', '', $listName);
         $block1->setText('text1');
         $block2->setText('text2');
         $block3->setText('text3');

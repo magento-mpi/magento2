@@ -31,7 +31,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
         );
 
         $layout->addBlock($block, 'block');
-        $form = $layout->addBlock('Magento\View\Block\Text', 'form', 'block');
+        $form = $layout->addBlock('Magento\View\Element\Text', 'form', 'block');
 
         $expectedHtml = '<b>html</b>';
         $this->assertNotEquals($expectedHtml, $block->getFormHtml());

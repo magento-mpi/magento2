@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block\Text;
+namespace Magento\View\Element\Text;
 
-use Magento\View\Block\Text;
+use Magento\View\Element\Text;
 
 /**
  * Class ListText
  */
-class ListText extends \Magento\View\Block\Text
+class ListText extends \Magento\View\Element\Text
 {
     /**
      * Render html output

@@ -6,14 +6,14 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block\Text\TextList;
+namespace Magento\View\Element\Text\TextList;
 
-use Magento\View\Block\Text;
+use Magento\View\Element\Text;
 
 /**
  * Class Item
  */
-class Item extends \Magento\View\Block\Text
+class Item extends \Magento\View\Element\Text
 {
     /**
      * @param array|string $liParams

@@ -51,7 +51,7 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         // set first child - block
         $title = 'Block 1';
         $url = 'http://content.url.1/';
-        $this->_layout->addBlock('Magento\View\Block\Text', 'block1', $parentName)
+        $this->_layout->addBlock('Magento\View\Element\Text', 'block1', $parentName)
             ->setHeaderText($title)
             ->setData('content_url', $url);
 
@@ -59,12 +59,12 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         $containerName = 'container';
         $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
         $containerText = 'Block in container';
-        $this->_layout->addBlock('Magento\View\Block\Text', 'container_block', $containerName)->setText($containerText);
+        $this->_layout->addBlock('Magento\View\Element\Text', 'container_block', $containerName)->setText($containerText);
 
         // set third child - block
         $titleOne = 'Block 2';
         $blockContent = 'Block 2 Text';
-        $this->_layout->addBlock('Magento\View\Block\Text', 'block2', $parentName)
+        $this->_layout->addBlock('Magento\View\Element\Text', 'block2', $parentName)
             ->setHeaderText($titleOne)
             ->setText($blockContent);
 
