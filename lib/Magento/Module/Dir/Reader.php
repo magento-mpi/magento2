@@ -66,7 +66,7 @@ class Reader
         $result = array();
         foreach (array_keys($this->modulesList->getModules()) as $moduleName) {
             $file = $this->getModuleDir('etc', $moduleName) . '/' . $filename;
-            if ($this->modulesDirectory->isExist($file)) {
+            if ($this->modulesDirectory->isExist($this->modulesDirectory->getRelativePath($file))) {
                 $result[] = $file;
             }
         }
