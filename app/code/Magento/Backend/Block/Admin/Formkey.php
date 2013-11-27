@@ -11,7 +11,7 @@
 /**
  * Adminhtml form key content block
  */
-namespace Magento\Adminhtml\Block\Admin;
+namespace Magento\Backend\Block\Admin;
 
 class Formkey extends \Magento\Backend\Block\Template
 {
