@@ -32,7 +32,7 @@ class UserWithRestrictedRole extends Functional
         //Create new Admin User
         $userFixture = Factory::getFixtureFactory()->getMagentoUserAdminUser();
         $userFixture->switchData('admin_default');
-        $user = $userFixture->persist();
+        $userFixture->persist();
         //Create new Acl Role - Role Resources: Sales
         $roleFixture = Factory::getFixtureFactory()->getMagentoUserRole();
         $roleFixture->switchData('role_sales');
