@@ -112,6 +112,7 @@ class Integration extends \Magento\Backend\App\Action
         if ($integrationId) {
             try {
                 $integrationData = $this->_integrationService->get($integrationId);
+                $originalName = $integrationData[Info::DATA_NAME];
                 $restoredIntegration = $this->_getSession()->getIntegrationData();
                 if (isset($restoredIntegration[Info::DATA_ID])
                     && $integrationId == $restoredIntegration[Info::DATA_ID]
@@ -146,7 +147,7 @@ class Integration extends \Magento\Backend\App\Action
             __('Edit "%1" Integration', $integrationData[Info::DATA_NAME]),
             __('Edit "%1" Integration', $integrationData[Info::DATA_NAME])
         );
-        $this->_title->add(__('Edit "%1" Integration', $integrationData[Info::DATA_NAME]));
+        $this->_title->add(__('Edit "%1" Integration', $originalName));
         $this->_view->renderLayout();
     }
 
