@@ -21,7 +21,7 @@ namespace Magento\Customer\Model;
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Configuration pathes for email templates and identities
+     * Configuration paths for email templates and identities
      */
     const XML_PATH_REGISTER_EMAIL_TEMPLATE = 'customer/create_account/email_template';
     const XML_PATH_REGISTER_EMAIL_IDENTITY = 'customer/create_account/email_identity';
@@ -873,7 +873,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retrive shared website ids
+     * Retrieve shared website ids
      *
      * @return array
      */
@@ -986,7 +986,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive errors
+     * Retrieve errors
      *
      * @return array
      */

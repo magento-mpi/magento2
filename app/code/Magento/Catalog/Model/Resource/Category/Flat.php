@@ -261,7 +261,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     }
 
     /**
-     * Retreive inactive categories ids
+     * Retrieve inactive categories ids
      *
      * @return \Magento\Catalog\Model\Resource\Category\Flat
      */
@@ -273,7 +273,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     }
 
     /**
-     * Retreive inactive categories ids
+     * Retrieve inactive categories ids
      *
      * @return array
      */

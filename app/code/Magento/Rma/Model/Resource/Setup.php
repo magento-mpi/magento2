@@ -77,7 +77,7 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
     }
 
     /**
-     * Retreive default RMA item entities
+     * Retrieve default RMA item entities
      *
      * @return array
      */
