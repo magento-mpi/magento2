@@ -36,22 +36,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $fileSystemMock = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $dirMock = $this->getMockBuilder('Magento\App\Dir')->disableOriginalConstructor()->getMock();
         $serviceReflection = $this->getMock('\Magento\Webapi\Model\Soap\Config\Reader\Soap', [], [], '', false);
-        $this->_configMock = $this->getMock('Magento\Webapi\Model\Config', [], [], '', false);
         $helperContext = $this->getMock('Magento\App\Helper\Context', [], [], '', false);
         $this->_configHelperMock = $this->getMock('Magento\Webapi\Helper\Config', [], ['context' => $helperContext]);
-        $this->_soapConfig = new \Magento\Webapi\Model\Soap\Config(
-            $objectManagerMock,
-            $fileSystemMock,
-            $dirMock,
-            $this->_configMock,
-            $serviceReflection,
-            $this->_configHelperMock
-        );
-        parent::setUp();
-    }
-
-    public function testGetRequestedSoapServices()
-    {
+        $this->_configMock = $this->getMock('Magento\Webapi\Model\Config', [], [], '', false);
         $servicesConfig = array(
             'Magento\Module\Service\FooV1Interface' => array(
                 'class' => 'Magento\Module\Service\FooV1Interface',
@@ -80,7 +67,20 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+        $this->_configMock->expects($this->once())->method('getServices')->will($this->returnValue($servicesConfig));
+        $this->_soapConfig = new \Magento\Webapi\Model\Soap\Config(
+            $objectManagerMock,
+            $fileSystemMock,
+            $dirMock,
+            $this->_configMock,
+            $serviceReflection,
+            $this->_configHelperMock
+        );
+        parent::setUp();
+    }
 
+    public function testGetRequestedSoapServices()
+    {
         $expectedResult = array(
             array(
                 'methods' => array(
@@ -104,7 +104,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             );
-        $this->_configMock->expects($this->once())->method('getServices')->will($this->returnValue($servicesConfig));
         $result = $this->_soapConfig->getRequestedSoapServices(array('moduleFooV1', 'moduleBarV2', 'moduleBazV1'));
         $this->assertEquals($expectedResult, $result);
     }
