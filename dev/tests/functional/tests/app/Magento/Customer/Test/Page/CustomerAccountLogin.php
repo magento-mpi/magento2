@@ -39,13 +39,6 @@ class CustomerAccountLogin extends Page
     private $loginBlock;
 
     /**
-     * Dashboard header panel title
-     *
-     * @var DashboardHeaderPanelTitle
-     */
-    private $dashboardHeaderPanelTitle;
-
-    /**
      * Custom constructor
      */
     protected function _init()
@@ -54,12 +47,6 @@ class CustomerAccountLogin extends Page
 
         $this->loginBlock = Factory::getBlockFactory()->getMagentoCustomerFormLogin(
             $this->_browser->find('login-form', Locator::SELECTOR_ID)
-        );
-        $this->dashboardHeaderPanelTitle = Factory::getBlockFactory()->getMagentoCustomerDashboardHeaderPanelTitle(
-            $this->_browser->find(
-                '//div[@class="page-title"]/h1[contains(text(), "My Dashboard")]',
-                Locator::SELECTOR_XPATH
-            )
         );
     }
 
@@ -71,15 +58,5 @@ class CustomerAccountLogin extends Page
     public function getLoginBlock()
     {
         return $this->loginBlock;
-    }
-
-    /**
-     * Get dashboard panel title
-     *
-     * @return DashboardHeaderPanelTitle
-     */
-    public function getDashboardHeaderPanelTitle()
-    {
-        return $this->dashboardHeaderPanelTitle;
     }
 }
