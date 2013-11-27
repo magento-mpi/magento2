@@ -15,7 +15,7 @@ class SetupTest extends \PHPUnit_Framework_TestCase
     /**
      * API Integration config
      *
-     * @var Config
+     * @var \Magento\Webapi\Model\IntegrationConfig
      */
     protected $_integrationConfigMock;
 
@@ -91,8 +91,8 @@ class SetupTest extends \PHPUnit_Framework_TestCase
         $testIntegration1Resource = array(
             'Magento_Customer::manage',
             'Magento_Customer::online',
-            'Magento_Customer::order_statuses_read',
-            'Magento_SalesArchive::add'
+            'Magento_Sales::create',
+            'Magento_SalesRule::quote'
         );
         $testIntegration2Resource = array(
             'Magento_Catalog::product_read'

@@ -58,7 +58,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         return array(
             'integration' => array(
                 'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
-                'resources' => array('Magento_SalesArchive::add', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
+                'resources' => array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
             )
         );
     }
@@ -92,11 +92,11 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
             'integration' => array(
                 'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
-                'newResources' => array('Magento_SalesArchive::remove', 'Magento_Cms::page_delete')
+                'newResources' => array('Magento_Sales::cancel', 'Magento_Cms::page_delete')
             ),
             'integration clear permissions' => array(
                 'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
-                'initialResources' => array('Magento_SalesArchive::add', 'Magento_Cms::page_delete'),
+                'initialResources' => array('Magento_Sales::capture', 'Magento_Cms::page_delete'),
                 'newResources' => array(),
             ),
         );
@@ -128,7 +128,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->grantPermissions($userIdentifierA, $resourcesA);
 
         $userIdentifierB = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
-        $resourcesB = array('Magento_Cms::block', 'Magento_SalesArchive::remove');
+        $resourcesB = array('Magento_Cms::block', 'Magento_Sales::cancel');
         $this->_service->grantPermissions($userIdentifierB, $resourcesB);
 
         /** Preconditions check */
