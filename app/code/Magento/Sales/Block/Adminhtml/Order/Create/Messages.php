@@ -45,7 +45,7 @@ class Messages extends \Magento\Adminhtml\Block\Messages
     }
 
     /**
-     * @return \Magento\View\Block\Messages
+     * @return \Magento\View\Element\Messages
      */
     protected function _prepareLayout()
     {

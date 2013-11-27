@@ -18,6 +18,6 @@
  */
 namespace Magento\Adminhtml\Block;
 
-class Messages extends \Magento\View\Block\Messages
+class Messages extends \Magento\View\Element\Messages
 {
 }

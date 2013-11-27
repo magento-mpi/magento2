@@ -242,7 +242,7 @@ interface LayoutInterface
     /**
      * Retrieve messages block
      *
-     * @return \Magento\View\Block\Messages
+     * @return \Magento\View\Element\Messages
      */
     public function getMessagesBlock();
 
