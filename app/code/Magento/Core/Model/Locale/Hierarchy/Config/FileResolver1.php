@@ -11,23 +11,23 @@ namespace Magento\Core\Model\Locale\Hierarchy\Config;
 
 class FileResolver implements \Magento\Config\FileResolverInterface
 {
+
+    /**
+     * @var \Magento\App\Dir
+     */
+    protected $_applicationDirs;
+
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryRead;
 
-    protected $filesystem;
-    protected $iteratorFactory;
     /**
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Locale\Hierarchy\Config\FileIteratorFactory $iteratorFactory
-    ){
+    public function __construct(\Magento\Filesystem $filesystem)
+    {
         $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
-        $this->iteratorFactory = $iteratorFactory;
-        $this->filesystem = $filesystem;
     }
 
     /**
@@ -35,9 +35,6 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        return $this->iteratorFactory->create(array(
-            'paths' => $this->directoryRead->search('#.*?/' . $filename . '$#'),
-            'filesystem' => $this->filesystem
-        ));
+        return $this->directoryRead->search('#.*?/' . $filename . '$#');
     }
 }
