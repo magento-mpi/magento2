@@ -54,7 +54,7 @@ class Price extends \Magento\View\Element\Template
     protected $mathRandom;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
@@ -64,7 +64,7 @@ class Price extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,

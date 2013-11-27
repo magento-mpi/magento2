@@ -56,14 +56,14 @@ class Link
     protected $_cmsPage;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Cms\Model\Resource\Page $resourcePage
      * @param \Magento\Cms\Helper\Page $cmsPage
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Cms\Model\Resource\Page $resourcePage,
         \Magento\Cms\Helper\Page $cmsPage,

@@ -17,14 +17,14 @@ class LinksTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Page\Block\Links */
     protected $_block;
 
-    /** @var \Magento\View\Block\Template\Context */
+    /** @var \Magento\View\Element\Template\Context */
     protected $_context;
 
     protected function setUp()
     {
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        /** @var  \Magento\View\Block\Template\Context $context */
+        /** @var  \Magento\View\Element\Template\Context $context */
         $this->_context = $this->_objectManagerHelper->getObject('Magento\View\Block\Template\Context');
 
         /** @var \Magento\Page\Block\Links $block */

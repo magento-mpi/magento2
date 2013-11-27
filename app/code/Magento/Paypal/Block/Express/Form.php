@@ -35,7 +35,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param \Magento\Paypal\Helper\Data $paypalData
@@ -43,7 +43,7 @@ class Form extends \Magento\Paypal\Block\Standard\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         \Magento\Paypal\Helper\Data $paypalData,

@@ -35,7 +35,7 @@ class Products extends \Magento\Checkout\Block\Cart
     protected $_cart;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -47,7 +47,7 @@ class Products extends \Magento\Checkout\Block\Cart
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,

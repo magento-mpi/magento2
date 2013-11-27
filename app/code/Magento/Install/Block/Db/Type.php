@@ -39,14 +39,14 @@ class Type extends \Magento\View\Element\Template
     protected $_session;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,

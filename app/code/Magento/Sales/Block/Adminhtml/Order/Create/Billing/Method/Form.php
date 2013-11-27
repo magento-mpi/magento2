@@ -25,13 +25,13 @@ class Form extends \Magento\Payment\Block\Form\Container
     protected $_sessionQuote;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         array $data = array()

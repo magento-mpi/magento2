@@ -33,14 +33,14 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
     protected $_profiles = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Recurring\Profile $profile
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Recurring\Profile $profile,
         \Magento\Core\Model\Registry $registry,

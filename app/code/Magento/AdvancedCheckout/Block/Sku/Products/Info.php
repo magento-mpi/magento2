@@ -43,7 +43,7 @@ class Info extends \Magento\View\Element\Template
     protected $_productAlertData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
@@ -51,7 +51,7 @@ class Info extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,

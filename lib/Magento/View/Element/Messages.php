@@ -82,14 +82,14 @@ class Messages extends \Magento\View\Element\Template
     protected $collectionFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
@@ -103,7 +103,7 @@ class Messages extends \Magento\View\Element\Template
     /**
      * Preparing global layout
      *
-     * @return \Magento\View\Block\Messages
+     * @return \Magento\View\Element\Messages
      */
     protected function _prepareLayout()
     {
@@ -117,7 +117,7 @@ class Messages extends \Magento\View\Element\Template
      * Set message escape flag
      *
      * @param bool $flag
-     * @return \Magento\View\Block\Messages
+     * @return \Magento\View\Element\Messages
      */
     public function setEscapeMessageFlag($flag)
     {
@@ -129,7 +129,7 @@ class Messages extends \Magento\View\Element\Template
      * Set messages collection
      *
      * @param   \Magento\Message\Collection $messages
-     * @return  \Magento\View\Block\Messages
+     * @return  \Magento\View\Element\Messages
      */
     public function setMessages(\Magento\Message\Collection $messages)
     {
@@ -141,7 +141,7 @@ class Messages extends \Magento\View\Element\Template
      * Add messages to display
      *
      * @param \Magento\Message\Collection $messages
-     * @return \Magento\View\Block\Messages
+     * @return \Magento\View\Element\Messages
      */
     public function addMessages(\Magento\Message\Collection $messages)
     {
@@ -168,7 +168,7 @@ class Messages extends \Magento\View\Element\Template
      * Adding new message to message collection
      *
      * @param   \Magento\Message\AbstractMessage $message
-     * @return  \Magento\View\Block\Messages
+     * @return  \Magento\View\Element\Messages
      */
     public function addMessage(\Magento\Message\AbstractMessage $message)
     {
@@ -180,7 +180,7 @@ class Messages extends \Magento\View\Element\Template
      * Adding new error message
      *
      * @param   string $message
-     * @return  \Magento\View\Block\Messages
+     * @return  \Magento\View\Element\Messages
      */
     public function addError($message)
     {
@@ -192,7 +192,7 @@ class Messages extends \Magento\View\Element\Template
      * Adding new warning message
      *
      * @param   string $message
-     * @return  \Magento\View\Block\Messages
+     * @return  \Magento\View\Element\Messages
      */
     public function addWarning($message)
     {
@@ -204,7 +204,7 @@ class Messages extends \Magento\View\Element\Template
      * Adding new notice message
      *
      * @param   string $message
-     * @return  \Magento\View\Block\Messages
+     * @return  \Magento\View\Element\Messages
      */
     public function addNotice($message)
     {
@@ -216,7 +216,7 @@ class Messages extends \Magento\View\Element\Template
      * Adding new success message
      *
      * @param   string $message
-     * @return  \Magento\View\Block\Messages
+     * @return  \Magento\View\Element\Messages
      */
     public function addSuccess($message)
     {

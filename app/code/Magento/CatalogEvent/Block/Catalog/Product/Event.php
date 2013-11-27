@@ -28,14 +28,14 @@ class Event extends \Magento\CatalogEvent\Block\Event\AbstractEvent
     protected $_catalogEventData;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,

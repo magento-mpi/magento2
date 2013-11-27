@@ -40,14 +40,14 @@ class Block extends \Magento\View\Element\Template implements \Magento\Widget\Bl
     protected $_blockFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Cms\Model\BlockFactory $blockFactory,

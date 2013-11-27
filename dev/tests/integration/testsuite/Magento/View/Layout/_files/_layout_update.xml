@@ -35,7 +35,7 @@
         </block>
         <block class="Magento\Adminhtml\Block\Page\Header" name="header" as="header"/>
         <block class="Magento\Backend\Block\Menu" name="menu" as="menu"/>
-        <block class="Magento\View\Block\Messages" name="messages" as="messages"/>
+        <block class="Magento\View\Element\Messages" name="messages" as="messages"/>
         <block class="Magento\View\Block\Text" as="no_name"/>
     </block>
     <update handle="layout_test_handle_sample"/>

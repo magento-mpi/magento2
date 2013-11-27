@@ -20,13 +20,13 @@ class Giftcards extends \Magento\View\Element\Template
     protected $_giftCardAccountData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         array $data = array()

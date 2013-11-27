@@ -19,13 +19,13 @@ class Link extends \Magento\View\Element\Template
     const VIRTUAL_CONTENT_TYPE = 'link';
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Page\Asset\RemoteFactory $remoteFactory,
         array $data = array()

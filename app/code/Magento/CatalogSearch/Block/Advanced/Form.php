@@ -34,14 +34,14 @@ class Form extends \Magento\View\Element\Template
     protected $_catalogSearchAdvanced;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,

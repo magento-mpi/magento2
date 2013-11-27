@@ -33,14 +33,14 @@ class Date extends \Magento\Catalog\Block\Product\View\Options\AbstractOptions
     protected $_catalogProductOptionTypeDate;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option\Type\Date $catalogProductOptionTypeDate,

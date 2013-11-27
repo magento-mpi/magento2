@@ -19,12 +19,12 @@ class Css extends \Magento\View\Element\AbstractBlock
     /**
      * Contructor
      *
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Page\Asset\ViewFileFactory $viewFileFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Page\Asset\ViewFileFactory $viewFileFactory,
         array $data = array()
     ) {

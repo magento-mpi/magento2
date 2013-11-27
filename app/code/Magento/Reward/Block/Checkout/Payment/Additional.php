@@ -43,7 +43,7 @@ class Additional extends \Magento\View\Element\Template
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -52,7 +52,7 @@ class Additional extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Reward\Helper\Data $rewardData,

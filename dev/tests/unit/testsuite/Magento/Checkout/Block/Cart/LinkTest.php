@@ -60,7 +60,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  \Magento\View\Block\Template\Context $context */
+        /** @var  \Magento\View\Element\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
             'Magento\View\Block\Template\Context',
             array(
@@ -98,7 +98,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
 
-        /** @var  \Magento\View\Block\Template\Context $context */
+        /** @var  \Magento\View\Element\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
             'Magento\View\Block\Template\Context',
             array(

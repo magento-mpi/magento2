@@ -102,7 +102,7 @@ class Banner
     protected $_renderedParams = array();
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -111,7 +111,7 @@ class Banner
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,

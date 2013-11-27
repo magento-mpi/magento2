@@ -38,7 +38,7 @@ class ActivateTest extends \PHPUnit_Framework_TestCase
         $registry->register(\Magento\Webhook\Block\Adminhtml\Registration\Activate::REGISTRY_KEY_CURRENT_SUBSCRIPTION,
             $subscriptionData);
 
-        /** @var \Magento\View\Block\Template\Context $context */
+        /** @var \Magento\View\Element\Template\Context $context */
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\View\Block\Template\Context');
 

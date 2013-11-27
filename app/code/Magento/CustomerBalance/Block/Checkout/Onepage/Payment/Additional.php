@@ -42,7 +42,7 @@ class Additional extends \Magento\View\Element\Template
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -50,7 +50,7 @@ class Additional extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Checkout\Model\Session $checkoutSession,

@@ -25,7 +25,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
     protected $_product;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Product\Option $option
@@ -33,7 +33,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Product\Option $option,

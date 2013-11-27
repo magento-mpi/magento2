@@ -34,14 +34,14 @@ class Button extends \Magento\View\Element\Template
     protected $_wishlistData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Wishlist\Model\Config $wishlistConfig,

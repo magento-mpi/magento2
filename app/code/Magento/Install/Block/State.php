@@ -39,14 +39,14 @@ class State extends \Magento\View\Element\Template
     protected $_cookie;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Wizard $wizard
      * @param \Magento\Core\Model\Cookie $cookie
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Wizard $wizard,
         \Magento\Core\Model\Cookie $cookie,

@@ -23,14 +23,14 @@ class Link extends \Magento\Page\Block\Link\Current
     protected $_giftHelper = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\GiftRegistry\Helper\Data $giftHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,
         \Magento\GiftRegistry\Helper\Data $giftHelper,

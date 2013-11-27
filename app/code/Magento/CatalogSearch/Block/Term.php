@@ -38,14 +38,14 @@ class Term extends \Magento\View\Element\Template
     protected $_queryCollectionFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Resource\Query\CollectionFactory $queryCollectionFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,

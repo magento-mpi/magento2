@@ -26,14 +26,14 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
     protected $_itemFormFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,

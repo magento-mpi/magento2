@@ -26,7 +26,7 @@ class Info
     protected $_wrappingFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
@@ -35,7 +35,7 @@ class Info
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,

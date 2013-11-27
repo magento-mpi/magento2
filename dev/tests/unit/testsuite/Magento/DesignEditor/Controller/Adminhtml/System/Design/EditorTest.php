@@ -52,7 +52,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
         $layoutMock->expects($this->any())->method('generateXml')->will($this->returnSelf());
         $layoutMock->expects($this->any())->method('getNode')
             ->will($this->returnValue(new \Magento\Simplexml\Element('<root />')));
-        $blockMessage = $this->getMock('Magento\View\Block\Messages',
+        $blockMessage = $this->getMock('Magento\View\Element\Messages',
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'), array(), '', false);
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));
 

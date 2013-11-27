@@ -34,7 +34,7 @@ class View extends \Magento\Catalog\Block\Layer\View
     protected $_searchData;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Search\Helper\Data $searchData
@@ -42,7 +42,7 @@ class View extends \Magento\Catalog\Block\Layer\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Search\Helper\Data $searchData,

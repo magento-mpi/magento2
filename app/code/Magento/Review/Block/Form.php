@@ -47,7 +47,7 @@ class Form extends \Magento\View\Element\Template
     protected $_reviewSession;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Session\Generic $reviewSession
      * @param \Magento\Review\Helper\Data $reviewData
@@ -57,7 +57,7 @@ class Form extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Session\Generic $reviewSession,
         \Magento\Review\Helper\Data $reviewData,

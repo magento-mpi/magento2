@@ -38,7 +38,7 @@ class Checkout extends \Magento\View\Element\Template
     protected $typeMultiShippingFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
@@ -47,7 +47,7 @@ class Checkout extends \Magento\View\Element\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,

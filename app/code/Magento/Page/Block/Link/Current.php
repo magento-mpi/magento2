@@ -33,13 +33,13 @@ class Current extends \Magento\View\Element\Template
     protected $_defaultPath;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,
         array $data = array()

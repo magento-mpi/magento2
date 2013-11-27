@@ -30,14 +30,14 @@ class Link extends \Magento\View\Element\Template
     protected $paymentFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory,
         \Magento\Checkout\Model\Session $checkoutSession,

@@ -12,7 +12,7 @@ namespace Magento\Backend\Block\Template;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\View\Block\Template\Context
+class Context extends \Magento\View\Element\Template\Context
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -96,7 +96,7 @@ class Context extends \Magento\View\Block\Template\Context
         $this->_authorization = $authorization;
         $this->_backendSession = $backendSession;
         $this->mathRandom = $mathRandom;
-        parent::__construct(
+        \Magento\View\Element\Template\parent::__construct(
             $request,
             $layout,
             $eventManager,

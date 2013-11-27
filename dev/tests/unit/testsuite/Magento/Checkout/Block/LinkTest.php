@@ -61,7 +61,7 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('isOutputEnabled'))
             ->getMock();
 
-        /** @var  \Magento\View\Block\Template\Context $context */
+        /** @var  \Magento\View\Element\Template\Context $context */
         $context = $this->_objectManagerHelper->getObject(
             'Magento\View\Block\Template\Context',
             array('helperFactory' => $helperFactory)

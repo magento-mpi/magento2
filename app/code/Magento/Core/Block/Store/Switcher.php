@@ -38,14 +38,14 @@ class Switcher extends \Magento\View\Element\Template
     protected $_storeGroupFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\GroupFactory $storeGroupFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\GroupFactory $storeGroupFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,

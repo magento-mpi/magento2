@@ -28,13 +28,13 @@ class Additional extends \Magento\View\Block\Html\Link
     protected $_persistentSession = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Persistent\Helper\Session $persistentSession
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Persistent\Helper\Session $persistentSession,
         array $data = array()

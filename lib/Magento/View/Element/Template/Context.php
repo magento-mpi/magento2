@@ -6,7 +6,7 @@
  * @license   {license_link}
  */
 
-namespace Magento\View\Block\Template;
+namespace Magento\View\Element\Template;
 
 /**
  * Magento block context object

@@ -23,13 +23,13 @@ class Cc extends \Magento\Payment\Block\Form
     protected $_paymentConfig;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Model\Config $paymentConfig,
         array $data = array()

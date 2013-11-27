@@ -167,7 +167,7 @@ class Result extends \Magento\Adminhtml\Block\Template
     public function getMessagesHtml()
     {
         /** @var $messagesBlock \Magento\View\Element\Messages */
-        $messagesBlock = $this->_layout->createBlock('Magento\View\Block\Messages');
+        $messagesBlock = $this->_layout->createBlock('Magento\View\Element\Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";

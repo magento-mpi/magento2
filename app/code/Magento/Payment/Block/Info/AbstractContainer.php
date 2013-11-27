@@ -27,13 +27,13 @@ abstract class AbstractContainer extends \Magento\View\Element\Template
     protected $_paymentData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         array $data = array()

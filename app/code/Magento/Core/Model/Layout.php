@@ -1539,7 +1539,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if ($block) {
             return $block;
         }
-        return $this->createBlock('Magento\View\Block\Messages', 'messages');
+        return $this->createBlock('Magento\View\Element\Messages', 'messages');
     }
 
     /**
