@@ -1000,4 +1000,5 @@ return array(
     array('_saveCache', '\Magento\App\Helper\AbstractHelper'),
     array('_removeCache', '\Magento\App\Helper\AbstractHelper'),
     array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
+    array('getMethod', '\Magento\GoogleCheckout\Block\Redirect', 'getFormMethod'),
 );

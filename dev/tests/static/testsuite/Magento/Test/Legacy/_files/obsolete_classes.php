@@ -1463,4 +1463,5 @@ return array(
     array('Magento\Core\Helper\Context', 'Magento\App\Helper\Context'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),
     array('Magento\Page\Block\Template\Container'),
+    array('Magento\Page\Block\Redirect', 'Magento\View\Element\Redirect'),
 );
