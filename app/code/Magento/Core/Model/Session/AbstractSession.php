@@ -184,7 +184,6 @@ class AbstractSession extends \Magento\Object
         if (isset($_SESSION) && !$this->getSkipEmptySessionCheck()) {
             return $this;
         }
-
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
@@ -206,7 +205,8 @@ class AbstractSession extends \Magento\Object
                 break;
             default:
                 session_module_name($this->getSessionSaveMethod());
-                if (is_writable($this->getSessionSavePath())) {
+                $dir = $this->filesystem->getDirectoryWrite(\Magento\FileSystem::SESSION);
+                if ($dir->isWritable($dir->getRelativePath($this->getSessionSavePath()))) {
                     session_save_path($this->getSessionSavePath());
                 }
                 break;
