@@ -8,11 +8,15 @@
 
 namespace Magento\User\Test\Fixture;
 
-use Magento\Core\Model\Layout\Argument\HandlerFactory;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 use Mtf\System\Config;
 
+/**
+ * Fixture with all necessary data for user creation on backend
+ *
+ * @package Magento\Sales\Test\Fixture
+ */
 class AdminUser extends DataFixture
 {
     /**
@@ -23,19 +27,18 @@ class AdminUser extends DataFixture
     {
         $placeholders['password'] = isset($placeholders['password']) ? $placeholders['password'] : '123123q';
         parent::__construct($configuration, $placeholders);
-        $this->_placeholders['role_id'] = array($this, 'roleProvider');
+        $this->_placeholders['role_sales'] = array($this, 'roleProvider');
     }
 
-
     /**
-     * Retrieve specify data from role.
-     *
+     * Retrieve specify data from role.trieve specify data from role.
+     * @param $roleName
      * @return mixed
      */
-    protected function roleProvider()
+    protected function roleProvider($roleName)
     {
         $role = Factory::getFixtureFactory()->getMagentoUserRole();
-        $role->switchData('role_sales');
+        $role->switchData($roleName);
         $data = $role->persist();
         return $data['id'];
     }
@@ -70,8 +73,6 @@ class AdminUser extends DataFixture
                 ),
             ),
         );
-        $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoUserAdminUser($this->_dataConfig, $this->_data);
     }
 
     /**
@@ -107,6 +108,8 @@ class AdminUser extends DataFixture
     }
 
     /**
+     * Set password for user
+     *
      * @param string $password
      */
     public function setPassword($password)

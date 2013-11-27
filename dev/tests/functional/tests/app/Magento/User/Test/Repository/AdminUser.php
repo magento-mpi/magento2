@@ -19,7 +19,7 @@ use Mtf\Repository\AbstractRepository;
 class AdminUser extends AbstractRepository
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
@@ -27,21 +27,22 @@ class AdminUser extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
-        $this->_data['user_with_sales_resource'] = $this->_getUserWithRestrictedResource();
+        $this->_data['user_with_sales_resource'] = $this->_getUserWithRole('role_sales');
     }
 
     /**
-     * Build data for user with restricted resource
+     * Build data for user
      *
+     * @param string $roleName
      * @return array
      */
-    protected function _getUserWithRestrictedResource()
+    protected function _getUserWithRole($roleName)
     {
         $role = array(
             'data' => array(
                 'fields' => array(
                     'roles' => array(
-                        'value' => array('%role_id%')
+                        'value' => array("%$roleName%")
                     )
                 )
             )

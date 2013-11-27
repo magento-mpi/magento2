@@ -14,6 +14,7 @@ use Mtf\Util\Protocol\CurlTransport;
 use Mtf\Util\Protocol\CurlInterface;
 use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
+
 /**
  * Curl handler for persisting Magento user
  *
@@ -22,7 +23,7 @@ use Mtf\System\Config;
 class CreateUser extends Curl
 {
     /**
-     * Prepare data for using in the executr method
+     * Prepare data for using in the execute method
      *
      * @param array $fields
      * @return array
@@ -42,7 +43,6 @@ class CreateUser extends Curl
      * @param Fixture $fixture [optional]
      * @return mixed|string
      */
-
     public function execute(Fixture $fixture = null)
     {
         $url = $_ENV['app_backend_url'] . 'admin/user/save';
@@ -52,6 +52,17 @@ class CreateUser extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
-        return $response;
+        preg_match("/You\ saved\ the\ user\./", $response, $matches);
+        if (empty($matches)) {
+            throw new UnexpectedValueException('Success confirmation message not found');
+        }
+
+        preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
+        . $data['username'] . '/siu', $response, $matches);
+        if (empty($matches)) {
+            throw new UnexpectedValueException('Cannot find user id');
+        }
+        $data['id'] = $matches[1];
+        return $data;
     }
 }
