@@ -76,6 +76,7 @@ class UserIdentifier implements UserLocatorInterface
      */
     protected function _setUserId($userId)
     {
+        $userId = is_numeric($userId) ? (int)$userId : $userId;
         if (!is_integer($userId) || ($userId < 0)) {
             throw new \LogicException("Invalid user ID: '{$userId}'.");
         }

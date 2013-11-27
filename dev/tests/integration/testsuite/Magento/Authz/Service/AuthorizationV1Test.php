@@ -102,6 +102,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testIsAllowedArrayOfResources()
     {
         $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
@@ -121,6 +124,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetAllowedResources()
     {
         $userIdentifierA = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
@@ -158,6 +164,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->getAllowedResources($userIdentifier);
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGrantAllPermissions()
     {
         $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
