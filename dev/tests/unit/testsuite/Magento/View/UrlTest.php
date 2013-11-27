@@ -36,10 +36,8 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->method('copy');
 
         // 2. Get directories configuration
-        /** @var $dirs \Magento\App\Dir|\PHPUnit_Framework_MockObject_MockObject */
-        $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
-        $dirs->expects($this->any())
-            ->method('getDir')
+        $filesystem->expects($this->any())
+            ->method('getPath')
             ->will($this->returnValue('some_dir'));
 
         // 3. Get url model
@@ -87,7 +85,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         // Create model to be tested
         /** @var $model \Magento\View\Url|\PHPUnit_Framework_MockObject_MockObject */
         $model = new \Magento\View\Url(
-            $filesystem, $dirs, $urlBuilder, $urlConfig, $viewService, $publisher, $dFManager, $urlMap
+            $filesystem, $urlBuilder, $urlConfig, $viewService, $publisher, $dFManager, $urlMap
         );
 
         // Test
