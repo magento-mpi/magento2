@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Config;
+namespace Magento\Widget\Model\Config;
 
 class FileIterator extends \Magento\Config\FileIterator
 {

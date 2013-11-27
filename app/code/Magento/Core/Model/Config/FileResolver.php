@@ -56,7 +56,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $this->directoryRead->search('#.*?/' . $filename . '$#');
+                $fileList = $this->directoryRead->search('#.*?/' . $filename . '$#');
                 break;
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
@@ -65,10 +65,14 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
-        // todo: path may be other them CONFIG
+        $output = array();
+        foreach ($fileList as $file) {
+            $output[] = $this->directoryRead->getRelativePath($file);
+        }
+//        absolute pathes here
         return $this->iteratorFactory->create(array(
-            'paths' => $fileList,
-            'filesystem' => $this->filesystem
+            'filesystem'    => $this->filesystem,
+            'paths'         => $output
         ));
     }
 }

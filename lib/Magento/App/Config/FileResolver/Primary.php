@@ -37,10 +37,10 @@ class Primary implements \Magento\Config\FileResolverInterface
      */
     protected $iteratorFactory;
 
+
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Config\FileResolver\FileIteratorFactory $iteratorFactory
+     * @param FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
@@ -59,7 +59,4 @@ class Primary implements \Magento\Config\FileResolverInterface
             $this->filesystem, $this->directoryRead->search('#.*?/' . $filename . '$#')
         );
     }
-    //todo set correct factory
 }
-
-
