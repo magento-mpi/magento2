@@ -47,7 +47,7 @@ class SalesOrderView extends Page
      *
      * @var string
      */
-    protected $customerInformationBlock = '.order-account-information';
+    protected $infoBlock = '.order-account-information';
 
     /**
      * Page title block
@@ -74,11 +74,11 @@ class SalesOrderView extends Page
     /**
      * Returns the items ordered block
      *
-     * @return \Magento\Sales\Test\Block\Backend\Order\View\Items
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\Items
      */
     public function getItemsOrderedBlock()
     {
-        $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderViewItems(
+        $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewItems(
             $this->_browser->find('.grid')
         );
     }
@@ -110,12 +110,12 @@ class SalesOrderView extends Page
     /**
      * Get order information block
      *
-     * @return \Magento\Sales\Test\Block\Backend\Order\CustomerInformation
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\Info
      */
-    public function getOrderCustomerInformationBlock()
+    public function getInformationBlock()
     {
-        return Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
-            $this->_browser->find($this->customerInformationBlock, Locator::SELECTOR_CSS)
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewInfo(
+            $this->_browser->find($this->infoBlock, Locator::SELECTOR_CSS)
         );
     }
 

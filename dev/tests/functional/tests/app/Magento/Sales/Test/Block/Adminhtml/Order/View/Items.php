@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Backend\Order\View;
+namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -19,7 +19,7 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 /**
  * Block for items ordered on order page
  *
- * @package Magento\Sales\Test\Block\Backend\Order\View
+ * @package Magento\Sales\Test\Block\Adminhtml\Order\View
  */
 class Items extends Block
 {

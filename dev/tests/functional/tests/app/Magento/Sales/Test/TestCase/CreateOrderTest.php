@@ -70,7 +70,7 @@ class CreateOrderTest extends Functional
         $orderGridPage = Factory::getPageFactory()->getSalesOrder();
         $orderGrid = $orderGridPage->getOrderGridBlock();
         //Verification data
-        $email = $orderViewPage->getOrderCustomerInformationBlock()->getCustomerEmail();
+        $email = $orderViewPage->getInformationBlock()->getCustomerEmail();
         $orderId = substr($orderViewPage->getTitleBlock()->getTitle(), 1);
         $grandTotal = $orderViewPage->getOrderTotalsBlock()->getGrandTotal();
         //Test flow - order grand total check

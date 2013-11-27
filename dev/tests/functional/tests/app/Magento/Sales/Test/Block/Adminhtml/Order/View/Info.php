@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Backend\Order;
+namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -17,10 +17,17 @@ use Mtf\Client\Element\Locator;
 /**
  * Block for information about customer on order page
  *
- * @package Magento\Sales\Test\Block\Backend\Order
+ * @package Magento\Sales\Test\Block\Adminhtml\Order\View
  */
-class CustomerInformation extends Block
+class Info extends Block
 {
+    /**
+     * Customer email
+     *
+     * @var string
+     */
+    protected $email = '//th[text()="Email"]/following-sibling::*/a';
+
     /**
      * Get email from the data inside block
      *
@@ -28,8 +35,6 @@ class CustomerInformation extends Block
      */
     public function getCustomerEmail()
     {
-        $selector = '//th[text()="Email"]/following-sibling::*/a';
-        $email = $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
-        return $email;
+        return $this->_rootElement->find($this->email, Locator::SELECTOR_XPATH)->getText();
     }
 }
