@@ -939,7 +939,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @param null|int|string $limit
      * @param null|int|string $offset
@@ -1035,7 +1035,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retreive row id field name
+     * Retrieve row id field name
      *
      * @return string
      */
@@ -1241,7 +1241,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retreive attribute field name by attribute code
+     * Retrieve attribute field name by attribute code
      *
      * @param string $attributeCode
      * @return string

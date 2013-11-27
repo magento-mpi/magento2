@@ -145,7 +145,7 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
     }
 
     /**
-     * Retreive default entities: customer, customer_address
+     * Retrieve default entities: customer, customer_address
      *
      * @return array
      */

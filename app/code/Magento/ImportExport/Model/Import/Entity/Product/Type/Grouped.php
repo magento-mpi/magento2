@@ -75,7 +75,7 @@ class Grouped
     }
 
     /**
-     * Retrive model behavior
+     * Retrieve model behavior
      *
      * @return string
      */

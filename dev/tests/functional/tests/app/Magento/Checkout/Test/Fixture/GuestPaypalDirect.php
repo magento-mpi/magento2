@@ -72,7 +72,7 @@ class GuestPaypalDirect extends Checkout
         $this->products = array(
             $simple,
             $configurable,
-            $bundle
+            $bundle,
         );
 
         //Checkout data

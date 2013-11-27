@@ -59,6 +59,7 @@ class Config extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
+        $this->_data['check_money_order'] = $this->getCheckmo();
     }
 
     protected function _getFreeShipping()
@@ -728,6 +729,41 @@ class Config extends AbstractRepository
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * Enable Check/Money order
+     *
+     * @return array
+     */
+    protected function getCheckmo()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'checkmo' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => self::YES_VALUE,
+                                    ),
+                                    'order_status' => array(
+                                        'value' => 'pending', //New Order Status
+                                    ),
+                                    'allowspecific' => array(
+                                        'value' => 0, //All Allowed Counries
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 }

@@ -142,7 +142,7 @@ class Db
     }
 
     /**
-     * Retrive table partical data SQL insert
+     * Retrieve table partical data SQL insert
      *
      * @param string $tableName
      * @param int $count

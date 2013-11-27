@@ -57,11 +57,30 @@ class SalesOrderView extends Page
     protected $titleBlock = '.page-title .title';
 
     /**
+     * Items ordered grid
+     *
+     * @var string
+     */
+    protected $itemsOrderedBlock = '.grid';
+
+    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
+    }
+
+    /**
+     * Returns the items ordered block
+     *
+     * @return \Magento\Sales\Test\Block\Backend\Order\View\Items
+     */
+    public function getItemsOrderedBlock()
+    {
+        $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderViewItems(
+            $this->_browser->find('.grid')
+        );
     }
 
     /**
@@ -77,7 +96,7 @@ class SalesOrderView extends Page
     }
 
     /**
-     * Get order totals block
+     * Get order history block
      *
      * @return \Magento\Sales\Test\Block\Adminhtml\Order\History
      */
