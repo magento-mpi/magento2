@@ -404,9 +404,9 @@ class Url extends \Magento\Core\Model\Url
     public function getStore()
     {
         return $this->_storeFactory->create(array('url' => $this, 'data' => array(
-                'code' => 'admin',
-                'force_use_rewrites' => true,
-                'disable_store_in_url' => true,
+            'code' => 'admin',
+            'force_disable_rewrites' => true,
+            'disable_store_in_url' => true
         )));
     }
 

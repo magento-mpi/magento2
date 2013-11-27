@@ -189,7 +189,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param string $itemStatusFailed
+     * @param string $itemFailedStatus
      * @param array $data
      */
     public function __construct(
@@ -206,7 +206,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
-        $itemStatusFailed = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
+        $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
         $this->_cart = $cart;
@@ -222,6 +222,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_quoteFactory = $quoteFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
+        $this->_itemFailedStatus = $itemFailedStatus;
     }
 
     /**

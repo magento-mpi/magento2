@@ -586,7 +586,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     protected function _updatePathUseRewrites($url)
     {
-        if (($this->hasForceUseRewrites() && $this->getForceUseRewrites())
+        if ($this->getForceDisableRewrites()
             || !$this->getConfig(self::XML_PATH_USE_REWRITES)
             || !$this->_appState->isInstalled()
         ) {
