@@ -19,6 +19,7 @@ use Magento\Core\Test\Block\Messages;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid;
 use Magento\Backend\Test\Block\Sales\Order\Invoice\Grid as InvoiceGrid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SalesOrder
@@ -32,6 +33,11 @@ class SalesOrder extends Page
      * URL for manage orders page
      */
     const MCA = 'sales/order';
+
+    /**
+     * @var mixed
+     */
+    protected $navigationMenuItems;
 
     /**
      * Custom constructor
@@ -106,4 +112,14 @@ class SalesOrder extends Page
             $this->_browser->find('#order_transactions')
         );
     }
+
+    /**
+     * Get navigation menu items
+     * @return mixed|\Mtf\Client\Element
+     */
+    public function getNavigationMenuItems()
+    {
+        return $this->_browser->find("//ul[@id='nav']/li");
+    }
 }
+
