@@ -123,7 +123,7 @@ class Collection extends \Magento\Data\Collection
                     case '?':
                         return '.';
                     default:
-                        return '\\'.$matches[0];
+                        return '\\' . $matches[0];
                 }
             }, $directoryPath);
 

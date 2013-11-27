@@ -70,6 +70,7 @@ class Reader
                 $result[] = $file;
             }
         }
+
         return $result;
     }
 

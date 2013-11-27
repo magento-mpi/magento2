@@ -159,4 +159,15 @@ class DirectoryList extends Dir
         }
         return $this->directories[$code];
     }
+
+    /**
+     * \Directory path getter
+     *
+     * @param string $code One of self const
+     * @return string|bool
+     */
+    public function getDir($code = self::ROOT)
+    {
+        return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
+    }
 }

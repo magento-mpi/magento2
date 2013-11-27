@@ -947,4 +947,6 @@ return array(
     array('_getHistoryDirPath', 'Magento\ScheduledImportExport\Model\Scheduled\Operation'),
     array('getDirs', 'Magento\Core\Block\Template\Context'),
     array('getDir', 'Magento\Core\Model\Session\Context'),
+    array('getLinkDir', 'Magento\Downloadable\Model\Link'),
+    array('getSampleDir', 'Magento\Downloadable\Model\Sample'),
 );

@@ -59,6 +59,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
+
         return $fileList;
     }
 }

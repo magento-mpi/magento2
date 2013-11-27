@@ -19,9 +19,9 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_filesystem;
+    protected $_themesDirectory;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
@@ -32,7 +32,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         \Magento\Filesystem $filesystem
     ) {
         $this->_moduleReader = $moduleReader;
-        $this->_filesystem = $filesystem;
+        $this->_themesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
     }
 
     /**
@@ -46,12 +46,12 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             case 'design':
-                $fileList = glob($this->_filesystem->getPath(\Magento\Filesystem::THEMES)
-                    . "/*/*/etc/$filename", GLOB_NOSORT | GLOB_BRACE);
+                $fileList = $this->_themesDirectory->search('#.*?\/.*?\/etc\/' . preg_quote($filename) . '#');
                 break;
             default:
                 break;
         }
+
         return $fileList;
     }
 }
