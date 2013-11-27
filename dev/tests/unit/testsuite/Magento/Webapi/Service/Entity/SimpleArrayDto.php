@@ -21,7 +21,7 @@ class SimpleArrayDto extends AbstractDto
      */
     public function getIds()
     {
-        return $this->_getData('ids');
+        return $this->_get('ids');
     }
 
     /**
@@ -31,6 +31,6 @@ class SimpleArrayDto extends AbstractDto
      */
     public function setIds(array $ids)
     {
-        return $this->_setData('ids', $ids);
+        return $this->_set('ids', $ids);
     }
 }

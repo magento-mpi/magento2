@@ -7,10 +7,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModule4\Service\Entity\V1;
+namespace Magento\TestModule1\Service\Entity\V2;
 
 
-class DtoResponse extends \Magento\Service\Entity\AbstractDto
+class Item extends \Magento\Service\Entity\AbstractDto
 {
     /**
      * @return int
@@ -29,9 +29,17 @@ class DtoResponse extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * @return string
+     */
+    public function getPrice()
+    {
+        return $this->_data['price'];
+    }
+
+    /**
      * @param int $id
      *
-     * @return DtoResponse
+     * @return Item
      */
     public function setId($id)
     {
@@ -42,11 +50,22 @@ class DtoResponse extends \Magento\Service\Entity\AbstractDto
     /**
      * @param string $name
      *
-     * @return DtoResponse
+     * @return Item
      */
     public function setName($name)
     {
         $this->_data['name'] = $name;
+        return $this;
+    }
+
+    /**
+     * @param string $price
+     *
+     * @return Item
+     */
+    public function setPrice($price)
+    {
+        $this->_data['price'] = $price;
         return $this;
     }
 }

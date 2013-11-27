@@ -21,7 +21,7 @@ class SimpleDto extends AbstractDto
      */
     public function getEntityId()
     {
-        return $this->_getData('entity_id');
+        return $this->_get('entity_id');
     }
 
     /**
@@ -31,7 +31,7 @@ class SimpleDto extends AbstractDto
      */
     public function setEntityId($entityId)
     {
-        return $this->_setData('entity_id', $entityId);
+        return $this->_set('entity_id', $entityId);
     }
 
     /**
@@ -39,7 +39,7 @@ class SimpleDto extends AbstractDto
      */
     public function getName()
     {
-        return $this->_getData('name');
+        return $this->_get('name');
     }
 
     /**
@@ -49,6 +49,6 @@ class SimpleDto extends AbstractDto
      */
     public function setName($name)
     {
-        return $this->_setData('name', $name);
+        return $this->_set('name', $name);
     }
 }

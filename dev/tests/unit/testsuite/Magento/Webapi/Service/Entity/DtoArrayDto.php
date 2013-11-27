@@ -21,7 +21,7 @@ class DtoArrayDto extends AbstractDto
      */
     public function getItems()
     {
-        return $this->_getData('items');
+        return $this->_get('items');
     }
 
     /**
@@ -31,6 +31,6 @@ class DtoArrayDto extends AbstractDto
      */
     public function setItems(array $items)
     {
-        return $this->_setData('items', $items);
+        return $this->_set('items', $items);
     }
 }

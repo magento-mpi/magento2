@@ -75,16 +75,15 @@ class Request
      * Process HTTP request object and prepare for token validation
      *
      * @param \Zend_Controller_Request_Http $httpRequest
-     * @param string $requestUrl The request Url
      * @return array
      */
-    public function prepareRequest($httpRequest, $requestUrl)
+    public function prepareRequest($httpRequest)
     {
         $oauthParams = $this->_processRequest(
             $httpRequest->getHeader('Authorization'),
             $httpRequest->getHeader(\Zend_Http_Client::CONTENT_TYPE),
             $httpRequest->getRawBody(),
-            $requestUrl
+            $this->getRequestUrl($httpRequest)
         );
         return $oauthParams;
     }

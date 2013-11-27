@@ -105,8 +105,12 @@ class Rest implements \Magento\App\FrontControllerInterface
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
-            $oauthRequest = $this->_oauthHelper->prepareServiceRequest($this->_request);
-            $consumerId = $this->_oauthService->validateAccessTokenRequest($oauthRequest);
+            $oauthRequest = $this->_oauthHelper->prepareRequest($this->_request);
+            $consumerId = $this->_oauthService->validateAccessTokenRequest(
+                $oauthRequest,
+                $this->_oauthHelper->getRequestUrl($this->_request),
+                $this->_request->getMethod()
+            );
             $this->_request->setConsumerId($consumerId);
             $route = $this->_router->match($this->_request);
 

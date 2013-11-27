@@ -26,6 +26,7 @@
         <const name="TESTS_CLEANUP" value="enabled"/>
         <const name="TESTS_MAGENTO_INSTALLATION" value="enabled"/>
         <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
+        <const name="TESTS_XDEBUG_ENABLED" value="false"/>
     </php>
     <listeners>
         <listener class="Magento\TestFramework\Event\PhpUnit"/>

@@ -21,7 +21,7 @@ class NestedDto extends AbstractDto
      */
     public function getDetails()
     {
-        return $this->_getData('details');
+        return $this->_get('details');
     }
 
     /**
@@ -31,6 +31,6 @@ class NestedDto extends AbstractDto
      */
     public function setDetails(SimpleDto $details)
     {
-        return $this->_setData('details', $details);
+        return $this->_set('details', $details);
     }
 }

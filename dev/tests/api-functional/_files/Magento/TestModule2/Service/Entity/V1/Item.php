@@ -7,11 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\TestModule4\Service\Entity\V1;
+namespace Magento\TestModule2\Service\Entity\V1;
 
 
-class DtoRequest extends \Magento\Service\Entity\AbstractDto
+class Item extends \Magento\Service\Entity\AbstractDto
 {
+    /**
+     * @return int
+     */
+    public function getId()
+    {
+        return $this->_data['id'];
+    }
+
     /**
      * @return string
      */
@@ -21,14 +29,24 @@ class DtoRequest extends \Magento\Service\Entity\AbstractDto
     }
 
     /**
+     * @param int $id
+     *
+     * @return Item
+     */
+    public function setId($id)
+    {
+        $this->_data['id'] = $id;
+        return $this;
+    }
+
+    /**
      * @param string $name
      *
-     * @return DtoRequest
+     * @return Item
      */
     public function setName($name)
     {
         $this->_data['name'] = $name;
         return $this;
     }
-
 }

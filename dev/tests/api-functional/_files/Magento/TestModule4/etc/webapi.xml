@@ -9,9 +9,8 @@
 -->
 <config>
     <service class="Magento\TestModule4\Service\DtoServiceV1Interface" baseUrl="/V1/testmodule4">
-        <rest-route httpMethod="GET" method="getData">/:id</rest-route>
-        <rest-route httpMethod="POST" method="updateData">/:id</rest-route>
-        <rest-route httpMethod="POST" method="nestedData">/:id/nested</rest-route>
+        <rest-route httpMethod="GET" method="getData" resources="Magento_TestModule4::resource1">/:id</rest-route>
+        <rest-route httpMethod="POST" method="updateData" resources="Magento_TestModule4::resource2">/:id</rest-route>
+        <rest-route httpMethod="POST" method="nestedData" resources="Magento_TestModule4::resource3">/:id/nested</rest-route>
     </service>
-
 </config>
