@@ -17,6 +17,9 @@ namespace Magento\Customer\Model;
  * @method int getStoreId() getStoreId()
  * @method string getEmail() getEmail()
  * @method \Magento\Customer\Model\Resource\Customer _getResource()
+ * @method mixed getDisableAutoGroupChange()
+ * @method \Magento\Customer\Model\Customer setDisableAutoGroupChange($value)
+ * @method \Magento\Customer\Model\Customer setGroupId($value)
  */
 class Customer extends \Magento\Core\Model\AbstractModel
 {

@@ -121,6 +121,7 @@ app/code/Magento/Sales/Block/Recurring/Profile/View
 app/code/Magento/Sales/Model/Order/Pdf/Config
 app/code/Magento/Sales/Model/Order/Pdf/Config.php
 app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
+app/code/Magento/Sales/Model/Observer
 app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
 app/code/Magento/Webapi
