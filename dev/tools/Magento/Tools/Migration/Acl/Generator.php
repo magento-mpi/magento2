@@ -215,7 +215,7 @@ class Generator
      */
     public function getEtcDirPattern($codePool = '*', $namespace = '*')
     {
-        return $this->getBasePath() . '/app/code' . $codePool . $namespace . '/*/etc/';
+        return $this->getBasePath() . '/app/code/' . $codePool . '/' . $namespace . '/*/etc/';
     }
 
     /**
