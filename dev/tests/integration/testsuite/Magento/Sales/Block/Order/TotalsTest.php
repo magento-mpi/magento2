@@ -25,7 +25,7 @@ class TotalsTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\Sales\Model\Order'))
             ->setTemplate('order/totals.phtml');
 
-        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Block\Context');
+        $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Element\Context');
         $childOne = $this->getMock('Magento\View\Block\Text', array('initTotals'), array($context));
         $childOne->expects($this->once())
             ->method('initTotals');

@@ -34,7 +34,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
         $this->_block = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Block\Context'),
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Element\Context'),
             array('module_name' => 'Magento_Core')
         ));
     }
@@ -708,7 +708,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $mockClass = array_pop($typePart) . 'Mock';
         if (!isset(self::$_mocks[$mockClass])) {
             self::$_mocks[$mockClass] = $this->getMockForAbstractClass($type, array(
-                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Block\Context'),
+                    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Element\Context'),
                     array('module_name' => 'Magento_Core')
                 ),
                 $mockClass
