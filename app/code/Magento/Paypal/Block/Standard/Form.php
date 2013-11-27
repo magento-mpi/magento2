@@ -56,7 +56,7 @@ class Form extends \Magento\Payment\Block\Form
     {
         $this->_config = $this->_paypalConfigFactory->create()->setMethod($this->getMethodCode());
         /** @var $mark \Magento\View\Element\Template */
-        $mark = $this->_layout->createBlock('Magento\View\Block\Template');
+        $mark = $this->_layout->createBlock('Magento\View\Element\Template');
         $mark->setTemplate('Magento_Paypal::payment/mark.phtml')
             ->setPaymentAcceptanceMarkHref($this->_config->getPaymentMarkWhatIsPaypalUrl($this->_locale))
             ->setPaymentAcceptanceMarkSrc($this->_config->getPaymentMarkImageUrl($this->_locale->getLocaleCode()));

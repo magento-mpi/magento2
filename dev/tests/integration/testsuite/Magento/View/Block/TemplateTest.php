@@ -22,15 +22,15 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
-        $context = $objectManager->create('Magento\View\Block\Template\Context', $params);
+        $context = $objectManager->create('Magento\View\Element\Template\Context', $params);
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Block\Template', '', array('context' => $context));
+            ->createBlock('Magento\View\Element\Template', '', array('context' => $context));
     }
 
     public function testConstruct()
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Block\Template', '', array('data' => array('template' => 'value')));
+            ->createBlock('Magento\View\Element\Template', '', array('data' => array('template' => 'value')));
         $this->assertEquals('value', $block->getTemplate());
     }
 

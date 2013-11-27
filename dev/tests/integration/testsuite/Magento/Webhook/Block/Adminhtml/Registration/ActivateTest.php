@@ -40,7 +40,7 @@ class ActivateTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\View\Element\Template\Context $context */
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\View\Block\Template\Context');
+            ->create('Magento\View\Element\Template\Context');
 
         /** @var \Magento\Webhook\Block\Adminhtml\Registration\Activate $block */
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

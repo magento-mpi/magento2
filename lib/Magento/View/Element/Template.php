@@ -140,7 +140,7 @@ class Template extends AbstractBlock
      * Set path to template used for generating block's output.
      *
      * @param string $template
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     public function setTemplate($template)
     {
@@ -180,7 +180,7 @@ class Template extends AbstractBlock
      *
      * @param   string|array $key
      * @param   mixed $value
-     * @return  \Magento\View\Block\Template
+     * @return  \Magento\View\Element\Template
      */
     public function assign($key, $value=null)
     {

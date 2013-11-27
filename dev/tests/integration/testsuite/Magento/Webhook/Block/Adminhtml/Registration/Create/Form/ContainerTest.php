@@ -37,7 +37,7 @@ class ContainerTest extends \PHPUnit_Framework_TestCase
             $subscriptionData);
 
         /** @var \Magento\View\Element\Template\Context $context */
-        $context = $objectManager->create('Magento\View\Block\Template\Context');
+        $context = $objectManager->create('Magento\View\Element\Template\Context');
 
         /** @var \Magento\Webhook\Block\Adminhtml\Registration\Activate $block */
         $block = $objectManager

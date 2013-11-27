@@ -107,7 +107,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
         // Setting second time, along with the layout
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
-        $layout->createBlock('Magento\View\Block\Template', $name);
+        $layout->createBlock('Magento\View\Element\Template', $name);
         $block = $layout->getBlock($name);
         $this->assertInstanceOf('Magento\View\Element\AbstractBlock', $block);
         $block->setNameInLayout($name);
@@ -671,7 +671,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      * @param string $className
      * @return array
      */
-    protected function _createSampleBlocks($qty, $withLayout = true, $className = 'Magento\View\Block\Template')
+    protected function _createSampleBlocks($qty, $withLayout = true, $className = 'Magento\View\Element\Template')
     {
         $blocks = array(); $names = array();
         $layout = false;

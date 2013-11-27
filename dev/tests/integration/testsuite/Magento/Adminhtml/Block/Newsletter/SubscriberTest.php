@@ -23,7 +23,7 @@ class SubscriberTest extends \PHPUnit_Framework_TestCase
         /** @var $block \Magento\Adminhtml\Block\Newsletter\Subscriber */
         $block = $layout->createBlock('Magento\Adminhtml\Block\Newsletter\Subscriber', 'block');
         /** @var $childBlock \Magento\View\Element\Template */
-        $childBlock = $layout->addBlock('Magento\View\Block\Template', 'grid', 'block');
+        $childBlock = $layout->addBlock('Magento\View\Element\Template', 'grid', 'block');
 
         $expected = 'test_data';
         $this->assertNotEquals($expected, $block->getShowQueueAdd());

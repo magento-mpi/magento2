@@ -56,7 +56,7 @@ class EditorTest extends \PHPUnit_Framework_TestCase
             array('addMessages', 'setEscapeMessageFlag', 'addStorageType'), array(), '', false);
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMessage));
 
-        $blockMock = $this->getMock('Magento\View\Block\Template', array('setActive', 'getMenuModel', 'getParentItems'),
+        $blockMock = $this->getMock('Magento\View\Element\Template', array('setActive', 'getMenuModel', 'getParentItems'),
             array(), '', false);
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnSelf());
         $blockMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));

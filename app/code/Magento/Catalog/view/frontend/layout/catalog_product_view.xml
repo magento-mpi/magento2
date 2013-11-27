@@ -49,7 +49,7 @@
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addto" as="addto" template="product/view/addto.phtml"/>
             <block class="Magento\Catalog\Block\Product\View" name="product.info.addtocart" as="addtocart" template="product/view/addtocart.phtml"/>
             <container name="product.info.extrahint" as="extrahint" label="Product View Extra Hint"/>
-            <block class="Magento\View\Block\Template" name="product.info.container" as="options_container">
+            <block class="Magento\View\Element\Template" name="product.info.container" as="options_container">
                 <block class="Magento\Catalog\Block\Product\View" name="product.info.options.wrapper" as="product_options_wrapper" template="product/view/options/wrapper.phtml">
                     <block class="Magento\Catalog\Block\Product\View\Options" name="product.info.options" as="product_options" template="product/view/options.phtml">
                         <block class="Magento\Catalog\Block\Product\View\Options\Type\DefaultType" as="default" template="product/view/options/type/default.phtml"/>

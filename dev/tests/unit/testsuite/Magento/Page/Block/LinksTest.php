@@ -25,7 +25,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         /** @var  \Magento\View\Element\Template\Context $context */
-        $this->_context = $this->_objectManagerHelper->getObject('Magento\View\Block\Template\Context');
+        $this->_context = $this->_objectManagerHelper->getObject('Magento\View\Element\Template\Context');
 
         /** @var \Magento\Page\Block\Links $block */
         $this->_block = $this->_objectManagerHelper->getObject(

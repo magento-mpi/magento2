@@ -49,8 +49,8 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         /** @var $template \Magento\View\Element\Template */
-        $template = $objectManager->getObject('Magento\View\Block\Template');
-        $this->assertInstanceOf('Magento\View\Block\Template', $template);
+        $template = $objectManager->getObject('Magento\View\Element\Template');
+        $this->assertInstanceOf('Magento\View\Element\Template', $template);
         foreach ($this->_blockDependencies as $propertyName => $propertyType) {
             $this->assertAttributeInstanceOf($propertyType, '_' . $propertyName, $template);
         }
@@ -60,13 +60,13 @@ class ObjectManagerTest extends \PHPUnit_Framework_TestCase
         $appStateMock = $this->getMock('Magento\App\State', array('getAreaCode'), array(), '', false);
         $appStateMock->expects($this->once())->method('getAreaCode')->will($this->returnValue($area));
 
-        $context = $objectManager->getObject('Magento\View\Block\Template\Context');
-        $appStateProperty = new \ReflectionProperty('Magento\View\Block\Template\Context', '_appState');
+        $context = $objectManager->getObject('Magento\View\Element\Template\Context');
+        $appStateProperty = new \ReflectionProperty('Magento\View\Element\Template\Context', '_appState');
         $appStateProperty->setAccessible(true);
         $appStateProperty->setValue($context, $appStateMock);
 
         /** @var $template \Magento\View\Element\Template */
-        $template = $objectManager->getObject('Magento\View\Block\Template', array('context' => $context));
+        $template = $objectManager->getObject('Magento\View\Element\Template', array('context' => $context));
         $this->assertEquals($area, $template->getArea());
     }
 

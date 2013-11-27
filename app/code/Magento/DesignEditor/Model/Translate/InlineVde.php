@@ -150,7 +150,7 @@ class InlineVde implements \Magento\Core\Model\Translate\InlineInterface
         ));
 
         /** @var $block \Magento\View\Element\Template */
-        $block = $this->_objectManager->create('Magento\View\Block\Template');
+        $block = $this->_objectManager->create('Magento\View\Element\Template');
 
         $block->setArea($this->_parser->getDesignPackage()->getArea());
         $block->setAjaxUrl($ajaxUrl);

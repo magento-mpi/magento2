@@ -47,7 +47,7 @@ class ConfigureTest extends \PHPUnit_Framework_TestCase
         $this->_mockCoreData = $this->getMockBuilder('Magento\Core\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_mockContext = $this->getMockBuilder('Magento\View\Block\Template\Context')
+        $this->_mockContext = $this->getMockBuilder('Magento\View\Element\Template\Context')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRegistry = $this->getMockBuilder('Magento\Core\Model\Registry')

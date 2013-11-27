@@ -152,12 +152,12 @@ return array(
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS',
-        'Magento\View\Block\Template',
+        'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS'
     ),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS',
-        'Magento\View\Block\Template',
+        'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
