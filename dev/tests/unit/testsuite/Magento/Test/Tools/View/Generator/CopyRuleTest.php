@@ -39,7 +39,7 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
         );
         $this->_directoryMock = $this->getMock(
             '\Magento\Filesystem\Directory\Read',
-            array('search', 'isDirectory'),
+            array('search', 'isDirectory', 'getAbsolutePath'),
             array(),
             '',
             false
@@ -96,6 +96,11 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValueMap($filesystemGlobMap))
         ;
         $this->_directoryMock
+            ->expects($this->any())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0))
+        ;
+        $this->_directoryMock
             ->expects($this->atLeastOnce())
             ->method('isDirectory')
             ->will($this->returnValue(true))
@@ -144,12 +149,6 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
                     $fixture['theme_customizing_one_module']['expected_result'],
                     $fixture['theme_customizing_no_modules']['expected_result']
                 ),
-            ),
-            'mixed directory separators in fallback pattern' => array(
-                array($fixture['fallback_pattern_mixing_slashes']['theme']),
-                $patternDirMap,
-                $filesystemGlobMap,
-                $fixture['fallback_pattern_mixing_slashes']['expected_result'],
             ),
         );
     }
