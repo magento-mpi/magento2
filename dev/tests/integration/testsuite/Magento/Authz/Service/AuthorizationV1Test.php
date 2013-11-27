@@ -35,13 +35,15 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param UserIdentifier $userIdentifier
+     * @param string $userType
      * @param string[] $resources
      * @magentoDbIsolation enabled
      * @dataProvider basicAuthFlowProvider
      */
-    public function testBasicAuthFlow($userIdentifier, $resources)
+    public function testBasicAuthFlow($userType, $resources)
     {
+        $userIdentifier = $this->_createUserIdentifier($userType);
+
         /** Preconditions check */
         $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
 
@@ -55,21 +57,23 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     {
         return array(
             'integration' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
+                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
                 'resources' => array('Magento_SalesArchive::add', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
             )
         );
     }
 
     /**
-     * @param UserIdentifier $userIdentifier
+     * @param string $userType
      * @param string[] $initialResources
      * @param string[] $newResources
      * @magentoDbIsolation enabled
      * @dataProvider changePermissionsProvider
      */
-    public function testChangePermissions($userIdentifier, $initialResources, $newResources)
+    public function testChangePermissions($userType, $initialResources, $newResources)
     {
+        $userIdentifier = $this->_createUserIdentifier($userType);
+
         $this->_service->grantPermissions($userIdentifier, $initialResources);
         /** Preconditions check */
         $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
@@ -86,12 +90,12 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     {
         return array(
             'integration' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
+                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
                 'newResources' => array('Magento_SalesArchive::remove', 'Magento_Cms::page_delete')
             ),
             'integration clear permissions' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
+                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
                 'initialResources' => array('Magento_SalesArchive::add', 'Magento_Cms::page_delete'),
                 'newResources' => array(),
             ),
