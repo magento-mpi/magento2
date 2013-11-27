@@ -120,18 +120,6 @@
             </value>
         </param>
     </type>
-    <type name="Magento\App\AreaList">
-        <param name="areas">
-            <value>
-                <webapi_rest>
-                    <frontName>rest</frontName>
-                </webapi_rest>
-                <webapi_soap>
-                    <frontName>soap</frontName>
-                </webapi_soap>
-            </value>
-        </param>
-    </type>
     <type name="Magento\Webapi\Controller\Rest">
         <param name="request">
             <instance type="Magento\Webapi\Controller\Rest\Request\Proxy"/>
@@ -144,14 +132,6 @@
         </param>
         <param name="oauthHelper">
             <instance type="Magento\Oauth\Helper\Request\Proxy"/>
-        </param>
-    </type>
-    <type name="Magento\Webapi\Controller\Soap">
-        <param name="soapServer">
-            <instance type="Magento\Webapi\Model\Soap\Server\Proxy"/>
-        </param>
-        <param name="errorProcessor">
-            <instance type="Magento\Webapi\Controller\ErrorProcessor\Proxy"/>
         </param>
     </type>
 </config>

@@ -1,0 +1,23 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\App\AreaList">
+        <param name="areas">
+            <value>
+                <webapi_rest>
+                    <frontName>rest</frontName>
+                </webapi_rest>
+                <webapi_soap>
+                    <frontName>soap</frontName>
+                </webapi_soap>
+            </value>
+        </param>
+    </type>
+</config>
