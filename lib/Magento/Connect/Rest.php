@@ -73,7 +73,7 @@ class Rest
      * Set channel info
      *
      * @param string $uri
-     * @param sting $name
+     * @param string $name
      */
     public function setChannel($uri)
     {
@@ -203,15 +203,15 @@ class Rest
             }
             $return = $output;
         }
-        
+
         $out = array();
         foreach($return as $name=>$package) {
             $stabilities = array_map(array($this, 'shortStateToLong'), array_keys($package));
-            $versions = array_map('trim', array_values($package));                
+            $versions = array_map('trim', array_values($package));
             $package = array_combine($versions, $stabilities);
             ksort($package);
             $out[$name] = $package;
-        }        
+        }
         return $out;
     }
 
@@ -321,8 +321,8 @@ class Rest
                 }
             }
         }
-        
-        
+
+
         $out = $this->loadChannelUri($package."/".$version."/".$package."-".$version.".".self::EXT);
 
         $statusCode = $this->getLoader()->getStatus();
@@ -339,12 +339,12 @@ class Rest
     }
 
     protected $states = array('b'=>'beta', 'd'=>'dev', 's'=>'stable', 'a'=>'alpha');
-    
+
     public function shortStateToLong($s)
     {
         return isset($this->states[$s]) ? $this->states[$s] : 'dev';
     }
-            
-    
+
+
 }
 

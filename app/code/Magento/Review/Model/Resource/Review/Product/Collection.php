@@ -80,7 +80,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Rating\Model\Rating\Option\VoteFactory $voteFactory
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -340,7 +340,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Product\Collection
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @param null|int|string $limit
      * @param null|int|string $offset

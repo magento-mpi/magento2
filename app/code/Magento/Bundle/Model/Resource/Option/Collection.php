@@ -177,7 +177,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @return array
      */

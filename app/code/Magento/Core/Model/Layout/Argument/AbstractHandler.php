@@ -45,7 +45,7 @@ abstract class AbstractHandler
     }
 
     /**
-     * Check whether updater used and value not overwriten
+     * Check whether updater used and value not overwritten
      *
      * @param \Magento\View\Layout\Element $argument
      * @return string

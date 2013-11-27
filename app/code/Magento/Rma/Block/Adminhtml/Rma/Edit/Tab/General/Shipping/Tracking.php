@@ -21,7 +21,7 @@ class Tracking extends \Magento\Backend\Block\Template
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry;
-    
+
     /**
      * Rma data
      *
@@ -139,7 +139,7 @@ class Tracking extends \Magento\Backend\Block\Template
     }
 
     /**
-     * Retrive save button html
+     * Retrieve save button html
      *
      * @return string
      */
