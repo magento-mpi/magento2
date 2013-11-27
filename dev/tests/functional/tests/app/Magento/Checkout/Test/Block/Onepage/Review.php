@@ -27,7 +27,7 @@ class Review extends Block
      *
      * @var string
      */
-    private $continue = '#review-buttons-container button';
+    protected $continue = '#review-buttons-container button';
 
     /**
      * Centinel authentication block
@@ -35,6 +35,27 @@ class Review extends Block
      * @var string
      */
     protected $centinelBlock = '#centinel-authenticate-block';
+
+    /**
+     * Grand total search mask
+     *
+     * @var string
+     */
+    protected  $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
+
+    /**
+     * Subtotal search mask
+     *
+     * @var string
+     */
+    protected $subtotal = '//tr[normalize-space(td)="Subtotal"]//span';
+
+    /**
+     * Tax search mask
+     *
+     * @var string
+     */
+    protected $tax = '//tr[normalize-space(td)="Tax"]//span';
 
     /**
      * Fill billing address
@@ -51,5 +72,35 @@ class Review extends Block
     public function waitForCardValidation()
     {
         $this->waitForElementNotVisible($this->centinelBlock);
+    }
+
+    /**
+     * Get Grand Total Text
+     *
+     * @return array|string
+     */
+    public function getGrandTotal()
+    {
+        return $this->_rootElement->find($this->grandTotal, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get Tax text from Order Totals
+     *
+     * @return array|string
+     */
+    public function getTax()
+    {
+        return $this->_rootElement->find($this->tax, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get Subtotal text
+     *
+     * @return array|string
+     */
+    public function getSubtotal()
+    {
+        return $this->_rootElement->find($this->subtotal, Locator::SELECTOR_XPATH)->getText();
     }
 }

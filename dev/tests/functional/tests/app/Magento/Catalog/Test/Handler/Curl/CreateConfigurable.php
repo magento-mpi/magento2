@@ -155,9 +155,10 @@ class CreateConfigurable extends Curl
     {
         $url = $_ENV['app_backend_url']
             . 'catalog/product/save/'
-            . $fixture->getUrlParams('create_url_params');
+            . $fixture->getUrlParams('create_url_params') . '/popup/1/';
         $params = $this->_prepareData($fixture);
         $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
         $response = $curl->read();
         $curl->close();
@@ -165,6 +166,7 @@ class CreateConfigurable extends Curl
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Product creation by curl handler was not successful! Response: $response");
         }
-        return $response;
+        preg_match("~Location: [^\s]*\/id\/(\d+)~", $response, $matches);
+        return isset($matches[1]) ? $matches[1] : null;
     }
 }
