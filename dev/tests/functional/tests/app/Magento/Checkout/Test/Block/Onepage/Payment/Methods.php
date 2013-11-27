@@ -29,16 +29,14 @@ class Methods extends Block
      *
      * @var string
      */
-    private $continue;
+    protected $continue = '#payment-buttons-container button';
 
     /**
-     * Initialize block elements
+     * Wait element
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        //Elements
-        $this->continue = '#payment-buttons-container button';
-    }
+    protected $waitElement = '.please-wait';
 
     /**
      * Select payment method
@@ -49,7 +47,7 @@ class Methods extends Block
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find('[for=p_method_' . $paymentCode . ']', Locator::SELECTOR_CSS)->click();
 
         $dataConfig = $payment->getDataConfig();
         if (isset($dataConfig['payment_form_class'])) {
@@ -61,6 +59,15 @@ class Methods extends Block
         }
 
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('#payment-please-wait');
+        $this->waitForElementNotVisible($this->waitElement);
+    }
+
+    /**
+     * Press "Continue" button
+     */
+    public function pressContinue()
+    {
+        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementNotVisible($this->waitElement);
     }
 }

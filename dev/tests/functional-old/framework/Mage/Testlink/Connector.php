@@ -14,7 +14,7 @@ class Mage_Testlink_Connector
 {
 
     /**
-     * Default server url. Should be overriden in phpunit.xml
+     * Default server url. Should be overridden in phpunit.xml
      * @var string
      */
     public static $serverURL = "http://localhost//testlink/lib/api/xmlrpc.php";
