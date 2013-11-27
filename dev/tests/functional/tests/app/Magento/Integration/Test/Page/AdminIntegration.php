@@ -45,7 +45,7 @@ class AdminIntegration extends Page
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
         $this->gridBlock = Factory::getBlockFactory()->getMagentoIntegrationAdminhtmlIntegrationGrid(
-            $this->_browser->find('integrationGrid', Locator::SELECTOR_ID)
+            $this->_browser->find('#integrationGrid', Locator::SELECTOR_CSS)
         );
         $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('#messages', Locator::SELECTOR_CSS)
