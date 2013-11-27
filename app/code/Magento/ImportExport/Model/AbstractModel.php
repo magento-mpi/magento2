@@ -52,9 +52,9 @@ abstract class AbstractModel extends \Magento\Object
     protected $_logger;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_dir;
+    protected $_varDirectory;
 
     /**
      * @var \Magento\Core\Model\Log\AdapterFactory
@@ -63,18 +63,18 @@ abstract class AbstractModel extends \Magento\Object
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         array $data = array()
     ) {
         $this->_logger = $logger;
-        $this->_dir = $dir;
+        $this->_varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->_adapterFactory = $adapterFactory;
         parent::__construct($data);
     }
@@ -105,14 +105,12 @@ abstract class AbstractModel extends \Magento\Object
                 $this->getOperationType(),
                 $this->getEntity()
             ));
-            $dirPath = $this->_dir->getDir('var') . '/' . \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY
-                . $dirName;
-            if (!is_dir($dirPath)) {
-                mkdir($dirPath, 0777, true);
-            }
-            $fileName = substr(strstr(\Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY, '/'), 1)
-                . $dirName . $fileName . '.log';
-            $this->_logInstance = $this->_adapterFactory->create(array('fileName' => $fileName))
+            $path = \Magento\ScheduledImportExport\Model\Scheduled\Operation::LOG_DIRECTORY . $dirName;
+            $this->_varDirectory->create($path);
+
+            $fileName = $path . $fileName . '.log';
+            $this->_logInstance = $this->_adapterFactory
+                ->create(array('fileName' => $this->_varDirectory->getAbsolutePath($fileName)))
                 ->setFilterDataKeys($this->_debugReplacePrivateDataKeys);
         }
         $this->_logInstance->log($debugData);

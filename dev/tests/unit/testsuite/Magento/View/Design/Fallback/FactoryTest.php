@@ -27,14 +27,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-//        $dirs = new \Magento\App\Dir(__DIR__, array(), array(
-//            \Magento\App\Dir::THEMES => 'themes',
-//            \Magento\App\Dir::MODULES => 'modules',
-//            \Magento\App\Dir::PUB_LIB => 'pub_lib',
-//        ));
-
-
-        $this->filesystemMock = $this->getMock(
+        $filesystemMock = $this->getMock(
             '\Magento\Filesystem',
             array('getPath', 'getDirectoryRead', '__wakeup'),
             array('dir' => array(
@@ -46,7 +39,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $this->filesystemMock ->expects($this->any())
+        $filesystemMock ->expects($this->any())
             ->method('getPath')
             ->will($this->returnValueMap(
                 array(
@@ -56,7 +49,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
                 ))
             );
 
-        $this->model = new Factory($this->filesystemMock);
+        $this->model = new Factory($filesystemMock);
 
         $parentTheme = $this->getMockForAbstractClass('Magento\View\Design\ThemeInterface');
         $parentTheme->expects($this->any())->method('getThemePath')->will($this->returnValue('parent_theme_path'));

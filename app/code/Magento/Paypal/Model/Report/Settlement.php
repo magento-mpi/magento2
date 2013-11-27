@@ -143,9 +143,9 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     );
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_coreDir;
+    protected $_filesystem;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -155,7 +155,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -164,17 +164,15 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\App\Dir $coreDir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_coreDir = $coreDir;
+        $this->_filesystem = $filesystem;
         $this->_storeManager = $storeManager;
-        parent::__construct(
-            $context, $registry, $resource, $resourceCollection, $data
-        );
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -215,7 +213,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = tempnam($this->_coreDir->getDir(\Magento\App\Dir::TMP), 'PayPal_STL');
+            $localCsv = tempnam($this->_filesystem->getPath(\Magento\Filesystem::TMP), 'PayPal_STL');
             if ($connection->read($filename, $localCsv)) {
                 if (!is_writable($localCsv)) {
                     throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
