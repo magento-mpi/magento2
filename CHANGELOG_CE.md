@@ -1,3 +1,8 @@
+* Modularity improvements:
+  * Breakdown of the Adminhtml module:
+     * Moved Newsletter, Report logic to respective modules
+     * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
+  * Removed application dependencies from library
 * Move Magento\Core common blocks into library
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
