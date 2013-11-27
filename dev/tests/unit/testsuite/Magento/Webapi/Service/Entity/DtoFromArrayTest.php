@@ -76,7 +76,11 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
     public function testAssociativeArrayProperties()
     {
         $data = ['associativeArray' => ['key' => 'value', 'key_two' => 'value_two']];
-        $result = $this->serializer->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'associativeArray', $data);
+        $result = $this->serializer->getInputData(
+            '\\Magento\\Webapi\\Service\\Entity\\TestService',
+            'associativeArray',
+            $data
+        );
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));
@@ -130,8 +134,11 @@ class DtoFromArrayTest extends \PHPUnit_Framework_TestCase
     public function testNestedAssociativeArrayProperties()
     {
         $data = ['associativeArrayDto' => ['associativeArray' => ['key' => 'value', 'key2' => 'value2']]];
-        $result = $this->serializer
-                       ->getInputData('\\Magento\\Webapi\\Service\\Entity\\TestService', 'nestedAssociativeArray', $data);
+        $result = $this->serializer->getInputData(
+            '\\Magento\\Webapi\\Service\\Entity\\TestService',
+            'nestedAssociativeArray',
+            $data
+        );
         $this->assertNotNull($result);
         /** @var array $result */
         $this->assertEquals(1, count($result));

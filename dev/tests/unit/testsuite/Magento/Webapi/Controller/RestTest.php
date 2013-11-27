@@ -9,15 +9,6 @@
  */
 namespace Magento\Webapi\Controller;
 
-
-class TestService
-{
-    public function testMethod()
-    {
-        return null;
-    }
-}
-
 class RestTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \Magento\Webapi\Controller\Rest */
@@ -233,5 +224,13 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_responseMock->isException());
         $exceptionArray = $this->_responseMock->getException();
         $this->assertEquals($expectedMsg, $exceptionArray[0]->getMessage());
+    }
+}
+
+class TestService
+{
+    public function testMethod()
+    {
+        return null;
     }
 }
