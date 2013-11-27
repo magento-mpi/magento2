@@ -7,7 +7,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block;
+namespace Magento\View\Element;
 
 class TextTest extends \PHPUnit_Framework_TestCase
 {
