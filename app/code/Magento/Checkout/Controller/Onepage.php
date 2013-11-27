@@ -259,7 +259,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
             return;
         }
 
-        $session->destroy();
+        $session->clearQuote();
         $this->loadLayout();
         $this->_initLayoutMessages('Magento\Checkout\Model\Session');
         $this->_eventManager->dispatch(

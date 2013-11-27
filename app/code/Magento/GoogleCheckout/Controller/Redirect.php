@@ -140,7 +140,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
             $quote = $this->_objectManager->create('Magento\Sales\Model\Quote')->load($quoteId)
                 ->setIsActive(false)->save();
         }
-        $session->destroy();
+        $session->clearQuote();
 
         $hideCartContents = $this->_objectManager->get('Magento\Core\Model\Store\Config')
             ->getConfigFlag('google/checkout/hide_cart_contents');

@@ -393,16 +393,15 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * Destroy/end a session
      * Unset all data associated with object
      *
-     * @param  array $options
-     * @return void
+     * @return $this
      */
-    public function destroy(array $options = null)
+    public function clearQuote()
     {
-        $this->_eventManager->dispatch('checkout_quote_destroy', array('quote'=>$this->getQuote()));
-        parent::destroy($options);
+        $this->_eventManager->dispatch('checkout_quote_destroy', array('quote' => $this->getQuote()));
         $this->_quote = null;
         $this->setQuoteId(null);
         $this->setLastSuccessQuoteId(null);
+        return $this;
     }
 
     /**

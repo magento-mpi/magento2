@@ -34,7 +34,7 @@ class Observer
 
     public function unsetAll()
     {
-        $this->_checkoutSession->destroy();
+        $this->_checkoutSession->clearQuote()->destroy();
     }
 
     public function loadCustomerQuote()
