@@ -60,7 +60,7 @@ class Attributes
     /**
      * Preparing global layout
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

@@ -11,7 +11,7 @@ namespace Magento\View\Block\Html;
 /**
  * HTML select element block
  */
-class Select extends \Magento\View\Block\AbstractBlock
+class Select extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var array

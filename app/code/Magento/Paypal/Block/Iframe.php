@@ -148,7 +148,7 @@ class Iframe extends \Magento\Payment\Block\Form
     /**
      * Before rendering html, check if is block rendering needed
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

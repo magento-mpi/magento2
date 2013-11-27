@@ -73,7 +73,7 @@ class AbstractCatalog extends \Magento\Rss\Block\AbstractBlock
      * Return Price Block renderer for specified product type
      *
      * @param string $productTypeId Catalog Product type
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _getPriceBlock($productTypeId)
     {

@@ -22,7 +22,7 @@ class Configure extends \Magento\View\Block\Template
     /**
      * Configure product view blocks
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

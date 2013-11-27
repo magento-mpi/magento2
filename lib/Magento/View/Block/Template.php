@@ -7,6 +7,9 @@
  */
 
 namespace Magento\View\Block;
+use Magento\View\Element\AbstractBlock;
+use Magento\View\Element\AbstractBlock;
+use Magento\View\Element\AbstractBlock;
 
 /**
  * Base html block

@@ -56,7 +56,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         $this->_context->getLayout()->expects($this->once())->method('renderElement')->with($name)
             ->will($this->returnValue($blockHtml));
 
-        /** @var \Magento\View\Block\AbstractBlock $link */
+        /** @var \Magento\View\Element\AbstractBlock $link */
         $link = $this->getMockBuilder('Magento\View\Block\AbstractBlock')->disableOriginalConstructor()->getMock();
         $link->expects($this->once())
             ->method('getNameInLayout')

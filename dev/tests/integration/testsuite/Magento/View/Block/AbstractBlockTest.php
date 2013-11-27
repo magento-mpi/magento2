@@ -17,7 +17,7 @@ namespace Magento\View\Block;
 class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\View\Block\AbstractBlock
+     * @var \Magento\View\Element\AbstractBlock
      */
     protected $_block;
 
@@ -647,11 +647,11 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCacheTags()
     {
-        $this->assertContains(\Magento\View\Block\AbstractBlock::CACHE_GROUP, $this->_block->getCacheTags());
+        $this->assertContains(\Magento\View\Element\AbstractBlock::CACHE_GROUP, $this->_block->getCacheTags());
 
         $this->_block->setCacheTags(array('one', 'two'));
         $tags = $this->_block->getCacheTags();
-        $this->assertContains(\Magento\View\Block\AbstractBlock::CACHE_GROUP, $tags);
+        $this->assertContains(\Magento\View\Element\AbstractBlock::CACHE_GROUP, $tags);
         $this->assertContains('one', $tags);
         $this->assertContains('two', $tags);
     }
@@ -699,7 +699,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      * @param string $name
      * @param null|string $alias
      * @param null|string $type
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _createBlockWithLayout($name = 'block', $alias = null,
         $type = 'Magento\View\Block\AbstractBlock'

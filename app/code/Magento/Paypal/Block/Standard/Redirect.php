@@ -9,7 +9,7 @@
  */
 namespace Magento\Paypal\Block\Standard;
 
-class Redirect extends \Magento\View\Block\AbstractBlock
+class Redirect extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\Data\FormFactory

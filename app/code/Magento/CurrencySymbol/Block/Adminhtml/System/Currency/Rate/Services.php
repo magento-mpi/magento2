@@ -49,7 +49,7 @@ class Services extends \Magento\Backend\Block\Template
     /**
      * Create import services form select element
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

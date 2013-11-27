@@ -395,7 +395,7 @@ class Observer
      */
     public function coreBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\View\Block\AbstractBlock */
+         /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -799,7 +799,7 @@ class Observer
     /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return void
      */
     protected function _hidePriceElements($block)

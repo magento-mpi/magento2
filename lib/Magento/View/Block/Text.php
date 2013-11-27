@@ -11,7 +11,7 @@ namespace Magento\View\Block;
 /**
  * Class Text
  */
-class Text extends \Magento\View\Block\AbstractBlock
+class Text extends \Magento\View\Element\AbstractBlock
 {
     /**
      * Set text data

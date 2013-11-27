@@ -62,7 +62,7 @@ class Tooltip extends \Magento\View\Block\Template
     }
 
     /**
-     * @return $this|\Magento\View\Block\AbstractBlock
+     * @return $this|\Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

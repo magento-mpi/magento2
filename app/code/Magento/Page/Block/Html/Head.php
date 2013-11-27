@@ -121,7 +121,7 @@ class Head extends \Magento\View\Block\Template
     public function getCssJsHtml()
     {
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
-            /** @var $block \Magento\View\Block\AbstractBlock */
+            /** @var $block \Magento\View\Element\AbstractBlock */
             if ($block instanceof \Magento\Page\Block\Html\Head\AssetBlock) {
                 /** @var \Magento\Core\Model\Page\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();

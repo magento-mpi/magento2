@@ -13,7 +13,7 @@ namespace Magento\Page\Block\Html\Head;
 /**
  * Script page block
  */
-class Script extends \Magento\View\Block\AbstractBlock
+class Script extends \Magento\View\Element\AbstractBlock
     implements \Magento\Page\Block\Html\Head\AssetBlock
 {
     /**

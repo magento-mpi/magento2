@@ -7,11 +7,12 @@
  */
 
 namespace Magento\GoogleShopping\Block;
+use Magento\View\Element\AbstractBlock;
 
 /**
  * Google site verification <meta> tag
  */
-class SiteVerification extends \Magento\View\Block\AbstractBlock
+class SiteVerification extends \Magento\View\Element\AbstractBlock
 {
     /** @var \Magento\GoogleShopping\Model\Config */
     protected $_config;

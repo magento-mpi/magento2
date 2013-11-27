@@ -17,7 +17,7 @@
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
-class Head extends \Magento\View\Block\AbstractBlock
+class Head extends \Magento\View\Element\AbstractBlock
 {
     /**
      * Core registry

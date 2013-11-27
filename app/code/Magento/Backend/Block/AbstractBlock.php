@@ -15,7 +15,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class AbstractBlock extends \Magento\View\Block\AbstractBlock
+class AbstractBlock extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -30,7 +30,7 @@ class AbstractBlock extends \Magento\View\Block\AbstractBlock
         \Magento\Backend\Block\Context $context,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
+        \Magento\View\Element\parent::__construct($context, $data);
         $this->_authorization = $context->getAuthorization();
     }
 }

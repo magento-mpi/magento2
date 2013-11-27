@@ -18,7 +18,9 @@
  */
 namespace Magento\Cms\Block;
 
-class Block extends \Magento\View\Block\AbstractBlock
+use Magento\View\Element\AbstractBlock;
+
+class Block extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\Cms\Model\Template\FilterProvider

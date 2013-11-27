@@ -88,7 +88,7 @@ class AbstractCart extends \Magento\View\Block\Template
      *
      * @param  string $type
      * @throws \RuntimeException
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function getItemRenderer($type)
     {

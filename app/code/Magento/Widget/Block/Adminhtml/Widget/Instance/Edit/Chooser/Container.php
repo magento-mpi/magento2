@@ -62,7 +62,7 @@ class Container extends \Magento\View\Block\Html\Select
     /**
      * Add necessary options
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

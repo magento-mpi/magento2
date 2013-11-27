@@ -13,7 +13,7 @@ namespace Magento\Page\Block\Html\Head;
 /**
  * Css page block
  */
-class Css extends \Magento\View\Block\AbstractBlock
+class Css extends \Magento\View\Element\AbstractBlock
     implements \Magento\Page\Block\Html\Head\AssetBlock
 {
     /**

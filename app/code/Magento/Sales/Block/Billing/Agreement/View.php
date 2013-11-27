@@ -147,7 +147,7 @@ class View extends \Magento\View\Block\Template
     /**
      * Set pager
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

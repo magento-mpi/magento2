@@ -133,7 +133,7 @@ class Shortcut extends \Magento\View\Block\Template
     }
 
     /**
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

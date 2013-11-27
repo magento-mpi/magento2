@@ -62,7 +62,7 @@ class Form extends \Magento\Backend\Block\Widget
      *
      * You can redefine this method in child classes for changing layout
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {
@@ -138,7 +138,7 @@ class Form extends \Magento\Backend\Block\Widget
     /**
      * This method is called before rendering HTML
      *
-     * @return \Magento\Backend\Block\Widget\Form|\Magento\View\Block\AbstractBlock
+     * @return \Magento\Backend\Block\Widget\Form|\Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

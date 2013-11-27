@@ -141,7 +141,7 @@ class Export
     /**
      * Prepare export button
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

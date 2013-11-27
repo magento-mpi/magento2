@@ -122,7 +122,7 @@ class Shipment extends \Magento\Sales\Block\Items\AbstractItems
         return $this->_coreRegistry->registry('current_shipment');
     }
 
-    protected function _prepareItem(\Magento\View\Block\AbstractBlock $renderer)
+    protected function _prepareItem(\Magento\View\Element\AbstractBlock $renderer)
     {
         $renderer->setPrintStatus(true);
 

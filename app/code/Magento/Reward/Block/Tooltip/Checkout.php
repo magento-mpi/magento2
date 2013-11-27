@@ -50,7 +50,7 @@ class Checkout extends \Magento\Reward\Block\Tooltip
     }
 
     /**
-     * @return $this|\Magento\View\Block\AbstractBlock
+     * @return $this|\Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

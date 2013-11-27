@@ -34,7 +34,7 @@ class Switcher extends \Magento\Backend\Block\Template
     }
 
     /**
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

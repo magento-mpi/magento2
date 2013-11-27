@@ -27,10 +27,10 @@ class Links extends \Magento\View\Block\Template
     /**
      * Render Block
      *
-     * @param \Magento\View\Block\AbstractBlock $link
+     * @param \Magento\View\Element\AbstractBlock $link
      * @return string
      */
-    public function renderLink(\Magento\View\Block\AbstractBlock $link)
+    public function renderLink(\Magento\View\Element\AbstractBlock $link)
     {
         return $this->_layout->renderElement($link->getNameInLayout());
     }

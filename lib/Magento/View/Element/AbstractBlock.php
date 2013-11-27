@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block;
+namespace Magento\View\Element;
 
 use Magento\View\Element\BlockInterface;
 

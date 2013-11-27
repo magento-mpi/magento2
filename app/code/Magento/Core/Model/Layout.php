@@ -861,7 +861,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Creates block object based on xml node data and add it to the layout
      *
      * @param string $elementName
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      * @throws \Magento\Exception
      */
     protected function _generateBlock($elementName)
@@ -986,7 +986,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $parentName
      * @param string $alias
-     * @return bool|\Magento\View\Block\AbstractBlock
+     * @return bool|\Magento\View\Element\AbstractBlock
      */
     public function getChildBlock($parentName, $alias)
     {
@@ -1289,7 +1289,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Save block in blocks registry
      *
      * @param string $name
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return \Magento\Core\Model\Layout
      */
     public function setBlock($name, $block)
@@ -1321,7 +1321,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
@@ -1333,10 +1333,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Create block and add to layout
      *
-     * @param string|\Magento\View\Block\AbstractBlock $block
+     * @param string|\Magento\View\Element\AbstractBlock $block
      * @param string $name
      * @param array $attributes
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _createBlock($block, $name, array $attributes = array())
     {
@@ -1355,15 +1355,15 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|\Magento\View\Block\AbstractBlock $block
+     * @param string|\Magento\View\Element\AbstractBlock $block
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '')
     {
-        if (empty($name) && $block instanceof \Magento\View\Block\AbstractBlock) {
+        if (empty($name) && $block instanceof \Magento\View\Element\AbstractBlock) {
             $name = $block->getNameInLayout();
         }
         $name = $this->_createStructuralElement(
@@ -1418,10 +1418,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Create block object instance based on block type
      *
-     * @param string|\Magento\View\Block\AbstractBlock $block
+     * @param string|\Magento\View\Element\AbstractBlock $block
      * @param array $attributes
      * @throws \Magento\Core\Exception
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _getBlockInstance($block, array $attributes = array())
     {
@@ -1430,7 +1430,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }
-        if (!$block instanceof \Magento\View\Block\AbstractBlock) {
+        if (!$block instanceof \Magento\View\Element\AbstractBlock) {
             throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
@@ -1451,7 +1451,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Get block object by name
      *
      * @param string $name
-     * @return \Magento\View\Block\AbstractBlock|bool
+     * @return \Magento\View\Element\AbstractBlock|bool
      */
     public function getBlock($name)
     {
@@ -1558,7 +1558,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
             $helper = $this->_blockFactory->createBlock($type);
             if ($helper) {
-                if ($helper instanceof \Magento\View\Block\AbstractBlock) {
+                if ($helper instanceof \Magento\View\Element\AbstractBlock) {
                     $helper->setLayout($this);
                 }
                 $this->_helpers[$type] = $helper;

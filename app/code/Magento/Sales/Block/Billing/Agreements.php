@@ -63,7 +63,7 @@ class Agreements extends \Magento\View\Block\Template
     /**
      * Set Billing Agreement instance
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

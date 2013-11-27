@@ -180,7 +180,7 @@ class DefaultRenderer extends \Magento\View\Block\Template
     /**
      * Return product additional information block
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function getProductAdditionalInformationBlock()
     {

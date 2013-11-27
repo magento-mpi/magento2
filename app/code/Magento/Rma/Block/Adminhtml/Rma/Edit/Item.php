@@ -120,7 +120,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * You can redefine this method in child classes for changin layout
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

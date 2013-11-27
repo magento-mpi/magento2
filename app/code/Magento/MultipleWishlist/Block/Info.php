@@ -69,7 +69,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     /**
      * Create message block
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function getMessagesBlock()
     {
