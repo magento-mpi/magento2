@@ -73,6 +73,21 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->_theme->expects($this->any())->method('getId')->will($this->returnValue(100));
 
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false, false);
+        $directory = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false, false);
+        $directory->expects($this->any())->method('getRelativePath')->will($this->returnArgument(0));
+
+        $fileDriver = $objectHelper->getObject('Magento\Filesystem\Driver\Base');
+        $directory->expects($this->any())
+            ->method('readFile')
+            ->will($this->returnCallback(
+                function ($filename) use ($fileDriver) {
+                    return $fileDriver->fileGetContents($filename);
+                }
+            ));
+        $filesystem->expects($this->any())->method('getDirectoryRead')->will($this->returnValue($directory));
+
         $this->_model = $objectHelper->getObject('Magento\Core\Model\Layout\Merge', array(
             'design' => $design,
             'storeManager' => $storeManager,
@@ -81,6 +96,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
             'appState' => $this->_appState,
             'cache' => $this->_cache,
             'theme' => $this->_theme,
+            'filesystem' => $filesystem
         ));
     }
 
