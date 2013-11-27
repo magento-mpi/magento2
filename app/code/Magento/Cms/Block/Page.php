@@ -49,7 +49,7 @@ class Page extends \Magento\View\Element\AbstractBlock
     /**
      * Construct
      *
-     * @param \Magento\View\Block\Context $context
+     * @param \Magento\View\Element\Context $context
      * @param \Magento\Cms\Model\Page $page
      * @param \Magento\Cms\Model\Template\FilterProvider $filterProvider
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -57,7 +57,7 @@ class Page extends \Magento\View\Element\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Context $context,
+        \Magento\View\Element\Context $context,
         \Magento\Cms\Model\Page $page,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

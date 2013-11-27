@@ -152,10 +152,10 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_locale;
 
     /**
-     * @param \Magento\View\Block\Context $context
+     * @param \Magento\View\Element\Context $context
      * @param array $data
      */
-    public function __construct(\Magento\View\Block\Context $context, array $data = array())
+    public function __construct(\Magento\View\Element\Context $context, array $data = array())
     {
         $this->_request         = $context->getRequest();
         $this->_layout          = $context->getLayout();

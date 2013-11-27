@@ -12,7 +12,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\View\Block\Context
+class Context extends \Magento\View\Element\Context
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -68,7 +68,7 @@ class Context extends \Magento\View\Block\Context
         array $data = array()
     ) {
         $this->_authorization = $authorization;
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
+        \Magento\View\Element\parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
             $session, $storeConfig, $frontController, $helperFactory, $viewUrl, $viewConfig, $cacheState, $logger, $app,
             $escaper, $filterManager, $locale, $data
         );

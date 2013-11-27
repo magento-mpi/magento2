@@ -24,12 +24,12 @@ class Editable
     protected $_coreData;
 
     /**
-     * @param \Magento\View\Block\Context $context
+     * @param \Magento\View\Element\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Context $context,
+        \Magento\View\Element\Context $context,
         \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {

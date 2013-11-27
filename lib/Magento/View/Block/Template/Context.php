@@ -15,7 +15,7 @@ namespace Magento\View\Block\Template;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Context extends \Magento\View\Block\Context
+class Context extends \Magento\View\Element\Context
 {
     /**
      * Dirs instance
