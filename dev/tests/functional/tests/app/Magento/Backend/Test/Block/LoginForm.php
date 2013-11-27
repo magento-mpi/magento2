@@ -23,10 +23,36 @@ use Mtf\Client\Element\Locator;
 class LoginForm extends Form
 {
     /**
+     * @var array
+     */
+    protected $_mapping = array(
+        'password' => '#login'
+    );
+
+    /**
      * Submit login form
      */
     public function submit()
     {
         $this->_rootElement->find('[type=submit]', Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Need to fill only specific fields
+     *
+     * @param array $fields
+     * @param \Mtf\Client\Element $element
+     */
+    protected function _fill(array $fields, \Mtf\Client\Element $element = null)
+    {
+        $allowedFields = array('username', 'password');
+
+        $mapping = array();
+        foreach ($fields as $fieldName => $data) {
+            if (in_array($fieldName, $allowedFields)) {
+                $mapping[$fieldName] = $data;
+            }
+        }
+        parent::_fill($mapping, $element);
     }
 }

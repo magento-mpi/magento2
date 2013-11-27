@@ -55,8 +55,6 @@ class Login extends Page
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
 
-        $this->loginFormBlock = Factory::getBlockFactory()->getMagentoBackendLoginForm(
-            $this->_browser->find('login-form', Locator::SELECTOR_ID));
         $this->headerPanelBlock = Factory::getBlockFactory()->getMagentoBackendHeaderPanel(
             $this->_browser->find('.header-panel', Locator::SELECTOR_CSS));
     }
@@ -68,7 +66,9 @@ class Login extends Page
      */
     public function getLoginBlockForm()
     {
-        return $this->loginFormBlock;
+        return Factory::getBlockFactory()->getMagentoBackendLoginForm(
+            $this->_browser->find('login-form', Locator::SELECTOR_ID)
+        );
     }
 
     /**
@@ -79,5 +79,16 @@ class Login extends Page
     public function getHeaderPanelBlock()
     {
         return $this->headerPanelBlock;
+    }
+
+    /**
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find('#messages .messages')
+        );
+
     }
 }

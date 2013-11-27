@@ -14,16 +14,15 @@ use Mtf\System\Config;
 
 class AdminUser extends DataFixture
 {
-
     /**
      * @param Config $configuration
      * @param array $placeholders
      */
     public function __construct(Config $configuration, $placeholders = array())
     {
+        $placeholders['password'] = isset($placeholders['password']) ? $placeholders['password'] : '123123q';
         parent::__construct($configuration, $placeholders);
         $this->_placeholders['role_id'] = array($this, 'roleProvider');
-
     }
 
     //TODO implement provider
@@ -49,10 +48,10 @@ class AdminUser extends DataFixture
                     'value' => 'test%isolation%'
                 ),
                 'password' => array(
-                    'value' => '123123q'
+                    'value' => '%password%'
                 ),
                 'password_confirmation' => array(
-                    'value' => '123123q'
+                    'value' => '%password%'
                 ),
                 'roles' => array(
                     'value' => array('1')
@@ -81,5 +80,14 @@ class AdminUser extends DataFixture
     public function persist()
     {
         Factory::getApp()->magentoUserCreateUser($this);
+    }
+
+    /**
+     * @param string $password
+     */
+    public function setPassword($password)
+    {
+        $this->_data['fields']['password']['value'] = $password;
+        $this->_data['fields']['password_confirmation']['value'] = $password;
     }
 }
