@@ -355,9 +355,9 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $_uploaderFactory;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_dir;
+    protected $_mediaDirectory;
 
     /**
      * @var \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory
@@ -402,7 +402,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory
      * @param \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory
      * @param \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -432,7 +432,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\Catalog\Model\Resource\Product\LinkFactory $linkFactory,
         \Magento\ImportExport\Model\Import\Proxy\ProductFactory $proxyProdFactory,
         \Magento\ImportExport\Model\Import\UploaderFactory $uploaderFactory,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\CatalogInventory\Model\Resource\Stock\ItemFactory $stockResItemFac,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -453,7 +453,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_linkFactory = $linkFactory;
         $this->_proxyProdFactory = $proxyProdFactory;
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_dir = $dir;
+        $this->_mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_stockResItemFac = $stockResItemFac;
         $this->_stockItemFactory = $stockItemFactory;
         $this->_locale = $locale;
@@ -1353,20 +1353,16 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
             $this->_fileUploader->init();
 
-            $mediaDir = $this->_dir->getDir(\Magento\App\Dir::MEDIA);
-            if (!$mediaDir) {
-                throw new \Magento\Exception('Media directory is unavailable.');
+            $tmpPath = $this->_mediaDirectory->getAbsolutePath('import');
+            if (!$this->_fileUploader->setTmpDir($tmpPath)) {
+                throw new \Magento\Core\Exception("File directory '{$tmpPath}' is not readable.");
             }
-            $tmpDir = "{$mediaDir}/import";
-            if (!$this->_fileUploader->setTmpDir($tmpDir)) {
-                throw new \Magento\Core\Exception("File directory '{$tmpDir}' is not readable.");
-            }
-            $destDir = "{$mediaDir}/catalog/product";
-            if (!is_dir($destDir)) {
-                mkdir($destDir, 0777, true);
-            }
-            if (!$this->_fileUploader->setDestDir($destDir)) {
-                throw new \Magento\Core\Exception("File directory '{$destDir}' is not writable.");
+            $destinationDir = "catalog/product";
+            $destinationPath = $this->_mediaDirectory->getAbsolutePath($destinationDir);
+
+            $this->_mediaDirectory->create($destinationDir);
+            if (!$this->_fileUploader->setDestDir($destinationPath)) {
+                throw new \Magento\Core\Exception("File directory '{$destinationPath}' is not writable.");
             }
         }
         return $this->_fileUploader;

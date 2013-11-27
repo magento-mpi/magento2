@@ -112,9 +112,11 @@ class AbstractSession extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $filesystem;
 
     /**
      * @var \Magento\Core\Model\Url
@@ -158,7 +160,7 @@ class AbstractSession extends \Magento\Object
         $this->_request = $context->getRequest();
         $this->_appState = $context->getAppState();
         $this->_storeManager = $context->getStoreManager();
-        $this->_dir = $context->getDir();
+        $this->filesystem = $context->getFilesystem();
         $this->_url = $context->getUrl();
         parent::__construct($data);
     }
@@ -760,7 +762,7 @@ class AbstractSession extends \Magento\Object
         if ($this->_appState->isInstalled() && $this->_savePath) {
             return $this->_savePath;
         }
-        return $this->_dir->getDir('session');
+        return $this->filesystem->getPath(\Magento\Filesystem::SESSION);
     }
 
     /**

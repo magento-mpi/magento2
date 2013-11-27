@@ -174,7 +174,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
               ->will($this->returnValue($this->_mediaDirectory . '/'));
         $this->_sync->expects($this->once())->method('synchronize');
         $this->_requestMock->expects($this->any())
-             ->method('getFilePath')->will($this->returnValue(realpath($filePath)));
+             ->method('getFilePath')->will($this->returnValue($filePath));
         $this->_responseMock->expects($this->once())->method('sendFile')->with($filePath);
         $this->_responseMock->expects($this->never())->method('sendNotFound');
         $this->assertEquals(0, $this->_model->execute());

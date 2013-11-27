@@ -90,9 +90,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $filesystem;
 
     /**
      * @var \Magento\Core\Model\Url
@@ -110,7 +112,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManager $storeManager
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Url $url
      * @param $saveMethod
      * @param null $savePath
@@ -128,7 +130,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Url $url,
         $saveMethod,
         $savePath = null,
@@ -149,7 +151,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_request = $request;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
-        $this->_dir = $dir;
+        $this->filesystem = $filesystem;
         $this->_url = $url;
     }
 
@@ -234,11 +236,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\App\Dir
+     * @return \Magento\Filesystem
      */
-    public function getDir()
+    public function getFilesystem()
     {
-        return $this->_dir;
+        return $this->filesystem;
     }
 
     /**

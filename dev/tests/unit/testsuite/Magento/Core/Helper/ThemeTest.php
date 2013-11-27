@@ -33,19 +33,38 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         // 2. Get theme model
         $theme = $this->_getTheme($themeId, $themeArea);
 
-        // 3. Get dirs model
-        $dirs = $this->_getDirs();
+        // 3. Get filesystem model
+        $filesystem = $this->_getFilesystem();
+
+        $directory = $this->getMock('Magento\Filesystem\Directory\Read', array('getRelativePath'), array(), '', false);
+        $directory->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnValueMap(array(
+                array('/zzz/qqq/test1.css', 'qqq/test1.css'),
+                array('/zzz/qqq/test2.css', 'qqq/test2.css'),
+                array('/zzz/qqq/test3.css', 'qqq/test3.css'),
+                array('/zzz/qqq/test4.css', 'qqq/test4.css'),
+                array('/zzz/qqq/test21.css', 'qqq/test21.css'),
+                array('/zzz/qqq/test22.css', 'qqq/test22.css'),
+                array('/zzz/qqq/test23.css', 'qqq/test23.css'),
+                array('/zzz/qqq/test24.css', 'qqq/test24.css'),
+            )));
+
+        $filesystem->expects($this->any())
+            ->method('getDirectoryRead')
+            ->will($this->returnValue($directory));
+
 
         // 4. Get layout merge model and factory
         $layoutMergeFactory = $this->_getLayoutMergeFactory($layoutStr);
 
         // 5.
         /** @var $themeCollection \Magento\Core\Model\Resource\Theme\Collection */
-        $themeCollection = $this->getMock('Magento\Core\Model\Resource\Theme\Collection', null, array(), '', false);
+        $themeCollection = $this->getMock('Magento\Core\Model\Resource\Theme\Collection', array(), array(), '', false);
 
         // 6.
         /** @var $context \Magento\Core\Helper\Context */
-        $context = $this->getMock('Magento\Core\Helper\Context', null, array(), '', false);
+        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
 
         // 7. Get view file system model mock
         $params = array(
@@ -63,15 +82,15 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             array('Magento_Core::test23.css', $params, '/zzz/qqq/test23.css'),
             array('test24.css', $params, '/zzz/qqq/test24.css'),
         );
-        $fileSystem = $this->_getFileSystem($map);
+        $fileSystemView = $this->_getFileSystemView($map);
 
         // 8. Run tested method
         $helper = new \Magento\Core\Helper\Theme(
             $context,
-            $dirs,
+            $filesystem,
             $layoutMergeFactory,
             $themeCollection,
-            $fileSystem
+            $fileSystemView
         );
         $result = $helper->getCssFiles($theme);
         // 9. Compare actual result with expected data
@@ -410,7 +429,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
      * @param array $map
      * @return \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getFileSystem($map)
+    protected function _getFileSystemView($map)
     {
         /** @var $fileSystem \Magento\View\FileSystem|\PHPUnit_Framework_MockObject_MockObject */
         $fileSystem = $this->getMockBuilder('Magento\View\FileSystem', array())
@@ -446,23 +465,25 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @return \Magento\App\Dir|\PHPUnit_Framework_MockObject_MockObject
+     * @return \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected function _getDirs()
+    protected function _getFilesystem()
     {
-        /** @var $dirs \Magento\App\Dir */
-        $dirs = $this->getMock('Magento\App\Dir', array('getDir'), array(), '', false);
-        $dirs->expects($this->any())
-            ->method('getDir')
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $this->getMock('Magento\Filesystem',
+            array('getPath', '__wakeup', 'getDirectoryRead'), array(), '', false
+        );
+        $filesystem->expects($this->any())
+            ->method('getPath')
             ->will($this->returnValueMap(array(
-                array(\Magento\App\Dir::ROOT, self::ROOT),
-                array(\Magento\App\Dir::APP, self::APP),
-                array(\Magento\App\Dir::MODULES, self::MODULES),
-                array(\Magento\App\Dir::THEMES, self::THEMES),
-                array(\Magento\App\Dir::PUB_LIB, self::PUB_LIB),
+                array(\Magento\Filesystem::ROOT, self::ROOT),
+                array(\Magento\Filesystem::APP, self::APP),
+                array(\Magento\Filesystem::MODULES, self::MODULES),
+                array(\Magento\Filesystem::THEMES, self::THEMES),
+                array(\Magento\Filesystem::PUB_LIB, self::PUB_LIB),
             )));
 
-        return $dirs;
+        return $filesystem;
     }
 
     /**
@@ -501,7 +522,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         // 3. Get Design Package model
 
         // 4. Get dirs model
-        $dirs = $this->_getDirs();
+        $dirs = $this->_getFileSystem();
 
         // 5. Get layout merge model and factory
         /** @var $processorFactory \Magento\View\Layout\ProcessorFactory|\PHPUnit_Framework_MockObject_MockObject */

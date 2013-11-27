@@ -945,4 +945,6 @@ return array(
     array('_getImageFolderAbsolutePath', 'Magento\GiftWrapping\Model\Wrapping'),
     array('_getTmpImageFolderAbsolutePath', 'Magento\GiftWrapping\Model\Wrapping'),
     array('_getHistoryDirPath', 'Magento\ScheduledImportExport\Model\Scheduled\Operation'),
+    array('getDirs', 'Magento\Core\Block\Template\Context'),
+    array('getDir', 'Magento\Core\Model\Session\Context'),
 );

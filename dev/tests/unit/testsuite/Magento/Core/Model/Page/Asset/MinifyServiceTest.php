@@ -33,12 +33,11 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
-        $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
 
         $this->_model = new \Magento\Core\Model\Page\Asset\MinifyService($this->_storeConfig, $this->_objectManager,
-            $dirs, $this->_appState);
+            $this->_appState);
     }
 
     public function testGetAssets()

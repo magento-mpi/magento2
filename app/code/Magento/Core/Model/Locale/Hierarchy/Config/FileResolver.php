@@ -9,20 +9,24 @@
  */
 namespace Magento\Core\Model\Locale\Hierarchy\Config;
 
+use \Magento\Filesystem;
+
 class FileResolver implements \Magento\Config\FileResolverInterface
 {
 
     /**
-     * @var \Magento\App\Dir
+     * Filesystem instance
+     *
+     * @var Filesystem
      */
-    protected $_applicationDirs;
+    protected $filesystem;
 
     /**
-     * @param \Magento\App\Dir $applicationDirs
+     * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\App\Dir $applicationDirs)
+    public function __construct(Filesystem $filesystem)
     {
-        $this->_applicationDirs = $applicationDirs;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -30,10 +34,8 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $appLocaleDir = $this->_applicationDirs->getDir(\Magento\App\Dir::LOCALE);
         // Create pattern similar to app/locale/*/config.xml
-        $filePattern = $appLocaleDir . '/' . '*' . '/' . $filename;
-        $fileList = glob($filePattern, GLOB_BRACE);
-        return $fileList;
+        $filePattern = $this->filesystem->getPath(Filesystem::LOCALE) . '/' . '*' . '/' . $filename;
+        return glob($filePattern, GLOB_BRACE);
     }
 }

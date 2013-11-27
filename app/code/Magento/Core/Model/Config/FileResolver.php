@@ -19,6 +19,8 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $moduleReader;
 
     /**
+     * Filesystem instance
+     *
      * @var \Magento\Filesystem
      */
     protected $filesystem;

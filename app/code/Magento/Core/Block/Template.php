@@ -44,11 +44,8 @@ class Template extends \Magento\Core\Block\AbstractBlock
     protected $_allowSymlinks = null;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
+     * Filesystem instance
+     *
      * @var Filesystem
      */
     protected $_filesystem;
@@ -113,7 +110,6 @@ class Template extends \Magento\Core\Block\AbstractBlock
         array $data = array()
     ) {
         $this->_coreData = $coreData;
-        $this->_dirs = $context->getDirs();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();
         $this->_templateEngineFactory = $context->getEngineFactory();
