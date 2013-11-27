@@ -40,7 +40,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->with('options')
             ->will($this->returnValue($options));
-        $childBlock = $this->getMockForAbstractClass('Magento\View\Block\AbstractBlock', array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
         $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
@@ -89,7 +89,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
         $request->expects($this->any())
             ->method('getParam')
             ->will($this->returnValueMap($valueMap));
-        $childBlock = $this->getMockForAbstractClass('Magento\View\Block\AbstractBlock', array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
         $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())
@@ -103,7 +103,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
     public function testSetGiftRegistryUrlNoOptions()
     {
-        $childBlock = $this->getMockForAbstractClass('Magento\View\Block\AbstractBlock', array(), '', false);
+        $childBlock = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(), '', false);
         $layout = $this->getMock('Magento\Core\Model\Layout', array(), array(), '', false);
         $this->_block->setLayout($layout);
         $layout->expects($this->once())

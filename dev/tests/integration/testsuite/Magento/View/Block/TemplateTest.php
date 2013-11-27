@@ -53,7 +53,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\View\Block\AbstractBlock::toHtml
+     * @covers \Magento\View\Element\AbstractBlock::toHtml
      * @see testAssign()
      */
     public function testToHtml()

@@ -33,7 +33,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
             ->setDefaultDesignTheme();
-        $this->_block = $this->getMockForAbstractClass('Magento\View\Block\AbstractBlock', array(
+        $this->_block = $this->getMockForAbstractClass('Magento\View\Element\AbstractBlock', array(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\Block\Context'),
             array('module_name' => 'Magento_Core')
         ));
@@ -85,7 +85,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\View\Block\AbstractBlock::addChild
+     * @covers \Magento\View\Element\AbstractBlock::addChild
      */
     public function testAddChild()
     {
@@ -109,9 +109,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
         $layout->createBlock('Magento\View\Block\Template', $name);
         $block = $layout->getBlock($name);
-        $this->assertInstanceOf('Magento\View\Block\AbstractBlock', $block);
+        $this->assertInstanceOf('Magento\View\Element\AbstractBlock', $block);
         $block->setNameInLayout($name);
-        $this->assertInstanceOf('Magento\View\Block\AbstractBlock', $layout->getBlock($name));
+        $this->assertInstanceOf('Magento\View\Element\AbstractBlock', $layout->getBlock($name));
         $this->assertEquals($name, $block->getNameInLayout());
         $this->assertTrue($layout->hasElement($name));
         $newName = 'new_name';
@@ -122,8 +122,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @covers \Magento\View\Block\AbstractBlock::getChildNames
-     * @covers \Magento\View\Block\AbstractBlock::insert
+     * @covers \Magento\View\Element\AbstractBlock::getChildNames
+     * @covers \Magento\View\Element\AbstractBlock::insert
      */
     public function testGetChildNames()
     {
@@ -204,8 +204,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @covers \Magento\View\Block\AbstractBlock::unsetChildren
-     * @covers \Magento\View\Block\AbstractBlock::getChildBlock
+     * @covers \Magento\View\Element\AbstractBlock::unsetChildren
+     * @covers \Magento\View\Element\AbstractBlock::getChildBlock
      */
     public function testUnsetChildren()
     {
@@ -249,8 +249,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @covers \Magento\View\Block\AbstractBlock::getChildHtml
-     * @covers \Magento\View\Block\AbstractBlock::getChildChildHtml
+     * @covers \Magento\View\Element\AbstractBlock::getChildHtml
+     * @covers \Magento\View\Element\AbstractBlock::getChildChildHtml
      */
     public function testGetChildHtml()
     {
@@ -421,7 +421,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
-     * @covers \Magento\View\Block\AbstractBlock::getGroupChildNames
+     * @covers \Magento\View\Element\AbstractBlock::getGroupChildNames
      * @covers \Magento\Core\Model\Layout::addToParentGroup
      */
     public function testAddToParentGroup()
@@ -483,8 +483,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\View\Block\AbstractBlock::getUrlBase64
-     * @covers \Magento\View\Block\AbstractBlock::getUrlEncoded
+     * @covers \Magento\View\Element\AbstractBlock::getUrlBase64
+     * @covers \Magento\View\Element\AbstractBlock::getUrlEncoded
      */
     public function testGetUrlBase64()
     {
@@ -702,7 +702,7 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      * @return \Magento\View\Element\AbstractBlock
      */
     protected function _createBlockWithLayout($name = 'block', $alias = null,
-        $type = 'Magento\View\Block\AbstractBlock'
+        $type = 'Magento\View\Element\AbstractBlock'
     ) {
         $typePart = explode('\\', $type);
         $mockClass = array_pop($typePart) . 'Mock';
