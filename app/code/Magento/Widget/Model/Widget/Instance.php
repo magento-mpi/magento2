@@ -92,6 +92,11 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $_directory;
+
+    /**
      * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
