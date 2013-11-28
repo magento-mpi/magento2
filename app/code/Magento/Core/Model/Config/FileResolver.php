@@ -19,11 +19,6 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
-     */
-    protected $directoryRead;
-
-    /**
      * @var \Magento\Filesystem
      */
     protected $filesystem;
@@ -43,7 +38,6 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
         $this->iteratorFactory = $iteratorFactory;
         $this->filesystem = $filesystem;
         $this->_moduleReader = $moduleReader;
@@ -56,22 +50,25 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $fileList = $this->directoryRead->search('#/' . $filename . '$#');
+                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
+                $fileList = $directory->search('#' . preg_quote($filename) . '$#');
                 break;
             case 'global':
+                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             default:
+                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
                 $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
         $output = array();
         foreach ($fileList as $file) {
-            $output[] = $this->directoryRead->getRelativePath($file);
+            $output[] = $directory->getRelativePath($file);
         }
 //        absolute pathes here
         return $this->iteratorFactory->create(array(
-            'filesystem'    => $this->filesystem,
+            'directory'    => $directory,
             'paths'         => $output
         ));
     }
