@@ -1,3 +1,5 @@
+2.0.0.0-dev54
+=============
 * Modularity improvements:
   * Breakdown of the Adminhtml module:
      * Moved Newsletter, Report logic to respective modules
