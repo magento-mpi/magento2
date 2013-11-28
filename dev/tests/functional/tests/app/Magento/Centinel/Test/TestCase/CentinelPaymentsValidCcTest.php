@@ -47,9 +47,6 @@ class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
         $this->_placeOrder();
 
         //Verifying
-        if ($fixture instanceof RegisteredAuthorizenetValidCc) {
-            $this->markTestSkipped('MAGETWO-17484');
-        }
         $this->_verifyOrder($fixture);
     }
 
