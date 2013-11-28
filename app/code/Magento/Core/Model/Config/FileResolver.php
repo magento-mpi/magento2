@@ -19,31 +19,20 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
-     */
-    protected $directoryRead;
-
-    /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
-
-    /**
-     * @var FileIteratorFactory
+     * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
         $this->iteratorFactory = $iteratorFactory;
         $this->filesystem = $filesystem;
         $this->_moduleReader = $moduleReader;
@@ -56,23 +45,26 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $fileList = $this->directoryRead->search('#/' . $filename . '$#');
+                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
+                $fileList = $directory->search('#' . preg_quote($filename) . '$#');
                 break;
             case 'global':
+                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             default:
+                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
                 $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
         $output = array();
         foreach ($fileList as $file) {
-            $output[] = $this->directoryRead->getRelativePath($file);
+            $output[] = $directory->getRelativePath($file);
         }
 //        absolute pathes here
-        return $this->iteratorFactory->create(array(
-            'filesystem'    => $this->filesystem,
-            'paths'         => $output
-        ));
+        return $this->iteratorFactory->create(
+            $directory,
+            $output
+        );
     }
 }

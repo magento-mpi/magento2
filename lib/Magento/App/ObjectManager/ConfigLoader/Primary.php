@@ -50,7 +50,7 @@ class Primary
                     new \Magento\Filesystem\Directory\WriteFactory(),
                     new \Magento\Filesystem\Adapter\Local()
                 ),
-                new \Magento\App\Config\FileResolver\FileIteratorFactory()
+                new \Magento\Config\FileIteratorFactory()
             ),
             new \Magento\ObjectManager\Config\Mapper\Dom(),
             new \Magento\ObjectManager\Config\SchemaLocator(),

@@ -23,10 +23,6 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryReadApp;
-    /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
 
     /**
      * @var FileIteratorFactory
@@ -35,17 +31,16 @@ class FileResolver implements \Magento\Config\FileResolverInterface
 
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Module\Declaration\FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\Module\Declaration\FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->iteratorFactory = $iteratorFactory;
-        $this->filesystem = $filesystem;
+        $this->iteratorFactory      = $iteratorFactory;
         $this->directoryReadModules = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
-        $this->directoryReadConfig = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
-        $this->directoryReadApp = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->directoryReadConfig  = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
+        $this->directoryReadApp     = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
     }
 
     /**
@@ -74,7 +69,8 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         }
         $output['base'] = $this->directoryReadApp->search('#/module.xml$#', $configDir);
 
-        return $this->iteratorFactory->create($this->filesystem,
+        return $this->iteratorFactory->create(
+            $this->directoryReadApp,
             array_merge($output['mage'], $output['custom'], $output['base'])
         );
     }

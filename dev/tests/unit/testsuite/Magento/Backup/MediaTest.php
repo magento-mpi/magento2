@@ -34,6 +34,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAction($action)
     {
+        /** @var \Magento\Backup\Snapshot | \PHPUnit_Framework_MockObject_MockObject $snapshot */
         $snapshot = $this->getMock(
             'Magento\Backup\Snapshot',
             array('create', 'rollback', 'getDbBackupFilename'),

@@ -20,7 +20,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false);
+        $orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array('__wakeup'), array(), '', false);
         $helperFactory = $this->getMockBuilder('Magento\Core\Model\Factory\Helper')
             ->disableOriginalConstructor()
             ->setMethods(array('get'))
@@ -42,16 +42,17 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $sessionMock = $this->getMockBuilder('Magento\Adminhtml\Model\Session\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(array('getQuote'))
+            ->setMethods(array('getQuote', '__wakeup'))
             ->getMock();
 
         $quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(array('getStore'))
+            ->setMethods(array('getStore', '__wakeup'))
             ->getMock();
 
         $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
+            ->setMethods('__wakeup')
             ->getMock();
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnArgument(0));
 
@@ -60,10 +61,11 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $sessionMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
 
         $wishlistFactoryMock = $this->getMockBuilder('Magento\Wishlist\Model\WishlistFactory')
-            ->setMethods(array('methods'))
+            ->setMethods(array('methods', '__wakeup'))
             ->getMock();
 
         $giftMessageSave = $this->getMockBuilder('Magento\Adminhtml\Model\Giftmessage\Save')
+            ->setMethods('__wakeup')
             ->disableOriginalConstructor()
             ->getMock();
 

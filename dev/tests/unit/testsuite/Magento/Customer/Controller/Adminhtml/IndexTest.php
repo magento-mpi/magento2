@@ -87,7 +87,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $this->_session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
-            ->setMethods(array('setIsUrlNotice', 'addSuccess'))
+            ->setMethods(array('setIsUrlNotice', 'addSuccess', '__wakeup'))
             ->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
@@ -98,7 +98,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $translator = $this->getMockBuilder('Magento\Core\Model\Translate')
             ->disableOriginalConstructor()
-            ->setMethods(array('getTranslateInline'))
+            ->setMethods(array('getTranslateInline', '__wakeup'))
             ->getMock();
 
         $contextArgs = array(
@@ -213,7 +213,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $coreHelperMock = $this->getMockBuilder('Magento\Core\Model\Url')
             ->disableOriginalConstructor()
-            ->setMethods(array('getUrl'))
+            ->setMethods(array('getUrl', '__wakeup'))
             ->getMock();
         $coreHelperMock->expects($this->any())->method('getUrl')->will($this->returnValue($testUrl));
 
@@ -250,7 +250,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $customerMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
             ->disableOriginalConstructor()
             ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
-                'sendPasswordReminderEmail'))
+                'sendPasswordReminderEmail', '__wakeup'))
             ->getMock();
         $customerMock->expects($this->any())
             ->method('load')

@@ -25,30 +25,23 @@ class Primary implements \Magento\Config\FileResolverInterface
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $directoryRead;
-
-    /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
+    protected $configDirectory;
 
     /**
      * @var FileIteratorFactory
      */
     protected $iteratorFactory;
 
-
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\App\Config\FileResolver\FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->configDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
         $this->iteratorFactory = $iteratorFactory;
-        $this->filesystem = $filesystem;
     }
     /**
      * @inheritdoc
@@ -56,7 +49,7 @@ class Primary implements \Magento\Config\FileResolverInterface
     public function get($filename, $scope)
     {
         return $this->iteratorFactory->create(
-            $this->filesystem, $this->directoryRead->search('#/' . preg_quote($filename) . '$#')
+            $this->configDirectory, $this->configDirectory->search('#' . preg_quote($filename) . '$#')
         );
     }
 }
