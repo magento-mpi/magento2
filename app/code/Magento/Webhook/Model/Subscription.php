@@ -63,8 +63,9 @@ class Subscription
     private $_endpointLoaded = false;
 
     /**
-     * @param \Magento\Webhook\Model\Endpoint $endpoint
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Webhook\Model\Endpoint $endpoint
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -72,8 +73,9 @@ class Subscription
      * @param array $data
      */
     public function __construct(
-        \Magento\Webhook\Model\Endpoint $endpoint,
         \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Webhook\Model\Endpoint $endpoint,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -84,7 +86,7 @@ class Subscription
         if (!isset($data['status'])) {
             $data['status'] = \Magento\PubSub\SubscriptionInterface::STATUS_INACTIVE;
         }
-        parent::__construct($context, $coreRegistry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_dateTime = $dateTime;
         $this->_endpoint = $endpoint;
     }

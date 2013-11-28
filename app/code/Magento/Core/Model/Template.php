@@ -86,16 +86,16 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -106,7 +106,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
         $this->_store = isset($data['store']) ? $data['store'] : null;
         $this->_appEmulation = $appEmulation;
         $this->_storeManager = $storeManager;
-        parent::__construct($context, $registry, null, null, $data);
+        parent::__construct();
     }
 
     /**

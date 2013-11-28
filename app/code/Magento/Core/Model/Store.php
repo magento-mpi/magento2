@@ -269,9 +269,9 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_config;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\RequestInterface $request
@@ -282,13 +282,13 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param bool $isCustomEntryPoint
+     * @param string $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Url $url,
         \Magento\App\RequestInterface $request,
@@ -299,7 +299,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        $isCustomEntryPoint = false,
+        $isCustomEntryPoint = '',
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;

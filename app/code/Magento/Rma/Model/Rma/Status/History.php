@@ -46,27 +46,27 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_date;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rma\Model\RmaFactory $rmaFactory
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Date $date
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rma\Model\RmaFactory $rmaFactory,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Core\Model\Translate $translate,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\Date $date,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

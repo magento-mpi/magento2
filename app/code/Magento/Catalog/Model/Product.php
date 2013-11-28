@@ -190,11 +190,11 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_itemOptionFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Url $url
      * @param \Magento\Catalog\Model\Product\Link $productLink
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -208,19 +208,17 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Catalog\Helper\Image $catalogImage
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Product $resource
      * @param \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Url $url,
         \Magento\Catalog\Model\Product\Link $productLink,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Configuration\Item\OptionFactory $itemOptionFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -234,8 +232,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         \Magento\Catalog\Helper\Image $catalogImage,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Product $resource,
         \Magento\Catalog\Model\Resource\Product\Collection $resourceCollection,
         \Magento\Data\CollectionFactory $collectionFactory,
@@ -257,7 +253,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_collectionFactory = $collectionFactory;
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
-        parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
     /**

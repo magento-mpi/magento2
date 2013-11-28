@@ -78,9 +78,9 @@ class Calculation extends \Magento\Core\Model\AbstractModel
     protected $_classesFactory;
 
     /**
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
@@ -92,9 +92,9 @@ class Calculation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\GroupFactory $groupFactory,

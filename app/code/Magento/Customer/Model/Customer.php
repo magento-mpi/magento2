@@ -176,9 +176,9 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Email\Model\Sender $sender
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
@@ -194,13 +194,13 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Data\Collection\Db|null $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Helper\Data $customerData,
         \Magento\Email\Model\Sender $sender,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,

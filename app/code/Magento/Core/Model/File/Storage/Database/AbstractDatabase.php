@@ -42,22 +42,20 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
     protected $_app;
 
     /**
-     * Class constructor
-     *
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string|null $connectionName
+     * @param mixed $connectionName
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -65,7 +63,7 @@ abstract class AbstractDatabase extends \Magento\Core\Model\AbstractModel
         $connectionName = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry,  $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_app = $app;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_date = $dateModel;
