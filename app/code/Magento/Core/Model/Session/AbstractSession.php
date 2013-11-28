@@ -164,7 +164,7 @@ class AbstractSession extends \Magento\Object
         if (!$this->isSessionExists()) {
             \Magento\Profiler::start('session_start');
             if (!empty($sessionName)) {
-                $this->setSessionName($sessionName);
+                $this->setName($sessionName);
             }
             $this->registerSaveHandler();
 
@@ -259,7 +259,7 @@ class AbstractSession extends \Magento\Object
      * @param string $name
      * @return \Magento\Core\Model\Session\AbstractSession
      */
-    public function setSessionName($name)
+    public function setName($name)
     {
         session_name($name);
         return $this;
