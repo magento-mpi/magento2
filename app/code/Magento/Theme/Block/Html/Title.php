@@ -14,7 +14,7 @@
  *
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class Title extends \Magento\View\Element\Template
 {

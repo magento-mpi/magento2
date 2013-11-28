@@ -89,7 +89,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected function _prepareLayout()
     {
-        $toolbar = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'customer_review_list.toolbar')
+        $toolbar = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'customer_review_list.toolbar')
             ->setCollection($this->getCollection());
 
         $this->setChild('toolbar', $toolbar);

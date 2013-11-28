@@ -15,7 +15,7 @@
  * @package    Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Page\Block;
+namespace Magento\Theme\Block;
 
 class Html extends \Magento\View\Element\Template
 {
@@ -110,7 +110,7 @@ class Html extends \Magento\View\Element\Template
      * Add CSS class to page body tag
      *
      * @param string $className
-     * @return \Magento\Page\Block\Html
+     * @return \Magento\Theme\Block\Html
      */
     public function addBodyClass($className)
     {

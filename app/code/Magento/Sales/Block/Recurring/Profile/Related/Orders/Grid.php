@@ -76,7 +76,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profile\View
             'in' => $this->_config->getVisibleOnFrontStates()
         ));
 
-        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager')
             ->setCollection($this->_relatedOrders)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 

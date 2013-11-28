@@ -8,7 +8,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 /**
  * Html page block

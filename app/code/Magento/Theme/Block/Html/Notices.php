@@ -15,7 +15,7 @@
  * @package     Magento_Page
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class Notices extends \Magento\View\Element\Template
 {

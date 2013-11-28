@@ -51,7 +51,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
      */
     protected function _prepareLayout()
     {
-        /* @var $headBlock \Magento\Page\Block\Html\Head */
+        /* @var $headBlock \Magento\Theme\Block\Html\Head */
         $headBlock = parent::_prepareLayout()->getLayout()->getBlock('head');
         if ($headBlock) {
             // Head block is not defined on AJAX request

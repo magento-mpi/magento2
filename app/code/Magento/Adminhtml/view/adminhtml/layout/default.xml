@@ -268,7 +268,7 @@
         <!-- deprecated since 1.7.0.0 see \Magento\View\Element\Template -->
         <block class="Magento\View\Element\Template" name="js_translate" as="js_translate" template="Magento_Adminhtml::page/js/translate.phtml"/>
         <container name="main-top" label="main-top" as="main-top">
-            <block class="Magento\Page\Block\Html\Title" name="page-title" template="title.phtml"/>
+            <block class="Magento\Theme\Block\Html\Title" name="page-title" template="title.phtml"/>
         </container>
         <container name="left" as="left" label="Left Column"/>
         <container name="content" as="content" label="Content"/>

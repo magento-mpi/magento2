@@ -49,7 +49,7 @@
             </arguments>
         </block>
         <container name="top.switches" as="switches" label="Store Language" after="checkout.links"/>
-        <block class="Magento\Page\Block\Html\Welcome" name="welcome" as="welcome" after="top.container"/>
+        <block class="Magento\Theme\Block\Html\Welcome" name="welcome" as="welcome" after="top.container"/>
     </referenceBlock>
     <move element="store_language" destination="top.switches"/>
     <move element="store_switcher" destination="footer" as="store_switcher" after="-"/>

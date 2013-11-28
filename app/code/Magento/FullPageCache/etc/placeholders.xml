@@ -22,7 +22,7 @@
     </placeholder>
     <placeholder name="catalog_breadcrumbs" code="PAGE_BREADCRUMBS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Breadcrumbs" />
-        <block instance="Magento\Page\Block\Html\Breadcrumbs" name="breadcrumbs" />
+        <block instance="Magento\Theme\Block\Html\Breadcrumbs" name="breadcrumbs" />
     </placeholder>
     <placeholder name="cart_sidebar" code="CART_SIDEBAR" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Cart" />
@@ -46,7 +46,7 @@
     </placeholder>
     <placeholder name="welcome_message" code="WELCOME" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Welcome" />
-        <block instance="Magento\Page\Block\Html\Welcome" />
+        <block instance="Magento\Theme\Block\Html\Welcome" />
     </placeholder>
     <placeholder name="account_links" code="ACCLINKS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Accountlinks" />
