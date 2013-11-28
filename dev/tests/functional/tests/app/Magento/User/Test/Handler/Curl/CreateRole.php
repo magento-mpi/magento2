@@ -40,12 +40,71 @@ class CreateRole extends Curl
         return $data;
     }
 
+    /**
+     * @param string $name
+     * @param string $page
+     * @return bool|string
+     */
+    protected function findRoleOnPage($name, $page)
+    {
+        $dom = new \DOMDocument();
+        $dom->loadHTML($page);
+        $xpath = new \DOMXPath($dom);
+        $row = '//tr[td[@data-column="role_name" and contains(text(),"' . $name . '")]]';
+        $nodes = $xpath->query($row . '/td[@data-column="role_id"]');
+        if($nodes->length == 0) {
+            return false;
+        }
+        $node = $nodes->item(0);
+        $id = trim($node->nodeValue);
+        return $id;
+    }
+
+    /**
+     * @param $name
+     * @return string
+     */
+    protected function filterByName($name)
+    {
+        $filter = base64_encode('role_name=' . $name);
+        $url = $_ENV['app_backend_url'] . 'admin/user_role/roleGrid/filter/' . $filter . '/';
+        $curl = new BackendDecorator(new CurlTransport(), new Config());
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), array());
+        $response = $curl->read();
+        $curl->close();
+        return $response;
+    }
+
+    protected function findIdWithFilter($name, $response)
+    {
+        preg_match('/<table[\ \w\"\=]+id\="roleGrid_table">.*<\/table>/siu', $response, $matches);
+        if (empty($matches)) {
+            throw new \Exception('Cannot find grid in response');
+        }
+        $gridHtml = $matches[0];
+
+        $id = $this->findRoleOnPage($name, $gridHtml);
+
+        // maybe, role is on another page, let's filter
+        if (FALSE === $id) {
+            $newPage = $this->filterByName($name);
+            $id = $this->findRoleOnPage($name, $newPage);
+        }
+
+        // still not found?? It's very suspicious.
+        if (FALSE === $id) {
+            throw new \UnderflowException('Role with name ' . $name . ' not found');
+        }
+
+        return $id;
+    }
 
     /**
      * Execute handler
      *
      * @param Fixture|null $fixture [optional]
-     * @throws UnexpectedValueException
+     * @throws \UnexpectedValueException
+     * @throws \UnderflowException
      * @return mixed
      */
     public function execute(Fixture $fixture = null)
@@ -60,15 +119,10 @@ class CreateRole extends Curl
 
         preg_match("/You\ saved\ the\ role\./", $response, $matches);
         if (empty($matches)) {
-            throw new UnexpectedValueException('Success confirmation message not found');
+            throw new \UnexpectedValueException('Success confirmation message not found');
         }
 
-        preg_match('/class=\"a\-right col\-role_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
-            . $data['rolename'] . '/siu', $response, $matches);
-        if (empty($matches)) {
-            throw new UnexpectedValueException('Cannot find role id');
-        }
-        $data['id'] = $matches[1];
+        $data['id'] = $this->findIdWithFilter($data['rolename'], $response);
         return $data;
     }
 
