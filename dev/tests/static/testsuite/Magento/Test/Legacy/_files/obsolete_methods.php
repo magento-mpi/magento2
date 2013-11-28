@@ -58,7 +58,7 @@ return array(
     array('_getCacheLockId', 'Magento\Core\Model\Config'),
     array('_getCacheTags', 'Magento\Core\Model\App'),
     array('_getChildHtml'),
-    array('_getConfig', 'Magento\Page\Helper\Layout'),
+    array('_getConfig', 'Magento\Theme\Helper\Layout'),
     array('_getCookie', 'Magento\PageCache\Helper\Data'),
     array('_getCollapseState', 'Magento\Backend\Block\System\Config\Form\Fieldset', '_isCollapseState'),
     array('_getCollectionNames', 'Magento\Adminhtml\Controller\Report\Sales'),

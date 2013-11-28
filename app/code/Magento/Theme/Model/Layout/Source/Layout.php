@@ -2,33 +2,23 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Page layouts source
- *
- * @category   Magento
- * @package    Magento_Page
- * @author     Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\Page\Model\Source;
+namespace Magento\Theme\Model\Layout\Source;
 
 class Layout implements \Magento\Core\Model\Option\ArrayInterface
 {
     /**
-     * @var \Magento\Page\Model\Config
+     * @var \Magento\Theme\Model\Layout\Config
      */
     protected $_config;
 
     /**
-     * @param \Magento\Page\Model\Config $config
+     * @param \Magento\Theme\Model\Layout\Config $config
      */
     public function __construct(
-        \Magento\Page\Model\Config $config
+        \Magento\Theme\Model\Layout\Config $config
     ) {
         $this->_config = $config;
     }
@@ -69,6 +59,7 @@ class Layout implements \Magento\Core\Model\Option\ArrayInterface
     /**
      * Retrieve page layout options array
      *
+     * @param bool $withEmpty
      * @return array
      */
     public function toOptionArray($withEmpty = false)

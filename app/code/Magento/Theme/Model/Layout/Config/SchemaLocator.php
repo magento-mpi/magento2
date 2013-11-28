@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Model\Config;
+namespace Magento\Theme\Model\Layout\Config;
 
 class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
 {
@@ -30,8 +30,8 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
-        $this->_schema =  $moduleReader->getModuleDir('etc', 'Magento_Page') . '/page_layouts.xsd';
-        $this->_perFileSchema =  $moduleReader->getModuleDir('etc', 'Magento_Page') . '/page_layouts_file.xsd';
+        $this->_schema =  $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts.xsd';
+        $this->_perFileSchema =  $moduleReader->getModuleDir('etc', 'Magento_Theme') . '/page_layouts_file.xsd';
     }
 
     /**

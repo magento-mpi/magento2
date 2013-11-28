@@ -4,12 +4,10 @@
  * 
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Model;
+namespace Magento\Theme\Model\Layout;
 
 class Config
 {
@@ -37,7 +35,7 @@ class Config
     /**
      * Initialize page layouts list
      *
-     * @return \Magento\Page\Model\Config
+     * @return \Magento\Theme\Model\Layout\Config
      */
     protected function _initPageLayouts()
     {
@@ -54,7 +52,7 @@ class Config
     /**
      * Retrieve available page layouts
      *
-     * @return array \Magento\Object[]
+     * @return \Magento\Object[]
      */
     public function getPageLayouts()
     {

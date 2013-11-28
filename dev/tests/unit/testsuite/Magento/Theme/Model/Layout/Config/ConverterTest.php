@@ -1,18 +1,18 @@
 <?php
 /**
- * \Magento\Page\Model\Config\Converter
+ * \Magento\Theme\Model\Layout\Config\Converter
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Model\Config;
+namespace Magento\Theme\Model\Layout\Config;
 
 class ConverterTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Page\Model\Config\Converter
+     * @var \Magento\Theme\Model\Layout\Config\Converter
      */
     protected $_model;
 
@@ -21,7 +21,7 @@ class ConverterTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        $this->_model = new \Magento\Page\Model\Config\Converter();
+        $this->_model = new \Magento\Theme\Model\Layout\Config\Converter();
     }
 
     public function testConvert()

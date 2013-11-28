@@ -1477,4 +1477,12 @@ return array(
     array('Magento\Page\Block\Html\Title', 'Magento\Theme\Block\Html\Title'),
     array('Magento\Page\Block\Html\Topmenu', 'Magento\Theme\Block\Html\Topmenu'),
     array('Magento\Page\Block\Html\Welcome', 'Magento\Theme\Block\Html\Welcome'),
+    array('Magento\Page\Helper\Layout', 'Magento\Theme\Helper\Layout'),
+    array('Magento\Page\Model\Source\Layout', 'Magento\Theme\Model\Layout\Source\Layout'),
+    array('Magento\Page\Model\Config\Converter', 'Magento\Theme\Model\Layout\Config\Converter'),
+    array('Magento\Page\Model\Config\Reader', 'Magento\Theme\Model\Layout\Config\Reader'),
+    array('Magento\Page\Model\Config\SchemaLocator', 'Magento\Theme\Model\Layout\Config\SchemaLocator'),
+    array('Magento\Page\Helper\Data'),
+    array('Magento\Page\Helper\Html'),
+    array('Magento\Page\Helper\Robots'),
 );

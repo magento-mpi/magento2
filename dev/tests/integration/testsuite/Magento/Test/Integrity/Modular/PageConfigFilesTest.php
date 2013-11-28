@@ -18,7 +18,7 @@ class PageConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfig
      */
     protected function _getReaderClassName()
     {
-        return 'Magento\Page\Model\Config\Reader';
+        return 'Magento\Theme\Model\Layout\Config\Reader';
     }
 
     /**
