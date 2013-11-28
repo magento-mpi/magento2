@@ -88,9 +88,8 @@ class Reader
         $fileList = array();
         foreach ($this->_scopePriorityScheme as $scope) {
             $directories = $this->_fileResolver->get($this->_fileName, $scope);
-            foreach ($directories as $directory) {
-                // todo fix repeatable read if it possible;
-                $fileList[$directory] = $directory;
+            foreach ($directories as $key => $directory) {
+                $fileList[$key] = $directory;
             }
         }
 
