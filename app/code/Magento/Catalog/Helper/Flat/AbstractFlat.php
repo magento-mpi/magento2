@@ -57,14 +57,12 @@ abstract class AbstractFlat extends \Magento\App\Helper\AbstractHelper
     protected $_processFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Index\Model\ProcessFactory $processFactory
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Index\Model\ProcessFactory $processFactory
      */
     public function __construct(
-        \Magento\Index\Model\ProcessFactory $processFactory,
-        \Magento\App\Helper\Context $context
+        \Magento\App\Helper\Context $context,
+        \Magento\Index\Model\ProcessFactory $processFactory
     ) {
         $this->_processFactory = $processFactory;
         parent::__construct($context);
