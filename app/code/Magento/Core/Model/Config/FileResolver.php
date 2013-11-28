@@ -16,25 +16,37 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      *
      * @var \Magento\Module\Dir\Reader
      */
-    protected $moduleReader;
+    protected $_moduleReader;
 
     /**
-     * Filesystem instance
-     *
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $directoryRead;
+
+    /**
      * @var \Magento\Filesystem
      */
     protected $filesystem;
 
     /**
+     * @var FileIteratorFactory
+     */
+    protected $iteratorFactory;
+
+    /**
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\Filesystem $filesystem
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
     ) {
-        $this->moduleReader = $moduleReader;
+        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->iteratorFactory = $iteratorFactory;
         $this->filesystem = $filesystem;
+        $this->_moduleReader = $moduleReader;
     }
 
     /**
@@ -44,22 +56,23 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $appConfigDir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
-                // Create pattern similar to app/etc/{*config.xml,*/*config.xml}
-                $fileListRelative = $appConfigDir->search('~' . '\S+' . preg_quote($filename) . '~');
-                $fileList = array();
-                foreach ($fileListRelative as $file) {
-                    $fileList[] = $appConfigDir->getAbsolutePath($file);
-                }
+                $fileList = $this->directoryRead->search('#/' . $filename . '$#');
                 break;
             case 'global':
-                $fileList = $this->moduleReader->getConfigurationFiles($filename);
+                $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             default:
-                $fileList = $this->moduleReader->getConfigurationFiles($scope . '/' . $filename);
+                $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
-
-        return $fileList;
+        $output = array();
+        foreach ($fileList as $file) {
+            $output[] = $this->directoryRead->getRelativePath($file);
+        }
+//        absolute pathes here
+        return $this->iteratorFactory->create(array(
+            'filesystem'    => $this->filesystem,
+            'paths'         => $output
+        ));
     }
 }

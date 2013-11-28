@@ -15,19 +15,6 @@ use Magento\Filesystem\DriverInterface;
 class WriteFactory
 {
     /**
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @param \Magento\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
-    /**
      * Create a readable file
      *
      * @param string $path
@@ -37,11 +24,6 @@ class WriteFactory
      */
     public function create($path, DriverInterface $driver, $mode)
     {
-        return $this->objectManager->create('Magento\Filesystem\File\Write',
-            array(
-                'path' => $path,
-                'driver' => $driver,
-                'mode' => $mode
-            ));
+        return new \Magento\Filesystem\File\Write($path, $driver, $mode);
     }
 }

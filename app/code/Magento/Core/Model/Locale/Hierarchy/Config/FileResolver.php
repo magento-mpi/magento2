@@ -9,23 +9,32 @@
  */
 namespace Magento\Core\Model\Locale\Hierarchy\Config;
 
-use \Magento\Filesystem;
-
 class FileResolver implements \Magento\Config\FileResolverInterface
 {
-
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_localeDirectory;
+    protected $directoryRead;
 
+    /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var FileIteratorFactory
+     */
+    protected $iteratorFactory;
     /**
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\Filesystem $filesystem)
-    {
-        // @TODO 'i18n' directory file resolving rules are not defined
-        $this->_localeDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::LOCALE);
+    public function __construct(
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Locale\Hierarchy\Config\FileIteratorFactory $iteratorFactory
+    ){
+        $this->directoryRead    = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->iteratorFactory  = $iteratorFactory;
+        $this->filesystem       = $filesystem;
     }
 
     /**
@@ -33,16 +42,9 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $fileList = array();
-        if ($this->_localeDirectory->isExist()) {
-            // Create pattern similar to */config.xml
-            $path = '#.*?\/' . preg_quote($filename) . '#';
-            $fileList = $this->_localeDirectory->search($path);
-        }
-        $fileListAbsolute = array();
-        foreach ($fileList as $file) {
-            $fileListAbsolute[] = $this->_localeDirectory->getAbsolutePath($file);
-        }
-        return $fileListAbsolute;
+        return $this->iteratorFactory->create(array(
+            'paths'         => $this->directoryRead->search('#/' . preg_quote($filename) . '$#'),
+            'filesystem'    => $this->filesystem
+        ));
     }
 }

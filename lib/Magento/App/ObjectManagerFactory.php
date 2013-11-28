@@ -85,8 +85,8 @@ class ObjectManagerFactory
         $diConfig = new $configClass($relations, $definitions);
         $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
-        $configDirectoryPath = $directories->getDir(DIR::CONFIG);
-        $configData = $this->_loadPrimaryConfig($configDirectoryPath, $appMode);
+//        $configDirectoryPath = $directories->getDir(DIR::CONFIG);
+        $configData = $this->_loadPrimaryConfig($directories->getDir(DIR::ROOT), $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);

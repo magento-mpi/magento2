@@ -21,18 +21,30 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_themesDirectory;
+    protected $directoryRead;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\Filesystem $filesystem
+     * @var \Magento\Filesystem
      */
-    public function __construct(
+    protected $filesystem;
+
+    /**
+     * @var FileIteratorFactory
+     */
+    protected $iteratorFactory;
+
+        /**
+         * @param \Magento\Filesystem $filesystem
+         */
+        public function __construct(
+        \Magento\Filesystem $filesystem,
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\Filesystem $filesystem
-    ) {
-        $this->_moduleReader = $moduleReader;
-        $this->_themesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        \Magento\Core\Model\Locale\Hierarchy\Config\FileIteratorFactory $iteratorFactory
+    ){
+        $this->directoryRead    = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        $this->iteratorFactory  = $iteratorFactory;
+        $this->filesystem       = $filesystem;
+        $this->_moduleReader    = $moduleReader;
     }
 
     /**
@@ -46,15 +58,14 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             case 'design':
-                $fileListRelative = $this->_themesDirectory->search('#.*?\/.*?\/etc\/' . preg_quote($filename) . '#');
-                foreach ($fileListRelative as $file) {
-                    $fileList[] = $this->_themesDirectory->getAbsolutePath($file);
-                }
+                $fileList = $this->directoryRead->search('#/' . preg_quote($filename) . '$#');
                 break;
             default:
                 break;
         }
-
-        return $fileList;
+        return $this->iteratorFactory->create(array(
+            'paths' => $fileList,
+            'filesystem' => $this->filesystem
+        ));
     }
 }

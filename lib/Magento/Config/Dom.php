@@ -231,6 +231,9 @@ class Dom
     public static function validateDomDocument(
         \DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
+
+        // todo: fix validation
+        $errors = array();
         libxml_use_internal_errors(true);
         try {
             $result = $dom->schemaValidate($schemaFileName);
