@@ -156,7 +156,6 @@ class Filesystem
 
 use \Magento\FilesystemDeprecated;
 
-
     /**
      * @param Filesystem\DirectoryList $directoryList
      * @param Filesystem\Directory\ReadFactory $readFactory
@@ -219,7 +218,7 @@ use \Magento\FilesystemDeprecated;
      * @param string $code
      * @return string
      */
-    public function getPath($code)
+    public function getPath($code = self::ROOT)
     {
         $config = $this->directoryList->getConfig($code);
         $path = isset($config['path']) ? $config['path'] : '';

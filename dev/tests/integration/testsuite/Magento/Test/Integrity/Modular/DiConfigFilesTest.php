@@ -30,12 +30,12 @@ class DiConfigFilesTest extends \PHPUnit_Framework_TestCase
     protected function _prepareFiles()
     {
         //init primary configs
-        /** @var $dir \Magento\App\Dir */
-        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
 
-        $configPath = $dir->getDir(\Magento\App\Dir::APP) . '/etc/*/';
+        $configPath = $filesystem->getPath(\Magento\Filesystem::APP) . '/etc/*/';
         self::$_primaryFiles = glob($configPath . '/di.xml');
-        array_unshift(self::$_primaryFiles, $dir->getDir(\Magento\App\Dir::APP) . '/etc/di.xml');
+        array_unshift(self::$_primaryFiles, $filesystem->getPath(\Magento\Filesystem::APP) . '/etc/di.xml');
 
         //init module global configs
         /** @var $modulesReader \Magento\Module\Dir\Reader */
