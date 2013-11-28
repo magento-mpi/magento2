@@ -23,6 +23,13 @@ use Mtf\Block\Block;
 class PageActions extends Block
 {
     /**
+     * Save button
+     *
+     * @var string
+     */
+    protected $saveButtion = '#save';
+
+    /**
      * Click "Add new" button
      */
     public function clickAddNew()
@@ -35,6 +42,6 @@ class PageActions extends Block
      */
     public function clickSave()
     {
-        $this->_rootElement->find('#save')->click();
+        $this->_rootElement->find($this->saveButtion)->click();
     }
 }

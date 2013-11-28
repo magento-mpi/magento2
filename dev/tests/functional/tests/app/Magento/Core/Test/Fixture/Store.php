@@ -52,4 +52,14 @@ class Store extends DataFixture
     {
         return Factory::getApp()->magentoCoreCreateStore($this);
     }
+
+    /**
+     * Get name
+     *
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->getData('fields/name/value');
+    }
 } 

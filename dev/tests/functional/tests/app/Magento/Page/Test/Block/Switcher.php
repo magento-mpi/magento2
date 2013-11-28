@@ -15,13 +15,20 @@ use Mtf\Client\Element\Locator;
 class Switcher extends Block
 {
     /**
+     * Dropdown button selector
+     *
+     * @var string
+     */
+    protected $dropDownButton = 'button';
+
+    /**
      * Select store
      *
      * @param string $name
      */
     public function selectStoreView($name)
     {
-        $this->_rootElement->find('button', LOCATOR::SELECTOR_TAG_NAME)->click();
+        $this->_rootElement->find($this->dropDownButton, LOCATOR::SELECTOR_TAG_NAME)->click();
         $this->_rootElement->find($name, Locator::SELECTOR_LINK_TEXT)->click();
     }
 } 

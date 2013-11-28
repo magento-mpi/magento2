@@ -17,22 +17,31 @@ use \Magento\Backend\Test\Block\System\Store\Grid;
 
 class ItemList extends Page
 {
+    /**
+     * Url
+     */
     const MCA = 'admin/system_store';
 
     /**
-     * @var Messages
+     * Messages block selector
+     *
+     * @var string
      */
-    protected $_messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
     /**
-     * @var Actions
+     * Actions block selector
+     *
+     * @var string
      */
-    protected $_pageActionsBlock;
+    protected $pageActionsBlock = '.page-actions';
 
     /**
-     * @var Grid
+     * Store grid selector
+     *
+     * @var string
      */
-    protected $_gridBlock;
+    protected $gridBlock = '#storeGrid';
 
     /**
      * Constructor
@@ -40,12 +49,6 @@ class ItemList extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $blockFactory = Factory::getBlockFactory();
-        $this->_messagesBlock = $blockFactory->getMagentoCoreMessages($this->_browser->find('#messages .messages'));
-        $this->_gridBlock = $blockFactory->getMagentoBackendSystemStoreGrid($this->_browser->find('#storeGrid'));
-        $this->_pageActionsBlock = $blockFactory->getMagentoBackendSystemStoreActions(
-            $this->_browser->find('.page-actions')
-        );
     }
 
     /**
@@ -55,7 +58,9 @@ class ItemList extends Page
      */
     public function getPageActionsBlock()
     {
-        return $this->_pageActionsBlock;
+        return Factory::getBlockFactory()->getMagentoBackendSystemStoreActions(
+            $this->_browser->find($this->pageActionsBlock)
+        );
     }
 
     /**
@@ -65,7 +70,7 @@ class ItemList extends Page
      */
     public function getGridBlock()
     {
-        return $this->_gridBlock;
+        return Factory::getBlockFactory()->getMagentoBackendSystemStoreGrid($this->_browser->find($this->gridBlock));
     }
 
     /**
@@ -75,6 +80,6 @@ class ItemList extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->_messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messagesBlock));
     }
 }

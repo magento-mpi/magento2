@@ -30,4 +30,4 @@ class Switcher extends Block
     {
         $this->_rootElement->setOptionGroupValue($groupName, $name);
     }
-} 
+}

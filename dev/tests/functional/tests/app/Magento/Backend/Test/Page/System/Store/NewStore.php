@@ -18,10 +18,22 @@ class NewStore extends Page
     const MCA = 'admin/system_store/newStore';
 
     /**
+     * Store edit form block
+     *
      * @var string
      */
-    protected $_storesBlock = '#edit_form';
+    protected $formBlock = '#edit_form';
 
+    /**
+     * Page actions block
+     *
+     * @var string
+     */
+    protected $actionsBlock = '.page-actions';
+
+    /**
+     * Initialize page
+     */
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
@@ -35,17 +47,17 @@ class NewStore extends Page
     public function getFormBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendSystemStoreEdit(
-            $this->_browser->find($this->_storesBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->formBlock)
         );
     }
 
     /**
-     * Retrieve  actions block
+     * Retrieve actions block
      *
      * @return PageActions
      */
     public function getPageActionsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find('.page-actions'));
+        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find($this->actionsBlock));
     }
 }

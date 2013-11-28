@@ -9,6 +9,7 @@
  */
 
 namespace Magento\Backend\Test\Page\System;
+
 use Magento\Backend\Test\Block\PageActions;
 use Magento\Backend\Test\Block\System\Config\Switcher;
 use Magento\Core\Test\Block\Messages;
@@ -19,27 +20,38 @@ use Mtf\Factory\Factory,
 
 class Config extends Page
 {
+    /**
+     * Url
+     */
     const MCA = 'admin/system_config';
 
     /**
-     * @var Form
+     * Config Edit form selector
+     *
+     * @var string
      */
-    protected $_form;
+    protected $form = '#config-edit-form';
 
     /**
-     * @var Switcher
+     * Store switcher selector
+     *
+     * @var string
      */
-    protected $_storeSwitcher;
+    protected $storeSwitcher = '#store_switcher';
 
     /**
-     * @var PageActions
+     * Page actions selector
+     *
+     * @var string
      */
-    protected $_pageActions;
+    protected $pageActions = '.page-actions';
 
     /**
-     * @var Messages
+     * Messages selector
+     *
+     * @var string
      */
-    protected $_messages;
+    protected $messages = '#messages';
 
     /**
      * Constructor
@@ -47,21 +59,6 @@ class Config extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_form = Factory::getBlockFactory()->getMagentoBackendSystemConfigForm(
-            $this->_browser->find('#config-edit-form')
-        );
-
-        $this->_storeSwitcher = Factory::getBlockFactory()->getMagentoBackendSystemConfigSwitcher(
-            $this->_browser->find('#store_switcher', Locator::SELECTOR_CSS, 'select')
-        );
-
-        $this->_pageActions = Factory::getBlockFactory()->getMagentoBackendPageActions(
-            $this->_browser->find('.page-actions')
-        );
-
-        $this->_messages = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages')
-        );
     }
 
     /**
@@ -71,7 +68,7 @@ class Config extends Page
      */
     public function getForm()
     {
-        return $this->_form;
+        return Factory::getBlockFactory()->getMagentoBackendSystemConfigForm($this->_browser->find($this->form));
     }
 
     /**
@@ -81,7 +78,9 @@ class Config extends Page
      */
     public function getStoreSwitcher()
     {
-        return $this->_storeSwitcher;
+        return Factory::getBlockFactory()->getMagentoBackendSystemConfigSwitcher(
+            $this->_browser->find($this->storeSwitcher, Locator::SELECTOR_CSS, 'select')
+        );
     }
 
     /**
@@ -91,7 +90,7 @@ class Config extends Page
      */
     public function getActions()
     {
-        return $this->_pageActions;
+        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find($this->pageActions));
     }
 
     /**
@@ -101,6 +100,6 @@ class Config extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->_messages;
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messages));
     }
 }

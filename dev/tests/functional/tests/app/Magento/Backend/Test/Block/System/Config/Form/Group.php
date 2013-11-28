@@ -16,12 +16,40 @@ use Mtf\Client\Element;
 class Group extends Form
 {
     /**
+     * Fieldset selector
+     *
+     * @var string
+     */
+    protected $fieldset = 'fieldset';
+
+    /**
+     * Toggle link
+     *
+     * @var string
+     */
+    protected $toogleLink = '.entry-edit-head a';
+
+    /**
+     * Field element selector
+     *
+     * @var string
+     */
+    protected $element = '//*[@data-ui-id="%s"]';
+
+    /**
+     * Default checkbox selector
+     *
+     * @var string
+     */
+    protected $defaultCheckbox = '//*[@data-ui-id="%s"]/../../*[@class="use-default"]/input';
+
+    /**
      * Open group fieldset
      */
     public function open()
     {
-        if (!$this->_rootElement->find('fieldset')->isVisible()) {
-            $this->_rootElement->find('.entry-edit-head a')->click();
+        if (!$this->_rootElement->find($this->fieldset)->isVisible()) {
+            $this->_rootElement->find($this->toogleLink)->click();
         }
     }
 
@@ -40,13 +68,12 @@ class Group extends Form
         }
 
         $element = $this->_rootElement->find(
-            '//*[@data-ui-id="' . $field . '"]', Element\Locator::SELECTOR_XPATH, $input
+            sprintf($this->element, $field), Element\Locator::SELECTOR_XPATH, $input
         );
 
         if ($element->isDisabled()) {
             $checkbox = $this->_rootElement->find(
-                '//*[@data-ui-id="' . $field . '"]/../../*[@class="use-default"]/input',
-                //*[@id="general_locale_code"]
+                sprintf($this->defaultCheckbox, $field),
                 Element\Locator::SELECTOR_XPATH,
                 'checkbox'
             );

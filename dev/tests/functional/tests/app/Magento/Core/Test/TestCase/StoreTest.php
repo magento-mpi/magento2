@@ -13,7 +13,6 @@ namespace Magento\Core\Test\TestCase;
 use Mtf\TestCase\Functional;
 use Mtf\Factory\Factory;
 
-
 class StoreTest extends Functional
 {
     /**
@@ -40,13 +39,13 @@ class StoreTest extends Functional
             'The store view has been saved', $storeListPage->getMessagesBlock()->getSuccessMessages()
         );
         $this->assertTrue(
-            $storeListPage->getGridBlock()->isStoreExists($storeFixture->getData('fields/name/value'))
+            $storeListPage->getGridBlock()->isStoreExists($storeFixture->getName())
         );
         $configPage = Factory::getPageFactory()->getAdminSystemConfig();
         $configPage->open();
         $storeSwitcher = $configPage->getStoreSwitcher();
         $storeSwitcher->selectStore(
-            $storeFixture->getData('fields/group/value'), $storeFixture->getData('fields/name/value')
+            $storeFixture->getData('fields/group/value'), $storeFixture->getName()
         );
         $configGroup = $configPage->getForm()->getGroup('Locale Options');
         $configGroup->open();
@@ -57,7 +56,7 @@ class StoreTest extends Functional
         $homePage = Factory::getPageFactory()->getCmsIndexIndex();
         $homePage->open();
 
-        $homePage->getStoreSwitcherBlock()->selectStoreView($storeFixture->getData('fields/name/value'));
+        $homePage->getStoreSwitcherBlock()->selectStoreView($storeFixture->getName());
         $this->assertTrue($homePage->getSearchBlock()->isPlaceholderContains('Den gesamten Shop durchsuchen'));
     }
-} 
+}

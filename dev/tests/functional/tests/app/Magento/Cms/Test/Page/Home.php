@@ -62,9 +62,9 @@ class Home extends Page
     private $footerBlock;
 
     /**
-     * @var Switcher
+     * Store switcher block path
      */
-    private $storeSwitcherBlock;
+    private $storeSwitcherBlock = '//*[@data-ui-id="language-switcher"]';
 
     /**
      * Page Top Links block
@@ -97,9 +97,6 @@ class Home extends Page
         );
         $this->footerBlock = Factory::getBlockFactory()->getMagentoPageHtmlFooter(
             $this->_browser->find('footer.footer', Locator::SELECTOR_CSS)
-        );
-        $this->storeSwitcherBlock = Factory::getBlockFactory()->getMagentoPageSwitcher(
-            $this->_browser->find('//*[@data-ui-id="language-switcher"]', Locator::SELECTOR_XPATH)
         );
         $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
             $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
@@ -167,7 +164,9 @@ class Home extends Page
      */
     public function getStoreSwitcherBlock()
     {
-        return $this->storeSwitcherBlock;
+        return Factory::getBlockFactory()->getMagentoPageSwitcher(
+            $this->_browser->find($this->storeSwitcherBlock, Locator::SELECTOR_XPATH)
+        );
     }
 
     /**

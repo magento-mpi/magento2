@@ -16,6 +16,20 @@ use \Mtf\Factory\Factory;
 class Form extends Block
 {
     /**
+     * Group block
+     *
+     * @var string
+     */
+    protected $groupBlock = '//legend[contains(text(), "%s")]/../..';
+
+    /**
+     * Save button
+     *
+     * @var string
+     */
+    protected $saveButton = '//button[@title="Save Config"]';
+
+    /**
      * Retrieve store configuration form group
      *
      * @param string $name
@@ -25,7 +39,7 @@ class Form extends Block
     {
         $blockFactory = Factory::getBlockFactory();
         $element = $this->_rootElement->find(
-            '//legend[contains(text(), "' . $name . '")]/../..', Locator::SELECTOR_XPATH
+            sprintf($this->groupBlock, $name), Locator::SELECTOR_XPATH
         );
         return $blockFactory->getMagentoBackendSystemConfigFormGroup($element);
     }
@@ -35,6 +49,6 @@ class Form extends Block
      */
     public function save()
     {
-        $this->_rootElement->find('//button[@title="Save Config"]', Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->saveButton, Locator::SELECTOR_XPATH)->click();
     }
-} 
+}
