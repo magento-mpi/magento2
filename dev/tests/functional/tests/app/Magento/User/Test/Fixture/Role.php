@@ -57,4 +57,31 @@ class Role extends DataFixture
             $resource
         );
     }
+
+    /**
+     * Convert data from canonical array to repository native format
+     * @param array $data
+     * @return array
+     */
+    protected function convertData(array $data)
+    {
+        $result = array();
+        foreach($data as $key => $value) {
+            $result['fields'][$key]['value'] = $value;
+        }
+        return $result;
+    }
+
+    /**
+     * @param $name
+     * @param array $data
+     * @param bool $convert
+     */
+    public function save($name, array $data, $convert = true)
+    {
+        if($convert) {
+            $data = $this->convertData($data);
+        }
+        $this->_repository->set($name, $data);
+    }
 }

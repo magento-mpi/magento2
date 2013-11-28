@@ -130,4 +130,15 @@ class Role extends AbstractRepository
             $this->setScope('store', $dataTemplate)
         );
     }
+
+    /**
+     * Save custom data set to repository
+     *
+     * @param $dataSetName
+     * @param array $data
+     */
+    public function set($dataSetName, array $data)
+    {
+        $this->_data[$dataSetName]['data'] = $data;
+    }
 }
