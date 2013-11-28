@@ -9,7 +9,7 @@
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <referenceBlock name="head">
-        <block class="Magento\Page\Block\Html\Head\Css" name="magento-calendar-css">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-calendar-css">
             <arguments>
                 <argument name="file" xsi:type="string">mage/calendar.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -17,77 +17,77 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jquery-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jquery.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-jquery-no-conflict-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-jquery-no-conflict-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/jquery-no-conflict.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="head-load-min-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="head-load-min-js">
             <arguments>
                 <argument name="file" xsi:type="string">head.load.min.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-magento-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-magento-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/mage.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-decorate-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-decorate-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/decorate.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-translate-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-translate-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/translate.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-cookies-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-cookies-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/cookies.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jquery-ui-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-ui-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jquery-ui.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="jquery-jquery-tmpl-min-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="jquery-jquery-tmpl-min-js">
             <arguments>
                 <argument name="file" xsi:type="string">jquery/jquery.tmpl.min.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-bootstrap-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-bootstrap-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/bootstrap.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-page-js-truncate-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-page-js-truncate-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Page::js/truncate.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-common-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-common-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/common.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-toggle-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-toggle-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/toggle.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-popup-window-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-popup-window-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/popup-window.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Css" name="magento-page-css-tabs-css">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-page-css-tabs-css">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Page::css/tabs.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -95,7 +95,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-loader-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-loader-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/loader.js</argument>
             </arguments>

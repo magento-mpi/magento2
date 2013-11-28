@@ -34,9 +34,9 @@ class Head extends \Magento\Page\Block\Html\Head
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Page $page
-     * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
-     * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento\View\Asset\GroupedCollection $assets
+     * @param \Magento\View\Asset\MergeService $assetMergeService
+     * @param \Magento\View\Asset\MinifyService $assetMinifyService
      * @param \Magento\App\Action\Title $titles
      * @param array $data
      */
@@ -45,9 +45,9 @@ class Head extends \Magento\Page\Block\Html\Head
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Page $page,
-        \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
-        \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
+        \Magento\View\Asset\GroupedCollection $assets,
+        \Magento\View\Asset\MergeService $assetMergeService,
+        \Magento\View\Asset\MinifyService $assetMinifyService,
         \Magento\App\Action\Title $titles,
         array $data = array()
     ) {
@@ -57,7 +57,7 @@ class Head extends \Magento\Page\Block\Html\Head
             $coreData,
             $fileStorageDatabase,
             $objectManager,
-            $page,
+            $assets,
             $assetMergeService,
             $assetMinifyService,
             $data

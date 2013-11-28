@@ -14,12 +14,12 @@
     </referenceBlock>
     <move element="breadcrumbs" destination="breadcrumbs.container"/>
     <referenceBlock name="head">
-        <block class="Magento\Page\Block\Html\Head\Css" name="css-styles-css">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/styles.css</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Css" name="css-styles-ie-css">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-ie-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/styles-ie.css</argument>
                 <argument name="properties" xsi:type="array">
@@ -28,7 +28,7 @@
                 </argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Css" name="css-print-css">
+        <block class="Magento\Theme\Block\Html\Head\Css" name="css-print-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/print.css</argument>
                 <argument name="properties" xsi:type="array">

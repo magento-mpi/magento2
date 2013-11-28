@@ -60,28 +60,28 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         if ($head = $this->getLayout()->getBlock('head')) {
             $head->addChild(
                 'prototype-window-js',
-                'Magento\Page\Block\Html\Head\Script',
+                'Magento\Theme\Block\Html\Head\Script',
                 array(
                     'file' => 'prototype/window.js'
                 )
             );
             $head->addChild(
                 'prototype-windows-themes-default-css',
-                'Magento\Page\Block\Html\Head\Css',
+                'Magento\Theme\Block\Html\Head\Css',
                 array(
                     'file' => 'prototype/windows/themes/default.css'
                 )
             );
             $head->addChild(
                 'magento-core-prototype-magento-css',
-                'Magento\Page\Block\Html\Head\Css',
+                'Magento\Theme\Block\Html\Head\Css',
                 array(
                     'file' => 'Magento_Core::prototype/magento.css'
                 )
             );
             $head->addChild(
                 'magento-adminhtml-variables-js',
-                'Magento\Page\Block\Html\Head\Script',
+                'Magento\Theme\Block\Html\Head\Script',
                 array(
                     'file' => 'Magento_Adminhtml::variables.js'
                 )

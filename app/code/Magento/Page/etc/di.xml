@@ -8,12 +8,6 @@
  */
 -->
 <config>
-    <type name="Magento\Core\Model\Page">
-        <param name="assets">
-            <instance type="Magento\Page\Model\Asset\GroupedCollection" />
-        </param>
-    </type>
-    <type name="Magento\Page\Model\Asset\GroupedCollection" shared="false" />
     <type name="Magento\Page\Model\Config\Reader">
         <param name="fileName">
             <value>page_layouts.xml</value>

@@ -71,7 +71,7 @@ class Head extends \Magento\View\Element\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-chapter-link',
-                            'Magento\Page\Block\Html\Head\Link',
+                            'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
@@ -87,7 +87,7 @@ class Head extends \Magento\View\Element\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-section-link',
-                            'Magento\Page\Block\Html\Head\Link',
+                            'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
@@ -105,7 +105,7 @@ class Head extends \Magento\View\Element\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-next-link',
-                            'Magento\Page\Block\Html\Head\Link',
+                            'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
@@ -121,7 +121,7 @@ class Head extends \Magento\View\Element\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-previous-link',
-                            'Magento\Page\Block\Html\Head\Link',
+                            'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(
@@ -139,7 +139,7 @@ class Head extends \Magento\View\Element\AbstractBlock
                     if ($linkNode->getId()) {
                         $head->addChild(
                             'magento-page-head-first-link',
-                            'Magento\Page\Block\Html\Head\Link',
+                            'Magento\Theme\Block\Html\Head\Link',
                             array(
                                 'url' => $linkNode->getUrl(),
                                 'properties' => array('attributes' => array(

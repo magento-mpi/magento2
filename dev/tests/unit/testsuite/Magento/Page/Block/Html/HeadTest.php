@@ -28,11 +28,11 @@ class HeadTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
-        $this->_pageAssets = $this->getMock('Magento\Page\Model\Asset\GroupedCollection', array(), array(), '', false);
+        $this->_pageAssets = $this->getMock('Magento\View\Asset\GroupedCollection', array(), array(), '', false);
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
             'Magento\Page\Block\Html\Head',
-            array('page' => new \Magento\Core\Model\Page($this->_pageAssets), 'objectManager' => $this->_objectManager)
+            array('assets' => $this->_pageAssets, 'objectManager' => $this->_objectManager)
         );
         $this->_block = $objectManagerHelper->getObject('Magento\Page\Block\Html\Head', $arguments);
     }
@@ -50,13 +50,13 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             ->method('add')
             ->with(
                 'link/http://127.0.0.1/test.rss',
-                $this->isInstanceOf('Magento\Core\Model\Page\Asset\Remote'),
+                $this->isInstanceOf('Magento\View\Asset\Remote'),
                 array('attributes' => 'rel="alternate" type="application/rss+xml" title="RSS Feed"')
             );
-        $assetRemoteFile = $this->getMock('Magento\Core\Model\Page\Asset\Remote', array(), array(), '', false);
+        $assetRemoteFile = $this->getMock('Magento\View\Asset\Remote', array(), array(), '', false);
         $this->_objectManager->expects($this->once(''))
             ->method('create')
-            ->with('Magento\Core\Model\Page\Asset\Remote')
+            ->with('Magento\View\Asset\Remote')
             ->will($this->returnValue($assetRemoteFile));
 
         $this->_block->addRss('RSS Feed', 'http://127.0.0.1/test.rss');

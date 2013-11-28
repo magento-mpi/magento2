@@ -57,7 +57,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             // Head block is not defined on AJAX request
             $headBlock->addChild(
                 'magento-checkout-addbysku-js',
-                'Magento\Page\Block\Html\Head\Script',
+                'Magento\Theme\Block\Html\Head\Script',
                 array(
                     'file' => 'Magento_AdvancedCheckout::addbysku.js'
                 )

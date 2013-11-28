@@ -98,12 +98,12 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
                     . '(@name="head" or @name="convert_root_head" or @name="vde_head")';
                 $this->assertSame(array(),
                     $layoutXml->xpath(
-                        '//block[@class="Magento\Page\Block\Html\Head\Css" '
-                            . 'or @class="Magento\Page\Block\Html\Head\Link" '
-                            . 'or @class="Magento\Page\Block\Html\Head\Script"]'
+                        '//block[@class="Magento\Theme\Block\Html\Head\Css" '
+                            . 'or @class="Magento\Theme\Block\Html\Head\Link" '
+                            . 'or @class="Magento\Theme\Block\Html\Head\Script"]'
                             . '/parent::*[not(' . $selectorHeadBlock . ')]'
                     ),
-                    'Blocks \Magento\Page\Block\Html\Head\{Css,Link,Script} are allowed within the "head" block only. '
+                    'Blocks \Magento\Theme\Block\Html\Head\{Css,Link,Script} are allowed within the "head" block only. '
                         . 'Verify integrity of the nodes nesting.'
                 );
                 $this->assertSame(array(),

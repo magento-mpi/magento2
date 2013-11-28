@@ -245,12 +245,12 @@ return array(
     array('chooseTemplate', 'Magento\Checkout\Block\Cart'),
     array('cleanCache', 'Magento\Core\Model\Config'),
     array('cleanDbRow', 'Magento\App\Resource'),
-    array('cleanMergedJsCss', 'Magento\Core\Model\Design\Package', 'Magento\Core\Model\Page\Asset\MergeService'),
-    array('cleanMergedJsCss', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\Core\Model\Page\Asset\MergeService'),
+    array('cleanMergedJsCss', 'Magento\Core\Model\Design\Package', 'Magento\View\Asset\MergeService'),
+    array('cleanMergedJsCss', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\View\Asset\MergeService'),
     array(
         'cleanMergedJsCss',
         'Magento\Core\Model\Design\PackageInterface',
-        'Magento\Core\Model\Page\Asset\MergeService'
+        'Magento\View\Asset\MergeService'
     ),
     array('cleanVarFolder', '', 'Magento_Io_File::rmdirRecursive()'),
     array('cleanVarSubFolders', '',
@@ -404,10 +404,10 @@ return array(
     array('getModuleSetup', 'Magento\Core\Model\Config'),
     array('getNeedUsePriceExcludeTax', '', 'Magento_Tax_Model_Config::priceIncludesTax()'),
     array('getOneBalanceTotal'),
-    array('getOptimalCssUrls', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\Core\Model\Page\Asset\Merged'),
-    array('getOptimalJsUrls', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\Core\Model\Page\Asset\Merged'),
-    array('getOptimalCssUrls', 'Magento\Core\Model\Design\Package', 'Magento\Core\Model\Page\Asset\Merged'),
-    array('getOptimalJsUrls', 'Magento\Core\Model\Design\Package', 'Magento\Core\Model\Page\Asset\Merged'),
+    array('getOptimalCssUrls', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\View\Asset\Merged'),
+    array('getOptimalJsUrls', 'Magento\Core\Model\Design\Package\Proxy', 'Magento\View\Asset\Merged'),
+    array('getOptimalCssUrls', 'Magento\Core\Model\Design\Package', 'Magento\View\Asset\Merged'),
+    array('getOptimalJsUrls', 'Magento\Core\Model\Design\Package', 'Magento\View\Asset\Merged'),
     array('getOption', 'Magento\Captcha\Helper\Data', 'Magento_Core_Model_Dir::getDir()'),
     array('getOptions', 'Magento\Core\Model\Config'),
     array(
@@ -601,17 +601,17 @@ return array(
     array('logEncryptionKeySave'),
     array('logI' . 'nvitationSave'),
     array('map', 'Magento\ObjectManager\Config\Mapper\Dom', 'Magento_ObjectManager_Config_Mapper_Dom::convert'),
-    array('mergeFiles', 'Magento\Core\Helper\Data', 'Magento\Core\Model\Page\Asset\MergeStrategyInterface'),
-    array('mergeFiles', 'Magento\Core\Model\Design\Package', 'Magento\Core\Model\Page\Asset\MergeStrategyInterface'),
+    array('mergeFiles', 'Magento\Core\Helper\Data', 'Magento\View\Asset\MergeStrategyInterface'),
+    array('mergeFiles', 'Magento\Core\Model\Design\Package', 'Magento\View\Asset\MergeStrategyInterface'),
     array(
         'mergeFiles',
         'Magento\Core\Model\Design\Package\Proxy',
-        'Magento\Core\Model\Page\Asset\MergeStrategyInterface'
+        'Magento\View\Asset\MergeStrategyInterface'
     ),
     array(
         'mergeFiles',
         'Magento\Core\Model\Design\PackageInterface',
-        'Magento\Core\Model\Page\Asset\MergeStrategyInterface'
+        'Magento\View\Asset\MergeStrategyInterface'
     ),
     array('order_success_page_view', 'Magento\GoogleAnalytics\Model\Observer'),
     array('orderedAction', 'Magento\Adminhtml\Controller\Report\Product'),

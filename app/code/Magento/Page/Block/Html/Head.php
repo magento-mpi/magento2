@@ -47,17 +47,17 @@ class Head extends \Magento\View\Element\Template
     protected $_objectManager;
 
     /**
-     * @var \Magento\Core\Model\Page\Asset\MergeService
+     * @var \Magento\View\Asset\MergeService
      */
     private $_assetMergeService;
 
     /**
-     * @var \Magento\Core\Model\Page\Asset\MinifyService
+     * @var \Magento\View\Asset\MinifyService
      */
     private $_assetMinifyService;
 
     /**
-     * @var \Magento\Page\Model\Asset\GroupedCollection
+     * @var \Magento\View\Asset\GroupedCollection
      */
     private $_pageAssets;
 
@@ -73,9 +73,9 @@ class Head extends \Magento\View\Element\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Page $page
-     * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
-     * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento\View\Asset\GroupedCollection $assets
+     * @param \Magento\View\Asset\MergeService $assetMergeService
+     * @param \Magento\View\Asset\MinifyService $assetMinifyService
      * @param array $data
      */
     public function __construct(
@@ -83,9 +83,9 @@ class Head extends \Magento\View\Element\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Page $page,
-        \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
-        \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
+        \Magento\View\Asset\GroupedCollection $assets,
+        \Magento\View\Asset\MergeService $assetMergeService,
+        \Magento\View\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $data);
@@ -93,7 +93,7 @@ class Head extends \Magento\View\Element\Template
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;
         $this->_assetMinifyService = $assetMinifyService;
-        $this->_pageAssets = $page->getAssets();
+        $this->_pageAssets = $assets;
     }
 
     /**
@@ -107,7 +107,7 @@ class Head extends \Magento\View\Element\Template
     {
         $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
-            'Magento\Core\Model\Page\Asset\Remote', array('url' => (string)$href)
+            'Magento\View\Asset\Remote', array('url' => (string)$href)
         );
         $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
         return $this;
@@ -122,8 +122,8 @@ class Head extends \Magento\View\Element\Template
     {
         foreach ($this->getLayout()->getChildBlocks($this->getNameInLayout()) as $block) {
             /** @var $block \Magento\View\Element\AbstractBlock */
-            if ($block instanceof \Magento\Page\Block\Html\Head\AssetBlock) {
-                /** @var \Magento\Core\Model\Page\Asset\AssetInterface $asset */
+            if ($block instanceof \Magento\Theme\Block\Html\Head\AssetBlockInterface) {
+                /** @var \Magento\View\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();
                 $this->_pageAssets->add(
                     $block->getNameInLayout(),
@@ -134,10 +134,10 @@ class Head extends \Magento\View\Element\Template
         }
 
         $result = '';
-        /** @var $group \Magento\Page\Model\Asset\PropertyGroup */
+        /** @var $group \Magento\View\Asset\PropertyGroup */
         foreach ($this->_pageAssets->getGroups() as $group) {
-            $contentType = $group->getProperty(\Magento\Page\Model\Asset\GroupedCollection::PROPERTY_CONTENT_TYPE);
-            $canMerge = $group->getProperty(\Magento\Page\Model\Asset\GroupedCollection::PROPERTY_CAN_MERGE);
+            $contentType = $group->getProperty(\Magento\View\Asset\GroupedCollection::PROPERTY_CONTENT_TYPE);
+            $canMerge = $group->getProperty(\Magento\View\Asset\GroupedCollection::PROPERTY_CAN_MERGE);
             $attributes = $group->getProperty('attributes');
             $ieCondition = $group->getProperty('ie_condition');
             $flagName = $group->getProperty('flag_name');
@@ -195,7 +195,7 @@ class Head extends \Magento\View\Element\Template
     {
         $result = '';
         try {
-            /** @var $asset \Magento\Core\Model\Page\Asset\AssetInterface */
+            /** @var $asset \Magento\View\Asset\AssetInterface */
             foreach ($assets as $asset) {
                 $result .= sprintf($template, $asset->getUrl());
             }

@@ -35,7 +35,7 @@ class Dialogs extends \Magento\Adminhtml\Block\Template
     {
         $this->getLayout()->getBlock('head')->addChild(
             'magento-adminhtml-backup-js',
-            'Magento\Page\Block\Html\Head\Script',
+            'Magento\Theme\Block\Html\Head\Script',
             array(
                 'file' => 'mage/adminhtml/backup.js'
             )

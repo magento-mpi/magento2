@@ -140,7 +140,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test1.css</argument></arguments>
                     </block>
                 </block>',
@@ -154,7 +154,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test3.css</argument>
                         </arguments>
@@ -170,7 +170,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="head">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test21.css</argument></arguments>
                     </block>
                 </referenceBlock>',
@@ -184,7 +184,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="head">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -200,7 +200,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<block type="Some_Block_Class">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -211,7 +211,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<block type="Some_Block_Class">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -221,7 +221,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="some_block_name">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test23.css</argument></arguments>
                     </block>
                 </referenceBlock>',
@@ -229,7 +229,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<referenceBlock name="some_block_name">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test23.css</argument>
                         </arguments>
@@ -239,38 +239,38 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 '<block class="Magento\Page\Block\Html\Head" name="head">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">test.css</argument></arguments>
                     </block>
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::test.css</argument>
                         </arguments>
                     </block>
                 </block>
                 <referenceBlock name="head">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testh.css</argument></arguments>
                     </block>
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">Magento_Core::test.css</argument></arguments>
                     </block>
                 </referenceBlock>
                 <block type="Some_Block_Class">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testa.css</argument></arguments>
                     </block>
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::testa.css</argument>
                         </arguments>
                     </block>
                 </block>
                 <referenceBlock name="some_block_name">
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments><argument name="file" xsi:type="string">testb.css</argument></arguments>
                     </block>
-                    <block class="Magento\Page\Block\Html\Head\Css" name="magento-loader-js">
+                    <block class="Magento\Theme\Block\Html\Head\Css" name="magento-loader-js">
                         <arguments>
                             <argument name="file" xsi:type="string">Magento_Core::testb.css</argument>
                         </arguments>

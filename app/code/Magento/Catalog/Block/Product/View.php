@@ -110,7 +110,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
                 $params = array('_ignore_category'=>true);
                 $headBlock->addChild(
                     'magento-page-head-product-canonical-link',
-                    'Magento\Page\Block\Html\Head\Link',
+                    'Magento\Theme\Block\Html\Head\Link',
                     array(
                         'url' => $product->getUrlModel()->getUrl($product, $params),
                         'properties' => array('attributes' => array('rel' => 'canonical'))

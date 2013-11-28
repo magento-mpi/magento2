@@ -79,7 +79,7 @@ class View extends \Magento\View\Element\Template
             ) {
                 $headBlock->addChild(
                     'magento-page-head-category-canonical-link',
-                    'Magento\Page\Block\Html\Head\Link',
+                    'Magento\Theme\Block\Html\Head\Link',
                     array(
                         'url' => $category->getUrl(),
                         'properties' => array('attributes' => array('rel' => 'canonical'))
