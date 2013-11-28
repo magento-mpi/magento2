@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
@@ -208,6 +209,22 @@ class Integration extends Action
      */
     public function activateAction()
     {
+        $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+
+        if ($integrationId) {
+            $integrationData = $this->_integrationService->get($integrationId);
+            if (!$integrationData[Info::DATA_ID]) {
+                $this->_getSession()->addError(__('This integration no longer exists.'));
+                $this->_redirect('*/*/');
+                return;
+            }
+            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+        } else {
+            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
         $dialogName = $this->getRequest()->getParam(self::PARAM_DIALOG_ID);
 
         if (in_array($dialogName, [self::DIALOG_PERMISSIONS, self::DIALOG_TOKENS])) {
