@@ -7,20 +7,20 @@
   * Removed application dependencies from library
 * Move Magento\Core common blocks into library
 * GitHub requests:
-  * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
-  * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
-  * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
-  * [#262](https://github.com/magento/magento2/pull/262) -- Logging exceptions for catalog rules  
-  * [#373](https://github.com/magento/magento2/pull/373) -- [Magento/Sales] Fixed Typos
-  * [#382](https://github.com/magento/magento2/pull/382) -- [Magento/Core] Fixed Typos
+  * [#245](https://github.com/magento/magento2/pull/245) -- Resolve design flaws in core URL helper
+  * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Mage_Page_Block_Html_Header->getIsHomePage
+  * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira (TRY) is supported for Turkish members.
+  * [#262](https://github.com/magento/magento2/pull/262) -- Update Rule.php
+  * [#373](https://github.com/magento/magento2/pull/373) -- [Magento/Sales] Fixed typos
+  * [#382](https://github.com/magento/magento2/pull/382) -- [Magento/Core] Fixed typos
   * [#304](https://github.com/magento/magento2/pull/304) -- Removed Erroneous closing "
   * [#323](https://github.com/magento/magento2/pull/323) -- InstanceController.php - made setBody protected
-  * [#349](https://github.com/magento/magento2/pull/349) -- Move Mage_Catalog menu declaration into Mage_Catalog module
+  * [#349](https://github.com/magento/magento2/pull/349) -- Move Mage_Catalog menu declaration into Mage_Catalog module.
   * [#265](https://github.com/magento/magento2/pull/265) -- Update Merge.php
-  * [#271](https://github.com/magento/magento2/pull/273) -- Media image required attribute `_media_attribute_id` verification added for product import functionality
+  * [#271](https://github.com/magento/magento2/pull/271) -- Check Data should validate gallery information
   * [#305](https://github.com/magento/magento2/pull/305) -- Extra ", tidied up nested quotes
-  * [#352](https://github.com/magento/magento2/pull/352) -- Croatia added to the list of European Union countries
-  * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
+  * [#352](https://github.com/magento/magento2/pull/352) -- Add Croatia Country as part of European Union since 1st July 2013 for default european local countries in configuration
+  * [#224](https://github.com/magento/magento2/pull/224) -- Tax formatting is locale aware and should not
   * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
   * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
 * Themes update:
