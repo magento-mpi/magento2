@@ -11,7 +11,7 @@ namespace Magento\Authz\Model;
 /**
  * User identifier class. By user can be understood admin, customer, guest, web API integration.
  */
-class UserIdentifier implements UserLocatorInterface
+class UserIdentifier
 {
     /**#@+
      * User types.
@@ -52,7 +52,9 @@ class UserIdentifier implements UserLocatorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get user ID. Null is possible when user type is 'guest'.
+     *
+     * @return int
      */
     public function getUserId()
     {
@@ -60,7 +62,9 @@ class UserIdentifier implements UserLocatorInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve user type (admin, customer, guest, web API integration).
+     *
+     * @return string
      */
     public function getUserType()
     {
