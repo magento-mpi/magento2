@@ -84,23 +84,21 @@ class Session
             && !$request->getParam('nocookie', false);
 
         $cookies = $this->_cookie->get();
-        /** @var $session \Magento\Core\Model\Session */
-        $session = $this->_session->start();
 
         if (empty($cookies)) {
-            if ($session->getCookieShouldBeReceived()) {
-                $session->unsCookieShouldBeReceived();
-                $session->setSkipSessionIdFlag(true);
+            if ($this->_session->getCookieShouldBeReceived()) {
+                $this->_session->unsCookieShouldBeReceived();
+                $this->_session->setSkipSessionIdFlag(true);
                 if ($this->_storeConfig->getConfig('web/browser_capabilities/cookies')) {
                     $this->_forward($request);
                     return null;
                 }
             } elseif ($checkCookie) {
-                if (isset($_GET[$session->getSessionIdQueryParam()])
+                if (isset($_GET[$this->_session->getSessionIdQueryParam()])
                     && $this->_url->getUseSession()
                     && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
                 ) {
-                    $session->setCookieShouldBeReceived(true);
+                    $this->_session->setCookieShouldBeReceived(true);
                 } else {
                     $this->_forward($request);
                     return null;
