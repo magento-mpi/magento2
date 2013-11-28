@@ -72,6 +72,7 @@ class ObjectManagerFactory
         );
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
+            new \Magento\Filesystem\Driver\Base(),
             $directories->getDir(DIR::DI),
             $directories->getDir(DIR::GENERATION),
             $options->get('definition.format', 'serialized')

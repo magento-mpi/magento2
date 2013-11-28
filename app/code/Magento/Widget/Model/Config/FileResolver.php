@@ -46,7 +46,10 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             case 'design':
-                $fileList = $this->_themesDirectory->search('#.*?\/.*?\/etc\/' . preg_quote($filename) . '#');
+                $fileListRelative = $this->_themesDirectory->search('#.*?\/.*?\/etc\/' . preg_quote($filename) . '#');
+                foreach ($fileListRelative as $file) {
+                    $fileList[] = $this->_themesDirectory->getAbsolutePath($file);
+                }
                 break;
             default:
                 break;
