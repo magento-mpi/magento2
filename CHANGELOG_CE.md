@@ -1,12 +1,5 @@
 * Move Magento\Core common blocks into library
-* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
-* Various improvements:
-  * Email-related logic from Core and Adminhtml modules consolidated in new Email module
 * GitHub requests:
-  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
-  * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
-  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods
-  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
   * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
   * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
   * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
@@ -26,16 +19,32 @@
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
-  * Fixed JavaScript error when printing order from frontend
-  * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
-  * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
-  * Fixed Fatal error when creating Shipping label for returns
-  * Fixed posting coupon code with spaces
-  * Fixed several typos and minor mistakes
   * Fixed error on attempt to insert image to CMS pages under version control
   * Fixed order status grid so that you can assign state, edit, and view custom order status
   * Fixed Related Products Rule page so someone can select category on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
+
+2.0.0.0-dev53
+=============
+* Moved general action-related functionality to \Magento\App\Action\Action in the library. Removed Magento\Core\Controller\Varien\Action and related logic from the Magento_Core module
+* Moved view-related methods from action interface to \Magento\App\ViewInterface with corresponding implementation
+* Moved redirect creation logic from the action interface to \Magento\App\Response\RedirectInterface
+* Moved Magento\Core common blocks to the library
+* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
+* Various improvements:
+  * Email-related logic from the Core and Adminhtml modules consolidated in the new Email module
+* GitHub requests:
+  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
+  * [#199](https://github.com/magento/magento2/pull/199) -- Replaced function calls to array_push with adding the elements directly
+  * [#182](https://github.com/magento/magento2/pull/182) -- By default use collection _idFieldName for toOption* methods
+  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
+  * [#339](https://github.com/magento/magento2/pull/339) -- Correcting 'cahce' typo in documentation
+  * [#232](https://github.com/magento/magento2/pull/232) -- Update app/code/core/Mage/Checkout/controllers/CartController.php (fix issue #27632)
+* Fixed bugs:
+  * Fixed JavaScript error when printing orders from the frontend
+  * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
+  * Fixed "Page not found" on category page if setting "Add Store Code to Urls" to "Yes" in the backend config
+  * Fixed Fatal error when creating shipping label for returns
 
 2.0.0.0-dev52
 =============
