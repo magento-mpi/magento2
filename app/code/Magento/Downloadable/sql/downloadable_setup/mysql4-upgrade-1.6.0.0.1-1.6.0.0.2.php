@@ -7,13 +7,19 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-$installFile = __DIR__ . '/upgrade-1.6.0.0.1-1.6.0.0.2.php';
-if (file_exists($installFile)) {
-    include $installFile;
-}
+
 
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
+
+$installFile = __DIR__ . '/upgrade-1.6.0.0.1-1.6.0.0.2.php';
+
+/** @var \Magento\Filesystem\Directory\Read $moduleDirectory */
+$moduleDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+if ($moduleDirectory->isExist($moduleDirectory->getRelativePath($installFile))) {
+    include $installFile;
+}
+
 /** @var $connection \Magento\DB\Adapter\Pdo\Mysql */
 $connection = $installer->getConnection();
 $connection->changeTableEngine(
