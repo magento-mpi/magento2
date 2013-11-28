@@ -53,8 +53,7 @@ class Testconnection extends \Magento\Backend\Controller\Adminhtml\Action
         );
 
         // attempt a HEAD request to the solr ping page
-        $socket = new \Magento\Filesystem\Driver\Socket();
-        $ping = $socket->fileGetContents($pingUrl, $context);
+        $ping = @file_get_contents($pingUrl, false, $context);
 
         // result is false if there was a timeout
         // or if the HTTP status was not 200
