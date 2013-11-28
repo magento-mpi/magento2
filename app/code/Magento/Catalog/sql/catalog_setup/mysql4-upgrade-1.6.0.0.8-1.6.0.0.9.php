@@ -7,13 +7,13 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 /** @var $installer \Magento\Catalog\Model\Resource\Setup */
 $installer = $this;
 $installFile = __DIR__ . '/upgrade-1.6.0.0.8-1.6.0.0.9.php';
 
 /** @var \Magento\Filesystem\Directory\Read $modulesDirectory */
-$modulesDirectory = $this->filesystem->getDirectoryRead(
-    \Magento\Filesystem\DirectoryList::MODULES);
+$modulesDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
 
 if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))) {
     include $installFile;
