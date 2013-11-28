@@ -336,11 +336,12 @@ class Shipping extends \Magento\Core\Model\AbstractModel
 
         imageinterlace($image, 0);
         $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
-        $tmpFileName = $dir->getAbsolutePath($dir) . '/shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
-        imagepng($image, $tmpFileName);
-        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
+        $tmpFilePath = $dir->getAbsolutePath('shipping_labels_' . uniqid(mt_rand()) . time() . '.png');
+        imagepng($image, $tmpFilePath);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        $dir->delete($dir->getRelativePath($tmpFileName));
+        $dir->delete($tmpFileName);
         return $page;
     }
 
