@@ -14,6 +14,11 @@ use Mtf\TestCase\Functional;
 
 class LockedTest extends Functional
 {
+    /**
+     * Preventing locked Admin user to log in into the backend
+     *
+     * @ZephyrId MAGETWO-12386
+     */
     public function testLockedAdminUser()
     {
         $password = '123123q';
@@ -38,13 +43,14 @@ class LockedTest extends Functional
             'incorrect password #6' => $incorrectPassword,
             'correct value' => $password,
         );
+        $expectedErrorMessage = 'Please correct the user name or password.';
 
         foreach ($passwordDataSet as $currentPassword) {
             $user->setPassword($currentPassword);
             $loginPage->getLoginBlockForm()->fill($user);
             $loginPage->getLoginBlockForm()->submit();
-            $expectedErrorMessage = 'Please correct the user name or password.';
             $actualErrorMessage = $loginPage->getMessagesBlock()->getErrorMessages();
+            //Verifying
             $this->assertEquals($expectedErrorMessage, $actualErrorMessage);
         }
     }

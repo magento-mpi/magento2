@@ -58,7 +58,7 @@ class Messages extends Block
     }
 
     /**
-     * Get all success messages which are present on the page
+     * Get all error messages which are present on the page
      *
      * @return string
      */

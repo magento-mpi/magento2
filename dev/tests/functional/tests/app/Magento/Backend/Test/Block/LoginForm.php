@@ -13,6 +13,7 @@ namespace Magento\Backend\Test\Block;
 
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
+use Mtf\Client\Element;
 
 /**
  * Class LoginForm
@@ -23,6 +24,7 @@ use Mtf\Client\Element\Locator;
 class LoginForm extends Form
 {
     /**
+     * Set locator for password field
      * @var array
      */
     protected $_mapping = array(
@@ -43,7 +45,7 @@ class LoginForm extends Form
      * @param array $fields
      * @param \Mtf\Client\Element $element
      */
-    protected function _fill(array $fields, \Mtf\Client\Element $element = null)
+    protected function _fill(array $fields, Element $element = null)
     {
         $allowedFields = array('username', 'password');
 

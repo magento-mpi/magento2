@@ -89,6 +89,5 @@ class Login extends Page
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('#messages .messages')
         );
-
     }
 }
