@@ -132,13 +132,14 @@ class Socket extends Base
      * Retrieve file contents from given path
      *
      * @param string $path
+     * @param resource $context
      * @return string
      * @throws FilesystemException
      */
-    public function fileGetContents($path)
+    public function fileGetContents($path, $context = null)
     {
         clearstatcache();
-        $result = @file_get_contents($path);
+        $result = @file_get_contents($path, null, $context);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('Cannot read contents from file "%s" %s',

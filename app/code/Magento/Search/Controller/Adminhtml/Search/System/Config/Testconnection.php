@@ -17,8 +17,7 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
-class Testconnection
-    extends \Magento\Backend\Controller\Adminhtml\Action
+class Testconnection extends \Magento\Backend\Controller\Adminhtml\Action
 {
     /**
      * Check for connection to server
@@ -54,7 +53,8 @@ class Testconnection
         );
 
         // attempt a HEAD request to the solr ping page
-        $ping = @file_get_contents($pingUrl, false, $context);
+        $socket = new \Magento\Filesystem\Driver\Socket();
+        $ping = $socket->fileGetContents($pingUrl, $context);
 
         // result is false if there was a timeout
         // or if the HTTP status was not 200
