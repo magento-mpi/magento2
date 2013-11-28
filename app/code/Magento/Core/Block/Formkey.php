@@ -21,19 +21,19 @@ class Formkey extends \Magento\View\Block\Template
     protected $formKey;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
         $this->formKey = $formKey;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
