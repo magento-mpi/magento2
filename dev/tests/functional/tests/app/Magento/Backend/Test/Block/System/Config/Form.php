@@ -29,4 +29,12 @@ class Form extends Block
         );
         return $blockFactory->getMagentoBackendSystemConfigFormGroup($element);
     }
+
+    /**
+     * Save store configuration
+     */
+    public function save()
+    {
+        $this->_rootElement->find('//button[@title="Save Config"]', Locator::SELECTOR_XPATH)->click();
+    }
 } 
