@@ -53,6 +53,13 @@ class CreateUser extends Curl
         $response = $curl->read();
         $curl->close();
         preg_match("/You\ saved\ the\ user\./", $response, $matches);
+        //Sort data in grid to define user id if more than 20 items in grid
+        $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $response = $curl->read();
+        $curl->close();
         if (empty($matches)) {
             throw new UnexpectedValueException('Success confirmation message not found');
         }
