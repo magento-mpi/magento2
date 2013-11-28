@@ -35,9 +35,11 @@ class SalesOrder extends Page
     const MCA = 'sales/order';
 
     /**
-     * @var mixed
+     * Navigation Menu Block
+     *
+     * @var string
      */
-    protected $navigationMenuItems;
+    protected $navigationMenuBlock = 'nav';
 
     /**
      * Custom constructor
@@ -115,11 +117,14 @@ class SalesOrder extends Page
 
     /**
      * Get navigation menu items
+     *
      * @return mixed|\Mtf\Client\Element
      */
-    public function getNavigationMenuItems()
+    public function getNavigationMenuBlock()
     {
-        return $this->_browser->find("//ul[@id='nav']/li");
+        return Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
+            $this->_browser->find($this->navigationMenuBlock, Locator::SELECTOR_ID)
+        );
     }
 }
 

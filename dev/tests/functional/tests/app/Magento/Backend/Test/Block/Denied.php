@@ -14,14 +14,18 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Denied
  * Access Denied Block
+ *
  * @package Magento\Backend\Test\Block
  */
 class Denied extends Block
 {
     /**
+     * Block with "Access Denied Text"
+     *
      * @var string
      */
     protected $accessDeniedText = ".page-heading";
+
     /**
      * Get comments history
      *

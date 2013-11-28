@@ -22,30 +22,35 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class Roles extends Grid
 {
     /**
+     * Filters Name for Roles Grid
+     *
+     * @var array
+     */
+    protected $filters = array(
+        'id' => array(
+            'selector' => '#permissionsUserRolesGrid_filter_assigned_user_role',
+            'input' => 'select'
+        ),
+        'role_name' => array(
+            'selector' => '#permissionsUserRolesGrid_filter_role_name'
+        )
+    );
+
+    /**
      * Initialize grid elements
      */
     protected function _init()
     {
         parent::_init();
-        $this->filters = array(
-            'id' => array(
-                'selector' => '#permissionsUserRolesGrid_filter_assigned_user_role',
-                'input' => 'select'
-            ),
-            'role_name' => array(
-                'selector' => '#permissionsUserRolesGrid_filter_role_name'
-            )
-        );
     }
 
     /**
      * Choose role on grid during user edit/create
      */
-    public function setRole($roleName, $roleId)
+    public function setRole($roleName)
     {
         $this->search(array('role_name' => $roleName));
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
-        $rowItem->find("//input[@value='$roleId']", Locator::SELECTOR_XPATH)->click();
+        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS)->click();
     }
 }
 

@@ -16,12 +16,14 @@ use Magento\Backend\Test\Block\Widget\FormTabs;
 /**
  * Class Form
  * Form for User Edit/Create page
+ *
  * @package Magento\User\Test\Block\User\Edit
  */
 class Form extends FormTabs
 {
     /**
      * Role tab id
+     *
      * @var string
      */
     protected $roleTab = 'page_tabs_roles_section';

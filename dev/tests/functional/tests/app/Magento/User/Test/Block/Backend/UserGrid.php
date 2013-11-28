@@ -14,6 +14,7 @@ use Magento\Backend\Test\Block\Widget\Grid;
 /**
  * Class UserGrid
  * Grid on System ->Permissions -> All Users page
+ *
  * @package Magento\User\Test\Block\Backend
  */
 class UserGrid extends Grid
@@ -26,32 +27,38 @@ class UserGrid extends Grid
     protected $editLink = '//td[@data-column="email"]';
 
     /**
+     * Filters Name for Permission User Grid
+     *
+     * @var array
+     */
+    protected $filters = array(
+        'id' => array(
+            'selector' => '#permissionsUserGrid_filter_user_id'
+        ),
+        'user_name' => array(
+            'selector' => '#permissionsUserGrid_filter_username'
+        ),
+        'first_name' => array(
+            'selector' => '#permissionsUserGrid_filter_firstname'
+        ),
+        'last_name' => array(
+            'selector' => '#permissionsUserGrid_filter_lastname'
+        ),
+        'email' => array(
+            'selector' => '#permissionsUserGrid_filter_email'
+        ),
+        'status' => array(
+            'selector' => '#permissionsUserGrid_filter_is_active',
+            'input' => 'select'
+        )
+    );
+
+    /**
      * Initialize grid elements
      */
     protected function _init()
     {
         parent::_init();
-        $this->filters = array(
-            'id' => array(
-                'selector' => '#permissionsUserGrid_filter_user_id'
-            ),
-            'user_name' => array(
-                'selector' => '#permissionsUserGrid_filter_username'
-            ),
-            'first_name' => array(
-                'selector' => '#permissionsUserGrid_filter_firstname'
-            ),
-            'last_name' => array(
-                'selector' => '#permissionsUserGrid_filter_lastname'
-            ),
-            'email' => array(
-                'selector' => '#permissionsUserGrid_filter_email'
-            ),
-            'status' => array(
-                'selector' => '#permissionsUserGrid_filter_is_active',
-                'input' => 'select'
-            )
-        );
     }
 }
 

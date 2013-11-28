@@ -15,6 +15,7 @@ use Magento\Core\Test\Block\Messages;
 
 /**
  * Class UserEdit
+ *
  * @package Magento\User\Test\Page\Backend
  */
 class UserEdit extends Page
@@ -27,21 +28,22 @@ class UserEdit extends Page
     /**
      * Form for admin user creation
      *
-     * @var Form
+     * @var string
      */
-    private $editForm;
+    protected  $editFormBlock = 'page:main-container';
 
     /**
      * Global messages block
      *
-     * @var Messages
+     * @var string
      */
-    private $messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
     /**
-     * Role grid on Edit User page
+     * Role Grid Block
+     * var @string
      */
-    protected $roleGrid;
+    protected $roleGridBlock = 'permissionsUserRolesGrid';
 
     /**
      * Custom constructor
@@ -49,16 +51,6 @@ class UserEdit extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->editForm = Factory::getBlockFactory()->getMagentoUserUserEditForm(
-            $this->_browser->find('[id="page:main-container"]', Locator::SELECTOR_CSS)
-        );
-        $this->roleGrid = Factory::getBlockFactory()->getMagentoUserUserEditTabRoles(
-            $this->_browser->find('permissionsUserRolesGrid', Locator::SELECTOR_ID)
-        );
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
-        );
     }
 
     /**
@@ -66,9 +58,11 @@ class UserEdit extends Page
      *
      * @return \Magento\User\Test\Block\User\Edit\Form
      */
-    public function getEditForm()
+    public function getEditFormBlock()
     {
-        return $this->editForm;
+        return Factory::getBlockFactory()->getMagentoUserUserEditForm(
+            $this->_browser->find($this->editFormBlock, Locator::SELECTOR_ID)
+        );
     }
 
     /**
@@ -78,14 +72,19 @@ class UserEdit extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock));
     }
 
     /**
+     * Get Role grid
+     *
      * @return \Magento\User\Test\Block\User\Edit\Tab\Roles
      */
-    public function getRoleGrid()
+    public function getRoleGridBlock()
     {
-        return $this->roleGrid;
+        return Factory::getBlockFactory()->getMagentoUserUserEditTabRoles(
+            $this->_browser->find($this->roleGridBlock, Locator::SELECTOR_ID));
     }
 }
+

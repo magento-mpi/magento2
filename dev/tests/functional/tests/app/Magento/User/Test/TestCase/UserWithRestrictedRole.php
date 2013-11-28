@@ -13,7 +13,7 @@ use Mtf\TestCase\Functional;
 
 /**
  * Class UserWithRestrictedRole
- * Test verify "Using ACL Role with full GWS Scope"
+ *
  * @package Magento\User\Test\TestCase
  */
 class UserWithRestrictedRole extends Functional
@@ -26,9 +26,18 @@ class UserWithRestrictedRole extends Functional
         Factory::getApp()->magentoBackendLoginUser();
     }
 
+    /**
+     * Test verify "Using ACL Role with full GWS Scope"
+     *
+     * @ZephyrId MAGETWO-12513
+     */
     public function testAclRoleWithFullGwsScope()
     {
-        $this->markTestSkipped('MAGETWO-17744');
+        $this->markTestIncomplete('MAGETWO-17744');
+        //Set Use Secret key to URLs "No"
+        $configFactory = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $configFactory->switchData('disable_secret_key');
+        $configFactory->persist();
         //Create new Admin User
         $userFixture = Factory::getFixtureFactory()->getMagentoUserAdminUser();
         $userFixture->switchData('admin_default');
@@ -42,26 +51,25 @@ class UserWithRestrictedRole extends Functional
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
         $editUser = Factory::getPageFactory()->getAdminUserEditUserId();
-        $editForm = $editUser->getEditForm();
+        $editForm = $editUser->getEditFormBlock();
         $salesPage = Factory::getPageFactory()->getSalesOrder();
         $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
         //Steps
         $userPage->open();
-        $userPage->getUserGrid()->searchAndOpen(array('email' => $userFixture->getEmail()));
+        $userPage->getUserGridBlock()->searchAndOpen(array('email' => $userFixture->getEmail()));
         $editForm->openRoleTab();
-        $editUser->getRoleGrid()->setRole($data['rolename'], $data['id']);
+        $editUser->getRoleGridBlock()->setRole($data['rolename']);
         $editForm->save();
         //Verification
         $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
-        $userPage->getAdminPanelHeader()->logOut();
+        $userPage->getAdminPanelHeaderBlock()->logOut();
         //Login with newly created admin user
-        $userFixture->setPassword($userFixture->getPassword());
         $loginPage->getLoginBlockForm()->fill($userFixture);
         $loginPage->getLoginBlockForm()->submit();
         $salesPage->open();
         //Verify that only Sales resource is available.
-        $this->assertEquals(1, count($salesPage->getNavigationMenuItems()),
+        $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItemsBlock()),
             "You have access not only for Sales resource");
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
@@ -69,4 +77,5 @@ class UserWithRestrictedRole extends Functional
             $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
     }
 }
+
 

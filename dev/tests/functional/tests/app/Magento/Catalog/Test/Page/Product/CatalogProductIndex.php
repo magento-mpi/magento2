@@ -53,9 +53,11 @@ class CatalogProductIndex extends Page
     private $productBlock;
 
     /**
-     * @var /Denied
+     * Access Denied Block
+     *
+     * @var string
      */
-    private $accessDeniedBlock;
+    protected $accessDeniedBlock = 'page:main-container';
 
     /**
      * Custom constructor
@@ -73,8 +75,6 @@ class CatalogProductIndex extends Page
         $this->productBlock = Factory::getBlockFactory()->getMagentoBackendCatalogProduct(
             $this->_browser->find('add_new_product', Locator::SELECTOR_ID)
         );
-        $this->accessDeniedBlock = Factory::getBlockFactory()
-            ->getMagentoBackendDenied($this->_browser->find('page:main-container', Locator::SELECTOR_ID));
     }
 
     /**
@@ -108,10 +108,14 @@ class CatalogProductIndex extends Page
     }
 
     /**
-     * @return /Denied
+     * Get Access Denied Block
+     *
+     * @return \Magento\Backend\Test\Block\Denied
      */
     public function getAccessDeniedBlock()
     {
-        return $this->accessDeniedBlock;
+        return Factory::getBlockFactory()
+            ->getMagentoBackendDenied($this->_browser->find($this->accessDeniedBlock, Locator::SELECTOR_ID));
     }
 }
+

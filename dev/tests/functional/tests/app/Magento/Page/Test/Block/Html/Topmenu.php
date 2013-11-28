@@ -32,6 +32,13 @@ class Topmenu extends Block
     private $moreParentCategories;
 
     /**
+     * Top Elements of menu
+     *
+     * @var string
+     */
+    protected $navigationMenuItemsBlock = "/li";
+
+    /**
      * Initialize for block elements
      */
     protected function _init()
@@ -55,4 +62,15 @@ class Topmenu extends Block
         $categoryLink = $this->_rootElement->find('//a[span="'.$categoryName.'"]', Locator::SELECTOR_XPATH);
         $categoryLink->click();
     }
+
+    /**
+     * Get Navigation Menu Items
+     *
+     * @return mixed|\Mtf\Client\Element
+     */
+    public function getNavigationMenuItemsBlock()
+    {
+        return $this->_rootElement->find($this->navigationMenuItemsBlock, Locator::SELECTOR_XPATH);
+    }
 }
+
