@@ -33,7 +33,7 @@ class AdminCache extends Page
      *
      * @var string
      */
-    protected $actionsBlock = 'div.page-actions';
+    protected $cacheBlock = 'div.page-actions';
 
     /**
      * Constructor
@@ -44,14 +44,14 @@ class AdminCache extends Page
     }
 
     /**
-     * Get the actions block
+     * Get cache actions block
      *
-     * @return \Magento\Backend\Test\Block\Cache\Actions
+     * @return \Magento\Backend\Test\Block\Cache
      */
     public function getActionsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendCacheActions(
-            $this->_browser->find($this->actionsBlock, Locator::SELECTOR_CSS)
+        return Factory::getBlockFactory()->getMagentoBackendCache(
+            $this->_browser->find($this->cacheBlock, Locator::SELECTOR_CSS)
         );
     }
 }

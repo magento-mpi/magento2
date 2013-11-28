@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\Review;
+namespace Magento\Review\Test\Block\Adminhtml;
 
 use Mtf\Fixture;
 use Mtf\Client\Element;
@@ -19,7 +19,7 @@ use Magento\Backend\Test\Block\Widget\Form;
 /**
  * Review edit form
  *
- * @package Magento\Backend\Test\Block\Review
+ * @package Magento\Review\Test\Block\Adminhtml
  */
 class Edit extends Form
 {

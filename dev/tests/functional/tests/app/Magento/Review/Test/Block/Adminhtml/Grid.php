@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\Review;
+namespace Magento\Review\Test\Block\Adminhtml;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridAbstract;
@@ -17,7 +17,7 @@ use Magento\Backend\Test\Block\Widget\Grid as GridAbstract;
 /**
  * Reviews grid
  *
- * @package Magento\Backend\Test\Block\Review
+ * @package Magento\Review\Test\Block\Adminhtml
  */
 class Grid extends GridAbstract
 {

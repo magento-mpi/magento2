@@ -9,33 +9,33 @@
  * @license     {license_link}
  */
 
-namespace Magento\Backend\Test\Block\Cache;
+namespace Magento\Backend\Test\Block;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Actions
  * Cache actions block
  *
- * @package Magento\Backend\Test\Block\Cache
+ * @package Magento\Backend\Test\Block
  */
-class Actions extends Block
+class Cache extends Block
 {
     /**
      * 'Flush Magento Cache' button
      *
      * @var string
      */
-    protected $flushMagentoCacheButton = '#flush_magento';
+    protected $flushMagentoCacheButton = '[data-ui-id="adminhtml-cache-container-flush-magento-button"]';
 
     /**
      * 'Flush Cache Storage' button
      *
      * @var string
      */
-    protected $flushCacheStorageButton = '#flush_system';
+    protected $flushCacheStorageButton = '[data-ui-id="adminhtml-cache-container-flush-system-button"]';
 
     /**
      * Selector for messages block
