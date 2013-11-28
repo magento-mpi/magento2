@@ -310,14 +310,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $arguments = $this->_customerData->getLoginUrlParams();
-            if ($this->_session->getCookieShouldBeReceived() && $this->_url->getUseSession()) {
-                $arguments += array('_query' => array(
-                    $this->_session->getSessionIdQueryParam() => $this->_session->getSessionId()
-                ));
-            }
-            $action->getResponse()->setRedirect(
-                $this->_url->getUrl(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN, $arguments)
+            $action->setRedirectWithCookieCheck(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN,
+                $this->_customerData->getLoginUrlParams()
             );
         }
 
