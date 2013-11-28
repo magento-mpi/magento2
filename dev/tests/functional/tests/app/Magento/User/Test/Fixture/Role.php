@@ -59,29 +59,21 @@ class Role extends DataFixture
     }
 
     /**
-     * @param array $stores
+     * Set websites of stores if current data set works with them
+     *
+     * @param array $items
      * @throws \InvalidArgumentException
      */
-    public function setStores(array $stores)
+    public function setScopeItems(array $items)
     {
-        if(!array_key_exists('gws_store_groups', $this->_data['fields'])) {
-            throw new \InvalidArgumentException('Current data set doesn\'t work with stores');
+        if(array_key_exists('gws_store_groups', $this->_data['fields'])) {
+            $scope = 'gws_store_groups';
+        } elseif(array_key_exists('gws_websites', $this->_data['fields'])) {
+            $scope = 'gws_websites';
+        } else {
+            throw new \InvalidArgumentException('Current data set doesn\'t work with stores and websites');
         }
-
-        $this->_data['fields']['gws_store_groups']['value'] = $stores;
-    }
-
-    /**
-     * @param array $sites
-     * @throws \InvalidArgumentException
-     */
-    public function setWebsites(array $sites)
-    {
-        if(!array_key_exists('gws_websites', $this->_data['fields'])) {
-            throw new \InvalidArgumentException('Current data set doesn\'t work with websites');
-        }
-
-        $this->_data['fields']['gws_websites']['value'] = $sites;
+        $this->_data['fields'][$scope]['value'] = $items;
     }
 
     /**
