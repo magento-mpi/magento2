@@ -1,3 +1,5 @@
+* Created integration module UX
+* Created authorization service (Magento_Authz module)
 * Modularity improvements:
   * Breakdown of the Adminhtml module:
      * Moved Newsletter, Report logic to respective modules
