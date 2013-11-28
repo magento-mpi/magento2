@@ -59,6 +59,32 @@ class Role extends DataFixture
     }
 
     /**
+     * @param array $stores
+     * @throws \InvalidArgumentException
+     */
+    public function setStores(array $stores)
+    {
+        if(!array_key_exists('gws_store_groups', $this->_data['fields'])) {
+            throw new \InvalidArgumentException('Current data set doesn\'t work with stores');
+        }
+
+        $this->_data['fields']['gws_store_groups']['value'] = $stores;
+    }
+
+    /**
+     * @param array $sites
+     * @throws \InvalidArgumentException
+     */
+    public function setWebsites(array $sites)
+    {
+        if(!array_key_exists('gws_websites', $this->_data['fields'])) {
+            throw new \InvalidArgumentException('Current data set doesn\'t work with websites');
+        }
+
+        $this->_data['fields']['gws_websites']['value'] = $sites;
+    }
+
+    /**
      * Convert data from canonical array to repository native format
      * @param array $data
      * @return array
@@ -75,7 +101,7 @@ class Role extends DataFixture
     /**
      * @param $name
      * @param array $data
-     * @param bool $convert
+     * @param bool $convert convert data from canonical array to repository native format
      */
     public function save($name, array $data, $convert = true)
     {
