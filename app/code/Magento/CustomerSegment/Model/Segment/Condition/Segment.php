@@ -113,7 +113,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserGrid', array(
+        return $this->_adminhtmlData->getUrl('customersegment/index/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
             'form' => $this->getJsFormObject(),
         ));

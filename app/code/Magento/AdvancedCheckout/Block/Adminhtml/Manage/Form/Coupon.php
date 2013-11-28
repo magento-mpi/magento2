@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Form;
 
-class Coupon extends \Magento\Adminhtml\Block\Template
+class Coupon extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry

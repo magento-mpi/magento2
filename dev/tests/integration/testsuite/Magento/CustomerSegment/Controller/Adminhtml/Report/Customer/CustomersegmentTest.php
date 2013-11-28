@@ -29,7 +29,9 @@ class CustomersegmentTest
             ->create('Magento\CustomerSegment\Model\Segment');
         $segment->load('Customer Segment 1', 'name');
 
-        $this->dispatch('backend/admin/report_customer_customersegment/detail/segment_id/' . $segment->getId());
+        $this->dispatch(
+            'backend/customersegment/report_customer_customersegment/detail/segment_id/' . $segment->getId()
+        );
         $content = $this->getResponse()->getBody();
         $this->assertContains('segmentGridJsObject', $content);
     }

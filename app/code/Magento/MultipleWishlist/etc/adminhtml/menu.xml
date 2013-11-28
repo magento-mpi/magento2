@@ -11,6 +11,6 @@
 -->
 <config>
     <menu>
-        <add id="Magento_MultipleWishlist::report_customers_wishlist" title="Wish Lists" module="Magento_MultipleWishlist" sortOrder="40" parent="Magento_Reports::report_customers" action="adminhtml/report_customer_wishlist" dependsOnModule="Magento_MultipleWishlist" resource="Magento_MultipleWishlist::wishlist"/>
+        <add id="Magento_MultipleWishlist::report_customers_wishlist" title="Wish Lists" module="Magento_MultipleWishlist" sortOrder="40" parent="Magento_Reports::report_customers" action="multiplewishlist/report_customer_wishlist" dependsOnModule="Magento_MultipleWishlist" resource="Magento_MultipleWishlist::wishlist"/>
     </menu>
 </config>

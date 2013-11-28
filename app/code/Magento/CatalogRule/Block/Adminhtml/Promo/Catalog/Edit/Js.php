@@ -17,6 +17,6 @@
  */
 namespace Magento\CatalogRule\Block\Adminhtml\Promo\Catalog\Edit;
 
-class Js extends \Magento\Adminhtml\Block\Template
+class Js extends \Magento\Backend\Block\Template
 {
 }

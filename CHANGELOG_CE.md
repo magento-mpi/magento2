@@ -1,3 +1,8 @@
+* Modularity improvements:
+  * Breakdown of the Adminhtml module:
+     * Moved Newsletter, Report logic to respective modules
+     * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
+  * Removed application dependencies from library
 * Move Magento\Core common blocks into library
 * Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
 * Various improvements:
@@ -39,6 +44,7 @@
   * Fixed order status grid so that you can assign state, edit, and view custom order status
   * Fixed Related Products Rule page so someone can select category on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
+  * Fixed bug with international DHL quotes
 
 2.0.0.0-dev52
 =============
