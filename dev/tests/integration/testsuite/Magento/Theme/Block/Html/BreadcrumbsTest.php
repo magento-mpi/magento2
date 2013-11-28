@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Page\Block\Html\Breadcrumbs
+     * @var \Magento\Theme\Block\Html\Breadcrumbs
      */
     protected $_block;
 
@@ -22,7 +22,7 @@ class BreadcrumbsTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Page\Block\Html\Breadcrumbs');
+            ->createBlock('Magento\Theme\Block\Html\Breadcrumbs');
     }
 
     public function testAddCrumb()

@@ -6,12 +6,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class HeadTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Page\Block\Html\Head
+     * @var \Magento\Theme\Block\Html\Head
      */
     protected $_block;
 
@@ -31,10 +31,10 @@ class HeadTest extends \PHPUnit_Framework_TestCase
         $this->_pageAssets = $this->getMock('Magento\Page\Model\Asset\GroupedCollection', array(), array(), '', false);
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $arguments = $objectManagerHelper->getConstructArguments(
-            'Magento\Page\Block\Html\Head',
+            'Magento\Theme\Block\Html\Head',
             array('page' => new \Magento\Core\Model\Page($this->_pageAssets), 'objectManager' => $this->_objectManager)
         );
-        $this->_block = $objectManagerHelper->getObject('Magento\Page\Block\Html\Head', $arguments);
+        $this->_block = $objectManagerHelper->getObject('Magento\Theme\Block\Html\Head', $arguments);
     }
 
     protected function tearDown()

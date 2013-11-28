@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class FooterTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,7 +29,7 @@ class FooterTest extends \PHPUnit_Framework_TestCase
     public function testGetCacheKeyInfo()
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\Page\Block\Html\Footer');
+            ->createBlock('Magento\Theme\Block\Html\Footer');
         $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
         $this->assertEquals(

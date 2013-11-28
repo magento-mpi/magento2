@@ -24,8 +24,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testCleanJs($area, $designMode, $expectedAssets)
     {
         $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
-        /** @var $headBlock \Magento\Page\Block\Html\Head */
-        $headBlock = $layout->createBlock('Magento\Page\Block\Html\Head', 'head');
+        /** @var $headBlock \Magento\Theme\Block\Html\Head */
+        $headBlock = $layout->createBlock('Magento\Theme\Block\Html\Head', 'head');
         $headBlock->setData('vde_design_mode', $designMode);
 
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
