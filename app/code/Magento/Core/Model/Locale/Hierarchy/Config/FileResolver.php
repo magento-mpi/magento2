@@ -17,7 +17,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $directoryRead;
 
     /**
-     * @var FileIteratorFactory
+     * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 

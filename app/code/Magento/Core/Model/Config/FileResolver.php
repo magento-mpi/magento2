@@ -19,14 +19,14 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var FileIteratorFactory
+     * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
