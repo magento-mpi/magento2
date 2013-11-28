@@ -11,21 +11,6 @@ namespace Magento\Filesystem\Directory;
 class ReadFactory
 {
     /**
-     * Object manager
-     *
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @param \Magento\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
-
-    /**
      * Create a readable directory
      *
      * @param array $config
@@ -34,11 +19,8 @@ class ReadFactory
     public function create(array $config)
     {
         $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
-        $driver = $this->objectManager->get($directoryDriver);
-        return $this->objectManager->create('Magento\Filesystem\Directory\Read',
-            array(
-                'config' => $config,
-                'driver' => $driver
-            ));
+        $driver = new $directoryDriver();
+        $factory = new \Magento\Filesystem\File\ReadFactory();
+        return new \Magento\Filesystem\Directory\Read($config, $factory, $driver);
     }
 }

@@ -12,20 +12,6 @@ namespace Magento\Filesystem\Directory;
 
 class WriteFactory
 {
-    /**
-     * Object manager
-     *
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
-    /**
-     * @param \Magento\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
 
     /**
      * Create a readable directory
@@ -36,12 +22,9 @@ class WriteFactory
     public function create(array $config)
     {
         $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
-        $driver = $this->objectManager->get($directoryDriver);
+        $driver = new $directoryDriver();
+        $factory = new \Magento\Filesystem\File\WriteFactory();
 
-        return $this->objectManager->create('Magento\Filesystem\Directory\Write',
-            array(
-                'config' => $config,
-                'driver' => $driver
-            ));
+        return new \Magento\Filesystem\Directory\Write($config, $factory, $driver);
     }
 }

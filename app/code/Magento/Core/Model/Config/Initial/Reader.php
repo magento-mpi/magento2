@@ -9,8 +9,6 @@
  */
 namespace Magento\Core\Model\Config\Initial;
 
-use Magento\Filesystem;
-
 class Reader
 {
     /**
@@ -56,16 +54,10 @@ class Reader
     protected $_schemaFile;
 
     /**
-     * @var \Magento\Filesystem\Directory\Read
-     */
-    protected $rootDirectory;
-
-    /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param Converter $converter
      * @param SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
-     * @param \Magento\Filesystem $filesystem
      * @param string $fileName
      * @param string $domDocumentClass
      */
@@ -74,7 +66,6 @@ class Reader
         Converter $converter,
         SchemaLocator $schemaLocator,
         \Magento\Config\ValidationStateInterface $validationState,
-        \Magento\Filesystem $filesystem,
         $fileName = 'config.xml',
         $domDocumentClass = 'Magento\Config\Dom'
     ) {
@@ -83,7 +74,6 @@ class Reader
         $this->_converter = $converter;
         $this->_domDocumentClass = $domDocumentClass;
         $this->_fileName = $fileName;
-        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
     }
 
     /**
@@ -97,7 +87,11 @@ class Reader
     {
         $fileList = array();
         foreach ($this->_scopePriorityScheme as $scope) {
-            $fileList = array_merge($fileList, $this->_fileResolver->get($this->_fileName, $scope));
+            $directories = $this->_fileResolver->get($this->_fileName, $scope);
+            foreach ($directories as $directory) {
+                // todo fix repeatable read if it possible;
+                $fileList[$directory] = $directory;
+            }
         }
 
         if (!count($fileList)) {
@@ -108,16 +102,15 @@ class Reader
         $domDocument = null;
         foreach ($fileList as $file) {
             try {
-                $contents = $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($file));
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
                     $domDocument = new $class(
-                        $contents,
+                        $file,
                         array(),
                         $this->_schemaFile
                     );
                 } else {
-                    $domDocument->merge($contents);
+                    $domDocument->merge($file);
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
                 throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
