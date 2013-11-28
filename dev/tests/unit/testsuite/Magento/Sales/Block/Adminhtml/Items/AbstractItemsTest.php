@@ -28,9 +28,9 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
             ->method('getLayout')
             ->will($this->returnValue($layout));
 
-        $product = $this->getMock('\Magento\Catalog\Model\ProductFactory', array(), array(), '', false);
+        $product = $this->getMock('\Magento\Catalog\Model\ProductFactory', array('__wakeup'), array(), '', false);
         $coreData = $this->getMock('\Magento\Core\Helper\Data', array(), array(), '', false);
-        $registry = $this->getMock('\Magento\Core\Model\Registry', array(), array(), '', false);
+        $registry = $this->getMock('\Magento\Core\Model\Registry', array('__wakeup'), array(), '', false);
 
         $renderer = new \Magento\Sales\Block\Adminhtml\Order\View\Items\Renderer\DefaultRenderer(
             $product, $coreData, $context, $registry
@@ -54,7 +54,9 @@ class AbstractItemsTest extends \PHPUnit_Framework_TestCase
     public function testGetItemRendererThrowsExceptionForNonexistentRenderer()
     {
         $renderer = $this->getMock('StdClass');
-        $layout = $this->getMock('Magento\Core\Model\Layout', array('getChildName', 'getBlock'), array(), '', false);
+        $layout = $this->getMock(
+            'Magento\Core\Model\Layout', array('getChildName', 'getBlock', '__wakeup'), array(), '', false
+        );
         $layout->expects($this->at(0))
             ->method('getChildName')
             ->with(null, 'some-type')
