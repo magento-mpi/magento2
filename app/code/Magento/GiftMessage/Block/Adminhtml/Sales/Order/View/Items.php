@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\View;
 
-class Items extends \Magento\Adminhtml\Block\Template
+class Items extends \Magento\Backend\Block\Template
 {
     /**
      * Gift message array

@@ -43,10 +43,10 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     public function testAdminhtmlBlockHtmlBefore($parentBlock, $childBlock)
     {
-        $block = $this->_layout->createBlock('Magento\Adminhtml\Block\Template', $parentBlock);
-        $this->_layout->addBlock('Magento\Adminhtml\Block\Template', $childBlock, $parentBlock);
+        $block = $this->_layout->createBlock('Magento\Backend\Block\Template', $parentBlock);
+        $this->_layout->addBlock('Magento\Backend\Block\Template', $childBlock, $parentBlock);
         $gridBlock = $this->_layout->addBlock(
-            'Magento\Adminhtml\Block\Template',
+            'Magento\Backend\Block\Template',
             'banners_grid_serializer',
             $childBlock
         );

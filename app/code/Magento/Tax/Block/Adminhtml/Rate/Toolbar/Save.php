@@ -18,7 +18,7 @@
 
 namespace Magento\Tax\Block\Adminhtml\Rate\Toolbar;
 
-class Save extends \Magento\Adminhtml\Block\Template
+class Save extends \Magento\Backend\Block\Template
 {
 
     protected $_template = 'toolbar/rate/save.phtml';

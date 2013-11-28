@@ -172,7 +172,7 @@ class Attribute
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_type',
                 'class' => 'select required-entry attribute-type global-scope'
@@ -190,7 +190,7 @@ class Attribute
      */
     public function getGroupSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                 'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_group',
                 'class' => 'select required-entry global-scope'
@@ -208,7 +208,7 @@ class Attribute
      */
     public function getSearcheableSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_searcheable',
                  'class' => 'select required-entry global-scope'
@@ -226,7 +226,7 @@ class Attribute
      */
     public function getListedSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_listed',
                  'class' => 'select required-entry global-scope'
@@ -244,7 +244,7 @@ class Attribute
      */
     public function getRequiredSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
             ->setData(array(
                  'id'    => $this->getFieldPrefix() . '_attribute_{{id}}_is_required',
                  'class' => 'select required-entry global-scope'

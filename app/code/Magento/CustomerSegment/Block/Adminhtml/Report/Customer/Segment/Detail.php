@@ -83,7 +83,7 @@ class Detail
      */
     public function getRefreshUrl()
     {
-        return $this->getUrl('adminhtml/*/refresh', array('_current' => true));
+        return $this->getUrl('customersegment/*/refresh', array('_current' => true));
     }
 
     /**
@@ -93,7 +93,7 @@ class Detail
      */
     public function getBackUrl()
     {
-        return $this->getUrl('adminhtml/*/segment');
+        return $this->getUrl('customersegment/*/segment');
     }
 
     /**

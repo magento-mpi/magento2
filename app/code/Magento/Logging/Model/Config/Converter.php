@@ -99,11 +99,11 @@ class Converter implements \Magento\Config\ConverterInterface
         }
 
         $postDispatch = $eventAttributes->getNamedItem('post_dispatch');
+        $result['controller_action'] = $eventAttributes->getNamedItem('controller_action')->nodeValue;
         if (!is_null($postDispatch)) {
             $result['post_dispatch'] = $postDispatch->nodeValue;
         }
         foreach ($event->childNodes as $eventData) {
-            $eventDataAttributes = $eventData->attributes;
             switch ($eventData->nodeName) {
                 case 'expected_models':
                     $result['expected_models'] = $this->_convertExpectedModels($eventData);
