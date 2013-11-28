@@ -43,8 +43,8 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     public function get($filename, $scope)
     {
         return $this->iteratorFactory->create(array(
-            'paths' => $this->directoryRead->search('#.*?/' . $filename . '$#'),
-            'filesystem' => $this->filesystem
+            'paths'         => $this->directoryRead->search('#/' . preg_quote($filename) . '$#'),
+            'filesystem'    => $this->filesystem
         ));
     }
 }

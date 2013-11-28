@@ -56,7 +56,7 @@ class Primary implements \Magento\Config\FileResolverInterface
     public function get($filename, $scope)
     {
         return $this->iteratorFactory->create(
-            $this->filesystem, $this->directoryRead->search('#.*?/' . $filename . '$#')
+            $this->filesystem, $this->directoryRead->search('#/' . preg_quote($filename) . '$#')
         );
     }
 }

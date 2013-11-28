@@ -11,6 +11,10 @@ namespace Magento\Config;
 
 class FileIterator implements \Iterator
 {
+    /**
+     * @var array
+     */
+    protected $cached;
 
     /**
      * @var array
@@ -23,10 +27,14 @@ class FileIterator implements \Iterator
     protected $position;
 
     /**
-     * @var
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryRead;
 
+    /**
+     * @param \Magento\Filesystem\Directory\ReadInterface $directory
+     * @param array $paths
+     */
     public function __construct(
         \Magento\Filesystem\Directory\ReadInterface $directory,
         array $paths
@@ -36,23 +44,32 @@ class FileIterator implements \Iterator
         $this->directoryRead    = $directory;
     }
 
-    function rewind() {
+    function rewind()
+    {
         $this->position = 0;
     }
 
-    function current() {
-        return $this->directoryRead->readFile($this->paths[$this->position]);
+    function current()
+    {
+        if (!isset($this->cached[$this->position])) {
+            $this->cached[$this->position] = $this->directoryRead->readFile($this->paths[$this->position]);
+        }
+        return $this->cached[$this->position];
+
     }
 
-    function key() {
+    function key()
+    {
         return $this->position;
     }
 
-    function next() {
+    function next()
+    {
         ++$this->position;
     }
 
-    function valid() {
+    function valid()
+    {
         return isset($this->paths[$this->position]);
     }
 }

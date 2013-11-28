@@ -72,7 +72,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
             $scope = strpos($file, $mageScopePath) === 0 ? 'mage' : 'custom';
             $output[$scope][] = $file;
         }
-        $output['base'] = $this->directoryReadApp->search('#.*?/module.xml$#', $configDir);
+        $output['base'] = $this->directoryReadApp->search('#/module.xml$#', $configDir);
 
         return $this->iteratorFactory->create($this->filesystem,
             array_merge($output['mage'], $output['custom'], $output['base'])

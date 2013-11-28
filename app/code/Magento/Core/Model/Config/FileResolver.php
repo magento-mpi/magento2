@@ -56,7 +56,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $fileList = $this->directoryRead->search('#.*?/' . $filename . '$#');
+                $fileList = $this->directoryRead->search('#/' . $filename . '$#');
                 break;
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);

@@ -120,6 +120,11 @@ class Filesystem
     const SOCKET = 'socket';
 
     /**
+     * System base temporary folder
+     */
+    const SYS_TMP = 'sys_tmp';
+
+    /**
      * @var \Magento\Filesystem\DirectoryList
      */
     protected $directoryList;

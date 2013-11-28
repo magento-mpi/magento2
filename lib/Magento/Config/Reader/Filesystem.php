@@ -164,16 +164,4 @@ class Filesystem implements \Magento\Config\ReaderInterface
         }
         return $output;
     }
-
-    /**
-     * Retrieve contents of a file. To be overridden by descendants to perform contents post processing, if needed.
-     *
-     * @param string $filename
-     * @return string
-     * @todo Use \Magento\Filesystem
-     */
-    protected function _readFileContents($filename)
-    {
-        return file_get_contents($filename);
-    }
 }
