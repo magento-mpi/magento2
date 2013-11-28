@@ -38,10 +38,35 @@ class CreateUser extends Curl
     }
 
     /**
+     * Get id for newly created user
+     *
+     * @param $data
+     * @return mixed
+     * @throws UnexpectedValueException
+     */
+    protected function _getUserId($data)
+    {
+        //Sort data in grid to define user id if more than 20 items in grid
+        $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0');
+        $response = $curl->read();
+        $curl->close();
+        preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
+        . $data['username'] . '/siu', $response, $matches);
+        if (empty($matches)) {
+            throw new UnexpectedValueException('Cannot find user id');
+        }
+        return $matches[1];
+    }
+
+    /**
      * Post request for creating user in backend
      *
-     * @param Fixture $fixture [optional]
-     * @return mixed|string
+     * @param Fixture $fixture
+     * @return array|mixed
+     * @throws UnexpectedValueException
      */
     public function execute(Fixture $fixture = null)
     {
@@ -53,6 +78,9 @@ class CreateUser extends Curl
         $response = $curl->read();
         $curl->close();
         preg_match("/You\ saved\ the\ user\./", $response, $matches);
+        if (empty($matches)) {
+            throw new UnexpectedValueException('Success confirmation message not found');
+        }
         //Sort data in grid to define user id if more than 20 items in grid
         $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -60,16 +88,15 @@ class CreateUser extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
-        if (empty($matches)) {
-            throw new UnexpectedValueException('Success confirmation message not found');
-        }
+
 
         preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
         . $data['username'] . '/siu', $response, $matches);
         if (empty($matches)) {
             throw new UnexpectedValueException('Cannot find user id');
         }
-        $data['id'] = $matches[1];
+        $data['id'] = $this->_getUserId($data);
         return $data;
     }
 }
+
