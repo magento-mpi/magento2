@@ -157,7 +157,7 @@ abstract class AbstractFile
     {
         $this->getDirectoryWrite()->delete($filePath);
         if (!empty($content)) {
-            $this->getDirectoryWrite()->writeFile($filePath, $content);
+            $this->getDirectoryWrite()->writeFile($this->getDirectoryWrite()->getRelativePath($filePath), $content);
         }
     }
 
@@ -168,6 +168,7 @@ abstract class AbstractFile
      */
     protected function _deleteFileContent($filePath)
     {
+        $filePath = $this->getDirectoryWrite()->getRelativePath($filePath);
         if ($this->getDirectoryWrite()->touch($filePath)) {
             $this->getDirectoryWrite()->delete($filePath);
         }

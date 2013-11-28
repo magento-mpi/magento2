@@ -14,7 +14,7 @@
         \Magento\Core\Model\App\Area::PART_CONFIG
     );
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-    \Magento\Filesystem::PARAM_APP_DIRS => array(
+    \Magento\Filesystem\DirectoryList::PARAM_APP_DIRS => array(
         \Magento\Filesystem::THEMES => realpath(__DIR__),
     ),
 ));
