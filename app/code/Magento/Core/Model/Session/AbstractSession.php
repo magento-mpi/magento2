@@ -137,14 +137,6 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * This method needs to support sessions with APC enabled
-     */
-    public function __destruct()
-    {
-        session_write_close();
-    }
-
-    /**
      * Init session handler
      */
     protected function _initSessionHandler()
@@ -176,8 +168,17 @@ class AbstractSession extends \Magento\Object
         $this->setSessionId($this->_sidResolver->getSid($this));
 
         session_start();
+        register_shutdown_function(array($this, 'writeClose'));
 
         \Magento\Profiler::stop('session_start');
+    }
+
+    /**
+     * This method needs to support sessions with APC enabled
+     */
+    public function writeClose()
+    {
+        session_write_close();
     }
 
     /**
