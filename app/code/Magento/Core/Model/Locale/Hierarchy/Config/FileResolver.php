@@ -33,13 +33,16 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        if (!$this->_localeDirectory->isExist()) {
-            $fileList = array();
-        } else {
+        $fileList = array();
+        if ($this->_localeDirectory->isExist()) {
             // Create pattern similar to */config.xml
             $path = '#.*?\/' . preg_quote($filename) . '#';
             $fileList = $this->_localeDirectory->search($path);
         }
-        return $fileList;
+        $fileListAbsolute = array();
+        foreach ($fileList as $file) {
+            $fileListAbsolute[] = $this->_localeDirectory->getAbsolutePath($file);
+        }
+        return $fileListAbsolute;
     }
 }
