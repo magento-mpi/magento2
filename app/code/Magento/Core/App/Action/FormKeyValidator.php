@@ -11,7 +11,7 @@ namespace Magento\Core\App\Action;
 class FormKeyValidator
 {
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Data\Form\FormKey
      */
     protected $_formKey;
 

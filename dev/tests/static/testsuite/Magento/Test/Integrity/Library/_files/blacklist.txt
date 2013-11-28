@@ -35,6 +35,7 @@ lib/Magento/Data/Form/AbstractForm.php
 lib/Magento/Data/Form/Factory.php
 lib/Magento/Data/Collection.php
 lib/Magento/Data/Form.php
+lib/Magento/Data/Form/FormKey.php
 
 lib/Magento/Filter/Object/Grid.php
 lib/Magento/Filter/Object.php
@@ -57,3 +58,4 @@ lib/Magento/Oauth/Exception.php
 lib/Magento/App/Helper/AbstractHelper.php
 lib/Magento/App/Helper/Context.php
 
+lib/Magento/Session/SidResolverInterface.php
