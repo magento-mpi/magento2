@@ -380,15 +380,5 @@
             <word>Pbridge</word>
             <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
         </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
-            <word>Magento_Banner</word>
-            <path>dev/tests/functional/tests/app/Magento/Widget/Test/Handler/Curl/CreateInstance.php</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
-            <word>Magento_Banner</word>
-            <path>dev/tests/functional/tests/app/Magento/Widget/Test/Handler/Curl/CreateInstance.php</path>
-        </item>
     </whitelist>
 </config>
