@@ -113,4 +113,5 @@ return array(
     array('_message', 'Magento\Sales\Model\Quote', 'messageFactory'),
     array('_formFields', 'Magento\View\Element\Redirect', 'formFields'),
     array('_formFactory', 'Magento\View\Element\Redirect', 'formFactory'),
+    array('_dispersion', 'Magento\Theme\Block\Html\Pager'),
 );

@@ -1002,4 +1002,8 @@ return array(
     array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
     array('getMethod', '\Magento\GoogleCheckout\Block\Redirect', 'getFormMethod'),
     array('getCookie', 'Magento\View\Element\Js\Cookie'),
+    array('setCopyright', 'Magento\Theme\Block\Html\Footer'),
+    array('setLogo', 'Magento\Theme\Block\Html\Header'),
+    array('_beforeCacheUrl', 'Magento\View\Element\AbstractBlock'),
+    array('_afterCacheUrl', 'Magento\View\Element\AbstractBlock'),
 );

@@ -2,24 +2,22 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Html page block
- *
- * @category   Magento
- * @package    Magento_Page
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page footer block
+ */
 class Footer extends \Magento\View\Element\Template
 {
-
+    /**
+     * Copyright information
+     *
+     * @var string
+     */
     protected $_copyright;
 
     /**
@@ -43,11 +41,17 @@ class Footer extends \Magento\View\Element\Template
         parent::__construct($context, $coreData, $data);
     }
 
+    /**
+     * Set footer data
+     */
     protected function _construct()
     {
         $this->addData(array(
             'cache_lifetime'=> false,
-            'cache_tags'    => array(\Magento\Core\Model\Store::CACHE_TAG, \Magento\Cms\Model\Block::CACHE_TAG)
+            'cache_tags' => array(
+                \Magento\Core\Model\Store::CACHE_TAG,
+                \Magento\Cms\Model\Block::CACHE_TAG,
+            )
         ));
     }
 
@@ -63,22 +67,20 @@ class Footer extends \Magento\View\Element\Template
             $this->_storeManager->getStore()->getId(),
             (int)$this->_storeManager->getStore()->isCurrentlySecure(),
             $this->_design->getDesignTheme()->getId(),
-            $this->_customerSession->isLoggedIn()
+            $this->_customerSession->isLoggedIn(),
         );
     }
 
-    public function setCopyright($copyright)
-    {
-        $this->_copyright = $copyright;
-        return $this;
-    }
-
+    /**
+     * Retrieve copyright information
+     *
+     * @return string
+     */
     public function getCopyright()
     {
         if (!$this->_copyright) {
             $this->_copyright = $this->_storeConfig->getConfig('design/footer/copyright');
         }
-
         return $this->_copyright;
     }
 }

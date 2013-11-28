@@ -2,20 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-/**
- * Template title block
- *
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page title block
+ */
 class Title extends \Magento\View\Element\Template
 {
     /**
@@ -41,7 +36,7 @@ class Title extends \Magento\View\Element\Template
     /**
      * Set own page title
      *
-     * @param $pageTitle
+     * @param string $pageTitle
      */
     public function setPageTitle($pageTitle)
     {

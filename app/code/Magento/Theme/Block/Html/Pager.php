@@ -2,73 +2,113 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Html page block
- *
- * @category   Magento
- * @package    Magento_Page
- * @author      Magento Core Team <core@magentocommerce.com>
- *
- * @todo        separate order, mode and pager
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html pager block
+ */
 class Pager extends \Magento\View\Element\Template
 {
-    protected $_collection = null;
-    protected $_pageVarName    = 'p';
-    protected $_limitVarName   = 'limit';
-    protected $_availableLimit = array(10=>10,20=>20,50=>50);
-    protected $_dispersion     = 3;
-    protected $_displayPages   = 5;
-    protected $_showPerPage    = true;
-    protected $_limit          = null;
+    /**
+     * Current template name
+     *
+     * @var string
+     */
+    protected $_template = 'Magento_Theme::html/pager.phtml';
+
+    /**
+     * @var \Magento\Data\Collection
+     */
+    protected $_collection;
+
+    /**
+     * @var string
+     */
+    protected $_pageVarName = 'p';
+
+    /**
+     * @var string
+     */
+    protected $_limitVarName = 'limit';
+
+    /**
+     * The list of available pager limits
+     *
+     * @var array
+     */
+    protected $_availableLimit = array(
+        10 => 10,
+        20 => 20,
+        50 => 50,
+    );
+
+    /**
+     * @var int
+     */
+    protected $_displayPages = 5;
+
+    /**
+     * @var bool
+     */
+    protected $_showPerPage = true;
+
+    /**
+     * @var null
+     */
+    protected $_limit;
+
+    /**
+     * @var bool
+     */
     protected $_outputRequired = true;
 
     /**
      * Pages quantity per frame
+     *
      * @var int
      */
     protected $_frameLength = 5;
 
     /**
      * Next/previous page position relatively to the current frame
+     *
      * @var int
      */
     protected $_jump = 5;
 
     /**
      * Frame initialization flag
+     *
      * @var bool
      */
     protected $_frameInitialized = false;
 
     /**
      * Start page position in frame
+     *
      * @var int
      */
     protected $_frameStart;
 
     /**
      * Finish page position in frame
+     *
      * @var int
      */
     protected $_frameEnd;
 
-    protected $_template = 'Magento_Page::html/pager.phtml';
-
+    /**
+     * Set pager data
+     */
     protected function _construct()
     {
         parent::_construct();
         $this->setData('show_amounts', true);
         $this->setData('use_container', true);
-
     }
 
     /**
@@ -94,12 +134,14 @@ class Pager extends \Magento\View\Element\Template
         if ($this->_limit !== null) {
             return $this->_limit;
         }
+
         $limits = $this->getAvailableLimit();
         if ($limit = $this->getRequest()->getParam($this->getLimitVarName())) {
             if (isset($limits[$limit])) {
                 return $limit;
             }
         }
+
         $limits = array_keys($limits);
         return $limits[0];
     }
@@ -124,8 +166,7 @@ class Pager extends \Magento\View\Element\Template
      */
     public function setCollection($collection)
     {
-        $this->_collection = $collection
-            ->setCurPage($this->getCurrentPage());
+        $this->_collection = $collection->setCurPage($this->getCurrentPage());
         // If not int - then not limit
         if ((int) $this->getLimit()) {
             $this->_collection->setPageSize($this->getLimit());
@@ -137,168 +178,268 @@ class Pager extends \Magento\View\Element\Template
     }
 
     /**
-     * @return \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
+     * @return \Magento\Data\Collection
      */
     public function getCollection()
     {
         return $this->_collection;
     }
 
+    /**
+     * @param string $varName
+     * @return \Magento\Theme\Block\Html\Pager
+     */
     public function setPageVarName($varName)
     {
         $this->_pageVarName = $varName;
         return $this;
     }
 
+    /**
+     * @return string
+     */
     public function getPageVarName()
     {
         return $this->_pageVarName;
     }
 
+    /**
+     * @param bool $varName
+     * @return \Magento\Theme\Block\Html\Pager
+     */
     public function setShowPerPage($varName)
     {
-        $this->_showPerPage=$varName;
+        $this->_showPerPage = $varName;
         return $this;
     }
 
+    /**
+     * @return bool
+     */
     public function getShowPerPage()
     {
-        if(sizeof($this->getAvailableLimit())<=1) {
+        if (sizeof($this->getAvailableLimit()) <= 1) {
             return false;
         }
         return $this->_showPerPage;
     }
 
+    /**
+     * Set the name for pager limit data
+     *
+     * @param string $varName
+     * @return \Magento\Theme\Block\Html\Pager
+     */
     public function setLimitVarName($varName)
     {
         $this->_limitVarName = $varName;
         return $this;
     }
 
+    /**
+     * Retrieve name for pager limit data
+     *
+     * @return string
+     */
     public function getLimitVarName()
     {
         return $this->_limitVarName;
     }
 
+    /**
+     * Set pager limit
+     *
+     * @param array $limits
+     */
     public function setAvailableLimit(array $limits)
     {
         $this->_availableLimit = $limits;
     }
 
+    /**
+     * Retrieve pager limit
+     *
+     * @return array
+     */
     public function getAvailableLimit()
     {
         return $this->_availableLimit;
     }
 
+    /**
+     * @return int
+     */
     public function getFirstNum()
     {
         $collection = $this->getCollection();
-        return $collection->getPageSize()*($collection->getCurPage()-1)+1;
+        return $collection->getPageSize() * ($collection->getCurPage() - 1) + 1;
     }
 
+    /**
+     * @return int
+     */
     public function getLastNum()
     {
         $collection = $this->getCollection();
-        return $collection->getPageSize()*($collection->getCurPage()-1)+$collection->count();
+        return $collection->getPageSize() * ($collection->getCurPage() - 1) + $collection->count();
     }
 
+    /**
+     * Retrieve total number of pages
+     *
+     * @return int
+     */
     public function getTotalNum()
     {
         return $this->getCollection()->getSize();
     }
 
+    /**
+     * Check if current page is a first page in collection
+     *
+     * @return bool
+     */
     public function isFirstPage()
     {
         return $this->getCollection()->getCurPage() == 1;
     }
 
+    /**
+     * Retrieve number of last page
+     *
+     * @return int
+     */
     public function getLastPageNum()
     {
         return $this->getCollection()->getLastPageNumber();
     }
 
+    /**
+     * Check if current page is a last page in collection
+     *
+     * @return bool
+     */
     public function isLastPage()
     {
         return $this->getCollection()->getCurPage() >= $this->getLastPageNum();
     }
 
+    /**
+     * @param int $limit
+     * @return bool
+     */
     public function isLimitCurrent($limit)
     {
         return $limit == $this->getLimit();
     }
 
+    /**
+     * @param int $page
+     * @return bool
+     */
     public function isPageCurrent($page)
     {
         return $page == $this->getCurrentPage();
     }
 
+    /**
+     * @return array
+     */
     public function getPages()
     {
         $collection = $this->getCollection();
-
-        $pages = array();
         if ($collection->getLastPageNumber() <= $this->_displayPages) {
-            $pages = range(1, $collection->getLastPageNumber());
-        }
-        else {
+            return range(1, $collection->getLastPageNumber());
+        } else {
             $half = ceil($this->_displayPages / 2);
             if ($collection->getCurPage() >= $half
                 && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
             ) {
                 $start  = ($collection->getCurPage() - $half) + 1;
                 $finish = ($start + $this->_displayPages) - 1;
-            }
-            elseif ($collection->getCurPage() < $half) {
+            } elseif ($collection->getCurPage() < $half) {
                 $start  = 1;
                 $finish = $this->_displayPages;
-            }
-            elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
+            } elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
                 $finish = $collection->getLastPageNumber();
                 $start  = $finish - $this->_displayPages + 1;
             }
-
-            $pages = range($start, $finish);
+            return range($start, $finish);
         }
-        return $pages;
     }
 
+    /**
+     * @return string
+     */
     public function getFirstPageUrl()
     {
         return $this->getPageUrl(1);
     }
 
+    /**
+     * Retrieve previous page URL
+     *
+     * @return string
+     */
     public function getPreviousPageUrl()
     {
         return $this->getPageUrl($this->getCollection()->getCurPage(-1));
     }
 
+    /**
+     * Retrieve next page URL
+     *
+     * @return string
+     */
     public function getNextPageUrl()
     {
         return $this->getPageUrl($this->getCollection()->getCurPage(+1));
     }
 
+    /**
+     * Retrieve last page URL
+     *
+     * @return string
+     */
     public function getLastPageUrl()
     {
         return $this->getPageUrl($this->getCollection()->getLastPageNumber());
     }
 
+    /**
+     * Retrieve page URL
+     *
+     * @param string $page
+     * @return string
+     */
     public function getPageUrl($page)
     {
-        return $this->getPagerUrl(array($this->getPageVarName()=>$page));
+        return $this->getPagerUrl(array($this->getPageVarName() => $page));
     }
 
+    /**
+     * @param int $limit
+     * @return string
+     */
     public function getLimitUrl($limit)
     {
-        return $this->getPagerUrl(array($this->getLimitVarName()=>$limit));
+        return $this->getPagerUrl(array($this->getLimitVarName() => $limit));
     }
 
-    public function getPagerUrl($params=array())
+    /**
+     * Retrieve page URL by defined parameters
+     *
+     * @param array $params
+     * @return string
+     */
+    public function getPagerUrl($params = array())
     {
         $urlParams = array();
-        $urlParams['_current']  = true;
-        $urlParams['_escape']   = true;
-        $urlParams['_use_rewrite']   = true;
-        $urlParams['_query']    = $params;
+        $urlParams['_current'] = true;
+        $urlParams['_escape'] = true;
+        $urlParams['_use_rewrite'] = true;
+        $urlParams['_query'] = $params;
+
         return $this->getUrl('*/*/*', $urlParams);
     }
 
@@ -346,6 +487,7 @@ class Pager extends \Magento\View\Element\Template
         if (!$this->getJump()) {
             return null;
         }
+
         $frameStart = $this->getFrameStart();
         if ($frameStart - 1 > 1) {
             return max(2, $frameStart - $this->getJump());
@@ -374,6 +516,7 @@ class Pager extends \Magento\View\Element\Template
         if (!$this->getJump()) {
             return null;
         }
+
         $frameEnd = $this->getFrameEnd();
         if ($this->getLastPageNum() - $frameEnd > 1) {
             return min($this->getLastPageNum() - 1, $frameEnd + $this->getJump());
