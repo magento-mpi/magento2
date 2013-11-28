@@ -51,9 +51,14 @@ class Config extends AbstractRepository
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
+        $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
+        $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
+        $this->_data['authorizenet_3d_secure'] = $this->_getAuthorizeNet3dSecure();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
+        //Payment Services
+        $this->_data['3d_secure_credit_card_validation'] = $this->_get3dSecureCreditCardValidation();
         //Shipping methods
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
@@ -153,7 +158,7 @@ class Config extends AbstractRepository
                                         'value' => 'authorize'
                                     ),
                                     'trans_key' => array( //Transaction Key
-                                        'value' => '67RY59y59p25JQsZ'
+                                        'value' => '"67RY59y59p25JQsZ"'
                                     ),
                                     'cgi_url' => array( //Gateway URL
                                         'value' => 'https://test.authorize.net/gateway/transact.dll'
@@ -177,6 +182,31 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    protected function _getAuthorizeNet3dSecure()
+    {
+        $data = array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'authorizenet' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'centinel' => array( //3D Secure Card Validation
+                                        'value' => 1 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        return array_merge_recursive($data, $this->_getAuthorizeNet());
     }
 
     protected function _getPaypalDisabled()
@@ -298,6 +328,15 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( //Payment Action
                                                         'value' => 'Authorization' //Authorization
                                                     )
+                                                ),
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 0
+                                                            )
+                                                        )
+                                                    )
                                                 )
                                             )
                                         )
@@ -371,7 +410,16 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( //Payment Action
                                                         'value' => 'Authorization' //Authorization
                                                     )
-                                                )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_ec_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array(
+                                                                'value' => 0
+                                                            )
+                                                        ),
+                                                    )
+                                                ),
                                             )
                                         )
                                     )
@@ -442,6 +490,15 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
                                                     )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_paypal_payflow_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 0
+                                                            )
+                                                        )
+                                                    )
                                                 )
                                             )
                                         )
@@ -460,6 +517,46 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Data for PayPal Payflow Pro Edition method with 3D Secure
+     */
+    protected function _getPayPalPayflowPro3dSecure()
+    {
+        $data =  array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_payment_gateways' => array(
+                                'groups' => array(
+                                    'paypal_verisign_with_express_checkout_us' => array(
+                                        'groups' => array(
+                                            'settings_paypal_payflow' => array(
+                                                'groups' => array(
+                                                    'settings_paypal_payflow_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 1
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        return array_merge_recursive($data, $this->_getPaypalPayFlowPro());
     }
 
     /**
@@ -765,5 +862,86 @@ class Config extends AbstractRepository
                 ),
             ),
         );
+    }
+
+    /**
+     * Enable 3D Secure Credit Card Validation
+     *
+     * @return array
+     */
+    protected function _get3dSecureCreditCardValidation()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment_services' => array(
+                        'section' => 'payment_services',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'centinel' => array( //3D Secure Credit Card Validation
+                                'fields' => array(
+                                    'processor_id' => array(
+                                        'value' => '134-01'
+                                    ),
+                                    'merchant_id' => array(
+                                        'value' => 'magentoTEST'
+                                    ),
+                                    'password' => array(
+                                        'value' => 'mag3nt0T3ST'
+                                    ),
+                                    'test_mode' => array(
+                                        'value' => 1 //Yes
+                                    ),
+                                    'debug' => array(
+                                        'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Data for PayPal Payments Pro Edition method with 3D Secure
+     */
+    protected function _getPayPalPaymentsPro3dSecure()
+    {
+        $data = array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_group_all_in_one' => array( // PayPal All-in-One Payment Solutions
+                                'groups' => array(
+                                    'wpp_us' => array( // Payments Pro (Includes Express Checkout)
+                                        'groups' => array(
+                                            'wpp_settings' => array( // Basic Settings - PayPal Express Checkout
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array( // Advanced Settings
+                                                        'fields' => array(
+                                                            'centinel' => array( // 3D Secure Card Validation
+                                                                'value' => 1
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+        return array_merge_recursive($data, $this->_getPaypalDirect());
     }
 }

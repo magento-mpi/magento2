@@ -47,7 +47,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Adminhtml data
      *
-     * @var \Magento\Adminhtml\Helper\Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData;
 

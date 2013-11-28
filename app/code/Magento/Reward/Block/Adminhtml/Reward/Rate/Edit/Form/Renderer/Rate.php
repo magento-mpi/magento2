@@ -19,7 +19,7 @@
 namespace Magento\Reward\Block\Adminhtml\Reward\Rate\Edit\Form\Renderer;
 
 class Rate
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     protected $_template = 'rate/form/renderer/rate.phtml';

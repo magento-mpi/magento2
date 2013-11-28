@@ -64,6 +64,13 @@ class SalesOrderView extends Page
     protected $itemsOrderedBlock = '.grid';
 
     /**
+     * Order information block
+     *
+     * @var string
+     */
+    protected $orderInfoBlock = '[data-ui-id="sales-order-tabs-tab-content-order-info"]';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -128,6 +135,18 @@ class SalesOrderView extends Page
     {
         return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get order information block
+     *
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\View\Tab\Info
+     */
+    public function getOrderInfoBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewTabInfo(
+            $this->_browser->find($this->$orderInfoBlock, Locator::SELECTOR_CSS)
         );
     }
 }

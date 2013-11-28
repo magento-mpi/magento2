@@ -57,6 +57,20 @@ class CmsIndex extends Page
     protected $footerBlock = 'footer.footer';
 
     /**
+     * Page Top Links block
+     *
+     * @var string
+     */
+    protected $linksBlock = '.header .content .links';
+
+    /**
+     * Page Top Customer menu block
+     *
+     * @var string
+     */
+    protected $customerBlock = '.header .content .links';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -109,6 +123,30 @@ class CmsIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoPageHtmlFooter(
             $this->_browser->find($this->footerBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get Top Links block
+     *
+     * @return \Magento\Page\Test\Block\Links
+     */
+    public function getLinksBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoPageLinks(
+            $this->_browser->find($this->linksBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get customer menu block
+     *
+     * @return \Magento\Customer\Test\Block\Account\Customer
+     */
+    public function getCustomerMenuBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
+            $this->_browser->find($this->customerBlock, Locator::SELECTOR_CSS)
         );
     }
 }

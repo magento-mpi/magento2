@@ -11,7 +11,7 @@
 
 namespace Magento\Checkout\Test\Block\Onepage;
 
-use Mtf\Block\Block;
+use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
 
@@ -21,8 +21,39 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
-class Login extends Block
+class Login extends Form
 {
+    /**
+     * Mapping for field locator
+     *
+     * @var array
+     */
+    protected $_mapping = array(
+        'email' => '[id="login-email"]',
+        'password' => '[id="login-password"]',
+    );
+
+    /**
+     * Email field
+     *
+     * @var string
+     */
+    protected $email = '[id="login-email"]';
+
+    /**
+     * Password field
+     *
+     * @var string
+     */
+    protected $password = '[id="login-password"]';
+
+    /**
+     * Login button
+     *
+     * @var string
+     */
+    protected $login = '[data-action=checkout-method-login]';
+
     /**
      * Continue checkout button
      *
@@ -51,7 +82,10 @@ class Login extends Block
      */
     public function checkoutMethod(Checkout $fixture)
     {
-        if ($fixture->getCustomer()) {
+        if ($fixture->isRegisteredCustomer()) {
+            $this->loginCustomer($fixture);
+        }
+        else if ($fixture->getCustomer()) {
             $this->registerCustomer();
         } else {
             $this->guestCheckout();
@@ -75,6 +109,24 @@ class Login extends Block
     {
         $this->_rootElement->find($this->registerCustomer, Locator::SELECTOR_CSS)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementNotVisible('.please-wait');
+    }
+
+    /**
+     * Login customer during checkout
+     *
+     * @param Checkout $fixture
+     */
+    private function loginCustomer(Checkout $fixture)
+    {
+        $customer = $fixture->getCustomer();
+        $this->_rootElement->find(
+            $this->email, Locator::SELECTOR_CSS)->setValue($customer->getEmail()
+        );
+        $this->_rootElement->find(
+            $this->password, Locator::SELECTOR_CSS)->setValue($customer->getPassword()
+        );
+        $this->_rootElement->find($this->login, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
     }
 }

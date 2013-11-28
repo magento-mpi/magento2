@@ -71,6 +71,20 @@ class CheckoutOnepage extends Page
     protected $reviewBlock = '#checkout-step-review';
 
     /**
+     * Centinel card verification block
+     *
+     * @var \Magento\Centinel\Test\Block\Authentication
+     */
+    protected $centinelAuthenticationBlock = 'body';
+
+    /**
+     * 3D Secure frame locator
+     *
+     * @var Locator
+     */
+    protected $centinelFrame = '#centinel-authenticate-iframe';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -143,8 +157,22 @@ class CheckoutOnepage extends Page
      */
     public function getReviewBlock()
     {
+        $this->_browser->switchToFrame();
         return Factory::getBlockFactory()->getMagentoCheckoutOnepageReview(
             $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get centinel card verification block
+     *
+     * @return \Magento\Centinel\Test\Block\Authentication
+     */
+    public function getCentinelAuthenticationBlock()
+    {
+        $this->_browser->switchToFrame($this->centinelFrame);
+        return Factory::getBlockFactory()->getMagentoCentinelAuthentication(
+            $this->_browser->find($this->centinelAuthenticationBlock, Locator::SELECTOR_CSS)
         );
     }
 }
