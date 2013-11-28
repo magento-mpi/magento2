@@ -12,7 +12,7 @@
 namespace Magento\Core\Model;
 
 /**
- * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
  */
 class TranslateTest extends \PHPUnit_Framework_TestCase
 {
@@ -97,7 +97,7 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDataFixture Magento/Core/_files/db_translate.php
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
      * @covers \Magento\Backend\Model\Resource\Translate::_getStoreId
      * @covers \Magento\Backend\Model\Resource\Translate\String::_getStoreId
      */

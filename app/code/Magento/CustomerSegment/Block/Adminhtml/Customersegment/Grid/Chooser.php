@@ -93,6 +93,6 @@ class Chooser
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/customersegment/chooserGrid', array('_current' => true));
+        return $this->getUrl('customersegment/index/chooserGrid', array('_current' => true));
     }
 }

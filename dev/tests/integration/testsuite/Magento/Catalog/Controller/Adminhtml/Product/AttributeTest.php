@@ -59,7 +59,7 @@ class AttributeTest extends \Magento\Backend\Utility\Controller
 
     /**
      * @magentoDataFixture Magento/Core/_files/db_translate_admin_store.php
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
      * @magentoDataFixture Magento/Catalog/controllers/_files/attribute_user_defined.php
      * @magentoAppIsolation enabled
      */

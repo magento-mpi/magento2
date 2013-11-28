@@ -15,25 +15,21 @@ $install = $this;
 
 $banners = array(
     array(
-        'top.container',
+        'page_top',
         'Free Shipping on All Handbags',
-        '<a href="{{store direct_url="apparel/women/handbags"}}"> '
-            . '<img class="callout" title="Get Free Shipping on All Items under Handbags" '
-            . 'src="{{view url="images/callouts/home/free_shipping_all_handbags.jpg"}}" '
-            . 'alt="Free Shipping on All Handbags" /></a>'
+        '<a class="banner callout" href="{{store direct_url="apparel/women/handbags"}}"> '
+        . '"Get Free Shipping on All Items under Handbags"</a>'
     ),
     array(
-        'footer.before',
+        'page.bottom',
         '15% off Our New Evening Dresses',
-        '<a href="{{store direct_url="apparel/women/evening-dresses"}}"> '
-        . '<img class="callout" title="15% off Our New Evening Dresses" '
-        . 'src="{{view url="images/callouts/home/15_off_new_evening_dresses.jpg"}}" '
-        . 'alt="15% off Our New Evening Dresses" /></a>'
+        '<a class="banner callout" href="{{store direct_url="apparel/women/evening-dresses"}}"> '
+        . '15% off Our New Evening Dresses</a>'
     )
 );
 
 /** @var $theme \Magento\View\Design\ThemeInterface */
-$theme = $install->getThemeCollection()->getThemeByFullPath('frontend/magento_fixed_width');
+$theme = $install->getThemeCollection()->getThemeByFullPath('frontend/magento_blank');
 
 foreach ($banners as $sortOrder => $bannerData) {
     $banner = $install->getBannerInstance()

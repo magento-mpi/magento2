@@ -1,15 +1,13 @@
+* Modularity improvements:
+  * Breakdown of the Adminhtml module:
+     * Moved Newsletter, Report logic to respective modules
+     * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
+  * Removed application dependencies from library
 * Move Magento\Core common blocks into library
-* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
-* Various improvements:
-  * Email-related logic from Core and Adminhtml modules consolidated in new Email module
-  * Removed deprecated annotation from getArea methods
 * Application areas rework:
   * Areas are independent from Store
+  * Removed deprecated annotation from getArea methods
 * GitHub requests:
-  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
-  * [#199](https://github.com/magento/magento2/pull/199) -- Some optimizations
-  * [#182](https://github.com/magento/magento2/pull/182) -- Use collection _idFieldName by default for toOption* methods
-  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
   * [#245](https://github.com/magento/magento2/pull/245) -- Moved getCurrentUrl from core URL helper to model
   * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Magento\Page\Block\Html\Header->getIsHomePage
   * [#259](https://github.com/magento/magento2/pull/259) -- Turkish Lira support for Turkish merchants
@@ -26,19 +24,39 @@
   * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
   * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
   * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
+* Themes update:
+  * Old frontend (magento_demo) and backend (magento_basic) themes are removed
+  * Updated templates and layout updates in the Bundle, Catalog, CatalogInventory, CatalogSearch, Downloadable, ProductAlert, Reports, Sendfriend modules
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
-  * Fixed JavaScript error when printing order from frontend
-  * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
-  * Fixed "Page not found" on category page if setting "Add Store Code to Urls" as "Yes" in the backend config
-  * Fixed Fatal error when creating Shipping label for returns
-  * Fixed posting coupon code with spaces
-  * Fixed several typos and minor mistakes
   * Fixed error on attempt to insert image to CMS pages under version control
   * Fixed order status grid so that you can assign state, edit, and view custom order status
   * Fixed Related Products Rule page so someone can select category on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
+  * Fixed bug with international DHL quotes
+
+2.0.0.0-dev53
+=============
+* Moved general action-related functionality to \Magento\App\Action\Action in the library. Removed Magento\Core\Controller\Varien\Action and related logic from the Magento_Core module
+* Moved view-related methods from action interface to \Magento\App\ViewInterface with corresponding implementation
+* Moved redirect creation logic from the action interface to \Magento\App\Response\RedirectInterface
+* Moved Magento\Core common blocks to the library
+* Added reading of etc/integration/config.xml and etc/integration/api.xml files for API Integrations
+* Various improvements:
+  * Email-related logic from the Core and Adminhtml modules consolidated in the new Email module
+* GitHub requests:
+  * [#238](https://github.com/magento/magento2/pull/238) -- Improve escaping HTML entities in URL
+  * [#199](https://github.com/magento/magento2/pull/199) -- Replaced function calls to array_push with adding the elements directly
+  * [#182](https://github.com/magento/magento2/pull/182) -- By default use collection _idFieldName for toOption* methods
+  * [#233](https://github.com/magento/magento2/pull/233) -- Google Rich Snippet Code
+  * [#339](https://github.com/magento/magento2/pull/339) -- Correcting 'cahce' typo in documentation
+  * [#232](https://github.com/magento/magento2/pull/232) -- Update app/code/core/Mage/Checkout/controllers/CartController.php (fix issue #27632)
+* Fixed bugs:
+  * Fixed JavaScript error when printing orders from the frontend
+  * Fixed Captcha problems on various forms when Captcha is enabled on the frontend
+  * Fixed "Page not found" on category page if setting "Add Store Code to Urls" to "Yes" in the backend config
+  * Fixed Fatal error when creating shipping label for returns
 
 2.0.0.0-dev52
 =============
@@ -52,7 +70,7 @@
 * Themes update:
   * Updated templates and layout updates in the Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules; old files moved to the "magento-backup" theme
   * Refactored and removed duplicate Persistent module templates
-  * Plushe theme made responsive
+  * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed inability to print order, invoice, or creditmemo in the frontend
   * Fixed fatal error caused by the Mage_Backend_Block_System_Config_FormTest integration test

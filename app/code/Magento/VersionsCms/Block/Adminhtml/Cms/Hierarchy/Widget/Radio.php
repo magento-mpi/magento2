@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
-class Radio extends \Magento\Adminhtml\Block\Template
+class Radio extends \Magento\Backend\Block\Template
 {
     /**
      * Unique Hash Id
