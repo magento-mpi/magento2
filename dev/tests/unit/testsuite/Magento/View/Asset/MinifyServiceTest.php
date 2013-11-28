@@ -11,9 +11,9 @@ namespace Magento\View\Asset;
 class MinifyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Store\Config|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\View\Asset\ConfigInterface|\PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeConfig;
+    protected $_config;
 
     /**
      * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
@@ -32,12 +32,12 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array(), array(), '', false);
+        $this->_config = $this->getMock('Magento\View\Asset\ConfigInterface', array(), array(), '', false);
         $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false);
         $this->_objectManager = $this->getMock('Magento\ObjectManager');
         $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
 
-        $this->_model = new \Magento\View\Asset\MinifyService($this->_storeConfig, $this->_objectManager,
+        $this->_model = new \Magento\View\Asset\MinifyService($this->_config, $this->_objectManager,
             $dirs, $this->_appState);
     }
 
@@ -52,13 +52,13 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getContentType')
             ->will($this->returnValue('js'));
 
-        $this->_storeConfig->expects($this->once())
-            ->method('getConfigFlag')
-            ->with('dev/js/minify_files')
+        $this->_config->expects($this->once())
+            ->method('isAssetMinification')
+            ->with('js')
             ->will($this->returnValue(true));
-        $this->_storeConfig->expects($this->once())
-            ->method('getConfig')
-            ->with('dev/js/minify_adapter')
+        $this->_config->expects($this->once())
+            ->method('getAssetMinificationAdapter')
+            ->with('js')
             ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
 
         $self = $this;
@@ -84,12 +84,12 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getContentType')
             ->will($this->returnValue('js'));
 
-        $this->_storeConfig->expects($this->once())
-            ->method('getConfigFlag')
-            ->with('dev/js/minify_files')
+        $this->_config->expects($this->once())
+            ->method('isAssetMinification')
+            ->with('js')
             ->will($this->returnValue(false));
-        $this->_storeConfig->expects($this->never())
-            ->method('getConfig');
+        $this->_config->expects($this->never())
+            ->method('getAssetMinificationAdapter');
 
         $minifiedAssets = $this->_model->getAssets(array($asset));
         $this->assertCount(1, $minifiedAssets);
@@ -97,19 +97,24 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Magento\Core\Exception
+     * @expectedException \Magento\Exception
      * @expectedExceptionMessage Minification adapter is not specified for 'js' content type
      */
     public function testGetAssetsNoAdapterDefined()
     {
-        $this->_storeConfig->expects($this->once())
-            ->method('getConfigFlag')
-            ->with('dev/js/minify_files')
-            ->will($this->returnValue(true));
         $asset = $this->getMockForAbstractClass('Magento\View\Asset\LocalInterface');
         $asset->expects($this->once())
             ->method('getContentType')
             ->will($this->returnValue('js'));
+
+        $this->_config->expects($this->once())
+            ->method('isAssetMinification')
+            ->with('js')
+            ->will($this->returnValue(true));
+        $this->_config->expects($this->once())
+            ->method('getAssetMinificationAdapter')
+            ->with('js');
+
         $this->_model->getAssets(array($asset));
     }
 
@@ -129,13 +134,13 @@ class MinifyServiceTest extends \PHPUnit_Framework_TestCase
             ->method('getContentType')
             ->will($this->returnValue('js'));
 
-        $this->_storeConfig->expects($this->once())
-            ->method('getConfigFlag')
-            ->with('dev/js/minify_files')
+        $this->_config->expects($this->once())
+            ->method('isAssetMinification')
+            ->with('js')
             ->will($this->returnValue(true));
-        $this->_storeConfig->expects($this->once())
-            ->method('getConfig')
-            ->with('dev/js/minify_adapter')
+        $this->_config->expects($this->once())
+            ->method('getAssetMinificationAdapter')
+            ->with('js')
             ->will($this->returnValue('Magento\Code\Minifier\AdapterInterface'));
 
         $this->_objectManager->expects($this->at(1))

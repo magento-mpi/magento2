@@ -22,14 +22,14 @@ class GroupedCollectionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $objectManager = $this->getMock('Magento\ObjectManager');
-        $objectManager
-            ->expects($this->any())
+        $factory = $this->getMock('Magento\View\Asset\PropertyGroupFactory',
+            array(), array(), '', false, false);
+        $factory = $this->getMock('Magento\View\Asset\PropertyGroupFactory',
+            array(), array(), '', false, false);
+        $factory->expects($this->any())
             ->method('create')
-            ->with('Magento\View\Asset\PropertyGroup')
-            ->will($this->returnCallback(array($this, 'createAssetGroup')))
-        ;
-        $this->_object = new \Magento\View\Asset\GroupedCollection($objectManager);
+            ->will($this->returnCallback(array($this, 'createAssetGroup')));
+        $this->_object = new \Magento\View\Asset\GroupedCollection($factory);
         $this->_asset = new \Magento\View\Asset\Remote('http://127.0.0.1/magento/test.css');
         $this->_object->add('asset', $this->_asset);
     }
@@ -43,12 +43,10 @@ class GroupedCollectionTest extends \PHPUnit_Framework_TestCase
     /**
      * Return newly created asset group. Used as a stub for object manger's creation operation.
      *
-     * @param string $class
      * @param array $arguments
      * @return \Magento\View\Asset\PropertyGroup
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
-    public function createAssetGroup($class, array $arguments)
+    public function createAssetGroup(array $arguments)
     {
         return new \Magento\View\Asset\PropertyGroup($arguments['properties']);
     }

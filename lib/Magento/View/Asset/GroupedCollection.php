@@ -21,9 +21,9 @@ class GroupedCollection extends Collection
     /**#@-*/
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\View\Asset\PropertyGroupFactory
      */
-    protected $objectManager;
+    protected $propertyFactory;
 
     /**
      * @var PropertyGroup[]
@@ -31,11 +31,11 @@ class GroupedCollection extends Collection
     protected $groups = array();
 
     /**
-     * @param \Magento\ObjectManager $objectManager
+     * @param PropertyGroupFactory $propertyFactory
      */
-    public function __construct(\Magento\ObjectManager $objectManager)
+    public function __construct(PropertyGroupFactory $propertyFactory)
     {
-        $this->objectManager = $objectManager;
+        $this->propertyFactory = $propertyFactory;
     }
 
     /**
@@ -68,9 +68,7 @@ class GroupedCollection extends Collection
             }
         }
         /** @var $newGroup PropertyGroup */
-        $newGroup = $this->objectManager->create(
-            'Magento\View\Asset\PropertyGroup', array('properties' => $properties)
-        );
+        $newGroup = $this->propertyFactory->create(array('properties' => $properties));
         $this->groups[] = $newGroup;
         return $newGroup;
     }

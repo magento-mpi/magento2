@@ -69,7 +69,6 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $assets
      * @param string $contentType
-     * @param string $storeConfigPath
      * @param string $appMode
      * @param string $mergeStrategy
      * @dataProvider getMergedAssetsDataProvider
@@ -166,15 +165,6 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
         $this->_filesystem->expects($this->once())
             ->method('delete')
             ->with($mergedDir, null);
-
-        $mediaStub = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $mediaStub->expects($this->once())
-            ->method('deleteFolder')
-            ->with($mergedDir);
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with('Magento\Core\Helper\File\Storage\Database')
-            ->will($this->returnValue($mediaStub));
 
         $this->_object->cleanMergedJsCss();
     }

@@ -90,7 +90,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($themeMock))
         ;
 
-        $this->_assetsMock = $this->getMock('Magento\View\Asset\Collection');
+        $this->_assetsMock = $this->getMock('Magento\View\Asset\GroupedCollection',
+            array(), array(), '', false, false);
         $this->_configMock = $this->getMock('Magento\Core\Model\ConfigInterface',
             array(), array(), '', false, false);
 
