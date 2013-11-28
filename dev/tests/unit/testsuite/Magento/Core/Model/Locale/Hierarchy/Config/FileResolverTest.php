@@ -15,14 +15,14 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_appDirsMock;
+    protected $_filesystem;
 
     protected function setUp()
     {
-        $this->_appDirsMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
-        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver($this->_appDirsMock);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver($this->_filesystem);
     }
 
     /**
@@ -32,9 +32,9 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $path = __DIR__ . '/_files';
 
-        $this->_appDirsMock->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::LOCALE)
+        $this->_filesystem->expects($this->once())
+            ->method('getPath')
+            ->with(\Magento\Filesystem::LOCALE)
             ->will($this->returnValue($path));
 
         $expectedFilesList = array(

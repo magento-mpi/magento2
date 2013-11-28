@@ -12,37 +12,51 @@ namespace Magento\App\Config\FileResolver;
 /***
  * @SuppressWarnings(PHPMD.UnusedFormalParameter)
  */
+
 class Primary implements \Magento\Config\FileResolverInterface
 {
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_applicationDirs;
-
-    /**
-     * @param \Magento\App\Dir $dirs
-     */
-    public function __construct(\Magento\App\Dir $dirs)
-    {
-        $this->_applicationDirs = $dirs;
-    }
-
-    /**
-     * Retrieve the list of configuration files with given name that relate to specified scope
+     * Module configuration file reader
      *
-     * @param string $filename
-     * @param string $scope
-     * @return array
-     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+     * @var \Magento\Module\Dir\Reader
+     */
+    protected $_moduleReader;
+
+    /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $directoryRead;
+
+    /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var FileIteratorFactory
+     */
+    protected $iteratorFactory;
+
+
+    /**
+     * @param \Magento\Filesystem $filesystem
+     * @param FileIteratorFactory $iteratorFactory
+     */
+    public function __construct(
+        \Magento\Filesystem $filesystem,
+        \Magento\App\Config\FileResolver\FileIteratorFactory $iteratorFactory
+    ) {
+        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->iteratorFactory = $iteratorFactory;
+        $this->filesystem = $filesystem;
+    }
+    /**
+     * @inheritdoc
      */
     public function get($filename, $scope)
     {
-        $configDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
-        $fileList = glob($configDir . '/*/' . $filename);
-
-        if (file_exists($configDir . '/' . $filename)) {
-            array_unshift($fileList, $configDir . '/' . $filename);
-        }
-        return $fileList;
+        return $this->iteratorFactory->create(
+            $this->filesystem, $this->directoryRead->search('#/' . preg_quote($filename) . '$#')
+        );
     }
 }

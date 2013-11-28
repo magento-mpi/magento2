@@ -19,17 +19,19 @@ class Primary
     protected $_appMode;
 
     /**
-     * @var \Magento\App\Dir
+     * @var string
      */
-    protected $_dirs;
+    protected $_configDirectoryPath;
 
     /**
-     * @param \Magento\App\Dir $dirs
+     * @param string $configDirectoryPath
      * @param string $appMode
      */
-    public function __construct(\Magento\App\Dir $dirs, $appMode = \Magento\App\State::MODE_DEFAULT)
+    public function __construct(
+        $configDirectoryPath,
+        $appMode = \Magento\App\State::MODE_DEFAULT)
     {
-        $this->_dirs = $dirs;
+        $this->_configDirectoryPath = $configDirectoryPath;
         $this->_appMode = $appMode;
     }
 
@@ -41,7 +43,15 @@ class Primary
     public function load()
     {
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
-            new \Magento\App\Config\FileResolver\Primary($this->_dirs),
+            new \Magento\App\Config\FileResolver\Primary(
+                new \Magento\Filesystem(
+                    new \Magento\Filesystem\DirectoryList($this->_configDirectoryPath),
+                    new \Magento\Filesystem\Directory\ReadFactory(),
+                    new \Magento\Filesystem\Directory\WriteFactory(),
+                    new \Magento\Filesystem\Adapter\Local()
+                ),
+                new \Magento\App\Config\FileResolver\FileIteratorFactory()
+            ),
             new \Magento\ObjectManager\Config\Mapper\Dom(),
             new \Magento\ObjectManager\Config\SchemaLocator(),
             new \Magento\App\Config\ValidationState($this->_appMode)

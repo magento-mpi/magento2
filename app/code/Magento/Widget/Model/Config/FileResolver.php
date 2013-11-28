@@ -19,20 +19,32 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_applicationDirs;
+    protected $directoryRead;
 
     /**
-     * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\App\Dir $applicationDirs
+     * @var \Magento\Filesystem
      */
-    public function __construct(
+    protected $filesystem;
+
+    /**
+     * @var FileIteratorFactory
+     */
+    protected $iteratorFactory;
+
+        /**
+         * @param \Magento\Filesystem $filesystem
+         */
+        public function __construct(
+        \Magento\Filesystem $filesystem,
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\App\Dir $applicationDirs
-    ) {
-        $this->_moduleReader = $moduleReader;
-        $this->_applicationDirs = $applicationDirs;
+        \Magento\Core\Model\Locale\Hierarchy\Config\FileIteratorFactory $iteratorFactory
+    ){
+        $this->directoryRead    = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        $this->iteratorFactory  = $iteratorFactory;
+        $this->filesystem       = $filesystem;
+        $this->_moduleReader    = $moduleReader;
     }
 
     /**
@@ -46,12 +58,14 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             case 'design':
-                $fileList = glob($this->_applicationDirs->getDir(\Magento\App\Dir::THEMES)
-                . "/*/*/etc/$filename", GLOB_NOSORT | GLOB_BRACE);
+                $fileList = $this->directoryRead->search('#/' . preg_quote($filename) . '$#');
                 break;
             default:
                 break;
         }
-        return $fileList;
+        return $this->iteratorFactory->create(array(
+            'paths' => $fileList,
+            'filesystem' => $this->filesystem
+        ));
     }
 }

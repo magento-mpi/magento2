@@ -58,7 +58,8 @@ class DirectoryList extends Dir
         \Magento\Filesystem::MEDIA         => array('path' => 'pub/media'),
         \Magento\Filesystem::UPLOAD        => array('path' => 'pub/media/upload'),
         \Magento\Filesystem::STATIC_VIEW   => array('path' => 'pub/static'),
-        \Magento\Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache')
+        \Magento\Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache'),
+        \Magento\Filesystem::LOCALE          => array('path' => '')
     );
 
     /**
@@ -152,5 +153,16 @@ class DirectoryList extends Dir
             );
         }
         return $this->directories[$code];
+    }
+
+    /**
+     * \Directory path getter
+     *
+     * @param string $code One of self const
+     * @return string|bool
+     */
+    public function getDir($code = self::ROOT)
+    {
+        return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }
 }

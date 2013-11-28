@@ -36,11 +36,6 @@ class MergeService
     private $_filesystem;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    private $_dirs;
-
-    /**
      * @var \Magento\App\State
      */
     private $_state;
@@ -49,20 +44,17 @@ class MergeService
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Filesystem $filesystem,
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\App\State $state
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dirs,
         \Magento\App\State $state
     ) {
         $this->_objectManager = $objectManager;
         $this->_storeConfig = $storeConfig;
         $this->_filesystem = $filesystem;
-        $this->_dirs = $dirs;
         $this->_state = $state;
     }
 

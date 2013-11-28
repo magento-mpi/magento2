@@ -35,7 +35,7 @@ class Export extends \Magento\ImportExport\Model\Export
 
     /**
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
      * @param \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig
      * @param \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory
@@ -45,7 +45,7 @@ class Export extends \Magento\ImportExport\Model\Export
      */
     public function __construct(
         \Magento\Logger $logger,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Log\AdapterFactory $adapterFactory,
         \Magento\ImportExport\Model\Export\ConfigInterface $exportConfig,
         \Magento\ImportExport\Model\Export\Entity\Factory $entityFactory,
@@ -54,7 +54,15 @@ class Export extends \Magento\ImportExport\Model\Export
         array $data = array()
     ) {
         $this->_dateModel = $coreDate;
-        parent::__construct($logger, $dir, $adapterFactory, $exportConfig, $entityFactory, $exportAdapterFac, $data);
+        parent::__construct(
+            $logger,
+            $filesystem,
+            $adapterFactory,
+            $exportConfig,
+            $entityFactory,
+            $exportAdapterFac,
+            $data
+        );
     }
 
     /**

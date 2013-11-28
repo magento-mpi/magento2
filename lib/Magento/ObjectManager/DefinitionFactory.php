@@ -37,6 +37,13 @@ class DefinitionFactory
     protected $_definitionFormat;
 
     /**
+     * Filesystem Driver
+     *
+     * @var \Magento\Filesystem\DriverInterface
+     */
+    protected $_filesystemDriver;
+
+    /**
      * List of defintion models
      *
      * @var array
@@ -47,12 +54,18 @@ class DefinitionFactory
     );
 
     /**
-     * @param $definitionDir
-     * @param $generationDir
-     * @param $definitionFormat
+     * @param \Magento\Filesystem\DriverInterface $filesystemDriver
+     * @param string $definitionDir
+     * @param string $generationDir
+     * @param string  $definitionFormat
      */
-    public function __construct($definitionDir, $generationDir, $definitionFormat)
-    {
+    public function __construct(
+        \Magento\Filesystem\DriverInterface $filesystemDriver,
+        $definitionDir,
+        $generationDir,
+        $definitionFormat
+    ) {
+        $this->_filesystemDriver = $filesystemDriver;
         $this->_definitionDir = $definitionDir;
         $this->_generationDir = $generationDir;
         $this->_definitionFormat = $definitionFormat;
@@ -66,8 +79,8 @@ class DefinitionFactory
     {
         if (!$definitions) {
             $path = $this->_definitionDir . '/definitions.php';
-            if (is_readable($path)) {
-                $definitions = file_get_contents($path);
+            if ($this->_filesystemDriver->isReadable($path)) {
+                $definitions = $this->_filesystemDriver->fileGetContents($path);
             }
         }
         if ($definitions) {
@@ -79,7 +92,7 @@ class DefinitionFactory
         } else {
             $autoloader = new \Magento\Autoload\IncludePath();
             $generatorIo = new \Magento\Code\Generator\Io(
-                new \Magento\Filesystem\Driver\Base(),
+                $this->_filesystemDriver,
                 $autoloader,
                 $this->_generationDir
             );
@@ -100,8 +113,10 @@ class DefinitionFactory
     public function createPluginDefinition()
     {
         $path = $this->_definitionDir . '/plugins.php';
-        if (is_readable($path)) {
-            return new \Magento\Interception\Definition\Compiled($this->_unpack(file_get_contents($path)));
+        if ($this->_filesystemDriver->isReadable($path)) {
+            return new \Magento\Interception\Definition\Compiled(
+                $this->_unpack($this->_filesystemDriver->fileGetContents($path))
+            );
         } else {
             return new \Magento\Interception\Definition\Runtime();
         }
@@ -113,8 +128,10 @@ class DefinitionFactory
     public function createRelations()
     {
         $path = $this->_definitionDir . '/' . 'relations.php';
-        if (is_readable($path)) {
-            return new \Magento\ObjectManager\Relations\Compiled($this->_unpack(file_get_contents($path)));
+        if ($this->_filesystemDriver->isReadable($path)) {
+            return new \Magento\ObjectManager\Relations\Compiled(
+                $this->_unpack($this->_filesystemDriver->fileGetContents($path))
+            );
         } else {
             return new \Magento\ObjectManager\Relations\Runtime();
         }

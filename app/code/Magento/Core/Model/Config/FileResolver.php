@@ -19,20 +19,34 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_applicationDirs;
+    protected $directoryRead;
+
+    /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var FileIteratorFactory
+     */
+    protected $iteratorFactory;
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\App\Dir $applicationDirs
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\App\Dir $applicationDirs
+        \Magento\Filesystem $filesystem,
+        \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
     ) {
+        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->iteratorFactory = $iteratorFactory;
+        $this->filesystem = $filesystem;
         $this->_moduleReader = $moduleReader;
-        $this->_applicationDirs = $applicationDirs;
     }
 
     /**
@@ -42,11 +56,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'primary':
-                $appConfigDir = $this->_applicationDirs->getDir(\Magento\App\Dir::CONFIG);
-                // Create pattern similar to app/etc/{*config.xml,*/*config.xml}
-                $filePattern = $appConfigDir . '/'
-                    . '{*' . $filename . ',*' . '/' . '*' . $filename . '}';
-                $fileList = glob($filePattern, GLOB_BRACE);
+                $fileList = $this->directoryRead->search('#/' . $filename . '$#');
                 break;
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
@@ -55,6 +65,14 @@ class FileResolver implements \Magento\Config\FileResolverInterface
                 $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
-        return $fileList;
+        $output = array();
+        foreach ($fileList as $file) {
+            $output[] = $this->directoryRead->getRelativePath($file);
+        }
+//        absolute pathes here
+        return $this->iteratorFactory->create(array(
+            'filesystem'    => $this->filesystem,
+            'paths'         => $output
+        ));
     }
 }

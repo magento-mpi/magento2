@@ -59,6 +59,16 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     protected $_responseMock;
 
+    /**
+     * @var \Magento\Filesystem|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $filesystemMock;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $directoryReadMock;
+
     protected function setUp()
     {
         $this->_requestMock = $this->getMock('Magento\Core\Model\File\Storage\Request', array(), array(), '', false);
@@ -72,6 +82,15 @@ class MediaTest extends \PHPUnit_Framework_TestCase
         $this->_dirVerificationMock = $this->getMock(
             'Magento\Filesystem\DirectoryList\Verification', array(), array(), '', false
         );
+
+        $this->filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->directoryReadMock = $this->getMock('Magento\Filesystem\Directory\Read', array(), array(), '', false);
+
+        $this->filesystemMock->expects($this->any())
+            ->method('getDirectoryRead')
+            ->with(\Magento\Filesystem::MEDIA)
+            ->will($this->returnValue($this->directoryReadMock));
+
         $this->_responseMock = $this->getMock('Magento\Core\Model\File\Storage\Response', array(), array(), '', false);
 
         $map = array(
@@ -89,7 +108,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'baseDir',
             'mediaDirectory',
             'var',
-            'params'
+            'params',
+            $this->filesystemMock
         );
         $this->_objectManagerMock->expects($this->any())->method('get')->will($this->returnValueMap($map));
     }
@@ -118,7 +138,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'baseDir',
             false,
             'var',
-            'params'
+            'params',
+            $this->filesystemMock
         );
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_objectManagerMock->expects($this->once())->method('create')
@@ -143,7 +164,8 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             'baseDir',
             false,
             'var',
-            'params'
+            'params',
+            $this->filesystemMock
         );
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_responseMock->expects($this->once())->method('sendNotFound');
@@ -168,15 +190,31 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     public function testProcessRequestReturnsFileIfItsProperlySynchronized()
     {
-        $filePath = __DIR__ . '/_files';
+        $relativeFilePath = '_files';
+        $filePath = __DIR__ . '/' . $relativeFilePath;
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getPathInfo')
               ->will($this->returnValue($this->_mediaDirectory . '/'));
         $this->_sync->expects($this->once())->method('synchronize');
         $this->_requestMock->expects($this->any())
              ->method('getFilePath')->will($this->returnValue(realpath($filePath)));
-        $this->_responseMock->expects($this->once())->method('sendFile')->with($filePath);
-        $this->_responseMock->expects($this->never())->method('sendNotFound');
+
+        $this->directoryReadMock->expects($this->once())
+            ->method('getRelativePath')
+            ->with($filePath)
+            ->will($this->returnValue($relativeFilePath));
+
+        $this->directoryReadMock->expects($this->once())
+            ->method('isReadable')
+            ->with($relativeFilePath)
+            ->will($this->returnValue(true));
+        $this->_responseMock
+            ->expects($this->once())
+            ->method('sendFile')
+            ->with($filePath);
+        $this->_responseMock
+            ->expects($this->never())
+            ->method('sendNotFound');
         $this->assertEquals(0, $this->_model->execute());
     }
 

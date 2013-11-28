@@ -151,9 +151,8 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSessionSavePath()
     {
-        $this->assertEquals(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-                ->getDir('session'),
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->assertEquals($objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::SESSION),
             $this->_model->getSessionSavePath()
         );
     }

@@ -112,9 +112,11 @@ class AbstractSession extends \Magento\Object
     protected $_storeManager;
 
     /**
-     * @var \Magento\App\Dir
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $filesystem;
 
     /**
      * @var \Magento\Core\Model\Url
@@ -158,7 +160,7 @@ class AbstractSession extends \Magento\Object
         $this->_request = $context->getRequest();
         $this->_appState = $context->getAppState();
         $this->_storeManager = $context->getStoreManager();
-        $this->_dir = $context->getDir();
+        $this->filesystem = $context->getFilesystem();
         $this->_url = $context->getUrl();
         parent::__construct($data);
     }
@@ -182,7 +184,6 @@ class AbstractSession extends \Magento\Object
         if (isset($_SESSION) && !$this->getSkipEmptySessionCheck()) {
             return $this;
         }
-
         switch($this->getSessionSaveMethod()) {
             case 'db':
                 ini_set('session.save_handler', 'user');
@@ -204,7 +205,8 @@ class AbstractSession extends \Magento\Object
                 break;
             default:
                 session_module_name($this->getSessionSaveMethod());
-                if (is_writable($this->getSessionSavePath())) {
+                $dir = $this->filesystem->getDirectoryWrite(\Magento\FileSystem::SESSION);
+                if ($dir->isWritable($dir->getRelativePath($this->getSessionSavePath()))) {
                     session_save_path($this->getSessionSavePath());
                 }
                 break;
@@ -760,7 +762,7 @@ class AbstractSession extends \Magento\Object
         if ($this->_appState->isInstalled() && $this->_savePath) {
             return $this->_savePath;
         }
-        return $this->_dir->getDir('session');
+        return $this->filesystem->getPath(\Magento\Filesystem::SESSION);
     }
 
     /**

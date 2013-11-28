@@ -18,10 +18,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     {
         $appConfigDir = __DIR__ . '/FileResolver/_files/app/etc';
 
-        $applicationDirs = $this->getMock('Magento\App\Dir', array(), array('getDir'), '', false);
+        $applicationDirs = $this->getMock('Magento\Filesystem', array(), array('getPath'), '', false);
         $applicationDirs->expects($this->any())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::CONFIG)
+            ->method('getPath')
+            ->with(\Magento\Filesystem::CONFIG)
             ->will($this->returnValue($appConfigDir));
 
         $moduleReader = $this->getMock('Magento\Module\Dir\Reader', array(),

@@ -27,7 +27,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_encryptor;
 
     /**
-     * @var \Magento\Filesystem\Directory\Write
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
     protected $_directory;
 
@@ -39,7 +39,6 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */

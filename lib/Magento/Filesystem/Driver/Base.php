@@ -263,7 +263,7 @@ class Base implements \Magento\Filesystem\DriverInterface
     }
 
     /**
-     * Delete directory
+     * Recursive delete directory
      *
      * @param string $path
      * @return bool
@@ -271,6 +271,16 @@ class Base implements \Magento\Filesystem\DriverInterface
      */
     public function deleteDirectory($path)
     {
+        $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
+        $iterator = new \FilesystemIterator($path, $flags);
+        /** @var \FilesystemIterator $entity */
+        foreach ($iterator as $entity) {
+            if ($entity->isDir()) {
+                $this->deleteDirectory($entity->getPathname());
+            } else {
+                $this->deleteFile($entity->getPathname());
+            }
+        }
         $result = @rmdir($path);
         if (!$result) {
             throw new FilesystemException(

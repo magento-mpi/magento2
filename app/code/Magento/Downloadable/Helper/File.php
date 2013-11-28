@@ -159,9 +159,8 @@ class File extends \Magento\Core\Helper\AbstractHelper
      */
     public function getFilePath($path, $file)
     {
-        if(substr($file, 0, 1) == '/') {
-            return $path . '/' . substr($file, 1);
-        }
+        $path = rtrim($path, '/');
+        $file = ltrim($file, '/');
 
         return $path . '/' . $file;
     }
@@ -182,13 +181,11 @@ class File extends \Magento\Core\Helper\AbstractHelper
     /**
      * Get filesize in bytes.
      * @param $file
-     * @return null
+     * @return int
      */
     public function getFileSize($file)
     {
-        $fileStat = $this->_mediaDirectory->stat($file);
-
-        return isset($fileStat[7]) ? $fileStat[7] : null;
+        return $this->_mediaDirectory->stat($file)['size'];
     }
 
     public function getFileType($filePath)

@@ -128,22 +128,23 @@ class CopyRule
      */
     private function _getMatchingDirs($dirPattern)
     {
-        $pattern = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
-            switch ($matches[0]) {
-                case '*':
-                    return '.*';
-                case '?':
-                    return '.';
-                default:
-                    return '\\'.$matches[0];
-            }
-        }, $dirPattern, -1, $count);
+        $dirPattern = preg_replace($this->_placeholderPcre, '*', $dirPattern, -1, $placeholderCount);
         $directoryHandler = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-        if ($count) {
+        if ($placeholderCount) {
             // autodetect pattern base directory because the filesystem interface requires it
-            $firstPlaceholderPos = strpos($pattern, '.*');
-            $patternBaseDir = substr($pattern, 0, $firstPlaceholderPos);
-            $patternTrailing = substr($pattern, $firstPlaceholderPos);
+            $firstPlaceholderPos = strpos($dirPattern, '*');
+            $patternBaseDir = substr($dirPattern, 0, $firstPlaceholderPos);
+            $patternTrailing = substr($dirPattern, $firstPlaceholderPos);
+            $patternTrailing = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
+                switch ($matches[0]) {
+                    case '*':
+                        return '.*';
+                    case '?':
+                        return '.';
+                    default:
+                        return '\\'.$matches[0];
+                }
+            }, $patternTrailing, -1, $count);
 
             $paths = $directoryHandler->search('#' . $patternTrailing . '#', $patternBaseDir);
         } else {

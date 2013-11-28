@@ -99,13 +99,6 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_appState;
 
     /**
-     * Core Dir model
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_coreDir;
-
-    /**
      * Locale model
      *
      * @var \Magento\Core\Model\LocaleInterface
@@ -126,7 +119,6 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Install\Model\Installer\Data $installerData
      * @param \Magento\App\State $appState
-     * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\ObjectManager $objectManager
      */
@@ -137,7 +129,6 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\Filesystem $filesystem,
         \Magento\Install\Model\Installer\Data $installerData,
         \Magento\App\State $appState,
-        \Magento\App\Dir $coreDir,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\ObjectManager $objectManager
     ) {
@@ -148,7 +139,6 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_installerData = $installerData;
         $this->_installer->setDataModel($this->_installerData);
         $this->_appState = $appState;
-        $this->_coreDir = $coreDir;
         $this->_locale = $locale;
         $this->_objectManager = $objectManager;
     }

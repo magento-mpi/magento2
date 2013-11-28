@@ -19,9 +19,11 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     const DEFAULT_PREVIEW_IMAGE = 'Magento_Core::theme/default_preview.jpg';
 
     /**
-     * @var \Magento\App\Dir
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
      */
-    protected $dir;
+    protected $filesystem;
 
     /**
      * @var \Magento\View\Url
@@ -36,16 +38,16 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
     /**
      * Initialize dependencies
      *
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\Url $viewUrl
-     * @param \Magento\UrlInterface $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\View\Url $viewUrl,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->dir = $dir;
+        $this->filesystem = $filesystem;
         $this->viewUrl = $viewUrl;
         $this->storeManager = $storeManager;
     }
@@ -78,7 +80,7 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getImagePreviewDirectory()
     {
-        return $this->dir->getDir(\Magento\App\Dir::MEDIA) . '/' . self::PREVIEW_DIRECTORY_PATH;
+        return $this->filesystem->getPath(\Magento\Filesystem::MEDIA) . '/' . self::PREVIEW_DIRECTORY_PATH;
     }
 
     /**
@@ -88,6 +90,6 @@ class Path implements \Magento\View\Design\Theme\Image\PathInterface
      */
     public function getTemporaryDirectory()
     {
-        return $this->dir->getDir(\Magento\App\Dir::MEDIA) . '/theme/origin';
+        return $this->filesystem->getPath(\Magento\Filesystem::MEDIA) . '/theme/origin';
     }
 }

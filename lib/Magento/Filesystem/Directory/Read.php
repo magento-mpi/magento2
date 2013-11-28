@@ -63,7 +63,6 @@ class Read implements ReadInterface
     protected function setProperties(array $config)
     {
         if (!empty($config['path'])) {
-            //throw new FilesystemException('Cannot create directory without path');
             $this->path = rtrim($this->fixSeparator($config['path']), '/') . '/';
         }
     }
