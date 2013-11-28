@@ -47,30 +47,6 @@ class SaveHandlerFactory
      */
     public function create($saveMethod, $params = array())
     {
-        // @todo START: DELETE IT AFTER CONFIG IMPLEMENTATION
-
-        switch($saveMethod) {
-            case 'db':
-                ini_set('session.save_handler', 'user');
-                break;
-            case 'memcache':
-                ini_set('session.save_handler', 'memcache');
-                break;
-            case 'memcached':
-                ini_set('session.save_handler', 'memcached');
-                break;
-            case 'files':
-                ini_set('session.save_handler', 'files');
-                break;
-            case 'eaccelerator':
-                ini_set('session.save_handler', 'eaccelerator');
-                break;
-            default:
-                session_module_name($saveMethod);
-                break;
-        }
-        // @todo FINISH: DELETE IT AFTER CONFIG IMPLEMENTATION
-
         $sessionHandler = '\SessionHandler';
         if (isset($this->handlers[$saveMethod])) {
             $sessionHandler = $this->handlers[$saveMethod];

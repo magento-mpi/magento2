@@ -35,7 +35,7 @@ class VarienTest extends \PHPUnit_Framework_TestCase
         ini_set('session.save_handler', $origSessionHandler);
         /** @var $configModel \Magento\Core\Model\Config */
         $configModel = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config');
-        $configModel->setNode(\Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD, $saveMethod);
+        $configModel->setNode(\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD, $saveMethod);
         /**
          * @var \Magento\Core\Model\Session\AbstractSession $model
          */

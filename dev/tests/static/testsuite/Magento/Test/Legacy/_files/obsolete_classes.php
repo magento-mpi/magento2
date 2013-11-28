@@ -1465,4 +1465,5 @@ return array(
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Model\Resource\Session', 'Magento\Session\SaveHandler\DbTable'),
+    array('Magento\Core\Model\Session\Exception', 'Magento\Session\Exception'),
 );

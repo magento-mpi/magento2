@@ -45,6 +45,7 @@ class Session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
+     * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param array $data
@@ -54,13 +55,14 @@ class Session
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
+        \Magento\Session\ValidatorInterface $validator,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\Url $backendUrl,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
         $this->start('admin');
     }
 

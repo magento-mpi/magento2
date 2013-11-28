@@ -11,6 +11,9 @@
  */
 namespace Magento\Core\Model\Session;
 
+/**
+ * Session Manager
+ */
 class AbstractSession extends \Magento\Object
 {
     /**
@@ -56,7 +59,7 @@ class AbstractSession extends \Magento\Object
     protected $_eventManager;
 
     /**
-     * @var \Magento\Core\Model\Session\Validator
+     * @var \Magento\Session\ValidatorInterface
      */
     protected $_validator;
 
@@ -64,11 +67,6 @@ class AbstractSession extends \Magento\Object
      * @var \Magento\Core\Model\Store\Config
      */
     protected $_coreStoreConfig;
-
-    /**
-     * @var string
-     */
-    protected $_saveMethod;
 
     /**
      * Core message
@@ -119,6 +117,7 @@ class AbstractSession extends \Magento\Object
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
+     * @param \Magento\Session\ValidatorInterface $validator
      * @param array $data
      */
     public function __construct(
@@ -126,17 +125,16 @@ class AbstractSession extends \Magento\Object
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
+        \Magento\Session\ValidatorInterface $validator,
         array $data = array()
     ) {
-        $this->_validator = $context->getValidator();
+        $this->_validator = $validator;
         $this->_eventManager = $context->getEventManager();
         $this->_logger = $context->getLogger();
         $this->_coreStoreConfig = $context->getStoreConfig();
-        $this->_saveMethod = $this->_saveMethod ?: $context->getSaveMethod();
         $this->messagesFactory = $context->getMessagesFactory();
         $this->messageFactory = $context->getMessageFactory();
         $this->_request = $context->getRequest();
-        $this->_appState = $context->getAppState();
         $this->_storeManager = $context->getStoreManager();
         $this->_sidResolver = $sidResolver;
         $this->_sessionConfig = $sessionConfig;
@@ -336,8 +334,8 @@ class AbstractSession extends \Magento\Object
     /**
      * Retrieve messages from session
      *
-     * @param   bool $clear
-     * @return  \Magento\Message\Collection
+     * @param bool $clear
+     * @return \Magento\Message\Collection
      */
     public function getMessages($clear = false)
     {
@@ -357,9 +355,9 @@ class AbstractSession extends \Magento\Object
     /**
      * Not Magento exception handling
      *
-     * @param   \Exception $exception
-     * @param   string $alternativeText
-     * @return  \Magento\Core\Model\Session\AbstractSession
+     * @param \Exception $exception
+     * @param string $alternativeText
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function addException(\Exception $exception, $alternativeText)
     {
@@ -455,8 +453,8 @@ class AbstractSession extends \Magento\Object
     /**
      * Adds messages array to message collection, but doesn't add duplicates to it
      *
-     * @param   array|string|\Magento\Message\AbstractMessage $messages
-     * @return  \Magento\Core\Model\Session\AbstractSession
+     * @param array|string|\Magento\Message\AbstractMessage $messages
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function addUniqueMessages($messages)
     {
@@ -472,7 +470,7 @@ class AbstractSession extends \Magento\Object
         foreach ($items as $item) {
             if ($item instanceof \Magento\Message\AbstractMessage) {
                 $text = $item->getText();
-            } else if (is_string($item)) {
+            } elseif (is_string($item)) {
                 $text = $item;
             } else {
                 continue; // Some unknown object, do not put it in already existing messages
@@ -483,7 +481,7 @@ class AbstractSession extends \Magento\Object
         foreach ($messages as $message) {
             if ($message instanceof \Magento\Message\AbstractMessage) {
                 $text = $message->getText();
-            } else if (is_string($message)) {
+            } elseif (is_string($message)) {
                 $text = $message;
             } else {
                 $text = null; // Some unknown object, add it anyway
@@ -619,24 +617,10 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
-     * Retrieve session save method
-     *
-     * @return string
-     */
-    public function getSessionSaveMethod()
-    {
-        if ($this->_appState->isInstalled() && $this->_saveMethod) {
-            return $this->_saveMethod;
-        }
-        return 'files';
-    }
-
-    /**
      * Renew session id and update session cookie
      *
      * @param bool $deleteOldSession
      * @return \Magento\Core\Model\Session\AbstractSession
-     * @throws \LogicException
      */
     public function regenerateId($deleteOldSession = true)
     {
@@ -676,8 +660,6 @@ class AbstractSession extends \Magento\Object
      * Expire the session cookie
      *
      * Sends a session cookie with no value, and with an expiry in the past.
-     *
-     * @return void
      */
     public function expireSessionCookie()
     {

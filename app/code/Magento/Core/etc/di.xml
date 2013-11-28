@@ -38,6 +38,7 @@
     <preference for="Magento\App\ViewInterface" type="Magento\App\View" />
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
+    <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
@@ -343,17 +344,15 @@
             <value type="argument">Magento\Encryption\Encryptor::PARAM_CRYPT_KEY</value>
         </param>
     </type>
-    <type name="Magento\Core\Model\Session\Context">
-        <param name="saveMethod">
-            <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</value>
-        </param>
-    </type>
     <type name="Magento\Core\Model\Session\Config">
         <param name="savePath">
             <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH</value>
         </param>
         <param name="cacheLimiter">
             <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_CACHE_LIMITER</value>
+        </param>
+        <param name="saveMethod">
+            <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</value>
         </param>
     </type>
     <type name="Magento\Core\Model\StoreManager">

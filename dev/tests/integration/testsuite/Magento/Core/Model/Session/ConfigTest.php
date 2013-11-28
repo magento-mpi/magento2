@@ -28,6 +28,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var \Magento\Core\Model\Session\AbstractSession _model */
         $this->_model = $objectManager->create('\Magento\Core\Model\Session\Config', array(
+            'saveMethod' => 'files',
             'cacheLimiter' => $this->_cacheLimiter
         ));
     }
@@ -50,6 +51,14 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('localhost', $this->_model->getCookieDomain());
         $this->assertEquals(false, $this->_model->getCookieSecure());
         $this->assertEquals(true, $this->_model->getCookieHttpOnly());
+    }
+
+    /**
+     * @magentoAppIsolation enabled
+     */
+    public function testGetSessionSaveMethod()
+    {
+        $this->assertEquals('files', $this->_model->getSaveHandler());
     }
 }
 

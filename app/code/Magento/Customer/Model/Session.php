@@ -68,6 +68,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
+     * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -82,6 +83,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
+        \Magento\Session\ValidatorInterface $validator,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
@@ -97,7 +99,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
             $namespace .= '_' . ($this->_storeManager->getWebsite()->getCode());

@@ -123,7 +123,12 @@ return array(
     array('_savePath', '\Magento\Core\Model\Session\Context'),
     array('_cacheLimiter', '\Magento\Core\Model\Session\Context'),
     array('_dir', '\Magento\Core\Model\Session\Context'),
+    array('_saveMethod', '\Magento\Core\Model\Session\Context'),
+    array('_appState', '\Magento\Core\Model\Session\Context'),
+    array('_validator', '\Magento\Core\Model\Session\Context'),
     array('_cacheLimiter', 'Magento\Core\Model\Session\AbstractSession'),
+    array('_saveMethod', 'Magento\Core\Model\Session\AbstractSession'),
+    array('_appState', 'Magento\Core\Model\Session\AbstractSession'),
     array('_dir', 'Magento\Core\Model\Session\AbstractSession'),
     array('_savePath', 'Magento\Core\Model\Session\AbstractSession'),
 );

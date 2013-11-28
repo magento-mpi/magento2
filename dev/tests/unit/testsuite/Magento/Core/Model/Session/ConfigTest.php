@@ -76,6 +76,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_requestMock,
             $this->_appState,
             $this->_dir,
+            'files',
             __DIR__
         );
     }

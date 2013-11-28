@@ -132,9 +132,4 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isValidForHost('test.com'));
         $this->assertTrue($this->_model->isValidForHost('localhost'));
     }
-
-    public function testGetSessionSaveMethod()
-    {
-        $this->assertEquals('files', $this->_model->getSessionSaveMethod());
-    }
 }

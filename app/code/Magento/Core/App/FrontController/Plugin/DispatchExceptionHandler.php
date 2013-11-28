@@ -48,7 +48,7 @@ class DispatchExceptionHandler
     {
         try {
             return $invocationChain->proceed($arguments);
-        } catch (\Magento\Core\Model\Session\Exception $e) {
+        } catch (\Magento\Session\Exception $e) {
             header('Location: ' . $this->_storeManager->getStore()->getBaseUrl());
             exit;
         } catch (\Magento\Core\Model\Store\Exception $e) {

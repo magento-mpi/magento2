@@ -110,6 +110,7 @@ class Config implements \Zend\Session\Config\ConfigInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\App\Dir $dir
+     * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      */
@@ -120,6 +121,7 @@ class Config implements \Zend\Session\Config\ConfigInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\App\Dir $dir,
+        $saveMethod,
         $savePath = null,
         $cacheLimiter = null
     ) {
@@ -129,6 +131,8 @@ class Config implements \Zend\Session\Config\ConfigInterface
         $this->_httpRequest = $request;
         $this->_appState = $appState;
         $this->_dir = $dir;
+
+        $this->setSaveHandler($saveMethod === 'db' ? 'user' : $saveMethod);
 
         if (!$this->_appState->isInstalled() || !$savePath) {
             $savePath = $this->_dir->getDir('session');

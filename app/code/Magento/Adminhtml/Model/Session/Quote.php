@@ -65,6 +65,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
+     * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -75,6 +76,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
+        \Magento\Session\ValidatorInterface $validator,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -83,7 +85,7 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
         $this->start('adminhtml_quote');
         if ($this->_storeManager->hasSingleStore()) {
             $this->setStoreId($this->_storeManager->getStore(true)->getId());

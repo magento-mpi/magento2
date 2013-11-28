@@ -24,6 +24,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
+     * @param \Magento\Session\ValidatorInterface $validator
      * @param array $data
      * @param null $sessionName
      */
@@ -32,10 +33,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
+        \Magento\Session\ValidatorInterface $validator,
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
         $this->start('magento_pbridge', $sessionName);
     }
 }

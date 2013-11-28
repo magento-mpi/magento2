@@ -1037,8 +1037,12 @@ return array(
     array('_getRequest', '\Magento\Stdlib\Cookie'),
     array('init', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\AbstractSession::start'),
     array('getCacheLimiter', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getSaveMethod', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+    array('getAppState', '\Magento\Core\Model\Session\Context'),
+    array('getValidator', '\Magento\Core\Model\Session\Context'),
     array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
+    array('getSessionSaveMethod', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('setSessionName', '\Magento\Core\Model\Session\AbstractSession', 'setName'),
 );
