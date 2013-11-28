@@ -15,7 +15,7 @@
  * @package    Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Page\Block;
+namespace Magento\Core\Block;
 
 class Switcher extends \Magento\View\Element\Template
 {

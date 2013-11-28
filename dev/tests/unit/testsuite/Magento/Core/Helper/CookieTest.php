@@ -23,10 +23,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\App\Helper\Context', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false, false),
+            $this->_getCookieStub(array(1 => 1)),
             array(
                 'current_store' => $this->_getStoreStub(),
-                'cookie_model' => $this->_getCookieStub(array(1 => 1)),
                 'website' => $this->_getWebsiteStub(),
             )
         );
@@ -38,10 +37,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\App\Helper\Context', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false, false),
+            $this->_getCookieStub(array()),
             array(
                 'current_store' => $this->_getStoreStub(),
-                'cookie_model' => $this->_getCookieStub(array()),
                 'website' => $this->_getWebsiteStub(),
             )
         );
@@ -66,10 +64,9 @@ class CookieTest extends \PHPUnit_Framework_TestCase
         $this->_object = new \Magento\Core\Helper\Cookie(
             $this->getMock('Magento\App\Helper\Context', array(), array(), '', false, false),
             $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false, false),
-            $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false, false),
+            $this->_getCookieStub(array(1 => 1)),
             array(
                 'current_store' => $storeStub,
-                'cookie_model' => $this->_getCookieStub(array(1 => 1)),
                 'website' => $this->_getWebsiteStub()
             )
         );
@@ -98,7 +95,7 @@ class CookieTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getCookieStub($cookieString = array())
     {
-        $cookieMock = $this->getMock('Magento\Core\Model\Cookie', array(), array(), '', false);
+        $cookieMock = $this->getMock('Magento\Cookie\ManagerInterface', array(), array(), '', false);
 
         $cookieMock->expects($this->any())
             ->method('get')

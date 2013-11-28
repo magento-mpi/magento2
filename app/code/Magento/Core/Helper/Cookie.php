@@ -52,7 +52,7 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Cookie\ManagerInterface $cookieManager
      * @param array $data
      * 
      * @throws \InvalidArgumentException
@@ -60,22 +60,17 @@ class Cookie extends \Magento\App\Helper\AbstractHelper
     public function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Cookie\ManagerInterface $cookieManager,
         array $data = array()
     ) {
         parent::__construct($context);
+        $this->_cookieModel = $cookieManager;
         $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : $storeManager->getStore();
 
         if (!($this->_currentStore instanceof \Magento\Core\Model\Store)) {
             throw new \InvalidArgumentException('Required store object is invalid');
         }
 
-        $this->_cookieModel = isset($data['cookie_model'])
-            ? $data['cookie_model'] : $cookie;
-
-        if (false == ($this->_cookieModel instanceof \Magento\Core\Model\Cookie)) {
-            throw new \InvalidArgumentException('Required cookie object is invalid');
-        }
 
         $this->_website = isset($data['website']) ? $data['website'] : $storeManager->getWebsite();
 

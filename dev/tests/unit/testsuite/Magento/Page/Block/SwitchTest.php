@@ -14,7 +14,7 @@ namespace Magento\Page\Block;
 class SwitchTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Page\Block\Switcher
+     * @var \Magento\Core\Block\Switcher
      */
     protected $_block;
 
@@ -34,7 +34,7 @@ class SwitchTest extends \PHPUnit_Framework_TestCase
 
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_block = $helper->getObject(
-            'Magento\Page\Block\Switcher', array('storeManager' => $this->_storeManagerMock)
+            'Magento\Core\Block\Switcher', array('storeManager' => $this->_storeManagerMock)
         );
     }
 
