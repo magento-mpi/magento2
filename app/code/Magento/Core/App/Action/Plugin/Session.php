@@ -16,7 +16,7 @@ class Session
     protected $_session;
 
     /**
-     * @var \Magento\Core\Model\Cookie
+     * @var \Magento\Stdlib\Cookie
      */
     protected $_cookie;
 
@@ -47,7 +47,7 @@ class Session
 
     /**
      * @param \Magento\Core\Model\Session $session
-     * @param \Magento\Core\Model\Cookie $cookie
+     * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -57,7 +57,7 @@ class Session
     public function __construct(
         \Magento\App\ActionFlag $flag,
         \Magento\Core\Model\Session $session,
-        \Magento\Core\Model\Cookie $cookie,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\Core\Model\Url $url,
         \Magento\Core\Model\Store\Config $storeConfig,
         $sessionNamespace = '',
