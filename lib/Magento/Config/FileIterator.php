@@ -8,6 +8,9 @@
  */
 namespace Magento\Config;
 
+/**
+ * Class FileIterator
+ */
 class FileIterator implements \Iterator
 {
     /**
@@ -43,11 +46,17 @@ class FileIterator implements \Iterator
         $this->directoryRead    = $directory;
     }
 
+    /**
+     *
+     */
     function rewind()
     {
         reset($this->paths);
     }
 
+    /**
+     * @return string
+     */
     function current()
     {
         if (!isset($this->cached[$this->key()])) {
@@ -57,21 +66,33 @@ class FileIterator implements \Iterator
 
     }
 
+    /**
+     * @return mixed
+     */
     function key()
     {
         return current($this->paths);
     }
 
+    /**
+     *
+     */
     function next()
     {
         next($this->paths);
     }
 
+    /**
+     * @return bool
+     */
     function valid()
     {
         return (boolean)$this->key();
     }
 
+    /**
+     * @return array
+     */
     public function getContents()
     {
         return $this->paths;
