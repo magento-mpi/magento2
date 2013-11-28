@@ -28,7 +28,7 @@ class GuestPayPalPayflow extends Checkout
         $this->_data = array(
             'totals' => array(
                 'grand_total' => '$156.81',
-                'comment_history' => 'We will authorize $156.81'
+                'comment_history' => 'Authorized amount of $156.81'
             )
         );
     }

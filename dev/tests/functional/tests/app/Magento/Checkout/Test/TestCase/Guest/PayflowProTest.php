@@ -9,34 +9,28 @@
  * @license     {license_link}
  */
 
-namespace Magento\Checkout\Test\TestCase;
+namespace Magento\Checkout\Test\TestCase\Guest;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
- * Class OnepageTest
- * Test one page checkout with different configurations
+ * Class PayflowProTest
+ * Test guest checkout with PayflowPro
+ * Almost the same as OnepageTest, detached because this test should not be included in BAT
  *
  * @package Magento\Test\TestCase\Guest
  */
-class OnepageTest extends Functional
+class PayflowProTest extends Functional
 {
     /**
      * Place order on frontend via one page checkout.
-     *
-     * @param Checkout $fixture
-     * @dataProvider dataProviderOnepageCheckout
      */
-    public function testOnepageCheckout(Checkout $fixture)
+    public function testOnepageCheckout()
     {
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutGuestPayPalPayflow();
         $fixture->persist();
-
-        //Ensure shopping cart is empty
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->open();
-        $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         //Add products to cart
         $products = $fixture->getProducts();
@@ -65,20 +59,10 @@ class OnepageTest extends Functional
         $this->assertContains(
             'Your order has been received.',
             $successPage->getTitleBlock()->getTitle(),
-            'Order success page was not opened.');
+            'Order success page was not opened.'
+        );
         $orderId = $successPage->getSuccessBlock()->getOrderId($fixture);
         $this->_verifyOrder($orderId, $fixture);
-    }
-
-    /**
-     * @return array
-     */
-    public static function dataProviderOnepageCheckout()
-    {
-        return array(
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestAuthorizenet()),
-            array(Factory::getFixtureFactory()->getMagentoCheckoutGuestPaypalDirect())
-        );
     }
 
     /**
@@ -99,11 +83,7 @@ class OnepageTest extends Functional
             'Incorrect grand total value for the order #' . $orderId
         );
 
-        if ($fixture->getCommentHistory()) {
-            $expectedAuthorizedAmount = $fixture->getCommentHistory();
-        } else {
-            $expectedAuthorizedAmount = 'Authorized amount of ' . $fixture->getGrandTotal();
-        }
+        $expectedAuthorizedAmount = $fixture->getCommentHistory();
         $this->assertContains(
             $expectedAuthorizedAmount,
             Factory::getPageFactory()->getSalesOrderView()->getOrderHistoryBlock()->getCommentsHistory(),
