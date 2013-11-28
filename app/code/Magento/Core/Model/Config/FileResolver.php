@@ -19,11 +19,6 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $_moduleReader;
 
     /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * @var FileIteratorFactory
      */
     protected $iteratorFactory;
@@ -36,7 +31,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Config\FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
         $this->iteratorFactory = $iteratorFactory;
         $this->filesystem = $filesystem;
@@ -67,9 +62,9 @@ class FileResolver implements \Magento\Config\FileResolverInterface
             $output[] = $directory->getRelativePath($file);
         }
 //        absolute pathes here
-        return $this->iteratorFactory->create(array(
-            'directory'    => $directory,
-            'paths'         => $output
-        ));
+        return $this->iteratorFactory->create(
+            $directory,
+            $output
+        );
     }
 }
