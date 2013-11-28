@@ -17,7 +17,7 @@
  *
  * @todo        separate order, mode and pager
  */
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class Pager extends \Magento\View\Element\Template
 {
@@ -108,7 +108,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for limit items per page
      *
      * @param int $limit
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     public function setLimit($limit)
     {
@@ -120,7 +120,7 @@ class Pager extends \Magento\View\Element\Template
      * Set collection for pagination
      *
      * @param  \Magento\Data\Collection $collection
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     public function setCollection($collection)
     {
@@ -416,7 +416,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for $_frameLength
      *
      * @param int $frame
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     public function setFrameLength($frame)
     {
@@ -436,7 +436,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for $_jump
      *
      * @param int $jump
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     public function setJump($jump)
     {
@@ -492,7 +492,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Initialize frame data, such as frame start, frame start etc.
      *
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     protected function _initFrame()
     {
@@ -535,7 +535,7 @@ class Pager extends \Magento\View\Element\Template
      * Setter for flag _frameInitialized
      *
      * @param bool $flag
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     protected function _setFrameInitialized($flag)
     {
@@ -546,7 +546,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * Check if frame data was initialized
      *
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     public function isFrameInitialized()
     {
@@ -577,7 +577,7 @@ class Pager extends \Magento\View\Element\Template
      * Set whether output of the pager is mandatory
      *
      * @param bool $isRequired
-     * @return \Magento\Page\Block\Html\Pager
+     * @return \Magento\Theme\Block\Html\Pager
      */
     public function setIsOutputRequired($isRequired)
     {

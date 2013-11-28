@@ -56,7 +56,7 @@ class Head extends \Magento\View\Element\AbstractBlock
     {
         /* @var $node \Magento\VersionsCms\Model\Hierarchy\Node */
         $node = $this->_coreRegistry->registry('current_cms_hierarchy_node');
-        /* @var $head \Magento\Page\Block\Html\Head */
+        /* @var $head \Magento\Theme\Block\Html\Head */
         $head = $this->getLayout()->getBlock('head');
 
         if ($this->_cmsHierarchy->isMetadataEnabled() && $node && $head) {

@@ -75,7 +75,7 @@ class Grid extends \Magento\Sales\Block\Recurring\Profiles
         parent::_prepareLayout();
         $this->_prepareProfiles(array('reference_id', 'state', 'created_at', 'updated_at', 'method_code'));
 
-        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager')
             ->setCollection($this->_profiles)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
 

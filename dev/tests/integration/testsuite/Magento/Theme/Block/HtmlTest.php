@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block;
+namespace Magento\Theme\Block;
 
 class HtmlTest extends \PHPUnit_Framework_TestCase
 {
@@ -56,7 +56,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\Core\Model\StoreManagerInterface');
         $locale = $this->getMock('Magento\Core\Model\LocaleInterface', array(), array(), '', false);
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Page\Block\Html', array(
+            ->create('Magento\Theme\Block\Html', array(
                 'storeManager'  => $storeManager,
                 'locale'        => $locale,
                 'urlHelperMock' => $codeData,

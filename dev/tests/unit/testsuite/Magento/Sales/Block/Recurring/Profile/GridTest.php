@@ -95,7 +95,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
                 'locale' => $locale
             )
         );
-        $pagerBlock = $this->getMockBuilder('Magento\Page\Block\Html\Pager')
+        $pagerBlock = $this->getMockBuilder('Magento\Theme\Block\Html\Pager')
             ->disableOriginalConstructor()
             ->setMethods(array('setCollection'))
             ->getMock();

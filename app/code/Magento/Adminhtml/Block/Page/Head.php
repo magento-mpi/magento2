@@ -17,7 +17,7 @@
  */
 namespace Magento\Adminhtml\Block\Page;
 
-class Head extends \Magento\Page\Block\Html\Head
+class Head extends \Magento\Theme\Block\Html\Head
 {
     /**
      * @var string

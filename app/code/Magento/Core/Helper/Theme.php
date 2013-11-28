@@ -82,7 +82,7 @@ class Theme extends \Magento\App\Helper\AbstractHelper
         /**
          * XPath selector to get CSS files from layout added for HEAD block directly
          */
-        $xpathSelectorBlocks = '//block[@class="Magento\Page\Block\Html\Head"]'
+        $xpathSelectorBlocks = '//block[@class="Magento\Theme\Block\Html\Head"]'
             . '/block[@class="Magento\Theme\Block\Html\Head\Css"]/arguments/argument[@name="file"]';
 
         /**

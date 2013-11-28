@@ -156,7 +156,7 @@ class View extends \Magento\View\Element\Template
         }
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager')
+        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager')
             ->setCollection($this->getRelatedOrders())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         $this->getRelatedOrders()->load();

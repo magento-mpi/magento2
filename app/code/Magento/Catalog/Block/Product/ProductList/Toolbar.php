@@ -805,7 +805,7 @@ class Toolbar extends \Magento\View\Element\Template
 
         if ($pagerBlock instanceof \Magento\Object) {
 
-            /* @var $pagerBlock \Magento\Page\Block\Html\Pager */
+            /* @var $pagerBlock \Magento\Theme\Block\Html\Pager */
             $pagerBlock->setAvailableLimit($this->getAvailableLimit());
 
             $pagerBlock->setUseContainer(false)

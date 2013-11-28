@@ -16,7 +16,7 @@
  * @package    Magento_Page
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Page\Block\Html;
+namespace Magento\Theme\Block\Html;
 
 class Head extends \Magento\View\Element\Template
 {
@@ -101,7 +101,7 @@ class Head extends \Magento\View\Element\Template
      *
      * @param string $title
      * @param string $href
-     * @return \Magento\Page\Block\Html\Head
+     * @return \Magento\Theme\Block\Html\Head
      */
     public function addRss($title, $href)
     {
@@ -248,7 +248,7 @@ class Head extends \Magento\View\Element\Template
      * Set title element text
      *
      * @param string|array $title
-     * @return \Magento\Page\Block\Html\Head
+     * @return \Magento\Theme\Block\Html\Head
      */
     public function setTitle($title)
     {

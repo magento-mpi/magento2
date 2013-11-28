@@ -81,7 +81,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     protected function _prepareLayout()
     {
-        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'giftregistry.list.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'giftregistry.list.pager')
             ->setCollection($this->getEntityCollection())->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
         return parent::_prepareLayout();
