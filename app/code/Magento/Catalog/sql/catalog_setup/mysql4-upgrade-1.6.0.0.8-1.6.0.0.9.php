@@ -8,12 +8,11 @@
  * @license     {license_link}
  */
 
-/** @var $installer \Magento\Catalog\Model\Resource\Setup */
-$installer = $this;
+/** @var $this \Magento\Catalog\Model\Resource\Setup */
 $installFile = __DIR__ . '/upgrade-1.6.0.0.8-1.6.0.0.9.php';
 
 /** @var \Magento\Filesystem\Directory\Read $modulesDirectory */
-$modulesDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+$modulesDirectory = $this->getFilesystem()->getDirectoryRead(\Magento\Filesystem::MODULES);
 
 if ($modulesDirectory->isExist($modulesDirectory->getRelativePath($installFile))) {
     include $installFile;
@@ -37,5 +36,5 @@ $memoryTables = array(
 );
 
 foreach ($memoryTables as $table) {
-    $connection->changeTableEngine($installer->getTable($table), \Magento\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY);
+    $connection->changeTableEngine($this->getTable($table), \Magento\DB\Adapter\Pdo\Mysql::ENGINE_MEMORY);
 }
