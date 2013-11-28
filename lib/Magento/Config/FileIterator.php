@@ -1,6 +1,5 @@
 <?php
 /**
- * Hierarchy config file resolver
  *
  * {license_notice}
  *
@@ -14,7 +13,7 @@ class FileIterator implements \Iterator
     /**
      * @var array
      */
-    protected $cached;
+    protected $cached = array();
 
     /**
      * @var array
@@ -46,30 +45,35 @@ class FileIterator implements \Iterator
 
     function rewind()
     {
-        $this->position = 0;
+        reset($this->paths);
     }
 
     function current()
     {
-        if (!isset($this->cached[$this->position])) {
-            $this->cached[$this->position] = $this->directoryRead->readFile($this->paths[$this->position]);
+        if (!isset($this->cached[$this->key()])) {
+            $this->cached[$this->key()] = $this->directoryRead->readFile($this->key());
         }
-        return $this->cached[$this->position];
+        return $this->cached[$this->key()];
 
     }
 
     function key()
     {
-        return $this->position;
+        return current($this->paths);
     }
 
     function next()
     {
-        ++$this->position;
+        next($this->paths);
     }
 
     function valid()
     {
-        return isset($this->paths[$this->position]);
+        return (boolean)$this->key();
+    }
+
+    public function getContents()
+    {
+        return $this->paths;
     }
 }

@@ -28,27 +28,20 @@ class Primary implements \Magento\Config\FileResolverInterface
     protected $configDirectory;
 
     /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * @var FileIteratorFactory
      */
     protected $iteratorFactory;
 
-
     /**
      * @param \Magento\Filesystem $filesystem
-     * @param FileIteratorFactory $iteratorFactory
+     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\App\Config\FileResolver\FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ) {
         $this->configDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
         $this->iteratorFactory = $iteratorFactory;
-        $this->filesystem = $filesystem;
     }
     /**
      * @inheritdoc

@@ -24,11 +24,6 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $directoryRead;
 
     /**
-     * @var \Magento\Filesystem
-     */
-    protected $filesystem;
-
-    /**
      * @var FileIteratorFactory
      */
     protected $iteratorFactory;
@@ -39,11 +34,10 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Module\Dir\Reader $moduleReader,
-        \Magento\Core\Model\Locale\Hierarchy\Config\FileIteratorFactory $iteratorFactory
+        \Magento\Config\FileIteratorFactory $iteratorFactory
     ){
         $this->directoryRead    = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
         $this->iteratorFactory  = $iteratorFactory;
-        $this->filesystem       = $filesystem;
         $this->_moduleReader    = $moduleReader;
     }
 
