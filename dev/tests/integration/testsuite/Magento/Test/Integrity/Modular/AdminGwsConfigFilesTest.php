@@ -39,6 +39,7 @@ class AdminGwsConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testAdminGwsXmlFiles()
     {
+        $this->markTestSkipped('Skipped');
         $this->_model->read('global');
     }
 }
