@@ -12,6 +12,12 @@ namespace Magento\Pci\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 
+/**
+ * Class LockedTest
+ * Functional test for locked admin user
+ *
+ * @package Magento\Pci\Test\TestCase
+ */
 class LockedTest extends Functional
 {
     /**
