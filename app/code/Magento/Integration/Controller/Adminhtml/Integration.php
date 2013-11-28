@@ -11,6 +11,8 @@ namespace Magento\Integration\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Model\Integration as IntegrationKeyConstants;
+use Magento\Integration\Exception as IntegrationException;
+
 /**
  * Controller for integrations management.
  */
@@ -120,21 +122,22 @@ class Integration extends Action
         /** Try to recover integration data from session if it was added during previous request which failed. */
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         if ($integrationId) {
-            $integrationData = $this->_integrationService->get($integrationId);
-            $restoredIntegration = $this->_getSession()->getIntegrationData();
-            if (isset($restoredIntegration[Info::DATA_ID])
-                && $integrationId == $restoredIntegration[Info::DATA_ID]
-            ) {
-                $integrationData = array_merge($integrationData, $restoredIntegration);
-            }
-            if (isset($integrationData[Info::DATA_SETUP_TYPE]) &&
-                $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG) {
-                //Cannot edit Integrations created from Config. No error necessary just redirect to grid
+            try {
+                $integrationData = $this->_integrationService->get($integrationId);
+            } catch (IntegrationException $e) {
+                $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             }
-            if (!$integrationData[Info::DATA_ID]) {
-                $this->_getSession()->addError(__('This integration no longer exists.'));
+            $restoredIntegration = $this->_getSession()->getIntegrationData();
+            if (isset($restoredIntegration[Info::DATA_ID]) && $integrationId == $restoredIntegration[Info::DATA_ID]) {
+                $integrationData = array_merge($integrationData, $restoredIntegration);
+            }
+
+            if (isset($integrationData[Info::DATA_SETUP_TYPE])
+                && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG
+            ) {
+                //Cannot edit Integrations created from Config. No error necessary just redirect to grid
                 $this->_redirect('*/*/');
                 return;
             }

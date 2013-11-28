@@ -17,7 +17,6 @@
         </div>
     </div>
 </fieldset>
-<?php $helper = $this->helper('Magento\Core\Helper\Data')?>
 <script type="text/javascript">
 jQuery(function($) {
     head.js('<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js')?>',
@@ -32,8 +31,8 @@ jQuery(function($) {
                 }
             });
             $('[data-role="resource-tree"]').rolesTree({
-                'treeInitData': <?php echo $helper->jsonEncode($this->getResourcesTree())?>,
-                'treeInitSelectedData': <?php echo $helper->jsonEncode($this->getSelectedResources())?>
+                'treeInitData': <?php echo $this->getResourcesTreeJson() ?>,
+                'treeInitSelectedData': <?php echo $this->getSelectedResourcesJson() ?>
             });
         });
 });

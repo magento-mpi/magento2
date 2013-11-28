@@ -35,9 +35,11 @@ class Webapi extends Template implements TabInterface
     protected $_integrationData;
 
     /** @var WebapiHelper */
-    protected $_webapiData;
+    protected $_webapiHelper;
 
     /**
+     * Initialize dependencies.
+     *
      * @param Context $context
      * @param CoreHelper $coreData
      * @param RootResource $rootResource
@@ -56,7 +58,7 @@ class Webapi extends Template implements TabInterface
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
-        $this->_webapiData = $webapiData;
+        $this->_webapiHelper = $webapiData;
         $this->_resourceProvider = $resourceProvider;
         $this->_integrationData = $integrationData;
         parent::__construct($context, $coreData, $data);
@@ -69,7 +71,7 @@ class Webapi extends Template implements TabInterface
     protected function _construct()
     {
         parent::_construct();
-        $this->_selectedResources = $this->_webapiData->getSelectedResources();
+        $this->_selectedResources = $this->_webapiHelper->getSelectedResources();
     }
 
     /**
@@ -107,7 +109,7 @@ class Webapi extends Template implements TabInterface
     /**
      * Check if everything is allowed.
      *
-     * @return boolean
+     * @return bool
      */
     public function isEverythingAllowed()
     {
@@ -117,14 +119,14 @@ class Webapi extends Template implements TabInterface
     /**
      * Get requested permissions tree.
      *
-     * @return array
+     * @return string
      */
-    public function getResourcesTree()
+    public function getResourcesTreeJson()
     {
         $resources = $this->_resourceProvider->getAclResources();
         $aclResourcesTree = $this->_integrationData->mapResources($resources[1]['children']);
 
-        return $aclResourcesTree;
+        return $this->_coreData->jsonEncode($aclResourcesTree);
     }
 
     /**
@@ -132,16 +134,16 @@ class Webapi extends Template implements TabInterface
      * available resources to generate a comprehensive array of all resource ids, rather than just
      * returning "Magento_Adminhtml::all".
      *
-     * @return string[]
+     * @return string
      */
-    public function getSelectedResources()
+    public function getSelectedResourcesJson()
     {
         $selectedResources = $this->_selectedResources;
         if ($this->isEverythingAllowed()) {
              $resources = $this->_resourceProvider->getAclResources();
              $selectedResources = $this->_getAllResourceIds($resources[1]['children']);
         }
-        return $selectedResources;
+        return $this->_coreData->jsonEncode($selectedResources);
     }
 
     /**
