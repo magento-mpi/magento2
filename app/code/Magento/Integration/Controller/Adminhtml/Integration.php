@@ -12,13 +12,23 @@ use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Backend\App\Action
+class Integration extends Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
 
     /** Keys used for registering data into the registry */
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
+
+    /** Request parameter which define the dialog window requested */
+    const PARAM_DIALOG_ID = 'popup_dialog';
+
+    /**#@+
+     * Allowed values for PARAM_DIALOG_ID request parameter
+     */
+    const DIALOG_PERMISSIONS = 'permissions';
+    const DIALOG_TOKENS = 'tokens';
+    /**#@-*/
 
     /**
      * Core registry
@@ -27,6 +37,9 @@ class Integration extends \Magento\Backend\App\Action
      */
     protected $_registry = null;
 
+    /** @var \Magento\Logger */
+    protected $_logger;
+
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
@@ -34,13 +47,16 @@ class Integration extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\Core\Model\Registry $registry
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Logger $logger
     ) {
         $this->_registry = $registry;
+        $this->_logger = $logger;
         $this->_integrationService = $integrationService;
         parent::__construct($context);
     }
@@ -136,10 +152,10 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function saveAction()
     {
+        /** @var array $integrationData */
+        $integrationData = array();
         try {
             $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
-            /** @var array $integrationData */
-            $integrationData = array();
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
                 if (!$integrationData[Info::DATA_ID]) {
@@ -150,16 +166,22 @@ class Integration extends \Magento\Backend\App\Action
             }
             /** @var array $data */
             $data = $this->getRequest()->getPost();
-            //Merge Post-ed data
-            $integrationData = array_merge($integrationData, $data);
-            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-            if (!isset($integrationData[Info::DATA_ID])) {
-                $this->_integrationService->create($integrationData);
+            if (!empty($data)) {
+                if (!isset($data['resource'])) {
+                    $integrationData['resource'] = array();
+                }
+                $integrationData = array_merge($integrationData, $data);
+                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+                if (!isset($integrationData[Info::DATA_ID])) {
+                    $this->_integrationService->create($integrationData);
+                } else {
+                    $this->_integrationService->update($integrationData);
+                }
+                $this->_getSession()
+                    ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
             } else {
-                $this->_integrationService->update($integrationData);
+                $this->_getSession()->addError(__('The integration was not saved.'));
             }
-            $this->_getSession()->addSuccess(__('The integration \'%1\' has been saved.',
-                    $integrationData[Info::DATA_NAME]));
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
@@ -168,10 +190,48 @@ class Integration extends \Magento\Backend\App\Action
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_logger->logException($e);
             $this->_getSession()->addError($e->getMessage());
             $this->_redirectOnSaveError();
         }
+    }
+
+    /**
+     * Activates the integration. Also contains intermediate steps (permissions confirmation and tokens).
+     */
+    public function activateAction()
+    {
+        $dialogName = $this->getRequest()->getParam(self::PARAM_DIALOG_ID);
+
+        if (in_array($dialogName, [self::DIALOG_PERMISSIONS, self::DIALOG_TOKENS])) {
+            $this->_view->loadLayout($this->_getPopupHandleNames($dialogName));
+        } else {
+            $this->_view->loadLayout();
+        }
+
+        $this->_view->renderLayout();
+    }
+
+    /**
+     * @param string $dialogName
+     * @return array
+     */
+    protected function _getPopupHandleNames($dialogName)
+    {
+        $handles = [sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName)];
+
+        if ($dialogName === self::DIALOG_PERMISSIONS) {
+            $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()
+                ->xpath('//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id');
+
+            if (is_array($handleNodes)) {
+                foreach ($handleNodes as $node) {
+                    $handles[] = (string)$node;
+                }
+            }
+        }
+
+        return $handles;
     }
 
     /**

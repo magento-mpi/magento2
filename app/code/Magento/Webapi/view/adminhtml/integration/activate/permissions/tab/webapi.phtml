@@ -1,0 +1,38 @@
+<?php
+/**
+ * API permissions tab template for integration activation dialog.
+ *
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ *
+ * @var \Magento\Integration\Block\Adminhtml\Integration\Activate\Permissions\Tabs\Webapi $this
+ */
+?>
+<fieldset class="fieldset form-inline entry-edit">
+    <div class="field" data-role="tree-resources-container">
+        <div class="control">
+            <div id="resource-tree" class="tree x-tree" data-role="resource-tree"></div>
+        </div>
+    </div>
+</fieldset>
+<script type="text/javascript">
+jQuery(function($) {
+    head.js('<?php echo $this->getViewFileUrl('jquery/jstree/jquery.hotkeys.js')?>',
+        '<?php echo $this->getViewFileUrl('jquery/jstree/jquery.jstree.js')?>',
+        '<?php echo $this->getViewFileUrl('Magento_User::js/roles-tree.js')?>', function() {
+            $.widget('mage.rolesTree', $.mage.rolesTree, {
+                _checkNode: function(event) {},
+                _checkNodes: function() {
+                    this.element.jstree('check_all').jstree('disable_hotkeys')
+                        .find('li.jstree-checked').attr('rel', 'disabled');
+                }
+            });
+            $('[data-role="resource-tree"]').rolesTree({
+                'treeInitData': <?php echo $this->helper('Magento\Core\Helper\Data')->jsonEncode($this->getResourcesTree())?>,
+                'treeInitSelectedData': []
+            });
+        });
+});
+</script>
