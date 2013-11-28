@@ -149,6 +149,10 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // put data in session, the magic function getFormData is called so, must match __call method name
         $this->_mockBackendModSess->expects($this->any())
             ->method('__call')->will($this->returnValue(array('name' => 'nonExistentInt')));
+
+        $invalidIdException = new \Magento\Integration\Exception($exceptionMessage);
+        $this->_mockIntegrationSvc->expects($this->any())
+            ->method('get')->will($this->throwException($invalidIdException));
         $this->_verifyLoadAndRenderLayout();
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->editAction();
