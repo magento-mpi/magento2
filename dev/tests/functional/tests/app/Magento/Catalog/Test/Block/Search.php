@@ -55,4 +55,18 @@ class Search extends Block
         $this->_rootElement->find($this->searchInput, Locator::SELECTOR_CSS)->setValue($keyword);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
     }
+
+    /**
+     * Check that placeholder contains text
+     *
+     * @param string $placeholderText
+     * @return bool
+     */
+    public function isPlaceholderContains($placeholderText)
+    {
+        $field = $this->_rootElement->find(
+            '//input[@id="search" and contains(@placeholder, "' . $placeholderText . '")]', Locator::SELECTOR_XPATH
+        );
+        return $field->isVisible();
+    }
 }

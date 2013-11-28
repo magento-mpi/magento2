@@ -29,4 +29,12 @@ class PageActions extends Block
     {
         $this->_rootElement->find('#add')->click();
     }
+
+    /**
+     * Click "Save" button
+     */
+    public function clickSave()
+    {
+        $this->_rootElement->find('#save')->click();
+    }
 }

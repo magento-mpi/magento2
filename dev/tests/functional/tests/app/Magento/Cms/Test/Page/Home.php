@@ -11,6 +11,7 @@
 
 namespace Magento\Cms\Test\Page;
 
+use Magento\Page\Test\Block\Switcher;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -59,6 +60,11 @@ class Home extends Page
     private $footerBlock;
 
     /**
+     * @var Switcher
+     */
+    private $storeSwitcherBlock;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -75,6 +81,9 @@ class Home extends Page
         );
         $this->footerBlock = Factory::getBlockFactory()->getMagentoPageHtmlFooter(
             $this->_browser->find('footer.footer', Locator::SELECTOR_CSS)
+        );
+        $this->storeSwitcherBlock = Factory::getBlockFactory()->getMagentoPageSwitcher(
+            $this->_browser->find('//*[@data-ui-id="language-switcher"]', Locator::SELECTOR_XPATH)
         );
     }
 
@@ -116,5 +125,15 @@ class Home extends Page
     public function getFooterBlock()
     {
         return $this->footerBlock;
+    }
+
+    /**
+     * Get store switcher
+     *
+     * @return Switcher
+     */
+    public function getStoreSwitcherBlock()
+    {
+        return $this->storeSwitcherBlock;
     }
 }
