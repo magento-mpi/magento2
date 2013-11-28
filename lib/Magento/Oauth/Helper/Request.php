@@ -76,19 +76,17 @@ class Request
      *
      * @param \Zend_Controller_Request_Http $httpRequest
      * @param string $requestUrl The request Url
-     * @param array $bodyParams array of key value body parameters
      * @return array
      */
-    public function prepareRequest($httpRequest, $requestUrl, $bodyParams = array())
+    public function prepareRequest($httpRequest, $requestUrl)
     {
-        $oauthParams = $this->_processRequest($httpRequest->getHeader('Authorization'),
+        $oauthParams = $this->_processRequest(
+            $httpRequest->getHeader('Authorization'),
             $httpRequest->getHeader(\Zend_Http_Client::CONTENT_TYPE),
             $httpRequest->getRawBody(),
-            $requestUrl);
-        // Use body parameters only for POST and PUT
-        $bodyParams = is_array($bodyParams) && ($httpRequest->getMethod() == 'POST' ||
-            $httpRequest->getMethod() == 'PUT') ? $bodyParams : array();
-        return array_merge($oauthParams, $bodyParams);
+            $requestUrl
+        );
+        return $oauthParams;
     }
 
     /**

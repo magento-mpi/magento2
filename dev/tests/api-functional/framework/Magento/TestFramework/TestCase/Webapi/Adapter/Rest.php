@@ -55,11 +55,12 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $oAuthClient = $accessCredentials['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
+        $urlFormEncoded = false; // we're always using JSON
         $oauthHeader = $oAuthClient->buildOauthHeaderForApiRequest(
             $curlClient->constructResourceUrl($resourcePath),
             $accessCredentials['key'],
             $accessCredentials['secret'],
-            ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
+            (($httpMethod == 'PUT' || $httpMethod == 'POST') && $urlFormEncoded) ? $arguments : array(),
             $httpMethod
         );
         switch ($httpMethod) {

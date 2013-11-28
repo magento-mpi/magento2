@@ -23,7 +23,7 @@ class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAb
 
     public function testMultiServiceWsdl()
     {
-        $wsdlUrl = $this->_getBaseWsdlUrl() . '&services=testModule4AllSoapAndRestV1,testModule4AllSoapAndRestV2';
+        $wsdlUrl = $this->_getBaseWsdlUrl() . '&services=testModule5AllSoapAndRestV1,testModule5AllSoapAndRestV2';
         $wsdlContent = $this->_convertXmlToString($this->_getWsdlContent($wsdlUrl));
 
         $this->_checkTypesDeclaration($wsdlContent);
@@ -102,7 +102,7 @@ class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAb
         // @codingStandardsIgnoreStart
         $typesSectionDeclaration = <<< TYPES_SECTION_DECLARATION
 <types>
-    <xsd:schema targetNamespace="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+    <xsd:schema targetNamespace="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
 TYPES_SECTION_DECLARATION;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -121,7 +121,7 @@ TYPES_SECTION_DECLARATION;
     {
         // @codingStandardsIgnoreStart
         $requestElement = <<< REQUEST_ELEMENT
-<xsd:element name="testModule4AllSoapAndRestV1ItemRequest" type="tns:TestModule4AllSoapAndRestV1ItemRequest"/>
+<xsd:element name="testModule5AllSoapAndRestV1ItemRequest" type="tns:TestModule5AllSoapAndRestV1ItemRequest"/>
 REQUEST_ELEMENT;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -131,7 +131,7 @@ REQUEST_ELEMENT;
         );
         // @codingStandardsIgnoreStart
         $responseElement = <<< RESPONSE_ELEMENT
-<xsd:element name="testModule4AllSoapAndRestV1ItemResponse" type="tns:TestModule4AllSoapAndRestV1ItemResponse"/>
+<xsd:element name="testModule5AllSoapAndRestV1ItemResponse" type="tns:TestModule5AllSoapAndRestV1ItemResponse"/>
 RESPONSE_ELEMENT;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -148,20 +148,20 @@ RESPONSE_ELEMENT;
     {
         // @codingStandardsIgnoreStart
         $requestType = <<< REQUEST_TYPE
-<xsd:complexType name="TestModule4AllSoapAndRestV1ItemRequest">
+<xsd:complexType name="TestModule5AllSoapAndRestV1ItemRequest">
     <xsd:annotation>
         <xsd:documentation>Retrieve an item.</xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="itemId" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:min/>
                     <inf:max/>
                     <inf:callInfo>
-                        <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:requiredInput>Yes</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -178,20 +178,20 @@ REQUEST_TYPE;
         );
         // @codingStandardsIgnoreStart
         $responseType = <<< RESPONSE_TYPE
-<xsd:complexType name="TestModule4AllSoapAndRestV1ItemResponse">
+<xsd:complexType name="TestModule5AllSoapAndRestV1ItemResponse">
     <xsd:annotation>
         <xsd:documentation>
-            Response container for the testModule4AllSoapAndRestV1Item call.
+            Response container for the testModule5AllSoapAndRestV1Item call.
         </xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
-        <xsd:element name="result" minOccurs="1" maxOccurs="1" type="tns:TestModule4EntityV1AllSoapAndRest">
+        <xsd:element name="result" minOccurs="1" maxOccurs="1" type="tns:TestModule5EntityV1AllSoapAndRest">
             <xsd:annotation>
                 <xsd:documentation></xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:callInfo>
-                        <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
                         <inf:returned>Always</inf:returned>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -218,32 +218,27 @@ RESPONSE_TYPE;
     {
         // @codingStandardsIgnoreStart
         $referencedType = <<< RESPONSE_TYPE
-<xsd:complexType name="TestModule4EntityV1AllSoapAndRest">
+<xsd:complexType name="TestModule5EntityV1AllSoapAndRest">
     <xsd:annotation>
-        <xsd:documentation>
-        Some DTO short description.
-
-         DTO long
-         multi line description.
-        </xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+        <xsd:documentation>Some DTO short description. DTO long multi line description.</xsd:documentation>
+        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </xsd:annotation>
     <xsd:sequence>
         <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
             <xsd:annotation>
                 <xsd:documentation>Item ID</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:min/>
                     <inf:max/>
                     <inf:callInfo>
-                        <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
-                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
-                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
                         <inf:returned>Always</inf:returned>
                     </inf:callInfo>
                     <inf:callInfo>
-                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
-                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
                         <inf:requiredInput>Yes</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -252,17 +247,17 @@ RESPONSE_TYPE;
         <xsd:element name="name" minOccurs="0" maxOccurs="1" type="xsd:string">
             <xsd:annotation>
                 <xsd:documentation>Item name</xsd:documentation>
-                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2">
                     <inf:maxLength/>
                     <inf:callInfo>
-                        <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
-                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
-                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
                         <inf:returned>Conditionally</inf:returned>
                     </inf:callInfo>
                     <inf:callInfo>
-                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
-                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule5AllSoapAndRestV1Update</inf:callName>
                         <inf:requiredInput>No</inf:requiredInput>
                     </inf:callInfo>
                 </xsd:appinfo>
@@ -288,7 +283,7 @@ RESPONSE_TYPE;
     {
         // @codingStandardsIgnoreStart
         $firstPortType = <<< FIRST_PORT_TYPE
-<portType name="testModule4AllSoapAndRestV1PortType">
+<portType name="testModule5AllSoapAndRestV1PortType">
 FIRST_PORT_TYPE;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -298,7 +293,7 @@ FIRST_PORT_TYPE;
         );
         // @codingStandardsIgnoreStart
         $secondPortType = <<< SECOND_PORT_TYPE
-<portType name="testModule4AllSoapAndRestV2PortType">
+<portType name="testModule5AllSoapAndRestV2PortType">
 SECOND_PORT_TYPE;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -308,13 +303,13 @@ SECOND_PORT_TYPE;
         );
         // @codingStandardsIgnoreStart
         $operationDeclaration = <<< OPERATION_DECLARATION
-<operation name="testModule4AllSoapAndRestV2Item">
-    <input message="tns:testModule4AllSoapAndRestV2ItemRequest"/>
-    <output message="tns:testModule4AllSoapAndRestV2ItemResponse"/>
+<operation name="testModule5AllSoapAndRestV2Item">
+    <input message="tns:testModule5AllSoapAndRestV2ItemRequest"/>
+    <output message="tns:testModule5AllSoapAndRestV2ItemResponse"/>
 </operation>
-<operation name="testModule4AllSoapAndRestV2Items">
-    <input message="tns:testModule4AllSoapAndRestV2ItemsRequest"/>
-    <output message="tns:testModule4AllSoapAndRestV2ItemsResponse"/>
+<operation name="testModule5AllSoapAndRestV2Items">
+    <input message="tns:testModule5AllSoapAndRestV2ItemsRequest"/>
+    <output message="tns:testModule5AllSoapAndRestV2ItemsResponse"/>
 </operation>
 OPERATION_DECLARATION;
         // @codingStandardsIgnoreEnd
@@ -334,7 +329,7 @@ OPERATION_DECLARATION;
     {
         // @codingStandardsIgnoreStart
         $firstBinding = <<< FIRST_BINDING
-<binding name="testModule4AllSoapAndRestV1Binding" type="tns:testModule4AllSoapAndRestV1PortType">
+<binding name="testModule5AllSoapAndRestV1Binding" type="tns:testModule5AllSoapAndRestV1PortType">
     <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 FIRST_BINDING;
         // @codingStandardsIgnoreEndd
@@ -345,7 +340,7 @@ FIRST_BINDING;
         );
         // @codingStandardsIgnoreStart
         $secondBinding = <<< SECOND_BINDING
-<binding name="testModule4AllSoapAndRestV2Binding" type="tns:testModule4AllSoapAndRestV2PortType">
+<binding name="testModule5AllSoapAndRestV2Binding" type="tns:testModule5AllSoapAndRestV2PortType">
     <soap12:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
 SECOND_BINDING;
         // @codingStandardsIgnoreEnd
@@ -356,8 +351,8 @@ SECOND_BINDING;
         );
         // @codingStandardsIgnoreStart
         $operationDeclaration = <<< OPERATION_DECLARATION
-<operation name="testModule4AllSoapAndRestV1Item">
-    <soap:operation soapAction="testModule4AllSoapAndRestV1Item"/>
+<operation name="testModule5AllSoapAndRestV1Item">
+    <soap:operation soapAction="testModule5AllSoapAndRestV1Item"/>
     <input>
         <soap12:body use="literal"/>
     </input>
@@ -365,8 +360,8 @@ SECOND_BINDING;
         <soap12:body use="literal"/>
     </output>
 </operation>
-<operation name="testModule4AllSoapAndRestV1Items">
-    <soap:operation soapAction="testModule4AllSoapAndRestV1Items"/>
+<operation name="testModule5AllSoapAndRestV1Items">
+    <soap:operation soapAction="testModule5AllSoapAndRestV1Items"/>
     <input>
         <soap12:body use="literal"/>
     </input>
@@ -392,9 +387,9 @@ OPERATION_DECLARATION;
     {
         // @codingStandardsIgnoreStart
         $firstServiceDeclaration = <<< FIRST_SERVICE_DECLARATION
-<service name="testModule4AllSoapAndRestV1Service">
-    <port name="testModule4AllSoapAndRestV1Port" binding="tns:testModule4AllSoapAndRestV1Binding">
-        <soap:address location="{$this->_baseUrl}/soap?services=testModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+<service name="testModule5AllSoapAndRestV1Service">
+    <port name="testModule5AllSoapAndRestV1Port" binding="tns:testModule5AllSoapAndRestV1Binding">
+        <soap:address location="{$this->_baseUrl}/soap?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </port>
 </service>
 FIRST_SERVICE_DECLARATION;
@@ -407,9 +402,9 @@ FIRST_SERVICE_DECLARATION;
 
         // @codingStandardsIgnoreStart
         $secondServiceDeclaration = <<< SECOND_SERVICE_DECLARATION
-<service name="testModule4AllSoapAndRestV2Service">
-    <port name="testModule4AllSoapAndRestV2Port" binding="tns:testModule4AllSoapAndRestV2Binding">
-        <soap:address location="{$this->_baseUrl}/soap?services=testModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+<service name="testModule5AllSoapAndRestV2Service">
+    <port name="testModule5AllSoapAndRestV2Port" binding="tns:testModule5AllSoapAndRestV2Binding">
+        <soap:address location="{$this->_baseUrl}/soap?services=testModule5AllSoapAndRestV1%2CtestModule5AllSoapAndRestV2"/>
     </port>
 </service>
 SECOND_SERVICE_DECLARATION;
@@ -430,11 +425,11 @@ SECOND_SERVICE_DECLARATION;
     {
         // @codingStandardsIgnoreStart
         $itemMessagesDeclaration = <<< MESSAGES_DECLARATION
-<message name="testModule4AllSoapAndRestV2ItemRequest">
-    <part name="messageParameters" element="tns:testModule4AllSoapAndRestV2ItemRequest"/>
+<message name="testModule5AllSoapAndRestV2ItemRequest">
+    <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemRequest"/>
 </message>
-<message name="testModule4AllSoapAndRestV2ItemResponse">
-    <part name="messageParameters" element="tns:testModule4AllSoapAndRestV2ItemResponse"/>
+<message name="testModule5AllSoapAndRestV2ItemResponse">
+    <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemResponse"/>
 </message>
 MESSAGES_DECLARATION;
         // @codingStandardsIgnoreEnd
@@ -445,11 +440,11 @@ MESSAGES_DECLARATION;
         );
         // @codingStandardsIgnoreStart
         $itemsMessagesDeclaration = <<< MESSAGES_DECLARATION
-<message name="testModule4AllSoapAndRestV2ItemsRequest">
-    <part name="messageParameters" element="tns:testModule4AllSoapAndRestV2ItemsRequest"/>
+<message name="testModule5AllSoapAndRestV2ItemsRequest">
+    <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemsRequest"/>
 </message>
-<message name="testModule4AllSoapAndRestV2ItemsResponse">
-    <part name="messageParameters" element="tns:testModule4AllSoapAndRestV2ItemsResponse"/>
+<message name="testModule5AllSoapAndRestV2ItemsResponse">
+    <part name="messageParameters" element="tns:testModule5AllSoapAndRestV2ItemsResponse"/>
 </message>
 MESSAGES_DECLARATION;
         // @codingStandardsIgnoreEnd

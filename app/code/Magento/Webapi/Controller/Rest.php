@@ -9,6 +9,8 @@
 namespace Magento\Webapi\Controller;
 
 use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
+use Magento\Webapi\Controller\Rest\Router\Route;
+use Magento\Service\Entity\MagentoDtoInterface;
 
 /**
  * Front controller for WebAPI REST area.
@@ -42,6 +44,9 @@ class Rest implements \Magento\App\FrontControllerInterface
     /** @var AuthorizationService */
     protected $_authorizationService;
 
+    /** @var ServiceArgsSerializer */
+    protected $_serializer;
+
     /**
      * @param Rest\Request $request
      * @param Rest\Response $response
@@ -51,6 +56,7 @@ class Rest implements \Magento\App\FrontControllerInterface
      * @param \Magento\Oauth\OauthInterface $oauthService
      * @param \Magento\Oauth\Helper\Request $oauthHelper
      * @param AuthorizationService $authorizationService
+     * @param ServiceArgsSerializer $serializer
      */
     public function __construct(
         \Magento\Webapi\Controller\Rest\Request $request,
@@ -60,7 +66,8 @@ class Rest implements \Magento\App\FrontControllerInterface
         \Magento\App\State $appState,
         \Magento\Oauth\OauthInterface $oauthService,
         \Magento\Oauth\Helper\Request $oauthHelper,
-        AuthorizationService $authorizationService
+        AuthorizationService $authorizationService,
+        ServiceArgsSerializer $serializer
     ) {
         $this->_router = $router;
         $this->_request = $request;
@@ -70,6 +77,7 @@ class Rest implements \Magento\App\FrontControllerInterface
         $this->_oauthService = $oauthService;
         $this->_oauthHelper = $oauthHelper;
         $this->_authorizationService = $authorizationService;
+        $this->_serializer = $serializer;
     }
 
     /**
@@ -97,16 +105,9 @@ class Rest implements \Magento\App\FrontControllerInterface
             if (!$this->_appState->isInstalled()) {
                 throw new \Magento\Webapi\Exception(__('Magento is not yet installed'));
             }
-            // TODO: Consider changing service interface to operate with objects to avoid overhead
-            $requestUrl = $this->_oauthHelper->getRequestUrl($this->_request);
-            $oauthRequest = $this->_oauthHelper->prepareRequest(
-                $this->_request, $requestUrl, $this->_request->getRequestData()
-            );
-            $consumerId = $this->_oauthService->validateAccessTokenRequest(
-                $oauthRequest, $requestUrl, $this->_request->getMethod()
-            );
+            $oauthRequest = $this->_oauthHelper->prepareServiceRequest($this->_request);
+            $consumerId = $this->_oauthService->validateAccessTokenRequest($oauthRequest);
             $this->_request->setConsumerId($consumerId);
-
             $route = $this->_router->match($this->_request);
 
             if (!$this->_authorizationService->isAllowed($route->getAclResources())) {
@@ -126,19 +127,51 @@ class Rest implements \Magento\App\FrontControllerInterface
             }
             /** @var array $inputData */
             $inputData = $this->_request->getRequestData();
-            $serviceMethod = $route->getServiceMethod();
-            $service = $this->_objectManager->get($route->getServiceClass());
-            $outputData = $service->$serviceMethod($inputData);
-            if (!is_array($outputData)) {
-                throw new \LogicException(
-                    sprintf('The method "%s" of service "%s" must return an array.', $serviceMethod,
-                        $route->getServiceClass())
-                );
-            }
-            $this->_response->prepareResponse($outputData);
+            $serviceMethodName = $route->getServiceMethod();
+            $serviceClassName = $route->getServiceClass();
+            $inputParams = $this->_serializer->getInputData($serviceClassName, $serviceMethodName, $inputData);
+            $service = $this->_objectManager->get($serviceClassName);
+            /** @var \Magento\Service\Entity\AbstractDto $outputData */
+            $outputData = call_user_func_array([$service, $serviceMethodName], $inputParams);
+            $outputArray = $this->_getOutputArray($outputData);
+            $this->_response->prepareResponse($outputArray);
         } catch (\Exception $e) {
             $this->_response->setException($e);
         }
         return $this->_response;
     }
+
+    /**
+     * Converts the incoming data into an array format.
+     *
+     * If the data provided is null, then an empty array is returned.  Otherwise, if the data is an object, it is
+     * assumed to be a DTO and converted to an associative array with keys representing the properties of the DTO.
+     * Nested DTOs are also converted.  If the data provided is itself an array, then we iterate through the contents
+     * and convert each piece individually.
+     *
+     * @param array|\Magento\Service\Entity\MagentoDtoInterface $data A DTO or an array of DTOs to be converted into
+     *                                                                a key-value array format.
+     * @return array
+     */
+    protected function _getOutputArray($data)
+    {
+        if (!is_null($data)) {
+            $outputArray = [];
+            if (is_array($data)) {
+                foreach ($data as $datum) {
+                    if (method_exists($datum, '__toArray')) {
+                        $outputArray[] = $datum->__toArray();
+                    } else {
+                        $outputArray[] = $datum;
+                    }
+                }
+            } else {
+                /** @var MagentoDtoInterface $data */
+                $outputArray = $data->__toArray();
+            }
+            return $outputArray;
+        }
+        return null;
+    }
+
 }

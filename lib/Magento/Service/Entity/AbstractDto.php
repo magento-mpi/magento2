@@ -97,6 +97,18 @@ abstract class AbstractDto implements MagentoDtoInterface
     }
 
     /**
+     * @param string $key
+     * @param mixed $value
+     *
+     * @return AbstractDto
+     */
+    protected function _setData($key, $value)
+    {
+        $this->_data[$key] = $value;
+        return $this;
+    }
+
+    /**
      * Validates that $data is the proper type
      *
      * @throws \LogicException

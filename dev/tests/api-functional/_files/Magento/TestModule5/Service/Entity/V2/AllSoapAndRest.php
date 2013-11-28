@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\TestModule4\Service\Entity\V2;
+namespace Magento\TestModule5\Service\Entity\V2;
 
 
-use Magento\TestModule4\Service\Entity\V1;
+use Magento\TestModule5\Service\Entity\V1;
 
 class AllSoapAndRest extends V1\AllSoapAndRest
 {
@@ -32,4 +32,4 @@ class AllSoapAndRest extends V1\AllSoapAndRest
         return $this->_set(self::PRICE, $price);
     }
 
-} 
+}

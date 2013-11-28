@@ -8,18 +8,10 @@
  */
 -->
 <config>
-    <service class="Magento\TestModule4\Service\AllSoapAndRestV1Interface" baseUrl="/V1/TestModule4">
-        <rest-route httpMethod="GET" method="item" resources="Magento_TestModule4::resource1">/:id</rest-route>
-        <rest-route httpMethod="GET" method="items" resources="Magento_TestModule4::resource2"></rest-route>
-        <rest-route httpMethod="POST" method="create" resources="Magento_TestModule4::resource3"></rest-route>
-        <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule4::resource1,Magento_TestModule4::resource2">/:id</rest-route>
+    <service class="Magento\TestModule4\Service\DtoServiceV1Interface" baseUrl="/V1/testmodule4">
+        <rest-route httpMethod="GET" method="getData">/:id</rest-route>
+        <rest-route httpMethod="POST" method="updateData">/:id</rest-route>
+        <rest-route httpMethod="POST" method="nestedData">/:id/nested</rest-route>
     </service>
 
-    <service class="Magento\TestModule4\Service\AllSoapAndRestV2Interface" baseUrl="/V2/TestModule4">
-        <rest-route httpMethod="GET" method="item" resources="Magento_TestModule4::resource1">/:id</rest-route>
-        <rest-route httpMethod="GET" method="items" resources="Magento_TestModule4::resource2"></rest-route>
-        <rest-route httpMethod="POST" method="create" resources="Magento_TestModule4::resource3"></rest-route>
-        <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule4::resource1,Magento_TestModule4::resource2">/:id</rest-route>
-        <rest-route httpMethod="DELETE" method="delete" resources="Magento_TestModule4::resource1">/:id</rest-route>
-    </service>
 </config>

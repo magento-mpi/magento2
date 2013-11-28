@@ -7,15 +7,17 @@
  */
 namespace Magento\TestModule2\Service;
 
+use Magento\TestModule2\Service\Entity\V1\Item;
+
 interface SubsetRestV1Interface
 {
     /**
      * Return a single item.
      *
-     * @param $request array
-     * @return array
+     * @param int $id
+     * @return Item
      */
-    public function item($request);
+    public function item($id);
 
     /**
      * Return multiple items.

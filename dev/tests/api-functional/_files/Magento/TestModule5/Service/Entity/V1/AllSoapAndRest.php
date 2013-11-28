@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TestModule4\Service\Entity\V1;
+namespace Magento\TestModule5\Service\Entity\V1;
 
 
 use Magento\Service\Entity\AbstractDto;

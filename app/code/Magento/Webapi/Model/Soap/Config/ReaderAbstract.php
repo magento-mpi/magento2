@@ -94,7 +94,7 @@ abstract class ReaderAbstract
             foreach (array_keys($this->_modulesList->getModules()) as $moduleName) {
 
                 // TODO: Remove temporary module name limitation
-                if ($moduleName != 'Magento_TestModule4') {
+                if ($moduleName != 'Magento_TestModule5') {
                     continue;
                 }
 

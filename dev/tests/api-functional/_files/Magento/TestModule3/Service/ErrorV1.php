@@ -9,11 +9,16 @@
  */
 namespace Magento\TestModule3\Service;
 
+use Magento\TestModule3\Service\Entity\V1\Parameter;
+
 class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
 {
     public function success()
     {
-        return array('id' => 'a good id');
+        $result = new Parameter();
+        $result->setName('id');
+        $result->setValue('a good id');
+        return $result;
     }
 
     public function resourceNotFoundException()
@@ -26,7 +31,7 @@ class ErrorV1 implements \Magento\TestModule3\Service\ErrorV1Interface
         throw new \Magento\Service\Exception('Generic service exception', 3456);
     }
 
-    public function parameterizedServiceException($parameters)
+    public function parameterizedServiceException(array $parameters)
     {
         throw new \Magento\Service\Exception('Parameterized service exception', 1234, null, $parameters['details']);
     }

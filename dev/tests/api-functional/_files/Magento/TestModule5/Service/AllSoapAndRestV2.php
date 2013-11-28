@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\TestModule4\Service;
+namespace Magento\TestModule5\Service;
 
 class AllSoapAndRestV2 /**  extends AllSoapAndRestV1 */ implements AllSoapAndRestV2Interface
 {

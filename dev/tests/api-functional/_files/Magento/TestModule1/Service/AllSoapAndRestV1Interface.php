@@ -8,33 +8,28 @@
 
 namespace Magento\TestModule1\Service;
 
+use Magento\TestModule1\Service\Entity\V1\Item;
+
 interface AllSoapAndRestV1Interface
 {
 
     /**
-     * @param $request
-     * @return array
+     * @param int $id
+     * @return Item
      */
-    public function item($request);
+    public function item($id);
 
     /**
-     * TODO: Nested complexType XSD references not supported yet. Need to fix it.
-     *
-     * @return array
+     * @param string $name
+     * @return Item
      */
-    //public function items();
+    public function create($name);
 
     /**
-     * @param $request
-     * @return array
+     * @param Item $item
+     * @return Item
      */
-    public function create($request);
-
-    /**
-     * @param $request
-     * @return array
-     */
-    public function update($request);
+    public function update(Item $item);
 
     /**
      * @return array
