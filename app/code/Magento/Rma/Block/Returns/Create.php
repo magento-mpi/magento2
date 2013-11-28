@@ -37,37 +37,34 @@ class Create extends \Magento\Rma\Block\Form
     protected $_itemFormFactory;
 
     /**
-     * @param \Magento\Rma\Model\ItemFactory $itemFactory
-     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
-     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
-     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Rma\Model\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Model\ItemFactory $itemFactory,
-        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
-        \Magento\Core\Model\Session $coreSession,
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
-        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\Rma\Model\ItemFactory $itemFactory,
+        \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
+        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        $this->_coreSession = $coreSession;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($modelFactory, $formFactory, $eavConfig, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     public function _construct()
@@ -81,13 +78,13 @@ class Create extends \Magento\Rma\Block\Form
         $items = $this->_rmaData->getOrderItems($order);
         $this->setItems($items);
 
-        $formData = $this->_coreSession->getRmaFormData(true);
+        $formData = $this->_session->getRmaFormData(true);
         if (!empty($formData)) {
             $data = new \Magento\Object();
             $data->addData($formData);
             $this->setFormData($data);
         }
-        $errorKeys = $this->_coreSession->getRmaErrorKeys(true);
+        $errorKeys = $this->_session->getRmaErrorKeys(true);
         if (!empty($errorKeys)) {
             $data = new \Magento\Object();
             $data->addData($errorKeys);

@@ -17,7 +17,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Email template model instance
      *
-     * @var \Magento\Core\Model\Email\Template
+     * @var \Magento\Email\Model\Template
      */
     protected $_emailTemplateModel;
 
@@ -59,7 +59,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Template factory
      *
-     * @var \Magento\Core\Model\Email\TemplateFactory
+     * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
@@ -98,7 +98,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
-     * @param \Magento\Core\Model\Email\TemplateFactory $templateFactory
+     * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
      * @param \Magento\UrlInterface $urlModel
@@ -117,7 +117,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\View\LayoutInterface $layout,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
-        \Magento\Core\Model\Email\TemplateFactory $templateFactory,
+        \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Core\Model\Session\AbstractSession $session,
         \Magento\UrlInterface $urlModel,
@@ -138,10 +138,10 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_giftCardData = $giftCardData;
         $this->_coreStoreConfig = $coreStoreConfig;
         if (isset($data['email_template_model'])) {
-            if (!$data['email_template_model'] instanceof \Magento\Core\Model\Email\Template) {
+            if (!$data['email_template_model'] instanceof \Magento\Email\Model\Template) {
                 throw new \InvalidArgumentException(
                     'Argument "email_template_model" is expected to be an'
-                        . ' instance of "Magento\Core\Model\Email\Template".'
+                        . ' instance of "Magento\Email\Model\Template".'
                 );
             }
             $this->_emailTemplateModel = $data['email_template_model'];
@@ -269,7 +269,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
                     for ($i = 0; $i < $qty; $i++) {
                         try {
                             $code = new \Magento\Object();
-                            $this->_eventDispatcher->dispatch('magento_giftcardaccount_create', array(
+                            $this->_eventManager->dispatch('magento_giftcardaccount_create', array(
                                 'request' => $data, 'code' => $code
                             ));
                             $codes[] = $code->getCode();

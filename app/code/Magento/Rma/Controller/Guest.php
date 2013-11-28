@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller;
 
-class Guest extends \Magento\Core\Controller\Front\Action
+class Guest extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -20,11 +20,11 @@ class Guest extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -38,12 +38,12 @@ class Guest extends \Magento\Core\Controller\Front\Action
     {
         if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->isEnabled()
             || !$this->_objectManager->get('Magento\Sales\Helper\Guest')->loadValidOrder()) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return;
         }
-        $this->loadLayout();
-        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -71,12 +71,12 @@ class Guest extends \Magento\Core\Controller\Front\Action
             return;
         }
 
-        $this->loadLayout();
-        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs($this);
-        $this->getLayout()
+        $this->_view->loadLayout();
+        $this->_objectManager->get('Magento\Sales\Helper\Guest')->getBreadcrumbs();
+        $this->_view->getLayout()
             ->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -97,7 +97,7 @@ class Guest extends \Magento\Core\Controller\Front\Action
         }
 
         if (!$entityId) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
         /** @var $rma \Magento\Rma\Model\Rma */
@@ -150,7 +150,8 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 );
                 $result = $rmaModel->setData($rmaData)->saveRma($post);
                 if (!$result) {
-                    $this->_redirectError($urlModel->getUrl('*/*/create', array('order_id'  => $orderId)));
+                    $url = $urlModel->getUrl('*/*/create', array('order_id'  => $orderId));
+                    $this->getResponse()->setRedirect($this->_redirect->error($url));
                     return;
                 }
                 $result->sendNewRmaEmail();
@@ -167,7 +168,8 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 $coreSession->addSuccess(
                     __('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
-                $this->_redirectSuccess($urlModel->getUrl('*/*/returns'));
+                $url = $urlModel->getUrl('*/*/returns');
+                $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
             } catch (\Exception $e) {
                 $coreSession->addError(
@@ -176,13 +178,13 @@ class Guest extends \Magento\Core\Controller\Front\Action
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Core\Model\Session');
-        $this->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
-        if ($block = $this->getLayout()->getBlock('customer.account.link.back')) {
-            $block->setRefererUrl($this->_getRefererUrl());
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Core\Model\Session');
+        $this->_view->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
+        if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
+            $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -305,9 +307,9 @@ class Guest extends \Magento\Core\Controller\Front\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->addPageLayoutHandles();
-        $this->loadLayout(false)
-            ->renderLayout();
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
         return;
     }
     /**
@@ -358,8 +360,8 @@ class Guest extends \Magento\Core\Controller\Front\Action
             $this->_objectManager->get('Magento\Core\Model\Session')->setErrorMessage($response['message']);
         }
 
-        $this->addPageLayoutHandles();
-        $this->loadLayout(false)
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)
             ->renderLayout();
         return;
     }

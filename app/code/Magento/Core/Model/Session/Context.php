@@ -39,16 +39,16 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * Core message
      *
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_message;
+    protected $messageFactory;
 
     /**
      * Core message collection factory
      *
-     * @var \Magento\Core\Model\Message\CollectionFactory
+     * @var \Magento\Message\CollectionFactory
      */
-    protected $_messageFactory;
+    protected $messagesFactory;
 
     /**
      * @var \Magento\App\RequestInterface
@@ -61,7 +61,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -70,8 +70,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Message\CollectionFactory $messageFactory
-     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Message\CollectionFactory $messagesFactory
+     * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -82,8 +82,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Message\CollectionFactory $messageFactory,
-        \Magento\Core\Model\Message $message,
+        \Magento\Message\CollectionFactory $messagesFactory,
+        \Magento\Message\Factory $messageFactory,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -94,8 +94,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_eventManager = $eventManager;
         $this->_storeConfig = $coreStoreConfig;
         $this->_saveMethod = $saveMethod;
-        $this->_messageFactory = $messageFactory;
-        $this->_message = $message;
+        $this->messagesFactory = $messagesFactory;
+        $this->messageFactory = $messageFactory;
         $this->_request = $request;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
@@ -152,17 +152,17 @@ class Context implements \Magento\ObjectManager\ContextInterface
     /**
      * @return \Magento\Core\Model\Message
      */
-    public function getMessage()
+    public function getMessageFactory()
     {
-        return $this->_message;
+        return $this->messageFactory;
     }
 
     /**
-     * @return \Magento\Core\Model\Message\CollectionFactory
+     * @return \Magento\Message\CollectionFactory
      */
-    public function getMessageFactory()
+    public function getMessagesFactory()
     {
-        return $this->_messageFactory;
+        return $this->messagesFactory;
     }
 
     /**
@@ -174,7 +174,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\StoreManager
+     * @return \Magento\Core\Model\StoreManagerInterface
      */
     public function getStoreManager()
     {

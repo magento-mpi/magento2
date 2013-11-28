@@ -16,21 +16,29 @@ namespace Magento\Backend\Controller\Adminhtml\System;
 class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
 {
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Backend\Model\Config\Structure $configStructure
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Backend\Model\Config\Structure $configStructure,
+        \Magento\App\Response\Http\FileFactory $fileFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context, $configStructure);
     }
 
@@ -49,7 +57,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
      */
     public function editAction()
     {
-        $this->_title(__('Configuration'));
+        $this->_title->add(__('Configuration'));
 
         $current = $this->getRequest()->getParam('section');
         $website = $this->getRequest()->getParam('website');
@@ -61,10 +69,10 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             return $this->_redirect('adminhtml/*/', array('website' => $website, 'store' => $store));
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
 
         $this->_setActiveMenu('Magento_Adminhtml::system_config');
-        $this->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
+        $this->_view->getLayout()->getBlock('menu')->setAdditionalCacheKeyInfo(array($current));
 
         $this->_addBreadcrumb(
             __('System'),
@@ -72,7 +80,7 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
             $this->getUrl('*\/system')
         );
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -97,8 +105,9 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
     public function exportTableratesAction()
     {
         $fileName = 'tablerates.csv';
-        /** @var $gridBlock \Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid */
-        $gridBlock = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Shipping\Carrier\Tablerate\Grid');
+        /** @var $gridBlock \Magento\Shipping\Block\Adminhtml\Carrier\Tablerate\Grid */
+        $gridBlock = $this->_view->getLayout()
+            ->createBlock('Magento\Shipping\Block\Adminhtml\Carrier\Tablerate\Grid');
         $website = $this->_storeManager->getWebsite($this->getRequest()->getParam('website'));
         if ($this->getRequest()->getParam('conditionName')) {
             $conditionName = $this->getRequest()->getParam('conditionName');
@@ -107,6 +116,6 @@ class Config extends \Magento\Backend\Controller\Adminhtml\System\AbstractConfig
         }
         $gridBlock->setWebsiteId($website->getId())->setConditionName($conditionName);
         $content = $gridBlock->getCsvFile();
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 }

@@ -546,8 +546,12 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getMetaNodeByType($type)
     {
         if (!isset($this->_metaNodes[$type])) {
-            $model = $this->_nodeFactory->create()
-                ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
+            /** @var array|bool $data */
+            $data = $this->_getResource()->getMetaNodeDataByType($this, $type);
+            $model = $this->_nodeFactory->create();
+            if ($data !== false) {
+                $model->setData($data);
+            }
 
             $this->_metaNodes[$type] = $model;
         }

@@ -6,13 +6,10 @@
  * @license     {license_link}
  */
 
-/**
- * Magento Block interface
- */
 namespace Magento\View\Element;
 
 /**
- * @package Magento\View
+ * Magento Block interface
  */
 interface RendererInterface
 {

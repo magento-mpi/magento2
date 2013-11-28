@@ -27,12 +27,6 @@ class Attributes
     protected $_resourceCustomer;
 
     /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -40,14 +34,12 @@ class Attributes
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Resource\Customer $resourceCustomer,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
-        $this->_locale = $locale;
         $this->_resourceCustomer = $resourceCustomer;
         $this->_eavConfig = $eavConfig;
         parent::__construct($resourceSegment, $context, $data);

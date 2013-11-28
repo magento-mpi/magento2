@@ -49,7 +49,7 @@ class HtmlTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('http://localhost/pub/media/'));
 
         $context = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Block\Template\Context', array(
+            ->create('Magento\View\Block\Template\Context', array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
         ));

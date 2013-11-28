@@ -9,7 +9,7 @@
  */
 namespace Magento\FullPageCache\Controller;
 
-class Request extends \Magento\Core\Controller\Front\Action
+class Request extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -22,14 +22,14 @@ class Request extends \Magento\Core\Controller\Front\Action
      * @var \Magento\Stdlib\Cookie
      */
     protected $_cookie;
-
+    
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\Cookie $cookie
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Stdlib\Cookie $cookie
     ) {

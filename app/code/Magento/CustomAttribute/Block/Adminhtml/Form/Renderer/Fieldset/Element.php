@@ -20,28 +20,6 @@ class Element
     extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        $this->_storeManager = $storeManager;
-        parent::__construct($coreData, $context, $data);
-    }
-
-
-    /**
      * Retrieve data object related with form
      *
      * @return \Magento\Object

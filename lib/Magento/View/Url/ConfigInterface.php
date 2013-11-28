@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Url;
+
 /**
  * Url Config Interface
  */
-namespace Magento\View\Url;
-
 interface ConfigInterface
 {
     /**

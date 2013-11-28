@@ -13,7 +13,9 @@
  */
 namespace Magento\Reminder\Controller\Adminhtml;
 
-class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Reminder extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -35,21 +37,29 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_conditionFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $_dateFilter;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Reminder\Model\RuleFactory $ruleFactory
      * @param \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
+     * @param \Magento\Core\Filter\Date $dateFilter
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Reminder\Model\RuleFactory $ruleFactory,
-        \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory
+        \Magento\Reminder\Model\Rule\ConditionFactory $conditionFactory,
+        \Magento\Core\Filter\Date $dateFilter
     ) {
-        $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
+        $this->_coreRegistry = $coreRegistry;
         $this->_ruleFactory = $ruleFactory;
         $this->_conditionFactory = $conditionFactory;
+        $this->_dateFilter = $dateFilter;
     }
 
     /**
@@ -59,8 +69,8 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Reminder::promo_reminder')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Reminder::promo_reminder')
             ->_addBreadcrumb(
                 __('Reminder Rules'),
                 __('Reminder Rules')
@@ -96,10 +106,10 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Email Reminders'));
-        $this->loadLayout();
+        $this->_title->add(__('Email Reminders'));
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Reminder::promo_reminder');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -116,7 +126,7 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function editAction()
     {
-        $this->_title(__('Email Reminders'));
+        $this->_title->add(__('Email Reminders'));
 
         try {
             $model = $this->_initRule();
@@ -126,7 +136,7 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Reminder Rule'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Reminder Rule'));
 
         // set entered data if was error when we do save
         $data = $this->_getSession()->getPageData(true);
@@ -138,15 +148,16 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_initAction();
 
-        $this->getLayout()->getBlock('adminhtml_reminder_edit')
+        $this->_view->getLayout()->getBlock('adminhtml_reminder_edit')
             ->setData('form_action_url', $this->getUrl('adminhtml/*/save'));
 
-        $this->getLayout()->getBlock('head')
+        $this->_view->getLayout()->getBlock('head')
             ->setCanLoadExtJs(true)
             ->setCanLoadRulesJs(true);
 
         $caption = $model->getId() ? __('Edit Rule') : __('New Reminder Rule');
-        $this->_addBreadcrumb($caption, $caption)->renderLayout();
+        $this->_addBreadcrumb($caption, $caption);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -187,7 +198,9 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
 
                 $model = $this->_initRule('rule_id');
 
-                $data = $this->_filterDates($data, array('from_date', 'to_date'));
+                $inputFilter = new \Zend_Filter_Input(
+                    array('from_date' => $this->_dateFilter, 'to_date' => $this->_dateFilter), array(), $data);
+                $data = $inputFilter->getUnescaped();
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
@@ -277,7 +290,7 @@ class Reminder extends \Magento\Backend\Controller\Adminhtml\Action
     public function customerGridAction()
     {
         if ($this->_initRule('rule_id')) {
-            $block = $this->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
+            $block = $this->_view->getLayout()->createBlock('Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab\Customers');
             $this->getResponse()->setBody($block->toHtml());
         }
     }

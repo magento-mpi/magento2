@@ -29,19 +29,19 @@ class Js
     protected $_attributeHelper = null;
 
     /**
-     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomAttribute\Helper\Data $attributeHelper,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\CustomAttribute\Helper\Data $attributeHelper,
         array $data = array()
     ) {
         $this->_attributeHelper = $attributeHelper;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

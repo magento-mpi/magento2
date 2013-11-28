@@ -17,21 +17,6 @@ class Revision
     extends \Magento\VersionsCms\Controller\Adminhtml\Cms\Page
 {
     /**
-     * @var \Magento\Config\Scope
-     */
-    protected $_configScope;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
      * @var \Magento\Cms\Model\Page
      */
     protected $_cmsPage;
@@ -42,40 +27,48 @@ class Revision
     protected $_design;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\Core\Model\StoreManagerInterface
+     */
+    protected $_storeManager;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\Config\Scope $configScope
+     * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Cms\Model\Page $cmsPage
      * @param \Magento\Core\Model\Design $design
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Config\Scope $configScope,
+        \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Cms\Model\Page $cmsPage,
-        \Magento\Core\Model\Design $design
+        \Magento\Core\Model\Design $design,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
-        $this->_configScope = $configScope;
         $this->_storeManager = $storeManager;
-        $this->_locale = $locale;
         $this->_cmsPage = $cmsPage;
         $this->_design = $design;
-        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory);
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $dateFilter,
+            $cmsConfig,
+            $backendAuthSession,
+            $pageVersion,
+            $pageFactory
+        );
     }
+
 
     /**
      * Init actions
@@ -85,8 +78,8 @@ class Revision
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Cms::cms_page')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
         return $this;
@@ -149,7 +142,7 @@ class Revision
         }
 
         $this->_initAction()->_addBreadcrumb(__('Edit Revision'), __('Edit Revision'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -250,12 +243,12 @@ class Revision
         // check if data sent
         $data = $this->getRequest()->getPost();
         if (empty($data) || !isset($data['page_id'])) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return $this;
         }
 
         $page = $this->_initPage();
-        $this->loadLayout();
+        $this->_view->loadLayout();
 
         $stores = $page->getStoreId();
         if (isset($data['stores'])) {
@@ -271,21 +264,21 @@ class Revision
         }
 
         if (!$allStores) {
-            $this->getLayout()->getBlock('store_switcher')->setStoreIds($stores);
+            $this->_view->getLayout()->getBlock('store_switcher')->setStoreIds($stores);
         }
 
         // Setting default values for selected store and revision
         $data['preview_selected_store'] = 0;
         $data['preview_selected_revision'] = 0;
 
-        $this->getLayout()->getBlock('preview_form')->setFormData($data);
+        $this->_view->getLayout()->getBlock('preview_form')->setFormData($data);
 
         // Remove revision switcher if page is out of version control
         if (!$page->getUnderVersionControl()) {
-            $this->getLayout()->unsetChild('tools', 'revision_switcher');
+            $this->_view->getLayout()->unsetChild('tools', 'revision_switcher');
         }
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -311,7 +304,7 @@ class Revision
             // init model and set data
             $page = $this->_cmsPage->load($data['page_id']);
             if (!$page->getId()) {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return $this;
             }
 
@@ -373,13 +366,13 @@ class Revision
             }
 
             // add handles used to render cms page on frontend
-            $this->getLayout()->getUpdate()->addHandle('default');
-            $this->getLayout()->getUpdate()->addHandle('cms_page_view');
+            $this->_view->getLayout()->getUpdate()->addHandle('default');
+            $this->_view->getLayout()->getUpdate()->addHandle('cms_page_view');
             $this->_objectManager->get('Magento\Cms\Helper\Page')->renderPageExtended($this);
             $this->_locale->revert();
 
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -441,30 +434,6 @@ class Revision
             default:
                 return $this->_authorization->isAllowed('Magento_Cms::page');
         }
-    }
-
-    /**
-     * Init design in specific area
-     *
-     * @return \Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision
-     */
-    protected function _initDesign()
-    {
-        if ($this->getRequest()->getActionName() == 'drop') {
-            $this->_objectManager->get('Magento\App\State')
-                ->emulateAreaCode('frontend', array($this, 'emulateDesignCallback'));
-        } else {
-            parent::_initDesign();
-        }
-        return $this;
-    }
-
-    /**
-     * Callback for init design from outside (need to substitute area code)
-     */
-    public function emulateDesignCallback()
-    {
-        parent::_initDesign();
     }
 
     /**

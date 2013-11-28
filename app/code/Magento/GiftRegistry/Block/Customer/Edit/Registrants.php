@@ -32,24 +32,41 @@ class Registrants extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdi
      */
     protected $_giftRegistryData = null;
 
+    /**
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\App\Cache\Type\Config $configCacheType
+     * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
+     * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param array $data
+     */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Cache\Type\Config $configCacheType,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         array $data = array()
     ) {
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
-            $coreRegistry, $configCacheType, $coreData, $context, $storeManager, $regionCollFactory,
-            $countryCollFactory, $customerSession, $attributeConfig, $locale, $data
+            $context,
+            $coreData,
+            $configCacheType,
+            $regionCollFactory,
+            $countryCollFactory,
+            $registry,
+            $customerSession,
+            $attributeConfig,
+            $data
         );
     }
 

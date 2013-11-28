@@ -13,7 +13,7 @@ namespace Magento\Core\Helper;
 /**
  * Core Cookie helper
  */
-class Cookie extends \Magento\Core\Helper\AbstractHelper
+class Cookie extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Cookie name for users who allowed cookie save
@@ -41,16 +41,17 @@ class Cookie extends \Magento\Core\Helper\AbstractHelper
     protected $_website;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
+     * 
      * @throws \InvalidArgumentException
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
-        array $data = array())
-    {
+        \Magento\App\Helper\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        array $data = array()
+    ) {
         parent::__construct($context);
         $this->_currentStore = isset($data['current_store']) ? $data['current_store'] : $storeManager->getStore();
 

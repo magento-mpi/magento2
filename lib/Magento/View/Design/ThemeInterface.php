@@ -9,9 +9,7 @@
 namespace Magento\View\Design;
 
 /**
- * Theme Interface
- *
- * @package Magento\View\Design
+ * Interface ThemeInterface
  */
 interface ThemeInterface
 {

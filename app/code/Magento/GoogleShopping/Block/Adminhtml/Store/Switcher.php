@@ -27,7 +27,7 @@ class Switcher extends \Magento\Backend\Block\Store\Switcher
     protected $_hasDefaultOption = false;
 
     /**
-     * Set overriden params
+     * Set overridden params
      */
     protected function _construct()
     {

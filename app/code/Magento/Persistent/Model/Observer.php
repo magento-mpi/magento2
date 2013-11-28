@@ -215,7 +215,7 @@ class Observer
             return $this;
         }
 
-        /** @var $block \Magento\Core\Block\AbstractBlock */
+        /** @var $block \Magento\View\Block\AbstractBlock */
         $block = $observer->getEvent()->getBlock();
 
         if (!$block) {
@@ -241,7 +241,7 @@ class Observer
     /**
      * Emulate 'welcome' block with persistent data
      *
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      * @return \Magento\Persistent\Model\Observer
      */
     public function emulateWelcomeBlock($block)
@@ -268,7 +268,7 @@ class Observer
     /**
      * Emulate 'top links' block with persistent data
      *
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      */
     public function emulateTopLinks($block)
     {
@@ -295,9 +295,7 @@ class Observer
             return;
         }
 
-        /** @var $action \Magento\Checkout\Controller\Onepage */
-        $action = $observer->getEvent()->getControllerAction();
-        $actionName = $action->getFullActionName();
+        $actionName = $observer->getEvent()->getRequest()->getFullActionName();
 
         if (in_array($actionName, $stopActions)) {
             return;
@@ -459,7 +457,7 @@ class Observer
             return;
         }
 
-        /** @var $controllerAction \Magento\Core\Controller\Front\Action */
+        /** @var $controllerAction \Magento\App\Action\Action */
         $controllerAction = $observer->getEvent()->getControllerAction();
         if (method_exists($controllerAction, 'redirectLogin')) {
             $this->_session->addNotice(__('To check out, please log in using your email address.'));

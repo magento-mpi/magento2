@@ -29,7 +29,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_contextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
+        $this->_contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelperMock = $this->getMockBuilder('Magento\CustomerCustomAttributes\Helper\Data')
@@ -42,7 +42,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator')
                 ->disableOriginalConstructor()->getMock();
 
-        $abstractHelperMock = $this->getMockBuilder('Magento\Core\Helper\AbstractHelper')
+        $abstractHelperMock = $this->getMockBuilder('Magento\App\Helper\AbstractHelper')
             ->disableOriginalConstructor()->getMock();
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();

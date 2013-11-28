@@ -110,72 +110,73 @@
     <div class="returns subtitle caption">
         <strong><?php echo __('Items Return Requested For') ?></strong>
     </div>
-    <table class="data table returns items" id="my-returns-items-table">
-        <thead>
-            <tr>
-                <th class="col id"><?php echo __('Product Name') ?></th>
-                <th class="col sku"><?php echo __('SKU') ?></th>
-                <th class="col condition"><?php echo __('Condition') ?></th>
-                <th class="col resolution"><?php echo __('Resolution') ?></th>
-                <th class="col request qty"><?php echo __('Request Qty') ?></th>
-                <th class="col qty"><?php echo __('Qty') ?></th>
-                <th class="col status"><?php echo __('Status') ?></th>
-                <?php if ($_qna) : ?><th class="col actions"></th><?php endif; ?>
-            </tr>
-        </thead>
-        <tbody>
-            <?php foreach ($this->getItems() as $key=>$item): ?>
-                <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute) {
-                    $_qna = NULL;
-                    if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
-                        $_qna = '
-                            <tr><td class="col questions">' .$this->getAttributeLabel($item->getId(), $code) . '</td>
-                            <td class="col answers">' . $this->getAttributeValue($item->getId(), $code) . '</td></tr>
-                        ';
-                    }
-                } ?>
-            <tr>
-                <td class="col id">
-                    <?php echo $this->escapeHtml($item->getProductName()) ?>
-                    <?php if($_options = $this->getItemOptions($item)): ?>
-                    <dl class="item options">
-                    <?php foreach ($_options as $_option) : ?>
-                        <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
-                        <dd><?php echo $_option['value'] ?></dd>
-                    <?php endforeach; ?>
-                    </dl>
-                    <?php endif; ?>
-                </td>
-                <td class="col sku"><?php echo $this->escapeHtml($item->getProductSku()) ?></span></td>
-                <td class="col condition"><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'condition')) ?></td>
-                <td class="col resolution"><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'resolution')) ?></td>
-                <td class="col request qty"><?php echo $this->escapeHtml($this->helper('Magento\Rma\Helper\Data')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
-                <td class="col qty"><?php echo $this->escapeHtml($this->helper('Magento\Rma\Helper\Data')->getQty($item));?></td>
-                <td class="col status"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></td>
-                <?php if ($_qna) : ?>
-                <td class="col actions">
-                    <button class="action details" data-mage-init='{toggleAdvanced: {newLabel: "<?php echo __('Hide Details') ?>", toggleContainers: "#shf_<?php echo $key; ?>"}}'><?php echo __('Show Details') ?></button>
-                </td>
-                <?php endif; ?>
-            </tr>
-            <?php if ($_qna) : ?>
-                <tr id="shf_<?php echo $key ?>" class="hidden">
-                    <td colspan="8">
-                        <table class="data table">
-                            <thead>
-                                <tr>
-                                    <th class="col questions"><?php echo __('Questions') ?></th>
-                                    <th class="col answers"><?php echo __('Answers') ?></th>
-                                </tr>
-                            </thead>
-                            <?php echo $_qna; ?>
-                        </table>
-                    </td>
+    <div class="returns table wrapper">
+        <table class="data table returns items" id="my-returns-items-table">
+            <thead>
+                <tr>
+                    <th class="col id"><?php echo __('Product Name') ?></th>
+                    <th class="col sku"><?php echo __('SKU') ?></th>
+                    <th class="col condition"><?php echo __('Condition') ?></th>
+                    <th class="col resolution"><?php echo __('Resolution') ?></th>
+                    <th class="col request qty"><?php echo __('Request Qty') ?></th>
+                    <th class="col qty"><?php echo __('Qty') ?></th>
+                    <th class="col status"><?php echo __('Status') ?></th>
                 </tr>
-            <?php endif; ?>
-            <?php endforeach; ?>
-        </tbody>
-    </table>
+            </thead>
+            <tbody>
+                <?php foreach ($this->getItems() as $key=>$item): ?>
+                    <?php foreach($this->getRealValueAttributes($item->getId()) as $code=>$attribute) {
+                        $_qna = NULL;
+                        if (!in_array($code, $this->getAttributeFilter()) && !empty($attribute['value']) && $this->getAttributeLabel($item->getId(), $code)) {
+                            $_qna = '
+                                <tr><td class="col questions">' .$this->getAttributeLabel($item->getId(), $code) . '</td>
+                                <td class="col answers">' . $this->getAttributeValue($item->getId(), $code) . '</td></tr>
+                            ';
+                        }
+                    } ?>
+                <tr>
+                    <td class="col id">
+                        <?php echo $this->escapeHtml($item->getProductName()) ?>
+                        <?php if($_options = $this->getItemOptions($item)): ?>
+                        <dl class="item options">
+                        <?php foreach ($_options as $_option) : ?>
+                            <dt><?php echo $this->escapeHtml($_option['label']) ?></dt>
+                            <dd><?php echo $_option['value'] ?></dd>
+                        <?php endforeach; ?>
+                        </dl>
+                        <?php endif; ?>
+                        <?php if ($_qna) : ?>
+                            <button class="action details" type="button" data-mage-init='{toggleAdvanced: {newLabel: "<?php echo __('Hide Details') ?>", toggleContainers: "#shf_<?php echo $key; ?>"}}'>
+                                <span><?php echo __('Show Details') ?></span>
+                            </button>
+                        <?php endif; ?>
+                    </td>
+                    <td class="col sku"><?php echo $this->escapeHtml($item->getProductSku()) ?></span></td>
+                    <td class="col condition"><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'condition')) ?></td>
+                    <td class="col resolution"><?php echo $this->escapeHtml($this->getAttributeValue($item->getId(), 'resolution')) ?></td>
+                    <td class="col request qty"><?php echo $this->escapeHtml($this->helper('Magento\Rma\Helper\Data')->parseQuantity($item->getQtyRequested(), $item)); ?></td>
+                    <td class="col qty"><?php echo $this->escapeHtml($this->helper('Magento\Rma\Helper\Data')->getQty($item));?></td>
+                    <td class="col status"><?php echo $this->escapeHtml($item->getStatusLabel()) ?></td>
+                </tr>
+                <?php if ($_qna) : ?>
+                    <tr id="shf_<?php echo $key ?>" class="hidden">
+                        <td colspan="7">
+                            <table class="data table">
+                                <thead>
+                                    <tr>
+                                        <th class="col questions"><?php echo __('Questions') ?></th>
+                                        <th class="col answers"><?php echo __('Answers') ?></th>
+                                    </tr>
+                                </thead>
+                                <?php echo $_qna; ?>
+                            </table>
+                        </td>
+                    </tr>
+                <?php endif; ?>
+                <?php endforeach; ?>
+            </tbody>
+        </table>
+    </div>
     <div class="block returns comments">
         <div class="title"><span><?php echo __('Leave Comment') ?></span></div>
         <div class="content">

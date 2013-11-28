@@ -9,7 +9,7 @@
 -->
 <config>
     <router id="admin">
-        <route id="adminhtml">
+        <route id="invitations" frontName="invitations">
             <module name="Magento_Invitation_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>

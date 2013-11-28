@@ -28,21 +28,19 @@ class DefaultPrice
     protected $_pricePermissionsData = null;
 
     /**
-     * @param \Magento\PricePermissions\Helper\Data $pricePermissionsData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\App $application
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\PricePermissions\Helper\Data $pricePermissionsData
      * @param array $data
      */
     public function __construct(
-        \Magento\PricePermissions\Helper\Data $pricePermissionsData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\App $application,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\PricePermissions\Helper\Data $pricePermissionsData,
         array $data = array()
     ) {
         $this->_pricePermissionsData = $pricePermissionsData;
-        parent::__construct($coreData, $context, $application, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

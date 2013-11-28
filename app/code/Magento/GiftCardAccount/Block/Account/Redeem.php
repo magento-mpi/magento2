@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Account;
 
-class Redeem extends \Magento\Core\Block\Template
+class Redeem extends \Magento\View\Block\Template
 {
     /**
      * Customer balance data
@@ -20,19 +20,19 @@ class Redeem extends \Magento\Core\Block\Template
     protected $_customerBalanceData = null;
 
     /**
-     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         array $data = array()
     ) {
         $this->_customerBalanceData = $customerBalanceData;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -46,7 +46,7 @@ class Redeem extends \Magento\Core\Block\Template
     }
 
     /**
-     * Retreive gift card code from url, empty if none
+     * Retrieve gift card code from url, empty if none
      *
      * @return string
      */

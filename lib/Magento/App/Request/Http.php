@@ -36,7 +36,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     protected $_controllerModule = null;
 
     /**
-     * Streight request flag.
+     * Straight request flag.
      * If flag is determined no additional logic is applicable
      *
      * @var $_isStraight bool
@@ -62,15 +62,15 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
 
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
+     * @param \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor
      * @param string $uri
      * @param array $directFrontNames
-     * @param PathInfoProcessorInterface $pathInfoProcessor
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
+        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor,
         $uri = null,
-        $directFrontNames = array(),
-        \Magento\App\Request\PathInfoProcessorInterface $pathInfoProcessor = null
+        $directFrontNames = array()
     ) {
         $this->_routeConfig = $routeConfig;
         $this->_directFrontNames = $directFrontNames;
@@ -122,9 +122,7 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
                 $pathInfo = $requestUri;
             }
 
-            if ($this->_pathInfoProcessor) {
-                $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
-            }
+            $pathInfo = $this->_pathInfoProcessor->process($this, $pathInfo);
 
             $this->_originalPathInfo = (string)$pathInfo;
 
@@ -531,5 +529,18 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
             return $scheme . $host . $port . rtrim($path, '/') . '/';
         }
         return 'http://localhost/';
+    }
+
+    /**
+     * Retrieve full action name
+     *
+     * @param string $delimiter
+     * @return mixed|string
+     */
+    public function getFullActionName($delimiter = '_')
+    {
+        return $this->getRequestedRouteName() . $delimiter .
+            $this->getRequestedControllerName() . $delimiter .
+            $this->getRequestedActionName();
     }
 }

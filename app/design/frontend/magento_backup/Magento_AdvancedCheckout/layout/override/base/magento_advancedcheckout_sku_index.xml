@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <update handle="customer_account"/>
+    <referenceContainer name="my.account.wrapper">
+        <block class="Magento\View\Block\Template" name="checkout.customer.order" template="Magento_AdvancedCheckout::customer/sku.phtml">
+            <block class="Magento\AdvancedCheckout\Block\Customer\Sku" name="checkout.customer.sku" template="widget/sku.phtml">
+                <action method="setIsTitleHidden">
+                    <argument name="value" xsi:type="string">true</argument>
+                </action>
+                <block class="Magento\View\Block\Template" template="Magento_AdvancedCheckout::customer/file.phtml"/>
+            </block>
+        </block>
+    </referenceContainer>
+</layout>

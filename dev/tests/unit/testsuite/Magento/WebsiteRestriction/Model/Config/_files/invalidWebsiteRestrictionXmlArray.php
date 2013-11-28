@@ -10,7 +10,7 @@ return array
     'without_required_action_handle' => array(
         '<?xml version="1.0"?><config></config>',
         array("Element 'config': Missing child element(s). Expected is ( action ).")),
-    'action_with_same_pathes_value' => array(
+    'action_with_same_paths_value' => array(
         '<?xml version="1.0"?><config><action path="some_path_name" type="register"/>'
             . '<action path="some_path_name" type="register"/></config>',
         array("Element 'action': Duplicate key-sequence ['some_path_name'] in unique "

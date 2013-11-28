@@ -18,8 +18,7 @@
 
 namespace Magento\Catalog\Block\Adminhtml\Product\Attribute\Edit\Tab;
 
-class Front
-    extends \Magento\Backend\Block\Widget\Form\Generic
+class Front extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
      * @var \Magento\Backend\Model\Config\Source\Yesno
@@ -27,23 +26,23 @@ class Front
     protected $_yesNo;
 
     /**
-     * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Model\Config\Source\Yesno $yesNo,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Model\Config\Source\Yesno $yesNo,
         array $data = array()
     ) {
         $this->_yesNo = $yesNo;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**
@@ -136,7 +135,7 @@ class Front
             'values' => $yesnoSource,
         ));
 
-        $htmlAllowed = $fieldset->addField('is_html_allowed_on_front', 'select', array(
+        $fieldset->addField('is_html_allowed_on_front', 'select', array(
             'name' => 'is_html_allowed_on_front',
             'label' => __('Allow HTML Tags on Frontend'),
             'title' => __('Allow HTML Tags on Frontend'),
@@ -167,6 +166,11 @@ class Front
             'title'     => __('Used for Sorting in Product Listing'),
             'note'      => __('Depends on design theme'),
             'values'    => $yesnoSource,
+        ));
+
+        $this->_eventManager->dispatch('adminhtml_catalog_product_attribute_edit_frontend_prepare_form', array(
+            'form'      => $form,
+            'attribute' => $attributeObject
         ));
 
         // define field dependencies

@@ -401,13 +401,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_paymentData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -435,12 +428,12 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_productFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\Template\MailerFactory
+     * @var \Magento\Email\Model\Template\MailerFactory
      */
     protected $_templateMailerFactory;
 
     /**
-     * @var \Magento\Core\Model\Email\InfoFactory
+     * @var \Magento\Email\Model\InfoFactory
      */
     protected $_emailInfoFactory;
 
@@ -490,8 +483,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     protected $_carrierFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Context $context
@@ -500,20 +491,20 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
-     * @param \Magento\Sales\Model\Order\Config $orderConfig
+     * @param ResourceFactory $resourceFactory
+     * @param Order\Config $orderConfig
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
-     * @param \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory
-     * @param \Magento\Core\Model\Email\InfoFactory $emailInfoFactory
-     * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory
+     * @param \Magento\Email\Model\Template\MailerFactory $templateMailerFactory
+     * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
+     * @param Resource\Order\Item\CollectionFactory $orderItemCollFactory
      * @param \Magento\Catalog\Model\Product\Visibility $productVisibility
      * @param \Magento\Tax\Model\Calculation $taxCalculation
-     * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
+     * @param Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Sales\Model\Order\Status\HistoryFactory $orderHistoryFactory
+     * @param Order\Status\HistoryFactory $orderHistoryFactory
      * @param \Magento\Tax\Model\Resource\Sales\Order\Tax\CollectionFactory $orderTaxCollFactory
-     * @param \Magento\Sales\Model\CarrierFactory $carrierFactory
+     * @param CarrierFactory $carrierFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -521,7 +512,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Context $context,
@@ -533,8 +523,8 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Sales\Model\ResourceFactory $resourceFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
-        \Magento\Core\Model\Email\Template\MailerFactory $templateMailerFactory,
-        \Magento\Core\Model\Email\InfoFactory $emailInfoFactory,
+        \Magento\Email\Model\Template\MailerFactory $templateMailerFactory,
+        \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $orderItemCollFactory,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
         \Magento\Tax\Model\Calculation $taxCalculation,
@@ -548,7 +538,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -1115,7 +1104,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Order state setter.
      * If status is specified, will add order status history with specified comment
-     * the setData() cannot be overriden because of compatibility issues with resource model
+     * the setData() cannot be overridden because of compatibility issues with resource model
      *
      * @param string $state
      * @param string|bool $status
@@ -1131,7 +1120,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Order state protected setter.
      * By default allows to set any state. Can also update status to default or specified value
-     * Сomplete and closed states are encapsulated intentionally, see the _checkState()
+     * Complete and closed states are encapsulated intentionally, see the _checkState()
      *
      * @param string $state
      * @param string|bool $status
@@ -1483,7 +1472,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
-        // Check if at least one recepient is found
+        // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }

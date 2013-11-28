@@ -39,11 +39,11 @@ class NavigationMode extends \Magento\Core\Model\Url
     /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param string $areaCode
@@ -52,11 +52,11 @@ class NavigationMode extends \Magento\Core\Model\Url
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
+        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\DesignEditor\Helper\Data $helper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         $areaCode,
@@ -73,7 +73,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         parent::__construct(
             $routeConfig,
             $request,
-            $securityInfo,
+            $urlSecurityInfo,
             $coreStoreConfig,
             $app,
             $storeManager,

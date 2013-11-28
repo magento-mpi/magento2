@@ -10,7 +10,9 @@
 
 namespace Magento\Banner\Controller\Adminhtml;
 
-class Banner extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Banner extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -18,13 +20,12 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
      * @var \Magento\Core\Model\Registry
      */
     protected $_registry = null;
-
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $registry
     ) {
         $this->_registry = $registry;
@@ -38,11 +39,11 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Banners'));
+        $this->_title->add(__('Banners'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -70,20 +71,20 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->_title($model->getId() ? $model->getName() : __('New Banner'));
+        $this->_title->add($model->getId() ? $model->getName() : __('New Banner'));
 
         $data = $this->_getSession()->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Banner::cms_magento_banner');
         $this->_addBreadcrumb(
             $bannerId ? __('Edit Banner') : __('New Banner'),
             $bannerId ? __('Edit Banner') : __('New Banner')
-        )
-        ->renderLayout();
+        );
+        $this->_view->renderLayout();
     }
 
     /**
@@ -249,7 +250,7 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initBanner($idFieldName = 'banner_id')
     {
-        $this->_title(__('Banners'));
+        $this->_title->add(__('Banners'));
 
         $bannerId = (int)$this->getRequest()->getParam($idFieldName);
         $model = $this->_objectManager->create('Magento\Banner\Model\Banner');
@@ -277,8 +278,8 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -300,11 +301,11 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->loadLayout();
-        $this->getLayout()
+        $this->_view->loadLayout();
+        $this->_view->getLayout()
             ->getBlock('banner_salesrule_grid')
             ->setSelectedSalesRules($this->getRequest()->getPost('selected_salesrules'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -326,11 +327,11 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
 
-        $this->loadLayout();
-        $this->getLayout()
+        $this->_view->loadLayout();
+        $this->_view->getLayout()
             ->getBlock('banner_catalogrule_grid')
             ->setSelectedCatalogRules($this->getRequest()->getPost('selected_catalogrules'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -355,11 +356,11 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
         if (!$this->_registry->registry('current_promo_quote_rule')) {
             $this->_registry->register('current_promo_quote_rule', $model);
         }
-        $this->loadLayout();
-        $this->getLayout()
+        $this->_view->loadLayout();
+        $this->_view->getLayout()
             ->getBlock('related_salesrule_banners_grid')
             ->setSelectedSalesruleBanners($this->getRequest()->getPost('selected_salesrule_banners'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -382,10 +383,10 @@ class Banner extends \Magento\Backend\Controller\Adminhtml\Action
         if (!$this->_registry->registry('current_promo_catalog_rule')) {
             $this->_registry->register('current_promo_catalog_rule', $model);
         }
-        $this->loadLayout();
-        $this->getLayout()
+        $this->_view->loadLayout();
+        $this->_view->getLayout()
             ->getBlock('related_catalogrule_banners_grid')
             ->setSelectedCatalogruleBanners($this->getRequest()->getPost('selected_catalogrule_banners'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 }

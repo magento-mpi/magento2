@@ -17,7 +17,7 @@
  */
 namespace Magento\WebsiteRestriction\Controller;
 
-class Index extends \Magento\Core\Controller\Front\Action
+class Index extends \Magento\App\Action\Action
 {
     protected $_stubPageIdentifier = \Magento\WebsiteRestriction\Model\Config::XML_PATH_RESTRICTION_LANDING_PAGE;
 
@@ -61,7 +61,7 @@ class Index extends \Magento\Core\Controller\Front\Action
     protected $_locale;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Website $website
@@ -70,7 +70,7 @@ class Index extends \Magento\Core\Controller\Front\Action
      * @param \Magento\Core\Model\Locale $locale
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Website $website,
@@ -85,10 +85,6 @@ class Index extends \Magento\Core\Controller\Front\Action
         $this->_storeConfig = $storeConfig;
         $this->_locale = $locale;
         parent::__construct($context);
-    }
-
-    protected function _construct()
-    {
         $this->_cacheKey = $this->_cacheKeyPrefix . $this->_website->getId();
     }
 
@@ -122,24 +118,25 @@ class Index extends \Magento\Core\Controller\Front\Action
                 }
             }
 
-            $this->addActionLayoutHandles();
+            $this->_view->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
                 $this->_objectManager->get('Magento\Page\Helper\Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
-            $this->loadLayoutUpdates();
+            $this->_view->loadLayoutUpdates();
 
-            $this->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
-            $this->generateLayoutXml()->generateLayoutBlocks();
+            $this->_view->getLayout()->getUpdate()->addUpdate($page->getLayoutUpdateXml());
+            $this->_view->generateLayoutXml();
+            $this->_view->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
                 $this->_objectManager->get('Magento\Page\Helper\Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 
-            $this->renderLayout();
+            $this->_view->renderLayout();
 
             $this->_configCacheType->save(
                 $this->getResponse()->getBody(), $this->_cacheKey, array(\Magento\Core\Model\Website::CACHE_TAG)

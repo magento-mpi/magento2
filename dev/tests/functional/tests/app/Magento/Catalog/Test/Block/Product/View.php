@@ -14,7 +14,7 @@ namespace Magento\Catalog\Test\Block\Product;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
@@ -90,22 +90,11 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param Product $product
+     * @param AbstractProduct $product
      */
-    public function addToCart(Product $product)
+    public function addToCart(AbstractProduct $product)
     {
-        $configureButton = $this->_rootElement->find('.action.primary.customize');
-        $configureSection = $this->_rootElement->find('.product.options.configure');
-
-        if ($configureButton->isVisible()) {
-            $configureButton->click();
-            $bundleOptions = $product->getSelectionData();
-            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
-        }
-        if ($configureSection->isVisible()) {
-            $productOptions = $product->getProductOptions();
-            $this->getBundleBlock()->fillProductOptions($productOptions);
-        }
+        $this->fillOptions($product);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 
@@ -151,7 +140,7 @@ class View extends Block
     /**
      * Get bundle product price in form "From: To:"
      *
-     * @return array F.e. array('price_from' => '$110', 'price_to' => '$120')
+     * @return array e.g. array('price_from' => '$110', 'price_to' => '$120')
      */
     protected function _getPriceFromTo()
     {
@@ -201,5 +190,34 @@ class View extends Block
             }
         }
         return true;
+    }
+
+    /**
+     * Fill in the option specified for the product
+     *
+     * @param AbstractProduct $product
+     */
+    public function fillOptions($product)
+    {
+        $configureButton = $this->_rootElement->find('.action.primary.customize');
+        $configureSection = $this->_rootElement->find('.product.options.configure');
+
+        if ($configureButton->isVisible()) {
+            $configureButton->click();
+            $bundleOptions = $product->getSelectionData();
+            $this->getBundleBlock()->fillBundleOptions($bundleOptions);
+        }
+        if ($configureSection->isVisible()) {
+            $productOptions = $product->getProductOptions();
+            $this->getBundleBlock()->fillProductOptions($productOptions);
+        }
+    }
+
+    /**
+     * Click "ADD TO CART" button
+     */
+    public function clickAddToCartButton()
+    {
+        $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
     }
 }

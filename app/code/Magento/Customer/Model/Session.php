@@ -297,11 +297,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * Authenticate controller action by login customer
      *
-     * @param   \Magento\Core\Controller\Varien\Action $action
+     * @param   \Magento\App\Action\Action $action
      * @param   bool $loginUrl
      * @return  bool
      */
-    public function authenticate(\Magento\Core\Controller\Varien\Action $action, $loginUrl = null)
+    public function authenticate(\Magento\App\Action\Action $action, $loginUrl = null)
     {
         if ($this->isLoggedIn()) {
             return true;
@@ -310,8 +310,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $action->setRedirectWithCookieCheck(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN,
-                $this->_customerData->getLoginUrlParams()
+            $arguments = $this->_customerData->getLoginUrlParams();
+            if ($this->_session->getCookieShouldBeReceived() && $this->_url->getUseSession()) {
+                $arguments += array('_query' => array(
+                    $this->_session->getSessionIdQueryParam() => $this->_session->getSessionId()
+                ));
+            }
+            $action->getResponse()->setRedirect(
+                $this->_url->getUrl(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN, $arguments)
             );
         }
 

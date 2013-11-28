@@ -95,7 +95,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     /**
      * Core email template
      *
-     * @var \Magento\Core\Model\Email\Template
+     * @var \Magento\Email\Model\Template
      */
     protected $_coreEmailTemplate = null;
 
@@ -140,7 +140,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
-     * @param \Magento\Core\Model\Email\Template $coreEmailTemplate
+     * @param \Magento\Email\Model\Template $coreEmailTemplate
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -157,7 +157,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
-        \Magento\Core\Model\Email\Template $coreEmailTemplate,
+        \Magento\Email\Model\Template $coreEmailTemplate,
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -505,7 +505,7 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive pool model instance
+     * Retrieve pool model instance
      *
      * @return \Magento\GiftCardAccount\Model\Pool\AbstractPool
      */

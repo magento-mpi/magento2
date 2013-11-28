@@ -35,7 +35,6 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
-     * @param \Magento\App\Resource $coreResource
      * @param array $data
      */
     public function __construct(
@@ -45,7 +44,6 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\App\Resource $coreResource,
         $data = array()
     ) {
         parent::__construct(
@@ -57,6 +55,6 @@ class Entity extends \Magento\Eav\Model\Entity\AbstractEntity
             $universalFactory,
             $data
         );
-        $this->setConnection($coreResource->getConnection('eav_read'));
+        $this->setConnection($resource->getConnection('eav_read'));
     }
 }

@@ -13,7 +13,7 @@ namespace Magento\Install\Block;
 /**
  * Install state block
  */
-class State extends \Magento\Core\Block\Template
+class State extends \Magento\View\Block\Template
 {
     /**
      * @var string
@@ -29,17 +29,16 @@ class State extends \Magento\Core\Block\Template
 
     /**
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Install\Model\Wizard $wizard
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Install\Model\Wizard $wizard,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_wizard = $wizard;
 
         $this->assign('steps', $this->_wizard->getSteps());

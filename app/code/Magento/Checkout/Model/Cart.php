@@ -73,9 +73,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_customerSession;
 
     /**
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_message;
+    protected $messageFactory;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -85,7 +85,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Checkout\Model\Resource\Cart $resourceCart
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\Message $message
+     * @param \Magento\Message\Factory $messageFactory
      * @param array $data
      */
     public function __construct(
@@ -96,7 +96,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Checkout\Model\Resource\Cart $resourceCart,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\Message $message,
+        \Magento\Message\Factory $messageFactory,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -106,7 +106,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_resourceCart = $resourceCart;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
-        $this->_message = $message;
+        $this->messageFactory = $messageFactory;
         parent::__construct($data);
     }
 
@@ -483,7 +483,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $this->_message->notice(__('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty));
+                    $message = $this->messageFactory->notice(
+                        __('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty)
+                    );
                     $session->addQuoteItemMessage($item->getId(), $message);
                 }
             }
