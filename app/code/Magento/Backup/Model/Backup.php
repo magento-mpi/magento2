@@ -411,30 +411,6 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
     }
 
     /**
-     * Load backup by it's type and creation timestamp
-     *
-     * @param int $timestamp
-     * @param string $type
-     * @return \Magento\Backup\Model\Backup
-     */
-    public function loadByTimeAndType($timestamp, $type)
-    {
-        $backupId = $timestamp . '_' . $type;
-
-        foreach ($this->_fsCollection as $backup) {
-            if ($backup->getId() == $backupId) {
-                $this->setType($backup->getType())
-                    ->setTime($backup->getTime())
-                    ->setName($backup->getName())
-                    ->setPath($backup->getPath());
-                break;
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * Get file path.
      *
      * @return string

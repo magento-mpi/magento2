@@ -37,20 +37,28 @@ class Index extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Backup\Model\BackupFactory
+     */
+    protected $_backupModelFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backup\Factory $backupFactory
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Backup\Model\BackupFactory $backupModelFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backup\Factory $backupFactory,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Backup\Model\BackupFactory $backupModelFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_backupFactory = $backupFactory;
         $this->_fileFactory = $fileFactory;
+        $this->_backupModelFactory = $backupModelFactory;
         parent::__construct($context);
     }
 
@@ -176,7 +184,7 @@ class Index extends \Magento\Backend\App\Action
     public function downloadAction()
     {
         /* @var $backup \Magento\Backup\Model\Backup */
-        $backup = $this->_objectManager->create('Magento\Backup\Model\Backup')->loadByTimeAndType(
+        $backup = $this->_backupModelFactory->create(
             $this->getRequest()->getParam('time'),
             $this->getRequest()->getParam('type')
         );
@@ -216,7 +224,7 @@ class Index extends \Magento\Backend\App\Action
 
         try {
             /* @var $backup \Magento\Backup\Model\Backup */
-            $backup = $this->_objectManager->create('Magento\Backup\Model\Backup')->loadByTimeAndType(
+            $backup = $this->_backupModelFactory->create(
                 $this->getRequest()->getParam('time'),
                 $this->getRequest()->getParam('type')
             );
@@ -327,8 +335,6 @@ class Index extends \Magento\Backend\App\Action
             return $this->_redirect('adminhtml/*/index');
         }
 
-        /** @var $backupModel \Magento\Backup\Model\Backup */
-        $backupModel = $this->_objectManager->create('Magento\Backup\Model\Backup');
         $resultData = new \Magento\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
@@ -341,8 +347,8 @@ class Index extends \Magento\Backend\App\Action
 
             foreach ($backupIds as $id) {
                 list($time, $type) = explode('_', $id);
-                $backupModel
-                    ->loadByTimeAndType($time, $type)
+                $backupModel = $this->_backupModelFactory
+                    ->create($time, $type)
                     ->deleteFile();
 
                 if ($backupModel->exists()) {
