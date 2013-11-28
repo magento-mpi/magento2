@@ -32,6 +32,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
      */
     public function testCreateIntegration()
     {
+        $this->markTestIncomplete('Obsolete selenium version on bamboo server');
         //Data
         $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
@@ -51,6 +52,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
      */
     public function testEditIntegration()
     {
+        $this->markTestIncomplete('Obsolete selenium version on bamboo server');
         //Precondition
         $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
@@ -73,6 +75,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
      */
     public function testNavigation()
     {
+        $this->markTestIncomplete('Obsolete selenium version on bamboo server');
         //Preconditions
         $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
@@ -95,6 +98,7 @@ class IntegrationTest extends \Mtf\TestCase\Functional
      */
     public function testApiTabVerification()
     {
+        $this->markTestIncomplete('Obsolete selenium version on bamboo server');
         //Data
         $integrationFixture = Factory::getFixtureFactory()->getMagentoIntegrationIntegration();
         $integrationFixture->switchData(IntegrationRepository::INTEGRATION_TAB);
