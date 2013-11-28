@@ -10,6 +10,7 @@
 
 namespace Magento\Core\Test\Fixture;
 use Mtf\Fixture\DataFixture;
+use Mtf\Factory\Factory;
 
 class Store extends DataFixture
 {
@@ -36,5 +37,19 @@ class Store extends DataFixture
                 )
             )
         );
+
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCoreDefaultStore($this->_dataConfig, $this->_data);
+    }
+
+
+    /**
+     * Create Store
+     *
+     * @return Store
+     */
+    public function persist()
+    {
+        return Factory::getApp()->magentoCoreCreateStore($this);
     }
 } 
