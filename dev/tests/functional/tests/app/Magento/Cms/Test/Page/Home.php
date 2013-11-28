@@ -18,7 +18,9 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Search;
 use Magento\Page\Test\Block\Html\Title;
 use Magento\Page\Test\Block\Html\Topmenu;
+use Magento\Page\Test\Block\Links;
 use Magento\Page\Test\Block\Html\Footer;
+use Magento\Customer\Test\Block\Account\Customer;
 
 /**
  * Class Home
@@ -65,6 +67,20 @@ class Home extends Page
     private $storeSwitcherBlock;
 
     /**
+     * Page Top Links block
+     *
+     * @var Links
+     */
+    private $topLinks;
+
+    /**
+     * Page Top Customer menu block
+     *
+     * @var Customer
+     */
+    private $customerMenu;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -84,6 +100,13 @@ class Home extends Page
         );
         $this->storeSwitcherBlock = Factory::getBlockFactory()->getMagentoPageSwitcher(
             $this->_browser->find('//*[@data-ui-id="language-switcher"]', Locator::SELECTOR_XPATH)
+        );
+        $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
+            $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
+        );
+
+        $this->customerMenu = Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
+            $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
         );
     }
 
@@ -118,6 +141,16 @@ class Home extends Page
     }
 
     /**
+     * Get Top Links block
+     *
+     * @return Links
+     */
+    public function getTopLinks()
+    {
+        return $this->topLinks;
+    }
+
+    /**
      * Get footer block
      *
      * @return Footer
@@ -135,5 +168,15 @@ class Home extends Page
     public function getStoreSwitcherBlock()
     {
         return $this->storeSwitcherBlock;
+    }
+
+    /**
+     * Get customer menu block
+     *
+     * @return Customer
+     */
+    public function getCustomerMenu()
+    {
+        return $this->customerMenu;
     }
 }

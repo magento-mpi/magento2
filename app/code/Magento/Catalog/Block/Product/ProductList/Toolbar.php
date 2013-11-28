@@ -581,7 +581,7 @@ class Toolbar extends \Magento\View\Block\Template
     }
 
     /**
-     * Retrive URL for view mode
+     * Retrieve URL for view mode
      *
      * @param string $mode
      * @return string

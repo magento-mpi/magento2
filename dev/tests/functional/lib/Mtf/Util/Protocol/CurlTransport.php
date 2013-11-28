@@ -64,15 +64,16 @@ class CurlTransport implements CurlInterface
         foreach ($this->_options as $option => $value) {
             curl_setopt($this->_getResource(), $option, $value);
         }
-        if (empty($this->_config)) {
-            return $this;
-        }
+
         $verifyPeer = isset($this->_config['verifypeer']) ? : 0;
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYPEER, $verifyPeer);
 
         $verifyHost = isset($this->_config['verifyhost']) ? : 0;
         curl_setopt($this->_getResource(), CURLOPT_SSL_VERIFYHOST, $verifyHost);
 
+        if (empty($this->_config)) {
+            return $this;
+        }
         foreach ($this->_config as $param => $curlOption) {
             if (array_key_exists($param, $this->_allowedParams)) {
                 curl_setopt($this->_getResource(), $this->_allowedParams[$param], $this->_config[$param]);

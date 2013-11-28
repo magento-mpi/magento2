@@ -82,9 +82,9 @@ return array(
         'Magento\Core\Model\Layout\Merge',
         'Magento_Core_Model_Cache_Type_Layout::CACHE_TAG'
     ),
-    array('LOCALE_CACHE_KEY', 'Magento\Adminhtml\Block\Page\Footer'),
-    array('LOCALE_CACHE_LIFETIME', 'Magento\Adminhtml\Block\Page\Footer'),
-    array('LOCALE_CACHE_TAG', 'Magento\Adminhtml\Block\Page\Footer'),
+    array('LOCALE_CACHE_KEY', 'Magento\Backend\Block\Page\Footer'),
+    array('LOCALE_CACHE_LIFETIME', 'Magento\Backend\Block\Page\Footer'),
+    array('LOCALE_CACHE_TAG', 'Magento\Backend\Block\Page\Footer'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design\PackageInterface'),
@@ -376,4 +376,5 @@ return array(
     array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
     array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
+    array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
 );

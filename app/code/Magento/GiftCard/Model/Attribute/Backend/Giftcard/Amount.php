@@ -171,7 +171,7 @@ class Amount
     }
 
     /**
-     * Retreive storage table
+     * Retrieve storage table
      *
      * @return string
      */

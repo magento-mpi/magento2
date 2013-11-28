@@ -46,7 +46,7 @@ class Customer
     /**#@-*/
 
     /**
-     * Overriden attributes parameters.
+     * Overridden attributes parameters.
      *
      * @var array
      */

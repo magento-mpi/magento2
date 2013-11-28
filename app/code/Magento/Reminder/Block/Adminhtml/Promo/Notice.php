@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Promo;
 
-class Notice extends \Magento\Adminhtml\Block\Template
+class Notice extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
