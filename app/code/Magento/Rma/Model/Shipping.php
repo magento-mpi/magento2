@@ -337,7 +337,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
         imageinterlace($image, 0);
         $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
         $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
-        $tmpFilePath = $dir->getAbsolutePath('shipping_labels_' . uniqid(mt_rand()) . time() . '.png');
+        $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
         imagepng($image, $tmpFilePath);
         $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
