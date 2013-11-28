@@ -31,6 +31,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Connect\Helper\Data $connectData
      * @param array $data
      */
@@ -38,11 +39,12 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Connect\Helper\Data $connectData,
         array $data = array()
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($context, $sidResolver, $sessionConfig, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $data);
         $this->start('adminhtml');
     }
 

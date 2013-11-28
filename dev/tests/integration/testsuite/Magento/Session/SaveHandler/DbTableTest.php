@@ -9,9 +9,9 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Resource;
+namespace Magento\Session\SaveHandler;
 
-class SessionTest extends \PHPUnit_Framework_TestCase
+class DbTableTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * Test session ID
@@ -58,7 +58,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     /**
      * Model under test
      *
-     * @var \Magento\Core\Model\Resource\Session
+     * @var \Magento\Session\SaveHandler\DbTable
      */
     protected $_model;
 
@@ -79,7 +79,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model         = $this->_objectManager->get('Magento\Core\Model\Resource\Session');
+        $this->_model         = $this->_objectManager->get('Magento\Session\SaveHandler\DbTable');
 
         /** @var $resource \Magento\App\Resource */
         $resource            = $this->_objectManager->get('Magento\App\Resource');
@@ -93,9 +93,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         }
     }
 
-    public function testHasConnection()
+    public function testCheckConnection()
     {
-        $this->assertTrue($this->_model->hasConnection());
+        $method = new \ReflectionMethod('Magento\Session\SaveHandler\DbTable', 'checkConnection');
+        $method->setAccessible(true);
+        $this->assertNull($method->invoke($this->_model));
     }
 
     public function testOpenAndClose()

@@ -110,15 +110,22 @@ class AbstractSession extends \Magento\Object
     protected $_sessionConfig;
 
     /**
+     * @var \Zend_Session_SaveHandler_Interface
+     */
+    protected $saveHandler;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Zend_Session_SaveHandler_Interface $saveHandler,
         array $data = array()
     ) {
         $this->_validator = $context->getValidator();
@@ -133,44 +140,8 @@ class AbstractSession extends \Magento\Object
         $this->_storeManager = $context->getStoreManager();
         $this->_sidResolver = $sidResolver;
         $this->_sessionConfig = $sessionConfig;
+        $this->saveHandler = $saveHandler;
         parent::__construct($data);
-    }
-
-    /**
-     * Init session handler
-     */
-    protected function _initSessionHandler()
-    {
-        \Magento\Profiler::start('session_start');
-        switch($this->getSessionSaveMethod()) {
-            case 'db':
-                ini_set('session.save_handler', 'user');
-                /* @var $sessionResource \Magento\Core\Model\Resource\Session */
-                $sessionResource = \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\Resource\Session');
-                $sessionResource->setSaveHandler();
-                break;
-            case 'memcache':
-                ini_set('session.save_handler', 'memcache');
-                break;
-            case 'memcached':
-                ini_set('session.save_handler', 'memcached');
-                break;
-            case 'eaccelerator':
-                ini_set('session.save_handler', 'eaccelerator');
-                break;
-            default:
-                session_module_name($this->getSessionSaveMethod());
-                break;
-        }
-
-        // potential custom logic for session id (ex. switching between hosts)
-        $this->setSessionId($this->_sidResolver->getSid($this));
-
-        session_start();
-        register_shutdown_function(array($this, 'writeClose'));
-
-        \Magento\Profiler::stop('session_start');
     }
 
     /**
@@ -191,19 +162,46 @@ class AbstractSession extends \Magento\Object
     public function start($namespace = 'default', $sessionName = null)
     {
         if (!$this->isSessionExists()) {
+            \Magento\Profiler::start('session_start');
             if (!empty($sessionName)) {
                 $this->setSessionName($sessionName);
             }
-            $this->_initSessionHandler();
+            $this->registerSaveHandler();
+
+            // potential custom logic for session id (ex. switching between hosts)
+            $this->setSessionId($this->_sidResolver->getSid($this));
+            session_start();
             $this->_validator->validate($this);
+            
+            register_shutdown_function(array($this, 'writeClose'));
+            
             $this->_addHost();
+            \Magento\Profiler::stop('session_start');
         }
 
         if (!isset($_SESSION[$namespace])) {
             $_SESSION[$namespace] = array();
         }
         $this->_data = &$_SESSION[$namespace];
+
         return $this;
+    }
+
+    /**
+     * Register save handler
+     *
+     * @return bool
+     */
+    protected function registerSaveHandler()
+    {
+        return session_set_save_handler(
+            array($this->saveHandler, 'open'),
+            array($this->saveHandler, 'close'),
+            array($this->saveHandler, 'read'),
+            array($this->saveHandler, 'write'),
+            array($this->saveHandler, 'destroy'),
+            array($this->saveHandler, 'gc')
+        );
     }
 
     /**

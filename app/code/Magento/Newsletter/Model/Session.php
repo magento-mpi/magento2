@@ -24,6 +24,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param array $data
      * @param null $sessionName
      */
@@ -31,10 +32,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Zend_Session_SaveHandler_Interface $saveHandler,
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $data);
         $this->start('newsletter', $sessionName);
     }
 

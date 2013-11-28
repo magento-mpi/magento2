@@ -8,25 +8,13 @@
  * @license     {license_link}
  */
 
+namespace Magento\Session\SaveHandler;
 
 /**
- * Session save handler
- *
- * @category    Magento
- * @package     Magento_Core
- * @author      Magento Core Team <core@magentocommerce.com>
+ * Data base session save handler
  */
-namespace Magento\Core\Model\Resource;
-
-class Session implements \Zend_Session_SaveHandler_Interface
+class DbTable extends \SessionHandler
 {
-    /**
-     * Session lifetime
-     *
-     * @var integer
-     */
-    protected $_lifeTime;
-
     /**
      * Session data table name
      *
@@ -42,78 +30,38 @@ class Session implements \Zend_Session_SaveHandler_Interface
     protected $_write;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * Constructor
      *
      * @param \Magento\App\Resource $resource
-     * @param \Magento\App\Dir $dir
      */
-    public function __construct(\Magento\App\Resource $resource, \Magento\App\Dir $dir)
+    public function __construct(\Magento\App\Resource $resource)
     {
         $this->_sessionTable = $resource->getTableName('core_session');
         $this->_write        = $resource->getConnection('core_write');
-        $this->_dir          = $dir;
-    }
-
-    /**
-     * Destructor
-     */
-    public function __destruct()
-    {
-        session_write_close();
+        $this->checkConnection();
     }
 
     /**
      * Check DB connection
-     *
-     * @return bool
      */
-    public function hasConnection()
+    protected function checkConnection()
     {
         if (!$this->_write) {
-            return false;
+            throw new \Magento\Session\SaveHandlerException('Write DB connection is not available');
         }
         if (!$this->_write->isTableExists($this->_sessionTable)) {
-            return false;
+            throw new \Magento\Session\SaveHandlerException('DB storage table does not exist');
         }
-
-        return true;
-    }
-
-    /**
-     * Setup save handler
-     *
-     * @return \Magento\Core\Model\Resource\Session
-     */
-    public function setSaveHandler()
-    {
-        if ($this->hasConnection()) {
-            session_set_save_handler(
-                array($this, 'open'),
-                array($this, 'close'),
-                array($this, 'read'),
-                array($this, 'write'),
-                array($this, 'destroy'),
-                array($this, 'gc')
-            );
-        } else {
-            session_save_path($this->_dir->getDir('session'));
-        }
-        return $this;
     }
 
     /**
      * Open session
      *
      * @param string $savePath ignored
-     * @param string $sessName ignored
+     * @param string $sessionName ignored
      * @return boolean
      */
-    public function open($savePath, $sessName)
+    public function open($savePath, $sessionName)
     {
         return true;
     }
@@ -186,12 +134,12 @@ class Session implements \Zend_Session_SaveHandler_Interface
     /**
      * Destroy session
      *
-     * @param string $sessId
+     * @param string $sessionId
      * @return boolean
      */
-    public function destroy($sessId)
+    public function destroy($sessionId)
     {
-        $where = array('session_id = ?' => $sessId);
+        $where = array('session_id = ?' => $sessionId);
         $this->_write->delete($this->_sessionTable, $where);
         return true;
     }

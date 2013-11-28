@@ -1464,4 +1464,5 @@ return array(
     array('Magento\Core\Block\Template\Context', 'Magento\View\Block\Template\Context'),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),
+    array('Magento\Core\Model\Resource\Session', 'Magento\Session\SaveHandler\DbTable'),
 );
