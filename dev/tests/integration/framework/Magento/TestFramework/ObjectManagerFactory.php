@@ -89,15 +89,15 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     /**
      * Load primary config data
      *
-     * @param \Magento\Filesystem\DirectoryList $directories
+     * @param string $configDirectoryPath
      * @param string $appMode
      * @return array
      * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig(\Magento\Filesystem\DirectoryList $directories, $appMode)
+    protected function _loadPrimaryConfig($configDirectoryPath, $appMode)
     {
         if (null === $this->_primaryConfigData) {
-            $this->_primaryConfigData = parent::_loadPrimaryConfig($directories, $appMode);
+            $this->_primaryConfigData = parent::_loadPrimaryConfig($configDirectoryPath, $appMode);
         }
         return $this->_primaryConfigData;
     }

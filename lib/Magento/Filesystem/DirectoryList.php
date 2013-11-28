@@ -58,7 +58,8 @@ class DirectoryList extends Dir
         \Magento\Filesystem::MEDIA         => array('path' => 'pub/media'),
         \Magento\Filesystem::UPLOAD        => array('path' => 'pub/media/upload'),
         \Magento\Filesystem::STATIC_VIEW   => array('path' => 'pub/static'),
-        \Magento\Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache')
+        \Magento\Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache'),
+        \Magento\Filesystem::LOCALE          => array('path' => '')
     );
 
     /**
