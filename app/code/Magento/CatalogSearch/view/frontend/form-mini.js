@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    catalogsearch search
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

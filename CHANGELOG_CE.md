@@ -21,6 +21,9 @@
   * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
   * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
   * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
+* Themes update:
+  * Old frontend (magento_demo) and backend (magento_basic) themes are removed
+  * Updated templates and layout updates in the Bundle, Catalog, CatalogInventory, CatalogSearch, Downloadable, ProductAlert, Reports, Sendfriend modules
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
@@ -64,7 +67,7 @@
 * Themes update:
   * Updated templates and layout updates in the Captcha, Customer, Newsletter, Persistent, ProductAlert, Wishlist modules; old files moved to the "magento-backup" theme
   * Refactored and removed duplicate Persistent module templates
-  * Plushe theme made responsive
+  * Plushe theme is responsive now
 * Fixed bugs:
   * Fixed inability to print order, invoice, or creditmemo in the frontend
   * Fixed fatal error caused by the Mage_Backend_Block_System_Config_FormTest integration test

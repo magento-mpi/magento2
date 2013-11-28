@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,12 +9,7 @@
 /**
  * Product description template
  *
- * @see \Magento\Catalog\Block\Product\View\Description
+ * @var $this \Magento\Catalog\Block\Product\View\Description
  */
 ?>
-<?php $_description = $this->getProduct()->getDescription(); ?>
-<?php if ($_description): ?>
-    <div class="std">
-        <?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($this->getProduct(), $_description, 'description') ?>
-    </div>
-<?php endif; ?>
+<?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($this->getProduct(), $this->getProduct()->getDescription(), 'description') ?>
