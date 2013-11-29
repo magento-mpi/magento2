@@ -41,15 +41,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_inputValidatorMock =
             $this->getMockBuilder('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator')
                 ->disableOriginalConstructor()->getMock();
-
-        $abstractHelperMock = $this->getMockBuilder('Magento\App\Helper\AbstractHelper')
-            ->disableOriginalConstructor()->getMock();
-
-        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
-        $objectManagerMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($abstractHelperMock));
-        \Magento\App\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**
