@@ -39,7 +39,6 @@ class PlaceholderConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testPlaceholderXmlFiles()
     {
-        $this->markTestSkipped('Skipped');
         $this->_model->read('global');
     }
 }

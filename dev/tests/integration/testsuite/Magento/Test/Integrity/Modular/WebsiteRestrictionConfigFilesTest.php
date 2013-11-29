@@ -39,7 +39,6 @@ class WebsiteRestrictionConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testWebsiteRestrictionXmlFiles()
     {
-        $this->markTestSkipped('Skipped');
         $this->_model->read('global');
     }
 }

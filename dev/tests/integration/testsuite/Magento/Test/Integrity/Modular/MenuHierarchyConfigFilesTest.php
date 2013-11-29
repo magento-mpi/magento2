@@ -36,7 +36,6 @@ class MenuHierarchyConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function testMenuHierarchyConfigFiles()
     {
-        $this->markTestSkipped('Skipped');
         $this->_model->read('global');
     }
 }

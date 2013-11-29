@@ -42,7 +42,6 @@ class GiftRegistryConfigFileTest extends \PHPUnit_Framework_TestCase
      */
     public function testGiftRegistryConfigValidation($file)
     {
-        $this->markTestSkipped('Skipped');
         $errors = array();
         $dom = new \Magento\Config\Dom(file_get_contents($file)) ;
         $result = $dom->validate($this->_schemaFile, $errors);
