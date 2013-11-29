@@ -6,7 +6,10 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block\Link;
+namespace Magento\View\Element\Html\Link;
+use Magento\Page\Block\Link\string;
+use Magento\Page\Block\Link\null;
+use Magento\Page\Block\Link\bool;
 
 /**
  * Block representing link with two possible states.

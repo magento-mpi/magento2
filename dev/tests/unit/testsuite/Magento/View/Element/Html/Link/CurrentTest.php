@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Block\Link;
+namespace Magento\View\Element\Html\Link;
 
 class CurrentTest extends \PHPUnit_Framework_TestCase
 {
@@ -47,9 +47,9 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
             ->with($path)
             ->will($this->returnValue($url));
 
-        /** @var \Magento\Page\Block\Link\Current $link */
+        /** @var \Magento\View\Element\Html\Link\Current $link */
         $link = $this->_objectManager->getObject(
-            '\Magento\Page\Block\Link\Current',
+            '\Magento\View\Element\Html\Link\Current',
             array('urlBuilder' => $this->_urlBuilderMock)
         );
 
@@ -60,8 +60,8 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
 
     public function testIsCurrentIfIsset()
     {
-        /** @var \Magento\Page\Block\Link\Current $link */
-        $link = $this->_objectManager->getObject('\Magento\Page\Block\Link\Current');
+        /** @var \Magento\View\Element\Html\Link\Current $link */
+        $link = $this->_objectManager->getObject('\Magento\View\Element\Html\Link\Current');
         $link->setCurrent(true);
         $this->assertTrue($link->IsCurrent());
     }
@@ -85,8 +85,8 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($url));
 
         $this->_requestMock->expects($this->once())->method('getControllerName')->will($this->returnValue('b'));
-        /** @var \Magento\Page\Block\Link\Current $link */
-        $link = $this->_objectManager->getObject('\Magento\Page\Block\Link\Current',
+        /** @var \Magento\View\Element\Html\Link\Current $link */
+        $link = $this->_objectManager->getObject('\Magento\View\Element\Html\Link\Current',
             array(
                 'urlBuilder' => $this->_urlBuilderMock,
                 'request' => $this->_requestMock,
@@ -102,8 +102,8 @@ class CurrentTest extends \PHPUnit_Framework_TestCase
         $this->_urlBuilderMock->expects($this->at(1))->method('getUrl')->will($this->returnValue('2'));
 
 
-        /** @var \Magento\Page\Block\Link\Current $link */
-        $link = $this->_objectManager->getObject('\Magento\Page\Block\Link\Current',
+        /** @var \Magento\View\Element\Html\Link\Current $link */
+        $link = $this->_objectManager->getObject('\Magento\View\Element\Html\Link\Current',
             array(
                 'urlBuilder' => $this->_urlBuilderMock,
                 'request' => $this->_requestMock

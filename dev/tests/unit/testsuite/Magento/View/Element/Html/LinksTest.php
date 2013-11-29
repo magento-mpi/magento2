@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Block;
+namespace Magento\View\Element\Html;
 
 class LinksTest extends \PHPUnit_Framework_TestCase
 {
@@ -14,7 +14,7 @@ class LinksTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManagerHelper;
 
-    /** @var \Magento\Page\Block\Links */
+    /** @var \Magento\View\Element\Html\Links */
     protected $_block;
 
     /** @var \Magento\View\Element\Template\Context */
@@ -27,9 +27,9 @@ class LinksTest extends \PHPUnit_Framework_TestCase
         /** @var  \Magento\View\Element\Template\Context $context */
         $this->_context = $this->_objectManagerHelper->getObject('Magento\View\Element\Template\Context');
 
-        /** @var \Magento\Page\Block\Links $block */
+        /** @var \Magento\View\Element\Html\Links $block */
         $this->_block = $this->_objectManagerHelper->getObject(
-            'Magento\Page\Block\Links',
+            'Magento\View\Element\Html\Links',
             array(
                 'context' => $this->_context,
             )

@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block;
+namespace Magento\View\Element\Html;
 
 /**
  * Links list block

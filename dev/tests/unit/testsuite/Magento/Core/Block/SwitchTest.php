@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Block;
+namespace Magento\Core\Block;
 
 class SwitchTest extends \PHPUnit_Framework_TestCase
 {
