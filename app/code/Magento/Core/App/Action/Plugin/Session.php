@@ -16,6 +16,11 @@ class Session
     protected $_session;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @var \Magento\Stdlib\Cookie
      */
     protected $_cookie;
@@ -46,11 +51,12 @@ class Session
     protected $_storeConfig;
 
     /**
+     * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Core\Model\Url $url
-     * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param string $sessionNamespace
      * @param array $cookieCheckActions
      */
@@ -60,10 +66,12 @@ class Session
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Core\Model\Url $url,
         \Magento\Core\Model\Store\Config $storeConfig,
+        \Magento\Session\SidResolverInterface $sidResolver,
         $sessionNamespace = '',
         array $cookieCheckActions = array()
     ) {
         $this->_session = $session;
+        $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
         $this->_cookieCheckActions = $cookieCheckActions;
         $this->_url = $url;
@@ -88,13 +96,12 @@ class Session
         if (empty($cookies)) {
             if ($this->_session->getCookieShouldBeReceived()) {
                 $this->_session->unsCookieShouldBeReceived();
-                $this->_session->setSkipSessionIdFlag(true);
                 if ($this->_storeConfig->getConfig('web/browser_capabilities/cookies')) {
                     $this->_forward($request);
                     return null;
                 }
             } elseif ($checkCookie) {
-                if (isset($_GET[$this->_session->getSessionIdQueryParam()])
+                if (isset($_GET[$this->_sidResolver->getSessionIdQueryParam($this->_session)])
                     && $this->_url->getUseSession()
                     && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
                 ) {
