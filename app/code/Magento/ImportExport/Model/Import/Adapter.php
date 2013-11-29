@@ -37,7 +37,12 @@ class Adapter
         if (!class_exists($adapterClass)) {
             throw new \Magento\Core\Exception("'{$type}' file extension is not supported");
         }
-        $adapter = new $adapterClass($options);
+        $objectManager = new \Magento\ObjectManager\ObjectManager();
+        $filesystem = $objectManager->create('\Magento\Filesystem', array(
+            'directoryList' => new \Magento\Filesystem\DirectoryList(BP),
+            'adapter'       => new \Magento\Filesystem\Adapter\Local()
+        ));
+        $adapter = new $adapterClass($options, $filesystem);
 
         if (! $adapter instanceof \Magento\ImportExport\Model\Import\AbstractSource) {
             throw new \Magento\Core\Exception(

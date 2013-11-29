@@ -116,7 +116,7 @@ class Media implements AppInterface
         $this->_configCacheFile = $configCacheFile;
         $this->_relativeFileName = $relativeFileName;
         $this->filesystem = $filesystem;
-        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::MEDIA);
+        $this->directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
     }
 
     /**

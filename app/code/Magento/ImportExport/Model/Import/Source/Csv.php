@@ -44,7 +44,8 @@ class Csv extends \Magento\ImportExport\Model\Import\AbstractSource
     public function __construct($fileOrStream, \Magento\Filesystem $filesystem, $delimiter = ',', $enclosure = '"')
     {
         try {
-            $this->_file = $filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP)->openFile($fileOrStream, 'r');
+            $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+            $this->_file = $directory->openFile($directory->getRelativePath($fileOrStream), 'r');
         } catch(\Magento\Filesystem\FilesystemException $e) {
             throw new \LogicException("Unable to open file or stream: '{$fileOrStream}'");
         }
