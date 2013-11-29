@@ -61,7 +61,9 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_setMageObjectManager();
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_mockBackendHlpData = $this->getMockBuilder('Magento\Backend\Helper\Data')
             ->disableOriginalConstructor()
@@ -278,18 +280,6 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
 
         $registrationContr = $this->_createRegistrationController();
         $registrationContr->succeededAction();
-    }
-
-    /**
-     * Makes sure that Mage has a mock object manager set.
-     *
-     */
-    protected function _setMageObjectManager()
-    {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        \Magento\App\ObjectManager::setInstance($this->_mockObjectManager);
     }
 
     /**

@@ -73,21 +73,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('getReadConnection')
             ->will($this->returnValue($this->_connectionMock));
         $this->_entityFactory = $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false);
-        // Mock object manager
-        $createReturnMap = array(
-            array('Magento\Webhook\Model\Resource\Subscription', array(), $this->_resourceMock),
-            array('Magento\Webhook\Model\Subscription', array(), $subscriptionMock)
-        );
-        $getReturnMap = array(
-            array('Magento\Event\ManagerInterface', $eventMgrMock),
-        );
-        $mockObjectManager = $this->_setMageObjectManager();
-        $mockObjectManager->expects($this->any())
-            ->method('create')
-            ->will($this->returnValueMap($createReturnMap));
-        $mockObjectManager->expects($this->any())
-            ->method('get')
-            ->will($this->returnValueMap($getReturnMap));
     }
 
     public function testInitialization()
@@ -282,20 +267,5 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         return $this->getMockBuilder($className)
             ->disableOriginalConstructor()
             ->getMock();
-    }
-
-    /**
-     * Makes sure that Mage has a mock object manager set, and returns that instance.
-     *
-     * @return \PHPUnit_Framework_MockObject_MockObject
-     */
-    protected function _setMageObjectManager()
-    {
-        $mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        \Magento\App\ObjectManager::setInstance($mockObjectManager);
-
-        return $mockObjectManager;
     }
 }

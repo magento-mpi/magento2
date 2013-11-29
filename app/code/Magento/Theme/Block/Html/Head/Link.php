@@ -7,7 +7,6 @@
  */
 
 namespace Magento\Theme\Block\Html\Head;
-use Magento\Theme\Block\Html\Head\AssetBlockInterface;
 
 /**
  * Link page block
