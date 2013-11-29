@@ -225,9 +225,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetFileLayoutUpdatesXml()
     {
-        $errorString = "Theme layout update file '" . __DIR__ . "/_files/layout/file_wrong.xml' is not valid.\n"
-            . "Premature end of data in tag layout line 10\n"
-            . " Line: ";
+        $errorString = "Theme layout update file '" . __DIR__ . "/_files/layout/file_wrong.xml' is not valid.";
         $this->_logger->expects($this->atLeastOnce())
             ->method('log')
             ->with($this->stringStartsWith($errorString), \Zend_Log::ERR, \Magento\Logger::LOGGER_SYSTEM);
