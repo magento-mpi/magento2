@@ -40,6 +40,6 @@ class PageConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfig
      */
     protected function _getXsdPath()
     {
-        return '/Magento/Page/etc/page_layouts_file.xsd';
+        return '/Magento/Theme/etc/page_layouts_file.xsd';
     }
 }
