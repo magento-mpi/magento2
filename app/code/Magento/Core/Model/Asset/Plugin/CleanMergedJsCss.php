@@ -1,13 +1,12 @@
 <?php
 /**
- * Dispatch exception handler
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\App\FrontController\Plugin;
+
+namespace Magento\Core\Model\Asset\Plugin;
 
 class CleanMergedJsCss
 {

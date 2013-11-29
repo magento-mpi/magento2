@@ -453,6 +453,6 @@
         </param>
     </type>
     <type name="Magento\View\Asset\MergeService">
-        <plugin name="cleanMergedJsCss" type="\Magento\Core\App\FrontController\Plugin\CleanMergedJsCss"/>
+        <plugin name="cleanMergedJsCss" type="Magento\Core\Model\Asset\Plugin\CleanMergedJsCss"/>
     </type>
 </config>

@@ -377,4 +377,8 @@ return array(
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
     array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
     array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
+    array('XML_PATH_MERGE_CSS_FILES', 'Magento\View\Asset\MergeService'),
+    array('XML_PATH_MERGE_JS_FILES', 'Magento\View\Asset\MergeService'),
+    array('XML_PATH_MINIFICATION_ENABLED', 'Magento\View\Asset\MinifyService'),
+    array('XML_PATH_MINIFICATION_ADAPTER', 'Magento\View\Asset\MinifyService'),
 );
