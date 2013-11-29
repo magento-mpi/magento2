@@ -10,7 +10,7 @@
 require __DIR__ . '/../app/bootstrap.php';
 \Magento\Profiler::start('magento');
 $params = $_SERVER;
-$params[\Magento\Filesystem\DirectoryList::PARAM_APP_URIS][\Magento\App\Dir::PUB] = '';
+$params[\Magento\Filesystem::PARAM_APP_URIS][\Magento\App\Dir::PUB] = '';
 $entryPoint = new \Magento\App\EntryPoint\EntryPoint(BP, $params);
 $result = $entryPoint->run('Magento\App\Http');
 \Magento\Profiler::stop('magento');

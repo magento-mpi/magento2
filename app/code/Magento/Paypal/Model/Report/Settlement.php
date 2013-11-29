@@ -143,9 +143,9 @@ class Settlement extends \Magento\Core\Model\AbstractModel
     );
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_filesystem;
+    protected $_tmpDirectory;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -170,7 +170,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_filesystem = $filesystem;
+        $this->_tmpDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
         $this->_storeManager = $storeManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
@@ -213,24 +213,27 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         $fetched = 0;
         $listing = $this->_filterReportsList($connection->rawls());
         foreach ($listing as $filename => $attributes) {
-            $localCsv = tempnam($this->_filesystem->getPath(\Magento\Filesystem::TMP), 'PayPal_STL');
-            if ($connection->read($filename, $localCsv)) {
-                if (!is_writable($localCsv)) {
+
+            $localCsv = 'PayPal_STL_' . uniqid(mt_rand()) . time() . '.csv';
+            if ($connection->read($filename, $this->_tmpDirectory->getAbsolutePath($localCsv))) {
+                if (!$this->_tmpDirectory->isWritable($localCsv)) {
                     throw new \Magento\Core\Exception(__('We cannot create a target file for reading reports.'));
                 }
 
-                $encoded = file_get_contents($localCsv);
+                $encoded = $this->_tmpDirectory->readFile($localCsv);
                 $csvFormat = 'new';
                 if (self::FILES_OUT_CHARSET != mb_detect_encoding(($encoded))) {
                     $decoded = @iconv(self::FILES_IN_CHARSET, self::FILES_OUT_CHARSET . '//IGNORE', $encoded);
-                    file_put_contents($localCsv, $decoded);
+                    $this->_tmpDirectory->writeFile($localCsv, $decoded);
                     $csvFormat = 'old';
                 }
 
                 // Set last modified date, this value will be overwritten during parsing
                 if (isset($attributes['mtime'])) {
                     $lastModified = new \Zend_Date($attributes['mtime']);
-                    $this->setReportLastModified($lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT));
+                    $this->setReportLastModified(
+                        $lastModified->toString(\Magento\Stdlib\DateTime::DATETIME_INTERNAL_FORMAT)
+                    );
                 }
 
                 $this->setReportDate($this->_fileNameToDate($filename))
@@ -246,7 +249,7 @@ class Settlement extends \Magento\Core\Model\AbstractModel
                 }
                 // clean object and remove parsed file
                 $this->unsetData();
-                unlink($localCsv);
+                $this->_tmpDirectory->delete($localCsv);
             }
         }
         return $fetched;
@@ -291,8 +294,8 @@ class Settlement extends \Magento\Core\Model\AbstractModel
         $rowMap = $this->_csvColumns[$format]['rowmap'];
 
         $flippedSectionColumns = array_flip($sectionColumns);
-        $fp = fopen($localCsv, 'r');
-        while ($line = fgetcsv($fp)) {
+        $stream = $this->_tmpDirectory->openFile($localCsv);
+        while ($line = $stream->readCsv()) {
             if (empty($line)) { // The line was empty, so skip it.
                 continue;
             }

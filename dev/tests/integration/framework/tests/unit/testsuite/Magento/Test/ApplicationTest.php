@@ -42,7 +42,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
-        $this->assertArrayHasKey(\Magento\Filesystem\DirectoryList::PARAM_APP_DIRS, $initParams,
+        $this->assertArrayHasKey(\Magento\Filesystem::PARAM_APP_DIRS, $initParams,
             'Directories are not configured');
         $this->assertArrayHasKey(State::PARAM_MODE, $initParams,
             'Application mode is not configured');
