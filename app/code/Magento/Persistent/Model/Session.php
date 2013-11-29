@@ -76,11 +76,6 @@ class Session extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @var \Zend\Session\Config\ConfigInterface
-     */
-    protected $_sessionConfig;
-
-    /**
      * Construct
      *
      * @param \Magento\Core\Model\Context $context
@@ -91,7 +86,6 @@ class Session extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Math\Random $mathRandom
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -105,7 +99,6 @@ class Session extends \Magento\Core\Model\AbstractModel
         \Magento\Stdlib\Cookie $cookie,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Math\Random $mathRandom,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -116,7 +109,6 @@ class Session extends \Magento\Core\Model\AbstractModel
         $this->_cookie = $cookie;
         $this->_storeManager = $storeManager;
         $this->mathRandom = $mathRandom;
-        $this->_sessionConfig = $sessionConfig;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -260,11 +252,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     public function removePersistentCookie()
     {
-        $this->_cookie->set(
-            \Magento\Persistent\Model\Session::COOKIE_NAME,
-            null,
-            $this->_sessionConfig->getCookieLifetime()
-        );
+        $this->_cookie->set(\Magento\Persistent\Model\Session::COOKIE_NAME, null);
         return $this;
     }
 

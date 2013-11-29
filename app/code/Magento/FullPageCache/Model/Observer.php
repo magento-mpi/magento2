@@ -610,16 +610,8 @@ class Observer
         $this->_cookie->updateCustomerCookies();
 
         if (!$this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER)) {
-            $this->_cookie->set(
-                \Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED,
-                null,
-                $this->_sessionConfig->getCookieLifetime()
-            );
-            $this->_cookie->set(
-                \Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST,
-                null,
-                $this->_sessionConfig->getCookieLifetime()
-            );
+            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED, null);
+            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, null);
             \Magento\FullPageCache\Model\Cookie::registerViewedProducts(array(), 0, false);
         }
 
@@ -704,10 +696,7 @@ class Observer
         }
         $this->_cookie->set(
             \Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE,
-            null,
-            $this->_sessionConfig->getCookieLifetime(),
-            $this->_sessionConfig->getCookiePath(),
-            $this->_sessionConfig->getCookieDomain()
+            null
         );
         return $this;
     }
@@ -792,11 +781,7 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(
-            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE,
-            null,
-            $this->_sessionConfig->getCookieLifetime()
-        );
+        $this->_cookie->set(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE, null);
         return $this;
     }
 

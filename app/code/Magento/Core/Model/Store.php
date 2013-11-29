@@ -835,11 +835,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
             if ($code == $this->getDefaultCurrency()) {
-                $this->_cookie->set(
-                    self::COOKIE_CURRENCY,
-                    null,
-                    \Magento\Core\Model\Session\Config::COOKIE_LIFETIME_DEFAULT
-                );
+                $this->_cookie->set(self::COOKIE_CURRENCY, null);
             } else {
                 $this->_cookie->set(self::COOKIE_CURRENCY, $code);
             }

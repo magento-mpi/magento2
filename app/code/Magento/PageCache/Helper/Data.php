@@ -48,30 +48,22 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @var \Zend\Session\Config\ConfigInterface
-     */
-    protected $_sessionConfig;
-
-    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\PageCache\Model\CacheControlFactory $ccFactory
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      */
     function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\PageCache\Model\CacheControlFactory $ccFactory,
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Zend\Session\Config\ConfigInterface $sessionConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_isNoCacheCookieLocked = (bool)$cookie->get(self::NO_CACHE_LOCK_COOKIE);
         $this->_cookie = $cookie;
         $this->_ccFactory = $ccFactory;
-        $this->_sessionConfig = $sessionConfig;
     }
 
     /**
@@ -125,7 +117,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function removeNoCacheCookie()
     {
         if (!$this->_isNoCacheCookieLocked) {
-            $this->_cookie->set(self::NO_CACHE_COOKIE, null, $this->_sessionConfig->getCookieLifetime());
+            $this->_cookie->set(self::NO_CACHE_COOKIE, null);
         }
         return $this;
     }
@@ -149,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function unlockNoCacheCookie()
     {
-        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null, $this->_sessionConfig->getCookieLifetime());
+        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null);
         $this->_isNoCacheCookieLocked = false;
         return $this;
     }

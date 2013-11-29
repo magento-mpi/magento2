@@ -154,7 +154,7 @@ class Cookie extends \Magento\Stdlib\Cookie
                 $customerGroupId = $customerCookies->getCustomerGroupId();
             }
         }
-        $lifeTime = $this->_customerSession->getCookieLifetime();
+
         if ($customerId && !is_null($customerGroupId)) {
             $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $customerId);
             $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $customerGroupId);
@@ -163,12 +163,12 @@ class Cookie extends \Magento\Stdlib\Cookie
                     self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $this->_customerSession->isLoggedIn()
                 );
             } else {
-                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null, $lifeTime);
+                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null);
             }
         } else {
-            $this->set(self::COOKIE_CUSTOMER, null, $lifeTime);
-            $this->set(self::COOKIE_CUSTOMER_GROUP, null, $lifeTime);
-            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null, $lifeTime);
+            $this->set(self::COOKIE_CUSTOMER, null);
+            $this->set(self::COOKIE_CUSTOMER_GROUP, null);
+            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null);
         }
         return $this;
     }

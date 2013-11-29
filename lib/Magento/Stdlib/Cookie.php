@@ -54,7 +54,7 @@ class Cookie
             $period = 3600 * 24 * 365;
         }
 
-        if ($period === 0) {
+        if ($period == 0) {
             $expire = 0;
         } else {
             $expire = time() + $period;
