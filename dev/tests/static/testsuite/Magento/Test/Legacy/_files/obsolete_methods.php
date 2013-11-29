@@ -1016,5 +1016,4 @@ return array(
     array('_getMinifier', 'Magento\View\Asset\MinifyService', 'getMinifier'),
     array('_isEnabled', 'Magento\View\Asset\MinifyService', 'isEnabled'),
     array('_getAdapter', 'Magento\View\Asset\MinifyService', 'getAdapter'),
-    array('_getGroupFor', 'Magento\View\Asset\GroupedCollection', 'getGroupFor'),
 );
