@@ -63,7 +63,7 @@ class Provider implements TokenProviderInterface
      */
     public function createRequestToken($consumer)
     {
-        $token = $this->_getTokenByConsumer($consumer->getId());
+        $token = $this->getTokenByConsumer($consumer->getId());
         if ($token->getType() != \Magento\Integration\Model\Oauth\Token::TYPE_VERIFIER) {
             throw new \Magento\Oauth\Exception(
                 __('Cannot create request token because consumer token is not a verifier token'),
@@ -103,7 +103,7 @@ class Provider implements TokenProviderInterface
     public function getAccessToken($consumer)
     {
         /** TODO: log the request token in dev mode since its not persisted. */
-        $token = $this->_getTokenByConsumer($consumer->getId());
+        $token = $this->getTokenByConsumer($consumer->getId());
         if (\Magento\Integration\Model\Oauth\Token::TYPE_REQUEST != $token->getType()) {
             throw new \Magento\Oauth\Exception(
                 __('Cannot get access token because consumer token is not a request token'));
@@ -255,7 +255,7 @@ class Provider implements TokenProviderInterface
      * @return \Magento\Integration\Model\Oauth\Token
      * @throws \Magento\Oauth\Exception
      */
-    protected function _getTokenByConsumer($consumerId)
+    public function getTokenByConsumer($consumerId)
     {
         $token = $this->_tokenFactory->create()->load($consumerId, 'consumer_id');
 

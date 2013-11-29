@@ -20,6 +20,8 @@ namespace Magento\Integration\Model;
  * @method \int getType()
  * @method Integration setType(\int $value)
  * @method \string getEndpoint()
+ * @method Integration setConsumerId(\string $consumerId)
+ * @method \string getConsumerId()
  * @method Integration setEndpoint(\string $endpoint)
  * @method \string getCreatedAt()
  * @method Integration setCreatedAt(\string $createdAt)
@@ -50,6 +52,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     const EMAIL = 'email';
     const ENDPOINT = 'endpoint';
     const SETUP_TYPE = 'setup_type';
+    const CONSUMER_ID = 'consumer_id';
     /**#@-*/
 
     /**

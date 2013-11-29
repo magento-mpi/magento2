@@ -11,7 +11,8 @@ namespace Magento\Integration\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Exception as IntegrationException;
-use Magento\Integration\Model\Integration as IntegrationKeyConstants;
+use Magento\Integration\Helper\Oauth\Consumer as OauthConsumerHelper;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Controller for integrations management.
@@ -23,16 +24,6 @@ class Integration extends Action
 
     /** Keys used for registering data into the registry */
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
-
-    /** Request parameter which define the dialog window requested */
-    const PARAM_DIALOG_ID = 'popup_dialog';
-
-    /**#@+
-     * Allowed values for PARAM_DIALOG_ID request parameter
-     */
-    const DIALOG_PERMISSIONS = 'permissions';
-    const DIALOG_TOKENS = 'tokens';
-    /**#@-*/
 
     /**
      * Core registry
@@ -47,22 +38,28 @@ class Integration extends Action
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
+    /** @var OauthConsumerHelper */
+    protected $_oauthConsumerHelper;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
+     * @param OauthConsumerHelper $oauthConsumerHelper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        OauthConsumerHelper $oauthConsumerHelper
     ) {
+        parent::__construct($context);
         $this->_registry = $registry;
         $this->_logger = $logger;
         $this->_integrationService = $integrationService;
-        parent::__construct($context);
+        $this->_oauthConsumerHelper = $oauthConsumerHelper;
     }
 
     /**
@@ -129,6 +126,11 @@ class Integration extends Action
                 $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
+            } catch (\Exception $e) {
+                $this->_logger->logException($e);
+                $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+                $this->_redirect('*/*');
+                return;
             }
             $restoredIntegration = $this->_getSession()->getIntegrationData();
             if (isset($restoredIntegration[Info::DATA_ID]) && $integrationId == $restoredIntegration[Info::DATA_ID]) {
@@ -136,15 +138,10 @@ class Integration extends Action
             }
 
             if (isset($integrationData[Info::DATA_SETUP_TYPE])
-                && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG
+                && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG
             ) {
                 //Cannot edit Integrations created from Config. No error necessary just redirect to grid
                 $this->_redirect('*/*/');
-                return;
-            } catch (\Exception $e) {
-                $this->_logger->logException($e);
-                $this->_getSession()->addError(__('Internal error. See details in exception log.'));
-                $this->_redirect('*/*');
                 return;
             }
         } else {
@@ -152,6 +149,7 @@ class Integration extends Action
             $this->_redirect('*/*/');
             return;
         }
+        $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         $this->_view->loadLayout();
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
@@ -165,6 +163,8 @@ class Integration extends Action
 
     /**
      * Save integration action.
+     *
+     * TODO: Fix cyclomatic complexity.
      */
     public function saveAction()
     {
@@ -173,10 +173,16 @@ class Integration extends Action
         try {
             $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             if ($integrationId) {
-                $integrationData = $this->_integrationService->get($integrationId);
-                if (!$integrationData[Info::DATA_ID]) {
-                    $this->_getSession()->addError(__('This integration no longer exists.'));
+                try {
+                    $integrationData = $this->_integrationService->get($integrationId);
+                } catch (IntegrationException $e) {
+                    $this->_getSession()->addError($e->getMessage());
                     $this->_redirect('*/*/');
+                    return;
+                } catch (\Exception $e) {
+                    $this->_logger->logException($e);
+                    $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+                    $this->_redirect('*/*');
                     return;
                 }
             }
@@ -187,7 +193,6 @@ class Integration extends Action
                     $integrationData['resource'] = array();
                 }
                 $integrationData = array_merge($integrationData, $data);
-                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
                 if (!isset($integrationData[Info::DATA_ID])) {
                     $this->_integrationService->create($integrationData);
                 } else {
@@ -213,57 +218,70 @@ class Integration extends Action
     }
 
     /**
-     * Activates the integration. Also contains intermediate steps (permissions confirmation and tokens).
+     * Show permissions popup.
      */
-    public function activateAction()
+    public function permissionsDialogAction()
     {
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
 
         if ($integrationId) {
-            $integrationData = $this->_integrationService->get($integrationId);
-            if (!$integrationData[Info::DATA_ID]) {
-                $this->_getSession()->addError(__('This integration no longer exists.'));
+            try {
+                $integrationData = $this->_integrationService->get($integrationId);
+                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+            } catch (IntegrationException $e) {
+                $this->_getSession()->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
+            } catch (\Exception $e) {
+                $this->_logger->logException($e);
+                $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+                $this->_redirect('*/*');
+                return;
             }
-            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         } else {
             $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');
             return;
         }
 
-        $dialogName = $this->getRequest()->getParam(self::PARAM_DIALOG_ID);
-
-        if (in_array($dialogName, [self::DIALOG_PERMISSIONS, self::DIALOG_TOKENS])) {
-            $this->_view->loadLayout($this->_getPopupHandleNames($dialogName));
-        } else {
-            $this->_view->loadLayout();
+        /** Add handles of the tabs which are defined in other modules */
+        $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()
+            ->xpath('//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id');
+        $handles = array();
+        if (is_array($handleNodes)) {
+            foreach ($handleNodes as $node) {
+                $handles[] = (string)$node;
+            }
         }
-
+        $this->_view->loadLayout($handles);
         $this->_view->renderLayout();
     }
 
     /**
-     * @param string $dialogName
-     * @return array
+     * Show tokens popup.
      */
-    protected function _getPopupHandleNames($dialogName)
+    public function tokensDialogAction()
     {
-        $handles = [sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName)];
-
-        if ($dialogName === self::DIALOG_PERMISSIONS) {
-            $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()
-                ->xpath('//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id');
-
-            if (is_array($handleNodes)) {
-                foreach ($handleNodes as $node) {
-                    $handles[] = (string)$node;
-                }
-            }
+        try {
+            $integrationId = $this->getRequest()->getParam('id');
+            $integrationData = $this->_integrationService->get($integrationId);
+            $this->_oauthConsumerHelper->createAccessToken($integrationData[IntegrationModel::CONSUMER_ID]);
+            $this->_registry->register(
+                self::REGISTRY_KEY_CURRENT_INTEGRATION,
+                $this->_integrationService->get($integrationId)
+            );
+        } catch (\Magento\Core\Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*');
+            return;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+            $this->_redirect('*/*');
+            return;
         }
-
-        return $handles;
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

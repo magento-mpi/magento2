@@ -8,20 +8,27 @@
 
 namespace Magento\Integration\Helper\Oauth;
 
-use \Magento\Oauth\OauthInterface;
+use Magento\Oauth\OauthInterface;
+use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
+use \Magento\Integration\Model\Oauth\Token as Token;
+use \Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
+use \Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
+use \Magento\Oauth\Helper\Oauth as OauthHelper;
+use \Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 
+// TODO: Fix coupling between objects
 class Consumer
 {
     /** @var  \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
-    /** @var  \Magento\Integration\Model\Oauth\Consumer\Factory */
+    /** @var  ConsumerFactory */
     protected $_consumerFactory;
 
-    /** @var  \Magento\Integration\Model\Oauth\Token\Factory */
+    /** @var  TokenFactory */
     protected $_tokenFactory;
 
-    /** @var  \Magento\Integration\Helper\Oauth\Data */
+    /** @var  IntegrationOauthHelper */
     protected $_dataHelper;
 
     /** @var  \Magento\HTTP\ZendClient */
@@ -30,21 +37,33 @@ class Consumer
     /** @var \Magento\Logger */
     protected $_logger;
 
+    /** @var OauthHelper */
+    protected $_oauthHelper;
+
+    /** @var TokenProvider */
+    protected $_tokenProvider;
+
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory
-     * @param \Magento\Integration\Model\Oauth\Token\Factory $tokenFactory
-     * @param \Magento\Integration\Helper\Oauth\Data $dataHelper
+     * @param ConsumerFactory $consumerFactory
+     * @param TokenFactory $tokenFactory
+     * @param IntegrationOauthHelper $dataHelper
      * @param \Magento\HTTP\ZendClient $httpClient
      * @param \Magento\Logger $logger
+     * @param OauthHelper $oauthHelper
+     * @param TokenProvider $tokenProvider
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory,
-        \Magento\Integration\Model\Oauth\Token\Factory $tokenFactory,
-        \Magento\Integration\Helper\Oauth\Data $dataHelper,
+        ConsumerFactory $consumerFactory,
+        TokenFactory $tokenFactory,
+        IntegrationOauthHelper $dataHelper,
         \Magento\HTTP\ZendClient $httpClient,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        OauthHelper $oauthHelper,
+        TokenProvider $tokenProvider
     ) {
         $this->_storeManager = $storeManager;
         $this->_consumerFactory = $consumerFactory;
@@ -52,33 +71,94 @@ class Consumer
         $this->_dataHelper = $dataHelper;
         $this->_httpClient = $httpClient;
         $this->_logger = $logger;
+        $this->_oauthHelper = $oauthHelper;
+        $this->_tokenProvider = $tokenProvider;
     }
 
     /**
-     * Create a new consumer account when an integration is installed.
+     * Create a new consumer account.
      *
-     * @param array $consumerData - Information provided by an integration when the integration is installed.
-     * <pre>
-     * array(
-     *     'name' => 'Integration Name',
-     *     'key' => 'a6aa81cc3e65e2960a4879392445e718',
-     *     'secret' => 'b7bb92dd4f76f3a71b598a4a3556f829'
-     * )
-     * </pre>
-     * @return array - The integration (consumer) data.
+     * @param string $consumerName
+     * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Core\Exception
      * @throws \Magento\Oauth\Exception
      */
-    public function createConsumer($consumerData)
+    public function createConsumer($consumerName)
     {
         try {
+            $consumerData = array(
+                'name' => $consumerName,
+                'key' => $this->_oauthHelper->generateConsumerKey(),
+                'secret' => $this->_oauthHelper->generateConsumerSecret()
+            );
             $consumer = $this->_consumerFactory->create($consumerData);
             $consumer->save();
-            return $consumer->getData();
+            return $consumer;
         } catch (\Magento\Core\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {
-            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to create OAuth Consumer account.'));
+            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to create oAuth consumer account.'));
+        }
+    }
+
+    /**
+     * Create access token for provided consumer.
+     *
+     * @param int $consumerId
+     */
+    public function createAccessToken($consumerId)
+    {
+        // TODO: This implementation is temporary and should be changed after requirements clarification
+        try {
+            $existingToken = $this->_consumerFactory->create()->load($consumerId);
+        } catch (\Exception $e) {
+            return;
+        }
+        if (!$existingToken) {
+            $consumer = $this->_consumerFactory->create()->load($consumerId);
+            $this->_tokenFactory->create()->createVerifierToken($consumerId);
+            $this->_tokenProvider->createRequestToken($consumer);
+            $this->_tokenProvider->getAccessToken($consumer);
+        }
+    }
+
+    /**
+     * Retrieve access token assigned to the consumer.
+     *
+     * @param int $consumerId
+     * @return bool|Token Return false if no access token is available.
+     */
+    public function getAccessToken($consumerId)
+    {
+        try {
+            $consumer = $this->_consumerFactory->create()->load($consumerId);
+            $token = $this->_tokenProvider->getTokenByConsumer($consumer->getId());
+            if ($token->getType() != Token::TYPE_ACCESS) {
+                return false;
+            }
+        } catch (\Exception $e) {
+            return false;
+        }
+        return $token;
+    }
+
+    /**
+     * Load consumer by its ID.
+     *
+     * @param int $consumerId
+     * @return \Magento\Integration\Model\Oauth\Consumer
+     * @throws \Magento\Oauth\Exception
+     * @throws \Exception
+     * @throws \Magento\Core\Exception
+     */
+    public function loadConsumer($consumerId)
+    {
+        try {
+            return $this->_consumerFactory->create()->load($consumerId);
+        } catch (\Magento\Core\Exception $exception) {
+            throw $exception;
+        } catch (\Exception $exception) {
+            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to load oAuth consumer account.'));
         }
     }
 

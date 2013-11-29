@@ -12,8 +12,8 @@
 ?>
 <script type="text/javascript">
     window.integration = new Integration(
-        '<?php echo $this->getUrl('*/*/activate', ['id' => ':id', '_query' => 'popup_dialog=permissions']); ?>',
-        '<?php echo $this->getUrl('*/*/activate', ['id' => ':id', '_query' => 'popup_dialog=tokens']); ?>',
+        '<?php echo $this->getUrl('*/*/permissionsDialog', ['id' => ':id']); ?>',
+        '<?php echo $this->getUrl('*/*/tokensDialog', ['id' => ':id']); ?>',
         '', // Not implemented
         '' // Not implemented
     );

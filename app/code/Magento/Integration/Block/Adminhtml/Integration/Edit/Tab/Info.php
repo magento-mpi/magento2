@@ -29,10 +29,6 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_NAME = 'name';
     const DATA_EMAIL = 'email';
     const DATA_ENDPOINT = 'endpoint';
-    const DATA_TOKEN = 'token';
-    const DATA_TOKEN_SECRET = 'token_secret';
-    const DATA_CLIENT_KEY = 'client_key';
-    const DATA_CLIENT_SECRET = 'client_secret';
     const DATA_SETUP_TYPE = 'setup_type';
     /**#@-*/
 
@@ -171,50 +167,11 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     {
         if (isset($integrationData[self::DATA_ID])) {
             $fieldset = $form->addFieldset('details_fieldset', array('legend' => __('Integration Details')));
-            $fieldset->addField(
-                self::DATA_TOKEN,
-                'text',
-                array(
-                    'label' => __('Token'),
-                    'name' => self::DATA_TOKEN,
-                    'required' => false,
-                    'disabled' => true,
-                    'maxlength' => '255'
-                )
-            );
-            $fieldset->addField(
-                self::DATA_TOKEN_SECRET,
-                'text',
-                array(
-                    'label' => __('Token Secret'),
-                    'name' => self::DATA_TOKEN_SECRET,
-                    'required' => false,
-                    'disabled' => true,
-                    'maxlength' => '255'
-                )
-            );
-            $fieldset->addField(
-                self::DATA_CLIENT_KEY,
-                'text',
-                array(
-                    'label' => __('Client Key'),
-                    'name' => self::DATA_CLIENT_KEY,
-                    'required' => false,
-                    'disabled' => true,
-                    'maxlength' => '255'
-                )
-            );
-            $fieldset->addField(
-                self::DATA_CLIENT_SECRET,
-                'text',
-                array(
-                    'label' => __('Client Secret'),
-                    'name' => self::DATA_CLIENT_SECRET,
-                    'required' => false,
-                    'disabled' => true,
-                    'maxlength' => '255'
-                )
-            );
+            /** @var \Magento\Integration\Block\Adminhtml\Integration\Tokens $tokensBlock */
+            $tokensBlock = $this->getChildBlock('integration_tokens');
+            foreach ($tokensBlock->getFormFields() as $field) {
+                $fieldset->addField($field['name'], $field['type'], $field['metadata']);
+            }
         }
     }
 }
