@@ -18,13 +18,6 @@ namespace Magento\View\Block\Template;
 class Context extends \Magento\View\Block\Context
 {
     /**
-     * Dirs instance
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
      * Logger instance
      *
      * @var \Magento\Logger
@@ -139,21 +132,10 @@ class Context extends \Magento\View\Block\Context
 
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
-        $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
         $this->enginePool = $enginePool;
-    }
-
-    /**
-     * Get dirs instance
-     *
-     * @return \Magento\App\Dir
-     */
-    public function getDirs()
-    {
-        return $this->_dirs;
     }
 
     /**
