@@ -52,6 +52,7 @@ class Report extends Page
     public function getLogGridBlock()
     {
         return Factory::getBlockFactory()->getMagentoLoggingLogGrid(
-            $this->_browser->find($this->logGridBlock, Locator::SELECTOR_ID));
+            $this->_browser->find($this->logGridBlock, Locator::SELECTOR_ID)
+        );
     }
 }

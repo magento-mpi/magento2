@@ -23,44 +23,41 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class LogGrid extends Grid
 {
     /**
-     * Initialize block elements
+     * Admin action log report grid filters
+     *
+     * @var array
      */
-    protected function _init()
-    {
-        parent::_init();
-
-        $this->filters = array(
-            'timeFrom' => array(
-                'selector' => ''
-            ),
-            'timeTo' => array(
-                'selector' => ''
-            ),
-            'actionGroup' => array(
-                'selector' => '#loggingLogGrid_filter_event',
-                'input' => 'select'
-            ),
-            'action' => array(
-                'selector' => '#loggingLogGrid_filter_action',
-                'input' => 'select'
-            ),
-            'ipAddress' => array(
-                'selector' => '#loggingLogGrid_filter_ip'
-            ),
-            'username' => array(
-                'selector' => '#loggingLogGrid_filter_user',
-                'input' => 'select'
-            ),
-            'result' => array(
-                'selector' => '#loggingLogGrid_filter_status',
-                'input' => 'select'
-            ),
-            'fullActionName' => array(
-                'selector' => '#loggingLogGrid_filter_fullaction'
-            ),
-            'shortDetails' => array(
-                'selector' => '#loggingLogGrid_filter_info',
-            ),
-        );
-    }
+    protected $filters = array(
+        'timeFrom' => array(
+            'selector' => ''
+        ),
+        'timeTo' => array(
+            'selector' => ''
+        ),
+        'actionGroup' => array(
+            'selector' => '#loggingLogGrid_filter_event',
+            'input' => 'select'
+        ),
+        'action' => array(
+            'selector' => '#loggingLogGrid_filter_action',
+            'input' => 'select'
+        ),
+        'ipAddress' => array(
+            'selector' => '#loggingLogGrid_filter_ip'
+        ),
+        'username' => array(
+            'selector' => '#loggingLogGrid_filter_user',
+            'input' => 'select'
+        ),
+        'result' => array(
+            'selector' => '#loggingLogGrid_filter_status',
+            'input' => 'select'
+        ),
+        'fullActionName' => array(
+            'selector' => '#loggingLogGrid_filter_fullaction'
+        ),
+        'shortDetails' => array(
+            'selector' => '#loggingLogGrid_filter_info',
+        ),
+    );
 }

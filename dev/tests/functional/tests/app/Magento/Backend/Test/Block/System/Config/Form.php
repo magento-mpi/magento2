@@ -27,7 +27,7 @@ class Form extends Block
      *
      * @var string
      */
-    protected $saveButton = '//button[@title="Save Config"]';
+    protected $saveButton = '//button[@data-ui-id="system-config-edit-save-button"]';
 
     /**
      * Retrieve store configuration form group

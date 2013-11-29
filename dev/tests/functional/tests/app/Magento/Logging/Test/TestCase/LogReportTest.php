@@ -18,12 +18,13 @@ use Mtf\TestCase\Functional;
  * Class LogReportTest
  * Tests admin user action are logged and available in actions report
  *
- * @package Magento\Backend\Test\TestCase
+ * @package Magento\Logging\Test\TestCase
  */
 class LogReportTest extends Functional
 {
     /**
      * Test admin backend manipulations are logged
+     * @ZephyrId MAGETWO-12411
      */
     public function testConfigActionsLogged()
     {
@@ -71,7 +72,7 @@ class LogReportTest extends Functional
 
         //Verification: Login action present
         $loginActionLog = array(
-            'username' => $configUser->getData('fields/username/value'),
+            'username' => $configUser->getUsername(),
             'actionGroup' => 'Admin Sign In',
             'action' => 'Login',
             'result' => 'Success',
@@ -81,7 +82,7 @@ class LogReportTest extends Functional
 
         //Verification: Config view action present
         $configActionLog = array(
-            'username' => $configUser->getData('fields/username/value'),
+            'username' => $configUser->getUsername(),
             'actionGroup' => 'System Configuration',
             'action' => 'View',
             'result' => 'Success',
@@ -92,7 +93,7 @@ class LogReportTest extends Functional
         //Verification: Config save action present
         //Because of this verification test is incomplete
         $configActionLog = array(
-            'username' => $configUser->getData('fields/username/value'),
+            'username' => $configUser->getUsername(),
             'actionGroup' => 'System Configuration',
             'action' => 'Save',
             'result' => 'Success',
@@ -102,7 +103,7 @@ class LogReportTest extends Functional
 
         //Verification: Second user login action present
         $loginActionLog = array(
-            'username' => $loginUser->getData('fields/username/value'),
+            'username' => $loginUser->getUsername(),
             'actionGroup' => 'Admin Sign In',
             'action' => 'Login',
             'result' => 'Success',

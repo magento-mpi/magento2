@@ -30,13 +30,11 @@ class Dashboard extends Page
     const MCA = 'admin/dashboard';
 
     /**
-     * Header panel of admin dashboard
+     * Header panel block of dashboard page
      *
-     * @var AdminPanelHeader
-     * @locator css:.header-panel
-     * @injectable
+     * @var string
      */
-    protected $adminPanelHeader;
+    protected $adminPanelHeader = 'header-panel';
 
     /**
      * Constructor
@@ -44,16 +42,17 @@ class Dashboard extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->adminPanelHeader = Factory::getBlockFactory()->getMagentoBackendPageHeader(
-            $this->_browser->find('header-panel', Locator::SELECTOR_CLASS_NAME));
     }
 
     /**
+     * Get admin panel header block instance
+     *
      * @return \Magento\Backend\Test\Block\HeaderPanel
      */
     public function getAdminPanelHeader()
     {
-        return $this->adminPanelHeader;
+        return Factory::getBlockFactory()->getMagentoBackendPageHeader(
+            $this->_browser->find($this->adminPanelHeader, Locator::SELECTOR_CLASS_NAME)
+        );
     }
 }
