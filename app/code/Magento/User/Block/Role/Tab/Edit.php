@@ -9,7 +9,7 @@
 namespace Magento\User\Block\Role\Tab;
 
 /**
- * Rolesedit Tab Display Block
+ * Rolesedit Tab Display Block.
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -47,6 +47,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form
      */
     protected $_aclResourceProvider;
 
+    /** @var \Magento\Integration\Helper\Data */
+    protected $_integrationData;
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
@@ -54,6 +57,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
+     * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
      */
     public function __construct(
@@ -63,12 +67,14 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
+        \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
         $this->_aclBuilder = $aclBuilder;
         $this->_rootResource = $rootResource;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
+        $this->_integrationData = $integrationData;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -154,32 +160,9 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     public function getTree()
     {
         $resources = $this->_aclResourceProvider->getAclResources();
-        $rootArray = $this->_mapResources(
+        $rootArray = $this->_integrationData->mapResources(
             isset($resources[1]['children']) ? $resources[1]['children'] : array()
         );
         return $rootArray;
-    }
-
-    /**
-     * Map resources
-     *
-     * @param array $resources
-     * @return array
-     */
-    protected function _mapResources(array $resources)
-    {
-        $output = array();
-        foreach ($resources as $resource) {
-            $item = array();
-            $item['attr']['data-id'] = $resource['id'];
-            $item['data'] = $resource['title'];
-            $item['children'] = array();
-            if (isset($resource['children'])) {
-                $item['state'] = 'open';
-                $item['children'] = $this->_mapResources($resource['children']);
-            }
-            $output[] = $item;
-        }
-        return $output;
     }
 }

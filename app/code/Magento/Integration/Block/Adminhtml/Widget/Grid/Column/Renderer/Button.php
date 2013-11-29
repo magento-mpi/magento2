@@ -1,17 +1,21 @@
 <?php
 /**
- * Render HTML <button> tag.
- *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 use Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer;
 use \Magento\Object;
 
+/**
+ * Render HTML <button> tag.
+ *
+ * @package Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer
+ */
 class Button extends AbstractRenderer
 {
     /**
@@ -21,8 +25,7 @@ class Button extends AbstractRenderer
     {
         /** @var array $attributes */
         $attributes = $this->_prepareAttributes($row);
-        return sprintf(
-            '<button %s>%s</button>', $this->_getAttributesStr($attributes), $this->_getValue($row));
+        return sprintf('<button %s>%s</button>', $this->_getAttributesStr($attributes), $this->_getValue($row));
     }
 
     /**
@@ -48,9 +51,9 @@ class Button extends AbstractRenderer
 
     /**
      * Prepare attribute list. Values for attributes gathered from two sources:
-     * - If getter method exists in the class - it is taken from there (getter method for "title" attribute will
-     *   be "_getTitleAttribute", for "onmouseup" - "_getOnmouseupAttribute" and so on)
-     * - Then it tries to get it from column's layout description
+     * - If getter method exists in the class - it is taken from there (getter method for "title"
+     *   attribute will be "_getTitleAttribute", for "onmouseup" - "_getOnmouseupAttribute" and so on.)
+     * - Then it tries to get it from the button's column layout description.
      * If received attribute value is empty - attribute is not added to final HTML.
      *
      * @param \Magento\Object $row

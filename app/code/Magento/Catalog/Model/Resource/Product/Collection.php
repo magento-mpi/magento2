@@ -1030,7 +1030,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @param int|string $limit
      * @param int|string $offset
@@ -1047,7 +1047,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Retreive product count select for categories
+     * Retrieve product count select for categories
      *
      * @return \Magento\DB\Select
      */
@@ -1307,7 +1307,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Retreive all ids
+     * Retrieve all ids
      *
      * @param boolean $resetCache
      * @return array
@@ -1491,7 +1491,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function addFilterByRequiredOptions()
     {
-        $this->addAttributeToFilter('required_options', array(array('neq' => '1'), array('null' => true)), 'left');
+        $this->addAttributeToFilter('required_options', array(array('neq' => 1), array('null' => true)), 'left');
         return $this;
     }
 

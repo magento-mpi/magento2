@@ -5,22 +5,34 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Exception as IntegrationException;
+use Magento\Integration\Model\Integration as IntegrationKeyConstants;
 
 /**
  * Controller for integrations management.
  */
-class Integration extends \Magento\Backend\App\Action
+class Integration extends Action
 {
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
 
     /** Keys used for registering data into the registry */
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
+
+    /** Request parameter which define the dialog window requested */
+    const PARAM_DIALOG_ID = 'popup_dialog';
+
+    /**#@+
+     * Allowed values for PARAM_DIALOG_ID request parameter
+     */
+    const DIALOG_PERMISSIONS = 'permissions';
+    const DIALOG_TOKENS = 'tokens';
+    /**#@-*/
 
     /**
      * Core registry
@@ -113,21 +125,21 @@ class Integration extends \Magento\Backend\App\Action
             try {
                 $integrationData = $this->_integrationService->get($integrationId);
                 $originalName = $integrationData[Info::DATA_NAME];
-                $restoredIntegration = $this->_getSession()->getIntegrationData();
-                if (isset($restoredIntegration[Info::DATA_ID])
-                    && $integrationId == $restoredIntegration[Info::DATA_ID]
-                ) {
-                    $integrationData = array_merge($integrationData, $restoredIntegration);
-                }
-                if (!$integrationData[Info::DATA_ID]) {
-                    $this->_getSession()->addError(__('This integration no longer exists.'));
-                    $this->_redirect('*/*/');
-                    return;
-                }
-                $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
             } catch (IntegrationException $e) {
                 $this->_getSession()->addError($e->getMessage());
-                $this->_redirect('*/*');
+                $this->_redirect('*/*/');
+                return;
+            }
+            $restoredIntegration = $this->_getSession()->getIntegrationData();
+            if (isset($restoredIntegration[Info::DATA_ID]) && $integrationId == $restoredIntegration[Info::DATA_ID]) {
+                $integrationData = array_merge($integrationData, $restoredIntegration);
+            }
+
+            if (isset($integrationData[Info::DATA_SETUP_TYPE])
+                && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG
+            ) {
+                //Cannot edit Integrations created from Config. No error necessary just redirect to grid
+                $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
@@ -205,15 +217,53 @@ class Integration extends \Magento\Backend\App\Action
      */
     public function activateAction()
     {
-        $dialogName = $this->getRequest()->getParam('popup_dialog');
+        $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
 
-        if ($dialogName) {
-            $this->_view->loadLayout(sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName));
+        if ($integrationId) {
+            $integrationData = $this->_integrationService->get($integrationId);
+            if (!$integrationData[Info::DATA_ID]) {
+                $this->_getSession()->addError(__('This integration no longer exists.'));
+                $this->_redirect('*/*/');
+                return;
+            }
+            $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+        } else {
+            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->_redirect('*/*/');
+            return;
+        }
+
+        $dialogName = $this->getRequest()->getParam(self::PARAM_DIALOG_ID);
+
+        if (in_array($dialogName, [self::DIALOG_PERMISSIONS, self::DIALOG_TOKENS])) {
+            $this->_view->loadLayout($this->_getPopupHandleNames($dialogName));
         } else {
             $this->_view->loadLayout();
         }
 
         $this->_view->renderLayout();
+    }
+
+    /**
+     * @param string $dialogName
+     * @return array
+     */
+    protected function _getPopupHandleNames($dialogName)
+    {
+        $handles = [sprintf('%s_%s_popup', $this->_view->getDefaultLayoutHandle(), $dialogName)];
+
+        if ($dialogName === self::DIALOG_PERMISSIONS) {
+            $handleNodes = $this->_view->getLayout()->getUpdate()->getFileLayoutUpdatesXml()
+                ->xpath('//referenceBlock[@name="integration.activate.permissions.tabs"]/../@id');
+
+            if (is_array($handleNodes)) {
+                foreach ($handleNodes as $node) {
+                    $handles[] = (string)$node;
+                }
+            }
+        }
+
+        return $handles;
     }
 
     /**

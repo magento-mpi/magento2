@@ -8,8 +8,6 @@
 
 namespace Magento\Authz\Model;
 
-use Magento\Authz\Model\UserLocatorInterface;
-
 /**
  * User identifier class. By user can be understood admin, customer, guest, web API integration.
  */
@@ -82,6 +80,7 @@ class UserIdentifier
      */
     protected function _setUserId($userId)
     {
+        $userId = is_numeric($userId) ? (int)$userId : $userId;
         if (!is_integer($userId) || ($userId < 0)) {
             throw new \LogicException("Invalid user ID: '{$userId}'.");
         }

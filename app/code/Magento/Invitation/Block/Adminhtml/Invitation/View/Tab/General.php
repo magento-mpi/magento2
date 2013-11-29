@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
-class General extends \Magento\Adminhtml\Block\Template
+class General extends \Magento\Backend\Block\Template
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/general.phtml';

@@ -16,7 +16,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget;
 
-class Chooser extends \Magento\Adminhtml\Block\Template
+class Chooser extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\VersionsCms\Model\Hierarchy\NodeFactory

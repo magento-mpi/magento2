@@ -1096,7 +1096,7 @@ END;
 
     /**
      * Validate package. Errors can be
-     * retreived by calling getErrors();
+     * retrieved by calling getErrors();
      *
      * @return bool
      */

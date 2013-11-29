@@ -187,7 +187,7 @@ class Customersegment
             $this->_initAction();
             $this->_view->renderLayout();
         } else {
-            $this->_redirect('adminhtml/*/segment');
+            $this->_redirect('*/*/segment');
             return ;
         }
     }
@@ -204,13 +204,13 @@ class Customersegment
                     $segment->matchCustomers();
                 }
                 $this->_session->addSuccess(__('Customer Segment data has been refreshed.'));
-                $this->_redirect('adminhtml/*/detail', array('_current' => true));
+                $this->_redirect('*/*/detail', array('_current' => true));
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
             }
         }
-        $this->_redirect('adminhtml/*/detail', array('_current' => true));
+        $this->_redirect('*/*/detail', array('_current' => true));
         return;
     }
 
@@ -227,7 +227,7 @@ class Customersegment
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
         } else {
-            $this->_redirect('adminhtml/*/detail', array('_current' => true));
+            $this->_redirect('*/*/detail', array('_current' => true));
             return ;
         }
     }
@@ -245,7 +245,7 @@ class Customersegment
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
             $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
         } else {
-            $this->_redirect('adminhtml/*/detail', array('_current' => true));
+            $this->_redirect('*/*/detail', array('_current' => true));
             return ;
         }
     }

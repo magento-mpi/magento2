@@ -15,9 +15,11 @@ use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\AbstractProduct;
 
 /**
  * Class ProductForm
@@ -114,9 +116,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param Product $fixture
+     * @param AbstractProduct $fixture
      */
-    public function addNewCategory(Product $fixture)
+    public function addNewCategory(AbstractProduct $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
@@ -127,6 +129,26 @@ class ProductForm extends FormTabs
 
         $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
         $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
+    }
+
+    /**
+     * show the Advanced block.
+     */
+    public function showAdvanced()
+    {
+        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+    }
+
+    /**
+     * Open the Up-sells tab.
+     */
+    public function openUpsellTab()
+    {
+        // click the up-sell link to get to the tab.
+        $this->waitForElementVisible(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID);
+
+        $this->_rootElement->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
+        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
     }
 
     /**
@@ -178,5 +200,20 @@ class ProductForm extends FormTabs
     {
         $this->_rootElement->find('#add_category_button', Locator::SELECTOR_CSS)->click();
         $this->waitForElementVisible('input#new_category_name');
+    }
+
+    public function openRelatedProductTab()
+    {
+        /**
+         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
+         */
+        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+
+        /**
+         * Wait for the "related tab" shows up and click on it
+         */
+        $this->waitForElementVisible(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID);
+        $this->_rootElement->find(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID)->click();
+        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
     }
 }

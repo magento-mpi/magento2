@@ -33,6 +33,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_TOKEN_SECRET = 'token_secret';
     const DATA_CLIENT_KEY = 'client_key';
     const DATA_CLIENT_SECRET = 'client_secret';
+    const DATA_SETUP_TYPE = 'setup_type';
     /**#@-*/
 
     /**

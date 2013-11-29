@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-class Reviews extends \Magento\Adminhtml\Block\Review\Grid
+class Reviews extends \Magento\Review\Block\Adminhtml\Grid
 {
     /**
      * Hide grid mass action elements

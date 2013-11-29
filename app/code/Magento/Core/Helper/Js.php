@@ -180,6 +180,8 @@ class Js extends \Magento\App\Helper\AbstractHelper
         $this->_addTranslation('Please enter a valid year (1900-%d).', __('Please enter a valid year (1900-%d).'));
         $this->_addTranslation('Please enter a valid full date', __('Please enter a valid full date'));
         //various files
+        $this->_addTranslation('Allow', __('Allow'));
+        $this->_addTranslation('Activate', __('Activate'));
         $this->_addTranslation('Cancel', __('Cancel'));
         $this->_addTranslation('Save', __('Save'));
         $this->_addTranslation('File extension not known or unsupported type.', __('File extension not known or unsupported type.'));

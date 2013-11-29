@@ -10,15 +10,13 @@ return array(
         'resources' => array(
             'Magento_Customer::manage',
             'Magento_Customer::online',
-            'Magento_Customer::order_statuses_read',
             'Magento_Sales::capture',
-            'Magento_SalesHistory::history',
-            'Magento_SalesArchive::add'
+            'Magento_SalesRule::quote'
         )
     ),
     'TestIntegration2' => array(
         'resources' => array(
-            'Magento_Catalog::product_read',
+            'Magento_Catalog::product_read'
         )
     ),
 );

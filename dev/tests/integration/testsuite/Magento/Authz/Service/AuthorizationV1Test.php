@@ -35,13 +35,15 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @param UserIdentifier $userIdentifier
+     * @param string $userType
      * @param string[] $resources
      * @magentoDbIsolation enabled
      * @dataProvider basicAuthFlowProvider
      */
-    public function testBasicAuthFlow($userIdentifier, $resources)
+    public function testBasicAuthFlow($userType, $resources)
     {
+        $userIdentifier = $this->_createUserIdentifier($userType);
+
         /** Preconditions check */
         $this->_ensurePermissionsAreNotGranted($userIdentifier, $resources);
 
@@ -55,21 +57,23 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     {
         return array(
             'integration' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
-                'resources' => array('Magento_SalesArchive::add', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
+                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
+                'resources' => array('Magento_Sales::create', 'Magento_Cms::page', 'Magento_Adminhtml::dashboard')
             )
         );
     }
 
     /**
-     * @param UserIdentifier $userIdentifier
+     * @param string $userType
      * @param string[] $initialResources
      * @param string[] $newResources
      * @magentoDbIsolation enabled
      * @dataProvider changePermissionsProvider
      */
-    public function testChangePermissions($userIdentifier, $initialResources, $newResources)
+    public function testChangePermissions($userType, $initialResources, $newResources)
     {
+        $userIdentifier = $this->_createUserIdentifier($userType);
+
         $this->_service->grantPermissions($userIdentifier, $initialResources);
         /** Preconditions check */
         $this->_ensurePermissionsAreGranted($userIdentifier, $initialResources);
@@ -86,18 +90,21 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     {
         return array(
             'integration' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
+                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
                 'initialResources' => array('Magento_Cms::page', 'Magento_Adminhtml::dashboard'),
-                'newResources' => array('Magento_SalesArchive::remove', 'Magento_Cms::page_delete')
+                'newResources' => array('Magento_Sales::cancel', 'Magento_Cms::page_delete')
             ),
             'integration clear permissions' => array(
-                'userIdentifier' => $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION),
-                'initialResources' => array('Magento_SalesArchive::add', 'Magento_Cms::page_delete'),
+                'userType' => UserIdentifier::USER_TYPE_INTEGRATION,
+                'initialResources' => array('Magento_Sales::capture', 'Magento_Cms::page_delete'),
                 'newResources' => array(),
             ),
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testIsAllowedArrayOfResources()
     {
         $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
@@ -117,6 +124,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         );
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGetAllowedResources()
     {
         $userIdentifierA = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
@@ -124,7 +134,7 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->grantPermissions($userIdentifierA, $resourcesA);
 
         $userIdentifierB = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);
-        $resourcesB = array('Magento_Cms::block', 'Magento_SalesArchive::remove');
+        $resourcesB = array('Magento_Cms::block', 'Magento_Sales::cancel');
         $this->_service->grantPermissions($userIdentifierB, $resourcesB);
 
         /** Preconditions check */
@@ -154,6 +164,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->getAllowedResources($userIdentifier);
     }
 
+    /**
+     * @magentoDbIsolation enabled
+     */
     public function testGrantAllPermissions()
     {
         $userIdentifier = $this->_createUserIdentifier(UserIdentifier::USER_TYPE_INTEGRATION);

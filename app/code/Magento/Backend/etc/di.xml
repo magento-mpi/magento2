@@ -8,8 +8,13 @@
  */
 -->
 <config>
-    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db"/>
-    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Backend\App\Request\PathInfoProcessor"/>
+    <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
+    <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Backend\App\Request\PathInfoProcessor" />
+    <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
+    <preference for="Magento\Backend\Model\Config\Structure\SearchInterface" type="Magento\Backend\Model\Config\Structure" />
+    <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
+    <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
+    <preference for="Magento\Adminhtml\Helper\Data" type="Magento\Backend\Helper\Data" />
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
@@ -31,9 +36,7 @@
         </param>
     </type>
     <type name="Magento\Backend\Model\Menu\Config">
-        <param name="menuDirector">
-            <instance type="Magento\Backend\Model\Menu\Director\Director"/>
-        </param>
+        <param name="menuDirector"><instance type="Magento\Backend\Model\Menu\Director\Director"/></param>
     </type>
     <type name="Magento\Backend\App\Area\FrontNameResolver">
         <param name="defaultFrontName">
@@ -42,10 +45,10 @@
     </type>
     <type name="Magento\Backend\Helper\Data">
         <param name="backendUrl">
-            <instance type="Magento\Backend\Model\Url\Proxy"/>
+            <instance type="Magento\Backend\Model\Url\Proxy" />
         </param>
         <param name="auth">
-            <instance type="Magento\Backend\Model\Auth\Proxy"/>
+            <instance type="Magento\Backend\Model\Auth\Proxy" />
         </param>
     </type>
     <type name="Magento\App\Router\NoRouteHandlerList">
@@ -60,12 +63,12 @@
     </type>
     <type name="Magento\Backend\Model\Widget\Grid\Row\UrlGenerator">
         <param name="backendUrl">
-            <instance type="Magento\Backend\Model\Url\Proxy"/>
+            <instance type="Magento\Backend\Model\Url\Proxy" />
         </param>
     </type>
     <type name="Magento\Backend\Model\Url">
         <param name="authSession">
-            <instance type="Magento\Backend\Model\Auth\Session\Proxy"/>
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
         <param name="areaCode">
             <value>adminhtml</value>
@@ -113,15 +116,15 @@
         <param name="searchModules">
             <value>
                 <products>
-                    <class>Magento\Adminhtml\Model\Search\Catalog</class>
+                    <class>Magento\Backend\Model\Search\Catalog</class>
                     <acl>Magento_Catalog::catalog</acl>
                 </products>
                 <customers>
-                    <class>Magento\Adminhtml\Model\Search\Customer</class>
+                    <class>Magento\Backend\Model\Search\Customer</class>
                     <acl>Magento_Customer::customer</acl>
                 </customers>
                 <sales>
-                    <class>Magento\Adminhtml\Model\Search\Order</class>
+                    <class>Magento\Backend\Model\Search\Order</class>
                     <acl>Magento_Sales::sales</acl>
                 </sales>
             </value>

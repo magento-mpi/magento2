@@ -10,23 +10,21 @@ return array(
         'resources' => array(
             'Magento_Customer::manage',
             'Magento_Customer::online',
-            'Magento_Customer::order_statuses_read',
             'Magento_Sales::capture',
-            'Magento_SalesHistory::history',
-            'Magento_SalesArchive::add'
+            'Magento_SalesRule::quote'
         )
     ),
     'TestIntegration2' => array(
         'resources' => array(
             'Magento_Catalog::product_read',
-            'Magento_SalesHistory::items',
+            'Magento_SalesRule::config_promo'
         )
     ),
     'TestIntegration3' => array(
         'resources' => array(
             'Magento_Catalog::product_read',
-            'Magento_SalesHistory::show',
-            'Magento_SalesArchive::delete',
+            'Magento_Sales::create',
+            'Magento_SalesRule::quote'
         )
     ),
 );
