@@ -21,11 +21,6 @@ class Path
     const DIR_NAME = 'theme_customization';
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
-
-    /**
      * @var string
      */
     protected $filename;

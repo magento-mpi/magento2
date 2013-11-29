@@ -59,7 +59,7 @@ class ObjectManagerFactory
                 : array()
         );
 
-        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(Dir::GENERATION)));
+        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(\Magento\Filesystem::GENERATION)));
 
         $options = new Config(
             $arguments,
@@ -73,8 +73,8 @@ class ObjectManagerFactory
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
             new \Magento\Filesystem\Driver\Base(),
-            $directories->getDir(DIR::DI),
-            $directories->getDir(DIR::GENERATION),
+            $directories->getDir(\Magento\Filesystem::DI),
+            $directories->getDir(\Magento\Filesystem::GENERATION),
             $options->get('definition.format', 'serialized')
         );
 
@@ -86,7 +86,7 @@ class ObjectManagerFactory
         $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
 //        $configDirectoryPath = $directories->getDir(DIR::CONFIG);
-        $configData = $this->_loadPrimaryConfig($directories->getDir(DIR::ROOT), $appMode);
+        $configData = $this->_loadPrimaryConfig($directories->getDir(\Magento\Filesystem::ROOT), $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
@@ -98,7 +98,6 @@ class ObjectManagerFactory
         /** @var \Magento\ObjectManager $locator */
         $locator = new $className($factory, $diConfig, array(
             'Magento\App\Config' => $options,
-            'Magento\App\Dir' => $directories,
             'Magento\Filesystem\DirectoryList' => $directories
         ));
 
