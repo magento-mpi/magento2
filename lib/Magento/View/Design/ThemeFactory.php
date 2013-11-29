@@ -1,7 +1,5 @@
 <?php
 /**
- * Minimal required interface a theme has to implement
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,6 +10,11 @@ namespace Magento\View\Design;
 
 use Magento\ObjectManager;
 
+/**
+ * Class ThemeFactory
+ *
+ * Minimal required interface a theme has to implement
+ */
 class ThemeFactory
 {
     /**
@@ -28,7 +31,7 @@ class ThemeFactory
     }
 
     /**
-     * @param $themeId
+     * @param int $themeId
      * @return \Magento\View\Design\ThemeInterface
      * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */

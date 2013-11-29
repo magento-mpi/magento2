@@ -69,15 +69,9 @@ class DirectoryList extends Dir
         foreach ($dirs as $code => $path) {
             $this->directories[$code]['path'] = $path;
         }
-        foreach ($this->_getDefaultReplacements($dirs) as $code => $replacement) {
-            $this->directories[$code]['path'] = $replacement;
-        }
 
         foreach ($uris as $code => $uri) {
             $this->directories[$code]['uri'] = $uri;
-        }
-        foreach ($this->_getDefaultReplacements($uris) as $code => $replacement) {
-            $this->directories[$code]['uri'] = $replacement;
         }
 
         $this->directories[\Magento\Filesystem::SYS_TMP] = array(

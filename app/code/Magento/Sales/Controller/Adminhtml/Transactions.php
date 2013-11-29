@@ -15,7 +15,9 @@
  */
 namespace Magento\Sales\Controller\Adminhtml;
 
-class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Transactions extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -25,11 +27,11 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -50,7 +52,7 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
         if (!$txn->getId()) {
             $this->_getSession()->addError(__('Please correct the transaction ID and try again.'));
             $this->_redirect('sales/*/');
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return false;
         }
         $orderId = $this->getRequest()->getParam('order_id');
@@ -66,11 +68,11 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
 
     public function indexAction()
     {
-        $this->_title(__('Transactions'));
+        $this->_title->add(__('Transactions'));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_transactions')
-            ->renderLayout();
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_transactions');
+        $this->_view->renderLayout();
     }
 
     /**
@@ -78,8 +80,8 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -91,12 +93,12 @@ class Transactions extends \Magento\Backend\Controller\Adminhtml\Action
         if (!$txn) {
             return;
         }
-        $this->_title(__('Transactions'))
-             ->_title(sprintf("#%s", $txn->getTxnId()));
+        $this->_title->add(__('Transactions'));
+        $this->_title->add(sprintf("#%s", $txn->getTxnId()));
 
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Sales::sales_transactions')
-            ->renderLayout();
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_transactions');
+        $this->_view->renderLayout();
     }
 
     /**

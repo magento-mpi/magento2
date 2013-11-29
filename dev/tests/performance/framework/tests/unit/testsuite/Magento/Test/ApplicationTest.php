@@ -11,6 +11,11 @@
 
 namespace Magento\Test;
 
+/**
+ * Class ApplicationTest
+ *
+ * @package Magento\Test
+ */
 class ApplicationTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -19,12 +24,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     protected $_config;
 
     /**
-     * @var \Magento\Shell|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Shell|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_shell;
 
     /**
-     * @var \Magento\TestFramework\Application|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\TestFramework\Application|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_object;
 
@@ -43,6 +48,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      */
     protected $_fixtureConfigData;
 
+    /**
+     * Set Up before test
+     */
     protected function setUp()
     {
         $this->_fixtureDir = __DIR__ . '/Performance/_files';
@@ -67,6 +75,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_object->applied = array(); // For fixture testing
     }
 
+    /**
+     * Tear down after test
+     */
     protected function tearDown()
     {
         unset($this->_config);
@@ -75,6 +86,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Constructor test
+     *
      * @expectedException \Magento\Exception
      */
     public function testConstructorException()
@@ -89,6 +102,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
 
     /**
+     * Apply fixtures test
+     *
      * @param array $fixtures
      * @param array $expected
      * @dataProvider applyFixturesDataProvider
@@ -100,6 +115,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Apply fixture data provider
+     *
      * @return array
      */
     public function applyFixturesDataProvider()
@@ -118,6 +135,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Apply fixture test
+     *
      * @param array $initialFixtures
      * @param array $subsequentFixtures
      * @param array $subsequentExpected
@@ -132,6 +151,8 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
+     * Apply fixtture data provider
+     *
      * @return array
      */
     public function applyFixturesSeveralTimesDataProvider()
@@ -160,6 +181,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
      * Adds file paths to fixture in a list
      *
      * @param array $fixture
+     *
      * @return array
      */
     protected function _getFixtureFiles($fixtures)
@@ -171,6 +193,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         return $result;
     }
 
+    /**
+     * Apply fixture with install
+     */
     public function testApplyFixturesInstallsApplication()
     {
         // Expect uninstall and install
@@ -186,9 +211,12 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_object->applyFixtures($fixture1);
     }
 
+    /**
+     * Apply fixture w/o install
+     */
     public function testApplyFixturesSuperSetNoInstallation()
     {
-        $this->_shell->expects($this->exactly(2)) // Initial uninstall/install only
+        $this->_shell->expects($this->exactly(5)) // Initial uninstall/install only
             ->method('execute');
 
         $fixture1 = $this->_getFixtureFiles(array('fixture1'));
@@ -197,6 +225,9 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_object->applyFixtures($superSet);
     }
 
+    /**
+     * Apply fixtures test with no reinstall
+     */
     public function testApplyFixturesIncompatibleSetReinstallation()
     {
         $this->_shell->expects($this->at(0))
@@ -207,11 +238,11 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             ->method('execute')
             ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
 
-        $this->_shell->expects($this->at(2))
+        $this->_shell->expects($this->at(4))
             ->method('execute')
             ->with($this->stringContains('--uninstall'), $this->contains($this->_installerScript));
 
-        $this->_shell->expects($this->at(3))
+        $this->_shell->expects($this->at(5))
             ->method('execute')
             ->with($this->logicalNot($this->stringContains('--uninstall')), $this->contains($this->_installerScript));
 
@@ -219,5 +250,13 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $this->_object->applyFixtures($fixtures);
         $incompatibleSet = $this->_getFixtureFiles(array('fixture1'));
         $this->_object->applyFixtures($incompatibleSet);
+    }
+
+    /**
+     * Test application reset
+     */
+    public function testAppReset()
+    {
+        $this->assertEquals(true, $this->_object->reset() instanceof \Magento\TestFramework\Application);
     }
 }

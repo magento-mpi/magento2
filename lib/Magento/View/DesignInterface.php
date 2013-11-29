@@ -10,8 +10,6 @@ namespace Magento\View;
 
 /**
  * Design Interface
- *
- * @package Magento\View
  */
 interface DesignInterface
 {

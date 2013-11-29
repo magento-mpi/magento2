@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Topmenu extends \Magento\Core\Block\Template
+class Topmenu extends \Magento\View\Block\Template
 {
     /**
      * Top menu data tree

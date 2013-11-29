@@ -57,6 +57,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_objectManager;
 
+    /**
+     * @var \Magento\TestFramework\Helper\ObjectManager
+     */
+    protected $_actionFlag;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -73,7 +78,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
         $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
-        
+        $this->_actionFlag = $this->getMock('Magento\App\ActionFlag', array(), array(), '', false);
         $this->_observer = $this->_objectManager->getObject(
             'Magento\Captcha\Model\Observer',
             array(
@@ -85,6 +90,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'helper' => $this->_helper,
                 'urlManager' => $this->_urlManager,
                 'filesystem' => $this->_filesystem,
+                'actionFlag' => $this->_actionFlag
             )
         );
 
@@ -96,7 +102,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $formId = 'contact_us';
         $captchaValue = 'some-value';
 
-        $controller = $this->getMock('Magento\Core\Controller\Varien\Action', array(), array(), '', false);
+        $controller = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())
             ->method('getPost')
@@ -134,7 +140,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with($redirectRoutePath, null)
             ->will($this->returnValue($redirectUrl));
 
-        $controller = $this->getMock('Magento\Core\Controller\Varien\Action', array(), array(), '', false);
+        $controller = $this->getMock('Magento\App\Action\Action', array(), array(), '', false);
         $request = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $response = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $request->expects($this->any())->method('getPost')->with(\Magento\Captcha\Helper\Data::INPUT_NAME_FIELD_VALUE,
@@ -156,8 +162,8 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->with($formId)
             ->will($this->returnValue($this->_captcha));
         $this->_session->expects($this->once())->method('addError')->with($warningMessage);
-        $controller->expects($this->once())->method('setFlag')
-            ->with('', \Magento\Core\Controller\Varien\Action::FLAG_NO_DISPATCH, true);
+        $this->_actionFlag->expects($this->once())->method('set')
+            ->with('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
 
         $this->_observer->checkContactUsForm(new \Magento\Event\Observer(array('controller_action' => $controller)));
     }

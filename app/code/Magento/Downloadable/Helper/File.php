@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Helper;
 
-class File extends \Magento\Core\Helper\AbstractHelper
+class File extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Core file storage database
@@ -42,14 +42,14 @@ class File extends \Magento\Core\Helper\AbstractHelper
 
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Core\Helper\Context $context
      * @param array $mimeTypes
      */
     public function __construct(
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
+        \Magento\App\Helper\Context $context,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Helper\Context $context,
         array $mimeTypes = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
@@ -810,6 +810,6 @@ class File extends \Magento\Core\Helper\AbstractHelper
             'xzaz' => 'application/vnd.zzazz.deck+xml',
             'xzip' => 'application/zip',
             'xzmm' => 'application/vnd.handheld-entertainment+xml',
-            'xodt' => 'application/x-vnd.oasis.opendocument.spreadsheet' // @TODO
+            'xodt' => 'application/x-vnd.oasis.opendocument.spreadsheet'
         );
 }

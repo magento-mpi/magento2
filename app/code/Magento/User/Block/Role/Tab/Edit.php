@@ -48,10 +48,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form
     protected $_aclResourceProvider;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
      * @param \Magento\Acl\Builder $aclBuilder
@@ -59,8 +57,8 @@ class Edit extends \Magento\Backend\Block\Widget\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Acl\Builder $aclBuilder,
@@ -71,7 +69,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         $this->_rootResource = $rootResource;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -131,7 +129,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         foreach ($rulesSet->getItems() as $item) {
             $itemResourceId = $item->getResource_id();
             if ($acl->has($itemResourceId) && $item->getPermission() == 'allow') {
-                array_push($selectedResourceIds, $itemResourceId);
+                $selectedResourceIds[] = $itemResourceId;
             }
         }
 

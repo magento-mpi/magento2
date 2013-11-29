@@ -94,9 +94,22 @@ class FilterTest extends \PHPUnit_Framework_TestCase
      */
     public function testLayoutDirective($area, $directiveParams, $expectedOutput)
     {
+        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
+            \Magento\Filesystem\DirectoryList::PARAM_APP_DIRS => array(
+                \Magento\Filesystem::THEMES => dirname(__DIR__) . '/_files/design'
+            )
+        ));
+        $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Email\Model\Template\Filter');
+
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('Magento\Email\Model\Template\Filter');
-        $objectManager->get('Magento\Core\Model\App')->loadArea($area);
+
+        $themes = array('frontend' => 'test_default', 'adminhtml' => 'test_default');
+        $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
+        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
+
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
+            ->loadArea($area);
 
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
@@ -106,9 +119,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
                 $themeId
             );
 
-        $themes = array('frontend' => 'test_default', 'adminhtml' => 'test_default');
-        $design = $objectManager->create('Magento\Core\Model\View\Design', array('themes' => $themes));
-        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
+
 
         /** @var $layout \Magento\View\LayoutInterface */
         $layout = $objectManager->create('Magento\Core\Model\Layout');
@@ -116,7 +127,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($area, $layout->getArea());
         $this->assertEquals(
             $area,
-            $objectManager->get('Magento\View\LayoutInterface')->getArea()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')->getArea()
         );
         $objectManager->get('Magento\View\DesignInterface')->setDesignTheme('test_default');
 
@@ -152,7 +163,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
             ),
             'custom parameter' => array(
                 'frontend',
-                'handle="email_template_test_handle" template="sample_email_content_custom.phtml"',
+                'handle="email_template_test_handle" template="Magento_Core::sample_email_content_custom.phtml"',
                 'Custom E-mail content for frontend/test_default theme',
             ),
         );

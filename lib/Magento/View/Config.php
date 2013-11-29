@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\View;
 
 /**
  * Handles theme view.xml files
@@ -54,8 +54,6 @@ class Config implements \Magento\View\ConfigInterface
     protected $filename;
 
     /**
-     * View config model
-     *
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
      * @param Service $viewService

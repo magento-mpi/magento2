@@ -29,30 +29,30 @@ class Content
     protected $_backendAuthSession;
 
     /**
-     * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
+     * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      */
     public function __construct(
-        \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
+        \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
         $this->_backendAuthSession = $backendAuthSession;
-        parent::__construct($wysiwygConfig, $context, $formFactory, $coreData, $eventManager, $coreRegistry, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $wysiwygConfig, $data);
     }
 
     /**

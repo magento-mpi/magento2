@@ -27,7 +27,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         foreach ($fileIterator as $filePath) {
             $fileList[] = $filePath;
         }
-        $this->assertEquals($fileList, $expectedFileList);
+        $this->assertEquals(sort($fileList), sort($expectedFileList));
     }
 
     /**

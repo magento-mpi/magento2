@@ -26,7 +26,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $themes = array('frontend' => 'magento_blank');
         /** @var $design \Magento\Core\Model\View\Design */
         $design = $objectManager->create('Magento\View\DesignInterface', array('themes' => $themes));
-        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design');
+        $objectManager->addSharedInstance($design, 'Magento\Core\Model\View\Design\Proxy');
         /** @var $appEmulation \Magento\Core\Model\App\Emulation */
         $appEmulation = $objectManager->create('Magento\Core\Model\App\Emulation', array('viewDesign' => $design));
         $objectManager->addSharedInstance($appEmulation, 'Magento\Core\Model\App\Emulation');
@@ -35,7 +35,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $app->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
-        $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
+        $themeId = $collection->getThemeByFullPath('frontend/magento_blank')->getId();
         /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $storeManager->getStore('fixturestore')->setConfig(
@@ -46,10 +46,10 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $subscriberOne->expects($this->any())->method('send');
         $subscriberTwo = clone $subscriberOne;
         $subscriberOne->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/magento_blank/en_US/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/magento_plushe/en_US/images/logo.gif')
         );
         $subscriberTwo->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/magento_blank/de_DE/images/logo.gif')
         );
         /** @var $filter \Magento\Newsletter\Model\Template\Filter */
         $filter = $objectManager->get('Magento\Newsletter\Model\Template\Filter');

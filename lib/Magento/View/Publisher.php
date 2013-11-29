@@ -6,9 +6,6 @@
  * @license     {license_link}
  */
 
-/**
- * Handles file publication
- */
 namespace Magento\View;
 
 use Magento\Filesystem\Directory\WriteInterface;
@@ -83,8 +80,6 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     protected $rootDirectory;
 
     /**
-     * View files publisher model
-     *
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\Url\CssResolver $cssUrlResolver
@@ -113,7 +108,11 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get published file path
+     *
+     * @param  string $filePath
+     * @param  array $params
+     * @return string
      */
     public function getPublicFilePath($filePath, $params)
     {
@@ -225,7 +224,8 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
     }
 
     /**
-     * Determine whether a file needs to be published.
+     * Determine whether a file needs to be published
+     *
      * Js files are never processed. All other files must be processed either if they are not published already,
      * or if they are css-files and we're working in developer mode.
      *

@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Theme\Customization;
+
 /**
  * Theme customization configuration interface
  */
-namespace Magento\View\Design\Theme\Customization;
-
 interface ConfigInterface
 {
     /**

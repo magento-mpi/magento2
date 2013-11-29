@@ -1,7 +1,5 @@
 <?php
 /**
- * Layout file in the file system with context of its identity
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,7 +11,7 @@ namespace Magento\View\Layout;
 use Magento\View\Design\ThemeInterface;
 
 /**
- * @package Magento\View
+ * Layout file in the file system with context of its identity
  */
 class File
 {

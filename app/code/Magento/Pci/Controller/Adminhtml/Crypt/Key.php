@@ -14,7 +14,7 @@
  */
 namespace Magento\Pci\Controller\Adminhtml\Crypt;
 
-class Key extends \Magento\Backend\Controller\Adminhtml\Action
+class Key extends \Magento\Backend\App\Action
 {
     /**
      * Check whether local.xml is writeable
@@ -42,19 +42,19 @@ class Key extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Encryption Key'));
+        $this->_title->add(__('Encryption Key'));
 
         $this->_checkIsLocalXmlWriteable();
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Pci::system_crypt_key');
 
-        if (($formBlock = $this->getLayout()->getBlock('pci.crypt.key.form'))
+        if (($formBlock = $this->_view->getLayout()->getBlock('pci.crypt.key.form'))
             && $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true)) {
             /* @var \Magento\Pci\Block\Adminhtml\Crypt\Key\Form $formBlock */
             $formBlock->setFormData($data);
         }
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

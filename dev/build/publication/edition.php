@@ -48,6 +48,14 @@ try {
             throw new Exception("Specified edition '{$options['edition']}' is not implemented.");
     }
 
+    // Rename CHANGELOG_CE.md to CHANGELOG.md
+    $gitCmd = sprintf('git --git-dir %s --work-tree %s', escapeshellarg("$basePath/.git"), escapeshellarg($basePath));
+    $moveCommand = "$gitCmd mv $basePath/CHANGELOG_CE.md $basePath/CHANGELOG.md";
+    exec($moveCommand, $output, $gitMoveExitCode);
+    if($gitMoveExitCode) {
+        throw new Exception('Failed to rename CHANGELOG_CE.md to CHANGELOG.md');
+    }
+
     //step #1: configure installation
     $configurator->configure();
 

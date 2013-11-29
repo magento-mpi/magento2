@@ -20,7 +20,7 @@ namespace Magento\Downloader\Model\Config;
 class AbstractConfig extends \Magento\Downloader\Model
 {
     /**
-    * Retrive file name
+    * Retrieve file name
     *
     * @return string
     */

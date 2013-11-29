@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Product;
 
-class Gallery extends \Magento\Core\Block\Template
+class Gallery extends \Magento\View\Block\Template
 {
     /**
      * Core registry
@@ -27,19 +27,19 @@ class Gallery extends \Magento\Core\Block\Template
     protected $_coreRegistry = null;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _prepareLayout()
@@ -108,20 +108,20 @@ class Gallery extends \Magento\Core\Block\Template
         return false;
     }
 
-    public function getPreviusImage()
+    public function getPreviousImage()
     {
         $current = $this->getCurrentImage();
         if (!$current) {
             return false;
         }
-        $previus = false;
+        $previous = false;
         foreach ($this->getGalleryCollection() as $image) {
             if ($image->getValueId() == $current->getValueId()) {
-                return $previus;
+                return $previous;
             }
-            $previus = $image;
+            $previous = $image;
         }
-        return $previus;
+        return $previous;
     }
 
     public function getNextImage()
@@ -144,9 +144,9 @@ class Gallery extends \Magento\Core\Block\Template
         return $next;
     }
 
-    public function getPreviusImageUrl()
+    public function getPreviousImageUrl()
     {
-        $image = $this->getPreviusImage();
+        $image = $this->getPreviousImage();
         if ($image) {
             return $this->getUrl('*/*/*', array('_current' => true, 'image' => $image->getValueId()));
         }

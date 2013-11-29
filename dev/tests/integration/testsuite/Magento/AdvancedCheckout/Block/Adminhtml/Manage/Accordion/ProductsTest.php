@@ -16,7 +16,7 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
  */
 class ProductsTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var \Magento\Core\Block\AbstractBlock */
+    /** @var \Magento\View\Block\AbstractBlock */
     protected $_block;
 
     protected function setUp()

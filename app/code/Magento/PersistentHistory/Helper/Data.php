@@ -13,7 +13,7 @@
  */
 namespace Magento\PersistentHistory\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     const XML_PATH_PERSIST_WISHLIST             = 'persistent/options/wishlist';
     const XML_PATH_PERSIST_ORDERED_ITEMS        = 'persistent/options/recently_ordered';
@@ -40,12 +40,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeConfig;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Core\Model\Store\Config $storeConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Module\Dir\Reader $modulesReader,
         \Magento\Core\Model\Store\Config $storeConfig
     ) {

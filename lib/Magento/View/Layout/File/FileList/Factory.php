@@ -1,7 +1,5 @@
 <?php
 /**
- * Factory that produces layout file list instances
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -12,6 +10,9 @@ namespace Magento\View\Layout\File\FileList;
 
 use Magento\ObjectManager;
 
+/**
+ * Factory that produces layout file list instances
+ */
 class Factory
 {
     /**

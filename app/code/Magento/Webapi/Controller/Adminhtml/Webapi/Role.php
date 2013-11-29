@@ -9,7 +9,7 @@
  */
 namespace Magento\Webapi\Controller\Adminhtml\Webapi;
 
-class Role extends \Magento\Backend\Controller\Adminhtml\Action
+class Role extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Core\Model\Validator\Factory
@@ -17,17 +17,15 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_validatorFactory;
 
     /**
-     * Initialize dependencies.
-     *
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Validator\Factory $validatorFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Validator\Factory $validatorFactory
     ) {
-        parent::__construct($context);
         $this->_validatorFactory = $validatorFactory;
+        parent::__construct($context);
     }
 
     /**
@@ -37,7 +35,7 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Webapi::system_api_webapi_roles');
         $this->_addBreadcrumb(
             __('Web Api'),
@@ -55,9 +53,9 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('API Roles'));
+        $this->_title->add(__('API Roles'));
         $this->_initAction();
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -65,8 +63,8 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function rolegridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -74,8 +72,8 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function usersgridAction()
     {
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -84,7 +82,7 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
     public function editAction()
     {
         $this->_initAction();
-        $this->_title(__('API Roles'));
+        $this->_title->add(__('API Roles'));
 
         $roleId = $this->getRequest()->getParam('role_id');
 
@@ -103,13 +101,13 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
                 __('Edit API Role'),
                 __('Edit API Role')
             );
-            $this->_title(__('Edit API Role'));
+            $this->_title->add(__('Edit API Role'));
         } else {
             $this->_addBreadcrumb(
                 __('Add New API Role'),
                 __('Add New API Role')
             );
-            $this->_title(__('New API Role'));
+            $this->_title->add(__('New API Role'));
         }
 
         // Restore previously entered form data from session
@@ -119,18 +117,18 @@ class Role extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit $editBlock */
-        $editBlock = $this->getLayout()->getBlock('webapi.role.edit');
+        $editBlock = $this->_view->getLayout()->getBlock('webapi.role.edit');
         if ($editBlock) {
             $editBlock->setApiRole($role);
         }
 
         /** @var \Magento\Webapi\Block\Adminhtml\Role\Edit\Tabs $tabsBlock */
-        $tabsBlock = $this->getLayout()->getBlock('webapi.role.edit.tabs');
+        $tabsBlock = $this->_view->getLayout()->getBlock('webapi.role.edit.tabs');
         if ($tabsBlock) {
             $tabsBlock->setApiRole($role);
         }
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

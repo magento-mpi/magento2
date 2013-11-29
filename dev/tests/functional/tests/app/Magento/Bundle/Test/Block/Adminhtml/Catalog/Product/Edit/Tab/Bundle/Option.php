@@ -118,7 +118,7 @@ class Option extends Block
      */
     private function getSelectionBlock($rowNumber, Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ?: $this->_rootElement;
         $this->selectionBlock = Factory::getBlockFactory()
             ->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSelection(
                 $element->find('#bundle_option_' . $this->blockNumber . ' #bundle_selection_row_' . $rowNumber)

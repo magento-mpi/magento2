@@ -75,7 +75,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     protected function _emulateFixtureTheme($themePath = 'test_default')
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Filesystem::PARAM_APP_DIRS => array(
+            \Magento\Filesystem\DirectoryList::PARAM_APP_DIRS => array(
                 \Magento\Filesystem::THEMES => realpath(__DIR__ . '/../_files/design'),
             ),
         ));
@@ -168,7 +168,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             array('theme_file.txt', array('module' => 'Magento_Catalog')),
             array('Magento_Catalog::theme_file.txt', array()),
             array('Magento_Catalog::theme_file_with_2_dots..txt', array()),
-            array('Magento_Catalog::theme_file.txt', array('module' => 'Overriden_Module')),
+            array('Magento_Catalog::theme_file.txt', array('module' => 'Overridden_Module')),
         );
     }
 

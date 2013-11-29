@@ -44,7 +44,8 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\App\Dir::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::THEMES => realpath(__DIR__ . '/../../_files/design')
+                \Magento\App\Dir::THEMES => dirname(dirname(__DIR__)) . '/_files/design',
+                \Magento\Filesystem::PUB => BP,
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
@@ -150,7 +151,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                     'mage/calendar.css',
                     'css/file.css',
                 ),
-                '67b062e295aeb5a09b62c86d2823632a.css',
+                'e6ae894165d22b7d57a0f5644b6ef160.css',
                 array(
                     'css/file.css',
                     'recursive.css',
@@ -171,7 +172,7 @@ class MergedTest extends \PHPUnit_Framework_TestCase
                     'mage/calendar.js',
                     'scripts.js',
                 ),
-                'c1a0045f608acb03f57f285c162c9f95.js',
+                'e81061cbad0d8b6fe328225d0df7dace.js',
             ),
         );
     }

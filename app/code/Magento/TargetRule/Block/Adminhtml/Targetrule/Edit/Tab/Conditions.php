@@ -32,26 +32,26 @@ class Conditions
     protected $_fieldset;
 
     /**
-     * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
-     * @param \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset
+     * @param \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
-        \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Backend\Block\Widget\Form\Renderer\Fieldset $fieldset,
+        \Magento\TargetRule\Block\Adminhtml\Rule\Conditions $conditions,
         array $data = array()
     ) {
         $this->_conditions = $conditions;
         $this->_fieldset = $fieldset;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
 

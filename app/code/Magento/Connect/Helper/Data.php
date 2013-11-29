@@ -28,29 +28,30 @@ class Data extends \Magento\Core\Helper\Data
      * @var \Magento\Filesystem\Directory\Read
      */
     protected $readDirectory;
+    
     /**
-     * @param \Magento\Core\Helper\Context      $context
-     * @param \Magento\Core\Model\Store\Config  $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager  $storeManager
-     * @param \Magento\Core\Model\Locale        $locale
-     * @param \Magento\App\State                $appState
-     * @param \Magento\Filesystem               $filesystem
-     * @param \Magento\Convert\Xml              $xmlConverter
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Locale $locale
+     * @param \Magento\App\State $appState
+     * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Convert\Xml $xmlConverter
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Helper\Context        $context,
-        \Magento\Core\Model\Store\Config    $coreStoreConfig,
-        \Magento\Core\Model\StoreManager    $storeManager,
-        \Magento\Core\Model\Locale          $locale,
-        \Magento\App\State                  $appState,
-        \Magento\Filesystem                 $filesystem,
-        \Magento\Convert\Xml                $xmlConverter,
+        \Magento\App\Helper\Context $context,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Locale $locale,
+        \Magento\App\State $appState,
+        \Magento\Filesystem $filesystem,
+        \Magento\Convert\Xml $xmlConverter,
         $dbCompatibleMode = true
     ) {
-        $this->filesystem       = $filesystem;
-        $this->readDirectory    = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
-        $this->_xmlConverter    = $xmlConverter;
+        $this->filesystem = $filesystem;
+        $this->readDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
+        $this->_xmlConverter = $xmlConverter;
         parent::__construct(
             $context,
             $coreStoreConfig,

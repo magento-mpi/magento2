@@ -37,7 +37,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Magento version
      */
-    const VERSION = '2.0.0.0-dev51';
+    const VERSION = '2.0.0.0-dev53';
 
 
     /**
@@ -540,7 +540,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @param bool $value
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::setIsSingleStoreModeAllowed()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::setIsSingleStoreModeAllowed()
      */
     public function setIsSingleStoreModeAllowed($value)
     {
@@ -552,7 +552,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @return bool
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::hasSingleStore()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::hasSingleStore()
      */
     public function hasSingleStore()
     {
@@ -564,7 +564,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @return bool
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::isSingleStoreMode()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::isSingleStoreMode()
      */
     public function isSingleStoreMode()
     {
@@ -574,7 +574,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * @throws \Magento\Core\Model\Store\Exception
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::throwStoreException()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::throwStoreException()
      */
     public function throwStoreException()
     {
@@ -588,7 +588,7 @@ class App implements \Magento\Core\Model\AppInterface
      * @return \Magento\Core\Model\Store
      * @throws \Magento\Core\Model\Store\Exception
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getStore()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getStore()
      */
     public function getStore($storeId = null)
     {
@@ -602,7 +602,7 @@ class App implements \Magento\Core\Model\AppInterface
      * @param bool $codeKey
      * @return \Magento\Core\Model\Store[]
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getStores()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getStores()
      */
     public function getStores($withDefault = false, $codeKey = false)
     {
@@ -616,7 +616,7 @@ class App implements \Magento\Core\Model\AppInterface
      * @return \Magento\Core\Model\Website
      * @throws \Magento\Core\Exception
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getWebsite()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getWebsite()
      */
     public function getWebsite($websiteId = null)
     {
@@ -630,7 +630,7 @@ class App implements \Magento\Core\Model\AppInterface
      * @param bool|string $codeKey
      * @return \Magento\Core\Model\Website[]
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getWebsites()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getWebsites()
      */
     public function getWebsites($withDefault = false, $codeKey = false)
     {
@@ -640,7 +640,7 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Reinitialize store list
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::reinitStores()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::reinitStores()
      */
     public function reinitStores()
     {
@@ -652,7 +652,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @param string $store
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::setCurrentStore()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::setCurrentStore()
      */
     public function setCurrentStore($store)
     {
@@ -664,7 +664,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @return string
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getCurrentStore()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getCurrentStore()
      */
     public function getCurrentStore()
     {
@@ -677,7 +677,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @return \Magento\Core\Model\Store
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getDefaultStoreView()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getDefaultStoreView()
      */
     public function getDefaultStoreView()
     {
@@ -691,7 +691,7 @@ class App implements \Magento\Core\Model\AppInterface
      * @return \Magento\Core\Model\Store\Group
      * @throws \Magento\Core\Exception
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getGroup()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getGroup()
      */
     public function getGroup($groupId = null)
     {
@@ -707,7 +707,7 @@ class App implements \Magento\Core\Model\AppInterface
      * @param bool $codeKey
      * @return \Magento\Core\Model\Store\Group[]
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getGroups()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getGroups()
      */
     public function getGroups($withDefault = false, $codeKey = false)
     {
@@ -719,7 +719,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @param null|bool|int|string|\Magento\Core\Model\Website $websiteId
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::clearWebsiteCache()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::clearWebsiteCache()
      */
     public function clearWebsiteCache($websiteId = null)
     {
@@ -731,7 +731,7 @@ class App implements \Magento\Core\Model\AppInterface
      *
      * @return \Magento\Core\Model\Store|null
      *
-     * @deprecated use \Magento\Core\Model\StoreManager::getAnyStoreView()
+     * @deprecated use \Magento\Core\Model\StoreManagerInterface::getAnyStoreView()
      */
     public function getAnyStoreView()
     {
@@ -788,7 +788,7 @@ class App implements \Magento\Core\Model\AppInterface
             'revision'  => '0',
             'patch'     => '0',
             'stability' => 'dev',
-            'number'    => '51',
+            'number'    => '53',
         );
     }
 }

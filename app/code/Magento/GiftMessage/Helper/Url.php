@@ -21,7 +21,7 @@ namespace Magento\GiftMessage\Helper;
 class Url extends \Magento\Core\Helper\Url
 {
     /**
-     * Retrive gift message save url
+     * Retrieve gift message save url
      *
      * @param \Magento\Object $item
      * @param string $type
@@ -40,7 +40,7 @@ class Url extends \Magento\Core\Helper\Url
     }
 
     /**
-     * Retrive gift message button block url
+     * Retrieve gift message button block url
      *
      * @param integer $itemId
      * @param string $type
@@ -54,7 +54,7 @@ class Url extends \Magento\Core\Helper\Url
     }
 
     /**
-     * Retrive gift message remove url
+     * Retrieve gift message remove url
      *
      * @param integer $itemId
      * @param string $type
@@ -68,7 +68,7 @@ class Url extends \Magento\Core\Helper\Url
     }
 
     /**
-     * Retrive gift message save url
+     * Retrieve gift message save url
      *
      * @param integer $itemId
      * @param string $type

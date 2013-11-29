@@ -6,13 +6,13 @@
  * @license     {license_link}
  */
 
-/**
- * Theme Image model class
- */
 namespace Magento\View\Design\Theme;
 
 use Magento\Filesystem\Directory\WriteInterface;
 
+/**
+ * Theme Image model class
+ */
 class Image
 {
     /**

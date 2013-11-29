@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Helper;
 
-class Theme extends \Magento\Core\Helper\AbstractHelper
+class Theme extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Filesystem facade
@@ -42,14 +42,14 @@ class Theme extends \Magento\Core\Helper\AbstractHelper
     protected $_viewFileSystem;
 
     /**
-     * @param Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory
      * @param \Magento\Core\Model\Resource\Theme\Collection $themeCollection
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Filesystem $filesystem,
         \Magento\View\Layout\ProcessorFactory $layoutProcessorFactory,
         \Magento\Core\Model\Resource\Theme\Collection $themeCollection,

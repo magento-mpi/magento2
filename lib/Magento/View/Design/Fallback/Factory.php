@@ -6,9 +6,6 @@
  * @license     {license_link}
  */
 
-/**
- * Factory that produces all sorts of fallback rules
- */
 namespace Magento\View\Design\Fallback;
 
 use Magento\Filesystem;
@@ -21,7 +18,7 @@ use Magento\View\Design\Fallback\Rule\Theme;
 /**
  * Fallback Factory
  *
- * @package Magento\View
+ * Factory that produces all sorts of fallback rules
  */
 class Factory
 {

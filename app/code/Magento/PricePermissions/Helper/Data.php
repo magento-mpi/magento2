@@ -17,7 +17,7 @@
  */
 namespace Magento\PricePermissions\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Path to edit_product_price node in ACL
@@ -58,12 +58,12 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     /**
      * Constructor
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Core\Model\Config $coreConfig
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Core\Model\Config $coreConfig
     ) {

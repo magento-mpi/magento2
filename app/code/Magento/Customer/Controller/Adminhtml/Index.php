@@ -9,7 +9,9 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-class Index extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\App\Action\NotFoundException;
+
+class Index extends \Magento\Backend\App\Action
 {
     /**
      * @var \Magento\Validator
@@ -24,13 +26,21 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
+        $this->_fileFactory = $fileFactory;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
@@ -44,7 +54,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected function _initCustomer($idFieldName = 'id')
     {
         // Default title
-        $this->_title(__('Customers'));
+        $this->_title->add(__('Customers'));
 
         $customerId = (int)$this->getRequest()->getParam($idFieldName);
         $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
@@ -61,13 +71,13 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Customers'));
+        $this->_title->add(__('Customers'));
 
         if ($this->getRequest()->getQuery('ajax')) {
             $this->_forward('grid');
             return;
         }
-        $this->loadLayout();
+        $this->_view->loadLayout();
 
         /**
          * Set active menu item
@@ -78,7 +88,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
          * Append customers block to content
          */
         $this->_addContent(
-            $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Customer', 'customer')
+            $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Customer', 'customer')
         );
 
         /**
@@ -87,7 +97,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Manage Customers'), __('Manage Customers'));
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -95,8 +105,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -105,7 +115,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function editAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_manage');
 
         /* @var $customer \Magento\Customer\Model\Customer */
@@ -162,14 +172,14 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->_title($customer->getId() ? $customer->getName() : __('New Customer'));
+        $this->_title->add($customer->getId() ? $customer->getName() : __('New Customer'));
 
         /**
          * Set active menu item
          */
         $this->_setActiveMenu('Magento_Customer::customer');
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -252,7 +262,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
             } catch (\Magento\Core\Exception $exception) {
-                $messages = $exception->getMessages(\Magento\Core\Model\Message::ERROR);
+                $messages = $exception->getMessages(\Magento\Message\Factory::ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
                 }
@@ -308,7 +318,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_getSession()
                 ->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (\Magento\Core\Exception $exception) {
-            $messages = $exception->getMessages(\Magento\Core\Model\Message::ERROR);
+            $messages = $exception->getMessages(\Magento\Message\Factory::ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
             }
@@ -332,8 +342,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         $session = $this->_getSession();
 
         $callback = function ($error) use ($session) {
-            if (!($error instanceof \Magento\Core\Model\Message\Error)) {
-                $error = new \Magento\Core\Model\Message\Error($error);
+            if (!($error instanceof \Magento\Message\Error)) {
+                $error = new \Magento\Message\Error($error);
             }
             $session->addMessage($error);
         };
@@ -445,9 +455,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function exportCsvAction()
     {
         $fileName = 'customers.csv';
-        $content = $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
+        $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getCsvFile();
 
-        $this->_prepareDownloadResponse($fileName, $content);
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -456,8 +466,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function exportXmlAction()
     {
         $fileName = 'customers.xml';
-        $content = $this->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
-        $this->_prepareDownloadResponse($fileName, $content);
+        $content = $this->_view->getLayout()->createBlock('Magento\Customer\Block\Adminhtml\Grid')->getExcelFile();
+        return $this->_fileFactory->create($fileName, $content);
     }
 
     /**
@@ -466,8 +476,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function ordersAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -476,8 +486,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function lastOrdersAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -490,7 +500,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             ->loadByCustomer($this->_coreRegistry->registry('current_customer'));
 
         $this->_coreRegistry->register('subscriber', $subscriber);
-        $this->loadLayout()->renderLayout();
+        $this->_view->loadLayout()->renderLayout();
     }
 
     public function wishlistAction()
@@ -507,9 +517,11 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->getLayout()->getUpdate()->addHandle(strtolower($this->getFullActionName()));
-        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $this->renderLayout();
+        $this->_view->getLayout()->getUpdate()->addHandle(strtolower($this->_request->getFullActionName()));
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -518,8 +530,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function viewWishlistAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -547,9 +559,9 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             }
         }
 
-        $this->loadLayout();
-        $this->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.customer.view.edit.cart')->setWebsiteId($websiteId);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -559,11 +571,10 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function viewCartAction()
     {
         $this->_initCustomer();
-        $this->loadLayout()
-            ->getLayout()
-            ->getBlock('admin.customer.view.cart')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.customer.view.cart')
             ->setWebsiteId((int)$this->getRequest()->getParam('website_id'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -573,8 +584,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function cartsAction()
     {
         $this->_initCustomer();
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -584,12 +595,11 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     public function productReviewsAction()
     {
         $this->_initCustomer();
-        $this->loadLayout()
-            ->getLayout()
-            ->getBlock('admin.customer.reviews')
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->getBlock('admin.customer.reviews')
             ->setCustomerId($this->_coreRegistry->registry('current_customer')->getId())
             ->setUseAjax(true);
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -606,8 +616,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         if ($response->getError()) {
-            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());
@@ -653,8 +663,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             $customer->addData($data);
             $errors = $customer->validate();
         } catch (\Magento\Core\Exception $exception) {
-            /* @var $error \Magento\Core\Model\Message\Error */
-            foreach ($exception->getMessages(\Magento\Core\Model\Message::ERROR) as $error) {
+            /* @var $error \Magento\Message\Error */
+            foreach ($exception->getMessages(\Magento\Message\Factory::ERROR) as $error) {
                 $errors[] = $error->getCode();
             }
         }
@@ -812,6 +822,8 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
 
     /**
      * Customer view file action
+     *
+     * @throws NotFoundException
      */
     public function viewfileAction()
     {
@@ -827,7 +839,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         /** @var \Magento\Filesystem $filesystem */
@@ -839,7 +851,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             && !$this->_objectManager->get('Magento\Core\Helper\File\Storage')
                 ->processStorageFile($path)
         ) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         if ($plain) {
@@ -874,7 +886,7 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
             echo $directory->readFile($fileName);
         } else {
             $name = pathinfo($path, PATHINFO_BASENAME);
-            $this->_prepareDownloadResponse($name, array(
+            $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
                 'value' => $fileName
             ));
@@ -890,17 +902,5 @@ class Index extends \Magento\Backend\Controller\Adminhtml\Action
     protected function _isAllowed()
     {
         return $this->_authorization->isAllowed('Magento_Customer::manage');
-    }
-
-    /**
-     * Filtering posted data. Converting localized data if needed
-     *
-     * @param array
-     * @return array
-     */
-    protected function _filterPostData($data)
-    {
-        $data['account'] = $this->_filterDates($data['account'], array('dob'));
-        return $data;
     }
 }

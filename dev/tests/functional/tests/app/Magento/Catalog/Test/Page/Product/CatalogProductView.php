@@ -51,18 +51,18 @@ class CatalogProductView extends Page
     protected $messagesSelector = '.page.messages .messages';
 
     /**
-     * Product View block
+     * Related product selector
      *
-     * @var \Magento\Catalog\Test\Block\Product\View
+     * @var string
      */
-    private $viewBlock;
+    protected $relatedProductSelector = '.block.related';
 
     /**
-     * Product options block
+     * Upsell selector
      *
-     * @var \Magento\Catalog\Test\Block\Product\View\Options
+     * @var string
      */
-    private $optionsBlock;
+    protected $upsellSelector = '.block.upsell';
 
     /**
      * Custom constructor
@@ -70,12 +70,6 @@ class CatalogProductView extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->viewBlock = Factory::getBlockFactory()->getMagentoCatalogProductView(
-            $this->_browser->find('.column.main', Locator::SELECTOR_CSS)
-        );
-        $this->optionsBlock = Factory::getBlockFactory()->getMagentoCatalogProductViewOptions(
-            $this->_browser->find('.product.options.wrapper')
-        );
     }
 
     /**
@@ -95,7 +89,9 @@ class CatalogProductView extends Page
      */
     public function getViewBlock()
     {
-        return $this->viewBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogProductView(
+            $this->_browser->find('.column.main', Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -105,7 +101,9 @@ class CatalogProductView extends Page
      */
     public function getOptionsBlock()
     {
-        return $this->optionsBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogProductViewOptions(
+            $this->_browser->find('.product.options.wrapper')
+        );
     }
 
     /**
@@ -133,6 +131,18 @@ class CatalogProductView extends Page
     }
 
     /**
+     * Get upsell block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Upsell
+     */
+    public function getUpsellBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductProductListUpsell(
+            $this->_browser->find($this->upsellSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
      * Get messages block
      *
      * @return \Magento\Core\Test\Block\Messages
@@ -141,6 +151,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get related product block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Related
+     */
+    public function getRelatedProductBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductProductListRelated(
+            $this->_browser->find($this->relatedProductSelector, Locator::SELECTOR_CSS)
         );
     }
 }

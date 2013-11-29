@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Email;
 
-class Items extends \Magento\Core\Block\Template
+class Items extends \Magento\View\Block\Template
 {
 
     /**

@@ -38,7 +38,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
 
         $configCacheType = $this->getMock('Magento\App\Cache\Type\Config', array(), array(), '', false);
 

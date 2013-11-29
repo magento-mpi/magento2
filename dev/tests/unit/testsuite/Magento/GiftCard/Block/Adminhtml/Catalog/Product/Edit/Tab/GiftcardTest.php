@@ -21,23 +21,9 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetScopeValue($isSingleStore, $scope, $expectedResult)
     {
-        $methods = array('getHelperFactory', 'getRequest', 'getLayout', 'getEventManager', 'getUrlBuilder',
-            'getTranslator', 'getCache', 'getDesignPackage', 'getSession', 'getStoreConfig', 'getFrontController',
-            'getDirs', 'getLogger', 'getFilesystem');
-        $contextMock = $this->getMockBuilder('Magento\Backend\Block\Template\Context')
-            ->disableOriginalConstructor()
-            ->setMethods($methods)
-            ->getMock();
-
-        $helperFactoryMock = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
-
-        $contextMock->expects($this->any())
-            ->method('getHelperFactory')
-            ->will($this->returnValue($helperFactoryMock));
 
         $storeManagerMock = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()
-            ->setMethods(array('isSingleStoreMode'))
             ->getMock();
         $storeManagerMock->expects($this->any())
             ->method('isSingleStoreMode')
@@ -47,11 +33,7 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
         $block = $objectManagerHelper->getObject(
             'Magento\GiftCard\Block\Adminhtml\Catalog\Product\Edit\Tab\Giftcard',
             array(
-                'context' => $contextMock,
-                'storeManager' => $storeManagerMock,
-                'templateOptions' => $this->getMockBuilder('Magento\Backend\Model\Config\Source\Email\TemplateFactory')
-                    ->getMock()
-            )
+                'storeManager' => $storeManagerMock)
         );
 
 

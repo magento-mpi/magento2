@@ -27,15 +27,22 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @var \Magento\App\Action\Title
+     */
+    protected $_title;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\App\Response\Http\FileFactory $fileFactory,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        parent::__construct($context, $fileFactory);
     }
 
     /**
@@ -60,7 +67,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
      */
     protected function _initInvoice($update = false)
     {
-        $this->_title(__('Invoices'));
+        $this->_title->add(__('Invoices'));
 
         $invoice = false;
         $invoiceId = $this->getRequest()->getParam('invoice_id');
@@ -151,15 +158,15 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $invoice = $this->_initInvoice();
         if ($invoice) {
-            $this->_title(sprintf("#%s", $invoice->getIncrementId()));
+            $this->_title->add(sprintf("#%s", $invoice->getIncrementId()));
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_order');
-            $this->getLayout()->getBlock('sales_invoice_view')
+            $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_view->getLayout()->getBlock('sales_invoice_view')
                 ->updateBackButtonUrl($this->getRequest()->getParam('come_from'));
-            $this->renderLayout();
+            $this->_view->renderLayout();
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -182,16 +189,16 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
     {
         $invoice = $this->_initInvoice();
         if ($invoice) {
-            $this->_title(__('New Invoice'));
+            $this->_title->add(__('New Invoice'));
 
             $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
             if ($comment) {
                 $invoice->setCommentText($comment);
             }
 
-            $this->loadLayout()
-                ->_setActiveMenu('Magento_Sales::sales_order')
-                ->renderLayout();
+            $this->_view->loadLayout();
+            $this->_setActiveMenu('Magento_Sales::sales_order');
+            $this->_view->renderLayout();
         } else {
             $this->_redirect('sales/order/view', array('order_id'=>$this->getRequest()->getParam('order_id')));
         }
@@ -209,8 +216,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoiceRawCommentText = $invoiceRawData['comment_text'];
             $invoice->setCommentText($invoiceRawCommentText);
 
-            $this->loadLayout();
-            $response = $this->getLayout()->getBlock('order_items')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('order_items')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -340,7 +347,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
             $this->_redirect('sales/*/view', array('invoice_id'=>$invoice->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -362,7 +369,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
             $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -384,7 +391,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             }
             $this->_redirect('sales/*/view', array('invoice_id' => $invoice->getId()));
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -405,8 +412,8 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
             $invoice->sendUpdateEmail(!empty($data['is_customer_notified']), $data['comment']);
             $invoice->save();
 
-            $this->loadLayout();
-            $response = $this->getLayout()->getBlock('invoice_comments')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('invoice_comments')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,

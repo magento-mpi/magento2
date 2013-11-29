@@ -23,21 +23,21 @@ class Massaction
     protected $_configModel;
 
     /**
-     * @param \Magento\Backend\Helper\Data $backendData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Helper\Data $backendData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()
     ) {
         $this->_configModel = $configModel;
-        parent::__construct($backendData, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $backendData, $data);
     }
 
 

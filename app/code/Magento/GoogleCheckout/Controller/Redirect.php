@@ -15,7 +15,7 @@
  */
 namespace Magento\GoogleCheckout\Controller;
 
-class Redirect extends \Magento\Core\Controller\Front\Action
+class Redirect extends \Magento\App\Action\Action
 {
     /**
      *  Send request to Google Checkout and return Response Api
@@ -109,9 +109,9 @@ class Redirect extends \Magento\Core\Controller\Front\Action
             return;
         } else {
             $url = $api->getRedirectUrl();
-            $this->loadLayout();
-            $this->getLayout()->getBlock('googlecheckout_redirect')->setRedirectUrl($url);
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->getLayout()->getBlock('googlecheckout_redirect')->setRedirectUrl($url);
+            $this->_view->renderLayout();
         }
     }
 
@@ -163,7 +163,7 @@ class Redirect extends \Magento\Core\Controller\Front\Action
      */
     public function redirectLogin()
     {
-        $this->setFlag('', 'no-dispatch', true);
+        $this->_actionFlag->set('', 'no-dispatch', true);
         $this->getResponse()->setRedirect(
             $this->_objectManager->get('Magento\Core\Helper\Url')->addRequestParam(
                 $this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl(),

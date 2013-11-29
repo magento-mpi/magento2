@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Controller\Adminhtml\Reward;
 
-class Rate extends \Magento\Backend\Controller\Adminhtml\Action
+class Rate extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -28,11 +28,11 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -42,17 +42,17 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Check if module functionality enabled
      *
-     * @return \Magento\Reward\Controller\Adminhtml\Reward\Rate
+     * @param \Magento\App\RequestInterface $request
+     * @return $this|mixed
      */
-    public function preDispatch()
+    public function dispatch(\Magento\App\RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabled()
-            && $this->getRequest()->getActionName() != 'noroute'
+            && $request->getActionName() != 'noroute'
         ) {
             $this->_forward('noroute');
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -62,8 +62,8 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Reward::customer_reward')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Reward::customer_reward')
             ->_addBreadcrumb(__('Customers'),
                 __('Customers'))
             ->_addBreadcrumb(__('Manage Reward Exchange Rates'),
@@ -78,7 +78,7 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initRate()
     {
-        $this->_title(__('Reward Exchange Rates'));
+        $this->_title->add(__('Reward Exchange Rates'));
 
         $rateId = $this->getRequest()->getParam('rate_id', 0);
         $rate = $this->_objectManager->create('Magento\Reward\Model\Reward\Rate');
@@ -94,10 +94,10 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Reward Exchange Rates'));
+        $this->_title->add(__('Reward Exchange Rates'));
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -116,10 +116,10 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $rate = $this->_initRate();
 
-        $this->_title($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
+        $this->_title->add($rate->getRateId() ? sprintf("#%s", $rate->getRateId()) : __('New Reward Exchange Rate'));
 
-        $this->_initAction()
-            ->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -221,9 +221,9 @@ class Rate extends \Magento\Backend\Controller\Adminhtml\Action
 
         if ($message) {
             $this->_getSession()->addError($message);
-            $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);
-            $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+            $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
         $this->getResponse()->setBody($response->toJson());
