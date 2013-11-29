@@ -7,9 +7,6 @@
  */
 
 namespace Magento\View\Element\Html\Link;
-use Magento\Page\Block\Link\string;
-use Magento\Page\Block\Link\null;
-use Magento\Page\Block\Link\bool;
 
 /**
  * Block representing link with two possible states.
@@ -19,15 +16,10 @@ use Magento\Page\Block\Link\bool;
  * @method string                          getPath()
  * @method string                          getTitle()
  * @method null|bool                       getCurrent()
- * @method \Magento\Page\Block\Link\Current setCurrent(bool $value)
+ * @method \Magento\View\Element\Html\Link\Current setCurrent(bool $value)
  */
 class Current extends \Magento\View\Element\Template
 {
-    /**
-     * @var string
-     */
-    protected $_template = 'Magento_Theme::link/current.phtml';
-
     /**
      * Default path
      *
@@ -91,5 +83,29 @@ class Current extends \Magento\View\Element\Template
     {
         return $this->getCurrent()
             || $this->getUrl($this->getPath()) == $this->getUrl($this->getMca());
+    }
+
+    /**
+     * Render block HTML
+     *
+     * @return string
+     */
+    protected function _toHtml()
+    {
+        if (false != $this->getTemplate()) {
+            return parent::_toHtml();
+        }
+
+        if ($this->isCurrent()) {
+            $html = '<li class="nav item current">';
+            $html .= '<strong>' . $this->escapeHtml(__($this->getLabel())) . '</strong>';
+            $html .= '</li>';
+        } else {
+            $html = '<li class="nav item"><a href="'. $this->escapeHtml($this->getHref()) . '"';
+            $html .= ($this->getTitle()?' title="' . $this->escapeHtml(__($this->getTitle())) . '"':'');
+            $html .= '>' . $this->escapeHtml(__($this->getLabel())) . '</a></li>';
+        }
+
+        return $html;
     }
 }

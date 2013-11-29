@@ -11,7 +11,7 @@ namespace Magento\Sales\Block\Order;
 /**
  * Sales order link
  */
-class Link extends \Magento\Page\Block\Link\Current
+class Link extends \Magento\View\Element\Html\Link\Current
 {
     /** @var \Magento\Core\Model\Registry  */
     protected $_registry;

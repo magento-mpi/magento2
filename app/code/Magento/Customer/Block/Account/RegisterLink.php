@@ -11,7 +11,7 @@ namespace Magento\Customer\Block\Account;
 /**
  * Customer register link
  */
-class RegisterLink extends \Magento\Page\Block\Link
+class RegisterLink extends \Magento\View\Element\Html\Link
 {
     /**
      * Customer session

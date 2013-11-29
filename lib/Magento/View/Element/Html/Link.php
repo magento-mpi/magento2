@@ -10,6 +10,10 @@ namespace Magento\View\Element\Html;
 
 /**
  * HTML anchor element block
+ *
+ * @method string getLabel()
+ * @method string getPath()
+ * @method string getTitle()
  */
 class Link extends \Magento\View\Element\Template
 {
@@ -75,5 +79,13 @@ class Link extends \Magento\View\Element\Template
         }
 
         return '<a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($this->getAnchorText()) . '</a>';
+    }
+
+    /**
+     * @return string
+     */
+    public function getHref()
+    {
+        return $this->getUrl($this->getPath());
     }
 }

@@ -18,7 +18,7 @@
  */
 namespace Magento\Rma\Block;
 
-class Link extends \Magento\Page\Block\Link\Current
+class Link extends \Magento\View\Element\Html\Link\Current
 {
     /**
      * @var \Magento\Rma\Helper\Data

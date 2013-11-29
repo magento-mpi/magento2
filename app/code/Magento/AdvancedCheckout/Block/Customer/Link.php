@@ -16,7 +16,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Customer;
 
-class Link extends \Magento\Page\Block\Link\Current
+class Link extends \Magento\View\Element\Html\Link\Current
 {
     /** @var \Magento\AdvancedCheckout\Helper\Data  */
     protected $_customerHelper;

@@ -23,7 +23,7 @@
                         <argument name="show_part" xsi:type="string">logo</argument>
                     </arguments>
                 </block>
-                <block class="Magento\Page\Block\Links" name="top.links"/>
+                <block class="Magento\View\Element\Html\Links" name="top.links"/>
             </container>
         </container>
         <container name="page_top" as="page_top" label="After Page Header">
@@ -62,7 +62,7 @@
         <container name="footer-container" as="footer" label="Page Footer Container" htmlTag="footer" htmlClass="footer">
             <container name="footer" as="footer" label="Page Footer" htmlTag="div" htmlClass="content">
                 <block class="Magento\Core\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
-                <block class="Magento\Page\Block\Links" name="footer_links"/>
+                <block class="Magento\View\Element\Html\Links" name="footer_links"/>
                 <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
                 <block class="Magento\View\Element\Template" name="report.bugs" template="Magento_Theme::html/bugreport.phtml" />
             </container>

@@ -1507,4 +1507,8 @@ return array(
     array('Magento\Page\Block\Html\Head\Script', 'Magento\Theme\Block\Html\Head\Script'),
     array('Magento\Page\Model\Asset\GroupedCollection', 'Magento\View\Asset\GroupedCollection'),
     array('Magento\Page\Model\Asset\PropertyGroup', 'Magento\View\Asset\PropertyGroup'),
+    array('Magento\Page\Block\Template\Links\Block'),
+    array('Magento\Page\Block\Link\Current', 'Magento\View\Element\Html\Link\Current'),
+    array('Magento\Page\Block\Links', 'Magento\View\Element\Html\Links'),
+    array('Magento\Page\Block\Link', 'Magento\View\Element\Html\Link'),
 );

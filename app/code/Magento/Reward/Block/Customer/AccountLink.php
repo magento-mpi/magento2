@@ -11,7 +11,7 @@ namespace Magento\Reward\Block\Customer;
 /**
  * "Reward Points" link
  */
-class AccountLink extends \Magento\Page\Block\Link\Current
+class AccountLink extends \Magento\View\Element\Html\Link\Current
 {
     /** @var \Magento\Reward\Helper\Data */
     protected $_rewardHelper;

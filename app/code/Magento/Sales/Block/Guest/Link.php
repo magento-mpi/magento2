@@ -11,7 +11,7 @@ namespace Magento\Sales\Block\Guest;
 /**
  * "Orders and Returns" link
  */
-class Link extends \Magento\Page\Block\Link
+class Link extends \Magento\View\Element\Html\Link
 {
     /**
      * @var \Magento\Customer\Model\Session

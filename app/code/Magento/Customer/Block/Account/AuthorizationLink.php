@@ -11,7 +11,7 @@ namespace Magento\Customer\Block\Account;
 /**
  * Customer authorization link
  */
-class AuthorizationLink extends \Magento\Page\Block\Link
+class AuthorizationLink extends \Magento\View\Element\Html\Link
 {
     /**
      * Customer session
