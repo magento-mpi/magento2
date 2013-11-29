@@ -32,6 +32,7 @@ class AdminUser extends DataFixture
 
     /**
      * Retrieve specify data from role.trieve specify data from role.
+     *
      * @param $roleName
      * @return mixed
      */

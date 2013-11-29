@@ -77,26 +77,25 @@ class CreateUser extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
         $response = $curl->read();
         $curl->close();
-        preg_match("/You\ saved\ the\ user\./", $response, $matches);
-        if (empty($matches)) {
-            throw new UnexpectedValueException('Success confirmation message not found');
-        }
-        //Sort data in grid to define user id if more than 20 items in grid
-        $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
-        $curl = new BackendDecorator(new CurlTransport(), new Config);
-        $curl->addOption(CURLOPT_HEADER, 1);
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-        $response = $curl->read();
-        $curl->close();
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("User creation by curl handler was not successful! Response: $response");
+            //Sort data in grid to define user id if more than 20 items in grid
+            $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
+            $curl = new BackendDecorator(new CurlTransport(), new Config);
+            $curl->addOption(CURLOPT_HEADER, 1);
+            $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+            $response = $curl->read();
+            $curl->close();
 
-
-        preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
-        . $data['username'] . '/siu', $response, $matches);
-        if (empty($matches)) {
-            throw new UnexpectedValueException('Cannot find user id');
+            preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
+            . $data['username'] . '/siu', $response, $matches);
+            if (empty($matches)) {
+                throw new UnexpectedValueException('Cannot find user id');
+            }
+            $data['id'] = $this->_getUserId($data);
+            return $data;
         }
-        $data['id'] = $this->_getUserId($data);
-        return $data;
     }
 }
+
 
