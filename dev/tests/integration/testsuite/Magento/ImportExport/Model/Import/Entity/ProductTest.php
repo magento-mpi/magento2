@@ -483,10 +483,14 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public static function mediaImportImageFixture()
     {
-        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-            ->getDir('media') . '/import';
-        mkdir($dir);
-        copy(__DIR__ . '/../../../../../Magento/Catalog/_files/magento_image.jpg', "{$dir}/magento_image.jpg");
+        /** @var \Magento\Filesystem\Directory\Write $mediaDirectory */
+        $mediaDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $dir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+            ->getPath('media') . '/import';
+        $mediaDirectory->create('import');
+        $dirPath = $mediaDirectory->getAbsolutePath('import');
+        copy(__DIR__ . '/../../../../../Magento/Catalog/_files/magento_image.jpg', "{$dirPath}/magento_image.jpg");
     }
 
     /**

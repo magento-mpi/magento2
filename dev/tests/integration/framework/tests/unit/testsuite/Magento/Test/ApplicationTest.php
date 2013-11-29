@@ -25,6 +25,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $dbInstance = $this->getMockForAbstractClass('Magento\TestFramework\Db\AbstractDb', array(), '', false);
         $installDir = '/install/dir';
         $appMode = \Magento\App\State::MODE_DEVELOPER;
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
 
         $object = new \Magento\TestFramework\Application(
             $dbInstance,
@@ -33,7 +34,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
             '',
             array(),
             $appMode,
-            new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local())
+            $filesystem
         );
 
         $this->assertSame($dbInstance, $object->getDbInstance(), 'Db instance is not set in Application');
@@ -41,7 +42,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
 
         $initParams = $object->getInitParams();
         $this->assertInternalType('array', $initParams, 'Wrong initialization parameters type');
-        $this->assertArrayHasKey(\Magento\App\Dir::PARAM_APP_DIRS, $initParams,
+        $this->assertArrayHasKey(\Magento\Filesystem\DirectoryList::PARAM_APP_DIRS, $initParams,
             'Directories are not configured');
         $this->assertArrayHasKey(State::PARAM_MODE, $initParams,
             'Application mode is not configured');

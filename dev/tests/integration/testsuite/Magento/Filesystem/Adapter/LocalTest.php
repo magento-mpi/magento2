@@ -30,8 +30,8 @@ class LocalTest extends \PHPUnit_Framework_TestCase
 
     protected static function _getTmpDir()
     {
-        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-            ->getDir(\Magento\App\Dir::VAR_DIR) . '/Magento/Filesystem/Adapter/LocalTest';
+        return \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+            ->getPath(\Magento\Filesystem::VAR_DIR) . '/Magento/Filesystem/Adapter/LocalTest';
     }
 
     /**

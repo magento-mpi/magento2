@@ -21,12 +21,17 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     /**
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $directoryRead;
+    protected $themesDirectory;
 
     /**
      * @var \Magento\Config\FileIteratorFactory
      */
     protected $iteratorFactory;
+
+    /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $modulesDirectory;
 
     /**
      * @param \Magento\Filesystem $filesystem
@@ -38,9 +43,10 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\Config\FileIteratorFactory $iteratorFactory
     ){
-        $this->directoryRead    = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
-        $this->iteratorFactory  = $iteratorFactory;
-        $this->_moduleReader    = $moduleReader;
+        $this->themesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $this->iteratorFactory = $iteratorFactory;
+        $this->_moduleReader = $moduleReader;
     }
 
     /**
@@ -48,20 +54,19 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $fileList = array();
         switch ($scope) {
             case 'global':
                 $fileList = $this->_moduleReader->getConfigurationFiles($filename);
+                $iterator = $this->iteratorFactory->create($this->modulesDirectory, $fileList);
                 break;
             case 'design':
-                $fileList = $this->directoryRead->search('#/' . preg_quote($filename) . '$#');
+                $fileList = $this->themesDirectory->search('#/' . preg_quote($filename) . '$#');
+                $iterator = $this->iteratorFactory->create($this->themesDirectory, $fileList);
                 break;
             default:
+                $iterator = $this->iteratorFactory->create($this->themesDirectory, array());;
                 break;
         }
-        return $this->iteratorFactory->create(array(
-            'paths' => $fileList,
-            'filesystem' => $this->filesystem
-        ));
+        return $iterator;
     }
 }
