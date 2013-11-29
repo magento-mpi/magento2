@@ -27,7 +27,7 @@ class AdminUser extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
-        $this->_data['user_with_sales_resource'] = $this->_getUserWithRole('role_sales');
+        $this->_data['user_with_sales_resource'] = $this->_getUserWithRole('sales_all_scopes');
     }
 
     /**

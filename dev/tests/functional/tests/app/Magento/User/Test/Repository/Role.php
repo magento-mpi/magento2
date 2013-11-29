@@ -12,6 +12,7 @@
 namespace Magento\User\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
+use Mtf\Factory\Factory;
 
 /**
  * Class Abstract Repository
@@ -30,6 +31,15 @@ class Role extends AbstractRepository
             'data' => $defaultData
         );
 
+        $this->initRoleTemplates();
+        $this->initCustomRoles();
+    }
+
+    /**
+     * Role templates with different scopes for custom filling with resources, sites or stores
+     */
+    protected function initRoleTemplates()
+    {
         $dataTemplate = array(
             'fields' => array(
                 'all' => array(
@@ -73,6 +83,17 @@ class Role extends AbstractRepository
             'custom',
             $this->setScope('store', $dataTemplate)
         );
+    }
+
+    /**
+     * Init most popular custom roles
+     */
+    protected function initCustomRoles()
+    {
+        $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
+        $salesAllScopes = $this->_data['custom_permissions_all_scopes']['data'];
+        $salesAllScopes['fields']['resource']['value'] = $resourceFixture->get('Magento_Sales::sales');
+        $this->_data['sales_all_scopes']['data'] = $salesAllScopes;
     }
 
     /**

@@ -27,7 +27,7 @@ class AdminUser extends DataFixture
     {
         $placeholders['password'] = isset($placeholders['password']) ? $placeholders['password'] : '123123q';
         parent::__construct($configuration, $placeholders);
-        $this->_placeholders['role_sales'] = array($this, 'roleProvider');
+        $this->_placeholders['sales_all_scopes'] = array($this, 'roleProvider');
     }
 
     /**

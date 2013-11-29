@@ -56,7 +56,7 @@ class CreateRole extends Curl
         $xpath = new \DOMXPath($dom);
         $row = '//tr[td[@data-column="role_name" and contains(text(),"' . $name . '")]]';
         $nodes = $xpath->query($row . '/td[@data-column="role_id"]');
-        if($nodes->length == 0) {
+        if ($nodes->length == 0) {
             return false;
         }
         $node = $nodes->item(0);
@@ -134,9 +134,8 @@ class CreateRole extends Curl
         $response = $curl->read();
         $curl->close();
 
-        preg_match("/You\ saved\ the\ role\./", $response, $matches);
-        if (empty($matches)) {
-            throw new \UnexpectedValueException('Success confirmation message not found');
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \UnexpectedValueException('Success confirmation not found');
         }
 
         $data['id'] = $this->findIdWithFilter($data['rolename'], $response);
