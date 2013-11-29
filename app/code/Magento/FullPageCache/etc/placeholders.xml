@@ -50,7 +50,7 @@
     </placeholder>
     <placeholder name="account_links" code="ACCLINKS" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Accountlinks" />
-        <block instance="Magento\Page\Block\Template\Links" name="account.links" />
+        <block instance="Magento\Theme\Block\Template\Links" name="account.links" />
     </placeholder>
     <placeholder name="wishlist" code="WISHLIST" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Wishlist" />
