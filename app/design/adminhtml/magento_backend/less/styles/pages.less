@@ -1550,31 +1550,6 @@
 .sales-order-create-index {
     // Configure product popup
     .ui-dialog {
-        // Gift card
-        .content > .giftcard {
-            .field.text .input-text {
-                width: 100%;
-            }
-            .note .price {
-                font-weight: 600;
-                &:before {
-                    content: ": ";
-                }
-            }
-            .fixed.amount {
-                .label:after {
-                    content: ": ";
-                }
-                .control {
-                    display: inline-block;
-                    font-weight: 600;
-                    .control-value {
-                        margin: -2px 0 0;
-                        padding: 0;
-                    }
-                }
-            }
-        }
         // Virtual and downloadable product
         .downloadable.information .link {
             .label {
@@ -2151,18 +2126,6 @@ table.items-to-invoice tbody tr:hover td {
 
 .col-product .product_to_add {
     float: right;
-}
-
-[class^=" adminhtml-giftregistry-"] {
-    .fieldset-wrapper-content .data-table td {
-        vertical-align: top;
-        select {
-            width: 100%;
-        }
-        #registry_attribute_1_is_required {
-            width: auto;
-        }
-    }
 }
 
 [class^=" adminhtml-extension-custom-"] {

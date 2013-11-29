@@ -4129,9 +4129,15 @@ table tbody tr:nth-child(odd):hover th {
     color: #f00;
 }
 
-.grid-actions .required .label span:after {
-    content: '*';
-    color: #f00;
+[class^=" reports-report-"],
+[class^=" invitations-report-"] {
+    .grid-actions .required:after {
+        content: '';
+    }
+    .grid-actions .required .label span:after {
+        content: '*';
+        color: #f00;
+    }
 }
 
 .grid-actions img {
