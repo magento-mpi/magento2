@@ -34,7 +34,6 @@ class ResetTest extends \PHPUnit_Framework_TestCase
 
         $this->_resetRobotsBlock = new Reset(
             $this->getMock('Magento\Backend\Block\Template\Context', array(), array(), '', false),
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $this->coreConfigMock,
             array()
         );
