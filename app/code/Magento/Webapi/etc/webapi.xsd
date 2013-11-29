@@ -37,8 +37,14 @@
                     </xs:simpleType>
                 </xs:attribute>
                 <xs:attribute type="xs:string" name="method"/>
+                <xs:attribute type="resourcesType" name="resources"/>
                 <xs:attribute type="xs:boolean" name="isSecure" default="false"/>
             </xs:extension>
         </xs:simpleContent>
     </xs:complexType>
+    <xs:simpleType name="resourcesType">
+        <xs:restriction base="xs:string">
+            <xs:pattern value=".+::.+(, ?.+::.+)"/>
+        </xs:restriction>
+    </xs:simpleType>
 </xs:schema>

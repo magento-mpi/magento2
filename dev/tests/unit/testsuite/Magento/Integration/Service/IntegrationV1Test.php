@@ -66,6 +66,12 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         $authorizationMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface');
         $userIdentifierFactory = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier\Factory')
             ->disableOriginalConstructor()->getMock();
+        $oauthConsumerHelper = $this->getMockBuilder('Magento\Integration\Helper\Oauth\Consumer')
+            ->disableOriginalConstructor()->getMock();
+        $oauthConsumer = $this->getMockBuilder('Magento\Integration\Model\Oauth\Consumer')
+            ->disableOriginalConstructor()->getMock();
+        $oauthConsumerHelper->expects($this->any())->method('createConsumer')->will($this->returnValue($oauthConsumer));
+        $oauthConsumerHelper->expects($this->any())->method('loadConsumer')->will($this->returnValue($oauthConsumer));
         $userIdentifier = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier')->disableOriginalConstructor()
             ->getMock();
         $userIdentifierFactory->expects($this->any())->method('create')->will($this->returnValue($userIdentifier));
@@ -73,7 +79,8 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service = new \Magento\Integration\Service\IntegrationV1(
             $this->_integrationFactory,
             $authorizationMock,
-            $userIdentifierFactory
+            $userIdentifierFactory,
+            $oauthConsumerHelper
         );
         $this->_emptyIntegrationMock = $this->getMockBuilder('Magento\Integration\Model\Integration')
             ->disableOriginalConstructor()
@@ -228,7 +235,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Integration\Exception
-     * @expectedExceptionMessage Integration with ID '1' doesn't exist.
+     * @expectedExceptionMessage Integration with ID '1' does not exist.
      */
     public function testGetException()
     {

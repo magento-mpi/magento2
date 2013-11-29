@@ -94,7 +94,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data to be saved to database
      *
-     * @return \Magento\Integration\Model\Integration
+     * @return Integration
      */
     protected function _beforeSave()
     {
@@ -104,5 +104,16 @@ class Integration extends \Magento\Core\Model\AbstractModel
         }
         $this->setUpdatedAt($this->_dateTime->formatDate(true));
         return $this;
+    }
+
+    /**
+     * Load integration by oAuth consumer ID.
+     *
+     * @param int $consumerId
+     * @return Integration
+     */
+    public function loadByConsumerId($consumerId)
+    {
+        return $this->load($consumerId, self::CONSUMER_ID);
     }
 }

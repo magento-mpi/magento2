@@ -204,11 +204,28 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
 
         // Have integration service throw an exception to test exception path
-        $exceptionMessage = 'an exception happened';
+        $exceptionMessage = 'Internal error. Check exception log for details.';
         $this->_mockIntegrationSvc->expects($this->any())
             ->method('get')
             ->with(1)
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
+        // Verify error
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
+            ->with($this->equalTo($exceptionMessage));
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->saveAction();
+    }
+
+    public function testSaveActionIntegrationException()
+    {
+        $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
+
+        // Have integration service throw an exception to test exception path
+        $exceptionMessage = 'Internal error. Check exception log for details.';
+        $this->_mockIntegrationSvc->expects($this->any())
+            ->method('get')
+            ->with(1)
+            ->will($this->throwException(new \Magento\Integration\Exception($exceptionMessage)));
         // Verify error
         $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));

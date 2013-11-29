@@ -19,6 +19,9 @@ class Request extends \Magento\Webapi\Controller\Request
     /** @var string */
     protected $_serviceName;
 
+    /** @var int */
+    protected $_consumerId = 0;
+
     /** @var string */
     protected $_serviceType;
 
@@ -167,5 +170,25 @@ class Request extends \Magento\Webapi\Controller\Request
         }
 
         return array_merge($requestBody, $this->getParams());
+    }
+
+    /**
+     * Set consumer ID.
+     *
+     * @param int $consumerId
+     */
+    public function setConsumerId($consumerId)
+    {
+        $this->_consumerId = $consumerId;
+    }
+
+    /**
+     * Get consumer ID.
+     *
+     * @return int
+     */
+    public function getConsumerId()
+    {
+        return $this->_consumerId;
     }
 }
