@@ -35,5 +35,24 @@ class Product extends AbstractRepository
         $this->_data[$type] = $this->_data['default'];
         $this->_data[$type]['data']['category_name'] = '%category::getCategoryName%';
         $this->_data[$type]['data']['category_id'] = '%category::getCategoryId%';
+        $this->_data[$type . '_edit_required_fields'] = $this->resetRequiredFields($type);
+    }
+
+    protected function resetRequiredFields($productType)
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'name' => array(
+                        'value' => 'edited ' . $productType . ' %isolation%',
+                        'group' => \Magento\Catalog\Test\Fixture\Product::GROUP_PRODUCT_DETAILS
+                    ),
+                    'sku' => array(
+                        'value' => 'edited ' . $productType . '_sku_%isolation%',
+                        'group' => \Magento\Catalog\Test\Fixture\Product::GROUP_PRODUCT_DETAILS
+                    )
+                )
+            )
+        );
     }
 }

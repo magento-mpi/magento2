@@ -103,4 +103,21 @@ class SimpleProduct extends Product
 
         return $product;
     }
+
+    protected function resetRequiredFields($productType)
+    {
+        return array_replace_recursive(
+            parent::resetRequiredFields($productType),
+            array(
+                'data' => array(
+                    'fields' => array(
+                        'price' => array(
+                            'value' => '1.99',
+                            'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
+                        )
+                    )
+                )
+            )
+        );
+    }
 }

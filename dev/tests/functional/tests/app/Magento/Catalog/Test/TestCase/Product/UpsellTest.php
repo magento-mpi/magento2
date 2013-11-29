@@ -11,13 +11,11 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 class UpsellTest extends Functional
 {

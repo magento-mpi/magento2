@@ -23,6 +23,13 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class ProductGrid extends Grid
 {
     /**
+     * Locator value for link in action column
+     *
+     * @var string
+     */
+    protected $editLink = '//a[contains(@href,"/catalog/product/edit/")]';
+
+    /**
      * Initialize block elements
      */
     protected function _init()
