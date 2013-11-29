@@ -265,7 +265,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
                 'frontend/test_default/en_US/images/logo_email.gif',
             ),
             'view modular file' => array(
-                'Magento_Page::favicon.ico',
+                'Magento_Theme::favicon.ico',
                 $designParams,
                 'frontend/test_default/en_US/Magento_Page/favicon.ico',
             ),

@@ -301,7 +301,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
         return array(
             array(
                 \Magento\App\State::MODE_DEFAULT,
-                'Magento_Page::favicon.ico',
+                'Magento_Theme::favicon.ico',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/favicon.ico',
             ),
             array(
@@ -311,12 +311,12 @@ class DesignTest extends \PHPUnit_Framework_TestCase
             ),
             array(
                 \Magento\App\State::MODE_DEVELOPER,
-                'Magento_Page::menu.js',
+                'Magento_Theme::menu.js',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
                 \Magento\App\State::MODE_DEFAULT,
-                'Magento_Page::menu.js',
+                'Magento_Theme::menu.js',
                 'http://localhost/pub/static/frontend/test_default/en_US/Magento_Page/menu.js'
             ),
             array(
