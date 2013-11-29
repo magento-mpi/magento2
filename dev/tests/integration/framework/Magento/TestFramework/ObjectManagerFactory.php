@@ -46,11 +46,11 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
     {
         $directories = new \Magento\Filesystem\DirectoryList(
             $rootDir,
-            isset($arguments[\Magento\Filesystem\DirectoryList::PARAM_APP_URIS])
-                ? $arguments[\Magento\Filesystem\DirectoryList::PARAM_APP_URIS]
+            isset($arguments[\Magento\Filesystem::PARAM_APP_URIS])
+                ? $arguments[\Magento\Filesystem::PARAM_APP_URIS]
                 : array(),
-            isset($arguments[\Magento\Filesystem\DirectoryList::PARAM_APP_DIRS])
-                ? $arguments[\Magento\Filesystem\DirectoryList::PARAM_APP_DIRS]
+            isset($arguments[\Magento\Filesystem::PARAM_APP_DIRS])
+                ? $arguments[\Magento\Filesystem::PARAM_APP_DIRS]
                 : array()
         );
 

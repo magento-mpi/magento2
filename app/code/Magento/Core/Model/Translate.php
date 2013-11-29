@@ -238,7 +238,7 @@ class Translate implements TranslateInterface
         $this->_app = $app;
         $this->_appState = $appState;
         $this->filesystem = $filesystem;
-        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem\DirectoryList::ROOT);
+        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
     }
 
     /**

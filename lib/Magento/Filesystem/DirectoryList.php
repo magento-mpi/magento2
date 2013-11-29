@@ -17,16 +17,6 @@ use Magento\App\Dir;
 class DirectoryList extends Dir
 {
     /**
-     * Custom application dirs
-     */
-    const PARAM_APP_DIRS = 'app_dirs';
-
-    /**
-     * Custom application uris
-     */
-    const PARAM_APP_URIS = 'app_uris';
-
-    /**
      * Root path
      *
      * @var string
