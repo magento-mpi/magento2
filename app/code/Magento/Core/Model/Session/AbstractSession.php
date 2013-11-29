@@ -621,6 +621,16 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
+     * Whether to take session id from GET
+     *
+     * @return bool
+     */
+    protected function _isSidUsedFromQueryParam()
+    {
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID);
+    }
+
+    /**
      * Retrieve session save method
      *
      * @return string

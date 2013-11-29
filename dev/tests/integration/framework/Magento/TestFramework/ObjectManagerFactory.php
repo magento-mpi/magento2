@@ -67,6 +67,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
             ),
             'preferences' => array(
                 'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
+                'Magento\Backend\Model\Cookie' => 'Magento\TestFramework\Cookie',
                 'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
                 'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
             ),

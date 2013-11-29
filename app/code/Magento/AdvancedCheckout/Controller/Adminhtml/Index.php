@@ -100,7 +100,7 @@ class Index extends \Magento\Backend\App\Action
 
         $storeId = $this->getRequest()->getParam('store');
 
-        if ($storeId === null || $storeManager->getStore($storeId)->isAdmin()) {
+        if ($storeId === null || $storeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $storeId = $cart->getPreferredStoreId();
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
