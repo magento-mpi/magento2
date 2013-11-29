@@ -69,7 +69,7 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-page-js-truncate-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Page::js/truncate.js</argument>
+                <argument name="file" xsi:type="string">Magento_Theme::js/truncate.js</argument>
             </arguments>
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-common-js">
@@ -89,7 +89,7 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Css" name="magento-page-css-tabs-css">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Page::css/tabs.css</argument>
+                <argument name="file" xsi:type="string">Magento_Theme::css/tabs.css</argument>
                 <argument name="properties" xsi:type="array">
                     <item name="attributes" xsi:type="string"/>
                 </argument>
@@ -101,6 +101,6 @@
             </arguments>
         </block>
         <!-- Preload resources for widgets -->
-        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
+        <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
     </referenceBlock>
 </layout>

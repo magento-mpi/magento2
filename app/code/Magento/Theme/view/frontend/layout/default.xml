@@ -64,7 +64,7 @@
                 <block class="Magento\Core\Block\Switcher" name="store_switcher" as="store_switcher" template="switch/stores.phtml"/>
                 <block class="Magento\Page\Block\Links" name="footer_links"/>
                 <block class="Magento\Theme\Block\Html\Footer" name="copyright" template="html/copyright.phtml"/>
-                <block class="Magento\View\Element\Template" name="report.bugs" template="Magento_Page::html/bugreport.phtml" />
+                <block class="Magento\View\Element\Template" name="report.bugs" template="Magento_Theme::html/bugreport.phtml" />
             </container>
         </container>
         <container name="before_body_end" as="before_body_end" label="Page Bottom">
@@ -129,7 +129,7 @@
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="magento-page-js-truncate-js">
             <arguments>
-                <argument name="file" xsi:type="string">Magento_Page::js/truncate.js</argument>
+                <argument name="file" xsi:type="string">Magento_Theme::js/truncate.js</argument>
             </arguments>
         </block>
         <block class="Magento\Theme\Block\Html\Head\Script" name="mage-common-js">
@@ -147,7 +147,7 @@
                 <argument name="file" xsi:type="string">mage/popup-window.js</argument>
             </arguments>
         </block>
-        <block class="Magento\View\Element\Template" name="head.components" as="components" template="Magento_Page::js/components.phtml"/>
+        <block class="Magento\View\Element\Template" name="head.components" as="components" template="Magento_Theme::js/components.phtml"/>
     </referenceBlock>
     <update handle="default_head_blocks"/>
 </layout>
