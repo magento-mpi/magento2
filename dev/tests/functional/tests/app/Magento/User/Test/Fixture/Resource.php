@@ -11,7 +11,6 @@
 
 namespace Magento\User\Test\Fixture;
 
-use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
 /**
@@ -22,7 +21,10 @@ use Mtf\Fixture\DataFixture;
 class Resource extends DataFixture
 {
     /**
-     * @var array Resource id as key and parent id as value
+     * resources from the three in array
+     * key is resource id, value is parent id
+     *
+     * @var array
      */
     protected $resources = array(
         'Magento_Adminhtml::dashboard' => null,
@@ -85,6 +87,7 @@ class Resource extends DataFixture
     {
         throw new \BadMethodCallException('This method is not applicable here. It is data provider for role fixture');
     }
+
     /**
      * Return requested resource, all it's children and parents
      *
@@ -142,4 +145,3 @@ class Resource extends DataFixture
         return $result;
     }
 }
-
