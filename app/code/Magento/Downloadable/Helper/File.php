@@ -91,7 +91,7 @@ class File extends \Magento\Core\Helper\AbstractHelper
     {
         if (isset($file[0])) {
             $fileName = $file[0]['file'];
-            if ($file[0]['status'] == 'new') {
+            if ($file[0]['status'] === 'new') {
                 try {
                     $fileName = $this->_moveFileFromTmp(
                         $baseTmpPath, $basePath, $file[0]['file']
