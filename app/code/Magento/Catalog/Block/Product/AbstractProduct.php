@@ -583,7 +583,7 @@ abstract class AbstractProduct extends \Magento\View\Element\Template
      */
     public function getPageLayout()
     {
-        return $this->helper('Magento\Page\Helper\Layout')->getCurrentPageLayout();
+        return $this->helper('Magento\Theme\Helper\Layout')->getCurrentPageLayout();
     }
 
     /**
