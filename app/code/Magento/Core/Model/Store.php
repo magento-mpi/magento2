@@ -282,7 +282,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param string $isCustomEntryPoint
+     * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
@@ -299,7 +299,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Data\Collection\Db $resourceCollection = null,
-        $isCustomEntryPoint = '',
+        $isCustomEntryPoint = false,
         array $data = array()
     ) {
         $this->_coreFileStorageDatabase = $coreFileStorageDatabase;
