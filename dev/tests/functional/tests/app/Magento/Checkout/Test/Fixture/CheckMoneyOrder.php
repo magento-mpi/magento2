@@ -68,7 +68,7 @@ class CheckMoneyOrder extends Checkout
         $taxRule->persist();
 
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
@@ -98,7 +98,7 @@ class CheckMoneyOrder extends Checkout
     /**
      * Get Product Price with tax for product of particular class
      *
-     * @param Fixture\Product $product
+     * @param Fixture\SimpleProduct $product
      * @return string
      */
     public function getProductPriceWithTax($product)

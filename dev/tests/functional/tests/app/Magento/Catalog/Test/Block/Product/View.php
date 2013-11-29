@@ -14,8 +14,9 @@ namespace Magento\Catalog\Test\Block\Product;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
 /**
@@ -90,9 +91,9 @@ class View extends Block
     /**
      * Add product to shopping cart
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      */
-    public function addToCart(AbstractProduct $product)
+    public function addToCart(Product $product)
     {
         $this->fillOptions($product);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
@@ -195,7 +196,7 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      */
     public function fillOptions($product)
     {
@@ -219,5 +220,23 @@ class View extends Block
     public function clickAddToCartButton()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * @param GroupedProduct $product
+     * @return bool
+     */
+    public function verifyGroupedProducts(GroupedProduct $product)
+    {
+        foreach ($product->getAssociatedProductNames() as $name) {
+            $option = $this->_rootElement->find(
+                "//*[@id='super-product-table']//tr[td/strong='$name']",
+                Locator::SELECTOR_XPATH
+            );
+            if (!$option->isVisible()) {
+                return false;
+            };
+        }
+        return true;
     }
 }

@@ -13,14 +13,14 @@ namespace Magento\Bundle\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Bundle
  *
  * @package Magento\Bundle\Test\Fixture
  */
-class Bundle extends AbstractProduct
+class Bundle extends Product
 {
     /**
      * Attribute set for mapping data into ui tabs
@@ -72,7 +72,7 @@ class Bundle extends AbstractProduct
     protected function _getProduct($key)
     {
         if (!isset($this->_products[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+            $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
             $product->switchData('simple_required');
             $product->persist();
             $this->_products[$key] = $product;

@@ -19,7 +19,7 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class ProductForm
@@ -46,7 +46,9 @@ class ProductForm extends FormTabs
             'product_info_tabs_bundle_content' =>
                 '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle',
             'product_info_tabs_super_config_content' =>
-                '\\Magento\\Backend\\Test\\Block\\Catalog\\Product\\Edit\\Tab\\Super\\Config'
+                '\\Magento\\Backend\\Test\\Block\\Catalog\\Product\\Edit\\Tab\\Super\\Config',
+            'product_info_tabs_grouped_content' =>
+                '\\Magento\\Catalog\\Test\\Block\\Product\\Grouped\\AssociatedProducts'
         );
         //Elements
         $this->saveButton = '#save-split-button-button';
@@ -82,7 +84,7 @@ class ProductForm extends FormTabs
          * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
          */
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-        /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
+        /** @var $fixture \Magento\Catalog\Test\Fixture\SimpleProduct */
         if ($fixture->getCategoryName()) {
             $this->fillCategory($fixture->getCategoryName());
         }
@@ -116,9 +118,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param AbstractProduct $fixture
+     * @param Product $fixture
      */
-    public function addNewCategory(AbstractProduct $fixture)
+    public function addNewCategory(Product $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)

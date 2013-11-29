@@ -13,14 +13,15 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
+use Magento\Catalog\Test\Fixture\GroupedProduct;
 
 /**
- * Create product
+ * Class CreateGroupedTest
+ * Grouped product
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class CreateProductTest extends Functional
+class CreateGroupedTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -31,22 +32,25 @@ class CreateProductTest extends Functional
     }
 
     /**
-     * Create simple product with settings in advanced inventory tab
+     * Creating Grouped product and assigning it to category
      *
-     * @ZephyrId MAGETWO-12914
+     * @ZephyrId MAGETWO-13610
      */
-    public function testCreateProductAdvancedInventory()
+    public function testCreateGroupedProduct()
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $product->switchData('simple_advanced_inventory');
         //Data
+        $product = Factory::getFixtureFactory()->getMagentoCatalogGroupedProduct();
+        $product->switchData('grouped');
+        //Page & Blocks
+        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $createProductPage->init($product);
         $productBlockForm = $createProductPage->getProductBlockForm();
         //Steps
-        $createProductPage->open();
+        $manageProductsGrid->open();
+        $manageProductsGrid->getProductBlock()->addProduct('grouped');
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
+        //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
         // Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
@@ -54,28 +58,36 @@ class CreateProductTest extends Functional
         $cachePage->getActionsBlock()->flushMagentoCache();
         //Verifying
         $this->assertOnGrid($product);
-        $this->assertOnCategory($product);
+        $this->assertOnFrontend($product);
     }
 
     /**
      * Assert existing product on admin product grid
      *
-     * @param SimpleProduct $product
+     * @param GroupedProduct $product
      */
     protected function assertOnGrid($product)
     {
+        //Search data
+        $search = array(
+            'sku' => $product->getProductSku(),
+            'type' => 'Grouped Product'
+        );
+        //Page & Block
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productGridPage->open();
+        /** @var \Magento\Catalog\Test\Block\Backend\ProductGrid */
         $gridBlock = $productGridPage->getProductGrid();
-        $this->assertTrue($gridBlock->isRowVisible(array('sku' => $product->getProductSku())));
+        //Assertion
+        $this->assertTrue($gridBlock->isRowVisible($search), 'Grouped product was not found.');
     }
 
     /**
-     * Assert product data on category and product pages
+     * Assert Grouped product on Frontend
      *
-     * @param SimpleProduct $product
+     * @param GroupedProduct $product
      */
-    protected function assertOnCategory($product)
+    protected function assertOnFrontend(GroupedProduct $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -86,11 +98,18 @@ class CreateProductTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-        $productListBlock->openProductViewPage($product->getProductName());
+        $this->assertTrue(
+            $productListBlock->isProductVisible($product->getProductName()),
+            'Product is absent on category page.'
+        );
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $productListBlock->openProductViewPage($product->getProductName());
+        $this->assertEquals(
+            $product->getProductName(),
+            $productViewBlock->getProductName(),
+            'Product name does not correspond to specified.'
+        );
+        $this->assertTrue($productViewBlock->verifyGroupedProducts($product), 'Added Grouped options are absent');
     }
 }

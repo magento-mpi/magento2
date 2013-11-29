@@ -11,6 +11,11 @@
 
 namespace Magento\Catalog\Test\Repository;
 
-class VirtualProduct extends Product
+/**
+ * Class Category Repository
+ *
+ * @package Magento\Catalog\Test\Repository
+ */
+class GroupedProduct extends Product
 {
 }

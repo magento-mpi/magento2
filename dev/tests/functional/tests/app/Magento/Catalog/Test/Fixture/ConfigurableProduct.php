@@ -20,7 +20,7 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Catalog\Test\Fixture
  */
-class ConfigurableProduct extends AbstractProduct
+class ConfigurableProduct extends Product
 {
     /**
      * Mapping data into ui tabs
@@ -42,21 +42,7 @@ class ConfigurableProduct extends AbstractProduct
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['category'] = array($this, 'categoryProvider');
         $this->_placeholders['attribute_label_1'] = array($this, 'attributeProvider');
-    }
-
-    /**
-     * Create category
-     *
-     * @return string
-     */
-    protected function categoryProvider()
-    {
-        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-        $category->switchData('subcategory');
-        $category->persist();
-        return $category->getCategoryName();
     }
 
     /**
