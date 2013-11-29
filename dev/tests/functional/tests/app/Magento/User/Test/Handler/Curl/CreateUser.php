@@ -86,12 +86,6 @@ class CreateUser extends Curl
             $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
             $response = $curl->read();
             $curl->close();
-
-            preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
-            . $data['username'] . '/siu', $response, $matches);
-            if (empty($matches)) {
-                throw new UnexpectedValueException('Cannot find user id');
-            }
             $data['id'] = $this->_getUserId($data);
             return $data;
         }
