@@ -34,8 +34,12 @@ class FlatTest extends \PHPUnit_Framework_TestCase
         $this->_model = $objectManagerHelper->getObject('Magento\Catalog\Model\Product\Indexer\Flat', array(
             'flatIndexerFactory' => $indexerFactoryMock,
         ));
-        $this->_event = $this->getMock('Magento\Index\Model\Event',
-            array('getFlatHelper', 'getEntity', 'getType', 'getDataObject'), array(), '', false
+        $this->_event = $this->getMock(
+            'Magento\Index\Model\Event',
+            array('getFlatHelper', 'getEntity', 'getType', 'getDataObject', '__wakeup'),
+            array(),
+            '',
+            false
         );
     }
 
@@ -84,7 +88,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
         if ($attributeValue) {
             $attributeValue = $this->getMockBuilder('Magento\Catalog\Model\Resource\Eav\Attribute')
                 ->disableOriginalConstructor()
-                ->setMethods(array('getData', 'getOrigData'))
+                ->setMethods(array('getData', 'getOrigData', '__wakeup'))
                 ->getMock();
         }
         $this->_event->expects($this->any())
