@@ -19,7 +19,7 @@ $defaultTypes = array(
 foreach ($defaultTypes as $typeId => $label) {
     $installer->getConnection()->update(
         $this->getTable('magento_giftregistry_type_info'),
-        array('store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
+        array('store_id' => \Magento\Core\Model\Store::DEFAULT_STORE_ID),
         array(
             'type_id = ?' => $typeId,
             'store_id = ?' => \Magento\Core\Model\AppInterface::DISTRO_STORE_ID,

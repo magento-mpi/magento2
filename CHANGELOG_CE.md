@@ -6,6 +6,9 @@
      * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
   * Removed application dependencies from library
 * Move Magento\Core common blocks into library
+* Application areas rework:
+  * Areas are independent from Store
+  * Removed deprecated annotation from getArea methods
 * GitHub requests:
   * [#245](https://github.com/magento/magento2/pull/245) -- Resolve design flaws in core URL helper
   * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Mage_Page_Block_Html_Header->getIsHomePage
