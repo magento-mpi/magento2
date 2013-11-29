@@ -61,9 +61,6 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
             ->method('select')
             ->will($this->returnValue($this->_selectMock));
 
-        $subscriptionMock = $this->_makeMock('Magento\Webhook\Model\Subscription');
-        $eventMgrMock = $this->_makeMock('Magento\Event\ManagerInterface');
-
         // Arguments to collection constructor
         $this->_eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $this->_fetchStrategyMock = $this->_makeMock('Magento\Data\Collection\Db\FetchStrategyInterface');

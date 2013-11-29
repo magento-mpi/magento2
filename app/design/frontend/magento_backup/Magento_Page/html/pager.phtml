@@ -31,7 +31,7 @@
     </p>
     <?php endif ?>
 
-    <?php if($this->getShowPerPage()): ?>
+    <?php if($this->isShowPerPage()): ?>
     <div class="limiter">
         <label><?php echo __('Show') ?></label>
         <select onchange="setLocation(this.value)">

@@ -64,7 +64,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
         }
 
         if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
-           $this->_crumbs[$crumbName] = $crumbInfo;
+            $this->_crumbs[$crumbName] = $crumbInfo;
         }
 
         return $this;

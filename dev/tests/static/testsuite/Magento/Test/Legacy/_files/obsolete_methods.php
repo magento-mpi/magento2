@@ -1016,4 +1016,5 @@ return array(
     array('_getMinifier', 'Magento\View\Asset\MinifyService', 'getMinifier'),
     array('_isEnabled', 'Magento\View\Asset\MinifyService', 'isEnabled'),
     array('_getAdapter', 'Magento\View\Asset\MinifyService', 'getAdapter'),
+    array('getShowPerPage', 'Magento\Theme\Block\Html\Pager', 'isShowPerPage'),
 );

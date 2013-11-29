@@ -10,6 +10,7 @@ namespace Magento\Theme\Block\Html;
 
 /**
  * Html pager block
+ * @SuppressWarnings(PHPMD.ExcessivePublicCount)
  */
 class Pager extends \Magento\View\Element\Template
 {
@@ -216,7 +217,7 @@ class Pager extends \Magento\View\Element\Template
     /**
      * @return bool
      */
-    public function getShowPerPage()
+    public function isShowPerPage()
     {
         if (sizeof($this->getAvailableLimit()) <= 1) {
             return false;
@@ -647,20 +648,17 @@ class Pager extends \Magento\View\Element\Template
             if ($collection->getLastPageNumber() <= $this->getFrameLength()) {
                 $start = 1;
                 $end = $collection->getLastPageNumber();
-            }
-            else {
+            } else {
                 $half = ceil($this->getFrameLength() / 2);
                 if ($collection->getCurPage() >= $half
                     && $collection->getCurPage() <= $collection->getLastPageNumber() - $half
                 ) {
                     $start  = ($collection->getCurPage() - $half) + 1;
                     $end = ($start + $this->getFrameLength()) - 1;
-                }
-                elseif ($collection->getCurPage() < $half) {
+                } elseif ($collection->getCurPage() < $half) {
                     $start  = 1;
                     $end = $this->getFrameLength();
-                }
-                elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
+                } elseif ($collection->getCurPage() > ($collection->getLastPageNumber() - $half)) {
                     $end = $collection->getLastPageNumber();
                     $start  = $end - $this->getFrameLength() + 1;
                 }

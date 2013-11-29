@@ -59,7 +59,8 @@ class AccordionTest extends \PHPUnit_Framework_TestCase
         $containerName = 'container';
         $this->_layout->addContainer($containerName, 'Container', array(), $parentName);
         $containerText = 'Block in container';
-        $this->_layout->addBlock('Magento\View\Element\Text', 'container_block', $containerName)->setText($containerText);
+        $this->_layout->addBlock('Magento\View\Element\Text', 'container_block', $containerName)
+            ->setText($containerText);
 
         // set third child - block
         $titleOne = 'Block 2';

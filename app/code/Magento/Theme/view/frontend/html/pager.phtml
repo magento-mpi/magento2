@@ -32,7 +32,7 @@
     </p>
     <?php endif ?>
 
-        <?php if($this->getShowPerPage()): ?>
+        <?php if($this->isShowPerPage()): ?>
             <div class="limiter">
                 <strong class="label"><?php echo __('Show') ?></strong>
                 <select id="limiter" data-mage-redirect="{'event':'change'}">

@@ -95,8 +95,7 @@ class Html extends \Magento\View\Element\Template
                 // prevent tiff format displaying in html
                 if (strtolower(substr($logo, -5)) === '.tiff' || strtolower(substr($logo, -4)) === '.tif') {
                     $logo = '';
-                }
-                else {
+                } else {
                     $logo = 'sales/store/logo/' . $logo;
                 }
             }
@@ -105,8 +104,7 @@ class Html extends \Magento\View\Element\Template
         // buld url
         if (!empty($logo)) {
             $logo = $this->_urlBuilder->getBaseUrl(array('_type' => \Magento\Core\Model\Store::URL_TYPE_MEDIA)) . $logo;
-        }
-        else {
+        } else {
             $logo = '';
         }
 
