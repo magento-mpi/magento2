@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Page
+ * @package     Magento_Theme
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}

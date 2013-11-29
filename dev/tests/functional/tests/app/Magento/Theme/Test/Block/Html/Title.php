@@ -10,14 +10,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Test\Block\Html;
+namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
 
 /**
  * Page title block
- *
- * @package Magento\Page\Test\Block\Html
  */
 class Title extends Block
 {

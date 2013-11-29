@@ -10,7 +10,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Magento\Page;
+namespace Magento\Test\Integrity\Magento\Theme;
 
 class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
 {

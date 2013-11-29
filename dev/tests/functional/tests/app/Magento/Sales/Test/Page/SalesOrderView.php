@@ -11,7 +11,7 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Magento\Page\Test\Block\Html\Title;
+use Magento\Theme\Test\Block\Html\Title;
 use Magento\Sales\Test\Block\Backend\Order\CustomerInformation;
 use Magento\Sales\Test\Block\Backend\Order\View\Items;
 use Mtf\Page\Page;
@@ -129,7 +129,7 @@ class SalesOrderView extends Page
     /**
      * Get page title block
      *
-     * @return Title
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {

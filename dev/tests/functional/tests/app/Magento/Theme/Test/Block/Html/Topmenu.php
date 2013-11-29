@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Test\Block\Html;
+namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
@@ -19,8 +19,6 @@ use Mtf\Client\Element\Locator;
 /**
  * Class Topmenu
  * Class top menu navigation block
- *
- * @package Magento\Page\Test\Block\Html
  */
 class Topmenu extends Block
 {

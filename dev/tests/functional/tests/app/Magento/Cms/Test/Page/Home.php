@@ -15,9 +15,9 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Search;
-use Magento\Page\Test\Block\Html\Title;
-use Magento\Page\Test\Block\Html\Topmenu;
-use Magento\Page\Test\Block\Html\Footer;
+use Magento\Theme\Test\Block\Html\Title;
+use Magento\Theme\Test\Block\Html\Topmenu;
+use Magento\Theme\Test\Block\Html\Footer;
 
 /**
  * Class Home
@@ -42,7 +42,7 @@ class Home extends Page
     /**
      * Top menu navigation block
      *
-     * @var Topmenu
+     * @var \Magento\Theme\Test\Block\Html\Topmenu
      */
     private $topmenuBlock;
 
@@ -54,7 +54,7 @@ class Home extends Page
     private $titleBlock;
 
     /**
-     * @var Footer
+     * @var \Magento\Theme\Test\Block\Html\Footer
      */
     private $footerBlock;
 
@@ -91,7 +91,7 @@ class Home extends Page
     /**
      * Get category title block
      *
-     * @return Topmenu
+     * @return \Magento\Theme\Test\Block\Html\Topmenu
      */
     public function getTopmenu()
     {

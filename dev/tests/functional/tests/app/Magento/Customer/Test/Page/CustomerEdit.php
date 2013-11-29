@@ -12,7 +12,7 @@
 
 namespace Magento\Customer\Test\Page;
 
-use Magento\Page\Test\Block\Html\Title;
+use Magento\Theme\Test\Block\Html\Title;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 

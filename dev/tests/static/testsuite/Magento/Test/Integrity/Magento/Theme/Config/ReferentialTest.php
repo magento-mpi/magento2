@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Test\Integrity\Magento\Page\Config;
+namespace Magento\Test\Integrity\Magento\Theme\Config;
 
 class ReferentialTest extends \PHPUnit_Framework_TestCase
 {
