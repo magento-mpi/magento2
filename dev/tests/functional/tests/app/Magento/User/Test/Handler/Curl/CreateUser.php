@@ -42,7 +42,7 @@ class CreateUser extends Curl
      *
      * @param $data
      * @return mixed
-     * @throws UnexpectedValueException
+     * @throws \Exception
      */
     protected function _getUserId($data)
     {
@@ -56,7 +56,7 @@ class CreateUser extends Curl
         preg_match('/class=\"a\-right col\-user_id\W*>\W+(\d+)\W+<\/td>\W+<td[\w\s\"=\-]*?>\W+?'
         . $data['username'] . '/siu', $response, $matches);
         if (empty($matches)) {
-            throw new UnexpectedValueException('Cannot find user id');
+            throw new \Exception('Cannot find user id');
         }
         return $matches[1];
     }
@@ -66,7 +66,7 @@ class CreateUser extends Curl
      *
      * @param Fixture $fixture
      * @return array|mixed
-     * @throws UnexpectedValueException
+     * @throws \Exception
      */
     public function execute(Fixture $fixture = null)
     {
@@ -91,5 +91,4 @@ class CreateUser extends Curl
         }
     }
 }
-
 
