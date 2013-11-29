@@ -12,19 +12,29 @@ namespace Magento\Module\Declaration;
 class FileResolver implements \Magento\Config\FileResolverInterface
 {
     /**
+     * Modules directory with read access
+     *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryReadModule;
+
     /**
+     * Config directory with read access
+     *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
     protected $directoryReadConfig;
-    /**
-     * @var \Magento\Filesystem\Directory\ReadInterface
-     */
-    protected $directoryReadApp;
 
     /**
+     * Root directory with read access
+     *
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $directoryReadRoot;
+
+    /**
+     * File iterator factory
+     *
      * @var FileIteratorFactory
      */
     protected $iteratorFactory;
@@ -40,7 +50,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         $this->iteratorFactory      = $iteratorFactory;
         $this->directoryReadModules = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->directoryReadConfig  = $filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
-        $this->directoryReadApp     = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->directoryReadRoot     = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
     }
 
     /**
@@ -49,13 +59,13 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        $appCodeDir =  $this->directoryReadApp->getRelativePath(
+        $appCodeDir =  $this->directoryReadRoot->getRelativePath(
             $this->directoryReadModules->getAbsolutePath()
         );
-        $configDir =  $this->directoryReadApp->getRelativePath(
+        $configDir =  $this->directoryReadRoot->getRelativePath(
             $this->directoryReadConfig->getAbsolutePath()
         );
-        $moduleFileList = $this->directoryReadApp->search('#.*?/module.xml$#', $appCodeDir);
+        $moduleFileList = $this->directoryReadRoot->search('#.*?/module.xml$#', $appCodeDir);
 
         $mageScopePath = $appCodeDir . '/Magento/';
         $output = array(
@@ -67,10 +77,10 @@ class FileResolver implements \Magento\Config\FileResolverInterface
             $scope = strpos($file, $mageScopePath) === 0 ? 'mage' : 'custom';
             $output[$scope][] = $file;
         }
-        $output['base'] = $this->directoryReadApp->search('#/module.xml$#', $configDir);
+        $output['base'] = $this->directoryReadRoot->search('#/module.xml$#', $configDir);
 
         return $this->iteratorFactory->create(
-            $this->directoryReadApp,
+            $this->directoryReadRoot,
             array_merge($output['mage'], $output['custom'], $output['base'])
         );
     }
