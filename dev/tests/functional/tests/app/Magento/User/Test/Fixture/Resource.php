@@ -9,17 +9,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\User\Test\Repository;
+namespace Magento\User\Test\Fixture;
 
-use Magento\Webapi\Exception;
-use Mtf\Repository\AbstractRepository;
+use Mtf\Factory\Factory;
+use Mtf\Fixture\DataFixture;
 
 /**
- * ACL resources repository
+ * ACL resources fixture
  *
- * @package namespace Magento\User\Test\Repository
+ * @package namespace Magento\User\Test\Fixture
  */
-class RoleResource extends AbstractRepository
+class Resource extends DataFixture
 {
     /**
      * @var array Resource id as key and parent id as value
@@ -72,23 +72,25 @@ class RoleResource extends AbstractRepository
     );
 
     /**
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * {@inheritdoc}
      */
-    public function __construct(array $defaultConfig = array(), array $defaultData = array())
-    {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
-    }
+    protected function _initData() {}
 
+    /**
+     * Just a stub of inherited method
+     *
+     * @throws \BadMethodCallException
+     */
+    public function persist()
+    {
+        throw new \BadMethodCallException('This method is not applicable here. It is data provider for role fixture');
+    }
     /**
      * Return requested resource, all it's children and parents
      *
-     * @param null $resourceId
+     * @param string $resourceId
      * @throws \InvalidArgumentException
-     * @return array|
+     * @return array
      */
     public function get($resourceId = null)
     {
@@ -103,7 +105,7 @@ class RoleResource extends AbstractRepository
     /**
      * Get all direct parents
      *
-     * @param $resourceId
+     * @param string $resourceId
      * @return array
      */
     protected function getParents($resourceId)
@@ -115,7 +117,7 @@ class RoleResource extends AbstractRepository
         $parents = array();
         $current = $this->resources[$resourceId];
 
-        while(!is_null($this->resources[$current])) {
+        while (!is_null($this->resources[$current])) {
             $parents[] = $current;
             $current = $this->resources[$current];
         }
@@ -127,14 +129,14 @@ class RoleResource extends AbstractRepository
     /**
      * Get all child resources
      *
-     * @param $resourceId
+     * @param string $resourceId
      * @return array
      */
     protected function getChildren($resourceId)
     {
         $children = array_keys($this->resources, $resourceId);
         $result = $children;
-        foreach($children as $child) {
+        foreach ($children as $child) {
             $result = array_merge($result, $this->getChildren($child));
         }
         return $result;

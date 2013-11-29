@@ -43,8 +43,8 @@ class UserWithRestrictedSalesRole extends Functional
         $roleFixture->switchData('custom_permissions_store_scope');
         $roleFixture->setScopeItems(array($storeData['id']));
 
-//        $resourceRepo = Factory::getRepositoryFactory()->getMagentoUserRoleResource(array(), array());
-//        $roleFixture->setResource($resourceRepo->get('Magento_Sales::sales_order'));
+//        $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
+//        $roleFixture->setResource($resourceFixture->get('Magento_Sales::sales_order'));
 //        $data = $roleFixture->persist();
 
 
