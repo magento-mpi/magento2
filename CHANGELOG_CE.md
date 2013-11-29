@@ -2,13 +2,13 @@
 =============
 * Modularity improvements:
   * Breakdown of the Adminhtml module:
-     * Moved Newsletter, Report logic to respective modules
+     * Moved Newsletter, Report logic to the respective modules
      * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
-  * Removed application dependencies from library
-* Move Magento\Core common blocks into library
+  * Removed application dependencies from the library
+* Move Magento\Core common blocks in the library
 * Application areas rework:
   * Areas are independent from Store
-  * Removed deprecated annotation from getArea methods
+  * Removed deprecated annotation from the getArea methods
 * GitHub requests:
   * [#245](https://github.com/magento/magento2/pull/245) -- Resolve design flaws in core URL helper
   * [#247](https://github.com/magento/magento2/pull/247) -- Bug in Mage_Page_Block_Html_Header->getIsHomePage
@@ -30,13 +30,13 @@
   * Old frontend (magento_demo) and backend (magento_basic) themes are removed
   * Updated templates and layout updates in the Bundle, Catalog, CatalogInventory, CatalogSearch, Downloadable, ProductAlert, Reports, Sendfriend modules
 * Fixed bugs:
-  * Fixed error when Magento cannot be reinstalled to the same database with table prefix
+  * Fixed the error when  Magento cannot be reinstalled to the same database with table prefix
   * Fixed report Products in Cart
   * Fixed error on attempt to insert image to CMS pages under version control
   * Fixed order status grid so that you can assign state, edit, and view custom order status
-  * Fixed Related Products Rule page so someone can select category on conditions tab
+  * Fixed Related Products Rule page so that category can be selected on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
-  * Fixed bug with international DHL quotes
+  * Fixed the bug with international DHL quotes
 
 2.0.0.0-dev53
 =============
