@@ -12,7 +12,6 @@
 namespace Magento\User\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
-use Zend\Code\Exception\InvalidArgumentException;
 
 /**
  * Class Abstract Repository
@@ -22,62 +21,7 @@ use Zend\Code\Exception\InvalidArgumentException;
 class Role extends AbstractRepository
 {
     /**
-     * @var array
-     */
-    protected $_config = array();
-
-
-    /**
-     * Add role permission values to data array
-     *
-     * @param $permissions string. Possible values 'custom' or 'all'
-     * @param array $data
-     * @return array
-     * @throws InvalidArgumentException
-     */
-    protected function setPermissions($permissions, $data = array())
-    {
-        if ('all' == $permissions) {
-            $data['fields']['all']['value'] = 1;
-        } elseif('custom' == $permissions) {
-            $data['fields']['all']['value'] = 0;
-            $data['fields']['resource']['value'] = array();
-        } else {
-            throw new InvalidArgumentException('Invalid permissions "' . $permissions . '"');
-        }
-        return $data;
-    }
-
-    /**
-     * @param $scope string. possible values  'all', 'website', 'store'
-     * @param array $data
-     * @return array
-     * @throws \Zend\Code\Exception\InvalidArgumentException
-     */
-    protected function setScope($scope, $data = array())
-    {
-        switch($scope) {
-            case 'all':
-                $data['fields']['gws_is_all']['value'] = 1;
-                break;
-            case 'website':
-                $data['fields']['gws_is_all']['value'] = 0;
-                $data['fields']['gws_websites']['value'] = array();
-                break;
-            case 'store':
-                $data['fields']['gws_is_all']['value'] = 0;
-                $data['fields']['gws_store_groups']['value'] = array();
-                break;
-            default:
-                throw new InvalidArgumentException('Invalid role scope "' . $scope . '"');
-        }
-        return $data;
-    }
-
-
-    /**
-     * @param array $defaultConfig
-     * @param array $defaultData
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig = array(), array $defaultData = array())
     {
@@ -132,9 +76,58 @@ class Role extends AbstractRepository
     }
 
     /**
+     * Add role permission values to data array
+     *
+     * @param $permissions string. Possible values 'custom' or 'all'
+     * @param array $data
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    protected function setPermissions($permissions, $data = array())
+    {
+        if ('all' == $permissions) {
+            $data['fields']['all']['value'] = 1;
+        } elseif ('custom' == $permissions) {
+            $data['fields']['all']['value'] = 0;
+            $data['fields']['resource']['value'] = array();
+        } else {
+            throw new \InvalidArgumentException('Invalid permissions "' . $permissions . '"');
+        }
+        return $data;
+    }
+
+    /**
+     * Set role scope: all, website or store
+     *
+     * @param string $scope possible values  'all', 'website', 'store'
+     * @param array $data
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    protected function setScope($scope, $data = array())
+    {
+        switch ($scope) {
+            case 'all':
+                $data['fields']['gws_is_all']['value'] = 1;
+                break;
+            case 'website':
+                $data['fields']['gws_is_all']['value'] = 0;
+                $data['fields']['gws_websites']['value'] = array();
+                break;
+            case 'store':
+                $data['fields']['gws_is_all']['value'] = 0;
+                $data['fields']['gws_store_groups']['value'] = array();
+                break;
+            default:
+                throw new \InvalidArgumentException('Invalid role scope "' . $scope . '"');
+        }
+        return $data;
+    }
+
+    /**
      * Save custom data set to repository
      *
-     * @param $dataSetName
+     * @param string $dataSetName
      * @param array $data
      */
     public function set($dataSetName, array $data)

@@ -13,17 +13,16 @@ namespace Magento\User\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Mtf\System\Config;
 
 /**
- * Class Category
+ * Class Role
  *
  * @package Magento\User\Test\Fixture
  */
 class Role extends DataFixture
 {
     /**
-     * @return $this
+     * {@inheritdoc}
      */
     public function persist()
     {
@@ -31,7 +30,7 @@ class Role extends DataFixture
     }
 
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     protected function _initData()
     {
@@ -40,6 +39,8 @@ class Role extends DataFixture
     }
 
     /**
+     * Set custom ACL resource array to role
+     *
      * @param array $resource
      */
     public function setResource(array $resource)
@@ -48,6 +49,8 @@ class Role extends DataFixture
     }
 
     /**
+     * Merge resource array with existing values
+     *
      * @param array $resource
      */
     public function addResource(array $resource)
@@ -78,6 +81,7 @@ class Role extends DataFixture
 
     /**
      * Convert data from canonical array to repository native format
+     *
      * @param array $data
      * @return array
      */
@@ -91,15 +95,18 @@ class Role extends DataFixture
     }
 
     /**
-     * @param $name
+     * Save custom data set to repository
+     *
+     * @param string $name
      * @param array $data
      * @param bool $convert convert data from canonical array to repository native format
      */
     public function save($name, array $data, $convert = true)
     {
-        if($convert) {
+        if ($convert) {
             $data = $this->convertData($data);
         }
         $this->_repository->set($name, $data);
     }
 }
+

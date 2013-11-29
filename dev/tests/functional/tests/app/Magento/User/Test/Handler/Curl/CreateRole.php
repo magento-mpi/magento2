@@ -28,6 +28,8 @@ use Mtf\System\Config;
 class CreateRole extends Curl
 {
     /**
+     * Convert array from canonical to UI format
+     *
      * @param array $fields
      * @return array
      */
@@ -41,6 +43,8 @@ class CreateRole extends Curl
     }
 
     /**
+     * Look for role id on grid
+     *
      * @param string $name
      * @param string $page
      * @return bool|string
@@ -61,6 +65,8 @@ class CreateRole extends Curl
     }
 
     /**
+     * Send POST request with encoded filter parameters in URL
+     *
      * @param $name
      * @return string
      */
@@ -75,9 +81,19 @@ class CreateRole extends Curl
         return $response;
     }
 
+    /**
+     * Look for needed role name and define id by name,
+     * if the role is absent on the page, filtering is performed
+     *
+     * @param string $name
+     * @param string $response
+     * @return bool|string
+     * @throws \UnderflowException
+     * @throws \Exception
+     */
     protected function findIdWithFilter($name, $response)
     {
-        preg_match('/<table[\ \w\"\=]+id\="roleGrid_table">.*<\/table>/siu', $response, $matches);
+        preg_match('/<table[\ \w\"\=]+id\="roleGrid_table">.*?<\/table>/siu', $response, $matches);
         if (empty($matches)) {
             throw new \Exception('Cannot find grid in response');
         }
@@ -86,14 +102,14 @@ class CreateRole extends Curl
         $id = $this->findRoleOnPage($name, $gridHtml);
 
         // maybe, role is on another page, let's filter
-        if (FALSE === $id) {
+        if (false === $id) {
             $newPage = $this->filterByName($name);
             $id = $this->findRoleOnPage($name, $newPage);
         }
 
         // still not found?? It's very suspicious.
-        if (FALSE === $id) {
-            throw new \UnderflowException('Role with name ' . $name . ' not found');
+        if (false === $id) {
+            throw new \UnderflowException('Role with name "' . $name . '" not found');
         }
 
         return $id;
@@ -104,7 +120,8 @@ class CreateRole extends Curl
      *
      * @param Fixture|null $fixture [optional]
      * @throws \UnexpectedValueException
-     * @throws \UnderflowException
+     * @throws \UnderflowException from findIdWithFilter
+     * @throws \Exception from findIdWithFilter
      * @return mixed
      */
     public function execute(Fixture $fixture = null)
@@ -125,5 +142,4 @@ class CreateRole extends Curl
         $data['id'] = $this->findIdWithFilter($data['rolename'], $response);
         return $data;
     }
-
 }

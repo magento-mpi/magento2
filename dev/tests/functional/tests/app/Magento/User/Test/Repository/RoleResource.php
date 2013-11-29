@@ -13,7 +13,6 @@ namespace Magento\User\Test\Repository;
 
 use Magento\Webapi\Exception;
 use Mtf\Repository\AbstractRepository;
-use Zend\Code\Exception\InvalidArgumentException;
 
 /**
  * ACL resources repository
@@ -22,10 +21,8 @@ use Zend\Code\Exception\InvalidArgumentException;
  */
 class RoleResource extends AbstractRepository
 {
-
     /**
-     * Resource id as key and parent id as value
-     * @var array
+     * @var array Resource id as key and parent id as value
      */
     protected $resources = array(
         'Magento_Adminhtml::dashboard' => null,
@@ -75,11 +72,6 @@ class RoleResource extends AbstractRepository
     );
 
     /**
-     * @var array
-     */
-    protected $_config = array();
-
-    /**
      * @param array $defaultConfig
      * @param array $defaultData
      */
@@ -93,14 +85,15 @@ class RoleResource extends AbstractRepository
 
     /**
      * Return requested resource, all it's children and parents
+     *
      * @param null $resourceId
-     * @throws \Zend\Code\Exception\InvalidArgumentException
+     * @throws \InvalidArgumentException
      * @return array|
      */
     public function get($resourceId = null)
     {
         if (!array_key_exists($resourceId, $this->resources)) {
-            throw new InvalidArgumentException('No resource "' . $resourceId . '" found');
+            throw new \InvalidArgumentException('No resource "' . $resourceId . '" found');
         }
         $withParents = $this->getParents($resourceId);
         $withParents[] = $resourceId;
@@ -147,3 +140,4 @@ class RoleResource extends AbstractRepository
         return $result;
     }
 }
+
