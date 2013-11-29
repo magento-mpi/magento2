@@ -32,6 +32,11 @@ class Redirect implements \Magento\App\Response\RedirectInterface
     protected $_session;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @var bool
      */
     protected $_canUseSessionIdInParam;
@@ -46,6 +51,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Encryption\UrlCoder $urlCoder
      * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Url $urlBuilder
      * @param bool $canUseSessionIdInParam
      */
@@ -54,6 +60,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Encryption\UrlCoder $urlCoder,
         \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Url $urlBuilder,
         $canUseSessionIdInParam = true
     ) {
@@ -62,6 +69,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
         $this->_storeManager = $storeManager;
         $this->_urlCoder = $urlCoder;
         $this->_session = $session;
+        $this->_sidResolver = $sidResolver;
         $this->_urlBuilder = $urlBuilder;
     }
 
@@ -167,7 +175,7 @@ class Redirect implements \Magento\App\Response\RedirectInterface
             && $this->_canUseSessionIdInParam
         ) {
             $arguments += array('_query' => array(
-                $this->_session->getSessionIdQueryParam() => $this->_session->getSessionId()
+                $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
             ));
         }
         $response->setRedirect($this->_urlBuilder->getUrl($path, $arguments));
