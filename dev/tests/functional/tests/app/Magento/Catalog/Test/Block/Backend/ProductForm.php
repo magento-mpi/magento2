@@ -20,6 +20,7 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
 use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
  * Class ProductForm
@@ -29,6 +30,27 @@ use Magento\Catalog\Test\Fixture\AbstractProduct;
  */
 class ProductForm extends FormTabs
 {
+    /**
+     * Variations tab selector
+     *
+     * @var string
+     */
+    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
+
+    /**
+     * Variations wrapper selector
+     *
+     * @var string
+     */
+    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
+
+    /**
+     * New variation set button selector
+     *
+     * @var string
+     */
+    protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
+
     /**
      * Choose affected attribute set dialog popup window
      *
@@ -129,6 +151,47 @@ class ProductForm extends FormTabs
 
         $this->_rootElement->find('div.ui-dialog-buttonset button.action-create')->click();
         $this->waitForElementNotVisible('div.ui-dialog-buttonset button.action-create');
+    }
+
+    /**
+     * Get variations block
+     *
+     * @return \Magento\Backend\Test\Block\Catalog\Product\Edit\Tab\Super\Config
+     */
+    protected function getVariationsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBackendCatalogProductEditTabSuperConfig(
+            $this->_rootElement->find($this->variationsWrapper)
+        );
+    }
+
+    /**
+     * Fill product variations
+     *
+     * @param ConfigurableProduct $variations
+     */
+    public function fillVariations(ConfigurableProduct $variations)
+    {
+        $variationsBlock = $this->getVariationsBlock();
+        $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
+        $variationsBlock->generateVariations();
+        $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
+    }
+
+    /**
+     * Open variations tab
+     */
+    public function openVariationsTab()
+    {
+        $this->_rootElement->find($this->variationsTab)->click();
+    }
+
+    /**
+     * Click on 'Create New Variation Set' button
+     */
+    public function clickCreateNewVariationSet()
+    {
+        $this->_rootElement->find($this->newVariationSet)->click();
     }
 
     /**

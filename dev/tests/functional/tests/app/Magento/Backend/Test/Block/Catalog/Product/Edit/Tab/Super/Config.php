@@ -34,35 +34,21 @@ class Config extends Tab
      *
      * @var string
      */
-    private $generateVariations;
+    protected $generateVariations = '[data-ui-id=product-variations-generator-generate]';
 
     /**
-     * Attribute block in Variation section
+     * Variations matrix block selector
      *
-     * @var Attribute
+     * @var string
      */
-    private $attributeBlock;
+    protected $variationMatrix = '[data-role=product-variations-matrix] table';
 
     /**
-     * Product variations matrix block
+     * Product attribute block selector by attribute name
      *
-     * @var Config\Matrix
+     * @var string
      */
-    private $matrixBlock;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        //Elements
-        $this->generateVariations = '[data-ui-id=product-variations-generator-generate]';
-        //Blocks
-        $this->matrixBlock = Factory::getBlockFactory()->getMagentoBackendCatalogProductEditTabSuperConfigMatrix(
-            $this->_rootElement->find('[data-role=product-variations-matrix] table', Locator::SELECTOR_CSS)
-        );
-    }
+    protected $attribute = '//div[*/*/span="%s"]';
 
     /**
      * Open Variations section
@@ -79,16 +65,15 @@ class Config extends Tab
      * Get attribute block
      *
      * @param $attributeName
-     *
      * @return Attribute
      */
-    private function getAttributeBlock($attributeName)
+    protected function getAttributeBlock($attributeName)
     {
-        $this->attributeBlock = Factory::getBlockFactory()->getMagentoBackendCatalogProductEditTabSuperAttribute(
-            $this->_rootElement->find('//div[*/*/span="' . $attributeName . '"]', Locator::SELECTOR_XPATH)
+        $attributeSelector = sprintf($this->attribute, $attributeName);
+        $this->waitForElementVisible($attributeSelector, Locator::SELECTOR_XPATH);
+        return Factory::getBlockFactory()->getMagentoBackendCatalogProductEditTabSuperAttribute(
+            $this->_rootElement->find($attributeSelector, Locator::SELECTOR_XPATH)
         );
-
-        return $this->attributeBlock;
     }
 
     /**
@@ -96,9 +81,11 @@ class Config extends Tab
      *
      * @return \Magento\Backend\Test\Block\Catalog\Product\Edit\Tab\Super\Config\Matrix
      */
-    private function getMatrixBlock()
+    protected function getMatrixBlock()
     {
-        return $this->matrixBlock;
+        return Factory::getBlockFactory()->getMagentoBackendCatalogProductEditTabSuperConfigMatrix(
+            $this->_rootElement->find($this->variationMatrix, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -117,16 +104,34 @@ class Config extends Tab
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        $attributes = array();
-        foreach ($fields['configurable_attributes_data']['value'] as $attribute) {
+        $attributes = $fields['configurable_attributes_data']['value'];
+        foreach ($attributes as $attribute) {
             $this->selectAttribute($attribute['label']['value']);
-            $attributes[$attribute['label']['value']] = $attribute;
         }
-        foreach ($attributes as $key => $attribute) {
-            $this->getAttributeBlock($key)->fillAttributeOptions($attribute);
-        }
+        $this->fillAttributeOptions($attributes);
         $this->generateVariations();
-        $this->getMatrixBlock()->fillVariation($fields['variations-matrix']['value']);
+        $this->fillVariationsMatrix($fields['variations-matrix']['value']);
+    }
+
+    /**
+     * Fill variations matrix
+     *
+     * @param $fields
+     */
+    public function fillVariationsMatrix($fields)
+    {
+        $this->getMatrixBlock()->fillVariation($fields);
+    }
+
+    /**
+     * Fill attribute options
+     *
+     * @param array $attributes
+     */
+    public function fillAttributeOptions(array $attributes) {
+        foreach ($attributes as $attribute) {
+            $this->getAttributeBlock($attribute['label']['value'])->fillAttributeOptions($attribute);
+        }
     }
 
     /**
