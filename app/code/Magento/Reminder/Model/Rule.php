@@ -82,7 +82,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $customerFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -107,7 +107,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
      * @param \Magento\Email\Model\Template $emailTemplateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
@@ -126,7 +126,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         \Magento\Email\Model\Template $emailTemplateFactory,
         \Magento\Core\Model\Translate $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,

@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
-/**
- * Theme Image Path
- */
 namespace Magento\View\Design\Theme\Image;
 
+/**
+ * Theme Image Path interface
+ */
 interface PathInterface
 {
     /**

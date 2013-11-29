@@ -2,29 +2,28 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 <?php if ($_products = $this->getRecentlyComparedProducts()): ?>
-<div class="widget widget-compared">
-    <div class="block block-list">
-        <div class="block-title">
-            <strong><span><?php echo __('Recently Compared') ?></span></strong>
-        </div>
-        <div class="block-content">
-            <?php $suffix = $this->getNameInLayout(); ?>
-            <ol id="widget-compared-<?php echo $suffix; ?>">
-            <?php $i=0; foreach ($_products as $_product): ?>
-                <li class="item">
-                    <p class="product-name"><a href="<?php echo $_product->getProductUrl() ?>"><?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getName() , 'name') ?></a></p>
-                </li>
-            <?php endforeach; ?>
-            </ol>
-            <script type="text/javascript">(function($) {$('#widget-compared-<?php echo $suffix; ?>').decorate('list', false)})(jQuery)</script>
-        </div>
+<div class="block widget compared links">
+    <div class="title">
+        <strong><?php echo __('Recently Compared') ?></span></strong>
+    </div>
+    <div class="content">
+        <?php $suffix = $this->getNameInLayout(); ?>
+        <ol id="widget-compared-<?php echo $suffix; ?>" class="items">
+        <?php $i=0; foreach ($_products as $_product): ?>
+            <li class="item">
+                <strong class="product name">
+                    <a href="<?php echo $_product->getProductUrl() ?>">
+                        <?php echo $this->helper('Magento\Catalog\Helper\Output')->productAttribute($_product, $_product->getName(), 'name') ?>
+                    </a>
+                </strong>
+            </li>
+        <?php endforeach; ?>
+        </ol>
     </div>
 </div>
 <?php endif; ?>

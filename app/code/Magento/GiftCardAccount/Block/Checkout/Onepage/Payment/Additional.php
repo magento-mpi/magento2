@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Checkout\Onepage\Payment;
 
-class Additional extends \Magento\Core\Block\Template
+class Additional extends \Magento\View\Block\Template
 {
     /**
      * Checkout session
@@ -20,18 +20,18 @@ class Additional extends \Magento\Core\Block\Template
     protected $_checkoutSession = null;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
         $this->_checkoutSession = $checkoutSession;
     }
 

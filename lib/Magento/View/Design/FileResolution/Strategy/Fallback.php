@@ -2,15 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Resolver, which performs full search of files, according to fallback rules
- */
 namespace Magento\View\Design\FileResolution\Strategy;
 
 use Magento\Filesystem;
@@ -20,9 +15,9 @@ use Magento\View\Design\ThemeInterface;
 use Magento\Filesystem\Directory\Read;
 
 /**
- * Fallback
+ * Class Fallback
  *
- * @package Magento\View
+ * Resolver, which performs full search of files, according to fallback rules
  */
 class Fallback implements FileInterface, LocaleInterface, ViewInterface
 {

@@ -13,7 +13,7 @@ namespace Magento\Core\Helper\File;
 /**
  * Class Media
  */
-class Media extends \Magento\Core\Helper\AbstractHelper
+class Media extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Core\Model\Date
@@ -24,23 +24,23 @@ class Media extends \Magento\Core\Helper\AbstractHelper
      * @var \Magento\Filesystem
      */
     protected $filesystem;
-
+    
     /**
      * Constructor
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Date $date
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\Date $date
+        \Magento\App\Helper\Context $context,
+        \Magento\Core\Model\Date $date,
+        \Magento\Filesystem $filesystem
     ) {
         parent::__construct($context);
-        $this->filesystem = $filesystem;
         $this->_date = $date;
-     }
+        $this->filesystem = $filesystem;
+    }
 
     /**
      * Collect file info

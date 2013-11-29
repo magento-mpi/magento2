@@ -17,7 +17,10 @@
  */
 namespace Magento\Pbridge\Controller\Payment;
 
-class Profile extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Profile extends \Magento\App\Action\Action
 {
     /**
      * Customer session
@@ -29,11 +32,11 @@ class Profile extends \Magento\Core\Controller\Front\Action
     /**
      * Construct
      *
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Customer\Model\Session $customerSession
     ) {
         $this->_customerSession = $customerSession;
@@ -43,17 +46,17 @@ class Profile extends \Magento\Core\Controller\Front\Action
     /**
      * Check whether Payment Profiles functionality enabled
      *
-     * @return \Magento\Pbridge\Controller\Payment\Profile
+     * @param RequestInterface $request
+     * @return mixed
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\Pbridge\Helper\Data')->arePaymentProfilesEnables()) {
-            if ($this->getRequest()->getActionName() != 'noroute') {
+            if ($request->getActionName() != 'noroute') {
                 $this->_forward('noroute');
             }
         }
-        return $this;
+        return parent::dispatch($request);
     }
 
     /**
@@ -66,7 +69,7 @@ class Profile extends \Magento\Core\Controller\Front\Action
             return;
         }
 
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 }

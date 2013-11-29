@@ -1141,10 +1141,10 @@ return array(
     array('Magento\Core\Model\Layout\File\Source\Theme', 'Magento\View\Layout\File\Source\Theme'),
     array('Magento\Core\Model\Layout\File\SourceInterface', 'Magento\View\Layout\File\SourceInterface'),
     array('Magento\Core\Model\LayoutFactory', 'Magento\View\LayoutFactory'),
-    array('Magento\Core\Model\TemplateEngine\EngineInterface','Magento\View\TemplateEngineInterface'),
-    array('Magento\Core\Model\TemplateEngine\Factory','Magento\View\TemplateEngineFactory'),
-    array('Magento\Core\Model\TemplateEngine\Php','Magento\View\TemplateEngine\Php'),
-    array('Magento\Core\Model\TemplateEngine\Pool'),
+    array('Magento\Core\Model\TemplateEngine\EngineInterface', 'Magento\View\TemplateEngineInterface'),
+    array('Magento\Core\Model\TemplateEngine\Factory', 'Magento\View\TemplateEngineFactory'),
+    array('Magento\Core\Model\TemplateEngine\Php', 'Magento\View\TemplateEngine\Php'),
+    array('Magento\Core\Model\TemplateEngine\Pool', 'Magento\View\TemplateEnginePool'),
     array('Magento\Media\Model\File\Image'),
     array('Magento\Media\Model\Image'),
     array('Magento\Media\Helper\Data'),
@@ -1420,7 +1420,6 @@ return array(
     array('Magento\Index\Model\EntryPoint\Shell', 'Magento\Index\App\Shell'),
     array('Magento\Index\Model\EntryPoint\Indexer', 'Magento\Index\App\Indexer'),
     array('Magento\Core\Model\Config\Modules\Reader', 'Magento\Module\Dir\Reader'),
-    array('Magento\Core\Model\EntryPoint\Media', 'Magento\Core\App\Media'),
     array('Magento\Data\Form\Factory', 'Magento\Data\FormFactory'),
     array('Magento\App\Cache\Config', 'Magento\Cache\Config'),
     array('Magento\App\Cache\Config\Converter', 'Magento\Cache\Config\Converter'),
@@ -1433,5 +1432,250 @@ return array(
     array('Magento\Core\Model\Fieldset\Config\Reader', 'Magento\Object\Copy\Config\Reader'),
     array('Magento\Core\Model\Fieldset\Config\SchemaLocator', 'Magento\Object\Copy\Config\SchemaLocator'),    
     array('Magento\Core\Model\ModuleManager', 'Magento\Module\Manager'),
-    array('Magento\App\Dir\Verification', 'Magento\Filesystem\DirectoryList\Verification'),
+    array('Magento\Core\Model\EntryPoint\Media', 'Magento\Core\App\Media'),
+    array('Magento\Core\Controller\Varien\Action', 'Magento\App\Action\Action'),
+    array('Magento\Core\Controller\Varien\Action\Context', 'Magento\App\Action\Context'),
+    array('Magento\Backend\Controller\AbstractAction', 'Magento\Backend\App\AbstractAction'),
+    array('Magento\Backend\Controller\Context', 'Magento\Backend\App\Action\Context'),
+    array('Magento\Backend\Controller\Adminhtml\Action', 'Magento\Backend\App\Action'),
+    array('Magento\Core\Block\Text', 'Magento\View\Block\Text'),
+    array('Magento\Core\Block\Text\ListText', 'Magento\View\Block\Text\ListText'),
+    array('Magento\Core\Block\Text\TextList\Item', 'Magento\View\Block\Text\TextList\Item'),
+    array('Magento\Core\Block\Text\TextList\Link', 'Magento\View\Block\Text\TextList\Link'),
+    array('Magento\Core\Block\Messages', 'Magento\View\Block\Messages'),
+    array('Magento\Core\Model\Message', 'Magento\Message\Factory'),
+    array('Magento\Core\Model\Message\AbstractMessage', 'Magento\Message\AbstractMessage'),
+    array('Magento\Core\Model\Message\Collection', 'Magento\Message\Collection'),
+    array('Magento\Core\Model\Message\CollectionFactory', 'Magento\Message\CollectionFactory'),
+    array('Magento\Core\Model\Message\Error', 'Magento\Message\Error'),
+    array('Magento\Core\Model\Message\Warning', 'Magento\Message\Warning'),
+    array('Magento\Core\Model\Message\Notice', 'Magento\Message\Notice'),
+    array('Magento\Core\Model\Message\Success', 'Magento\Message\Success'),
+    array('Magento\Core\Block\Html\Date', 'Magento\View\Block\Html\Date'),
+    array('Magento\Core\Block\Html\Select', 'Magento\View\Block\Html\Select'),
+    array('Magento\Core\Block\AbstractBlock', 'Magento\View\Block\AbstractBlock'),
+    array('Magento\Core\Block\Template', 'Magento\View\Block\Template'),
+    array('Magento\Core\Block\Html\Calendar', 'Magento\View\Block\Html\Calendar'),
+    array('Magento\Core\Block\Html\Link', 'Magento\View\Block\Html\Link'),
+    array('Magento\Core\Block\Context', 'Magento\View\Block\Context'),
+    array('Magento\Core\Model\Factory\Helper', 'Magento\App\Helper\HelperFactory'),
+    array('Magento\Core\Helper\AbstractHelper', 'Magento\App\Helper\AbstractHelper'),
+    array('Magento\Core\Helper\Context', 'Magento\App\Helper\Context'),
+    array('Magento\Core\Block\Template\Context', 'Magento\View\Block\Template\Context'),
+    array(
+        'Magento\Adminhtml\Controller\Report\AbstractReport',
+        'Magento\Reports\Controller\Adminhtml\AbstractReport'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Report\Customer',
+        'Magento\Reports\Controller\Adminhtml\Customer'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Report\Product',
+        'Magento\Reports\Controller\Adminhtml\Product'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Report\Review',
+        'Magento\Reports\Controller\Adminhtml\Review'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Report\Sales',
+        'Magento\Reports\Controller\Adminhtml\Sales'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Report\Shopcart',
+        'Magento\Reports\Controller\Adminhtml\Shopcart'
+    ),
+    array(
+        'Magento\Adminhtml\Controller\Report\Statistics',
+        'Magento\Reports\Controller\Adminhtml\Statistics'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Config\Form\Field\MtdStart',
+        'Magento\Reports\Block\Adminhtml\Config\Form\Field\MtdStart'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Config\Form\Field\YtdStart',
+        'Magento\Reports\Block\Adminhtml\Config\Form\Field\YtdStart'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Filter\Form',
+        'Magento\Reports\Block\Adminhtml\Filter\Form'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Grid\AbstractGrid',
+        'Magento\Reports\Block\Adminhtml\Grid\AbstractGrid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Blanknumber',
+        'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Blanknumber'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency',
+        'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Customer',
+        'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Customer'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Product',
+        'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Product'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Grid\Shopcart',
+        'Magento\Reports\Block\Adminhtml\Grid\Shopcart'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Downloads\Grid',
+        'Magento\Reports\Block\Adminhtml\Product\Downloads\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Downloads\Renderer\Purchases',
+        'Magento\Reports\Block\Adminhtml\Product\Downloads\Renderer\Purchases'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Downloads',
+        'Magento\Reports\Block\Adminhtml\Product\Downloads'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Grid',
+        'Magento\Reports\Block\Adminhtml\Product\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Lowstock\Grid',
+        'Magento\Reports\Block\Adminhtml\Product\Lowstock\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Lowstock',
+        'Magento\Reports\Block\Adminhtml\Product\Lowstock'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Viewed\Grid',
+        'Magento\Reports\Block\Adminhtml\Product\Viewed\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product\Viewed',
+        'Magento\Reports\Block\Adminhtml\Product\Viewed'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Product',
+        'Magento\Reports\Block\Adminhtml\Product'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Review\Customer',
+        'Magento\Reports\Block\Adminhtml\Review\Customer'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Review\Detail\Grid',
+        'Magento\Reports\Block\Adminhtml\Review\Detail\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Review\Detail',
+        'Magento\Reports\Block\Adminhtml\Review\Detail'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Review\Product',
+        'Magento\Reports\Block\Adminhtml\Review\Product'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Bestsellers\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Bestsellers\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Bestsellers',
+        'Magento\Reports\Block\Adminhtml\Sales\Bestsellers'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Coupons\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Coupons\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Coupons',
+        'Magento\Reports\Block\Adminhtml\Sales\Coupons'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Grid\Column\Renderer\Date',
+        'Magento\Reports\Block\Adminhtml\Sales\Grid\Column\Renderer\Date'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Invoiced\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Invoiced\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Invoiced',
+        'Magento\Reports\Block\Adminhtml\Sales\Invoiced'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Refunded\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Refunded\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Refunded',
+        'Magento\Reports\Block\Adminhtml\Sales\Refunded'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Sales\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Sales\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Sales',
+        'Magento\Reports\Block\Adminhtml\Sales\Sales'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Shipping\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Shipping\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Shipping',
+        'Magento\Reports\Block\Adminhtml\Sales\Shipping'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Tax\Grid',
+        'Magento\Reports\Block\Adminhtml\Sales\Tax\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Sales\Tax',
+        'Magento\Reports\Block\Adminhtml\Sales\Tax'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Search',
+        'Magento\Reports\Block\Adminhtml\Search'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Shopcart\Abandoned\Grid',
+        'Magento\Reports\Block\Adminhtml\Shopcart\Abandoned\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Shopcart\Abandoned',
+        'Magento\Reports\Block\Adminhtml\Shopcart\Abandoned'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Shopcart\Customer\Grid',
+        'Magento\Reports\Block\Adminhtml\Shopcart\Customer\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Shopcart\Customer',
+        'Magento\Reports\Block\Adminhtml\Shopcart\Customer'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Shopcart\Product\Grid',
+        'Magento\Reports\Block\Adminhtml\Shopcart\Product\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Shopcart\Product',
+        'Magento\Reports\Block\Adminhtml\Shopcart\Product'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Wishlist\Grid',
+        'Magento\Reports\Block\Adminhtml\Wishlist\Grid'
+    ),
+    array(
+        'Magento\Adminhtml\Block\Report\Wishlist',
+        'Magento\Reports\Block\Adminhtml\Wishlist'
+    ),
+    array(
+        'Magento\App\Dir\Verification',
+        'Magento\Filesystem\DirectoryList\Verification'
+    ),
 );

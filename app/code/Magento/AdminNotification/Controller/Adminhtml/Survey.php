@@ -18,7 +18,7 @@
  */
 namespace Magento\AdminNotification\Controller\Adminhtml;
 
-class Survey extends \Magento\Backend\Controller\Adminhtml\Action
+class Survey extends \Magento\Backend\App\Action
 {
     /**
      * Index Action

@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Product;
 
-class Info extends \Magento\Core\Block\Template
+class Info extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\GiftWrapping\Model\WrappingFactory
@@ -25,19 +25,19 @@ class Info extends \Magento\Core\Block\Template
     protected $_wrappingFactory;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_wrappingFactory = $wrappingFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

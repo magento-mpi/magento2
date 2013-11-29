@@ -17,6 +17,7 @@
         <word>ukpromerchant</word>
         <word>pinba</word>
         <word>saas</word>
+        <word>CHANGELOG</word>
         <!-- Library classes belonging to Enterprise Edition -->
         <word>Magento/JobQueue</word>
         <word>Magento\JobQueue</word>
@@ -74,6 +75,10 @@
         <word>WebsiteRestriction</word>
     </words>
     <whitelist>
+        <item>
+            <word>CHANGELOG</word>
+            <path>CHANGELOG.md</path>
+        </item>
         <item>
             <!-- Not an issue until we decide to publish dev/tests/functional, product editions are combined there currently -->
             <word>CustomerSegment</word>
@@ -138,13 +143,29 @@
             <path>lib/Magento/DB/Helper.php</path>
         </item>
         <item>
+            <path>lib/LinLibertineFont</path>
+        </item>
+        <item>
+            <word>CHANGELOG</word>
+            <path>lib/Magento/Pear/Package.php</path>
+        </item>
+        <item>
+            <path>lib/Symfony</path>
+        </item>
+        <item>
             <path>lib/Zend</path>
         </item>
         <item>
             <path>dev/build</path>
         </item>
         <item>
+            <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files</path>
+        </item>
+        <item>
             <path>dev/tools/Magento/Tools/license_placeholder</path>
+        </item>
+        <item>
+            <path>dev/tools/PHP-Parser</path>
         </item>
         <item>
             <!-- Names of modules belonging to Enterprise Edition -->
@@ -282,40 +303,6 @@
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>GiftRegistry</word>
             <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>GiftRegistry</word>
-            <path>app/design/frontend/magento_backup/Magento_Wishlist/wishlist.js</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>Invitation</word>
-            <path>app/design/adminhtml/magento_backend/css/admin.css</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>CustomerSegment</word>
-            <word>GiftCard</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Invitation</word>
-            <word>Reward</word>
-            <word>TargetRule</word>
-            <path>app/design/adminhtml/magento_backend/css/debug.css</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>GiftCard</word>
-            <path>app/design/adminhtml/magento_basic/boxes.css</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>CustomerSegment</word>
-            <word>GiftRegistry</word>
-            <word>GiftWrapping</word>
-            <word>Invitation</word>
-            <path>app/design/adminhtml/magento_backend/css/pages.css</path>
         </item>
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test -->

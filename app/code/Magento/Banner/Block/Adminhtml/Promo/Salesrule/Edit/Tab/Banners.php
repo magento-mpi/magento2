@@ -18,7 +18,7 @@
 namespace Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab;
 
 class Banners
-extends \Magento\Adminhtml\Block\Text\ListText
+extends \Magento\Backend\Block\Text\ListText
 implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**

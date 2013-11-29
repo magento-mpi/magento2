@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer;
 
-class Reward extends \Magento\Core\Block\Template
+class Reward extends \Magento\View\Block\Template
 {
     /**
      * Set template variables

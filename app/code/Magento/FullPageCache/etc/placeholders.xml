@@ -34,11 +34,11 @@
     </placeholder>
     <placeholder name="messages" code="MESSAGES" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Messages" />
-        <block instance="Magento\Core\Block\Messages" name="messages" />
+        <block instance="Magento\View\Block\Messages" name="messages" />
     </placeholder>
     <placeholder name="global_messages" code="GLOBAL_MESSAGES" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Messages" />
-        <block instance="Magento\Core\Block\Messages" name="global_messages" />
+        <block instance="Magento\View\Block\Messages" name="global_messages" />
     </placeholder>
     <placeholder name="recently_compared_sidebar" code="RECENTLYCOMPARED_SIDEBAR" cacheLifeTime="86400">
         <container instance="Magento\FullPageCache\Model\Container\Sidebar\Recentlycompared" />

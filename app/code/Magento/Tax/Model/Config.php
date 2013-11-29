@@ -9,7 +9,7 @@
  */
 
 /**
- * Configuration pathes storage
+ * Configuration paths storage
  *
  * @category   Magento
  * @package    Magento_Tax
@@ -251,7 +251,7 @@ class Config
     }
 
     /**
-     * Check if shiping prices include tax
+     * Check if shipping prices include tax
      *
      * @param   store $store
      * @return  bool

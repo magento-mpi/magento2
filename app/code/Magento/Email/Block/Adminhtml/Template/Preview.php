@@ -30,22 +30,22 @@ class Preview extends \Magento\Adminhtml\Block\Widget
     protected $_emailFactory;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Input\Filter\MaliciousCode $maliciousCode
      * @param \Magento\Email\Model\TemplateFactory $emailFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Input\Filter\MaliciousCode $maliciousCode,
         \Magento\Email\Model\TemplateFactory $emailFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_maliciousCode = $maliciousCode;
         $this->_emailFactory = $emailFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

@@ -51,7 +51,7 @@ class Store extends \Magento\Object
     private $_isAdminScopeAllowed = true;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -59,10 +59,10 @@ class Store extends \Magento\Object
      * Init model
      * Load Website, Group and Store collections
      *
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @return \Magento\Core\Model\System\Store
      */
-    public function __construct(\Magento\Core\Model\StoreManager $storeManager)
+    public function __construct(\Magento\Core\Model\StoreManagerInterface $storeManager)
     {
         $this->_storeManager = $storeManager;
         return $this->reload();

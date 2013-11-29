@@ -512,7 +512,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     }
 
     /**
-     * Retrive image from gallery
+     * Retrieve image from gallery
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param string $file

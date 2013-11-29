@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Controller\Adminhtml;
 
-class Group extends \Magento\Backend\Controller\Adminhtml\Action
+class Group extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -25,13 +25,12 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
-
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -40,7 +39,7 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
 
     protected function _initGroup()
     {
-        $this->_title(__('Customer Groups'));
+        $this->_title->add(__('Customer Groups'));
 
         $this->_coreRegistry->register('current_group', $this->_objectManager->create('Magento\Customer\Model\Group'));
         $groupId = $this->getRequest()->getParam('id');
@@ -55,13 +54,13 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Customer Groups'));
+        $this->_title->add(__('Customer Groups'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'));
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -70,7 +69,7 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
     public function newAction()
     {
         $this->_initGroup();
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Customer::customer_group');
         $this->_addBreadcrumb(__('Customers'), __('Customers'));
         $this->_addBreadcrumb(__('Customer Groups'), __('Customer Groups'), $this->getUrl('customer/group'));
@@ -83,12 +82,12 @@ class Group extends \Magento\Backend\Controller\Adminhtml\Action
             $this->_addBreadcrumb(__('New Group'), __('New Customer Groups'));
         }
 
-        $this->_title($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
+        $this->_title->add($currentGroup->getId() ? $currentGroup->getCode() : __('New Customer Group'));
 
-        $this->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
+        $this->_view->getLayout()->addBlock('Magento\Customer\Block\Adminhtml\Group\Edit', 'group', 'content')
             ->setEditMode((bool)$this->_coreRegistry->registry('current_group')->getId());
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**

@@ -13,7 +13,7 @@
  */
 namespace Magento\MultipleWishlist\Block\Customer\Wishlist;
 
-class Management extends \Magento\Core\Block\Template
+class Management extends \Magento\View\Block\Template
 {
     /**
      * Id of current customer
@@ -49,24 +49,22 @@ class Management extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * Construct
-     *
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\MultipleWishlist\Helper\Data $wishlistData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\MultipleWishlist\Helper\Data $wishlistData,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_customerSession = $customerSession;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

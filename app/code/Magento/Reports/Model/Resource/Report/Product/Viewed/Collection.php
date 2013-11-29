@@ -47,7 +47,7 @@ class Collection
     ) {
         $resource->init(\Magento\Reports\Model\Resource\Report\Product\Viewed::AGGREGATION_DAILY);
         parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
-        $this->setModel('Magento\Adminhtml\Model\Report\Item');
+        $this->setModel('Magento\Reports\Model\Item');
     }
 
     /**

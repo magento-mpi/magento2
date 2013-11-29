@@ -82,7 +82,7 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     /**
      * Child transactions, assoc array of txn_id => instance
      * Filled only in case when all child transactions have txn_id
-     * Used for quicker search of child transactions using isset() as oposite to foreaching $_children
+     * Used for quicker search of child transactions using isset() as opposite to foreaching $_children
      * @var array
      */
     protected $_identifiedChildren = null;
@@ -130,13 +130,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_orderWebsiteId = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Sales\Model\Order\PaymentFactory
      */
     protected $_paymentFactory;
@@ -152,7 +145,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
     protected $_dateFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Order\PaymentFactory $paymentFactory
@@ -163,7 +155,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Order\PaymentFactory $paymentFactory,
@@ -173,7 +164,6 @@ class Transaction extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_paymentFactory = $paymentFactory;
         $this->_orderFactory = $orderFactory;
         $this->_dateFactory = $dateFactory;

@@ -1,7 +1,5 @@
 <?php
 /**
- * Application Runtime Context
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -13,9 +11,9 @@ namespace Magento\View;
 use Magento\App\Request\Http as Request;
 use Magento\App\FrontControllerInterface;
 
-use Magento\Core\Model\Translate;
+use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\Core\Model\Factory\Helper as FactoryHelper;
+use Magento\App\Helper\HelperFactory as FactoryHelper;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
@@ -29,6 +27,8 @@ use Magento\UrlInterface;
 use Magento\Event\ManagerInterface;
 
 /**
+ * Application Runtime Context
+ *
  * @todo Reduce fields number
  * @todo Reduce class dependencies
  *
@@ -53,7 +53,7 @@ class Context
     protected $urlBuilder;
 
     /**
-     * @var \Magento\Core\Model\Translate
+     * @var \Magento\TranslateInterface
      */
     protected $translator;
 
@@ -63,7 +63,7 @@ class Context
     protected $cache;
 
     /**
-     * @var \Magento\Core\Model\View\Design
+     * @var \Magento\View\DesignInterface
      */
     protected $design;
 
@@ -83,7 +83,7 @@ class Context
     protected $frontController;
 
     /**
-     * @var \Magento\Core\Model\Factory\Helper
+     * @var \Magento\App\Helper\HelperFactory
      */
     protected $helperFactory;
 
@@ -128,7 +128,7 @@ class Context
      * @param Request $request
      * @param ManagerInterface $eventManager
      * @param UrlInterface $urlBuilder
-     * @param Translate $translator
+     * @param TranslateInterface $translator
      * @param Cache $cache
      * @param DesignInterface $design
      * @param AbstractSession $session
@@ -141,6 +141,7 @@ class Context
      * @param Logger $logger
      * @param App $app
      * @param AppState $appState
+     *
      * @todo reduce parameter number
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -149,7 +150,7 @@ class Context
         Request $request,
         ManagerInterface $eventManager,
         UrlInterface $urlBuilder,
-        Translate $translator,
+        TranslateInterface $translator,
         Cache $cache,
         DesignInterface $design,
         AbstractSession $session,
@@ -190,7 +191,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\View\Design
+     * @return \Magento\View\DesignInterface
      */
     public function getDesignPackage()
     {
@@ -214,7 +215,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Factory\Helper
+     * @return \Magento\App\Helper\HelperFactory
      */
     public function getHelperFactory()
     {
@@ -254,7 +255,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Translate
+     * @return \Magento\TranslateInterface
      */
     public function getTranslator()
     {
@@ -333,6 +334,7 @@ class Context
      * Retrieve the module name
      *
      * @return string
+     *
      * @todo alias of getModuleName
      */
     public function getFrontName()

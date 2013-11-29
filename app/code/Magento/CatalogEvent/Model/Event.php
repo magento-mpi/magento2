@@ -127,7 +127,7 @@ class Event extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Get cahce tags associated with object id.
+     * Get cache tags associated with object id.
      * Added category id tags support
      *
      * @return array

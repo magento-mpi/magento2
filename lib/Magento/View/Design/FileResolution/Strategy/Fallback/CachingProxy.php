@@ -2,16 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * A proxy for the Fallback resolver. This proxy processes fallback resolution calls by either using map of cached
- * paths, or passing resolution to the Fallback resolver.
- */
 namespace Magento\View\Design\FileResolution\Strategy\Fallback;
 
 use Magento\Filesystem;
@@ -26,7 +20,8 @@ use Magento\Filesystem\Directory\Write;
 /**
  * Caching Proxy
  *
- * @package Magento\View
+ * A proxy for the Fallback resolver. This proxy processes fallback resolution calls by either using map of cached
+ * paths, or passing resolution to the Fallback resolver.
  */
 class CachingProxy implements FileInterface, LocaleInterface, ViewInterface, NotifiableInterface
 {

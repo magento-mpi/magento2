@@ -17,7 +17,7 @@
  */
 namespace Magento\Captcha\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Used for "name" attribute of captcha's input field
@@ -61,7 +61,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -71,15 +71,15 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_factory;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Captcha\Model\CaptchaFactory $factory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\App\Helper\Context $context,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem,
         \Magento\Captcha\Model\CaptchaFactory $factory

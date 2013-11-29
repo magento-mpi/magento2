@@ -18,7 +18,7 @@
 namespace Magento\CustomerSegment\Controller\Adminhtml\Report\Customer;
 
 class Customersegment
-    extends \Magento\Backend\Controller\Adminhtml\Action
+    extends \Magento\Backend\App\Action
 {
     /**
      * Admin session
@@ -40,17 +40,25 @@ class Customersegment
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
-     * @param \Magento\Backend\Controller\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -61,8 +69,8 @@ class Customersegment
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_CustomerSegment::report_customers_segment')
             ->_addBreadcrumb(
                 __('Reports'),
                 __('Reports')
@@ -135,10 +143,10 @@ class Customersegment
      */
     public function segmentAction()
     {
-        $this->_title(__('Customer Segment Report'));
+        $this->_title->add(__('Customer Segment Report'));
 
-        $this->_initAction()
-            ->renderlayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -147,7 +155,7 @@ class Customersegment
      */
     public function detailAction()
     {
-        $this->_title(__('Customer Segment Report'));
+        $this->_title->add(__('Customer Segment Report'));
 
         if ($this->_initSegment()) {
             // Add help Notice to Combined Report
@@ -174,11 +182,12 @@ class Customersegment
                 }
             }
 
-            $this->_title(__('Details'));
+            $this->_title->add(__('Details'));
 
-            $this->_initAction()->renderLayout();
+            $this->_initAction();
+            $this->_view->renderLayout();
         } else {
-            $this->_redirect('adminhtml/*/segment');
+            $this->_redirect('*/*/segment');
             return ;
         }
     }
@@ -195,13 +204,13 @@ class Customersegment
                     $segment->matchCustomers();
                 }
                 $this->_session->addSuccess(__('Customer Segment data has been refreshed.'));
-                $this->_redirect('adminhtml/*/detail', array('_current' => true));
+                $this->_redirect('*/*/detail', array('_current' => true));
                 return;
             } catch (\Magento\Core\Exception $e) {
                 $this->_session->addError($e->getMessage());
             }
         }
-        $this->_redirect('adminhtml/*/detail', array('_current' => true));
+        $this->_redirect('*/*/detail', array('_current' => true));
         return;
     }
 
@@ -213,12 +222,12 @@ class Customersegment
     {
         if ($this->_initSegment()) {
             $fileName = 'customersegment_customers.xml';
-            $this->loadLayout();
-            $content = $this->getLayout()
+            $this->_view->loadLayout();
+            $content = $this->_view->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_prepareDownloadResponse($fileName, $content->getExcelFile($fileName));
+            $this->_fileFactory->create($fileName, $content->getExcelFile($fileName));
         } else {
-            $this->_redirect('adminhtml/*/detail', array('_current' => true));
+            $this->_redirect('*/*/detail', array('_current' => true));
             return ;
         }
     }
@@ -230,13 +239,13 @@ class Customersegment
     public function exportCsvAction()
     {
         if ($this->_initSegment()) {
-            $this->loadLayout();
+            $this->_view->loadLayout();
             $fileName = 'customersegment_customers.csv';
-            $content = $this->getLayout()
+            $content = $this->_view->getLayout()
                 ->getChildBlock('report.customersegment.detail.grid', 'grid.export');
-            $this->_prepareDownloadResponse($fileName, $content->getCsvFile($fileName));
+            $this->_fileFactory->create($fileName, $content->getCsvFile($fileName));
         } else {
-            $this->_redirect('adminhtml/*/detail', array('_current' => true));
+            $this->_redirect('*/*/detail', array('_current' => true));
             return ;
         }
     }
@@ -249,8 +258,8 @@ class Customersegment
         if (!$this->_initSegment(false)) {
             return;
         }
-        $this->loadLayout(false);
-        $this->renderLayout();
+        $this->_view->loadLayout(false);
+        $this->_view->renderLayout();
     }
 
     /**

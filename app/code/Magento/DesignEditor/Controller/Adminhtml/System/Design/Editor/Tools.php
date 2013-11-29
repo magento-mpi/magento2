@@ -15,7 +15,7 @@ namespace Magento\DesignEditor\Controller\Adminhtml\System\Design\Editor;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Tools extends \Magento\Backend\Controller\Adminhtml\Action
+class Tools extends \Magento\Backend\App\Action
 {
     /**
      * Initialize theme context model
@@ -153,7 +153,7 @@ class Tools extends \Magento\Backend\Controller\Adminhtml\Action
             $editableTheme->getCustomization()->delete($removeJsFiles);
             $this->_forward('jsList');
         } catch (\Exception $e) {
-            $this->_redirectUrl($this->_getRefererUrl());
+            $this->getResponse()->setRedirect($this->_redirect->getRefererUrl());
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }

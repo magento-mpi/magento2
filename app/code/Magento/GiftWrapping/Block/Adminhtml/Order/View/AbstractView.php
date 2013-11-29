@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Order\View;
 
-class AbstractView extends \Magento\Core\Block\Template
+class AbstractView extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
@@ -44,35 +44,25 @@ class AbstractView extends \Magento\Core\Block\Template
     protected $_wrappingCollFactory;
 
     /**
-     * Store list manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
-        $this->_storeManager = $storeManager;
         $this->_wrappingCollFactory = $wrappingCollFactory;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     /**

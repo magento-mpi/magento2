@@ -10,7 +10,10 @@
 
 namespace Magento\Rma\Controller\Adminhtml;
 
-class Rma extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\App\Action\NotFoundException;
+use Magento\Backend\App\Action;
+
+class Rma extends \Magento\Backend\App\Action
 {
     /**
      * Core registry
@@ -30,20 +33,25 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     protected $readDirectory;
 
     /**
-     * Constructor
-     *
-     * @param \Magento\Backend\Controller\Context   $context
-     * @param \Magento\Core\Model\Registry          $coreRegistry
-     * @param \Magento\Filesystem                   $filesystem
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileFactory;
+
+    /**
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
-        \Magento\Core\Model\Registry        $coreRegistry,
-        \Magento\Filesystem                 $filesystem
+        Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Filesystem $filesystem
     ) {
-        $this->_coreRegistry    = $coreRegistry;
-        $this->filesystem       = $filesystem;
-        $this->readDirectory    = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->_coreRegistry = $coreRegistry;
+        $this->filesystem = $filesystem;
+        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
+        $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
 
@@ -54,10 +62,10 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma');
 
-        $this->_title(__('Returns'));
+        $this->_title->add(__('Returns'));
         return $this;
     }
 
@@ -124,7 +132,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_initAction()->renderLayout();
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -156,8 +165,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             }
 
             $this->_initAction();
-            $this->_title(__('New Return'));
-            $this->renderLayout();
+            $this->_title->add(__('New Return'));
+            $this->_view->renderLayout();
         }
     }
 
@@ -168,9 +177,9 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $this->_initCreateModel();
 
-        $this->_initAction()
-            ->_title(__('New Return'))
-            ->renderLayout();
+        $this->_initAction();
+        $this->_title->add(__('New Return'));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -191,8 +200,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             return;
         }
         $this->_initAction();
-        $this->_title(sprintf("#%s", $model->getIncrementId()));
-        $this->renderLayout();
+        $this->_title->add(sprintf("#%s", $model->getIncrementId()));
+        $this->_view->renderLayout();
     }
 
     /**
@@ -395,7 +404,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
         $statuses = array();
         foreach ($requestedItems as $requestedItem) {
             if (isset($requestedItem['status'])) {
-                array_push($statuses, $requestedItem['status']);
+                $statuses[] = $requestedItem['status'];
             }
         }
         /* Merge RMA Items status with POST data*/
@@ -404,7 +413,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             ->addAttributeToFilter('rma_entity_id', $rmaId);
         foreach ($rmaItems as $rmaItem) {
             if (!isset($requestedItems[$rmaItem->getId()])) {
-                array_push($statuses, $rmaItem->getStatus());
+                $statuses[] = $rmaItem->getStatus();
             }
         }
         return $statuses;
@@ -505,8 +514,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                 $history->sendCommentEmail();
             }
 
-            $this->loadLayout();
-            $response = $this->getLayout()->getBlock('comments_history')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('comments_history')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -532,8 +541,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
         $customerId = intval($this->getRequest()->getParam('id'));
         if ($customerId) {
             $this->getResponse()->setBody(
-                $this
-                    ->getLayout()
+                $this->_view->getLayout()
                     ->createBlock('Magento\Rma\Block\Adminhtml\Customer\Edit\Tab\Rma')
                     ->setCustomerId($customerId)
                     ->toHtml()
@@ -548,8 +556,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     {
         $orderId = intval($this->getRequest()->getParam('order_id'));
         $this->getResponse()->setBody(
-            $this
-                ->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\Rma\Block\Adminhtml\Order\View\Tab\Rma')
                 ->setOrderId($orderId)
                 ->toHtml()
@@ -569,8 +576,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             if (!$order) {
                 throw new \Magento\Core\Exception(__('Invalid order'));
             }
-            $this->loadLayout();
-            $response = $this->getLayout()->getBlock('add_product_grid')->toHtml();
+            $this->_view->loadLayout();
+            $response = $this->_view->getLayout()->getBlock('add_product_grid')->toHtml();
         } catch (\Magento\Core\Exception $e) {
             $response = array(
                 'error'     => true,
@@ -605,14 +612,14 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                 /** @var $pdfModel \Magento\Rma\Model\Pdf\Rma */
                 $pdfModel = $this->_objectManager->create('Magento\Rma\Model\Pdf\Rma');
                 $pdf = $pdfModel->getPdf(array($rmaModel));
-                $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'rma' . $dateModel->date('Y-m-d_H-i-s') . '.pdf',
                     $pdf->render(),
                     'application/pdf'
                 );
             }
         } else {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
         }
     }
 
@@ -654,9 +661,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             );
         }
 
-        $this->loadLayout();
-        $block = $this
-                ->getLayout()
+        $this->_view->loadLayout();
+        $block = $this->_view->getLayout()
                 ->getBlock('magento_rma_edit_item')
                 ->initForm();
         $block->getForm()->setHtmlIdPrefix('_rma' . $itemId);
@@ -681,9 +687,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
         $rma_item = $this->_objectManager->create('Magento\Rma\Model\Item');
         $this->_coreRegistry->register('current_rma_item', $rma_item);
 
-        $this->loadLayout();
-        $response = $this
-            ->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_edit_item')
             ->setProductId(intval($productId))
             ->initForm()
@@ -737,10 +742,9 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             );
         }
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
 
-        $response = $this
-            ->getLayout()
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_edit_items_grid')
             ->setItemFilter($itemId)
             ->setAllFieldsEditable()
@@ -800,8 +804,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             );
         }
 
-        $this->loadLayout();
-        $response = $this->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_bundle')
             ->toHtml()
         ;
@@ -815,7 +819,9 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     }
 
     /**
-     * Action for view full sized item atttribute image
+     * Action for view full sized item attribute image
+     *
+     * @throws NotFoundException
      */
     public function viewfileAction()
     {
@@ -831,12 +837,12 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         $filePath = sprintf('rma_item/%s', $fileName);
         if (!$this->readDirectory->isExist($filePath)) {
-            return $this->norouteAction();
+            throw new NotFoundException();
         }
 
         if ($plain) {
@@ -914,8 +920,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             );
         }
 
-        $this->loadLayout();
-        $response = $this->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_shipping_available')
             ->toHtml()
         ;
@@ -963,8 +969,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             );
         }
 
-        $this->loadLayout();
-        $response = $this->getLayout()
+        $this->_view->loadLayout();
+        $response = $this->_view->getLayout()
             ->getBlock('magento_rma_shipment_packaging')
             ->toHtml()
         ;
@@ -1012,7 +1018,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             $itemsOrderItemId[$item->getItemId()]   = $item->getItemId();
         }
 
-        $shippingInformation = $this->getLayout()
+        $shippingInformation = $this->_view->getLayout()
             ->createBlock('Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping\Information')
             ->setIndex($this->getRequest()->getParam('index'))
             ->toHtml();
@@ -1044,8 +1050,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     public function getShippingItemsGridAction()
     {
         $this->_initModel();
-        $response = $this-> _initAction()
-                ->getLayout()
+        $this->_initAction();
+        $response = $this->_view->getLayout()
                 ->getBlock('magento_rma_getshippingitemsgrid')
                 ->toHtml()
         ;
@@ -1076,7 +1082,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                 }
                 $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             } else {
-                $this->_forward('noRoute');
+                $this->_forward('noroute');
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
@@ -1206,7 +1212,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Print label for one specific shipment
      *
-     * @return \Magento\Backend\Controller\Adminhtml\Action
+     * @return \Magento\Backend\App\Action
      * @throws \Magento\Core\Exception
      */
     public function printLabelAction()
@@ -1230,7 +1236,7 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                     $pdfContent = $pdf->render();
                 }
 
-                return $this->_prepareDownloadResponse(
+                return $this->_fileFactory->create(
                     'ShippingLabel(' . $model->getIncrementId() . ').pdf',
                     $pdfContent,
                     'application/pdf'
@@ -1262,20 +1268,19 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
             /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
             $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
             /** @var $block \Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod */
-            $block = $this->_layout->getBlockSingleton(
+            $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shipment);
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
-            $this->_prepareDownloadResponse(
+            return $this->_fileFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(),
                 'application/pdf'
             );
-        }
-        else {
-            $this->_forward('noRoute');
+        } else {
+            $this->_forward('noroute');
         }
     }
 
@@ -1363,8 +1368,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                     ->save()
                 ;
 
-                $this->loadLayout();
-                $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
+                $this->_view->loadLayout();
+                $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
             } else {
                 $response = array(
                     'error'     => true,
@@ -1403,8 +1408,8 @@ class Rma extends \Magento\Backend\Controller\Adminhtml\Action
                 if ($model->getId()) {
                     $shippingModel->delete();
 
-                    $this->loadLayout();
-                    $response = $this->getLayout()->getBlock('shipment_tracking')->toHtml();
+                    $this->_view->loadLayout();
+                    $response = $this->_view->getLayout()->getBlock('shipment_tracking')->toHtml();
                 } else {
                     $response = array(
                         'error'     => true,

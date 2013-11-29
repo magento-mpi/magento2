@@ -33,34 +33,25 @@ class Form
     protected $_coreRegistry = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $storeManager;
-
-    /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->customerFactory = $customerFactory;
         $this->giftRegistryTypeFactory = $giftRegistryTypeFactory;
-        parent::__construct($coreData, $context, $data);
-
-        $this->storeManager = $storeManager;
+        parent::__construct($context, $coreData, $data);
     }
 
     /**
@@ -88,7 +79,7 @@ class Form
      */
     public function getWebsiteName()
     {
-        return $this->storeManager->getWebsite($this->getEntity()->getWebsiteId())->getName();
+        return $this->_storeManager->getWebsite($this->getEntity()->getWebsiteId())->getName();
     }
 
     /**

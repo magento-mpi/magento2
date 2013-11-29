@@ -10,8 +10,11 @@
 
 namespace Magento\Rma\Controller;
 
-class Tracking extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+
+class Tracking extends \Magento\App\Action\Action
 {
+
     /**
      * Core registry
      *
@@ -20,14 +23,22 @@ class Tracking extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @var \Magento\App\Response\Http\FileFactory
+     */
+    protected $_fileResponseFactory;
+
+    /**
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\App\Response\Http\FileFactory $fileResponseFactory
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\App\Response\Http\FileFactory $fileResponseFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_fileResponseFactory = $fileResponseFactory;
         parent::__construct($context);
     }
 
@@ -36,6 +47,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      * Shows tracking info if it's present, otherwise redirects to 404
      *
      * @return null
+     * @throws NotFoundException
      */
     public function popupAction()
     {
@@ -45,15 +57,14 @@ class Tracking extends \Magento\Core\Controller\Front\Action
 
         $this->_coreRegistry->register('rma_current_shipping', $shippingInfoModel);
         if (count($shippingInfoModel->getTrackingInfo()) == 0) {
-            $this->norouteAction();
-            return;
+            throw new NotFoundException();
         }
-        $this->loadLayout();
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Tracking Information'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -61,6 +72,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
      * Shows package info if it's present, otherwise redirects to 404
      *
      * @return null
+     * @throws NotFoundException
      */
     public function packageAction()
     {
@@ -70,11 +82,10 @@ class Tracking extends \Magento\Core\Controller\Front\Action
 
         $this->_coreRegistry->register('rma_package_shipping', $shippingInfoModel);
         if (!$shippingInfoModel->getPackages()) {
-            $this->norouteAction();
-            return;
+            throw new NotFoundException();
         }
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -115,7 +126,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
         }
 
         if (!$entityId) {
-            $this->_forward('noRoute');
+            $this->_forward('noroute');
             return false;
         }
 
@@ -132,6 +143,8 @@ class Tracking extends \Magento\Core\Controller\Front\Action
 
     /**
      * Print label for one specific shipment
+     *
+     * @throws NotFoundException
      */
     public function printLabelAction()
     {
@@ -166,7 +179,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
                     $pdfContent = $pdf->render();
                 }
 
-                return $this->_prepareDownloadResponse(
+                return $this->_fileResponseFactory->create(
                     'ShippingLabel(' . $rmaIncrementId . ').pdf',
                     $pdfContent,
                     'application/pdf'
@@ -179,8 +192,7 @@ class Tracking extends \Magento\Core\Controller\Front\Action
             $this->_getSession()
                 ->addError(__('Something went wrong creating a shipping label.'));
         }
-        $this->norouteAction();
-        return;
+        throw new NotFoundException();
     }
 
     /**
@@ -202,14 +214,14 @@ class Tracking extends \Magento\Core\Controller\Front\Action
         if ($shippingInfoModel) {
             /** @var $orderPdf \Magento\Sales\Model\Order\Pdf\Shipment\Packaging */
             $orderPdf = $this->_objectManager->create('Magento\Sales\Model\Order\Pdf\Shipment\Packaging');
-            $block = $this->_layout->getBlockSingleton(
+            $block = $this->_view->getLayout()->getBlockSingleton(
                 'Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shippingmethod'
             );
             $orderPdf->setPackageShippingBlock($block);
             $pdf = $orderPdf->getPdf($shippingInfoModel);
             /** @var $dateModel \Magento\Core\Model\Date */
             $dateModel = $this->_objectManager->get('Magento\Core\Model\Date');
-            $this->_prepareDownloadResponse(
+            $this->_fileResponseFactory->create(
                 'packingslip' . $dateModel->date('Y-m-d_H-i-s') . '.pdf', $pdf->render(), 'application/pdf'
             );
         }

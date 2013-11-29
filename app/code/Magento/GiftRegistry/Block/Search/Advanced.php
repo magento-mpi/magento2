@@ -27,49 +27,35 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
 
     protected $_attributes = null;
 
+    protected $_formData = null;
+
     /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         array $data = array()
     ) {
-        parent::__construct(
-            $coreData, $context, $configCacheType, $country,
-            $region, $storeManager, $locale, $data
-        );
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
+        parent::__construct($context, $coreData, $configCacheType, $country, $region, $data);
     }
-
-    protected $_formData = null;
-
-    /**
-     * Core registry
-     *
-     * @var \Magento\Core\Model\Registry
-     */
-    protected $_coreRegistry = null;
 
     /**
      * Get config
@@ -117,7 +103,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     public function getAttributes()
     {
         if (is_null($this->_attributes)) {
-            $type = $this->_coreRegistry->registry('current_giftregistry_type');
+            $type = $this->_registry->registry('current_giftregistry_type');
             $config = $this->attributeConfig;
             $staticTypes = $config->getStaticTypesCodes();
 

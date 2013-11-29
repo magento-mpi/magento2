@@ -17,7 +17,10 @@
  */
 namespace Magento\Reward\Controller;
 
-class Customer extends \Magento\Core\Controller\Front\Action
+use Magento\App\Action\NotFoundException;
+use Magento\App\RequestInterface;
+
+class Customer extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -27,32 +30,42 @@ class Customer extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @var \Magento\Core\App\Action\FormKeyValidator
+     */
+    protected $_formKeyValidator;
+
+    /**
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\App\Action\Context $context,
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
     ) {
+        $this->_formKeyValidator = $formKeyValidator;
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($context);
     }
 
     /**
-     * Predispatch
      * Check is customer authenticate
      * Check is RP enabled on frontend
+     *
+     * @param RequestInterface $request
+     * @return mixed
+     * @throws \Magento\App\Action\NotFoundException
      */
-    public function preDispatch()
+    public function dispatch(RequestInterface $request)
     {
-        parent::preDispatch();
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
         }
         if (!$this->_objectManager->get('Magento\Reward\Helper\Data')->isEnabledOnFront()) {
-            $this->norouteAction();
-            $this->setFlag('', self::FLAG_NO_DISPATCH, true);
+            throw new NotFoundException();
         }
+        return parent::dispatch($request);
     }
 
     /**
@@ -61,13 +74,13 @@ class Customer extends \Magento\Core\Controller\Front\Action
     public function infoAction()
     {
         $this->_coreRegistry->register('current_reward', $this->_getReward());
-        $this->loadLayout();
-        $this->_initLayoutMessages('Magento\Customer\Model\Session');
-        $headBlock = $this->getLayout()->getBlock('head');
+        $this->_view->loadLayout();
+        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Reward Points'));
         }
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -75,7 +88,7 @@ class Customer extends \Magento\Core\Controller\Front\Action
      */
     public function saveSettingsAction()
     {
-        if (!$this->_validateFormKey()) {
+        if (!$this->_formKeyValidator->validate($this->getRequest())) {
             return $this->_redirect('*/*/info');
         }
 

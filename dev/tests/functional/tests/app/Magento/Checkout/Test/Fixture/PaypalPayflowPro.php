@@ -64,7 +64,7 @@ class PaypalPayflowPro extends Checkout
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_fixed_required');
         $bundle->persist();
 

@@ -28,7 +28,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function getEntity()
     {
-        return $this->_coreRegistry->registry('magento_giftregistry_entity');
+        return $this->_registry->registry('magento_giftregistry_entity');
     }
 
     /**
@@ -38,7 +38,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
      */
     public function getAddress()
     {
-        return $this->_coreRegistry->registry('magento_giftregistry_address');
+        return $this->_registry->registry('magento_giftregistry_address');
     }
 
     /**
@@ -75,7 +75,7 @@ class Edit extends \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
                 'label' => __('New Address')
             );
 
-            $select = $this->getLayout()->createBlock('Magento\Core\Block\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
                 ->setName('address_type_or_id')
                 ->setId($domId)
                 ->setClass('address-select')

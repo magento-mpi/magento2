@@ -6,11 +6,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\View;
+
 /**
  * Builds URLs for publicly accessible files
  */
-namespace Magento\View;
-
 class Url
 {
     /**
@@ -56,8 +56,6 @@ class Url
     protected $_fileUrlMap;
 
     /**
-     * View files URL model
-     *
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\UrlInterface $urlBuilder
      * @param Url\ConfigInterface $config
@@ -85,7 +83,9 @@ class Url
     }
 
     /**
-     * Get url to file base on theme file identifier.
+     * Retrieve view file URL
+     *
+     * Get URL to file base on theme file identifier.
      * Publishes file there, if needed.
      *
      * @param string $fileId

@@ -1,7 +1,5 @@
 <?php
 /**
- * Source of base layout files introduced by modules
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -16,6 +14,9 @@ use Magento\Filesystem;
 use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\Layout\File\Factory;
 
+/**
+ * Source of base layout files introduced by modules
+ */
 class Base implements SourceInterface
 {
     /**
@@ -41,7 +42,11 @@ class Base implements SourceInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Retrieve files
+     *
+     * @param ThemeInterface $theme
+     * @param string $filePath
+     * @return array|\Magento\View\Layout\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Page\Block\Html;
 
-class Header extends \Magento\Core\Block\Template
+class Header extends \Magento\View\Block\Template
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -25,27 +25,19 @@ class Header extends \Magento\Core\Block\Template
     protected $_customerSession;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
-     * @param \Magento\App\State $appState
-     * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
-        \Magento\App\State $appState,
-        \Magento\Customer\Model\Session $customerSession,
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        $this->_appState = $appState;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     public function _construct()
@@ -56,11 +48,14 @@ class Header extends \Magento\Core\Block\Template
     /**
      * Check if current url is url for home page
      *
-     * @return true
+     * @return bool
      */
     public function getIsHomePage()
     {
-        return $this->getUrl('') == $this->getUrl('*/*/*', array('_current'=>true, '_use_rewrite'=>true));
+        return $this->getUrl('', array('_current' => true)) == $this->getUrl(
+            '*/*/*',
+            array('_current' => true, '_use_rewrite' => true)
+        );
     }
 
     public function setLogo($logo_src, $logo_alt)
