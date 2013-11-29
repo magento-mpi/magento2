@@ -106,7 +106,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
         $this->_store = isset($data['store']) ? $data['store'] : null;
         $this->_appEmulation = $appEmulation;
         $this->_storeManager = $storeManager;
-        parent::__construct();
+        parent::__construct($context, $registry, null, null, $data);
     }
 
     /**

@@ -55,7 +55,6 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Webhook\Model\Event\Factory $eventFactory
      * @param \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -66,7 +65,6 @@ class Job extends \Magento\Core\Model\AbstractModel implements \Magento\PubSub\J
         \Magento\Core\Model\Registry $registry,
         \Magento\Webhook\Model\Event\Factory $eventFactory,
         \Magento\Webhook\Model\Subscription\Factory $subscriptionFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
