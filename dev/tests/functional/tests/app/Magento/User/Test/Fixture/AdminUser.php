@@ -119,4 +119,3 @@ class AdminUser extends DataFixture
         $this->_data['fields']['password_confirmation']['value'] = $password;
     }
 }
-
