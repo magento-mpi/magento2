@@ -19,7 +19,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
  *
  * @package Magento\Centinel
  */
-abstract class AbstractValidCc extends Checkout
+abstract class AbstractCreditCard extends Checkout
 {
     /**
      * Create required data

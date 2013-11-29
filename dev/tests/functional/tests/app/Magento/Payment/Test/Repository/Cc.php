@@ -35,6 +35,7 @@ class Cc extends AbstractRepository
         $this->_data['visa_direct'] = $this->_getVisaDirect();
         $this->_data['visa_authorizenet'] = $this->_getVisaAuthorizeNet();
         $this->_data['visa_3d_secure_valid'] = $this->_getVisa3dSecureValid();
+        $this->_data['visa_3d_secure_invalid'] = $this->_getVisa3dSecureInvalid();
     }
 
     protected function _getVisaDefault()
@@ -164,5 +165,20 @@ class Cc extends AbstractRepository
                 )
             )
         );
+    }
+
+    protected function _getVisa3dSecureInvalid()
+    {
+        $invalidData = array(
+            'data' => array(
+                'fields' => array(
+                    'credit_card_number' => array(
+                        'value' => '4000000000000010'
+                    ),
+                ),
+            )
+        );
+
+        return array_replace_recursive($this->_getVisa3dSecureValid(), $invalidData);
     }
 }

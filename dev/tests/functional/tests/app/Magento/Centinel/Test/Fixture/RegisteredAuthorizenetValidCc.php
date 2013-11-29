@@ -12,11 +12,11 @@
 namespace Magento\Centinel\Test\Fixture;
 
 /**
- * Registered checkout. Authorise.Net with 3D Secure payment method and free shipping method
+ * Registered checkout. Authorize.Net with 3D Secure payment method and free shipping method
  *
  * @package Magento\Centinel
  */
-class RegisteredAuthorisenetValidCc extends AbstractValidCc
+class RegisteredAuthorizenetValidCc extends AbstractCreditCard
 {
     /**
      * {@inheritdoc}
