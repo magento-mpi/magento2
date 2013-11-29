@@ -46,7 +46,7 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
      */
     protected function _getXsd()
     {
-        return '/app/code/Magento/Page/etc/page_layouts.xsd';
+        return '/app/code/Magento/Theme/etc/page_layouts.xsd';
     }
 
     /**
@@ -86,7 +86,7 @@ class ConfigTest extends \Magento\TestFramework\Integrity\AbstractConfig
      */
     protected function _getFileXsd()
     {
-        return '/app/code/Magento/Page/etc/page_layouts_file.xsd';
+        return '/app/code/Magento/Theme/etc/page_layouts_file.xsd';
     }
 
     /**
