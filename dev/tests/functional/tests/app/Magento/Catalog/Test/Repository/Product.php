@@ -38,6 +38,10 @@ class Product extends AbstractRepository
         $this->_data[$type . '_edit_required_fields'] = $this->resetRequiredFields($type);
     }
 
+    /**
+     * @param string $productType
+     * @return array
+     */
     protected function resetRequiredFields($productType)
     {
         return array(

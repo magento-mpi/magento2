@@ -27,7 +27,7 @@ class ProductGrid extends Grid
      *
      * @var string
      */
-    protected $editLink = '//a[contains(@href,"/catalog/product/edit/")]';
+    protected $editLink = "//a[normalize-space(text())='Edit']";
 
     /**
      * Initialize block elements

@@ -104,6 +104,10 @@ class SimpleProduct extends Product
         return $product;
     }
 
+    /**
+     * @param string $productType
+     * @return array
+     */
     protected function resetRequiredFields($productType)
     {
         return array_replace_recursive(
