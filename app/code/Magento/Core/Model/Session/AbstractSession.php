@@ -546,9 +546,7 @@ class AbstractSession extends \Magento\Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
-            ? self::$_urlHostCache[$urlHost]
-            : $this->getSessionId();
+        return $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost] : $this->getEncryptedSessionId();
     }
 
     /**
