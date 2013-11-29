@@ -719,13 +719,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function sendPasswordReminderEmail()
     {
-        $storeId = $this->getStoreId();
-        if (\Magento\Core\Model\AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
-            $storeId = $this->_getWebsiteStoreId();
-        }
-
         $this->_sendEmailTemplate(self::XML_PATH_REMIND_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId);
+            array('customer' => $this), $this->getStoreId());
 
         return $this;
     }

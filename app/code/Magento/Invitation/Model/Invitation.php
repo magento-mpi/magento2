@@ -272,8 +272,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
                     'url'           => $this->_invitationData->getInvitationUrl($this),
-                    'allow_message' => $this->_storeManager->getStore()->isAdmin()
-                        || $this->_config->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
                     'store'         => $store,
                     'store_name'    => $store->getGroup()->getName(),

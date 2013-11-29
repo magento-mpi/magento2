@@ -39,6 +39,7 @@ return array(
                 array(
                     'group_name' => 'enterprise_checkout',
                     'action' => 'view',
+                    'controller_action' => 'adminhtml_checkout_index',
                     'expected_models'=>
                     array(
                         'Magento\Sales\Model\Quote'=>
@@ -50,6 +51,7 @@ return array(
                 array(
                     'group_name' => 'enterprise_checkout',
                     'action' => 'apply_coupon',
+                    'controller_action' => 'adminhtml_checkout_applyCoupon',
                     'post_dispatch' => 'postDispatchAdminCheckoutApplyCoupon',
                     'expected_models'=>
                     array(
@@ -63,6 +65,7 @@ return array(
                     'group_name' => 'enterprise_checkout',
                     'action'=>
                     'save',
+                    'controller_action' => 'adminhtml_checkout_updateItems',
                     'skip_on_back'=>
                     array(
                         0=>
@@ -80,6 +83,7 @@ return array(
                     'group_name' => 'enterprise_checkout',
                     'action'=>
                     'add_to_cart',
+                    'controller_action' => 'adminhtml_checkout_addToCart',
                     'expected_models'=>
                     array(
                         'Magento\Sales\Model\Quote\Item'=>
@@ -113,7 +117,8 @@ return array(
                             'extends' => 'merge'
                         )
                     ),
-                    'action' => 'save'
+                    'action' => 'save',
+                    'controller_action' => 'customer_index_save',
                 ),
                 'adminhtml_customersegment_match'=>
                 array(
@@ -121,7 +126,8 @@ return array(
                     'action'=>
                     'refresh_data',
                     'post_dispatch'=>
-                    'Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch'
+                    'Enterprise_CustomerSegment_Model_Logging::postDispatchCustomerSegmentMatch',
+                    'controller_action' => 'adminhtml_customersegment_match',
                 )
             )
         ),
@@ -150,13 +156,15 @@ return array(
                 array(
                     'group_name' => 'customer',
                     'action'=>
-                    'view'
+                    'view',
+                    'controller_action' => 'customer_index_edit',
                 ),
                 'customer_index_save'=>
                 array(
                     'group_name' => 'customer',
                     'action'=>
                     'save',
+                    'controller_action' => 'customer_index_save',
                     'skip_on_back'=>
                     array(
 

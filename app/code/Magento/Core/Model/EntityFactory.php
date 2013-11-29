@@ -8,7 +8,7 @@
 
 namespace Magento\Core\Model;
 
-class EntityFactory
+class EntityFactory implements \Magento\Data\Collection\EntityFactoryInterface
 {
     /**
      * Object Manager instance

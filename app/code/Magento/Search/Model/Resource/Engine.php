@@ -277,7 +277,7 @@ class Engine implements \Magento\CatalogSearch\Model\Resource\EngineInterface
             return $this;
         }
 
-        if (is_null($storeIds) || $storeIds == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
+        if (is_null($storeIds) || $storeIds == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $storeIds = array_keys($this->_storeManager->getStores());
         } else {
             $storeIds = (array) $storeIds;

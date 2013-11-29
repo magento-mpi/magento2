@@ -398,8 +398,9 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
                 $customerId     = $this->_getCustomerId($email, $website);
 
+                $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif ($customerId === false) {
@@ -440,8 +441,9 @@ class Finance extends \Magento\ImportExport\Model\Import\Entity\Eav\AbstractCust
                 $website        = $rowData[self::COLUMN_WEBSITE];
                 $financeWebsite = $rowData[self::COLUMN_FINANCE_WEBSITE];
 
+                $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
                 if (!isset($this->_websiteCodeToId[$financeWebsite])
-                    || $this->_websiteCodeToId[$financeWebsite] == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
+                    || $this->_websiteCodeToId[$financeWebsite] == $defaultStoreId
                 ) {
                     $this->addRowError(self::ERROR_INVALID_FINANCE_WEBSITE, $rowNumber, self::COLUMN_FINANCE_WEBSITE);
                 } elseif (!$this->_getCustomerId($email, $website)) {

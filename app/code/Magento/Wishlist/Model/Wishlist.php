@@ -101,19 +101,25 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
+     * @var bool
+     */
+    protected $_useCurrentWebsite;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Helper\Product $catalogProduct
      * @param \Magento\Wishlist\Helper\Data $wishlistData
-     * @param \Magento\Wishlist\Model\Resource\Wishlist $resource
-     * @param \Magento\Wishlist\Model\Resource\Wishlist\Collection $resourceCollection
+     * @param Resource\Wishlist $resource
+     * @param Resource\Wishlist\Collection $resourceCollection
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Date $date
-     * @param \Magento\Wishlist\Model\ItemFactory $wishlistItemFactory
-     * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $wishlistCollFactory
+     * @param ItemFactory $wishlistItemFactory
+     * @param Resource\Item\CollectionFactory $wishlistCollFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param bool $useCurrentWebsite
      * @param array $data
      */
     public function __construct(
@@ -130,8 +136,10 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\DateTime $dateTime,
+        $useCurrentWebsite = true,
         array $data = array()
     ) {
+        $this->_useCurrentWebsite = $useCurrentWebsite;
         $this->_catalogProduct = $catalogProduct;
         $this->_wishlistData = $wishlistData;
         $this->_storeManager = $storeManager;
@@ -299,11 +307,9 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     public function getItemCollection()
     {
         if (is_null($this->_itemCollection)) {
-            /** @var $currentWebsiteOnly boolean */
-            $currentWebsiteOnly = !$this->_storeManager->getStore()->isAdmin();
             $this->_itemCollection = $this->_wishlistCollFactory->create()
                 ->addWishlistFilter($this)
-                ->addStoreFilter($this->getSharedStoreIds($currentWebsiteOnly))
+                ->addStoreFilter($this->getSharedStoreIds())
                 ->setVisibilityFilter();
         }
 
@@ -463,13 +469,12 @@ class Wishlist extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve shared store ids for current website or all stores if $current is false
      *
-     * @param bool $current Use current website or not
      * @return array
      */
-    public function getSharedStoreIds($current = true)
+    public function getSharedStoreIds()
     {
         if (is_null($this->_storeIds) || !is_array($this->_storeIds)) {
-            if ($current) {
+            if ($this->_useCurrentWebsite) {
                 $this->_storeIds = $this->getStore()->getWebsite()->getStoreIds();
             } else {
                 $_storeIds = array();

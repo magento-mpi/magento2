@@ -1,16 +1,17 @@
 <?php
 /**
- * \Magento\Logging\Model\Config\Reader
- *
  * {license_notice}
  *
+ * @category    Magento
+ * @package     Magento_Logging
+ * @subpackage  integration_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 namespace Magento\Logging\Model\Config;
 
 /**
- * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
  */
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {

@@ -248,7 +248,6 @@ class AbstractSession extends \Magento\Object
         if ($this->_cacheLimiter) {
             session_cache_limiter($this->_cacheLimiter);
         }
-
         session_start();
 
         \Magento\Profiler::stop('session_start');
@@ -565,18 +564,12 @@ class AbstractSession extends \Magento\Object
      */
     public function setSessionId($id = null)
     {
-
-        if (null === $id
-            && ($this->_storeManager->getStore()->isAdmin()
-                || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID)
-            )
-        ) {
+        if (null === $id && $this->_isSidUsedFromQueryParam()) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && $this->_url->isOwnOriginUrl()) {
                 $id = $_GET[$_queryParam];
             }
         }
-
         $this->_addHost();
         if (!is_null($id) && preg_match('#^[0-9a-zA-Z,-]+$#', $id)) {
             session_id($id);
@@ -665,9 +658,7 @@ class AbstractSession extends \Magento\Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
-            ? self::$_urlHostCache[$urlHost]
-            : $this->getEncryptedSessionId();
+        return $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost] : $this->getEncryptedSessionId();
     }
 
     /**
@@ -737,6 +728,16 @@ class AbstractSession extends \Magento\Object
     {
         unset($_SESSION[self::HOST_KEY]);
         return $this;
+    }
+
+    /**
+     * Whether to take session id from GET
+     *
+     * @return bool
+     */
+    protected function _isSidUsedFromQueryParam()
+    {
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID);
     }
 
     /**
