@@ -237,19 +237,19 @@
             <value>
                 <urlLib>
                     <key type="const">Magento\Core\Model\Store::URL_TYPE_LIB</key>
-                    <value type="const">Magento\App\Dir::PUB_LIB</value>
+                    <value type="const">Magento\Filesystem::PUB_LIB</value>
                 </urlLib>
                 <urlMedia>
                     <key type="const">Magento\Core\Model\Store::URL_TYPE_MEDIA</key>
-                    <value type="const">Magento\App\Dir::MEDIA</value>
+                    <value type="const">Magento\Filesystem::MEDIA</value>
                 </urlMedia>
                 <urlStatic>
                     <key type="const">Magento\Core\Model\Store::URL_TYPE_STATIC</key>
-                    <value type="const">Magento\App\Dir::STATIC_VIEW</value>
+                    <value type="const">Magento\Filesystem::STATIC_VIEW</value>
                 </urlStatic>
                 <urlCache>
                     <key type="const">Magento\Core\Model\Store::URL_TYPE_CACHE</key>
-                    <value type="const">Magento\App\Dir::PUB_VIEW_CACHE</value>
+                    <value type="const">Magento\Filesystem::PUB_VIEW_CACHE</value>
                 </urlCache>
             </value>
         </param>
