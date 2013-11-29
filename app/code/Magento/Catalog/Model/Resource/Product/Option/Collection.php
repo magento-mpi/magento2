@@ -106,7 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     'store_title'   => 'title',
                     'title'         => $titleExpr
                 ))
-            ->where('default_option_title.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
+            ->where('default_option_title.store_id = ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -138,7 +138,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 'default_option_price.option_id = main_table.option_id AND '
                     . $adapter->quoteInto(
                         'default_option_price.store_id = ?',
-                        \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
+                        \Magento\Core\Model\Store::DEFAULT_STORE_ID
                     ),
                 array(
                     'default_price' => 'price',
