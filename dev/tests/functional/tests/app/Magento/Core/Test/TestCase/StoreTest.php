@@ -23,6 +23,9 @@ class StoreTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
     }
 
+    /**
+     * @ZephyrId MAGETWO-12405
+     */
     public function testCreateNewLocalizedStoreView()
     {
         $storeFixture = Factory::getFixtureFactory()->getMagentoCoreStore();
