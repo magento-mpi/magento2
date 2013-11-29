@@ -47,7 +47,7 @@ try {
     execVerbose('git clone %s %s', $targetRepository, $targetDir);
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
-    execVerbose("$gitCmd checkout -b $targetBranch origin/$targetBranch");
+    execVerbose("$gitCmd checkout $targetBranch");
 
     // determine whether source-point is a branch name or a commit ID
     try {
