@@ -107,6 +107,18 @@ class CatalogProductView extends Page
     }
 
     /**
+     * Get product options block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     */
+    public function getCustomOptionBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductViewCustomOptions(
+            $this->_browser->find('#product-options-wrapper')
+        );
+    }
+
+    /**
      * Get reviews block
      *
      * @return \Magento\Review\Test\Block\Product\View

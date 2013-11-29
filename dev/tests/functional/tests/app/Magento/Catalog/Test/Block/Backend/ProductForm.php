@@ -48,7 +48,9 @@ class ProductForm extends FormTabs
             'product_info_tabs_super_config_content' =>
                 '\\Magento\\Backend\\Test\\Block\\Catalog\\Product\\Edit\\Tab\\Super\\Config',
             'product_info_tabs_grouped_content' =>
-                '\\Magento\\Catalog\\Test\\Block\\Product\\Grouped\\AssociatedProducts'
+                '\\Magento\\Catalog\\Test\\Block\\Product\\Grouped\\AssociatedProducts',
+            'product_info_tabs_customer_options' =>
+                '\\Magento\\Catalog\\Test\\Block\\Adminhtml\\Product\\Edit\\CustomOptionsTab'
         );
         //Elements
         $this->saveButton = '#save-split-button-button';
@@ -84,7 +86,7 @@ class ProductForm extends FormTabs
          * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
          */
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-        /** @var $fixture \Magento\Catalog\Test\Fixture\SimpleProduct */
+        /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
         if ($fixture->getCategoryName()) {
             $this->fillCategory($fixture->getCategoryName());
         }

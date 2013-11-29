@@ -32,6 +32,7 @@ class SimpleProduct extends Product
             'data' => $this->buildSimpleWithNewCategoryData($defaultData),
         );
         $this->_data['simple_advanced_pricing'] = $this->getSimpleAdvancedPricing();
+        $this->_data['simple_custom_options'] = $this->getSimpleCustomOption();
     }
 
     /**
@@ -118,6 +119,40 @@ class SimpleProduct extends Product
                         'price' => array(
                             'value' => '1.99',
                             'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * @return array
+     */
+    protected function getSimpleCustomOption()
+    {
+        return array_merge_recursive(
+            $this->_data['simple'],
+            array(
+                'data' => array(
+                    'fields' => array(
+                        'custom_options' => array(
+                            'value' => [
+                                [
+                                    'title' => 'custom option drop down',
+                                    'is_require' => true,
+                                    'type' => 'Drop-down',
+                                    'options' => [
+                                        [
+                                            'title' => 'Title Drop - down 1',
+                                            'price' => 2.56,
+                                            'price_type' => 'Fixed',
+                                            'sku' => 'sku_drop_down_row_1',
+                                        ],
+                                    ]
+                                ]
+                            ],
+                            'group' => 'product_info_tabs_customer_options'
                         )
                     )
                 )

@@ -75,7 +75,8 @@ class View extends Block
 
         //Blocks
         $this->bundleBlock = Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find('#product-options-wrapper', Locator::SELECTOR_CSS));
+            $this->_rootElement->find('#product-options-wrapper')
+        );
     }
 
     /**
@@ -83,7 +84,7 @@ class View extends Block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
      */
-    public function getBundleBlock()
+    protected function getBundleBlock()
     {
         return $this->bundleBlock;
     }
@@ -164,7 +165,7 @@ class View extends Block
      */
     public function getProductOptions()
     {
-        for ($i =2; $i<=3; $i++) {
+        for ($i = 2; $i <= 3; $i++) {
             $options[] = $this->_rootElement
                 ->find(".super-attribute-select option:nth-child($i)")->getText();
         }
@@ -182,9 +183,11 @@ class View extends Block
         $attributes = $product->getConfigurableOptions();
         foreach ($attributes as $attributeName => $attribute) {
             foreach ($attribute as $optionName) {
-                $option = $this->_rootElement->find('//*[*[@class="product options configure"]//span[text()="'
-                    . $attributeName . '"]]//select/option[contains(text(), "' . $optionName . '")]',
-                    Locator::SELECTOR_XPATH);
+                $option = $this->_rootElement->find(
+                    '//*[*[@class="product options configure"]//span[text()="' . $attributeName
+                        . '"]]//select/option[contains(text(), "' . $optionName . '")]',
+                    Locator::SELECTOR_XPATH
+                );
                 if (!$option->isVisible()) {
                     return false;
                 };
