@@ -533,7 +533,10 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
             }
 
             try {
-                $this->_varDirectory->renameFile($uploadedFile, $sourceFile);
+                $this->_varDirectory->renameFile(
+                    $this->_varDirectory->getRelativePath($uploadedFile),
+                    $this->_varDirectory->getRelativePath($sourceFile)
+                );
             } catch (\Magento\Filesystem\FilesystemException $e) {
                 throw new \Magento\Core\Exception(__('Source file moving failed'));
             }
@@ -557,7 +560,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     protected function _removeBom($sourceFile)
     {
-        $string = $this->_varDirectory->readFile($sourceFile);
+        $string = $this->_varDirectory->readFile($this->_varDirectory->getRelativePath($sourceFile));
         if ($string !== false && substr($string, 0, 3) == pack("CCC", 0xef, 0xbb, 0xbf)) {
             $string = substr($string, 3);
             $this->_varDirectory->writeFile($sourceFile, $string);
