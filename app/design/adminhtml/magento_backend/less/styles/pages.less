@@ -391,6 +391,44 @@
 }
 
 /*
+    System -> Action Log -> Report
+-------------------------------------- */
+.adminhtml-logging-details .log-details-grid table {
+    th {
+        border: 1px solid #c9c2b8;
+        border-width: 0 0 1px;
+        padding: 6px 10px 7px;
+        background: #fff;
+        .style2();
+
+        span {
+            border: 0;
+            padding: 0;
+        }
+    }
+
+    td {
+        border: none;
+        padding: 6px 10px 7px;
+        background: #fff;
+    }
+
+    tr:last-child td {
+        border: 1px solid #eae8e4;
+        border-width: 0 0 1px;
+    }
+
+    tr.on-mouse {
+        cursor: inherit;
+    }
+
+    tr:nth-child(odd) td,
+    tr.on-mouse:nth-child(odd):hover td {
+        background: #fbfaf6;
+    }
+}
+
+/*
     System -> Export
 -------------------------------------- */
 
@@ -1317,6 +1355,37 @@
 .order-gift-options .box-right {
     float: right;
     width: 49%;
+}
+
+.order-gift-options .box-left:last-child,
+.order-gift-options .fieldset-wrapper-title + .box-right {
+    float: none;
+    width: auto;
+}
+
+.order-gift-options {
+    fieldset {
+        border-radius: 5px;
+    }
+
+    .gift-wrapping-form select {
+        margin-left: 10px;
+    }
+
+    .giftmessage-entire-order textarea {
+        height: 6em;
+        width: 100%;
+    }
+
+    .giftmessage-whole-order-container {
+        textarea {
+            height: 6em;
+            width: 100%;
+        }
+        .actions {
+            margin-left: 20%;
+        }
+    }
 }
 
 .ui-dialog.gift-options-popup .ui-dialog-content {
@@ -2610,8 +2679,6 @@ table.items-to-invoice tbody tr:hover td {
 /*
     Clearfix
 -------------------------------------- */
-.order-gift-options:before,
-.order-gift-options:after,
 .image-panel:before,
 .image-panel:after,
 .images:before,
@@ -2624,7 +2691,6 @@ table.items-to-invoice tbody tr:hover td {
     display: table;
 }
 
-.order-gift-options:after,
 .image-panel:after,
 .images:after,
 .tax-rate-popup .field:after,

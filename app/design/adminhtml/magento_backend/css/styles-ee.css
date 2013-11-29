@@ -3432,8 +3432,8 @@ input.mage-error ~ .addafter {
   box-shadow: 0 0 8px rgba(82, 168, 236, 0.6);
 }
 .addon input ~ .addafter strong {
+  display: inline-block;
   background: #fff;
-  display: block;
   line-height: 24px;
   margin: 0 3px 0 -2px;
   padding-left: 4px;
@@ -6228,6 +6228,7 @@ table .col-draggable .draggable-handle {
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr th,
 .adminhtml-rma-new .data-table tbody tr th,
+.adminhtml-logging-details .log-details .data-table th,
 [class^=" sales-transactions-"] .data-table tbody tr th,
 [class^=" sales-"] .order-payment-method .data-table tbody tr th,
 [class^=" sales-billing-agreement-"] .log-details .data-table tbody tr th {
@@ -6239,6 +6240,8 @@ table .col-draggable .draggable-handle {
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr td,
 .order-account-information .data-table tbody tr th,
+.adminhtml-logging-details .log-details .data-table td,
+.adminhtml-logging-details .log-details .data-table th,
 [class^=" adminhtml-rma-"] .data-table tbody tr td,
 [class^=" adminhtml-rma-"] .data-table tbody tr th,
 [class^=" sales-transactions-"] .data-table tbody tr th,
@@ -6259,6 +6262,8 @@ table .col-draggable .draggable-handle {
 .order-information .data-table tbody tr:nth-child(2n+1) th,
 .order-account-information .data-table tbody tr:nth-child(2n+1) td,
 .order-account-information .data-table tbody tr:nth-child(2n+1) th,
+.adminhtml-logging-details .log-details .data-table tr:nth-child(odd) td,
+.adminhtml-logging-details .log-details .data-table tr:nth-child(odd) th,
 [class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
 [class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th,
 [class^=" sales-transactions-"] .data-table tbody tr:nth-child(2n+1) th,
@@ -8275,6 +8280,38 @@ table .col-draggable .draggable-handle {
   width: 100%;
 }
 /*
+    System -> Action Log -> Report
+-------------------------------------- */
+.adminhtml-logging-details .log-details-grid table th {
+  border: 1px solid #c9c2b8;
+  border-width: 0 0 1px;
+  padding: 6px 10px 7px;
+  background: #fff;
+  color: #676056;
+  font-size: 13px;
+  font-weight: 600;
+}
+.adminhtml-logging-details .log-details-grid table th span {
+  border: 0;
+  padding: 0;
+}
+.adminhtml-logging-details .log-details-grid table td {
+  border: none;
+  padding: 6px 10px 7px;
+  background: #fff;
+}
+.adminhtml-logging-details .log-details-grid table tr:last-child td {
+  border: 1px solid #eae8e4;
+  border-width: 0 0 1px;
+}
+.adminhtml-logging-details .log-details-grid table tr.on-mouse {
+  cursor: inherit;
+}
+.adminhtml-logging-details .log-details-grid table tr:nth-child(odd) td,
+.adminhtml-logging-details .log-details-grid table tr.on-mouse:nth-child(odd):hover td {
+  background: #fbfaf6;
+}
+/*
     System -> Export
 -------------------------------------- */
 #export_filter_grid .grid td .input-text-range-date {
@@ -9048,6 +9085,28 @@ table .col-draggable .draggable-handle {
 .order-gift-options .box-right {
   float: right;
   width: 49%;
+}
+.order-gift-options .box-left:last-child,
+.order-gift-options .fieldset-wrapper-title + .box-right {
+  float: none;
+  width: auto;
+}
+.order-gift-options fieldset {
+  border-radius: 5px;
+}
+.order-gift-options .gift-wrapping-form select {
+  margin-left: 10px;
+}
+.order-gift-options .giftmessage-entire-order textarea {
+  height: 6em;
+  width: 100%;
+}
+.order-gift-options .giftmessage-whole-order-container textarea {
+  height: 6em;
+  width: 100%;
+}
+.order-gift-options .giftmessage-whole-order-container .actions {
+  margin-left: 20%;
 }
 .ui-dialog.gift-options-popup .ui-dialog-content {
   padding: 25px;
@@ -10114,8 +10173,6 @@ table.items-to-invoice tbody tr:hover td {
 /*
     Clearfix
 -------------------------------------- */
-.order-gift-options:before,
-.order-gift-options:after,
 .image-panel:before,
 .image-panel:after,
 .images:before,
@@ -10127,7 +10184,6 @@ table.items-to-invoice tbody tr:hover td {
   content: "";
   display: table;
 }
-.order-gift-options:after,
 .image-panel:after,
 .images:after,
 .tax-rate-popup .field:after,

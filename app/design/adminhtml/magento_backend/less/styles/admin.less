@@ -1628,8 +1628,8 @@ input.mage-error ~ .addafter {
 }
 
 .addon input ~ .addafter strong {
+    display: inline-block;
     background: #fff;
-    display: block;
     line-height: 24px;
     margin: 0 3px 0 -2px;
     padding-left: 4px;
@@ -4795,6 +4795,7 @@ table .col-draggable .draggable-handle {
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr th,
 .adminhtml-rma-new .data-table tbody tr th,
+.adminhtml-logging-details .log-details .data-table th,
 [class^=" sales-transactions-"] .data-table tbody tr th,
 [class^=" sales-"] .order-payment-method .data-table tbody tr th,
 [class^=" sales-billing-agreement-"] .log-details .data-table tbody tr th {
@@ -4807,6 +4808,8 @@ table .col-draggable .draggable-handle {
 .order-information .data-table tbody tr th,
 .order-account-information .data-table tbody tr td,
 .order-account-information .data-table tbody tr th,
+.adminhtml-logging-details .log-details .data-table td,
+.adminhtml-logging-details .log-details .data-table th,
 [class^=" adminhtml-rma-"] .data-table tbody tr td,
 [class^=" adminhtml-rma-"] .data-table tbody tr th,
 [class^=" sales-transactions-"] .data-table tbody tr th,
@@ -4828,6 +4831,8 @@ table .col-draggable .draggable-handle {
 .order-information .data-table tbody tr:nth-child(2n+1) th,
 .order-account-information .data-table tbody tr:nth-child(2n+1) td,
 .order-account-information .data-table tbody tr:nth-child(2n+1) th,
+.adminhtml-logging-details .log-details .data-table tr:nth-child(odd) td,
+.adminhtml-logging-details .log-details .data-table tr:nth-child(odd) th,
 [class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) td,
 [class^=" adminhtml-rma-"] .data-table tbody tr:nth-child(2n+1) th,
 [class^=" sales-transactions-"] .data-table tbody tr:nth-child(2n+1) th,
