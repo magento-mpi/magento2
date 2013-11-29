@@ -40,8 +40,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             array(\Magento\Filesystem::APP, __DIR__),
             array(\Magento\Filesystem::THEMES, __DIR__ . '/design'),
         );
-        $dirs = $this->getMock('Magento\App\Dir', array(), array(), '', false, false);
-        $dirs->expects($this->never())->method('getDir');
 
         $this->_viewFileSystem = $this->getMock('\Magento\View\FileSystem', array(), array(), '', false);
 
@@ -64,7 +62,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
         $context = $this->getMock('Magento\Core\Block\Template\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getEngineFactory')->will($this->returnValue($enginePool));
-        $context->expects($this->any())->method('getDirs')->will($this->returnValue($dirs));
         $context->expects($this->any())->method('getFilesystem')->will($this->returnValue($this->_filesystem));
         $context->expects($this->any())->method('getViewFileSystem')->will($this->returnValue($this->_viewFileSystem));
         $context->expects($this->any())->method('getAppState')->will($this->returnValue($appState));
