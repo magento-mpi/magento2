@@ -70,6 +70,9 @@ try {
         execVerbose("$gitCmd rm -f %s", $file);
     }
 
+    // remove files that must not be published
+    execVerbose('php -f %s -- --dir=%s --edition=ce', __DIR__ . '/edition.php', $targetDir);
+
     // compare if changelog is different from the published one, compose the commit message
     if (!file_exists($logFile)) {
         throw new Exception("Changelog file '$logFile' does not exist.");
@@ -80,9 +83,6 @@ try {
     }
 
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
-
-    // remove files that must not be published
-    execVerbose('php -f %s -- --dir=%s --edition=ce', __DIR__ . '/edition.php', $targetDir);
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
