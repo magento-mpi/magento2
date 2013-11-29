@@ -76,7 +76,7 @@ class Html extends \Magento\View\Element\Template
     }
 
     /**
-     *  Print Logo URL (Conf -> Sales -> Invoice and Packing Slip Design)
+     * Print Logo URL (Conf -> Sales -> Invoice and Packing Slip Design)
      *
      *  @return string
      */
