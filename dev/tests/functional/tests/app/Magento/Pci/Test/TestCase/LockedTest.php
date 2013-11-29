@@ -27,19 +27,9 @@ class LockedTest extends Functional
      */
     public function testLockedAdminUser()
     {
+        //Data
         $password = '123123q';
         $incorrectPassword = 'honey boo boo';
-
-        //Create test user and set incorrect password
-        $user = Factory::getFixtureFactory()->getMagentoUserAdminUser(array('password' => $password));
-        $user->switchData('admin_default');
-        $user->persist();
-
-        //Page
-        $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
-        //Steps
-        $loginPage->open();
-
         $passwordDataSet = array(
             'incorrect password #1' => $incorrectPassword,
             'incorrect password #2' => $incorrectPassword,
@@ -47,10 +37,17 @@ class LockedTest extends Functional
             'incorrect password #4' => $incorrectPassword,
             'incorrect password #5' => $incorrectPassword,
             'incorrect password #6' => $incorrectPassword,
-            'correct value' => $password,
+            'correct password' => $password,
         );
+        //Create test user and set correct password
+        $user = Factory::getFixtureFactory()->getMagentoUserAdminUser(array('password' => $password));
+        $user->switchData('admin_default');
+        $user->persist();
+        //Page
+        $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
+        //Steps
+        $loginPage->open();
         $expectedErrorMessage = 'Please correct the user name or password.';
-
         foreach ($passwordDataSet as $currentPassword) {
             $user->setPassword($currentPassword);
             $loginPage->getLoginBlockForm()->fill($user);

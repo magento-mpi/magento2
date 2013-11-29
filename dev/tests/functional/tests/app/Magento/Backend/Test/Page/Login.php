@@ -60,9 +60,9 @@ class Login extends Page
     }
 
     /**
-     * Get the login form block
+     * Get backend admin login form block
      *
-     * @return LoginForm
+     * @return \Magento\Backend\Test\Block\LoginForm
      */
     public function getLoginBlockForm()
     {
@@ -82,6 +82,8 @@ class Login extends Page
     }
 
     /**
+     * Get global messages block
+     *
      * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessagesBlock()

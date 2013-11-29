@@ -25,6 +25,7 @@ class LoginForm extends Form
 {
     /**
      * Set locator for password field
+     *
      * @var array
      */
     protected $_mapping = array(
@@ -43,7 +44,7 @@ class LoginForm extends Form
      * Need to fill only specific fields
      *
      * @param array $fields
-     * @param \Mtf\Client\Element $element
+     * @param Element $element
      */
     protected function _fill(array $fields, Element $element = null)
     {
