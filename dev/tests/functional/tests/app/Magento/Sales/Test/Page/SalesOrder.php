@@ -118,7 +118,7 @@ class SalesOrder extends Page
     /**
      * Get navigation menu items
      *
-     * @return mixed|\Mtf\Client\Element
+     * @return \Magento\Page\Test\Block\Html\Topmenu
      */
     public function getNavigationMenuBlock()
     {

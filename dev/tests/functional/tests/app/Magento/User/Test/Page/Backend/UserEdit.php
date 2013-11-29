@@ -11,7 +11,6 @@ namespace Magento\User\Test\Page\Backend;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
 
 /**
  * Class UserEdit

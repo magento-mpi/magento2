@@ -59,7 +59,7 @@ class UserWithRestrictedRole extends Functional
         $userPage->open();
         $userPage->getUserGridBlock()->searchAndOpen(array('email' => $userFixture->getEmail()));
         $editForm->openRoleTab();
-        $editUser->getRoleGridBlock()->setRole($data['rolename']);
+        $editUser->getRoleGridBlock()->searchAndSelect(array('role_name' => $data['rolename']));
         $editForm->save();
         //Verification
         $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
@@ -69,7 +69,7 @@ class UserWithRestrictedRole extends Functional
         $loginPage->getLoginBlockForm()->submit();
         $salesPage->open();
         //Verify that only Sales resource is available.
-        $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItemsBlock()),
+        $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItems()),
             "You have access not only for Sales resource");
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
@@ -77,5 +77,4 @@ class UserWithRestrictedRole extends Functional
             $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
     }
 }
-
 

@@ -10,7 +10,6 @@ namespace Magento\User\Test\Block\User\Edit\Tab;
 
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
@@ -42,15 +41,7 @@ class Roles extends Grid
     protected function _init()
     {
         parent::_init();
-    }
-
-    /**
-     * Choose role on grid during user edit/create
-     */
-    public function setRole($roleName)
-    {
-        $this->search(array('role_name' => $roleName));
-        $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS)->click();
+        $this->selectItem = 'tbody tr';
     }
 }
 

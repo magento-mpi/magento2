@@ -36,7 +36,7 @@ class Topmenu extends Block
      *
      * @var string
      */
-    protected $navigationMenuItemsBlock = "/li";
+    protected $navigationMenuItems = "/li";
 
     /**
      * Initialize for block elements
@@ -68,9 +68,9 @@ class Topmenu extends Block
      *
      * @return mixed|\Mtf\Client\Element
      */
-    public function getNavigationMenuItemsBlock()
+    public function getNavigationMenuItems()
     {
-        return $this->_rootElement->find($this->navigationMenuItemsBlock, Locator::SELECTOR_XPATH);
+        return $this->_rootElement->find($this->navigationMenuItems, Locator::SELECTOR_XPATH);
     }
 }
 
