@@ -60,7 +60,13 @@ class TabAbstractTest extends \PHPUnit_Framework_TestCase
      */
     public function testCanShowTab($isVirtual, $themeId, $result)
     {
-        $themeMock = $this->getMock('Magento\Core\Model\Theme', array('isVirtual', 'getId'), array(), '', false);
+        $themeMock = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('isVirtual', 'getId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $themeMock->expects($this->any())
             ->method('isVirtual')
             ->will($this->returnValue($isVirtual));

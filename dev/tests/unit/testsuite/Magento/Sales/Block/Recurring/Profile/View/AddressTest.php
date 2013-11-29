@@ -36,7 +36,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
 
         $this->_profile = $this->getMockBuilder('Magento\Sales\Model\Recurring\Profile')
             ->disableOriginalConstructor()
-            ->setMethods(array('setStore', 'setLocale', 'getData', 'getInfoValue'))
+            ->setMethods(array('setStore', 'setLocale', 'getData', 'getInfoValue', '__wakeup'))
             ->getMock();
         $this->_profile->expects($this->once())->method('setStore')->will($this->returnValue($this->_profile));
         $this->_profile->expects($this->once())->method('setLocale')->will($this->returnValue($this->_profile));
@@ -105,7 +105,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
     {
         $address = $this->getMockBuilder('Magento\Sales\Model\Order\Address')
             ->disableOriginalConstructor()
-            ->setMethods(array('format'))
+            ->setMethods(array('format', '__wakeup'))
             ->getMock();
         $this->_addressFactory->expects($this->once())->method('create')->will($this->returnValue($address));
 
