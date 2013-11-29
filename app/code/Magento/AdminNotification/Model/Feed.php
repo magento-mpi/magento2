@@ -33,9 +33,9 @@ class Feed extends \Magento\Core\Model\AbstractModel
     protected $_feedUrl;
 
     /**
-     * @var \Magento\Core\Model\Store\Config
+     * @var \Magento\Backend\App\ConfigInterface
      */
-    protected $_coreStoreConfig;
+    protected $_backendConfig;
 
     /**
      * @var \Magento\AdminNotification\Model\InboxFactory
@@ -45,7 +45,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
     /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
@@ -54,14 +54,14 @@ class Feed extends \Magento\Core\Model\AbstractModel
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_backendConfig = $backendConfig;
         $this->_inboxFactory = $inboxFactory;
     }
 
@@ -81,9 +81,9 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function getFeedUrl()
     {
-        $httpPath = $this->_coreStoreConfig->getConfigFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://';
+        $httpPath = $this->_backendConfig->getFlag(self::XML_USE_HTTPS_PATH) ? 'https://' : 'http://';
         if (is_null($this->_feedUrl)) {
-            $this->_feedUrl = $httpPath . $this->_coreStoreConfig->getConfig(self::XML_FEED_URL_PATH);
+            $this->_feedUrl = $httpPath . $this->_backendConfig->getValue(self::XML_FEED_URL_PATH);
         }
         return $this->_feedUrl;
     }
@@ -142,7 +142,7 @@ class Feed extends \Magento\Core\Model\AbstractModel
      */
     public function getFrequency()
     {
-        return $this->_coreStoreConfig->getConfig(self::XML_FREQUENCY_PATH) * 3600;
+        return $this->_backendConfig->getValue(self::XML_FREQUENCY_PATH) * 3600;
     }
 
     /**

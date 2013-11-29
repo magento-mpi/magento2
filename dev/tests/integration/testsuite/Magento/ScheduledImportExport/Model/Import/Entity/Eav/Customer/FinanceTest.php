@@ -21,13 +21,10 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-
         /** @var $testWebsite \Magento\Core\Model\Website */
-        $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('Magento\ScheduledImportExport\Model\Website');
-        if ($testWebsite) {
+        $testWebsite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Website')->load('test');
+        if ($testWebsite->getId()) {
             // Clear test website info from application cache.
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
                 ->clearWebsiteCache($testWebsite->getId());
@@ -39,6 +36,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      *
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customer_finance_all_cases.php
      * @magentoDataFixture Magento/ScheduledImportExport/_files/website.php
+     * @magentoAppArea adminhtml
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_updateRewardPointsForCustomer
@@ -57,8 +55,8 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         /** @var $testWebsite \Magento\Core\Model\Website */
-        $testWebsite = $objectManager->get('Magento\Core\Model\Registry')
-            ->registry('Magento\ScheduledImportExport\Model\Website');
+        $testWebsite = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\Website')->load('test');
         $objectManager->get('Magento\Core\Model\StoreManagerInterface')->getWebsite($testWebsite->getId());
 
         // load websites to have ability get website code by id.
@@ -137,6 +135,7 @@ class FinanceTest extends \PHPUnit_Framework_TestCase
      * Test import data method
      *
      * @magentoDataFixture Magento/ScheduledImportExport/_files/customers_for_finance_import_delete.php
+     * @magentoAppArea adminhtml
      *
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_importData
      * @covers \Magento\ScheduledImportExport\Model\Import\Entity\Eav\Customer\Finance::_deleteRewardPoints

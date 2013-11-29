@@ -57,6 +57,7 @@ class Collection
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param string $modelName
      */
     public function __construct(
         \Magento\Reward\Model\Resource\Reward $resourceReward,
@@ -71,7 +72,8 @@ class Collection
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
-        \Magento\Object\Copy\Config $fieldsetConfig
+        \Magento\Object\Copy\Config $fieldsetConfig,
+        $modelName = self::CUSTOMER_MODEL_NAME
     ) {
         $this->_resourceReward = $resourceReward;
         $this->_resourceBalance = $resourceBalance;
@@ -86,7 +88,8 @@ class Collection
             $eavEntityFactory,
             $resourceHelper,
             $universalFactory,
-            $fieldsetConfig
+            $fieldsetConfig,
+            $modelName
         );
     }
 

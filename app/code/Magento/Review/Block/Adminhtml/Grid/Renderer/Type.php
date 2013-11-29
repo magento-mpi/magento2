@@ -24,7 +24,7 @@ class Type extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Abstract
     {
 
         if (is_null($row->getCustomerId())) {
-            if ($row->getStoreId() == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID) {
+            if ($row->getStoreId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
                 return __('Administrator');
             } else {
                 return __('Guest');

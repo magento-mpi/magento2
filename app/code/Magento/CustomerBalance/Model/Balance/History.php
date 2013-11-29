@@ -62,17 +62,11 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Backend\Model\Auth\Session
-     */
-    protected $_authSession;
-
-    /**
      * @var \Magento\Email\Model\TemplateFactory
      */
     protected $_templateFactory;
 
     /**
-     * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
@@ -86,7 +80,6 @@ class History extends \Magento\Core\Model\AbstractModel
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
@@ -97,7 +90,6 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_authSession = $authSession;
         $this->_templateFactory = $templateFactory;
         $this->_design = $design;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -154,19 +146,7 @@ class History extends \Magento\Core\Model\AbstractModel
             case self::ACTION_CREATED:
                 // break intentionally omitted
             case self::ACTION_UPDATED:
-                if (!$balance->getUpdatedActionAdditionalInfo()) {
-                    if ($this->_storeManager->getStore()->isAdmin()
-                        && $user = $this->_authSession->getUser()
-                    ) {
-                        if ($user->getUsername()) {
-                            if (!trim($balance->getComment())) {
-                                $this->setAdditionalInfo(__('By admin: %1.', $user->getUsername()));
-                            } else {
-                                $this->setAdditionalInfo(__('By admin: %1. (%2)', $user->getUsername(), $balance->getComment()));
-                            }
-                        }
-                    }
-                } else {
+                if ($balance->getUpdatedActionAdditionalInfo()) {
                     $this->setAdditionalInfo($balance->getUpdatedActionAdditionalInfo());
                 }
                 break;
