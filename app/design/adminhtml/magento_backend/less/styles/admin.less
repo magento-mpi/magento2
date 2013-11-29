@@ -4126,10 +4126,14 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid-actions .required:after {
     content: '*';
-    color: red;
+    color: #f00;
 }
 
-/* TODO: remove styles for images when images will be replaced by font icons */
+.grid-actions .required .label span:after {
+    content: '*';
+    color: #f00;
+}
+
 .grid-actions img {
     vertical-align: middle;
     height: 22px;
@@ -4141,7 +4145,6 @@ table tbody tr:nth-child(odd):hover th {
     height: auto;
 }
 
-/* TODO: refactor validation fields styles after approved design comes */
 .grid-actions .validation-advice {
     background: #f3dcd8;
     border: 1px solid #963535;
@@ -4169,6 +4172,11 @@ table tbody tr:nth-child(odd):hover th {
 
 .grid-actions .link-feed {
     white-space: nowrap;
+}
+
+.grid-actions input[type="text"].validation-failed {
+    border-color: #fa7973;
+    box-shadow: 0 0 8px rgba(250, 121, 115, 0.6);
 }
 
 /*

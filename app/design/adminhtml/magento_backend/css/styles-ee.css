@@ -5638,9 +5638,12 @@ table tbody tr:nth-child(odd):hover th {
 }
 .grid-actions .required:after {
   content: '*';
-  color: red;
+  color: #f00;
 }
-/* TODO: remove styles for images when images will be replaced by font icons */
+.grid-actions .required .label span:after {
+  content: '*';
+  color: #f00;
+}
 .grid-actions img {
   vertical-align: middle;
   height: 22px;
@@ -5650,7 +5653,6 @@ table tbody tr:nth-child(odd):hover th {
   width: auto;
   height: auto;
 }
-/* TODO: refactor validation fields styles after approved design comes */
 .grid-actions .validation-advice {
   background: #f3dcd8;
   border: 1px solid #963535;
@@ -5678,6 +5680,10 @@ table tbody tr:nth-child(odd):hover th {
 }
 .grid-actions .link-feed {
   white-space: nowrap;
+}
+.grid-actions input[type="text"].validation-failed {
+  border-color: #fa7973;
+  box-shadow: 0 0 8px rgba(250, 121, 115, 0.6);
 }
 /*
     Grid - Headings
@@ -9170,6 +9176,47 @@ table .col-draggable .draggable-handle {
 .sales-order-create-index #order-data .fieldset-wrapper .actions .action-delete {
   margin: 11px 0 0;
 }
+.sales-order-create-index .ui-dialog .content > .giftcard .field.text .input-text {
+  width: 100%;
+}
+.sales-order-create-index .ui-dialog .content > .giftcard .note .price {
+  font-weight: 600;
+}
+.sales-order-create-index .ui-dialog .content > .giftcard .note .price:before {
+  content: ": ";
+}
+.sales-order-create-index .ui-dialog .content > .giftcard .fixed.amount .label:after {
+  content: ": ";
+}
+.sales-order-create-index .ui-dialog .content > .giftcard .fixed.amount .control {
+  display: inline-block;
+  font-weight: 600;
+}
+.sales-order-create-index .ui-dialog .content > .giftcard .fixed.amount .control .control-value {
+  margin: -2px 0 0;
+  padding: 0;
+}
+.sales-order-create-index .ui-dialog .downloadable.information .link .label {
+  margin-left: 0;
+}
+.sales-order-create-index .ui-dialog .downloadable.information .link .nested {
+  margin-left: 8px;
+}
+.sales-order-create-index .ui-dialog .fieldset.bundle .nested {
+  padding-left: 6px;
+}
+.sales-order-create-index .ui-dialog .fieldset.bundle .nested .field {
+  margin: 0 0 5px;
+}
+.sales-order-create-index .ui-dialog .fieldset.bundle .nested .label {
+  font-size: 13px;
+  margin: 0;
+}
+.sales-order-create-index .ui-dialog .fieldset.bundle .nested .qty .control {
+  display: inline-block;
+  margin: 0 0 0 10px;
+  width: 60px;
+}
 /* ----------------------------------- */
 #order-data .page-actions {
   padding-top: 0;
@@ -9630,6 +9677,18 @@ table.items-to-invoice tbody tr:hover td {
 }
 .col-product .product_to_add {
   float: right;
+}
+[class^=" adminhtml-giftregistry-"] .fieldset-wrapper-content .data-table td {
+  vertical-align: top;
+}
+[class^=" adminhtml-giftregistry-"] .fieldset-wrapper-content .data-table td select {
+  width: 100%;
+}
+[class^=" adminhtml-giftregistry-"] .fieldset-wrapper-content .data-table td #registry_attribute_1_is_required {
+  width: auto;
+}
+[class^=" adminhtml-extension-custom-"] #authors_fieldset .data-table td {
+  vertical-align: top;
 }
 /*
     Packaging for Shipping Popup
