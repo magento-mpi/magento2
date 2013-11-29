@@ -150,6 +150,11 @@ class Observer
     protected $_fpcWishlistsFactory;
 
     /**
+     * @var \Zend\Session\Config\ConfigInterface
+     */
+    protected $_sessionConfig;
+
+    /**
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Catalog\Helper\Product\Compare $ctlgProdCompare
      * @param \Magento\FullPageCache\Model\Processor $processor
@@ -171,6 +176,7 @@ class Observer
      * @param \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory
      * @param \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      */
     public function __construct(
         \Magento\Wishlist\Helper\Data $wishlistData,
@@ -193,7 +199,8 @@ class Observer
         \Magento\Reports\Model\Resource\Product\Index\Viewed\CollectionFactory $reportsFactory,
         \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory,
-        \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory
+        \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory,
+        \Zend\Session\Config\ConfigInterface $sessionConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistData = $wishlistData;
@@ -217,6 +224,7 @@ class Observer
         $this->_fpcValidatorFactory = $fpcValidatorFactory;
         $this->_viewedIdxFactory = $viewedIdxFactory;
         $this->_fpcWishlistsFactory = $fpcWishlistsFactory;
+        $this->_sessionConfig = $sessionConfig;
     }
 
     /**
@@ -526,7 +534,13 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, '1');
+        $this->_cookie->set(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE,
+            '1',
+            $this->_sessionConfig->getCookieLifetime(),
+            $this->_sessionConfig->getCookiePath(),
+            $this->_sessionConfig->getCookieDomain()
+        );
         return $this;
     }
 
@@ -596,8 +610,16 @@ class Observer
         $this->_cookie->updateCustomerCookies();
 
         if (!$this->_cookie->get(\Magento\FullPageCache\Model\Cookie::COOKIE_CUSTOMER)) {
-            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED, null, 0);
-            $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST, null, 0);
+            $this->_cookie->set(
+                \Magento\FullPageCache\Model\Cookie::COOKIE_RECENTLY_COMPARED,
+                null,
+                $this->_sessionConfig->getCookieLifetime()
+            );
+            $this->_cookie->set(
+                \Magento\FullPageCache\Model\Cookie::COOKIE_COMPARE_LIST,
+                null,
+                $this->_sessionConfig->getCookieLifetime()
+            );
             \Magento\FullPageCache\Model\Cookie::registerViewedProducts(array(), 0, false);
         }
 
@@ -680,12 +702,18 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null, 0);
+        $this->_cookie->set(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE,
+            null,
+            $this->_sessionConfig->getCookieLifetime(),
+            $this->_sessionConfig->getCookiePath(),
+            $this->_sessionConfig->getCookieDomain()
+        );
         return $this;
     }
 
     /**
-     * Resave exception rules to cache storage
+     * Re-save exception rules to cache storage
      *
      * @param \Magento\Event\Observer $observer
      * @return \Magento\FullPageCache\Model\Observer
@@ -694,7 +722,8 @@ class Observer
     {
         $object = $observer->getDataObject();
         $this->_fpcCache->save(
-            $object->getValue(), \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY,
+            $object->getValue(),
+            \Magento\FullPageCache\Model\DesignPackage\Info::DESIGN_EXCEPTION_KEY,
             array(\Magento\FullPageCache\Model\Processor::CACHE_TAG)
         );
         return $this;
@@ -763,7 +792,11 @@ class Observer
         if (!$this->isCacheEnabled()) {
             return $this;
         }
-        $this->_cookie->set(\Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE, null, 0);
+        $this->_cookie->set(
+            \Magento\FullPageCache\Model\Processor\RestrictionInterface::NO_CACHE_COOKIE,
+            null,
+            $this->_sessionConfig->getCookieLifetime()
+        );
         return $this;
     }
 

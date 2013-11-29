@@ -18,7 +18,7 @@ class Cookie
     /**
      * @var \Magento\App\RequestInterface
      */
-    protected $_httpRequest;
+    protected $httpRequest;
 
     /**
      * @param \Magento\App\RequestInterface $request
@@ -26,7 +26,7 @@ class Cookie
     public function __construct(
         \Magento\App\RequestInterface $request
     ) {
-        $this->_httpRequest = $request;
+        $this->httpRequest = $request;
     }
 
     /**
@@ -41,7 +41,7 @@ class Cookie
      * @param bool|string $httponly
      * @return \Magento\Stdlib\Cookie
      */
-    public function set($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
+    public function set($name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
         /**
          * Check headers sent
@@ -54,7 +54,7 @@ class Cookie
             $period = 3600 * 24 * 365;
         }
 
-        if ($period == 0) {
+        if ($period === 0) {
             $expire = 0;
         } else {
             $expire = time() + $period;
@@ -76,12 +76,12 @@ class Cookie
      * @param string|bool $httponly
      * @return \Magento\Stdlib\Cookie
      */
-    public function renew($name, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
+    public function renew($name, $period = null, $path = null, $domain = null, $secure = null, $httponly = null)
     {
         if ($period === null) {
             return $this;
         }
-        $value = $this->_httpRequest->getCookie($name, false);
+        $value = $this->httpRequest->getCookie($name, false);
         if ($value !== false) {
             $this->set($name, $value, $period, $path, $domain, $secure, $httponly);
         }
@@ -96,6 +96,6 @@ class Cookie
      */
     public function get($name = null)
     {
-        return $this->_httpRequest->getCookie($name, false);
+        return $this->httpRequest->getCookie($name, false);
     }
 }

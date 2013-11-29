@@ -26,6 +26,11 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
     protected $_storageFactory;
 
     /**
+     * @var \Zend\Session\Config\ConfigInterface
+     */
+    protected $_sessionConfig;
+
+    /**
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\FullPageCache\Model\Container\Placeholder $placeholder
@@ -35,6 +40,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Stdlib\Cookie $coreCookie
      * @param \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -45,13 +51,15 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Stdlib\Cookie $coreCookie,
-        \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
+        \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory,
+        \Zend\Session\Config\ConfigInterface $sessionConfig
     ) {
         parent::__construct(
             $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
         );
 
         $this->_coreCookie = $coreCookie;
+        $this->_sessionConfig = $sessionConfig;
         $this->_storageFactory = $storageFactory;
     }
 
@@ -87,7 +95,13 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _renderBlock()
     {
-        $this->_coreCookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null, 0);
+        $this->_coreCookie->set(
+            \Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE,
+            null,
+            $this->_sessionConfig->getCookieLifetime(),
+            $this->_sessionConfig->getCookiePath(),
+            $this->_sessionConfig->getCookieDomain()
+        );
 
         $block = $this->_getPlaceHolderBlock();
 

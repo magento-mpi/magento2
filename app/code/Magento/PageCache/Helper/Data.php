@@ -48,22 +48,30 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\App\Helper\Context                 $context
+     * @var \Zend\Session\Config\ConfigInterface
+     */
+    protected $_sessionConfig;
+
+    /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\PageCache\Model\CacheControlFactory $ccFactory
-     * @param \Magento\Stdlib\Cookie                       $cookie
-     * @param \Magento\Core\Model\Store\Config             $coreStoreConfig
+     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
      */
     function __construct(
         \Magento\App\Helper\Context $context,
         \Magento\PageCache\Model\CacheControlFactory $ccFactory,
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Zend\Session\Config\ConfigInterface $sessionConfig
     ) {
         parent::__construct($context);
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_isNoCacheCookieLocked = (bool)$cookie->get(self::NO_CACHE_LOCK_COOKIE);
         $this->_cookie = $cookie;
         $this->_ccFactory = $ccFactory;
+        $this->_sessionConfig = $sessionConfig;
     }
 
     /**
@@ -98,7 +106,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($this->_isNoCacheCookieLocked) {
             return $this;
         }
-        $lifetime = $lifetime !== null ? $lifetime : $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
+        $lifetime = $lifetime !== null
+            ? $lifetime
+            : $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
         if ($this->_cookie->get(self::NO_CACHE_COOKIE)) {
             $this->_cookie->renew(self::NO_CACHE_COOKIE, $lifetime);
         } else {
@@ -115,7 +125,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function removeNoCacheCookie()
     {
         if (!$this->_isNoCacheCookieLocked) {
-            $this->_cookie->set(self::NO_CACHE_COOKIE, null, 0);
+            $this->_cookie->set(self::NO_CACHE_COOKIE, null, $this->_sessionConfig->getCookieLifetime());
         }
         return $this;
     }
@@ -139,7 +149,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function unlockNoCacheCookie()
     {
-        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null, 0);
+        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null, $this->_sessionConfig->getCookieLifetime());
         $this->_isNoCacheCookieLocked = false;
         return $this;
     }

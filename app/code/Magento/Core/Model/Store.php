@@ -274,6 +274,13 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_sidResolver;
 
     /**
+     * Cookie model
+     *
+     * @var \Magento\Stdlib\Cookie
+     */
+    protected $_cookie;
+
+    /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
@@ -287,6 +294,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param bool $isCustomEntryPoint
      * @param array $data
@@ -305,6 +313,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -320,6 +329,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_config = $coreConfig;
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
+        $this->_cookie = $cookie;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -352,6 +362,8 @@ class Store extends \Magento\Core\Model\AbstractModel
             ->get('Magento\Core\Model\Config');
         $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Helper\File\Storage\Database');
+        $this->_cookie = \Magento\App\ObjectManager::getInstance()
+            ->get('Magento\Stdlib\Cookie');
     }
 
     /**
@@ -823,11 +835,13 @@ class Store extends \Magento\Core\Model\AbstractModel
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
             if ($code == $this->getDefaultCurrency()) {
-                \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, null, 0);
+                $this->_cookie->set(
+                    self::COOKIE_CURRENCY,
+                    null,
+                    \Magento\Core\Model\Session\Config::COOKIE_LIFETIME_DEFAULT
+                );
             } else {
-                \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, $code);
+                $this->_cookie->set(self::COOKIE_CURRENCY, $code);
             }
         }
         return $this;

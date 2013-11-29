@@ -14,7 +14,6 @@ use Magento\Core\Exception;
 use Magento\App\State;
 use Magento\Core\Model\AppInterface;
 use Magento\Core\Model\Config;
-use Magento\Stdlib\Cookie;
 use Magento\Core\Model\Store;
 use Magento\Core\Model\Store\StorageInterface;
 use Magento\Core\Model\Store\Group;
@@ -275,7 +274,11 @@ class Db implements StorageInterface
         if ($this->_currentStore == $store) {
             $store = $this->getStore($store);
             if ($store->getWebsite()->getDefaultStore()->getId() == $store->getId()) {
-                $this->_cookie->set(Store::COOKIE_NAME, null, 0);
+                $this->_cookie->set(
+                    Store::COOKIE_NAME,
+                    null,
+                    \Magento\Core\Model\Session\Config::COOKIE_LIFETIME_DEFAULT
+                );
             } else {
                 $this->_cookie->set(Store::COOKIE_NAME, $this->_currentStore, true);
             }
