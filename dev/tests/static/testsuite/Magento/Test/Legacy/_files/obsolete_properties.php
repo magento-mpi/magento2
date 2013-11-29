@@ -156,7 +156,7 @@ return array(
     array('_dir', 'Magento\Core\Model\Session\Context'),
     array('dir', 'Magento\Core\Model\Theme\Image\Path'),
     array('_dir', 'Magento\Install\App\Action\Plugin\Dir'),
-    array('_dirs', 'Magento\View\Block\Template\Context')
+    array('_dirs', 'Magento\View\Block\Template\Context'),
     array('_coreDir', 'Magento\Sales\Model\Order\Pdf\AbstractItems' ,'_rootDirectory'),
     array('_dir', 'Magento\AdvancedCheckout\Model\Import', '_filesystem'),
     array('_dir', 'Magento\Backup\Helper\Data'),
