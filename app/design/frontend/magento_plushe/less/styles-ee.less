@@ -8,7 +8,6 @@
 
 @import "styles.less";
 
-
 /*
     GiftCard Form
 -------------------------------------- */
@@ -21,42 +20,33 @@
     > .field {
         .fieldStyle();
     }
-}
-
-.fieldset.giftcard.amount {
-    .field.input {
-        width: 50%;
-        padding-right: 20px;
+    &.amount {
+        margin: 20px 0 10px;
+        .nested {
+            .box-sizing();
+            padding-right: 20px;
+            width: 50%;
+        }
+        .note {
+            margin-right: -20px;
+            font-size: @baseFontSizeMiddle;
+        }
+        .note span {
+            display: block;
+        }
     }
-    .field.amounts {
-        width: 50%;
-        padding-right: 20px;
-    }
-    .note {
-        margin-right: -20px;
-        font-size: @baseFontSizeMiddle;
-    }
-    .note span {
-        display: block;
-    }
-}
-
-.fieldset.giftcard.amount {
-    margin: 20px 0 10px;
-}
-
-.fieldset.giftcard.send {
-    margin: 20px 0;
-    .formCols();
-    .field.amount,
-    .field.text {
-        width: 100%;
-    }
-    .field.amount {
-        padding-right: 0;
+    &.send {
+        margin: 20px 0;
+        .formCols();
+        .field.amount,
+        .field.text {
+            width: 100%;
+        }
+        .field.amount {
+            padding-right: 0;
+        }
     }
 }
-
 
 /*
     GiftCard on Shopping Cart
@@ -677,7 +667,7 @@
     }
 }
 
-.category-view .product.actions .split.button,
+.category.view .product.actions .split.button,
 .search.results .product.actions .split.button {
     display: inline-block;
     padding: 8px 0 0;
@@ -915,13 +905,16 @@
     }
     .ticker {
         .resetList();
-        display: inline-block;
+        .clearfix();
+        margin: 0 auto;
+        width: 92px;
         .value {
             font-size: 24px;
             line-height: 24px;
         }
         li {
             display: none;
+            float: left;
             margin: 0 3px;
         }
         .label {
@@ -1104,9 +1097,14 @@
             width: 166px;
         }
     }
-    .sidebar & {
+    .right.sidebar & {
         .slider .item {
             width: 153px;
+        }
+    }
+    .left.sidebar & {
+        .slider .item {
+            width: 154px;
         }
     }
     body.account .sidebar & {
@@ -1119,7 +1117,6 @@
         }
     }
 }
-
 
 /*
     My Account -> RMA

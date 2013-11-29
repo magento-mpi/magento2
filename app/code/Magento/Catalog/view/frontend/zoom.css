@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend image zoom
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
