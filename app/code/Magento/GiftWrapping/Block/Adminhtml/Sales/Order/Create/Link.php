@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create;
 
-class Link extends \Magento\Adminhtml\Block\Template
+class Link extends \Magento\Backend\Block\Template
 {
     /**
      * Gift wrapping data

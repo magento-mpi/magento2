@@ -30,6 +30,13 @@ class Review extends Block
     protected $continue = '#review-buttons-container button';
 
     /**
+     * Centinel authentication block
+     *
+     * @var string
+     */
+    protected $centinelBlock = '#centinel-authenticate-block';
+
+    /**
      * Grand total search mask
      *
      * @var string
@@ -57,6 +64,14 @@ class Review extends Block
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('.please-wait');
+    }
+
+    /**
+     * Wait for 3D Secure card validation
+     */
+    public function waitForCardValidation()
+    {
+        $this->waitForElementNotVisible($this->centinelBlock);
     }
 
     /**

@@ -43,8 +43,8 @@ class UpdateTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_enabled.php
-     * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/application_cache.php
+     * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
+     * @magentoDataFixture Magento/Backend/controllers/_files/cache/application_cache.php
      * @magentoDataFixture Magento/Core/_files/layout_cache.php
      */
     public function testSaveAfterClearCache()
