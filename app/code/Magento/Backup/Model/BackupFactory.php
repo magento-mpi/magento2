@@ -16,25 +16,17 @@ namespace Magento\Backup\Model;
 class BackupFactory
 {
     /**
-     * @var \Magento\Backup\Model\Fs\Collection
+     * @var \Magento\ObjectManager
      */
-    protected $_fsCollection;
+    protected $_objectManager;
 
     /**
-     * @var \Magento\Backup\Model\Fs\Collection
-     */
-    protected $_backupInstance;
-
-    /**
-     * @param \Magento\Backup\Model\Fs\Collection $fsCollection
-     * @param \Magento\Backup\Model\Backup $backup
+     * @param \Magento\ObjectManager $objectManager
      */
     public function __construct(
-        \Magento\Backup\Model\Fs\Collection $fsCollection,
-        \Magento\Backup\Model\Backup $backup
+        \Magento\ObjectManager $objectManager
     ) {
-        $this->_fsCollection = $fsCollection;
-        $this->_backupInstance = $backup;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -47,16 +39,17 @@ class BackupFactory
     public function create($timestamp, $type)
     {
         $backupId = $timestamp . '_' . $type;
-
-        foreach ($this->_fsCollection as $backup) {
+        $fsCollection = $this->_objectManager->get('Magento\Backup\Model\Fs\Collection');
+        $backupInstance = $this->_objectManager->get('Magento\Backup\Model\Backup');
+        foreach ($fsCollection as $backup) {
             if ($backup->getId() == $backupId) {
-                $this->_backupInstance->setType($backup->getType())
+                $backupInstance->setType($backup->getType())
                     ->setTime($backup->getTime())
                     ->setName($backup->getName())
                     ->setPath($backup->getPath());
                 break;
             }
         }
-        return $this->_backupInstance;
+        return $backupInstance;
     }
 }

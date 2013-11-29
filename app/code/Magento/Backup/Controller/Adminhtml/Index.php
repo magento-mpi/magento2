@@ -304,7 +304,7 @@ class Index extends \Magento\Backend\App\Action
             $errorMsg = __('Failed to validate FTP');
         } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
             $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
-            $errorMsg = __('You need more permissions to create a backup.');
+            $errorMsg = __('Not enough permissions to perform rollback.');
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
             $errorMsg = __('Failed to rollback');
