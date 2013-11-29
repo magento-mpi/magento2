@@ -15,13 +15,14 @@ $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 $config = $objectManager->get('Magento\Catalog\Model\Product\Media\Config');
 
 /** @var \Magento\Filesystem\Directory\WriteInterface $mediaDirectory */
-$mediaDirectory = $objectManager->get('Magento\Filesystem')
-    ->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+$filesystem = $objectManager->get('Magento\Filesystem');
+$mediaPath = $filesystem->getPath(\Magento\Filesystem::MEDIA);
+$mediaDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
 
 $baseTmpMediaPath = $config->getBaseTmpMediaPath();
 $mediaDirectory->create($baseTmpMediaPath);
-copy(__DIR__ . '/magento_image_sitemap.png', $baseTmpMediaPath . '/magento_image_sitemap.png');
-copy(__DIR__ . '/second_image.png', $baseTmpMediaPath . '/second_image.png');
+copy(__DIR__ . '/magento_image_sitemap.png', $mediaPath . '/' . $baseTmpMediaPath . '/magento_image_sitemap.png');
+copy(__DIR__ . '/second_image.png', $mediaPath . '/' . $baseTmpMediaPath . '/second_image.png');
 
 $product = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Catalog\Model\Product');
@@ -80,8 +81,8 @@ $product->setTypeId(\Magento\Catalog\Model\Product\Type::TYPE_SIMPLE)
     ->setImage('/s/e/second_image.png')
     ->setSmallImage('/m/a/magento_image_sitemap.png')
     ->setThumbnail('/m/a/magento_image_sitemap.png')
-    ->addImageToMediaGallery($baseTmpMediaPath . '/magento_image_sitemap.png', null, false, false)
-    ->addImageToMediaGallery($baseTmpMediaPath . '/second_image.png', null, false, false)
+    ->addImageToMediaGallery($mediaPath . '/' . $baseTmpMediaPath . '/magento_image_sitemap.png', null, false, false)
+    ->addImageToMediaGallery($mediaPath . '/' . $baseTmpMediaPath . '/second_image.png', null, false, false)
     ->setWebsiteIds(array(1))
     ->setStockData(array('qty' => 100, 'is_in_stock' => 1))
     ->setRelatedLinkData(array(1 => array('position' => 1)))
