@@ -42,6 +42,7 @@ lib/Magento/Filter/Object.php
 lib/Magento/View/Context.php
 lib/Magento/View/Element/Js/Cookie.php
 lib/Magento/View/Element/Html/Calendar.php
+lib/Magento/View/Element/Html/Link/Current.php
 lib/Magento/View/Element/Messages.php
 lib/Magento/View/Element/AbstractBlock.php
 lib/Magento/View/Element/Template.php
