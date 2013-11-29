@@ -41,9 +41,9 @@ class Config implements \Magento\View\Asset\ConfigInterface
     protected $storeConfig;
 
     /**
-     * @param \Magento\Core\Model\Store\Config $storeConfig
+     * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      */
-    public function __construct(\Magento\Core\Model\Store\Config $storeConfig)
+    public function __construct(\Magento\Core\Model\Store\ConfigInterface $storeConfig)
     {
         $this->storeConfig = $storeConfig;
     }
