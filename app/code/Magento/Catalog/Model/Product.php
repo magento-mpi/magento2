@@ -261,7 +261,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
         $this->_appState = $context->getAppState();
-        parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
     /**
