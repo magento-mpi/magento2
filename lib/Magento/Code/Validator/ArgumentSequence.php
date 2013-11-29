@@ -33,6 +33,7 @@ class ArgumentSequence implements ValidatorInterface
         '\Magento\Module\Updater\SetupInterface',
         '\Magento\Core\Model\Resource\AbstractResource',
         '\Magento\Core\Model\AbstractModel',
+        '\Magento\Data\Collection',
     );
 
     /**
