@@ -17,19 +17,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $baseDir = __DIR__ . '/../FileResolver/_files';
-        $applicationDirs = $this->getMock('Magento\App\Dir', array(), array('getDir'), '', false);
-        $applicationDirs->expects($this->any())->method('getDir')
-            ->will($this->returnValueMap(array(
-                array(
-                    \Magento\App\Dir::CONFIG,
-                    $baseDir . '/app/etc',
-                ),
-                array(
-                    \Magento\App\Dir::MODULES,
-                        $baseDir . '/app/code',
-                ),
-            )));
-        $fileResolver = new \Magento\Module\Declaration\FileResolver($applicationDirs);
+        $fileResolver = $this->getFileResolver(__DIR__ . '/../FileResolver/_files');
         $converter = new \Magento\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock(
             'Magento\Module\Declaration\SchemaLocator', array(), array(), '', false
@@ -86,5 +74,24 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
             ),
         );
         $this->assertEquals($expectedResult, $this->_model->read('global'));
+    }
+
+    /**
+     * Get file resolver instance
+     *
+     * @param string $baseDir
+     * @return \Magento\Module\Declaration\FileResolver
+     */
+    protected function getFileResolver($baseDir)
+    {
+        $filesystem = new \Magento\Filesystem(
+            new \Magento\Filesystem\DirectoryList($baseDir),
+            new \Magento\Filesystem\Directory\ReadFactory(),
+            new \Magento\Filesystem\Directory\WriteFactory(),
+            new \Magento\Filesystem\Adapter\Local()
+        );
+        $iteratorFactory = new \Magento\Config\FileIteratorFactory();
+
+        return  new \Magento\Module\Declaration\FileResolver($filesystem, $iteratorFactory);
     }
 }
