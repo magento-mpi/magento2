@@ -255,7 +255,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
         if ($customer->authenticate($username, $password)) {
             $this->setCustomerAsLoggedIn($customer);
-            $this->renewSession();
+            $this->_renewSession();
             return true;
         }
         return false;
@@ -279,6 +279,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $customer = $this->_createCustomer()->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
+            $this->_renewSession();
             return true;
         }
         return false;
@@ -383,9 +384,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      *
      * @return \Magento\Customer\Model\Session
      */
-    public function renewSession()
+    protected function _renewSession()
     {
-        parent::renewSession();
+        parent::_renewSession();
         $this->_cleanHosts();
         return $this;
     }

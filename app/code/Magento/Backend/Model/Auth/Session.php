@@ -185,7 +185,7 @@ class Session
     public function processLogin()
     {
         if ($this->getUser()) {
-            $this->renewSession();
+            $this->_renewSession();
 
             if ($this->_backendUrl->useSecretKey()) {
                 $this->_backendUrl->renewSecretUrls();

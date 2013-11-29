@@ -770,7 +770,7 @@ class AbstractSession extends \Magento\Object
      *
      * @return \Magento\Core\Model\Session\AbstractSession
      */
-    public function renewSession()
+    protected function _renewSession()
     {
         if (headers_sent()) {
             $this->_logger->log('Can not regenerate session id because HTTP headers already sent.');
