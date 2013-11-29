@@ -37,7 +37,6 @@ class History extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Order\Config $orderConfig
@@ -45,7 +44,6 @@ class History extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $orderCollectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Order\Config $orderConfig,
@@ -54,7 +52,7 @@ class History extends \Magento\View\Element\Template
         $this->_orderCollectionFactory = $orderCollectionFactory;
         $this->_customerSession = $customerSession;
         $this->_orderConfig = $orderConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

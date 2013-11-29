@@ -35,21 +35,19 @@ class View extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _prepareLayout()

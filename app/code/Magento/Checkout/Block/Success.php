@@ -19,18 +19,16 @@ class Success extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         array $data = array()
     ) {
         $this->_orderFactory = $orderFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

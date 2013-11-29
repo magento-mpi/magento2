@@ -48,7 +48,6 @@ class AbstractCart extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -56,7 +55,6 @@ class AbstractCart extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -65,7 +63,7 @@ class AbstractCart extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $checkoutSession;
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

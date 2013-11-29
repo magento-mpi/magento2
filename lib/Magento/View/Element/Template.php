@@ -70,13 +70,6 @@ class Template extends AbstractBlock
     protected $templateEnginePool;
 
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -88,17 +81,14 @@ class Template extends AbstractBlock
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
-     * 
+     *
      * @todo Remove injection of the core helper from this class and its descendants, because it's no longer used
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
-        $this->_coreData = $coreData;
         $this->_dirs = $context->getDirs();
         $this->_filesystem = $context->getFilesystem();
         $this->_viewFileSystem = $context->getViewFileSystem();

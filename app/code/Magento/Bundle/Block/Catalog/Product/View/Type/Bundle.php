@@ -43,7 +43,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -56,7 +55,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -71,7 +69,6 @@ class Bundle extends \Magento\Catalog\Block\Product\View\AbstractView
         $this->_productPrice = $productPrice;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,

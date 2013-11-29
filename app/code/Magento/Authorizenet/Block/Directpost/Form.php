@@ -33,7 +33,6 @@ class Form extends \Magento\Payment\Block\Form\Cc
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Model\Config $paymentConfig
      * @param \Magento\Authorizenet\Model\Directpost $model
      * @param \Magento\Checkout\Model\Type\Onepage $checkoutModel
@@ -41,13 +40,12 @@ class Form extends \Magento\Payment\Block\Form\Cc
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Model\Config $paymentConfig,
         \Magento\Authorizenet\Model\Directpost $model,
         \Magento\Checkout\Model\Type\Onepage $checkoutModel,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $paymentConfig, $data);
+        parent::__construct($context, $paymentConfig, $data);
         $this->_model = $model;
         $this->_checkoutModel = $checkoutModel;
     }

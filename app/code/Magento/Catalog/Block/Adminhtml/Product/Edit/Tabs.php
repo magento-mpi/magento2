@@ -51,8 +51,14 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     protected $_collectionFactory;
 
     /**
+     * @var \Magento\Module\Manager
+     */
+    protected $_moduleManager;
+
+    /**
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory
      * @param \Magento\Catalog\Helper\Catalog $helperCatalog
@@ -61,8 +67,9 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param array $data
      */
     public function __construct(
+        \Magento\Module\Manager $moduleManager,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Catalog $helperCatalog,
@@ -70,11 +77,12 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_moduleManager = $moduleManager;
         $this->_collectionFactory = $collectionFactory;
         $this->_helperCatalog = $helperCatalog;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $authSession, $data);
+        parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
     protected function _construct()
@@ -154,7 +162,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                 unset($advancedGroups['advanced-pricing']);
             }
 
-            if ($this->_coreData->isModuleEnabled('Magento_CatalogInventory')) {
+            if ($this->_moduleManager->isEnabled('Magento_CatalogInventory')) {
                 $this->addTab('advanced-inventory', array(
                     'label'     => __('Advanced Inventory'),
                     'content'   => $this->_translateHtml($this->getLayout()

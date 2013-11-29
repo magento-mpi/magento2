@@ -34,7 +34,6 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -44,7 +43,6 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Rma\Helper\Data $rmaData,
@@ -55,7 +53,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_rmaData = $rmaData;
         $this->_itemFormFactory = $itemFormFactory;
         $this->_itemFactory = $itemFactory;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**

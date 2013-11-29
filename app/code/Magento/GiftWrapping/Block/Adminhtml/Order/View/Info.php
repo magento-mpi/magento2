@@ -27,7 +27,6 @@ class Info
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
@@ -36,7 +35,6 @@ class Info
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
@@ -44,7 +42,7 @@ class Info
         array $data = array()
     ) {
         $this->_wrappingFactory = $wrappingFactory;
-        parent::__construct($context, $coreData, $giftWrappingData, $registry, $wrappingCollFactory, $data);
+        parent::__construct($context, $giftWrappingData, $registry, $wrappingCollFactory, $data);
     }
 
     /**

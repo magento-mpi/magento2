@@ -32,7 +32,6 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -42,7 +41,6 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -51,7 +49,7 @@ class Totals extends \Magento\Checkout\Block\Total\DefaultTotal
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $salesConfig, $data);
     }
 
     /**

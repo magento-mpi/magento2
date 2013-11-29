@@ -58,7 +58,6 @@ class Sidebar extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -68,7 +67,6 @@ class Sidebar extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -81,7 +79,7 @@ class Sidebar extends \Magento\View\Element\Template
         $this->_quoteFactory = $quoteFactory;
         $this->_wishListFactory = $wishListFactory;
         $this->_itemsCompareFactory = $itemsCompareFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
 

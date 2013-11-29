@@ -20,17 +20,15 @@ class Link extends \Magento\View\Element\Template implements AssetBlockInterface
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\Asset\RemoteFactory $remoteFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\View\Asset\RemoteFactory $remoteFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->setAsset(
             $remoteFactory->create(array(
                 'url' => (string)$this->getData('url'),

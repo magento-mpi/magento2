@@ -30,7 +30,6 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur
@@ -38,14 +37,13 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Bundle\Helper\Catalog\Product\Configuration $bundleProdConfigur,
         array $data = array()
     ) {
         $this->_bundleProdConfigur = $bundleProdConfigur;
-        parent::__construct($context, $coreData, $productConfig, $checkoutSession, $data);
+        parent::__construct($context, $productConfig, $checkoutSession, $data);
     }
 
     protected function _construct()

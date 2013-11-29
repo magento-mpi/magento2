@@ -97,7 +97,6 @@ class Shortcut extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Helper\Data $paypalData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Registry $registry
@@ -110,7 +109,6 @@ class Shortcut extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Helper\Data $paypalData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Registry $registry,
@@ -129,7 +127,7 @@ class Shortcut extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutFactory = $checkoutFactory;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

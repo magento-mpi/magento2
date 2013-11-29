@@ -40,7 +40,6 @@ class ColumnSet
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory
      * @param \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals
      * @param \Magento\Backend\Model\Widget\Grid\Totals $totals
@@ -50,7 +49,6 @@ class ColumnSet
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory $generatorFactory,
         \Magento\Backend\Model\Widget\Grid\SubTotals $subtotals,
         \Magento\Backend\Model\Widget\Grid\Totals $totals,
@@ -58,7 +56,7 @@ class ColumnSet
         \Magento\Core\Model\Registry $registryManager,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $generatorFactory, $subtotals, $totals, $data);
+        parent::__construct($context, $generatorFactory, $subtotals, $totals, $data);
 
         $this->_registryManager = $registryManager;
         $this->_productType = $productType;

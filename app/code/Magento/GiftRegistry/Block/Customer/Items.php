@@ -23,6 +23,11 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $itemFactory = null;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -44,8 +49,9 @@ class Items extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->itemFactory = $itemFactory;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

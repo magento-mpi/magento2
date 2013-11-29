@@ -103,7 +103,6 @@ class Banner
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -112,14 +111,13 @@ class Banner
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_bannerResource = $resource;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;

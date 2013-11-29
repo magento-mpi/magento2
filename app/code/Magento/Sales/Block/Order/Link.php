@@ -18,19 +18,17 @@ class Link extends \Magento\View\Element\Html\Link\Current
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\App\DefaultPathInterface $defaultPath,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $defaultPath, $data);
+        parent::__construct($context, $defaultPath, $data);
         $this->_registry = $registry;
     }
 

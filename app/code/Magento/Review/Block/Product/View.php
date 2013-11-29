@@ -32,6 +32,7 @@ class View extends \Magento\Catalog\Block\Product\View
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -46,6 +47,7 @@ class View extends \Magento\Catalog\Block\Product\View
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -61,6 +63,7 @@ class View extends \Magento\Catalog\Block\Product\View
         parent::__construct(
             $context,
             $coreData,
+            $jsonEncoder,
             $catalogConfig,
             $registry,
             $taxData,

@@ -28,21 +28,19 @@ class Balance extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Customer\Model\Session $session
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Customer\Model\Session $session,
         array $data = array()
     ) {
         $this->_session = $session;
         $this->_balanceFactory = $balanceFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

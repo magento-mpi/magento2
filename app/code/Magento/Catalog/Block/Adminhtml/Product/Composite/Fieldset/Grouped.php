@@ -25,7 +25,6 @@ class Grouped
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -37,7 +36,6 @@ class Grouped
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -49,7 +47,7 @@ class Grouped
     ) {
         $this->_taxCalculation = $taxCalculation;
         parent::__construct(
-            $context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
+            $context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
         );
     }
 

@@ -37,21 +37,19 @@ class Lister extends \Magento\CatalogEvent\Block\Event\AbstractEvent
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogEvent\Helper\Data $catalogEventData
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogEvent\Helper\Data $catalogEventData,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {      
         $this->_catalogEventData = $catalogEventData;
         $this->_eventCollectionFactory = $eventCollectionFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -100,7 +100,6 @@ class Form extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -108,7 +107,6 @@ class Form extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -117,7 +115,7 @@ class Form extends \Magento\View\Element\Template
         $this->_modelFactory = $modelFactory;
         $this->_formFactory = $formFactory;
         $this->_eavConfig = $eavConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

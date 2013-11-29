@@ -35,21 +35,19 @@ class Form extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\CatalogSearch\Model\Advanced $catalogSearchAdvanced,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         array $data = array()
     ) {
         $this->_catalogSearchAdvanced = $catalogSearchAdvanced;
         $this->_currencyFactory = $currencyFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function _prepareLayout()

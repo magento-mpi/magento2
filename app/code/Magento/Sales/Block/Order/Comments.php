@@ -13,18 +13,16 @@ class Comments extends \Magento\View\Element\Template
 {
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\ResourceFactory $resourceFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\ResourceFactory $resourceFactory,
         array $data = array()
     ) {
         $this->_resourceFactory = $resourceFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

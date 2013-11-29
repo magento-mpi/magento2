@@ -26,20 +26,18 @@ class Info extends \Magento\Payment\Block\Info\AbstractContainer
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->_checkoutSession = $checkoutSession;
-        parent::__construct($context, $coreData, $paymentData, $data);
+        parent::__construct($context, $paymentData, $data);
     }
 
     /**

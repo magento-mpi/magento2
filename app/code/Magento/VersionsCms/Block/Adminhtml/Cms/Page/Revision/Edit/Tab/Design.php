@@ -31,7 +31,6 @@ class Design
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
@@ -42,7 +41,6 @@ class Design
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
@@ -52,7 +50,7 @@ class Design
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
-        parent::__construct($context, $coreData, $registry, $formFactory, $pageLayout, $labelFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $pageLayout, $labelFactory, $data);
     }
 
     /**

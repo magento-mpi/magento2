@@ -38,7 +38,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\ImportExport\Model\Import $importModel
@@ -48,7 +47,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\ImportExport\Model\Import $importModel,
@@ -58,7 +56,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     ) {
         $this->_entityFactory = $entityFactory;
         $this->_behaviorFactory = $behaviorFactory;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
         $this->_importModel = $importModel;
     }
 

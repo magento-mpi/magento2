@@ -26,7 +26,6 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Product\Option $option
      * @param \Magento\Catalog\Model\Product $product
@@ -34,7 +33,6 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Product\Option $option,
         \Magento\Catalog\Model\Product $product,
@@ -42,7 +40,7 @@ class Item extends \Magento\Sales\Block\Recurring\Profile\View
     ) {
         $this->_option = $option;
         $this->_product = $product;
-        parent::__construct($context, $coreData, $registry, $data);
+        parent::__construct($context, $registry, $data);
     }
 
     /**

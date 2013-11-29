@@ -24,21 +24,19 @@ class History extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function _construct()

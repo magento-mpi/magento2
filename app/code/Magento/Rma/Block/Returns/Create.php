@@ -38,7 +38,6 @@ class Create extends \Magento\Rma\Block\Form
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Factory $modelFactory
      * @param \Magento\Eav\Model\Form\Factory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -50,7 +49,6 @@ class Create extends \Magento\Rma\Block\Form
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Factory $modelFactory,
         \Magento\Eav\Model\Form\Factory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -64,7 +62,7 @@ class Create extends \Magento\Rma\Block\Form
         $this->_rmaData = $rmaData;
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($context, $coreData, $modelFactory, $formFactory, $eavConfig, $data);
+        parent::__construct($context, $modelFactory, $formFactory, $eavConfig, $data);
     }
 
     public function _construct()

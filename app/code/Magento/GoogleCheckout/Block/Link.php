@@ -31,21 +31,19 @@ class Link extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GoogleCheckout\Model\PaymentFactory $paymentFactory,
         \Magento\Checkout\Model\Session $checkoutSession,
         array $data = array()
     ) {
         $this->paymentFactory = $paymentFactory;
         $this->checkoutSession = $checkoutSession;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function getImageStyle()

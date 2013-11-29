@@ -36,7 +36,6 @@ class ListProducts extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
@@ -44,7 +43,6 @@ class ListProducts extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
@@ -53,7 +51,7 @@ class ListProducts extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_linksFactory = $linksFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

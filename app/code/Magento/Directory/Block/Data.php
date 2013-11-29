@@ -31,8 +31,19 @@ class Data extends \Magento\View\Element\Template
     protected $_countryCollFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
@@ -41,12 +52,15 @@ class Data extends \Magento\View\Element\Template
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
+        $this->_coreData = $coreData;
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_configCacheType = $configCacheType;
         $this->_regionCollFactory = $regionCollFactory;
         $this->_countryCollFactory = $countryCollFactory;
@@ -187,7 +201,7 @@ class Data extends \Magento\View\Element\Template
                     'name'=>$region->getName()
                 );
             }
-            $regionsJs = $this->_coreData->jsonEncode($regions);
+            $regionsJs = $this->_jsonEncoder->encode($regions);
         }
         \Magento\Profiler::stop('TEST: ' . __METHOD__);
         return $regionsJs;

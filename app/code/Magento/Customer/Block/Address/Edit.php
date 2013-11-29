@@ -36,6 +36,7 @@ class Edit extends \Magento\Directory\Block\Data
 
     /**
      * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
@@ -48,6 +49,7 @@ class Edit extends \Magento\Directory\Block\Data
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
@@ -59,7 +61,9 @@ class Edit extends \Magento\Directory\Block\Data
         $this->_config = $config;
         $this->_customerSession = $customerSession;
         $this->_addressFactory = $addressFactory;
-        parent::__construct($context, $coreData, $configCacheType, $regionCollFactory, $countryCollFactory, $data);
+        parent::__construct(
+            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollFactory, $countryCollFactory, $data
+        );
     }
 
     protected function _prepareLayout()

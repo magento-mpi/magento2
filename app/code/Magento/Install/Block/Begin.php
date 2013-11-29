@@ -26,7 +26,6 @@ class Begin extends \Magento\Install\Block\AbstractBlock
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Core\Model\Session\Generic $session
@@ -35,14 +34,13 @@ class Begin extends \Magento\Install\Block\AbstractBlock
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Core\Model\Session\Generic $session,
         array $data = array(),
         $eulaFile = null
     ) {
-        parent::__construct($context, $coreData, $installer, $installWizard, $session, $data);
+        parent::__construct($context, $installer, $installWizard, $session, $data);
         $this->_eulaFile = $eulaFile;
     }
 

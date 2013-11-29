@@ -48,7 +48,6 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -64,7 +63,6 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -80,7 +78,7 @@ class Crosssell extends \Magento\Catalog\Block\Product\AbstractProduct
         $this->_productVisibility = $productVisibility;
         $this->_stock = $stock;
         $this->_productLinkFactory = $productLinkFactory;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

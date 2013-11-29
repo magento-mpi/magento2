@@ -26,7 +26,6 @@ class Main
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Eav\Helper\Data $eavData
@@ -38,7 +37,6 @@ class Main
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Eav\Helper\Data $eavData,
@@ -51,7 +49,6 @@ class Main
         $this->_customerData = $customerData;
         parent::__construct(
             $context,
-            $coreData,
             $registry,
             $formFactory,
             $eavData,

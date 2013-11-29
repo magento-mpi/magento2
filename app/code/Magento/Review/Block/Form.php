@@ -47,6 +47,11 @@ class Form extends \Magento\View\Element\Template
     protected $_reviewSession;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Session\Generic $reviewSession
@@ -66,12 +71,13 @@ class Form extends \Magento\View\Element\Template
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_reviewSession = $reviewSession;
         $this->_reviewData = $reviewData;
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

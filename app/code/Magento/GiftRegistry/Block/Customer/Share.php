@@ -27,7 +27,6 @@ class Share
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
@@ -35,7 +34,6 @@ class Share
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
@@ -43,7 +41,7 @@ class Share
     ) {
         $this->_giftRegistryData = $giftRegistryData;
 
-        parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
+        parent::__construct($context, $customerSession, $subscriberFactory, $data);
     }
 
     /**

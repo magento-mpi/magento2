@@ -19,20 +19,18 @@ class Package extends \Magento\Shipping\Block\Tracking\Popup
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $coreData, $registry, $data);
+        parent::__construct($context, $registry, $data);
     }
 
     /**

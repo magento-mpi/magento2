@@ -28,7 +28,6 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param \Magento\Core\Model\Session\Generic $wishlistSession
      * @param \Magento\Wishlist\Helper\Data $wishlistData
@@ -36,14 +35,13 @@ class Sharing extends \Magento\Wishlist\Block\Customer\Sharing
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\Core\Model\Session\Generic $wishlistSession,
         \Magento\Wishlist\Helper\Data $wishlistData,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
-        parent::__construct($context, $coreData, $wishlistConfig, $wishlistSession, $data);
+        parent::__construct($context, $wishlistConfig, $wishlistSession, $data);
     }
 
     /**

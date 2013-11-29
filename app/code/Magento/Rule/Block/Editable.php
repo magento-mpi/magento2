@@ -17,27 +17,6 @@ class Editable
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     /**
-     * Core data
-     *
-     * @var \Magento\Core\Helper\Data
-     */
-    protected $_coreData;
-
-    /**
-     * @param \Magento\View\Element\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\View\Element\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        array $data = array()
-    ) {
-        $this->_coreData = $coreData;
-        parent::__construct($context, $data);
-    }
-
-    /**
      * Render element
      *
      * @see \Magento\Data\Form\Element\Renderer\RendererInterface::render()

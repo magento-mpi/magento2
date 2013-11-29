@@ -22,7 +22,6 @@ class Checkout extends \Magento\Reward\Block\Tooltip
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Reward\Model\Reward $rewardInstance
@@ -31,7 +30,6 @@ class Checkout extends \Magento\Reward\Block\Tooltip
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Reward $rewardInstance,
@@ -41,7 +39,6 @@ class Checkout extends \Magento\Reward\Block\Tooltip
         $this->_checkoutSession = $checkoutSession;
         parent::__construct(
             $context,
-            $coreData,
             $rewardHelper,
             $customerSession,
             $rewardInstance,

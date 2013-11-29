@@ -70,7 +70,6 @@ class AbstractCreate
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -83,7 +82,6 @@ class AbstractCreate
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -99,7 +97,6 @@ class AbstractCreate
         $this->_config = $config;
         parent::__construct(
             $context,
-            $coreData,
             $customerSession,
             $pbridgeSession,
             $regionFactory,

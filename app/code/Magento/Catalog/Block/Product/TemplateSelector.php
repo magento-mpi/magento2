@@ -40,7 +40,6 @@ class TemplateSelector extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
@@ -48,7 +47,6 @@ class TemplateSelector extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setColFactory,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\Resource\Helper $resourceHelper,
@@ -57,7 +55,7 @@ class TemplateSelector extends \Magento\View\Element\Template
         $this->_setColFactory = $setColFactory;
         $this->_coreRegistry = $registry;
         $this->_resourceHelper = $resourceHelper;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

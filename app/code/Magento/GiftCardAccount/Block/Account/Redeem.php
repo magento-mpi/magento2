@@ -21,18 +21,16 @@ class Redeem extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Helper\Data $customerBalanceData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\CustomerBalance\Helper\Data $customerBalanceData,
         array $data = array()
     ) {
         $this->_customerBalanceData = $customerBalanceData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

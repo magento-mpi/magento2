@@ -29,7 +29,6 @@ class Placeform extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Ogone\Model\Api $ogoneApi
      * @param \Magento\Sales\Model\OrderFactory $salesOrderFactory
@@ -37,7 +36,6 @@ class Placeform extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Ogone\Model\Api $ogoneApi,
         \Magento\Sales\Model\OrderFactory $salesOrderFactory,
@@ -46,7 +44,7 @@ class Placeform extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_ogoneApi = $ogoneApi;
         $this->_salesOrderFactory = $salesOrderFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

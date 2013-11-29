@@ -25,18 +25,16 @@ class Redirect extends Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         $this->formFactory = $formFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

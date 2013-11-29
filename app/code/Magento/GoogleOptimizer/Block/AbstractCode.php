@@ -33,7 +33,6 @@ abstract class AbstractCode extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GoogleOptimizer\Helper\Data $helper
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GoogleOptimizer\Helper\Code $codeHelper
@@ -41,7 +40,6 @@ abstract class AbstractCode extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GoogleOptimizer\Helper\Data $helper,
         \Magento\Core\Model\Registry $registry,
         \Magento\GoogleOptimizer\Helper\Code $codeHelper,
@@ -50,7 +48,7 @@ abstract class AbstractCode extends \Magento\View\Element\Template
         $this->_helper = $helper;
         $this->_registry = $registry;
         $this->_codeHelper = $codeHelper;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

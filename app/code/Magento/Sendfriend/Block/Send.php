@@ -41,7 +41,6 @@ class Send extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sendfriend\Helper\Data $sendfriendData
      * @param \Magento\Core\Model\Registry $registry
@@ -49,7 +48,6 @@ class Send extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sendfriend\Helper\Data $sendfriendData,
         \Magento\Core\Model\Registry $registry,
@@ -58,7 +56,7 @@ class Send extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_coreRegistry = $registry;
         $this->_sendfriendData = $sendfriendData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -34,21 +34,19 @@ class Title extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Tax\Model\Calculation\Rate $rate
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\Tax\Model\Calculation\Rate $rate,
         array $data = array()
     ) {
         $this->_rate = $rate;
         $this->_storeFactory = $storeFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function getTitles()

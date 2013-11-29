@@ -34,7 +34,6 @@ class Row
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory
@@ -43,7 +42,6 @@ class Row
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\Website\CollectionFactory $websiteCollFactory,
@@ -52,7 +50,7 @@ class Row
     ) {
         $this->_websiteCollFactory = $websiteCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
-        parent::__construct($context, $coreData, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $data);
     }
 
     protected function _prepareLayout()

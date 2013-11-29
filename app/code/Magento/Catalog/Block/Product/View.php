@@ -44,8 +44,19 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -59,6 +70,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -69,10 +81,12 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_productFactory = $productFactory;
         $this->_taxCalculation = $taxCalculation;
         $this->string = $string;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**
@@ -185,7 +199,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $config = array();
         if (!$this->hasOptions()) {
-            return $this->_coreData->jsonEncode($config);
+            return $this->_jsonEncoder->encode($config);
         }
 
         $_request = $this->_taxCalculation->getRateRequest(false, false, false);
@@ -240,7 +254,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             }
         }
 
-        return $this->_coreData->jsonEncode($config);
+        return $this->_jsonEncoder->encode($config);
     }
 
     /**

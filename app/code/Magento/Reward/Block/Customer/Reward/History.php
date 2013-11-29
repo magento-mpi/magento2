@@ -44,6 +44,11 @@ class History extends \Magento\View\Element\Template
     protected $_historyFactory;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
@@ -59,10 +64,11 @@ class History extends \Magento\View\Element\Template
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
         $this->_customerSession = $customerSession;
         $this->_historyFactory = $historyFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

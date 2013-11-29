@@ -31,19 +31,29 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
     protected $_fileSizeService;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+    /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    private $jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\File\Size $fileSize
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\File\Size $fileSize,
         array $data = array()
     ) {
         $this->_fileSizeService = $fileSize;
-        parent::__construct($context, $coreData, $data);
+        $this->jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $data);
     }
 
     protected function _construct()
@@ -119,7 +129,7 @@ class Uploader extends \Magento\Adminhtml\Block\Widget
      */
     public function getConfigJson()
     {
-        return $this->_coreData->jsonEncode($this->getConfig()->getData());
+        return $this->_jsonEncoder->encode($this->getConfig()->getData());
     }
 
     /**

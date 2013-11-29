@@ -36,7 +36,6 @@ class Products extends \Magento\Checkout\Block\Cart
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -48,7 +47,6 @@ class Products extends \Magento\Checkout\Block\Cart
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -63,7 +61,6 @@ class Products extends \Magento\Checkout\Block\Cart
         $this->_checkoutData = $checkoutData;
         parent::__construct(
             $context,
-            $coreData,
             $catalogData,
             $customerSession,
             $checkoutSession,

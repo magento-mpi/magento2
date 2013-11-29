@@ -39,7 +39,6 @@ class Checkout extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory
@@ -48,7 +47,6 @@ class Checkout extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory,
@@ -60,7 +58,7 @@ class Checkout extends \Magento\View\Element\Template
         $this->typeMultiShippingFactory = $typeMultiShippingFactory;
         $this->entityFactory = $entityFactory;
 
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -22,6 +22,8 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Sku;
 
+use Magento\View\Element\Template;
+
 abstract class AbstractSku extends \Magento\Backend\Block\Template
 {
     /**
@@ -32,11 +34,30 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
     protected $_template = 'sku/add.phtml';
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        array $data = array()
+    ) {
+        $this->_jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $data);
+    }
+
+
+    /**
      * Initialize SKU container
      */
     protected function _construct()
     {
-
         // Used by JS to tell accordions from each other
         $this->setId('sku');
         /* @see \Magento\AdvancedCheckout\Controller\Adminhtml\Index::_getListItemInfo() */
@@ -125,7 +146,7 @@ abstract class AbstractSku extends \Magento\Backend\Block\Template
             'fileUploadUrl'    => $this->getFileUploadUrl(),
         );
 
-        $json = $this->_coreData->jsonEncode($data);
+        $json = $this->_jsonEncoder->encode($data);
         return $json;
     }
 

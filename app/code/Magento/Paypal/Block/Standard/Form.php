@@ -35,18 +35,16 @@ class Form extends \Magento\Payment\Block\Form
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Model\ConfigFactory $paypalConfigFactory,
         array $data = array()
     ) {
         $this->_paypalConfigFactory = $paypalConfigFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

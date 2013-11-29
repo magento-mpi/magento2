@@ -32,7 +32,6 @@ class Form
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param \Magento\GiftRegistry\Model\Source\Search $sourceSearch
@@ -40,13 +39,12 @@ class Form
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         \Magento\GiftRegistry\Model\Source\Search $sourceSearch,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $giftRegistryData, $typeFactory, $data);
+        parent::__construct($context, $giftRegistryData, $typeFactory, $data);
         $this->sourceSearch = $sourceSearch;
     }
 

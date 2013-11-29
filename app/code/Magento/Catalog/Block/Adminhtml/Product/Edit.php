@@ -34,22 +34,27 @@ class Edit extends \Magento\Backend\Block\Widget
     protected $_attributeSetFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Eav\Model\Entity\Attribute\SetFactory $attributeSetFactory,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_attributeSetFactory = $attributeSetFactory;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()
@@ -260,7 +265,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getTypeSwitcherData()
     {
-        return $this->_coreData->jsonEncode(array(
+        return $this->_jsonEncoder->encode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',

@@ -49,7 +49,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory
      * @param \Magento\Acl\Builder $aclBuilder
@@ -58,7 +57,6 @@ class Edit extends \Magento\Backend\Block\Widget\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollectionFactory,
         \Magento\Acl\Builder $aclBuilder,
@@ -69,7 +67,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form
         $this->_rootResource = $rootResource;
         $this->_rulesCollectionFactory = $rulesCollectionFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

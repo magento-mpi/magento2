@@ -27,21 +27,19 @@ class Select extends \Magento\CustomAttribute\Block\Form\Renderer\Select
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Model\ItemFactory $itemFactory
      * @param \Magento\Rma\Model\Item\FormFactory $itemFormFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Rma\Model\ItemFactory $itemFactory,
         \Magento\Rma\Model\Item\FormFactory $itemFormFactory,
         array $data = array()
     ) {
         $this->_itemFactory = $itemFactory;
         $this->_itemFormFactory = $itemFormFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

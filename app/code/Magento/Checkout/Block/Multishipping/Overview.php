@@ -31,18 +31,16 @@ class Overview extends \Magento\Sales\Block\Items\AbstractItems
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Type\Multishipping $multishipping
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Type\Multishipping $multishipping,
         array $data = array()
     ) {
         $this->_multishipping = $multishipping;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

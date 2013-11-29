@@ -28,18 +28,16 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\ConfigInterface $coreConfig,
         array $data = array()
     ) {
         $this->coreConfig = $coreConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /*

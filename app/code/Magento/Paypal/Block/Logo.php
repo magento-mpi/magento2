@@ -22,18 +22,16 @@ class Logo extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Paypal\Model\Config $paypalConfig
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Paypal\Model\Config $paypalConfig,
         array $data = array()
     ) {
         $this->_paypalConfig = $paypalConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

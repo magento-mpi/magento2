@@ -18,18 +18,16 @@ class Agreements extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Resource\Agreement\CollectionFactory $agreementCollFactory,
         array $data = array()
     ) {
         $this->_agreementCollFactory = $agreementCollFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

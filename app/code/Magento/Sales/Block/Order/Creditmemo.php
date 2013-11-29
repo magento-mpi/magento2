@@ -31,20 +31,18 @@ class Creditmemo extends \Magento\Sales\Block\Order\Creditmemo\Items
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $registry, $data);
+        parent::__construct($context, $registry, $data);
     }
 
     protected function _prepareLayout()

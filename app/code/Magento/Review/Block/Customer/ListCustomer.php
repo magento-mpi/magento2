@@ -34,7 +34,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
@@ -42,14 +41,13 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
+        parent::__construct($context, $customerSession, $subscriberFactory, $data);
     }
 
     protected function _initCollection()

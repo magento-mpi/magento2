@@ -28,19 +28,25 @@ class Result extends \Magento\View\Element\Template
     protected $_pbridgeData = null;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Pbridge\Helper\Data $pbridgeData,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_pbridgeData = $pbridgeData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -50,7 +56,7 @@ class Result extends \Magento\View\Element\Template
      */
     public function getJsonHiddenPbridgeParams()
     {
-        return $this->_coreData->jsonEncode(
+        return $this->_jsonEncoder->encode(
             $this->_pbridgeData->getPbridgeParams()
         );
     }

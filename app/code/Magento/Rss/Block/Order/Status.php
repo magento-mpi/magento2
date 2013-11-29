@@ -34,7 +34,6 @@ class Status extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rss\Model\RssFactory $rssFactory
      * @param \Magento\Rss\Model\Resource\OrderFactory $orderFactory
@@ -42,7 +41,6 @@ class Status extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Rss\Model\Resource\OrderFactory $orderFactory,
@@ -51,7 +49,7 @@ class Status extends \Magento\View\Element\Template
         $this->_coreRegistry = $registry;
         $this->_rssFactory = $rssFactory;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

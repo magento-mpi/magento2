@@ -32,7 +32,6 @@ class Revision extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
@@ -40,7 +39,6 @@ class Revision extends \Magento\Adminhtml\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory $revisionCollFactory,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
@@ -49,7 +47,7 @@ class Revision extends \Magento\Adminhtml\Block\Template
         $this->_revisionCollFactory = $revisionCollFactory;
         $this->_cmsConfig = $cmsConfig;
         $this->_backendAuthSession = $backendAuthSession;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

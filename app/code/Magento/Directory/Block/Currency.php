@@ -29,21 +29,19 @@ class Currency extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Directory\Helper\Url $directoryUrl
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Directory\Helper\Url $directoryUrl,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         array $data = array()
     ) {
         $this->_directoryUrl = $directoryUrl;
         $this->_currencyFactory = $currencyFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

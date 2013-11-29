@@ -29,7 +29,6 @@ abstract class AbstractCompare extends \Magento\Catalog\Block\Product\AbstractPr
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -40,7 +39,6 @@ abstract class AbstractCompare extends \Magento\Catalog\Block\Product\AbstractPr
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -50,7 +48,7 @@ abstract class AbstractCompare extends \Magento\Catalog\Block\Product\AbstractPr
         array $data = array()
     ) {
         $this->_catalogProductCompare = $catalogProductCompare;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

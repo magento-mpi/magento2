@@ -54,8 +54,13 @@ class Price extends \Magento\View\Element\Template
     protected $mathRandom;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Registry $registry
@@ -65,7 +70,7 @@ class Price extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Registry $registry,
@@ -73,12 +78,13 @@ class Price extends \Magento\View\Element\Template
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_catalogData = $catalogData;
         $this->_taxData = $taxData;
         $this->string = $string;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -208,7 +214,7 @@ class Price extends \Magento\View\Element\Template
     public function getRealPriceJs($product)
     {
         $html = $this->hasRealPriceHtml() ? $this->getRealPriceHtml() : $product->getRealPriceHtml();
-        return $this->_coreData->jsonEncode($html);
+        return $this->_jsonEncoder->encode($html);
     }
 
     /**

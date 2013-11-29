@@ -33,7 +33,6 @@ class Merchant
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Website\Factory $websiteFactory
      * @param \Magento\Core\Model\StoreFactory $storeFactory
      * @param \Magento\Shipping\Model\Config $shippingConfig
@@ -41,7 +40,6 @@ class Merchant
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Website\Factory $websiteFactory,
         \Magento\Core\Model\StoreFactory $storeFactory,
         \Magento\Shipping\Model\Config $shippingConfig,
@@ -50,7 +48,7 @@ class Merchant
         $this->websiteFactory = $websiteFactory;
         $this->storeFactory = $storeFactory;
         $this->shippingConfig = $shippingConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _getElementHtml(\Magento\Data\Form\Element\AbstractElement $element)

@@ -31,18 +31,16 @@ class Helper extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         array $data = array()
     ) {
         $this->_reviewFactory = $reviewFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function getSummaryHtml($product, $templateType, $displayIfNoReviews)

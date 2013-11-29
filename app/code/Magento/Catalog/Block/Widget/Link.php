@@ -51,18 +51,16 @@ class Link
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
         array $data = array()
     ) {
         $this->_urlRewrite = $urlRewrite;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

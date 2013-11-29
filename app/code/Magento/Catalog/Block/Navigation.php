@@ -75,7 +75,6 @@ class Navigation extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
@@ -87,7 +86,6 @@ class Navigation extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
@@ -104,7 +102,7 @@ class Navigation extends \Magento\View\Element\Template
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
         $this->_categoryInstance = $categoryFactory->create();
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

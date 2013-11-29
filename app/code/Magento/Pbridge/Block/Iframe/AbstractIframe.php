@@ -92,7 +92,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -101,7 +100,6 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -112,7 +110,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_customerSession = $customerSession;
         $this->_pbridgeSession = $pbridgeSession;
         $this->_regionFactory = $regionFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

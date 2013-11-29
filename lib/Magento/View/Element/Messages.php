@@ -83,21 +83,19 @@ class Messages extends Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
         Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->messageFactory = $messageFactory;
         $this->collectionFactory = $collectionFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

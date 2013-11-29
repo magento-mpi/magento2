@@ -44,6 +44,11 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
     protected $_countryCollFactory;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
@@ -63,12 +68,13 @@ abstract class AbstractOnepage extends \Magento\View\Element\Template
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $resourceSession;
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

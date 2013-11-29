@@ -26,18 +26,16 @@ class Currencysymbol extends \Magento\Backend\Block\Widget\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolSystemFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\CurrencySymbol\Model\System\CurrencysymbolFactory $symbolSystemFactory,
         array $data = array()
     ) {
         $this->_symbolSystemFactory = $symbolSystemFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

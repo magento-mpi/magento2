@@ -23,19 +23,17 @@ class Link
 {
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite
      * @param \Magento\Catalog\Model\Resource\Product $catalogProduct
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Resource\Url\Rewrite $urlRewrite,
         \Magento\Catalog\Model\Resource\Product $catalogProduct,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $urlRewrite, $data);
+        parent::__construct($context, $urlRewrite, $data);
         $this->_entityResource = $catalogProduct;
     }
 }

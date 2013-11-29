@@ -33,21 +33,19 @@ class Suggestions extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Search\Model\Suggestions $suggestions
      * @param \Magento\Search\Helper\Data $searchData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Search\Model\Suggestions $suggestions,
         \Magento\Search\Helper\Data $searchData,
         array $data = array()
     ) {
         $this->_suggestions = $suggestions;
         $this->_searchData = $searchData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -45,8 +45,19 @@ class Address
     protected $_customerFormFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
@@ -58,6 +69,7 @@ class Address
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Data\FormFactory $formFactory,
@@ -66,10 +78,12 @@ class Address
         \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_addressFactory = $addressFactory;
         $this->_customerFormFactory = $customerFormFactory;
         $this->_adminhtmlAddresses = $adminhtmlAddresses;
-        parent::__construct($context, $coreData, $sessionQuote, $orderCreate, $formFactory, $data);
+        parent::__construct($context, $sessionQuote, $orderCreate, $formFactory, $data);
     }
 
     /**
@@ -129,7 +143,7 @@ class Address
                 \Magento\Eav\Model\AttributeDataFactory::OUTPUT_FORMAT_JSON
             );
         }
-        return $this->_coreData->jsonEncode($data);
+        return $this->_jsonEncoder->encode($data);
     }
 
     /**

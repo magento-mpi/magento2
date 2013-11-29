@@ -38,19 +38,17 @@ class Main extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer\Config $installerConfig
      * @param \Magento\Core\Model\Session\Generic $session
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer\Config $installerConfig,
         \Magento\Core\Model\Session\Generic $session,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_installerConfig = $installerConfig;
         $this->_session = $session;
     }

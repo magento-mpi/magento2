@@ -35,7 +35,7 @@ class Cookie extends Template
         array $data = array()
     ) {
         $this->_cookieConfig = $cookieConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

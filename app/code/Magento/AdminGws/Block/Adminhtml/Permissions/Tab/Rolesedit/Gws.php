@@ -28,22 +28,28 @@ class Gws extends \Magento\Backend\Block\Template
     protected $_adminGwsRole;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\AdminGws\Model\Role $adminGwsRole
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\AdminGws\Model\Role $adminGwsRole,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_adminGwsRole = $adminGwsRole;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -100,7 +106,7 @@ class Gws extends \Magento\Backend\Block\Template
                 }
             }
         }
-        return $this->_coreData->jsonEncode($result);
+        return $this->_jsonEncoder->encode($result);
     }
 
     /**

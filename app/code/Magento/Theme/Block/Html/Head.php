@@ -63,7 +63,6 @@ class Head extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Asset\GroupedCollection $assets
@@ -73,7 +72,6 @@ class Head extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
         \Magento\View\Asset\GroupedCollection $assets,
@@ -81,7 +79,7 @@ class Head extends \Magento\View\Element\Template
         \Magento\View\Asset\MinifyService $assetMinifyService,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_fileStorageDatabase = $fileStorageDatabase;
         $this->_objectManager = $objectManager;
         $this->_assetMergeService = $assetMergeService;

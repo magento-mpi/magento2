@@ -43,21 +43,19 @@ class Result extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

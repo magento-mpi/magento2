@@ -23,7 +23,6 @@ class Buttons
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
@@ -31,13 +30,12 @@ class Buttons
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $data);
 
         $this->_eventCollectionFactory = $eventCollectionFactory;
     }

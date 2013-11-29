@@ -28,7 +28,6 @@ class Messages extends \Magento\Adminhtml\Block\Messages
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $registry
@@ -36,14 +35,13 @@ class Messages extends \Magento\Adminhtml\Block\Messages
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
-        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $messageFactory, $collectionFactory, $data);
     }
 
     protected function _getOrder()

@@ -73,8 +73,13 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_hierarchyLock;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
@@ -89,7 +94,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
@@ -102,8 +107,9 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\VersionsCms\Model\Hierarchy\Lock $hierarchyLock,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_cmsHierarchy = $cmsHierarchy;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
 
         $this->setTemplate('hierarchy/edit.phtml');
 
@@ -503,7 +509,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             }
         }
 
-        return $this->_coreData->jsonEncode($nodes);
+        return $this->_jsonEncoder->encode($nodes);
     }
 
     /**
@@ -674,7 +680,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             $result[$listType][$type] = $label;
         }
 
-        return $this->_coreData->jsonEncode($result);
+        return $this->_jsonEncoder->encode($result);
     }
 
     /**

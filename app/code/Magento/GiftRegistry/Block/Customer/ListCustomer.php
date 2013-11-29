@@ -32,7 +32,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory
      * @param \Magento\GiftRegistry\Model\EntityFactory $entityFactory
@@ -41,7 +40,6 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Newsletter\Model\SubscriberFactory $subscriberFactory,
         \Magento\GiftRegistry\Model\EntityFactory $entityFactory,
@@ -51,7 +49,7 @@ class ListCustomer extends \Magento\Customer\Block\Account\Dashboard
         $this->customerSession = $customerSession;
         $this->entityFactory = $entityFactory;
         $this->typeFactory = $typeFactory;
-        parent::__construct($context, $coreData, $customerSession, $subscriberFactory, $data);
+        parent::__construct($context, $customerSession, $subscriberFactory, $data);
     }
 
     /**

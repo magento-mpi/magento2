@@ -33,7 +33,6 @@ class Link extends \Magento\View\Element\Html\Link
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Invitation\Helper\Data $invitationHelper
      * @param \Magento\Invitation\Model\Config $invitationConfiguration
@@ -41,13 +40,12 @@ class Link extends \Magento\View\Element\Html\Link
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Invitation\Helper\Data $invitationHelper,
         \Magento\Invitation\Model\Config $invitationConfiguration,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_customerSession = $customerSession;
         $this->_invitationConfiguration = $invitationConfiguration;
         $this->_invitationHelper = $invitationHelper;

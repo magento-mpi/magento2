@@ -28,19 +28,25 @@ class Load extends \Magento\View\Element\Template
     protected $_adminhtmlJs = null;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Adminhtml\Helper\Js $adminhtmlJs,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_adminhtmlJs = $adminhtmlJs;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _toHtml()
@@ -50,7 +56,7 @@ class Load extends \Magento\View\Element\Template
         foreach ($this->getChildNames() as $name) {
             $result[$name] = $layout->renderElement($name);
         }
-        $resultJson = $this->_coreData->jsonEncode($result);
+        $resultJson = $this->_jsonEncoder->encode($result);
         $jsVarname = $this->getRequest()->getParam('as_js_varname');
         if ($jsVarname) {
             return $this->_adminhtmlJs->getScript(sprintf('var %s = %s', $jsVarname, $resultJson));

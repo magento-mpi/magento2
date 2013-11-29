@@ -38,6 +38,11 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
     protected $_resourceIterator;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -57,10 +62,11 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
         \Magento\Core\Model\Resource\Iterator $resourceIterator,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_productFactory = $productFactory;
         $this->_rssFactory = $rssFactory;
         $this->_resourceIterator = $resourceIterator;
-        parent::__construct($context, $coreData, $customerSession, $catalogData, $data);
+        parent::__construct($context, $customerSession, $catalogData, $data);
     }
 
     protected function _construct()

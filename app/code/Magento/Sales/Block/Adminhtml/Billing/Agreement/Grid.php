@@ -36,7 +36,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory
@@ -45,7 +44,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementFactory,
@@ -55,7 +53,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         $this->_paymentData = $paymentData;
         $this->_agreementFactory = $agreementFactory;
         $this->_agreementModel = $agreementModel;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     /**

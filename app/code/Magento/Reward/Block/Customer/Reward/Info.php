@@ -45,7 +45,6 @@ class Info extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
@@ -53,7 +52,6 @@ class Info extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -62,7 +60,7 @@ class Info extends \Magento\View\Element\Template
         $this->_rewardData = $rewardData;
         $this->_customerSession = $customerSession;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

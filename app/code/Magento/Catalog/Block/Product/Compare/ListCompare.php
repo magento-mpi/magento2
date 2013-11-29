@@ -84,6 +84,11 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
     protected $_itemCollectionFactory;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
@@ -113,13 +118,13 @@ class ListCompare extends \Magento\Catalog\Block\Product\Compare\AbstractCompare
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_itemCollectionFactory = $itemCollectionFactory;
         $this->_catalogProductVisibility = $catalogProductVisibility;
         $this->_logVisitor = $logVisitor;
         $this->_customerSession = $customerSession;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,

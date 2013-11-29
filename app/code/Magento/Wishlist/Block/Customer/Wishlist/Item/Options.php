@@ -26,7 +26,6 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -40,7 +39,6 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -55,7 +53,6 @@ class Options extends \Magento\Wishlist\Block\AbstractBlock
         $this->_helperPool = $helperPool;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,

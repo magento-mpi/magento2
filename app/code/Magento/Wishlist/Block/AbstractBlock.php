@@ -67,7 +67,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -80,7 +79,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -94,7 +92,7 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         $this->_wishlistData = $wishlistData;
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

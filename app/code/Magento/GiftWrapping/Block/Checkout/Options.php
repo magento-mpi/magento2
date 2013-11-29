@@ -52,6 +52,11 @@ class Options extends \Magento\View\Element\Template
     protected $_wrappingCollFactory;
 
     /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
@@ -71,12 +76,13 @@ class Options extends \Magento\View\Element\Template
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollFactory = $wrappingCollFactory;
         $this->_checkoutSession = $checkoutSession;
         $this->_checkoutCartFactory = $checkoutCartFactory;
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

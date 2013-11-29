@@ -44,7 +44,6 @@ class Additional extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
@@ -53,7 +52,6 @@ class Additional extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -64,7 +62,7 @@ class Additional extends \Magento\View\Element\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

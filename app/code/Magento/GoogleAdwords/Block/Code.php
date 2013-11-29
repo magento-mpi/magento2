@@ -18,18 +18,16 @@ class Code extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GoogleAdwords\Helper\Data $googleAdwordsData
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GoogleAdwords\Helper\Data $googleAdwordsData,
         array $data = array()
     ) {
         $this->_googleAdwordsData = $googleAdwordsData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

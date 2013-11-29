@@ -17,19 +17,17 @@ class Address extends \Magento\Sales\Block\Recurring\Profile\View
 {
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Order\AddressFactory $addressFactory
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Order\AddressFactory $addressFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $data);
+        parent::__construct($context, $registry, $data);
         $this->_addressFactory = $addressFactory;
     }
 

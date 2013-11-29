@@ -49,7 +49,6 @@ class Attribute
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo
      * @param \Magento\GiftRegistry\Model\Type $defaultTypeInstance
@@ -58,7 +57,6 @@ class Attribute
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesNo,
         \Magento\GiftRegistry\Model\Type $defaultTypeInstance,
@@ -70,7 +68,7 @@ class Attribute
         $this->defaultTypeInstance = $defaultTypeInstance;
         $this->attributeConfig = $attributeConfig;
 
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

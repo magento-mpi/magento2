@@ -31,7 +31,6 @@ class Head extends \Magento\Theme\Block\Html\Head
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\Asset\GroupedCollection $assets
@@ -42,7 +41,6 @@ class Head extends \Magento\Theme\Block\Html\Head
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
         \Magento\View\Asset\GroupedCollection $assets,
@@ -54,7 +52,6 @@ class Head extends \Magento\Theme\Block\Html\Head
         $this->_titles = $titles;
         parent::__construct(
             $context,
-            $coreData,
             $fileStorageDatabase,
             $objectManager,
             $assets,

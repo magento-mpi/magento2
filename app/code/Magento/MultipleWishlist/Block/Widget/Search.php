@@ -37,21 +37,19 @@ class Search extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch
      * @param \Magento\Math\Random $mathRandom
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\MultipleWishlist\Model\Config\Source\Search $configSourceSearch,
         \Magento\Math\Random $mathRandom,
         array $data = array()
     ) {
         $this->_configSourceSearch = $configSourceSearch;
         $this->mathRandom = $mathRandom;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -36,7 +36,6 @@ class Summary extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Core\Model\Registry $registry
@@ -44,7 +43,6 @@ class Summary extends \Magento\Adminhtml\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Rating\Model\Resource\Rating\Option\Vote\CollectionFactory $votesFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Core\Model\Registry $registry,
@@ -53,7 +51,7 @@ class Summary extends \Magento\Adminhtml\Block\Template
         $this->_votesFactory = $votesFactory;
         $this->_ratingFactory = $ratingFactory;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

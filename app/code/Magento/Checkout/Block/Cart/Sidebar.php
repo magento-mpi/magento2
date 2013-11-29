@@ -46,7 +46,6 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -58,7 +57,6 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -72,7 +70,7 @@ class Sidebar extends \Magento\Checkout\Block\Cart\AbstractCart
         $this->_catalogUrl = $catalogUrl;
         $this->_taxConfig = $taxConfig;
         $this->_checkoutCart = $checkoutCart;
-        parent::__construct($context, $coreData, $catalogData, $customerSession, $checkoutSession, $data);
+        parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
     }
 
     /**

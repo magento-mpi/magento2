@@ -35,21 +35,19 @@ class Button extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Wishlist\Model\Config $wishlistConfig
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         array $data = array()
     ) {
         $this->_wishlistData = $wishlistData;
         $this->_wishlistConfig = $wishlistConfig;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

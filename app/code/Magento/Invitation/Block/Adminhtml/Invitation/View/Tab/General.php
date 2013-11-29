@@ -51,7 +51,6 @@ class General extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
@@ -60,7 +59,6 @@ class General extends \Magento\Adminhtml\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
@@ -68,7 +66,7 @@ class General extends \Magento\Adminhtml\Block\Template
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_invitationData = $invitationData;
         $this->_customerFactory = $customerFactory;
         $this->_groupFactory = $groupFactory;

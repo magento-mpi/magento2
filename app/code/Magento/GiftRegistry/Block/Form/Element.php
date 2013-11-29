@@ -35,7 +35,6 @@ class Element extends \Magento\View\Element\Template
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
@@ -43,7 +42,6 @@ class Element extends \Magento\View\Element\Template
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
@@ -52,7 +50,7 @@ class Element extends \Magento\View\Element\Template
         $this->_configCacheType = $configCacheType;
         $this->country = $country;
         $this->region = $region;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
 
