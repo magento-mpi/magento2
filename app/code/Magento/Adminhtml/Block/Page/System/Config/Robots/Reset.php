@@ -19,26 +19,26 @@ namespace Magento\Adminhtml\Block\Page\System\Config\Robots;
 
 class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 {
+    const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
+
     /**
-     * Page robots
-     *
-     * @var \Magento\Page\Helper\Robots
+     * @var \Magento\Core\Model\ConfigInterface
      */
-    protected $_pageRobots = null;
+    protected $coreConfig;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Page\Helper\Robots $pageRobots
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Page\Helper\Robots $pageRobots,
+        \Magento\Core\Model\ConfigInterface $coreConfig,
         array $data = array()
     ) {
-        $this->_pageRobots = $pageRobots;
+        $this->coreConfig = $coreConfig;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -58,7 +58,7 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return $this->_pageRobots->getRobotsDefaultCustomInstructions();
+        return trim((string)$this->coreConfig->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS, 'default'));
     }
 
     /**

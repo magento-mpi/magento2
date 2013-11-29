@@ -1,18 +1,18 @@
 <?php
 /**
- * \Magento\Page\Model\Config\Reader
+ * \Magento\Theme\Model\Layout\Config\Reader
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Model\Config;
+namespace Magento\Theme\Model\Layout\Config;
 
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Page\Model\Config\Reader
+     * @var \Magento\Theme\Model\Layout\Config\Reader
      */
     protected $_model;
 
@@ -28,7 +28,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_model = $objectManager->create('Magento\Page\Model\Config\Reader',
+        $this->_model = $objectManager->create('Magento\Theme\Model\Layout\Config\Reader',
             array('fileResolver'=>$this->_fileResolverMock));
     }
 

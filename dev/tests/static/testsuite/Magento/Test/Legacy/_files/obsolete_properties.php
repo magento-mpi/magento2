@@ -113,6 +113,7 @@ return array(
     array('_message', 'Magento\Sales\Model\Quote', 'messageFactory'),
     array('_formFields', 'Magento\View\Element\Redirect', 'formFields'),
     array('_formFactory', 'Magento\View\Element\Redirect', 'formFactory'),
+    array('_dispersion', 'Magento\Theme\Block\Html\Pager'),
     array('_assets', 'Magento\View\Asset\Collection', 'assets'),
     array('_objectManager', 'Magento\View\Asset\GroupedCollection', 'objectManager'),
     array('_groups', 'Magento\View\Asset\GroupedCollection', 'groups'),

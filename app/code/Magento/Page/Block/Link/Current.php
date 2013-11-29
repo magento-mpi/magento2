@@ -23,7 +23,7 @@ class Current extends \Magento\View\Element\Template
     /**
      * @var string
      */
-    protected $_template = 'Magento_Page::link/current.phtml';
+    protected $_template = 'Magento_Theme::link/current.phtml';
 
     /**
      * Default path

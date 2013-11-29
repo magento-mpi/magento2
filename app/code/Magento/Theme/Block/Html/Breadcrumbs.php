@@ -2,48 +2,51 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Html page block
- *
- * @category   Magento
- * @package    Magento_Page
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page breadcrumbs block
+ */
 class Breadcrumbs extends \Magento\View\Element\Template
 {
     /**
-     * Array of breadcrumbs
+     * Current template name
      *
-     * array(
-     *  [$index] => array(
-     *                  ['label']
-     *                  ['title']
-     *                  ['link']
-     *                  ['first']
-     *                  ['last']
-     *              )
-     * )
+     * @var string
+     */
+    protected $_template = 'html/breadcrumbs.phtml';
+
+    /**
+     * List of available breadcrumb properties
      *
      * @var array
      */
-    protected $_crumbs = null;
+    protected $_properties = array(
+        'label',
+        'title',
+        'link',
+        'first',
+        'last',
+        'readonly',
+    );
+
+    /**
+     * List of breadcrumbs
+     *
+     * @var array
+     */
+    protected $_crumbs;
 
     /**
      * Cache key info
      *
      * @var null|array
      */
-    protected $_cacheKeyInfo = null;
-
-    protected $_template = 'html/breadcrumbs.phtml';
+    protected $_cacheKeyInfo;
 
     /**
      * Add crumb
@@ -54,20 +57,22 @@ class Breadcrumbs extends \Magento\View\Element\Template
      */
     public function addCrumb($crumbName, $crumbInfo)
     {
-        $properties = array('label', 'title', 'link', 'first', 'last', 'readonly');
-        foreach ($properties as $key) {
+        foreach ($this->_properties as $key) {
             if (!isset($crumbInfo[$key])) {
                 $crumbInfo[$key] = null;
             }
         }
+
         if ((!isset($this->_crumbs[$crumbName])) || (!$this->_crumbs[$crumbName]['readonly'])) {
            $this->_crumbs[$crumbName] = $crumbInfo;
         }
+
         return $this;
     }
 
     /**
      * Get cache key informative items
+     *
      * Provide string array key to share specific info item with FPC placeholder
      *
      * @return array
@@ -77,10 +82,9 @@ class Breadcrumbs extends \Magento\View\Element\Template
         if (is_null($this->_cacheKeyInfo)) {
             $this->_cacheKeyInfo = parent::getCacheKeyInfo() + array(
                 'crumbs' => base64_encode(serialize($this->_crumbs)),
-                'name'   => $this->getNameInLayout()
+                'name' => $this->getNameInLayout(),
             );
         }
-
         return $this->_cacheKeyInfo;
     }
 
@@ -98,6 +102,7 @@ class Breadcrumbs extends \Magento\View\Element\Template
             $this->_crumbs[key($this->_crumbs)]['last'] = true;
         }
         $this->assign('crumbs', $this->_crumbs);
+
         return parent::_toHtml();
     }
 }

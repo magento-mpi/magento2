@@ -47,7 +47,7 @@ class View extends \Magento\App\Helper\AbstractHelper
     /**
      * Catalog product
      *
-     * @var \Magento\Page\Helper\Layout
+     * @var \Magento\Theme\Helper\Layout
      */
     protected $_pageLayout = null;
 
@@ -74,7 +74,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Page\Helper\Layout $pageLayout
+     * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
@@ -84,7 +84,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Page\Helper\Layout $pageLayout,
+        \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\ViewInterface $view,

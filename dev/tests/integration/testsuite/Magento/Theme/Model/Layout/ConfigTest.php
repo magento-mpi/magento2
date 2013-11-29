@@ -1,18 +1,18 @@
 <?php
 /**
- * \Magento\Page\Model\Config
+ * \Magento\Theme\Model\Layout\Config
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Page\Model;
+namespace Magento\Theme\Model\Layout;
 
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Page\Model\Config
+     * @var \Magento\Theme\Model\Layout\Config
      */
     protected $_model;
 
@@ -29,10 +29,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $fileResolverMock->expects($this->any())
             ->method('get')
             ->will($this->returnValue(array($configFile)));
-        $reader = $objectManager->create('Magento\Page\Model\Config\Reader',
+        $reader = $objectManager->create('Magento\Theme\Model\Layout\Config\Reader',
             array('fileResolver'=>$fileResolverMock));
-        $data = $objectManager->create('Magento\Page\Model\Config\Data', array('reader'=> $reader));
-        $this->_model = $objectManager->create('Magento\Page\Model\Config', array('dataStorage'=>$data));
+        $data = $objectManager->create('Magento\Theme\Model\Layout\Config\Data', array('reader'=> $reader));
+        $this->_model = $objectManager->create('Magento\Theme\Model\Layout\Config', array('dataStorage'=>$data));
     }
 
     public function testGetPageLayouts()

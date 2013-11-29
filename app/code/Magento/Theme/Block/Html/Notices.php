@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Html notices block
- *
- * @category    Magento
- * @package     Magento_Page
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page notices block
+ */
 class Notices extends \Magento\View\Element\Template
 {
     /**

@@ -2,26 +2,19 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-
-/**
- * Html page block
- *
- * @category   Magento
- * @package    Magento_Page
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page head block
+ */
 class Head extends \Magento\View\Element\Template
 {
     /**
-     * Block template
+     * Current template name
      *
      * @var string
      */
@@ -66,7 +59,7 @@ class Head extends \Magento\View\Element\Template
      *
      * @var \Magento\Core\Helper\File\Storage\Database
      */
-    protected $_fileStorageDatabase = null;
+    protected $_fileStorageDatabase;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
@@ -105,11 +98,14 @@ class Head extends \Magento\View\Element\Template
      */
     public function addRss($title, $href)
     {
-        $attributes = 'rel="alternate" type="application/rss+xml" title="' . $title . '"';
         $asset = $this->_objectManager->create(
             'Magento\View\Asset\Remote', array('url' => (string)$href)
         );
-        $this->_pageAssets->add("link/$href", $asset, array('attributes' => $attributes));
+
+        $this->_pageAssets->add("link/$href", $asset, array(
+            'attributes' => 'rel="alternate" type="application/rss+xml" title="' . $title . '"',
+        ));
+
         return $this;
     }
 
@@ -125,11 +121,7 @@ class Head extends \Magento\View\Element\Template
             if ($block instanceof \Magento\Theme\Block\Html\Head\AssetBlockInterface) {
                 /** @var \Magento\View\Asset\AssetInterface $asset */
                 $asset = $block->getAsset();
-                $this->_pageAssets->add(
-                    $block->getNameInLayout(),
-                    $asset,
-                    (array)$block->getProperties()
-                );
+                $this->_pageAssets->add($block->getNameInLayout(), $asset, (array)$block->getProperties());
             }
         }
 
@@ -188,7 +180,7 @@ class Head extends \Magento\View\Element\Template
      * Render HTML tags referencing corresponding URLs
      *
      * @param string $template
-     * @param array|Iterator $assets
+     * @param array $assets
      * @return string
      */
     protected function _renderHtml($template, $assets)
@@ -258,8 +250,11 @@ class Head extends \Magento\View\Element\Template
         } else {
             $this->_pureTitle = $title;
         }
-        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix') . ' ' . $title
+
+        $this->_data['title'] = $this->_storeConfig->getConfig('design/head/title_prefix')
+            . ' ' . $title
             . ' ' . $this->_storeConfig->getConfig('design/head/title_suffix');
+
         return $this;
     }
 
@@ -380,7 +375,7 @@ class Head extends \Magento\View\Element\Template
         if (!is_null($storeConfig) && $this->_isFile($absolutePath)) {
             $url = $faviconFile;
         } else {
-            $url = $this->getViewFileUrl('Magento_Page::favicon.ico');
+            $url = $this->getViewFileUrl('Magento_Theme::favicon.ico');
         }
         return $url;
     }

@@ -2,21 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Top menu block
- *
- * @category    Magento
- * @package     Magento_Page
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page top menu block
+ */
 class Topmenu extends \Magento\View\Element\Template
 {
     /**
@@ -39,12 +33,13 @@ class Topmenu extends \Magento\View\Element\Template
      *
      * @param string $outermostClass
      * @param string $childrenWrapClass
+     * @param int $limit
      * @return string
      */
     public function getHtml($outermostClass = '', $childrenWrapClass = '', $limit = 0)
     {
         $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_before', array(
-            'menu' => $this->_menu
+            'menu' => $this->_menu,
         ));
 
         $this->_menu->setOutermostClass($outermostClass);
@@ -54,7 +49,7 @@ class Topmenu extends \Magento\View\Element\Template
 
         $transportObject = new \Magento\Object(array('html' => $html));
         $this->_eventManager->dispatch('page_block_html_topmenu_gethtml_after', array(
-            'menu'            => $this->_menu,
+            'menu' => $this->_menu,
             'transportObject' => $transportObject,
         ));
 
@@ -85,25 +80,28 @@ class Topmenu extends \Magento\View\Element\Template
      * @param \Magento\Backend\Model\Menu $items
      * @param int $limit
      * @return array
+     *
      * @todo: Add Depth Level limit, and better logic for columns
      */
     protected function _columnBrake($items, $limit)
     {
         $total = $this->_countItems($items);
-
         if ($total <= $limit) {
             return;
         }
+
         $result[] = array(
-                'total' => $total,
-                'max'   => (int)ceil($total / ceil($total / $limit))
-            );
+            'total' => $total,
+            'max' => (int)ceil($total / ceil($total / $limit)),
+        );
 
         $count = 0;
         $firstCol = true;
+
         foreach ($items as $item) {
             $place = $this->_countItems($item->getChildren()) + 1;
             $count += $place;
+
             if ($place >= $limit) {
                 $colbrake = !$firstCol;
                 $count = 0;
@@ -113,21 +111,25 @@ class Topmenu extends \Magento\View\Element\Template
             } else {
                 $colbrake = false;
             }
+
             $result[] = array(
                 'place' => $place,
-                'colbrake' => $colbrake
+                'colbrake' => $colbrake,
             );
+
             $firstCol = false;
         }
+
         return $result;
     }
 
     /**
      * Add sub menu HTML code for current menu item
      *
-     * @param $menuItem \Magento\Backend\Model\Menu\Item
-     * @param $level int
-     * @param $limit int
+     * @param \Magento\Data\Tree\Node $child
+     * @param string $childLevel
+     * @param string $childrenWrapClass
+     * @param int $limit
      * @return string HTML code
      */
     protected function _addSubMenu($child, $childLevel, $childrenWrapClass, $limit)
@@ -136,13 +138,16 @@ class Topmenu extends \Magento\View\Element\Template
         if (!$child->hasChildren()) {
             return $html;
         }
+
         if (!empty($childrenWrapClass)) {
             $html .= '<div class="' . $childrenWrapClass . '">';
         }
+
         $colStops = null;
         if ($childLevel == 0 && $limit) {
             $colStops = $this->_columnBrake($child->getChildren(), $limit);
         }
+
         $html .= '<ul class="level' . $childLevel . '">';
         $html .= $this->_getHtml($child, $childrenWrapClass, $limit, $colStops);
         $html .= '</ul>';
@@ -150,15 +155,17 @@ class Topmenu extends \Magento\View\Element\Template
         if (!empty($childrenWrapClass)) {
             $html .= '</div>';
         }
+
         return $html;
     }
-
 
     /**
      * Recursively generates top menu html from data that is specified in $menuTree
      *
      * @param \Magento\Data\Tree\Node $menuTree
      * @param string $childrenWrapClass
+     * @param int $limit
+     * @param array $colBrakes
      * @return string
      */
     protected function _getHtml(\Magento\Data\Tree\Node $menuTree, $childrenWrapClass, $limit, $colBrakes = array())
@@ -177,7 +184,6 @@ class Topmenu extends \Magento\View\Element\Template
         $itemPositionClassPrefix = $parentPositionClass ? $parentPositionClass . '-' : 'nav-';
 
         foreach ($children as $child) {
-
             $child->setLevel($childLevel);
             $child->setIsFirst($counter == 1);
             $child->setIsLast($counter == $childrenCount);
@@ -221,11 +227,9 @@ class Topmenu extends \Magento\View\Element\Template
     {
         $html = '';
         $attributes = $this->_getMenuItemAttributes($item);
-
         foreach ($attributes as $attributeName => $attributeValue) {
             $html .= ' ' . $attributeName . '="' . str_replace('"', '\"', $attributeValue) . '"';
         }
-
         return $html;
     }
 
@@ -238,11 +242,7 @@ class Topmenu extends \Magento\View\Element\Template
     protected function _getMenuItemAttributes(\Magento\Data\Tree\Node $item)
     {
         $menuItemClasses = $this->_getMenuItemClasses($item);
-        $attributes = array(
-            'class' => implode(' ', $menuItemClasses)
-        );
-
-        return $attributes;
+        return array('class' => implode(' ', $menuItemClasses));
     }
 
     /**

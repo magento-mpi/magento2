@@ -2,23 +2,24 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Page
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Html page block
- *
- * @category   Magento
- * @package    Magento_Page
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Theme\Block\Html;
 
+/**
+ * Html page header block
+ */
 class Header extends \Magento\View\Element\Template
 {
+    /**
+     * Current template name
+     *
+     * @var string
+     */
+    protected $_template = 'html/header.phtml';
+
     /**
      * @var \Magento\Customer\Model\Session
      */
@@ -40,11 +41,6 @@ class Header extends \Magento\View\Element\Template
         parent::__construct($context, $coreData, $data);
     }
 
-    public function _construct()
-    {
-        $this->setTemplate('html/header.phtml');
-    }
-
     /**
      * Check if current url is url for home page
      *
@@ -56,13 +52,6 @@ class Header extends \Magento\View\Element\Template
             '*/*/*',
             array('_current' => true, '_use_rewrite' => true)
         );
-    }
-
-    public function setLogo($logo_src, $logo_alt)
-    {
-        $this->setLogoSrc($logo_src);
-        $this->setLogoAlt($logo_alt);
-        return $this;
     }
 
     /**
@@ -78,6 +67,11 @@ class Header extends \Magento\View\Element\Template
         return $this->_data['logo_src'];
     }
 
+    /**
+     * Retrieve logo text
+     *
+     * @return string
+     */
     public function getLogoAlt()
     {
         if (empty($this->_data['logo_alt'])) {
@@ -86,16 +80,21 @@ class Header extends \Magento\View\Element\Template
         return $this->_data['logo_alt'];
     }
 
+    /**
+     * Retrieve welcome text
+     *
+     * @return string
+     */
     public function getWelcome()
     {
         if (empty($this->_data['welcome'])) {
             if ($this->_appState->isInstalled() && $this->_customerSession->isLoggedIn()) {
-                $this->_data['welcome'] = __('Welcome, %1!', $this->escapeHtml($this->_customerSession->getCustomer()->getName()));
+                $this->_data['welcome'] = __('Welcome, %1!',
+                    $this->escapeHtml($this->_customerSession->getCustomer()->getName()));
             } else {
                 $this->_data['welcome'] = $this->_storeConfig->getConfig('design/header/welcome');
             }
         }
-
         return $this->_data['welcome'];
     }
 
@@ -118,7 +117,6 @@ class Header extends \Magento\View\Element\Template
         } else {
             $url = $this->getViewFileUrl('images/logo.gif');
         }
-
         return $url;
     }
 

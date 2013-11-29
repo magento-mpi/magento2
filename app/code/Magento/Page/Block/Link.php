@@ -18,7 +18,7 @@ namespace Magento\Page\Block;
 class Link extends \Magento\View\Element\Template
 {
     /** @var string */
-    protected $_template = 'Magento_Page::link.phtml';
+    protected $_template = 'Magento_Theme::link.phtml';
 
     /**
      * @return string

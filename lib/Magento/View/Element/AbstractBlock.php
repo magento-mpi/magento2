@@ -22,6 +22,11 @@ namespace Magento\View\Element;
 abstract class AbstractBlock extends \Magento\Object implements BlockInterface
 {
     /**
+     * Cache group Tag
+     */
+    const CACHE_GROUP = \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER;
+
+    /**
      * @var \Magento\View\DesignInterface
      */
     protected $_design;
@@ -36,10 +41,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      */
     protected $_translator;
 
-    /**
-     * Cache group Tag
-     */
-    const CACHE_GROUP = \Magento\App\Cache\Type\Block::TYPE_IDENTIFIER;
     /**
      * Block name in layout
      *
@@ -921,36 +922,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     public function getNameInLayout()
     {
         return $this->_nameInLayout;
-    }
-
-    /**
-     * Prepare url for save to cache
-     *
-     * @return \Magento\View\Element\AbstractBlock
-     */
-    protected function _beforeCacheUrl()
-    {
-        if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(true);
-        }
-        return $this;
-    }
-
-    /**
-     * Replace URLs from cache
-     *
-     * @param string $html
-     * @return string
-     */
-    protected function _afterCacheUrl($html)
-    {
-        if ($this->_cacheState->isEnabled(self::CACHE_GROUP)) {
-            $this->_app->setUseSessionVar(false);
-            \Magento\Profiler::start('CACHE_URL');
-            $html = $this->_urlBuilder->sessionUrlVar($html);
-            \Magento\Profiler::stop('CACHE_URL');
-        }
-        return $html;
     }
 
     /**
