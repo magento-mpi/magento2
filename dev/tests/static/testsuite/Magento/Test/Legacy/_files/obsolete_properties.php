@@ -155,4 +155,6 @@ return array(
     array('_dir', 'Magento\Core\Model\Resource'),
     array('_dir', 'Magento\Core\Model\Session\Context'),
     array('dir', 'Magento\Core\Model\Theme\Image\Path'),
+    array('_dir', 'Magento\Install\App\Action\Plugin\Dir'),
+    array('_dirs', 'Magento\View\Block\Template\Context')
 );

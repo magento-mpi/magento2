@@ -18,13 +18,6 @@ namespace Magento\View\Block\Template;
 class Context extends \Magento\View\Block\Context
 {
     /**
-     * Dirs instance
-     *
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs;
-
-    /**
      * Logger instance
      *
      * @var \Magento\Logger
@@ -73,7 +66,6 @@ class Context extends \Magento\View\Block\Context
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\View\ConfigInterface $viewConfig
      * @param \Magento\App\Cache\StateInterface $cacheState
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
@@ -103,7 +95,6 @@ class Context extends \Magento\View\Block\Context
         \Magento\View\Url $viewUrl,
         \Magento\View\ConfigInterface $viewConfig,
         \Magento\App\Cache\StateInterface $cacheState,
-        \Magento\App\Dir $dirs,
         \Magento\Logger $logger,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
@@ -141,21 +132,10 @@ class Context extends \Magento\View\Block\Context
 
         $this->_storeManager = $storeManager;
         $this->_appState = $appState;
-        $this->_dirs = $dirs;
         $this->_logger = $logger;
         $this->_filesystem = $filesystem;
         $this->_viewFileSystem = $viewFileSystem;
         $this->enginePool = $enginePool;
-    }
-
-    /**
-     * Get dirs instance
-     *
-     * @return \Magento\App\Dir
-     */
-    public function getDirs()
-    {
-        return $this->_dirs;
     }
 
     /**

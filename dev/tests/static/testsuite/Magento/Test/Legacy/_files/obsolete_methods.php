@@ -1022,4 +1022,5 @@ return array(
     array('getDir', 'Magento\Core\Model\Session\Context'),
     array('getLinkDir', 'Magento\Downloadable\Model\Link'),
     array('getSampleDir', 'Magento\Downloadable\Model\Sample'),
+    array('getDirs', 'Magento\View\Block\Template\Context'),
 );
