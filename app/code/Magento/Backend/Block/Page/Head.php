@@ -33,7 +33,7 @@ class Head extends \Magento\Theme\Block\Html\Head
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
-     * @param \Magento\Core\Model\Page $page
+     * @param \Magento\View\Asset\GroupedCollection $assets
      * @param \Magento\View\Asset\MergeService $assetMergeService
      * @param \Magento\View\Asset\MinifyService $assetMinifyService
      * @param \Magento\App\Action\Title $titles
@@ -43,7 +43,7 @@ class Head extends \Magento\Theme\Block\Html\Head
         \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
-        \Magento\Core\Model\Page $page,
+        \Magento\View\Asset\GroupedCollection $assets,
         \Magento\View\Asset\MergeService $assetMergeService,
         \Magento\View\Asset\MinifyService $assetMinifyService,
         \Magento\App\Action\Title $titles,
@@ -54,7 +54,7 @@ class Head extends \Magento\Theme\Block\Html\Head
             $context,
             $fileStorageDatabase,
             $objectManager,
-            $page,
+            $assets,
             $assetMergeService,
             $assetMinifyService,
             $data
