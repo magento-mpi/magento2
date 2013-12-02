@@ -151,7 +151,8 @@ class Config implements \Zend\Session\Config\ConfigInterface
 
         $domain = $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_DOMAIN, $this->_storeManager->getStore());
         $domain = empty($domain) ? $this->_httpRequest->getHttpHost() : $domain;
-        $this->setCookieDomain($domain);
+        /** @todo getHttpHost should return only string (currently method return boolean value too) */
+        $this->setCookieDomain((string)$domain);
         $this->setCookieSecure($this->_httpRequest->isSecure());
         $this->setCookieHttpOnly(
             $this->_storeConfig->getConfig(self::XML_PATH_COOKIE_HTTPONLY, $this->_storeManager->getStore())
