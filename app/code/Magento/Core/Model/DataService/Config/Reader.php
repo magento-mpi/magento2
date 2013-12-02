@@ -22,7 +22,7 @@ class Reader extends \Magento\Config\AbstractXml
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
-        array $configFiles
+        $configFiles
     ) {
         if (count($configFiles)) {
             parent::__construct($configFiles);
