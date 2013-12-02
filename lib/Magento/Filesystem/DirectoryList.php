@@ -12,10 +12,9 @@
  */
 namespace Magento\Filesystem;
 
-use Magento\App\Dir;
 use Magento\Filesystem;
 
-class DirectoryList extends Dir
+class DirectoryList
 {
     /**
      * Root path
@@ -60,7 +59,6 @@ class DirectoryList extends Dir
      */
     public function __construct($root, array $uris = array(), array $dirs = array())
     {
-        parent::__construct($root, $uris, $dirs);
         $this->root = str_replace('\\', '/', $root);
 
         foreach ($this->directories as $code => $configuration) {
@@ -152,7 +150,7 @@ class DirectoryList extends Dir
      * @param string $code One of self const
      * @return string|bool
      */
-    public function getDir($code = self::ROOT)
+    public function getDir($code = Filesystem::ROOT)
     {
         return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
     }

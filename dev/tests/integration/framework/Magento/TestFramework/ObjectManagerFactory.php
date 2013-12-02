@@ -59,7 +59,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $this->_pluginList->reset();
 
         $objectManager->configure($this->_primaryConfigData);
-        $objectManager->addSharedInstance($directories, 'Magento\App\Dir');
         $objectManager->addSharedInstance($directories, 'Magento\Filesystem\DirectoryList');
         $objectManager->configure(array(
             'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
