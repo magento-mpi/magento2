@@ -19,15 +19,11 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
     /** @var \Magento\Filesystem */
     protected $_filesystem;
 
-    /** @var \Magento\App\Dir */
-    protected $_dirs;
-
     protected function setUp()
     {
         parent::setUp();
 
         $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $this->_dirs = $this->_objectManager->get('Magento\App\Dir');
     }
 
     /**
@@ -66,12 +62,12 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
          * Uploader can copy(upload) and then remove this temporary file.
          */
         $fileName = __DIR__ . '_files/simple-js-file.js';
-        $varDir = $this->_dirs->getDir(\Magento\App\Dir::VAR_DIR);
-        $destinationFilePath = $varDir . '/simple-js-file.js';
+        $varDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $destinationFilePath = 'simple-js-file.js';
 
-        $this->_filesystem->copy($fileName, $destinationFilePath);
-        $this->_filesystem->has($destinationFilePath);
+        $rootDir->copyFile($rootDir->getRelativePath($fileName), $destinationFilePath, $varDir);
 
-        return $destinationFilePath;
+        return $varDir->getAbsolutePath($destinationFilePath);
     }
 }

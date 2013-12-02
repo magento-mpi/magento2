@@ -47,12 +47,9 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testCssWithWrongImage()
     {
         $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
-        /** @var $dirs \Magento\App\Dir */
-        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
-
-        $prepareFileName = new \ReflectionMethod($dirs, '_setDir');
-        $prepareFileName->setAccessible(true);
-        $prepareFileName->invoke($dirs, \Magento\App\Dir::THEMES, $dirPath);
+        /** @var $directoryList \Magento\Filesystem\DirectoryList */
+        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem\DirectoryList');
+        $directoryList->addDirectory(\Magento\Filesystem::THEMES, array('path' => $dirPath));
 
         $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(
             'area'    => 'frontend',

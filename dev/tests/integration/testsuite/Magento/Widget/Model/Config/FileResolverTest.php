@@ -16,14 +16,24 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     private $_object;
 
-    /** @var \Magento\App\Dir/PHPUnit_Framework_MockObject_MockObject  */
-    private $_applicationDirsMock;
-
     public function setUp()
     {
-        $this->_applicationDirsMock = $this->getMockBuilder('Magento\App\Dir')
-            ->disableOriginalConstructor()
-            ->getMock();
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $objectManager->create(
+            'Magento\Filesystem',
+            array('directoryList' => $objectManager->create(
+                    'Magento\Filesystem\DirectoryList',
+                    array(
+                        'root' => BP,
+                        'dirs' => array(
+                            \Magento\Filesystem::MODULES => __DIR__ . '/_files/code',
+                            \Magento\Filesystem::THEMES => __DIR__ . '/_files/design',
+                        )
+                    )
+                )
+            )
+        );
 
         $moduleListMock = $this->getMockBuilder('Magento\Module\ModuleListInterface')
             ->disableOriginalConstructor()
@@ -36,36 +46,30 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                 'active' => 'true'
             ))));
 
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+
         $moduleReader = $objectManager->create('Magento\Module\Dir\Reader', array(
             'moduleList' => $moduleListMock
         ));
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
         $this->_object = $objectManager->create('Magento\Widget\Model\Config\FileResolver', array(
             'moduleReader' => $moduleReader,
-            'applicationDirs' => $this->_applicationDirsMock
+            'filesystem' => $filesystem
         ));
     }
 
     public function testGetDesign()
     {
-        $this->_applicationDirsMock->expects($this->any())
-            ->method('getDir')
-            ->will($this->returnValue(__DIR__ . '/_files/design'));
         $widgetConfigs = $this->_object->get('widget.xml', 'design');
         $expected = realpath(__DIR__ . '/_files/design/frontend/Test/etc/widget.xml');
         $this->assertCount(1, $widgetConfigs);
-        $this->assertEquals($expected, realpath($widgetConfigs[0]));
+        $this->assertEquals($expected, realpath($widgetConfigs->current()));
     }
 
     public function testGetGlobal()
     {
-        $this->_applicationDirsMock->expects($this->any())
-            ->method('getDir')
-            ->will($this->returnValue(__DIR__ . '/_files/code'));
         $widgetConfigs = $this->_object->get('widget.xml', 'global');
         $expected = realpath(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
         $this->assertCount(1, $widgetConfigs);
-        $this->assertEquals($expected, realpath($widgetConfigs[0]));
+        $this->assertEquals($expected, realpath($widgetConfigs->current()));
     }
 }
