@@ -58,7 +58,7 @@
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
-    <preference for="Magento\Filesystem\DriverInterface" type="Magento\Filesystem\Driver\Base" />
+    <preference for="Magento\Filesystem\Driver" type="Magento\Filesystem\Driver\Base" />
     <preference for="Magento\Filesystem\AdapterInterface" type="Magento\Filesystem\Adapter\Local" />
     <virtualType name="interceptionConfigScope" type="Magento\Config\Scope">
         <param name="defaultScope">
