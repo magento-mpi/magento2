@@ -44,7 +44,7 @@ class Header extends \Magento\View\Element\Template
      *
      * @return bool
      */
-    public function getIsHomePage()
+    public function isHomePage()
     {
         return $this->getUrl('', array('_current' => true)) == $this->getUrl(
             '*/*/*',

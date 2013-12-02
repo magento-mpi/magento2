@@ -162,6 +162,9 @@ class Topmenu extends \Magento\View\Element\Template
     /**
      * Recursively generates top menu html from data that is specified in $menuTree
      *
+     * @SuppressWarning(PHPMD.CyclomaticComplexity)
+     * @SuppressWarning(PHPMD.NPathComplexity)
+     *
      * @param \Magento\Data\Tree\Node $menuTree
      * @param string $childrenWrapClass
      * @param int $limit

@@ -14,7 +14,7 @@
 <?php switch($this->getShowPart()):
     case 'logo': ?>
         <?php $storeName = $this->getThemeName() ? $this->getThemeName() : $this->getLogoAlt();?>
-        <?php if ($this->getIsHomePage()):?>
+        <?php if ($this->isHomePage()):?>
         <strong class="logo">
             <img src="<?php echo $this->getLogoSrc() ?>" alt="<?php echo $this->getLogoAlt() ?>" />
         </strong>
