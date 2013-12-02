@@ -25,6 +25,16 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_calculationModel;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $jsonEncoder;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $coreData;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -32,6 +42,7 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Tax\Model\Calculation $calculationModel
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
@@ -42,9 +53,13 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
         \Magento\Tax\Model\Calculation $calculationModel,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_calculationModel = $calculationModel;
+        $this->jsonEncoder = $jsonEncoder;
+        $this->coreData = $coreData;
         parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
@@ -143,13 +158,12 @@ class Links extends \Magento\Catalog\Block\Product\AbstractProduct
     public function getJsonConfig()
     {
         $config = array();
-        $coreHelper = $this->_coreData;
 
         foreach ($this->getLinks() as $link) {
-            $config[$link->getId()] = $coreHelper->currency($link->getPrice(), false, false);
+            $config[$link->getId()] = $this->coreData->currency($link->getPrice(), false, false);
         }
 
-        return $coreHelper->jsonEncode($config);
+        return $this->jsonEncoder->encode($config);
     }
 
     public function getLinkSamlpeUrl($link)

@@ -76,7 +76,6 @@ class GridTest extends \PHPUnit_Framework_TestCase
                     'dirs' => new \Magento\App\Dir(__DIR__),
                     'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
                 )),
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->create('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
