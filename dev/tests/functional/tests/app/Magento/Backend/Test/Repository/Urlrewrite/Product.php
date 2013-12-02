@@ -24,9 +24,10 @@ class Product extends AbstractRepository
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $this->_data['product_with_permanent_redirect'] = array(
+        $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => array(
+                'url_rewrite_type' => 'For product',
                 'fields' => array(
                     'request_path' => array(
                         'value' => '%rewritten_product_request_path%',
@@ -37,6 +38,6 @@ class Product extends AbstractRepository
                 ),
             ),
         );
-        $this->_data['default'] = $this->_data['product_with_permanent_redirect'];
+        $this->_data['product_with_permanent_redirect'] = $this->_data['default'];
     }
 }

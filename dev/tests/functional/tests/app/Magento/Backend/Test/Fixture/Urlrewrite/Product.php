@@ -68,13 +68,13 @@ class Product extends DataFixture
     }
 
     /**
-     * Retrieve product ID
+     * Retrieve product SKU
      *
      * @return int
      */
-    public function getProductId()
+    public function getProductSku()
     {
-        return $this->product->getProductId();
+        return $this->product->getProductSku();
     }
 
     /**
@@ -85,6 +85,16 @@ class Product extends DataFixture
     public function getCategoryName()
     {
         return $this->product->getCategoryName();
+    }
+
+    /**
+     * Retrieve URL rewrite type
+     *
+     * @return string
+     */
+    public function getUrlRewriteType()
+    {
+        return $this->getData('url_rewrite_type');
     }
 
     /**

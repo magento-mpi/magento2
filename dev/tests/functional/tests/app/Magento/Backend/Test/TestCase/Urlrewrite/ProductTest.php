@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase\Category;
+namespace Magento\Backend\Test\TestCase\Urlrewrite;
 
 use Mtf\Factory\Factory,
     Mtf\TestCase\Functional,
@@ -18,9 +18,11 @@ use Mtf\Factory\Factory,
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class UrlrewriteTest extends Functional
+class ProductTest extends Functional
 {
     /**
+     * Adding temporary redirect for product
+     *
      * @ZephyrId MAGETWO-12409
      */
     public function testUrlRewriteCreation()
@@ -42,8 +44,8 @@ class UrlrewriteTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
         $urlRewriteGridPage->open();
         $pageActionsBlock->clickAddNew();
-        $typeSelectorBlock->selectType('For product');
-        $productGridBlock->searchAndSelect(array('id' => $urlRewriteProduct->getProductId()));
+        $typeSelectorBlock->selectType($urlRewriteProduct->getUrlRewriteType());
+        $productGridBlock->searchAndSelect(array('sku' => $urlRewriteProduct->getProductSku()));
         $categoryTreeBlock->selectCategory($urlRewriteProduct->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteProduct);
         $urlRewriteInfoForm->save();

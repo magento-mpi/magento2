@@ -24,7 +24,7 @@ class Category extends AbstractRepository
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $this->_data['category_with_permanent_redirect'] = array(
+        $this->_data['default'] = array(
             'config' => $defaultConfig,
             'data' => array(
                 'fields' => array(
@@ -37,6 +37,6 @@ class Category extends AbstractRepository
                 ),
             ),
         );
-        $this->_data['default'] = $this->_data['category_with_permanent_redirect'];
+        $this->_data['category_with_permanent_redirect'] = $this->_data['default'];
     }
 }

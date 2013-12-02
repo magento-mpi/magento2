@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase\Category;
+namespace Magento\Backend\Test\TestCase\Urlrewrite;
 
 use Mtf\Factory\Factory,
     Mtf\TestCase\Functional,
@@ -18,9 +18,11 @@ use Mtf\Factory\Factory,
  *
  * @package Magento\Catalog\Test\TestCase\Category
  */
-class UrlrewriteTest extends Functional
+class CategoryTest extends Functional
 {
     /**
+     * Adding permanent redirect for category
+     *
      * @ZephyrId MAGETWO-12407
      */
     public function testUrlRewriteCreation()

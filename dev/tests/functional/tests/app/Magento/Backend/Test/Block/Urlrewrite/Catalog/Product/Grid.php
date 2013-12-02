@@ -27,6 +27,9 @@ class Grid extends GridInterface
         'id' => array(
             'selector' => '[id=productGrid_product_filter_entity_id]',
         ),
+        'sku' => array(
+            'selector' => '[id=productGrid_product_filter_sku]',
+        ),
     );
 
     /**
