@@ -215,8 +215,9 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                     if(!$this->_validateAttributeValue($attributeId, $value, $options)) {
                         continue;
                     }
-                    $oldPrice = $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']);
-                    $currentProduct->setConfigurablePrice($oldPrice);
+                    $currentProduct->setConfigurablePrice(
+                        $this->_preparePrice($value['pricing_value'], $value['is_percent'])
+                    );
                     $currentProduct->setParentId(true);
                     $this->_eventManager->dispatch(
                         'catalog_product_type_configurable_price',
@@ -234,7 +235,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                         'id'        => $value['value_index'],
                         'label'     => $value['label'],
                         'price'     => $configurablePrice,
-                        'oldPrice'  => $oldPrice,
+                        'oldPrice'  => $this->_prepareOldPrice($value['pricing_value'], $value['is_percent']),
                         'products'  => $productsIndex,
                     );
                     $optionPrices[] = $configurablePrice;
