@@ -35,15 +35,23 @@ class Collection extends \Magento\Data\Collection
     protected $_targetDirs = array();
 
     /**
+     * @var \Magento\Config\ThemeFactory
+     */
+    protected $themeFactory;
+
+    /**
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Config\ThemeFactory $themeFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Config\ThemeFactory $themeFactory
     ) {
         parent::__construct($entityFactory);
         $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        $this->themeFactory = $themeFactory;
     }
 
     /**
@@ -276,7 +284,7 @@ class Collection extends \Magento\Data\Collection
      */
     protected function _getConfigModel(array $configPaths)
     {
-        return new \Magento\Config\Theme($configPaths);
+        return $this->themeFactory->create(array('configFiles' => $configPaths));
     }
 
     /**
