@@ -115,7 +115,6 @@ class BeforeTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for getEntityBehaviors method
      *
-     * @magentoAppArea adminhtml
      * @covers \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before::getEntityBehaviors
      */
     public function testGetEntityBehaviors()
@@ -128,7 +127,6 @@ class BeforeTest extends \PHPUnit_Framework_TestCase
     /**
      * Test for getUniqueBehaviors method
      *
-     * @magentoAppArea adminhtml
      * @covers \Magento\ImportExport\Block\Adminhtml\Import\Edit\Before::getUniqueBehaviors
      */
     public function testGetUniqueBehaviors()

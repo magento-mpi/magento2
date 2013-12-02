@@ -14,9 +14,6 @@ namespace Magento\Downloadable\Block\Adminhtml\Catalog\Product\Edit\Tab\Download
 class SamplesTest
     extends \PHPUnit_Framework_TestCase
 {
-    /**
-     * @magentoAppArea adminhtml
-     */
     public function testGetUploadButtonsHtml()
     {
         $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
@@ -26,7 +23,6 @@ class SamplesTest
     }
 
     /**
-     * @magentoAppArea adminhtml
      * @magentoAppIsolation enabled
      */
     public function testGetSampleData()
@@ -43,7 +39,6 @@ class SamplesTest
     /**
      * Get Samples Title for simple/virtual/downloadable product
      *
-     * @magentoAppArea adminhtml
      * @magentoConfigFixture current_store catalog/downloadable/samples_title Samples Title Test
      * @magentoAppIsolation enabled
      * @dataProvider productSamplesTitleDataProvider

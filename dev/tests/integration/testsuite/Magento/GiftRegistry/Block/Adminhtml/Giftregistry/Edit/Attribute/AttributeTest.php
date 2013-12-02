@@ -29,9 +29,6 @@ class AttributeTest
             ->createBlock('Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Attribute');
     }
 
-    /**
-     * @magentoAppArea adminhtml
-     */
     public function testGetAddButtonId()
     {
         $block = $this->_block->getChildBlock('add_button');

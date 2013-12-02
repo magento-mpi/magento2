@@ -72,7 +72,6 @@ abstract class AbstractFormTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @magentoAppArea adminhtml
      * Test _prepareForm method.
      */
     public function testPrepareForm()
