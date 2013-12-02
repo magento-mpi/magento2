@@ -37,6 +37,7 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param string $modelName
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -49,7 +50,8 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        $modelName = self::CUSTOMER_MODEL_NAME
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
@@ -62,7 +64,8 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
             $eavEntityFactory,
             $resourceHelper,
             $universalFactory,
-            $fieldsetConfig
+            $fieldsetConfig,
+            $modelName
         );
     }
 

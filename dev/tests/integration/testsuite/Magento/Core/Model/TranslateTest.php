@@ -98,6 +98,8 @@ class TranslateTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDataFixture Magento/Core/_files/db_translate.php
      * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_enabled.php
+     * @covers \Magento\Backend\Model\Resource\Translate::_getStoreId
+     * @covers \Magento\Backend\Model\Resource\Translate\String::_getStoreId
      */
     public function testInitCaching()
     {

@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Captcha image model
- *
- * @category   Magento
- * @package    Magento_Captcha
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Captcha\Helper;
 
+/**
+ * Captcha image model
+ */
 class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
@@ -122,9 +118,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getConfig($key, $store = null)
     {
-        $store = $this->_storeManager->getStore($store);
-        $areaCode = $store->isAdmin() ? 'admin' : 'customer';
-        return $store->getConfig($areaCode . '/captcha/' . $key);
+        return $this->_storeManager->getStore($store)->getConfig('customer/captcha/' . $key);
     }
 
     /**
@@ -160,13 +154,24 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getImgDir($website = null)
     {
         $mediaDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
-        $captchaDir = '/captcha/' . $this->_storeManager->getWebsite($website)->getCode();
+        $captchaDir = '/captcha/' . $this->_getWebsiteCode($website);
         $mediaDir->changePermissions($captchaDir, 0775);
         $mediaDir->create($captchaDir);
 
         return $mediaDir->getAbsolutePath($captchaDir) . '/';
     }
 
+    /**
+     * Get website code
+     *
+     * @param mixed $website
+     * @return string
+     */
+    protected function _getWebsiteCode($website = null)
+    {
+        return $this->_storeManager->getWebsite($website)->getCode();
+    }
+    
     /**
      * Get captcha image base URL
      *
@@ -176,6 +181,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function getImgUrl($website = null)
     {
         return $this->_storeManager->getStore()->getBaseUrl(\Magento\Filesystem::MEDIA) . 'captcha'
-            . '/' . $this->_storeManager->getWebsite($website)->getCode() . '/';
+            . '/' . $this->_getWebsiteCode($website) . '/';
     }
 }

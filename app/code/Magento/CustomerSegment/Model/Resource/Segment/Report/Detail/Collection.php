@@ -28,6 +28,7 @@ class Collection
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Core\Model\Registry $registryManager
+     * @param string $modelName
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -40,7 +41,8 @@ class Collection
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
-        \Magento\Core\Model\Registry $registryManager
+        \Magento\Core\Model\Registry $registryManager,
+        $modelName = self::CUSTOMER_MODEL_NAME
     ) {
         $this->_registryManager = $registryManager;
         parent::__construct(
@@ -53,7 +55,8 @@ class Collection
             $eavEntityFactory,
             $resourceHelper,
             $universalFactory,
-            $fieldsetConfig
+            $fieldsetConfig,
+            $modelName
         );
     }
 

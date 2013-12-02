@@ -79,6 +79,7 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoDbIsolation enabled
+     * @magentoAppArea install
      */
     public function testCreateAdministrator()
     {
