@@ -68,6 +68,7 @@ class Edit extends Form
     public function fill(Fixture $fixture, Element $element = null)
     {
         parent::fill($fixture, $element);
+        /** @var $fixture \Magento\Catalog\Test\Fixture\ProductAttribute */
         $options = $fixture->getOptions();
         foreach ($options as $option) {
             $this->fillOption($option);

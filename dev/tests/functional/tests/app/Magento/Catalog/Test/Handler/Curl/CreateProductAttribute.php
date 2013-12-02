@@ -12,6 +12,7 @@
 
 namespace Magento\Catalog\Test\Handler\Curl;
 
+use Magento\Catalog\Test\Fixture\ProductAttribute;
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlInterface;
@@ -34,7 +35,7 @@ class CreateProductAttribute extends Curl
     {
         $url = $_ENV['app_backend_url'] . 'catalog/product_attribute/save/back/edit/active_tab/main';
         $curl = new BackendDecorator(new CurlTransport(), new Config());
-        $curl->write(CurlInterface::POST, $url, '1.0', array(), $this->_getPostParams($fixture));
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $this->getPostParams($fixture));
         $response = $curl->read();
         $curl->close();
 
@@ -58,15 +59,15 @@ class CreateProductAttribute extends Curl
     /**
      * Get data for curl POST params
      *
-     * @param Fixture $fixture
+     * @param ProductAttribute $fixture
      * @return array
      */
-    public function _getPostParams(Fixture $fixture)
+    protected function getPostParams(ProductAttribute $fixture)
     {
-        $data = $this->_prepareParams($fixture->getData('fields'));
+        $data = $this->prepareParams($fixture->getData('fields'));
         $options = $fixture->getOptions();
         foreach ($options as $option) {
-            $data = array_merge($data, $this->_prepareParams($option));
+            $data = array_merge($data, $this->prepareParams($option));
         }
         return $data;
     }
@@ -77,17 +78,17 @@ class CreateProductAttribute extends Curl
      * @param array $fields
      * @return array
      */
-    public function _prepareParams(array $fields)
+    protected function prepareParams(array $fields)
     {
         $data = array();
         foreach ($fields as $key => $field) {
-            $value = $this->_getParamValue($field);
+            $value = $this->getParamValue($field);
 
             if (null === $value) {
                 continue;
             }
 
-            $_key = $this->_getParamKey($field);
+            $_key = $this->getFieldKey($field);
             if (null === $_key) {
                 $_key = $key;
             }
@@ -102,7 +103,7 @@ class CreateProductAttribute extends Curl
      * @param array $data
      * @return null|string
      */
-    protected function _getParamKey(array $data)
+    protected function getFieldKey(array $data)
     {
         return isset($data['input_name']) ? $data['input_name'] : null;
     }
@@ -113,7 +114,7 @@ class CreateProductAttribute extends Curl
      * @param array $data
      * @return null|string
      */
-    protected function _getParamValue(array $data)
+    protected function getParamValue(array $data)
     {
         if (array_key_exists('input_value', $data)) {
             return $data['input_value'];

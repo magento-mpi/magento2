@@ -47,11 +47,11 @@ class ConfigurableProduct extends AbstractProduct
     }
 
     /**
-     * Persist data to product from new attribute
+     * Provide data to product from new attribute
      *
      * @param ProductAttribute $attribute
      */
-    public function persistNewAttribute(ProductAttribute $attribute)
+    public function provideNewAttributeData(ProductAttribute $attribute)
     {
         $options = $attribute->getOptionLabels();
         $placeholders['new_attribute_label'] = $attribute->getAttributeLabel();

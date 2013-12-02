@@ -101,8 +101,8 @@ class ConfigurableProduct extends AbstractRepository
                             'include' => array(
                                 'value' => 'Yes',
                             ),
-                        )
-                    )
+                        ),
+                    ),
                 ),
                 'group' => ConfigurableProductFixture::GROUP_VARIATIONS,
             ),
@@ -112,25 +112,25 @@ class ConfigurableProduct extends AbstractRepository
                         'configurable_attribute' => array(
                             '0' => array(
                                 'attribute_option' => '%new_attribute_option_1_label%',
-                            )
+                            ),
                         ),
                         'value' => array(
                             'qty' => array(
                                 'value' => 100,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                     '1' => array(
                         'configurable_attribute' => array(
                             '0' => array(
                                 'attribute_option' => '%new_attribute_option_2_label%',
-                            )
+                            ),
                         ),
                         'value' => array(
                             'qty' => array(
                                 'value' => 100,
-                            )
-                        )
+                            ),
+                        ),
                     ),
                 ),
                 'group' => ConfigurableProductFixture::GROUP_VARIATIONS,

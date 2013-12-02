@@ -48,7 +48,7 @@ class CreateWithAttributeTest extends Functional
 
         $variations = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $variations->switchData('product_variations');
-        $variations->persistNewAttribute($attribute);
+        $variations->provideNewAttributeData($attribute);
 
         //Steps
         $this->fillSimpleProductWithNewCategory($product);
