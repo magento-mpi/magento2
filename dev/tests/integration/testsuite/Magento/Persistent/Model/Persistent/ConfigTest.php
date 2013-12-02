@@ -26,9 +26,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                 'Magento\Filesystem\DirectoryList',
                 array(
                     'root' => \Magento\Filesystem::ROOT,
-                    'uris' => array(),
-                    'dirs' => array(
-                        \Magento\Filesystem::MODULES => dirname(__DIR__)
+                    'directories' => array(
+                        \Magento\Filesystem::MODULES => array('path' => dirname(__DIR__))
                     ),
                 )
             );
