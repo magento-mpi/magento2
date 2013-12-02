@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
-class Messages extends \Magento\Adminhtml\Block\Messages
+class Messages extends \Magento\View\Element\Messages
 {
     /**
      * @var \Magento\Adminhtml\Model\Session\Quote

@@ -19,7 +19,7 @@ namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
 
 use Magento\View\Element\Template;
 
-class Result extends \Magento\Adminhtml\Block\Template
+class Result extends \Magento\Backend\Block\Template
 {
     /**
      * JavaScript actions for response.

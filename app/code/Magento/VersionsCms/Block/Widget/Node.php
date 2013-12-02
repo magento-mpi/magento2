@@ -147,7 +147,7 @@ class Node
     {
         $dataKeys = array(
             $key . '_' . $this->_getStoreId(),
-            $key . '_' . \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
+            $key . '_' . \Magento\Core\Model\Store::DEFAULT_STORE_ID,
             $key,
         );
         foreach($dataKeys as $value) {

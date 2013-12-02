@@ -56,6 +56,12 @@ class Observer
     protected $_coreCache;
 
     /**
+     * @var \Magento\CatalogPermissions\App\ConfigInterface
+     */
+    protected $_permissionsConfig;
+
+    /**
+     * @param \Magento\CatalogPermissions\App\ConfigInterface $permissionsConfig
      * @param \Magento\App\CacheInterface $coreCache
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory
@@ -64,6 +70,7 @@ class Observer
      * @param \Magento\AuthorizationInterface $authorization
      */
     public function __construct(
+        \Magento\CatalogPermissions\App\ConfigInterface $permissionsConfig,
         \Magento\App\CacheInterface $coreCache,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\CatalogPermissions\Model\PermissionFactory $permissionFactory,
@@ -71,6 +78,7 @@ class Observer
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         \Magento\AuthorizationInterface $authorization
     ) {
+        $this->_permissionsConfig = $permissionsConfig;
         $this->_coreCache = $coreCache;
         $this->_indexer = $indexer;
         $this->_categoryFactory = $categoryFactory;
@@ -87,7 +95,7 @@ class Observer
      */
     public function saveCategoryPermissions(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -272,7 +280,7 @@ class Observer
      */
     public function addCategoryPermissionTab(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
         if (!$this->_authorization->isAllowed('Magento_CatalogPermissions::catalog_magento_catalogpermissions')) {

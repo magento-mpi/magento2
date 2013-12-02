@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page;
 
 class Edit
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry

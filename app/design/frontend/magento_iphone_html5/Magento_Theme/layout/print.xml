@@ -14,20 +14,6 @@
                 <argument name="file" xsi:type="string">css/styles.css</argument>
             </arguments>
         </block>
-        <block class="Magento\Theme\Block\Html\Head\Css" name="css-styles-ie-css">
-            <arguments>
-                <argument name="file" xsi:type="string">css/styles-ie.css</argument>
-                <argument name="properties" xsi:type="array">
-                    <item name="attributes" xsi:type="string"/>
-                    <item name="ie_condition" xsi:type="string">lt IE 8</item>
-                </argument>
-            </arguments>
-        </block>
-        <block class="Magento\Theme\Block\Html\Head\Css" name="css-widgets-css">
-            <arguments>
-                <argument name="file" xsi:type="string">css/widgets.css</argument>
-            </arguments>
-        </block>
         <block class="Magento\Theme\Block\Html\Head\Css" name="css-print-css">
             <arguments>
                 <argument name="file" xsi:type="string">css/print.css</argument>

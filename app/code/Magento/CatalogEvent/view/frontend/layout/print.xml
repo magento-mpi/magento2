@@ -7,12 +7,4 @@
  * @license     {license_link}
  */
 -->
-<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="head">
-        <block class="Magento\Theme\Block\Html\Head\Css" name="magento-catalogevent-widgets-css">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_CatalogEvent::widgets.css</argument>
-            </arguments>
-        </block>
-    </referenceBlock>
-</layout>
+<layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" />

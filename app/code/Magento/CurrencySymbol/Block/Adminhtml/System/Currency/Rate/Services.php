@@ -53,7 +53,7 @@ class Services extends \Magento\Backend\Block\Template
     {
         $this->setChild(
             'import_services',
-            $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+            $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
                 ->setOptions($this->_srcCurrencyFactory->create()->toOptionArray())
                 ->setId('rate_services')
                 ->setName('rate_services')

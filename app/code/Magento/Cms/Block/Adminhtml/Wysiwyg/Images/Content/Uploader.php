@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content;
 
-class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
+class Uploader extends \Magento\Backend\Block\Media\Uploader
 {
     /**
      * @var \Magento\Cms\Model\Wysiwyg\Images\Storage

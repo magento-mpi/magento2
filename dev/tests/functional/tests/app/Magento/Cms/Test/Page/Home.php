@@ -17,7 +17,9 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Search;
 use Magento\Theme\Test\Block\Html\Title;
 use Magento\Theme\Test\Block\Html\Topmenu;
+use Magento\Theme\Test\Block\Links;
 use Magento\Theme\Test\Block\Html\Footer;
+use Magento\Customer\Test\Block\Account\Customer;
 
 /**
  * Class Home
@@ -59,6 +61,20 @@ class Home extends Page
     private $footerBlock;
 
     /**
+     * Page Top Links block
+     *
+     * @var Links
+     */
+    private $topLinks;
+
+    /**
+     * Page Top Customer menu block
+     *
+     * @var Customer
+     */
+    private $customerMenu;
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -76,6 +92,14 @@ class Home extends Page
         $this->footerBlock = Factory::getBlockFactory()->getMagentoPageHtmlFooter(
             $this->_browser->find('footer.footer', Locator::SELECTOR_CSS)
         );
+        $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
+            $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
+        );
+
+        $this->customerMenu = Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
+            $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
+        );
+
     }
 
     /**
@@ -109,6 +133,16 @@ class Home extends Page
     }
 
     /**
+     * Get Top Links block
+     *
+     * @return Links
+     */
+    public function getTopLinks()
+    {
+        return $this->topLinks;
+    }
+
+    /**
      * Get footer block
      *
      * @return Footer
@@ -116,5 +150,15 @@ class Home extends Page
     public function getFooterBlock()
     {
         return $this->footerBlock;
+    }
+
+    /**
+     * Get customer menu block
+     *
+     * @return Customer
+     */
+    public function getCustomerMenu()
+    {
+        return $this->customerMenu;
     }
 }

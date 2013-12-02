@@ -15,7 +15,7 @@ namespace Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content;
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
+class Uploader extends \Magento\Backend\Block\Media\Uploader
 {
     /**
      * Path to uploader template
@@ -27,7 +27,7 @@ class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
     /**
      * Prepare layout
      *
-     * @return \Magento\Adminhtml\Block\Media\Uploader
+     * @return \Magento\Backend\Block\Media\Uploader
      */
     protected function _prepareLayout()
     {

@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
-class Items extends \Magento\Adminhtml\Block\Template
+class Items extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Registry

@@ -14,7 +14,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
  * Customer account form block
  */
 class View
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**

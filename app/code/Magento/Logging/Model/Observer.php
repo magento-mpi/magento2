@@ -202,9 +202,9 @@ class Observer
     {
         $eventModel = $this->_logAdminLogin($observer->getUserName());
 
-        if (class_exists('Magento\Pci\Model\Observer', false) && $eventModel) {
+        if (class_exists('Magento\Pci\Model\Backend\Observer', false) && $eventModel) {
             $exception = $observer->getException();
-            if ($exception->getCode() == \Magento\Pci\Model\Observer::ADMIN_USER_LOCKED) {
+            if ($exception->getCode() == \Magento\Pci\Model\Backend\Observer::ADMIN_USER_LOCKED) {
                 $eventModel->setInfo(__('User is locked'))->save();
             }
         }

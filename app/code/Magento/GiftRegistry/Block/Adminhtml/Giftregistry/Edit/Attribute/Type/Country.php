@@ -46,7 +46,7 @@ class Country
      */
     public function getRegionShowSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setData(array(
                 'id'    => '{{prefix}}_attribute_{{id}}_show_region',
                 'class' => 'select global-scope'

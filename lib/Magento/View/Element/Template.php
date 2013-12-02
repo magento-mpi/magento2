@@ -158,7 +158,6 @@ class Template extends AbstractBlock
     /**
      * Get design area
      *
-     * @deprecated
      * @return string
      */
     public function getArea()

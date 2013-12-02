@@ -17,7 +17,7 @@
  */
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab;
 
-class Promotions extends \Magento\Adminhtml\Block\Template
+class Promotions extends \Magento\Backend\Block\Template
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**

@@ -1,0 +1,10 @@
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     default_demo
+ * @subpackage  integration_tests
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+.test {background: url(../images/nonexistent_file.png);}

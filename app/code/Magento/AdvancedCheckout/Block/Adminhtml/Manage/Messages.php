@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
-class Messages extends \Magento\Adminhtml\Block\Messages
+class Messages extends \Magento\View\Element\Messages
 {
     /**
      * @var \Magento\Backend\Model\Session

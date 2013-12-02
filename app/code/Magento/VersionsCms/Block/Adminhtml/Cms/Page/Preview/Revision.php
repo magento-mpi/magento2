@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
-class Revision extends \Magento\Adminhtml\Block\Template
+class Revision extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\VersionsCms\Model\Resource\Page\Revision\CollectionFactory

@@ -57,10 +57,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     {
         $store = $this->_getStoreStub();
         $store->expects($this->once())
-            ->method('isAdmin')
-            ->will($this->returnValue(false));
-
-        $store->expects($this->once())
             ->method('getConfig')
             ->with('customer/captcha/type')
             ->will($this->returnValue('zend'));
@@ -87,10 +83,6 @@ class DataTest extends \PHPUnit_Framework_TestCase
     public function testGetConfigNode()
     {
         $store = $this->_getStoreStub();
-        $store->expects($this->once())
-            ->method('isAdmin')
-            ->will($this->returnValue(false));
-
         $store->expects($this->once())
             ->method('getConfig')
             ->with('customer/captcha/enable')

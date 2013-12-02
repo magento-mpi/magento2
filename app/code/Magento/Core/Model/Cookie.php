@@ -203,15 +203,11 @@ class Cookie implements \Magento\Cookie\ConfigInterface, \Magento\Cookie\Manager
 
     /**
      * Is https secure request
-     * Use secure on adminhtml only
      *
      * @return bool
      */
     public function isSecure()
     {
-        if ($this->getStore()->isAdmin()) {
-            return $this->_getRequest()->isSecure();
-        }
         return false;
     }
 

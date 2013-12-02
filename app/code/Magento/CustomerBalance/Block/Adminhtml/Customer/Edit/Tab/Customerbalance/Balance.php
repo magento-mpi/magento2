@@ -10,7 +10,7 @@
 
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance;
 
-class Balance extends \Magento\Adminhtml\Block\Template
+class Balance extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
