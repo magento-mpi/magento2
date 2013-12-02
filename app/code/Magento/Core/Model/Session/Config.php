@@ -121,7 +121,7 @@ class Config implements \Zend\Session\Config\ConfigInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\App\Dir $dir,
-        $saveMethod,
+        $saveMethod = 'files',
         $savePath = null,
         $cacheLimiter = null
     ) {
