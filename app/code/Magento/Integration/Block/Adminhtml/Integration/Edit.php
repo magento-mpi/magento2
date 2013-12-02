@@ -47,6 +47,35 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         parent::_construct();
         $this->_removeButton('reset');
         $this->_removeButton('delete');
+
+        $this->removeButton('save')->addButton('save', [
+            'id' => 'save-split-button',
+            'label' => __('Save'),
+            'class_name' => 'Magento\Backend\Block\Widget\Button\SplitButton',
+            'button_class' => 'PrimarySplitButton',
+            'data_attribute'  => [
+                'mage-init' => [
+                    'button' => ['event' => 'save', 'target' => '#edit_form'],
+                ],
+            ],
+            'options' => [
+                'save_activate' => [
+                    'id' => 'activate',
+                    'label' => __('Save & Activate'),
+                    'data_attribute' => [
+                        'mage-init' => [
+                            'button' => [
+                                'event' => 'saveAndActivate',
+                                'target' => '#edit_form',
+                            ],
+                            'integration' => [
+                                'gridUrl' => $this->getUrl('*/*/'),
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ]);
     }
 
     /**

@@ -43,21 +43,27 @@ class Integration extends Action
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
+    /** @var \Magento\Core\Helper\Data  */
+    protected $_coreHelper;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
+     * @param \Magento\Core\Helper\Data $coreHelper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Core\Helper\Data $coreHelper
     ) {
         $this->_registry = $registry;
         $this->_logger = $logger;
         $this->_integrationService = $integrationService;
+        $this->_coreHelper = $coreHelper;
         parent::__construct($context);
     }
 
@@ -177,12 +183,20 @@ class Integration extends Action
                 } else {
                     $this->_integrationService->update($integrationData);
                 }
-                $this->_getSession()
-                    ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
+                if (!$this->getRequest()->isXmlHttpRequest()) {
+                    $this->_getSession()
+                        ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
+                }
             } else {
                 $this->_getSession()->addError(__('The integration was not saved.'));
             }
-            $this->_redirect('*/*/');
+            if ($this->getRequest()->isXmlHttpRequest()) {
+                $this->getResponse()->setBody(
+                    $this->_coreHelper->jsonEncode(['integrationId' => $integrationData[Info::DATA_NAME]])
+                );
+            } else {
+                $this->_redirect('*/*/');
+            }
         } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
             $this->_redirectOnSaveError();
@@ -244,6 +258,25 @@ class Integration extends Action
             $this->_redirect('*/*/edit', array('id' => $integrationId));
         } else {
             $this->_redirect('*/*/new');
+        }
+    }
+
+    /**
+     * Don't actually redirect if we've got AJAX request - return redirect URL instead.
+     *
+     * @param string $path
+     * @param array $arguments
+     * @return $this|\Magento\Backend\App\AbstractAction
+     */
+    protected function _redirect($path, $arguments = array())
+    {
+        if ($this->getRequest()->isXmlHttpRequest()) {
+            $this->getResponse()->setBody(
+                $this->_coreHelper->jsonEncode(['_redirect' => $this->getUrl($path, $arguments)])
+            );
+            return $this;
+        } else {
+            return parent::_redirect($path, $arguments);
         }
     }
 }
