@@ -42,10 +42,7 @@ class ArgumentsReader
             if ($parameter->isOptional()) {
                 if ($parameter->isDefaultValueAvailable()) {
                     $value = $parameter->getDefaultValue();
-                    if ($parameter->isDefaultValueConstant()) {
-                        $const = $parameter->getDefaultValueConstantName();
-                        $default = strpos($const, 'self::') === 0 ? $const : '\\' . $const;
-                    } elseif (true == is_array($value)) {
+                    if (true == is_array($value)) {
                         $default = $this->_varExportMin($value);
                     } elseif (true == is_int($value)) {
                         $default = $value;
