@@ -190,11 +190,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
     protected $_itemOptionFactory;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * Construct
      *
      * @param \Magento\Catalog\Model\Product\Url $url
@@ -262,7 +257,6 @@ class Product extends \Magento\Catalog\Model\AbstractModel
         $this->_collectionFactory = $collectionFactory;
         $this->_urlModel = $url;
         $this->_linkInstance = $productLink;
-        $this->_appState = $context->getAppState();
         parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
     }
 
