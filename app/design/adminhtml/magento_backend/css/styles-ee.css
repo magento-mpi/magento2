@@ -5640,12 +5640,10 @@ table tbody tr:nth-child(odd):hover th {
   content: '*';
   color: #f00;
 }
-[class^=" reports-report-"] .grid-actions .required:after,
-[class^=" invitations-report-"] .grid-actions .required:after {
+[class^=" reports-report-"] .grid-actions .required:after {
   content: '';
 }
-[class^=" reports-report-"] .grid-actions .required .label span:after,
-[class^=" invitations-report-"] .grid-actions .required .label span:after {
+[class^=" reports-report-"] .grid-actions .required .label span:after {
   content: '*';
   color: #f00;
 }
@@ -11165,4 +11163,11 @@ th.required:after {
 .sales-order-create-index .ui-dialog .content > .giftcard .fixed.amount .control .control-value {
   margin: -2px 0 0;
   padding: 0;
+}
+[class^=" invitations-report-"] .grid-actions .required:after {
+  content: '';
+}
+[class^=" invitations-report-"] .grid-actions .required .label span:after {
+  content: '*';
+  color: #f00;
 }
