@@ -34,17 +34,17 @@ class MergedTest extends \PHPUnit_Framework_TestCase
         $service = $objectManager->get('Magento\View\Service');
         self::$_themePublicDir = $service->getPublicDir();
 
-        /** @var \Magento\App\Dir $dirs */
-        $dirs = $objectManager->get('Magento\App\Dir');
-        self::$_viewPublicMergedDir = $dirs->getDir(\Magento\App\Dir::PUB_VIEW_CACHE)
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $objectManager->get('Magento\Filesystem');
+        self::$_viewPublicMergedDir = $filesystem->getPath(\Magento\Filesystem::PUB_VIEW_CACHE)
             . '/' . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
     }
 
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Dir::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::THEMES => dirname(dirname(__DIR__)) . '/_files/design',
+            \Magento\Filesystem::PARAM_APP_DIRS => array(
+                \Magento\Filesystem::THEMES => dirname(dirname(__DIR__)) . '/_files/design',
                 \Magento\Filesystem::PUB => BP,
             )
         ));

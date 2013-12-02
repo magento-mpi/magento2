@@ -38,13 +38,18 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
      */
     protected $_ioObject;
 
+    /**
+     * @var \Magento\Filesystem\Directory\Write
+     */
+    protected $varDirectory;
+
     protected function setUp()
     {
         $this->_includePath = get_include_path();
 
-        /** @var $dirs \Magento\App\Dir */
-        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
-        $generationDirectory = $dirs->getDir(\Magento\App\Dir::VAR_DIR) . '/generation';
+        $this->varDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $generationDirectory = $this->varDirectory->getAbsolutePath('generation');
 
         \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
 
@@ -61,12 +66,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        /** @var $dirs \Magento\App\Dir */
-        $dirs = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir');
-        $generationDirectory = $dirs->getDir(\Magento\App\Dir::VAR_DIR) . '/generation';
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Filesystem')->delete($generationDirectory);
-
+        $this->varDirectory->delete('generation');
         set_include_path($this->_includePath);
         unset($this->_generator);
     }
