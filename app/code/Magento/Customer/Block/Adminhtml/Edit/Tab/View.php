@@ -35,7 +35,6 @@ class View
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @var \Magento\Log\Model\Visitor
      */
     protected $_modelVisitor;

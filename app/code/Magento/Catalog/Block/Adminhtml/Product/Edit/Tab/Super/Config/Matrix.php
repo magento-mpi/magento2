@@ -21,7 +21,6 @@ class Matrix
     extends \Magento\Backend\Block\Template
 {
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
      * @var \Magento\Core\Model\Registry

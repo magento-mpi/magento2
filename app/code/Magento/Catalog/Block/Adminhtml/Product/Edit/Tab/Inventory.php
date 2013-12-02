@@ -27,8 +27,6 @@ class Inventory extends \Magento\Adminhtml\Block\Widget
     protected $_catalogData = null;
 
     /**
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
      * @var \Magento\Core\Model\Registry

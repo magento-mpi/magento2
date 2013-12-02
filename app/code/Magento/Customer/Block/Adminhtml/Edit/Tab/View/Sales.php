@@ -38,7 +38,6 @@ class Sales extends \Magento\Backend\Block\Template
     protected $_currency;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
      * @var \Magento\Core\Model\Registry

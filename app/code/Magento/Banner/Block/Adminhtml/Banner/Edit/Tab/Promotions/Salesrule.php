@@ -13,7 +13,6 @@ namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
      * @var \Magento\Core\Model\Registry

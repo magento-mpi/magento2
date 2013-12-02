@@ -31,30 +31,27 @@ class Head extends \Magento\Theme\Block\Html\Head
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\Page $page
-     * @param \Magento\Core\Model\Page\Asset\MergeService $assetMergeService
-     * @param \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService
+     * @param \Magento\View\Asset\MergeService $assetMergeService
+     * @param \Magento\View\Asset\MinifyService $assetMinifyService
      * @param \Magento\App\Action\Title $titles
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase,
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\Page $page,
-        \Magento\Core\Model\Page\Asset\MergeService $assetMergeService,
-        \Magento\Core\Model\Page\Asset\MinifyService $assetMinifyService,
+        \Magento\View\Asset\MergeService $assetMergeService,
+        \Magento\View\Asset\MinifyService $assetMinifyService,
         \Magento\App\Action\Title $titles,
         array $data = array()
     ) {
         $this->_titles = $titles;
         parent::__construct(
             $context,
-            $coreData,
             $fileStorageDatabase,
             $objectManager,
             $page,
