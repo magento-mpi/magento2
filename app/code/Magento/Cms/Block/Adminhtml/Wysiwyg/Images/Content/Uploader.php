@@ -26,20 +26,18 @@ class Uploader extends \Magento\Backend\Block\Media\Uploader
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\File\Size $fileSize
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\File\Size $fileSize,
         \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage,
         array $data = array()
     ) {
         $this->_imagesStorage = $imagesStorage;
-        parent::__construct($context, $jsonEncoder, $fileSize, $data);
+        parent::__construct($context, $fileSize, $data);
     }
 
     protected function _construct()

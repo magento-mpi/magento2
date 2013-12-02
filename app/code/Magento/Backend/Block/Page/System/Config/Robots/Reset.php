@@ -20,23 +20,28 @@ namespace Magento\Backend\Block\Page\System\Config\Robots;
 class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 {
     /**
+     * Pasge robots default instructions
+     */
+    const XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS = 'design/search_engine_robots/default_custom_instructions';
+
+    /**
      * Page robots
      *
      * @var \Magento\Theme\Helper\Robots
      */
-    protected $_pageRobots = null;
+    protected $coreConfig;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Theme\Helper\Robots $pageRobots
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Theme\Helper\Robots $pageRobots,
+        \Magento\Core\Model\ConfigInterface $coreConfig,
         array $data = array()
     ) {
-        $this->_pageRobots = $pageRobots;
+        $this->coreConfig = $coreConfig;
         parent::__construct($context, $data);
     }
 
@@ -56,7 +61,7 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
      */
     public function getRobotsDefaultCustomInstructions()
     {
-        return $this->_pageRobots->getRobotsDefaultCustomInstructions();
+        return trim((string)$this->coreConfig->getValue(self::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS, 'default'));
     }
 
     /**
