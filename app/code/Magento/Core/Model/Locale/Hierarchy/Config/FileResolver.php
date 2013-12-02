@@ -28,9 +28,9 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Config\FileIteratorFactory $iteratorFactory
-    ){
-        $this->directoryRead    = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
-        $this->iteratorFactory  = $iteratorFactory;
+    ) {
+        $this->directoryRead = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $this->iteratorFactory = $iteratorFactory;
     }
 
     /**
@@ -38,9 +38,13 @@ class FileResolver implements \Magento\Config\FileResolverInterface
      */
     public function get($filename, $scope)
     {
-        return $this->iteratorFactory->create(
-            $this->directoryRead,
-            $this->directoryRead->search('#/' . preg_quote($filename) . '$#')
-        );
+        $result = array();
+        if ($this->directoryRead->isExist('locale')) {
+            $result = $this->iteratorFactory->create(
+                $this->directoryRead,
+                $this->directoryRead->search('#' . preg_quote($filename) . '$#', 'locale')
+            );
+        }
+        return $result;
     }
 }
