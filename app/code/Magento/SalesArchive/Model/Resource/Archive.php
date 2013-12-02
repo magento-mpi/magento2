@@ -56,14 +56,14 @@ class Archive extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $dateTime;
 
     /**
-     * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
      * @param \Magento\App\Resource $resource
+     * @param \Magento\SalesArchive\Model\Config $salesArchiveConfig
      * @param \Magento\SalesArchive\Model\ArchivalList $archivalList
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\SalesArchive\Model\Config $salesArchiveConfig,
         \Magento\App\Resource $resource,
+        \Magento\SalesArchive\Model\Config $salesArchiveConfig,
         \Magento\SalesArchive\Model\ArchivalList $archivalList,
         \Magento\Stdlib\DateTime $dateTime
     ) {

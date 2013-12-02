@@ -29,19 +29,20 @@ class Begin extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Core\Model\Session\Generic $session
-     * @param array $data
      * @param null $eulaFile
+     * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Core\Model\Session\Generic $session,
-        array $data = array(),
-        $eulaFile = null
+        $eulaFile = null,
+        array $data = array()
     ) {
-        parent::__construct($context, $installer, $installWizard, $session, $data);
         $this->_eulaFile = $eulaFile;
+        parent::__construct($context, $installer, $installWizard, $session, $data);
+
     }
 
     /**

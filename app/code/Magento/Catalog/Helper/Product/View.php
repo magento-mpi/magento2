@@ -71,21 +71,21 @@ class View extends \Magento\App\Helper\AbstractHelper
     protected $_view;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Theme\Helper\Layout $pageLayout
-     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
      * @param array $messageModels
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Session $catalogSession,
         \Magento\Catalog\Model\Design $catalogDesign,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Theme\Helper\Layout $pageLayout,
-        \Magento\App\Helper\Context $context,
+        \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\ViewInterface $view,
         array $messageModels = array()

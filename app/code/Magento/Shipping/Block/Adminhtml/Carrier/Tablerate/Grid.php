@@ -46,6 +46,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory
      * @param \Magento\Shipping\Model\Carrier\Tablerate $tablerate
@@ -53,6 +54,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Shipping\Model\Resource\Carrier\Tablerate\CollectionFactory $collectionFactory,
         \Magento\Shipping\Model\Carrier\Tablerate $tablerate,
@@ -60,7 +62,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_tablerate = $tablerate;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     /**

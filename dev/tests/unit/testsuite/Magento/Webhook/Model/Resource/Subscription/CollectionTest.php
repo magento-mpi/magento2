@@ -244,11 +244,12 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
     {
         return $this->getMock('Magento\Webhook\Model\Resource\Subscription\Collection', $methods,
             array(
-                $this->_endpointResMock,
-                $this->_eventManager,
+                $this->_entityFactory,
                 $this->_loggerMock,
                 $this->_fetchStrategyMock,
-                $this->_entityFactory,
+                $this->_eventManager,
+                $this->_endpointResMock,
+                null,
                 $this->_resourceMock
             ), '', true);
     }

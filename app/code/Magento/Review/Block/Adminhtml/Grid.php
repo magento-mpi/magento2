@@ -58,6 +58,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Review\Model\ReviewFactory $reviewFactory
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productsFactory
@@ -68,6 +69,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Review\Model\ReviewFactory $reviewFactory,
         \Magento\Review\Model\Resource\Review\Product\CollectionFactory $productsFactory,
@@ -81,7 +83,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_reviewData = $reviewData;
         $this->_reviewActionPager = $reviewActionPager;
         $this->_reviewFactory = $reviewFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     /**

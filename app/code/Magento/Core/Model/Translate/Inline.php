@@ -164,7 +164,7 @@ class Inline implements \Magento\Core\Model\Translate\InlineInterface
             return;
         }
 
-        /** @var $block \Magento\View\Element\Template */
+        /** @var $block \Magento\View\Block\Template */
         $block = $this->_layout->createBlock('Magento\View\Element\Template');
 
         $block->setAjaxUrl($this->_getAjaxUrl());

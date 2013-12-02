@@ -177,6 +177,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager = null;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
      * @param \Magento\Core\Model\Url $url
@@ -187,7 +188,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\AdvancedCheckout\Model\ImportFactory $importFactory
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
@@ -196,6 +196,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
         \Magento\Core\Model\Url $url,
@@ -206,7 +207,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Checkout\Helper\Cart $checkoutCart,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\AdvancedCheckout\Model\ImportFactory $importFactory,
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,

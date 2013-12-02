@@ -29,13 +29,13 @@ class Dialogs extends \Magento\Backend\Block\Template
     /**
      * Include backup.js file in page before rendering
      *
-     * @see \Magento\View\Element\AbstractBlock::_prepareLayout()
+     * @see \Magento\View\Block\AbstractBlock::_prepareLayout()
      */
     protected function _prepareLayout()
     {
         $this->getLayout()->getBlock('head')->addChild(
             'magento-adminhtml-backup-js',
-            'Magento\Theme\Block\Html\Head\Script',
+            'Magento\Page\Block\Html\Head\Script',
             array(
                 'file' => 'mage/adminhtml/backup.js'
             )

@@ -26,18 +26,20 @@ class Grid extends \Magento\Reports\Block\Adminhtml\Grid\Shopcart
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Reports\Model\Resource\Quote\CollectionFactory $quotesFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Reports\Model\Resource\Quote\CollectionFactory $quotesFactory,
         array $data = array()
     ) {
         $this->_quotesFactory = $quotesFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     protected function _construct()
