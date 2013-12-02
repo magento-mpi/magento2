@@ -26,10 +26,10 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
@@ -37,32 +37,40 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param mixed $connection
+     * @param string $modelName
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        $connection = null,
+        $modelName = self::CUSTOMER_MODEL_NAME
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct(
-            $eventManager,
+            $entityFactory,
             $logger,
             $fetchStrategy,
-            $entityFactory,
+            $eventManager,
             $eavConfig,
             $resource,
             $eavEntityFactory,
             $resourceHelper,
             $universalFactory,
-            $fieldsetConfig
+            $fieldsetConfig,
+            $connection,
+            $modelName
         );
     }
 

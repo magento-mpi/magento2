@@ -28,21 +28,21 @@ class DefaultPrice
     protected $_pricePermData = null;
 
     /**
-     * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
+     * @param \Magento\PricePermissions\Helper\Data $pricePermData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
+        \Magento\PricePermissions\Helper\Data $pricePermData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

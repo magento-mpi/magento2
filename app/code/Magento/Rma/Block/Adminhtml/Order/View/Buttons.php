@@ -29,23 +29,23 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
     protected $_rmaData = null;
 
     /**
-     * @param \Magento\Rma\Helper\Data $rmaData
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Helper\Data $rmaData,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($coreData, $context, $registry, $salesConfig, $data);
+        parent::__construct($context, $coreData, $registry, $salesConfig, $data);
     }
 
     /**

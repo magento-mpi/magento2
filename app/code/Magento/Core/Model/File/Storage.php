@@ -22,7 +22,7 @@ class Storage extends \Magento\Core\Model\AbstractModel
     const STORAGE_MEDIA_DATABASE            = 1;
 
     /**
-     * Config pathes for storing storage configuration
+     * Config paths for storing storage configuration
      */
     const XML_PATH_STORAGE_MEDIA            = 'system/media_storage_configuration/media_storage';
     const XML_PATH_STORAGE_MEDIA_DATABASE   = 'system/media_storage_configuration/media_database';
@@ -81,9 +81,9 @@ class Storage extends \Magento\Core\Model\AbstractModel
     protected $_dir;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\File\Storage $coreFileStorage
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\File\Storage\Flag $fileFlag
@@ -95,9 +95,9 @@ class Storage extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage $coreFileStorage,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\File\Storage $coreFileStorage,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\File\Storage\Flag $fileFlag,

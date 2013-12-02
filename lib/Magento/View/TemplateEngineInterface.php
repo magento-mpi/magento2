@@ -1,7 +1,5 @@
 <?php
 /**
- * Interface for Template Engine
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -10,9 +8,14 @@
 
 namespace Magento\View;
 
+/**
+ * Interface for Template Engine
+ */
 interface TemplateEngineInterface
 {
     /**
+     * Render template
+     *
      * Render the named template in the context of a particular block and with
      * the data provided in $vars.
      *

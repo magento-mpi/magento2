@@ -170,13 +170,6 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_paymentData;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\ConfigInterface
@@ -229,13 +222,13 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     protected $_emailInfoFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Payment\Helper\Data $paymentData
-     * @param \Magento\Sales\Helper\Data $salesData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\LocaleInterface $coreLocale
+     * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Sales\Helper\Data $salesData
+     * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory
@@ -248,18 +241,15 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Payment\Helper\Data $paymentData,
-        \Magento\Sales\Helper\Data $salesData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\LocaleInterface $coreLocale,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Sales\Helper\Data $salesData,
+        \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Sales\Model\Order\Invoice\Config $invoiceConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Resource\OrderFactory $orderResourceFactory,
@@ -273,7 +263,6 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_paymentData = $paymentData;
         $this->_salesData = $salesData;
         $this->_coreStoreConfig = $coreStoreConfig;
@@ -404,7 +393,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
     }
 
     /**
-     * Check invice capture action availability
+     * Check invoice capture action availability
      *
      * @return bool
      */
@@ -864,7 +853,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_EMAIL_COPY_TO);
         $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_EMAIL_COPY_METHOD, $storeId);
-        // Check if at least one recepient is found
+        // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }
@@ -939,7 +928,7 @@ class Invoice extends \Magento\Sales\Model\AbstractModel
         // Get the destination email addresses to send copies to
         $copyTo = $this->_getEmails(self::XML_PATH_UPDATE_EMAIL_COPY_TO);
         $copyMethod = $this->_coreStoreConfig->getConfig(self::XML_PATH_UPDATE_EMAIL_COPY_METHOD, $storeId);
-        // Check if at least one recepient is found
+        // Check if at least one recipient is found
         if (!$notifyCustomer && !$copyTo) {
             return $this;
         }

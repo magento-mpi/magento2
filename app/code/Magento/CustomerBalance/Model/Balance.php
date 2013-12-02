@@ -56,21 +56,21 @@ class Balance extends \Magento\Core\Model\AbstractModel
     protected $_historyFactory;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\CustomerBalance\Model\Balance\HistoryFactory $historyFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -110,16 +110,21 @@ class Balance extends \Magento\Core\Model\AbstractModel
     public function loadByCustomer()
     {
         $this->_ensureCustomer();
-        if ($this->hasWebsiteId()) {
-            $websiteId = $this->getWebsiteId();
-        } else {
-            if ($this->_storeManager->isAdmin()) {
-                throw new \Magento\Core\Exception(__('A website ID must be set.'));
-            }
-            $websiteId = $this->_storeManager->getStore()->getWebsiteId();
-        }
-        $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $websiteId);
+        $this->getResource()->loadByCustomerAndWebsiteIds($this, $this->getCustomerId(), $this->getWebsiteId());
         return $this;
+    }
+
+    /**
+     * Get website id
+     *
+     * @return int
+     */
+    public function getWebsiteId()
+    {
+        if ($this->hasWebsiteId()) {
+            return $this->_getData('website_id');
+        }
+        return $this->_storeManager->getStore()->getWebsiteId();
     }
 
     /**

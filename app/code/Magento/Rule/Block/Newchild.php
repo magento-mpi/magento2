@@ -11,7 +11,7 @@
 
 namespace Magento\Rule\Block;
 
-class Newchild extends \Magento\Core\Block\AbstractBlock
+class Newchild extends \Magento\View\Block\AbstractBlock
     implements \Magento\Data\Form\Element\Renderer\RendererInterface
 {
     public function render(\Magento\Data\Form\Element\AbstractElement $element)

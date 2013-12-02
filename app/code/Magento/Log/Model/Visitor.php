@@ -39,13 +39,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_ignoredUserAgents;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Core store config
      *
      * @var \Magento\Core\Model\Store\Config
@@ -108,7 +101,6 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\Session $session
@@ -118,19 +110,16 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param array $data
-     * @param array $ignoredUserAgents
-     * @param array $ignores
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @param array $ignoredUserAgents
+     * @param array $ignores
+     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\Session $session,
@@ -140,14 +129,13 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
         \Magento\HTTP\PhpEnvironment\ServerAddress $serverAddress,
         \Magento\Stdlib\DateTime $dateTime,
-        array $data = array(),
+        \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $ignoredUserAgents = array(),
         array $ignores = array(),
-        \Magento\Core\Model\Resource\AbstractResource $resource = null,
-        \Magento\Data\Collection\Db $resourceCollection = null
+        array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_eventManager = $eventManager;
         $this->_customerFactory = $customerFactory;
         $this->_quoteFactory = $quoteFactory;
         $this->_session = $session;

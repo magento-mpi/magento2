@@ -13,45 +13,17 @@
 namespace Magento\Backend\Controller\Adminhtml;
 
 /**
- * Test class for \Magento\Backend\Controller\Adminhtml\Index.
- *
  * @magentoAppArea adminhtml
  */
-class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
+class IndexTest extends \Magento\Backend\Utility\Controller
 {
-    /**
-     * @var \Magento\Backend\Model\Auth
-     */
-    protected $_auth;
-
-    /**
-     * Performs user login
-     */
-    protected  function _login()
-    {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Url')
-            ->turnOffSecretKey();
-        $this->_auth = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Auth');
-        $this->_auth->login(
-            \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
-    }
-
-    /**
-     * Performs user logout
-     */
-    protected function _logout()
-    {
-        $this->_auth->logout();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Backend\Model\Url')->turnOnSecretKey();
-    }
-
     /**
      * Check not logged state
      * @covers \Magento\Backend\Controller\Adminhtml\Index::indexAction
      */
     public function testNotLoggedIndexAction()
     {
+        $this->_auth->logout();
         $this->dispatch('backend/admin/index/index');
         $this->assertFalse($this->getResponse()->isRedirect());
 
@@ -67,9 +39,20 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     public function testLoggedIndexAction()
     {
-        $this->_login();
         $this->dispatch('backend/admin/index/index');
         $this->assertRedirect();
-        $this->_logout();
+    }
+
+    /**
+     * @covers \Magento\Backend\Controller\Adminhtml\Index::globalSearchAction
+     */
+    public function testGlobalSearchAction()
+    {
+        $this->getRequest()->setParam('isAjax', 'true');
+        $this->getRequest()->setPost('query', 'dummy');
+        $this->dispatch('backend/admin/index/globalSearch');
+
+        $actual = $this->getResponse()->getBody();
+        $this->assertEquals(array(), json_decode($actual));
     }
 }

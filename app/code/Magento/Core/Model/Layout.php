@@ -189,7 +189,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Core data
      *
-     * @var \Magento\Core\Model\Factory\Helper
+     * @var \Magento\App\Helper\HelperFactory
      */
     protected $_factoryHelper = null;
 
@@ -228,11 +228,16 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_appState;
 
     /**
+     * @var \Magento\ObjectManager
+     */
+    protected $_objectManager;
+
+    /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param Factory\Helper $factoryHelper
+     * @param \Magento\App\Helper\HelperFactory $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\DesignInterface $design
      * @param BlockFactory $blockFactory
@@ -242,6 +247,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param DataService\Graph $dataServiceGraph
      * @param Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
+     * @param \Magento\ObjectManager $objectManager
      * @param string $area
      */
     public function __construct(
@@ -249,7 +255,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Factory\Helper $factoryHelper,
+        \Magento\App\Helper\HelperFactory $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\View\DesignInterface $design,
         \Magento\View\Element\BlockFactory $blockFactory,
@@ -259,6 +265,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
+        \Magento\ObjectManager $objectManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
@@ -279,6 +286,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_processorFactory = $processorFactory;
         $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
+        $this->_objectManager = $objectManager;
     }
 
     /**
@@ -337,7 +345,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Retrieve layout area
      *
-     * @deparecated
      * @return string
      */
     public function getArea()
@@ -853,7 +860,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Creates block object based on xml node data and add it to the layout
      *
      * @param string $elementName
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      * @throws \Magento\Exception
      */
     protected function _generateBlock($elementName)
@@ -886,7 +893,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
         if (!empty($node['template'])) {
             $templateFileName = (string)$node['template'];
-            if ($block instanceof \Magento\Core\Block\Template) {
+            if ($block instanceof \Magento\View\Block\Template) {
                 $block->assign($dictionary);
             }
             $block->setTemplate($templateFileName);
@@ -978,7 +985,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $parentName
      * @param string $alias
-     * @return bool|\Magento\Core\Block\AbstractBlock
+     * @return bool|\Magento\View\Block\AbstractBlock
      */
     public function getChildBlock($parentName, $alias)
     {
@@ -1281,7 +1288,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Save block in blocks registry
      *
      * @param string $name
-     * @param \Magento\Core\Block\AbstractBlock $block
+     * @param \Magento\View\Block\AbstractBlock $block
      * @return \Magento\Core\Model\Layout
      */
     public function setBlock($name, $block)
@@ -1313,7 +1320,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param  string $type
      * @param  string $name
      * @param  array $attributes
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function createBlock($type, $name = '', array $attributes = array())
     {
@@ -1325,10 +1332,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Create block and add to layout
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string|\Magento\View\Block\AbstractBlock $block
      * @param string $name
      * @param array $attributes
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _createBlock($block, $name, array $attributes = array())
     {
@@ -1347,15 +1354,15 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Add a block to registry, create new object if needed
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string|\Magento\View\Block\AbstractBlock $block
      * @param string $name
      * @param string $parent
      * @param string $alias
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     public function addBlock($block, $name = '', $parent = '', $alias = '')
     {
-        if (empty($name) && $block instanceof \Magento\Core\Block\AbstractBlock) {
+        if (empty($name) && $block instanceof \Magento\View\Block\AbstractBlock) {
             $name = $block->getNameInLayout();
         }
         $name = $this->_createStructuralElement(
@@ -1410,10 +1417,10 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Create block object instance based on block type
      *
-     * @param string|\Magento\Core\Block\AbstractBlock $block
+     * @param string|\Magento\View\Block\AbstractBlock $block
      * @param array $attributes
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Block\AbstractBlock
+     * @return \Magento\View\Block\AbstractBlock
      */
     protected function _getBlockInstance($block, array $attributes = array())
     {
@@ -1422,7 +1429,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 $block = $this->_blockFactory->createBlock($block, $attributes);
             }
         }
-        if (!$block instanceof \Magento\Core\Block\AbstractBlock) {
+        if (!$block instanceof \Magento\View\Block\AbstractBlock) {
             throw new \Magento\Core\Exception(__('Invalid block type: %1', $block));
         }
         return $block;
@@ -1443,7 +1450,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Get block object by name
      *
      * @param string $name
-     * @return \Magento\Core\Block\AbstractBlock|bool
+     * @return \Magento\View\Block\AbstractBlock|bool
      */
     public function getBlock($name)
     {
@@ -1523,7 +1530,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     /**
      * Retrieve messages block
      *
-     * @return \Magento\Core\Block\Messages
+     * @return \Magento\View\Block\Messages
      */
     public function getMessagesBlock()
     {
@@ -1531,7 +1538,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         if ($block) {
             return $block;
         }
-        return $this->createBlock('Magento\Core\Block\Messages', 'messages');
+        return $this->createBlock('Magento\View\Block\Messages', 'messages');
     }
 
     /**
@@ -1539,7 +1546,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @param string $type
      * @throws \Magento\Core\Exception
-     * @return \Magento\Core\Helper\AbstractHelper
+     * @return \Magento\App\Helper\AbstractHelper
      */
     public function getBlockSingleton($type)
     {
@@ -1550,7 +1557,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
             $helper = $this->_blockFactory->createBlock($type);
             if ($helper) {
-                if ($helper instanceof \Magento\Core\Block\AbstractBlock) {
+                if ($helper instanceof \Magento\View\Block\AbstractBlock) {
                     $helper->setLayout($this);
                 }
                 $this->_helpers[$type] = $helper;
@@ -1630,7 +1637,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
             if (!empty($options['dataServiceName'])) {
                 $dictionary = $this->_dataServiceGraph->get($options['dataServiceName']);
             }
-            /** @var $block \Magento\Core\Block\Template */
+            /** @var $block \Magento\View\Block\Template */
             $block = $this->createBlock($options['type'], '')
                 ->setData($data)
                 ->assign($dictionary)
@@ -1638,6 +1645,32 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
                 ->assign($data);
 
             echo $block->toHtml();
+        }
+    }
+
+    /**
+     * Init messages by message storage(s), loading and adding messages to layout messages block
+     *
+     * @throws \UnexpectedValueException
+     * @param string|array $messages
+     */
+    public function initMessages($messages)
+    {
+        if (!is_array($messages)) {
+            $messages = array($messages);
+        }
+        foreach ($messages as $storageName) {
+            $storage = $this->_objectManager->get($storageName);
+            if ($storage) {
+                $block = $this->getMessagesBlock();
+                $block->addMessages($storage->getMessages(true));
+                $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
+                $block->addStorageType($storageName);
+            } else {
+                throw new \UnexpectedValueException(
+                    __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
+                );
+            }
         }
     }
 }

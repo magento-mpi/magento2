@@ -34,24 +34,24 @@ class Data extends \Magento\CustomAttribute\Helper\Data
     protected $_customerAddress = null;
 
     /**
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\CustomerCustomAttributes\Helper\Address $customerAddress
      * @param \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
-     * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
-        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer,
+        \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Core\Helper\Context $context,
-        \Magento\Filter\FilterManager $filterManager
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Filter\FilterManager $filterManager,
+        \Magento\CustomerCustomAttributes\Helper\Address $customerAddress,
+        \Magento\CustomerCustomAttributes\Helper\Customer $customerCustomer
     ) {
         $this->_customerAddress = $customerAddress;
         $this->_customerCustomer = $customerCustomer;
-        parent::__construct($eavConfig, $locale, $context, $filterManager);
+        parent::__construct($context, $eavConfig, $locale, $filterManager);
     }
 
     /**

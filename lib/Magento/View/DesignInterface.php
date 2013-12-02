@@ -10,8 +10,6 @@ namespace Magento\View;
 
 /**
  * Design Interface
- *
- * @package Magento\View
  */
 interface DesignInterface
 {
@@ -32,7 +30,6 @@ interface DesignInterface
     /**
      * Retrieve package area
      *
-     * @deprecated
      * @return string
      */
     public function getArea();

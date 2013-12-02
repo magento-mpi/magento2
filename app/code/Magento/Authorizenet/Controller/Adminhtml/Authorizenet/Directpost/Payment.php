@@ -20,15 +20,17 @@ class Payment
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
+     * @param \Magento\Catalog\Helper\Product $productHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
+        \Magento\Catalog\Helper\Product $productHelper,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context);
+        parent::__construct($context, $productHelper);
     }
 
     /**
@@ -169,7 +171,7 @@ class Payment
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])
         ) {
-            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\HelperInterface')
                 ->getSuccessOrderUrl($redirectParams);
             $this->_getDirectPostSession()->unsetData('quote_id');
             //cancel old order
@@ -198,7 +200,7 @@ class Payment
         }
 
         $this->_coreRegistry->register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
-        $this->loadLayout(false)->renderLayout();
+        $this->_view->loadLayout(false)->renderLayout();
     }
 
     /**

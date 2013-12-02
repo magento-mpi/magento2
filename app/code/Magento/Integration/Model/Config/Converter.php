@@ -46,9 +46,8 @@ class Converter implements \Magento\Config\ConverterInterface
             $email = $integration->getElementsByTagName('email')->item(0)->nodeValue;
             $result[$integrationId][self::KEY_EMAIL] = $email;
 
-            /** @var \DOMElement $authentications */
-            $authentication = $integration->getElementsByTagName('authentication')->item(0);
             /** @var \DOMNodeList $authentication */
+            $authentication = $integration->getElementsByTagName('authentication')->item(0);
 
             $authenticationType = $authentication->attributes->getNamedItem('type')->nodeValue;
             $result[$integrationId][self::KEY_AUTHENTICATION] = array(

@@ -17,7 +17,7 @@
  */
 namespace Magento\GoogleShopping\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Magento string lib
@@ -34,14 +34,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_storeManager;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Stdlib\String $string,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Helper\Context $context
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->string = $string;
         $this->_storeManager = $storeManager;

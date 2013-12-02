@@ -89,7 +89,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\Core\Block\Text')
+                ->createBlock('Magento\View\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -106,7 +106,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\Core\Block\Text')
+                ->createBlock('Magento\View\Block\Text')
         );
 
         $this->assertEmpty($this->_model->getData('price_range'));
@@ -125,7 +125,7 @@ class PriceTest extends \PHPUnit_Framework_TestCase
         $this->_model->apply(
             $request,
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-                ->createBlock('Magento\Core\Block\Text')
+                ->createBlock('Magento\View\Block\Text')
         );
 
         $this->assertEquals(array(10, 20), $this->_model->getData('interval'));

@@ -15,10 +15,10 @@
  * @package    Magento_GoogleShopping
  * @name       \Magento\GoogleShopping\Controller\Adminhtml\Googleshopping\Items
  * @author     Magento Core Team <core@magentocommerce.com>
-*/
+ */
 namespace Magento\GoogleShopping\Controller\Adminhtml\Googleshopping;
 
-class Items extends \Magento\Backend\Controller\Adminhtml\Action
+class Items extends \Magento\Backend\App\Action
 {
     /**
      * Initialize general settings for action
@@ -27,8 +27,8 @@ class Items extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_items')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_GoogleShopping::catalog_googleshopping_items')
             ->_addBreadcrumb(__('Catalog'), __('Catalog'))
             ->_addBreadcrumb(__('Google Content'), __('Google Content'));
         return $this;
@@ -39,7 +39,7 @@ class Items extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Google Content Items'));
+        $this->_title->add(__('Google Content Items'));
 
         if (0 === (int)$this->getRequest()->getParam('store')) {
             $this->_redirect('adminhtml/*/', array(
@@ -52,7 +52,7 @@ class Items extends \Magento\Backend\Controller\Adminhtml\Action
 
         $this->_initAction();
 
-        $contentBlock = $this->getLayout()
+        $contentBlock = $this->_view->getLayout()
             ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items')->setStore($this->_getStore());
 
         if ($this->getRequest()->getParam('captcha_token') && $this->getRequest()->getParam('captcha_url')) {
@@ -77,8 +77,8 @@ class Items extends \Magento\Backend\Controller\Adminhtml\Action
         }
 
         $this->_addBreadcrumb(__('Items'), __('Items'))
-            ->_addContent($contentBlock)
-            ->renderLayout();
+            ->_addContent($contentBlock);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -86,9 +86,9 @@ class Items extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->getResponse()->setBody(
-            $this->getLayout()
+            $this->_view->getLayout()
                 ->createBlock('Magento\GoogleShopping\Block\Adminhtml\Items\Item')
                 ->setIndex($this->getRequest()->getParam('index'))
                 ->toHtml()

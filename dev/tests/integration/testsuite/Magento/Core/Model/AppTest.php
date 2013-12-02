@@ -118,14 +118,20 @@ class AppTest extends \PHPUnit_Framework_TestCase
     {
         $this->_mageModel->getSafeStore(100);
         $request = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Request\Http');
-        $this->assertEquals('noRoute', $request->getActionName());
+        $this->assertEquals('noroute', $request->getActionName());
     }
 
     public function testGetStores()
     {
         $this->assertNotEmpty($this->_mageModel->getStores());
-        $this->assertNotContains(\Magento\Core\Model\App::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores()));
-        $this->assertContains(\Magento\Core\Model\App::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores(true)));
+        $this->assertNotContains(
+            \Magento\Core\Model\Store::DEFAULT_STORE_ID,
+            array_keys($this->_mageModel->getStores())
+        );
+        $this->assertContains(
+            \Magento\Core\Model\Store::DEFAULT_STORE_ID,
+            array_keys($this->_mageModel->getStores(true))
+        );
     }
 
     public function testGetDefaultStoreView()

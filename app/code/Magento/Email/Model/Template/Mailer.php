@@ -54,7 +54,7 @@ class Mailer extends \Magento\Object
      */
     public function addEmailInfo(\Magento\Email\Model\Info $emailInfo)
     {
-        array_push($this->_emailInfos, $emailInfo);
+        $this->_emailInfos[] = $emailInfo;
         return $this;
     }
 
@@ -71,7 +71,7 @@ class Mailer extends \Magento\Object
         // Send all emails from corresponding list
         while (!empty($this->_emailInfos)) {
             $emailInfo = array_pop($this->_emailInfos);
-            // Handle "Bcc" recepients of the current email
+            // Handle "Bcc" recipients of the current email
             $emailTemplate->addBcc($emailInfo->getBccEmails());
             // Set required design parameters and delegate email sending to \Magento\Email\Model\Template
             $designConfig = array(
@@ -156,7 +156,7 @@ class Mailer extends \Magento\Object
     }
 
     /**
-     * Set tempate parameters
+     * Set template parameters
      *
      * @param array $templateParams
      * @return \Magento\Email\Model\Template\Mailer

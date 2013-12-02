@@ -13,7 +13,7 @@
  */
 namespace Magento\FullPageCache\Block;
 
-class Debug extends \Magento\Core\Block\Template
+class Debug extends \Magento\View\Block\Template
 {
     protected $_template = 'blockdebug.phtml';
 }

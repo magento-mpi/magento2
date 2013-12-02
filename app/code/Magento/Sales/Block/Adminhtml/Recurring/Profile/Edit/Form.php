@@ -53,14 +53,14 @@ class Form extends \Magento\Backend\Block\AbstractBlock
     protected $_recurringProfile;
 
     /**
-     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Sales\Model\Recurring\Profile $recurringProfile
      * @param array $data
      */
     public function __construct(
-        \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Block\Context $context,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Sales\Model\Recurring\Profile $recurringProfile,
         array $data = array()
     ) {
@@ -126,7 +126,7 @@ class Form extends \Magento\Backend\Block\AbstractBlock
 
         /**
          * if there is a parent element defined, it will be replaced by a hidden element with the same name
-         * and overriden by the form elements
+         * and overridden by the form elements
          * It is needed to maintain HTML consistency of the parent element's form
          */
         if ($this->_parentElement) {

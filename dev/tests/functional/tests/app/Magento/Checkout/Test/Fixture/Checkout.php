@@ -214,4 +214,14 @@ class Checkout extends DataFixture
     {
         return $this->getData('totals/comment_history');
     }
+
+    /**
+     * Get is customer registered flag
+     *
+     * @return bool
+     */
+    public function isRegisteredCustomer()
+    {
+        return (bool) $this->getData('customer/is_registered');
+    }
 }

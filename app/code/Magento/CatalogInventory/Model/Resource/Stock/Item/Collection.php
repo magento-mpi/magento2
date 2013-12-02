@@ -14,31 +14,30 @@ namespace Magento\CatalogInventory\Model\Resource\Stock\Item;
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
-     * Store model manager
-     *
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Resource\Db\Abstract $resource
+     * @param mixed $connection
+     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
-
         $this->_storeManager = $storeManager;
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**

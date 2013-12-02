@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Controller\Adminhtml\Rma\Item;
 
-class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
+class Attribute extends \Magento\Backend\App\Action
 {
     /**
      * RMA Item Entity Type instance
@@ -27,11 +27,11 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -59,8 +59,8 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
      */
     protected function _initAction()
     {
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Rma::sales_magento_rma_rma_item_attribute')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Rma::sales_magento_rma_rma_item_attribute')
             ->_addBreadcrumb(
                 __('RMA'),
                 __('RMA'))
@@ -92,9 +92,9 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Returns Attributes'));
-        $this->_initAction()
-            ->renderLayout();
+        $this->_title->add(__('Returns Attributes'));
+        $this->_initAction();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -103,7 +103,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function newAction()
     {
-        $this->addActionLayoutHandles();
+        $this->_view->addActionLayoutHandles();
         $this->_forward('edit');
     }
 
@@ -118,7 +118,7 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
         $attributeObject = $this->_initAttribute()
             ->setEntityTypeId($this->_getEntityType()->getId());
 
-        $this->_title(__('Returns Attributes'));
+        $this->_title->add(__('Returns Attributes'));
 
         if ($attributeId) {
             $attributeObject->load($attributeId);
@@ -134,9 +134,9 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                 return;
             }
 
-            $this->_title($attributeObject->getFrontendLabel());
+            $this->_title->add($attributeObject->getFrontendLabel());
         } else {
-            $this->_title(__('New Return Attribute'));
+            $this->_title->add(__('New Return Attribute'));
         }
 
         $attributeData = $this->_getSession()->getAttributeData(true);
@@ -151,8 +151,8 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
             : __('New Return Item Attribute');
 
         $this->_initAction()
-            ->_addBreadcrumb($label, $label)
-            ->renderLayout();
+            ->_addBreadcrumb($label, $label);
+        $this->_view->renderLayout();
     }
 
     /**
@@ -174,9 +174,9 @@ class Attribute extends \Magento\Backend\Controller\Adminhtml\Action
                     __('An attribute with the same code already exists.')
                 );
 
-                $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                 $response->setError(true);
-                $response->setMessage($this->getLayout()->getMessagesBlock()->getGroupedHtml());
+                $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
         }
         $this->getResponse()->setBody($response->toJson());

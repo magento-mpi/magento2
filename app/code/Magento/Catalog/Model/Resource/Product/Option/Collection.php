@@ -32,28 +32,28 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $_optionValueCollectionFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Catalog\Model\Resource\Product\Option\Value\CollectionFactory $optionValueCollectionFactory,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_optionValueCollectionFactory = $optionValueCollectionFactory;
         $this->_storeManager = $storeManager;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**
@@ -106,7 +106,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                     'store_title'   => 'title',
                     'title'         => $titleExpr
                 ))
-            ->where('default_option_title.store_id = ?', \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID);
+            ->where('default_option_title.store_id = ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
 
         return $this;
     }
@@ -138,7 +138,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
                 'default_option_price.option_id = main_table.option_id AND '
                     . $adapter->quoteInto(
                         'default_option_price.store_id = ?',
-                        \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID
+                        \Magento\Core\Model\Store::DEFAULT_STORE_ID
                     ),
                 array(
                     'default_price' => 'price',

@@ -41,7 +41,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
         $this->assertNotEmpty($model->getTitle());
         foreach (array($model->getFormBlockType(), $model->getInfoBlockType()) as $blockClass) {
             $message = "Block class: {$blockClass}";
-            /** @var $block \Magento\Core\Block\Template */
+            /** @var $block \Magento\View\Block\Template */
             $block = $blockFactory->createBlock($blockClass);
             $block->setArea('frontend');
             $this->assertFileExists($block->getTemplateFile(), $message);
@@ -50,7 +50,7 @@ class MethodsTest extends \PHPUnit_Framework_TestCase
                     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                         ->get('Magento\Core\Model\StoreManagerInterface')
                         ->getStore()
-                        ->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+                        ->setId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
                     $block->setArea('adminhtml');
                     $this->assertFileExists($block->getTemplateFile(), $message);
                     \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

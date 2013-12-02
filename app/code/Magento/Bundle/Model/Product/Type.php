@@ -480,7 +480,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
     }
 
     /**
-     * Retrive bundle selections collection based on used options
+     * Retrieve bundle selections collection based on used options
      *
      * @param array $optionIds
      * @param \Magento\Catalog\Model\Product $product
@@ -832,10 +832,10 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->addFilterByRequiredOptions()
                 ->setSelectionIdsFilter($selectionIds);
 
-                if (!$this->_catalogData->isPriceGlobal() && $storeId) {
+            if (!$this->_catalogData->isPriceGlobal() && $storeId) {
                     $websiteId = $this->_storeManager->getStore($storeId)->getWebsiteId();
                     $usedSelections->joinPrices($websiteId);
-                }
+            }
             $product->setData($this->_keyUsedSelections, $usedSelections);
             $product->setData($this->_keyUsedSelectionsIds, $selectionIds);
         }

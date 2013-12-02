@@ -20,6 +20,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
      * Test for \Magento\AdvancedCheckout\Controller\Cart::configureAction() with gift card product
      *
      * @magentoDataFixture Magento/AdvancedCheckout/_files/quote_with_gift_card_product.php
+     * @magentoAppArea frontend
      */
     public function testConfigureActionWithGiftCardProduct()
     {
@@ -34,7 +35,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Core\Model\Message::ERROR,
+            \Magento\Message\Factory::ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -57,7 +58,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Core\Model\Message::ERROR,
+            \Magento\Message\Factory::ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -77,7 +78,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Core\Model\Message::ERROR,
+            \Magento\Message\Factory::ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -97,7 +98,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Core\Model\Message::ERROR,
+            \Magento\Message\Factory::ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -120,7 +121,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Core\Model\Message::ERROR,
+            \Magento\Message\Factory::ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -143,7 +144,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Core\Model\Message::ERROR,
+            \Magento\Message\Factory::ERROR,
             'Magento\Checkout\Model\Session'
         );
 

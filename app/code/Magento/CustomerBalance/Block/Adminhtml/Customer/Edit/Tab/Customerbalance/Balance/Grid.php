@@ -17,23 +17,21 @@ class Grid extends
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         array $data = array()
     ) {
         $this->_balanceFactory = $balanceFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     /**

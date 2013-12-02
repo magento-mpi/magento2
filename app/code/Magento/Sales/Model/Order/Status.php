@@ -83,7 +83,7 @@ class Status extends \Magento\Core\Model\AbstractModel
             $this->_getResource()->unassignState($this->getStatus(), $state);
             $this->_getResource()->commit();
             $params = array('status' => $this->getStatus(), 'state' => $state);
-            $this->_eventDispatcher->dispatch('sales_order_status_unassign', $params);
+            $this->_eventManager->dispatch('sales_order_status_unassign', $params);
         } catch (\Exception $e) {
             $this->_getResource()->rollBack();
             throw $e;
@@ -115,13 +115,12 @@ class Status extends \Magento\Core\Model\AbstractModel
     public function getStoreLabel($store = null)
     {
         $store = $this->_storeManager->getStore($store);
-        if (!$store->isAdmin()) {
-            $labels = $this->getStoreLabels();
-            if (isset($labels[$store->getId()])) {
-                return $labels[$store->getId()];
-            }
+        $labels = $this->getStoreLabels();
+        if (isset($labels[$store->getId()])) {
+            return $labels[$store->getId()];
+        } else {
+            return __($this->getLabel());
         }
-        return __($this->getLabel());
     }
 
     /**

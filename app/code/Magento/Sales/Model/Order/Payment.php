@@ -162,18 +162,11 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_eventObject = 'payment';
 
     /**
-     * Transaction addditional information container
+     * Transaction additional information container
      *
      * @var array
      */
     protected $_transactionAdditionalInfo = array();
-
-    /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
 
     /**
      * @var \Magento\Sales\Model\Service\Order
@@ -201,10 +194,9 @@ class Payment extends \Magento\Payment\Model\Info
     protected $_storeManager;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory
      * @param \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory
@@ -216,10 +208,9 @@ class Payment extends \Magento\Payment\Model\Info
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Payment\Helper\Data $paymentData,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Sales\Model\Service\OrderFactory $serviceOrderFactory,
         \Magento\Sales\Model\Order\Payment\TransactionFactory $transactionFactory,
@@ -230,13 +221,12 @@ class Payment extends \Magento\Payment\Model\Info
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_serviceOrderFactory = $serviceOrderFactory;
         $this->_transactionFactory = $transactionFactory;
         $this->_transactionCollFactory = $transactionCollFactory;
         $this->_agreementFactory = $agreementFactory;
         $this->_storeManager = $storeManager;
-        parent::__construct($paymentData, $context, $registry, $encryptor, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $paymentData, $encryptor, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -1581,9 +1571,9 @@ class Payment extends \Magento\Payment\Model\Info
     }
 
     /**
-     * Additionnal transaction info getter
+     * Additional transaction info getter
      *
-     * @param sting $key
+     * @param string $key
      * @return mixed
      */
     public function getTransactionAdditionalInfo($key = null)

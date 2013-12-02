@@ -27,7 +27,6 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_logger;
 
     /**
-     * @param \Magento\Logger $logger
      * @var \Magento\App\State
      */
     protected $_appState;
@@ -80,13 +79,5 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAppState()
     {
         return $this->_appState;
-    }
-
-    /**
-     * @return \Magento\Core\Model\StoreManager
-     */
-    public function getStoreManager()
-    {
-        return $this->_storeManager;
     }
 }

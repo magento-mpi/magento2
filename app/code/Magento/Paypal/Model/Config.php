@@ -1101,6 +1101,9 @@ class Config
         if ($this->getMerchantCountry() == 'MY' && $code == 'MYR') {
             return true;
         }
+        if ($this->getMerchantCountry() == 'TR' && $code == 'TRY') {
+            return true;
+        }
         return false;
     }
 

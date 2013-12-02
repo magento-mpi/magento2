@@ -36,6 +36,19 @@ if (isset($options['w'])) {
     $workingDir = $options['w'];
 }
 
+$changeLog = glob($workingDir . '/CHANGELOG*');
+if (sizeof($changeLog) > 1) {
+    echo "More than one CHANGELOG file was found\n";
+    exit(1);
+}
+
+if($changeLog[0] !== $workingDir.'/CHANGELOG.md') {
+    echo "CHANGELOG.md file not found\n";
+    exit(1);
+}
+
+echo "CHANGELOG.md file found\n";
+
 $wordsFinder = new SanityWordsFinder($configFile, $workingDir);
 
 $verbose = isset($options['v']) ? true : false;

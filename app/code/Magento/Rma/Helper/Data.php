@@ -13,7 +13,7 @@
  */
 namespace Magento\Rma\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Variable to contain country model
@@ -110,8 +110,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $dateTime;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -126,8 +126,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,

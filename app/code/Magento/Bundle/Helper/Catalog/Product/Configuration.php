@@ -17,7 +17,7 @@
  */
 namespace Magento\Bundle\Helper\Catalog\Product;
 
-class Configuration extends \Magento\Core\Helper\AbstractHelper
+class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
@@ -40,15 +40,15 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_escaper;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Escaper $escaper
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $ctlgProdConfigur,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Helper\Context $context,
         \Magento\Escaper $escaper
     ) {
         $this->_ctlgProdConfigur = $ctlgProdConfigur;

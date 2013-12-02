@@ -20,7 +20,7 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Catalog\Test\Fixture
  */
-class ConfigurableProduct extends Product
+class ConfigurableProduct extends AbstractProduct
 {
     /**
      * Mapping data into ui tabs
@@ -97,6 +97,28 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Returns the sku for the specified option.
+     *
+     * @param string $selectedOption
+     * @return string
+     */
+    public function getVariationSku($selectedOption)
+    {
+        $sku = '';
+        foreach ($this->getData('fields/variations-matrix/value') as $variation) {
+            $configurableAttributes = $variation['configurable_attribute'];
+            foreach ($configurableAttributes as $configurableAttribute) {
+                $attributeOption = $configurableAttribute['attribute_option'];
+                if ($attributeOption === $selectedOption) {
+                    $sku = $variation['value']['name']['value'];
+                    break 2;
+                }
+            }
+        }
+        return $sku;
+    }
+
+    /**
      * Get variations SKUs
      *
      * @return $this|ConfigurableProduct
@@ -120,7 +142,8 @@ class ConfigurableProduct extends Product
      */
     public function persist()
     {
-        Factory::getApp()->magentoCatalogCreateConfigurable($this);
+        $id = Factory::getApp()->magentoCatalogCreateConfigurable($this);
+        $this->_data['fields']['id']['value'] = $id;
 
         return $this;
     }
@@ -148,6 +171,7 @@ class ConfigurableProduct extends Product
      */
     protected function _initData()
     {
+        parent::_initData();
         $this->_dataConfig = array(
             'constraint' => 'Success',
 
@@ -156,16 +180,8 @@ class ConfigurableProduct extends Product
                 'set' => 4,
             ),
         );
-        $this->_data = array(
+        $data = array(
             'fields' => array(
-                'name' => array(
-                    'value' => 'Configurable Product %isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'sku' => array(
-                    'value' => 'configurable_sku_%isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                ),
                 'price' => array(
                     'value' => '10',
                     'group' => static::GROUP_PRODUCT_DETAILS
@@ -268,9 +284,12 @@ class ConfigurableProduct extends Product
                         'attribute_name' => '%attribute_1_name%',
                         'option_name' => '%attribute_1_option_label_1%'
                     )
-                )
+                ),
+                'special_price' => '10'
             )
         );
+
+        $this->_data = array_merge_recursive($this->_data, $data);
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogConfigurableProduct($this->_dataConfig, $this->_data);
@@ -289,5 +308,16 @@ class ConfigurableProduct extends Product
             $options[$selection['attribute_name']] = $selection['option_name'];
         }
         return $options;
+    }
+
+    /**
+     * Return special price for first configurable option
+     * This value is used to validate value on the cart and order
+     *
+     * @return string
+     */
+    public function getProductSpecialPrice()
+    {
+        return $this->getData('checkout/special_price');
     }
 }

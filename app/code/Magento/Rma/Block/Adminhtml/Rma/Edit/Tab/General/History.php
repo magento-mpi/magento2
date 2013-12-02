@@ -27,16 +27,16 @@ class History
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Model\Config $rmaConfig
      * @param \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Rma\Model\Config $rmaConfig,
         \Magento\Rma\Model\Resource\Rma\Status\History\CollectionFactory $collectionFactory,
@@ -44,7 +44,7 @@ class History
     ) {
         $this->_rmaConfig = $rmaConfig;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($coreData, $context, $registry, $data);
+        parent::__construct($context, $coreData, $registry, $data);
     }
 
     /**

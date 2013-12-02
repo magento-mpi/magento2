@@ -16,36 +16,28 @@ namespace Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy;
 class Manage extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**
@@ -165,9 +157,9 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
                         }
                     }
                 }
-            } elseif ($website['value'] == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
+            } elseif ($website['value'] == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
                 $website['value'] = \Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE
-                                    . \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
+                                    . \Magento\Core\Model\Store::DEFAULT_STORE_ID;
                 $options[] = array(
                     'label' => $website['label'],
                     'value' => $website['value'],

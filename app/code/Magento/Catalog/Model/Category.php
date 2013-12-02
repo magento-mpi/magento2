@@ -110,13 +110,6 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $filter;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * Index indexer
      *
      * @var \Magento\Index\Model\Indexer
@@ -166,8 +159,9 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected $_categoryTreeFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource
      * @param \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -175,22 +169,19 @@ class Category extends \Magento\Catalog\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory
      * @param \Magento\UrlInterface $url
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Index\Model\Indexer $indexIndexer
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Filter\FilterManager $filter
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTreeResource,
         \Magento\Catalog\Model\Resource\Category\TreeFactory $categoryTreeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
@@ -198,14 +189,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         \Magento\Core\Model\Resource\Store\CollectionFactory $storeCollectionFactory,
         \Magento\UrlInterface $url,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Index\Model\Indexer $indexIndexer,
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Filter\FilterManager $filter,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
@@ -219,11 +206,10 @@ class Category extends \Magento\Catalog\Model\AbstractModel
         $this->_productCollectionFactory = $productCollectionFactory;
         $this->_catalogConfig = $catalogConfig;
         $this->_indexIndexer = $indexIndexer;
-        $this->_eventManager = $eventManager;
         $this->filter = $filter;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_treeModel = $categoryTreeResource;
-        parent::__construct($storeManager, $context, $registry, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $storeManager, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -234,7 +220,7 @@ class Category extends \Magento\Catalog\Model\AbstractModel
     protected function _construct()
     {
         // If Flat Data enabled then use it but only on frontend
-        if ($this->_catalogCategoryFlat->isAvailable() && !$this->_storeManager->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable()) {
             $this->_init('Magento\Catalog\Model\Resource\Category\Flat');
             $this->_useFlatResource = true;
         } else {

@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Helper\Catalog\Product;
 
-class Configuration extends \Magento\Core\Helper\AbstractHelper
+class Configuration extends \Magento\App\Helper\AbstractHelper
     implements \Magento\Catalog\Helper\Product\Configuration\ConfigurationInterface
 {
     /**
@@ -35,14 +35,14 @@ class Configuration extends \Magento\Core\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfigur
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Catalog\Helper\Product\Configuration $productConfigur,
-        \Magento\Core\Helper\Context $context,
-    \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_productConfigur = $productConfigur;
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -29,9 +29,9 @@ class Data extends \Magento\ImportExport\Helper\Data
     protected $_customerBalanceData = null;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
      * @param \Magento\App\State $appState
      * @param \Magento\File\Size $fileSize
@@ -40,9 +40,9 @@ class Data extends \Magento\ImportExport\Helper\Data
      * @param bool $dbCompatibleMode
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,
         \Magento\App\State $appState,
         \Magento\File\Size $fileSize,

@@ -10,6 +10,9 @@
  */
 namespace Magento\Widget\Model\Widget;
 
+/**
+ * @magentoAppArea adminhtml
+ */
 class ConfigTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -30,10 +33,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPluginSettings()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
-            ->loadArea(\Magento\Backend\App\Area\FrontNameResolver::AREA_CODE);
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\DesignInterface')
-            ->setDesignTheme('magento_basic');
+            ->setDesignTheme('magento_backend');
 
         $config = new \Magento\Object();
         $settings = $this->_model->getPluginSettings($config);

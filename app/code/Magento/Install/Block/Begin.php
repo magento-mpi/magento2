@@ -25,25 +25,26 @@ class Begin extends \Magento\Install\Block\AbstractBlock
     protected $_eulaFile;
 
     /**
+     * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Core\Model\Session\Generic $session
+     * @param null $eulaFile
      * @param array $data
-     * @param string|null $eulaFile
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Core\Model\Session\Generic $session,
         $eulaFile = null,
         array $data = array()
     ) {
-        parent::__construct($coreData, $context, $installer, $installWizard, $session, $data);
         $this->_eulaFile = $eulaFile;
+        parent::__construct($context, $coreData, $installer, $installWizard, $session, $data);
+
     }
 
     /**

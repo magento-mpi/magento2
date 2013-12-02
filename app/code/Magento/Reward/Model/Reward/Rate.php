@@ -42,7 +42,7 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_rewardData = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -52,9 +52,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
-     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\Rate $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Locale $locale
@@ -62,9 +62,9 @@ class Rate extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\Rate $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Locale $locale,

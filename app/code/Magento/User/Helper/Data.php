@@ -17,7 +17,7 @@
  */
 namespace Magento\User\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Configuration path to expiration period of reset password link
@@ -26,9 +26,9 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         = 'admin/emails/password_reset_link_expiration_period';
 
     /**
-     * @var \Magento\Core\Model\Config
+     * @var \Magento\Backend\App\ConfigInterface
      */
-    protected $_coreConfig;
+    protected $_config;
 
     /**
      * @var \Magento\Math\Random
@@ -36,16 +36,16 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $mathRandom;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
-     * @param \Magento\Core\Model\Config $coreConfig
+     * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Backend\App\ConfigInterface $config
      * @param \Magento\Math\Random $mathRandom
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
-        \Magento\Core\Model\Config $coreConfig,
+        \Magento\App\Helper\Context $context,
+        \Magento\Backend\App\ConfigInterface $config,
         \Magento\Math\Random $mathRandom
     ) {
-        $this->_coreConfig = $coreConfig;
+        $this->_config = $config;
         $this->mathRandom = $mathRandom;
         parent::__construct($context);
     }
@@ -67,9 +67,6 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getResetPasswordLinkExpirationPeriod()
     {
-        return (int)$this->_coreConfig->getValue(
-            self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD,
-            'default'
-        );
+        return (int)$this->_config->getValue(self::XML_PATH_ADMIN_RESET_PASSWORD_LINK_EXPIRATION_PERIOD);
     }
 }

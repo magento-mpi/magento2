@@ -64,13 +64,6 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     protected $_directoryData = null;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Eav\Model\Config
      */
     protected $_eavConfig;
@@ -91,10 +84,9 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
     protected $_countryFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Customer\Model\Address\Config $addressConfig
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -104,10 +96,9 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Directory\Helper\Data $directoryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Directory\Helper\Data $directoryData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Customer\Model\Address\Config $addressConfig,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -116,7 +107,6 @@ class AbstractAddress extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_directoryData = $directoryData;
         $data = $this->_implodeStreetField($data);
         $this->_eavConfig = $eavConfig;

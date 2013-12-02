@@ -17,7 +17,7 @@
  */
 namespace Magento\Connect\Controller\Adminhtml\Extension;
 
-class Custom extends \Magento\Backend\Controller\Adminhtml\Action
+class Custom extends \Magento\Backend\App\Action
 {
     /**
      * Redirect to edit Extension Package action
@@ -25,7 +25,7 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Package Extensions'));
+        $this->_title->add(__('Package Extensions'));
 
         $this->_forward('edit');
     }
@@ -36,11 +36,11 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function editAction()
     {
-        $this ->_title(__('Extension'));
+        $this ->_title->add(__('Extension'));
 
-        $this->loadLayout();
+        $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Connect::system_extensions_custom');
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -159,8 +159,8 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function loadtabAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -169,8 +169,8 @@ class Custom extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function gridAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

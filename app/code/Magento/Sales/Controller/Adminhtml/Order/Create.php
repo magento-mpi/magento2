@@ -17,16 +17,22 @@
  */
 namespace Magento\Sales\Controller\Adminhtml\Order;
 
-class Create extends \Magento\Backend\Controller\Adminhtml\Action
+use Magento\Backend\App\Action;
+
+class Create extends \Magento\Backend\App\Action
 {
     /**
-     * Additional initialization
-     *
+     * @param Action\Context $context
+     * @param \Magento\Catalog\Helper\Product $productHelper
+     * @param \Magento\App\Action\Title $title
      */
-    protected function _construct()
+    public function __construct(
+        Action\Context $context,
+        \Magento\Catalog\Helper\Product $productHelper
+    )
     {
-        // During order creation in the backend admin has ability to add any products to order
-        $this->_objectManager->get('Magento\Catalog\Helper\Product')->setSkipSaleableCheck(true);
+        parent::__construct($context);
+        $productHelper->setSkipSaleableCheck(true);
     }
 
     /**
@@ -62,11 +68,11 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
     /**
      * Retrieve gift message save model
      *
-     * @return \Magento\Adminhtml\Model\Giftmessage\Save
+     * @return \Magento\GiftMessage\Model\Save
      */
     protected function _getGiftmessageSaveModel()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Giftmessage\Save');
+        return $this->_objectManager->get('Magento\GiftMessage\Model\Save');
     }
 
     /**
@@ -318,12 +324,13 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
      */
     public function indexAction()
     {
-        $this->_title(__('Orders'))->_title(__('New Order'));
+        $this->_title->add(__('Orders'));
+        $this->_title->add(__('New Order'));
         $this->_initSession();
-        $this->loadLayout();
+        $this->_view->loadLayout();
 
-        $this->_setActiveMenu('Magento_Sales::sales_order')
-            ->renderLayout();
+        $this->_setActiveMenu('Magento_Sales::sales_order');
+        $this->_view->renderLayout();
     }
 
 
@@ -333,7 +340,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
         $orderId = $this->getRequest()->getParam('order_id');
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         if (!$this->_objectManager->get('Magento\Sales\Helper\Reorder')->canReorder($order)) {
-            return $this->_forward('noRoute');
+            return $this->_forward('noroute');
         }
 
         if ($order->getId()) {
@@ -378,7 +385,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
         $asJson= $request->getParam('json');
         $block = $request->getParam('block');
 
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         if ($asJson) {
             $update->addHandle('sales_order_create_load_block_json');
         } else {
@@ -395,8 +402,10 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
                 $update->addHandle('sales_order_create_load_block_' . $block);
             }
         }
-        $this->loadLayoutUpdates()->generateLayoutXml()->generateLayoutBlocks();
-        $result = $this->getLayout()->renderElement('content');
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
+        $result = $this->_view->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
             $this->_redirect('sales/*/showUpdateResult');
@@ -555,7 +564,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
 
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($this, $configureResult);
+            ->renderConfigureResult($configureResult);
 
         return $this;
     }
@@ -598,7 +607,7 @@ class Create extends \Magento\Backend\Controller\Adminhtml\Action
 
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
-            ->renderConfigureResult($this, $configureResult);
+            ->renderConfigureResult($configureResult);
 
         return $this;
     }

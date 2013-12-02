@@ -62,8 +62,8 @@ class Info extends \Magento\Object
      */
     public function addBcc($email, $name = null)
     {
-        array_push($this->_bccNames, $name);
-        array_push($this->_bccEmails, $email);
+        $this->_bccNames[] = $name;
+        $this->_bccEmails[] = $email;
         return $this;
     }
 
@@ -76,8 +76,8 @@ class Info extends \Magento\Object
      */
     public function addTo($email, $name = null)
     {
-        array_push($this->_toNames, $name);
-        array_push($this->_toEmails, $email);
+        $this->_toNames[] = $name;
+        $this->_toEmails[] = $email;
         return $this;
     }
 

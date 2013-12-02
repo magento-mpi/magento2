@@ -120,34 +120,36 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     protected $_universalFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\App\Resource $coreResource
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
+     * @param mixed $connection
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $coreResource,
+        \Magento\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
-        \Magento\Validator\UniversalFactory $universalFactory
+        \Magento\Validator\UniversalFactory $universalFactory,
+        $connection = null
     ) {
         $this->_eventManager = $eventManager;
         $this->_eavConfig = $eavConfig;
-        $this->_resource = $coreResource;
+        $this->_resource = $resource;
         $this->_eavEntityFactory = $eavEntityFactory;
         $this->_resourceHelper = $resourceHelper;
         $this->_universalFactory = $universalFactory;
-        parent::__construct($logger, $fetchStrategy, $entityFactory);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $connection);
         $this->_construct();
         $this->setConnection($this->getEntity()->getReadConnection());
         $this->_prepareStaticFields();
@@ -939,7 +941,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @param null|int|string $limit
      * @param null|int|string $offset
@@ -1035,7 +1037,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retreive row id field name
+     * Retrieve row id field name
      *
      * @return string
      */
@@ -1241,7 +1243,7 @@ abstract class AbstractCollection extends \Magento\Data\Collection\Db
     }
 
     /**
-     * Retreive attribute field name by attribute code
+     * Retrieve attribute field name by attribute code
      *
      * @param string $attributeCode
      * @return string

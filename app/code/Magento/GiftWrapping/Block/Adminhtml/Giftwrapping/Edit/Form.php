@@ -13,11 +13,6 @@ namespace Magento\GiftWrapping\Block\Adminhtml\Giftwrapping\Edit;
 class Form extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * @var \Magento\Core\Model\System\Store
      */
     protected $_systemStore;
@@ -28,29 +23,26 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_directoryHelper;
 
     /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param array $data
      */
     public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Directory\Helper\Data $directoryHelper,
         array $data = array()
     ) {
-        $this->_storeManager = $storeManager;
         $this->_systemStore = $systemStore;
         $this->_directoryHelper = $directoryHelper;
-        parent::__construct($registry, $formFactory, $coreData, $context, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**

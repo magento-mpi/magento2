@@ -82,7 +82,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $customerFactory;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $storeManager;
 
@@ -102,39 +102,39 @@ class Rule extends \Magento\Rule\Model\AbstractModel
     protected $salesRule;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Email\Model\Template $emailTemplateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\SalesRule\Model\CouponFactory $couponFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
      * @param \Magento\SalesRule\Model\Rule $salesRule
      * @param \Magento\Reminder\Helper\Data $reminderData
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Reminder\Model\Resource\Rule $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reminder\Model\Rule\Condition\Combine\RootFactory $rootFactory,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Email\Model\Template $emailTemplateFactory,
         \Magento\Core\Model\Translate $translate,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\SalesRule\Model\CouponFactory $couponFactory,
         \Magento\Core\Model\DateFactory $dateFactory,
         \Magento\SalesRule\Model\Rule $salesRule,
         \Magento\Reminder\Helper\Data $reminderData,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Reminder\Model\Resource\Rule $resource,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -149,7 +149,7 @@ class Rule extends \Magento\Rule\Model\AbstractModel
         $this->dateFactory = $dateFactory;
         $this->salesRule = $salesRule;
         $this->_reminderData = $reminderData;
-        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
     }
 
     /**

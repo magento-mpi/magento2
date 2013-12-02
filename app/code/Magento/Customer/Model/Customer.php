@@ -21,7 +21,7 @@ namespace Magento\Customer\Model;
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Configuration pathes for email templates and identities
+     * Configuration paths for email templates and identities
      */
     const XML_PATH_REGISTER_EMAIL_TEMPLATE = 'customer/create_account/email_template';
     const XML_PATH_REGISTER_EMAIL_IDENTITY = 'customer/create_account/email_identity';
@@ -107,7 +107,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     /** @var \Magento\Email\Model\Sender */
     protected $_sender;
 
-    /** @var \Magento\Core\Model\StoreManager */
+    /** @var \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
 
     /** @var \Magento\Eav\Model\Config */
@@ -119,13 +119,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @var \Magento\Customer\Helper\Data
      */
     protected $_customerData = null;
-
-    /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
 
     /**
      * @var \Magento\Core\Model\Store\Config
@@ -183,12 +176,11 @@ class Customer extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Email\Model\Sender $sender
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Resource\Customer $resource
@@ -202,16 +194,15 @@ class Customer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Data\Collection\Db|null $resourceCollection
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Customer\Helper\Data $customerData,
         \Magento\Email\Model\Sender $sender,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Config $config,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Resource\Customer $resource,
@@ -228,7 +219,6 @@ class Customer extends \Magento\Core\Model\AbstractModel
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_sender = $sender;
@@ -729,13 +719,8 @@ class Customer extends \Magento\Core\Model\AbstractModel
      */
     public function sendPasswordReminderEmail()
     {
-        $storeId = $this->getStoreId();
-        if (\Magento\Core\Model\AppInterface::ADMIN_STORE_ID == $storeId && ($this->getWebsiteId() * 1)) {
-            $storeId = $this->_getWebsiteStoreId();
-        }
-
         $this->_sendEmailTemplate(self::XML_PATH_REMIND_EMAIL_TEMPLATE, self::XML_PATH_FORGOT_EMAIL_IDENTITY,
-            array('customer' => $this), $storeId);
+            array('customer' => $this), $this->getStoreId());
 
         return $this;
     }
@@ -888,7 +873,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retrive shared website ids
+     * Retrieve shared website ids
      *
      * @return array
      */
@@ -1001,7 +986,7 @@ class Customer extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive errors
+     * Retrieve errors
      *
      * @return array
      */

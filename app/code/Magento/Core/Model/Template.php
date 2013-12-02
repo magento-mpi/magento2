@@ -32,7 +32,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     const DEFAULT_DESIGN_AREA = 'frontend';
 
     /**
-     * Configuration of desing package for template
+     * Configuration of design package for template
      *
      * @var \Magento\Object
      */
@@ -40,7 +40,7 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
 
 
     /**
-     * Configuration of emulated desing package.
+     * Configuration of emulated design package.
      *
      * @var \Magento\Object|boolean
      */
@@ -81,21 +81,21 @@ abstract class Template extends \Magento\Core\Model\AbstractModel
     protected $_appEmulation;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
-     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -20,7 +20,7 @@ class Popup extends \Magento\Shipping\Block\Tracking\Popup
     public function getTrackingInfo()
     {
         /* @var $info \Magento\Rma\Model\Shipping\Info */
-        $info = $this->_coreRegistry->registry('rma_current_shipping');
+        $info = $this->_registry->registry('rma_current_shipping');
 
         return $info->getTrackingInfo();
     }
