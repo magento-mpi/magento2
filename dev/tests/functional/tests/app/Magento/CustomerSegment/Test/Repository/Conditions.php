@@ -21,6 +21,10 @@ use Mtf\Repository\AbstractRepository;
  */
 class Conditions extends AbstractRepository {
     /**
+     *  Conditions Tab html Id
+     */
+    const CONDITIONS_TAB_ID = 'magento_customersegment_segment_tabs_conditions_section';
+    /**
      * {inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
@@ -41,13 +45,13 @@ class Conditions extends AbstractRepository {
                 'fields' => array(
                     'conditions__1__new_child' => array(
                         'value' => 'Group',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes|group_id'
                     ),
                     'conditions__1--1__value' => array(
                         'value' => 'Retailer',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => '3'
                     )
@@ -63,71 +67,71 @@ class Conditions extends AbstractRepository {
                 'fields' => array(
                     'segment_id' => array(
                         'value' => '%segment_id%',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section'
+                        'group' => self::CONDITIONS_TAB_ID
                     ),
                     'name' => array(
                         'value' => '%name%',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'text'
                     ),
                     'description' => array(
                         'value' => 'Customer Segment test for retailer customers',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section'
+                        'group' => self::CONDITIONS_TAB_ID
                     ),
                     'website_ids[]' => array(
                         'value' => 'Main Website',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
                     'is_active' => array(
                         'value' => 'Active',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
                     'rule[conditions][1][type]' => array(
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Combine\Root',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'hidden'
                     ),
                     'rule[conditions][1][aggregator]' => array(
                         'value' => 'ANY',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => 'any'
                     ),
                     'rule[conditions][1][value]' => array(
                         'value' => 'TRUE',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
                     'rule[conditions][1--1][type]' => array(
                         'value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'hidden'
                     ),
                     'rule[conditions][1--1][attribute]' => array(
                         'value' => 'group_id',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'hidden'
                     ),
                     'rule[conditions][1--1][operator]' => array(
                         'value' => 'is',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => '=='
                     ),
                     'rule[conditions][1--1][value]' => array(
                         'value' => 'Retailer',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => '3'
                     ),
                     'rule[conditions][1][new_child]' => array(
                         'value' => 'Group',
-                        'group' => 'magento_customersegment_segment_tabs_conditions_section',
+                        'group' => self::CONDITIONS_TAB_ID,
                         'input' => 'select',
                         'input_value' => 'Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes|group_id'
                     )

@@ -21,6 +21,10 @@ use Mtf\Repository\AbstractRepository;
  */
 class GeneralProperties extends AbstractRepository {
     /**
+     *  Conditions Tab html Id
+     */
+    const GENERAL_TAB_ID = 'magento_customersegment_segment_tabs_general_section';
+    /**
      * {inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
@@ -40,27 +44,27 @@ class GeneralProperties extends AbstractRepository {
                 'fields' => array(
                     'name' => array(
                         'value' => 'All Retail Customers %isolation%',
-                        'group' => 'magento_customersegment_segment_tabs_general_section'
+                        'group' => self::GENERAL_TAB_ID
                     ),
                     'description' => array(
                         'value' => 'Customer Segment test for retailer customers',
-                        'group' => 'magento_customersegment_segment_tabs_general_section'
+                        'group' => self::GENERAL_TAB_ID
                     ),
                     'website_ids' => array(
                         'value' => 'Main Website',
-                        'group' => 'magento_customersegment_segment_tabs_general_section',
+                        'group' => self::GENERAL_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
                     'is_active' => array(
                         'value' => 'Active',
-                        'group' => 'magento_customersegment_segment_tabs_general_section',
+                        'group' => self::GENERAL_TAB_ID,
                         'input' => 'select',
                         'input_value' => '1'
                     ),
                     'apply_to' => array(
                         'value' => 'Visitors and Registered Customers',
-                        'group' => 'magento_customersegment_segment_tabs_general_section',
+                        'group' => self::GENERAL_TAB_ID,
                         'input' => 'select',
                         'input_value' => '0'
                     )
