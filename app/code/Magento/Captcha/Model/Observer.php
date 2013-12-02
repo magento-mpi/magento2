@@ -34,11 +34,6 @@ class Observer
     protected $_urlManager;
 
     /**
-     * @var \Magento\Filesystem
-     */
-    protected $_filesystem;
-
-    /**
      * Customer data
      *
      * @var \Magento\Customer\Helper\Data
@@ -56,11 +51,6 @@ class Observer
      * @var \Magento\App\RequestInterface
      */
     protected $_request;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * @var \Magento\Checkout\Model\Type\Onepage
@@ -90,9 +80,7 @@ class Observer
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Captcha\Helper\Data $helper
      * @param \Magento\Core\Model\Url $urlManager
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
@@ -103,9 +91,7 @@ class Observer
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Core\Model\Url $urlManager,
-        \Magento\Filesystem $filesystem,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ActionFlag $actionFlag
     ) {
         $this->_resLogFactory = $resLogFactory;
@@ -115,9 +101,7 @@ class Observer
         $this->_customerData = $customerData;
         $this->_helper = $helper;
         $this->_urlManager = $urlManager;
-        $this->_filesystem = $filesystem;
         $this->_request = $request;
-        $this->_storeManager = $storeManager;
         $this->_actionFlag = $actionFlag;
     }
 
@@ -336,39 +320,6 @@ class Observer
         return $this->_getResourceModel()->deleteUserAttempts(
             $observer->getUser()->getUsername()
         );
-    }
-
-    /**
-     * Delete Unnecessary logged attempts
-     *
-     * @return \Magento\Captcha\Model\Observer
-     */
-    public function deleteOldAttempts()
-    {
-        $this->_getResourceModel()->deleteOldAttempts();
-        return $this;
-    }
-
-    /**
-     * Delete Expired Captcha Images
-     *
-     * @return \Magento\Captcha\Model\Observer
-     */
-    public function deleteExpiredImages()
-    {
-        $mediaDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
-        foreach ($this->_storeManager->getWebsites(true) as $website) {
-            $expire = time() - $this->_helper->getConfig('timeout', $website->getDefaultStore()) * 60;
-            $path = $mediaDirectory->getRelativePath($this->_helper->getImgDir($website));
-
-            foreach ($mediaDirectory->search('#\.png$#', $path) as $filePath) {
-                $stat = $mediaDirectory->stat($filePath);
-                if ($stat['mtime'] < $expire) {
-                    $mediaDirectory->delete($filePath);
-                }
-            }
-        }
-        return $this;
     }
 
     /**

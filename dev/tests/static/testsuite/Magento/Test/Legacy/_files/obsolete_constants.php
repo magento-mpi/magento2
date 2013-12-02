@@ -10,6 +10,7 @@
  * @license     {license_link}
  */
 return array(
+    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('DS'),
     array('BACKORDERS_YES'),
@@ -61,6 +62,7 @@ return array(
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
     array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
