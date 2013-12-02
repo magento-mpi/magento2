@@ -1,3 +1,5 @@
+* GitHub requests:
+  * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Fixed bugs:
   * Fixed shopping cart rules for a specific customer group
 
