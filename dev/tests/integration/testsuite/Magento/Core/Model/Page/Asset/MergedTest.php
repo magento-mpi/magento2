@@ -44,8 +44,8 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => dirname(dirname(__DIR__)) . '/_files/design',
-                \Magento\Filesystem::PUB => BP,
+                \Magento\Filesystem::THEMES => array('path' => dirname(dirname(__DIR__)) . '/_files/design'),
+                \Magento\Filesystem::PUB => array('path' => BP),
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');

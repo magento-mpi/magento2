@@ -19,11 +19,6 @@ class Filesystem
     const PARAM_APP_DIRS = 'app_dirs';
 
     /**
-     * Custom application uris
-     */
-    const PARAM_APP_URIS = 'app_uris';
-
-    /**
      * Code base root
      */
     const ROOT = 'base';

@@ -54,10 +54,9 @@ class DirectoryList
 
     /**
      * @param string $root
-     * @param array $uris
-     * @param array $dirs
+     * @param array $directories
      */
-    public function __construct($root, array $uris = array(), array $dirs = array())
+    public function __construct($root, array $directories = array())
     {
         $this->root = str_replace('\\', '/', $root);
 
@@ -65,12 +64,14 @@ class DirectoryList
             $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
         }
 
-        foreach ($dirs as $code => $path) {
-            $this->setDir($code, $path);
-        }
-
-        foreach ($uris as $code => $uri) {
-            $this->setUri($code, $uri);
+        foreach ($directories as $code => $configuration) {
+            $this->directories[$code] = $configuration;
+            if (isset($configuration['path'])) {
+                $this->setPath($code, $configuration['path']);
+            }
+            if (isset($configuration['uri'])) {
+                $this->setUri($code, $configuration['uri']);
+            }
         }
 
         $this->directories[Filesystem::SYS_TMP] = array(
@@ -183,7 +184,7 @@ class DirectoryList
      * @param string $code
      * @param string $path
      */
-    private function setDir($code, $path)
+    private function setPath($code, $path)
     {
         $this->directories[$code]['path'] = str_replace('\\', '/', $path);
     }

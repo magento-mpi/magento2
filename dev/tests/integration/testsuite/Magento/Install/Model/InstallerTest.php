@@ -57,9 +57,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
                 'Magento\Filesystem\DirectoryList',
                     array(
                         'root' => __DIR__,
-                        'uris' => array(),
-                        'dirs' => array(
-                            \Magento\Filesystem::CONFIG => self::$_tmpDir
+                        'directories' => array(
+                            \Magento\Filesystem::CONFIG => array('path' => self::$_tmpDir)
                         )
                     )
                 );

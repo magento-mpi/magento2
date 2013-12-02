@@ -77,13 +77,18 @@ class Console implements \Magento\AppInterface
      */
     protected function _buildInitArguments(array $args)
     {
+        $directories = array();
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_URIS])) {
-            $args[\Magento\Filesystem::PARAM_APP_URIS] =
-                unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
+            $uris = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_URIS]));
+            foreach ($uris as $code => $uri) {
+                $args[\Magento\Filesystem::PARAM_APP_DIRS][$code]['uri'] = $uri;
+            }
         }
         if (!empty($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS])) {
-            $args[\Magento\Filesystem::PARAM_APP_DIRS] =
-                unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
+            $dirs = unserialize(base64_decode($args[\Magento\Install\Model\Installer\Console::OPTION_DIRS]));
+            foreach ($dirs as $code => $dir) {
+                $args[\Magento\Filesystem::PARAM_APP_DIRS][$code]['path'] = $dir;
+            }
         }
         return $args;
     }
