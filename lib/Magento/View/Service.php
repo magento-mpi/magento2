@@ -52,7 +52,7 @@ class Service
     ) {
         $this->_appState = $appState;
         $this->_design = $design;
-        $this->_pubDirectory = $filesystem->getPath($filesystem::STATIC_VIEW);
+        $this->_pubDirectory = $filesystem->getPath(\Magento\Filesystem::STATIC_VIEW);
         $this->themeFactory = $themeFactory;
     }
 

@@ -45,15 +45,20 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
     protected function _buildModel()
     {
         // Prepare config with directories
-        $dirs = new \Magento\App\Dir(
-            $this->_baseDir,
-            array(),
-            array(\Magento\App\Dir::THEMES => $this->_viewDir)
+        $filesystem = Bootstrap::getObjectManager()->create(
+            'Magento\Filesystem',
+            array(
+                'directoryList' => new \Magento\Filesystem\DirectoryList(
+                    $this->_baseDir,
+                    array(),
+                    array(\Magento\Filesystem::THEMES => $this->_viewDir)
+                )
+            )
         );
 
         return Bootstrap::getObjectManager()->create(
             'Magento\View\Design\FileResolution\Strategy\Fallback',
-            array('fallbackFactory' => new Factory($dirs))
+            array('fallbackFactory' => new Factory($filesystem))
         );
     }
 
@@ -69,8 +74,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         /** @var $collection \Magento\Core\Model\Theme\Collection */
         $collection = Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Theme\Collection');
-        $themeModel = $collection->setBaseDir($this->_viewDir)
-            ->addDefaultPattern()
+        $themeModel = $collection->addDefaultPattern()
             ->addFilter('theme_path', $themePath)
             ->addFilter('area', $area)
             ->getFirstItem();

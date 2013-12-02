@@ -120,16 +120,14 @@ class OperationTest
         $operation = $collection->getFirstItem();
 
         // Create export directory if not exist
-        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')
-            ->getDir('var');
-        $exportDir = $varDir . '/export';
-        if (!is_dir($exportDir)) {
-            mkdir($exportDir, 0777);
-        }
+        /** @var \Magento\Filesystem\Directory\Write $varDir */
+        $varDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')
+            ->getDirectoryWrite('var');
+        $varDir->create('export');
 
         // Change current working directory to allow save export results
         $cwd = getcwd();
-        chdir($varDir);
+        chdir($varDir->getAbsolutePath('export'));
 
         $this->dispatch('backend/admin/scheduled_operation/cron/operation/' . $operation->getId());
 
