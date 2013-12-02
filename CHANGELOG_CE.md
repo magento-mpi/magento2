@@ -3,6 +3,9 @@
      * Moved Newsletter, Report logic to respective modules
      * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
   * Removed application dependencies from library
+  * Session configuration moved into library
+  * FormKey logic is moved from Session
+  * SessionIdFlags is removed from Session
 * Move Magento\Core common blocks into library
 * Application areas rework:
   * Areas are independent from Store
