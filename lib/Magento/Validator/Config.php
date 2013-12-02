@@ -30,15 +30,13 @@ class Config extends \Magento\Config\AbstractXml
 
     /**
      * @param array $configFiles
-     * @param \Magento\Filesystem\DriverInterface $filesystemDriver
      * @param \Magento\Validator\UniversalFactory $builderFactory
      */
     public function __construct(
         $configFiles,
-        \Magento\Filesystem\DriverInterface $filesystemDriver,
         \Magento\Validator\UniversalFactory $builderFactory
     ) {
-        parent::__construct($configFiles, $filesystemDriver);
+        parent::__construct($configFiles);
         $this->_builderFactory = $builderFactory;
     }
 

@@ -93,7 +93,7 @@ class FileIterator implements \Iterator
     /**
      * @return array
      */
-    public function getContents()
+    public function toArray()
     {
         return $this->paths;
     }

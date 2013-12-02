@@ -63,7 +63,7 @@ class Reader
      * Go through all modules and find configuration files of active modules
      *
      * @param $filename
-     * @return array
+     * @return \Magento\Config\FileIterator
      */
     public function getConfigurationFiles($filename)
     {

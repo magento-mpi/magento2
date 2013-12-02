@@ -10,9 +10,6 @@
  */
 namespace Magento\Catalog\Helper\Product;
 
-require \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')->getPath()
-    . '/app/code/Magento/Catalog/Controller/Product.php';
-
 /**
  * @magentoAppArea frontend
  */
