@@ -152,9 +152,9 @@ class ProductForm extends FormTabs
     }
 
     /**
-     * Clear parent category field
+     * Clear category field
      */
-    protected function clearCategorySelect()
+    public function clearCategorySelect()
     {
         $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
         if ($this->_rootElement->find($selectedCategory)->isVisible()) {

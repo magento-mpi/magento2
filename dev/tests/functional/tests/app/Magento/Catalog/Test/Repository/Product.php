@@ -33,6 +33,9 @@ class Product extends AbstractRepository
 
         $this->_data['simple_required'] = $this->_data['default'];
         $this->_data['simple'] = $this->_data['default'];
+        $this->_data['simple']['data']['fields']['category_ids'] = array(
+            'value' => array('%category::getCategoryId%')
+        );
         $this->_data['simple']['data']['category_name'] = '%category::getCategoryName%';
         $this->_data['simple_advanced_inventory'] = $this->getSimpleAdvancedInventory();
         $this->_data['simple_with_new_category'] = array(
