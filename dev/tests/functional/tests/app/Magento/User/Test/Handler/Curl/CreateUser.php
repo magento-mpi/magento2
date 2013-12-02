@@ -79,16 +79,17 @@ class CreateUser extends Curl
         $curl->close();
         if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("User creation by curl handler was not successful! Response: $response");
-            //Sort data in grid to define user id if more than 20 items in grid
-            $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
-            $curl = new BackendDecorator(new CurlTransport(), new Config);
-            $curl->addOption(CURLOPT_HEADER, 1);
-            $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
-            $response = $curl->read();
-            $curl->close();
-            $data['id'] = $this->_getUserId($data);
-            return $data;
         }
+        //Sort data in grid to define user id if more than 20 items in grid
+        $url = $_ENV['app_backend_url'] . 'admin/user/roleGrid/sort/user_id/dir/desc';
+        $curl = new BackendDecorator(new CurlTransport(), new Config);
+        $curl->addOption(CURLOPT_HEADER, 1);
+        $curl->write(CurlInterface::POST, $url, '1.0', array(), $data);
+        $response = $curl->read();
+        $curl->close();
+        $data['id'] = $this->_getUserId($data);
+        return $data;
+
     }
 }
 

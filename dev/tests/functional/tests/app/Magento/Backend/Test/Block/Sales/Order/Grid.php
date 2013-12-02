@@ -13,6 +13,7 @@ namespace Magento\Backend\Test\Block\Sales\Order;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
@@ -22,6 +23,20 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  */
 class Grid extends GridInterface
 {
+    /**
+     * Purchase Point Filter selector
+     *
+     * @var string
+     */
+    protected $purchasePointFilter = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]';
+
+    /**
+     * Purchase Point Filter option group ellements selector
+     *
+     * @var string
+     */
+    protected $purchasePointOptionGroup = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]/optgroup';
+
     /**
      * Initialize block elements
      */
@@ -37,5 +52,25 @@ class Grid extends GridInterface
                 'input' => 'select'
             )
         );
+    }
+
+    /**
+     * Get selected data from Purchase Point filter
+     *
+     * @return string
+     */
+    public function getPurchasePointFilterText()
+    {
+        return $this->_rootElement->find($this->purchasePointFilter, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get Purchase Point Filter option group ellements
+     *
+     * @return mixed|\Mtf\Client\Element
+     */
+    public function getPurchasePointFilterOptionsGroup()
+    {
+        return $this->_rootElement->find($this->purchasePointOptionGroup, Locator::SELECTOR_XPATH);
     }
 }

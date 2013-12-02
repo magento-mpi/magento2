@@ -26,8 +26,14 @@ class UserWithRestrictedSalesRole extends Functional
         Factory::getApp()->magentoBackendLoginUser();
     }
 
+    /**
+     * Test verify "Using ACL Role with restricted GWS Scope"
+     *
+     * @ZephyrId MAGETWO-12385
+     */
     public function testAclRoleWithFullGwsScope()
     {
+        $this->markTestIncomplete('MAGETWO-17744');
         //Create new Store
         $storeFixture = Factory::getFixtureFactory()->getMagentoCoreStore();
         $storeFixture->switchData('default_store');
@@ -43,39 +49,41 @@ class UserWithRestrictedSalesRole extends Functional
         $roleFixture->switchData('custom_permissions_store_scope');
         $roleFixture->setScopeItems(array($storeData['id']));
 
-//        $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
-//        $roleFixture->setResource($resourceFixture->get('Magento_Sales::sales_order'));
-//        $data = $roleFixture->persist();
-
-
-//        //Pages & Blocks
-//        $userPage = Factory::getPageFactory()->getAdminUser();
-//        $editUser = Factory::getPageFactory()->getAdminUserEditUserId();
-//        $editForm = $editUser->getEditForm();
-//        $salesPage = Factory::getPageFactory()->getSalesOrder();
-//        $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
-//        $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
-//        //Steps
-//        $userPage->open();
-//        $userPage->getUserGrid()->searchAndOpen(array('email' => $userFixture->getEmail()));
-//        $editForm->openRoleTab();
-//        $editUser->getRoleGrid()->setRole($data['rolename'], $data['id']);
-//        $editForm->save();
-//        //Verification
-//        $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
-//        $userPage->getAdminPanelHeader()->logOut();
-//        //Login with newly created admin user
-//        $userFixture->setPassword($userFixture->getPassword());
-//        $loginPage->getLoginBlockForm()->fill($userFixture);
-//        $loginPage->getLoginBlockForm()->submit();
-//        $salesPage->open();
-//        //Verify that only Sales resource is available.
-//        $this->assertEquals(1, count($salesPage->getNavigationMenuItems()),
-//            "You have access not only for Sales resource");
-//        //Verify that if try go to restricted resource via url "Access Denied" page is opened
-//        $catalogProductPage->open();
-//        $this->assertContains('Access denied',
-//            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
+        $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
+        $roleFixture->setResource($resourceFixture->get('Magento_Sales::sales_order'));
+        $data = $roleFixture->persist();
+        //Pages & Blocks
+        $userPage = Factory::getPageFactory()->getAdminUser();
+        $editUser = Factory::getPageFactory()->getAdminUserEditUserId();
+        $editForm = $editUser->getEditFormBlock();
+        $salesPage = Factory::getPageFactory()->getSalesOrder();
+        $salesGrid = $salesPage->getOrderGridBlock();
+        $catalogProductPage = Factory::getPageFactory()->getCatalogProductIndex();
+        $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
+        //Steps
+        $userPage->open();
+        $userPage->getUserGridBlock()->searchAndOpen(array('email' => $userFixture->getEmail()));
+        $editForm->openRoleTab();
+        $editUser->getRoleGridBlock()->searchAndSelect(array('role_name' => $data['rolename']));
+        $editForm->save();
+        //Verification
+        $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
+        $userPage->getAdminPanelHeaderBlock()->logOut();
+        //Login with newly created admin user
+        $loginPage->getLoginBlockForm()->fill($userFixture);
+        $loginPage->getLoginBlockForm()->submit();
+        $salesPage->open();
+        //Verify that only Sales resource is available.
+        $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItems()),
+            "You have access not only for Sales resource");
+        //Verify that at "Purchase Point" dropdown only store from preconditions is available
+        $this->assertContains($storeData->getName(), $salesGrid->getPurchasePointFilterText());
+        $this->assertEquals(1, count($salesGrid->getPurchasePointFilterOptionsGroup()),
+            "You have more than one store in the Purchase Point Filter");
+        //Verify that if try go to restricted resource via url "Access Denied" page is opened
+        $catalogProductPage->open();
+        $this->assertContains('Access denied',
+            $catalogProductPage->getAccessDeniedBlock()->getTextFromAccessDeniedBlock());
     }
 }
 
