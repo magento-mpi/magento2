@@ -8,7 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Backup;
+namespace Magento\Backup\Model;
 
 class BackupFactoryTest extends \PHPUnit_Framework_TestCase
 {

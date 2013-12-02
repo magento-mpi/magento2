@@ -190,7 +190,7 @@ class Index extends \Magento\Backend\App\Action
         );
 
         if (!$backup->getTime() || !$backup->exists()) {
-            return $this->_redirect('adminhtml/*');
+            return $this->_redirect('backup/*');
         }
 
         $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
@@ -230,7 +230,7 @@ class Index extends \Magento\Backend\App\Action
             );
 
             if (!$backup->getTime() || !$backup->exists()) {
-                return $this->_redirect('adminhtml/*');
+                return $this->_redirect('backup/*');
             }
 
             if (!$backup->getTime()) {
@@ -332,7 +332,7 @@ class Index extends \Magento\Backend\App\Action
         $backupIds = $this->getRequest()->getParam('ids', array());
 
         if (!is_array($backupIds) || !count($backupIds)) {
-            return $this->_redirect('adminhtml/*/index');
+            return $this->_redirect('backup/*/index');
         }
 
         $resultData = new \Magento\Object();
@@ -376,7 +376,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_getSession()->addError($deleteFailMessage);
         }
 
-        return $this->_redirect('adminhtml/*/index');
+        return $this->_redirect('backup/*/index');
     }
 
     /**
