@@ -52,14 +52,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             array('readFile', 'getRelativePath'),
             array(), '', false
         );
-        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
-        $filesystem->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with(Filesystem::ROOT)
-            ->will($this->returnValue($this->rootDirectory));
         $this->_model = new \Magento\Core\Model\Config\Initial\Reader(
             $this->_fileResolverMock,
-            $filesystem,
             $this->_converterMock,
             $schemaLocatorMock,
             $validationStateMock
@@ -90,8 +84,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testReadValidConfig()
     {
         $testXmlFilesList = array(
-            $this->_filePath . 'initial_config1.xml',
-            $this->_filePath . 'initial_config2.xml'
+            file_get_contents($this->_filePath . 'initial_config1.xml'),
+            file_get_contents($this->_filePath . 'initial_config2.xml')
         );
         $expectedConfig = array(
             'data' => array(),
