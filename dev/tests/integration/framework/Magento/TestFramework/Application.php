@@ -11,6 +11,8 @@
 
 namespace Magento\TestFramework;
 
+use Magento\Filesystem;
+
 /**
  * Encapsulates application installation, initialization and uninstall
  *
@@ -123,13 +125,13 @@ class Application
 
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
-            \Magento\App\Dir::PARAM_APP_DIRS => array(
-                \Magento\App\Dir::CONFIG      => $this->_installEtcDir,
-                \Magento\App\Dir::VAR_DIR     => $installDir,
-                \Magento\App\Dir::MEDIA       => "$installDir/media",
-                \Magento\App\Dir::STATIC_VIEW => "$installDir/pub_static",
-                \Magento\App\Dir::PUB_VIEW_CACHE => "$installDir/pub_cache",
-                \Magento\App\Dir::GENERATION => $generationDir,
+            Filesystem::PARAM_APP_DIRS => array(
+                Filesystem::CONFIG      => $this->_installEtcDir,
+                Filesystem::VAR_DIR     => $installDir,
+                Filesystem::MEDIA       => "$installDir/media",
+                Filesystem::STATIC_VIEW => "$installDir/pub_static",
+                Filesystem::PUB_VIEW_CACHE => "$installDir/pub_cache",
+                Filesystem::GENERATION => $generationDir,
             ),
             \Magento\App\State::PARAM_MODE => $appMode
         );

@@ -178,8 +178,10 @@ class Application
      */
     protected function _updateFilesystemPermissions()
     {
-        $this->_objectManager->get('Magento\Filesystem')
-            ->changePermissions($this->_objectManager->get('Magento\App\Dir')->getDir('var'), 0777, true);
+        /** @var \Magento\Filesystem\Directory\Write $varDirectory */
+        $varDirectory = $this->_objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+        $varDirectory->changePermissions('', 0777);
     }
 
     /**

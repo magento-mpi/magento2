@@ -46,7 +46,7 @@ class Config
         if (isset($cmdOptions['destination'])) {
             $destinationDir = $cmdOptions['destination'];
         } else {
-            $destinationDir = $filesystem->getPath(\Magento\App\Dir::STATIC_VIEW);
+            $destinationDir = $filesystem->getPath(\Magento\Filesystem::STATIC_VIEW);
         }
         $destinationDirRelative = $rootDirectory->getRelativePath($destinationDir);
         if (!$rootDirectory->isDirectory($destinationDirRelative)) {
