@@ -82,7 +82,7 @@ class Observer
     {
         $messages = $this->_session->getMessages();
         $errors = $messages->getErrors();
-        $notices = $messages->getItemsByType(\Magento\Message\Factory::NOTICE);
+        $notices = $messages->getItemsByType(\Magento\Message\InterfaceMessage::TYPE_NOTICE);
         $status = (empty($errors) && empty($notices))
             ? \Magento\Logging\Model\Event::RESULT_SUCCESS : \Magento\Logging\Model\Event::RESULT_FAILURE;
         return $eventModel->setStatus($status)

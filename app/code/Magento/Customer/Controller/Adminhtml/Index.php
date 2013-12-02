@@ -262,7 +262,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
             } catch (\Magento\Core\Exception $exception) {
-                $messages = $exception->getMessages(\Magento\Message\Factory::ERROR);
+                $messages = $exception->getMessages(\Magento\Message\InterfaceMessage::TYPE_ERROR);
                 if (!count($messages)) {
                     $messages = $exception->getMessage();
                 }
@@ -318,7 +318,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_getSession()
                 ->addSuccess(__('Customer will receive an email with a link to reset password.'));
         } catch (\Magento\Core\Exception $exception) {
-            $messages = $exception->getMessages(\Magento\Message\Factory::ERROR);
+            $messages = $exception->getMessages(\Magento\Message\InterfaceMessage::TYPE_ERROR);
             if (!count($messages)) {
                 $messages = $exception->getMessage();
             }
@@ -664,8 +664,8 @@ class Index extends \Magento\Backend\App\Action
             $errors = $customer->validate();
         } catch (\Magento\Core\Exception $exception) {
             /* @var $error \Magento\Message\Error */
-            foreach ($exception->getMessages(\Magento\Message\Factory::ERROR) as $error) {
-                $errors[] = $error->getCode();
+            foreach ($exception->getMessages(\Magento\Message\InterfaceMessage::TYPE_ERROR) as $error) {
+                $errors[] = $error->getText();
             }
         }
 

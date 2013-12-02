@@ -28,21 +28,10 @@ class Collection
     /**
      * Adding new message to collection
      *
-     * @param AbstractMessage $message
+     * @param InterfaceMessage $message
      * @return Collection
      */
-    public function add(AbstractMessage $message)
-    {
-        return $this->addMessage($message);
-    }
-
-    /**
-     * Adding new message to collection
-     *
-     * @param AbstractMessage $message
-     * @return Collection
-     */
-    public function addMessage(AbstractMessage $message)
+    public function addMessage(InterfaceMessage $message)
     {
         if (!isset($this->messages[$message->getType()])) {
             $this->messages[$message->getType()] = array();
@@ -61,7 +50,7 @@ class Collection
     {
         foreach ($this->messages as $type => $messages) {
             foreach ($messages as $id => $message) {
-                /** @var $message AbstractMessage */
+                /** @var $message InterfaceMessage */
                 if (!$message->getIsSticky()) {
                     unset($this->messages[$type][$id]);
                 }
@@ -76,7 +65,7 @@ class Collection
     /**
      * Get last added message if any
      *
-     * @return AbstractMessage|null
+     * @return InterfaceMessage|null
      */
     public function getLastAddedMessage()
     {
@@ -87,13 +76,13 @@ class Collection
      * Get first even message by identifier
      *
      * @param string $identifier
-     * @return AbstractMessage|null
+     * @return InterfaceMessage|null
      */
     public function getMessageByIdentifier($identifier)
     {
         foreach ($this->messages as $messages) {
             foreach ($messages as $message) {
-                /** @var $message AbstractMessage */
+                /** @var $message InterfaceMessage */
                 if ($identifier === $message->getIdentifier()) {
                     return $message;
                 }
@@ -110,7 +99,7 @@ class Collection
     {
         foreach ($this->messages as $type => $messages) {
             foreach ($messages as $id => $message) {
-                /** @var $message AbstractMessage */
+                /** @var $message InterfaceMessage */
                 if ($identifier === $message->getIdentifier()) {
                     unset($this->messages[$type][$id]);
                 }
@@ -124,15 +113,10 @@ class Collection
     /**
      * Retrieve messages collection items
      *
-     * @param string $type
      * @return array
      */
-    public function getItems($type = null)
+    public function getItems()
     {
-        if ($type) {
-            return isset($this->messages[$type]) ? $this->messages[$type] : array();
-        }
-
         $arrRes = array();
         foreach ($this->messages as $messages) {
             $arrRes = array_merge($arrRes, $messages);
@@ -159,7 +143,7 @@ class Collection
      */
     public function getErrors()
     {
-        return $this->getItemsByType(Factory::ERROR);
+        return $this->getItemsByType(InterfaceMessage::TYPE_ERROR);
     }
 
     /**
@@ -169,6 +153,7 @@ class Collection
     {
         $out = '';
         $arrItems = $this->getItems();
+        /** @var InterfaceMessage $item */
         foreach ($arrItems as $item) {
             $out .= $item->toString();
         }

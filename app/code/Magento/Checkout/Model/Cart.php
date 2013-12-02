@@ -483,7 +483,8 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
 
                 if (isset($itemInfo['before_suggest_qty']) && ($itemInfo['before_suggest_qty'] != $qty)) {
                     $qtyRecalculatedFlag = true;
-                    $message = $this->messageFactory->notice(
+                    $message = $this->messageFactory->create(
+                        \Magento\Message\InterfaceMessage::TYPE_NOTICE,
                         __('Quantity was recalculated from %1 to %2', $itemInfo['before_suggest_qty'], $qty)
                     );
                     $session->addQuoteItemMessage($item->getId(), $message);

@@ -68,7 +68,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
         
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has not been saved, as no data was provided.")),
-            \Magento\Message\Factory::ERROR
+            \Magento\Message\InterfaceMessage::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/edit/'));
     }
@@ -84,7 +84,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/webhook_subscription/save');
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been saved.")),
-            \Magento\Message\Factory::SUCCESS
+            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }
@@ -101,7 +101,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription '$subscriptionName' has been saved.")),
-            \Magento\Message\Factory::SUCCESS
+            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }
@@ -112,7 +112,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("Subscription with ID '' doesn't exist.")),
-            \Magento\Message\Factory::ERROR
+            \Magento\Message\InterfaceMessage::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }
@@ -125,7 +125,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' can not be removed.")),
-            \Magento\Message\Factory::ERROR
+            \Magento\Message\InterfaceMessage::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }
@@ -137,7 +137,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been removed.")),
-            \Magento\Message\Factory::SUCCESS
+            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }
@@ -149,7 +149,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been revoked.")),
-            \Magento\Message\Factory::SUCCESS
+            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }
@@ -161,7 +161,7 @@ class SubscriptionTest extends \Magento\Backend\Utility\Controller
 
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            \Magento\Message\Factory::SUCCESS
+            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('backend/admin/webhook_subscription/index/'));
     }

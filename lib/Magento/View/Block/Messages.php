@@ -61,10 +61,10 @@ class Messages extends \Magento\View\Block\Template
      * @var array
      */
     protected $messageTypes = array(
-        \Magento\Message\Factory::ERROR,
-        \Magento\Message\Factory::WARNING,
-        \Magento\Message\Factory::NOTICE,
-        \Magento\Message\Factory::SUCCESS
+        \Magento\Message\InterfaceMessage::TYPE_ERROR,
+        \Magento\Message\InterfaceMessage::TYPE_WARNING,
+        \Magento\Message\InterfaceMessage::TYPE_NOTICE,
+        \Magento\Message\InterfaceMessage::TYPE_SUCCESS
     );
 
     /**
@@ -146,7 +146,7 @@ class Messages extends \Magento\View\Block\Template
     public function addMessages(\Magento\Message\Collection $messages)
     {
         foreach ($messages->getItems() as $message) {
-            $this->getMessageCollection()->add($message);
+            $this->getMessageCollection()->addMessage($message);
         }
         return $this;
     }
@@ -172,7 +172,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addMessage(\Magento\Message\AbstractMessage $message)
     {
-        $this->getMessageCollection()->add($message);
+        $this->getMessageCollection()->addMessage($message);
         return $this;
     }
 
@@ -184,7 +184,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addError($message)
     {
-        $this->addMessage($this->messageFactory->error($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $message));
         return $this;
     }
 
@@ -196,7 +196,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->messageFactory->warning($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_WARNING, $message));
         return $this;
     }
 
@@ -208,7 +208,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->messageFactory->notice($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_NOTICE, $message));
         return $this;
     }
 
@@ -220,7 +220,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->messageFactory->success($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_SUCCESS, $message));
         return $this;
     }
 
@@ -230,9 +230,9 @@ class Messages extends \Magento\View\Block\Template
      * @param   string $type
      * @return  array
      */
-    public function getMessages($type=null)
+    public function getMessagesByType($type)
     {
-        return $this->getMessageCollection()->getItems($type);
+        return $this->getMessageCollection()->getItemsByType($type);
     }
 
     /**
@@ -283,7 +283,7 @@ class Messages extends \Magento\View\Block\Template
     {
         $html = '';
         foreach ($this->getMessageTypes() as $type) {
-            if ($messages = $this->getMessages($type)) {
+            if ($messages = $this->getMessagesByType($type)) {
                 if (!$html) {
                     $html .= '<' . $this->firstLevelTagName . ' class="messages">';
                 }

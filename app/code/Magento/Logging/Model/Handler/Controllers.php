@@ -696,7 +696,7 @@ class Controllers
         if ($this->_request->getParam('action')) {
             $message .= ucfirst($this->_request->getParam('action')) . ' action: ';
         }
-        $message .= $this->_session->getMessages()->getLastAddedMessage()->getCode();
+        $message .= $this->_session->getMessages()->getLastAddedMessage()->getText();
         return $eventModel->setInfo($message);
     }
 

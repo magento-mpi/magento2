@@ -1636,7 +1636,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         }
 
         if (is_string($message)) {
-            $message = $this->messageFactory->error($message);
+            $message = $this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $message);
         }
 
         $messages[$index] = $message;
@@ -1669,7 +1669,7 @@ class Quote extends \Magento\Core\Model\AbstractModel
         $errors = array();
         foreach ($this->getMessages() as $message) {
             /* @var $error \Magento\Message\AbstractMessage */
-            if ($message->getType() == \Magento\Message\Factory::ERROR) {
+            if ($message->getType() == \Magento\Message\InterfaceMessage::TYPE_ERROR) {
                 array_push($errors, $message);
             }
         }

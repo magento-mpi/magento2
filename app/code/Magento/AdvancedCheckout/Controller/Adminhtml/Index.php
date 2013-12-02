@@ -832,7 +832,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
                         /* @var $error \Magento\Message\Error */
-                        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getCode());
+                        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getText());
                     }
                 }
             }

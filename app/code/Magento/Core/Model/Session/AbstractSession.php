@@ -369,7 +369,9 @@ class AbstractSession extends \Magento\Object
         $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         $this->_logger->logFile($message, \Zend_Log::DEBUG, $file);
 
-        $this->addMessage($this->messageFactory->error($alternativeText));
+        $this->addMessage(
+            $this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $alternativeText)
+        );
         return $this;
     }
 
@@ -381,7 +383,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addMessage(\Magento\Message\AbstractMessage $message)
     {
-        $this->getMessages()->add($message);
+        $this->getMessages()->addMessage($message);
         $this->_eventManager->dispatch('core_session_abstract_add_message');
         return $this;
     }
@@ -394,7 +396,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addError($message)
     {
-        $this->addMessage($this->messageFactory->error($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $message));
         return $this;
     }
 
@@ -406,7 +408,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->messageFactory->warning($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_WARNING, $message));
         return $this;
     }
 
@@ -418,7 +420,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->messageFactory->notice($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_NOTICE, $message));
         return $this;
     }
 
@@ -430,7 +432,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->messageFactory->success($message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_SUCCESS, $message));
         return $this;
     }
 

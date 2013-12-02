@@ -52,7 +52,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
          */
         $this->assertSessionMessages(
             $this->equalTo(array('The customer group has been deleted.')),
-            \Magento\Message\Factory::SUCCESS,
+            \Magento\Message\InterfaceMessage::TYPE_SUCCESS,
             'Magento\Core\Model\Session\AbstractSession'
         );
     }
@@ -66,7 +66,7 @@ class GroupTest extends \Magento\Backend\Utility\Controller
          * Check that error message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The customer group no longer exists.')), \Magento\Message\Factory::ERROR
+            $this->equalTo(array('The customer group no longer exists.')), \Magento\Message\InterfaceMessage::TYPE_ERROR
         );
     }
 }

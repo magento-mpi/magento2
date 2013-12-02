@@ -23,10 +23,10 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         // emulate session messages
         $messagesCollection = new \Magento\Message\Collection();
         $messagesCollection
-            ->add(new \Magento\Message\Warning('some_warning'))
-            ->add(new \Magento\Message\Error('error_one'))
-            ->add(new \Magento\Message\Error('error_two'))
-            ->add(new \Magento\Message\Notice('some_notice'))
+            ->addMessage(new \Magento\Message\Warning('some_warning'))
+            ->addMessage(new \Magento\Message\Error('error_one'))
+            ->addMessage(new \Magento\Message\Error('error_two'))
+            ->addMessage(new \Magento\Message\Notice('some_notice'))
         ;
         $session = new \Magento\Object(array('messages' => $messagesCollection));
         $request = new \Magento\TestFramework\Request(
@@ -139,7 +139,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     {
         return array(
             'no message type filtering' => array(array('some_warning', 'error_one', 'error_two', 'some_notice'), null),
-            'message type filtering'    => array(array('error_one', 'error_two'), \Magento\Message\Factory::ERROR),
+            'message type filtering'    => array(array('error_one', 'error_two'), \Magento\Message\InterfaceMessage::TYPE_ERROR),
         );
     }
 
