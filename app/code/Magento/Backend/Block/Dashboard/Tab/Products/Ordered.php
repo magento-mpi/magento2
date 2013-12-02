@@ -45,6 +45,7 @@ class Ordered extends \Magento\Backend\Block\Dashboard\Grid
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
+        $this->_moduleManager = $moduleManager;
         parent::__construct($context, $urlModel, $data);
     }
 
