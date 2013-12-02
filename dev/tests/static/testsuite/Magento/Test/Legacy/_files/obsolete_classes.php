@@ -1679,4 +1679,8 @@ return array(
         'Magento\App\Dir\Verification',
         'Magento\Filesystem\DirectoryList\Verification'
     ),
+    array(
+        'Magento\App\Dir',
+        'Magento\Filesystem\DirectoryList'
+    ),
 );
