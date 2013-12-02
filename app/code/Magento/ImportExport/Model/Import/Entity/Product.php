@@ -663,7 +663,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         foreach ($productTypes as $productTypeName => $productTypeConfig) {
             $params = array($this, $productTypeName);
             if (!($model = $this->_productTypeFactory->create($productTypeConfig['model'], array('params' => $params)))) {
-                throw new \Magento\Core\Exception("Entity type model '{$productTypeConfig['model']}' is not found");
+                throw new \Magento\Core\Exception(sprintf("Entity type model '%s' is not found", $productTypeConfig['model']));
             }
             if (! $model instanceof \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType) {
                 throw new \Magento\Core\Exception(__('Entity type model must be an instance of '
@@ -1375,14 +1375,14 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
 
             $tmpPath = $this->_mediaDirectory->getAbsolutePath('import');
             if (!$this->_fileUploader->setTmpDir($tmpPath)) {
-                throw new \Magento\Core\Exception("File directory '{$tmpPath}' is not readable.");
+                throw new \Magento\Core\Exception(sprintf("File directory '%s' is not readable.", $tmpPath));
             }
             $destinationDir = "catalog/product";
             $destinationPath = $this->_mediaDirectory->getAbsolutePath($destinationDir);
 
             $this->_mediaDirectory->create($destinationDir);
             if (!$this->_fileUploader->setDestDir($destinationPath)) {
-                throw new \Magento\Core\Exception("File directory '{$destinationPath}' is not writable.");
+                throw new \Magento\Core\Exception(sprintf("File directory '%s' is not writable.", $destinationPath));
             }
         }
         return $this->_fileUploader;
