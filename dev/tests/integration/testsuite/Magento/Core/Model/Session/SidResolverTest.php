@@ -98,18 +98,13 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param mixed $sid
-     * @param bool $isAdmin
      * @param bool $useFrontedSid
      * @param bool $isOwnOriginUrl
      * @param mixed $testSid
      * @dataProvider dataProviderTestGetSid
      */
-    public function testGetSid($sid, $isAdmin, $useFrontedSid, $isOwnOriginUrl, $testSid)
+    public function testGetSid($sid, $useFrontedSid, $isOwnOriginUrl, $testSid)
     {
-        $this->store->expects($this->any())
-            ->method('isAdmin')
-            ->will($this->returnValue($isAdmin));
-
         $this->coreStoreConfig->expects($this->any())
             ->method('getConfig')
             ->with(SidResolver::XML_PATH_USE_FRONTEND_SID)
@@ -131,14 +126,13 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
     public function dataProviderTestGetSid()
     {
         return array(
-            array(null, false, false, false, 'test-sid'),
-            array(null, false, false, true, 'test-sid'),
-            array(null, true, false, false, 'test-sid'),
-            array(null, true, true, false, 'test-sid'),
-            array('test-sid', true, false, true, 'test-sid'),
-            array('test-sid', true, true, true, 'test-sid'),
-            array(null, true, true, true, null),
-
+            array(null, false, false, 'test-sid'),
+            array(null, false, true, 'test-sid'),
+            array(null, false, false, 'test-sid'),
+            array(null, true, false, 'test-sid'),
+            array(null, false, true, 'test-sid'),
+            array('test-sid', true, true, 'test-sid'),
+            array(null, true, true, null),
         );
     }
 
