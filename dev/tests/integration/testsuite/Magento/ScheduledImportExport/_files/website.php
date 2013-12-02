@@ -19,9 +19,3 @@ $website->setData(array(
     'is_default' => '0'
 ));
 $website->save();
-
-$key = 'Magento\ScheduledImportExport\Model\Website';
-/** @var $objectManager \Magento\TestFramework\ObjectManager */
-$objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-$objectManager->get('Magento\Core\Model\Registry')->unregister($key);
-$objectManager->get('Magento\Core\Model\Registry')->register($key, $website);

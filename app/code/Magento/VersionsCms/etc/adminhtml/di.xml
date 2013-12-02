@@ -11,6 +11,11 @@
     <type name="Magento\Cms\Model\Page">
         <plugin name="versionscms_cms_page_plugin" type="Magento\VersionsCms\Model\Plugin\CmsPage"/>
     </type>
+    <type name="Magento\VersionsCms\Model\Backend\Observer">
+        <param name="authorization">
+            <instance type="Magento\Authorization\Proxy" />
+        </param>
+    </type>
     <type name="Magento\VersionsCms\Controller\Adminhtml\Cms\Page\Revision">
         <plugin name="designLoader" type="Magento\VersionsCms\App\Action\Plugin\Design" />
     </type>

@@ -110,7 +110,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      *
      * @var int|null
      */
-    protected $_customerGroupId;
+    protected $_customerGroupId = null;
 
     /**
      * Whether index events should be processed immediately
@@ -361,12 +361,15 @@ class Item extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Getter for customer group id
+     * Getter for customer group id, return current customer group if not set
      *
      * @return int
      */
     public function getCustomerGroupId()
     {
+        if ($this->_customerGroupId === null) {
+            return $this->_customerSession->getCustomerGroupId();
+        }
         return $this->_customerGroupId;
     }
 
@@ -390,12 +393,6 @@ class Item extends \Magento\Core\Model\AbstractModel
     public function getMinSaleQty()
     {
         $customerGroupId = $this->getCustomerGroupId();
-        if (!$customerGroupId) {
-            $customerGroupId = $this->_storeManager->getStore()->isAdmin()
-                ? \Magento\Customer\Model\Group::CUST_GROUP_ALL
-                : $this->_customerSession->getCustomerGroupId();
-        }
-
         if (!isset($this->_minSaleQtyCache[$customerGroupId])) {
             $minSaleQty = $this->getUseConfigMinSaleQty()
                 ? $this->_catalogInventoryMinsaleqty->getConfigValue($customerGroupId)
@@ -524,7 +521,7 @@ class Item extends \Magento\Core\Model\AbstractModel
      */
     public function checkQty($qty)
     {
-        if (!$this->getManageStock() || $this->_storeManager->getStore()->isAdmin()) {
+        if (!$this->_isQtyCheckApplicable()) {
             return true;
         }
 
@@ -698,7 +695,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                                 __('We don\'t have "%1" in the requested quantity, so we\'ll back order the remaining %2.', $this->getProductName(), ($backorderQty * 1))
                             );
                         }
-                    } elseif ($this->_storeManager->getStore()->isAdmin()) {
+                    } elseif ($this->_hasDefaultNotificationMessage()) {
                         $result->setMessage(
                             __('We don\'t have as many "%1" as you requested.', $this->getProductName())
                         );
@@ -980,5 +977,25 @@ class Item extends \Magento\Core\Model\AbstractModel
     {
         $this->_processIndexEvents = $process;
         return $this;
+    }
+
+    /**
+     * Check if qty check can be skipped
+     *
+     * @return bool
+     */
+    protected function _isQtyCheckApplicable()
+    {
+        return (bool)$this->getManageStock();
+    }
+
+    /**
+     * Check if notification message should be added despite of backorders notification flag
+     *
+     * @return bool
+     */
+    protected function _hasDefaultNotificationMessage()
+    {
+        return false;
     }
 }

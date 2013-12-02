@@ -59,6 +59,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoAppArea adminhtml
+     */
     public function testGetThumbsPath()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();

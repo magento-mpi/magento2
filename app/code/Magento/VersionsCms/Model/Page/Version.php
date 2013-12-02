@@ -223,7 +223,7 @@ class Version extends \Magento\Core\Model\AbstractModel
     /**
      * Removing unneeded data from increment table after version was removed.
      *
-     * @return \Magento\VersionsCms\Model\Observer
+     * @return \Magento\VersionsCms\Model\Page\Version
      */
     protected function _afterDelete()
     {

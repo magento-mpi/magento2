@@ -41,6 +41,7 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\Resource\Item $resource
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
@@ -60,13 +61,14 @@ class Collection extends \Magento\MultipleWishlist\Model\Resource\Item\Collectio
         \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Wishlist\Helper\Data $wishlistData,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Wishlist\Model\Resource\Item $resource
+        \Magento\Wishlist\Model\Resource\Item $resource,
+        \Magento\App\State $appState
     ) {
         $this->_coreRegistry = $coreRegistry;
         parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $logger, $fetchStrategy,
             $entityFactory, $storeManager, $date, $wishlistConfig, $productVisibility, $coreResource,
             $optionCollFactory, $productCollFactory, $catalogConfFactory, $catalogAttrFactory, $wishlistData,
-            $resource);
+            $resource, $appState);
     }
 
     /**

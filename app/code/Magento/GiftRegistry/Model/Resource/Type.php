@@ -61,7 +61,7 @@ class Type extends \Magento\Core\Model\Resource\Db\AbstractDb
             $adapter->quote('default'),
             $adapter->quote('store')
         );
-        $storeIds       = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $storeIds       = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
         if ($object->getStoreId()) {
             $storeIds[] = (int)$object->getStoreId();
         }
