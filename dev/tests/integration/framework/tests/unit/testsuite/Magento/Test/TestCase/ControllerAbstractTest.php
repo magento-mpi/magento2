@@ -138,15 +138,17 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
     public function assertSessionMessagesDataProvider()
     {
         return array(
-            'no message type filtering' => array(array('some_warning', 'error_one', 'error_two', 'some_notice'), null),
-            'message type filtering'    => array(array('error_one', 'error_two'), \Magento\Message\InterfaceMessage::TYPE_ERROR),
+            'message waning type filtering' => array(
+                array('some_warning'),
+                \Magento\Message\InterfaceMessage::TYPE_WARNING
+            ),
+            'message error type filtering'    => array(
+                array('error_one', 'error_two'),
+                \Magento\Message\InterfaceMessage::TYPE_ERROR
+            )
         );
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_ExpectationFailedException
-     * @expectedExceptionMessage Session messages do not meet expectations
-     */
     public function testAssertSessionMessagesFailure()
     {
         $this->assertSessionMessages($this->isEmpty());
