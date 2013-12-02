@@ -32,25 +32,25 @@ class Setup extends \Magento\Eav\Model\Entity\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory
      * @param \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory
-     * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
+        $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\CustomerSegment\Model\Resource\Segment\CollectionFactory $collectionFactory,
-        $resourceName,
         $moduleName = 'Magento_CustomerSegment',
         $connectionName = ''
     ) {
-        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $moduleName, $connectionName);
+        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $moduleName, $connectionName);
         $this->_migrationFactory = $migrationFactory;
         $this->_collectionFactory = $collectionFactory;
     }

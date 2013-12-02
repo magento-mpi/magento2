@@ -44,51 +44,56 @@ class Collection
     protected $resourceBalance;
 
     /**
-     * @param \Magento\Reward\Model\Resource\Reward $resourceReward
-     * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Object\Copy\Config $fieldsetConfig
+     * @param \Magento\Reward\Model\Resource\Reward $resourceReward
+     * @param \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param mixed $connection
      * @param string $modelName
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Reward\Model\Resource\Reward $resourceReward,
-        \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
+        \Magento\Reward\Model\Resource\Reward $resourceReward,
+        \Magento\CustomerBalance\Model\Resource\Balance $resourceBalance,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        $connection = null,
         $modelName = self::CUSTOMER_MODEL_NAME
     ) {
         $this->_resourceReward = $resourceReward;
         $this->_resourceBalance = $resourceBalance;
         $this->_storeManager = $storeManager;
         parent::__construct(
-            $eventManager,
+            $entityFactory,
             $logger,
             $fetchStrategy,
-            $entityFactory,
+            $eventManager,
             $eavConfig,
             $resource,
             $eavEntityFactory,
             $resourceHelper,
             $universalFactory,
             $fieldsetConfig,
+            $connection,
             $modelName
         );
     }
