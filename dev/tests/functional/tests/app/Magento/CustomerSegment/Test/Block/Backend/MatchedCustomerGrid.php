@@ -22,9 +22,21 @@ use Magento\Backend\Test\Block\Widget\Grid;
  * @package Magento\CustomerSegment\Test\Block\Backend
  */
 class MatchedCustomerGrid extends Grid {
-    const GRID_XPATH = '//table[@id="segmentGrid_table"]/tbody/tr';
+    /**
+     * XPath for segment grid row
+     */
+    const GRID_XPATH_ROW = '//table[@id="segmentGrid_table"]/tbody/tr';
+    /**
+     * The Xpath column for the Name
+     */
     const GRID_NAME_COL = '/td[2]';
+    /**
+     * The Xpath column for the Email
+     */
     const GRID_EMAIL_COL = '/td[3]';
+    /**
+     * The Xpath column for the Group
+     */
     const GRID_GROUP_COL = '/td[4]';
     /**
      * Initialize block elements
@@ -46,7 +58,7 @@ class MatchedCustomerGrid extends Grid {
      */
     public function getGridName()
     {
-        return $this->_rootElement->find(self::GRID_XPATH.self::GRID_NAME_COL,
+        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_NAME_COL,
             Locator::SELECTOR_XPATH)->getText();
     }
 
@@ -57,7 +69,7 @@ class MatchedCustomerGrid extends Grid {
      */
     public function getGridEmail()
     {
-        return $this->_rootElement->find(self::GRID_XPATH.self::GRID_EMAIL_COL,
+        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_EMAIL_COL,
             Locator::SELECTOR_XPATH)->getText();
     }
 
@@ -68,7 +80,7 @@ class MatchedCustomerGrid extends Grid {
      */
     public function getGridGroup()
     {
-        return $this->_rootElement->find(self::GRID_XPATH.self::GRID_GROUP_COL,
+        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_GROUP_COL,
             Locator::SELECTOR_XPATH)->getText();
     }
 }
