@@ -34,19 +34,19 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     protected $modulesDirectory;
 
     /**
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param \Magento\Config\FileIteratorFactory $iteratorFactory
+     * @param \Magento\Filesystem                   $filesystem
+     * @param \Magento\Module\Dir\Reader            $moduleReader
+     * @param \Magento\Config\FileIteratorFactory   $iteratorFactory
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
-        \Magento\Module\Dir\Reader $moduleReader,
+        \Magento\Filesystem                 $filesystem,
+        \Magento\Module\Dir\Reader          $moduleReader,
         \Magento\Config\FileIteratorFactory $iteratorFactory
     ){
-        $this->themesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        $this->themesDirectory  = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
         $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
-        $this->iteratorFactory = $iteratorFactory;
-        $this->_moduleReader = $moduleReader;
+        $this->iteratorFactory  = $iteratorFactory;
+        $this->_moduleReader    = $moduleReader;
     }
 
     /**
@@ -56,8 +56,7 @@ class FileResolver implements \Magento\Config\FileResolverInterface
     {
         switch ($scope) {
             case 'global':
-                $fileList = $this->_moduleReader->getConfigurationFiles($filename);
-                $iterator = $this->iteratorFactory->create($this->modulesDirectory, $fileList);
+                $iterator = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             case 'design':
                 $fileList = $this->themesDirectory->search('#/' . preg_quote($filename) . '$#');

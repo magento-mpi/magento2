@@ -40,19 +40,23 @@ class Reader
      */
     protected $modulesDirectory;
 
+    protected $fileIteratorFactory;
     /**
      * @param \Magento\Module\Dir $moduleDirs
      * @param \Magento\Module\ModuleListInterface $moduleList
-     * @param \Magento\Filesystem $filesystem
+     * @param Filesystem $filesystem
+     * @param \Magento\Config\FileIteratorFactory $fileIterator
      */
     public function __construct(
-        \Magento\Module\Dir $moduleDirs,
+        \Magento\Module\Dir                 $moduleDirs,
         \Magento\Module\ModuleListInterface $moduleList,
-        \Magento\Filesystem $filesystem
+        \Magento\Filesystem                 $filesystem,
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
-        $this->moduleDirs = $moduleDirs;
-        $this->modulesList = $moduleList;
-        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES);
+        $this->moduleDirs           = $moduleDirs;
+        $this->modulesList          = $moduleList;
+        $this->fileIteratorFactory  = $fileIteratorFactory;
+        $this->modulesDirectory     = $filesystem->getDirectoryRead(Filesystem::MODULES);
     }
 
     /**
@@ -66,12 +70,12 @@ class Reader
         $result = array();
         foreach (array_keys($this->modulesList->getModules()) as $moduleName) {
             $file = $this->getModuleDir('etc', $moduleName) . '/' . $filename;
-            if ($this->modulesDirectory->isExist($this->modulesDirectory->getRelativePath($file))) {
-                $result[] = $file;
+            $path = $this->modulesDirectory->getRelativePath($file);
+            if ($this->modulesDirectory->isExist($path)) {
+                $result[] = $path;
             }
         }
-
-        return $result;
+        return $this->fileIteratorFactory->create($this->modulesDirectory, $result);
     }
 
     /**

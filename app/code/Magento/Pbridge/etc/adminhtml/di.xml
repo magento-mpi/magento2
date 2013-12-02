@@ -13,4 +13,94 @@
             <value>adminhtml</value>
         </param>
     </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Authorizenet">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Authorizenet</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Dibs">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Dibs</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Firstdata">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Firstdata</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Ogone">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Ogone</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Paypal">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Paypaluk">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Braintree\Basic">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Braintree\Basic</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Cybersource\Soap">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Cybersource</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Eway\Direct">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Eway</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Paybox\Direct">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paybox\Direct</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Payflow\Pro">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflow\Pro</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Payone\Gate">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payone\Gate</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Psigate\Basic">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Psigate\Basic</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Sagepay\Direct">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Sagepay\Direct</value>
+        </param>
+    </type>
+
+    <type name="Magento\Pbridge\Model\Payment\Method\Worldpay\Direct">
+        <param name="formBlock">
+            <value>Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Worldpay\Direct</value>
+        </param>
+    </type>
 </config>

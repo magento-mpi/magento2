@@ -60,15 +60,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testCRUD()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->setCurrentStore(
-                \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                    ->get('Magento\Core\Model\StoreManagerInterface')
-                    ->getStore(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
-            );
         $this->_model->setTypeId('simple')->setAttributeSetId(4)
             ->setName('Simple Product')->setSku(uniqid())->setPrice(10)
             ->setMetaTitle('meta title')->setMetaKeyword('meta keyword')->setMetaDescription('meta description')
@@ -131,6 +126,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testDuplicate()
     {
@@ -148,6 +144,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         }
     }
 
+    /**
+     * @magentoAppArea adminhtml
+     */
     public function testDuplicateSkuGeneration()
     {
         $this->_model->load(1);
@@ -164,7 +163,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
     protected function _undo($duplicate)
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+            ->getStore()->setId(\Magento\Core\Model\Store::DEFAULT_STORE_ID);
         $duplicate->delete();
     }
 
@@ -340,28 +339,29 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testSetOrigData()
+    /**
+     * @magentoAppArea frontend
+     */
+    public function testSetOrigDataFrontend()
     {
         $this->assertEmpty($this->_model->getOrigData());
         $this->_model->setOrigData('key', 'value');
         $this->assertEmpty($this->_model->getOrigData());
-
-        $storeId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getId();
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
-        try {
-            $this->_model->setOrigData('key', 'value');
-            $this->assertEquals('value', $this->_model->getOrigData('key'));
-        } catch (\Exception $e) {
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-                ->getStore()->setId($storeId);
-            throw $e;
-        }
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId($storeId);
     }
 
+    /**
+     * @magentoAppArea adminhtml
+     */
+    public function testSetOrigDataBackend()
+    {
+        $this->assertEmpty($this->_model->getOrigData());
+        $this->_model->setOrigData('key', 'value');
+        $this->assertEquals('value', $this->_model->getOrigData('key'));
+    }
+
+    /**
+     * @magentoAppArea frontend
+     */
     public function testReset()
     {
         $model = $this->_model;

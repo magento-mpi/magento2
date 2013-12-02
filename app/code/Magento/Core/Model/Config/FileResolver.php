@@ -46,25 +46,18 @@ class FileResolver implements \Magento\Config\FileResolverInterface
         switch ($scope) {
             case 'primary':
                 $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::CONFIG);
-                $fileList = $directory->search('#' . preg_quote($filename) . '$#');
+                $iterator = $this->iteratorFactory->create(
+                    $directory,
+                    $directory->search('#' . preg_quote($filename) . '$#')
+                );
                 break;
             case 'global':
-                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
-                $fileList = $this->_moduleReader->getConfigurationFiles($filename);
+                $iterator = $this->_moduleReader->getConfigurationFiles($filename);
                 break;
             default:
-                $directory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
-                $fileList = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
+                $iterator = $this->_moduleReader->getConfigurationFiles($scope . '/' . $filename);
                 break;
         }
-        $output = array();
-        foreach ($fileList as $file) {
-            $output[] = $directory->getRelativePath($file);
-        }
-//        absolute pathes here
-        return $this->iteratorFactory->create(
-            $directory,
-            $output
-        );
+        return $iterator;
     }
 }

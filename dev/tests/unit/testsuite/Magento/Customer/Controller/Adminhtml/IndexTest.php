@@ -85,6 +85,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $actionFlagMock = $this->getMockBuilder('Magento\App\ActionFlag')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $this->_session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
             ->setMethods(array('setIsUrlNotice', 'addSuccess', '__wakeup'))
@@ -102,10 +106,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $contextArgs = array(
-            'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager', 'getFrontController',
+            'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager',
+            'getFrontController', 'getActionFlag',
             'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
-        $contextMock = $this->getMockBuilder('Magento\Backend\Controller\Context')
+        $contextMock = $this->getMockBuilder('\Magento\Backend\App\Action\Context')
             ->disableOriginalConstructor()
             ->setMethods($contextArgs)
             ->getMock();
@@ -117,6 +122,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())
             ->method('getFrontController')
             ->will($this->returnValue($frontControllerMock));
+        $contextMock->expects($this->any())
+            ->method('getActionFlag')
+            ->will($this->returnValue($actionFlagMock));
 
         $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helper));
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
