@@ -382,5 +382,6 @@ return array(
     array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
     array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
-    array('DIRECTORY_SEPARATOR', 'Magento\Filesystem')
+    array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
+    array('PARAM_APP_URIS', 'Magento\Filesystem')
 );

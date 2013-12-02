@@ -22,7 +22,7 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
      */
     public function testAddDirectoryGetConfig($root, array $directories, array $configs, array $expectedConfig)
     {
-        $directoryList = new DirectoryList($root, array(), $directories);
+        $directoryList = new DirectoryList($root, $directories);
         foreach ($configs as $code => $config) {
             $directoryList->addDirectory($code, $config);
             $this->assertEquals($expectedConfig[$code], $directoryList->getConfig($code));
@@ -38,7 +38,7 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
             'pub_lib' => array(
                 __DIR__,
                 array(
-                    Filesystem::PUB_LIB => 'pub/lib_basic'
+                    Filesystem::PUB_LIB => array('path' => 'pub/lib_basic')
                 ),
                 array(
                     Filesystem::PUB_LIB => array(
@@ -73,7 +73,7 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
      */
     public function testInvalidUri($code, $value)
     {
-        new DirectoryList(__DIR__, array($code => $value));
+        new DirectoryList(__DIR__, array($code => array('uri' => $value)));
     }
 
     /**
@@ -102,9 +102,9 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     public function testGetUri()
     {
         $dir = new DirectoryList(__DIR__, array(
-            Filesystem::PUB   => '',
-            Filesystem::MEDIA => 'test',
-            'custom' => 'test2'
+            Filesystem::PUB   => array('uri' => ''),
+            Filesystem::MEDIA => array('uri' => 'test'),
+            'custom' => array('uri' => 'test2')
         ));
 
         $this->assertEquals('test2', $dir->getConfig('custom')['uri']);
@@ -119,10 +119,10 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     {
         $newRoot = __DIR__ . '/root';
         $newMedia = __DIR__ . '/media';
-        $dir = new DirectoryList(__DIR__, array(), array(
-            Filesystem::ROOT => $newRoot,
-            Filesystem::MEDIA => $newMedia,
-            'custom' => 'test2'
+        $dir = new DirectoryList(__DIR__, array(
+            Filesystem::ROOT => array('path' => $newRoot),
+            Filesystem::MEDIA => array('path' => $newMedia),
+            'custom' => array('path' => 'test2')
         ));
 
         $this->assertEquals('test2', $dir->getDir('custom'));
@@ -136,8 +136,8 @@ class DirectoryListTest extends \PHPUnit_Framework_TestCase
     public function testGetDirIndependentOfUris()
     {
         $fixtureUris = array(
-            Filesystem::PUB   => '',
-            Filesystem::MEDIA => 'test'
+            Filesystem::PUB   => array('uri' => ''),
+            Filesystem::MEDIA => array('uri' => 'test')
         );
         $default = new DirectoryList(__DIR__);
         $custom = new DirectoryList(__DIR__, $fixtureUris);

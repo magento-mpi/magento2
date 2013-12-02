@@ -42,7 +42,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
 
         $storeMock = $this->getMockBuilder('Magento\Core\Model\Store')
             ->disableOriginalConstructor()
-            ->setMethods('__wakeup')
+            ->setMethods(array('__wakeup', 'convertPrice'))
             ->getMock();
         $storeMock->expects($this->any())->method('convertPrice')->will($this->returnArgument(0));
 
@@ -54,8 +54,8 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('methods', '__wakeup'))
             ->getMock();
 
-        $giftMessageSave = $this->getMockBuilder('Magento\Adminhtml\Model\Giftmessage\Save')
-            ->setMethods('__wakeup')
+        $giftMessageSave = $this->getMockBuilder('Magento\Giftmessage\Model\Save')
+            ->setMethods(array('__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -134,7 +134,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
     {
         $product = $this->getMockBuilder('Magento\Catalog\Model\Product')
             ->disableOriginalConstructor()
-            ->setMethods(array('getTierPrice'))
+            ->setMethods(array('getTierPrice', '__wakeup'))
             ->getMock();
         $product->expects($this->once())
             ->method('getTierPrice')

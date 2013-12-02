@@ -24,7 +24,7 @@ class FileSystemTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => dirname(__DIR__) . '/Core/Model/_files/design'
+                \Magento\Filesystem::THEMES => array('path' => dirname(__DIR__) . '/Core/Model/_files/design')
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');

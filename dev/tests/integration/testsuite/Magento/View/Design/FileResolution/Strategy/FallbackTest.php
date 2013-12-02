@@ -48,10 +48,14 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
         $filesystem = Bootstrap::getObjectManager()->create(
             'Magento\Filesystem',
             array(
-                'directoryList' => new \Magento\Filesystem\DirectoryList(
-                    $this->_baseDir,
-                    array(),
-                    array(\Magento\Filesystem::THEMES => $this->_viewDir)
+                'directoryList' => Bootstrap::getObjectManager()->create(
+                    'Magento\Filesystem\DirectoryList',
+                    array(
+                        'root' => $this->_baseDir,
+                        'directories' => array(
+                            \Magento\Filesystem::THEMES => array('path' => $this->_viewDir)
+                        )
+                    )
                 )
             )
         );
