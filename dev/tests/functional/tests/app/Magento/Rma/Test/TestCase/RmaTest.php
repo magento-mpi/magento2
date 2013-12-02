@@ -48,11 +48,20 @@ Class RmaTest extends Functional
         $orderPage = Factory::getPageFactory()->getSalesOrder();
         $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
         $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
+
         Factory::getApp()->magentoBackendLoginUser();
+
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $orderPage->getOrderActionsBlock()->clickShipButton();
 
+        //Create the Shipment
+        $orderPage->getOrderActionsBlock()->clickShipButton();
         $newShipmentPage->getTotalsBlock()->submit();
+
+        //Create the Invoice
+        $orderPage->open();
+        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderActionsBlock()->clickInvoiceButton();
+        $newInvoicePage->getInvoiceTotalsBlock()->submit();
     }
 }
