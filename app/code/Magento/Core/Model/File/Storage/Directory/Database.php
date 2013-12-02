@@ -35,11 +35,9 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     protected $_directoryFactory;
 
     /**
-     * Class constructor
-     *
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory
@@ -49,9 +47,9 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\File\Storage\Directory\DatabaseFactory $directoryFactory,
@@ -62,9 +60,9 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
     ) {
         $this->_directoryFactory = $directoryFactory;
         parent::__construct(
-            $coreFileStorageDb,
             $context,
             $registry,
+            $coreFileStorageDb,
             $dateModel,
             $app,
             $resource,

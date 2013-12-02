@@ -121,6 +121,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $string;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\App\Dir $coreDir
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
@@ -128,8 +130,6 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Email\Model\Template\Mailer $templateMailer
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
@@ -138,6 +138,8 @@ class Operation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\App\Dir $coreDir,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
@@ -145,8 +147,6 @@ class Operation extends \Magento\Core\Model\AbstractModel
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Email\Model\Template\Mailer $templateMailer,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,

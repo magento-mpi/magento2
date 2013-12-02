@@ -20,33 +20,38 @@ namespace Magento\TargetRule\Model\Resource;
 class Setup extends \Magento\Catalog\Model\Resource\Setup
 {
     /**
-     * Construct
-     *
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
-     * @param string $resourceName
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Index\Model\IndexerFactory $indexerFactory
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory
      * @param string $moduleName
      * @param string $connectionName
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
+        $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
-        $resourceName,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Index\Model\IndexerFactory $indexerFactory,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeResourceFactory,
         $moduleName = 'Magento_TargetRule',
         $connectionName = ''
     ) {
-        parent::__construct($context, $cache, $attrGrCollFactory, $resourceName, $categoryFactory, $indexerFactory,
-            $eavAttributeResourceFactory, $moduleName, $connectionName);
+        parent::__construct(
+            $context,
+            $resourceName,
+            $cache,
+            $attrGrCollFactory,
+            $categoryFactory,
+            $indexerFactory,
+            $eavAttributeResourceFactory,
+            $moduleName,
+            $connectionName
+        );
     }
 
     /**
