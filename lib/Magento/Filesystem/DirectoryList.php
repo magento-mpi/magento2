@@ -13,6 +13,7 @@
 namespace Magento\Filesystem;
 
 use Magento\App\Dir;
+use Magento\Filesystem;
 
 class DirectoryList extends Dir
 {
@@ -29,27 +30,27 @@ class DirectoryList extends Dir
      * @var array
      */
     protected $directories = array(
-        \Magento\Filesystem::ROOT          => array('path' => ''),
-        \Magento\Filesystem::APP           => array('path' => 'app'),
-        \Magento\Filesystem::MODULES       => array('path' => 'app/code'),
-        \Magento\Filesystem::THEMES        => array('path' => 'app/design'),
-        \Magento\Filesystem::CONFIG        => array('path' => 'app/etc'),
-        \Magento\Filesystem::LIB           => array('path' => 'lib'),
-        \Magento\Filesystem::VAR_DIR       => array('path' => 'var'),
-        \Magento\Filesystem::TMP           => array('path' => 'var/tmp'),
-        \Magento\Filesystem::CACHE         => array('path' => 'var/cache'),
-        \Magento\Filesystem::LOG           => array('path' => 'var/log'),
-        \Magento\Filesystem::SESSION       => array('path' => 'var/session'),
-        \Magento\Filesystem::DI            => array('path' => 'var/di'),
-        \Magento\Filesystem::GENERATION    => array('path' => 'var/generation'),
-        \Magento\Filesystem::SOCKET        => array('path' => null),
-        \Magento\Filesystem::PUB           => array('path' => 'pub'),
-        \Magento\Filesystem::PUB_LIB       => array('path' => 'pub/lib'),
-        \Magento\Filesystem::MEDIA         => array('path' => 'pub/media'),
-        \Magento\Filesystem::UPLOAD        => array('path' => 'pub/media/upload'),
-        \Magento\Filesystem::STATIC_VIEW   => array('path' => 'pub/static'),
-        \Magento\Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache'),
-        \Magento\Filesystem::LOCALE          => array('path' => '')
+        Filesystem::ROOT          => array('path' => ''),
+        Filesystem::APP           => array('path' => 'app'),
+        Filesystem::MODULES       => array('path' => 'app/code'),
+        Filesystem::THEMES        => array('path' => 'app/design'),
+        Filesystem::CONFIG        => array('path' => 'app/etc'),
+        Filesystem::LIB           => array('path' => 'lib'),
+        Filesystem::VAR_DIR       => array('path' => 'var'),
+        Filesystem::TMP           => array('path' => 'var/tmp'),
+        Filesystem::CACHE         => array('path' => 'var/cache'),
+        Filesystem::LOG           => array('path' => 'var/log'),
+        Filesystem::SESSION       => array('path' => 'var/session'),
+        Filesystem::DI            => array('path' => 'var/di'),
+        Filesystem::GENERATION    => array('path' => 'var/generation'),
+        Filesystem::SOCKET        => array('path' => null),
+        Filesystem::PUB           => array('path' => 'pub'),
+        Filesystem::PUB_LIB       => array('path' => 'pub/lib'),
+        Filesystem::MEDIA         => array('path' => 'pub/media'),
+        Filesystem::UPLOAD        => array('path' => 'pub/media/upload'),
+        Filesystem::STATIC_VIEW   => array('path' => 'pub/static'),
+        Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache'),
+        Filesystem::LOCALE          => array('path' => '')
     );
 
     /**
@@ -67,14 +68,14 @@ class DirectoryList extends Dir
         }
 
         foreach ($dirs as $code => $path) {
-            $this->directories[$code]['path'] = $path;
+            $this->setDir($code, $path);
         }
 
         foreach ($uris as $code => $uri) {
-            $this->directories[$code]['uri'] = $uri;
+            $this->setUri($code, $uri);
         }
 
-        $this->directories[\Magento\Filesystem::SYS_TMP] = array(
+        $this->directories[Filesystem::SYS_TMP] = array(
             'path' => sys_get_temp_dir(),
             'read_only' => false,
             'allow_create_dirs' => true,
@@ -154,5 +155,38 @@ class DirectoryList extends Dir
     public function getDir($code = self::ROOT)
     {
         return isset($this->directories[$code]['path']) ? $this->directories[$code]['path'] : false;
+    }
+
+    /**
+     * Set URI
+     *
+     * The method is private on purpose: it must be used only in constructor. Users of this object must not be able
+     * to alter its state, otherwise it may compromise application integrity.
+     * Path must be usable as a fragment of a URL path.
+     * For interoperability and security purposes, no uppercase or "upper directory" paths like "." or ".."
+     *
+     * @param $code
+     * @param $uri
+     * @throws \InvalidArgumentException
+     */
+    private function setUri($code, $uri)
+    {
+        if (!preg_match('/^([a-z0-9_]+[a-z0-9\._]*(\/[a-z0-9_]+[a-z0-9\._]*)*)?$/', $uri)) {
+            throw new \InvalidArgumentException(
+                "Must be relative directory path in lowercase with '/' directory separator: '{$uri}'"
+            );
+        }
+        $this->directories[$code]['uri'] = $uri;
+    }
+
+    /**
+     * Set directory
+     *
+     * @param string $code
+     * @param string $path
+     */
+    private function setDir($code, $path)
+    {
+        $this->directories[$code]['path'] = str_replace('\\', '/', $path);
     }
 }
