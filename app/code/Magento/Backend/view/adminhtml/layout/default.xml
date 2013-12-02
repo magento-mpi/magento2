@@ -266,7 +266,7 @@
         <block class="Magento\Adminhtml\Block\Widget\Breadcrumbs" name="breadcrumbs" as="breadcrumbs"/>
         <!--<update handle="formkey"/> this won't work, see the try/catch and a jammed exception in \Magento\Core\Model\Layout::createBlock() -->
         <block class="Magento\Backend\Block\Admin\Formkey" name="formkey" as="formkey" template="Magento_Backend::admin/formkey.phtml"/>
-        <!-- deprecated since 1.7.0.0 see \Magento\Page\Block\Js\Translate -->
+        <!-- deprecated since 1.7.0.0 see \Magento\Theme\Block\Js\Translate -->
         <block class="Magento\Theme\Block\Js\Translate" name="js_translate" as="js_translate" template="Magento_Backend::page/js/translate.phtml"/>
         <container name="main-top" label="main-top" as="main-top">
             <block class="Magento\Theme\Block\Html\Title" name="page-title" template="title.phtml"/>

@@ -22,20 +22,20 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
     /**
      * Page robots
      *
-     * @var \Magento\Page\Helper\Robots
+     * @var \Magento\Theme\Helper\Robots
      */
     protected $_pageRobots = null;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Page\Helper\Robots $pageRobots
+     * @param \Magento\Theme\Helper\Robots $pageRobots
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Page\Helper\Robots $pageRobots,
+        \Magento\Theme\Helper\Robots $pageRobots,
         array $data = array()
     ) {
         $this->_pageRobots = $pageRobots;

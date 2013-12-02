@@ -382,7 +382,7 @@ return array(
 
     array(
         'XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
-        'Magento\Page\Helper\Robots',
+        'Magento\Theme\Helper\Robots',
         'Magento\Adminhtml\Block\Page\System\Config\Robots::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
     ),
     array('XML_PATH_MERGE_CSS_FILES', 'Magento\View\Asset\MergeService'),

@@ -18,7 +18,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
 use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 use Magento\Customer\Test\Block\Account\Dashboard\Address;
-use Magento\Page\Test\Block\Html\Title;
+use Magento\Theme\Test\Block\Html\Title;
 
 /**
  * Frontend Customer Dashboard page

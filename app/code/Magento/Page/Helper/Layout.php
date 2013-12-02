@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Page
+ * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,10 +12,10 @@
  * Page layout helper
  *
  * @category   Magento
- * @package    Magento_Page
+ * @package    Magento_Theme
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Page\Helper;
+namespace Magento\Theme\Helper;
 
 class Layout extends \Magento\App\Helper\AbstractHelper
 {
@@ -25,18 +25,18 @@ class Layout extends \Magento\App\Helper\AbstractHelper
     protected $_layout;
 
     /**
-     * @var \Magento\Page\Model\Config
+     * @var \Magento\Theme\Model\Config
      */
     protected $_config;
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\Page\Model\Config $config
+     * @param \Magento\Theme\Model\Config $config
      * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\Page\Model\Config $config,
+        \Magento\Theme\Model\Config $config,
         \Magento\View\LayoutInterface $layout
     ) {
         parent::__construct($context);
@@ -48,7 +48,7 @@ class Layout extends \Magento\App\Helper\AbstractHelper
      * Apply page layout handle
      *
      * @param string $pageLayout
-     * @return \Magento\Page\Helper\Layout
+     * @return \Magento\Theme\Helper\Layout
      */
     public function applyHandle($pageLayout)
     {
@@ -69,7 +69,7 @@ class Layout extends \Magento\App\Helper\AbstractHelper
      * (for old design packages)
      *
      * @param string $pageLayout
-     * @return \Magento\Page\Helper\Layout
+     * @return \Magento\Theme\Helper\Layout
      */
     public function applyTemplate($pageLayout = null)
     {

@@ -22,7 +22,7 @@ class ResetTest extends \PHPUnit_Framework_TestCase
     private $_resetRobotsBlock;
 
     /**
-     * @var \Magento\Page\Helper\Robots|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Theme\Helper\Robots|PHPUnit_Framework_MockObject_MockObject
      */
     private $_mockRobotsHelper;
 
@@ -30,7 +30,7 @@ class ResetTest extends \PHPUnit_Framework_TestCase
     {
         $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $this->_mockRobotsHelper = $this->getMock('Magento\Page\Helper\Robots',
+        $this->_mockRobotsHelper = $this->getMock('Magento\Theme\Helper\Robots',
             array('getRobotsDefaultCustomInstructions'), array(), '', false, false
         );
 
@@ -46,7 +46,7 @@ class ResetTest extends \PHPUnit_Framework_TestCase
         $coreRegisterMock = $this->getMock('Magento\Core\Model\Registry');
         $coreRegisterMock->expects($this->any())
             ->method('registry')
-            ->with('_helper/\Magento\Page\Helper\Robots')
+            ->with('_helper/\Magento\Theme\Helper\Robots')
             ->will($this->returnValue($this->_mockRobotsHelper));
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();

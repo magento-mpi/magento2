@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\View\Block;
+namespace Magento\View\Element;
 
 /**
  * Base html block
@@ -94,7 +94,7 @@ class Template extends AbstractBlock
      * @todo Remove injection of the core helper from this class and its descendants, because it's no longer used
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
@@ -140,7 +140,7 @@ class Template extends AbstractBlock
      * Set path to template used for generating block's output.
      *
      * @param string $template
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     public function setTemplate($template)
     {
@@ -179,7 +179,7 @@ class Template extends AbstractBlock
      *
      * @param   string|array $key
      * @param   mixed $value
-     * @return  \Magento\View\Block\Template
+     * @return  \Magento\View\Element\Template
      */
     public function assign($key, $value=null)
     {

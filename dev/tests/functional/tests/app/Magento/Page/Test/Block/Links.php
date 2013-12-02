@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Page\Test\Block;
+namespace Magento\Theme\Test\Block;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
@@ -19,7 +19,7 @@ use Mtf\Client\Element\Locator;
 /**
  * Page Top Links block
  *
- * @package Magento\Page\Test\Block
+ * @package Magento\Theme\Test\Block
  */
 class Links extends Block
 {
