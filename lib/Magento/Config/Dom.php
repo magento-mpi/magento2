@@ -229,14 +229,11 @@ class Dom
      * @throws \Exception
      */
     public static function validateDomDocument(
-        \DOMDocument $dom, $xml, $errorFormat = self::ERROR_FORMAT_DEFAULT
+        \DOMDocument $dom, $schemaFileName, $errorFormat = self::ERROR_FORMAT_DEFAULT
     ) {
-
-        // todo: remove DOMElement from params
-        $errors = array();
         libxml_use_internal_errors(true);
         try {
-            $result = $xml;
+            $result = $dom->schemaValidate($schemaFileName);
             $errors = array();
             if (!$result) {
                 $validationErrors = libxml_get_errors();
