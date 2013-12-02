@@ -27,19 +27,17 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\Core\Model\Date $coreDate
      * @param \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory
-     * @param string $resourceName
-     * @param $moduleName
+     * @param string $moduleName
      * @param string $connectionName
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
+        $resourceName,
         \Magento\Core\Model\Date $coreDate,
         \Magento\Enterprise\Model\Resource\Setup\MigrationFactory $entMigrationFactory,
-        $resourceName,
         $moduleName = 'Magento_VersionsCms',
         $connectionName = ''
     ) {
