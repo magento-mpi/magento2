@@ -37,12 +37,15 @@ class Collection extends \Magento\Data\Collection
     /**
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
         parent::__construct($entityFactory);
+        $this->fileIteratorFactory = $fileIteratorFactory;
         $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
     }
 
@@ -135,7 +138,7 @@ class Collection extends \Magento\Data\Collection
         }
 
         $this
-//            ->_loadFromFilesystem($pathsToThemeConfig)
+            ->_loadFromFilesystem($pathsToThemeConfig)
             ->clearTargetPatterns()
             ->_updateRelations()
             ->_renderFilters()
@@ -205,7 +208,9 @@ class Collection extends \Magento\Data\Collection
      */
     public function _prepareConfigurationData($configPath)
     {
-        $themeConfig = $this->_getConfigModel(array($configPath));
+        $themeConfig = $this->_getConfigModel($this->fileIteratorFactory->create(
+            $this->_directory, array($this->_directory->getRelativePath($configPath))
+        ));
         $pathData = $this->_preparePathData($configPath);
         $media = $themeConfig->getMedia();
 
@@ -275,7 +280,7 @@ class Collection extends \Magento\Data\Collection
      * @param array $configPaths
      * @return \Magento\Config\Theme
      */
-    protected function _getConfigModel(array $configPaths)
+    protected function _getConfigModel($configPaths)
     {
         return new \Magento\Config\Theme($configPaths);
     }
