@@ -36,21 +36,23 @@ class Collection
     protected $_selectedColumns    = array();
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Sales\Model\Resource\Report $resource
+     * @param mixed $connection
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Sales\Model\Resource\Report $resource
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Sales\Model\Resource\Report $resource,
+        $connection = null
     ) {
         $resource->init('sales_bestsellers_aggregated_daily');
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $resource, $connection);
     }
 
     /**
@@ -184,8 +186,8 @@ class Collection
             $storeIds = array($storeIds);
         }
         $currentStoreIds = $this->_storesIds;
-        if (isset($currentStoreIds) && $currentStoreIds != \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
-            && $currentStoreIds != array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID)) {
+        if (isset($currentStoreIds) && $currentStoreIds != \Magento\Core\Model\Store::DEFAULT_STORE_ID
+            && $currentStoreIds != array(\Magento\Core\Model\Store::DEFAULT_STORE_ID)) {
             if (!is_array($currentStoreIds)) {
                 $currentStoreIds = array($currentStoreIds);
             }

@@ -19,7 +19,7 @@
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\Management;
 
 class Balance
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
 {
     protected $_template = 'customer/edit/management/balance.phtml';
 

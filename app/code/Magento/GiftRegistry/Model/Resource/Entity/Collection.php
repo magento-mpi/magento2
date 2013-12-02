@@ -31,26 +31,28 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     protected $storeManager;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory
+     * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\GiftRegistry\Model\Resource\HelperFactory $helperFactory,
+        $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->attributeConfig = $attributeConfig;
         $this->storeManager = $storeManager;
         $this->helperFactory = $helperFactory;

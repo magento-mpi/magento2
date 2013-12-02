@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    mage downloadable view
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */

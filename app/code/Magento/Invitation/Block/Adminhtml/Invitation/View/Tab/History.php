@@ -17,7 +17,7 @@
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 class History
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/history.phtml';

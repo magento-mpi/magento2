@@ -19,7 +19,7 @@
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward;
 
 class Management
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
 {
 
     protected $_template = 'customer/edit/management.phtml';

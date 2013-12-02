@@ -305,16 +305,6 @@
             <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>
         </item>
         <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE -->
-            <word>GiftRegistry</word>
-            <path>app/design/frontend/magento_backup/Magento_Wishlist/wishlist.js</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>GiftCard</word>
-            <path>app/design/adminhtml/magento_basic/boxes.css</path>
-        </item>
-        <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test -->
             <word>PersistentHistory</word>
             <path>dev/tests/integration/testsuite/Magento/Persistent/Model/Persistent/_files/persistent.xml</path>
