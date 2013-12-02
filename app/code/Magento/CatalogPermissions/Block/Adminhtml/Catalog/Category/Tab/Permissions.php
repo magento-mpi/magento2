@@ -63,9 +63,9 @@ class Permissions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
         \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,

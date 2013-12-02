@@ -24,18 +24,20 @@ class Massaction
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\SalesArchive\Model\Config $configModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\SalesArchive\Model\Config $configModel,
         array $data = array()
     ) {
         $this->_configModel = $configModel;
-        parent::__construct($context, $backendData, $data);
+        parent::__construct($context, $jsonEncoder, $backendData, $data);
     }
 
 

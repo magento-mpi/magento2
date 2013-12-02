@@ -67,10 +67,10 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      * @param array $data
      */
     public function __construct(
-        \Magento\Module\Manager $moduleManager,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Module\Manager $moduleManager,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $collectionFactory,
         \Magento\Catalog\Helper\Catalog $helperCatalog,
         \Magento\Catalog\Helper\Data $catalogData,

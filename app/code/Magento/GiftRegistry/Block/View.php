@@ -41,12 +41,12 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
@@ -56,12 +56,12 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         $this->typeFactory = $typeFactory;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,
             $catalogData,
             $mathRandom,
+            $coreData,
             $itemFactory,
             $data
         );

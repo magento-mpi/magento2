@@ -37,12 +37,12 @@ class Register extends \Magento\Customer\Block\Form\Register
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\Module\Manager $moduleManager,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -53,10 +53,10 @@ class Register extends \Magento\Customer\Block\Form\Register
             $context,
             $coreData,
             $jsonEncoder,
-            $moduleManager,
             $configCacheType,
             $regionCollFactory,
             $countryCollFactory,
+            $moduleManager,
             $customerSession,
             $addressFactory,
             $data

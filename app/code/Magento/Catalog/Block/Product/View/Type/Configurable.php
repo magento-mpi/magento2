@@ -68,13 +68,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Catalog\Helper\Product $catalogProduct,
         array $data = array()

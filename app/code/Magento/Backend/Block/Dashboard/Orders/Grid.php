@@ -38,9 +38,9 @@ class Grid extends \Magento\Backend\Block\Dashboard\Grid
      * @param array $data
      */
     public function __construct(
-        \Magento\Module\Manager $moduleManager,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Module\Manager $moduleManager,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
         array $data = array()
     ) {

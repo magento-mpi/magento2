@@ -54,9 +54,9 @@ class Special extends \Magento\Rss\Block\Catalog\AbstractCatalog
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Data $catalogData,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rss\Model\RssFactory $rssFactory,
         \Magento\Core\Model\Resource\Iterator $resourceIterator,

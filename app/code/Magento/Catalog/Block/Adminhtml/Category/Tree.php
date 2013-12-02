@@ -56,9 +56,9 @@ class Tree extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategory
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Model\Resource\HelperPool $helperPool,
         \Magento\Backend\Model\Auth\Session $backendSession,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,

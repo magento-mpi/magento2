@@ -40,9 +40,9 @@ class Form extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\FormFactory $customerFormFactory,
         array $data = array()
     ) {

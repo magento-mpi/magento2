@@ -34,8 +34,8 @@ class File extends \Magento\CustomAttribute\Block\Form\Renderer\AbstractRenderer
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_coreData =$coreData;

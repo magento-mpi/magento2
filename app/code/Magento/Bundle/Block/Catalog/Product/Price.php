@@ -26,6 +26,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
 
     /**
      * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Registry $registry
@@ -36,6 +37,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Registry $registry,
@@ -44,7 +46,7 @@ class Price extends \Magento\Catalog\Block\Product\Price
         \Magento\Tax\Model\Calculation $taxCalc,
         array $data = array()
     ) {
-        parent::__construct($context, $catalogData, $taxData, $registry, $string, $mathRandom, $data);
+        parent::__construct($context, $jsonEncoder, $catalogData, $taxData, $registry, $string, $mathRandom, $data);
         $this->_taxCalc = $taxCalc;
     }
 

@@ -36,9 +36,9 @@ class Sales extends \Magento\Backend\Block\Dashboard\Bar
      * @param array $data
      */
     public function __construct(
-        \Magento\Module\Manager $moduleManager,
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
+        \Magento\Module\Manager $moduleManager,
         array $data = array()
     ) {
         $this->_moduleManager = $moduleManager;

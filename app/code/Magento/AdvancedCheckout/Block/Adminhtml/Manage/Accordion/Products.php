@@ -60,10 +60,10 @@ class Products
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Model\Config $salesConfig,
