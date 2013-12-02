@@ -20,14 +20,14 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Curl handler for persisting Magento store
+ * Curl handler for persisting Magento store view
  *
  * @package Magento\Core\Test\Handler\Curl
  */
 class CreateStore extends Curl
 {
     /**
-     * Prepare POST data for creating store group request
+     * Prepare POST data for creating store view request
      *
      * @param array $params
      * @return array
@@ -50,7 +50,7 @@ class CreateStore extends Curl
      */
     protected function _getStoreIdByStoreName($storeName)
     {
-        //Set pager limit to 2000 in order to find created store by name
+        //Set pager limit to 2000 in order to find created store view by name
         $url = $_ENV['app_backend_url'] . 'admin/system_store/index/sort/store_title/dir/asc/limit/2000';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
@@ -70,7 +70,7 @@ class CreateStore extends Curl
     }
 
     /**
-     * Post request for persisting Magento Store
+     * Post request for persisting Magento Store View
      *
      * @param Fixture $fixture
      * @return array
