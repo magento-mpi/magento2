@@ -670,6 +670,38 @@ class MC4
 }
 
 FMC4;
+        $originalSwitch = <<<'OS0'
+<?php class OS0 { public function oS0(){
+switch($this->option) {
+// case 1 comment
+case 1: break;
+// case 2 comment
+case 2:break;
+// default comment
+default:break;}
+}}
+OS0;
+        $formattedSwitch = <<<'FS0'
+<?php
+class OS0
+{
+    public function oS0()
+    {
+        switch ($this->option) {
+            // case 1 comment
+            case 1:
+                break;
+                // case 2 comment
+            case 2:
+                break;
+                // default comment
+            default:
+                break;
+        }
+    }
+}
+
+FS0;
 
         return array(
             array(
@@ -700,6 +732,7 @@ FMC4;
             array($originalMethodCall2, $formattedMethodCall2),
             array($originalMethodCall3, $formattedMethodCall3),
             array($originalMethodCall4, $formattedMethodCall4),
+            array($originalSwitch, $formattedSwitch),
         );
     }
 }

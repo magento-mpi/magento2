@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\IndentConsumer;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_InlineHTML;
 
@@ -32,11 +31,29 @@ class InlineHtmlStatement extends AbstractStatement
     {
         parent::resolve($treeNode);
         // assume in the context of php, so close it
-        $this->addToLine($treeNode, new IndentConsumer())->add('?>')->add(new HardLineBreak());
-        // print the HTML
-        $this->addToLine($treeNode, new IndentConsumer())->add($this->node->value);
+        $this->addToLine($treeNode, '?>')->add(new HardLineBreak());
+        // remove the last trailing whitespace because the loop will add it back
+        $body = rtrim($this->node->value);
+        $prefix = null;
+        $prefixLength = null;
+        // split the value to add lines such that they are indented with the PHP source
+        $lines = explode(HardLineBreak::EOL, $body);
+        foreach ($lines as $line) {
+            if (null === $prefixLength) {
+                $trimmedLine = ltrim($line);
+                $prefixLength = strlen($line) - strlen($trimmedLine);
+                if ($prefixLength > 0) {
+                    $prefix = substr($line, 0, $prefixLength);
+                }
+            }
+            if ($prefixLength > 0 && strpos($line, $prefix) === 0) {
+                $line = substr($line, $prefixLength);
+            }
+            // print the HTML
+            $this->addToLine($treeNode, $line)->add(new HardLineBreak());
+        }
         // go back to PHP
-        $this->addToLine($treeNode, new IndentConsumer())->add('<?php')->add(new HardLineBreak());
+        $this->addToLine($treeNode, '<?php')->add(new HardLineBreak());
         return $treeNode;
     }
 }

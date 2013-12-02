@@ -57,6 +57,7 @@ class Line
     /**
      * This method adds the token to the list of tokens.
      * @param mixed $token The token to be added.
+     * @return Line
      */
     public function add($token)
     {

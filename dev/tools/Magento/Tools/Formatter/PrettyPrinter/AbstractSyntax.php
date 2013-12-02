@@ -9,6 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
+use PHPParser_Comment;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
@@ -38,18 +39,33 @@ abstract class AbstractSyntax
     }
 
     /**
-     * This method returns the full name of the class.
-     *
-     * @return string Full name of the class is called through.
+     * This method adds the comments associated with the syntax node to the given tree node.
+     * @param TreeNode $treeNode TreeNode representing the current node.
      */
-    public static function getType()
-    {
-        return get_called_class();
+    public function addComments(TreeNode $treeNode) {
+        // get the comments to add
+        $comments = $this->getComments();
+        // only attempt to add comments if they are present
+        if (isset($comments) && is_array($comments)) {
+            // add individual lines of the comments to the tree
+            foreach ($comments as $comment) {
+                // Remove comment from map since it is being consumed
+                if ($comment instanceof PHPParser_Comment) {
+                    unset(Printer::$lexer->commentMap[$comment->getLine()]);
+                }
+                // split the lines so that they can be indented correctly
+                $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
+                foreach ($commentLines as $commentLine) {
+                    // add the line individually to the tree so that they can be indented correctly
+                    $this->addCommentToNode($commentLine, $treeNode);
+                }
+            }
+        }
     }
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
-     * @param TreeNode $treeNode Node containing the current statement.
+     * @param TreeNode $treeNode TreeNode representing the current node.
      * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
@@ -64,8 +80,20 @@ abstract class AbstractSyntax
     }
 
     /**
+     * This method adds the current comment line to the current tree node.
+     * @param string $commentLine String containing the current comment.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     */
+    protected function addCommentToNode($commentLine, TreeNode $treeNode)
+    {
+        // default action is to add the comment as a prior sibling to the current node
+        $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
+        $treeNode->addSibling($newNode, false);
+    }
+
+    /**
      * This method adds the token to the current line in the tree node.
-     * @param TreeNode $treeNode Node containing the current statement.
+     * @param TreeNode $treeNode TreeNode representing the current node.
      * @param mixed $token Token to be added to the line.
      * @return Line that was just added to.
      */
@@ -75,6 +103,43 @@ abstract class AbstractSyntax
         $line = $treeNode->getData()->line;
         // add the message to the line
         return $line->add($token);
+    }
+
+    /**
+     * This method returns if the needle can be found at the end of the haystack.
+     * @param string $haystack String to look in.
+     * @param string $needle String to find.
+     * @param bool $case_insensitivity If true, then comparison is case insensitive.
+     * @return bool
+     */
+    protected function endsWith($haystack, $needle, $case_insensitivity = false)
+    {
+        $found = false;
+        // determine lengths to make sure the haystack is longer than the needle
+        $haystackLength = strlen($haystack);
+        $needleLength = strlen($needle);
+        // only need to do the compare if the haystack can actually contain the needle
+        if ($haystackLength >= $needleLength) {
+            $found = substr_compare($haystack, $needle, -$needleLength, $needleLength, $case_insensitivity) === 0;
+        }
+        return $found;
+    }
+
+    /**
+     * Return the array that contains the comments from the node's attributes, if it is there.
+     *
+     * @return mixed
+     */
+    protected function getComments()
+    {
+        $comments = null;
+        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
+            $comments = $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
+            if (isset($comments) && $this->isTrimComments()) {
+                $this->trimComments($comments);
+            }
+        }
+        return $comments;
     }
 
     /**
@@ -200,6 +265,25 @@ abstract class AbstractSyntax
     }
 
     /**
+     * This method will modify the array that is passed in to remove blank lines in the first or last position of the
+     * array.
+     *
+     * @param $comments
+     */
+    protected function trimComments(&$comments)
+    {
+        // reset and end will short circuit the loops when the array is empty
+        // Trim blank lines before the comment
+        while (reset($comments) && preg_match('/^\s*\n$/', reset($comments))) {
+            array_shift($comments);
+        }
+        // Trim blank lines at the end of the comment
+        while (end($comments) && preg_match('/^\s*\n$/', end($comments))) {
+            array_pop($comments);
+        }
+    }
+
+    /**
      * This method is a help method used to return a new node.
      */
     public static function getNode(AbstractSyntax $syntax, $line = null)
@@ -216,17 +300,13 @@ abstract class AbstractSyntax
     }
 
     /**
-     * Return the array that contains the comments from the node's attributes, if it is there.
+     * This method returns the full name of the class.
      *
-     * @return mixed
+     * @return string Full name of the class is called through.
      */
-    public function getComments()
+    public static function getType()
     {
-        $comments = null;
-        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
-            $comments = $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
-        }
-        return $comments;
+        return get_called_class();
     }
 
     /**

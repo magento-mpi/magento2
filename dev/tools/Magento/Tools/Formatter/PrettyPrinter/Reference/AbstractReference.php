@@ -39,26 +39,6 @@ abstract class AbstractReference extends AbstractSyntax
     }
 
     /**
-     * This method returns if the needle can be found at the end of the haystack.
-     * @param string $haystack String to look in.
-     * @param string $needle String to find.
-     * @param bool $case_insensitivity If true, then comparison is case insensitive.
-     * @return bool
-     */
-    protected function endsWith($haystack, $needle, $case_insensitivity = false)
-    {
-        $found = false;
-        // determine lengths to make sure the haystack is longer than the needle
-        $haystackLength = strlen($haystack);
-        $needleLength = strlen($needle);
-        // only need to do the compare if the haystack can actually contain the needle
-        if ($haystackLength >= $needleLength) {
-            $found = substr_compare($haystack, $needle, -$needleLength, $needleLength, $case_insensitivity) === 0;
-        }
-        return $found;
-    }
-
-    /**
      * This method resolves the passed in node. If it is a special case of a new call, it is
      * surrounded with parenthesis.
      * @param PHPParser_Node $node Raw node being processed

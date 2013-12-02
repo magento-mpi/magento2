@@ -694,9 +694,9 @@ ORIGINALCODESNIPPET18;
 function foo()
 {
     if (true) {
-?>
-<html><body>Hi</body></html>
-<?php
+        ?>
+        <html><body>Hi</body></html>
+        <?php
     }
 }
 
