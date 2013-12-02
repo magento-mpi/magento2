@@ -15,6 +15,16 @@ use Mtf\Factory\Factory;
 class Store extends DataFixture
 {
     /**
+     * @param \Mtf\System\Config $configuration
+     * @param array $placeholders
+     */
+    public function __construct(\Mtf\System\Config $configuration, array $placeholders = array())
+    {
+        parent::__construct($configuration, $placeholders);
+        $this->_placeholders = $placeholders;
+    }
+
+    /**
      * Initialize fixture data
      */
     protected function _initData()
@@ -34,12 +44,12 @@ class Store extends DataFixture
                 'is_active' => array(
                     'value' => 'Enabled',
                     'input' => 'select',
-                )
+                ),
             )
         );
 
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCoreDefaultStore($this->_dataConfig, $this->_data);
+            ->getMagentoCoreCustomStore($this->_dataConfig, $this->_data);
     }
 
 

@@ -35,8 +35,13 @@ class UserWithRestrictedSalesRole extends Functional
     {
         $this->markTestIncomplete('MAGETWO-17744');
         //Create new Store
-        $storeFixture = Factory::getFixtureFactory()->getMagentoCoreStore();
-        $storeFixture->switchData('default_store');
+        $storeGroupFixture = Factory::getFixtureFactory()->getMagentoCoreStoreGroup();
+        $storeGroupData = $storeGroupFixture->persist();
+
+        $storeFixture = Factory::getFixtureFactory()->getMagentoCoreStore(
+            array('store_group' => $storeGroupData['id'])
+        );
+        $storeFixture->switchData('custom_store');
         $storeData = $storeFixture->persist();
 
         //Create new Admin User
@@ -47,11 +52,12 @@ class UserWithRestrictedSalesRole extends Functional
         //Create new Acl Role - Role Resources: Sales
         $roleFixture = Factory::getFixtureFactory()->getMagentoUserRole();
         $roleFixture->switchData('custom_permissions_store_scope');
-        $roleFixture->setScopeItems(array($storeData['id']));
+        $roleFixture->setScopeItems(array($storeGroupData['id']));
 
         $resourceFixture = Factory::getFixtureFactory()->getMagentoUserResource();
         $roleFixture->setResource($resourceFixture->get('Magento_Sales::sales_order'));
         $data = $roleFixture->persist();
+
         //Pages & Blocks
         $userPage = Factory::getPageFactory()->getAdminUser();
         $editUser = Factory::getPageFactory()->getAdminUserEditUserId();
@@ -76,8 +82,9 @@ class UserWithRestrictedSalesRole extends Functional
         //Verify that only Sales resource is available.
         $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItems()),
             "You have access not only for Sales resource");
+
         //Verify that at "Purchase Point" dropdown only store from preconditions is available
-        $this->assertContains($storeData->getName(), $salesGrid->getPurchasePointFilterText());
+        $this->assertContains($storeData['name'], $salesGrid->getPurchasePointFilterText());
         $this->assertEquals(1, count($salesGrid->getPurchasePointFilterOptionsGroup()),
             "You have more than one store in the Purchase Point Filter");
         //Verify that if try go to restricted resource via url "Access Denied" page is opened

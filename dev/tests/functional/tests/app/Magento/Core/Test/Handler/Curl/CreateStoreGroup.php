@@ -20,11 +20,11 @@ use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
 use Mtf\System\Config;
 
 /**
- * Curl handler for persisting Magento store
+ * Curl handler for persisting Magento store group
  *
  * @package Magento\Core\Test\Handler\Curl
  */
-class CreateStore extends Curl
+class CreateStoreGroup extends Curl
 {
     /**
      * Prepare POST data for creating store group request
@@ -48,22 +48,22 @@ class CreateStore extends Curl
      * @return int
      * @throws \UnexpectedValueException
      */
-    protected function _getStoreIdByStoreName($storeName)
+    protected function _getStoreGroupIdByGroupName($storeName)
     {
         //Set pager limit to 2000 in order to find created store by name
-        $url = $_ENV['app_backend_url'] . 'admin/system_store/index/sort/store_title/dir/asc/limit/2000';
+        $url = $_ENV['app_backend_url'] . 'admin/system_store/index/sort/group_title/dir/asc/limit/2000';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
 
-        $expectedUrl = $_ENV['app_backend_url'] . 'admin/system_store/editStore/store_id/';
+        $expectedUrl = $_ENV['app_backend_url'] . 'admin/system_store/editGroup/group_id/';
         $expectedUrl = preg_quote($expectedUrl);
         $expectedUrl = str_replace('/', '\/', $expectedUrl);
         preg_match('/' . $expectedUrl . '([0-9]*)\/(.)*>' . $storeName . '<\/a>/', $response, $matches);
 
         if (empty($matches)) {
-            throw new \UnexpectedValueException('Cannot find store id');
+            throw new \UnexpectedValueException('Cannot find store group id');
         }
 
         return intval($matches[1]);
@@ -81,9 +81,9 @@ class CreateStore extends Curl
     {
         $data = $this->_prepareData($fixture->getData());
         $fields = array(
-            'store' => $data,
+            'group' => $data,
             'store_action' => 'add',
-            'store_type' => 'store',
+            'store_type' => 'group',
         );
 
         $url = $_ENV['app_backend_url'] . 'admin/system_store/save/';
@@ -92,11 +92,11 @@ class CreateStore extends Curl
         $response = $curl->read();
         $curl->close();
 
-        if (!preg_match('/The store view has been saved/', $response)) {
-            throw new \UnderflowException('Store was\'t saved');
+        if (!preg_match('/The store has been saved\./', $response)) {
+            throw new \UnderflowException('Store group was\'t saved');
         }
 
-        $data['id'] = $this->_getStoreIdByStoreName($fixture->getData('fields/name/value'));
+        $data['id'] = $this->_getStoreGroupIdByGroupName($fixture->getData('fields/name/value'));
 
         return $data;
     }
