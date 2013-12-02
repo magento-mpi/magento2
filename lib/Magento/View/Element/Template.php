@@ -10,7 +10,7 @@ namespace Magento\View\Element;
 
 /**
  * Base html block
- * @SuppressWarning(PHPMD.NumberOfChildren)
+ * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
 class Template extends AbstractBlock
 {

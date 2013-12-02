@@ -108,8 +108,8 @@ class Head extends \Magento\View\Element\Template
     }
 
     /**
-     * @SuppressWarning(PHPMD.CyclomaticComplexity)
-     * @SuppressWarning(PHPMD.NPathComplexity
+     * @SuppressWarnings(PHPMD.CyclomaticComplexity)
+     * @SuppressWarnings(PHPMD.NPathComplexity
      *
      * Render HTML for the added head items
      *
