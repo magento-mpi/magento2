@@ -47,7 +47,7 @@ try {
     execVerbose('git clone %s %s', $targetRepository, $targetDir);
     execVerbose("$gitCmd remote add source %s", $sourceRepository);
     execVerbose("$gitCmd fetch source");
-    execVerbose("$gitCmd checkout -b $targetBranch origin/$targetBranch");
+    execVerbose("$gitCmd checkout $targetBranch");
 
     // determine whether source-point is a branch name or a commit ID
     try {
@@ -70,6 +70,9 @@ try {
         execVerbose("$gitCmd rm -f %s", $file);
     }
 
+    // remove files that must not be published
+    execVerbose('php -f %s -- --dir=%s --edition=ce', __DIR__ . '/edition.php', $targetDir);
+
     // compare if changelog is different from the published one, compose the commit message
     if (!file_exists($logFile)) {
         throw new Exception("Changelog file '$logFile' does not exist.");
@@ -80,9 +83,6 @@ try {
     }
 
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
-
-    // remove files that must not be published
-    execVerbose('php -f %s -- --dir=%s --edition=ce', __DIR__ . '/edition.php', $targetDir);
 
     // replace license notices
     $licenseToolDir = __DIR__ . '/license';
