@@ -23,57 +23,12 @@ class Bundle
     extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
 {
     /**
-     * @var \Magento\Json\EncoderInterface
-     */
-    protected $_jsonEncoder;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
-     * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Tax\Helper\Data $taxData
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Stdlib\ArrayUtils $arrayUtils
-     * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\Bundle\Model\Product\PriceFactory $productPrice
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Tax\Helper\Data $taxData,
-        \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Math\Random $mathRandom,
-        \Magento\Stdlib\ArrayUtils $arrayUtils,
-        \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\Bundle\Model\Product\PriceFactory $productPrice,
-        \Magento\Json\EncoderInterface $jsonEncoder,
-        array $data = array()
-    ) {
-        $this->_jsonEncoder = $jsonEncoder;
-        parent::__construct(
-            $context,
-            $catalogConfig,
-            $registry,
-            $taxData,
-            $catalogData,
-            $mathRandom,
-            $arrayUtils,
-            $catalogProduct,
-            $productPrice,
-            $data
-        );
-    }
-
-    /**
      * Returns string with json config for bundle product
      *
      * @return string
      */
-    public function getJsonConfig() {
+    public function getJsonConfig()
+    {
         $options = array();
         $optionsArray = $this->getOptions();
         foreach ($optionsArray as $option) {
@@ -87,6 +42,6 @@ class Bundle
             }
         }
         $config = array('options' => $options);
-        return $this->_jsonEncoder->encode($config);
+        return $this->jsonEncoder->encode($config);
     }
 }

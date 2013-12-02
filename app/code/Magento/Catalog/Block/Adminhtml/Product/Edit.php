@@ -36,7 +36,7 @@ class Edit extends \Magento\Backend\Block\Widget
     /**
      * @var \Magento\Json\EncoderInterface
      */
-    protected $_jsonEncoder;
+    protected $jsonEncoder;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -54,6 +54,7 @@ class Edit extends \Magento\Backend\Block\Widget
     ) {
         $this->_attributeSetFactory = $attributeSetFactory;
         $this->_coreRegistry = $registry;
+        $this->jsonEncoder = $jsonEncoder;
         parent::__construct($context, $data);
     }
 
@@ -265,7 +266,7 @@ class Edit extends \Magento\Backend\Block\Widget
      */
     public function getTypeSwitcherData()
     {
-        return $this->_jsonEncoder->encode(array(
+        return $this->jsonEncoder->encode(array(
             'tab_id' => 'product_info_tabs_downloadable_items',
             'is_virtual_id' => \Magento\Catalog\Block\Adminhtml\Product\Helper\Form\Weight::VIRTUAL_FIELD_HTML_ID,
             'weight_id' => 'weight',
