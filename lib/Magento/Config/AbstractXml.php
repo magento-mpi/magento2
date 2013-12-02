@@ -30,23 +30,16 @@ abstract class AbstractXml
     protected $_domConfig = null;
 
     /**
-     * @var \Magento\Filesystem\Driver\Base
-     */
-    protected $filesystemDriver;
-
-    /**
      * Instantiate with the list of files to merge
      *
-     * @param $configFiles
-     * @param \Magento\Filesystem\DriverInterface $filesystemDriver
+     * @param array $configFiles
      * @throws \InvalidArgumentException
      */
-    public function __construct($configFiles, \Magento\Filesystem\DriverInterface $filesystemDriver)
+    public function __construct($configFiles)
     {
         if (empty($configFiles)) {
             throw new \InvalidArgumentException('There must be at least one configuration file specified.');
         }
-        $this->filesystemDriver = $filesystemDriver;
         $this->_data = $this->_extractData($this->_merge($configFiles));
     }
 
@@ -86,7 +79,7 @@ abstract class AbstractXml
     {
         foreach ($configFiles as $file) {
             try {
-                $this->_getDomConfigModel()->merge($this->filesystemDriver->fileGetContents($file));
+                $this->_getDomConfigModel()->merge($file);
             } catch (\Magento\Config\Dom\ValidationException $e) {
                 throw new \Magento\Exception("Invalid XML in file " . key($file) . ":\n" . $e->getMessage());
             }

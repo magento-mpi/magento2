@@ -72,7 +72,8 @@ class Design
         $themesCollection = $this->_collectionFactory->create();
         $themeModel = $themesCollection->addDefaultPattern($areaCode)
             ->addFilter('theme_path', $this->_viewDesign->getConfigurationDesignTheme($areaCode))
-            ->getFirstItem();
+            ;//->getFirstItem();
+//        ddd();
         $this->_viewDesign->setArea($areaCode)->setDesignTheme($themeModel);
 
         $area->detectDesign($this->_request);
