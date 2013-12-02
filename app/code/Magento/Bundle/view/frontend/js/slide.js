@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    frontend bundle product slide
- * @package     mage
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,14 +13,21 @@
             slideBackSelector: '.bundle-slide-back',
             bundleProductSelector: '#bundleProduct',
             bundleOptionsContainer: '#options-container',
-            productViewContainer: '#productView'
+            productViewContainer: '#productView',
+            slidedown: true
 
         },
 
         _create: function() {
-            $(this.options.slideSelector).on('click', $.proxy(this._slide, this));
-            $(this.options.slideBackSelector).on('click', $.proxy(this._slideBack, this));
-            this.options.autostart && this._slide();
+            if(this.options.slidedown === true) {
+                $(this.options.slideSelector).on('click', $.proxy(this._show, this));
+                $(this.options.slideBackSelector).on('click', $.proxy(this._hide, this));
+                this.options.autostart && this._show();
+            } else {
+                $(this.options.slideSelector).on('click', $.proxy(this._slide, this));
+                $(this.options.slideBackSelector).on('click', $.proxy(this._slideBack, this));
+                this.options.autostart && this._slide();
+            }
         },
 
         /**
@@ -59,6 +64,18 @@
                     this.element.css('height','auto');
                 }, this)
             );
+        },
+        _show: function() {
+            $(this.options.bundleOptionsContainer).slideDown(800);
+            $('html, body').animate({
+                scrollTop: $(this.options.bundleOptionsContainer).offset().top
+            }, 600);
+        },
+        _hide: function() {
+            $('html, body').animate({
+                scrollTop: 0
+            }, 600);
+            $(this.options.bundleOptionsContainer).slideUp(800);
         }
     });
 }(jQuery));

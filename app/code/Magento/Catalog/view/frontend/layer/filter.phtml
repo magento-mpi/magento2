@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,20 +10,20 @@
 /**
  * Template for filter items block
  *
- * @see \Magento\Catalog\Block\Layer\Filter
+ * @var $this \Magento\Catalog\Block\Layer\Filter
  */
 ?>
 
-<ol>
-<?php foreach ($this->getItems() as $_item): ?>
-    <li>
-        <?php if ($_item->getCount() > 0): ?>
-        <a href="<?php echo $this->escapeUrl($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
-        <?php else: echo $_item->getLabel() ?>
-        <?php endif; ?>
-        <?php if ($this->shouldDisplayProductCount()): ?>
-        (<?php echo $_item->getCount() ?>)
-        <?php endif; ?>
-    </li>
-<?php endforeach ?>
+<ol class="items">
+    <?php foreach ($this->getItems() as $_item): ?>
+        <li class="item">
+            <?php if ($_item->getCount() > 0): ?>
+                <a href="<?php echo $this->escapeUrl($_item->getUrl()) ?>"><?php echo $_item->getLabel() ?></a>
+            <?php else: echo $_item->getLabel() ?>
+            <?php endif; ?>
+            <?php if ($this->shouldDisplayProductCount()): ?>
+                <span class="count"><?php echo $_item->getCount() ?></span>
+            <?php endif; ?>
+        </li>
+    <?php endforeach ?>
 </ol>

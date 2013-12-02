@@ -388,7 +388,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
 
         $select->join(
             array('pp_default'=>$priceTable),
-            sprintf($joinCondition, 'pp_default', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID),
+            sprintf($joinCondition, 'pp_default', \Magento\Core\Model\Store::DEFAULT_STORE_ID),
             array('default_price'=>'pp_default.value')
         );
 
@@ -398,7 +398,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
             if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
                 $storeId = $defaultGroup->getDefaultStoreId();
             } else {
-                $storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
+                $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
             }
 
             $select->joinInner(
@@ -423,7 +423,7 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
                 if ($defaultGroup instanceof \Magento\Core\Model\Store\Group) {
                     $storeId = $defaultGroup->getDefaultStoreId();
                 } else {
-                    $storeId = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
+                    $storeId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
                 }
 
                 $tableAlias = 'pp' . $websiteId;

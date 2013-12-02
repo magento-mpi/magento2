@@ -44,6 +44,7 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
      * @param \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Wishlist\Model\Resource\Item $resource
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\CatalogInventory\Helper\Data $catalogInventoryData,
@@ -62,12 +63,13 @@ class Collection extends \Magento\Wishlist\Model\Resource\Item\Collection
         \Magento\Catalog\Model\Resource\ConfigFactory $catalogConfFactory,
         \Magento\Catalog\Model\Entity\AttributeFactory $catalogAttrFactory,
         \Magento\Wishlist\Helper\Data $wishlistData,
-        \Magento\Wishlist\Model\Resource\Item $resource
+        \Magento\Wishlist\Model\Resource\Item $resource,
+        \Magento\App\State $appState
     ) {
         $this->_wishlistData = $wishlistData;
         parent::__construct($catalogInventoryData, $adminhtmlSales, $eventManager, $logger, $fetchStrategy,
             $entityFactory, $storeManager, $date, $wishlistConfig, $productVisibility, $coreResource,
-            $optionCollFactory, $productCollFactory, $catalogConfFactory, $catalogAttrFactory, $resource);
+            $optionCollFactory, $productCollFactory, $catalogConfFactory, $catalogAttrFactory, $resource, $appState);
     }
 
     /**
