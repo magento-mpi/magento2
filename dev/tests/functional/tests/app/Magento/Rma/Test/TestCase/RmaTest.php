@@ -63,5 +63,24 @@ Class RmaTest extends Functional
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $orderPage->getOrderActionsBlock()->clickInvoiceButton();
         $newInvoicePage->getInvoiceTotalsBlock()->submit();
+
+        // Step 1:  Go to frontend
+        $homePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $homePage->open();
+
+        // Step 2:  Click on "Orders and Returns" link in the footer
+        $homePage->getFooterBlock()->clickLink('Orders and Returns');
+
+        // Step 3: Fill "Order and Returns" form with Test Data from the Pre-Conditions
+        $ordersAndReturnsPage = Factory::getPageFactory()->getSalesGuestForm();
+        $ordersAndReturnsForm = $ordersAndReturnsPage->getOrdersAndReturnsSearchForm();
+        $ordersAndReturnsForm->fillCustom($payPalExpressOrder, 'email');
+
+        // Step 4: Click "Continue"
+        $ordersAndReturnsForm->submit();
+
+        // Step 5: Click "Return" link
+        $ordersAndReturnsViewPage = Factory::getPageFactory()->getSalesGuestView();
+        //$ordersAndReturnsViewPage->getOrdersAndReturnsViewBlock()->clickLink('Return');
     }
 }
