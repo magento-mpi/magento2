@@ -29,7 +29,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\App\Dir::PARAM_APP_DIRS => array(
+            \Magento\Filesystem::PARAM_APP_DIRS => array(
                 \Magento\Filesystem::THEMES => dirname(__DIR__) . '/_files/design',
             )
         ));
