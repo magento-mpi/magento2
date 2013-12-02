@@ -29,7 +29,7 @@ class ProductTest extends Functional
     {
         /** @var Product $urlRewriteProduct */
         $urlRewriteProduct = Factory::getFixtureFactory()->getMagentoBackendUrlrewriteProduct();
-        $urlRewriteProduct->switchData('product_with_permanent_redirect');
+        $urlRewriteProduct->switchData('product_with_temporary_redirect');
 
         //Pages & Blocks
         $urlRewriteGridPage = Factory::getPageFactory()->getAdminUrlrewriteIndex();

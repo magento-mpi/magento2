@@ -32,12 +32,15 @@ class Product extends AbstractRepository
                     'request_path' => array(
                         'value' => '%rewritten_product_request_path%',
                     ),
-                    'redirect' => array(
-                        'value' => 'Permanent (301)',
+                    'store' => array(
+                        'value' => 'Default Store View'
                     ),
                 ),
             ),
         );
-        $this->_data['product_with_permanent_redirect'] = $this->_data['default'];
+        $this->_data['product_with_temporary_redirect'] = $this->_data['default'];
+        $this->_data['product_with_temporary_redirect']['data']['fields']['redirect'] = array(
+            'value' => 'Temporary (302)',
+        );
     }
 }

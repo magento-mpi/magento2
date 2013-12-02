@@ -26,7 +26,10 @@ class Form extends FormWidget
     protected $_mapping = array(
         'type' => '[id="is_system"]',
         'id_path' => '[id="id_path"]',
-        'store_id' => '[id="store_id"]',
+        'store' => array(
+            'selector' => '[id="store_id"]',
+            'input' => 'select',
+        ),
         'request_path' => '[id="request_path"]',
         'target_path' => '[id="target_path"]',
         'redirect' => array(

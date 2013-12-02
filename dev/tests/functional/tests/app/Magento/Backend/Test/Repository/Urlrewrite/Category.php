@@ -31,12 +31,15 @@ class Category extends AbstractRepository
                     'request_path' => array(
                         'value' => '%rewritten_category_request_path%',
                     ),
-                    'redirect' => array(
-                        'value' => 'Permanent (301)',
+                    'store' => array(
+                        'value' => 'Default Store View',
                     ),
                 ),
             ),
         );
         $this->_data['category_with_permanent_redirect'] = $this->_data['default'];
+        $this->_data['category_with_permanent_redirect']['data']['fields']['redirect'] = array(
+            'value' => 'Permanent (301)',
+        );
     }
 }
