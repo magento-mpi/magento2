@@ -80,9 +80,6 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->method('search')
             ->with('#' . preg_quote($filename) . '$#')
             ->will($this->returnValue($fileList));
-        $directory->expects($this->exactly(count($fileList)))
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
         $this->filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\Filesystem::CONFIG)
@@ -104,29 +101,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetGlobal($filename, $fileList)
     {
         $scope = 'global';
-        $directory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
-            array('getRelativePath'),
-            array(),
-            '',
-            false
-        );
         $this->moduleReader->expects($this->once())
             ->method('getConfigurationFiles')
             ->with($filename)
             ->will($this->returnValue($fileList));
-        $directory->expects($this->exactly(count($fileList)))
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
-        $this->filesystem->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem::APP)
-            ->will($this->returnValue($directory));
-        $this->iteratorFactory->expects($this->once())
-            ->method('create')
-            ->with($directory, $fileList)
-            ->will($this->returnValue(true));
-        $this->assertTrue($this->model->get($filename, $scope));
+        $this->assertEquals($fileList, $this->model->get($filename, $scope));
     }
 
     /**
@@ -150,18 +129,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->method('getConfigurationFiles')
             ->with($scope . '/' . $filename)
             ->will($this->returnValue($fileList));
-        $directory->expects($this->exactly(count($fileList)))
-            ->method('getRelativePath')
-            ->will($this->returnArgument(0));
-        $this->filesystem->expects($this->once())
-            ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem::APP)
-            ->will($this->returnValue($directory));
-        $this->iteratorFactory->expects($this->once())
-            ->method('create')
-            ->with($directory, $fileList)
-            ->will($this->returnValue(true));
-        $this->assertTrue($this->model->get($filename, $scope));
+        $this->assertEquals($fileList, $this->model->get($filename, $scope));
     }
 
     /**

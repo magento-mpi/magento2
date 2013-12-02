@@ -29,12 +29,16 @@ class QuickStyles extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
 
     /**
      * @param \Magento\Module\Dir\Reader $moduleReader
-     * @param array $configFiles
+     * @param \Magento\Filesystem\DriverInterface $filesystemDriver
+     * @param $configFiles
      */
-    public function __construct(\Magento\Module\Dir\Reader $moduleReader, $configFiles)
-    {
+    public function __construct(
+        $configFiles,
+        \Magento\Filesystem\DriverInterface $filesystemDriver,
+        \Magento\Module\Dir\Reader $moduleReader
+    ) {
         $this->_moduleReader = $moduleReader;
-        parent::__construct($configFiles);
+        parent::__construct($configFiles, $filesystemDriver);
     }
 
     /**

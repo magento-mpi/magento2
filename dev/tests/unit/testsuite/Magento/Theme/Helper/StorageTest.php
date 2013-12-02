@@ -74,7 +74,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->request          = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $this->filesystem       = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->session          = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
-        $this->contextHelper    = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
+        $this->contextHelper    = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
         $this->directoryWrite   = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $this->themeFactory     = $this->getMock('Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false);
         $this->theme            = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
