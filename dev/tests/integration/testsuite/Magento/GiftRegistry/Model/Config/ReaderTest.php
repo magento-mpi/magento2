@@ -15,19 +15,26 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testRead()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Dir $dirs */
-        $dirs = $objectManager->create(
-            'Magento\App\Dir', array(
-                'baseDir' => BP,
-                'dirs' => array(
-                    \Magento\App\Dir::MODULES => __DIR__ . '/_files',
-                    \Magento\App\Dir::CONFIG => __DIR__ . '/_files'
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $objectManager->create(
+            'Magento\Filesystem',
+            array(
+                'directoryList' => $objectManager->create(
+                    'Magento\Filesystem\DirectoryList',
+                    array(
+                        'root' => BP,
+                        'dirs' => array(
+                            \Magento\Filesystem::MODULES => __DIR__ . '/_files',
+                            \Magento\Filesystem::CONFIG => __DIR__ . '/_files',
+                        )
+                    )
                 )
             )
         );
 
         $moduleDirs = $objectManager->create('Magento\Module\Dir',
-            array('applicationDirs' => $dirs));
+            array('filesystem' => $filesystem)
+        );
 
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(

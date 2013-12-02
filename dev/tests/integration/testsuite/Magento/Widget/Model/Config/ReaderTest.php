@@ -19,13 +19,18 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Dir $dirs */
-        $dirs = $objectManager->create(
-            'Magento\App\Dir', array(
-                'baseDir' => BP,
-                'dirs' => array(
-                    \Magento\App\Dir::MODULES => __DIR__ . '/_files/code',
-                    \Magento\App\Dir::CONFIG => __DIR__ . '/_files/code'
+        /** @var \Magento\Filesystem $filesystem */
+        $filesystem = $objectManager->create(
+            'Magento\Filesystem',
+            array('directoryList' => $objectManager->create(
+                    'Magento\Filesystem\DirectoryList',
+                    array(
+                        'root' => BP,
+                        'dirs' => array(
+                            \Magento\Filesystem::MODULES => __DIR__ . '/_files/code',
+                            \Magento\Filesystem::CONFIG => __DIR__ . '/_files/code',
+                        )
+                    )
                 )
             )
         );
@@ -33,7 +38,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
             'Magento\Module\Declaration\FileResolver', array(
-                'applicationDirs' => $dirs,
+                'filesystem' => $filesystem,
             )
         );
 
