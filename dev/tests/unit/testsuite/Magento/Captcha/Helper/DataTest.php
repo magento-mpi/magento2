@@ -35,13 +35,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('getStore')
             ->will($this->returnValue($store));
 
-        $adapterMock = $this->getMockBuilder('Magento\Filesystem\Adapter\Local')
-            ->getMock();
-        $adapterMock->expects($this->any())
-            ->method('isDirectory')
-            ->will($this->returnValue(true));
-
-        $context = $this->getMock('Magento\Core\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
 
         return new \Magento\Captcha\Helper\Data(
             $context, $storeManager, $config, $this->_filesystem, $factory
