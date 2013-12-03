@@ -37,7 +37,6 @@ class Design
      * @param \Magento\Page\Model\Source\Layout $pageLayout
      * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
      */
     public function __construct(
@@ -48,7 +47,6 @@ class Design
         \Magento\Page\Model\Source\Layout $pageLayout,
         \Magento\Core\Model\Theme\LabelFactory $labelFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;

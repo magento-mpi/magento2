@@ -9,12 +9,12 @@
  */
 
  /**
- * Layered Navigation block for search
- *
- * @category    Magento
- * @package     Magento_Search
- * @author      Magento Core Team <core@magentocommerce.com>
- */
+  * Layered Navigation block for search
+  *
+  * @category    Magento
+  * @package     Magento_Search
+  * @author      Magento Core Team <core@magentocommerce.com>
+  */
 namespace Magento\Search\Block\Catalogsearch;
 
 class Layer extends \Magento\CatalogSearch\Block\Layer
@@ -39,7 +39,6 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
      * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
-     * @param \Magento\CatalogSearch\Model\Layer $catalogSearchLayer
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Search\Model\Search\Layer $searchLayer
@@ -51,7 +50,6 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
         \Magento\CatalogSearch\Model\Layer $catalogLayer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
-        \Magento\CatalogSearch\Model\Layer $catalogSearchLayer,
         \Magento\Core\Model\Registry $registry,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Search\Model\Search\Layer $searchLayer,
@@ -65,7 +63,6 @@ class Layer extends \Magento\CatalogSearch\Block\Layer
             $catalogLayer,
             $engineProvider,
             $catalogSearchData,
-            $catalogSearchLayer,
             $registry,
             $data
         );
