@@ -27,13 +27,20 @@ class UserWithRestrictedRole extends Functional
     }
 
     /**
+     * Logout admin user
+     */
+    protected function tearDown()
+    {
+        Factory::getApp()->magentoBackendLogoutUser();
+    }
+
+    /**
      * Test verify "Using ACL Role with full GWS Scope"
      *
      * @ZephyrId MAGETWO-12513
      */
     public function testAclRoleWithFullGwsScope()
     {
-        $this->markTestIncomplete('MAGETWO-17744');
         //Set Use Secret key to URLs "No"
         $configFactory = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $configFactory->switchData('disable_secret_key');
@@ -86,7 +93,6 @@ class UserWithRestrictedRole extends Functional
      */
     public function testAclRoleWithRestrictedGwsScope()
     {
-        $this->markTestIncomplete('MAGETWO-17744');
         //Create new Store
         $storeGroupFixture = Factory::getFixtureFactory()->getMagentoCoreStoreGroup();
         $storeGroupData = $storeGroupFixture->persist();

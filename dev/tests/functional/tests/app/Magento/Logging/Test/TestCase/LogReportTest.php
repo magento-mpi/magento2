@@ -28,10 +28,6 @@ class LogReportTest extends Functional
      */
     public function testConfigActionsLogged()
     {
-        $this->markTestIncomplete(
-            'MAGETWO-17798: System configuration save action is not logged in admin actions log report'
-        );
-
         //Pre-conditions: two admin users creation
         $configUser = Factory::getFixtureFactory()->getMagentoUserAdminUser();
         $configUser->switchData('admin_default');
@@ -97,7 +93,7 @@ class LogReportTest extends Functional
             'actionGroup' => 'System Configuration',
             'action' => 'Save',
             'result' => 'Success',
-            'fullActionName' => 'adminhtml_system_config_edit',
+            'fullActionName' => 'adminhtml_system_config_save_index',
         );
         $logReportPage->getLogGridBlock()->isRowVisible($configActionLog);
 
