@@ -42,7 +42,8 @@ abstract class AbstractSyntax
      * This method adds the comments associated with the syntax node to the given tree node.
      * @param TreeNode $treeNode TreeNode representing the current node.
      */
-    public function addComments(TreeNode $treeNode) {
+    public function addComments(TreeNode $treeNode)
+    {
         // get the comments to add
         $comments = $this->getComments();
         // only attempt to add comments if they are present

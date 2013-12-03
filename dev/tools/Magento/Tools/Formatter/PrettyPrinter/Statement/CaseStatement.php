@@ -70,7 +70,8 @@ class CaseStatement extends AbstractConditionalStatement
      * @param TreeNode $treeNode Node containing the current statement.
      * @return TreeNode|null
      */
-    protected function getPriorSibling(array $children, TreeNode $treeNode) {
+    protected function getPriorSibling(array $children, TreeNode $treeNode)
+    {
         // assume not found
         $siblingNode = null;
         // make sure the array pointer is starting at the beginning
