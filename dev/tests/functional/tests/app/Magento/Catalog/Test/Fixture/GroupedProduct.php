@@ -22,10 +22,7 @@ use Mtf\Factory\Factory;
  */
 class GroupedProduct extends Product
 {
-    /**
-     * Attribute set for mapping data into ui tabs
-     */
-    const GROUP_GROUPED_PRODUCTS = 'product_info_tabs_grouped_content';
+    const GROUP = 'product_info_tabs_grouped_content';
 
     /**
      * List of fixtures from created products
@@ -78,17 +75,21 @@ class GroupedProduct extends Product
             switch ($productType) {
                 case 'simple':
                     $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+                    $product->switchData($productType . '_required');
                     break;
                 case 'virtual':
                     $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
+                    $product->switchData($productType . '_required');
                     break;
                 case 'downloadable':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogDownloadableProduct();
+                    $product = Factory::getFixtureFactory()
+                        ->getMagentoDownloadableDownloadableProductLinksNotPurchasedSeparately();
                     break;
                 default:
-                    throw new \InvalidArgumentException('Option type is not set');
+                    throw new \InvalidArgumentException(
+                        "Product of type '$productType' cannot be added to grouped product."
+                    );
             }
-            $product->switchData($productType . '_required');
             $product->persist();
             $this->products[$productType] = $product;
         }
@@ -118,7 +119,7 @@ class GroupedProduct extends Product
             'constraint' => 'Success',
             'create_url_params' => array(
                 'type' => 'grouped',
-                'set' => 4,
+                'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
         );
         $this->_data = array(
@@ -173,7 +174,7 @@ class GroupedProduct extends Product
                             )
                         )
                     ),
-                    'group' => static::GROUP_GROUPED_PRODUCTS
+                    'group' => static::GROUP
                 )
             ),
         );

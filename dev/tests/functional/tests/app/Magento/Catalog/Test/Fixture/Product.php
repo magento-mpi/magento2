@@ -25,14 +25,17 @@ class Product extends DataFixture
     const GROUP_PRODUCT_WEBSITE     = 'product_info_tabs_websites';
     const GROUP_PRODUCT_INVENTORY   = 'product_info_tabs_advanced-inventory';
     const GROUP_PRODUCT_PRICING     = 'product_info_tabs_advanced-pricing';
+    const GROUP_CUSTOM_OPTIONS      = 'product_info_tabs_customer_options';
 
     /**
      * Possible options used for visibility field
      */
-    const VISIBILITY_NOT_VISIBLE = 'Not Visible Individually';
-    const VISIBILITY_IN_CATALOG = 'Catalog';
-    const VISIBILITY_IN_SEARCH = 'Search';
-    const VISIBILITY_BOTH = 'Catalog, Search';
+    const VISIBILITY_NOT_VISIBLE    = 'Not Visible Individually';
+    const VISIBILITY_IN_CATALOG     = 'Catalog';
+    const VISIBILITY_IN_SEARCH      = 'Search';
+    const VISIBILITY_BOTH           = 'Catalog, Search';
+
+    const DEFAULT_ATTRIBUTE_SET_ID  = 4;
 
     /**
      * {inheritdoc}
@@ -41,11 +44,11 @@ class Product extends DataFixture
     {
         $this->_data = array(
             'fields' => array(
-                'name'   => array(
+                'name' => array(
                     'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . ' %isolation%',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
-                'sku'    => array(
+                'sku' => array(
                     'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . '_sku_%isolation%',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 )
@@ -66,7 +69,7 @@ class Product extends DataFixture
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, $placeholders =  array())
+    public function __construct(Config $configuration, $placeholders = array())
     {
         parent::__construct($configuration, $placeholders);
 
@@ -192,15 +195,11 @@ class Product extends DataFixture
 
     /**
      * Create product
-     *
-     * @return SimpleProduct
      */
     public function persist()
     {
         $id = Factory::getApp()->magentoCatalogCreateProduct($this);
         $this->_data['fields']['id']['value'] = $id;
-
-        return $this;
     }
 
     /**
@@ -230,7 +229,7 @@ class Product extends DataFixture
         $config = $this->getDataConfig();
         if (!empty($config[$urlKey]) && is_array($config[$urlKey])) {
             foreach ($config[$urlKey] as $key => $value) {
-                $params[] = $key .'/' .$value;
+                $params[] = $key . '/' . $value;
             }
         }
         return implode('/', $params);

@@ -152,7 +152,7 @@ class SimpleProduct extends Product
                                     ]
                                 ]
                             ],
-                            'group' => 'product_info_tabs_customer_options'
+                            'group' => Fixture\Product::GROUP_CUSTOM_OPTIONS
                         )
                     )
                 )

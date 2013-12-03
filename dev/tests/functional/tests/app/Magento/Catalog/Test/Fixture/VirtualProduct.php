@@ -30,7 +30,7 @@ class VirtualProduct extends Product
 
             'create_url_params' => array(
                 'type' => 'virtual',
-                'set'  => 4,
+                'set'  => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
             'input_prefix' => 'product'
         );

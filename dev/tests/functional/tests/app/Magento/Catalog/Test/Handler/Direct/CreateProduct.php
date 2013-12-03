@@ -12,7 +12,7 @@
 
 namespace Magento\Catalog\Test\Handler\Direct;
 
-use Magento\Catalog\Test\Fixture\SimpleProduct;
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Fixture;
 use Mtf\Handler\Direct;
 use Mtf\Factory\Factory;
@@ -31,10 +31,10 @@ class CreateProduct extends Direct
      */
     protected $_mappingData = array(
         'visibility' => array(
-            SimpleProduct::VISIBILITY_NOT_VISIBLE => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE,
-            SimpleProduct::VISIBILITY_IN_CATALOG  => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
-            SimpleProduct::VISIBILITY_IN_SEARCH   => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
-            SimpleProduct::VISIBILITY_BOTH        => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
+            Product::VISIBILITY_NOT_VISIBLE => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE,
+            Product::VISIBILITY_IN_CATALOG  => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
+            Product::VISIBILITY_IN_SEARCH   => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
+            Product::VISIBILITY_BOTH        => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
         )
     );
 
@@ -44,7 +44,7 @@ class CreateProduct extends Direct
      * @var array
      */
     protected $requiredData = array(
-        'attribute_set_id' => 4,
+        'attribute_set_id' => Product::DEFAULT_ATTRIBUTE_SET_ID,
         'type_id'          => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         'website_ids'      => array(1),
     );

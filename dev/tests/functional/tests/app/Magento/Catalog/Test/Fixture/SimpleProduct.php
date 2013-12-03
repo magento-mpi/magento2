@@ -28,7 +28,7 @@ class SimpleProduct extends Product
 
             'create_url_params' => array(
                 'type' => 'simple',
-                'set'  => 4,
+                'set'  => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
             'input_prefix' => 'product'
         );

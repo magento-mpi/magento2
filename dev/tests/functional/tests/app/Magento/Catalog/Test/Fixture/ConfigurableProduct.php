@@ -25,7 +25,7 @@ class ConfigurableProduct extends Product
     /**
      * Mapping data into ui tabs
      */
-    const GROUP_VARIATIONS = 'product_info_tabs_super_config_content';
+    const GROUP = 'product_info_tabs_super_config_content';
 
     /**
      * @var array
@@ -163,7 +163,7 @@ class ConfigurableProduct extends Product
 
             'create_url_params' => array(
                 'type' => 'configurable',
-                'set' => 4,
+                'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
         );
         $data = array(
@@ -218,7 +218,7 @@ class ConfigurableProduct extends Product
                                 )
                             )
                         ),
-                    'group' => static::GROUP_VARIATIONS
+                    'group' => static::GROUP
                 ),
                 'variations-matrix' => array(
                     'value' => array(
@@ -261,7 +261,7 @@ class ConfigurableProduct extends Product
                             )
                         )
                     ),
-                    'group' => static::GROUP_VARIATIONS
+                    'group' => static::GROUP
                 ),
             ),
             'checkout' => array(
