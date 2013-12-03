@@ -39,13 +39,11 @@ class Rule extends \Magento\Rule\Model\Resource\AbstractResource
     protected $_indexer;
 
     /**
-     * @param \Magento\Index\Model\Indexer $indexer
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Index\Model\Indexer $indexer
      */
-    public function __construct(
-        \Magento\Index\Model\Indexer $indexer,
-        \Magento\App\Resource $resource
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\Index\Model\Indexer $indexer)
+    {
         $this->_indexer = $indexer;
         parent::__construct($resource);
     }

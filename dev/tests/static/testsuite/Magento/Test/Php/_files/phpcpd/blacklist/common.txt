@@ -109,4 +109,6 @@ Magento/User/Block/User/Edit
 var/generation
 Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
+Magento/Newsletter/Model/Resource/Subscriber
+Magento/CatalogInventory/Model/Resource/Stock/Item
 

@@ -25,34 +25,41 @@ class History extends \Magento\CustomerBalance\Model\Balance\History
     protected $_authSession;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Backend\Model\Auth\Session $authSession,
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_authSession = $authSession;
-        parent::__construct($templateFactory, $storeManager, $design, $context, $registry, $coreStoreConfig,
-            $resource, $resourceCollection, $data);
+        parent::__construct(
+            $context,
+            $registry,
+            $templateFactory,
+            $storeManager,
+            $design,
+            $coreStoreConfig,
+            $resource,
+            $resourceCollection,
+            $data
+        );
     }
 
     /**
