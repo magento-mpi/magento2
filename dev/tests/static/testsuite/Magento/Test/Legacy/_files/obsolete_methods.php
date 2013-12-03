@@ -1001,6 +1001,9 @@ return array(
     array('_saveCache', '\Magento\App\Helper\AbstractHelper'),
     array('_removeCache', '\Magento\App\Helper\AbstractHelper'),
     array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
+    array('changeQuoteCustomerGroupId', '\Magento\Sales\Model\Observer',
+        '\Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals::dispatch'
+    ),
     array('getMethod', '\Magento\GoogleCheckout\Block\Redirect', 'getFormMethod'),
     array('getCookie', 'Magento\View\Element\Js\Cookie'),
     array('setCopyright', 'Magento\Theme\Block\Html\Footer'),

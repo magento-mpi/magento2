@@ -208,10 +208,10 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
             $productAttribute = $attribute->getProductAttribute();
             $attributeId = $productAttribute->getId();
             $info = array(
-               'id'        => $productAttribute->getId(),
-               'code'      => $productAttribute->getAttributeCode(),
-               'label'     => $attribute->getLabel(),
-               'options'   => array()
+                'id'        => $productAttribute->getId(),
+                'code'      => $productAttribute->getAttributeCode(),
+                'label'     => $attribute->getLabel(),
+                'options'   => array()
             );
 
             $optionPrices = array();
@@ -256,7 +256,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
                 }
             }
             if($this->_validateAttributeInfo($info)) {
-               $attributes[$attributeId] = $info;
+                $attributes[$attributeId] = $info;
             }
 
             // Add attribute default value (if set)
