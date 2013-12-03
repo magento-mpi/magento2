@@ -38,19 +38,9 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
     protected $_storeManager;
 
     /**
-     * @var \Magento\Sales\Model\OrderFactory
-     */
-    protected $_orderFactory;
-
-    /**
      * @var \Magento\Sales\Model\QuoteFactory
      */
     protected $_quoteFactory;
-
-    /**
-     * @var \Magento\Authorizenet\Model\Directpost\RequestFactory
-     */
-    protected $_requestFactory;
 
     /**
      * @var \Magento\Authorizenet\Model\Directpost\Response
@@ -58,10 +48,8 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
     protected $_response;
 
     /**
-     * Construct
-     *
      * @param \Magento\Paygate\Model\Authorizenet\CardsFactory $cardsFactory
-     * @param \Magento\Paygate\Model\Authorizenet\RequestFactory $parentRequestFactory
+     * @param \Magento\Paygate\Model\Authorizenet\RequestFactory $requestFactory
      * @param \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\Session\AbstractSession $session
@@ -75,15 +63,14 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Authorizenet\Model\Directpost\RequestFactory $requestFactory
-     * @param \Magento\Authorizenet\Model\Directpost\Response $response
+     * @param Directpost\RequestFactory $directRequestFactory
+     * @param Directpost\Response $response
      * @param array $data
      */
     public function __construct(
         \Magento\Paygate\Model\Authorizenet\CardsFactory $cardsFactory,
-        \Magento\Paygate\Model\Authorizenet\RequestFactory $parentRequestFactory,
+        \Magento\Paygate\Model\Authorizenet\RequestFactory $requestFactory,
         \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\Session\AbstractSession $session,
@@ -97,19 +84,17 @@ class Directpost extends \Magento\Paygate\Model\Authorizenet
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Authorizenet\Model\Directpost\RequestFactory $requestFactory,
+        \Magento\Authorizenet\Model\Directpost\RequestFactory $directRequestFactory,
         \Magento\Authorizenet\Model\Directpost\Response $response,
         array $data = array()
     ) {
-        parent::__construct($cardsFactory, $parentRequestFactory, $resultFactory, $orderFactory, $session,
+        parent::__construct($cardsFactory, $requestFactory, $resultFactory, $orderFactory, $session,
             $logger, $eventManager, $paygateData, $moduleList, $coreStoreConfig, $paymentData,
             $logAdapterFactory, $locale, $centinelService, $data);
         $this->_storeManager = $storeManager;
-        $this->_orderFactory = $orderFactory;
         $this->_quoteFactory = $quoteFactory;
-        $this->_requestFactory = $requestFactory;
+        $this->_requestFactory = $directRequestFactory;
         $this->_response = $response;
     }
 
