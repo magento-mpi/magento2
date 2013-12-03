@@ -14,11 +14,6 @@
                 <argument name="file" xsi:type="string">Magento_CatalogEvent::js/ticker.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Css" name="magento-catalogevent-widgets-css" ifconfig="catalog/magento_catalogevent/enabled">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_CatalogEvent::widgets.css</argument>
-            </arguments>
-        </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-catalogevent-js-carousel-js" ifconfig="catalog/magento_catalogevent/enabled">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_CatalogEvent::js/carousel.js</argument>

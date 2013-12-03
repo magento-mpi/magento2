@@ -50,15 +50,16 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
     protected $_customerResource;
 
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Catalog\Model\Resource\Product\Collection $productResource,
         \Magento\Customer\Model\Resource\Customer $customerResource,
+        $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
         $this->_productResource = $productResource;
         $this->_customerResource = $customerResource;
     }
@@ -135,7 +136,7 @@ class Collection extends \Magento\Sales\Model\Resource\Quote\Collection
                 array('product_name' => $productAttrNameTable),
                 "product_name.entity_id = e.entity_id
                 AND product_name.attribute_id = {$productAttrNameId}
-                AND product_name.store_id = " . \Magento\Core\Model\AppInterface::ADMIN_STORE_ID,
+                AND product_name.store_id = " . \Magento\Core\Model\Store::DEFAULT_STORE_ID,
                 array('name' => 'product_name.value')
             )
             ->joinInner(

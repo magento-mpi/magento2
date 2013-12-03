@@ -138,8 +138,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_escaper;
 
     /**
-     * Construct
-     *
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -148,14 +147,14 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Catalog\Helper\Product $catalogProduct
-     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory
      * @param \Magento\Escaper $escaper
-     * @param $templateFilterModel
+     * @param string $templateFilterModel
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -164,7 +163,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\Stdlib\String $string,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Catalog\Helper\Product $catalogProduct,
-        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Catalog\Model\Template\Filter\Factory $templateFilterFactory,

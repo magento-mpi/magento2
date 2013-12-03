@@ -157,10 +157,10 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
     protected $_resourceHelper;
 
     /**
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Catalog\Model\Resource\ConfigFactory $configFactory
      * @param \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\App\Resource $resource
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Helper\Data $coreData
@@ -169,16 +169,14 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\Catalog\Helper\Product\Flat $catalogProductFlat
      * @param \Magento\Catalog\Model\Product\Type $productType
      * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
-     * @param $maxIndexCount
+     * @param string $maxIndexCount
      * @param array $flatAttributeGroups
-     * 
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\App\Resource $resource,
         \Magento\Catalog\Model\Resource\ConfigFactory $configFactory,
         \Magento\Catalog\Model\Resource\Eav\AttributeFactory $eavAttributeFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Resource $resource,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Helper\Data $coreData,
@@ -898,7 +896,7 @@ class Indexer extends \Magento\Index\Model\Resource\AbstractResource
                 array())
             ->where('t1.entity_type_id = :entity_type_id')
             ->where('t1.attribute_id = :attribute_id')
-            ->where('t1.store_id = ?', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            ->where('t1.store_id = ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
             ->where("{$fieldExpr} = ?", \Magento\Catalog\Model\Product\Status::STATUS_ENABLED);
         foreach ($this->getAttributes() as $attributeCode => $attribute) {
             /** @var $attribute \Magento\Eav\Model\Entity\Attribute */

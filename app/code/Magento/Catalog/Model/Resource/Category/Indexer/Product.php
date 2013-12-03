@@ -70,15 +70,11 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
     protected $_eavConfig;
 
     /**
-     * Class constructor
-     *
-     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Eav\Model\Config $eavConfig
      */
-    public function __construct(
-        \Magento\Eav\Model\Config $eavConfig,
-        \Magento\App\Resource $resource
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\Eav\Model\Config $eavConfig)
+    {
         $this->_eavConfig = $eavConfig;
         parent::__construct($resource);
     }
@@ -283,7 +279,7 @@ class Product extends \Magento\Index\Model\Resource\AbstractResource
         $anchorInfo = $this->_getAnchorAttributeInfo();
         $bind = array(
             'attribute_id' => $anchorInfo['id'],
-            'store_id'     => \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID,
+            'store_id'     => \Magento\Core\Model\Store::DEFAULT_STORE_ID,
             'e_value'      => 1
         );
         $select = $this->_getReadAdapter()->select()

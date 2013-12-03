@@ -49,16 +49,16 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_urlBuilder;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Customer\Helper\Data $customerData
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus
      * @param \Magento\Core\Model\Url $urlBuilder
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Core\Helper\Data $coreData,
-        \Magento\App\Helper\Context $context,
         \Magento\Invitation\Model\Source\Invitation\Status $invitationStatus,
         \Magento\Core\Model\Url $urlBuilder
     ) {
