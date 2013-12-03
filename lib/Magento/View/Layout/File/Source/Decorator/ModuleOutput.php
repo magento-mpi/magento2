@@ -1,7 +1,5 @@
 <?php
 /**
- * Decorator that filters out layout files that belong to modules, output of which is prohibited
- *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -15,6 +13,9 @@ use Magento\View\Layout\File;
 use Magento\Module\Manager;
 use Magento\View\Design\ThemeInterface;
 
+/**
+ * Decorator that filters out layout files that belong to modules, output of which is prohibited
+ */
 class ModuleOutput implements SourceInterface
 {
     /**
@@ -40,9 +41,13 @@ class ModuleOutput implements SourceInterface
     }
 
     /**
+     * Retrieve files
+     *
      * Filter out theme files that belong to inactive modules or ones explicitly configured to not produce any output
      *
-     * {@inheritdoc}
+     * @param ThemeInterface $theme
+     * @param string $filePath
+     * @return array|\Magento\View\Layout\File[]
      */
     public function getFiles(ThemeInterface $theme, $filePath = '*')
     {

@@ -127,10 +127,10 @@ class Node extends \Magento\Core\Model\AbstractModel
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Context $context
-     * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
+     * @param \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -138,14 +138,12 @@ class Node extends \Magento\Core\Model\AbstractModel
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Context $context,
-        \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
         \Magento\Core\Model\Registry $registry,
+        \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
+        \Magento\VersionsCms\Model\Hierarchy\ConfigInterface $hierarchyConfig,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -546,8 +544,12 @@ class Node extends \Magento\Core\Model\AbstractModel
     public function getMetaNodeByType($type)
     {
         if (!isset($this->_metaNodes[$type])) {
-            $model = $this->_nodeFactory->create()
-                ->setData($this->_getResource()->getMetaNodeDataByType($this, $type));
+            /** @var array|bool $data */
+            $data = $this->_getResource()->getMetaNodeDataByType($this, $type);
+            $model = $this->_nodeFactory->create();
+            if ($data !== false) {
+                $model->setData($data);
+            }
 
             $this->_metaNodes[$type] = $model;
         }

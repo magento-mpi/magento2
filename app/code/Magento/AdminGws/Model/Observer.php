@@ -349,7 +349,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this;
         }
 
-        $storeId = $this->_request->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $storeCode = $this->_request->getParam('store');
+        $storeId = $storeCode
+            ? $this->_storeManager->getStore($storeCode)->getId()
+            : \Magento\Core\Model\Store::DEFAULT_STORE_ID;
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }
@@ -457,6 +460,8 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return;
         }
 
+        /** @var \Magento\App\RequestInterface $request */
+        $request = $observer->getEvent()->getRequest();
         // initialize controllers map
         if (null === $this->_controllersMap) {
             $this->_controllersMap = array('full' => array(), 'partial' => array());
@@ -473,9 +478,9 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         // map request to validator callback
-        $routeName      = $this->_request->getRouteName();
-        $controllerName = $this->_request->getControllerName();
-        $actionName     = $this->_request->getActionName();
+        $routeName      = $request->getRouteName();
+        $controllerName = $request->getControllerName();
+        $actionName     = $request->getActionName();
         $callback       = false;
         if (isset($this->_controllersMap['full'][$routeName])
             && isset($this->_controllersMap['full'][$routeName][$controllerName])

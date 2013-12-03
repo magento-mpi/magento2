@@ -6,9 +6,6 @@
  * @license     {license_link}
  */
 
-/**
- * Factory that produces all sorts of fallback rules
- */
 namespace Magento\View\Design\Fallback;
 
 use Magento\App\Dir;
@@ -21,7 +18,7 @@ use Magento\View\Design\Fallback\Rule\Theme;
 /**
  * Fallback Factory
  *
- * @package Magento\View
+ * Factory that produces all sorts of fallback rules
  */
 class Factory
 {
@@ -31,8 +28,6 @@ class Factory
     protected $dirs;
 
     /**
-     * Constructor
-     *
      * @param Dir $dirs
      */
     public function __construct(Dir $dirs)

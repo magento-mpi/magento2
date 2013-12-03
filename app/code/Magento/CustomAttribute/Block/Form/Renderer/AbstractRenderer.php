@@ -18,7 +18,7 @@
  */
 namespace Magento\CustomAttribute\Block\Form\Renderer;
 
-abstract class AbstractRenderer extends \Magento\Core\Block\Template
+abstract class AbstractRenderer extends \Magento\View\Block\Template
 {
     /**
      * Attribute instance
@@ -47,27 +47,6 @@ abstract class AbstractRenderer extends \Magento\Core\Block\Template
      * @var string
      */
     protected $_fieldNameFormat = '%1$s';
-
-    /**
-     * @var \Magento\Core\Model\LocaleInterface
-     */
-    protected $_locale;
-
-    /**
-     * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
-        array $data = array()
-    ) {
-        $this->_locale = $locale;
-        parent::__construct($coreData, $context, $data);
-    }
 
     /**
      * Set attribute instance

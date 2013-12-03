@@ -59,7 +59,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -74,7 +74,7 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
         \Magento\Core\Helper\Data $coreData,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Eav\Model\Entity\TypeFactory $eavTypeFactory,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Eav\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\LocaleInterface $locale,
@@ -379,14 +379,12 @@ class Attribute extends \Magento\Eav\Model\Entity\Attribute\AbstractAttribute
             return $this->getData('store_label');
         }
         $store = $this->_storeManager->getStore($storeId);
-        $label = false;
-        if (!$store->isAdmin()) {
-            $labels = $this->getStoreLabels();
-            if (isset($labels[$store->getId()])) {
-                return $labels[$store->getId()];
-            }
+        $labels = $this->getStoreLabels();
+        if (isset($labels[$store->getId()])) {
+            return $labels[$store->getId()];
+        } else {
+            return $this->getFrontendLabel();
         }
-        return $this->getFrontendLabel();
     }
 
     /**

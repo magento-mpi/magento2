@@ -15,7 +15,7 @@
  */
 namespace Magento\Review\Helper\Action;
 
-class Pager extends \Magento\Core\Helper\AbstractHelper
+class Pager extends \Magento\App\Helper\AbstractHelper
 {
     const STORAGE_PREFIX = 'search_result_ids';
 
@@ -35,12 +35,12 @@ class Pager extends \Magento\Core\Helper\AbstractHelper
     protected $_backendSession;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param \Magento\Core\Helper\Context $context
      */
     public function __construct(
-        \Magento\Backend\Model\Session $backendSession,
-        \Magento\Core\Helper\Context $context
+        \Magento\App\Helper\Context $context,
+        \Magento\Backend\Model\Session $backendSession
     ) {
         $this->_backendSession = $backendSession;
         parent::__construct($context);

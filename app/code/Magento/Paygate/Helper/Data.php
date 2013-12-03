@@ -13,7 +13,7 @@
  */
 namespace Magento\Paygate\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Converts a lot of messages to message

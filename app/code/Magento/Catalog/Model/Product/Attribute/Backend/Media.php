@@ -285,7 +285,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
         $storeId = $object->getStoreId();
 
         $storeIds = $object->getStoreIds();
-        $storeIds[] = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
+        $storeIds[] = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
 
         // remove current storeId
         $storeIds = array_flip($storeIds);
@@ -525,7 +525,7 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
     }
 
     /**
-     * Retrive image from gallery
+     * Retrieve image from gallery
      *
      * @param \Magento\Catalog\Model\Product $product
      * @param string $file

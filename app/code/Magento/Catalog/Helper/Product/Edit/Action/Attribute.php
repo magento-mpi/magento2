@@ -52,7 +52,7 @@ class Attribute extends \Magento\Backend\Helper\Data
     protected $_eavConfig;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Route\Config $routeConfig
      * @param \Magento\Core\Model\AppInterface $app
      * @param \Magento\Backend\Model\Url $backendUrl
@@ -64,7 +64,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productsFactory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\App\Route\Config $routeConfig,
         \Magento\Core\Model\AppInterface $app,
         \Magento\Backend\Model\Url $backendUrl,
@@ -125,7 +125,7 @@ class Attribute extends \Magento\Backend\Helper\Data
      */
     public function getSelectedStoreId()
     {
-        return (int)$this->_getRequest()->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        return (int)$this->_getRequest()->getParam('store', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
     }
 
     /**

@@ -18,13 +18,13 @@
                 <expected_model class="Magento\Invitation\Model\Invitation" />
             </expected_models>
             <events>
-                <event controller_action="adminhtml_invitation_view" action_alias="view" />
-                <event controller_action="adminhtml_invitation_save" action_alias="save" />
-                <event controller_action="adminhtml_invitation_saveInvitation"
+                <event controller_action="invitations_index__view" action_alias="view" />
+                <event controller_action="invitations_index__save" action_alias="save" />
+                <event controller_action="invitations_index__saveInvitation"
                        action_alias="save" />
-                <event controller_action="adminhtml_invitation_massCancel"
+                <event controller_action="invitations_index__massCancel"
                        action_alias="massUpdate" />
-                <event controller_action="adminhtml_invitation_massResend"
+                <event controller_action="invitations_index__massResend"
                        action_alias="massUpdate"
                        post_dispatch="Magento\Invitation\Model\Observer::postDispatchInvitationMassUpdate" />
             </events>

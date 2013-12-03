@@ -15,7 +15,7 @@
  */
 namespace Magento\Catalog\Helper;
 
-class Image extends \Magento\Core\Helper\AbstractHelper
+class Image extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Current model
@@ -114,16 +114,14 @@ class Image extends \Magento\Core\Helper\AbstractHelper
     protected $_productImageFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Product\ImageFactory $productImageFactory
-     * @param \Magento\Core\Helper\Context $context
      * @param \Magento\View\Url $viewUrl
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Catalog\Model\Product\ImageFactory $productImageFactory,
-        \Magento\Core\Helper\Context $context,
         \Magento\View\Url $viewUrl,
         \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {

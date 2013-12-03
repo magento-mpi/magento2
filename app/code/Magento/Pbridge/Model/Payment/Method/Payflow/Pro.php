@@ -16,18 +16,11 @@ namespace Magento\Pbridge\Model\Payment\Method\Payflow;
 class Pro extends \Magento\Paypal\Model\Payflowpro
 {
     /**
-     * Form block type for the frontend
+     * Credit card form block
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Payflow\Pro';
-
-    /**
-     * Form block type for the backend
-     *
-     * @var string
-     */
-    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Payflow\Pro';
+    protected $_formBlock;
 
     /**
      * Payment Bridge Payment Method Instance
@@ -57,6 +50,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      * @param \Magento\Paypal\Model\ConfigFactory $configFactory
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param string $formBlock
      * @param array $data
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -74,9 +68,11 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
         \Magento\Paypal\Model\ConfigFactory $configFactory,
         \Magento\Math\Random $mathRandom,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        $formBlock,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_formBlock = $formBlock;
         parent::__construct(
             $logger,
             $eventManager,
@@ -195,7 +191,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      */
     public function getFormBlockType()
     {
-        return $this->_storeManager->getStore()->isAdmin() ? $this->_backendFormBlockType : $this->_formBlockType;
+        return $this->_formBlock;
     }
 
     /**

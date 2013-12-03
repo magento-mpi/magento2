@@ -21,7 +21,7 @@ namespace Magento\Catalog\Block\Adminhtml\Product\Helper\Form;
 class Gallery extends \Magento\Data\Form\Element\AbstractElement
 {
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -32,7 +32,7 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
 
     /**
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
@@ -40,7 +40,7 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
      */
     public function __construct(
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
@@ -198,6 +198,6 @@ class Gallery extends \Magento\Data\Form\Element\AbstractElement
      */
     protected function _getDefaultStoreId()
     {
-        return \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID;
+        return \Magento\Core\Model\Store::DEFAULT_STORE_ID;
     }
 }

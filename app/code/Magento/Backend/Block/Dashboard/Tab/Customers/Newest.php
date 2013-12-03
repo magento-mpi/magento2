@@ -26,23 +26,21 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Reports\Model\Resource\Customer\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($coreData, $context, $storeManager, $urlModel, $data);
+        parent::__construct($context, $coreData, $urlModel, $data);
     }
 
     protected function _construct()
@@ -101,7 +99,7 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_avg_amount',
-            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
+            'renderer'  =>'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
         ));
 
         $this->addColumn('orders_sum_amount', array(
@@ -111,7 +109,7 @@ class Newest extends \Magento\Backend\Block\Dashboard\Grid
             'type'      => 'currency',
             'currency_code'  => $baseCurrencyCode,
             'index'     => 'orders_sum_amount',
-            'renderer'  =>'Magento\Adminhtml\Block\Report\Grid\Column\Renderer\Currency'
+            'renderer'  =>'Magento\Reports\Block\Adminhtml\Grid\Column\Renderer\Currency'
         ));
 
         $this->setFilterVisibility(false);

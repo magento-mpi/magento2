@@ -1,0 +1,36 @@
+<?php
+/**
+ * {license_notice}
+ *
+ * @category    design
+ * @package     Magento_Reports
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+?>
+<div class="reports-title">
+    <div class="page-actions"><?php echo $this->getButtonsHtml() ?></div>
+    <?php echo $this->getChildHtml('store.switcher') ?>
+</div>
+
+<div class="reports-content">
+    <?php echo $this->getChildHtml('grid.filter.form') ?>
+</div>
+
+<?php echo $this->getGridHtml() ?>
+
+<script type="text/javascript">
+//<![CDATA[
+    jQuery('#filter_form').mage('validation', {errorClass: 'mage-error'});
+    function filterFormSubmit() {
+        var filters = $$('#filter_form input', '#filter_form select');
+        var elements = [];
+        for(var i in filters){
+            if(filters[i].value && filters[i].value.length && !filters[i].disabled) elements.push(filters[i]);
+        }
+        if (jQuery('#filter_form').valid()) {
+            setLocation('<?php echo $this->getFilterUrl(); ?>filter/'+encode_base64(Form.serializeElements(elements))+'/');
+        }
+    }
+//]]>
+</script>

@@ -85,16 +85,16 @@ class AbstractSession extends \Magento\Object
     /**
      * Core message
      *
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_message;
+    protected $messageFactory;
 
     /**
      * Core message collection factory
      *
-     * @var \Magento\Core\Model\Message\CollectionFactory
+     * @var \Magento\Message\CollectionFactory
      */
-    protected $_messageFactory;
+    protected $messagesFactory;
 
     /**
      * @var \Magento\App\RequestInterface
@@ -107,7 +107,7 @@ class AbstractSession extends \Magento\Object
     protected $_appState;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -152,8 +152,8 @@ class AbstractSession extends \Magento\Object
         $this->_saveMethod = $this->_saveMethod ?: $context->getSaveMethod();
         $this->_cacheLimiter = $this->_cacheLimiter ?: $context->getCacheLimiter();
         $this->_sidNameMap = $context->getSidMap();
-        $this->_messageFactory = $context->getMessageFactory();
-        $this->_message = $context->getMessage();
+        $this->messagesFactory = $context->getMessagesFactory();
+        $this->messageFactory = $context->getMessageFactory();
         $this->_cookie = $context->getCookie();
         $this->_request = $context->getRequest();
         $this->_appState = $context->getAppState();
@@ -248,7 +248,6 @@ class AbstractSession extends \Magento\Object
         if ($this->_cacheLimiter) {
             session_cache_limiter($this->_cacheLimiter);
         }
-
         session_start();
 
         \Magento\Profiler::stop('session_start');
@@ -392,12 +391,12 @@ class AbstractSession extends \Magento\Object
      * Retrieve messages from session
      *
      * @param   bool $clear
-     * @return  \Magento\Core\Model\Message\Collection
+     * @return  \Magento\Message\Collection
      */
     public function getMessages($clear = false)
     {
         if (!$this->getData('messages')) {
-            $this->setMessages($this->_messageFactory->create());
+            $this->setMessages($this->messagesFactory->create());
         }
 
         if ($clear) {
@@ -426,17 +425,17 @@ class AbstractSession extends \Magento\Object
         $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
         $this->_logger->logFile($message, \Zend_Log::DEBUG, $file);
 
-        $this->addMessage($this->_message->error($alternativeText));
+        $this->addMessage($this->messageFactory->error($alternativeText));
         return $this;
     }
 
     /**
      * Adding new message to message collection
      *
-     * @param   \Magento\Core\Model\Message\AbstractMessage $message
+     * @param   \Magento\Message\AbstractMessage $message
      * @return  \Magento\Core\Model\Session\AbstractSession
      */
-    public function addMessage(\Magento\Core\Model\Message\AbstractMessage $message)
+    public function addMessage(\Magento\Message\AbstractMessage $message)
     {
         $this->getMessages()->add($message);
         $this->_eventManager->dispatch('core_session_abstract_add_message');
@@ -451,7 +450,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addError($message)
     {
-        $this->addMessage($this->_message->error($message));
+        $this->addMessage($this->messageFactory->error($message));
         return $this;
     }
 
@@ -463,7 +462,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->_message->warning($message));
+        $this->addMessage($this->messageFactory->warning($message));
         return $this;
     }
 
@@ -475,7 +474,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->_message->notice($message));
+        $this->addMessage($this->messageFactory->notice($message));
         return $this;
     }
 
@@ -487,7 +486,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->_message->success($message));
+        $this->addMessage($this->messageFactory->success($message));
         return $this;
     }
 
@@ -510,7 +509,7 @@ class AbstractSession extends \Magento\Object
     /**
      * Adds messages array to message collection, but doesn't add duplicates to it
      *
-     * @param   array|string|\Magento\Core\Model\Message\AbstractMessage $messages
+     * @param   array|string|\Magento\Message\AbstractMessage $messages
      * @return  \Magento\Core\Model\Session\AbstractSession
      */
     public function addUniqueMessages($messages)
@@ -525,7 +524,7 @@ class AbstractSession extends \Magento\Object
         $messagesAlready = array();
         $items = $this->getMessages()->getItems();
         foreach ($items as $item) {
-            if ($item instanceof \Magento\Core\Model\Message\AbstractMessage) {
+            if ($item instanceof \Magento\Message\AbstractMessage) {
                 $text = $item->getText();
             } else if (is_string($item)) {
                 $text = $item;
@@ -536,7 +535,7 @@ class AbstractSession extends \Magento\Object
         }
 
         foreach ($messages as $message) {
-            if ($message instanceof \Magento\Core\Model\Message\AbstractMessage) {
+            if ($message instanceof \Magento\Message\AbstractMessage) {
                 $text = $message->getText();
             } else if (is_string($message)) {
                 $text = $message;
@@ -565,16 +564,12 @@ class AbstractSession extends \Magento\Object
      */
     public function setSessionId($id = null)
     {
-
-        if (null === $id
-            && ($this->_storeManager->getStore()->isAdmin() || $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
-        ) {
+        if (null === $id && $this->_isSidUsedFromQueryParam()) {
             $_queryParam = $this->getSessionIdQueryParam();
             if (isset($_GET[$_queryParam]) && $this->_url->isOwnOriginUrl()) {
                 $id = $_GET[$_queryParam];
             }
         }
-
         $this->_addHost();
         if (!is_null($id) && preg_match('#^[0-9a-zA-Z,-]+$#', $id)) {
             session_id($id);
@@ -663,9 +658,7 @@ class AbstractSession extends \Magento\Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
-            ? self::$_urlHostCache[$urlHost]
-            : $this->getEncryptedSessionId();
+        return $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost] : $this->getEncryptedSessionId();
     }
 
     /**
@@ -735,6 +728,16 @@ class AbstractSession extends \Magento\Object
     {
         unset($_SESSION[self::HOST_KEY]);
         return $this;
+    }
+
+    /**
+     * Whether to take session id from GET
+     *
+     * @return bool
+     */
+    protected function _isSidUsedFromQueryParam()
+    {
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID);
     }
 
     /**

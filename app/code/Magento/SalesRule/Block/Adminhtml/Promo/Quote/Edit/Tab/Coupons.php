@@ -18,7 +18,7 @@
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
 class Coupons
-    extends \Magento\Adminhtml\Block\Text\ListText
+    extends \Magento\Backend\Block\Text\ListText
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -30,11 +30,11 @@ class Coupons
 
     /**
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Block\Context $context
+     * @param \Magento\View\Block\Context $context
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Block\Context $context,
+        \Magento\View\Block\Context $context,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {

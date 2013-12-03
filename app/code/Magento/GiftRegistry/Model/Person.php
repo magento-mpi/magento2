@@ -46,18 +46,18 @@ class Person extends \Magento\Core\Model\AbstractModel
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\GiftRegistry\Model\Resource\Person $resource
      * @param \Magento\GiftRegistry\Model\Entity $entity
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\GiftRegistry\Model\Resource\Person $resource,
         \Magento\GiftRegistry\Model\Entity $entity,
         \Magento\Data\Collection\Db $resourceCollection = null,

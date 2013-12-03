@@ -13,7 +13,7 @@ namespace Magento\Webhook\Controller\Adminhtml\Webhook;
  * @license     {license_link}
  * @SuppressWarnings(PHPMD.ExcessiveParameterList)
  */
-class Registration extends \Magento\Backend\Controller\AbstractAction
+class Registration extends \Magento\Backend\App\AbstractAction
 {
     const DATA_SUBSCRIPTION_ID = 'subscription_id';
     const DATA_TOPICS = 'topics';
@@ -38,18 +38,17 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
     /** @var \Magento\Webhook\Model\Webapi\User\Factory */
     private $_userFactory;
 
-
     /**
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Webhook\Model\Webapi\User\Factory $userFactory
      * @param \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Backend\Controller\Context $context
      */
     public function __construct(
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Webhook\Model\Webapi\User\Factory $userFactory,
         \Magento\Webhook\Service\SubscriptionV1Interface $subscriptionService,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Backend\Controller\Context $context
+        \Magento\Core\Model\Registry $registry
     ) {
         parent::__construct($context);
         $this->_userFactory = $userFactory;
@@ -65,8 +64,8 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
     {
         try {
             $this->_initSubscription();
-            $this->loadLayout();
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
@@ -98,8 +97,8 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
     {
         try {
             $this->_initSubscription();
-            $this->loadLayout();
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
             $this->_redirectFailed($e->getMessage());
         }
@@ -160,8 +159,8 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
     public function succeededAction()
     {
         try {
-            $this->loadLayout();
-            $this->renderLayout();
+            $this->_view->loadLayout();
+            $this->_view->renderLayout();
             $subscriptionData = $this->_initSubscription();
 
             $this->_getSession()->addSuccess(
@@ -178,8 +177,8 @@ class Registration extends \Magento\Backend\Controller\AbstractAction
      */
     public function failedAction()
     {
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
     }
 
     /**

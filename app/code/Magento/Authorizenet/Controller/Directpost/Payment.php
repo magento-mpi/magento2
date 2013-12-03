@@ -17,7 +17,7 @@
  */
 namespace Magento\Authorizenet\Controller\Directpost;
 
-class Payment extends \Magento\Core\Controller\Front\Action
+class Payment extends \Magento\App\Action\Action
 {
     /**
      * Core registry
@@ -27,11 +27,11 @@ class Payment extends \Magento\Core\Controller\Front\Action
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_coreRegistry = $coreRegistry;
@@ -96,13 +96,13 @@ class Payment extends \Magento\Core\Controller\Front\Action
             }
             $result['controller_action_name'] = $data['controller_action_name'];
             $result['is_secure'] = isset($data['is_secure']) ? $data['is_secure'] : false;
-            $params['redirect'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+            $params['redirect'] = $this->_objectManager->get('Magento\Authorizenet\Helper\HelperInterface')
                 ->getRedirectIframeUrl($result);
         }
 
         $this->_coreRegistry->register('authorizenet_directpost_form_params', $params);
-        $this->addPageLayoutHandles();
-        $this->loadLayout(false)->renderLayout();
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)->renderLayout();
     }
 
     /**
@@ -118,7 +118,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
             && isset($redirectParams['controller_action_name'])
         ) {
             $this->_getDirectPostSession()->unsetData('quote_id');
-            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\HelperInterface')
                 ->getSuccessOrderUrl($redirectParams);
         }
         if (!empty($redirectParams['error_msg'])) {
@@ -134,8 +134,8 @@ class Payment extends \Magento\Core\Controller\Front\Action
         }
 
         $this->_coreRegistry->register('authorizenet_directpost_form_params', array_merge($params, $redirectParams));
-        $this->addPageLayoutHandles();
-        $this->loadLayout(false)->renderLayout();
+        $this->_view->addPageLayoutHandles();
+        $this->_view->loadLayout(false)->renderLayout();
     }
 
     /**

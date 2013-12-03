@@ -2,17 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\View\Design\Theme;
+
 /**
  * Theme customizations manager
  */
-namespace Magento\View\Design\Theme;
-
 class Customization implements CustomizationInterface
 {
     /**
@@ -31,12 +29,12 @@ class Customization implements CustomizationInterface
     protected $theme;
 
     /**
-     * @var \Magento\Core\Model\Resource\Theme\File\Collection
+     * @var \Magento\View\Design\Theme\FileInterface[]
      */
     protected $themeFiles;
 
     /**
-     * @var \Magento\Core\Model\Resource\Theme\File\Collection[]
+     * @var \Magento\View\Design\Theme\FileInterface[]
      */
     protected $themeFilesByType = array();
 
@@ -103,7 +101,9 @@ class Customization implements CustomizationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Returns customization absolute path
+     *
+     * @return null|string
      */
     public function getCustomizationPath()
     {
@@ -111,7 +111,9 @@ class Customization implements CustomizationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get directory where themes files are stored
+     *
+     * @return null|string
      */
     public function getThemeFilesPath()
     {
@@ -121,7 +123,9 @@ class Customization implements CustomizationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Get path to custom view configuration file
+     *
+     * @return null|string
      */
     public function getCustomViewConfigPath()
     {
@@ -129,7 +133,9 @@ class Customization implements CustomizationInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $type
+     * @param array $sequence
+     * @return $this|CustomizationInterface
      */
     public function reorder($type, array $sequence)
     {

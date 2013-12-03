@@ -17,7 +17,7 @@
  */
 namespace Magento\Paygate\Controller\Authorizenet;
 
-class Payment extends \Magento\Core\Controller\Front\Action
+class Payment extends \Magento\App\Action\Action
 {
     /**
      * Checkout session
@@ -27,11 +27,11 @@ class Payment extends \Magento\Core\Controller\Front\Action
     protected $_session;
 
     /**
-     * @param \Magento\Core\Controller\Varien\Action\Context $context
+     * @param \Magento\App\Action\Context $context
      * @param \Magento\Checkout\Model\Session $session
      */
     public function __construct(
-        \Magento\Core\Controller\Varien\Action\Context $context,
+        \Magento\App\Action\Context $context,
         \Magento\Checkout\Model\Session $session
     ) {
         $this->_session = $session;
@@ -74,7 +74,7 @@ class Payment extends \Magento\Core\Controller\Front\Action
      */
     protected function _getPaymentMethodsHtml()
     {
-        $layout = $this->getLayout();
+        $layout = $this->_view->getLayout();
         $update = $layout->getUpdate();
         $update->load('checkout_onepage_paymentmethod');
         $layout->generateXml();

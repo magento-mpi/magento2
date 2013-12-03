@@ -76,48 +76,72 @@ class Url extends \Magento\Core\Model\Url
     protected $_encryptor;
 
     /**
+     * @var \Magento\Backend\App\ConfigInterface
+     */
+    protected $_config;
+
+    /**
+     * @var \Magento\Core\Model\StoreFactory
+     */
+    protected $_storeFactory;
+
+    /**
+     * @var \Magento\Core\Model\ConfigInterface
+     */
+    protected $_coreConfig;
+
+    /**
      * @param \Magento\App\Route\ConfigInterface $routeConfig
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo
+     * @param \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Session $session
      * @param Menu\Config $menuConfig
      * @param \Magento\Core\Model\App $app
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\CacheInterface $cache
      * @param Auth\Session $authSession
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Backend\App\ConfigInterface $config
+     * @param \Magento\Core\Model\StoreFactory $storeFactory
+     * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param null $areaCode
      * @param array $data
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
         \Magento\App\RequestInterface $request,
-        \Magento\Core\Model\Url\SecurityInfoInterface $securityInfo,
+        \Magento\Core\Model\Url\SecurityInfoInterface $urlSecurityInfo,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Session $session,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Core\Model\App $app,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\CacheInterface $cache,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Backend\App\ConfigInterface $config,
+        \Magento\Core\Model\StoreFactory $storeFactory,
+        \Magento\Core\Model\ConfigInterface $coreConfig,
         $areaCode = null,
         array $data = array()
     ) {
         $this->_encryptor = $encryptor;
         parent::__construct(
-            $routeConfig, $request, $securityInfo, $coreStoreConfig,
+            $routeConfig, $request, $urlSecurityInfo, $coreStoreConfig,
             $app, $storeManager, $session, $areaCode, $data
         );
+        $this->_config = $config;
         $this->_startupMenuItemId = $coreStoreConfig->getConfig(self::XML_PATH_STARTUP_MENU_ITEM);
         $this->_backendHelper = $backendHelper;
         $this->_coreSession = $session;
         $this->_menuConfig = $menuConfig;
         $this->_cache = $cache;
         $this->_session = $authSession;
+        $this->_storeFactory = $storeFactory;
+        $this->_coreConfig = $coreConfig;
     }
 
     /**
@@ -130,7 +154,7 @@ class Url extends \Magento\Core\Model\Url
         if ($this->hasData('secure_is_forced')) {
             return $this->getData('secure');
         }
-        return $this->_coreStoreConfig->getConfigFlag('web/secure/use_in_adminhtml');
+        return $this->_config->getFlag('web/secure/use_in_adminhtml');
     }
 
     /**
@@ -148,6 +172,7 @@ class Url extends \Magento\Core\Model\Url
         } else {
             $this->setNoSecret(false);
         }
+        unset($data['_store_to_url']);
         return parent::setRouteParams($data, $unsetOldParams);
     }
 
@@ -234,7 +259,7 @@ class Url extends \Magento\Core\Model\Url
      */
     public function useSecretKey()
     {
-        return $this->_coreStoreConfig->getConfigFlag('admin/security/use_form_key') && !$this->getNoSecret();
+        return $this->_config->getFlag('admin/security/use_form_key') && !$this->getNoSecret();
     }
 
     /**
@@ -369,5 +394,42 @@ class Url extends \Magento\Core\Model\Url
             }
         }
         return $path;
+    }
+
+    /**
+     * Get fake store for the url instance
+     *
+     * @return \Magento\Core\Model\Store
+     */
+    public function getStore()
+    {
+        return $this->_storeFactory->create(array('url' => $this, 'data' => array(
+            'code' => 'admin',
+            'force_disable_rewrites' => true,
+            'disable_store_in_url' => true
+        )));
+    }
+
+    /**
+     * Get cache id for config path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _getConfigCacheId($path)
+    {
+        return 'admin/' . $path;
+    }
+
+    /**
+     * Get config data by path
+     * Use only global config values for backend
+     *
+     * @param string $path
+     * @return null|string
+     */
+    protected function _getConfig($path)
+    {
+        return $this->_coreConfig->getValue($path, 'default');
     }
 }

@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Navigation extends \Magento\Core\Block\Template
+class Navigation extends \Magento\View\Block\Template
 {
     protected $_categoryInstance = null;
 
@@ -67,13 +67,6 @@ class Navigation extends \Magento\Core\Block\Template
     protected $_catalogLayer;
 
     /**
-     * Store manager
-     *
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
-
-    /**
      * Product collection factory
      *
      * @var \Magento\Catalog\Model\Resource\Product\CollectionFactory
@@ -81,42 +74,37 @@ class Navigation extends \Magento\Core\Block\Template
     protected $_productCollectionFactory;
 
     /**
-     * Construct
-     *
+     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat
      * @param \Magento\Catalog\Helper\Category $catalogCategory
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Block\Template\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\View\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Helper\Category\Flat $catalogCategoryFlat,
         \Magento\Catalog\Helper\Category $catalogCategory,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Block\Template\Context $context,
         array $data = array()
     ) {
         $this->_productCollectionFactory = $productCollectionFactory;
-        $this->_storeManager = $storeManager;
         $this->_catalogLayer = $catalogLayer;
         $this->_customerSession = $customerSession;
         $this->_catalogCategoryFlat = $catalogCategoryFlat;
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
         $this->_categoryInstance = $categoryFactory->create();
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _construct()
@@ -295,8 +283,7 @@ class Navigation extends \Magento\Core\Block\Template
         $html = array();
 
         // get all children
-        // If Flat Data enabled then use it but only on frontend
-        if ($this->_catalogCategoryFlat->isAvailable() && !$this->_storeManager->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {

@@ -81,6 +81,7 @@ try {
     if (!empty($targetLog) && $sourceLog == $targetLog) {
         throw new Exception("Aborting attempt to publish with old changelog. '$logFile' is not updated.");
     }
+
     $commitMsg = trim(getTopMarkdownSection($sourceLog));
 
     // replace license notices

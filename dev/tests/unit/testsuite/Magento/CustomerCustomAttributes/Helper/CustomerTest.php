@@ -29,7 +29,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->_contextMock = $this->getMockBuilder('Magento\Core\Helper\Context')
+        $this->_contextMock = $this->getMockBuilder('Magento\App\Helper\Context')
             ->disableOriginalConstructor()->getMock();
 
         $this->_dataHelperMock = $this->getMockBuilder('Magento\CustomerCustomAttributes\Helper\Data')
@@ -42,7 +42,7 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             $this->getMockBuilder('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator')
                 ->disableOriginalConstructor()->getMock();
 
-        $abstractHelperMock = $this->getMockBuilder('Magento\Core\Helper\AbstractHelper')
+        $abstractHelperMock = $this->getMockBuilder('Magento\App\Helper\AbstractHelper')
             ->disableOriginalConstructor()->getMock();
 
         $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
@@ -69,9 +69,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('Some error message')));
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
+            $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
-            $this->_contextMock,
             $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
@@ -97,9 +97,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->method('getMessages');
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
+            $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
-            $this->_contextMock,
             $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock

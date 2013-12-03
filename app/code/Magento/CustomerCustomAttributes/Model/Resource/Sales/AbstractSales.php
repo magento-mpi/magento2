@@ -24,7 +24,7 @@ abstract class AbstractSales extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_columnPrefix       = 'customer';
 
     /**
-     * Primery key auto increment flag
+     * Primary key auto increment flag
      *
      * @var bool
      */

@@ -10,6 +10,7 @@
  * @license     {license_link}
  */
 return array(
+    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
@@ -60,6 +61,7 @@ return array(
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
     array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
@@ -82,9 +84,9 @@ return array(
         'Magento\Core\Model\Layout\Merge',
         'Magento_Core_Model_Cache_Type_Layout::CACHE_TAG'
     ),
-    array('LOCALE_CACHE_KEY', 'Magento\Adminhtml\Block\Page\Footer'),
-    array('LOCALE_CACHE_LIFETIME', 'Magento\Adminhtml\Block\Page\Footer'),
-    array('LOCALE_CACHE_TAG', 'Magento\Adminhtml\Block\Page\Footer'),
+    array('LOCALE_CACHE_KEY', 'Magento\Backend\Block\Page\Footer'),
+    array('LOCALE_CACHE_LIFETIME', 'Magento\Backend\Block\Page\Footer'),
+    array('LOCALE_CACHE_TAG', 'Magento\Backend\Block\Page\Footer'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design\PackageInterface'),
@@ -152,12 +154,12 @@ return array(
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS',
-        'Magento\Core\Block\Template',
+        'Magento\View\Block\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS'
     ),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS',
-        'Magento\Core\Block\Template',
+        'Magento\View\Block\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
@@ -256,7 +258,7 @@ return array(
     ),
     array('XML_NODE_DIRECT_FRONT_NAMES', 'Magento\App\Request\Http'),
     array('XML_NODE_USET_AGENT_SKIP', 'Magento\Core\Model\Session\AbstractSession'),
-    array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento\Core\Controller\Varien\Action'),
+    array('XML_PAGE_TYPE_RENDER_INHERITED', 'Magento\App\Action\Action'),
     array('XML_PATH_ALLOW_MAP_UPDATE', 'Magento\Core\Model\Design\FileResolution\StrategyPool'),
     array('XML_PATH_WEBAPI_REQUEST_INTERPRETERS', 'Magento\Webapi\Controller\Request\Rest\Interpreter\Factory'),
     array('XML_PATH_WEBAPI_RESPONSE_RENDERS', 'Magento\Webapi\Controller\Response\Rest\Renderer\Factor'),
@@ -376,4 +378,5 @@ return array(
     array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
     array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
+    array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
 );

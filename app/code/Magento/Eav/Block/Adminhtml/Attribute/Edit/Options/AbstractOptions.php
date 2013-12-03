@@ -17,7 +17,7 @@
  */
 namespace Magento\Eav\Block\Adminhtml\Attribute\Edit\Options;
 
-abstract class AbstractOptions extends \Magento\Core\Block\AbstractBlock
+abstract class AbstractOptions extends \Magento\View\Block\AbstractBlock
 {
     /**
      * Preparing layout, adding buttons

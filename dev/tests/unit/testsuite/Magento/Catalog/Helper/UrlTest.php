@@ -21,11 +21,15 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $contextMock = $this->getMockBuilder('Magento\Core\Helper\Context')->disableOriginalConstructor()->getMock();
+        $contextMock = $this->getMockBuilder('Magento\App\Helper\Context')->disableOriginalConstructor()->getMock();
         $this->_configMock = $this->getMockBuilder('Magento\Core\Model\Config')
             ->disableOriginalConstructor()->getMock();
         $storeManager = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
-        $this->_urlHelper = new \Magento\Catalog\Helper\Product\Url($contextMock, $this->_configMock, $storeManager);
+        $this->_urlHelper = new \Magento\Catalog\Helper\Product\Url(
+            $contextMock,
+            $storeManager,
+            $this->_configMock
+        );
     }
 
     /**

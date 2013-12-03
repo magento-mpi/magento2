@@ -8,9 +8,11 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="checkout.cart">
-        <!-- remove name="checkout.cart.crosssell" / -->
-        <block class="Magento\TargetRule\Block\Checkout\Cart\Crosssell" name="checkout.cart.crosssell" as="crosssell" template="checkout/cart/crosssell.phtml">
+    <referenceContainer name="checkout.cart.items">
+        <block class="Magento\TargetRule\Block\Checkout\Cart\Crosssell" name="checkout.cart.crosssell" template="Magento_Catalog::product/list/items.phtml" after="-">
+            <arguments>
+                <argument name="type" xsi:type="string">crosssell-rule</argument>
+            </arguments>
         </block>
-    </referenceBlock>
+    </referenceContainer>
 </layout>

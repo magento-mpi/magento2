@@ -46,10 +46,10 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      * @var string
      */
     protected $_template = 'template/edit.phtml';
-    
+
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Menu\Config $menuConfig
      * @param \Magento\Backend\Model\Config\Structure $configStructure
@@ -57,8 +57,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Menu\Config $menuConfig,
         \Magento\Backend\Model\Config\Structure $configStructure,
@@ -69,7 +69,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
         $this->_menuConfig = $menuConfig;
         $this->_configStructure = $configStructure;
         $this->_emailConfig = $emailConfig;
-        parent::__construct($coreData, $context, $data);
+        parent::__construct($context, $coreData, $data);
     }
 
     protected function _prepareLayout()
@@ -320,7 +320,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Retrive email template model
+     * Retrieve email template model
      *
      * @return \Magento\Email\Model\Template
      */
@@ -376,7 +376,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget
     }
 
     /**
-     * Convert xml config pathes to decorated names
+     * Convert xml config paths to decorated names
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @param array $paths

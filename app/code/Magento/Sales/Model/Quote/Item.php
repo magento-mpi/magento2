@@ -175,13 +175,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_errorInfos;
 
     /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager = null;
-
-    /**
      * @var \Magento\Core\Model\LocaleInterface
      */
     protected $_locale;
@@ -192,7 +185,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
     protected $_itemOptionFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
@@ -206,7 +198,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Catalog\Model\ProductFactory $productFactory,
@@ -217,7 +208,6 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        $this->_eventManager = $eventManager;
         $this->_errorInfos = $statusListFactory->create();
         $this->_locale = $locale;
         $this->_itemOptionFactory = $itemOptionFactory;
@@ -313,8 +303,8 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
         $qty = $this->_prepareQty($qty);
 
         /**
-         * We can't modify quontity of existing items which have parent
-         * This qty declared just once duering add process and is not editable
+         * We can't modify quantity of existing items which have parent
+         * This qty declared just once during add process and is not editable
          */
         if (!$this->getParentItem() || !$this->getId()) {
             $this->setQtyToAdd($qty);
@@ -648,7 +638,7 @@ class Item extends \Magento\Sales\Model\Quote\Item\AbstractItem
 
     /**
      * Can specify specific actions for ability to change given quote options values
-     * Exemple: cataloginventory decimal qty validation may change qty to int,
+     * Example: cataloginventory decimal qty validation may change qty to int,
      * so need to change quote item qty option value.
      *
      * @param \Magento\Object $option

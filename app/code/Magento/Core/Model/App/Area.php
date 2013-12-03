@@ -98,7 +98,7 @@ class Area
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -111,7 +111,7 @@ class Area
      * @param \Magento\App\ObjectManager\ConfigLoader $diConfigLoader
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Design $design
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param string $areaCode
      */
     public function __construct(
@@ -123,7 +123,7 @@ class Area
         \Magento\App\ObjectManager\ConfigLoader $diConfigLoader,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Design $design,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         $areaCode
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;

@@ -26,19 +26,19 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_locale;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\Core\Model\StoreManager $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($resource);
         $this->_locale = $locale;
@@ -88,7 +88,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected function _getLoadSelect($field, $value, $object)
     {
         $select = parent::_getLoadSelect($field, $value, $object);
-        $select->where('store_id = ?', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $select->where('store_id = ?', \Magento\Core\Model\Store::DEFAULT_STORE_ID);
         return $select;
     }
 
@@ -125,7 +125,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
 
         $bind = array(
             'string'   => $object->getString(),
-            'store_id' => \Magento\Core\Model\AppInterface::ADMIN_STORE_ID
+            'store_id' => \Magento\Core\Model\Store::DEFAULT_STORE_ID
         );
 
         $object->setId($adapter->fetchOne($select, $bind));
@@ -197,7 +197,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
 
         if ($storeId === false) {
-            $where['store_id > ?'] = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
+            $where['store_id > ?'] = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
         } elseif ($storeId !== null) {
             $where['store_id = ?'] = $storeId;
         }
@@ -226,7 +226,7 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (is_null($storeId)) {
-            $storeId = $this->_storeManager->getStore()->getId();
+            $storeId = $this->_getStoreId();
         }
 
         $select = $write->select()
@@ -263,5 +263,15 @@ class String extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         return $this;
+    }
+
+    /**
+     * Get current store id
+     *
+     * @return int
+     */
+    protected function _getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }

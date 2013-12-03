@@ -41,16 +41,18 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     protected $_pageFactory;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -60,7 +62,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
         $this->_backendAuthSession = $backendAuthSession;
         $this->_pageVersion = $pageVersion;
         $this->_pageFactory = $pageFactory;
-        parent::__construct($context, $coreRegistry);
+        parent::__construct($context, $coreRegistry, $dateFilter);
     }
 
     /**
@@ -70,25 +72,25 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      */
     protected function _initAction()
     {
-        $update = $this->getLayout()->getUpdate();
+        $update = $this->_view->getLayout()->getUpdate();
         $update->addHandle('default');
 
         // add default layout handles for this action
-        $this->addActionLayoutHandles();
+        $this->_view->addActionLayoutHandles();
         $update->addHandle($this->_handles);
 
-        $this->loadLayoutUpdates()
-            ->generateLayoutXml()
-            ->generateLayoutBlocks();
+        $this->_view->loadLayoutUpdates();
+        $this->_view->generateLayoutXml();
+        $this->_view->generateLayoutBlocks();
 
-        $this->_initLayoutMessages('Magento\Adminhtml\Model\Session');
+        $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
 
         //load layout, set active menu and breadcrumbs
         $this->_setActiveMenu('Magento_VersionsCms::versionscms_page_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
 
-        $this->_isLayoutLoaded = true;
+        $this->_view->setIsLayoutLoaded(true);
 
         return $this;
     }
@@ -97,12 +99,11 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
      * Prepare and place cms page model into registry
      * with loaded data if id parameter present
      *
-     * @param string $idFieldName
      * @return \Magento\Cms\Model\Page
      */
     protected function _initPage()
     {
-        $this->_title(__('Pages'));
+        $this->_title->add(__('Pages'));
 
         $pageId = (int)$this->getRequest()->getParam('page_id');
         /** @var \Magento\Cms\Model\Page $page */
@@ -136,14 +137,14 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             $page->setUnderVersionControl((int)$this->_cmsConfig->getDefaultVersioningStatus());
         }
 
-        $this->_title($page->getId() ? $page->getTitle() : __('New Page'));
+        $this->_title->add($page->getId() ? $page->getTitle() : __('New Page'));
 
         $this->_initAction()->_addBreadcrumb(
             $page->getId() ? __('Edit Page') : __('New Page'),
             $page->getId() ? __('Edit Page') : __('New Page')
         );
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
     }
 
     /**
@@ -155,8 +156,8 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     {
         $this->_initPage();
 
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }

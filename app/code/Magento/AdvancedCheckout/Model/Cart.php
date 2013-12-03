@@ -116,9 +116,9 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_eventManager = null;
 
     /**
-     * @var \Magento\Core\Model\Message
+     * @var \Magento\Message\Factory
      */
-    protected $_coreMessage;
+    protected $messageFactory;
 
     /**
      * @var \Magento\Adminhtml\Model\Session\Quote
@@ -171,9 +171,14 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_locale;
 
     /**
+     * @var string
+     */
+    protected $_itemFailedStatus;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param \Magento\Core\Model\Message $coreMessage
+     * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Customer\Helper\Data $customerData
@@ -184,12 +189,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param string $itemFailedStatus
      * @param array $data
      */
     public function __construct(
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        \Magento\Core\Model\Message $coreMessage,
+        \Magento\Message\Factory $messageFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Customer\Helper\Data $customerData,
@@ -200,11 +206,12 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
+        $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
         $this->_cart = $cart;
         $this->_sessionQuote = $sessionQuote;
-        $this->_coreMessage = $coreMessage;
+        $this->messageFactory = $messageFactory;
         $this->_eventManager = $eventManager;
         $this->_checkoutData = $checkoutData;
         $this->_customerData = $customerData;
@@ -215,6 +222,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_quoteFactory = $quoteFactory;
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
+        $this->_itemFailedStatus = $itemFailedStatus;
     }
 
     /**
@@ -299,23 +307,19 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     }
 
     /**
-     * Return quote instance depending on current area
+     * Return quote instance
      *
      * @return \Magento\Adminhtml\Model\Session\Quote|\Magento\Sales\Model\Quote
      */
     public function getActualQuote()
     {
-        if ($this->_storeManager->getStore()->isAdmin()) {
-            return $this->_quote->getQuote();
-        } else {
-            if (!$this->getCustomer()) {
-                $customer = $this->_customerData->getCustomer();
-                if ($customer) {
-                    $this->setCustomer($customer);
-                }
+        if (!$this->getCustomer()) {
+            $customer = $this->_customerData->getCustomer();
+            if ($customer) {
+                $this->setCustomer($customer);
             }
-            return $this->getQuote();
         }
+        return $this->getQuote();
     }
 
     /**
@@ -384,15 +388,15 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     {
         $quote = $this->getQuote();
         $customer = $this->getCustomer();
-
+        $defaultStoreId = \Magento\Core\Model\Store::DEFAULT_STORE_ID;
         if ($quote->getId() && $quote->getStoreId()) {
             $storeId = $quote->getStoreId();
-        } elseif ($customer !== null && $customer->getStoreId() && !$customer->getStore()->isAdmin()) {
+        } elseif ($customer !== null && $customer->getStoreId() && $customer->getStoreId() != $defaultStoreId) {
             $storeId = $customer->getStoreId();
         } else {
             $customerStoreIds = $this->getQuoteSharedStoreIds(); //$customer->getSharedStoreIds();
             $storeId = array_shift($customerStoreIds);
-            if ($this->_storeManager->getStore($storeId)->isAdmin()) {
+            if ($storeId != $defaultStoreId) {
                 $defaultStore = $this->_storeManager->getAnyStoreView();
                 if ($defaultStore) {
                     $storeId = $defaultStore->getId();
@@ -1185,9 +1189,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             return true;
         }
 
-        return ($this->_storeManager->getStore()->isAdmin())
-            ? \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_WEBSITE
-            : \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU;
+        return $this->_itemFailedStatus;
     }
 
     /**
@@ -1520,13 +1522,13 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             $message = ($addedItemsCount == 1)
                     ? __('You added %1 product to your shopping cart.', $addedItemsCount)
                     : __('You added %1 products to your shopping cart.', $addedItemsCount);
-            $messages[] = $this->_coreMessage->success($message);
+            $messages[] = $this->messageFactory->success($message);
         }
         if ($failedItemsCount) {
             $warning = ($failedItemsCount == 1)
                     ? __('%1 product requires your attention.', $failedItemsCount)
                     : __('%1 products require your attention.', $failedItemsCount);
-            $messages[] = $this->_coreMessage->error($warning);
+            $messages[] = $this->messageFactory->error($warning);
         }
         return $messages;
     }

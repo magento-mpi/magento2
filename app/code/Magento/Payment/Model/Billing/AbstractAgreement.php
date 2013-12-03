@@ -63,17 +63,17 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     protected $_paymentData = null;
 
     /**
-     * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -83,7 +83,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Retreive payment method instance
+     * Retrieve payment method instance
      *
      * @return \Magento\Payment\Model\Method\AbstractMethod
      */
@@ -116,7 +116,7 @@ abstract class AbstractAgreement extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Before save, it's overriden just to make data validation on before save event
+     * Before save, it's overridden just to make data validation on before save event
      *
      * @throws \Magento\Core\Exception
      * @return \Magento\Core\Model\AbstractModel

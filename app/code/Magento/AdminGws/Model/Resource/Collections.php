@@ -28,17 +28,11 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_adminGwsData = null;
 
     /**
-     * Class constructor
-     *
-     *
-     *
-     * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\App\Resource $resource
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
      */
-    public function __construct(
-        \Magento\AdminGws\Helper\Data $adminGwsData,
-        \Magento\App\Resource $resource
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\AdminGws\Helper\Data $adminGwsData)
+    {
         $this->_adminGwsData = $adminGwsData;
         parent::__construct($resource);
     }
@@ -52,7 +46,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Retreive role ids that has higher/other gws roles
+     * Retrieve role ids that has higher/other gws roles
      *
      * @param int $isAll
      * @param array $allowedWebsites
@@ -117,7 +111,7 @@ class Collections extends \Magento\Core\Model\Resource\Db\AbstractDb
     }
 
     /**
-     * Retreive user ids that has higher/other gws roles
+     * Retrieve user ids that has higher/other gws roles
      *
      * @param int $isAll
      * @param array $allowedWebsites

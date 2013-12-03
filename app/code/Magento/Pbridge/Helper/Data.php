@@ -18,7 +18,7 @@
  */
 namespace Magento\Pbridge\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Payment Bridge action name to fetch Payment Bridge gateway form
@@ -120,9 +120,14 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_cartFactory;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * Construct
      *
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -131,9 +136,10 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -141,7 +147,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\View\LayoutInterface $layout,
         \Magento\Pbridge\Model\EncryptionFactory $encryptionFactory,
-        \Magento\Paypal\Model\CartFactory $cartFactory
+        \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\App\State $appState
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_customerSession = $customerSession;
@@ -151,6 +158,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
         $this->_layout = $layout;
         $this->_encryptionFactory = $encryptionFactory;
         $this->_cartFactory = $cartFactory;
+        $this->_appState = $appState;
         parent::__construct($context);
     }
 
@@ -268,7 +276,8 @@ class Data extends \Magento\Core\Helper\AbstractHelper
 
         $params['merchant_key']  = trim($this->_coreStoreConfig->getConfig('payment/pbridge/merchantkey', $this->_storeId));
 
-        $params['scope'] = $this->_storeManager->getStore()->isAdmin() ? 'backend' : 'frontend';
+        $params['scope'] = $this->_appState->getAreaCode() == \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE
+            ? 'backend' : 'frontend';
 
         return $params;
     }

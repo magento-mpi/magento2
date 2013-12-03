@@ -19,7 +19,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Payments Pro Method
  * Guest checkout using PayPal Payments Pro method and offline shipping method
  *
- * @ZephyrId MAGETWO-12968
  * @package Magento\Checkout\Test\Fixture
  */
 class GuestPaypalDirect extends Checkout
@@ -66,14 +65,14 @@ class GuestPaypalDirect extends Checkout
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurable->switchData('configurable_required');
         $configurable->persist();
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundle();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
         $bundle->switchData('bundle_fixed_required');
         $bundle->persist();
 
         $this->products = array(
             $simple,
             $configurable,
-            $bundle
+            $bundle,
         );
 
         //Checkout data

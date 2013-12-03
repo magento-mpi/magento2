@@ -11,7 +11,7 @@
  */
 namespace Magento\Paypal\Helper;
 
-class Checkout extends \Magento\Core\Helper\AbstractHelper
+class Checkout
 {
     /**
      * @var \Magento\Checkout\Model\SessionFactory

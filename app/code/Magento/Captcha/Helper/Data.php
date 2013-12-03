@@ -8,16 +8,12 @@
  * @license     {license_link}
  */
 
-/**
- * Captcha image model
- *
- * @category   Magento
- * @package    Magento_Captcha
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Captcha\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+/**
+ * Captcha image model
+ */
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Used for "name" attribute of captcha's input field
@@ -66,7 +62,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_dirs = null;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
+     * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
 
@@ -76,17 +72,17 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_factory;
 
     /**
-     * @param \Magento\Core\Helper\Context $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\App\Dir $dirs
-     * @param \Magento\Core\Model\StoreManager $storeManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Captcha\Model\CaptchaFactory $factory
      */
     public function __construct(
-        \Magento\Core\Helper\Context $context,
+        \Magento\App\Helper\Context $context,
         \Magento\App\Dir $dirs,
-        \Magento\Core\Model\StoreManager $storeManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem,
         \Magento\Captcha\Model\CaptchaFactory $factory
@@ -130,9 +126,7 @@ class Data extends \Magento\Core\Helper\AbstractHelper
      */
     public function getConfig($key, $store = null)
     {
-        $store = $this->_storeManager->getStore($store);
-        $areaCode = $store->isAdmin() ? 'admin' : 'customer';
-        return $store->getConfig($areaCode . '/captcha/' . $key);
+        return $this->_storeManager->getStore($store)->getConfig('customer/captcha/' . $key);
     }
 
     /**
@@ -168,11 +162,22 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     public function getImgDir($website = null)
     {
         $mediaDir =  $this->_dirs->getDir(\Magento\App\Dir::MEDIA);
-        $captchaDir = $mediaDir . '/captcha/' . $this->_storeManager->getWebsite($website)->getCode();
+        $captchaDir = $mediaDir . '/captcha/' . $this->_getWebsiteCode($website);
         $this->_filesystem->setWorkingDirectory($mediaDir);
         $this->_filesystem->setIsAllowCreateDirectories(true);
         $this->_filesystem->ensureDirectoryExists($captchaDir, 0775);
         return $captchaDir . '/';
+    }
+
+    /**
+     * Get website code
+     *
+     * @param mixed $website
+     * @return string
+     */
+    protected function _getWebsiteCode($website = null)
+    {
+        return $this->_storeManager->getWebsite($website)->getCode();
     }
 
     /**

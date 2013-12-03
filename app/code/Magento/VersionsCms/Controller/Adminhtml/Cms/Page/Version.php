@@ -32,8 +32,9 @@ class Version
     protected $_pageRevision;
 
     /**
-     * @param \Magento\Backend\Controller\Context $context
+     * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Filter\Date $dateFilter
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
@@ -43,8 +44,9 @@ class Version
      * @param \Magento\VersionsCms\Model\Page\Revision $pageRevision
      */
     public function __construct(
-        \Magento\Backend\Controller\Context $context,
+        \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Filter\Date $dateFilter,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
@@ -56,7 +58,15 @@ class Version
         $this->_pageVersionFactory = $pageVersionFactory;
         $this->_adminhtmlSession = $adminhtmlSession;
         $this->_pageRevision = $pageRevision;
-        parent::__construct($context, $coreRegistry, $cmsConfig, $backendAuthSession, $pageVersion, $pageFactory);
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $dateFilter,
+            $cmsConfig,
+            $backendAuthSession,
+            $pageVersion,
+            $pageFactory
+        );
     }
 
     /**
@@ -67,8 +77,8 @@ class Version
     protected function _initAction()
     {
         // load layout, set active menu and breadcrumbs
-        $this->loadLayout()
-            ->_setActiveMenu('Magento_Cms::cms_page')
+        $this->_view->loadLayout();
+        $this->_setActiveMenu('Magento_Cms::cms_page')
             ->_addBreadcrumb(__('CMS'), __('CMS'))
             ->_addBreadcrumb(__('Manage Pages'), __('Manage Pages'));
         return $this;
@@ -128,7 +138,7 @@ class Version
             ->_addBreadcrumb(__('Edit Version'),
                 __('Edit Version'));
 
-        $this->renderLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }
@@ -200,8 +210,8 @@ class Version
         $this->_initVersion();
         $this->_initPage();
 
-        $this->loadLayout();
-        $this->renderLayout();
+        $this->_view->loadLayout();
+        $this->_view->renderLayout();
 
         return $this;
     }
@@ -332,13 +342,14 @@ class Version
             } catch (\Exception $e) {
                 // display error message
                 $this->_adminhtmlSession->addError($e->getMessage());
-                if ($this->_getRefererUrl()) {
+                if ($this->_redirect->getRefererUrl()) {
                     // save data in session
                     $this->_adminhtmlSession->setFormData($data);
                 }
                 // redirect to edit form
-                $this->_redirectReferer($this->getUrl('adminhtml/cms_page/edit',
-                    array('page_id' => $this->getRequest()->getParam('page_id'))));
+                $editUrl = $this->getUrl('adminhtml/cms_page/edit',
+                    array('page_id' => $this->getRequest()->getParam('page_id')));
+                $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($editUrl));
                 return;
             }
         }

@@ -10,8 +10,6 @@ namespace Magento\View;
 
 /**
  * Config Interface
- *
- * @package Magento\View
  */
 interface ConfigInterface
 {

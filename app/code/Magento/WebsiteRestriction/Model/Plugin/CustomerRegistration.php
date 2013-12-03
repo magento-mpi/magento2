@@ -15,19 +15,10 @@ class CustomerRegistration
     protected $_restrictionConfig;
 
     /**
-     * @var \Magento\Core\Model\StoreManager
-     */
-    protected $_storeManager;
-
-    /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\WebsiteRestriction\Model\ConfigInterface $restrictionConfig
      */
-    public function __construct(
-        \Magento\Core\Model\StoreManager $storeManager,
-        \Magento\WebsiteRestriction\Model\ConfigInterface $restrictionConfig
-    ) {
-        $this->_storeManager = $storeManager;
+    public function __construct(\Magento\WebsiteRestriction\Model\ConfigInterface $restrictionConfig)
+    {
         $this->_restrictionConfig = $restrictionConfig;
     }
 
@@ -39,8 +30,7 @@ class CustomerRegistration
      */
     public function afterIsRegistrationAllowed($invocationResult)
     {
-        $currentStore = $this->_storeManager->getStore();
-        if ((!$currentStore->isAdmin()) && $invocationResult) {
+        if ($invocationResult) {
             $invocationResult = (!$this->_restrictionConfig->isRestrictionEnabled())
                 || (\Magento\WebsiteRestriction\Model\Mode::ALLOW_REGISTER === $this->_restrictionConfig->getMode());
         }

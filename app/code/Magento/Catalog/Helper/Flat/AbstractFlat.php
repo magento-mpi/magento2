@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Helper\Flat;
 
-abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
+abstract class AbstractFlat extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * Catalog Flat index process code
@@ -57,16 +57,22 @@ abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
     protected $_processFactory;
 
     /**
-     * Construct
-     *
+     * @var bool
+     */
+    protected $_isAvailable;
+
+    /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Index\Model\ProcessFactory $processFactory
-     * @param \Magento\Core\Helper\Context $context
+     * @param bool $isAvailable
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Index\Model\ProcessFactory $processFactory,
-        \Magento\Core\Helper\Context $context
+        $isAvailable = true
     ) {
         $this->_processFactory = $processFactory;
+        $this->_isAvailable = $isAvailable;
         parent::__construct($context);
     }
 
@@ -77,7 +83,9 @@ abstract class AbstractFlat extends \Magento\Core\Helper\AbstractHelper
      */
     public function isAvailable()
     {
-        return $this->isEnabled() && !$this->getProcess()->isLocked()
+        return $this->_isAvailable
+            && $this->isEnabled()
+            && !$this->getProcess()->isLocked()
             && $this->getProcess()->getStatus() != \Magento\Index\Model\Process::STATUS_RUNNING;
     }
 

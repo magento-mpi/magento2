@@ -17,7 +17,7 @@
  */
 namespace Magento\Logging\Helper;
 
-class Data extends \Magento\Core\Helper\AbstractHelper
+class Data extends \Magento\App\Helper\AbstractHelper
 {
     /**
      * @var \Magento\Logging\Model\Config
@@ -25,13 +25,11 @@ class Data extends \Magento\Core\Helper\AbstractHelper
     protected $_config;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Logging\Model\Config $config
-     * @param \Magento\Core\Helper\Context $context
      */
-    public function __construct(
-        \Magento\Logging\Model\Config $config,
-        \Magento\Core\Helper\Context $context
-    ) {
+    public function __construct(\Magento\App\Helper\Context $context, \Magento\Logging\Model\Config $config)
+    {
         $this->_config = $config;
         parent::__construct($context);
     }
