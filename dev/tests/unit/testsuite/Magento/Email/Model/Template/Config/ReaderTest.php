@@ -57,13 +57,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_moduleDirResolver = $this->getMock(
             'Magento\Module\Dir\ReverseResolver', array(), array(), '', false
         );
-        $filesystemDirectoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Read',
-            array('readFile'),
-            array(),
-            '',
-            false
-        );
+        $filesystemDirectoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
 
         $filesystemDirectoryMock->expects($this->any())
             ->method('readFile')
@@ -71,6 +65,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 array($paths[0], file_get_contents($paths[0])),
                 array($paths[1], file_get_contents($paths[1]))
             )));
+        $filesystemDirectoryMock->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
 
         $fileIterator = new \Magento\Email\Model\Template\Config\FileIterator(
             $filesystemDirectoryMock,
