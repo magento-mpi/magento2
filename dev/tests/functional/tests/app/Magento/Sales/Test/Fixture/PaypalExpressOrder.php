@@ -80,4 +80,12 @@ class PaypalExpressOrder extends Checkout
     {
         return $this->orderId;
     }
+
+    /**
+     * @return Customer
+     */
+    public function getBillingAddress()
+    {
+        return $this->checkoutFixture->getBillingAddress();
+    }
 }

@@ -39,9 +39,11 @@ class OrdersAndReturnsSearch extends Form
     public function fillCustom($order, $findOrderBy)
     {
         $this->_rootElement->find('#oar-order-id', Locator::SELECTOR_CSS)->setValue($order->getOrderId());
-        $this->_rootElement->find('#oar-billing-lastname', Locator::SELECTOR_CSS)->setValue($order->getBillingAddress()->getLastName());
+        $billingLastName = $order->getBillingAddress()->getData('fields/lastname');
+        $billingLastName = array_pop($billingLastName);
+        $this->_rootElement->find('#oar-billing-lastname', Locator::SELECTOR_CSS)->setValue($billingLastName);
         //$this->_rootElement->find('#quick-search-type-id', Locator::SELECTOR_CSS)->setValue($findOrderBy);
-        $this->_rootElement->find('#oar_email', Locator::SELECTOR_CSS)->setValue($order->getCustomer()->getEmail());
+        $this->_rootElement->find('#oar_email', Locator::SELECTOR_CSS)->setValue($order->getBillingEmailAddress());
     }
 
     /**
