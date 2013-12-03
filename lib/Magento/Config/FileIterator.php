@@ -95,6 +95,16 @@ class FileIterator implements \Iterator
      */
     public function toArray()
     {
-        return $this->paths;
+        $result = [];
+        foreach($this as $item) {
+            $result[] = $item;
+        }
+        return $result;
     }
+//
+//    public function addItem($path, $content)
+//    {
+//        $this->paths[] = $path;
+//        $this->cached = $`1`
+//    }
 }
