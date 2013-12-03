@@ -18,14 +18,6 @@ use Magento\Catalog\Test\Fixture\AbstractProduct;
 Class RmaTest extends Functional
 {
     /**
-     * Login into backend area before test
-     */
-    protected function setUp()
-    {
-        Factory::getApp()->magentoBackendLoginUser();
-    }
-
-    /**
      *
      * Returning items using return merchandise authorization
      *
@@ -34,6 +26,7 @@ Class RmaTest extends Functional
     public function testRma()
     {
         // precondition 1: Configure RMA Settings
+        Factory::getApp()->magentoBackendLoginUser();
         $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $enableRma->switchData('enable_rma');
         $enableRma->persist();
@@ -82,5 +75,12 @@ Class RmaTest extends Functional
         // Step 5: Click "Return" link
         $viewPage = Factory::getPageFactory()->getSalesGuestView();
         //$viewPage->getViewBlock()->clickLink('Return');
+
+        // Step 10: Login to Backend as Admin
+        Factory::getApp()->magentoBackendLoginUser();
+
+        // Step 11: Sales->Order->Returns
+        $orderPage->open();
+        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
     }
 }

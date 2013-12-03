@@ -65,7 +65,7 @@ class PaypalExpress extends Checkout
         //Verification data
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$10.83'
+                'grand_total' => '$22.73'
             )
         );
     }
@@ -96,8 +96,12 @@ class PaypalExpress extends Checkout
         $simple->switchData('simple_required');
         $simple->persist();
 
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->persist();
+
         $this->products = array(
-            $simple
+            $simple,
+            $configurable
         );
 
         //Checkout data
