@@ -34,7 +34,7 @@ class CheckMoneyOrder extends Checkout
                 'tax' => '$10.81',
             ),
             'product_price_with_tax' => array(
-                'Product' => array(
+                'SimpleProduct' => array(
                     'value' => '$10.00',
                 ),
                 'ConfigurableProduct' => array(
