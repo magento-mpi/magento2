@@ -1,3 +1,6 @@
+* Fixed bugs:
+  * Fixed shopping cart rules for a specific customer group
+
 2.0.0.0-dev54
 =============
 * Modularity improvements:
