@@ -10,6 +10,7 @@
  */
 
 namespace Magento\View\Block;
+use Magento\Filesystem\DirectoryList;
 
 /**
  * @magentoAppIsolation enabled
@@ -46,11 +47,13 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
      */
     public function testCssWithWrongImage()
     {
-        $dirPath = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Filesystem $filesystem */
+        $relativePath = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::ROOT)
+            ->getRelativePath(__DIR__ . '/_files');
         /** @var $directoryList \Magento\Filesystem\DirectoryList */
-        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Filesystem\DirectoryList');
-        $directoryList->addDirectory(\Magento\Filesystem::THEMES, array('path' => $dirPath));
+        $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $directoryList->addDirectory(\Magento\Filesystem::THEMES, array('path' => $relativePath));
 
         $cssUrl = $this->_block->getViewFileUrl('css/wrong.css', array(
             'area'    => 'frontend',
