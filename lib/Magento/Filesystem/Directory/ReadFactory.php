@@ -21,6 +21,8 @@ class ReadFactory
         $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
         $driver = new $directoryDriver();
         $factory = new \Magento\Filesystem\File\ReadFactory();
-        return new \Magento\Filesystem\Directory\Read($config, $factory, $driver);
+        $wrapperFactory = new \Magento\Filesystem\WrapperFactory();
+
+        return new \Magento\Filesystem\Directory\Read($config, $factory, $driver, $wrapperFactory);
     }
 }

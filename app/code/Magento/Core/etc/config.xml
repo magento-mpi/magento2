@@ -145,6 +145,45 @@
                         <driver>Magento\Filesystem\Driver\Socket</driver>
                     </socket>
                 </directory>
+                <protocol>
+                    <file>
+                        <scheme>file</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </file>
+                    <php>
+                        <scheme>php</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </php>
+                    <zlib>
+                        <scheme>compress.zlib</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </zlib>
+                    <data>
+                        <scheme>data</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </data>
+                    <phar>
+                        <scheme>phar</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </phar>
+                    <rar>
+                        <scheme>rar</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </rar>
+                    <ogg>
+                        <scheme>ogg</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </ogg>
+                    <!--- @TODO Is it needed?  -->
+                    <glob>
+                        <scheme>glob</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </glob>
+                    <expect>
+                        <scheme>expect</scheme>
+                        <class>Magento\Filesystem\Protocol\File</class>
+                    </expect>
+                </protocol>
             </filesystem>
         </system>
         <web>

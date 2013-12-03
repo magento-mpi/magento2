@@ -13,6 +13,30 @@ use Magento\Filesystem\FilesystemException;
 
 class Filesystem
 {
+    /**#@+
+     * Remote access wrappers
+     */
+    const WRAPPER_DIR_HTTP  = 'http';
+    const WRAPPER_DIR_HTTPS = 'https';
+    const WRAPPER_DIR_FTP   = 'ftp';
+    const WRAPPER_DIR_FTPS  = 'ftps';
+    const WRAPPER_DIR_SSH2  = 'ssh2'; // extra extension
+    /**#@-*/
+
+    /**#@+
+     * Local stream wrappers
+     */
+    const WRAPPER_STREAM_FILE   = 'file';
+    const WRAPPER_STREAM_PHP    = 'php';
+    const WRAPPER_STREAM_ZLIB   = 'compress.zlib';
+    const WRAPPER_STREAM_DATA   = 'data';
+    const WRAPPER_STREAM_GLOB   = 'glob';
+    const WRAPPER_STREAM_PHAR   = 'phar';
+    const WRAPPER_STREAM_RAR    = 'rar'; // extra extension
+    const WRAPPER_STREAM_OGG    = 'ogg'; // extra extension
+    const WRAPPER_STREAM_EXPECT = 'expect'; // extra extension
+    /**#@-*/
+
     /**
      * Custom application dirs
      */
@@ -166,6 +190,7 @@ use \Magento\FilesystemDeprecated;
      * @param Filesystem\Directory\ReadFactory $readFactory
      * @param Filesystem\Directory\WriteFactory $writeFactory
      * @param Filesystem\AdapterInterface $adapter
+     * @param Filesystem\WrapperFactory $wrapperFactory
      */
     public function __construct(
         \Magento\Filesystem\DirectoryList $directoryList,
@@ -178,9 +203,7 @@ use \Magento\FilesystemDeprecated;
         $this->writeFactory = $writeFactory;
 
         $this->_adapter = $adapter;
-
     }
-
 
     /**
      * Create an instance of directory with write permissions

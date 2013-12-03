@@ -24,7 +24,8 @@ class WriteFactory
         $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
         $driver = new $directoryDriver();
         $factory = new \Magento\Filesystem\File\WriteFactory();
+        $wrapperFactory = new \Magento\Filesystem\WrapperFactory();
 
-        return new \Magento\Filesystem\Directory\Write($config, $factory, $driver);
+        return new \Magento\Filesystem\Directory\Write($config, $factory, $driver, $wrapperFactory);
     }
 }

@@ -52,6 +52,8 @@ class DirectoryList
         Filesystem::LOCALE          => array('path' => '')
     );
 
+    protected $protocol = array();
+
     /**
      * @param string $root
      * @param array $directories
@@ -96,6 +98,17 @@ class DirectoryList
         $configuration['path'] = $this->makeAbsolute($configuration['path']);
 
         $this->directories[$code] = $configuration;
+    }
+
+    /**
+     * Set protocol wrapper
+     *
+     * @param string $wrapperCode
+     * @param array $configuration
+     */
+    public function addProtocol($wrapperCode, array $configuration)
+    {
+        $this->protocol[$wrapperCode] = $configuration;
     }
 
     /**
