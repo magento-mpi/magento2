@@ -152,9 +152,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
         $form = new \Magento\Data\Form(
-            $this->_sessionMock,
             $factory,
             $collectionFactory,
+            $this->_sessionMock,
             array('html_id_prefix' => 'pfx_')
         );
         $data = new \Magento\Object();

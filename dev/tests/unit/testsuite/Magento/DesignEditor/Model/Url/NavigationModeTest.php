@@ -96,11 +96,11 @@ class NavigationModeTest extends \PHPUnit_Framework_TestCase
             $this->_configInterfaceMock,
             $this->_requestMock,
             $this->_securityInfoMock,
-            $this->_designHelperMock,
             $this->_storeConfigMock,
             $this->_appMock,
             $this->_storeManagerMock,
             $this->_sessionMock,
+            $this->_designHelperMock,
             'string',
             $this->_testData
         );

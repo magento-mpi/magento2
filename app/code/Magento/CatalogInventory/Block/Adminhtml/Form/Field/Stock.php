@@ -53,10 +53,10 @@ class Stock extends \Magento\Data\Form\Element\Select
         array $data = array()
     ) {
         $this->_factoryText = $factoryText;
-        $this->_qty = isset($attributes['qty']) ? $attributes['qty'] : $this->_createQtyElement();
-        unset($attributes['qty']);
+        $this->_qty = isset($data['qty']) ? $data['qty'] : $this->_createQtyElement();
+        unset($data['qty']);
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
-        $this->setName($attributes['name']);
+        $this->setName($data['name']);
     }
 
     /**
