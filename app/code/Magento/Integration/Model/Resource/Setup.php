@@ -30,8 +30,8 @@ class Setup extends \Magento\Core\Model\Resource\Setup
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Integration\Model\Manager $integrationManager,
         $resourceName,
+        \Magento\Integration\Model\Manager $integrationManager,
         $moduleName = 'Magento_Integration',
         $connectionName = ''
     ) {
