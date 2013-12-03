@@ -10,6 +10,7 @@
 namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Model\Integration as IntegrationKeyConstants;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -124,15 +125,19 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testEditAction()
     {
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with(1)->will(
-            $this->returnValue($this->_getSampleIntegrationData()));
+            $this->returnValue($this->_getSampleIntegrationData())
+        );
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
         // put data in session, the magic function getFormData is called so, must match __call method name
         $this->_mockBackendModSess->expects($this->any())
             ->method('__call')->will(
-                $this->returnValue(array(
+                $this->returnValue(
+                    array(
                         Info::DATA_ID => 1,
                         'name' => 'testIntegration'
-                    )));
+                    )
+                )
+            );
         $this->_verifyLoadAndRenderLayout();
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->editAction();
@@ -226,7 +231,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockIntegrationSvc->expects($this->any())->method('create')->with($this->anything())
             ->will($this->returnValue($intData));
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with(1)->will(
-            $this->returnValue(null));
+            $this->returnValue(null)
+        );
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify success message
@@ -240,6 +246,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $intData = $this->_getSampleIntegrationData();
         $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
+        $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
+            ->will($this->returnValue($intData));
         $this->_mockIntegrationSvc->expects($this->any())->method('delete')->with($this->anything())
             ->will($this->returnValue($intData));
         // Use real translate model
@@ -251,8 +259,25 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $integrationContr->deleteAction();
     }
 
+    public function testDeleteActionConfigSetUp()
+    {
+        $intData = $this->_getSampleIntegrationData();
+        $intData[Info::DATA_SETUP_TYPE] = IntegrationKeyConstants::TYPE_CONFIG;
+        $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
+        $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
+            ->will($this->returnValue($intData));
+        $this->_mockIntegrationSvc->expects($this->never())->method('delete');
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        // verify success message
+        $this->_mockBackendModSess->expects($this->never())->method('addSuccess');
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->deleteAction();
+    }
+
     public function testDeleteActionMissingId()
     {
+        $this->_mockIntegrationSvc->expects($this->never())->method('get');
         $this->_mockIntegrationSvc->expects($this->never())->method('delete');
         // Use real translate model
         $this->_mockTranslateModel = null;
@@ -266,6 +291,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testDeleteActionForServiceException()
     {
         $intData = $this->_getSampleIntegrationData();
+        $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
+            ->will($this->returnValue($intData));
         $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
         // Use real translate model
         $this->_mockTranslateModel = null;
@@ -381,7 +408,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
             Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
-            Info::DATA_SETUP_TYPE => 0
+            Info::DATA_SETUP_TYPE => IntegrationKeyConstants::TYPE_MANUAL
         );
     }
 }

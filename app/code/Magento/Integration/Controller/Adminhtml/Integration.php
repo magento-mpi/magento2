@@ -248,6 +248,14 @@ class Integration extends Action
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         try {
             if ($integrationId) {
+                $integrationData = $this->_integrationService->get($integrationId);
+                if (isset($integrationData[Info::DATA_SETUP_TYPE])
+                    && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG
+                ) {
+                    //Cannot delete Integrations created from Config. No error necessary just redirect to grid
+                    $this->_redirect('*/*/');
+                    return;
+                }
                 $integrationData = $this->_integrationService->delete($integrationId);
                 if (!$integrationData[Info::DATA_ID]) {
                     $this->_getSession()->addError(__('This integration no longer exists.'));
