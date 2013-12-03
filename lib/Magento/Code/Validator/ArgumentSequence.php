@@ -27,12 +27,12 @@ class ArgumentSequence implements ValidatorInterface
      * @var array
      */
     protected $_allowedTypes = array(
+        '\Magento\Object',
         '\Magento\App\Action\Action',
         '\Magento\View\Element\BlockInterface',
         '\Magento\App\Helper\AbstractHelper',
         '\Magento\Module\Updater\SetupInterface',
         '\Magento\Core\Model\Resource\AbstractResource',
-        '\Magento\Core\Model\AbstractModel',
         '\Magento\Data\Collection',
     );
 
