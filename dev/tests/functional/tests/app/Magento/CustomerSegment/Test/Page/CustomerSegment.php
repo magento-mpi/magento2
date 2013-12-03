@@ -27,7 +27,7 @@ class CustomerSegment extends Page {
     /**
      * URL for customer segment
      */
-    const MCA = 'admin/customersegment';
+    const MCA = 'customersegment';
 
     /**
      * @var CustomerSegmentGrid
