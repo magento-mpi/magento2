@@ -34,6 +34,11 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     protected $urlBuilder;
 
     /**
+     * @var \Magento\App\RequestInterface
+     */
+    protected $request;
+
+    /**
      * @var array
      */
     protected $sidNameMap;
@@ -42,17 +47,20 @@ class SidResolver implements \Magento\Session\SidResolverInterface
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\UrlInterface $urlBuilder
+     * @param \Magento\App\RequestInterface $request
      * @param array $sidNameMap
      */
     public function __construct(
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\UrlInterface $urlBuilder,
+        \Magento\App\RequestInterface $request,
         array $sidNameMap = array()
     ) {
         $this->storeManager = $storeManager;
         $this->coreStoreConfig = $coreStoreConfig;
         $this->urlBuilder = $urlBuilder;
+        $this->request = $request;
         $this->sidNameMap = $sidNameMap;
     }
 
@@ -62,14 +70,14 @@ class SidResolver implements \Magento\Session\SidResolverInterface
      */
     public function getSid(AbstractSession $session)
     {
-        $id = null;
+        $sidKey = null;
         if ($this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID)
             && $this->request->getQuery($this->getSessionIdQueryParam($session), false)
             && $this->urlBuilder->isOwnOriginUrl()
         ) {
-            $id = $_GET[$this->getSessionIdQueryParam($session)];
+            $sidKey = $this->request->getQuery($this->getSessionIdQueryParam($session));
         }
-        return $id;
+        return $sidKey;
     }
 
     /**
