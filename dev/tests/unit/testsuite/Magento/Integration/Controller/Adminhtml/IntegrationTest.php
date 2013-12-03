@@ -236,6 +236,47 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $integrationContr->saveAction();
     }
 
+    public function testDeleteAction()
+    {
+        $intData = $this->_getSampleIntegrationData();
+        $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
+        $this->_mockIntegrationSvc->expects($this->any())->method('delete')->with($this->anything())
+            ->will($this->returnValue($intData));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        // verify success message
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+            ->with(__('The integration \'%1\' has been deleted.', $intData[Info::DATA_NAME]));
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->deleteAction();
+    }
+
+    public function testDeleteActionMissingId()
+    {
+        $this->_mockIntegrationSvc->expects($this->never())->method('delete');
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        // verify error message
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
+            ->with(__('Integration ID is not specified or is invalid.'));
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->deleteAction();
+    }
+
+    public function testDeleteActionForServiceException()
+    {
+        $intData = $this->_getSampleIntegrationData();
+        $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        $exceptionMessage = __("Integration with ID '%1' doesn't exist.", $intData[Info::DATA_ID]);
+        $invalidIdException = new \Magento\Integration\Exception($exceptionMessage);
+        $this->_mockIntegrationSvc->expects($this->once())->method('delete')
+            ->will($this->throwException($invalidIdException));
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->deleteAction();
+    }
+
     /**
      * Makes sure that Mage has a mock object manager set.
      *

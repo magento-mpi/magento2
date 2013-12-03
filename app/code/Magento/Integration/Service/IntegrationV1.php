@@ -77,6 +77,17 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     /**
      * {@inheritdoc}
      */
+    public function delete($integrationId)
+    {
+        $integration = $this->_loadIntegrationById($integrationId);
+        $data = $integration->getData();
+        $integration->delete();
+        return $data;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function get($integrationId)
     {
         $integration = $this->_loadIntegrationById($integrationId);

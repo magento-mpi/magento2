@@ -12,7 +12,6 @@ namespace Magento\Integration\Service;
  */
 interface IntegrationV1Interface
 {
-
     /**
      * Create a new Integration
      *
@@ -34,20 +33,27 @@ interface IntegrationV1Interface
     /**
      * Find Integration by name.
      *
-     * @param int $integrationName
+     * @param string $integrationName
      * @return array|null Integration data or null if not found
-     * @throws \Magento\Integration\Exception
      */
     public function findByName($integrationName);
 
-
     /**
-     * Update a Integration.
+     * Update an Integration.
      *
      * @param array $integrationData
      * @return array Integration data
      * @throws \Magento\Integration\Exception
      */
     public function update(array $integrationData);
+
+    /**
+     * Delete an Integration.
+     *
+     * @param int $integrationId
+     * @return array Integration data
+     * @throws \Magento\Integration\Exception if the integration does not exist or cannot be deleted
+     */
+    public function delete($integrationId);
 
 }

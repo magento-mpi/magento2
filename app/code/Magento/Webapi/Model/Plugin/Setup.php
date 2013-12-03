@@ -49,8 +49,8 @@ class Setup
      * Construct Setup plugin instance
      *
      * @param \Magento\Webapi\Model\IntegrationConfig $integrationConfig
-     * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Authz\Service\AuthorizationV1 $authzService
+     * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
      */
     public function __construct(

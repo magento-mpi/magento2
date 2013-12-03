@@ -177,6 +177,23 @@ class AuthorizationV1 implements AuthorizationV1Interface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function removeRoleAndPermissions(UserIdentifier $userIdentifier)
+    {
+        try {
+            $this->_deleteRole($userIdentifier);
+        } catch (ServiceException $e) {
+            throw $e;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            throw new ServiceException(
+                __('Error happened while deleting role and permissions. Check exception log for details.')
+            );
+        }
+    }
+
+    /**
      * Create new ACL role.
      *
      * @param UserIdentifier $userIdentifier
@@ -206,6 +223,29 @@ class AuthorizationV1 implements AuthorizationV1Interface
             ->save();
         return $role;
     }
+
+    /**
+     * Remove an ACL role. This deletes the cascading permissions
+     *
+     * @param UserIdentifier $userIdentifier
+     * @return Role
+     * @throws \LogicException
+     */
+    protected function _deleteRole($userIdentifier)
+    {
+        $userType = $userIdentifier->getUserType();
+        $userId = $userIdentifier->getUserId();
+        switch ($userType) {
+            case UserIdentifier::USER_TYPE_INTEGRATION:
+                $roleName = $userType . $userId;
+                break;
+            default:
+                throw new \LogicException("Unknown user type: '{$userType}'.");
+        }
+        $role = $this->_roleFactory->create()->load($roleName, 'role_name');
+        return $role->delete();
+    }
+
 
     /**
      * Identify user role from user identifier.

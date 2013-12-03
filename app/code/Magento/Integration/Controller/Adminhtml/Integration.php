@@ -239,6 +239,35 @@ class Integration extends Action
         $this->_view->renderLayout();
     }
 
+
+    /**
+     * Delete the integration.
+     */
+    public function deleteAction()
+    {
+        $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+        try {
+            if ($integrationId) {
+                $integrationData = $this->_integrationService->delete($integrationId);
+                if (!$integrationData[Info::DATA_ID]) {
+                    $this->_getSession()->addError(__('This integration no longer exists.'));
+                } else {
+                    $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
+                    $this->_getSession()
+                        ->addSuccess(__('The integration \'%1\' has been deleted.', $integrationData[Info::DATA_NAME]));
+                }
+            } else {
+                $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            }
+        } catch (\Exception $e) {
+            //Catching all exceptions here. Not doing anything special for other exceptions
+            $this->_logger->logException($e);
+            $this->_getSession()->addError($e->getMessage());
+        }
+        $this->_redirect('*/*/');
+        return;
+    }
+
     /**
      * @param string $dialogName
      * @return array

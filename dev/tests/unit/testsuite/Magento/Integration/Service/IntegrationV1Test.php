@@ -9,12 +9,15 @@
  */
 namespace Magento\Integration\Service;
 
+use Magento\Integration\Model\Integration;
+
 class IntegrationV1Test extends \PHPUnit_Framework_TestCase
 {
     const VALUE_INTEGRATION_ID = 1;
     const VALUE_INTEGRATION_NAME = 'Integration Name';
     const VALUE_INTEGRATION_ANOTHER_NAME = 'Another Integration Name';
     const VALUE_INTEGRATION_EMAIL = 'test@magento.com';
+    const VALUE_INTEGRATION_SETUP_BACKEND = 0;
     const VALUE_INTEGRATION_ENDPOINT = 'http://magento.ll/endpoint';
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -49,15 +52,17 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
                     'load',
                     'loadByName',
                     'save',
+                    'delete',
                     '__wakeup'
                 ]
             )
             ->getMock();
         $this->_integrationData = array(
-            'integration_id' => self::VALUE_INTEGRATION_ID,
-            'name' => self::VALUE_INTEGRATION_NAME,
-            'email' => self::VALUE_INTEGRATION_EMAIL,
-            'endpoint' => self::VALUE_INTEGRATION_ENDPOINT
+            Integration::ID => self::VALUE_INTEGRATION_ID,
+            Integration::NAME => self::VALUE_INTEGRATION_NAME,
+            Integration::EMAIL => self::VALUE_INTEGRATION_EMAIL,
+            Integration::EMAIL => self::VALUE_INTEGRATION_ENDPOINT,
+            Integration::SETUP_TYPE => self::VALUE_INTEGRATION_SETUP_BACKEND
         );
         $this->_integrationFactory->expects($this->any())
             ->method('create')
@@ -87,6 +92,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
                     'load',
                     'loadByName',
                     'save',
+                    'delete',
                     '__wakeup'
                 ]
             )
@@ -243,6 +249,81 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->get(self::VALUE_INTEGRATION_ID);
     }
 
+    public function testFindByName()
+    {
+        $this->_integrationMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue($this->_integrationData));
+        $this->_integrationMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_INTEGRATION_NAME, 'name')
+            ->will($this->returnValue($this->_integrationMock));
+        $integrationData = $this->_service->findByName(self::VALUE_INTEGRATION_NAME);
+        $this->assertEquals($this->_integrationData[Integration::NAME], $integrationData[Integration::NAME]);
+    }
+
+    public function testFindByNameNotFound()
+    {
+        $this->_integrationMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue(null));
+        $this->_integrationMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_INTEGRATION_NAME, 'name')
+            ->will($this->returnValue($this->_emptyIntegrationMock));
+        $integrationData = $this->_service->findByName(self::VALUE_INTEGRATION_NAME);
+        $this->assertNull($integrationData);
+    }
+
+    public function testFindByNameEmptyOrNullName()
+    {
+        $this->_integrationMock->expects($this->never())
+            ->method('getData');
+        $this->_integrationMock->expects($this->never())
+            ->method('load');
+        $integrationData = $this->_service->findByName(' ');
+        $this->assertNull($integrationData);
+        $integrationData = $this->_service->findByName(null);
+        $this->assertNull($integrationData);
+    }
+
+    public function testDelete()
+    {
+        $this->_integrationMock->expects($this->once())
+            ->method('getId')
+            ->will($this->returnValue(self::VALUE_INTEGRATION_ID));
+        $this->_integrationMock->expects($this->once())
+            ->method('load')
+            ->with(self::VALUE_INTEGRATION_ID)
+            ->will($this->returnValue($this->_integrationMock));
+        $this->_integrationMock->expects($this->once())
+            ->method('delete')
+            ->will($this->returnValue($this->_integrationMock));
+        $this->_integrationMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue($this->_integrationData));
+        $integrationData = $this->_service->delete(self::VALUE_INTEGRATION_ID);
+        $this->assertEquals($this->_integrationData[Integration::ID], $integrationData[Integration::ID]);
+    }
+
+
+    /**
+     * @expectedException \Magento\Integration\Exception
+     * @expectedExceptionMessage Integration with ID '1' doesn't exist.
+     */
+    public function testDeleteException()
+    {
+        $this->_integrationMock->expects($this->any())
+            ->method('getId')
+            ->will($this->returnValue(null));
+        $this->_integrationMock->expects($this->once())
+            ->method('load')
+            ->will($this->returnSelf());
+        $this->_integrationMock->expects($this->never())
+            ->method('delete');
+        $this->_service->delete(self::VALUE_INTEGRATION_ID);
+    }
+
     /**
      * Set valid integration data
      */
@@ -282,6 +363,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
                     'load',
                     'loadByName',
                     'save',
+                    'delete',
                     '__wakeup'
                 ]
             )
