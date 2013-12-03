@@ -1045,4 +1045,13 @@ return array(
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('getSessionSaveMethod', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('setSessionName', '\Magento\Core\Model\Session\AbstractSession', 'setName'),
+    array('getCode', '\Magento\Message\AbstractMessage', 'getText'),
+    array('setCode', '\Magento\Message\AbstractMessage', 'setText'),
+    array('setClass', '\Magento\Message\AbstractMessage'),
+    array('setMethod', '\Magento\Message\AbstractMessage'),
+    array('add', '\Magento\Message\Collection', 'addMessage'),
+    array('error', '\Magento\Message\Factory', 'create'),
+    array('warning', '\Magento\Message\Factory', 'create'),
+    array('success', '\Magento\Message\Factory', 'create'),
+    array('notice', '\Magento\Message\Factory', 'create'),
 );
