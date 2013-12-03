@@ -40,19 +40,19 @@ class Form extends \Magento\Data\Form\AbstractForm
     static protected $_defaultFieldsetElementRenderer;
 
     /**
-     * @param Session $session
-     * @param Form\Element\Factory $factoryElement
-     * @param Form\Element\CollectionFactory $factoryCollection
-     * @param array $attributes
+     * @param \Magento\Data\Form\Element\Factory $factoryElement
+     * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Core\Model\Session $session
+     * @param array $data
      */
     public function __construct(
-        Session $session,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        $attributes = array()
+        \Magento\Core\Model\Session $session,
+        $data = array()
     ) {
         $this->_session = $session;
-        parent::__construct($factoryElement, $factoryCollection, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $data);
         $this->_allElements = $this->_factoryCollection->create(array('container' => $this));
     }
 

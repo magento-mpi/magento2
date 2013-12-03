@@ -38,29 +38,29 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     protected $_coreData;
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
-     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Escaper $escaper
+     * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Core\Helper\Data $coreData
-     * @param array $attributes
+     * @param array $data
      */
     public function __construct(
-        \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
-        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Escaper $escaper,
+        \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\View\LayoutInterface $layout,
         \Magento\Core\Helper\Data $coreData,
-        array $attributes = array()
+        array $data = array()
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
         $this->_coreData = $coreData;
-        parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_layout = $layout;
     }
 

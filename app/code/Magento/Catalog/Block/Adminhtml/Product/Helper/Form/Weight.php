@@ -36,18 +36,18 @@ class Weight extends \Magento\Data\Form\Element\Text
     protected $_helper;
 
     /**
-     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Catalog\Helper\Product $helper
-     * @param array $attributes
+     * @param array $data
      */
     public function __construct(
-        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Escaper $escaper,
         \Magento\Catalog\Helper\Product $helper,
-        array $attributes = array()
+        array $data = array()
     ) {
         $this->_helper = $helper;
         $this->_virtual = $factoryElement->create('checkbox');
@@ -55,7 +55,7 @@ class Weight extends \Magento\Data\Form\Element\Text
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
         $attributes['class'] =
             'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
-        parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }
 
     /**

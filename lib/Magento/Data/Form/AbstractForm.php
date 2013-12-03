@@ -47,16 +47,16 @@ class AbstractForm extends \Magento\Object
     /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param array $attributes
+     * @param array $data
      */
     public function __construct(
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        $attributes = array()
+        $data = array()
     ) {
         $this->_factoryElement = $factoryElement;
         $this->_factoryCollection = $factoryCollection;
-        parent::__construct($attributes);
+        parent::__construct($data);
         $this->_construct();
     }
 
