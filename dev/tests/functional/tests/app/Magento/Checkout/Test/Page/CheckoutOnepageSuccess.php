@@ -55,7 +55,7 @@ class CheckoutOnepageSuccess extends Page
      */
     public function getTitleBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
     }

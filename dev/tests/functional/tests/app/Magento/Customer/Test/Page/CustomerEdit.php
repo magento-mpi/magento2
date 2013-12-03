@@ -40,7 +40,7 @@ class CustomerEdit extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        $this->_titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page-title .title')
         );
     }

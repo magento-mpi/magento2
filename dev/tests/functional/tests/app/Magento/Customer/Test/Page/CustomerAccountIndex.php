@@ -66,7 +66,7 @@ class CustomerAccountIndex extends Page
         $this->dashboardAddress = Factory::getBlockFactory()->getMagentoCustomerAccountDashboardAddress(
             $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS)
         );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
     }

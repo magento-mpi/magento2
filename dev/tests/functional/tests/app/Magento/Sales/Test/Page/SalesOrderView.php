@@ -86,7 +86,7 @@ class SalesOrderView extends Page
         $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderViewItems(
             $this->_browser->find('.grid')
         );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page-title .title')
         );
         $this->paymentInfo = Factory::getBlockFactory()->getMagentoBackendSalesOrderInfo(
