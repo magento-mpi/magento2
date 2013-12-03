@@ -47,3 +47,4 @@ class CustomStore extends AbstractRepository
         );
     }
 }
+
