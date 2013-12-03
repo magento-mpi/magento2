@@ -125,11 +125,15 @@ class OauthHelper
             );
 
             /** Magento cache must be cleared to activate just created ACL role. */
-            $appCachePath = realpath('../../../var/cache');
-            if (!$appCachePath) {
+            $varPath = realpath('../../../var');
+            if (!$varPath) {
                 throw new LogicException("Magento cache cannot be cleared after new ACL role creation.");
+            } else {
+                $cachePath = $varPath . '/cache';
+                if (is_dir($cachePath)) {
+                    self::_rmRecursive($cachePath);
+                }
             }
-            self::_rmRecursive($appCachePath);
 
             /** @var \Magento\Integration\Helper\Oauth\Consumer $consumerHelper */
             $consumerHelper = $objectManager->get('Magento\Integration\Helper\Oauth\Consumer');

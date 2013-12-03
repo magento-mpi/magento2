@@ -22,7 +22,7 @@ class Converter implements \Magento\Config\ConverterInterface
     const KEY_HTTP_METHOD = 'httpMethod';
     const KEY_SERVICE_METHODS = 'methods';
     const KEY_METHOD_ROUTE = 'route';
-    const KEY_METHOD_RESOURCES = 'resources';
+    const KEY_ACL_RESOURCES = 'resources';
     /**#@-*/
 
     /**
@@ -74,7 +74,7 @@ class Converter implements \Magento\Config\ConverterInterface
                     self::KEY_SERVICE_METHOD => $method,
                     self::KEY_METHOD_ROUTE => $path,
                     self::KEY_IS_SECURE => $isSecure,
-                    self::KEY_METHOD_RESOURCES => $resources
+                    self::KEY_ACL_RESOURCES => $resources
                 );
             }
         }

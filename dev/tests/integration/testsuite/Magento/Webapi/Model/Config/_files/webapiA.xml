@@ -17,6 +17,4 @@
         <rest-route httpMethod="POST" method="create" resources="Magento_TestModule1::resource1, Magento_TestModule1::resource2"></rest-route>
         <rest-route httpMethod="DELETE" method="delete" isSecure="true" resources="Magento_TestModule1::resource2">/:id</rest-route>
     </service>
-
-    <service class="\Magento\TestModule1\Service\AllSoapAndRestV3Interface"/>
 </config>

@@ -12,6 +12,9 @@ use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationService;
 
 /**
  * Front controller for WebAPI REST area.
+ *
+ * TODO: Fix coupling between objects
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Rest implements \Magento\App\FrontControllerInterface
 {

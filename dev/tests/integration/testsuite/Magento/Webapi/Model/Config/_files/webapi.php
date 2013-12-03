@@ -53,14 +53,6 @@ return array(
         ),
         'baseUrl' => '/V2/testmodule1',
     ),
-    '\Magento\TestModule1\Service\AllSoapAndRestV3Interface' => array(
-        'class' => '\Magento\TestModule1\Service\AllSoapAndRestV3Interface',
-        'methods' => array(),
-    ),
-    '\Magento\TestModule2\Service\SomeVInterface' => array(
-        'class' => '\Magento\TestModule2\Service\SomeVInterface',
-        'methods' => array(),
-    ),
     '\Magento\TestModule2\Service\AllSoapAndRestV2Interface' => array(
         'class' => '\Magento\TestModule2\Service\AllSoapAndRestV2Interface',
         'methods' => array(

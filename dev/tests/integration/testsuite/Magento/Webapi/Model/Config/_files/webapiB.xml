@@ -13,8 +13,6 @@
         <rest-route httpMethod="POST" method="create" resources="Magento_TestModule1::resource2"></rest-route>
     </service>
 
-    <service class="\Magento\TestModule2\Service\SomeVInterface"/>
-
     <service class="\Magento\TestModule2\Service\AllSoapAndRestV2Interface" baseUrl="/V2/testmodule2">
         <rest-route httpMethod="PUT" method="update" resources="Magento_TestModule1::resource1"></rest-route>
         <rest-route httpMethod="DELETE" method="delete" isSecure="true" resources="Magento_TestModule1::resource2">/:id</rest-route>

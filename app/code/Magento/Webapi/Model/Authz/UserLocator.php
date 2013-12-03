@@ -6,17 +6,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\Webapi\Model\Authz\UserLocator;
+namespace Magento\Webapi\Model\Authz;
 
 use Magento\Authz\Model\UserLocatorInterface;
 use Magento\Authz\Model\UserIdentifier;
-use Magento\Webapi\Controller\Rest\Request as Request;
+use Magento\Webapi\Controller\Request as Request;
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 
 /**
- * REST API user locator.
+ * Web API user locator.
  */
-class Rest implements UserLocatorInterface
+class UserLocator implements UserLocatorInterface
 {
     /** @var Request */
     protected $_request;

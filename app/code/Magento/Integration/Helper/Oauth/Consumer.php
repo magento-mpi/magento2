@@ -16,7 +16,10 @@ use \Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
 use \Magento\Oauth\Helper\Oauth as OauthHelper;
 use \Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 
-// TODO: Fix coupling between objects
+/**
+ * TODO: Fix coupling between objects
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class Consumer
 {
     /** @var  \Magento\Core\Model\StoreManagerInterface */
