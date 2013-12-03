@@ -219,13 +219,13 @@ abstract class Grid extends Block
     }
 
     /**
-     * Check if specific row exists in grid
+     * Obtain specific row in grid
      *
      * @param array $filter
      * @param bool $isSearchable
      * @return bool
      */
-    public function isRowVisible(array $filter, $isSearchable = true)
+    public function getRow(array $filter, $isSearchable = true)
     {
         if ($isSearchable) {
             $this->search($filter);
@@ -236,6 +236,18 @@ abstract class Grid extends Block
             $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
         }
         $location = $location . implode(' and ', $rows) . ']';
-        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
+     * @return bool
+     */
+    public function isRowVisible(array $filter, $isSearchable = true)
+    {
+        return $this->getRow($filter, $isSearchable)->isVisible();
     }
 }

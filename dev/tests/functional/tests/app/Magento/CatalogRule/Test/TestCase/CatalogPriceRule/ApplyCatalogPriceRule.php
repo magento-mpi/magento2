@@ -13,6 +13,7 @@ namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class ApplyCatalogPriceRule
@@ -52,9 +53,11 @@ class ApplyCatalogPriceRule extends Functional
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
-        $catalogRulePage = $this->createNewCatalogPrice();
+        $catalogPriceRuleId = $this->createNewCatalogPriceRule();
 
-        // Update Banner with related Promotion
+        // Update Banner with related Catalog Price Rule
+        $banner->relateCatalogPriceRule($catalogPriceRuleId);
+        $banner->persist();
 
         // Verify applied catalog price rules
     }
@@ -62,42 +65,50 @@ class ApplyCatalogPriceRule extends Functional
     /**
      * Create and Apply new Catalog Price Rule
      */
-    public function createNewCatalogPrice()
+    public function createNewCatalogPriceRule()
     {
         // Admin login
         Factory::getApp()->magentoBackendLoginUser();
 
-        // Open catalog price rule page
+        // Open Catalog Price Rule page
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
         $catalogRulePage->open();
 
-        // Add a new catalog price rule
+        // Add new Catalog Price Rule
         $pageActionsBlock = $catalogRulePage->getPageActionsBlock();
         $pageActionsBlock->clickAddNew();
 
-        // Fill and save the Form
+        // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
-        // Verify success message
+        // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
         $messagesBlock->assertSuccessMessage();
 
-        // Verify attention message
+        // Verify Attention/Notice Message
+        $messagesBlock->assertNoticeMessage();
 
-        // Verify catalog rule is in grid
+        // Verify Catalog Price Rule in grid
         $catalogRulePage->open();
         $gridBlock = $catalogRulePage->getCatalogPriceRuleGridBlock();
-        $this->assertTrue($gridBlock->isRowVisible(array(
-                'name' => $catalogRuleFixture->getRuleName()
-            )), 'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid');
+        $gridRow = $gridBlock->getRow(array('name' => $catalogRuleFixture->getRuleName()));
+        $this->assertTrue($gridRow->isVisible(),
+                'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid');
+        // Get the Id
+        $catalogPriceRuleId = $gridRow->find('//td[@data-column="rule_id"]', Locator::SELECTOR_XPATH)->getText();
 
-        // Apply catalog price rule
+        // Apply Catalog Price Rule
+        $catalogRulePage->applyRules();
 
-        // Verify applied message
+        // Verify Success Message
+        $messagesBlock = $catalogRulePage->getMessagesBlock();
+        $messagesBlock->assertSuccessMessage();
 
+        // Return Catalog Price Rule Id
+        return $catalogPriceRuleId;
     }
 }

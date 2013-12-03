@@ -35,24 +35,37 @@ class CreateBanner extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
+        $response = $this->postRequest($fixture);
+        if (!strpos($response, 'You saved the banner')) {
+            throw new \Exception('Banner creation by curl handler was not successful! Response: ' . $response);
+        }
+        $bannerId = null;
+        if (preg_match('/\/banner\/edit\/id\/(\d+)/', $response, $matches)) {
+            $bannerId = $matches[1];
+        }
+        return $bannerId;
+    }
+
+    /**
+     * Post request for creating banner
+     *
+     * @param Fixture $fixture [optional]
+     * @throws \Exception
+     * @return null|string banner_id
+     */
+    public function postRequest(Fixture $fixture = null)
+    {
         $data = $fixture->getData('fields');
         $fields = array();
         foreach ($data as $key => $field) {
             $fields[$key] = $field['value'];
         }
-        $url = $_ENV['app_backend_url'] . 'admin/banner/save/active_tab/content_section/';
+        $url = $_ENV['app_backend_url'] . 'admin/banner/save/';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();
         $curl->close();
 
-        if (!strpos($response, 'You saved the banner')) {
-            throw new \Exception("Banner creation by curl handler was not successful! Response: $response");
-        }
-        $id = null;
-        if (preg_match('/\/banner\/edit\/id\/(\d+)/', $response, $matches)) {
-            $id = $matches[1];
-        }
-        return $id;
+        return $response;
     }
 }
