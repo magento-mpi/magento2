@@ -24,15 +24,15 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     protected $_specialFactory;
 
     /**
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory
      * @param \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory
-     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
         \Magento\TargetRule\Model\Actions\Condition\Product\AttributesFactory $attributeFactory,
         \Magento\TargetRule\Model\Actions\Condition\Product\SpecialFactory $specialFactory,
-        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributeFactory;

@@ -77,8 +77,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param mixed $sessionName
      * @param array $data
-     * @param null $sessionName
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
@@ -89,8 +89,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
-        array $data = array(),
-        $sessionName = null
+        $sessionName = null,
+        array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;

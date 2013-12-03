@@ -21,11 +21,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param mixed $sessionName
      * @param array $data
-     * @param null $sessionName
      */
-    public function __construct(\Magento\Core\Model\Session\Context $context, array $data = array(), $sessionName = null)
-    {
+    public function __construct(
+        \Magento\Core\Model\Session\Context $context,
+        $sessionName = null,
+        array $data = array()
+    ) {
         parent::__construct($context, $data);
         $this->init('magento_pbridge', $sessionName);
     }

@@ -29,15 +29,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Math\Random $mathRandom
+     * @param mixed $sessionName
      * @param array $data
-     * @param string|null $sessionName
-     * @internal param \Magento\Core\Helper\Data $coreData
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Math\Random $mathRandom,
-        array $data = array(),
-        $sessionName = null
+        $sessionName = null,
+        array $data = array()
     ) {
         $this->mathRandom = $mathRandom;
         parent::__construct($context, $data);
