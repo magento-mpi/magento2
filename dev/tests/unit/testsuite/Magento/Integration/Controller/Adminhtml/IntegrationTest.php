@@ -266,6 +266,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
             ->will($this->returnValue($intData));
+        // verify error message
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
+            ->with(__('Uninstall the extension to remove integration \'%1\'.', $intData[Info::DATA_NAME]));
         $this->_mockIntegrationSvc->expects($this->never())->method('delete');
         // Use real translate model
         $this->_mockTranslateModel = null;

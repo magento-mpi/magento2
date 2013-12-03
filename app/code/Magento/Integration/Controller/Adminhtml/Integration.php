@@ -134,9 +134,7 @@ class Integration extends Action
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
 
-            if (isset($integrationData[Info::DATA_SETUP_TYPE])
-                && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG
-            ) {
+            if ($this->_isConfigType($integrationData)) {
                 //Cannot edit Integrations created from Config. No error necessary just redirect to grid
                 $this->_redirect('*/*/');
                 return;
@@ -249,10 +247,10 @@ class Integration extends Action
         try {
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
-                if (isset($integrationData[Info::DATA_SETUP_TYPE])
-                    && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG
-                ) {
-                    //Cannot delete Integrations created from Config. No error necessary just redirect to grid
+                if ($this->_isConfigType($integrationData)) {
+                    $this->_getSession()->addError(
+                        __('Uninstall the extension to remove integration \'%1\'.', $integrationData[Info::DATA_NAME])
+                    );
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -309,5 +307,17 @@ class Integration extends Action
         } else {
             $this->_redirect('*/*/new');
         }
+    }
+
+    /**
+     * Check if integration is created using config file
+     *
+     * @param $integrationData
+     * @return bool true if integration is created using Config file
+     */
+    protected function _isConfigType($integrationData)
+    {
+        return isset($integrationData[Info::DATA_SETUP_TYPE])
+                    && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG;
     }
 }
