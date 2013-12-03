@@ -55,16 +55,4 @@ class View extends Page
             $this->_browser->find($this->blockSelector, Locator::SELECTOR_CSS)
         );
     }
-
-    /**
-     * Get global messages block
-     *
-     * @return \Magento\Core\Test\Block\Messages
-     */
-    public function getMessagesBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
-        );
-    }
 }

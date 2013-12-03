@@ -91,8 +91,8 @@ Class RmaTest extends Functional
         // Step 9: Submit the return.
         //$returnItemForm->submitReturn();
 
-        // Validate that the success message is displayed.
-        //$viewPage->getMessagesBlock()->assertSuccessMessage(); // TODO: Broken
+        // Validate that the success message is displayed on the 'returns' page.
+        //Factory::getPageFactory()->getSalesGuestReturns()->getMessageBlock()->assertSuccessMessage();
 
         // Validate that the returns grid is now displayed and contains the return just submitted.
         // TODO: Implement
