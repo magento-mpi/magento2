@@ -255,7 +255,7 @@
                     </argument>
                 </arguments>
             </block>
-            <block class="Magento\Theme\Block\Js\Components" name="head.components" as="components" template="Magento_Backend::page/js/components.phtml"/>
+            <block class="Magento\View\Element\Js\Components" name="head.components" as="components" template="Magento_Backend::page/js/components.phtml"/>
             <block class="Magento\View\Element\Html\Calendar" name="head.calendar" as="calendar" template="Magento_Backend::page/js/calendar.phtml"/>
         </block>
         <block class="Magento\Backend\Block\Menu" name="menu" as="menu" template="Magento_Backend::menu.phtml"/>
