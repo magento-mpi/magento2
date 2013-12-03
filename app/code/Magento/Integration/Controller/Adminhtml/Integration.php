@@ -10,7 +10,6 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
-use Magento\Integration\Model\Integration as IntegrationKeyConstants;
 use Magento\Integration\Exception as IntegrationException;
 
 /**
@@ -47,21 +46,27 @@ class Integration extends Action
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
+    /** @var \Magento\Integration\Helper\Data */
+    protected $_integrationData;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
+     * @param \Magento\Integration\Helper\Data $integrationData
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         \Magento\Core\Model\Registry $registry,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Integration\Helper\Data $integrationData
     ) {
         $this->_registry = $registry;
         $this->_logger = $logger;
         $this->_integrationService = $integrationService;
+        $this->_integrationData = $integrationData;
         parent::__construct($context);
     }
 
@@ -134,7 +139,7 @@ class Integration extends Action
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
 
-            if ($this->_isConfigType($integrationData)) {
+            if ($this->_integrationData->isConfigType($integrationData)) {
                 //Cannot edit Integrations created from Config. No error necessary just redirect to grid
                 $this->_redirect('*/*/');
                 return;
@@ -247,7 +252,7 @@ class Integration extends Action
         try {
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
-                if ($this->_isConfigType($integrationData)) {
+                if ($this->_integrationData->isConfigType($integrationData)) {
                     $this->_getSession()->addError(
                         __('Uninstall the extension to remove integration \'%1\'.', $integrationData[Info::DATA_NAME])
                     );
@@ -307,17 +312,5 @@ class Integration extends Action
         } else {
             $this->_redirect('*/*/new');
         }
-    }
-
-    /**
-     * Check if integration is created using config file
-     *
-     * @param $integrationData
-     * @return bool true if integration is created using Config file
-     */
-    protected function _isConfigType($integrationData)
-    {
-        return isset($integrationData[Info::DATA_SETUP_TYPE])
-                    && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationKeyConstants::TYPE_CONFIG;
     }
 }

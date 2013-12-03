@@ -10,8 +10,11 @@
 namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
-use Magento\Integration\Model\Integration as IntegrationKeyConstants;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -59,6 +62,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockIntegrationData;
+
     /**
      * Setup object manager and initialize mocks
      */
@@ -100,6 +106,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_mockIntegrationData = $this->getMockBuilder('Magento\Integration\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -262,10 +271,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     public function testDeleteActionConfigSetUp()
     {
         $intData = $this->_getSampleIntegrationData();
-        $intData[Info::DATA_SETUP_TYPE] = IntegrationKeyConstants::TYPE_CONFIG;
+        $intData[Info::DATA_SETUP_TYPE] = IntegrationModel::TYPE_CONFIG;
         $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
             ->will($this->returnValue($intData));
+        $this->_mockIntegrationData->expects($this->once())->method('isConfigType')->with($intData)
+            ->will($this->returnValue(true));
         // verify error message
         $this->_mockBackendModSess->expects($this->once())->method('addError')
             ->with(__('Uninstall the extension to remove integration \'%1\'.', $intData[Info::DATA_NAME]));
@@ -369,7 +380,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'context' => $this->_mockBackendCntCtxt,
             'integrationService' => $this->_mockIntegrationSvc,
             'registry' => $this->_mockRegistry,
-            'logger' => $loggerMock
+            'logger' => $loggerMock,
+            'integrationData' => $this->_mockIntegrationData
         );
         /** Create IntegrationController to test */
         $integrationContr = $this->_objectManagerHelper
@@ -411,7 +423,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
             Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
-            Info::DATA_SETUP_TYPE => IntegrationKeyConstants::TYPE_MANUAL
+            Info::DATA_SETUP_TYPE => IntegrationModel::TYPE_MANUAL
         );
     }
 }
