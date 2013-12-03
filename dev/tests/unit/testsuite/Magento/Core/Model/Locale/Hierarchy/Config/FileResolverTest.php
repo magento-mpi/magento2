@@ -19,6 +19,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_directoryMock;
 
+    /**
+     * @var \Magento\Config\FileIteratorFactory
+     */
+    protected $iteratorFactory;
+
     protected function setUp()
     {
         $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
@@ -37,9 +42,10 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             ->method('isExist')
             ->with('locale')
             ->will($this->returnValue(true));
+        $this->iteratorFactory = $this->getMock('Magento\Config\FileIteratorFactory', array(), array(), '', false);
         $this->_model = new \Magento\Core\Model\Locale\Hierarchy\Config\FileResolver(
             $filesystem,
-            new \Magento\Config\FileIteratorFactory()
+            $this->iteratorFactory
         );
     }
 
@@ -59,7 +65,9 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
         $this->_directoryMock->expects($this->once())
             ->method('search')
             ->will($this->returnValue(array($paths)));
-
-        $this->assertEquals($expected, $this->_model->get('hierarchy_config.xml', 'scope')->toArray());
+        $this->iteratorFactory->expects($this->once())
+            ->method('create')
+            ->will($this->returnValue(array($paths)));
+        $this->assertEquals($expected, $this->_model->get('hierarchy_config.xml', 'scope'));
     }
 }
