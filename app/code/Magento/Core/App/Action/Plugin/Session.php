@@ -51,18 +51,12 @@ class Session
     protected $_storeConfig;
 
     /**
-     * @var \Magento\App\RequestInterface
-     */
-    protected $request;
-
-    /**
      * @param \Magento\App\ActionFlag $flag
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Magento\App\RequestInterface $request
      * @param string $sessionNamespace
      * @param array $cookieCheckActions
      */
@@ -73,7 +67,6 @@ class Session
         \Magento\Core\Model\Url $url,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Magento\App\RequestInterface $request,
         $sessionNamespace = '',
         array $cookieCheckActions = array()
     ) {
@@ -108,7 +101,7 @@ class Session
                     return null;
                 }
             } elseif ($checkCookie) {
-                if ($this->request->getQuery($this->_sidResolver->getSessionIdQueryParam($this->_session), false)
+                if ($request->getQuery($this->_sidResolver->getSessionIdQueryParam($this->_session), false)
                     && $this->_url->getUseSession()
                     && $this->_sessionNamespace != \Magento\Backend\App\AbstractAction::SESSION_NAMESPACE
                 ) {
