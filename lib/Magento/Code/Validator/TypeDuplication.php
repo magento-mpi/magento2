@@ -43,7 +43,7 @@ class TypeDuplication implements ValidatorInterface
     public function validate($className)
     {
         $class = new \ReflectionClass($className);
-        $classArguments = $this->_argumentsReader->getConstructorArguments($class);
+        $classArguments = $this->_argumentsReader->getConstructorArguments($class, true);
 
         $arguments = $this->_getObjectArguments($classArguments);
 
@@ -53,11 +53,9 @@ class TypeDuplication implements ValidatorInterface
             $name = $argument['name'];
             $type = $argument['type'];
             if (in_array($type, $typeList)) {
-                foreach ($typeList as $argName => $argType) {
-                    if ($argType == $type) {
-                        $errors[] = 'Type [' . $type . '] already declared. Rename $' . $name . ' --> $' . $argName;
-                    }
-                }
+                $errors[] = 'Multiple type injection [' . $type . ']';
+            } elseif (isset($typeList[$name])) {
+                $errors[] = 'Variable name duplication. [$' . $name . ']';
             }
             $typeList[$name] = $type;
         }
