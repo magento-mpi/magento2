@@ -49,6 +49,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_configShare;
 
     /**
+     * @var \Magento\Core\Model\Session
+     */
+    protected $_session;
+
+    /**
      * @var \Magento\Customer\Model\Resource\Customer
      */
     protected $_customerResource;
@@ -73,6 +78,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
+     * @param \Magento\Core\Model\Session $session
      * @param array $data
      * @param null $sessionName
      */
@@ -86,6 +92,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Model\Resource\Customer $customerResource,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
+        \Magento\Core\Model\Session $session,
         array $data = array(),
         $sessionName = null
     ) {
@@ -95,6 +102,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerResource = $customerResource;
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
+        $this->_session = $session;
         parent::__construct($context, $sidResolver, $sessionConfig, $data);
         $namespace = 'customer';
         if ($configShare->isWebsiteScope()) {
@@ -310,8 +318,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         if (isset($loginUrl)) {
             $action->getResponse()->setRedirect($loginUrl);
         } else {
-            $action->setRedirectWithCookieCheck(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN,
-                $this->_customerData->getLoginUrlParams()
+            $arguments = $this->_customerData->getLoginUrlParams();
+            if ($this->_session->getCookieShouldBeReceived() && $this->_createUrl()->getUseSession()) {
+                $arguments += array('_query' => array(
+                    $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
+                ));
+            }
+            $action->getResponse()->setRedirect(
+                $this->_createUrl()->getUrl(\Magento\Customer\Helper\Data::ROUTE_ACCOUNT_LOGIN, $arguments)
             );
         }
 
