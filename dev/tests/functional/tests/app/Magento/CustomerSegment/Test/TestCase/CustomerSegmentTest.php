@@ -50,7 +50,7 @@ class CustomerSegmentTest extends Functional
         $conditionType = $conditionsFixture->getConditionType();
         $conditionValue = $conditionsFixture->getConditionValue();
         // pages & blocks
-        $customerSegmentPage = Factory::getPageFactory()->getAdminCustomersegment();
+        $customerSegmentPage = Factory::getPageFactory()->getCustomersegment();
         $pageActionsBlockCs = $customerSegmentPage->getPageActionsBlock();
         $customerSegmentCreatePage = Factory::getPageFactory()->getAdminCustomersegmentNew();
         $newCustomerSegmentForm = $customerSegmentCreatePage->getNewCustomerSegmentForm();
