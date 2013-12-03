@@ -11,6 +11,7 @@
 
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
+use Magento\Catalog\Test\Repository\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
@@ -31,7 +32,7 @@ class ApplyCatalogPriceRule extends Functional
     {
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple');
+        $simple->switchData(Product::PRODUCT_SIMPLE);
         $simple->persist();
 
         // Create Configurable Product
