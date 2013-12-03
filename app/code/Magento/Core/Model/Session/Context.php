@@ -87,7 +87,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        $saveMethod
+        $saveMethod = 'files'
     ) {
         $this->_validator = $validator;
         $this->_logger = $logger;
