@@ -31,6 +31,12 @@ class Grid extends GridInterface
         )
     );
 
+    /**
+     * Transaction type
+     *
+     * @var string
+     */
+    protected $transactionType = 'td.col-transaction-type.col-txn_type';
 
     /**
      * Get Transaction type
@@ -39,6 +45,6 @@ class Grid extends GridInterface
      */
     public function getTransactionType()
     {
-        return $this->_rootElement->find('td.col-transaction-type.col-txn_type')->getText();
+        return $this->_rootElement->find($this->transactionType)->getText();
     }
 }

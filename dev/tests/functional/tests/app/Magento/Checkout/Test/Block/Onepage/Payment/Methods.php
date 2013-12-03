@@ -25,6 +25,13 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class Methods extends Block
 {
     /**
+     * Payment method selector
+     *
+     * @var string
+     */
+    protected $paymentMethod = '[for=p_method_%s]';
+
+    /**
      * Continue checkout button
      *
      * @var string
@@ -47,7 +54,7 @@ class Methods extends Block
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find('[for=p_method_' . $paymentCode . ']', Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode), Locator::SELECTOR_CSS)->click();
 
         $dataConfig = $payment->getDataConfig();
         if (isset($dataConfig['payment_form_class'])) {

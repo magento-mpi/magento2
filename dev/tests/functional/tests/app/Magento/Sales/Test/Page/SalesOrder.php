@@ -103,7 +103,7 @@ class SalesOrder extends Page
     public function getOrderActionsBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderActions(
-            $this->_browser->find('.page-actions', Locator::SELECTOR_CSS)
+            $this->_browser->find($this->orderActionsBlock, Locator::SELECTOR_CSS)
         );
     }
 

@@ -86,7 +86,7 @@ class SalesOrderView extends Page
     public function getItemsOrderedBlock()
     {
         return $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewItems(
-            $this->_browser->find('.grid', Locator::SELECTOR_CSS)
+            $this->_browser->find($this->itemsOrderedBlock, Locator::SELECTOR_CSS)
         );
     }
 

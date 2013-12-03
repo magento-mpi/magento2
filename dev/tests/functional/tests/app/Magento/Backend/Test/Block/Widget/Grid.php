@@ -102,7 +102,7 @@ abstract class Grid extends Block
     protected function getTemplateBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_rootElement->find('./ancestor::body', Locator::SELECTOR_XPATH)
+            $this->_rootElement->find($this->templateBlock, Locator::SELECTOR_XPATH)
         );
     }
 

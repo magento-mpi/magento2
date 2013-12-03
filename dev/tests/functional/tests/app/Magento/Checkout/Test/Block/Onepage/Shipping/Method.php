@@ -24,6 +24,13 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class Method extends Block
 {
     /**
+     * Shipping method selector
+     *
+     * @var string
+     */
+    protected $shippingMethod = '//dt[text()="%s"]/following-sibling::*//*[contains(text(), "%s")]';
+
+    /**
      * Continue checkout button
      *
      * @var string
@@ -38,8 +45,9 @@ class Method extends Block
     public function selectShippingMethod(Checkout $fixture)
     {
         $shippingMethod = $fixture->getShippingMethods()->getData('fields');
-        $selector = '//dt[text()="' . $shippingMethod['shipping_service']
-            . '"]/following-sibling::*//*[contains(text(), "' . $shippingMethod['shipping_method'] . '")]';
+        $selector = sprintf(
+            $this->shippingMethod, $shippingMethod['shipping_service'], $shippingMethod['shipping_method']
+        );
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('#shipping-method-please-wait');

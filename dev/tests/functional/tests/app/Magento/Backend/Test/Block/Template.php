@@ -28,7 +28,7 @@ class Template extends Block
      *
      * @var string
      */
-    protected $loader = '[data-role="loader"]';
+    protected $loader = '[data-role=loader]';
 
     /**
      * Magento varienLoader.js loader

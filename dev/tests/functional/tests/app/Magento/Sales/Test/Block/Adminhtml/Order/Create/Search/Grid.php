@@ -33,6 +33,27 @@ class Grid extends GridInterface
     protected $selectItem = 'tbody tr .col-in_products';
 
     /**
+     * Product 'Configure' button
+     *
+     * @var string
+     */
+    protected $configure = '.action-configure';
+
+    /**
+     * Select product checkbox
+     *
+     * @var string
+     */
+    protected $selectProduct = 'td.col-in_products input';
+
+    /**
+     * 'Add Selected Product(s) to Order' button
+     *
+     * @var string
+     */
+    protected $addSelectedProducts = '.actions button';
+
+    /**
      * Catalog product composite configure block
      *
      * @var string
@@ -72,13 +93,13 @@ class Grid extends GridInterface
         ));
         $productOptions = $product->getProductOptions();
         if (!empty($productOptions)) {
-            $this->_rootElement->find('.action-configure')->click();
+            $this->_rootElement->find($this->configure)->click();
             $this->getTemplateBlock()->waitLoader();
             $this->getConfigureBlock()->fillOptions($productOptions);
         }
         $this->_rootElement
             ->find($this->rowItem)
-            ->find('td.col-in_products input', Locator::SELECTOR_CSS, 'checkbox')
+            ->find($this->selectProduct, Locator::SELECTOR_CSS, 'checkbox')
             ->setValue('Yes');
     }
 
@@ -92,7 +113,7 @@ class Grid extends GridInterface
         foreach ($fixture->getProducts() as $product) {
             $this->addProduct($product);
         }
-        $this->_rootElement->find('.actions button')->click();
+        $this->_rootElement->find($this->addSelectedProducts)->click();
         $this->getTemplateBlock()->waitLoader();
     }
 }

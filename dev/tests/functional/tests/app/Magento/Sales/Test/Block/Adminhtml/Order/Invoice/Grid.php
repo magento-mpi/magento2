@@ -11,7 +11,6 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Invoice;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
 /**
@@ -32,12 +31,19 @@ class Grid extends GridInterface
     );
 
     /**
+     * Invoice amount
+     *
+     * @var string
+     */
+    protected $invoiceAmount = 'td.col-qty.col-base_grand_total';
+
+    /**
      * Get first invoice amount
      *
      * @return array|string
      */
     public function getInvoiceAmount()
     {
-        return $this->_rootElement->find('td.col-qty.col-base_grand_total')->getText();
+        return $this->_rootElement->find($this->invoiceAmount)->getText();
     }
 }
