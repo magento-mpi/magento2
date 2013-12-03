@@ -118,11 +118,6 @@ abstract class AbstractModel extends \Magento\Object
     protected $_logger;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
@@ -142,7 +137,6 @@ abstract class AbstractModel extends \Magento\Object
         $this->_resource = $resource;
         $this->_resourceCollection = $resourceCollection;
         $this->_logger = $context->getLogger();
-        $this->_appState = $context->getAppState();
 
         if (method_exists($this->_resource, 'getIdFieldName') || $this->_resource instanceof \Magento\Object) {
             $this->_idFieldName = $this->_getResource()->getIdFieldName();

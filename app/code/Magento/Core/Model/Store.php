@@ -230,6 +230,11 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_url;
 
     /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
+
+    /**
      * @var bool
      */
     protected $_isCustomEntryPoint = false;
@@ -282,6 +287,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\App\State $appState
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
@@ -298,6 +304,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\App\State $appState,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -311,6 +318,7 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->_dir = $dir;
         $this->_config = $coreConfig;
+        $this->_appState = $appState;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_storeManager = $storeManager;
     }
