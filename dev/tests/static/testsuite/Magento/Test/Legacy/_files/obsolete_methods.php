@@ -1024,4 +1024,6 @@ return array(
     array('getLinkDir', 'Magento\Downloadable\Model\Link'),
     array('getSampleDir', 'Magento\Downloadable\Model\Sample'),
     array('getDirs', 'Magento\View\Block\Template\Context'),
+    array('_readFileContents', 'Magento\Email\Model\Template\Config\Reader'),
+    array('_readFileContents', 'Magento\Config\Reader\Filesystem'),
 );
