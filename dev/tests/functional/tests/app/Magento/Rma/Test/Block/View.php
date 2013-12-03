@@ -17,18 +17,18 @@ use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Orders and Returns view block
+ * Order view block
  *
  * @package Magento\Rma\Test\Block
  */
-class OrdersAndReturnsView extends Block
+class View extends Block
 {
     /**
      * Link selector
      *
      * @var string
      */
-    protected $linkSelector = '//*[@class="order toolbar"]//a[contains(text(), "%s")]';
+    protected $linkSelector = '//div[@class="order toolbar"]//div[@class="actions"]//a[contains(text(), "%s")]';
 
     /**
      * Click link on this page.

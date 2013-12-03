@@ -16,12 +16,12 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class OrdersAndReturnsSearch
- * Manage orders and returns page
+ * Class Search
+ * Orders and returns search page
  *
  * @package Magento\Rma\Test\Page
  */
-class OrdersAndReturnsSearch extends Page
+class Search extends Page
 {
     /**
      * URL for orders and returns search page
@@ -31,9 +31,9 @@ class OrdersAndReturnsSearch extends Page
     /**
      * Orders and Returns search form
      *
-     * @var \Magento\Rma\Test\Block\Form\OrdersAndReturnsSearch
+     * @var \Magento\Rma\Test\Block\Form\Search
      */
-    protected $ordersAndReturnsForm;
+    protected $searchForm;
 
     /**
      * Form wrapper selector
@@ -48,7 +48,7 @@ class OrdersAndReturnsSearch extends Page
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->ordersAndReturnsForm = Factory::getBlockFactory()->getMagentoRmaFormOrdersAndReturnsSearch(
+        $this->searchForm = Factory::getBlockFactory()->getMagentoRmaFormSearch(
             $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_CSS)
         );
     }
@@ -56,10 +56,10 @@ class OrdersAndReturnsSearch extends Page
     /**
      * Get search block form
      *
-     * @return \Magento\Rma\Test\Block\Form\OrdersAndReturnsSearch
+     * @return \Magento\Rma\Test\Block\Form\Search
      */
-    public function getOrdersAndReturnsSearchForm()
+    public function getSearchForm()
     {
-        return $this->ordersAndReturnsForm;
+        return $this->searchForm;
     }
 }

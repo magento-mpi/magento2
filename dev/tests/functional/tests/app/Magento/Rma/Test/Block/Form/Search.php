@@ -11,6 +11,7 @@
 
 namespace Magento\Rma\Test\Block\Form;
 
+use Magento\Sales\Test\Fixture\PaypalExpressOrder;
 use Mtf\Fixture;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
@@ -21,7 +22,7 @@ use Mtf\Client\Element\Locator;
  *
  * @package Magento\Rma\Test\Block\Form
  */
-class OrdersAndReturnsSearch extends Form
+class Search extends Form
 {
     /**
      * Search button selector

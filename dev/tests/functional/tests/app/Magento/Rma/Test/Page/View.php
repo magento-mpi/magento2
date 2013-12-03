@@ -16,15 +16,15 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class OrdersAndReturnsView
- * Manage orders and returns page
+ * Class View
+ * View orders page
  *
  * @package Magento\Rma\Test\Page
  */
-class OrdersAndReturnsView extends Page
+class View extends Page
 {
     /**
-     * URL for orders and returns view page
+     * URL for order view page
      */
     const MCA = 'sales/guest/view';
 
@@ -37,14 +37,14 @@ class OrdersAndReturnsView extends Page
     }
 
     /**
-     * Get OrdersAndReturnsView block
+     * Get View block
      *
-     * @return \Magento\Rma\Test\Block\OrdersAndReturnsView
+     * @return \Magento\Rma\Test\Block\View
      */
-    public function getOrdersAndReturnsViewBlock()
+    public function getViewBlock()
     {
-        return Factory::getBlockFactory()->getMagentoRmaOrdersAndReturnsView(
-            $this->_browser->find('.order.toolbar', Locator::SELECTOR_CSS)
+        return Factory::getBlockFactory()->getMagentoRmaView(
+            $this->_browser->find('//div[@class="order toolbar"]', Locator::SELECTOR_XPATH)
         );
     }
 }

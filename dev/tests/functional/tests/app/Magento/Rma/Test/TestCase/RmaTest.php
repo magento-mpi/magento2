@@ -72,15 +72,15 @@ Class RmaTest extends Functional
         $homePage->getFooterBlock()->clickLink('Orders and Returns');
 
         // Step 3: Fill "Order and Returns" form with Test Data from the Pre-Conditions
-        $ordersAndReturnsPage = Factory::getPageFactory()->getSalesGuestForm();
-        $ordersAndReturnsForm = $ordersAndReturnsPage->getOrdersAndReturnsSearchForm();
-        $ordersAndReturnsForm->fillCustom($payPalExpressOrder, 'email');
+        $searchPage = Factory::getPageFactory()->getSalesGuestForm();
+        $searchForm = $searchPage->getSearchForm();
+        $searchForm->fillCustom($payPalExpressOrder, 'email');
 
         // Step 4: Click "Continue"
-        $ordersAndReturnsForm->submit();
+        $searchForm->submit();
 
         // Step 5: Click "Return" link
-        $ordersAndReturnsViewPage = Factory::getPageFactory()->getSalesGuestView();
-        //$ordersAndReturnsViewPage->getOrdersAndReturnsViewBlock()->clickLink('Return');
+        $viewPage = Factory::getPageFactory()->getSalesGuestView();
+        //$viewPage->getViewBlock()->clickLink('Return');
     }
 }
