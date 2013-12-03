@@ -97,14 +97,8 @@ class FileIterator implements \Iterator
     {
         $result = [];
         foreach($this as $item) {
-            $result[] = $item;
+            $result[$this->key()] = $item;
         }
         return $result;
     }
-//
-//    public function addItem($path, $content)
-//    {
-//        $this->paths[] = $path;
-//        $this->cached = $`1`
-//    }
 }

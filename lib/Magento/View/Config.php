@@ -54,17 +54,24 @@ class Config implements \Magento\View\ConfigInterface
     protected $filename;
 
     /**
+     * @var \Magento\Config\FileIteratorFactory
+     */
+    protected $fileIteratorFactory;
+
+    /**
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param \Magento\Filesystem $filesystem
      * @param Service $viewService
      * @param FileSystem $viewFileSystem
-     * @param string $filename
+     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
+     * @param $filename
      */
     public function __construct(
         \Magento\Module\Dir\Reader $moduleReader,
         \Magento\Filesystem $filesystem,
         \Magento\View\Service $viewService,
         \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory,
         $filename = self::CONFIG_FILE_NAME
     ) {
         $this->moduleReader = $moduleReader;
@@ -72,6 +79,7 @@ class Config implements \Magento\View\ConfigInterface
         $this->viewService = $viewService;
         $this->viewFileSystem = $viewFileSystem;
         $this->filename = $filename;
+        $this->fileIteratorFactory = $fileIteratorFactory;
     }
 
     /**
@@ -91,6 +99,7 @@ class Config implements \Magento\View\ConfigInterface
         }
 
         $configFiles = $this->moduleReader->getConfigurationFiles($this->filename)->toArray();
+
         $themeConfigFile = $currentTheme->getCustomization()->getCustomViewConfigPath();
         if (empty($themeConfigFile) ||
             !$this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
@@ -102,7 +111,8 @@ class Config implements \Magento\View\ConfigInterface
         if ($themeConfigFile &&
             $this->rootDirectory->isExist($this->rootDirectory->getRelativePath($themeConfigFile))
         ) {
-            $configFiles[] = $themeConfigFile;
+            $configFiles[$this->rootDirectory->getRelativePath($themeConfigFile)] =
+                $this->rootDirectory->readFile($this->rootDirectory->getRelativePath($themeConfigFile));
         }
         $config = new \Magento\Config\View($configFiles);
 

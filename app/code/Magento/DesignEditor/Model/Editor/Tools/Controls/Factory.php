@@ -42,16 +42,24 @@ class Factory
      */
     protected $_viewFileSystem;
 
+    protected $fileIteratorFactory;
+
+    protected $filesystem;
+
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\FileSystem $viewFileSystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
-        \Magento\View\FileSystem $viewFileSystem
+        \Magento\View\FileSystem $viewFileSystem,
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_viewFileSystem = $viewFileSystem;
+        $this->fileIteratorFactory = $fileIteratorFactory;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -67,10 +75,12 @@ class Factory
         if (!isset($this->_fileNames[$type])) {
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
+        $path = $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
             'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
         ));
+        $rootDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        return $this->fileIteratorFactory->create($rootDirectory, array($rootDirectory->getRelativePath($path)));
     }
 
     /**
@@ -89,7 +99,7 @@ class Factory
         \Magento\View\Design\ThemeInterface $parentTheme = null,
         array $files = array()
     ) {
-        $files[] = $this->_getFilePathByType($type, $theme);
+        $files = $this->_getFilePathByType($type, $theme);
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
                 $class = 'Magento\DesignEditor\Model\Config\Control\QuickStyles';
@@ -103,6 +113,7 @@ class Factory
         }
         /** @var $config \Magento\DesignEditor\Model\Config\Control\AbstractControl */
         $config = $this->_objectManager->create($class, array('configFiles' => $files));
+
         return $this->_objectManager->create(
             'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
                 'configuration' => $config,
