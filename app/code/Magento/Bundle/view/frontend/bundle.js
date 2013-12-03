@@ -1,8 +1,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@
     "use strict";
     $.widget('mage.bundleOption', {
         options: {
-            productBundleSelector: '.product-bundle-option',
+            productBundleSelector: '.product.bundle.option',
             mapPopupPrice: '#map-popup-price',
             prices: {},
             priceTemplate: '<span class="price">${formattedPrice}</span>'

@@ -567,6 +567,7 @@ return array(
     array('initSpecified', 'Magento\Core\Model\App'),
     array('insertProductPrice', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
     array('isAbsolutePath'),
+    array('isAdmin', 'Magento\Core\Model\Store'),
     array('isAllowedGuestCheckout', 'Magento\Sales\Model\Quote'),
     array('isAutomaticCleaningAvailable', 'Magento\Cache\Backend\Eaccelerator'),
     array('isCheckoutAvailable', 'Magento\Checkout\Model\Type\Multishipping'),

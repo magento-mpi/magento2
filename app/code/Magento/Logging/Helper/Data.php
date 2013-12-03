@@ -25,13 +25,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_config;
 
     /**
-     * @param \Magento\Logging\Model\Config $config
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Logging\Model\Config $config
      */
-    public function __construct(
-        \Magento\Logging\Model\Config $config,
-        \Magento\App\Helper\Context $context
-    ) {
+    public function __construct(\Magento\App\Helper\Context $context, \Magento\Logging\Model\Config $config)
+    {
         $this->_config = $config;
         parent::__construct($context);
     }

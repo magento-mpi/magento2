@@ -69,6 +69,7 @@ class CatalogTest extends \Magento\TestFramework\TestCase\AbstractController
 
     /**
      * @dataProvider authorizationFailedDataProvider
+     * @magentoAppArea adminhtml
      */
     public function testAuthorizationFailed($action)
     {

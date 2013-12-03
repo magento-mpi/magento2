@@ -2,14 +2,14 @@
 /**
  * {license_notice}
  *
- * @category    design
  * @copyright   {copyright}
  * @license     {license_link}
  */
 ?>
 <?php /* @var $this \Magento\ProductAlert\Block\Product\View */?>
 <div class="product alert <?php echo $this->getHtmlClass() ?>">
-    <a href="<?php echo $this->escapeHtml($this->getSignupUrl()) ?>" title="<?php echo $this->escapeHtml(__($this->getSignupLabel())); ?>" class="action alert">
+    <a href="<?php echo $this->escapeHtml($this->getSignupUrl()) ?>"
+       title="<?php echo $this->escapeHtml(__($this->getSignupLabel())); ?>" class="action alert">
         <?php echo $this->escapeHtml(__($this->getSignupLabel())); ?>
     </a>
 </div>
