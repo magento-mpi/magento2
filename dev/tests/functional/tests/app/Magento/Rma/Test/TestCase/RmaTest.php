@@ -103,5 +103,6 @@ Class RmaTest extends Functional
         // Step 11: Sales->Order->Returns
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderViewTabsBlock()->clickReturnsLink();
     }
 }
