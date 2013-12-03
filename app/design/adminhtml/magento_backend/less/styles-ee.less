@@ -325,3 +325,56 @@
 .eq-ie8 .inviter_information .data-table tbody tr th {
     border-bottom: 1px solid #ededed;
 }
+
+[class^=" adminhtml-giftregistry-"] {
+    .fieldset-wrapper-content .data-table td {
+        vertical-align: top;
+        select {
+            display: block;
+            width: 100%;
+        }
+        #registry_attribute_1_is_required {
+            width: auto;
+        }
+    }
+}
+
+.sales-order-create-index {
+    // Configure product popup
+    .ui-dialog {
+        .content > .giftcard {
+            .field.text .input-text {
+                width: 100%;
+            }
+            .note .price {
+                font-weight: 600;
+                &:before {
+                    content: ": ";
+                }
+            }
+            .fixed.amount {
+                .label:after {
+                    content: ": ";
+                }
+                .control {
+                    display: inline-block;
+                    font-weight: 600;
+                    .control-value {
+                        margin: -2px 0 0;
+                        padding: 0;
+                    }
+                }
+            }
+        }
+    }
+}
+
+[class^=" invitations-report-"] {
+    .grid-actions .required:after {
+        content: '';
+    }
+    .grid-actions .required .label span:after {
+        content: '*';
+        color: #f00;
+    }
+}
