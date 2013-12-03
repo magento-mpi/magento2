@@ -136,7 +136,7 @@ class UserWithRestrictedRole extends Functional
 
         //Verify that at "Purchase Point" dropdown only store from preconditions is available
         $this->assertContains($storeData['name'], $salesGrid->getPurchasePointFilterText());
-        $this->assertEquals(1, count($salesGrid->getPurchasePointFilterOptionsGroup()),
+        $this->assertTrue($salesGrid->assertNumberOfPurchasePointFilterOptionsGroup(2),
             "You have more than one store in the Purchase Point Filter");
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();

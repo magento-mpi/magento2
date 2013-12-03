@@ -31,7 +31,7 @@ class Grid extends GridInterface
     protected $purchasePointFilter = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]';
 
     /**
-     * Purchase Point Filter option group ellements selector
+     * Purchase Point Filter option group elements selector
      *
      * @var string
      */
@@ -65,12 +65,14 @@ class Grid extends GridInterface
     }
 
     /**
-     * Get Purchase Point Filter option group ellements
+     * Assert the number of Purchase Point Filter option group elements by checking non-existing group
      *
-     * @return mixed|\Mtf\Client\Element
+     * @param $number
+     * @return bool
      */
-    public function getPurchasePointFilterOptionsGroup()
+    public function assertNumberOfPurchasePointFilterOptionsGroup($number)
     {
-        return $this->_rootElement->find($this->purchasePointOptionGroup, Locator::SELECTOR_XPATH);
+        $selector = $this->purchasePointOptionGroup . '[' . ($number + 1) . ']';
+        return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
