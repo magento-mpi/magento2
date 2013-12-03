@@ -78,7 +78,7 @@ class Link extends \Magento\View\Element\Template
             return parent::_toHtml();
         }
 
-        return '<a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($this->getAnchorText()) . '</a>';
+        return '<li><a ' . $this->getLinkAttributes() . ' >' . $this->escapeHtml($this->getLabel()) . '</a></li>';
     }
 
     /**

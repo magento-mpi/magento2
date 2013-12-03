@@ -117,13 +117,13 @@ class Link
     }
 
     /**
-     * Prepare anchor text using passed text as parameter.
+     * Prepare label using passed text as parameter.
      * If anchor text was not specified use title instead and
      * if title will be blank string, page identifier will be used.
      *
      * @return string
      */
-    public function getAnchorText()
+    public function getLable()
     {
         if ($this->getData('anchor_text')) {
             $this->_anchorText = $this->getData('anchor_text');
