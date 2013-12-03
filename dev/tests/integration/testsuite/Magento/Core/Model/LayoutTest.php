@@ -133,14 +133,17 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
         $name = 'test';
         $this->_layout->addContainer($name, 'Test', array('option1' => 1, 'option2' => 2));
         $this->assertEquals('Test', $this->_layout->getElementProperty(
-            $name, \Magento\Core\Model\Layout::CONTAINER_OPT_LABEL
+            $name, \Magento\View\Layout\Element::CONTAINER_OPT_LABEL
         ));
-        $this->assertEquals(\Magento\Core\Model\Layout::TYPE_CONTAINER,
+        $this->assertEquals(\Magento\View\Layout\Element::TYPE_CONTAINER,
             $this->_layout->getElementProperty($name, 'type'));
         $this->assertSame(2, $this->_layout->getElementProperty($name, 'option2'));
 
         $this->_layout->addBlock('Magento\View\Element\Text', 'text', $name);
-        $this->assertEquals(\Magento\Core\Model\Layout::TYPE_BLOCK, $this->_layout->getElementProperty('text', 'type'));
+        $this->assertEquals(
+            \Magento\View\Layout\Element::TYPE_BLOCK,
+            $this->_layout->getElementProperty('text', 'type')
+        );
         $this->assertSame(array('text' => 'text'), $this->_layout->getElementProperty(
             $name, \Magento\Data\Structure::CHILDREN
         ));
