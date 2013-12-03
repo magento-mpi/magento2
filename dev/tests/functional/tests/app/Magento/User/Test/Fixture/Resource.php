@@ -28,13 +28,11 @@ class Resource extends DataFixture
      */
     protected $resources = array(
         'Magento_Adminhtml::dashboard' => null,
-        'Magento_PageCache::page_cache' => null,
         'Magento_Sales::sales' => null,
         'Magento_Sales::sales_operation' => 'Magento_Sales::sales',
         'Magento_Sales::sales_order' => 'Magento_Sales::sales_operation',
         'Magento_Sales::actions' => 'Magento_Sales::sales_order',
         'Magento_Sales::create' => 'Magento_Sales::actions',
-        'Magento_Reward::reward_spend' => 'Magento_Sales::create',
         'Magento_Sales::actions_view' => 'Magento_Sales::actions',
         'Magento_Sales::email' => 'Magento_Sales::actions',
         'Magento_Sales::reorder' => 'Magento_Sales::actions',
@@ -52,7 +50,6 @@ class Resource extends DataFixture
         'Magento_Sales::sales_invoice' => 'Magento_Sales::sales_operation',
         'Magento_Sales::shipment' => 'Magento_Sales::sales_operation',
         'Magento_Sales::sales_creditmemo' => 'Magento_Sales::sales_operation',
-        'Magento_Rma::magento_rma' => 'Magento_Sales::sales_operation',
         'Magento_Sales::billing_agreement' => 'Magento_Sales::sales_operation',
         'Magento_Sales::billing_agreement_actions' => 'Magento_Sales::billing_agreement',
         'Magento_Sales::billing_agreement_actions_view' => 'Magento_Sales::billing_agreement_actions',
@@ -61,16 +58,6 @@ class Resource extends DataFixture
         'Magento_Sales::transactions' => 'Magento_Sales::sales_operation',
         'Magento_Sales::transactions_fetch' => 'Magento_Sales::transactions',
         'Magento_Sales::recurring_profile' => 'Magento_Sales::sales_operation',
-        'Magento_SalesArchive::archive' => 'Magento_Sales::sales',
-        'Magento_SalesArchive::orders' => 'Magento_SalesArchive::archive',
-        'Magento_SalesArchive::remove' => 'Magento_SalesArchive::orders',
-        'Magento_SalesArchive::add' => 'Magento_SalesArchive::orders',
-        'Magento_SalesArchive::invoices' => 'Magento_SalesArchive::archive',
-        'Magento_SalesArchive::shipments' => 'Magento_SalesArchive::archive',
-        'Magento_SalesArchive::creditmemos' => 'Magento_SalesArchive::archive',
-        'Magento_AdvancedCheckout::magento_advancedcheckout' => 'Magento_Sales::sales',
-        'Magento_AdvancedCheckout::view' => 'Magento_AdvancedCheckout::magento_advancedcheckout',
-        'Magento_AdvancedCheckout::update' => 'Magento_AdvancedCheckout::magento_advancedcheckout',
     );
 
     /**
