@@ -32,7 +32,7 @@ class FormKeyValidator
     public function validate(\Magento\App\RequestInterface $request)
     {
         $formKey = $request->getParam('form_key', null);
-        if (!$formKey || $formKey != $this->_formKey->getFormKey()) {
+        if (!$formKey || $formKey !== $this->_formKey->getFormKey()) {
             return false;
         }
         return true;
