@@ -11,46 +11,47 @@
 
 namespace Magento\Rma\Test\Page;
 
+use Mtf\Fixture\DataFixture;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Search
- * Orders and returns search page
+ * Class ReturnItem
+ * Return Item page
  *
  * @package Magento\Rma\Test\Page
  */
-class Search extends Page
+class ReturnItem extends Page
 {
     /**
-     * URL for orders and returns search page
+     * URL for return page
      */
-    const MCA = 'sales/guest/form';
+    const MCA = 'rma/guest/create';
 
     /**
      * Form wrapper selector
      *
      * @var string
      */
-    private $formWrapperSelector = '.form.orders.search';
+    private $formWrapperSelector = '.form.create.return';
 
     /**
      * Custom constructor
      */
     protected function _init()
     {
-        $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
+        $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA; //. '/order_id/' . $orderId;
     }
 
     /**
      * Get search block form
      *
-     * @return \Magento\Rma\Test\Block\Form\Search
+     * @return \Magento\Rma\Test\Block\Form\ReturnItem
      */
-    public function getSearchForm()
+    public function getReturnItemForm()
     {
-        return Factory::getBlockFactory()->getMagentoRmaFormSearch(
+        return Factory::getBlockFactory()->getMagentoRmaFormReturnItem(
             $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_CSS)
         );
     }

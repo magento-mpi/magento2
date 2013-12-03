@@ -29,6 +29,14 @@ class View extends Page
     const MCA = 'sales/guest/view';
 
     /**
+     * Form wrapper selector
+     *
+     * @var string
+     */
+    protected $blockSelector = '.order.details.view';
+    //protected $blockSelector = '//div[@class="order details view"]';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -44,7 +52,19 @@ class View extends Page
     public function getViewBlock()
     {
         return Factory::getBlockFactory()->getMagentoRmaView(
-            $this->_browser->find('//div[@class="order toolbar"]', Locator::SELECTOR_XPATH)
+            $this->_browser->find($this->blockSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get global messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find('#messages .messages')
         );
     }
 }

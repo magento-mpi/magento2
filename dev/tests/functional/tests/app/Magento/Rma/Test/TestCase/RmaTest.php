@@ -74,7 +74,28 @@ Class RmaTest extends Functional
 
         // Step 5: Click "Return" link
         $viewPage = Factory::getPageFactory()->getSalesGuestView();
-        //$viewPage->getViewBlock()->clickLink('Return');
+        //$viewBlock = $viewPage->getViewBlock(); // TODO:  Broken.
+        //$viewBlock->clickLink('Return');
+
+        // Step 6: Fill "Return Items Information" form (simple product)
+        //$returnItemPage = Factory::getPageFactory()->getRmaGuestCreate();
+        //$returnItemForm = $returnItemPage->getReturnItemForm();
+        //$returnItemForm->fillCustom('0');  // TODO:  Implement
+
+        // Step 7: Click "Add Item to Return" for the configurable product.
+        //$returnItemForm->submitAddItemToReturn();
+
+        // Step 8: Fill "Return Items Information" form (configurable product)
+        //$returnItemForm->fillCustom('1');  // TODO:  Implement
+
+        // Step 9: Submit the return.
+        //$returnItemForm->submitReturn();
+
+        // Validate that the success message is displayed.
+        //$viewPage->getMessagesBlock()->assertSuccessMessage(); // TODO: Broken
+
+        // Validate that the returns grid is now displayed and contains the return just submitted.
+        // TODO: Implement
 
         // Step 10: Login to Backend as Admin
         Factory::getApp()->magentoBackendLoginUser();
