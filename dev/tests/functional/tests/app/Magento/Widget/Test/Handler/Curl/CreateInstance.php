@@ -43,7 +43,7 @@ class CreateInstance extends Curl
 
         // todo: substitute type/code and theme_id
         $instanceType = 'magento_banner';
-        $themeId = '9';
+        $themeId = '3';
 
         $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $instanceType . '/theme_id/' . $themeId;
         $curl = new BackendDecorator(new CurlTransport(), new Config);
