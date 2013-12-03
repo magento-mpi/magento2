@@ -13,9 +13,10 @@
 <?php if ($this->canDisplayGiftWrapping()): ?>
 <div class="box-right" id="wrapping-order-container">
     <div class="entry-edit">
-        <div><?php echo __('Gift Wrapping for the Entire Order') ?></div>
-        <br />
         <fieldset>
+            <legend class="legend"><span><?php echo __('Gift Wrapping for the Entire Order'); ?></span></legend>
+            <br />
+
             <?php if ($this->getOrderInfo()->getDesign()): ?>
             <div class="gift-wrapping-form">
                 <?php echo __('Gift Wrapping Design') ?>: <span><?php echo $this->escapeHtml($this->getOrderInfo()->getDesign()); ?></span>
