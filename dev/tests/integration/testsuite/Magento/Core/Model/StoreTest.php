@@ -35,9 +35,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'context'                 => $objectManager->get('Magento\Core\Model\Context'),
             'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
+            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
             'url'                     => $objectManager->get('Magento\Core\Model\Url'),
             'request'                 => $objectManager->get('Magento\App\RequestInterface'),
@@ -48,6 +48,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'resource'                => $objectManager->get('Magento\Core\Model\Resource\Store'),
             'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
             'sidResolver'             => $objectManager->get('Magento\Session\SidResolverInterface'),
+            'cookie'                  => $objectManager->get('Magento\Stdlib\Cookie'),
         );
 
         return $this->getMock(
@@ -56,7 +57,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             $this->_modelParams
         );
     }
-    
+
     protected function tearDown()
     {
         $this->_model = null;
@@ -283,6 +284,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @magentoAppIsolation enabled
+     * @magentoAppArea adminhtml
      */
     public function testCRUD()
     {
@@ -298,8 +300,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         );
 
         /* emulate admin store */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $crud = new \Magento\TestFramework\Entity($this->_model, array('name' => 'new name'));
         $crud->testCrud();
     }
@@ -327,8 +327,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model->setData($data);
 
         /* emulate admin store */
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\App::ADMIN_STORE_ID);
         $this->_model->save();
     }
 
@@ -353,7 +351,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider isUseStoreInUrlDataProvider
      */
-    public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $storeId, $expectedResult)
+    public function testIsUseStoreInUrl($isInstalled, $storeInUrl, $disableStoreInUrl, $expectedResult)
     {
         $appStateMock = $this->getMock('Magento\App\State', array(), array(), '', false, false);
         $appStateMock->expects($this->any())
@@ -369,7 +367,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->any())->method('getConfig')
             ->with($this->stringContains(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL))
             ->will($this->returnValue($storeInUrl));
-        $model->setStoreId($storeId);
+        $model->setDisableStoreInUrl($disableStoreInUrl);
         $this->assertEquals($expectedResult, $model->isUseStoreInUrl());
     }
 
@@ -380,10 +378,11 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     public function isUseStoreInUrlDataProvider()
     {
         return array(
-            array(true, true, 1, true),
-            array(false, true, 1, false),
-            array(true, false, 1, false),
-            array(true, true, 0, false),
+            array(true, true, null, true),
+            array(false, true, null, false),
+            array(true, false, null, false),
+            array(true, true, true, false),
+            array(true, true, false, true),
         );
     }
 }

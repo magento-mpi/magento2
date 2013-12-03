@@ -19,9 +19,9 @@ namespace Magento\Captcha\Model;
 class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     /**
-     * @magentoConfigFixture admin_store admin/captcha/forms backend_login
-     * @magentoConfigFixture admin_store admin/captcha/enable 1
-     * @magentoConfigFixture admin_store admin/captcha/mode always
+     * @magentoAdminConfigFixture admin/captcha/forms backend_login
+     * @magentoAdminConfigFixture admin/captcha/enable 1
+     * @magentoAdminConfigFixture admin/captcha/mode always
      */
     public function testBackendLoginActionWithInvalidCaptchaReturnsError()
     {
@@ -43,10 +43,10 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoConfigFixture admin_store admin/captcha/enable 1
-     * @magentoConfigFixture admin_store admin/captcha/forms backend_login
-     * @magentoConfigFixture admin_store admin/captcha/mode after_fail
-     * @magentoConfigFixture admin_store admin/captcha/failed_attempts_login 1
+     * @magentoAdminConfigFixture admin/captcha/enable 1
+     * @magentoAdminConfigFixture admin/captcha/forms backend_login
+     * @magentoAdminConfigFixture admin/captcha/mode after_fail
+     * @magentoAdminConfigFixture admin/captcha/failed_attempts_login 1
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      */
@@ -75,9 +75,9 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
      * @magentoDataFixture Magento/Captcha/_files/dummy_user.php
-     * @magentoConfigFixture admin_store admin/captcha/enable 1
-     * @magentoConfigFixture admin_store admin/captcha/forms backend_forgotpassword
-     * @magentoConfigFixture admin_store admin/captcha/mode always
+     * @magentoAdminConfigFixture admin/captcha/enable 1
+     * @magentoAdminConfigFixture admin/captcha/forms backend_forgotpassword
+     * @magentoAdminConfigFixture admin/captcha/mode always
      */
     public function testCheckUserForgotPasswordBackendWhenCaptchaFailed()
     {
@@ -92,9 +92,9 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
     /**
      * @magentoDbIsolation enabled
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture admin_store admin/captcha/enable 1
-     * @magentoConfigFixture admin_store admin/captcha/forms backend_forgotpassword
-     * @magentoConfigFixture admin_store admin/captcha/mode always
+     * @magentoAdminConfigFixture admin/captcha/enable 1
+     * @magentoAdminConfigFixture admin/captcha/forms backend_forgotpassword
+     * @magentoAdminConfigFixture admin/captcha/mode always
      */
     public function testCheckUnsuccessfulMessageWhenCaptchaFailed()
     {

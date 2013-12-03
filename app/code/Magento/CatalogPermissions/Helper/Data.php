@@ -19,7 +19,6 @@ namespace Magento\CatalogPermissions\Helper;
 
 class Data extends \Magento\App\Helper\AbstractHelper
 {
-    const XML_PATH_ENABLED = 'catalog/magento_catalogpermissions/enabled';
     const XML_PATH_GRANT_CATALOG_CATEGORY_VIEW = 'catalog/magento_catalogpermissions/grant_catalog_category_view';
     const XML_PATH_GRANT_CATALOG_PRODUCT_PRICE = 'catalog/magento_catalogpermissions/grant_catalog_product_price';
     const XML_PATH_GRANT_CHECKOUT_ITEMS = 'catalog/magento_catalogpermissions/grant_checkout_items';
@@ -43,13 +42,13 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_customerSession;
 
     /**
-     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      */
     public function __construct(
-        \Magento\Customer\Model\Session $customerSession,
         \Magento\App\Helper\Context $context,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
     ) {
         $this->_customerSession = $customerSession;

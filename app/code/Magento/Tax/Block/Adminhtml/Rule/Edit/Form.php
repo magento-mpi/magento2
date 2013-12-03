@@ -24,7 +24,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
-
+    
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData

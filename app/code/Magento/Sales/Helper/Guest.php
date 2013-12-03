@@ -60,7 +60,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\Cookie $coreCookie
-          * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\App\ViewInterface $view
      * @param bool $dbCompatibleMode

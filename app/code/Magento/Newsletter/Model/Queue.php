@@ -121,10 +121,8 @@ class Queue extends \Magento\Core\Model\Template
     protected $_templateFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Context $context
+     * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\App\Emulation $appEmulation
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -138,8 +136,8 @@ class Queue extends \Magento\Core\Model\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Context $context,
+        \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\App\Emulation $appEmulation,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -152,7 +150,7 @@ class Queue extends \Magento\Core\Model\Template
         \Magento\Newsletter\Model\Resource\Subscriber\CollectionFactory $subscriberCollectionFactory,
         array $data = array()
     ) {
-        parent::__construct($design, $context, $registry, $appEmulation, $storeManager, $data);
+        parent::__construct($context, $design, $registry, $appEmulation, $storeManager, $data);
         $this->_templateFilter = $templateFilter;
         $this->_date = $date;
         $this->_locale = $locale;

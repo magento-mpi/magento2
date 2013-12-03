@@ -33,9 +33,8 @@ class Context extends \Magento\View\Block\Template\Context
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
-
+    
     /**
-     * @param \Magento\Core\Model\StoreManager $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -137,7 +136,6 @@ class Context extends \Magento\View\Block\Template\Context
             $data
         );
     }
-
 
     /**
      * Get store manager

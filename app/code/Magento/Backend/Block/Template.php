@@ -43,7 +43,6 @@ class Template extends \Magento\View\Block\Template
     protected $formKey;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param array $data

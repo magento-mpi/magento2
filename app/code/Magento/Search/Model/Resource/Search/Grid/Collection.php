@@ -16,30 +16,38 @@ class Collection
     protected $_registryManager;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper
      * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
+     * @param mixed $connection
+     * @param mixed $resource
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\CatalogSearch\Model\Resource\Helper $resourceHelper,
         \Magento\Core\Model\Registry $registry,
+        $connection = null,
         $resource = null
     ) {
         $this->_registryManager = $registry;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $storeManager, $resourceHelper,
-            $resource);
+        parent::__construct(
+            $entityFactory,
+            $logger,
+            $fetchStrategy,
+            $eventManager,
+            $storeManager,
+            $resourceHelper,
+            $connection,
+            $resource
+        );
     }
 
     /**

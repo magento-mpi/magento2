@@ -41,6 +41,11 @@ class Session
     protected $_backendUrl;
 
     /**
+     * @var \Magento\Backend\App\ConfigInterface
+     */
+    protected $_config;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Zend\Session\Config\ConfigInterface $sessionConfig
@@ -48,6 +53,7 @@ class Session
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\Url $backendUrl
+     * @param \Magento\Backend\App\ConfigInterface $config
      * @param array $data
      */
     public function __construct(
@@ -58,8 +64,10 @@ class Session
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\Url $backendUrl,
+        \Magento\Backend\App\ConfigInterface $config,
         array $data = array()
     ) {
+        $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
         parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
@@ -145,7 +153,7 @@ class Session
      */
     public function isLoggedIn()
     {
-        $lifetime = $this->_coreStoreConfig->getConfig(self::XML_PATH_SESSION_LIFETIME);
+        $lifetime = $this->_config->getValue(self::XML_PATH_SESSION_LIFETIME);
         $currentTime = time();
 
         /* Validate admin session lifetime that should be more than 60 seconds */
@@ -215,5 +223,26 @@ class Session
     {
         $this->destroy();
         return $this;
+    }
+
+    /**
+     * Skip path validation in backend area
+     *
+     * @param string $path
+     * @return bool
+     */
+    public function isValidForPath($path)
+    {
+        return true;
+    }
+
+    /**
+     * Always try to get session id from query in backend area
+     *
+     * @return bool
+     */
+    protected function _isSidUsedFromQueryParam()
+    {
+        return true;
     }
 }

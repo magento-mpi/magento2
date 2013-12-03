@@ -125,9 +125,13 @@ class Cookie extends \Magento\Stdlib\Cookie
      * @param bool|string $httponly
      * @return \Magento\Stdlib\Cookie
      */
-    public function setObscure($name, $value, $period = 0, $path = '', $domain = '', $secure = '', $httponly = '')
-    {
+    public function setObscure(
+        $name, $value, $period = null, $path = null, $domain = null, $secure = null, $httponly = null
+    ) {
         $value = md5($this->_getSalt() . $value);
+        if (null === $period) {
+            $period = $this->_customerSession->getCookieLifetime();
+        }
         return $this->set($name, $value, $period, $path, $domain, $secure, $httponly);
     }
 
@@ -150,6 +154,7 @@ class Cookie extends \Magento\Stdlib\Cookie
                 $customerGroupId = $customerCookies->getCustomerGroupId();
             }
         }
+
         if ($customerId && !is_null($customerGroupId)) {
             $this->setObscure(self::COOKIE_CUSTOMER, 'customer_' . $customerId);
             $this->setObscure(self::COOKIE_CUSTOMER_GROUP, 'customer_group_' . $customerGroupId);
@@ -158,12 +163,12 @@ class Cookie extends \Magento\Stdlib\Cookie
                     self::COOKIE_CUSTOMER_LOGGED_IN, 'customer_logged_in_' . $this->_customerSession->isLoggedIn()
                 );
             } else {
-                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null, 0);
+                $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null);
             }
         } else {
-            $this->set(self::COOKIE_CUSTOMER, null, 0);
-            $this->set(self::COOKIE_CUSTOMER_GROUP, null, 0);
-            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null, 0);
+            $this->set(self::COOKIE_CUSTOMER, null);
+            $this->set(self::COOKIE_CUSTOMER_GROUP, null);
+            $this->set(self::COOKIE_CUSTOMER_LOGGED_IN, null);
         }
         return $this;
     }

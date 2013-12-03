@@ -544,9 +544,7 @@ class AbstractSession extends \Magento\Object
             self::$_urlHostCache[$urlHost] = $sessionId;
         }
 
-        return $this->_storeManager->getStore()->isAdmin() || $this->isValidForPath($urlPath)
-            ? self::$_urlHostCache[$urlHost]
-            : $this->getSessionId();
+        return $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost] : $this->getSessionId();
     }
 
     /**
@@ -616,6 +614,16 @@ class AbstractSession extends \Magento\Object
     {
         unset($_SESSION[self::HOST_KEY]);
         return $this;
+    }
+
+    /**
+     * Whether to take session id from GET
+     *
+     * @return bool
+     */
+    protected function _isSidUsedFromQueryParam()
+    {
+        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID);
     }
 
     /**

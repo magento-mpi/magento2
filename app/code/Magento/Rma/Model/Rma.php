@@ -173,23 +173,23 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
-     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param Config $rmaConfig
-     * @param ItemFactory $rmaItemFactory
-     * @param Item\Attribute\Source\StatusFactory $attrSourceFactory
-     * @param GridFactory $rmaGridFactory
-     * @param Rma\Status\HistoryFactory $historyFactory
-     * @param Rma\Source\StatusFactory $statusFactory
-     * @param Resource\ItemFactory $itemFactory
-     * @param Resource\Item\CollectionFactory $itemsFactory
-     * @param Resource\Shipping\CollectionFactory $rmaShippingFactory
+     * @param \Magento\Rma\Model\Config $rmaConfig
+     * @param \Magento\Rma\Model\ItemFactory $rmaItemFactory
+     * @param \Magento\Rma\Model\Item\Attribute\Source\StatusFactory $attrSourceFactory
+     * @param \Magento\Rma\Model\GridFactory $rmaGridFactory
+     * @param \Magento\Rma\Model\Rma\Status\HistoryFactory $historyFactory
+     * @param \Magento\Rma\Model\Rma\Source\StatusFactory $statusFactory
+     * @param \Magento\Rma\Model\Resource\ItemFactory $itemFactory
+     * @param \Magento\Rma\Model\Resource\Item\CollectionFactory $itemsFactory
+     * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $rmaShippingFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\Address\RateFactory $quoteRateFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
@@ -198,15 +198,15 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
      * @param \Magento\Shipping\Model\ShippingFactory $shippingFactory
      * @param \Magento\Escaper $escaper
-     * @param Resource\Rma $resource
-     * @param \Magento\Core\Model\LocaleInterface $locale,
+     * @param \Magento\Rma\Model\Resource\Rma $resource
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Session $session,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Core\Model\Translate $translate,

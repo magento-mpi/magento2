@@ -48,10 +48,10 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_coreStoreConfig;
 
     /**
-     * @param \Magento\App\Helper\Context                 $context
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\PageCache\Model\CacheControlFactory $ccFactory
-     * @param \Magento\Stdlib\Cookie                       $cookie
-     * @param \Magento\Core\Model\Store\Config             $coreStoreConfig
+     * @param \Magento\Stdlib\Cookie $cookie
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     function __construct(
         \Magento\App\Helper\Context $context,
@@ -98,7 +98,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($this->_isNoCacheCookieLocked) {
             return $this;
         }
-        $lifetime = $lifetime !== null ? $lifetime : $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
+        $lifetime = $lifetime !== null
+            ? $lifetime
+            : $this->_coreStoreConfig->getConfig(self::XML_PATH_EXTERNAL_CACHE_LIFETIME);
         if ($this->_cookie->get(self::NO_CACHE_COOKIE)) {
             $this->_cookie->renew(self::NO_CACHE_COOKIE, $lifetime);
         } else {
@@ -115,7 +117,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function removeNoCacheCookie()
     {
         if (!$this->_isNoCacheCookieLocked) {
-            $this->_cookie->set(self::NO_CACHE_COOKIE, null, 0);
+            $this->_cookie->set(self::NO_CACHE_COOKIE, null);
         }
         return $this;
     }
@@ -139,7 +141,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function unlockNoCacheCookie()
     {
-        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null, 0);
+        $this->_cookie->set(self::NO_CACHE_LOCK_COOKIE, null);
         $this->_isNoCacheCookieLocked = false;
         return $this;
     }

@@ -252,7 +252,7 @@ class Session extends \Magento\Core\Model\AbstractModel
      */
     public function removePersistentCookie()
     {
-        $this->_cookie->set(\Magento\Persistent\Model\Session::COOKIE_NAME, null, 0);
+        $this->_cookie->set(\Magento\Persistent\Model\Session::COOKIE_NAME, null);
         return $this;
     }
 

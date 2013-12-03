@@ -87,7 +87,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _renderBlock()
     {
-        $this->_coreCookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null, 0);
+        $this->_coreCookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null);
 
         $block = $this->_getPlaceHolderBlock();
 

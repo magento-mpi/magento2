@@ -30,6 +30,11 @@ class Head extends \Magento\Page\Block\Html\Head
     protected $formKey;
 
     /**
+     * @var \Magento\Data\Form\FormKey
+     */
+    protected $formKey;
+
+    /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Helper\File\Storage\Database $fileStorageDatabase
@@ -54,6 +59,7 @@ class Head extends \Magento\Page\Block\Html\Head
         array $data = array()
     ) {
         $this->_titles = $titles;
+        $this->formKey = $formKey;
         parent::__construct(
             $context,
             $coreData,

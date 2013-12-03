@@ -71,9 +71,8 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     public function getSid(AbstractSession $session)
     {
         $sidKey = null;
-        if (($this->storeManager->getStore()->isAdmin()
-                || $this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID))
-            && false !== $this->request->getQuery($this->getSessionIdQueryParam($session), false)
+        if ($this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID)
+            && isset($_GET[$this->getSessionIdQueryParam($session)])
             && $this->urlBuilder->isOwnOriginUrl()
         ) {
             $sidKey = $this->request->getQuery($this->getSessionIdQueryParam($session));
