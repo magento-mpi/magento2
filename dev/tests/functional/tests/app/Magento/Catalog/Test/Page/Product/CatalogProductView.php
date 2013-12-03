@@ -65,6 +65,13 @@ class CatalogProductView extends Page
     protected $upsellSelector = '.block.upsell';
 
     /**
+     * Gift Card Block selector
+     *
+     * @var string
+     */
+    protected $giftCardBlockSelector = '.giftcard.form';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -163,6 +170,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductProductListRelated(
             $this->_browser->find($this->relatedProductSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get gift card options block
+     *
+     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
+     */
+    public function getGiftCardBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoGiftCardCatalogProductViewTypeGiftCard(
+            $this->_browser->find($this->giftCardBlockSelector, Locator::SELECTOR_CSS)
         );
     }
 }

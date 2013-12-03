@@ -52,6 +52,7 @@ class UnassignCategoryTest extends Functional
         $cacheManagementPage = Factory::getPageFactory()->getAdminCache();
         $cacheManagementPage->open();
         $cacheManagementPage->getActionsBlock()->flushMagentoCache();
+        $cacheManagementPage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
         $this->assertAbsenceOnCategory($simple);
     }

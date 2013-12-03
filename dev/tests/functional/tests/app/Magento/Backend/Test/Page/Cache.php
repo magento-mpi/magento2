@@ -13,6 +13,7 @@ namespace Magento\Backend\Test\Page;
 
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
+use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Cache\Actions;
 
 /**
@@ -36,6 +37,13 @@ class Cache extends Page
     protected $actionsSelector = 'div.page-actions';
 
     /**
+     * Global messages block
+     *
+     * @var string
+     */
+    protected $messagesBlock = '#messages .messages';
+
+    /**
      * Constructor
      */
     protected function _init()
@@ -51,5 +59,17 @@ class Cache extends Page
     public function getActionsBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendCacheActions($this->_browser->find($this->actionsSelector));
+    }
+
+    /**
+     * Get messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
     }
 }
