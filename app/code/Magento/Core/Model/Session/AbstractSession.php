@@ -474,7 +474,7 @@ class AbstractSession extends \Magento\Object
         foreach ($items as $item) {
             if ($item instanceof \Magento\Message\AbstractMessage) {
                 $text = $item->getText();
-            } else if (is_string($item)) {
+            } elseif (is_string($item)) {
                 $text = $item;
             } else {
                 continue; // Some unknown object, do not put it in already existing messages
@@ -485,7 +485,7 @@ class AbstractSession extends \Magento\Object
         foreach ($messages as $message) {
             if ($message instanceof \Magento\Message\AbstractMessage) {
                 $text = $message->getText();
-            } else if (is_string($message)) {
+            } elseif (is_string($message)) {
                 $text = $message;
             } else {
                 $text = null; // Some unknown object, add it anyway
@@ -507,14 +507,14 @@ class AbstractSession extends \Magento\Object
     /**
      * Specify session identifier
      *
-     * @param   string|null $id
+     * @param   string|null $sessionId
      * @return  \Magento\Core\Model\Session\AbstractSession
      */
-    public function setSessionId($id)
+    public function setSessionId($sessionId)
     {
         $this->_addHost();
-        if (!is_null($id) && preg_match('#^[0-9a-zA-Z,-]+$#', $id)) {
-            session_id($id);
+        if (!is_null($sessionId) && preg_match('#^[0-9a-zA-Z,-]+$#', $sessionId)) {
+            session_id($sessionId);
         }
         return $this;
     }
