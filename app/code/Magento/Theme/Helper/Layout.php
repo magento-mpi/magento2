@@ -16,19 +16,19 @@ class Layout extends \Magento\App\Helper\AbstractHelper
     protected $_layout;
 
     /**
-     * @var \Magento\Theme\Model\Layout\Config
+     * @var \Magento\View\LayoutInterface
      */
     protected $_config;
 
     /**
-     * @param \Magento\Theme\Model\Layout\Config $config
-     * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Theme\Model\Config $config
+     * @param \Magento\View\LayoutInterface $layout
      */
     public function __construct(
-        \Magento\Theme\Model\Layout\Config $config,
-        \Magento\View\LayoutInterface $layout,
-        \Magento\App\Helper\Context $context
+        \Magento\App\Helper\Context $context,
+        \Magento\Theme\Model\Config $config,
+        \Magento\View\LayoutInterface $layout
     ) {
         $this->_layout = $layout;
         $this->_config = $config;

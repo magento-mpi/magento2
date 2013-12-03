@@ -28,18 +28,16 @@ class Reset extends \Magento\Backend\Block\System\Config\Form\Field
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Theme\Helper\Robots $pageRobots
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Theme\Helper\Robots $pageRobots,
         array $data = array()
     ) {
         $this->_pageRobots = $pageRobots;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /*

@@ -90,7 +90,8 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     public function testAddChild()
     {
         $parentBlock = $this->_createBlockWithLayout('testAddChild', 'testAddChild', 'Magento\View\Element\Text');
-        $child = $parentBlock->addChild('testAddChildAlias', 'Magento\View\Element\Text', array('content' => 'content'));
+        $child = $parentBlock->addChild('testAddChildAlias', 'Magento\View\Element\Text',
+            array('content' => 'content'));
         $this->assertInstanceOf('Magento\View\Element\Text', $child);
         $this->assertEquals('testAddChild.testAddChildAlias', $child->getNameInLayout());
         $this->assertEquals($child, $parentBlock->getChildBlock('testAddChildAlias'));
