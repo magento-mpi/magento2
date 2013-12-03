@@ -30,13 +30,6 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode(\Magento\View\DesignInterface::DEFAULT_AREA);
-        /** @var \Magento\Filesystem $filesystem */
-        $relativePath = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::ROOT)
-            ->getRelativePath(__DIR__ . '/../../../_files/design');
-        /** @var \Magento\Filesystem\DirectoryList $directoryList */
-        $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
-        $directoryList->addDirectory(\Magento\Filesystem::ROOT, array('path' => $relativePath));
-        $directoryList->addDirectory(\Magento\Filesystem::THEMES, array('path' => $relativePath));
         $this->_design = $objectManager->get(
             'Magento\View\DesignInterface'
         );
@@ -55,6 +48,14 @@ class ConfigurationTest extends \PHPUnit_Framework_TestCase
      */
     public function testLoadConfigurations($type, $controlName, $controlData)
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var \Magento\Filesystem $filesystem */
+        $relativePath = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::ROOT)
+            ->getRelativePath(__DIR__ . '/../../../_files/design');
+        /** @var \Magento\Filesystem\DirectoryList $directoryList */
+        $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $directoryList->addDirectory(\Magento\Filesystem::ROOT, array('path' => $relativePath));
+        $directoryList->addDirectory(\Magento\Filesystem::THEMES, array('path' => $relativePath));
         $designTheme = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->get('Magento\View\DesignInterface')
             ->getDesignTheme();
