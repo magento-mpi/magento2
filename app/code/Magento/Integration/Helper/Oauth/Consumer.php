@@ -78,19 +78,22 @@ class Consumer
     /**
      * Create a new consumer account.
      *
-     * @param string $consumerName
+     * @param array $consumerData - Information provided by an integration when the integration is installed.
+     * <pre>
+     * array(
+     *     'name' => 'Integration Name',
+     *     '...' => '...', // Other consumer data can be passed as well
+     * )
+     * </pre>
      * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Core\Exception
      * @throws \Magento\Oauth\Exception
      */
-    public function createConsumer($consumerName)
+    public function createConsumer($consumerData)
     {
         try {
-            $consumerData = array(
-                'name' => $consumerName,
-                'key' => $this->_oauthHelper->generateConsumerKey(),
-                'secret' => $this->_oauthHelper->generateConsumerSecret()
-            );
+            $consumerData['key'] = $this->_oauthHelper->generateConsumerKey();
+            $consumerData['secret'] = $this->_oauthHelper->generateConsumerSecret();
             $consumer = $this->_consumerFactory->create($consumerData);
             $consumer->save();
             return $consumer;
@@ -105,28 +108,31 @@ class Consumer
      * Create access token for provided consumer.
      *
      * @param int $consumerId
+     * @return bool If token was created
      */
     public function createAccessToken($consumerId)
     {
         // TODO: This implementation is temporary and should be changed after requirements clarification
         try {
-            $existingToken = $this->_consumerFactory->create()->load($consumerId);
+            $consumer = $this->_consumerFactory->create()->load($consumerId);
+            $existingToken = $this->_tokenProvider->getTokenByConsumer($consumer->getId());
         } catch (\Exception $e) {
-            return;
         }
-        if (!$existingToken) {
+        if (!isset($existingToken)) {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             $this->_tokenFactory->create()->createVerifierToken($consumerId);
             $this->_tokenProvider->createRequestToken($consumer);
             $this->_tokenProvider->getAccessToken($consumer);
+            return true;
         }
+        return false;
     }
 
     /**
      * Retrieve access token assigned to the consumer.
      *
      * @param int $consumerId
-     * @return bool|Token Return false if no access token is available.
+     * @return Token|bool Return false if no access token is available.
      */
     public function getAccessToken($consumerId)
     {

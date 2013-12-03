@@ -44,7 +44,7 @@
     </xs:complexType>
     <xs:simpleType name="resourcesType">
         <xs:restriction base="xs:string">
-            <xs:pattern value=".+::.+(, ?.+::.+)"/>
+            <xs:pattern value=".+::.+(, ?.+::.+)*"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

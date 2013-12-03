@@ -64,7 +64,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         // TODO: Think about double save issue
         $integration->save();
         $consumerName = 'Integration' . $integration->getId();
-        $consumer = $this->_oauthConsumerHelper->createConsumer($consumerName);
+        $consumer = $this->_oauthConsumerHelper->createConsumer(array('name' => $consumerName));
         $integration->setConsumerId($consumer->getId());
         $integration->save();
 

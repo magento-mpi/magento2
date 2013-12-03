@@ -18,11 +18,9 @@
     <crypt>
         <key><![CDATA[k-k-k-k-k]]></key>
     </crypt>
-    <disable_local_modules>false</disable_local_modules>
     <db>
         <table_prefix><![CDATA[]]></table_prefix>
     </db>
-    <resource name="default_setup" connection="default"/>
     <connection name="default">
         <host><![CDATA[localhost]]></host>
         <username><![CDATA[root]]></username>
@@ -34,10 +32,9 @@
         <adapter>Magento\TestFramework\Db\ConnectionAdapter</adapter>
         <active>1</active>
     </connection>
+    <resource name="default_setup" connection="default"/>
     <session_save><![CDATA[files]]></session_save>
-    <connection>
-        <type name="pdo_mysql">
-            <adapter><![CDATA[Magento\TestFramework\Db\Adapter\Mysql]]></adapter>
-        </type>
-    </connection>
+    <backend>
+        <frontName><![CDATA[backend]]></frontName>
+    </backend>
 </config>
