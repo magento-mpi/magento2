@@ -114,7 +114,6 @@ class Read implements ReadInterface
         }
         return $result;
     }
-
     /**
      * Validate of path existence
      *

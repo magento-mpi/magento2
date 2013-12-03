@@ -73,10 +73,10 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $directoryList = $objectManager->create('\Magento\Filesystem\DirectoryList', array('root' => __DIR__));
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
-            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
-            $objectManager->create('Magento\Core\Block\Template\Context', array(
+            $objectManager->create('\Magento\View\Block\Template\Context', array(
                 'filesystem' => $objectManager->create('\Magento\Filesystem', array('directoryList' => $directoryList))
             )),
+            $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false),
             $objectManager->create('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
             $objectManager->create('Magento\Backend\Model\Widget\Grid\SubTotals'),
             $objectManager->create('Magento\Backend\Model\Widget\Grid\Totals'),

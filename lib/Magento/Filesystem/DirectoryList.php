@@ -66,8 +66,8 @@ class DirectoryList
             $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
         }
 
+        array_merge($this->directories, $directories);
         foreach ($directories as $code => $configuration) {
-            $this->directories[$code] = $configuration;
             if (isset($configuration['path'])) {
                 $this->setPath($code, $configuration['path']);
             }

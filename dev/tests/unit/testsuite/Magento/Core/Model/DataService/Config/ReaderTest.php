@@ -29,8 +29,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->getMock();
 
         $this->_configReader = new \Magento\Core\Model\DataService\Config\Reader(
-            $this->_modulesReaderMock,
-            array($path)
+            array(file_get_contents($path)),
+            $this->_modulesReaderMock
         );
     }
 

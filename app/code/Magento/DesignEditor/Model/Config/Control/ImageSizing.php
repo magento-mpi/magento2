@@ -29,16 +29,14 @@ class ImageSizing extends \Magento\DesignEditor\Model\Config\Control\AbstractCon
 
     /**
      * @param $configFiles
-     * @param \Magento\Filesystem\DriverInterface $filesystemDriver
      * @param \Magento\Module\Dir\Reader $moduleReader
      */
     public function __construct(
         $configFiles,
-        \Magento\Filesystem\DriverInterface $filesystemDriver,
         \Magento\Module\Dir\Reader $moduleReader
     ) {
         $this->_moduleReader = $moduleReader;
-        parent::__construct($configFiles, $filesystemDriver);
+        parent::__construct($configFiles);
     }
 
     /**

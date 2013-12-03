@@ -35,23 +35,23 @@ class Collection extends \Magento\Data\Collection
     protected $_targetDirs = array();
 
     /**
-     * @var \Magento\Config\ThemeFactory
+     * @var \Magento\Config\FileIteratorFactory
      */
-    protected $themeFactory;
+    protected $fileIteratorFactory;
 
     /**
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
-     * @param \Magento\Config\ThemeFactory $themeFactory
+     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Config\ThemeFactory $themeFactory
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
         parent::__construct($entityFactory);
         $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
-        $this->themeFactory = $themeFactory;
+        $this->fileIteratorFactory = $fileIteratorFactory;
     }
 
     /**
@@ -212,7 +212,13 @@ class Collection extends \Magento\Data\Collection
      */
     public function _prepareConfigurationData($configPath)
     {
-        $themeConfig = $this->_getConfigModel(array($configPath));
+
+        $themeConfig = $this->_getConfigModel(
+            $this->fileIteratorFactory->create(
+                $this->_directory,
+                array($this->_directory->getRelativePath($configPath))
+            )
+        );
         $pathData = $this->_preparePathData($configPath);
         $media = $themeConfig->getMedia();
 
@@ -279,12 +285,12 @@ class Collection extends \Magento\Data\Collection
     /**
      * Return configuration model for themes
      *
-     * @param array $configPaths
+     * @param $configPaths
      * @return \Magento\Config\Theme
      */
-    protected function _getConfigModel(array $configPaths)
+    protected function _getConfigModel($configPaths)
     {
-        return $this->themeFactory->create(array('configFiles' => $configPaths));
+        return new \Magento\Config\Theme($configPaths);
     }
 
     /**

@@ -92,7 +92,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_fileResolverMock->expects($this->once())
             ->method('get')
-            ->will($this->returnValue(array($this->_filePath .  'resources.xml')));
+            ->will($this->returnValue(array(file_get_contents($this->_filePath .  'resources.xml'))));
 
         $this->_converterMock->expects($this->once())
             ->method('convert')

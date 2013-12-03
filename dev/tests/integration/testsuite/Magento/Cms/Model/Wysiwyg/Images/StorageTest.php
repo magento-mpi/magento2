@@ -24,7 +24,9 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         self::$_baseDir = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Cms\Helper\Wysiwyg\Images')
                 ->getCurrentPath() . 'MagentoCmsModelWysiwygImagesStorageTest';
-        mkdir(self::$_baseDir, 0777);
+        if (!file_exists(self::$_baseDir)) {
+            mkdir(self::$_baseDir, 0777);
+        }
         touch(self::$_baseDir . '/1.swf');
     }
 

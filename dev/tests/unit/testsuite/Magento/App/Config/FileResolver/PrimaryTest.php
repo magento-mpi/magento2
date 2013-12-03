@@ -20,12 +20,12 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
         $directory = $this->getMock('Magento\Filesystem\Directory\Read', array('search'), array(), '', false);
         $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
         $iteratorFactory = $this->getMock(
-            'Magento\App\Config\FileResolver\FileIteratorFactory', array('create'), array(), '', false
+            'Magento\Config\FileIteratorFactory', array('create'), array(), '', false
         );
 
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
-            ->with(\Magento\Filesystem::APP)
+            ->with(\Magento\Filesystem::CONFIG)
             ->will($this->returnValue($directory));
 
         $directory->expects($this->once())
@@ -34,7 +34,6 @@ class PrimaryTest extends \PHPUnit_Framework_TestCase
 
         $iteratorFactory->expects($this->once())
             ->method('create')
-            ->with($filesystem, $fileList)
             ->will($this->returnValue(true));
 
         $model = new \Magento\App\Config\FileResolver\Primary($filesystem, $iteratorFactory);

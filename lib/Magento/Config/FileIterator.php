@@ -40,7 +40,7 @@ class FileIterator implements \Iterator
     public function __construct(
         \Magento\Filesystem\Directory\ReadInterface $directory,
         array $paths
-    ){
+    ) {
         $this->paths            = $paths;
         $this->position         = 0;
         $this->directoryRead    = $directory;
@@ -93,8 +93,12 @@ class FileIterator implements \Iterator
     /**
      * @return array
      */
-    public function getContents()
+    public function toArray()
     {
-        return $this->paths;
+        $result = [];
+        foreach($this as $item) {
+            $result[$this->key()] = $item;
+        }
+        return $result;
     }
 }
