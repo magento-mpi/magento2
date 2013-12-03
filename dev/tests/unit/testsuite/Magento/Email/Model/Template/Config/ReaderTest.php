@@ -26,16 +26,18 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $fileResolver = $this->getMock('Magento\Config\FileResolverInterface');
-        $fileResolver
-            ->expects($this->once())
-            ->method('get')
-            ->with('email_templates.xml', 'scope')
-            ->will($this->returnValue(array(
-                __DIR__ . '/_files/Fixture/ModuleOne/etc/email_templates_one.xml',
-                __DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml',
-            )))
-        ;
+        $fileResolver = $this->getMock(
+            'Magento\Email\Model\Template\Config\FileResolver',
+            array(),
+            array(),
+            '',
+            false
+        );
+        $paths = array(
+            __DIR__ . '/_files/Fixture/ModuleOne/etc/email_templates_one.xml',
+            __DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml',
+        );
+
 
         $this->_converter = $this->getMock('Magento\Email\Model\Template\Config\Converter', array('convert'));
 
@@ -54,6 +56,31 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         $this->_moduleDirResolver = $this->getMock(
             'Magento\Module\Dir\ReverseResolver', array(), array(), '', false
+        );
+        $filesystemDirectoryMock = $this->getMock(
+            '\Magento\Filesystem\Directory\Read',
+            array('readFile'),
+            array(),
+            '',
+            false
+        );
+
+        $filesystemDirectoryMock->expects($this->any())
+            ->method('readFile')
+            ->will($this->returnValueMap(array(
+                array($paths[0], file_get_contents($paths[0])),
+                array($paths[1], file_get_contents($paths[1]))
+            )));
+
+        $fileIterator = new \Magento\Email\Model\Template\Config\FileIterator(
+            $filesystemDirectoryMock,
+            $this->_moduleDirResolver,
+            $paths
+        );
+        $fileResolver->expects($this->once())
+            ->method('get')
+            ->with('email_templates.xml', 'scope')
+            ->will($this->returnValue($fileIterator)
         );
 
         $this->_model = new \Magento\Email\Model\Template\Config\Reader(
@@ -79,10 +106,10 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->with(__DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml')
             ->will($this->returnValue('Fixture_ModuleTwo'))
         ;
-        $constraint = function (\DOMDOcument $actual) {
+        $constraint = function (\DOMDocument $actual) {
             try {
-                $expected = __DIR__ . '/_files/email_templates_merged.xml';
-                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlFile($expected, $actual->saveXML());
+                $expected = file_get_contents(__DIR__ . '/_files/email_templates_merged.xml');
+                \PHPUnit_Framework_Assert::assertXmlStringEqualsXmlString($expected, $actual->saveXML());
                 return true;
             } catch (\PHPUnit_Framework_AssertionFailedError $e) {
                 return false;
@@ -95,6 +122,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             ->with($this->callback($constraint))
             ->will($this->returnValue($expectedResult))
         ;
+
         $this->assertSame($expectedResult, $this->_model->read('scope'));
     }
 
