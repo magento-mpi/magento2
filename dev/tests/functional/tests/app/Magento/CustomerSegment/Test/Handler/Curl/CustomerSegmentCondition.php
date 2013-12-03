@@ -63,14 +63,14 @@ class CustomerSegmentCondition {
     public function execute(Fixture $fixture = null)
     {
         $params = $this->_prepareData($fixture);
-        $url = $_ENV['app_backend_url'] . 'admin/customersegment/save/active_tab/conditions_section';
+        $url = $_ENV['app_backend_url'] . 'customersegment/index/save/active_tab/conditions_section';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);
         $response = $curl->read();
         $curl->close();
 
-        preg_match("/customersegment\/edit\/id\/([0-9]+)/", $response, $matches);
+        preg_match("/customersegment\/index\/edit\/id\/([0-9]+)/", $response, $matches);
         $segmentId =  isset($matches[1]) ? $matches[1] : null;
 
         return $segmentId;
