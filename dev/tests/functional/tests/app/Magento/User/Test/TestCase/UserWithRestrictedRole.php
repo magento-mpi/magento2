@@ -69,8 +69,10 @@ class UserWithRestrictedRole extends Functional
         $loginPage->getLoginBlockForm()->submit();
         $salesPage->open();
         //Verify that only Sales resource is available.
-        $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItems()),
-            "You have access not only for Sales resource");
+        $this->assertTrue(
+            $salesPage->getNavigationMenuBlock()->assertNavigationMenuItemsCount(1),
+            "You have access not only for Sales resource"
+        );
         //Verify that if try go to restricted resource via url "Access Denied" page is opened
         $catalogProductPage->open();
         $this->assertContains('Access denied',
@@ -131,8 +133,10 @@ class UserWithRestrictedRole extends Functional
         $loginPage->getLoginBlockForm()->submit();
         $salesPage->open();
         //Verify that only Sales resource is available.
-        $this->assertEquals(1, count($salesPage->getNavigationMenuBlock()->getNavigationMenuItems()),
-            "You have access not only for Sales resource");
+        $this->assertTrue(
+            $salesPage->getNavigationMenuBlock()->assertNavigationMenuItemsCount(1),
+            "You have access not only for Sales resource"
+        );
 
         //Verify that at "Purchase Point" dropdown only store from preconditions is available
         $this->assertContains($storeData['name'], $salesGrid->getPurchasePointFilterText());

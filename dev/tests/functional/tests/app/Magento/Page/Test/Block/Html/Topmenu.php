@@ -64,13 +64,15 @@ class Topmenu extends Block
     }
 
     /**
-     * Get Navigation Menu Items
+     * Check menu items count
      *
-     * @return mixed|\Mtf\Client\Element
+     * @param int $number
+     * @return bool
      */
-    public function getNavigationMenuItems()
+    public function assertNavigationMenuItemsCount($number)
     {
-        return $this->_rootElement->find($this->navigationMenuItems, Locator::SELECTOR_XPATH);
+        $selector = $this->navigationMenuItems . '[' . ($number + 1) . ']';
+        return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
 
