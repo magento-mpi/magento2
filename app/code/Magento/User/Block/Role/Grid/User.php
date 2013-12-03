@@ -42,8 +42,8 @@ class User extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\User\Model\RoleFactory $roleFactory,
         array $data = array()
