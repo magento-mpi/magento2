@@ -65,9 +65,9 @@ class Node
      *
      * @return string
      */
-    public function getAnchorText()
+    public function getLabel()
     {
-        $value = $this->_getInstanceData('anchor_text');
+        $value = $this->_getInstanceData('label');
 
         return ($value !== false ? $value : $this->_node->getLabel());
     }

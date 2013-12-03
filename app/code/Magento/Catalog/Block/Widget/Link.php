@@ -100,15 +100,15 @@ class Link
     }
 
     /**
-     * Prepare anchor text using passed text as parameter.
+     * Prepare label using passed text as parameter.
      * If anchor text was not specified get entity name from DB.
      *
      * @return string
      */
-    public function getAnchorText()
+    public function getLabel()
     {
         if (!$this->_anchorText && $this->_entityResource) {
-            if (!$this->getData('anchor_text')) {
+            if (!$this->getData('label')) {
                 $idPath = explode('/', $this->_getData('id_path'));
                 if (isset($idPath[1])) {
                     $id = $idPath[1];
@@ -118,7 +118,7 @@ class Link
                     }
                 }
             } else {
-                $this->_anchorText = $this->getData('anchor_text');
+                $this->_anchorText = $this->getData('label');
             }
         }
 
