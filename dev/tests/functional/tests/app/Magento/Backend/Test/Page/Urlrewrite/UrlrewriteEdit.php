@@ -9,11 +9,7 @@
 namespace Magento\Backend\Test\Page\Urlrewrite;
 
 use Mtf\Page\Page,
-    Mtf\Factory\Factory,
-    Magento\Backend\Test\Block\Urlrewrite\Catalog\Category\Tree,
-    Magento\Backend\Test\Block\Urlrewrite\Catalog\Edit\Form,
-    Magento\Backend\Test\Block\Urlrewrite\Catalog\Product\Grid,
-    Magento\Backend\Test\Block\Urlrewrite\Selector;
+    Mtf\Factory\Factory;
 
 /**
  * Class UrlrewriteEdit
@@ -68,7 +64,7 @@ class UrlrewriteEdit extends Page
     /**
      * Retrieve category tree block
      *
-     * @return Tree
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Catalog\Category\Tree
      */
     public function getCategoryTreeBlock()
     {
@@ -80,7 +76,7 @@ class UrlrewriteEdit extends Page
     /**
      * Retrieve URL rewrite information form block
      *
-     * @return Form
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Catalog\Edit\Form
      */
     public function getUrlRewriteInformationForm()
     {
@@ -92,7 +88,7 @@ class UrlrewriteEdit extends Page
     /**
      * Retrieve product grid block
      *
-     * @return Grid
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Catalog\Product\Grid
      */
     public function getProductGridBlock()
     {
@@ -104,7 +100,7 @@ class UrlrewriteEdit extends Page
     /**
      * Retrieve URL rewrite type selector block
      *
-     * @return Selector
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Selector
      */
     public function getUrlRewriteTypeSelectorBlock()
     {

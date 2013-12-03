@@ -15,8 +15,7 @@ use Magento\Backend\Test\Block\System\Config\Switcher;
 use Magento\Core\Test\Block\Messages;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory,
-    Mtf\Page\Page,
-    \Magento\Backend\Test\Block\System\Config\Form;
+    Mtf\Page\Page;
 
 class Config extends Page
 {
@@ -64,7 +63,7 @@ class Config extends Page
     /**
      * Retrieve form block
      *
-     * @return Form
+     * @return \Magento\Backend\Test\Block\System\Config\Form
      */
     public function getForm()
     {

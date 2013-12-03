@@ -9,9 +9,7 @@
 namespace Magento\Backend\Test\Page\System\Store;
 
 use Mtf\Factory\Factory,
-    Mtf\Client\Element\Locator,
-    Mtf\Page\Page,
-    \Magento\Backend\Test\Block\PageActions;
+    Mtf\Page\Page;
 
 class NewStore extends Page
 {
@@ -54,7 +52,7 @@ class NewStore extends Page
     /**
      * Retrieve actions block
      *
-     * @return PageActions
+     * @return \Magento\Backend\Test\Block\PageActions
      */
     public function getPageActionsBlock()
     {

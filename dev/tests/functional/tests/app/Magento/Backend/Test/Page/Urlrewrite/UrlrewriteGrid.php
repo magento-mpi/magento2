@@ -9,9 +9,7 @@
 namespace Magento\Backend\Test\Page\Urlrewrite;
 
 use Mtf\Page\Page,
-    Mtf\Factory\Factory,
-    Magento\Backend\Test\Block\PageActions,
-    Magento\Core\Test\Block\Messages;
+    Mtf\Factory\Factory;
 
 /**
  * Class UrlrewriteGrid
@@ -38,6 +36,7 @@ class UrlrewriteGrid extends Page
      *
      * @var string
      */
+
     protected $messagesBlock = '.messages .messages';
 
     /**
@@ -52,7 +51,7 @@ class UrlrewriteGrid extends Page
     /**
      * Retrieve page actions block
      *
-     * @return PageActions
+     * @return \Magento\Backend\Test\Block\PageActions
      */
     public function getPageActionsBlock()
     {
@@ -64,7 +63,7 @@ class UrlrewriteGrid extends Page
     /**
      * Retrieve messages block
      *
-     * @return Messages
+     * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessagesBlock()
     {
