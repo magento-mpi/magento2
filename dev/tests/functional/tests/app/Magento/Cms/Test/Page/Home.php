@@ -83,16 +83,16 @@ class Home extends Page
         $this->searchBlock = Factory::getBlockFactory()->getMagentoCatalogSearch(
             $this->_browser->find('search_mini_form', Locator::SELECTOR_ID)
         );
-        $this->topmenuBlock = Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
+        $this->topmenuBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTopmenu(
             $this->_browser->find('[role=navigation]', Locator::SELECTOR_CSS)
         );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
-        $this->footerBlock = Factory::getBlockFactory()->getMagentoPageHtmlFooter(
+        $this->footerBlock = Factory::getBlockFactory()->getMagentoThemeHtmlFooter(
             $this->_browser->find('footer.footer', Locator::SELECTOR_CSS)
         );
-        $this->topLinks = Factory::getBlockFactory()->getMagentoPageLinks(
+        $this->topLinks = Factory::getBlockFactory()->getMagentoThemeLinks(
             $this->_browser->find('.header .content .links', Locator::SELECTOR_CSS)
         );
 
