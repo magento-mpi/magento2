@@ -9,7 +9,7 @@
 -->
 <config>
     <preference for="Magento\Authz\Model\UserLocatorInterface" type="Magento\Webapi\Model\Authz\UserLocator"/>
-    <type name="Magento\Authz\Model\UserLocatorInterface">
+    <type name="Magento\Webapi\Model\Authz\UserLocator">
         <param name="request">
             <instance type="Magento\Webapi\Controller\Soap\Request"/>
         </param>
