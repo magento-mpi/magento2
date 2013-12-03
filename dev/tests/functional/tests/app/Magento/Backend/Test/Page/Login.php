@@ -14,8 +14,6 @@ namespace Magento\Backend\Test\Page;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\LoginForm;
-use Magento\Backend\Test\Block\HeaderPanel;
 
 /**
  * Class Login
@@ -33,20 +31,23 @@ class Login extends Page
     /**
      * Form for login
      *
-     * @var LoginForm
-     * @locator id:login-form
-     * @injectable
+     * @var string
      */
-    protected $loginFormBlock;
+    protected $loginFormBlock = 'login-form';
 
     /**
      * Header panel of admin dashboard
      *
-     * @var HeaderPanel
-     * @locator css:.header-panel
-     * @injectable
+     * @var string
      */
-    protected $headerPanelBlock;
+    protected $headerPanelBlock = '.header-panel';
+
+    /**
+     * Global messages block
+     *
+     * @var string
+     */
+    protected $messageBlock = '#messages .messages';
 
     /**
      * Constructor
@@ -54,30 +55,41 @@ class Login extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->loginFormBlock = Factory::getBlockFactory()->getMagentoBackendLoginForm(
-            $this->_browser->find('login-form', Locator::SELECTOR_ID));
-        $this->headerPanelBlock = Factory::getBlockFactory()->getMagentoBackendHeaderPanel(
-            $this->_browser->find('.header-panel', Locator::SELECTOR_CSS));
     }
 
     /**
-     * Get the login form block
+     * Get backend admin login form block
      *
-     * @return LoginForm
+     * @return \Magento\Backend\Test\Block\LoginForm
      */
     public function getLoginBlockForm()
     {
-        return $this->loginFormBlock;
+        return Factory::getBlockFactory()->getMagentoBackendLoginForm(
+            $this->_browser->find($this->loginFormBlock, Locator::SELECTOR_ID)
+        );
     }
 
     /**
      * Get the header panel block of admin dashboard
      *
-     * @return HeaderPanel
+     * @return \Magento\Backend\Test\Block\HeaderPanel
      */
     public function getHeaderPanelBlock()
     {
-        return $this->headerPanelBlock;
+        return Factory::getBlockFactory()->getMagentoBackendHeaderPanel(
+            $this->_browser->find($this->headerPanelBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get global messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messageBlock)
+        );
     }
 }

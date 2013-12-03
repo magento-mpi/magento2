@@ -13,6 +13,7 @@ namespace Magento\Backend\Test\Block\Sales\Order;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Grid
@@ -22,6 +23,20 @@ use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
  */
 class Grid extends GridInterface
 {
+    /**
+     * Purchase Point Filter selector
+     *
+     * @var string
+     */
+    protected $purchasePointFilter = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]';
+
+    /**
+     * Purchase Point Filter option group elements selector
+     *
+     * @var string
+     */
+    protected $purchasePointOptionGroup = '//*[@data-ui-id="widget-grid-column-filter-store-filter-store-id"]/optgroup';
+
     /**
      * Initialize block elements
      */
@@ -37,5 +52,27 @@ class Grid extends GridInterface
                 'input' => 'select'
             )
         );
+    }
+
+    /**
+     * Get selected data from Purchase Point filter
+     *
+     * @return string
+     */
+    public function getPurchasePointFilterText()
+    {
+        return $this->_rootElement->find($this->purchasePointFilter, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Assert the number of Purchase Point Filter option group elements by checking non-existing group
+     *
+     * @param $number
+     * @return bool
+     */
+    public function assertNumberOfPurchasePointFilterOptionsGroup($number)
+    {
+        $selector = $this->purchasePointOptionGroup . '[' . ($number + 1) . ']';
+        return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
