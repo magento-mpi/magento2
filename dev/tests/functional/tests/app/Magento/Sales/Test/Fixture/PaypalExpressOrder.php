@@ -82,10 +82,18 @@ class PaypalExpressOrder extends Checkout
     }
 
     /**
-     * @return Customer
+     * @return \Magento\Customer\Test\Fixture\Address
      */
     public function getBillingAddress()
     {
         return $this->checkoutFixture->getBillingAddress();
+    }
+
+    /**
+     * @return \Magento\Customer\Test\Fixture\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->checkoutFixture->getPayPalCustomer();
     }
 }

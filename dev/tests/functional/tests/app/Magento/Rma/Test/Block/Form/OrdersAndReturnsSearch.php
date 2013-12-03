@@ -43,7 +43,9 @@ class OrdersAndReturnsSearch extends Form
         $billingLastName = array_pop($billingLastName);
         $this->_rootElement->find('#oar-billing-lastname', Locator::SELECTOR_CSS)->setValue($billingLastName);
         //$this->_rootElement->find('#quick-search-type-id', Locator::SELECTOR_CSS)->setValue($findOrderBy);
-        $this->_rootElement->find('#oar_email', Locator::SELECTOR_CSS)->setValue($order->getBillingEmailAddress());
+        $customerEmail = $order->getCustomer()->getData('fields/login_email');
+        $customerEmail = array_pop($customerEmail);
+        $this->_rootElement->find('#oar_email', Locator::SELECTOR_CSS)->setValue($customerEmail);
     }
 
     /**
