@@ -24,7 +24,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $params = array('layout' => $objectManager->create('Magento\Core\Model\Layout', array()));
         $context = $objectManager->create('Magento\View\Element\Template\Context', $params);
         $this->_block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Template', '', array('context' => $context));
+            ->createBlock('Magento\View\Element\Template', '', array(
+                'context' => $context,
+                'data' => array('module_name' => 'Magento_View'),
+            ));
     }
 
     public function testConstruct()
