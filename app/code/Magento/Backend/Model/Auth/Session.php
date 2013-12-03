@@ -235,14 +235,4 @@ class Session
     {
         return true;
     }
-
-    /**
-     * Always try to get session id from query in backend area
-     *
-     * @return bool
-     */
-    protected function _isSidUsedFromQueryParam()
-    {
-        return true;
-    }
 }

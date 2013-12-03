@@ -505,14 +505,14 @@ class AbstractSession extends \Magento\Object
     /**
      * Specify session identifier
      *
-     * @param   string|null $id
+     * @param   string|null $sessionId
      * @return  \Magento\Core\Model\Session\AbstractSession
      */
-    public function setSessionId($id)
+    public function setSessionId($sessionId)
     {
         $this->_addHost();
-        if (!is_null($id) && preg_match('#^[0-9a-zA-Z,-]+$#', $id)) {
-            session_id($id);
+        if (!is_null($sessionId) && preg_match('#^[0-9a-zA-Z,-]+$#', $sessionId)) {
+            session_id($sessionId);
         }
         return $this;
     }
@@ -614,16 +614,6 @@ class AbstractSession extends \Magento\Object
     {
         unset($_SESSION[self::HOST_KEY]);
         return $this;
-    }
-
-    /**
-     * Whether to take session id from GET
-     *
-     * @return bool
-     */
-    protected function _isSidUsedFromQueryParam()
-    {
-        return $this->_coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID);
     }
 
     /**
