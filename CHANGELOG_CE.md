@@ -1,3 +1,5 @@
+* Created integration module UX
+* Created authorization service (Magento_Authz module)
 * Fixed bugs:
   * Fixed shopping cart rules for a specific customer group
 

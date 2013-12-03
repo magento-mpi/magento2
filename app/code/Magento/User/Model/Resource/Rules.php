@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
 
 /**
  * Admin rule resource model
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource;
-
 class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -96,7 +89,6 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             $postedResources = $rule->getResources();
             if ($postedResources) {
                 $row = array(
-                    'role_type'   => 'G',
                     'resource_id' => $this->_rootResource->getId(),
                     'privileges'  => '', // not used yet
                     'role_id'     => $roleId,
