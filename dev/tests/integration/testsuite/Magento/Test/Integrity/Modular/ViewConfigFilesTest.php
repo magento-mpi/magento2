@@ -19,7 +19,7 @@ class ViewConfigFilesTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewConfigFile($file)
     {
-        $domConfig = new \Magento\Config\Dom(file_get_contents($file));
+        $domConfig = new \Magento\Config\Dom($file);
         $result = $domConfig->validate(
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
                 ->get('Magento\Filesystem')->getPath(\Magento\Filesystem::LIB)

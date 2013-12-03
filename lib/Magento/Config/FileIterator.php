@@ -40,7 +40,7 @@ class FileIterator implements \Iterator
     public function __construct(
         \Magento\Filesystem\Directory\ReadInterface $directory,
         array $paths
-    ){
+    ) {
         $this->paths            = $paths;
         $this->position         = 0;
         $this->directoryRead    = $directory;
