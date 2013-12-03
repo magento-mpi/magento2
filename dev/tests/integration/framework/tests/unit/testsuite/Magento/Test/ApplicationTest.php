@@ -25,7 +25,7 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $dbInstance = $this->getMockForAbstractClass('Magento\TestFramework\Db\AbstractDb', array(), '', false);
         $installDir = '/install/dir';
         $appMode = \Magento\App\State::MODE_DEVELOPER;
-        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
 
         $object = new \Magento\TestFramework\Application(
             $dbInstance,
