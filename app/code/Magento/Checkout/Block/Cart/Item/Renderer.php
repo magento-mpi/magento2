@@ -364,7 +364,7 @@ class Renderer extends \Magento\View\Block\Template
                     /* @var $message \Magento\Message\AbstractMessage */
                     $messages[] = array(
                         'text' => $message->getText(),
-                        'type' => ($message->getType() == \Magento\Message\InterfaceMessage::ERROR) ? 'error' : 'notice'
+                        'type' => ($message->getType() == \Magento\Message\MessageInterface::ERROR) ? 'error' : 'notice'
                     );
                 }
             }

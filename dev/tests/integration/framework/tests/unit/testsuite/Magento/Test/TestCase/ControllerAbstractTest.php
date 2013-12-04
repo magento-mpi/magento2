@@ -140,11 +140,11 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
         return array(
             'message waning type filtering' => array(
                 array('some_warning'),
-                \Magento\Message\InterfaceMessage::TYPE_WARNING
+                \Magento\Message\MessageInterface::TYPE_WARNING
             ),
             'message error type filtering'    => array(
                 array('error_one', 'error_two'),
-                \Magento\Message\InterfaceMessage::TYPE_ERROR
+                \Magento\Message\MessageInterface::TYPE_ERROR
             )
         );
     }

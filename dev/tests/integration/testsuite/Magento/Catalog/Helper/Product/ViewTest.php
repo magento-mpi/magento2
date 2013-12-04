@@ -159,7 +159,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         // assert messages
         $actualMessages = $this->_layout->getMessagesBlock()
-            ->getMessagesByType(\Magento\Message\InterfaceMessage::TYPE_NOTICE);
+            ->getMessagesByType(\Magento\Message\MessageInterface::TYPE_NOTICE);
         $this->assertSameSize($expectedMessages, $actualMessages);
 
         sort($expectedMessages);

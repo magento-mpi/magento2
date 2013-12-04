@@ -11,7 +11,7 @@ namespace Magento\Message;
 /**
  * Abstract message model
  */
-abstract class AbstractMessage implements InterfaceMessage
+abstract class AbstractMessage implements MessageInterface
 {
     /**
      * @var string
@@ -31,7 +31,7 @@ abstract class AbstractMessage implements InterfaceMessage
     /**
      * @param string $text
      */
-    public function __construct($text = '')
+    public function __construct($text = null)
     {
         $this->text = $text;
     }

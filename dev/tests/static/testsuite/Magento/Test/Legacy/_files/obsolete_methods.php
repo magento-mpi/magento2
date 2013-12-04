@@ -1051,6 +1051,7 @@ return array(
     array('setClass', '\Magento\Message\AbstractMessage'),
     array('setMethod', '\Magento\Message\AbstractMessage'),
     array('add', '\Magento\Message\Collection', 'addMessage'),
+    array('count', '\Magento\Message\Collection', 'getCountByType'),
     array('error', '\Magento\Message\Factory', 'create'),
     array('warning', '\Magento\Message\Factory', 'create'),
     array('success', '\Magento\Message\Factory', 'create'),

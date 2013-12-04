@@ -20,6 +20,6 @@ class Error extends AbstractMessage
      */
     public function getType()
     {
-        return InterfaceMessage::TYPE_ERROR;
+        return MessageInterface::TYPE_ERROR;
     }
 }

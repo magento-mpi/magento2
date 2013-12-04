@@ -20,6 +20,6 @@ class Success extends AbstractMessage
      */
     public function getType()
     {
-        return InterfaceMessage::TYPE_SUCCESS;
+        return MessageInterface::TYPE_SUCCESS;
     }
 }

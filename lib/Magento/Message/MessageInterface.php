@@ -11,7 +11,7 @@ namespace Magento\Message;
 /**
  * Interface for message
  */
-interface InterfaceMessage
+interface MessageInterface
 {
     /**
      * Error type

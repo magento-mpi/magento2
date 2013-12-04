@@ -35,7 +35,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -58,7 +58,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -78,7 +78,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -98,7 +98,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -121,7 +121,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Checkout\Model\Session'
         );
 
@@ -144,7 +144,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Checkout\Model\Session'
         );
 

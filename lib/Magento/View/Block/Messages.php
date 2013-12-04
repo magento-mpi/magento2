@@ -61,10 +61,10 @@ class Messages extends \Magento\View\Block\Template
      * @var array
      */
     protected $messageTypes = array(
-        \Magento\Message\InterfaceMessage::TYPE_ERROR,
-        \Magento\Message\InterfaceMessage::TYPE_WARNING,
-        \Magento\Message\InterfaceMessage::TYPE_NOTICE,
-        \Magento\Message\InterfaceMessage::TYPE_SUCCESS
+        \Magento\Message\MessageInterface::TYPE_ERROR,
+        \Magento\Message\MessageInterface::TYPE_WARNING,
+        \Magento\Message\MessageInterface::TYPE_NOTICE,
+        \Magento\Message\MessageInterface::TYPE_SUCCESS
     );
 
     /**
@@ -184,7 +184,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addError($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $message));
         return $this;
     }
 
@@ -196,7 +196,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_WARNING, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_WARNING, $message));
         return $this;
     }
 
@@ -208,7 +208,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_NOTICE, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_NOTICE, $message));
         return $this;
     }
 
@@ -220,7 +220,7 @@ class Messages extends \Magento\View\Block\Template
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_SUCCESS, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message));
         return $this;
     }
 

@@ -81,7 +81,7 @@ class RegistrationTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
             $this->equalTo(array("API Key, API Secret and Contact Email are required fields.")),
-            \Magento\Message\InterfaceMessage::TYPE_ERROR
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('webhook_registration/failed'));
     }
@@ -135,7 +135,7 @@ class RegistrationTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertRedirect($this->stringContains('webhook_registration/succeeded'));
     }
@@ -181,7 +181,7 @@ class RegistrationTest extends \Magento\Backend\Utility\Controller
         $this->getRequest()->setParam('id', $subscriptionId);
         $this->dispatch('backend/admin/webhook_registration/register');
         $this->assertSessionMessages(
-            $this->equalTo(array("Invalid Email address provided")), \Magento\Message\InterfaceMessage::TYPE_ERROR
+            $this->equalTo(array("Invalid Email address provided")), \Magento\Message\MessageInterface::TYPE_ERROR
         );
     }
 
@@ -193,7 +193,7 @@ class RegistrationTest extends \Magento\Backend\Utility\Controller
         $this->assertContains('page-popup adminhtml-webhook-registration-succeeded', $response);
         $this->assertSessionMessages(
             $this->equalTo(array("The subscription 'dummy' has been activated.")),
-            \Magento\Message\InterfaceMessage::TYPE_SUCCESS
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 

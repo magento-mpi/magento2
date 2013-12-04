@@ -56,12 +56,12 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\InterfaceMessage::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been saved.')), \Magento\Message\InterfaceMessage::TYPE_SUCCESS
+            $this->equalTo(array('The newsletter template has been saved.')), \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
@@ -78,13 +78,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\InterfaceMessage::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been saved.')), \Magento\Message\InterfaceMessage::TYPE_SUCCESS
+            $this->equalTo(array('The newsletter template has been saved.')), \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
@@ -105,12 +105,12 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\InterfaceMessage::TYPE_ERROR);
+        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_ERROR);
 
         /**
          * Check that success message is not set
          */
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\InterfaceMessage::TYPE_SUCCESS);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_SUCCESS);
     }
 
     /**
@@ -126,13 +126,13 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\InterfaceMessage::TYPE_ERROR);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
 
         /**
          * Check that success message is set
          */
         $this->assertSessionMessages(
-            $this->equalTo(array('The newsletter template has been deleted.')), \Magento\Message\InterfaceMessage::TYPE_SUCCESS
+            $this->equalTo(array('The newsletter template has been deleted.')), \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 }

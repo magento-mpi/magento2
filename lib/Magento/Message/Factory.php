@@ -19,10 +19,10 @@ class Factory
      * @var array
      */
     protected $types = array(
-        InterfaceMessage::TYPE_ERROR,
-        InterfaceMessage::TYPE_WARNING,
-        InterfaceMessage::TYPE_NOTICE,
-        InterfaceMessage::TYPE_SUCCESS,
+        MessageInterface::TYPE_ERROR,
+        MessageInterface::TYPE_WARNING,
+        MessageInterface::TYPE_NOTICE,
+        MessageInterface::TYPE_SUCCESS,
     );
 
     /**
@@ -48,9 +48,9 @@ class Factory
      * @param string $type
      * @param string $text
      * @throws \InvalidArgumentException
-     * @return InterfaceMessage
+     * @return MessageInterface
      */
-    public function create($type, $text = '')
+    public function create($type, $text = null)
     {
         if (!in_array($type, $this->types)) {
             throw new \InvalidArgumentException('Wrong message type');
@@ -58,8 +58,8 @@ class Factory
 
         $className = 'Magento\Message\\' . ucfirst($type);
         $message = $this->objectManager->create($className, array('text' => $text));
-        if (!($message instanceof InterfaceMessage)) {
-            throw new \InvalidArgumentException($className . ' doesn\'t implement \Magento\Message\InterfaceMessage');
+        if (!($message instanceof MessageInterface)) {
+            throw new \InvalidArgumentException($className . ' doesn\'t implement \Magento\Message\MessageInterface');
         }
 
         return $message;

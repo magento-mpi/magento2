@@ -20,6 +20,6 @@ class Warning extends AbstractMessage
      */
     public function getType()
     {
-        return InterfaceMessage::TYPE_WARNING;
+        return MessageInterface::TYPE_WARNING;
     }
 }

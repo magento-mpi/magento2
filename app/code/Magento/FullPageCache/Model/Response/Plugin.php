@@ -43,7 +43,7 @@ class Plugin
         $this->_urlHelper = $urlHelper;
         $this->_coreSession = $coreSession;
         $this->_request = $request;
-   }
+    }
 
     /**
      * Check cross-domain session messages
@@ -59,7 +59,7 @@ class Plugin
         }
         $httpHost = $this->_request->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
-        if ($httpHost != $urlHost && $this->_coreSession->getMessages()->count() > 0) {
+        if ($httpHost != $urlHost && $this->_coreSession->getMessages()->getCount() > 0) {
             $arguments[0] = $this->_urlHelper->addRequestParam(
                 $url,
                 array(

@@ -81,7 +81,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     {
         if ($this->_assertSessionErrors) {
             // equalTo() is intentionally used instead of isEmpty() to provide the informative diff
-            $this->assertSessionMessages($this->equalTo(array()), \Magento\Message\InterfaceMessage::TYPE_ERROR);
+            $this->assertSessionMessages($this->equalTo(array()), \Magento\Message\MessageInterface::TYPE_ERROR);
         }
     }
 
@@ -182,12 +182,12 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
     /**
      * Assert that actual session messages meet expectations:
      * Usage examples:
-     * $this->assertSessionMessages($this->isEmpty(), \Magento\Message\InterfaceMessage::TYPE_ERROR);
+     * $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
      * $this->assertSessionMessages($this->equalTo(array('Entity has been saved.')),
-     * \Magento\Message\InterfaceMessage::TYPE_SUCCESS);
+     * \Magento\Message\MessageInterface::TYPE_SUCCESS);
      *
      * @param \PHPUnit_Framework_Constraint $constraint Constraint to compare actual messages against
-     * @param string|null $messageType Message type filter, one of the constants \Magento\Message\InterfaceMessage::*
+     * @param string|null $messageType Message type filter, one of the constants \Magento\Message\MessageInterface::*
      * @param string $sessionModel Class of the session model that manages messages
      */
     public function assertSessionMessages(

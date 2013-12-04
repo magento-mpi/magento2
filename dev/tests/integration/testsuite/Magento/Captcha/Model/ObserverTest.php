@@ -103,7 +103,7 @@ class ObserverTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()->setPost(array('email'   => 'dummy@dummy.com', 'captcha' => '1234'));
         $this->dispatch('backend/admin/auth/forgotpassword');
         $this->assertSessionMessages(
-            $this->equalTo(array('Incorrect CAPTCHA')), \Magento\Message\InterfaceMessage::TYPE_ERROR,
+            $this->equalTo(array('Incorrect CAPTCHA')), \Magento\Message\MessageInterface::TYPE_ERROR,
             'Magento\Backend\Model\Session'
         );
     }

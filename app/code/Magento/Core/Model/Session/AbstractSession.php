@@ -370,7 +370,7 @@ class AbstractSession extends \Magento\Object
         $this->_logger->logFile($message, \Zend_Log::DEBUG, $file);
 
         $this->addMessage(
-            $this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $alternativeText)
+            $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $alternativeText)
         );
         return $this;
     }
@@ -396,7 +396,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addError($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_ERROR, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $message));
         return $this;
     }
 
@@ -408,7 +408,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addWarning($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_WARNING, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_WARNING, $message));
         return $this;
     }
 
@@ -420,7 +420,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addNotice($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_NOTICE, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_NOTICE, $message));
         return $this;
     }
 
@@ -432,7 +432,7 @@ class AbstractSession extends \Magento\Object
      */
     public function addSuccess($message)
     {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\InterfaceMessage::TYPE_SUCCESS, $message));
+        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message));
         return $this;
     }
 

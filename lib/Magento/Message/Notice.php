@@ -20,6 +20,6 @@ class Notice extends AbstractMessage
      */
     public function getType()
     {
-        return InterfaceMessage::TYPE_NOTICE;
+        return MessageInterface::TYPE_NOTICE;
     }
 }
