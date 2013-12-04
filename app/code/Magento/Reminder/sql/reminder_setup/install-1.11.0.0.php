@@ -112,7 +112,7 @@ $table = $installer->getConnection()
         array('template_id'))
     ->addForeignKey(
         $installer->getFkName('magento_reminder_template', 'template_id', 'email_template', 'template_id'),
-        'template_id', $installer->getTable('email_template'),/* fix */ 'template_id',
+        'template_id', $installer->getTable('email_template'), 'template_id',
         \Magento\DB\Ddl\Table::ACTION_SET_NULL, \Magento\DB\Ddl\Table::ACTION_CASCADE)
     ->addForeignKey(
         $installer->getFkName('magento_reminder_template', 'rule_id', 'magento_reminder_rule', 'rule_id'),
