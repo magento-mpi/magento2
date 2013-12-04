@@ -15,7 +15,6 @@ namespace Magento\Paypal\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Paypal\Test\Block\Express;
 
 /**
  * Class PaypalExpressReview.
@@ -33,9 +32,9 @@ class PaypalExpressReview extends Page
     /**
      * Paypal review block
      *
-     * @var Express\Review
+     * @var string
      */
-    private $reviewBlock;
+    protected $reviewBlock = '#order-review-form';
 
     /**
      * Custom constructor
@@ -43,10 +42,6 @@ class PaypalExpressReview extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        //Blocks
-        $this->reviewBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReview(
-            $this->_browser->find('order-review-form', Locator::SELECTOR_ID));
     }
 
     /**
@@ -56,6 +51,8 @@ class PaypalExpressReview extends Page
      */
     public function getReviewBlock()
     {
-        return $this->reviewBlock;
+        return Factory::getBlockFactory()->getMagentoPaypalExpressReview(
+            $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

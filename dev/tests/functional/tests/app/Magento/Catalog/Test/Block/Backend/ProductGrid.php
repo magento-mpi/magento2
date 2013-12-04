@@ -23,29 +23,18 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class ProductGrid extends Grid
 {
     /**
-     * Locator value for link in action column
-     *
-     * @var string
-     */
-    protected $editLink = "//a[normalize-space(text())='Edit']";
-
-    /**
      * Initialize block elements
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => '#productGrid_product_filter_name'
-            ),
-            'sku' => array(
-                'selector' => '#productGrid_product_filter_sku'
-            ),
-            'type' => array(
-                'selector' => '#productGrid_product_filter_type',
-                'input' => 'select'
-            )
-        );
-    }
+    protected $filters = array(
+        'name' => array(
+            'selector' => '#productGrid_product_filter_name'
+        ),
+        'sku' => array(
+            'selector' => '#productGrid_product_filter_sku'
+        ),
+        'type' => array(
+            'selector' => '#productGrid_product_filter_type',
+            'input' => 'select'
+        )
+    );
 }
