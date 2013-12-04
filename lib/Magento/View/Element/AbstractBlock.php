@@ -661,30 +661,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Generate base64-encoded url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrlBase64($route = '', $params = array())
-    {
-        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
-    }
-
-    /**
-     * Generate url-encoded url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrlEncoded($route = '', $params = array())
-    {
-        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
-    }
-
-    /**
      * Retrieve url of themes file
      *
      * @param string $file path to file in theme

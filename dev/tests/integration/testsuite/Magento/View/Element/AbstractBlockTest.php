@@ -471,27 +471,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\View\Element\AbstractBlock::getUrlBase64
-     * @covers \Magento\View\Element\AbstractBlock::getUrlEncoded
-     */
-    public function testGetUrlBase64()
-    {
-        foreach (array('getUrlBase64', 'getUrlEncoded') as $method) {
-            $base = 'http://localhost/index.php/';
-            $withRoute = "{$base}catalog/product/view/id/10/";
-
-            $encoded = $this->_block->$method();
-            $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Helper\Data')
-                ->urlDecode($encoded), $base);
-            $encoded = $this->_block->$method('catalog/product/view', array('id' => 10));
-            $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Helper\Data')
-                ->urlDecode($encoded), $withRoute);
-        }
-    }
-
-    /**
      * Isolation level has been raised in order to flush themes configuration in-memory cache
      *
      * @magentoAppIsolation enabled

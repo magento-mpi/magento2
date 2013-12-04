@@ -1024,5 +1024,7 @@ return array(
     array('setFrameTags', 'Magento\View\Element\AbstractBlock'),
     array('getMessagesBlock', 'Magento\View\Element\AbstractBlock'),
     array('setMessagesBlock', 'Magento\View\Element\AbstractBlock'),
+    array('getUrlEncoded', 'Magento\View\Element\AbstractBlock'),
+    array('getUrlBase64', 'Magento\View\Element\AbstractBlock'),
     array('getMessagesBlock', 'Magento\MultipleWishlist\Block\Info'),
 );
