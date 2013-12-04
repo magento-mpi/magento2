@@ -124,7 +124,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\App $app
      * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
@@ -133,14 +132,13 @@ class Download extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDb,
         \Magento\App\Helper\Context $context,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\App $app,
         \Magento\Filesystem $filesystem
     ) {
         $this->_coreData = $coreData;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreFileStorageDb = $coreFileStorageDb;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_app = $app;
+        $this->_app = $context->getApp();
         $this->_filesystem = $filesystem;
 
         parent::__construct($context);

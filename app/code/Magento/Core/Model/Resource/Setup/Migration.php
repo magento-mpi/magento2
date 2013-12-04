@@ -128,7 +128,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
 
     /**
      * @param Context $context
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Data $helper
      * @param $resourceName
      * @param $confPathToMapFile
@@ -137,14 +136,13 @@ class Migration extends \Magento\Core\Model\Resource\Setup
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\Data $helper,
         $resourceName,
         $confPathToMapFile,
         $moduleName = 'Magento_Core',
         $connectionName = ''
     ) {
-        $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $this->_directory = $context->getFilesystem()->getDirectoryRead(\Magento\Filesystem::ROOT);
         $this->_coreHelper = $helper;
         $this->_pathToMapFile = $confPathToMapFile;
         parent::__construct($context, $resourceName, $moduleName, $connectionName);
