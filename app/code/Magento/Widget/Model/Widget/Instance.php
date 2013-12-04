@@ -92,9 +92,9 @@ class Instance extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @param \Magento\Escaper $escaper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Escaper $escaper
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\App\Cache\TypeListInterface $cacheTypeList
      * @param \Magento\Catalog\Model\Product\Type $productType
@@ -108,16 +108,16 @@ class Instance extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Escaper $escaper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Escaper $escaper,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\App\Cache\TypeListInterface $cacheTypeList,
         \Magento\Catalog\Model\Product\Type $productType,
         \Magento\Widget\Model\Config\Reader $reader,
         \Magento\Widget\Model\Widget $widgetModel,
         \Magento\Widget\Model\NamespaceResolver $namespaceResolver,
-        \Magento\Math\Random $mathRandom,        
+        \Magento\Math\Random $mathRandom,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $relatedCacheTypes = array(),

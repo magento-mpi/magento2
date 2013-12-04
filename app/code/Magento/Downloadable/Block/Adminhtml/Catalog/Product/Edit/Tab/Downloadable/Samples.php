@@ -118,11 +118,12 @@ class Samples
     public function getAddButtonHtml()
     {
         $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
-            ->setData(array(
+            ->setData([
                 'label' => __('Add New Row'),
                 'id' => 'add_sample_item',
                 'class' => 'add',
-        ));
+                'data_attribute' => ['action' => 'add-sample'],
+            ]);
         return $addButton->toHtml();
     }
 

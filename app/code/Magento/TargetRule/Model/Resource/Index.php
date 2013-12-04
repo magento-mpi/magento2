@@ -89,6 +89,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
     protected $_indexPool;
 
     /**
+     * @param \Magento\App\Resource $resource
      * @param \Magento\TargetRule\Model\Resource\IndexPool $indexPool
      * @param \Magento\TargetRule\Model\Resource\Rule $rule
      * @param \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory
@@ -100,11 +101,9 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\Registry $coreRegistry
-     * @param \Magento\App\Resource $resource
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\App\Resource $resource,
         \Magento\TargetRule\Model\Resource\IndexPool $indexPool,
         \Magento\TargetRule\Model\Resource\Rule $rule,
         \Magento\CustomerSegment\Model\Resource\Segment $segmentCollectionFactory,
@@ -115,8 +114,7 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
         \Magento\Customer\Model\Session $session,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\TargetRule\Helper\Data $targetRuleData,
-        \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Resource $resource
+        \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_indexPool = $indexPool;
         $this->_rule = $rule;

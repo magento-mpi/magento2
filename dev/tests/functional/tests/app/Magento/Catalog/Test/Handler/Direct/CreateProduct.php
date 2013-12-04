@@ -44,7 +44,7 @@ class CreateProduct extends Direct
      * @var array
      */
     protected $requiredData = array(
-        'attribute_set_id' => 4,
+        'attribute_set_id' => Product::DEFAULT_ATTRIBUTE_SET_ID,
         'type_id'          => \Magento\Catalog\Model\Product\Type::TYPE_SIMPLE,
         'website_ids'      => array(1),
     );
