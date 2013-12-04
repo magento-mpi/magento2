@@ -88,12 +88,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
@@ -102,7 +97,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
             )));
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
-            $filesystemMock
+            $directoryMock
         );
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
@@ -147,12 +142,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
@@ -162,7 +152,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
-            $filesystemMock
+            $directoryMock
         );
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
@@ -205,12 +195,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
@@ -218,7 +203,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
                 'r'
             )));
 
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $filesystemMock);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directoryMock);
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
@@ -280,12 +265,8 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
 
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
@@ -295,7 +276,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import_with_datetime.csv',
-            $filesystemMock
+            $directoryMock
         );
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
