@@ -117,6 +117,11 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
     protected $_behaviorFactory;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystem;
+
+    /**
      * @param \Magento\Logger $logger
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\Log\AdapterFactory $adapterFactory
@@ -158,6 +163,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
         $this->_uploaderFactory = $uploaderFactory;
         $this->_indexer = $indexer;
         $this->_behaviorFactory = $behaviorFactory;
+        $this->_filesystem = $filesystem;
         parent::__construct($logger, $filesystem, $adapterFactory, $data);
     }
 
@@ -212,7 +218,7 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     protected function _getSourceAdapter($sourceFile)
     {
-        return \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile);
+        return \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $this->_filesystem);
     }
 
     /**

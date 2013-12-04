@@ -72,16 +72,36 @@ class ProductTest extends \PHPUnit_Framework_TestCase
      */
     public function testExportStockItemAttributesAreFilled()
     {
+        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $directoryMock = $this->getMock(
+            '\Magento\Filesystem\Directory\Write',
+            array('isWritable', 'isFile', 'readFile'),
+            array(),
+            '',
+            false
+        );
+
+        $filesystemMock->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($directoryMock));
+        $directoryMock->expects($this->any())
+            ->method('isWritable')
+            ->will($this->returnValue(true));
+        $directoryMock->expects($this->any())
+            ->method('isFile')
+            ->will($this->returnValue(true));
+        $directoryMock->expects($this->any())
+            ->method('readFile')
+            ->will($this->returnValue('some string read from file'));
         $writerMock = $this->getMockForAbstractClass(
             'Magento\ImportExport\Model\Export\Adapter\AbstractAdapter',
-            array(),
+            array('filesystem' => $filesystemMock),
             '',
             true,
             true,
             true,
             array('setHeaderCols', 'writeRow')
         );
-
         $writerMock->expects($this->any())
             ->method('setHeaderCols')
             ->will($this->returnCallback(array($this, 'verifyHeaderColumns')));
