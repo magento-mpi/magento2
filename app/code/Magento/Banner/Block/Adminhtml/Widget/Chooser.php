@@ -84,7 +84,7 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
         $this->_selectedBanners = explode(',', $element->getValue());
 
         //Create hidden field that store selected banner ids
-        $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
+        $hidden = $this->_elementFactory->create('hidden', array('data' => $element->getData()));
         $hidden->setId($this->_elementValueId)->setForm($element->getForm());
         $hiddenHtml = $hidden->getElementHtml();
 

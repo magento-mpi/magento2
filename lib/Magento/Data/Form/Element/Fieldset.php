@@ -34,8 +34,8 @@ class Fieldset extends \Magento\Data\Form\Element\AbstractElement
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_renderer = \Magento\Data\Form::getFieldsetRenderer();
         $this->setType('fieldset');
-        if (isset($attributes['advancedSection'])) {
-            $this->setAdvancedLabel($attributes['advancedSection']);
+        if (isset($data['advancedSection'])) {
+            $this->setAdvancedLabel($data['advancedSection']);
         }
     }
 

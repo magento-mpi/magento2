@@ -39,8 +39,8 @@ class Date extends \Magento\Data\Form\Element\AbstractElement
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->setType('text');
         $this->setExtType('textfield');
-        if (isset($attributes['value'])) {
-            $this->setValue($attributes['value']);
+        if (isset($data['value'])) {
+            $this->setValue($data['value']);
         }
     }
 

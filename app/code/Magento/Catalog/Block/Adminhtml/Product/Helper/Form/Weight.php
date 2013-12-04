@@ -53,7 +53,7 @@ class Weight extends \Magento\Data\Form\Element\Text
         $this->_virtual = $factoryElement->create('checkbox');
         $this->_virtual->setId(self::VIRTUAL_FIELD_HTML_ID)->setName('is_virtual')
             ->setLabel($this->_helper->getTypeSwitcherControlLabel());
-        $attributes['class'] =
+        $data['class'] =
             'validate-number validate-zero-or-greater validate-number-range number-range-0-99999999.9999';
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }

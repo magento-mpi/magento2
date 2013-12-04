@@ -151,7 +151,7 @@ class AbstractForm extends \Magento\Object
         if (isset($this->_types[$type])) {
             $type = $this->_types[$type];
         }
-        $element = $this->_factoryElement->create($type, array('attributes' => $config));
+        $element = $this->_factoryElement->create($type, array('data' => $config));
         $element->setId($elementId);
         $this->addElement($element, $after);
         return $element;
@@ -180,7 +180,7 @@ class AbstractForm extends \Magento\Object
      */
     public function addFieldset($elementId, $config, $after = false, $isAdvanced = false)
     {
-        $element = $this->_factoryElement->create('fieldset', array('attributes' => $config));
+        $element = $this->_factoryElement->create('fieldset', array('data' => $config));
         $element->setId($elementId);
         $element->setAdvanced($isAdvanced);
         $this->addElement($element, $after);
@@ -196,7 +196,7 @@ class AbstractForm extends \Magento\Object
      */
     public function addColumn($elementId, $config)
     {
-        $element = $this->_factoryElement->create('column', array('attributes' => $config));
+        $element = $this->_factoryElement->create('column', array('data' => $config));
         $element->setForm($this)
             ->setId($elementId);
         $this->addElement($element);

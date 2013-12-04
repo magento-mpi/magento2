@@ -118,7 +118,7 @@ class Settings
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id' => 'edit_form',
                 'action' => $this->getData('action'),
                 'method' => 'post',

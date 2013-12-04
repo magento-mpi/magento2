@@ -65,7 +65,7 @@ class Form
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id' => 'edit_form',
                 'action' => $this->getUrl('adminhtml/*/save', array('_current' => true)),
                 'method' => 'post',
