@@ -10,11 +10,10 @@
  */
 namespace Magento\SalesRule\Test\Page;
 
+use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\PageActions;
-use Magento\SalesRule\Test\Block\PromoQuoteGrid;
 
 class SalesRule extends Page
 {
@@ -23,48 +22,29 @@ class SalesRule extends Page
      */
     const MCA = 'sales_rule/promo_quote';
 
-    /**
-     * Promo Quote Grid
-     *
-     * @var PromoQuoteGrid
-     */
-    private $promoQuoteGrid;
+    const CLICK_ADD_NEW_SELECTOR = '.page-actions button#add';
 
-    /**
-     * Page Action Block
-     *
-     * @var PageActions
-     */
-    private $pageActionsBlock;
+    const PROMO_QUOTE_GRID_SELECTOR = 'promo_quote_grid';
 
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->promoQuoteGrid = Factory::getBlockFactory()->getMagentoSalesRulePromoQuoteGrid(
-            $this->_browser->find('promo_quote_grid', Locator::SELECTOR_ID)
-        );
-        $this->pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
-            $this->_browser->find('.page-actions')
-        );
     }
-
 
     /**
      * Get tax rules grid
      *
-     * @return PromoQuoteGrid
+     * @return Quote
      */
     public function getPromoQuoteGrid()
     {
-        return $this->promoQuoteGrid;
+        return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuote(
+            $this->_browser->find(self::PROMO_QUOTE_GRID_SELECTOR, Locator::SELECTOR_ID)
+        );
     }
-    /**
-     * Getter for page actions block
-     *
-     * @return PageActions
-     */
-    public function getPageActionsBlock()
+
+    public function clickAddNew()
     {
-        return $this->pageActionsBlock;
+        $this->_browser->find(self::CLICK_ADD_NEW_SELECTOR)->click();
     }
 }

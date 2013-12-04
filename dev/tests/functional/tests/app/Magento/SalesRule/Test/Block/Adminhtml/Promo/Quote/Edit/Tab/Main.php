@@ -5,8 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\SalesRule\Test\Block\Edit\Tab;
+namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
 use Mtf\Client\Element;
 use Magento\Backend\Test\Block\Widget\Tab;
@@ -14,14 +13,14 @@ use Magento\Backend\Test\Block\Widget\Tab;
 /**
  * @SuppressWarnings(PHPMD.UnusedLocalVariable)
  */
-class RuleConditions extends Tab
+class Main extends Tab
 {
-    private $fieldPrefix = '#conditions__1__';
+    const FIELD_PREFIX = '#rule_';
 
     public function fillFormTab(array $fields, Element $element)
     {
         foreach ($fields as $key => $value) {
-            $this->_mapping[$key] = $this->fieldPrefix . $key;
+            $this->_mapping[$key] = self::FIELD_PREFIX . $key;
         }
         parent::fillFormTab($fields, $element);
     }

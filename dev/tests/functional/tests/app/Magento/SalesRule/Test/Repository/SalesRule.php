@@ -5,12 +5,10 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\SalesRule\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
-use Magento\SalesRule\Test\Block\PromoQuoteForm;
+use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Form;
 
 class SalesRule extends AbstractRepository
 {
@@ -24,10 +22,7 @@ class SalesRule extends AbstractRepository
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
+        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
 
         $this->_data[self::SIMPLE] = $this->_getSalesRuleSimple();
         $this->_data[self::ACTIONS] = $this->_getSalesRuleActions();
@@ -35,41 +30,33 @@ class SalesRule extends AbstractRepository
 
     protected function _getSalesRuleActions()
     {
-        return [
-            'data' => [
-                'fields' => [
-                    'discount_amount' => [
-                        'value' => '50',
-                        'group' => PromoQuoteForm::RULE_ACTIONS_TAB
-                    ]
-                ]
-            ]
-        ];
+        return array(
+            'data' => array(
+                'fields' => array('discount_amount' => array('value' => '50', 'group' => Form::RULE_ACTIONS_TAB))
+            )
+        );
     }
 
     protected function _getSalesRuleSimple()
     {
-        return [
-            'data' => [
-                'fields' => [
-                    'name' => [
-                        'value' => 'Simple Cart Price Rule %isolation%',
-                        'group' => PromoQuoteForm::RULE_INFO_TAB
-                    ],
-                    'website_ids' => [
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'name' => array('value' => 'Simple Cart Price Rule %isolation%', 'group' => Form::RULE_MAIN_TAB),
+                    'website_ids' => array(
                         'value' => 'Main Website',
-                        'group' => PromoQuoteForm::RULE_INFO_TAB,
+                        'group' => Form::RULE_MAIN_TAB,
                         'input' => 'select',
                         'input_value' => '1'
-                    ],
-                    'customer_group_ids' => [
-                        'value' => ['NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'],
-                        'group' => PromoQuoteForm::RULE_INFO_TAB,
+                    ),
+                    'customer_group_ids' => array(
+                        'value' => array('NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'),
+                        'group' => Form::RULE_MAIN_TAB,
                         'input' => 'multiselect',
-                        'input_value' => ['0', '1', '2', '3']
-                    ]
-                ]
-            ]
-        ];
+                        'input_value' => array('0', '1', '2', '3')
+                    )
+                )
+            )
+        );
     }
 }

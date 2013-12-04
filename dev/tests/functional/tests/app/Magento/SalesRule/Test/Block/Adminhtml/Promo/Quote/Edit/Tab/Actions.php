@@ -5,8 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-namespace Magento\SalesRule\Test\Block\PromoQuoteForm;
+namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
