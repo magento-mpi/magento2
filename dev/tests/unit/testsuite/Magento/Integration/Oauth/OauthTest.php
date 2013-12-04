@@ -704,7 +704,7 @@ class OauthTest extends \PHPUnit_Framework_TestCase
         $this->_setupConsumer();
         $this->_setupToken(true, \Magento\Integration\Model\Oauth\Token::TYPE_ACCESS);
 
-        $this->assertTrue($this->_oauth->validateAccessToken($this->_oauthToken));
+        $this->assertEquals(1, $this->_oauth->validateAccessToken($this->_oauthToken), "Consumer ID is invalid.");
     }
 
     public function testBuildAuthorizationHeader()

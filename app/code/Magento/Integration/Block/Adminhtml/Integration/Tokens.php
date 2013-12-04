@@ -29,7 +29,7 @@ class Tokens extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Set form id prefix, declare fields for integration consumer modal
      *
-     * @return \Magento\Integration\Block\Adminhtml\Integration\Token
+     * @return \Magento\Backend\Block\Widget\Form
      */
     protected function _prepareForm()
     {

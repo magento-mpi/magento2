@@ -140,7 +140,7 @@ class Hierarchy extends \Magento\Backend\App\Action
             $scopeId = (int)str_replace(\Magento\VersionsCms\Helper\Hierarchy::SCOPE_PREFIX_STORE, '', $value);
             $scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_STORE;
         }
-        if (!$scopeId || $scopeId == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
+        if (!$scopeId || $scopeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $scopeId = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT_ID;
             $scope = \Magento\VersionsCms\Model\Hierarchy\Node::NODE_SCOPE_DEFAULT;
         }

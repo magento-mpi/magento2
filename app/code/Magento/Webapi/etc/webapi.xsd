@@ -18,7 +18,7 @@
     </xs:complexType>
     <xs:complexType name="serviceType">
         <xs:sequence>
-            <xs:element type="restRouteType" name="rest-route" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="restRouteType" name="rest-route" maxOccurs="unbounded" minOccurs="1"/>
         </xs:sequence>
         <xs:attribute type="xs:string" name="class"/>
         <xs:attribute type="xs:string" name="baseUrl"/>
@@ -44,7 +44,7 @@
     </xs:complexType>
     <xs:simpleType name="resourcesType">
         <xs:restriction base="xs:string">
-            <xs:pattern value=".+::.+(, ?.+::.+)"/>
+            <xs:pattern value=".+::.+(, ?.+::.+)*"/>
         </xs:restriction>
     </xs:simpleType>
 </xs:schema>

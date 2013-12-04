@@ -152,7 +152,7 @@ class Provider implements TokenProviderInterface
                 __('Access token has been revoked'), OauthInterface::ERR_TOKEN_REVOKED);
         }
 
-        return true;
+        return $token->getConsumerId();
     }
 
     /**

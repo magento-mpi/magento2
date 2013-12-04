@@ -116,7 +116,7 @@ class Config
                 if (strtoupper($methodInfo[Converter::KEY_HTTP_METHOD]) == strtoupper($httpMethod)) {
                     $secure = $methodInfo[Converter::KEY_IS_SECURE];
                     $methodRoute = $methodInfo[Converter::KEY_METHOD_ROUTE];
-                    $aclResources = $methodInfo[Converter::KEY_METHOD_RESOURCES];
+                    $aclResources = $methodInfo[Converter::KEY_ACL_RESOURCES];
                     $routes[] = $this->_createRoute(
                         array(
                             self::KEY_ROUTE_PATH => $serviceData[Converter::KEY_BASE_URL] . $methodRoute,

@@ -8,7 +8,13 @@
  */
 -->
 <config>
-    <preference for="Magento\Authz\Model\UserLocatorInterface" type="Magento\Webapi\Model\Authz\UserLocator\Rest"/>
+    <preference for="Magento\Authz\Model\UserLocatorInterface" type="Magento\Webapi\Model\Authz\UserLocator"/>
+    <type name="Magento\Webapi\Model\Authz\UserLocator">
+        <param name="request">
+            <instance type="Magento\Webapi\Controller\Rest\Request"/>
+        </param>
+    </type>
+
     <preference for="Magento\App\FrontControllerInterface" type="Magento\Webapi\Controller\Rest" />
     <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
     <type name="Magento\Xml\Generator" shared="false" />
