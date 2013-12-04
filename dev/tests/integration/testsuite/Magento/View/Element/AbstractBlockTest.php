@@ -597,24 +597,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('key', $block->getCacheKey());
     }
 
-    public function testGetCacheTags()
-    {
-        $this->assertContains(\Magento\View\Element\AbstractBlock::CACHE_GROUP, $this->_block->getCacheTags());
-
-        $this->_block->setCacheTags(array('one', 'two'));
-        $tags = $this->_block->getCacheTags();
-        $this->assertContains(\Magento\View\Element\AbstractBlock::CACHE_GROUP, $tags);
-        $this->assertContains('one', $tags);
-        $this->assertContains('two', $tags);
-    }
-
-    public function testGetCacheLifetime()
-    {
-        $this->assertNull($this->_block->getCacheLifetime());
-        $this->_block->setCacheLifetime(1800);
-        $this->assertEquals(1800, $this->_block->getCacheLifetime());
-    }
-
     /**
      * Create <N> sample blocks
      *
