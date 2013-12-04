@@ -19,7 +19,7 @@
                 <div class="field email<?php if ($_index == 1) echo ' required' ?>">
                     <label for="email_<?php echo $_index ?>" class="label"><span><?php echo $_index; ?></span></label>
                     <div class="control">
-                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text<?php if ($_index == 1) echo ' required-entry' ?>" type="text" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
+                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text<?php if ($_index == 1) echo ' required-entry' ?>" type="email" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
                     </div>
                 </div>
                 <?php endfor; ?>
