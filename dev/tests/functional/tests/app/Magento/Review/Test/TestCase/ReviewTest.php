@@ -32,7 +32,7 @@ class ReviewTest extends Functional
     public function testAddReviewByGuest()
     {
         //Preconditions
-        $productFixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $productFixture->switchData('simple_required');
         $productFixture->persist();
         $reviewFixture = Factory::getFixtureFactory()->getMagentoReviewReview();

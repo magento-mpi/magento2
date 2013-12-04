@@ -17,14 +17,10 @@ use \Magento\Integration\Controller\Adminhtml\Integration;
  *
  * @category   Magento
  * @package    Magento_Integration
- * @SuppressWarnings(PHPMD.DepthOfInheritance)
  */
 class Info extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
-    /** @var \Magento\Integration\Model\Integration\Source\Authentication */
-    protected $_authTypeSource;
-
     /**#@+
      * edit_form element names.
      */
@@ -32,8 +28,8 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_ID = 'integration_id';
     const DATA_NAME = 'name';
     const DATA_EMAIL = 'email';
-    const DATA_AUTHENTICATION = 'authentication';
     const DATA_ENDPOINT = 'endpoint';
+    const DATA_SETUP_TYPE = 'setup_type';
     /**#@-*/
 
     /**
@@ -41,7 +37,6 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource
      * @param array $data
      */
     public function __construct(
@@ -49,11 +44,9 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Integration\Model\Integration\Source\Authentication $authTypeSource,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $registry, $formFactory, $data);
-        $this->_authTypeSource = $authTypeSource;
     }
 
     /**
@@ -67,7 +60,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
         $form = $this->_formFactory->create();
         $form->setHtmlIdPrefix(self::HTML_ID_PREFIX);
         $integrationData = $this->_coreRegistry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION);
-        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('Integration')));
+        $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General')));
         if (isset($integrationData[self::DATA_ID])) {
             $fieldset->addField(self::DATA_ID, 'hidden', array('name' => 'id'));
         }
@@ -75,7 +68,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             self::DATA_NAME,
             'text',
             array(
-                'label' => __('Integration Name'),
+                'label' => __('Name'),
                 'name' => self::DATA_NAME,
                 'required' => true,
                 'disabled' => false,
@@ -88,26 +81,22 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             array(
                 'label' => __('Email'),
                 'name' => self::DATA_EMAIL,
-                'required' => true,
                 'disabled' => false,
                 'class' => 'validate-email',
-                'maxlength' => '254',
-            )
-        );
-        $fieldset->addField(
-            self::DATA_AUTHENTICATION,
-            'select',
-            array(
-                'label' => __('Authentication'),
-                'name' => self::DATA_AUTHENTICATION,
-                'disabled' => false,
-                'options' => $this->_authTypeSource->toOptionArray()
+                'maxlength' => '254'
             )
         );
         $fieldset->addField(
             self::DATA_ENDPOINT,
             'text',
-            array('label' => __('Endpoint URL'), 'name' => self::DATA_ENDPOINT, 'required' => true, 'disabled' => false)
+            array(
+                'label' => __('Callback URL'),
+                'name' => self::DATA_ENDPOINT,
+                'disabled' => false,
+                // @codingStandardsIgnoreStart
+                'note'=> __('When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed. We strongly recommend you to use https://')
+                // @codingStandardsIgnoreEnd
+            )
         );
         $form->setValues($integrationData);
         $this->setForm($form);
@@ -152,26 +141,5 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     public function isHidden()
     {
         return false;
-    }
-
-    /**
-     * Get additional script for tabs block
-     *
-     * @return string
-     */
-    protected function _toHtml()
-    {
-        $oauth = \Magento\Integration\Model\Integration::AUTHENTICATION_OAUTH;
-        $authFieldIdSelector = '#' . self::HTML_ID_PREFIX . self::DATA_AUTHENTICATION;
-        $endpointIdSelector = '#' . self::HTML_ID_PREFIX . self::DATA_ENDPOINT;
-        $endpointClassSel = '.field-' . self::DATA_ENDPOINT;
-        $script = <<<HTML
-        jQuery(function(){
-            jQuery('$authFieldIdSelector')
-                .mage('integration', {"authType": $oauth, "formSelector": '#edit_form',
-                endpointIdSelector: '$endpointIdSelector', endpointContainerClassSelector: '$endpointClassSel'});
-        });
-HTML;
-        return parent::_toHtml() . sprintf('<script type="text/javascript">%s</script>', $script);
     }
 }

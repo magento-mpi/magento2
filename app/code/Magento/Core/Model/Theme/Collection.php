@@ -40,13 +40,13 @@ class Collection extends \Magento\Data\Collection
     protected $fileIteratorFactory;
 
     /**
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Filesystem $filesystem,
         \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
         parent::__construct($entityFactory);

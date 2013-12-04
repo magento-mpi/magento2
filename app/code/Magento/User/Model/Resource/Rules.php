@@ -2,22 +2,15 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource;
 
 /**
  * Admin rule resource model
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource;
-
 class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
@@ -45,16 +38,16 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_logger;
 
     /**
+     * @param \Magento\App\Resource $resource
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Logger $logger
-     * @param \Magento\App\Resource $resource
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\Acl\CacheInterface $aclCache
      */
     public function __construct(
+        \Magento\App\Resource $resource,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Logger $logger,
-        \Magento\App\Resource $resource,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\Acl\CacheInterface $aclCache
     ) {
@@ -96,7 +89,6 @@ class Rules extends \Magento\Core\Model\Resource\Db\AbstractDb
             $postedResources = $rule->getResources();
             if ($postedResources) {
                 $row = array(
-                    'role_type'   => 'G',
                     'resource_id' => $this->_rootResource->getId(),
                     'privileges'  => '', // not used yet
                     'role_id'     => $roleId,

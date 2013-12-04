@@ -22,15 +22,15 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\Cms\Model\BlockFactory $modelBlockFactory
-     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $resourceName,
+        \Magento\Cms\Model\BlockFactory $modelBlockFactory,
         $moduleName = 'Magento_Enterprise',
         $connectionName = ''
     ) {
