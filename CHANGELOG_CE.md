@@ -1,11 +1,19 @@
 * Modularity improvements:
-  * Breakdown of the Adminhtml module:
-     * Moved Newsletter, Report logic to respective modules
-     * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
-  * Removed application dependencies from the library
   * Session configuration moved into library
   * FormKey logic is moved from Session
   * SessionIdFlags is removed from Session
+* Created integration module UX
+* Created authorization service (Magento_Authz module)
+* Fixed bugs:
+  * Fixed shopping cart rules for a specific customer group
+
+2.0.0.0-dev54
+=============
+* Modularity improvements:
+  * Breakdown of the Adminhtml module:
+     * Moved Newsletter, Report logic to the respective modules
+     * Moved blocks, config, view, layout files of other components from Adminhtml folder to respective modules
+  * Removed application dependencies from the library
 * Move Magento\Core common blocks in the library
 * Application areas rework:
   * Areas are independent from Store

@@ -11,13 +11,11 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
 use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 class UpsellTest extends Functional
 {
@@ -37,11 +35,11 @@ class UpsellTest extends Functional
      */
     public function testCreateUpsell()
     {
-        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple1->switchData('simple');
         $simple1->persist();
 
-        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple2 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple2->switchData('simple');
         $simple2->persist();
 
@@ -108,12 +106,12 @@ class UpsellTest extends Functional
 
     /**
      * Assign an array of products as upsells to the passed in $product
-     * @param Product $product
+     * @param SimpleProduct $product
      * @param array $upsellProducts
      */
     private function addUpsellProducts($product, $upsellProducts)
     {
-        /** @var Product $upsellProduct */
+        /** @var SimpleProduct $upsellProduct */
         foreach ($upsellProducts as $upsellProduct) {
             // locate the edit page.
             $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();

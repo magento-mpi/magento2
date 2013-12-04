@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <service class="\Magento\TestModule1\Service\AllSoapAndRestV1Interface" baseUrl="/V1/testmodule1">
+        <!--Extension of service declared in webapiA.xml-->
+        <rest-route httpMethod="POST" method="create"></rest-route>
+    </service>
+
+    <service class="\Magento\TestModule2\Service\SomeVInterface"/>
+
+    <service class="\Magento\TestModule2\Service\AllSoapAndRestV2Interface" baseUrl="/V2/testmodule2">
+        <rest-route httpMethod="POST" method="create"></rest-route>
+        <rest-route httpMethod="DELETE" method="delete" isSecure="true">/:id</rest-route>
+    </service>
+</config>
