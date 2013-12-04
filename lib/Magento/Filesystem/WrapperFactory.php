@@ -29,11 +29,10 @@ class WrapperFactory
      * @param string $classCode
      * @param DriverInterface $driver
      */
-    public function get($protocolCode, $classCode, \Magento\Filesystem\DriverInterface $driver) {
-        if (!isset($this->wrappers[$protocolCode])) {
-            $protocolInstance = new $classCode($driver);
-            $this->wrappers[$protocolCode] = $protocolInstance;
-        }
+    public function get($protocolCode, \Magento\Filesystem\DriverInterface $driver)
+    {
+        $class = '\\Magento\\Filesystem\\Protocol\\' . $protocolCode;
+
         return $this->wrappers[$protocolCode];
     }
 }

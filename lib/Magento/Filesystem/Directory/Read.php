@@ -22,6 +22,11 @@ class Read implements ReadInterface
     protected $path;
 
     /**
+     * @var string
+     */
+    protected $scheme;
+
+    /**
      * File factory
      *
      * @var \Magento\Filesystem\File\ReadFactory
@@ -62,15 +67,12 @@ class Read implements ReadInterface
     (
         array $config,
         \Magento\Filesystem\File\ReadFactory $fileFactory,
-        \Magento\Filesystem\DriverInterface $driver,
-        \Magento\Filesystem\WrapperFactory $wrapperFactory
-
+        \Magento\Filesystem\DriverInterface $driver
     ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
 
         $this->driver = $driver;
-        $this->wrapperFactory = $wrapperFactory;
     }
 
     /**
@@ -84,6 +86,9 @@ class Read implements ReadInterface
         if (!empty($config['path'])) {
             $this->path = rtrim($this->fixSeparator($config['path']), '/') . '/';
         }
+        if (!empty($config['protocol'])) {
+            $this->scheme = $config['protocol'];
+        }
     }
 
     /**
@@ -91,11 +96,24 @@ class Read implements ReadInterface
      * E.g.: /var/www/application/file.txt
      *
      * @param string $path
+     * @param string $schema
      * @return string
      */
-    public function getAbsolutePath($path = null)
+    public function getAbsolutePath($path = null, $schema = null)
     {
-        return $this->path . ltrim($this->fixSeparator($path), '/');
+        return $this->getScheme($schema) . $this->path . ltrim($this->fixSeparator($path), '/');
+    }
+
+    /**
+     * Return path with scheme
+     *
+     * @param null|string $scheme
+     * @return string
+     */
+    protected function getScheme($scheme = null)
+    {
+        $scheme = $scheme ?: $this->scheme;
+        return $scheme ? $scheme . '://' : '';
     }
 
     /**
@@ -233,20 +251,19 @@ class Read implements ReadInterface
      * Retrieve file contents from given path
      *
      * @param string $path
-     * @param string $protocol
+     * @param string $scheme
      * @return string
      * @throws FilesystemException
      */
-    public function readFile($path, $protocol = \Magento\FileSystem::WRAPPER_STREAM_FILE)
+    public function readFile($path, $scheme = \Magento\Filesystem::WRAPPER_STREAM_FILE)
     {
-        $absolutePath = $this->getAbsolutePath($path);
-        if ($this->validateWrapper($protocol) && !$this->driver->isFile($absolutePath)) {
+        $absolutePath = $this->getAbsolutePath($path, $scheme);
+        if ($this->validateWrapper($scheme) && !$this->driver->isFile($absolutePath)) {
             throw new FilesystemException(
                 sprintf('The file "%s" either doesn\'t exist or not a file', $absolutePath)
             );
         }
-
-        return $this->getWrapper($protocol, $this->driver)->readFile($absolutePath);
+        return $this->driver->fileGetContents($absolutePath);
     }
 
     /**
@@ -294,18 +311,6 @@ class Read implements ReadInterface
     protected function fixSeparator($path)
     {
         return str_replace('\\', '/', $path);
-    }
-
-    /**
-     * Return stream wrapper
-     *
-     * @param $protocol
-     * @param $driver
-     * @return mixed
-     */
-    protected function getWrapper($protocol, $driver)
-    {
-        return $this->wrapperFactory->get($protocol, $driver);
     }
 
     /*

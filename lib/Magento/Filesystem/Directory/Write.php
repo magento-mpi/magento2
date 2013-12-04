@@ -255,12 +255,13 @@ class Write extends Read implements WriteInterface
      * @param string $path
      * @param string $content
      * @param string|null $mode
+     * @param string $scheme
      * @return int The number of bytes that were written.
      * @throws FilesystemException
      */
-    public function writeFile($path, $content, $mode = null)
+    public function writeFile($path, $content, $mode = null, $scheme = \Magento\Filesystem::WRAPPER_STREAM_FILE)
     {
-        $absolutePath = $this->getAbsolutePath($path);
+        $absolutePath = $this->getAbsolutePath($path, $scheme);
         $folder = $this->getRelativePath($this->driver->getParentDirectory($absolutePath));
         $this->create($folder);
         $this->assertWritable($folder);

@@ -108,7 +108,11 @@ class DirectoryList
      */
     public function addProtocol($wrapperCode, array $configuration)
     {
-        $this->protocol[$wrapperCode] = $configuration;
+        $flag = 0;
+        if (isset($configuration['url_stream'])) {
+            $flag = $configuration['url_stream'];
+        }
+        stream_wrapper_register($wrapperCode, $configuration['class'], $flag);
     }
 
     /**
