@@ -23,15 +23,29 @@ class WrapperFactory
     private $wrappers = array();
 
     /**
+     * @var \Magento\Filesystem\DirectoryList
+     */
+    protected $directoryList;
+
+    public function __construct(\Magento\Filesystem\DirectoryList $directoryList)
+    {
+        $this->directoryList = $directoryList;
+    }
+
+    /**
      * Return specific wrapper
      *
      * @param string $protocolCode
-     * @param string $classCode
      * @param DriverInterface $driver
      */
     public function get($protocolCode, \Magento\Filesystem\DriverInterface $driver)
     {
-        $class = '\\Magento\\Filesystem\\Protocol\\' . $protocolCode;
+        // @TODO add default wrapper class
+        $wrapperClass = $this->directoryList->getProtocolConfig($protocolCode)['class'];
+
+        if (!isset($this->wrappers[$protocolCode])) {
+            $this->wrappers[$protocolCode] = new $wrapperClass($driver);
+        }
 
         return $this->wrappers[$protocolCode];
     }

@@ -132,7 +132,6 @@
                     <static>
                         <read_only>0</read_only>
                         <path>pub/static</path>
-                        <protocol>zlib</protocol>
                         <uri>pub/static</uri>
                         <permissions>511</permissions>
                     </static>
@@ -145,13 +144,16 @@
                     <socket>
                         <driver>Magento\Filesystem\Driver\Socket</driver>
                     </socket>
+                    <php>
+                        <scheme>php</scheme>
+                    </php>
                 </directory>
                 <protocol>
-                    <zlib>
-                        <scheme>var</scheme>
-                        <use_base_path>true</use_base_path>
-                        <class>Magento\Filesystem\Protocol\VarStream1</class>
-                    </zlib>
+                    <php>
+                        <scheme>php</scheme>
+                        <use_base_path>1</use_base_path>
+                        <class>Magento\Filesystem\Protocol\Php</class>
+                    </php>
                 </protocol>
             </filesystem>
         </system>

@@ -43,7 +43,6 @@ class Write extends Read implements WriteInterface
     ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
-
         $this->driver = $driver;
     }
 
@@ -235,6 +234,7 @@ class Write extends Read implements WriteInterface
      *
      * @param string $path
      * @param string $mode
+     * @param string|null $protocol
      * @return \Magento\Filesystem\File\WriteInterface
      */
     public function openFile($path, $mode = 'w', $protocol = null)
@@ -252,7 +252,7 @@ class Write extends Read implements WriteInterface
      * @param string $path
      * @param string $content
      * @param string|null $mode
-     * @param string $scheme
+     * @param string|null $protocol
      * @return int The number of bytes that were written.
      * @throws FilesystemException
      */

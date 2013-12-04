@@ -93,6 +93,16 @@ class Read implements ReadInterface
     }
 
     /**
+     * Return file content
+     *
+     * @return string
+     */
+    public function readAll()
+    {
+       return $this->driver->fileGetContents($this->path);
+    }
+
+    /**
      * Reads the line with specified number of bytes from the current position.
      *
      * @param int $length The number of bytes to read

@@ -52,6 +52,9 @@ class DirectoryList
         Filesystem::LOCALE          => array('path' => '')
     );
 
+    /**
+     * @var array
+     */
     protected $protocol = array();
 
     /**
@@ -112,7 +115,8 @@ class DirectoryList
         if (isset($configuration['url_stream'])) {
             $flag = $configuration['url_stream'];
         }
-        stream_wrapper_register($wrapperCode, $configuration['class'], $flag);
+//        stream_wrapper_register($wrapperCode, $configuration['class'], $flag);
+        $this->protocol[$wrapperCode] = $configuration;
     }
 
     /**
@@ -160,6 +164,17 @@ class DirectoryList
             );
         }
         return $this->directories[$code];
+    }
+
+    /**
+     * Return protocol configuration
+     *
+     * @param string $wrapperCode
+     * @return null|array
+     */
+    public function getProtocolConfig($wrapperCode)
+    {
+        return isset($this->protocol[$wrapperCode]) ? $this->protocol[$wrapperCode] : null;
     }
 
     /**

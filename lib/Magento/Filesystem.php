@@ -190,7 +190,6 @@ use \Magento\FilesystemDeprecated;
      * @param Filesystem\Directory\ReadFactory $readFactory
      * @param Filesystem\Directory\WriteFactory $writeFactory
      * @param Filesystem\AdapterInterface $adapter
-     * @param Filesystem\WrapperFactory $wrapperFactory
      */
     public function __construct(
         \Magento\Filesystem\DirectoryList $directoryList,

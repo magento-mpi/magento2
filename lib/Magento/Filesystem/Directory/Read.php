@@ -61,7 +61,6 @@ class Read implements ReadInterface
      * @param array $config
      * @param \Magento\Filesystem\File\ReadFactory $fileFactory
      * @param \Magento\Filesystem\DriverInterface $driver
-     * @param \Magento\Filesystem\WrapperFactory
      */
     public function __construct
     (
@@ -71,7 +70,6 @@ class Read implements ReadInterface
     ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
-
         $this->driver = $driver;
     }
 
@@ -240,9 +238,11 @@ class Read implements ReadInterface
      * Open file in read mode
      *
      * @param string $path
+     * @param string|null $protocol
+     *
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function openFile($path, $protocol)
+    public function openFile($path, $protocol = null)
     {
         return $this->fileFactory->create($this->getAbsolutePath($path), $this->driver, $protocol);
     }
@@ -251,13 +251,24 @@ class Read implements ReadInterface
      * Retrieve file contents from given path
      *
      * @param string $path
-     * @param string $scheme
+     * @param string|null $protocol
      * @return string
      * @throws FilesystemException
      */
-    public function readFile($path, $protocol = \Magento\Filesystem::WRAPPER_STREAM_FILE)
+    public function readFile($path, $protocol = null)
     {
-        return $this->openFile($path, $protocol)->readAll();
+        $absolutePath = $this->getAbsolutePath($path, $protocol);
+
+        /** @var \Magento\Filesystem\File\Read $fileReader */
+        $fileReader = $this->fileFactory->create($absolutePath, $this->driver, $protocol);
+        return $fileReader->readAll();
+
+        if (!$this->driver->isFile($absolutePath)) {
+            throw new FilesystemException(
+                sprintf('The file "%s" either doesn\'t exist or not a file', $absolutePath)
+            );
+        }
+        return $this->driver->fileGetContents($absolutePath);
     }
 
     /**
@@ -305,16 +316,5 @@ class Read implements ReadInterface
     protected function fixSeparator($path)
     {
         return str_replace('\\', '/', $path);
-    }
-
-    /*
-     * Checks if wrapper can fully support file functions
-     *
-     * @param string $wrapperCode
-     * @return bool
-     */
-    protected function validateWrapper($wrapperCode)
-    {
-        return in_array($wrapperCode, $this->fileWrappers);
     }
 }

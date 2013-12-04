@@ -133,6 +133,10 @@ class ObjectManagerFactory
         $directoryListConfig = $locator->get('Magento\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directories);
 
+        /** @var \Magento\Filesystem\Directory\ReadInterface $socketRead */
+        $socketRead = $locator->get('\Magento\Filesystem')->getDirectoryRead('php');
+        $content = $socketRead->readFile('input', 'php');
+
         return $locator;
     }
 
