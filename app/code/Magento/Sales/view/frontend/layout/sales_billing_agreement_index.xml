@@ -14,7 +14,7 @@
             <argument name="template" xsi:type="string">2columns-left.phtml</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Sales\Block\Billing\Agreements" name="customer.account.billing.agreement" template="billing/agreements.phtml"/>
     </referenceContainer>
 </layout>

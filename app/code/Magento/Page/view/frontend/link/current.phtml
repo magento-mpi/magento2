@@ -14,7 +14,7 @@
     <strong><?php echo $this->escapeHtml(__($this->getLabel()))?></strong>
 </li>
 <?php else:?>
-<li class="nav item">
+<li class="nav item<?php echo $this->getIsHighlighted() ? ' current' : '';?>">
     <a href="<?php echo $this->escapeHtml($this->getHref())?>"
         <?php if ($title = $this->getTitle()):?> title="<?php echo $this->escapeHtml(__($title))?>"<?php endif;?>
     >

@@ -67,7 +67,7 @@
         })(jQuery);
     </script>
 <?php else:?>
-    <p class="empty"><?php echo __('You cannot send more invitations'); ?></p>
+    <div class="message info empty"><span><?php echo __('You cannot send more invitations'); ?></span></div>
     <div class="actions">
         <div class="secondary">
             <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationUrl() ?>" class="action back"><span><?php  echo __('Back to Invitations') ?></span></a>

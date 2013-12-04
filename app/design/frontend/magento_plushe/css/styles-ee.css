@@ -4686,6 +4686,7 @@ body {
   border: 1px solid #c2c2c2;
   border-width: 0 1px 1px;
   border-radius: 0 0 5px 5px;
+  overflow: hidden;
   z-index: 5;
 }
 .block.search .search.autocomplete ul {
@@ -5896,6 +5897,9 @@ body {
 .order.data.items tr.grand.total .amount {
   font-size: 24px;
   color: #da370a;
+}
+.order.data.items tfoot .amount {
+  text-align: right;
 }
 .order.review.data th.col.price,
 .order.review.data th.col.subtotal {
@@ -7129,7 +7133,7 @@ body {
 .minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal:after {
   float: none;
 }
-.minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal + .action.checkout {
+.minicart.wrapper .block.minicart > .content > .actions .primary .action.checkout {
   float: right;
 }
 .block.minicart .products.minilist {
@@ -11574,6 +11578,9 @@ img[align="right"] {
 .block.account.nav .item.current {
   color: #da370a;
 }
+.block.account.nav .item.current a {
+  color: #da370a;
+}
 .block.account.nav .item strong {
   font-weight: 400;
 }
@@ -11857,6 +11864,7 @@ img[align="right"] {
   color: #675f55;
   border: none;
   background: none;
+  padding: 0 20px 0 5px;
 }
 /*
     Popular Search Terms
