@@ -19,7 +19,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Credit Card (Authorize.net)
  * Guest checkout with Authorize.Net payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-12832
  * @package Magento\Checkout\Test\Fixture
  */
 class GuestAuthorizenet extends Checkout

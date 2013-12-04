@@ -28,16 +28,14 @@ class Addresses extends Block
      *
      * @var string
      */
-    private $newAddress;
+    protected $newAddress = '[data-role="add-new-address"]';
 
     /**
-     * Initialize block elements
+     * 'Continue to Shipping Information' button
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        //Elements
-        $this->newAddress = '[data-role="add-new-address"]';
-    }
+    protected $continue = '[class*=continue][data-role="can-continue"]';
 
     /**
      * Add new customer address
@@ -59,7 +57,6 @@ class Addresses extends Block
             $this->_rootElement->find('//tr[//a[text()="' . $key . '"]]/following-sibling::*//select',
                 Locator::SELECTOR_XPATH, 'select')->setValue($value);
         }
-        $btnLocation = '//button[@class="action continue" and @data-role="can-continue"]';
-        $this->_rootElement->find($btnLocation, Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
     }
 }

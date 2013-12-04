@@ -11,8 +11,6 @@
 
 namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search;
 
-use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid as GridInterface;
 
@@ -29,25 +27,27 @@ class Grid extends GridInterface
      *
      * @var string
      */
-    private $addProducts;
+    protected $addProducts = 'button.add';
 
     /**
-     * Initialize block elements
+     * An element locator which allows to select entities in grid
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => 'input[name=name]'
-            ),
-            'sku' => array(
-                'selector' => 'input[name=sku]'
-            ),
-        );
-        $this->addProducts = 'button.add';
-        $this->selectItem = 'tbody tr .col-id';
-    }
+    protected $selectItem = 'tbody tr .col-id';
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $filters = array(
+        'name' => array(
+            'selector' => 'input[name=name]'
+        ),
+        'sku' => array(
+            'selector' => 'input[name=sku]'
+        ),
+    );
+
 
     /**
      * Press 'Add Selected Products' button

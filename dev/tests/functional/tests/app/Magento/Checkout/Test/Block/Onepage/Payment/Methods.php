@@ -12,19 +12,25 @@
 namespace Magento\Checkout\Test\Block\Onepage\Payment;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Payment\Test\Block\Form;
 use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Methods
- * One page checkout status
+ * One page checkout status payment method block
  *
  * @package Magento\Checkout\Test\Block\Onepage\Payment
  */
 class Methods extends Block
 {
+    /**
+     * Payment method selector
+     *
+     * @var string
+     */
+    protected $paymentMethod = '[for=p_method_%s]';
+
     /**
      * Continue checkout button
      *
@@ -48,7 +54,7 @@ class Methods extends Block
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
-        $this->_rootElement->find('[for=p_method_' . $paymentCode . ']', Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode), Locator::SELECTOR_CSS)->click();
 
         $dataConfig = $payment->getDataConfig();
         if (isset($dataConfig['payment_form_class'])) {

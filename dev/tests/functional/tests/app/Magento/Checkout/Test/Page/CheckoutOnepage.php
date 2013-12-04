@@ -29,46 +29,60 @@ class CheckoutOnepage extends Page
     const MCA = 'checkout/onepage';
 
     /**
-     * @var \Magento\Checkout\Test\Block\Onepage\Login
+     * One page checkout status login block
+     *
+     * @var string
      */
-    private $loginBlock;
+    protected $loginBlock = '#checkout-step-login';
 
     /**
-     * @var \Magento\Checkout\Test\Block\Onepage\Billing
+     * One page checkout status billing block
+     *
+     * @var string
      */
-    private $billingBlock;
+    protected $billingBlock = '#checkout-step-billing';
 
     /**
-     * @var \Magento\Checkout\Test\Block\Onepage\Shipping
+     * One page checkout status shipping block
+     *
+     * @var string
      */
-    private $shippingBlock;
+    protected $shippingBlock = '#checkout-step-shipping';
 
     /**
-     * @var \Magento\Checkout\Test\Block\Onepage\Shipping\Method
+     * One page checkout status shipping method block
+     *
+     * @var string
      */
-    private $shippingMethodBlock;
+    protected $shippingMethodBlock = '#checkout-step-shipping_method';
 
     /**
-     * @var \Magento\Checkout\Test\Block\Onepage\Payment\Methods
+     * One page checkout status payment method block
+     *
+     * @var string
      */
-    private $paymentMethodsBlock;
+    protected $paymentMethodsBlock = '#checkout-step-payment';
 
     /**
-     * @var \Magento\Checkout\Test\Block\Onepage\Review
+     * One page checkout status review block
+     *
+     * @var string
      */
-    private $reviewBlock;
+    protected $reviewBlock = '#checkout-step-review';
 
     /**
+     * Centinel card verification block
+     *
      * @var \Magento\Centinel\Test\Block\Authentication
      */
-    private $centinelAuthenticationBlock;
+    protected $centinelAuthenticationBlock = 'body';
 
     /**
      * 3D Secure frame locator
      *
      * @var Locator
      */
-    protected $_centinelFrame;
+    protected $centinelFrame = '#centinel-authenticate-iframe';
 
     /**
      * Custom constructor
@@ -76,48 +90,42 @@ class CheckoutOnepage extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        //Blocks
-        $this->loginBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageLogin(
-            $this->_browser->find('#checkout-step-login', Locator::SELECTOR_CSS));
-        $this->billingBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageBilling(
-            $this->_browser->find('#checkout-step-billing', Locator::SELECTOR_CSS));
-        $this->shippingBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageShipping(
-            $this->_browser->find('#checkout-step-shipping', Locator::SELECTOR_CSS));
-        $this->shippingMethodBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageShippingMethod(
-            $this->_browser->find('#checkout-step-shipping_method', Locator::SELECTOR_CSS));
-        $this->paymentMethodsBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepagePaymentMethods(
-            $this->_browser->find('#checkout-step-payment', Locator::SELECTOR_CSS));
-        $this->reviewBlock = Factory::getBlockFactory()->getMagentoCheckoutOnepageReview(
-            $this->_browser->find('#checkout-step-review', Locator::SELECTOR_CSS));
-
-        $this->centinelAuthenticationBlock = Factory::getBlockFactory()->getMagentoCentinelAuthentication(
-            $this->_browser->find('body', Locator::SELECTOR_CSS));
-        $this->_centinelFrame = new Locator('#centinel-authenticate-iframe', Locator::SELECTOR_CSS);
     }
 
     /**
+     * Get one page checkout status login block
+     *
      * @return \Magento\Checkout\Test\Block\Onepage\Login
      */
     public function getLoginBlock()
     {
-        return $this->loginBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepageLogin(
+            $this->_browser->find($this->loginBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
+     * Get one page checkout status billing block
+     *
      * @return \Magento\Checkout\Test\Block\Onepage\Billing
      */
     public function getBillingBlock()
     {
-        return $this->billingBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepageBilling(
+            $this->_browser->find($this->billingBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
+     * Get one page checkout status shipping method block
+     *
      * @return \Magento\Checkout\Test\Block\Onepage\Shipping
      */
     public function getShippingBlock()
     {
-        return $this->shippingBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepageShipping(
+            $this->_browser->find($this->shippingBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -125,32 +133,46 @@ class CheckoutOnepage extends Page
      */
     public function getShippingMethodBlock()
     {
-        return $this->shippingMethodBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepageShippingMethod(
+            $this->_browser->find($this->shippingMethodBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
+     * Get one page checkout status payment method block
+     *
      * @return \Magento\Checkout\Test\Block\Onepage\Payment\Methods
      */
     public function getPaymentMethodsBlock()
     {
-        return $this->paymentMethodsBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepagePaymentMethods(
+            $this->_browser->find($this->paymentMethodsBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
+     * Get one page checkout status review block
+     *
      * @return \Magento\Checkout\Test\Block\Onepage\Review
      */
     public function getReviewBlock()
     {
         $this->_browser->switchToFrame();
-        return $this->reviewBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutOnepageReview(
+            $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
+     * Get centinel card verification block
+     *
      * @return \Magento\Centinel\Test\Block\Authentication
      */
     public function getCentinelAuthenticationBlock()
     {
-        $this->_browser->switchToFrame($this->_centinelFrame);
-        return $this->centinelAuthenticationBlock;
+        $this->_browser->switchToFrame($this->centinelFrame);
+        return Factory::getBlockFactory()->getMagentoCentinelAuthentication(
+            $this->_browser->find($this->centinelAuthenticationBlock, Locator::SELECTOR_CSS)
+        );
     }
 }
