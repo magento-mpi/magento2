@@ -61,7 +61,7 @@ class Converter implements \Magento\Config\ConverterInterface
                 $method = $restRoute->attributes->getNamedItem('method')->nodeValue;
 
                 $resources = $restRoute->attributes->getNamedItem('resources')->nodeValue;
-                /** Allow whitespace usage after coma. */
+                /** Allow whitespace usage after comma. */
                 $resources = str_replace(', ', ',', $resources);
                 $resources = explode(',', $resources);
 

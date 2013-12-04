@@ -6,7 +6,7 @@
  * @license    {license_link}
  */
 
-namespace Magento\Integration\Helper\Oauth;
+namespace Magento\Integration\Service;
 
 use Magento\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
@@ -17,10 +17,12 @@ use \Magento\Oauth\Helper\Oauth as OauthHelper;
 use \Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
 
 /**
+ * Integration oAuth service.
+ *
  * TODO: Fix coupling between objects
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
-class Consumer
+class OauthV1 implements OauthV1Interface
 {
     /** @var  \Magento\Core\Model\StoreManagerInterface */
     protected $_storeManager;
@@ -79,15 +81,8 @@ class Consumer
     }
 
     /**
-     * Create a new consumer account.
+     * {@inheritdoc}
      *
-     * @param array $consumerData - Information provided by an integration when the integration is installed.
-     * <pre>
-     * array(
-     *     'name' => 'Integration Name',
-     *     '...' => '...', // Other consumer data can be passed as well
-     * )
-     * </pre>
      * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Core\Exception
      * @throws \Magento\Oauth\Exception
@@ -108,10 +103,7 @@ class Consumer
     }
 
     /**
-     * Create access token for provided consumer.
-     *
-     * @param int $consumerId
-     * @return bool If token was created
+     * {@inheritdoc}
      */
     public function createAccessToken($consumerId)
     {
@@ -132,10 +124,7 @@ class Consumer
     }
 
     /**
-     * Retrieve access token assigned to the consumer.
-     *
-     * @param int $consumerId
-     * @return Token|bool Return false if no access token is available.
+     * {@inheritdoc}
      */
     public function getAccessToken($consumerId)
     {
@@ -152,10 +141,8 @@ class Consumer
     }
 
     /**
-     * Load consumer by its ID.
+     * {@inheritdoc}
      *
-     * @param int $consumerId
-     * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Oauth\Exception
      * @throws \Exception
      * @throws \Magento\Core\Exception
@@ -172,11 +159,8 @@ class Consumer
     }
 
     /**
-     * Execute post to integration (consumer) HTTP Post URL. Generate and return oauth_verifier.
+     * {@inheritdoc}
      *
-     * @param int $consumerId - The consumer Id.
-     * @param string $endpointUrl - The integration endpoint Url (for HTTP Post)
-     * @return string - The oauth_verifier.
      * @throws \Magento\Core\Exception
      * @throws \Magento\Oauth\Exception
      */

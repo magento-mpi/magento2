@@ -30,7 +30,7 @@ class Config
     const KEY_CLASS = 'class';
     const KEY_METHOD = 'method';
     const KEY_ROUTE_PATH = 'routePath';
-    const KEY_ACL_RESOURCES = 'aclResources';
+    const KEY_ACL_RESOURCES = 'resources';
     /*#@-*/
 
     /** @var \Magento\Webapi\Model\Config  */

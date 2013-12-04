@@ -12,7 +12,7 @@ use Magento\Authz\Service\AuthorizationV1Interface as AuthorizationInterface;
 use Magento\Integration\Model\Integration\Factory as IntegrationFactory;
 use Magento\Authz\Model\UserIdentifier\Factory as UserIdentifierFactory;
 use Magento\Integration\Model\Integration as IntegrationModel;
-use Magento\Integration\Helper\Oauth\Consumer as OauthConsumerHelper;
+use Magento\Integration\Service\OauthV1Interface as IntegrationOauthService;
 
 /**
  * Integration Service.
@@ -30,8 +30,8 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     /** @var UserIdentifierFactory */
     protected $_userIdentifierFactory;
 
-    /** @var OauthConsumerHelper */
-    protected $_oauthConsumerHelper;
+    /** @var IntegrationOauthService */
+    protected $_oauthService;
 
     /**
      * Construct and initialize Integration Factory
@@ -40,18 +40,18 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
      * @param AuthorizationInterface $authzService
      * @param UserIdentifierFactory $userIdentifierFactory
      * @param UserIdentifierFactory $userIdentifierFactory
-     * @param OauthConsumerHelper $oauthConsumerHelper
+     * @param IntegrationOauthService $oauthService
      */
     public function __construct(
         IntegrationFactory $integrationFactory,
         AuthorizationInterface $authzService,
         UserIdentifierFactory $userIdentifierFactory,
-        OauthConsumerHelper $oauthConsumerHelper
+        IntegrationOauthService $oauthService
     ) {
         $this->_integrationFactory = $integrationFactory;
         $this->_authzService = $authzService;
         $this->_userIdentifierFactory = $userIdentifierFactory;
-        $this->_oauthConsumerHelper = $oauthConsumerHelper;
+        $this->_oauthService = $oauthService;
     }
 
     /**
@@ -64,7 +64,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         // TODO: Think about double save issue
         $integration->save();
         $consumerName = 'Integration' . $integration->getId();
-        $consumer = $this->_oauthConsumerHelper->createConsumer(array('name' => $consumerName));
+        $consumer = $this->_oauthService->createConsumer(array('name' => $consumerName));
         $integration->setConsumerId($consumer->getId());
         $integration->save();
 
@@ -186,7 +186,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     protected function _addOauthConsumerData(IntegrationModel $integration)
     {
         if ($integration->getId()) {
-            $consumer = $this->_oauthConsumerHelper->loadConsumer($integration->getConsumerId());
+            $consumer = $this->_oauthService->loadConsumer($integration->getConsumerId());
             $integration->setData('consumer_key', $consumer->getKey());
             $integration->setData('consumer_secret', $consumer->getSecret());
         }
@@ -200,7 +200,7 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
     protected function _addOauthTokenData(IntegrationModel $integration)
     {
         if ($integration->getId()) {
-            $accessToken = $this->_oauthConsumerHelper->getAccessToken($integration->getConsumerId());
+            $accessToken = $this->_oauthService->getAccessToken($integration->getConsumerId());
             if ($accessToken) {
                 $integration->setData('token', $accessToken->getToken());
                 $integration->setData('token_secret', $accessToken->getSecret());
