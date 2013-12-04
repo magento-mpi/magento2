@@ -40,7 +40,7 @@ class CreateWithAttributeTest extends Functional
     public function testCreateConfigurableProductWithNewAttribute()
     {
         //Data
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $product->switchData('simple_with_new_category');
 
         $attribute = Factory::getFixtureFactory()->getMagentoCatalogProductAttribute();
