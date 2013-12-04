@@ -51,7 +51,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $directoryWrite;
 
     /**
-     * @var \Magento\Core\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextHelper;
 
@@ -122,10 +122,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE));
 
         $this->helper = new \Magento\Theme\Helper\Storage(
+            $this->contextHelper,
             $this->filesystem,
             $this->session,
-            $this->themeFactory,
-            $this->contextHelper
+            $this->themeFactory
         );
     }
 
