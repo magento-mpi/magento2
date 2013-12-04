@@ -162,9 +162,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
         /** Build class inheritance hierarchy  */
         $output = array();
+        $allowedFiles = array_keys($classes);
         foreach ($classes as $class) {
             if (!in_array($class, $output)) {
-                $output = array_merge($output, $this->_buildInheritanceHierarchyTree($class));
+                $output = array_merge($output, $this->_buildInheritanceHierarchyTree($class, $allowedFiles));
                 $output = array_unique($output);
             }
         }
@@ -181,9 +182,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
      * Build inheritance hierarchy tree
      *
      * @param string $className
+     * @param array $allowedFiles
      * @return array
      */
-    protected function _buildInheritanceHierarchyTree($className)
+    protected function _buildInheritanceHierarchyTree($className, array $allowedFiles)
     {
         $output = array();
         if (0 !== strpos($className, '\\')) {
@@ -191,9 +193,10 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         }
         $class = new \ReflectionClass($className);
         $parent = $class->getParentClass();
-        if ($parent) {
+        /** Prevent analyzes of non Magento classes  */
+        if ($parent && in_array($parent->getFileName(), $allowedFiles)) {
             $output = array_merge(
-                $this->_buildInheritanceHierarchyTree($parent->getName()),
+                $this->_buildInheritanceHierarchyTree($parent->getName(), $allowedFiles),
                 array($className),
                 $output
             );
