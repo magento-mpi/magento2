@@ -15,7 +15,6 @@ namespace Magento\Customer\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Block\Form\Login;
 
 /**
  * Class CustomerAccountLogin
@@ -33,9 +32,9 @@ class CustomerAccountLogin extends Page
     /**
      * Form for customer login
      *
-     * @var Login
+     * @var string
      */
-    private $loginBlock;
+    protected $loginBlock = '#login-form';
 
     /**
      * Custom constructor
@@ -43,19 +42,17 @@ class CustomerAccountLogin extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        $this->loginBlock = Factory::getBlockFactory()->getMagentoCustomerFormLogin(
-            $this->_browser->find('login-form', Locator::SELECTOR_ID)
-        );
     }
 
     /**
      * Get customer login form
      *
-     * @return Login
+     * @return \Magento\Customer\Test\Block\Form\Login
      */
     public function getLoginBlock()
     {
-        return $this->loginBlock;
+        return Factory::getBlockFactory()->getMagentoCustomerFormLogin(
+            $this->_browser->find($this->loginBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

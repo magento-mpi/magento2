@@ -29,25 +29,22 @@ class Edit extends Form
      *
      * @var string
      */
-    private $saveAddress;
+    protected $saveAddress = '.action.submit';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '#firstname',
-            'lastname' => '#lastname',
-            'telephone' => '#telephone',
-            'street_1' => '#street_1',
-            'city' => '#city',
-            'region' => '#region_id',
-            'postcode' => '#zip',
-            'country' => '#country',
-        );
-        $this->saveAddress = '.action.submit';
-    }
+    protected $_mapping = array(
+        'firstname' => '#firstname',
+        'lastname' => '#lastname',
+        'company' => '#company',
+        'telephone' => '#telephone',
+        'street_1' => '#street_1',
+        'city' => '#city',
+        'region' => '#region_id',
+        'postcode' => '#zip',
+        'country' => '#country',
+    );
 
     /**
      * Fill form data. Unset 'email' field as it absent in current form

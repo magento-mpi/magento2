@@ -11,6 +11,7 @@
 
 namespace Magento\Sales\Test\Page;
 
+use Mtf\Client\Element\Locator;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 
@@ -28,6 +29,13 @@ class SalesOrderShipmentNew extends Page
     const MCA = 'sales/order/shipment/new';
 
     /**
+     * Shipment totals block
+     *
+     * @var string
+     */
+    protected $totalsBlock = '.order-totals';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -38,24 +46,12 @@ class SalesOrderShipmentNew extends Page
     /**
      * Get shipment totals
      *
-     * @return \Magento\Backend\Test\Block\Sales\Order\Shipment\Totals
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Shipment\Totals
      */
     public function getTotalsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendSalesOrderShipmentTotals(
-            $this->_browser->find('.order-totals')
-        );
-    }
-
-    /**
-     * Getter for page actions block
-     *
-     * @return \Magento\Backend\Test\Block\PageActions
-     */
-    public function getPageActionsBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions(
-            $this->_browser->find('.page-actions')
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderShipmentTotals(
+            $this->_browser->find($this->totalsBlock, Locator::SELECTOR_CSS)
         );
     }
 }

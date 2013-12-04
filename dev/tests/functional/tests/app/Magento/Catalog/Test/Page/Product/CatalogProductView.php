@@ -51,6 +51,20 @@ class CatalogProductView extends Page
     protected $messagesSelector = '.page.messages .messages';
 
     /**
+     * Product View block
+     *
+     * @var string
+     */
+    protected $viewBlock = '.column.main';
+
+    /**
+     * Product options block
+     *
+     * @var string
+     */
+    protected $optionsBlock = '.product.options.wrapper';
+
+    /**
      * Related product selector
      *
      * @var string
@@ -95,7 +109,7 @@ class CatalogProductView extends Page
     public function getViewBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductView(
-            $this->_browser->find('.column.main', Locator::SELECTOR_CSS)
+            $this->_browser->find($this->viewBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -107,7 +121,7 @@ class CatalogProductView extends Page
     public function getOptionsBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductViewOptions(
-            $this->_browser->find('.product.options.wrapper')
+            $this->_browser->find($this->optionsBlock, Locator::SELECTOR_CSS)
         );
     }
 

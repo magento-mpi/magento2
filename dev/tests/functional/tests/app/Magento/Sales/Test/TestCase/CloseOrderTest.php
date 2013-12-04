@@ -33,8 +33,6 @@ class CloseOrderTest extends Functional
      */
     public function testPayPalExpress(DataFixture $fixture)
     {
-        $this->markTestSkipped('MAGETWO-16653');
-        
         $fixture->persist();
         //Data
         $orderId = $fixture->getOrderId();
@@ -76,7 +74,7 @@ class CloseOrderTest extends Functional
             'The shipment has been created.',
             'No success message on shipment creation'
         );
-        $tabsWidget = $orderPage->getTabsWidget();
+        $tabsWidget = $orderPage->getFormTabsBlock();
 
         //Verification on invoice tab
         $tabsWidget->openTab('sales_order_view_tabs_order_invoices');
