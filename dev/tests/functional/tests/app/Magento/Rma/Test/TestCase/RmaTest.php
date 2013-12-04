@@ -48,13 +48,13 @@ Class RmaTest extends Functional
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
 
         //Create the Shipment
-        $orderPage->getOrderActionsBlock()->clickShipButton();
+        $orderPage->getOrderActionsBlock()->ship();
         $newShipmentPage->getTotalsBlock()->submit();
 
         //Create the Invoice
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $orderPage->getOrderActionsBlock()->clickInvoiceButton();
+        $orderPage->getOrderActionsBlock()->invoice();
         $newInvoicePage->getInvoiceTotalsBlock()->submit();
 
         // Step 1:  Go to frontend
@@ -103,6 +103,6 @@ Class RmaTest extends Functional
         // Step 11: Sales->Order->Returns
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $orderPage->getOrderViewTabsBlock()->clickReturnsLink();
+        //$orderPage->getOrderViewTabsBlock()->clickReturnsLink();
     }
 }
