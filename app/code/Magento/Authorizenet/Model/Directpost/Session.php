@@ -25,8 +25,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
-     * @param array $data
+     * @param \Magento\Session\StorageInterface $storage
      * @param string|null $sessionName
+     * @internal param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
@@ -34,11 +35,11 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
-        array $data = array(),
+        \Magento\Session\StorageInterface $storage,
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
-        $this->start('authorizenet_directpost', $sessionName);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        $this->start($sessionName);
     }
 
     /**

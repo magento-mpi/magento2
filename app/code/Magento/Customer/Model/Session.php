@@ -74,6 +74,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
+     * @param \Magento\Session\StorageInterface $storage
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -90,6 +91,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
+        \Magento\Session\StorageInterface $storage,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,
@@ -107,13 +109,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
-        $namespace = 'customer';
-        if ($configShare->isWebsiteScope()) {
-            $namespace .= '_' . ($this->_storeManager->getWebsite()->getCode());
-        }
-
-        $this->start($namespace, $sessionName);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
 
@@ -179,7 +176,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function setCustomerId($id)
     {
-        $this->setData('customer_id', $id);
+        $this->storage->setData('customer_id', $id);
         return $this;
     }
 
@@ -190,8 +187,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function getCustomerId()
     {
-        if ($this->getData('customer_id')) {
-            return $this->getData('customer_id');
+        if ($this->storage->getData('customer_id')) {
+            return $this->storage->getData('customer_id');
         }
         return ($this->isLoggedIn()) ? $this->getId() : null;
     }
@@ -204,7 +201,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function setCustomerGroupId($id)
     {
-        $this->setData('customer_group_id', $id);
+        $this->storage->setData('customer_group_id', $id);
         return $this;
     }
 
@@ -216,8 +213,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     public function getCustomerGroupId()
     {
-        if ($this->getData('customer_group_id')) {
-            return $this->getData('customer_group_id');
+        if ($this->storage->getData('customer_group_id')) {
+            return $this->storage->getData('customer_group_id');
         }
         if ($this->isLoggedIn() && $this->getCustomer()) {
             return $this->getCustomer()->getGroupId();
@@ -272,7 +269,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function setCustomerAsLoggedIn($customer)
     {
         $this->setCustomer($customer);
-        $this->_eventManager->dispatch('customer_login', array('customer'=>$customer));
+        $this->_eventManager->dispatch('customer_login', array('customer' => $customer));
         return $this;
     }
 
@@ -348,7 +345,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $url = $this->_coreUrl->removeRequestParam($url, $this->_sidResolver->getSessionIdQueryParam($this));
         // Add correct session ID to URL if needed
         $url = $this->_createUrl()->getRebuiltUrl($url);
-        return $this->setData($key, $url);
+        return $this->storage->setData($key, $url);
     }
 
     /**

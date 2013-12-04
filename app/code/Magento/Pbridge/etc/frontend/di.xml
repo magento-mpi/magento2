@@ -8,7 +8,15 @@
  */
 -->
 <config>
+    <virtualType name="Magento\Pbridge\Model\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>magento_pbridge</value>
+        </param>
+    </virtualType>
     <type name="Magento\Pbridge\Model\Session">
+        <param name="storage">
+            <instance type="Magento\Pbridge\Model\Session\Storage" />
+        </param>
         <param name="sessionName">
             <value>frontend</value>
         </param>

@@ -33,8 +33,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
+     * @param \Magento\Session\StorageInterface $storage
      * @param \Magento\Connect\Helper\Data $connectData
-     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
@@ -42,12 +42,12 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
-        \Magento\Connect\Helper\Data $connectData,
-        array $data = array()
+        \Magento\Session\StorageInterface $storage,
+        \Magento\Connect\Helper\Data $connectData
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
-        $this->start('adminhtml');
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        $this->start();
     }
 
     /**

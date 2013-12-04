@@ -15,7 +15,7 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
-     * @param string $sessionNamespace
+     * @param \Magento\Session\StorageInterface $storage
      * @param array $data
      * @param null $sessionName
      */
@@ -25,11 +25,11 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
-        $sessionNamespace,
+        \Magento\Session\StorageInterface $storage,
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
-        $this->start($sessionNamespace, $sessionName);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $data);
+        $this->start($sessionName);
     }
 }

@@ -8,9 +8,14 @@
  */
 -->
 <config>
-    <virtualType name="Magento\Install\Model\Session" type="Magento\Core\Model\Session\Generic">
-        <param name="sessionNamespace">
+    <virtualType name="Magento\Install\Model\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
             <value>install</value>
+        </param>
+    </virtualType>
+    <virtualType name="Magento\Install\Model\Session" type="Magento\Core\Model\Session\Generic">
+        <param name="storage">
+            <instance type="Magento\Install\Model\Session\Storage" />
         </param>
     </virtualType>
     <type name="Magento\Install\Block\Begin">

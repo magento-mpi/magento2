@@ -40,6 +40,7 @@
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
     <preference for="Magento\Session\ValidatorInterface" type="Magento\Core\Model\Session\Validator" />
+    <preference for="Magento\Session\StorageInterface" type="Magento\Session\Storage" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>
@@ -455,6 +456,16 @@
     <type name="Magento\Core\Model\Locale">
         <param name="dateModel">
             <instance type="Magento\Core\Model\Date\Proxy" />
+        </param>
+    </type>
+    <virtualType name="Magento\Core\Model\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>core</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Core\Model\Session">
+        <param name="storage">
+            <instance type="Magento\Core\Model\Session\Storage" />
         </param>
     </type>
 </config>

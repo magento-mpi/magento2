@@ -14,7 +14,7 @@ namespace Magento\Core\Model\Session;
 /**
  * Session Manager
  */
-class AbstractSession extends \Magento\Object
+class AbstractSession
 {
     /**
      * Configuration path to log exception file
@@ -83,6 +83,11 @@ class AbstractSession extends \Magento\Object
     protected $messagesFactory;
 
     /**
+     * @var \Magento\Message\Collection
+     */
+    protected $_messages;
+
+    /**
      * @var \Magento\App\RequestInterface
      */
     protected $_request;
@@ -113,12 +118,17 @@ class AbstractSession extends \Magento\Object
     protected $saveHandler;
 
     /**
+     * @var \Magento\Session\StorageInterface
+     */
+    protected $storage;
+
+    /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
-     * @param array $data
+     * @param \Magento\Session\StorageInterface $storage
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
@@ -126,7 +136,7 @@ class AbstractSession extends \Magento\Object
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
-        array $data = array()
+        \Magento\Session\StorageInterface $storage
     ) {
         $this->_validator = $validator;
         $this->_eventManager = $context->getEventManager();
@@ -139,7 +149,7 @@ class AbstractSession extends \Magento\Object
         $this->_sidResolver = $sidResolver;
         $this->_sessionConfig = $sessionConfig;
         $this->saveHandler = $saveHandler;
-        parent::__construct($data);
+        $this->storage = $storage;
     }
 
     /**
@@ -151,13 +161,30 @@ class AbstractSession extends \Magento\Object
     }
 
     /**
+     * Storage accessor method
+     *
+     * @param string $method
+     * @param array $args
+     * @return mixed
+     * @throws \Magento\Exception
+     */
+    public function __call($method, $args)
+    {
+        if (!in_array(substr($method, 0, 3), array('get', 'set', 'uns', 'has'))) {
+            throw new \Magento\Exception(
+                sprintf('Invalid method %s::%s(%s)', get_class($this), $method, print_r($args, 1))
+            );
+        }
+        return call_user_func_array(array($this->storage, $method), $args);
+    }
+
+    /**
      * Configure session handler and start session
      *
-     * @param string $namespace
      * @param string $sessionName
      * @return \Magento\Core\Model\Session\AbstractSession
      */
-    public function start($namespace = 'default', $sessionName = null)
+    public function start($sessionName = null)
     {
         if (!$this->isSessionExists()) {
             \Magento\Profiler::start('session_start');
@@ -170,18 +197,13 @@ class AbstractSession extends \Magento\Object
             $this->setSessionId($this->_sidResolver->getSid($this));
             session_start();
             $this->_validator->validate($this);
-            
+
             register_shutdown_function(array($this, 'writeClose'));
-            
+
             $this->_addHost();
             \Magento\Profiler::stop('session_start');
         }
-
-        if (!isset($_SESSION[$namespace])) {
-            $_SESSION[$namespace] = array();
-        }
-        $this->_data = &$_SESSION[$namespace];
-
+        $this->storage->init($_SESSION);
         return $this;
     }
 
@@ -224,9 +246,9 @@ class AbstractSession extends \Magento\Object
      */
     public function getData($key = '', $clear = false)
     {
-        $data = parent::getData($key);
-        if ($clear && isset($this->_data[$key])) {
-            unset($this->_data[$key]);
+        $data = $this->storage->getData($key);
+        if ($clear && $data) {
+            $this->storage->unsetData($key);
         }
         return $data;
     }
@@ -339,17 +361,16 @@ class AbstractSession extends \Magento\Object
      */
     public function getMessages($clear = false)
     {
-        if (!$this->getData('messages')) {
-            $this->setMessages($this->messagesFactory->create());
+        if (!$this->_messages) {
+            $this->_messages = $this->messagesFactory->create();
         }
-
         if ($clear) {
-            $messages = clone $this->getData('messages');
-            $this->getData('messages')->clear();
+            $messages = clone $this->_messages;
+            $this->_messages->clear();
             $this->_eventManager->dispatch('core_session_abstract_clear_messages');
             return $messages;
         }
-        return $this->getData('messages');
+        return $this->_messages;
     }
 
     /**

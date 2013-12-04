@@ -51,10 +51,10 @@ class Session
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
+     * @param \Magento\Session\StorageInterface $storage
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
-     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
@@ -62,16 +62,16 @@ class Session
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
+        \Magento\Session\StorageInterface $storage,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\Url $backendUrl,
-        \Magento\Backend\App\ConfigInterface $config,
-        array $data = array()
+        \Magento\Backend\App\ConfigInterface $config
     ) {
         $this->_config = $config;
         $this->_aclBuilder = $aclBuilder;
         $this->_backendUrl = $backendUrl;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
-        $this->start('admin');
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        $this->start();
     }
 
     /**
@@ -82,14 +82,13 @@ class Session
      * Since the session is used as a singleton, the value will be in $_isFirstPageAfterLogin until the end of request,
      * unless it is reset intentionally from somewhere
      *
-     * @param string $namespace
      * @param string $sessionName
      * @return \Magento\Backend\Model\Auth\Session
      * @see self::login()
      */
-    public function start($namespace = 'default', $sessionName = null)
+    public function start($sessionName = null)
     {
-        parent::start($namespace, $sessionName);
+        parent::start($sessionName);
         // @todo implement solution that keeps is_first_visit flag in session during redirects
         return $this;
     }

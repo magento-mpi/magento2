@@ -69,12 +69,12 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
+     * @param \Magento\Session\StorageInterface $storage
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress
      * @param null $sessionName
-     * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
@@ -82,19 +82,19 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
+        \Magento\Session\StorageInterface $storage,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\HTTP\PhpEnvironment\RemoteAddress $remoteAddress,
-        $sessionName = null,
-        array $data = array()
+        $sessionName = null
     ) {
         $this->_orderFactory = $orderFactory;
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
         $this->_remoteAddress = $remoteAddress;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $data);
-        $this->start('checkout', $sessionName);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        $this->start($sessionName);
     }
 
     /**

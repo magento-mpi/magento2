@@ -41,4 +41,9 @@
             <instance type="Magento\Customer\Helper\Data\Proxy" />
         </param>
     </type>
+    <type name="Magento\Customer\Model\Session">
+        <param name="storage">
+            <instance type="Magento\Customer\Model\Session\Storage" />
+        </param>
+    </type>
 </config>
