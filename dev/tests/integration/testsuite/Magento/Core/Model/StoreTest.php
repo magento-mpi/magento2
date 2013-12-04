@@ -47,6 +47,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'coreConfig'              => $objectManager->get('Magento\Core\Model\Config'),
             'resource'                => $objectManager->get('Magento\Core\Model\Resource\Store'),
             'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
+            'appState'                => $objectManager->get('Magento\App\State')
         );
 
         return $this->getMock(
@@ -358,12 +359,9 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $appStateMock->expects($this->any())
             ->method('isInstalled')
             ->will($this->returnValue($isInstalled));
+        $this->_modelParams['appState'] = $appStateMock;
 
-        $params = $this->_modelParams;
-        $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Context', array('appState' => $appStateMock));
-
-        $model = $this->getMock('Magento\Core\Model\Store', array('getConfig'), $params);
+        $model = $this->getMock('Magento\Core\Model\Store', array('getConfig'), $this->_modelParams);
 
         $model->expects($this->any())->method('getConfig')
             ->with($this->stringContains(\Magento\Core\Model\Store::XML_PATH_STORE_IN_URL))
