@@ -129,7 +129,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param string $resourceName
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Helper\Data $helper
      * @param string $confPathToMapFile
      * @param string $moduleName
@@ -138,7 +137,6 @@ class Migration extends \Magento\Core\Model\Resource\Setup
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
         $resourceName,
-        \Magento\Filesystem $filesystem,
         \Magento\Core\Helper\Data $helper,
         $confPathToMapFile,
         $moduleName = 'Magento_Core',
