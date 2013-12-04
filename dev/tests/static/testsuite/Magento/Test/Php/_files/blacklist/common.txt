@@ -12,7 +12,6 @@ app/code/Magento/DesignEditor/view
 app/code/Magento/Email/view
 app/code/Magento/Theme/view
 app/code/Magento/User/view
-app/code/Magento/Webapi/view
 dev/tests/integration/framework/Magento/TestFramework/Db/Mysql.php
 dev/tests/integration/framework/Magento/TestFramework/Db/Adapter/Mysql.php
 dev/tests/integration/framework/Magento/TestFramework/Db/ConnectionAdapter.php

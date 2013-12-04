@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Controller\Soap;
 
 class HandlerTest extends \PHPUnit_Framework_TestCase
@@ -14,19 +15,13 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \Magento\Webapi\Controller\Soap\Handler */
     protected $_handler;
 
-    /** @var \Magento\Core\Model\App */
-    protected $_appMock;
-
     /** @var \Magento\ObjectManager */
     protected $_objectManagerMock;
 
-    /** @var \Magento\Webapi\Controller\Soap\Security */
-    protected $_soapSecurityMock;
-
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Webapi\Model\Soap\Config */
     protected $_apiConfigMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_requestMock;
 
     /** @var array */
@@ -35,6 +30,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->markTestIncomplete("Needs to be fixed after service layer implementation.");
+
         /** Prepare mocks for SUT constructor. */
         $this->_apiConfigMock = $this->getMockBuilder('Magento\Webapi\Model\Soap\Config')
             ->setMethods(
@@ -45,31 +41,30 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
                 )
             )->disableOriginalConstructor()
             ->getMock();
+
         $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
             ->setMethods(array('getRequestedServices'))
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_appMock = $this->getMockBuilder('Magento\Core\Model\App')->disableOriginalConstructor()->getMock();
-        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->disableOriginalConstructor()
+        $this->_objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')
+            ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_soapSecurityMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Security')
-            ->disableOriginalConstructor()->getMock();
         /** Initialize SUT. */
         $this->_handler = new \Magento\Webapi\Controller\Soap\Handler(
-            $this->_appMock,
             $this->_requestMock,
             $this->_objectManagerMock,
-            $this->_apiConfigMock,
-            $this->_soapSecurityMock
+            $this->_apiConfigMock
         );
+
         parent::setUp();
     }
 
     protected function tearDown()
     {
         unset($this->_handler);
+        unset($this->_objectManagerMock);
         unset($this->_apiConfigMock);
         unset($this->_requestMock);
         parent::tearDown();
