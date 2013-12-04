@@ -203,6 +203,8 @@ use \Magento\FilesystemDeprecated;
         $this->writeFactory = $writeFactory;
 
         $this->_adapter = $adapter;
+
+        $this->wrapperFactory = new \Magento\Filesystem\WrapperFactory($this->directoryList);
     }
 
     /**
@@ -215,7 +217,7 @@ use \Magento\FilesystemDeprecated;
     {
         if (!array_key_exists($code, $this->readInstances)) {
             $config = $this->directoryList->getConfig($code);
-            $this->readInstances[$code] = $this->readFactory->create($config);
+            $this->readInstances[$code] = $this->readFactory->create($config, $this->wrapperFactory);
         }
         return $this->readInstances[$code];
     }
@@ -235,7 +237,7 @@ use \Magento\FilesystemDeprecated;
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
 
-            $this->writeInstances[$code] = $this->writeFactory->create($config);
+            $this->writeInstances[$code] = $this->writeFactory->create($config, $this->wrapperFactory);
         }
         return $this->writeInstances[$code];
     }

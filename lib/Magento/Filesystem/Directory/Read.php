@@ -242,9 +242,9 @@ class Read implements ReadInterface
      * @param string $path
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function openFile($path)
+    public function openFile($path, $protocol)
     {
-        return $this->fileFactory->create($this->getAbsolutePath($path), $this->driver);
+        return $this->fileFactory->create($this->getAbsolutePath($path), $this->driver, $protocol);
     }
 
     /**
@@ -255,15 +255,9 @@ class Read implements ReadInterface
      * @return string
      * @throws FilesystemException
      */
-    public function readFile($path, $scheme = \Magento\Filesystem::WRAPPER_STREAM_FILE)
+    public function readFile($path, $protocol = \Magento\Filesystem::WRAPPER_STREAM_FILE)
     {
-        $absolutePath = $this->getAbsolutePath($path, $scheme);
-        if ($this->validateWrapper($scheme) && !$this->driver->isFile($absolutePath)) {
-            throw new FilesystemException(
-                sprintf('The file "%s" either doesn\'t exist or not a file', $absolutePath)
-            );
-        }
-        return $this->driver->fileGetContents($absolutePath);
+        return $this->openFile($path, $protocol)->readAll();
     }
 
     /**

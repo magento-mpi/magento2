@@ -34,20 +34,17 @@ class Write extends Read implements WriteInterface
      * @param array $config
      * @param \Magento\Filesystem\File\WriteFactory $fileFactory
      * @param \Magento\Filesystem\DriverInterface $driver
-     * @param \Magento\Filesystem\WrapperFactory $wrapperFactory
      */
     public function __construct
     (
         array $config,
         \Magento\Filesystem\File\WriteFactory $fileFactory,
-        \Magento\Filesystem\DriverInterface $driver,
-        \Magento\Filesystem\WrapperFactory $wrapperFactory
+        \Magento\Filesystem\DriverInterface $driver
     ) {
         $this->setProperties($config);
         $this->fileFactory = $fileFactory;
 
         $this->driver = $driver;
-        $this->wrapperFactory = $wrapperFactory;
     }
 
     /**
@@ -240,13 +237,13 @@ class Write extends Read implements WriteInterface
      * @param string $mode
      * @return \Magento\Filesystem\File\WriteInterface
      */
-    public function openFile($path, $mode = 'w')
+    public function openFile($path, $mode = 'w', $protocol = null)
     {
         $folder = dirname($path);
         $this->create($folder);
         $this->assertWritable($folder);
         $absolutePath = $this->getAbsolutePath($path);
-        return $this->fileFactory->create($absolutePath, $this->driver, $mode);
+        return $this->fileFactory->create($absolutePath, $this->driver, $mode, $protocol);
     }
 
     /**
@@ -259,12 +256,8 @@ class Write extends Read implements WriteInterface
      * @return int The number of bytes that were written.
      * @throws FilesystemException
      */
-    public function writeFile($path, $content, $mode = null, $scheme = \Magento\Filesystem::WRAPPER_STREAM_FILE)
+    public function writeFile($path, $content, $mode = null, $protocol = null)
     {
-        $absolutePath = $this->getAbsolutePath($path, $scheme);
-        $folder = $this->getRelativePath($this->driver->getParentDirectory($absolutePath));
-        $this->create($folder);
-        $this->assertWritable($folder);
-        return $this->driver->filePutContents($absolutePath, $content, $mode);
+        return $this->openFile($path, $mode, $protocol)->write($content);
     }
 }

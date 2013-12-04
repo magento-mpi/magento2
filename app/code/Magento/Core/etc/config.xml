@@ -132,6 +132,7 @@
                     <static>
                         <read_only>0</read_only>
                         <path>pub/static</path>
+                        <protocol>zlib</protocol>
                         <uri>pub/static</uri>
                         <permissions>511</permissions>
                     </static>
@@ -146,10 +147,11 @@
                     </socket>
                 </directory>
                 <protocol>
-                    <var>
+                    <zlib>
                         <scheme>var</scheme>
+                        <use_base_path>true</use_base_path>
                         <class>Magento\Filesystem\Protocol\VarStream1</class>
-                    </var>
+                    </zlib>
                 </protocol>
             </filesystem>
         </system>

@@ -16,12 +16,11 @@ class ReadFactory
      * @param array $config
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function create(array $config)
+    public function create(array $config, $wrapperFactory)
     {
         $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
         $driver = new $directoryDriver();
         $factory = new \Magento\Filesystem\File\ReadFactory();
-        $wrapperFactory = new \Magento\Filesystem\WrapperFactory();
 
         return new \Magento\Filesystem\Directory\Read($config, $factory, $driver, $wrapperFactory);
     }

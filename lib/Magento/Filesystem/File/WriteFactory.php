@@ -14,6 +14,11 @@ use Magento\Filesystem\DriverInterface;
 
 class WriteFactory
 {
+    public function __construct($wrapperFactory)
+    {
+        // wrapper factory here
+    }
+
     /**
      * Create a readable file
      *
@@ -22,8 +27,12 @@ class WriteFactory
      * @param string $mode
      * @return \Magento\Filesystem\File\WriteInterface
      */
-    public function create($path, DriverInterface $driver, $mode)
+    public function create($path, DriverInterface $driver, $mode, $protocol = null)
     {
-        return new \Magento\Filesystem\File\Write($path, $driver, $mode);
+        if ($protocol) {
+            $wrapperFactory->
+            $wrapper = new Wrapper($driver);
+        }
+        return new \Magento\Filesystem\File\Write($path, $wrapper, $mode);
     }
 }

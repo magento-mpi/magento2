@@ -19,13 +19,12 @@ class WriteFactory
      * @param array $config
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function create(array $config)
+    public function create(array $config, $wrapperFactory)
     {
         $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Base';
         $driver = new $directoryDriver();
-        $factory = new \Magento\Filesystem\File\WriteFactory();
-        $wrapperFactory = new \Magento\Filesystem\WrapperFactory();
+        $factory = new \Magento\Filesystem\File\WriteFactory($wrapperFactory);
 
-        return new \Magento\Filesystem\Directory\Write($config, $factory, $driver, $wrapperFactory);
+        return new \Magento\Filesystem\Directory\Write($config, $factory, $driver);
     }
 }
