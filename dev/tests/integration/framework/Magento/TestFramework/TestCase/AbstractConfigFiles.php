@@ -127,7 +127,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     public function getXmlConfigFiles()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $directory = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::APP);
+        $directory = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::MODULES);
         return $objectManager->get('\Magento\Config\FileIteratorFactory')->create(
             $directory,
             $directory->search($this->_getConfigFilePathRegex())
