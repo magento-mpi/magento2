@@ -52,6 +52,10 @@
     content: '\e05b';
 }
 
+#integrationGrid_table .action.info:before {
+    content: '\e07e';    /* TOFIX: Need to get the proper character code */
+}
+
 #integrationGrid_table .action.delete:before {
     content: '\e07f';
 }

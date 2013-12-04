@@ -8,19 +8,16 @@
 
 namespace Magento\Webapi\Block\Adminhtml\Integration\Activate\Permissions\Tab;
 
-use Magento\Backend\Block\Widget\Tab\TabInterface;
-use Magento\View\Block\Template;
-use Magento\Acl\Resource\ProviderInterface;
-use Magento\Core\Helper\Data as CoreHelper;
-use Magento\Core\Model\Acl\RootResource;
-use Magento\View\Block\Template\Context;
-use Magento\Integration\Helper\Data as IntegrationHelper;
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
+use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
+use Magento\Integration\Model\Integration as IntegrationModel;
 use Magento\Webapi\Helper\Data as WebapiHelper;
 
 /**
  * API permissions tab for integration activation dialog.
  */
-class Webapi extends Template implements TabInterface
+class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /** @var string[] */
     protected $_selectedResources;
@@ -40,28 +37,32 @@ class Webapi extends Template implements TabInterface
     /**
      * Initialize dependencies.
      *
-     * @param Context $context
-     * @param CoreHelper $coreData
-     * @param RootResource $rootResource
-     * @param ProviderInterface $resourceProvider
-     * @param IntegrationHelper $integrationData
-     * @param WebapiHelper $webapiData
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Acl\RootResource $rootResource
+     * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
+     * @param \Magento\Integration\Helper\Data $integrationData
+     * @param \Magento\Webapi\Helper\Data $webapiData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
-        Context $context,
-        CoreHelper $coreData,
-        RootResource $rootResource,
-        ProviderInterface $resourceProvider,
-        IntegrationHelper $integrationData,
-        WebapiHelper $webapiData,
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Acl\RootResource $rootResource,
+        \Magento\Acl\Resource\ProviderInterface $resourceProvider,
+        \Magento\Integration\Helper\Data $integrationData,
+        \Magento\Webapi\Helper\Data $webapiData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
-        $this->_webapiHelper = $webapiData;
         $this->_resourceProvider = $resourceProvider;
         $this->_integrationData = $integrationData;
-        parent::__construct($context, $coreData, $data);
+        $this->_webapiHelper = $webapiData;
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**
@@ -79,7 +80,8 @@ class Webapi extends Template implements TabInterface
      */
     public function canShowTab()
     {
-        return true;
+        $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
+        return $integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
     }
 
     /**

@@ -8,12 +8,14 @@
 
 namespace Magento\Webapi\Block\Adminhtml\Integration\Edit\Tab;
 
+use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Controller\Adminhtml\Integration as IntegrationController;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Class for handling API section within integration.
  */
-class Webapi extends \Magento\Backend\Block\Widget\Form
+class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
@@ -53,6 +55,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
      * @param \Magento\Webapi\Helper\Data $webapiData
      * @param \Magento\Integration\Helper\Data $integrationData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
@@ -63,6 +67,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
         \Magento\Webapi\Helper\Data $webapiData,
         \Magento\Integration\Helper\Data $integrationData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
@@ -70,7 +76,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**
@@ -100,7 +106,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      */
     public function canShowTab()
     {
-        return true;
+        $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
+        return $integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG;
     }
 
     /**

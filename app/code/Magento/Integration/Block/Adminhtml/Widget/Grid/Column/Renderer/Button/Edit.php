@@ -11,6 +11,7 @@
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
 use Magento\Object;
+use Magento\Integration\Model\Integration;
 
 class Edit extends IntegrationAbstract
 {
@@ -34,5 +35,19 @@ class Edit extends IntegrationAbstract
     protected function _getTitleAttribute(Object $row)
     {
         return $this->_isDisabled($row) ? '' : __('Edit');
+    }
+
+    public function _getClassAttribute(Object $row)
+    {
+        $class = ($row->hasData(Integration::SETUP_TYPE)
+            && $row->getData(Integration::SETUP_TYPE) == Integration::TYPE_CONFIG)? 'info' : 'edit';
+
+        return 'action ' . $class;
+
+    }
+
+    protected function _isDisabled(Object $row)
+    {
+        return false;
     }
 }

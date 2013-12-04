@@ -140,10 +140,10 @@ class Integration extends Action
             if (isset($integrationData[Info::DATA_SETUP_TYPE])
                 && $integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG
             ) {
-                //Cannot edit Integrations created from Config. No error necessary just redirect to grid
-                $this->_redirect('*/*/');
-                return;
+                //Cannot edit Integrations created from Config. Show read only forms
+
             }
+
         } else {
             $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');

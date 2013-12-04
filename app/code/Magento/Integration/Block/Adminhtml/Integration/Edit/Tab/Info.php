@@ -11,6 +11,7 @@
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit\Tab;
 
 use \Magento\Integration\Controller\Adminhtml\Integration;
+use \Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Main Integration info edit form
@@ -116,9 +117,16 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     protected function _addGeneralFieldset($form, $integrationData)
     {
         $fieldset = $form->addFieldset('base_fieldset', array('legend' => __('General')));
+
+        $disabled = false;
         if (isset($integrationData[self::DATA_ID])) {
             $fieldset->addField(self::DATA_ID, 'hidden', array('name' => 'id'));
+
+            if ($integrationData[self::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG) {
+                $disabled = true;
+            }
         }
+
         $fieldset->addField(
             self::DATA_NAME,
             'text',
@@ -126,7 +134,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'label' => __('Name'),
                 'name' => self::DATA_NAME,
                 'required' => true,
-                'disabled' => false,
+                'disabled' => $disabled,
                 'maxlength' => '255'
             )
         );
@@ -136,7 +144,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             array(
                 'label' => __('Email'),
                 'name' => self::DATA_EMAIL,
-                'disabled' => false,
+                'disabled' => $disabled,
                 'class' => 'validate-email',
                 'maxlength' => '254'
             )
@@ -147,7 +155,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
             array(
                 'label' => __('Callback URL'),
                 'name' => self::DATA_ENDPOINT,
-                'disabled' => false,
+                'disabled' => $disabled,
                 // @codingStandardsIgnoreStart
                 'note' => __(
                     'When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed. We strongly recommend you to use https://'
