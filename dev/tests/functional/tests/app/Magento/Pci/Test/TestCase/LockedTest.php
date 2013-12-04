@@ -50,8 +50,8 @@ class LockedTest extends Functional
         $expectedErrorMessage = 'Please correct the user name or password.';
         foreach ($passwordDataSet as $currentPassword) {
             $user->setPassword($currentPassword);
-            $loginPage->getLoginBlockForm()->fill($user);
-            $loginPage->getLoginBlockForm()->submit();
+            $loginPage->getLoginBlock()->fill($user);
+            $loginPage->getLoginBlock()->submit();
             $actualErrorMessage = $loginPage->getMessagesBlock()->getErrorMessages();
             //Verifying
             $this->assertEquals($expectedErrorMessage, $actualErrorMessage);

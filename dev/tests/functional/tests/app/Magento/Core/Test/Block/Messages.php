@@ -63,7 +63,7 @@ class Messages extends Block
     public function getErrorMessages()
     {
         return $this->_rootElement
-            ->find($this->errorMessageSelector, Locator::SELECTOR_XPATH)
+            ->find($this->errorMessage, Locator::SELECTOR_CSS)
             ->getText();
     }
 

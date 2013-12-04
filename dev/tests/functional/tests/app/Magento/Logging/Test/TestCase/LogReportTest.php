@@ -47,8 +47,8 @@ class LogReportTest extends Functional
 
         //Step: Login first user
         $loginPage->open();
-        $loginPage->getLoginBlockForm()->fill($configUser);
-        $loginPage->getLoginBlockForm()->submit();
+        $loginPage->getLoginBlock()->fill($configUser);
+        $loginPage->getLoginBlock()->submit();
 
         //Step: Save config
         $systemConfigPage->open();
@@ -60,8 +60,8 @@ class LogReportTest extends Functional
 
         //Step: Login second user
         $loginPage->open();
-        $loginPage->getLoginBlockForm()->fill($loginUser);
-        $loginPage->getLoginBlockForm()->submit();
+        $loginPage->getLoginBlock()->fill($loginUser);
+        $loginPage->getLoginBlock()->submit();
 
         //Step: Open logging report grid
         $logReportPage->open();

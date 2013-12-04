@@ -40,7 +40,7 @@ class Product extends DataFixture
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoBackendUrlrewriteProduct($this->_dataConfig, $this->_data);
 
-        $this->product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $this->product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->product->switchData('simple');
         $this->product->persist();
     }

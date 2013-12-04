@@ -72,8 +72,8 @@ class UserWithRestrictedRoleTest extends Functional
         $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
         $userPage->getAdminPanelHeaderBlock()->logOut();
         //Login with newly created admin user
-        $loginPage->getLoginBlockForm()->fill($userFixture);
-        $loginPage->getLoginBlockForm()->submit();
+        $loginPage->getLoginBlock()->fill($userFixture);
+        $loginPage->getLoginBlock()->submit();
         $salesPage->open();
         //Verify that only Sales resource is available.
         $this->assertTrue(
@@ -135,8 +135,8 @@ class UserWithRestrictedRoleTest extends Functional
         $this->assertContains('You saved the user.', $userPage->getMessagesBlock()->getSuccessMessages());
         $userPage->getAdminPanelHeaderBlock()->logOut();
         //Login with newly created admin user
-        $loginPage->getLoginBlockForm()->fill($userFixture);
-        $loginPage->getLoginBlockForm()->submit();
+        $loginPage->getLoginBlock()->fill($userFixture);
+        $loginPage->getLoginBlock()->submit();
         $salesPage->open();
         //Verify that only Sales resource is available.
         $this->assertTrue(

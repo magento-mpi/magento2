@@ -24,7 +24,7 @@ class UserGrid extends Grid
      *
      * @var string
      */
-    protected $editLink = '//td[@data-column="email"]';
+    protected $editLink = 'td[data-column="email"]';
 
     /**
      * Filters Name for Permission User Grid
