@@ -41,7 +41,7 @@ class FileFactory
      * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
      * @throws \Exception
      * @throws \InvalidArgumentException
-     * @return \Magento\App\ActionInterface
+     * @return \Magento\App\ResponseInterface
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)

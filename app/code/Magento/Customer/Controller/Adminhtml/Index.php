@@ -890,7 +890,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
                 'value' => $fileName
-            ));
+            ))->sendResponse();
         }
 
         exit();

@@ -67,20 +67,6 @@ class Observer
     }
 
     /**
-     * Add HTTP header to response that allows browsers accept third-party cookies
-     *
-     * @param \Magento\Event\Observer $observer
-     * @return \Magento\Pbridge\Model\Observer
-     */
-    public function addPrivacyHeader(\Magento\Event\Observer $observer)
-    {
-        /* @var $controllerAction \Magento\App\Action\Action */
-        $controllerAction = $observer->getEvent()->getData('controller_action');
-        $controllerAction->getResponse()->setHeader("P3P", 'CP="CAO PSA OUR"', true);
-        return $this;
-    }
-
-    /**
      * Check payment methods availability
      *
      * @param \Magento\Event\Observer $observer

@@ -10,6 +10,7 @@
 namespace Magento\App\Action;
 
 use Magento\App\RequestInterface;
+use Magento\App\ResponseInterface;
 
 class Action extends \Magento\App\Action\AbstractAction
 {
@@ -74,7 +75,7 @@ class Action extends \Magento\App\Action\AbstractAction
 
     /**
      * @param RequestInterface $request
-     * @return mixed
+     * @return ResponseInterface
      * @throws NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -93,7 +94,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if ($request->isDispatched() && !$this->_actionFlag->get('', self::FLAG_NO_DISPATCH)) {
             \Magento\Profiler::start('action_body');
             $actionMethodName = $request->getActionName() . 'Action';
-            $this->$actionMethodName();
+            $this->_response = $this->$actionMethodName() ?: $this->_response;
             \Magento\Profiler::start('postdispatch');
             if (!$this->_actionFlag->get('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH)) {
                 $this->_eventManager->dispatch(
@@ -109,6 +110,7 @@ class Action extends \Magento\App\Action\AbstractAction
             \Magento\Profiler::stop('action_body');
         }
         \Magento\Profiler::stop($profilerKey);
+        return $this->_response;
     }
 
     /**

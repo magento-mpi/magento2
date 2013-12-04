@@ -646,8 +646,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
         if (!empty($labelsContent)) {
             $outputPdf = $this->_combineLabelsPdf($labelsContent);
-            $this->_fileFactory->create('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
-            return;
+            return $this->_fileFactory->create('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
         }
 
         if ($createdFromOrders) {
