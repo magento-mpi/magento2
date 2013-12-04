@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+ <!-- Temporarily moved to etc/frontend due to bug in Plugin framework -->
+<config>
+    <type name="Magento\Integration\Model\Resource\Setup">
+        <plugin name="webapiSetup" type="Magento\Webapi\Model\Plugin\Setup" />
+    </type>
+</config>

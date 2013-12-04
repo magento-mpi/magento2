@@ -43,6 +43,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_controller = 'adminhtml_integration';
         $this->_blockGroup = 'Magento_Integration';
         parent::_construct();
+        $this->_removeButton('reset');
+        $this->_removeButton('delete');
     }
 
     /**
