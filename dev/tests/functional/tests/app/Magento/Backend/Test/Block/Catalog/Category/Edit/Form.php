@@ -28,7 +28,7 @@ class Form extends FormTabs
      *
      * @var array
      */
-    protected $_tabClasses = array(
+    protected $tabClasses = array(
         'category_info_tabs_group_4' => '\\Magento\\Backend\\Test\\Block\\Catalog\\Category\\Tab\\Attributes'
     );
 
