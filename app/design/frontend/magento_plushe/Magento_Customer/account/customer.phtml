@@ -13,9 +13,9 @@
             <span><?php echo $this->getCustomerName(); ?></span>
         </strong>
         <?php if($this->getChildHtml()):?>
-        <menu class="menu" data-target="dropdown">
+        <nav class="menu" data-target="dropdown">
             <?php echo $this->getChildHtml();?>
-        </menu>
+        </nav>
         <?php endif; ?>
     </li>
 <?php endif; ?>
