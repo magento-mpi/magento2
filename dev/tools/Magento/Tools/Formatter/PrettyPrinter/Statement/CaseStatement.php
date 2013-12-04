@@ -51,7 +51,7 @@ class CaseStatement extends AbstractConditionalStatement
      */
     protected function addCommentToNode($commentLine, TreeNode $treeNode)
     {
-        // cases should not have their own comments; if they do, add it to as the last child to the sibling node
+        // cases should not have their own comments; if they do, add it as the last child to the sibling node
         $siblingNode = $this->getPriorSibling($treeNode->getParent()->getChildren(), $treeNode);
         // if found, then add the comment
         if (isset($siblingNode)) {
