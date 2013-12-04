@@ -150,7 +150,7 @@ class Observer
     protected $_fpcWishlistsFactory;
 
     /**
-     * @var \Zend\Session\Config\ConfigInterface
+     * @var \Magento\Session\Config\ConfigInterface
      */
     protected $_sessionConfig;
 
@@ -176,7 +176,7 @@ class Observer
      * @param \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory
      * @param \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory
      * @param \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      */
     public function __construct(
         \Magento\Wishlist\Helper\Data $wishlistData,
@@ -200,7 +200,7 @@ class Observer
         \Magento\FullPageCache\Model\ValidatorFactory $fpcValidatorFactory,
         \Magento\Reports\Model\Product\Index\ViewedFactory $viewedIdxFactory,
         \Magento\FullPageCache\Model\Container\WishlistsFactory $fpcWishlistsFactory,
-        \Zend\Session\Config\ConfigInterface $sessionConfig
+        \Magento\Session\Config\ConfigInterface $sessionConfig
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_wishlistData = $wishlistData;

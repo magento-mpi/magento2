@@ -71,8 +71,8 @@ class Request extends \Magento\App\Action\Action
 
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
-        /** @var \Zend\Session\Config\ConfigInterface $sessionConfig */
-        $sessionConfig = $this->_objectManager->get('Zend\Session\Config\ConfigInterface');
+        /** @var \Magento\Session\Config\ConfigInterface $sessionConfig */
+        $sessionConfig = $this->_objectManager->get('Magento\Session\Config\ConfigInterface');
         $cookieName = $session->getName();
         $cookieInfo = array(
             'lifetime' => $sessionConfig->getCookieLifetime(),

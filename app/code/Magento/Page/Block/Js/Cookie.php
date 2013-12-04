@@ -13,20 +13,20 @@ namespace Magento\Page\Block\Js;
 class Cookie extends \Magento\View\Block\Template
 {
     /**
-     * @var Zend\Session\Config\ConfigInterface
+     * @var \Magento\Session\Config\ConfigInterface
      */
     protected $sessionConfig;
 
     /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         array $data = array()
     ) {
         $this->sessionConfig = $sessionConfig;

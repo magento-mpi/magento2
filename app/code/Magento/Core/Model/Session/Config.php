@@ -12,7 +12,7 @@ namespace Magento\Core\Model\Session;
 /**
  * Magento session configuration
  */
-class Config implements \Zend\Session\Config\ConfigInterface
+class Config implements \Magento\Session\Config\ConfigInterface
 {
     /**
      * Configuration path for session save method

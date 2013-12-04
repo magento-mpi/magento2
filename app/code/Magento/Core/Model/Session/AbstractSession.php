@@ -103,7 +103,7 @@ class AbstractSession extends \Magento\Object
     protected $_sidResolver;
 
     /**
-     * @var \Zend\Session\Config\ConfigInterface
+     * @var \Magento\Session\Config\ConfigInterface
      */
     protected $_sessionConfig;
 
@@ -115,7 +115,7 @@ class AbstractSession extends \Magento\Object
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Zend_Session_SaveHandler_Interface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param array $data
@@ -123,7 +123,7 @@ class AbstractSession extends \Magento\Object
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Zend_Session_SaveHandler_Interface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         array $data = array()
