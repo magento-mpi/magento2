@@ -30,8 +30,6 @@ class MergedTest extends \PHPUnit_Framework_TestCase
     public static function setUpBeforeClass()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $service \Magento\View\Service */
-        $service = $objectManager->get('Magento\View\Service');
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $objectManager->get('Magento\Filesystem');
         self::$_themePublicDir = $filesystem->getDirectoryWrite(\Magento\Filesystem::STATIC_VIEW);
