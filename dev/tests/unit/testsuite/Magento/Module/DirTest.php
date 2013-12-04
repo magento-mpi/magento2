@@ -41,7 +41,6 @@ class DirTest extends \PHPUnit_Framework_TestCase
 
         $this->filesystemMock->expects($this->once())
             ->method('getDirectoryRead')
-//            ->with(\Magento\FileSystem::MODULES)
             ->will($this->returnValue($this->directoryMock));
 
         $this->_model = new \Magento\Module\Dir($this->filesystemMock, $this->_stringMock);
@@ -57,7 +56,6 @@ class DirTest extends \PHPUnit_Framework_TestCase
             '/Test/Module',
             $this->_model->getDir('Test_Module')
         );
-
     }
 
     public function testGetDirModuleSubDir()

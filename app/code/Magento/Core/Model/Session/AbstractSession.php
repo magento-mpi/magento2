@@ -205,7 +205,7 @@ class AbstractSession extends \Magento\Object
                 break;
             default:
                 session_module_name($this->getSessionSaveMethod());
-                $dir = $this->filesystem->getDirectoryWrite(\Magento\FileSystem::SESSION);
+                $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SESSION);
                 if ($dir->isWritable($dir->getRelativePath($this->getSessionSavePath()))) {
                     session_save_path($this->getSessionSavePath());
                 }

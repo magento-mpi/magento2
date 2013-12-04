@@ -124,7 +124,7 @@ class Collection extends \Magento\Data\Collection
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
 
-            $directoryPath = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
+            $directoryPath = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function ($matches) {
                 switch ($matches[0]) {
                     case '*':
                         return '.*';

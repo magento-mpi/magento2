@@ -52,7 +52,7 @@ class Http implements \Magento\AppInterface
     protected $_state;
 
     /**
-     * @var \Magento\Filesystem
+     * @var Filesystem
      */
     protected $_filesystem;
 

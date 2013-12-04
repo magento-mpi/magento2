@@ -107,4 +107,4 @@ Magento/User/Block/User/Edit
 var/generation
 Magento/Newsletter/Block/Adminhtml/Template/Grid/Renderer
 Magento/Newsletter/Model/Template/Filter
-
+lib/Magento/Filesystem/Driver

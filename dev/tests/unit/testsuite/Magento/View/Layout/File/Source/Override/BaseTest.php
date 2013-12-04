@@ -20,11 +20,6 @@ class BaseTest extends \PHPUnit_Framework_TestCase
     private $model;
 
     /**
-     * @var Filesystem | \PHPUnit_Framework_MockObject_MockObject
-     */
-    private $filesystem;
-
-    /**
      * @var Read | \PHPUnit_Framework_MockObject_MockObject
      */
     private $directory;

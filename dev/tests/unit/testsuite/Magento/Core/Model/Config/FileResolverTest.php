@@ -65,6 +65,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      * @dataProvider providerGet
      * @param string $filename
      * @param array $fileList
+     * @SuppressWarnings(PHPMD.UnusedLocalVariable)
      */
     public function testGetPrimary($filename, $fileList)
     {
@@ -118,13 +119,6 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     public function testGetDefault($filename, $fileList)
     {
         $scope = 'some_scope';
-        $directory = $this->getMock(
-            'Magento\Filesystem\Directory\Read',
-            array('getRelativePath'),
-            array(),
-            '',
-            false
-        );
         $this->moduleReader->expects($this->once())
             ->method('getConfigurationFiles')
             ->with($scope . '/' . $filename)

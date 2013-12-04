@@ -46,7 +46,13 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->strategy = $this->getMockForAbstractClass('Magento\Code\Minifier\StrategyInterface');
-        $this->filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead', '__wakeup'), array(), '', false);
+        $this->filesystem = $this->getMock(
+            'Magento\Filesystem',
+            array('getDirectoryRead', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->rootDirectory = $this->getMock(
             'Magento\Filesystem\Directory\Read',
             array('getRelativePath', 'isExist'), array(), '', false

@@ -20,7 +20,13 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $orderCreateMock = $this->getMock('Magento\Sales\Model\AdminOrder\Create', array('__wakeup'), array(), '', false);
+        $orderCreateMock = $this->getMock(
+            'Magento\Sales\Model\AdminOrder\Create',
+            array('__wakeup'),
+            array(),
+            '',
+            false
+        );
 
         $taxData = $this->getMockBuilder('Magento\Tax\Helper\Data')
             ->disableOriginalConstructor()

@@ -445,8 +445,6 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $image = 'image.jpg';
         $storagePath = $this->_storageRoot;
         $imagePath = $storagePath . '/' . $image;
-        $thumbnailDir = $this->_storageRoot . '/'
-            . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
 
         $session = $this->getMock('Magento\Backend\Model\Session', array('getStoragePath'), array(), '', false);
         $session->expects($this->atLeastOnce())

@@ -288,7 +288,7 @@ class Template extends AbstractBlock
      *
      * @return bool
      */
-    protected function _getAllowSymlinks()
+    protected function _isAllowSymlinks()
     {
         if (null === $this->_allowSymlinks) {
             $this->_allowSymlinks = $this->_storeConfig->getConfigFlag(self::XML_PATH_TEMPLATE_ALLOW_SYMLINK);
@@ -343,7 +343,7 @@ class Template extends AbstractBlock
         return (
             $this->isPathInDirectory($fileName, $appDir)
             || $this->isPathInDirectory($fileName, $themesDir)
-            || $this->_getAllowSymlinks()
+            || $this->_isAllowSymlinks()
         ) && $this->getRootDirectory()->isFile($this->getRootDirectory()->getRelativePath($fileName));
     }
 

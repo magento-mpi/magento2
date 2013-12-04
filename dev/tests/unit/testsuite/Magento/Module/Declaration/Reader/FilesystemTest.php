@@ -16,7 +16,6 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $baseDir = __DIR__ . '/../FileResolver/_files';
         $fileResolver = $this->getFileResolver(__DIR__ . '/../FileResolver/_files');
         $converter = new \Magento\Module\Declaration\Converter\Dom();
         $schemaLocatorMock = $this->getMock(
