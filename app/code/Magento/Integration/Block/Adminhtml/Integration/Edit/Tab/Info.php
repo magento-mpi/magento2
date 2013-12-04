@@ -158,7 +158,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'disabled' => $disabled,
                 // @codingStandardsIgnoreStart
                 'note' => __(
-                    'When using Oauth for token exchange, enter URL where Oauth credentials can be POST-ed. We strongly recommend you to use https://'
+                    'Enter URL where Oauth credentials can be sent when using Oauth for token exchange. We strongly recommend using https://.'
                 )
                 // @codingStandardsIgnoreEnd
             )
