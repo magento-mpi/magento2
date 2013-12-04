@@ -19,7 +19,7 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class ExistingCustomerCheckMoneyOrder extends Checkout
+class CheckMoneyOrderCustomerUS extends Checkout
 {
 
     /**

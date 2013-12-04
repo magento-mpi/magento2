@@ -49,6 +49,30 @@ class CheckoutCart extends Page
     }
 
     /**
+     * Get estimated shipping block
+     *
+     * @return \Magento\Checkout\Test\Block\Cart\Shipping
+     */
+    public function getEstimatedShippingBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCheckoutCartShipping(
+            $this->_browser->find('//div[@class="block shipping"]/div', Locator::SELECTOR_XPATH)
+        );
+    }
+
+    /**
+     * Get estimated shipping rate block
+     *
+     * @return \Magento\Checkout\Test\Block\Cart\Shipping
+     */
+    public function getEstimatedShippingRateBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCheckoutCartShipping(
+            $this->_browser->find('//form [@id="co-shipping-method-form"]', Locator::SELECTOR_XPATH)
+        );
+    }
+
+    /**
      * Get messages block
      *
      * @return \Magento\Core\Test\Block\Messages
