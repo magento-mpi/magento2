@@ -1,8 +1,10 @@
+2.0.0.0-dev55
+=============
 * Modularity improvements:
   * Session configuration moved into library
-  * FormKey logic is moved from Session
+  * FormKey logic is moved out from Session
   * SessionIdFlags is removed from Session
-* Created integration module UX
+* Created Integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
   * Fixed shopping cart rules for a specific customer group
