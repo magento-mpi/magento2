@@ -26,7 +26,7 @@ class CustomerForm extends FormTabs
      *
      * @var array
      */
-    protected $_tabClasses = array(
+    protected $tabClasses = array(
         'customer_info_tabs_account' => '\\Magento\\Customer\\Test\\Block\\Adminhtml\\Edit\\Tab\\Account'
     );
 }

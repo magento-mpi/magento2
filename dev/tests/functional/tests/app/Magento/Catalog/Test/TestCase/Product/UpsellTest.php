@@ -14,6 +14,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
+use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 class UpsellTest extends Functional

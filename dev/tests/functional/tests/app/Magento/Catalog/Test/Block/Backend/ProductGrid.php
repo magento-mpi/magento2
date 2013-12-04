@@ -23,11 +23,6 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class ProductGrid extends Grid
 {
     /**
-     * {@inheritdoc}
-     */
-    protected $editLink = "//a[normalize-space(text())='Edit']";
-
-    /**
      * Initialize block elements
      */
     protected $filters = array(

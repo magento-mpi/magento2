@@ -55,7 +55,7 @@ class CatalogProductNew extends Page
      */
     protected function _init()
     {
-        $this->_url = $_ENV['app_backend_url'] . self::MCA;
+        $this->_url = $_ENV['app_backend_url'] . static::MCA;
     }
 
     /**
