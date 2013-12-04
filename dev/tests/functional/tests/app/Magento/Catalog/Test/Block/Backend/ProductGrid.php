@@ -25,6 +25,11 @@ class ProductGrid extends Grid
     /**
      * {@inheritdoc}
      */
+    protected $editLink = "//a[normalize-space(text())='Edit']";
+
+    /**
+     * Initialize block elements
+     */
     protected $filters = array(
         'name' => array(
             'selector' => '#productGrid_product_filter_name'

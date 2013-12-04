@@ -22,14 +22,14 @@ use Mtf\Client\Element\Locator;
 class Messages extends Block
 {
     /**
-     * Success message
+     * Success message selector.
      *
      * @var string
      */
     protected $successMessage = '[data-ui-id$=message-success]';
 
     /**
-     * Error message
+     * Error message selector.
      *
      * @var string
      */
@@ -42,7 +42,7 @@ class Messages extends Block
      */
     public function assertSuccessMessage()
     {
-        $this->waitForElementVisible($this->successMessage, Locator::SELECTOR_CSS);
+        return $this->waitForElementVisible($this->successMessage, Locator::SELECTOR_CSS);
     }
 
     /**

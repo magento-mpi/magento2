@@ -13,7 +13,7 @@ namespace Magento\Sales\Test\Block\Adminhtml\Order\View;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
@@ -33,10 +33,10 @@ class Items extends Block
     /**
      * Returns the item price for the specified product.
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      * @return array|string
      */
-    public function getPrice(AbstractProduct $product)
+    public function getPrice(Product $product)
     {
         $productName = $product->getProductName();
 

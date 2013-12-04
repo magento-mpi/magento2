@@ -28,24 +28,21 @@ class Create extends Form
      *
      * @var string
      */
-    private $submitButton;
+    protected $submitButton = '.action.submit';
 
     /**
-     * Initialize block elements
+     * Mapping for field locator
+     *
+     * @var array
      */
-    protected function _init()
-    {
-        //Initialize mapping
-        $this->_mapping = array(
-            'firstname' => '#firstname',
-            'lastname' => '#lastname',
-            'email' => '#email_address',
-            'password' => '#password',
-            'confirmation' => '#confirmation'
-        );
-        //Elements
-        $this->submitButton = '.action.submit';
-    }
+    protected $_mapping = array(
+        'firstname' => '#firstname',
+        'lastname' => '#lastname',
+        'email' => '#email_address',
+        'password' => '#password',
+        'confirmation' => '#confirmation'
+    );
+
 
     /**
      * Fill form with customer data and submit

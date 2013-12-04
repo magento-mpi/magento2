@@ -59,7 +59,7 @@ class MultishippingGuestPaypalDirect extends Checkout
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
 

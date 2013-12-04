@@ -44,6 +44,13 @@ class CatalogProductNew extends Page
     protected $messagesBlock = '#messages .messages';
 
     /**
+     * Selector for message block
+     *
+     * @var string
+     */
+    protected $messagesSelector = '#messages.messages .messages';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -85,6 +92,30 @@ class CatalogProductNew extends Page
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get upsell block
+     *
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell
+     */
+    public function getUpsellBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabUpsell(
+            $this->_browser->find('up_sell_product_grid', Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get the backend catalog product block
+     *
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related
+     */
+    public function getRelatedProductGrid()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
+            $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
         );
     }
 }

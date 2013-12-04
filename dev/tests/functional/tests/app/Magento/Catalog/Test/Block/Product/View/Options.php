@@ -30,7 +30,7 @@ class Options extends Block
      */
     public function getProductCustomOptions()
     {
-        return $this->getOptions('#product-options-wrapper', '.field');
+        return $this->getOptions('.fieldset', '.field');
     }
 
     /**
@@ -59,13 +59,15 @@ class Options extends Block
         while ($field->isVisible()) {
             $optionName = $field->find('label > span')->getText();
             $options[$optionName] = array();
-            $field = $bundleOptionsFieldset->find($fieldDivSelector . ':nth-of-type(' . $index++ . ')');
             $productIndex = 1;
             $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
             while ($productOption->isVisible()) {
                 $options[$optionName][] = $productOption->getText();
-                $productOption = $field->find('select > option:nth-of-type(' . $productIndex++ . ')');
+                $productIndex++;
+                $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
             }
+            $index++;
+            $field = $bundleOptionsFieldset->find($fieldDivSelector . ':nth-of-type(' . $index . ')');
         }
         return $options;
     }

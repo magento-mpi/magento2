@@ -39,6 +39,20 @@ class Form extends FormInstance
     protected $saveAndContinueButton = '#save_and_continue';
 
     /**
+     * Back button
+     *
+     * @var string
+     */
+    protected $backButton = '#back';
+
+    /**
+     * Reset button
+     *
+     * @var string
+     */
+    protected $resetButton = '#reset';
+
+    /**
      * 'Delete' button
      *
      * @var string
@@ -49,30 +63,58 @@ class Form extends FormInstance
      * Update the root form
      *
      * @param Fixture $fixture
+     * @return Form
      */
     public function update(Fixture $fixture)
     {
         $this->fill($fixture);
+        return $this;
     }
 
     /**
      * Save the form
      *
-     * @param Fixture|null $fixture
+     * @param Fixture $fixture
+     * @return Form
      */
     public function save(Fixture $fixture = null)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
+        return $this;
+    }
+
+    /**
+     * Back action
+     *
+     * @return Form
+     */
+    public function back()
+    {
+        $this->_rootElement->find($this->backButton, Locator::SELECTOR_CSS)->click();
+        return $this;
+    }
+
+    /**
+     * Reset the form
+     *
+     * @return Form
+     */
+    public function reset()
+    {
+        $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
+        return $this;
     }
 
     /**
      * Delete current form item
      *
-     * @param Fixture|null $fixture
+     * @param Fixture $fixture
+     * @return Form
      */
     public function delete(Fixture $fixture = null)
     {
         $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_CSS)->click();
+        return $this;
     }
 
     /**
@@ -81,5 +123,6 @@ class Form extends FormInstance
     public function clickSaveAndContinue()
     {
         $this->_rootElement->find($this->saveAndContinueButton, Locator::SELECTOR_CSS)->click();
+        return $this;
     }
 }

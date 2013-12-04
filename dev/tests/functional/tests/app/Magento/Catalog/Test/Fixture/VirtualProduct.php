@@ -13,10 +13,10 @@ namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\Factory\Factory;
 
-class VirtualProduct extends AbstractProduct
+class VirtualProduct extends Product
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     protected function _initData()
     {
@@ -28,7 +28,7 @@ class VirtualProduct extends AbstractProduct
 
             'create_url_params' => array(
                 'type' => 'virtual',
-                'set' => 4,
+                'set'  => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
             'input_prefix' => 'product'
         );

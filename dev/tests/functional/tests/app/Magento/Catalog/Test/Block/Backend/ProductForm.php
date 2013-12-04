@@ -18,8 +18,11 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\GroupedProduct;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Bundle\Test\Fixture\Bundle;
+use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
 /**
  * Class ProductForm
@@ -44,18 +47,16 @@ class ProductForm extends FormTabs
     protected $affectedAttributeSetBlock = "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..";
 
     /**
-     * Initialize block elements
+     * @var array
      */
-    protected function _init()
-    {
-        //Custom tab classes for product form
-        $this->_tabClasses = array(
-            'product_info_tabs_bundle_content' =>
-                '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle',
-            'product_info_tabs_super_config_content' =>
-                '\\Magento\\Catalog\\Test\\Block\\Adminhtml\\Product\\Edit\\Tab\\Super\\Config'
-        );
-    }
+    protected $tabClasses = array(
+        Bundle::GROUP => '\Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
+        ConfigurableProduct::GROUP => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config',
+        GroupedProduct::GROUP => '\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts',
+        DownloadableProduct::GROUP
+            => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
+        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab'
+    );
 
     /**
      * Get choose affected attribute set dialog popup window
@@ -65,7 +66,7 @@ class ProductForm extends FormTabs
     protected function getAffectedAttributeSetBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductConfigurableAffectedAttributeSet(
-            $this->_rootElement->find($this->affectedAttributeSetBlock,Locator::SELECTOR_XPATH)
+            $this->_rootElement->find($this->affectedAttributeSetBlock, Locator::SELECTOR_XPATH)
         );
     }
 
@@ -74,6 +75,7 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      * @param Element $element
+     * @return FormTabs|void
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
@@ -103,6 +105,7 @@ class ProductForm extends FormTabs
      * Save product
      *
      * @param Fixture $fixture
+     * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
     public function save(Fixture $fixture = null)
     {
@@ -115,9 +118,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param AbstractProduct $fixture
+     * @param Product $fixture
      */
-    public function addNewCategory(AbstractProduct $fixture)
+    public function addNewCategory(Product $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
