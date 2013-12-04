@@ -34,6 +34,7 @@ class FormTabs extends Form
      *
      * @param Fixture $fixture
      * @param Element $element
+     * @return FormTabs
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
@@ -43,12 +44,36 @@ class FormTabs extends Form
             $tabElement->open($this->_rootElement);
             $tabElement->fillFormTab($tabFields, $this->_rootElement);
         }
+        return $this;
+    }
+
+    /**
+     * Verify form with tabs
+     *
+     * @param Fixture $fixture
+     * @param Element $element
+     * @throws \Exception
+     * @return FormTabs
+     */
+    public function verify(Fixture $fixture, Element $element = null)
+    {
+        $tabs = $this->getFieldsByTabs($fixture);
+        foreach ($tabs as $tab => $tabFields) {
+            $tabElement = $this->getTabElement($tab);
+            $tabElement->open($this->_rootElement);
+            $tabElement->verifyFormTab($tabFields, $this->_rootElement);
+            if(!$tabElement->verifyFormTab($tabFields, $this->_rootElement)){
+                throw new \Exception('Invalid form data.');
+            }
+        }
+        return $this;
     }
 
     /**
      * Update form with tabs
      *
      * @param Fixture $fixture
+     * @return FormTabs
      */
     public function update(Fixture $fixture)
     {
@@ -58,6 +83,7 @@ class FormTabs extends Form
             $tabElement->open($this->_rootElement);
             $tabElement->updateFormTab($tabFields, $this->_rootElement);
         }
+        return $this;
     }
 
     /**
@@ -109,10 +135,12 @@ class FormTabs extends Form
      * Open tab
      *
      * @param string $tabName
+     * @return FormTabs
      */
     public function openTab($tabName)
     {
         $tabElement = $this->getTabElement($tabName);
         $tabElement->open($this->_rootElement);
+        return $this;
     }
 }
