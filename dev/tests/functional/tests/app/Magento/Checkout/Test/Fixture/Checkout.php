@@ -11,6 +11,8 @@
 
 namespace Magento\Checkout\Test\Fixture;
 
+use Magento\Customer\Test\Fixture\Address;
+use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 
@@ -24,7 +26,7 @@ class Checkout extends DataFixture
     /**
      * Customer
      *
-     * @var \Magento\Customer\Test\Fixture\Customer
+     * @var Customer
      */
     protected $customer;
 
@@ -38,7 +40,7 @@ class Checkout extends DataFixture
     /**
      * Checkout billing address
      *
-     * @var \Magento\Customer\Test\Fixture\Address
+     * @var Address
      */
     protected $billingAddress;
 
@@ -118,7 +120,7 @@ class Checkout extends DataFixture
     /**
      * Get customer type to define how to perform checkout
      *
-     * @return \Magento\Customer\Test\Fixture\Customer
+     * @return Customer
      */
     public function getCustomer()
     {
@@ -128,7 +130,7 @@ class Checkout extends DataFixture
     /**
      * Get customer billing address
      *
-     * @return \Magento\Customer\Test\Fixture\Address
+     * @return Address
      */
     public function getBillingAddress()
     {
@@ -223,5 +225,24 @@ class Checkout extends DataFixture
     public function isRegisteredCustomer()
     {
         return (bool) $this->getData('customer/is_registered');
+    }
+
+    /**
+     * Set the billing address for this checkout instance
+     *
+     * @param Address $billingAddress
+     */
+    public function setBillingAddress(Address $billingAddress)
+    {
+        $this->billingAddress = $billingAddress;
+    }
+    /**
+     * Set the customer for this checkout instance
+     *
+     * @param Customer $customer
+     */
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer = $customer;
     }
 }

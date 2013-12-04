@@ -14,6 +14,7 @@ namespace Magento\Checkout\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
+use Magento\Customer\Test\Fixture\Customer;
 use Magento\Core\Test\Fixture\Config;
 
 
@@ -26,18 +27,18 @@ use Magento\Core\Test\Fixture\Config;
 class ShippingCarrierTest extends Functional
 {
     /**
-     * Store configuration fixture
+     * Check money order checkout fixture
      *
-     * @var Config
+     * @var Checkout $checkoutFixture
      */
-    protected static $configFixture;
+    protected static $checkoutFixture;
 
     /**
-     * Array of products used during checkout.  Simple, configurable, and bundle product.
+     * Store configuration fixture
      *
-     * @var \Magento\Catalog\Test\Fixture\Product[]
+     * @var Config $configFixture
      */
-    protected static $products = array();
+    protected static $configFixture;
 
     /**
      * Create and persist checkout fixture
@@ -45,25 +46,11 @@ class ShippingCarrierTest extends Functional
     //protected function setUp()
     public static function setUpBeforeClass()
     {
-        // Setup precondition data that will be shared by each data-set in the data provider
+        // Use checkout fixture to setup precondition data that will be shared by each data-set in the data provider
         // Create simple, configurable, and bundled products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData('simple_required');
-        $simple->persist();
-
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable_required');
-        $configurable->persist();
-
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_fixed_required');
-        $bundle->persist();
-
-        self::$products = array(
-            $simple,
-            $configurable,
-            $bundle
-        );
+        // Check or money order
+        self::$checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrder();
+        self::$checkoutFixture->persist();
 
         // Enable store configuration - Shipping Settings -> Origin for this test
         self::$configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
@@ -76,16 +63,15 @@ class ShippingCarrierTest extends Functional
      *
      * @param $shippingMethodConfig
      * @param $shippingMethodCheckout
-     * @param Checkout $checkoutFixture
+     * @param $customerDataSet
+     * @param $addressDataSet
      * @dataProvider dataProviderShippingCarriers
      * @ZephyrId MAGETWO-12848
      * @ZephyrId MAGETWO-12849
      */
-    public function testShippingCarriers($shippingMethodConfig, $shippingMethodCheckout, Checkout $checkoutFixture)
+    public function testShippingCarriers(
+        $shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet)
     {
-        // Create customer from passed in checkout fixture
-        $checkoutFixture->persist();
-
         // Enable shipping method in store configuration based on method specified in data provider
         self::$configFixture->switchData($shippingMethodConfig);
         self::$configFixture->persist();
@@ -93,6 +79,17 @@ class ShippingCarrierTest extends Functional
         // Declare shipping methods based on what will be selected at checkout
         $shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
         $shippingMethods->switchData($shippingMethodCheckout);
+
+        // Create customer based upon data-provider data-set
+        $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $customer->switchData($customerDataSet);
+        $customer->persist();
+        self::$checkoutFixture->setCustomer($customer);
+
+        // Specify existing customer data-set (does not contain email address or password)
+        $billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $billingAddress->switchData($addressDataSet);
+        self::$checkoutFixture->setBillingAddress($billingAddress);
 
         // Frontend
         // Ensure shopping cart is empty
@@ -105,7 +102,7 @@ class ShippingCarrierTest extends Functional
 
         // Frontend
         // Add simple, configurable, and bundle products to cart
-        foreach (self::$products as $product) {
+        foreach (self::$checkoutFixture->getProducts() as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
@@ -116,7 +113,7 @@ class ShippingCarrierTest extends Functional
         $cartShippingBlock = Factory::getPageFactory()->getCheckoutCart()->getEstimatedShippingBlock();
         // Make estimated shipping content visible
         $cartShippingBlock->clickEstimateShippingTax();
-        $cartShippingBlock->fillDestination($checkoutFixture);
+        $cartShippingBlock->fillDestination(self::$checkoutFixture);
         $cartShippingBlock->clickGetAQuote();
         $cartShippingRateBlock = Factory::getPageFactory()->getCheckoutCart()->getEstimatedShippingRateBlock();
         $cartShippingRateBlock->assertShippingCarrierMethod($shippingMethods);
@@ -124,22 +121,22 @@ class ShippingCarrierTest extends Functional
         // Login with customer created in checkout fixture
         $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
         $customerAccountLoginPage->open();
-        $customerAccountLoginPage->getLoginBlock()->login($checkoutFixture->getCustomer());
+        $customerAccountLoginPage->getLoginBlock()->login($customer);
 
         // Place order on frontend via onepage checkout
         // Use customer from checkout fixture
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->open();
-        $checkoutOnePage->getBillingBlock()->fillBilling($checkoutFixture);
+        $checkoutOnePage->getBillingBlock()->fillBilling(self::$checkoutFixture);
 
         // Select shipping method at checkout based on method specified in data provider
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethods);
 
-        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($checkoutFixture);
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod(self::$checkoutFixture);
         $checkoutOnePage->getReviewBlock()->placeOrder();
 
         $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
-        $orderId = $successPage->getSuccessBlock()->getOrderId($checkoutFixture);
+        $orderId = $successPage->getSuccessBlock()->getOrderId(self::$checkoutFixture);
 
         // Verify order is present on backend (Sales-Orders)
         Factory::getApp()->magentoBackendLoginUser();
@@ -162,8 +159,7 @@ class ShippingCarrierTest extends Functional
     public function dataProviderShippingCarriers()
     {
         return array(
-            array('shipping_carrier_ups', 'ups',
-                  Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderCustomerUS())
+            array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1')
         );
     }
 
