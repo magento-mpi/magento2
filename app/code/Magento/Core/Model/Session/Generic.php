@@ -12,7 +12,7 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param string $sessionNamespace
      * @param array $data
      * @param null $sessionName
@@ -20,7 +20,7 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         $sessionNamespace,
         array $data = array(),
         $sessionName = null

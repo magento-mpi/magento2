@@ -105,20 +105,20 @@ class AbstractSession extends \Magento\Object
     protected $_sidResolver;
 
     /**
-     * @var \Zend\Session\Config\ConfigInterface
+     * @var \Magento\Session\Config\ConfigInterface
      */
     protected $_sessionConfig;
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         array $data = array()
     ) {
         $this->_validator = $context->getValidator();

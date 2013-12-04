@@ -36,7 +36,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
             array(
                 $objectManager->create('Magento\Core\Model\Session\Context'),
                 $this->_sidResolver,
-                $objectManager->create('Zend\Session\Config\ConfigInterface'),
+                $objectManager->create('Magento\Session\Config\ConfigInterface'),
             )
         );
     }

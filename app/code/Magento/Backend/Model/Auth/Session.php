@@ -48,7 +48,7 @@ class Session
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\App\ConfigInterface $config
@@ -57,7 +57,7 @@ class Session
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\App\ConfigInterface $config,

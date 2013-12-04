@@ -71,7 +71,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
@@ -85,7 +85,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Core\Helper\Url $coreUrl,
         \Magento\Customer\Helper\Data $customerData,

@@ -24,14 +24,14 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     /**
      * @param Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
-     * @param \Zend\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param array $data
      * @param null $sessionName
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
-        \Zend\Session\Config\ConfigInterface $sessionConfig,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         array $data = array(),
         $sessionName = null
     ) {
