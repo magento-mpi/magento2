@@ -61,13 +61,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_request;
 
     /**
-     * Messages block instance
-     *
-     * @var \Magento\View\Element\Messages
-     */
-    protected $_messagesBlock;
-
-    /**
      * Url Builder
      *
      * @var \Magento\UrlInterface
@@ -720,31 +713,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _getNotFoundUrl($route = '', $params = array('_direct' => 'core/index/notfound'))
     {
         return $this->getUrl($route, $params);
-    }
-
-    /**
-     * Retrieve messages block
-     *
-     * @return \Magento\View\Element\Messages
-     */
-    public function getMessagesBlock()
-    {
-        if (is_null($this->_messagesBlock)) {
-            return $this->getLayout()->getMessagesBlock();
-        }
-        return $this->_messagesBlock;
-    }
-
-    /**
-     * Set messages block
-     *
-     * @param   \Magento\View\Element\Messages $block
-     * @return  \Magento\View\Element\AbstractBlock
-     */
-    public function setMessagesBlock(\Magento\View\Element\Messages $block)
-    {
-        $this->_messagesBlock = $block;
-        return $this;
     }
 
     /**

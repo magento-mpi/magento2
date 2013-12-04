@@ -73,7 +73,9 @@ class Problem extends \Magento\Backend\App\Action
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                 ->addSuccess(__('The problems you identified have been deleted.'));
         }
-                $this->_view->getLayout()->getMessagesBlock()->setMessages($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true));
+        $this->_view->getLayout()->getMessagesBlock()->setMessages(
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true)
+        );
 
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();

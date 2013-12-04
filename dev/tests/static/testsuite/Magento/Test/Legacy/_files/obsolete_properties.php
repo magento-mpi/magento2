@@ -155,6 +155,7 @@ return array(
     array('_viewUrl', 'Magento\View\Asset\ViewFile', 'viewUrl'),
     array('_file', 'Magento\View\Asset\ViewFile', 'file'),
     array('_contentType', 'Magento\View\Asset\ViewFile', 'contentType'),
-    array('_frameOpenTag', 'Magento\View\Element\AbstractBlocke'),
-    array('_frameCloseTag', 'Magento\View\Element\AbstractBlocke'),
+    array('_frameOpenTag', 'Magento\View\Element\AbstractBlock'),
+    array('_frameCloseTag', 'Magento\View\Element\AbstractBlock'),
+    array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
 );

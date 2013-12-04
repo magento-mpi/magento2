@@ -511,21 +511,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testGetSetMessagesBlock()
-    {
-        // Get one from layout
-        $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-        );
-        $this->assertInstanceOf('Magento\View\Element\Messages', $this->_block->getMessagesBlock());
-
-        // Set explicitly
-        $messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Messages');
-        $this->_block->setMessagesBlock($messages);
-        $this->assertSame($messages, $this->_block->getMessagesBlock());
-    }
-
     public function testHelper()
     {
         // Without layout

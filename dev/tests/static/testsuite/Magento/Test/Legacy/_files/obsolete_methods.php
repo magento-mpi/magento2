@@ -1022,4 +1022,7 @@ return array(
     array('_getAdapter', 'Magento\View\Asset\MinifyService', 'getAdapter'),
     array('getShowPerPage', 'Magento\Theme\Block\Html\Pager', 'isShowPerPage'),
     array('setFrameTags', 'Magento\View\Element\AbstractBlock'),
+    array('getMessagesBlock', 'Magento\View\Element\AbstractBlock'),
+    array('setMessagesBlock', 'Magento\View\Element\AbstractBlock'),
+    array('getMessagesBlock', 'Magento\MultipleWishlist\Block\Info'),
 );
