@@ -94,7 +94,8 @@ class OperationTest extends \PHPUnit_Framework_TestCase
         $scheduledExport->setOperationType($this->_model->getOperationType());
         $scheduledExport->setRunDate($this->_model->getLastRunDate());
 
-        $filePath = $varDir->getAbsolutePath($fileInfo['file_path']) . '/' . $scheduledExport->getScheduledFileName() . '.' . $fileInfo['file_format'];
+        $filePath = $varDir->getAbsolutePath($fileInfo['file_path']) . '/' . $scheduledExport->getScheduledFileName()
+            . '.' . $fileInfo['file_format'];
         $this->assertFileExists($filePath);
 
         // Restore current working directory
