@@ -57,7 +57,7 @@ class CreateStoreGroup extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
 
-        $expectedUrl = $_ENV['app_backend_url'] . 'admin/system_store/editGroup/group_id/';
+        $expectedUrl = '/admin/system_store/editGroup/group_id/';
         $expectedUrl = preg_quote($expectedUrl);
         $expectedUrl = str_replace('/', '\/', $expectedUrl);
         preg_match('/' . $expectedUrl . '([0-9]*)\/(.)*>' . $storeName . '<\/a>/', $response, $matches);
@@ -65,7 +65,6 @@ class CreateStoreGroup extends Curl
         if (empty($matches)) {
             throw new \UnexpectedValueException('Cannot find store group id');
         }
-
         return intval($matches[1]);
     }
 
@@ -80,6 +79,7 @@ class CreateStoreGroup extends Curl
     public function execute(Fixture $fixture = null)
     {
         $data = $this->_prepareData($fixture->getData());
+        $data['group_id'] = '';
         $fields = array(
             'group' => $data,
             'store_action' => 'add',

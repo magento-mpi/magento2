@@ -57,7 +57,7 @@ class CreateStore extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0');
         $response = $curl->read();
 
-        $expectedUrl = $_ENV['app_backend_url'] . 'admin/system_store/editStore/store_id/';
+        $expectedUrl = '/admin/system_store/editStore/store_id/';
         $expectedUrl = preg_quote($expectedUrl);
         $expectedUrl = str_replace('/', '\/', $expectedUrl);
         preg_match('/' . $expectedUrl . '([0-9]*)\/(.)*>' . $storeName . '<\/a>/', $response, $matches);
@@ -80,6 +80,7 @@ class CreateStore extends Curl
     public function execute(Fixture $fixture = null)
     {
         $data = $this->_prepareData($fixture->getData());
+        $data['store_id'] = '';
         $fields = array(
             'store' => $data,
             'store_action' => 'add',
