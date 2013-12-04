@@ -74,25 +74,26 @@ Class RmaTest extends Functional
 
         // Step 5: Click "Return" link
         $viewPage = Factory::getPageFactory()->getSalesGuestView();
-        //$viewBlock = $viewPage->getViewBlock(); // TODO:  Broken.
-        //$viewBlock->clickLink('Return');
+        $viewBlock = $viewPage->getViewBlock();
+        //$viewBlock->clickLink('Return');  // TODO:  Broken
 
         // Step 6: Fill "Return Items Information" form (simple product)
-        //$returnItemPage = Factory::getPageFactory()->getRmaGuestCreate();
-        //$returnItemForm = $returnItemPage->getReturnItemForm();
-        //$returnItemForm->fillCustom('0');  // TODO:  Implement
+        $returnItemPage = Factory::getPageFactory()->getRmaGuestCreate();
+        $returnItemPage->open(array('order_id' => $orderId));
+        $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
+        $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName());
 
         // Step 7: Click "Add Item to Return" for the configurable product.
-        //$returnItemForm->submitAddItemToReturn();
+        $returnItemForm->submitAddItemToReturn();
 
         // Step 8: Fill "Return Items Information" form (configurable product)
-        //$returnItemForm->fillCustom('1');  // TODO:  Implement
+        $returnItemForm->fillCustom('1', $payPalExpressOrder->getProduct(1)->getProductName());
 
         // Step 9: Submit the return.
-        //$returnItemForm->submitReturn();
+        $returnItemForm->submitReturn();
 
         // Validate that the success message is displayed on the 'returns' page.
-        //Factory::getPageFactory()->getSalesGuestReturns()->getMessageBlock()->assertSuccessMessage();
+        Factory::getPageFactory()->getSalesGuestReturns()->getMessageBlock()->assertSuccessMessage();
 
         // Validate that the returns grid is now displayed and contains the return just submitted.
         // TODO: Implement

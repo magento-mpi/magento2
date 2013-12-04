@@ -11,7 +11,6 @@
 
 namespace Magento\Rma\Test\Page;
 
-use Mtf\Fixture\DataFixture;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -34,25 +33,25 @@ class ReturnItem extends Page
      *
      * @var string
      */
-    private $formWrapperSelector = '.form.create.return';
+    private $formWrapperSelector = '//form[@id="rma_create_form"]';
 
     /**
      * Custom constructor
      */
     protected function _init()
     {
-        $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA; //. '/order_id/' . $orderId;
+        $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
     }
 
     /**
-     * Get search block form
+     * Get return item block form
      *
      * @return \Magento\Rma\Test\Block\Form\ReturnItem
      */
     public function getReturnItemForm()
     {
         return Factory::getBlockFactory()->getMagentoRmaFormReturnItem(
-            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_XPATH)
         );
     }
 }

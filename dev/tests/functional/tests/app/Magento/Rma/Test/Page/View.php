@@ -33,8 +33,7 @@ class View extends Page
      *
      * @var string
      */
-    protected $blockSelector = '.order.details.view';
-    //protected $blockSelector = '//div[@class="order details view"]';
+    protected $blockSelector = '//div[@class="order details view"]';
 
     /**
      * Custom constructor
@@ -52,7 +51,7 @@ class View extends Page
     public function getViewBlock()
     {
         return Factory::getBlockFactory()->getMagentoRmaView(
-            $this->_browser->find($this->blockSelector, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->blockSelector, Locator::SELECTOR_XPATH)
         );
     }
 }

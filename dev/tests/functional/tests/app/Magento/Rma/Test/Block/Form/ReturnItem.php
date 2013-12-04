@@ -11,14 +11,13 @@
 
 namespace Magento\Rma\Test\Block\Form;
 
-use Magento\Sales\Test\Fixture\PaypalExpressOrder;
 use Mtf\Fixture;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 
 /**
- * Orders and Returns form search block
+ * Return Item form block
  *
  * @package Magento\Rma\Test\Block\Form
  */
@@ -42,14 +41,14 @@ class ReturnItem extends Form
      * Fill form with custom fields
      *
      */
-    public function fillCustom($index)
+    public function fillCustom($index, $productName)
     {
         // TODO:  Get data from repository.
-        $this->_rootElement->find('#row' . $index, Locator::SELECTOR_ID)->setValue('1');
-        $this->_rootElement->find('#items:qty_requested' . $index, Locator::SELECTOR_ID)->setValue('1');
-        $this->_rootElement->find('#items:resolution' . $index, Locator::SELECTOR_ID)->setValue('4');
-        $this->_rootElement->find('#items:condition' . $index, Locator::SELECTOR_ID)->setValue('7');
-        $this->_rootElement->find('#items:reason' . $index, Locator::SELECTOR_ID)->setValue('10');
+        $this->_rootElement->find('items:item' . $index, Locator::SELECTOR_ID, 'select')->setValue($productName);
+        $this->_rootElement->find('items:qty_requested' . $index, Locator::SELECTOR_ID)->setValue('1');
+        $this->_rootElement->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')->setValue('Refund');
+        $this->_rootElement->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')->setValue('Opened');
+        $this->_rootElement->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')->setValue('Wrong Size');
     }
 
     /**

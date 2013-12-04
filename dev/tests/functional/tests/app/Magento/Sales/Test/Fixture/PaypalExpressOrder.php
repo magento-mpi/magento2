@@ -96,4 +96,12 @@ class PaypalExpressOrder extends Checkout
     {
         return $this->checkoutFixture->getPayPalCustomer();
     }
+
+    /**
+     * @return \Magento\Catalog\Test\Fixture\SimpleProduct
+     */
+    public function getProduct($index)
+    {
+        return $this->checkoutFixture->products[$index];
+    }
 }
