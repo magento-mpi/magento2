@@ -246,7 +246,6 @@ class AuthorizationV1 implements AuthorizationV1Interface
         return $role->delete();
     }
 
-
     /**
      * Identify user role from user identifier.
      *
