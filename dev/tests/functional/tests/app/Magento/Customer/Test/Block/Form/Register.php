@@ -24,32 +24,29 @@ use Magento\Customer\Test\Fixture\Customer;
 class Register extends Form
 {
     /**
-     * Continue checkout button
+     * 'Submit' form button
      *
      * @var string
      */
-    private $submit;
+    protected $submit = '.action.submit';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '#firstname',
-            'lastname' => '#lastname',
-            'email' => '#email_address',
-            'telephone' => '#telephone',
-            'street_1' => '#street_1',
-            'city' => '#city',
-            'region' => '#region_id',
-            'postcode' => '#zip',
-            'country' => '#country',
-            'password' => '#password',
-            'confirmation' => '#confirmation',
-        );
-        $this->submit = '.buttons-set button';
-    }
+    protected $_mapping = array(
+        'firstname' => '#firstname',
+        'lastname' => '#lastname',
+        'email' => '#email_address',
+        'company' => '#company',
+        'telephone' => '#telephone',
+        'street_1' => '#street_1',
+        'city' => '#city',
+        'region' => '#region_id',
+        'postcode' => '#zip',
+        'country' => '#country',
+        'password' => '#password',
+        'confirmation' => '#confirmation',
+    );
 
     /**
      * Fill billing address
@@ -60,6 +57,6 @@ class Register extends Form
     {
         $this->fill($fixture);
         $this->fill($fixture->getDefaultBillingAddress());
-        $this->_rootElement->find('//button[@class="action submit"]', Locator::SELECTOR_XPATH)->click();
+        $this->_rootElement->find($this->submit, Locator::SELECTOR_CSS)->click();
     }
 }

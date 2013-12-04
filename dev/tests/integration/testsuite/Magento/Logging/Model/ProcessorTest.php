@@ -46,7 +46,7 @@ class ProcessorTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->getRequest()->setServer(array('REQUEST_METHOD' => 'POST'));
         $this->getRequest()->setPost(
             array_merge($post, array('form_key' => \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Model\Session')->getFormKey()))
+                ->get('Magento\Data\Form\FormKey')->getFormKey()))
         );
         $this->dispatch($url);
         $collection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

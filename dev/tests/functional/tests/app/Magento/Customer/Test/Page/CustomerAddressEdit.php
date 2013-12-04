@@ -15,7 +15,6 @@ namespace Magento\Customer\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Block\Address\Edit;
 
 /**
  * Customer Address Edit page.
@@ -32,9 +31,9 @@ class CustomerAddressEdit extends Page
     /**
      * Customer Address Edit form
      *
-     * @var Edit
+     * @var string
      */
-    private $editForm;
+    protected $editForm = '#form-validate';
 
     /**
      * Custom constructor
@@ -42,19 +41,17 @@ class CustomerAddressEdit extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        $this->editForm = Factory::getBlockFactory()->getMagentoCustomerAddressEdit(
-            $this->_browser->find('form-validate', Locator::SELECTOR_ID)
-        );
     }
 
     /**
      * Get Customer Address Edit form
      *
-     * @return Edit
+     * @return \Magento\Customer\Test\Block\Address\Edit
      */
     public function getEditForm()
     {
-        return $this->editForm;
+        return Factory::getBlockFactory()->getMagentoCustomerAddressEdit(
+            $this->_browser->find($this->editForm, Locator::SELECTOR_CSS)
+        );
     }
 }

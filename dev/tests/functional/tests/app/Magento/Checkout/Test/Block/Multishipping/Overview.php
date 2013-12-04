@@ -28,26 +28,15 @@ class Overview extends Block
      *
      * @var string
      */
-    private $placeOrder;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->placeOrder = '#review-button';
-    }
+    protected $placeOrder = '#review-button';
 
     /**
      * Place order
      *
      * @param Checkout $fixture
      */
-    public function placeOrder(Checkout $fixture)
+    public function placeOrder(Checkout $fixture = null)
     {
-        //some review part
         $this->_rootElement->find($this->placeOrder, Locator::SELECTOR_CSS)->click();
-        // TODO assert constraints
     }
 }

@@ -1,3 +1,7 @@
+* Modularity improvements:
+  * Session configuration moved into library
+  * FormKey logic is moved from Session
+  * SessionIdFlags is removed from Session
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:

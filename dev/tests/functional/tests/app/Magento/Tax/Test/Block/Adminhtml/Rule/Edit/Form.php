@@ -30,59 +30,42 @@ class Form extends FormInterface
      *
      * @var string
      */
-    private $name;
+    protected $name = '#code';
 
     /**
      * Tax rule priority field
      *
      * @var string
      */
-    private $priority;
+    protected $priority = '#priority';
 
     /**
      * Tax rule sort order field
      *
      * @var string
      */
-    private $position;
+    protected $position = '#position';
 
     /**
      * 'Additional Settings' link
      *
      * @var string
      */
-    private $additionalSettings;
+    protected $additionalSettings = '#details-summarybase_fieldset';
 
     /**
      * 'Save and Continue Edit' button
      *
      * @var string
      */
-    private $saveAndContinue;
+    protected $saveAndContinue = '#save_and_continue';
 
     /**
      * Tax rate block
      *
-     * @var TaxRate
+     * @var string
      */
-    private $taxRateBlock;
-
-    /**
-     * Initialize elements in block
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->name = 'code';
-        $this->priority = 'priority';
-        $this->position = 'position';
-        $this->additionalSettings = 'details-summarybase_fieldset';
-        $this->saveAndContinue = 'save_and_continue';
-        //Blocks
-        $this->taxRateBlock = Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleEditTaxRate(
-            $this->_rootElement->find('[class*=tax_rate]', Locator::SELECTOR_CSS)
-        );
-    }
+    protected $taxRateBlock = '[class*=tax_rate]';
 
     /**
      * Get tax rate block
@@ -91,7 +74,9 @@ class Form extends FormInterface
      */
     protected function getTaxRateBlock()
     {
-        return $this->taxRateBlock;
+        return Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleEditTaxRate(
+            $this->_rootElement->find($this->taxRateBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -118,16 +103,16 @@ class Form extends FormInterface
     public function fillTaxRuleData(TaxRule $fixture)
     {
         $data = $fixture->getData('fields');
-        $this->_rootElement->find($this->name, Locator::SELECTOR_ID)->setValue($fixture->getTaxRuleName());
+        $this->_rootElement->find($this->name, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRuleName());
         $this->getTaxRateBlock()->selectTaxRate($fixture->getTaxRate());
-        $this->_rootElement->find($this->additionalSettings, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->additionalSettings, Locator::SELECTOR_CSS)->click();
         $this->getTaxClassBlock('customer')->selectTaxClass($fixture->getTaxClass('customer'));
         $this->getTaxClassBlock('product')->selectTaxClass($fixture->getTaxClass('product'));
         if (!empty($data['priority'])) {
-            $this->_rootElement->find($this->priority, Locator::SELECTOR_ID)->setValue($fixture->getTaxRulePriority());
+            $this->_rootElement->find($this->priority, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRulePriority());
         }
         if (!empty($data['position'])) {
-            $this->_rootElement->find($this->position, Locator::SELECTOR_ID)->setValue($fixture->getTaxRulePosition());
+            $this->_rootElement->find($this->position, Locator::SELECTOR_CSS)->setValue($fixture->getTaxRulePosition());
         }
     }
 
@@ -136,6 +121,6 @@ class Form extends FormInterface
      */
     public function clickSaveAndContinue()
     {
-        $this->_rootElement->find($this->saveAndContinue, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->saveAndContinue, Locator::SELECTOR_CSS)->click();
     }
 }
