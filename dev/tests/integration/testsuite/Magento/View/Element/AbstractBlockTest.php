@@ -462,22 +462,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($parent->getChildData('unknown_block'));
     }
 
-    public function testSetFrameTags()
-    {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Text');
-        $block->setText('text');
-
-        $block->setFrameTags('p');
-        $this->assertEquals('<p>text</p>', $block->toHtml());
-
-        $block->setFrameTags('p class="note"', '/p');
-        $this->assertEquals('<p class="note">text</p>', $block->toHtml());
-
-        $block->setFrameTags('non-wellformed tag', 'closing tag');
-        $this->assertEquals('<non-wellformed tag>text<closing tag>', $block->toHtml());
-    }
-
     public function testGetUrl()
     {
         $base = 'http://localhost/index.php/';

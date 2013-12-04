@@ -68,20 +68,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_messagesBlock;
 
     /**
-     * Block html frame open tag
-     *
-     * @var string
-     */
-    protected $_frameOpenTag;
-
-    /**
-     * Block html frame close tag
-     *
-     * @var string
-     */
-    protected $_frameCloseTag;
-
-    /**
      * Url Builder
      *
      * @var \Magento\UrlInterface
@@ -589,24 +575,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Specify block output frame tags
-     *
-     * @param $openTag
-     * @param $closeTag
-     * @return \Magento\View\Element\AbstractBlock
-     */
-    public function setFrameTags($openTag, $closeTag = null)
-    {
-        $this->_frameOpenTag = $openTag;
-        if ($closeTag) {
-            $this->_frameCloseTag = $closeTag;
-        } else {
-            $this->_frameCloseTag = '/' . $openTag;
-        }
-        return $this;
-    }
-
-    /**
      * Produce and return block's html output
      *
      * This method should not be overridden. You can override _toHtml() method in descendants if needed.
@@ -619,6 +587,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($this->_storeConfig->getConfig('advanced/modules_disable_output/' . $this->getModuleName())) {
             return '';
         }
+
         $html = $this->_loadCache();
         if ($html === false) {
             if ($this->hasData('translate_inline')) {
@@ -634,13 +603,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
             }
         }
         $html = $this->_afterToHtml($html);
-
-        /**
-         * Check framing options
-         */
-        if ($this->_frameOpenTag) {
-            $html = '<' . $this->_frameOpenTag . '>' . $html . '<' . $this->_frameCloseTag . '>';
-        }
 
         return $html;
     }
