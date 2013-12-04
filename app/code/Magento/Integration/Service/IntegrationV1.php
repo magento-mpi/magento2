@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -106,7 +107,6 @@ class IntegrationV1 implements \Magento\Integration\Service\IntegrationV1Interfa
         $integration = $this->_integrationFactory->create()->load($name, 'name');
         return $integration->getData();
     }
-
 
     /**
      * Check if an integration exists by the name

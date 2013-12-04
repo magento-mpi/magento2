@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -62,7 +63,7 @@ class IntegrationV1
             UserIdentifier::USER_TYPE_INTEGRATION,
             (int)$integrationData[Integration::ID]
         );
-        $this->_authzService->removeRoleAndPermissions($userIdentifier);
+        $this->_authzService->removePermissions($userIdentifier);
         return $integrationData;
     }
 }

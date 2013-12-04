@@ -179,7 +179,7 @@ class AuthorizationV1 implements AuthorizationV1Interface
     /**
      * {@inheritdoc}
      */
-    public function removeRoleAndPermissions(UserIdentifier $userIdentifier)
+    public function removePermissions(UserIdentifier $userIdentifier)
     {
         try {
             $this->_deleteRole($userIdentifier);

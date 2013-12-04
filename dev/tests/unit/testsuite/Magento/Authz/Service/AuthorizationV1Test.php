@@ -39,9 +39,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testRemoveRoleAndPermissions()
+    public function testRemovePermissions()
     {
-        $this->_authzService->removeRoleAndPermissions(
+        $this->_authzService->removePermissions(
             $this->_getUserIdentifierMock(UserIdentifier::USER_TYPE_INTEGRATION)
         );
     }
@@ -49,9 +49,9 @@ class AuthorizationV1Test extends \PHPUnit_Framework_TestCase
     /**
      * @expectedException \Magento\Service\Exception
      */
-    public function testRemoveRoleAndPermissionsException()
+    public function testRemovePermissionsException()
     {
-        $this->_authzService->removeRoleAndPermissions(
+        $this->_authzService->removePermissions(
             $this->_getUserIdentifierMock(UserIdentifier::USER_TYPE_ADMIN) // Wrong user identifier type
         );
     }

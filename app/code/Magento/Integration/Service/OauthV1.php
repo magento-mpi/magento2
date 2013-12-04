@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
@@ -15,7 +16,7 @@ use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
  *
  * This service is used to manage oauth consumer data
  */
-class IntegrationOauthV1 implements IntegrationOauthV1Interface
+class OauthV1 implements OauthV1Interface
 {
     /** @var ConsumerFactory */
     protected $_consumerFactory;
@@ -52,7 +53,7 @@ class IntegrationOauthV1 implements IntegrationOauthV1Interface
     {
         $consumer = $this->_consumerFactory->create()->load($consumerId);
         if (!$consumer->getId()) {
-            throw new \Magento\Integration\Exception(__("Consumer with ID '%1' doesn't exist.", $consumerId));
+            throw new \Magento\Integration\Exception(__("Consumer with ID '%1' does not exist.", $consumerId));
         }
         return $consumer;
     }

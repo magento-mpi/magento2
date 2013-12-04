@@ -46,8 +46,8 @@ class Integration extends Action
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
-    /** @var \Magento\Integration\Service\IntegrationOauthV1Interface */
-    private $_integrationOauthService;
+    /** @var \Magento\Integration\Service\OauthV1Interface */
+    private $_oauthService;
 
     /** @var \Magento\Integration\Helper\Data */
     protected $_integrationData;
@@ -55,7 +55,7 @@ class Integration extends Action
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
-     * @param \Magento\Integration\Service\IntegrationOauthV1Interface $integrationOauthService
+     * @param \Magento\Integration\Service\OauthV1Interface $oauthService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
      * @param \Magento\Integration\Helper\Data $integrationData
@@ -63,7 +63,7 @@ class Integration extends Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
-        \Magento\Integration\Service\IntegrationOauthV1Interface $integrationOauthService,
+        \Magento\Integration\Service\OauthV1Interface $oauthService,
         \Magento\Core\Model\Registry $registry,
         \Magento\Logger $logger,
         \Magento\Integration\Helper\Data $integrationData
@@ -71,7 +71,7 @@ class Integration extends Action
         $this->_registry = $registry;
         $this->_logger = $logger;
         $this->_integrationService = $integrationService;
-        $this->_integrationOauthService = $integrationOauthService;
+        $this->_oauthService = $oauthService;
         $this->_integrationData = $integrationData;
         parent::__construct($context);
     }
@@ -248,7 +248,6 @@ class Integration extends Action
         $this->_view->renderLayout();
     }
 
-
     /**
      * Delete the integration.
      */
@@ -260,7 +259,7 @@ class Integration extends Action
                 $integrationData = $this->_integrationService->get($integrationId);
                 if ($this->_integrationData->isConfigType($integrationData)) {
                     $this->_getSession()->addError(
-                        __('Uninstall the extension to remove integration \'%1\'.', $integrationData[Info::DATA_NAME])
+                        __("Uninstall the extension to remove integration '%1'.", $integrationData[Info::DATA_NAME])
                     );
                     $this->_redirect('*/*/');
                     return;
@@ -271,22 +270,21 @@ class Integration extends Action
                 } else {
                     //Integration deleted successfully, now safe to delete the associated consumer data
                     if (isset($integrationData[Info::DATA_CONSUMER_ID])) {
-                        $this->_integrationOauthService->deleteConsumer($integrationData[Info::DATA_CONSUMER_ID]);
+                        $this->_oauthService->deleteConsumer($integrationData[Info::DATA_CONSUMER_ID]);
                     }
                     $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
                     $this->_getSession()
-                        ->addSuccess(__('The integration \'%1\' has been deleted.', $integrationData[Info::DATA_NAME]));
+                        ->addSuccess(__("The integration '%1' has been deleted.", $integrationData[Info::DATA_NAME]));
                 }
             } else {
                 $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
             }
-        } catch (\Exception $e) {
-            //Catching all exceptions here. Not doing anything special for other exceptions
-            $this->_logger->logException($e);
+        } catch (\Magento\Integration\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
         }
         $this->_redirect('*/*/');
-        return;
     }
 
     /**

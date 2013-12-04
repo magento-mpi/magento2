@@ -60,5 +60,5 @@ interface AuthorizationV1Interface
      * @param UserIdentifier $userIdentifier
      * @throws ServiceException
      */
-    public function removeRoleAndPermissions(UserIdentifier $userIdentifier);
+    public function removePermissions(UserIdentifier $userIdentifier);
 }

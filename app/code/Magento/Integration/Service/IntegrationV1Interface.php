@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service;
 
 /**
@@ -55,5 +56,4 @@ interface IntegrationV1Interface
      * @throws \Magento\Integration\Exception if the integration does not exist or cannot be deleted
      */
     public function delete($integrationId);
-
 }
