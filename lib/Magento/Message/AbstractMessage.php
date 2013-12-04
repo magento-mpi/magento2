@@ -31,7 +31,7 @@ abstract class AbstractMessage implements MessageInterface
     /**
      * @param string $text
      */
-    public function __construct($text = null)
+    public function __construct($text)
     {
         $this->text = $text;
     }

@@ -50,7 +50,7 @@ class Factory
      * @throws \InvalidArgumentException
      * @return MessageInterface
      */
-    public function create($type, $text = null)
+    public function create($type, $text)
     {
         if (!in_array($type, $this->types)) {
             throw new \InvalidArgumentException('Wrong message type');
