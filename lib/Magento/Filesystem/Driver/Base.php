@@ -29,6 +29,8 @@ class Base implements \Magento\Filesystem\DriverInterface
     }
 
     /**
+     * Is file or directory exist in file system
+     *
      * @param $path
      * @return bool
      * @throws FilesystemException
@@ -339,7 +341,7 @@ class Base implements \Magento\Filesystem\DriverInterface
     }
 
     /**
-     * Open file in given path
+     * Write contents to file in given path
      *
      * @param string $path
      * @param string $content

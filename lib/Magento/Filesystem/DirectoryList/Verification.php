@@ -9,7 +9,9 @@
  */
 namespace Magento\Filesystem\DirectoryList;
 
-use Magento\Filesystem\FilesystemException;
+use Magento\App\State,
+    Magento\Filesystem,
+    Magento\Filesystem\FilesystemException;
 
 class Verification
 {
@@ -19,12 +21,12 @@ class Verification
      * @var array
      */
     protected static $productionDirs = array(
-        \Magento\Filesystem::MEDIA,
-        \Magento\Filesystem::VAR_DIR,
-        \Magento\Filesystem::TMP,
-        \Magento\Filesystem::CACHE,
-        \Magento\Filesystem::LOG,
-        \Magento\Filesystem::SESSION,
+        Filesystem::MEDIA,
+        Filesystem::VAR_DIR,
+        Filesystem::TMP,
+        Filesystem::CACHE,
+        Filesystem::LOG,
+        Filesystem::SESSION,
     );
 
     /**
@@ -33,13 +35,13 @@ class Verification
      * @var array
      */
     protected static $nonProductionDirs = array(
-        \Magento\Filesystem::MEDIA,
-        \Magento\Filesystem::STATIC_VIEW,
-        \Magento\Filesystem::VAR_DIR,
-        \Magento\Filesystem::TMP,
-        \Magento\Filesystem::CACHE,
-        \Magento\Filesystem::LOG,
-        \Magento\Filesystem::SESSION,
+        Filesystem::MEDIA,
+        Filesystem::STATIC_VIEW,
+        Filesystem::VAR_DIR,
+        Filesystem::TMP,
+        Filesystem::CACHE,
+        Filesystem::LOG,
+        Filesystem::SESSION,
     );
 
     /**
@@ -57,13 +59,10 @@ class Verification
     /**
      * Constructor - initialize object with required dependencies, determine application state
      *
-     * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\State $appState
+     * @param Filesystem $filesystem
+     * @param State $appState
      */
-    public function __construct(
-        \Magento\Filesystem $filesystem,
-        \Magento\App\State $appState
-    ) {
+    public function __construct(Filesystem $filesystem, State $appState) {
         $this->filesystem = $filesystem;
         $this->dirsToVerify = $this->_getDirsToVerify($appState);
     }
@@ -71,12 +70,12 @@ class Verification
     /**
      * Return list of directories, that must be verified according to the application mode
      *
-     * @param \Magento\App\State $appState
+     * @param State $appState
      * @return array
      */
-    protected function _getDirsToVerify(\Magento\App\State $appState)
+    protected function _getDirsToVerify(State $appState)
     {
-        $codes = ($appState->getMode() == \Magento\App\State::MODE_PRODUCTION)
+        $codes = ($appState->getMode() == State::MODE_PRODUCTION)
             ? self::$productionDirs
             : self::$nonProductionDirs;
         return $codes;

@@ -96,7 +96,7 @@ class Read implements ReadInterface
      * Reads the line with specified number of bytes from the current position.
      *
      * @param int $length The number of bytes to read
-     * @param $ending [optional]
+     * @param string $ending [optional]
      * @return string
      */
     public function readLine($length, $ending = null)
@@ -119,7 +119,7 @@ class Read implements ReadInterface
     }
 
     /**
-     * Returns the current position
+     * Returns the current cursor position
      *
      * @return int
      */
