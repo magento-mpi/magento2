@@ -52,6 +52,7 @@ class CreateProductTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
         $this->assertOnGrid($product);
         $this->assertOnCategory($product);

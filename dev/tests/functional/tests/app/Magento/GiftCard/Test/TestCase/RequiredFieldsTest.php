@@ -26,7 +26,7 @@ class RequiredFieldsTest extends Functional
     }
 
     /**
-     * Create gift Card
+     * Create Gift Card
      */
     public function testCreate()
     {
@@ -48,6 +48,7 @@ class RequiredFieldsTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verification
         $this->assertOnGrid($giftcard);
         $this->assertOnCategory($giftcard);
@@ -56,7 +57,7 @@ class RequiredFieldsTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Bundle $product
+     * @param GiftCard $product
      */
     protected function assertOnGrid($product)
     {
@@ -67,7 +68,7 @@ class RequiredFieldsTest extends Functional
     }
 
     /**
-     * @param Bundle $product
+     * @param GiftCard $product
      */
     protected function assertOnCategory($product)
     {
