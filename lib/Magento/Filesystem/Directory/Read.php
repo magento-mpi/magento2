@@ -128,6 +128,7 @@ class Read implements ReadInterface
         foreach ($iterator as $file) {
             $result[] = $this->getRelativePath($file->getPathname());
         }
+        sort($result);
         return $result;
     }
 
