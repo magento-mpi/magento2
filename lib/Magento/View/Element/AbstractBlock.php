@@ -871,7 +871,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @return array
      */
-    public function getCacheTags()
+    protected function getCacheTags()
     {
         if (!$this->hasData('cache_tags')) {
             $tags = array();
@@ -887,7 +887,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @return int
      */
-    public function getCacheLifetime()
+    protected function getCacheLifetime()
     {
         if (!$this->hasData('cache_lifetime')) {
             return null;
