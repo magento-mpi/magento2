@@ -221,6 +221,18 @@ class Application
 
         $this->loadArea(\Magento\TestFramework\Application::DEFAULT_APP_AREA);
         \Magento\Phrase::setRenderer($objectManager->get('Magento\Phrase\Renderer\Placeholder'));
+
+        $directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $directoryListConfig = $objectManager->get('Magento\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig->configure($directoryList);
+
+        $directories = isset($overriddenParams[\Magento\Filesystem::PARAM_APP_DIRS])
+            ? $overriddenParams[\Magento\Filesystem::PARAM_APP_DIRS]
+            : array();
+        foreach ($directories as $code => $configOverrides) {
+            $config = array_merge($directoryList->getConfig($code), $configOverrides);
+            $directoryList->addDirectory($code, $config);
+        }
     }
 
     /**
