@@ -14,7 +14,6 @@ namespace Magento\Backend\Test\Page;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\HeaderPanel;
 
 /**
  * Class Dashboard
@@ -47,7 +46,7 @@ class Dashboard extends Page
     /**
      * Get admin panel header block instance
      *
-     * @return \Magento\Backend\Test\Block\HeaderPanel
+     * @return \Magento\Backend\Test\Block\Page\Header
      */
     public function getAdminPanelHeader()
     {
