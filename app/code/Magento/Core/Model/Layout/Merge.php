@@ -584,7 +584,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme);
-        $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {
             $filename = $dir->getRelativePath($file->getFilename());
