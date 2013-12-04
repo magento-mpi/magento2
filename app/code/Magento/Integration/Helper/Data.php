@@ -44,6 +44,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     public function isConfigType($integrationData)
     {
         return isset($integrationData[IntegrationModel::SETUP_TYPE])
-        && $integrationData[IntegrationModel::SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
+                    && $integrationData[IntegrationModel::SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
     }
 }

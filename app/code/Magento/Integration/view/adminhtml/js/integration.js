@@ -119,4 +119,33 @@
             }
         };
     };
+
+    /**
+     * Confirm dialog for delete integration action
+     */
+    $(function() {
+        $('#integrationGrid_table').on('click', 'button#delete', function(e){
+            $('#integration-delete-container').dialog({
+                title: $.mage.__('Are you sure ?'),
+                modal: true,
+                autoOpen: true,
+                resizable: false,
+                minHeight: 200,
+                minWidth: 300,
+                dialogClass: "no-close",
+                position: {at: 'top'},
+                buttons: {
+                    Cancel: function() {
+                        $(this).dialog( "close" );
+                    },
+                    Delete: function() {
+                        $(this).dialog( "close" );
+                        window.location.href = $(e.target).data('url');
+                    }
+                }
+            });
+            e.stopPropagation();
+        });
+    });
+
 })(jQuery, window);

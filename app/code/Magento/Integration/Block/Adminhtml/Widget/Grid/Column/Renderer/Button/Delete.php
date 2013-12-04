@@ -22,7 +22,7 @@ class Delete extends IntegrationAbstract
      */
     protected function _getOnclickAttribute(Object $row)
     {
-        return sprintf("window.location.href='%s'", $this->getUrl('*/*/delete', ['id' => $row->getId()]));
+        return sprintf("this.setAttribute('data-url', '%s')", $this->getUrl('*/*/delete', ['id' => $row->getId()]));
     }
 
     /**
