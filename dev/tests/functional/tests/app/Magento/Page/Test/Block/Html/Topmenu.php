@@ -29,7 +29,7 @@ class Topmenu extends Block
      *
      * @var string
      */
-    private $moreParentCategories;
+    protected $moreParentCategories = '.more.parent';
 
     /**
      * Top Elements of menu
@@ -39,15 +39,6 @@ class Topmenu extends Block
     protected $navigationMenuItems = "/li";
 
     /**
-     * Initialize for block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->moreParentCategories = '.more.parent';
-    }
-
-    /**
      * Select category from top menu by name and click on it
      *
      * @param string $categoryName
@@ -55,11 +46,15 @@ class Topmenu extends Block
     public function selectCategoryByName($categoryName)
     {
         $moreCategoriesLink = $this->_rootElement->find($this->moreParentCategories, Locator::SELECTOR_CSS);
+        /**
+         * @TODO Eliminate excessive logic
+         * Currently redundant actions are performed: "more categories" clicked even if category is already visible
+         */
         if ($moreCategoriesLink->isVisible()) {
             $moreCategoriesLink->click();
             sleep(2); //TODO should be removed after fix with category sliding
         }
-        $categoryLink = $this->_rootElement->find('//a[span="'.$categoryName.'"]', Locator::SELECTOR_XPATH);
+        $categoryLink = $this->_rootElement->find('//a[span="' . $categoryName . '"]', Locator::SELECTOR_XPATH);
         $categoryLink->click();
     }
 

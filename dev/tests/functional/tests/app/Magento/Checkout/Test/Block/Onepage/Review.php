@@ -16,7 +16,7 @@ use Mtf\Client\Element\Locator;
 
 /**
  * Class Review
- * One page checkout status
+ * One page checkout status review block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -42,7 +42,7 @@ class Review extends Block
      * @var string
      */
     protected  $grandTotal = '//tr[normalize-space(td)="Grand Total"]//span';
-
+    
     /**
      * Subtotal search mask
      *
@@ -63,7 +63,7 @@ class Review extends Block
     public function placeOrder()
     {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#review-please-wait');
     }
 
     /**

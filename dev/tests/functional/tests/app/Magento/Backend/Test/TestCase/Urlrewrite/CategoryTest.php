@@ -41,7 +41,7 @@ class CategoryTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $urlRewriteGridPage->open();
-        $pageActionsBlock->clickAddNew();
+        $pageActionsBlock->addNewUrlRewrite();
         $categoryTreeBlock->selectCategory($urlRewriteCategory->getCategoryName());
         $urlRewriteInfoForm->fill($urlRewriteCategory);
         $urlRewriteInfoForm->save();

@@ -27,7 +27,7 @@ class Search extends Block
      *
      * @var string
      */
-    private $searchInput = '#search';
+    protected $searchInput = '#search';
 
     /**
      * Search button

@@ -26,14 +26,14 @@ class Messages extends Block
      *
      * @var string
      */
-    protected $successMessageSelector = '//*[contains(@data-ui-id, "message-success")]';
+    protected $successMessage = '[data-ui-id$=message-success]';
 
     /**
      * Error message selector.
      *
      * @var string
      */
-    protected $errorMessageSelector = '//*[contains(@data-ui-id, "message-error")]';
+    protected $errorMessage = '[data-ui-id$=message-error]';
 
     /**
      * Check for success message
@@ -42,7 +42,7 @@ class Messages extends Block
      */
     public function assertSuccessMessage()
     {
-        return $this->waitForElementVisible($this->successMessageSelector, Locator::SELECTOR_XPATH);
+        return $this->waitForElementVisible($this->successMessage, Locator::SELECTOR_CSS);
     }
 
     /**
@@ -52,9 +52,7 @@ class Messages extends Block
      */
     public function getSuccessMessages()
     {
-        return $this->_rootElement
-            ->find($this->successMessageSelector, Locator::SELECTOR_XPATH)
-            ->getText();
+        return $this->_rootElement->find($this->successMessage, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -72,10 +70,10 @@ class Messages extends Block
     /**
      * Check for error message
      *
-     * @return mixed
+     * @return bool
      */
     public function assertErrorMessage()
     {
-        return $this->waitForElementVisible($this->errorMessageSelector, Locator::SELECTOR_XPATH);
+        return $this->waitForElementVisible($this->errorMessage, Locator::SELECTOR_CSS);
     }
 }

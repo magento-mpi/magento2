@@ -51,11 +51,11 @@ class UrlrewriteGrid extends Page
     /**
      * Retrieve page actions block
      *
-     * @return \Magento\Backend\Test\Block\PageActions
+     * @return \Magento\Backend\Test\Block\Urlrewrite\Actions
      */
     public function getPageActionsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions(
+        return Factory::getBlockFactory()->getMagentoBackendUrlrewriteActions(
             $this->_browser->find($this->pageActionsBlock)
         );
     }

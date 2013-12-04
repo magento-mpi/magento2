@@ -10,7 +10,6 @@
 
 namespace Magento\Backend\Test\Page\System;
 
-use Magento\Backend\Test\Block\PageActions;
 use Magento\Backend\Test\Block\System\Config\Switcher;
 use Magento\Core\Test\Block\Messages;
 use Mtf\Client\Element\Locator;
@@ -85,11 +84,13 @@ class Config extends Page
     /**
      * Retrieve page actions block
      *
-     * @return PageActions
+     * @return \Magento\Backend\Test\Block\System\Store\Actions
      */
     public function getActions()
     {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find($this->pageActions));
+        return Factory::getBlockFactory()->getMagentoBackendSystemConfigActions(
+            $this->_browser->find($this->pageActions)
+        );
     }
 
     /**

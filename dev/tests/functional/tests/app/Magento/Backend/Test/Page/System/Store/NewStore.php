@@ -52,10 +52,12 @@ class NewStore extends Page
     /**
      * Retrieve actions block
      *
-     * @return \Magento\Backend\Test\Block\PageActions
+     * @return \Magento\Backend\Test\Block\System\Store\Actions
      */
     public function getPageActionsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find($this->actionsBlock));
+        return Factory::getBlockFactory()->getMagentoBackendSystemStoreActions(
+            $this->_browser->find($this->actionsBlock)
+        );
     }
 }

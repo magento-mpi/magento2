@@ -30,16 +30,9 @@ class Advanced extends Page
     /**
      * Advanced search form
      *
-     * @var \Magento\CatalogSearch\Test\Block\Form\Advanced
-     */
-    protected $searchForm;
-
-    /**
-     * Form wrapper selector
-     *
      * @var string
      */
-    private $formWrapperSelector = '.form.search.advanced';
+    protected $searchForm = '.form.search.advanced';
 
     /**
      * Custom constructor
@@ -47,9 +40,6 @@ class Advanced extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->searchForm = Factory::getBlockFactory()->getMagentoCatalogSearchFormAdvanced(
-            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -59,6 +49,8 @@ class Advanced extends Page
      */
     public function getSearchForm()
     {
-        return $this->searchForm;
+        return Factory::getBlockFactory()->getMagentoCatalogSearchFormAdvanced(
+            $this->_browser->find($this->searchForm, Locator::SELECTOR_CSS)
+        );
     }
 }

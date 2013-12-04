@@ -30,16 +30,7 @@ class Billing extends Block
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->continue = '#payment-continue';
-    }
+    protected $continue = '#payment-continue';
 
     /**
      * Select payment method

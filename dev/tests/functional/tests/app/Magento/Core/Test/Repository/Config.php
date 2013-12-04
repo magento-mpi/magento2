@@ -22,6 +22,19 @@ use Mtf\Repository\AbstractRepository;
  */
 class Config extends AbstractRepository
 {
+    /**
+     * Configuration option constants
+     */
+    const EXCLUDING_TAX = 1;
+    const NO_VALUE = 0;
+    const YES_VALUE = 1;
+
+    /**
+     * Config repository constructor
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
@@ -68,7 +81,7 @@ class Config extends AbstractRepository
                             'freeshipping' => array( //Free Shipping
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'free_shipping_subtotal' => array( //Minimum Order Amount
                                         'value' => 10
@@ -80,7 +93,7 @@ class Config extends AbstractRepository
                                         'value' => 'US' //United States
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -104,7 +117,7 @@ class Config extends AbstractRepository
                             'flatrate' => array( //Flat Rate
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'price' => array( //Price
                                         'value' => 5
@@ -137,7 +150,7 @@ class Config extends AbstractRepository
                             'authorizenet' => array( //Credit Card (Authorize.net)
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'login' => array( //API Login ID
                                         'value' => '36sCtGS8w'
@@ -152,16 +165,16 @@ class Config extends AbstractRepository
                                         'value' => 'https://test.authorize.net/gateway/transact.dll'
                                     ),
                                     'test' => array( //Test Mode
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'cctypes' => array( //Card Types
                                         'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
                                     ),
                                     'useccv' => array( //Credit Card Verification
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'centinel' => array( //3D Secure Card Validation
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -210,49 +223,49 @@ class Config extends AbstractRepository
                             'paypal_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'paypal_standard' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'paypal_direct' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'verisign' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'paypaluk_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'payflow_advanced' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'payflow_link' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -297,17 +310,17 @@ class Config extends AbstractRepository
                                                                 'value' => 'AEhCkH8sFI39Bz94iP79RT9Mt0MVAkCzF6NaWuXG2QtQFTkCUVG0z83m'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
-                                                                'value' => 1 //Yes
+                                                                'value' => self::YES_VALUE
                                                             ),
                                                             'use_proxy' => array( //API Uses Proxy
-                                                                'value' => 0 //No
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_wpp' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 )
                                             ),
@@ -334,7 +347,7 @@ class Config extends AbstractRepository
                             'paypal_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -379,17 +392,17 @@ class Config extends AbstractRepository
                                                                 'value' => 'AOolWQExAt2k.RZzqZ6i6hWlSW4vAnkvVXvL8r1P-kXgqaV7sfD.ftNQ'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
-                                                                'value' => 1 //Yes
+                                                                'value' => self::YES_VALUE
                                                             ),
                                                             'use_proxy' => array( //API Uses Proxy
-                                                                'value' => 0 //No
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_express_checkout' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 ),
                                             ),
@@ -459,17 +472,17 @@ class Config extends AbstractRepository
                                                                 'value' => 'Temp1234'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
-                                                                'value' => 1
+                                                                'value' => self::YES_VALUE
                                                             ),
                                                             'use_proxy' => array( // Use Proxy
-                                                                'value' => 0
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_paypal_payflow' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 )
                                             ),
@@ -496,7 +509,7 @@ class Config extends AbstractRepository
                             'paypaluk_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -609,10 +622,10 @@ class Config extends AbstractRepository
                             'display' => array( // Price Display Settings
                                 'fields' => array(
                                     'type' => array( // Display Product Prices In Catalog
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'shipping' => array( // Display Shipping Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     )
                                 )
                             )
@@ -641,28 +654,28 @@ class Config extends AbstractRepository
                             'cart_display' => array( // Shipping Cart Display Settings
                                 'fields' => array(
                                     'price' => array( // Display Prices
-                                        'value' => 1,
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'subtotal' => array( // Display Subtotal
-                                        'value' => 1,
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'shipping' => array( // Display Shipping Amount
-                                        'value' => 1,
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'gift_wrapping' => array( // Display Gift Wrapping Prices
-                                        'value' => 1,
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'printed_card' => array( // Display Printed Card Prices
-                                        'value' => 1,
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'grandtotal' => array( // Include Tax In Grand Total
-                                        'value' => 0,
+                                        'value' => self::NO_VALUE
                                     ),
                                     'full_summary' => array( // Display Full Tax Summary
-                                        'value' => 0,
+                                        'value' => self::NO_VALUE
                                     ),
                                     'zero_tax' => array( // Display Zero Tax Subtotal
-                                        'value' => 0,
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -777,7 +790,7 @@ class Config extends AbstractRepository
                             'authorizenet' => array( //Credit Card (Authorize.net)
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -835,7 +848,7 @@ class Config extends AbstractRepository
                             'checkmo' => array( //Credit Card (Authorize.net)
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1, //Yes
+                                        'value' => self::YES_VALUE,
                                     ),
                                     'order_status' => array(
                                         'value' => 'pending', //New Order Status

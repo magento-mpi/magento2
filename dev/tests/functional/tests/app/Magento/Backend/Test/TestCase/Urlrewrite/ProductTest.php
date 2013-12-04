@@ -43,7 +43,7 @@ class ProductTest extends Functional
         //Steps
         Factory::getApp()->magentoBackendLoginUser();
         $urlRewriteGridPage->open();
-        $pageActionsBlock->clickAddNew();
+        $pageActionsBlock->addNewUrlRewrite();
         $typeSelectorBlock->selectType($urlRewriteProduct->getUrlRewriteType());
         $productGridBlock->searchAndSelect(array('sku' => $urlRewriteProduct->getProductSku()));
         $categoryTreeBlock->selectCategory($urlRewriteProduct->getCategoryName());
