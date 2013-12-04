@@ -24,12 +24,8 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
 
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will(
@@ -42,7 +38,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             );
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv',
-            $filesystemMock
+            $directoryMock
         );
         $source->rewind();
         $expected = $source->current();

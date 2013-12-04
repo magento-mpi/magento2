@@ -26,9 +26,9 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
     /**
      * Mock for filesystem library
      *
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_filesystemMock;
+    protected $_directoryMock;
 
     protected function setUp()
     {
@@ -40,13 +40,8 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $this->_filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $this->_filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
-        $directoryMock->expects($this->any())
+        $this->_directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
+        $this->_directoryMock->expects($this->any())
             ->method('openFile')
             ->will(
                 $this->returnValue(
@@ -73,7 +68,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/customers_to_import.csv',
-            $this->_filesystemMock
+            $this->_directoryMock
         );
 
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
@@ -141,7 +136,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/customers_to_import.csv',
-            $this->_filesystemMock
+            $this->_directoryMock
         );
 
         /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
