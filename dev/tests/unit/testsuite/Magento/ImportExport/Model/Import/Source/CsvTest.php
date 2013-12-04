@@ -37,10 +37,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
         $this->_directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->throwException(new \Magento\Filesystem\FilesystemException()));
-        $this->_filesystem->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($this->_directoryMock));
-        new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/invalid_file', $this->_filesystem);
+        new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/invalid_file', $this->_directoryMock);
     }
 
     public function testConstructStream()
@@ -81,11 +78,8 @@ class CsvTest extends \PHPUnit_Framework_TestCase
                     new \Magento\Filesystem\Driver\Base()
                 )
             ));
-        $this->_filesystem->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($this->_directoryMock));
         $model = new \Magento\ImportExport\Model\Import\Source\Csv(
-            __DIR__ . '/_files/test.csv', $this->_filesystem, $delimiter, $enclosure);
+            __DIR__ . '/_files/test.csv', $this->_directoryMock, $delimiter, $enclosure);
         $this->assertSame($expectedColumns, $model->getColNames());
     }
 
@@ -111,12 +105,9 @@ class CsvTest extends \PHPUnit_Framework_TestCase
                     new \Magento\Filesystem\Driver\Base()
                 )
             ));
-        $this->_filesystem->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($this->_directoryMock));
         $model = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/test.csv',
-            $this->_filesystem
+            $this->_directoryMock
         );
         $this->assertSame(-1, $model->key());
         $model->next();

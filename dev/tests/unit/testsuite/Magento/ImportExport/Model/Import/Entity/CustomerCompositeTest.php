@@ -766,8 +766,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
     {
         $this->_getModelMockForPrepareRowForDb();
         $pathToCsvFile = __DIR__ . '/_files/customer_composite_prepare_row_for_db.csv';
-        $filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false);
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue(
@@ -776,10 +775,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
                     new \Magento\Filesystem\Driver\Base()
                 )
             ));
-        $filesystem->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $filesystem);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directoryMock);
         $this->_model->setSource($source);
         $this->_model->validateData();  // assertions processed in self::verifyPrepareRowForDbData
     }
