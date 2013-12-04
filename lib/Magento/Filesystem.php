@@ -154,11 +154,6 @@ class Filesystem
      */
     protected $writeInstances = array();
 
-    /**
-     * @deprecated
-     */
-    const DIRECTORY_SEPARATOR = '/';
-
 use \Magento\FilesystemDeprecated;
 
     /**
@@ -178,9 +173,7 @@ use \Magento\FilesystemDeprecated;
         $this->writeFactory = $writeFactory;
 
         $this->_adapter = $adapter;
-
     }
-
 
     /**
      * Create an instance of directory with write permissions
