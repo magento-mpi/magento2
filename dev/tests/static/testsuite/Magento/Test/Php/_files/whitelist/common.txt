@@ -123,7 +123,6 @@ app/code/Magento/Sales/Model/Order/Pdf/Total/Factory.php
 app/code/Magento/SalesRule/Model/Plugin
 app/code/Magento/Theme
 app/code/Magento/Webapi
-app/code/Magento/Webhook
 app/code/Magento/Wishlist/Block/Link.php
 dev/shell
 dev/tests/integration

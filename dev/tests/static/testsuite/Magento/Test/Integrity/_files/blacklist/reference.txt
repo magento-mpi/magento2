@@ -16,7 +16,6 @@ Module_Two
 Module_Name
 Test
 Local_Module
-\Magento\Webapi\Controller\Soap\Security
 Mage
 Pear_Package_Parser_v2
 PEAR_Config

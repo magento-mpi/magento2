@@ -9,4 +9,67 @@
 -->
 <config>
     <preference for="Magento\App\FrontControllerInterface" type="Magento\Webapi\Controller\Rest" />
+    <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
+    <type name="Magento\Webapi\Controller\Rest\Request\Deserializer\Factory">
+        <param name="deserializers">
+            <value>
+                <application_json>
+                    <type>application/json</type>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Json</model>
+                </application_json>
+                <application_xml>
+                    <type>application/xml</type>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Xml</model>
+                </application_xml>
+                <application_xhtml_xml>
+                    <type>application/xhtml+xml</type>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Xml</model>
+                </application_xhtml_xml>
+                <text_xml>
+                    <type>text/xml</type>
+                    <model>Magento\Webapi\Controller\Rest\Request\Deserializer\Xml</model>
+                </text_xml>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Webapi\Controller\Rest\Response\Renderer\Factory">
+        <param name="renders">
+            <value>
+                <default>
+                    <type>*/*</type>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
+                </default>
+                <application_json>
+                    <type>application/json</type>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Json</model>
+                </application_json>
+                <text_xml>
+                    <type>text/xml</type>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Xml</model>
+                </text_xml>
+                <application_xml>
+                    <type>application/xml</type>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Xml</model>
+                </application_xml>
+                <application_xhtml_xml>
+                    <type>application/xhtml+xml</type>
+                    <model>Magento\Webapi\Controller\Rest\Response\Renderer\Xml</model>
+                </application_xhtml_xml>
+            </value>
+        </param>
+    </type>
+    <type name="Magento\Webapi\Controller\Rest">
+        <param name="request">
+            <instance type="Magento\Webapi\Controller\Rest\Request\Proxy"/>
+        </param>
+        <param name="response">
+            <instance type="Magento\Webapi\Controller\Rest\Response\Proxy"/>
+        </param>
+        <param name="router">
+            <instance type="Magento\Webapi\Controller\Rest\Router\Proxy"/>
+        </param>
+        <param name="oauthHelper">
+            <instance type="Magento\Oauth\Helper\Request\Proxy"/>
+        </param>
+    </type>
 </config>
