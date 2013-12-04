@@ -23,9 +23,9 @@ class IntegrationOauthV1 implements IntegrationOauthV1Interface
     /**
      * Construct and initialize Consumer Factory
      *
-     * @param IntegrationFactory $consumerFactory
+     * @param ConsumerFactory $consumerFactory
      */
-    public function __construct(IntegrationFactory $consumerFactory)
+    public function __construct(ConsumerFactory $consumerFactory)
     {
         $this->_consumerFactory = $consumerFactory;
     }
