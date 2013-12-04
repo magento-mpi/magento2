@@ -16,7 +16,7 @@ use Mtf\TestCase\Functional;
  *
  * @package Magento\User\Test\TestCase
  */
-class UserWithRestrictedRole extends Functional
+class UserWithRestrictedRoleTest extends Functional
 {
     /**
      * Login into backend area before test
