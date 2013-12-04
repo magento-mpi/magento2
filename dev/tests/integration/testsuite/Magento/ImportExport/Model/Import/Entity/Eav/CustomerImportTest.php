@@ -23,12 +23,36 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
      */
     protected $_model;
 
+    /**
+     * Mock for filesystem library
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $_filesystemMock;
+
     protected function setUp()
     {
         parent::setUp();
 
         $this->_model = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
+
+        $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
+        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+
+        $this->_filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
+
+        $this->_filesystemMock->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($directoryMock));
+        $directoryMock->expects($this->any())
+            ->method('openFile')
+            ->will(
+                $this->returnValue(
+                    $directory->openFile($directory->getRelativePath(__DIR__ . '/_files/customers_to_import.csv'), 'r')
+                )
+            );
     }
 
     /**
@@ -45,7 +69,12 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
         // 3 customers will be imported.
         // 1 of this customers is already exist, but its first and last name were changed in file
         $expectAddedCustomers = 5;
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
+
+
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
+            __DIR__ . '/_files/customers_to_import.csv',
+            $this->_filesystemMock
+        );
 
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
         $customersCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
@@ -110,7 +139,10 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv(__DIR__ . '/_files/customers_to_import.csv');
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv(
+            __DIR__ . '/_files/customers_to_import.csv',
+            $this->_filesystemMock
+        );
 
         /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
         $customerCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()

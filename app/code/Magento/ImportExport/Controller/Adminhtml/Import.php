@@ -116,7 +116,10 @@ class Import extends \Magento\Backend\App\Action
             try {
                 /** @var $import \Magento\ImportExport\Model\Import */
                 $import = $this->_objectManager->create('Magento\ImportExport\Model\Import')->setData($data);
-                $source = \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($import->uploadSource());
+                $source = \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
+                    $import->uploadSource(),
+                    $this->_objectManager->create('Magento\Filesystem')
+                );
                 $validationResult = $import->validateSource($source);
 
                 if (!$import->getProcessedRowsCount()) {
