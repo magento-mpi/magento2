@@ -46,12 +46,16 @@ class Integration extends Action
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
+    /** @var \Magento\Integration\Service\IntegrationOauthV1Interface */
+    private $_integrationOauthService;
+
     /** @var \Magento\Integration\Helper\Data */
     protected $_integrationData;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
+     * @param \Magento\Integration\Service\IntegrationOauthV1Interface $integrationOauthService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
      * @param \Magento\Integration\Helper\Data $integrationData
@@ -59,6 +63,7 @@ class Integration extends Action
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
+        \Magento\Integration\Service\IntegrationOauthV1Interface $integrationOauthService,
         \Magento\Core\Model\Registry $registry,
         \Magento\Logger $logger,
         \Magento\Integration\Helper\Data $integrationData
@@ -66,6 +71,7 @@ class Integration extends Action
         $this->_registry = $registry;
         $this->_logger = $logger;
         $this->_integrationService = $integrationService;
+        $this->_integrationOauthService = $integrationOauthService;
         $this->_integrationData = $integrationData;
         parent::__construct($context);
     }
@@ -263,6 +269,10 @@ class Integration extends Action
                 if (!$integrationData[Info::DATA_ID]) {
                     $this->_getSession()->addError(__('This integration no longer exists.'));
                 } else {
+                    //Integration deleted successfully, now safe to delete the associated consumer data
+                    if (isset($integrationData[Info::DATA_CONSUMER_ID])) {
+                        $this->_integrationOauthService->deleteConsumer($integrationData[Info::DATA_CONSUMER_ID]);
+                    }
                     $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
                     $this->_getSession()
                         ->addSuccess(__('The integration \'%1\' has been deleted.', $integrationData[Info::DATA_NAME]));

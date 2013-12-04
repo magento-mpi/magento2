@@ -30,6 +30,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_EMAIL = 'email';
     const DATA_ENDPOINT = 'endpoint';
     const DATA_SETUP_TYPE = 'setup_type';
+    const DATA_CONSUMER_ID = 'consumer_id';
     /**#@-*/
 
     /**
