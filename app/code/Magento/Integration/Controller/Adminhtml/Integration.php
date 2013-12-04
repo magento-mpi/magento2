@@ -11,7 +11,7 @@ namespace Magento\Integration\Controller\Adminhtml;
 use Magento\Backend\App\Action;
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 use Magento\Integration\Exception as IntegrationException;
-use Magento\Integration\Helper\Oauth\Consumer as OauthConsumerHelper;
+use Magento\Integration\Service\OauthV1Interface as IntegrationOauthService;
 use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
@@ -38,28 +38,28 @@ class Integration extends Action
     /** @var \Magento\Integration\Service\IntegrationV1Interface */
     private $_integrationService;
 
-    /** @var OauthConsumerHelper */
-    protected $_oauthConsumerHelper;
+    /** @var IntegrationOauthService */
+    protected $_oauthService;
 
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
-     * @param OauthConsumerHelper $oauthConsumerHelper
+     * @param IntegrationOauthService $oauthService
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         \Magento\Core\Model\Registry $registry,
         \Magento\Logger $logger,
-        OauthConsumerHelper $oauthConsumerHelper
+        IntegrationOauthService $oauthService
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
         $this->_logger = $logger;
         $this->_integrationService = $integrationService;
-        $this->_oauthConsumerHelper = $oauthConsumerHelper;
+        $this->_oauthService = $oauthService;
     }
 
     /**
@@ -266,7 +266,7 @@ class Integration extends Action
         try {
             $integrationId = $this->getRequest()->getParam('id');
             $integrationData = $this->_integrationService->get($integrationId);
-            $this->_oauthConsumerHelper->createAccessToken($integrationData[IntegrationModel::CONSUMER_ID]);
+            $this->_oauthService->createAccessToken($integrationData[IntegrationModel::CONSUMER_ID]);
             $this->_registry->register(
                 self::REGISTRY_KEY_CURRENT_INTEGRATION,
                 $this->_integrationService->get($integrationId)

@@ -34,8 +34,8 @@ class OauthHelper
     {
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var $consumerHelper \Magento\Integration\Helper\Oauth\Consumer */
-        $consumerHelper = $objectManager->get('Magento\Integration\Helper\Oauth\Consumer');
+        /** @var $oauthService \Magento\Integration\Service\OauthV1 */
+        $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
 
         $url = TESTS_BASE_URL;
         $data = array(
@@ -48,7 +48,7 @@ class OauthHelper
             $data['created_at'] = $date;
         }
 
-        $consumer = $consumerHelper->createConsumer($data);
+        $consumer = $oauthService->createConsumer($data);
         $token = $objectManager->create('Magento\Integration\Model\Oauth\Token');
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
@@ -135,14 +135,14 @@ class OauthHelper
                 }
             }
 
-            /** @var \Magento\Integration\Helper\Oauth\Consumer $consumerHelper */
-            $consumerHelper = $objectManager->get('Magento\Integration\Helper\Oauth\Consumer');
-            $consumerHelper->createAccessToken($integrationData['consumer_id']);
-            $accessToken = $consumerHelper->getAccessToken($integrationData['consumer_id']);
+            /** @var \Magento\Integration\Service\OauthV1 $oauthService */
+            $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
+            $oauthService->createAccessToken($integrationData['consumer_id']);
+            $accessToken = $oauthService->getAccessToken($integrationData['consumer_id']);
             if (!$accessToken) {
                 throw new LogicException('Access token was not created.');
             }
-            $consumer = $consumerHelper->loadConsumer($integrationData['consumer_id']);
+            $consumer = $oauthService->loadConsumer($integrationData['consumer_id']);
             $credentials = new \OAuth\Common\Consumer\Credentials(
                 $consumer->getKey(), $consumer->getSecret(), TESTS_BASE_URL);
             /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
