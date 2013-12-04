@@ -51,10 +51,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime
             ))
             ->setMethods(array('_init', 'save'))
@@ -91,10 +91,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime,
                 null,
                 null,
@@ -129,10 +129,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime,
                 null,
                 null,
@@ -169,10 +169,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime,
                 null,
                 null,
@@ -208,10 +208,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime,
                 null,
                 null,
@@ -247,10 +247,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime,
                 null,
                 null,
@@ -313,10 +313,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime
             ))
             ->setMethods(array('_init', 'save', 'getRetryCount', 'setUpdatedAt', 'setStatus'))
@@ -350,10 +350,10 @@ class JobTest extends \PHPUnit_Framework_TestCase
 
         $this->_job = $this->getMockBuilder('Magento\Webhook\Model\Job')
             ->setConstructorArgs(array(
-                $this->_mockEventFactory,
-                $this->_mockSubscrFactory,
                 $this->_mockContext,
                 $coreRegistry,
+                $this->_mockEventFactory,
+                $this->_mockSubscrFactory,
                 $dateTime,
             ))
             ->setMethods(array('_init', 'save', 'getRetryCount', 'setStatus'))

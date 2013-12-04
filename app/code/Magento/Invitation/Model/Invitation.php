@@ -111,9 +111,9 @@ class Invitation extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Resource\Invitation $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Invitation\Model\Config $config
@@ -126,9 +126,9 @@ class Invitation extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Resource\Invitation $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Invitation\Model\Config $config,
@@ -272,8 +272,6 @@ class Invitation extends \Magento\Core\Model\AbstractModel
                 $store->getConfig(self::XML_PATH_EMAIL_TEMPLATE), $store->getConfig(self::XML_PATH_EMAIL_IDENTITY),
                 $this->getEmail(), null, array(
                     'url'           => $this->_invitationData->getInvitationUrl($this),
-                    'allow_message' => $this->_storeManager->getStore()->isAdmin()
-                        || $this->_config->isInvitationMessageAllowed(),
                     'message'       => $this->getMessage(),
                     'store'         => $store,
                     'store_name'    => $store->getGroup()->getName(),

@@ -48,6 +48,13 @@ class Cart extends Block
     protected $itemUnitPriceSelector = '//td[@class="col price excl tax"]//span[@class="price"]';
 
     /**
+     * Unit Price value
+     *
+     * @var string
+     */
+    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
+
+    /**
      * Get sub-total for the specified item in the cart
      *
      * @param Product $product
@@ -142,5 +149,17 @@ class Cart extends Block
             }
         }
         return $productName;
+    }
+
+    /**
+     * Get product price "Unit Price" by product name
+     *
+     * @param $productName
+     * @return string
+     */
+    public function getProductPriceByName($productName)
+    {
+        $priceSelector = sprintf($this->cartProductPrice, $productName);
+        return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
     }
 }

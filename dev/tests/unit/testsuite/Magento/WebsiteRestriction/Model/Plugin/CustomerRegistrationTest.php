@@ -17,21 +17,12 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_storeManagerMock;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     protected $_restrictionConfig;
 
     protected function setUp()
     {
-        $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
         $this->_restrictionConfig = $this->getMock('Magento\WebsiteRestriction\Model\ConfigInterface');
-        $this->_model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration(
-            $this->_storeManagerMock,
-            $this->_restrictionConfig
-        );
+        $this->_model = new \Magento\WebsiteRestriction\Model\Plugin\CustomerRegistration($this->_restrictionConfig);
     }
 
     public function testAfterIsRegistrationIsAllowedRestrictsRegistrationIfRestrictionModeForbidsIt()
@@ -40,10 +31,6 @@ class CustomerRegistrationTest extends \PHPUnit_Framework_TestCase
         $storeMock->expects($this->any())
             ->method('isAdmin')
             ->will($this->returnValue(false));
-        $this->_storeManagerMock->expects($this->any())
-            ->method('getStore')
-            ->with(null)
-            ->will($this->returnValue($storeMock));
         $this->_restrictionConfig->expects($this->any())
             ->method('isRestrictionEnabled')
             ->will($this->returnValue(true));

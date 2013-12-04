@@ -92,6 +92,10 @@ class Index extends \Magento\App\Action\Action
         $data = $this->getRequest()->getPost();
         if ($data) {
             $customer = $this->_session->getCustomer();
+            $message = isset($data['message']) ? $data['message'] : '';
+            if (!$this->_config->isInvitationMessageAllowed()) {
+                $message = '';
+            }
             $invPerSend = $this->_config->getMaxInvitationsPerSend();
             $attempts = 0;
             $sent     = 0;
@@ -108,7 +112,7 @@ class Index extends \Magento\App\Action\Action
                     $invitation = $this->invitationFactory->create()->setData(array(
                         'email'    => $email,
                         'customer' => $customer,
-                        'message'  => (isset($data['message']) ? $data['message'] : ''),
+                        'message'  => $message
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
                         $this->_session->addSuccess(__('You sent the invitation for %1.', $email));

@@ -72,10 +72,10 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
     protected $_quoteItemFactory;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
@@ -84,14 +84,16 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
      * @param \Magento\Object\Copy\Config $fieldsetConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory
-     *
+     * @param mixed $connection
+     * @param string $modelName
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
@@ -99,10 +101,23 @@ class Collection extends \Magento\Customer\Model\Resource\Customer\Collection
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Object\Copy\Config $fieldsetConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory
+        \Magento\Sales\Model\Resource\Quote\Item\CollectionFactory $quoteItemFactory,
+        $connection = null,
+        $modelName = self::CUSTOMER_MODEL_NAME
     ) {
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig,
-            $resource, $eavEntityFactory, $resourceHelper, $universalFactory, $fieldsetConfig
+        parent::__construct(
+            $entityFactory,
+            $logger,
+            $fetchStrategy,
+            $eventManager,
+            $eavConfig,
+            $resource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $universalFactory,
+            $fieldsetConfig,
+            $connection,
+            $modelName
         );
         $this->_quoteFactory = $quoteFactory;
         $this->_quoteItemFactory = $quoteItemFactory;

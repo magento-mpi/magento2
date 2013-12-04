@@ -10,7 +10,7 @@
 
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab\Customerbalance\Balance;
 
-class History extends \Magento\Adminhtml\Block\Template
+class History extends \Magento\Backend\Block\Template
 {
 
     protected $_template = 'balance/history.phtml';

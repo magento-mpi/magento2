@@ -8,11 +8,6 @@
  */
 -->
 <config>
-    <type name="Magento\GiftCardAccount\Model\History">
-        <param name="adminSession">
-            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
-        </param>
-    </type>
     <type name="Magento\GiftCardAccount\Model\Pool">
         <param name="giftCardCodeParams">
             <value>

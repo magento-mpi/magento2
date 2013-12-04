@@ -157,15 +157,15 @@ class UserTest extends \PHPUnit_Framework_TestCase
 
     public function testSendPasswordResetConfirmationEmail()
     {
-        /** @var $storeConfig \Magento\Core\Model\Store\Config */
-        $storeConfig = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->get('Magento\Core\Model\Store\Config');
+        /** @var $config \Magento\Backend\App\ConfigInterface */
+        $config = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Backend\App\ConfigInterface');
         $mailer = $this->getMock('Magento\Email\Model\Template\Mailer', array(), array(
             $this->getMock('Magento\Email\Model\TemplateFactory', array(), array(), '', false)
         ));
         $mailer->expects($this->once())
             ->method('setTemplateId')
-            ->with($storeConfig->getConfig(\Magento\User\Model\User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
+            ->with($config->getValue(\Magento\User\Model\User::XML_PATH_FORGOT_EMAIL_TEMPLATE));
         $mailer->expects($this->once())
             ->method('send');
         $this->_model->setMailer($mailer);
@@ -179,17 +179,17 @@ class UserTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('firstname///lastname', $this->_model->getName('///'));
     }
 
-    public function testGetAclRole()
+    public function testGetUninitializedAclRole()
     {
         $newuser = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\User\Model\User');
         $newuser->setUserId(10);
-        $this->assertNotEquals($this->_model->getAclRole(), $newuser->getAclRole());
+        $this->assertNull($newuser->getAclRole(), "User role was not initialized and is expected to be empty.");
     }
 
     /**
      * @magentoAppIsolation enabled
-     * @magentoConfigFixture current_store admin/security/use_case_sensitive_login 1
+     * @magentoAdminConfigFixture admin/security/use_case_sensitive_login 1
      */
     public function testAuthenticate()
     {
