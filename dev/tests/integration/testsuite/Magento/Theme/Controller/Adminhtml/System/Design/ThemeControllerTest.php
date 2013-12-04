@@ -41,6 +41,12 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
             )
         );
 
+        $directoryList = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+        ->get('Magento\Filesystem\DirectoryList');
+        /** @var $directoryList \Magento\Filesystem\DirectoryList */
+        $directoryList->addDirectory(\Magento\Filesystem::SYS_TMP,
+            array('path' => '/'));
+
         $theme = $this->_objectManager->create('Magento\View\Design\ThemeInterface')->getCollection()->getFirstItem();
 
         $this->getRequest()->setPost('id', $theme->getId());
@@ -61,7 +67,7 @@ class ThemeControllerTest extends \Magento\Backend\Utility\Controller
          * Copy file to writable directory.
          * Uploader can copy(upload) and then remove this temporary file.
          */
-        $fileName = __DIR__ . '_files/simple-js-file.js';
+        $fileName = __DIR__ . '/_files/simple-js-file.js';
         $varDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $rootDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $destinationFilePath = 'simple-js-file.js';
