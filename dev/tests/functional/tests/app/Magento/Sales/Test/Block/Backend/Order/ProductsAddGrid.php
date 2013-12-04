@@ -12,7 +12,7 @@
 namespace Magento\Sales\Test\Block\Backend\Order;
 
 use Magento\Backend\Test\Block\Widget\Grid;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Sales\Test\Fixture\Order;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
@@ -62,7 +62,7 @@ class ProductsAddGrid extends Grid
     /**
      * Select product to be added to order
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      */
     public function addProduct($product)
     {

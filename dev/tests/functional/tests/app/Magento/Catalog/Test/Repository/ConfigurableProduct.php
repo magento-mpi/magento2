@@ -11,7 +11,7 @@
 
 namespace Magento\Catalog\Test\Repository;
 
-use Mtf\Repository\AbstractRepository;
+use Magento\Catalog\Test\Fixture;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct as ConfigurableProductFixture;
 
 /**
@@ -19,7 +19,7 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct as ConfigurableProductFixtu
  *
  * @package Magento\Catalog\Test\Repository
  */
-class ConfigurableProduct extends AbstractRepository
+class ConfigurableProduct extends Product
 {
     /**
      * Construct
@@ -29,16 +29,8 @@ class ConfigurableProduct extends AbstractRepository
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
-
-        $this->_data['configurable_required'] = $this->_data['default'];
-        $this->_data['configurable'] = $this->_data['default'];
-        $this->_data['configurable']['data']['category_name'] = '%category::getCategoryName%';
+        parent::__construct($defaultConfig, $defaultData);
         $this->_data['configurable']['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
-
         $this->_data['configurable_advanced_pricing'] = $this->getConfigurableAdvancedPricing();
 
         $this->_data['product_variations'] = array(
@@ -59,7 +51,7 @@ class ConfigurableProduct extends AbstractRepository
                 'fields' => array(
                     'special_price' => array(
                         'value' => '9',
-                        'group' => 'product_info_tabs_advanced-pricing'
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
                     )
                 )
             )
@@ -104,7 +96,7 @@ class ConfigurableProduct extends AbstractRepository
                         ),
                     ),
                 ),
-                'group' => ConfigurableProductFixture::GROUP_VARIATIONS,
+                'group' => ConfigurableProductFixture::GROUP,
             ),
             'variations-matrix' => array(
                 'value' => array(
@@ -133,7 +125,7 @@ class ConfigurableProduct extends AbstractRepository
                         ),
                     ),
                 ),
-                'group' => ConfigurableProductFixture::GROUP_VARIATIONS,
+                'group' => ConfigurableProductFixture::GROUP,
             ),
         );
         return $data;

@@ -19,8 +19,11 @@ use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Bundle\Test\Fixture\Bundle;
+use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
 /**
  * Class ProductForm
@@ -56,20 +59,24 @@ class ProductForm extends FormTabs
      *
      * @var AffectedAttributeSet
      */
-    private $affectedAttributeSetBlock;
+    protected $affectedAttributeSetBlock;
+
+    /**
+     * @var array
+     */
+    protected $tabClasses = array(
+        Bundle::GROUP => '\Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
+        ConfigurableProduct::GROUP => '\Magento\Backend\Test\Block\Catalog\Product\Edit\Tab\Super\Config',
+        GroupedProduct::GROUP => '\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts',
+        DownloadableProduct::GROUP => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
+        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab'
+    );
 
     /**
      * Initialize block elements
      */
     protected function _init()
     {
-        //Custom tab classes for product form
-        $this->_tabClasses = array(
-            'product_info_tabs_bundle_content' =>
-                '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle',
-            'product_info_tabs_super_config_content' =>
-                '\\Magento\\Backend\\Test\\Block\\Catalog\\Product\\Edit\\Tab\\Super\\Config'
-        );
         //Elements
         $this->saveButton = '#save-split-button-button';
         //Blocks
@@ -138,9 +145,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param AbstractProduct $fixture
+     * @param Product $fixture
      */
-    public function addNewCategory(AbstractProduct $fixture)
+    public function addNewCategory(Product $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
