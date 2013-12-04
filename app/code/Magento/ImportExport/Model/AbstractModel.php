@@ -105,7 +105,7 @@ abstract class AbstractModel extends \Magento\Object
                 $this->getOperationType(),
                 $this->getEntity()
             ));
-            $path = \Magento\ImportExport\Model\Scheduled\Operation::LOG_DIRECTORY . $dirName;
+            $path = 'import_export/'. $dirName;
             $this->_varDirectory->create($path);
 
             $fileName = $path . $fileName . '.log';

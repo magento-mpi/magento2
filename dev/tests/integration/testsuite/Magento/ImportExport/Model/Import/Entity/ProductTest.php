@@ -516,8 +516,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         )) . "\n";
         $data = 'data://text/plain;base64,' . base64_encode($data);
 
-        //TODO: uncomment this with removing of Test skipping
-        //$fixture = new \Magento\ImportExport\Model\Import\Source\Csv($data);
+        $fixture = new \Magento\ImportExport\Model\Import\Source\Csv($data);
 
         foreach (\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Catalog\Model\Resource\Product\Collection') as $product) {
