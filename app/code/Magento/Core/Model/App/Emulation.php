@@ -57,6 +57,11 @@ class Emulation extends \Magento\Object
     protected $_design;
 
     /**
+     * @var \Magento\Core\Model\Translate\Inline\ConfigFactory
+     */
+    protected $_configFactory;
+
+    /**
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\View\DesignInterface $viewDesign
@@ -64,6 +69,7 @@ class Emulation extends \Magento\Object
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Core\Helper\Translate $helperTranslate
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param array $data
      */
@@ -75,6 +81,7 @@ class Emulation extends \Magento\Object
         \Magento\Core\Model\Translate $translate,
         \Magento\Core\Helper\Translate $helperTranslate,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\Translate\Inline\ConfigFactory $configFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         array $data = array()
     ) {
@@ -87,6 +94,7 @@ class Emulation extends \Magento\Object
         $this->_translate = $translate;
         $this->_helperTranslate = $helperTranslate;
         $this->_coreStoreConfig = $coreStoreConfig;
+        $this->_configFactory = $configFactory;
     }
 
     /**
@@ -123,7 +131,7 @@ class Emulation extends \Magento\Object
     }
 
     /**
-     * Stop enviromment emulation
+     * Stop environment emulation
      *
      * Function restores initial store environment
      *
@@ -157,11 +165,7 @@ class Emulation extends \Magento\Object
         if (is_null($storeId)) {
             $newTranslateInline = false;
         } else {
-            if ($area == \Magento\Core\Model\App\Area::AREA_ADMIN) {
-                $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active_admin', $storeId);
-            } else {
-                $newTranslateInline = $this->_coreStoreConfig->getConfigFlag('dev/translate_inline/active', $storeId);
-            }
+            $newTranslateInline = $this->_configFactory->create($area)->isActive($storeId);
         }
         $translateInline = $this->_translate->getTranslateInline();
         $this->_translate->setTranslateInline($newTranslateInline);

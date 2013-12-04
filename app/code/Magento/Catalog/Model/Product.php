@@ -1895,7 +1895,7 @@ class Product extends \Magento\Catalog\Model\AbstractModel
      */
     public function setOrigData($key=null, $data=null)
     {
-        if ($this->_storeManager->getStore()->isAdmin()) {
+        if ($this->_appState->getAreaCode() === \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
             return parent::setOrigData($key, $data);
         }
 

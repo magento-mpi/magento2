@@ -203,15 +203,11 @@ class Cookie
 
     /**
      * Is https secure request
-     * Use secure on adminhtml only
      *
      * @return bool
      */
     public function isSecure()
     {
-        if ($this->getStore()->isAdmin()) {
-            return $this->_getRequest()->isSecure();
-        }
         return false;
     }
 
@@ -291,7 +287,7 @@ class Cookie
     /**
      * Retrieve cookie or false if not exists
      *
-     * @param string $neme The cookie name
+     * @param string $name The cookie name
      * @return mixed
      */
     public function get($name = null)

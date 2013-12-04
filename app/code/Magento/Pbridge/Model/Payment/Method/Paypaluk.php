@@ -16,18 +16,11 @@ namespace Magento\Pbridge\Model\Payment\Method;
 class Paypaluk extends \Magento\PaypalUk\Model\Direct
 {
     /**
-     * Form block type for the frontend
+     * Credit card form block
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Paypaluk';
-
-    /**
-     * Form block type for the backend
-     *
-     * @var string
-     */
-    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
+    protected $_formBlock;
 
     /**
      * Payment Bridge Payment Method Instance
@@ -65,6 +58,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param string $formBlock
      * @param array $data
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -84,9 +78,11 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
         \Magento\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        $formBlock,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_formBlock = $formBlock;
         parent::__construct(
             $logger,
             $eventManager,
@@ -206,9 +202,7 @@ class Paypaluk extends \Magento\PaypalUk\Model\Direct
      */
     public function getFormBlockType()
     {
-        return $this->_storeManager->getStore()->isAdmin() ?
-            $this->_backendFormBlockType :
-            $this->_formBlockType;
+        return $this->_formBlock;
     }
 
     /**

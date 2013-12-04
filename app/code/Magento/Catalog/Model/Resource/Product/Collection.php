@@ -405,10 +405,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function isEnabledFlat()
     {
-        // Flat Data can be used only on frontend
-        if ($this->_storeManager->getStore()->isAdmin()) {
-            return false;
-        }
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
             $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()->isAvailable();
         }
@@ -733,7 +729,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
         $store = $this->_storeManager->getStore($store);
 
-        if (!$store->isAdmin()) {
+        if ($store->getId() != \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $this->setStoreId($store);
             $this->_productLimitationFilters['store_id'] = $store->getId();
             $this->_applyProductLimitations();
@@ -785,7 +781,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $this->_productLimitationFilters['category_is_anchor'] = 1;
         }
 
-        if ($this->getStoreId() == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
+        if ($this->getStoreId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $this->_applyZeroStoreProductLimitations();
         } else {
             $this->_applyProductLimitations();
@@ -1030,7 +1026,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Retrive all ids for collection
+     * Retrieve all ids for collection
      *
      * @param int|string $limit
      * @param int|string $offset
@@ -1047,7 +1043,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Retreive product count select for categories
+     * Retrieve product count select for categories
      *
      * @return \Magento\DB\Select
      */
@@ -1307,7 +1303,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     }
 
     /**
-     * Retreive all ids
+     * Retrieve all ids
      *
      * @param boolean $resetCache
      * @return array
@@ -1491,7 +1487,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function addFilterByRequiredOptions()
     {
-        $this->addAttributeToFilter('required_options', array(array('neq' => '1'), array('null' => true)), 'left');
+        $this->addAttributeToFilter('required_options', array(array('neq' => 1), array('null' => true)), 'left');
         return $this;
     }
 

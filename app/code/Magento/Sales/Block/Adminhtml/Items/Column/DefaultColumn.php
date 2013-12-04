@@ -18,7 +18,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Items\Column;
 
-class DefaultColumn extends \Magento\Adminhtml\Block\Template
+class DefaultColumn extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\Catalog\Model\Product\OptionFactory

@@ -12,6 +12,7 @@
 namespace Magento\Checkout\Test\Block\Onepage;
 
 use Mtf\Block\Form;
+use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
 use Magento\Checkout\Test\Fixture\Checkout;
 
@@ -65,7 +66,9 @@ class Billing extends Form
     public function fillBilling(Checkout $fixture)
     {
         $billingAddress = $fixture->getBillingAddress();
-        $this->fill($billingAddress);
+        if ($billingAddress) {
+            $this->fill($billingAddress);
+        }
         if ($fixture->getShippingAddress()) {
             $this->_rootElement->find($this->useForShipping, Locator::SELECTOR_CSS)->click();
         }

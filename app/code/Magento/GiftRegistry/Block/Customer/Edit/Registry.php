@@ -35,7 +35,7 @@ class Registry extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     /**
      * Return privacy field selector (input type = select)
      *
-     * @return sting
+     * @return string
      */
     public function getIsPublicHtml()
     {
@@ -48,7 +48,7 @@ class Registry extends  \Magento\GiftRegistry\Block\Customer\Edit\AbstractEdit
     /**
      * Return status field selector (input type = select)
      *
-     * @return sting
+     * @return string
      */
     public function getStatusHtml()
     {

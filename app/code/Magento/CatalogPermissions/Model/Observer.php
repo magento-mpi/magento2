@@ -73,11 +73,17 @@ class Observer
     protected $_storeManager;
 
     /**
+     * @var \Magento\CatalogPermissions\App\ConfigInterface
+     */
+    protected $_permissionsConfig;
+
+    /**
      * @var \Magento\App\ActionFlag
      */
     protected $_actionFlag;
 
     /**
+     * @param \Magento\CatalogPermissions\App\ConfigInterface $permissionsConfig
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param Permission\Index $permissionIndex
@@ -85,12 +91,14 @@ class Observer
      * @param \Magento\App\ActionFlag $actionFlag
      */
     public function __construct(
+        \Magento\CatalogPermissions\App\ConfigInterface $permissionsConfig,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CatalogPermissions\Model\Permission\Index $permissionIndex,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         \Magento\App\ActionFlag $actionFlag
     ) {
+        $this->_permissionsConfig = $permissionsConfig;
         $this->_storeManager    = $storeManager;
         $this->_catalogPermData = $catalogPermData;
         $this->_permissionIndex = $permissionIndex;
@@ -106,7 +114,7 @@ class Observer
      */
     public function applyCategoryPermissionOnIsActiveFilterToCollection(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -129,7 +137,7 @@ class Observer
      */
     public function applyCategoryPermissionOnLoadCollection(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -164,7 +172,7 @@ class Observer
      */
     public function applyCategoryInactiveIds(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -186,7 +194,7 @@ class Observer
      */
     public function applyCategoryPermissionOnProductCount(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -203,7 +211,7 @@ class Observer
      */
     public function applyCategoryPermission(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -239,7 +247,7 @@ class Observer
      */
     public function applyProductPermissionOnCollection(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -256,7 +264,7 @@ class Observer
      */
     public function applyProductPermissionOnCollectionAfterLoad(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -282,7 +290,7 @@ class Observer
      */
     public function checkQuotePermissions(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -323,7 +331,7 @@ class Observer
      */
     public function checkQuoteItemSetProduct(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -424,7 +432,7 @@ class Observer
      */
     public function applyProductPermission(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -515,7 +523,7 @@ class Observer
      */
     public function checkCatalogSearchLayout(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -535,7 +543,7 @@ class Observer
      */
     public function checkCatalogSearchPreDispatch(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 
@@ -580,7 +588,7 @@ class Observer
      */
     public function checkIfProductAllowedInRss(\Magento\Event\Observer $observer)
     {
-        if (!$this->_catalogPermData->isEnabled()) {
+        if (!$this->_permissionsConfig->isEnabled()) {
             return $this;
         }
 

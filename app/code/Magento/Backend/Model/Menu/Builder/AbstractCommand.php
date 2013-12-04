@@ -51,7 +51,7 @@ abstract class AbstractCommand
     }
 
     /**
-     * Retreive id of element to apply command to
+     * Retrieve id of element to apply command to
      *
      * @return int
      */

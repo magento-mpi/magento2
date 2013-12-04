@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    design
- * @package     base_default
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -12,7 +10,7 @@
 /**
  * Category view template
  *
- * @see \Magento\Catalog\Block\Category\View
+ * @var $this \Magento\Catalog\Block\Category\View
  */
 ?>
 <?php
@@ -20,33 +18,29 @@
     $_category  = $this->getCurrentCategory();
     $_imgHtml   = '';
     if ($_imgUrl = $_category->getImageUrl()) {
-        $_imgHtml = '<p class="category-image"><img src="'.$_imgUrl.'" alt="'.$this->escapeHtml($_category->getName()).'" title="'.$this->escapeHtml($_category->getName()).'" /></p>';
+        $_imgHtml = '<div class="category image"><img src="' . $_imgUrl . '" alt="' . $this->escapeHtml($_category->getName()) . '" title="' . $this->escapeHtml($_category->getName()) . '" /></div>';
         $_imgHtml = $_helper->categoryAttribute($_category, $_imgHtml, 'image');
     }
 ?>
-<div class="page-title category-title">
-    <h1><?php echo $_helper->categoryAttribute($_category, $_category->getName(), 'name') ?></h1>
-</div>
-
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
-
-<?php if($_imgUrl): ?>
-    <?php echo $_imgHtml ?>
-<?php endif; ?>
-
-<?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
-    <div class="category-description std">
-        <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
-    </div>
+<div class="category view">
+    <?php if($_imgUrl): ?>
+        <?php echo $_imgHtml ?>
     <?php endif; ?>
 
-<?php if($this->isContentMode()): ?>
-    <?php echo $this->getCmsBlockHtml() ?>
+    <?php if($_description=$this->getCurrentCategory()->getDescription()): ?>
+        <div class="category description">
+            <?php echo $_helper->categoryAttribute($_category, $_description, 'description') ?>
+        </div>
+    <?php endif; ?>
 
-<?php elseif($this->isMixedMode()): ?>
-    <?php echo $this->getCmsBlockHtml() ?>
-    <?php echo $this->getProductListHtml() ?>
+    <?php if($this->isContentMode()): ?>
+        <?php echo $this->getCmsBlockHtml() ?>
 
-<?php else: ?>
-    <?php echo $this->getProductListHtml() ?>
-<?php endif; ?>
+    <?php elseif($this->isMixedMode()): ?>
+        <?php echo $this->getCmsBlockHtml() ?>
+        <?php echo $this->getProductListHtml() ?>
+
+    <?php else: ?>
+        <?php echo $this->getProductListHtml() ?>
+    <?php endif; ?>
+</div>

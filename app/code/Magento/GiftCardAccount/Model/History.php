@@ -46,15 +46,9 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Backend\Model\Auth\Session
-     */
-    protected $_adminSession;
-
-    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Backend\Model\Auth\Session $adminSession
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -63,13 +57,11 @@ class History extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Backend\Model\Auth\Session $adminSession,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->_storeManager = $storeManager;
-        $this->_adminSession = $adminSession;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -77,21 +69,6 @@ class History extends \Magento\Core\Model\AbstractModel
     protected function _construct()
     {
         $this->_init('Magento\GiftCardAccount\Model\Resource\History');
-    }
-
-
-    /**
-     * Get admin user
-     *
-     * @return null|\Magento\User\Model\User
-     */
-    protected function _getAdminUser()
-    {
-        if ($this->_storeManager->getStore()->isAdmin()) {
-            return $this->_adminSession->getUser();
-        }
-
-        return null;
     }
 
     public function getActionNamesArray()
@@ -106,16 +83,16 @@ class History extends \Magento\Core\Model\AbstractModel
         );
     }
 
+    /**
+     * Get info about creation context
+     *
+     * @return string
+     */
     protected function _getCreatedAdditionalInfo()
     {
         if ($this->getGiftcardaccount()->getOrder()) {
             $orderId = $this->getGiftcardaccount()->getOrder()->getIncrementId();
             return __('Order #%1.', $orderId);
-        } else if ($user = $this->_getAdminUser()) {
-            $username = $user->getUsername();
-            if ($username) {
-                return __('By admin: %1.', $username);
-            }
         }
 
         return '';
@@ -131,25 +108,21 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+
+    /**
+     * Get info about sent mail context
+     *
+     * @return string
+     */
     protected function _getSentAdditionalInfo()
     {
         $recipient = $this->getGiftcardaccount()->getRecipientEmail();
-        if ($name = $this->getGiftcardaccount()->getRecipientName()) {
+        $name = $this->getGiftcardaccount()->getRecipientName();
+        if ($name) {
             $recipient = "{$name} <{$recipient}>";
         }
 
-        $sender = '';
-        if ($user = $this->_getAdminUser()) {
-            if ($user->getUsername()) {
-                $sender = $user->getUsername();
-            }
-        }
-
-        if ($sender) {
-            return __('Recipient: %1. By admin: %2.', $recipient, $sender);
-        } else {
-            return __('Recipient: %1.', $recipient);
-        }
+        return __('Recipient: %1.', $recipient);
     }
 
     protected function _getRedeemedAdditionalInfo()
@@ -160,14 +133,13 @@ class History extends \Magento\Core\Model\AbstractModel
         return '';
     }
 
+    /**
+     * Get info about update context
+     *
+     * @return string
+     */
     protected function _getUpdatedAdditionalInfo()
     {
-        if ($user = $this->_getAdminUser()) {
-            $username = $user->getUsername();
-            if ($username) {
-                return __('By admin: %1.', $username);
-            }
-        }
         return '';
     }
 

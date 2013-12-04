@@ -30,7 +30,10 @@ abstract class TestBase extends \PHPUnit_Framework_TestCase
     protected function convertAndCheck($originalCode, $formattedCode)
     {
         $printer = new Printer($originalCode);
+        ob_start();
         $printer->parseCode();
+        // disable printer output
+        ob_end_clean();
         $this->assertEquals($formattedCode, $printer->getFormattedCode());
     }
 }

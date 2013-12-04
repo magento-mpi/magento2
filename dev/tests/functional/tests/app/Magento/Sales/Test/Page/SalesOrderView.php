@@ -13,6 +13,7 @@ namespace Magento\Sales\Test\Page;
 
 use Magento\Page\Test\Block\Html\Title;
 use Magento\Sales\Test\Block\Backend\Order\CustomerInformation;
+use Magento\Sales\Test\Block\Backend\Order\View\Items;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -51,9 +52,21 @@ class SalesOrderView extends Page
     protected $customerInformationBlock;
 
     /**
+     * Items ordered grid
+     *
+     * @var Items
+     */
+    protected $itemsOrderedBlock;
+
+    /**
      * @var Title
      */
     protected $titleBlock;
+
+    /**
+     * @var Payment Information block
+     */
+    protected $paymentInfo;
 
     /**
      * Custom constructor
@@ -70,9 +83,25 @@ class SalesOrderView extends Page
         $this->customerInformationBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderCustomerInformation(
             $this->_browser->find('.order-account-information')
         );
+        $this->itemsOrderedBlock = Factory::getBlockFactory()->getMagentoSalesBackendOrderViewItems(
+            $this->_browser->find('.grid')
+        );
         $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
             $this->_browser->find('.page-title .title')
         );
+        $this->paymentInfo = Factory::getBlockFactory()->getMagentoBackendSalesOrderInfo(
+            $this->_browser->find('.order-payment-method')
+        );
+    }
+
+    /**
+     * Returns the items ordered block
+     *
+     * @return Items
+     */
+    public function getItemsOrderedBlock()
+    {
+        return $this->itemsOrderedBlock;
     }
 
     /**
@@ -113,5 +142,15 @@ class SalesOrderView extends Page
     public function getTitleBlock()
     {
         return $this->titleBlock;
+    }
+
+    /**
+     * Get Payment Information block
+     *
+     * @return \Magento\Backend\Test\Block\Sales\Order\Info
+     */
+    public function getOrderInfoBlock()
+    {
+        return $this->paymentInfo;
     }
 }
