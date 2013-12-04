@@ -22,23 +22,25 @@ class Collection
     protected $_resourceHelper;
 
     /**
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\Resource\Helper $resourceHelper
+     * @param mixed $connection
      * @param \Magento\Core\Model\Resource\Db\AbstractDb $resource
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\Resource\Helper $resourceHelper,
+        $connection = null,
         \Magento\Core\Model\Resource\Db\AbstractDb $resource = null
     ) {
         $this->_resourceHelper = $resourceHelper;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $resource);
+        parent::__construct($entityFactory, $logger, $fetchStrategy, $eventManager, $connection, $resource);
     }
 
     /**
@@ -84,7 +86,7 @@ class Collection
         }
 
         if ($withAdmin) {
-            $storeIds = array(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID, $store);
+            $storeIds = array(\Magento\Core\Model\Store::DEFAULT_STORE_ID, $store);
         } else {
             $storeIds = array($store);
         }

@@ -28,7 +28,7 @@
             <events>
                 <event controller_action="adminhtml_cms_hierarchy_index"
                        action_alias="view"
-                       post_dispatch="Magento\VersionsCms\Model\Observer::postDispatchCmsHierachyView">
+                       post_dispatch="Magento\VersionsCms\Model\Backend\Observer::postDispatchCmsHierachyView">
                 </event>
                 <event controller_action="adminhtml_cms_hierarchy_save" action_alias="save">
                     <skip_on_back>
@@ -87,7 +87,7 @@
                 </event>
                 <event controller_action="adminhtml_cms_page_revision_preview"
                        action_alias="preview"
-                       post_dispatch="Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPreview">
+                       post_dispatch="Magento\VersionsCms\Model\Backend\Observer::postDispatchCmsRevisionPreview">
                 </event>
                 <event controller_action="adminhtml_cms_page_revision_save"
                        action_alias="save">
@@ -106,7 +106,7 @@
                 </event>
                 <event controller_action="adminhtml_cms_page_revision_publish"
                        action_alias="publish"
-                       post_dispatch="Magento\VersionsCms\Model\Observer::postDispatchCmsRevisionPublish">
+                       post_dispatch="Magento\VersionsCms\Model\Backend\Observer::postDispatchCmsRevisionPublish">
                     <skip_on_back>
                         <controller_action name="adminhtml_cms_page_revision_edit" />
                     </skip_on_back>

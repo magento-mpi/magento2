@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento\GiftCardAccount\Model\History" type="Magento\GiftCardAccount\Model\Backend\History" />
+    <type name="Magento\GiftCardAccount\Model\Backend\History">
+        <param name="adminSession">
+            <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
+        </param>
+    </type>
+</config>

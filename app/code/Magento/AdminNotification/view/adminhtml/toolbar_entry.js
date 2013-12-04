@@ -23,11 +23,10 @@
                 showLoader: false
             });
         };
-
+        var notificationCount = $('.notifications').attr('data-notification-count');
         // Remove notification from the list
         var removeNotificationFromList = function(notificationEntry) {
             notificationEntry.remove();
-            var notificationCount = $('.notifications').attr('data-notification-count');
             notificationCount--;
             $('.notifications').attr('data-notification-count', notificationCount);
 
@@ -38,6 +37,7 @@
                 notificationIcon.removeAttr('data-toggle');
                 notificationIcon.off('click.dropdown');
                 $('.notifications .notifications-icon .value').text('');
+                $('.notifications .notifications-icon .value').hide();
             } else {
                 $('.notifications .notifications-icon .value').text(notificationCount);
                 // Modify caption of the 'See All' link
@@ -98,5 +98,12 @@
             removeNotificationFromList(notificationEntry);
             event.stopPropagation();
         });
+
+        // Hide notifications bubble
+        if (notificationCount == 0) {
+            $('.notifications .notifications-icon .value').hide();
+        } else {
+            $('.notifications .notifications-icon .value').show();
+        }
     });
 })(window.jQuery);

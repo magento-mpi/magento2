@@ -69,7 +69,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (is_null($storeId)) {
-            $storeId = $this->_storeManager->getStore()->getId();
+            $storeId = $this->_getStoreId();
         }
 
         $adapter = $this->_getReadAdapter();
@@ -89,7 +89,6 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb
         );
 
         return $adapter->fetchPairs($select, $bind);
-
     }
 
     /**
@@ -106,7 +105,7 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb
         }
 
         if (is_null($storeId)) {
-            $storeId = $this->_storeManager->getStore()->getId();
+            $this->_getStoreId();
         }
 
         $adapter = $this->_getReadAdapter();
@@ -137,5 +136,15 @@ class Translate extends \Magento\Core\Model\Resource\Db\AbstractDb
     public function getMainChecksum()
     {
         return $this->getChecksum($this->getMainTable());
+    }
+
+    /**
+     * Get store id for translations
+     *
+     * @return int
+     */
+    protected function _getStoreId()
+    {
+        return $this->_storeManager->getStore()->getId();
     }
 }

@@ -62,7 +62,7 @@ class CreateVirtualTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param VirtualProduct $product
      */
     protected function assertOnGrid($product)
     {
@@ -76,7 +76,7 @@ class CreateVirtualTest extends Functional
     /**
      * Assert product data on category and product pages
      *
-     * @param Product $product
+     * @param VirtualProduct $product
      */
     protected function assertOnCategory($product)
     {

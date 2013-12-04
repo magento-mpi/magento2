@@ -74,31 +74,29 @@ class Segment extends \Magento\Rule\Model\AbstractModel
     protected $_storeManager;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Rule\Model\Action\CollectionFactory $collectionFactory
      * @param \Magento\Log\Model\Visitor $visitor
      * @param \Magento\Log\Model\VisitorFactory $visitorFactory
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
-     *
-     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Rule\Model\Action\CollectionFactory $collectionFactory,
         \Magento\Log\Model\Visitor $visitor,
         \Magento\Log\Model\VisitorFactory $visitorFactory,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -108,7 +106,7 @@ class Segment extends \Magento\Rule\Model\AbstractModel
         $this->_visitor = $visitor;
         $this->_visitorFactory = $visitorFactory;
         $this->_conditionFactory = $conditionFactory;
-        parent::__construct($formFactory, $context, $registry, $locale, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $formFactory, $locale, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -567,6 +567,7 @@ return array(
     array('initSpecified', 'Magento\Core\Model\App'),
     array('insertProductPrice', 'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Tierprice'),
     array('isAbsolutePath'),
+    array('isAdmin', 'Magento\Core\Model\Store'),
     array('isAllowedGuestCheckout', 'Magento\Sales\Model\Quote'),
     array('isAutomaticCleaningAvailable', 'Magento\Cache\Backend\Eaccelerator'),
     array('isCheckoutAvailable', 'Magento\Checkout\Model\Type\Multishipping'),
@@ -1000,4 +1001,7 @@ return array(
     array('_saveCache', '\Magento\App\Helper\AbstractHelper'),
     array('_removeCache', '\Magento\App\Helper\AbstractHelper'),
     array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
+    array('changeQuoteCustomerGroupId', '\Magento\Sales\Model\Observer',
+        '\Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals::dispatch'
+    ),
 );

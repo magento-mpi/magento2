@@ -110,8 +110,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -126,8 +126,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Helper\Data $coreData,
         \Magento\App\Helper\Context $context,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,

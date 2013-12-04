@@ -37,11 +37,11 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      */
     protected $_aclResourceProvider;
 
-    /** @var \Magento\Core\Model\Registry */
-    protected $_registry;
-
     /** @var \Magento\Integration\Helper\Data */
     protected $_integrationData;
+
+    /** @var \Magento\Webapi\Helper\Data */
+    protected $_webapiData;
 
     /**
      * Construct
@@ -51,7 +51,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
-     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Webapi\Helper\Data $webapiData
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
      */
@@ -61,14 +61,14 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
-        \Magento\Core\Model\Registry $registry,
+        \Magento\Webapi\Helper\Data $webapiData,
         \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
-        $this->_registry = $registry;
+        $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
         parent::__construct($context, $coreData, $data);
     }
@@ -119,14 +119,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
     protected function _construct()
     {
         parent::_construct();
-        $selectedResourceIds = array();
-        $currentIntegration = $this->_registry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
-        if ($currentIntegration
-            && isset($currentIntegration['resource']) && is_array($currentIntegration['resource'])
-        ) {
-            $selectedResourceIds = $currentIntegration['resource'];
-        }
-        $this->setSelectedResources($selectedResourceIds);
+        $this->setSelectedResources($this->_webapiData->getSelectedResources());
     }
 
     /**

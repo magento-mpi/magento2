@@ -28,12 +28,12 @@ class Amount extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_storeManager;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\App\Resource $resource
+        \Magento\App\Resource $resource,
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;
         parent::__construct($resource);

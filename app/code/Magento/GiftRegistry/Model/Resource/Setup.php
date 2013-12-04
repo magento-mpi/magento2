@@ -27,27 +27,25 @@ class Setup extends \Magento\Sales\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
-     * @param string $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
+        $resourceName,
         \Magento\App\CacheInterface $cache,
         \Magento\Eav\Model\Resource\Entity\Attribute\Group\CollectionFactory $attrGrCollFactory,
         \Magento\Core\Model\Config $config,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
-        $resourceName,
         $moduleName = 'Magento_GiftRegistry',
         $connectionName = ''
     ) {
         $this->_typeFactory = $typeFactory;
-        parent::__construct(
-            $context, $cache, $attrGrCollFactory, $config, $resourceName, $moduleName, $connectionName
-        );
+        parent::__construct($context, $resourceName, $cache, $attrGrCollFactory, $config, $moduleName, $connectionName);
     }
 }
