@@ -14,7 +14,6 @@ namespace Magento\Catalog\Test\Block\Product\View;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
 
 /**
  * Class Bundle

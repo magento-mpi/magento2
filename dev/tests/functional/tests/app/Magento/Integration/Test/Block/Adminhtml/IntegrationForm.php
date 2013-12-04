@@ -26,16 +26,12 @@ class IntegrationForm extends FormTabs
     /**
      * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->_tabClasses = array(
-            'integration_edit_tabs_info_section' =>
-                '\\Magento\\Integration\\Test\\Block\\Adminhtml\\Integration\\Edit\\Tab\\Info',
-            'integration_edit_tabs_api_section' =>
-                '\\Magento\\Integration\\Test\\Block\\Adminhtml\\Integration\\Edit\\Tab\\Api',
-        );
-    }
+    protected $tabClasses = array(
+        'integration_edit_tabs_info_section'
+            => '\\Magento\\Integration\\Test\\Block\\Adminhtml\\Integration\\Edit\\Tab\\Info',
+        'integration_edit_tabs_api_section'
+            => '\\Magento\\Integration\\Test\\Block\\Adminhtml\\Integration\\Edit\\Tab\\Api',
+    );
 
     /**
      * Open API tab

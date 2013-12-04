@@ -28,25 +28,14 @@ class Success extends Block
      *
      * @var string
      */
-    private $orderId;
+    protected $orderId = 'a[href*="view/order_id"]';
 
     /**
      * Determine order id if checkout was performed by guest
      *
      * @var string
      */
-    private $orderIdGuest;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        //Elements
-        $this->orderId = 'a[href*="view/order_id"]';
-        $this->orderIdGuest = '//div[contains(@class, "column main")]//p[1]';
-    }
+    protected $orderIdGuest = '//div[contains(@class, "column main")]//p[1]';
 
     /**
      * Get id for placed order
