@@ -65,6 +65,11 @@ class CatalogProductView extends Page
     protected $upsellSelector = '.block.upsell';
 
     /**
+     * @var string
+     */
+    protected $downloadableLinksSelector = '[data-container-for=downloadable-links]';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -103,6 +108,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductViewOptions(
             $this->_browser->find('.product.options.wrapper')
+        );
+    }
+
+    /**
+     * Get product options block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\View\CustomOptions
+     */
+    public function getCustomOptionBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductViewCustomOptions(
+            $this->_browser->find('#product-options-wrapper')
         );
     }
 
@@ -163,6 +180,16 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductProductListRelated(
             $this->_browser->find($this->relatedProductSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * @return \Magento\Downloadable\Test\Block\Catalog\Product\Links
+     */
+    public function getDownloadableLinksBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoDownloadableCatalogProductLinks(
+            $this->_browser->find($this->downloadableLinksSelector)
         );
     }
 }

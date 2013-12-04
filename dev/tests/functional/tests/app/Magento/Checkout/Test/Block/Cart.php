@@ -14,8 +14,8 @@ namespace Magento\Checkout\Test\Block;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
@@ -57,7 +57,7 @@ class Cart extends Block
     /**
      * Get sub-total for the specified item in the cart
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      * @return string
      */
     public function getCartItemSubTotal($product)
@@ -69,7 +69,7 @@ class Cart extends Block
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      * @return string
      */
     public function getCartItemUnitPrice($product)
@@ -124,7 +124,7 @@ class Cart extends Block
     /**
      * Check if a product has been successfully added to the cart
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      * @return boolean
      */
     public function isProductInShoppingCart($product)
@@ -136,7 +136,7 @@ class Cart extends Block
     /**
      * Return the name of the specified product.
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      * @return string
      */
     private function getProductName($product)

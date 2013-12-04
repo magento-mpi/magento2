@@ -11,25 +11,18 @@
 
 namespace Magento\Catalog\Test\Repository;
 
-use Mtf\Repository\AbstractRepository;
+use Magento\Catalog\Test\Fixture;
 
 /**
  * Class Configurable Product Repository
  *
  * @package Magento\Catalog\Test\Repository
  */
-class ConfigurableProduct extends AbstractRepository
+class ConfigurableProduct extends Product
 {
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
-        
-        $this->_data['configurable_required'] = $this->_data['default'];
-        $this->_data['configurable'] = $this->_data['default'];
-        $this->_data['configurable']['data']['category_name'] = '%category::getCategoryName%';
+        parent::__construct($defaultConfig, $defaultData);
         $this->_data['configurable']['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
         $this->_data['configurable_advanced_pricing'] = $this->getConfigurableAdvancedPricing();
     }
@@ -46,7 +39,7 @@ class ConfigurableProduct extends AbstractRepository
                 'fields' => array(
                     'special_price' => array(
                         'value' => '9',
-                        'group' => 'product_info_tabs_advanced-pricing'
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
                     )
                 )
             )
