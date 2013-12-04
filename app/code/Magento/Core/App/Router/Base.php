@@ -168,7 +168,7 @@ class Base extends \Magento\App\Router\AbstractRouter
         // get module name
         if ($request->getModuleName()) {
             $moduleFrontName = $request->getModuleName();
-        } else if (!empty($param)) {
+        } elseif (!empty($param)) {
             $moduleFrontName = $param;
         } else {
             $moduleFrontName = $this->_defaultPath->getPart('module');
@@ -191,7 +191,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     {
         if ($request->getControllerName()) {
             $controller = $request->getControllerName();
-        } else if (!empty($param)) {
+        } elseif (!empty($param)) {
             $controller = $param;
         } else {
             $controller = $this->_defaultPath->getPart('controller');
@@ -214,7 +214,7 @@ class Base extends \Magento\App\Router\AbstractRouter
     {
         if ($request->getActionName()) {
             $action = $request->getActionName();
-        } else if (empty($param)) {
+        } elseif (empty($param)) {
             $action = $this->_defaultPath->getPart('action');
         } else {
             $action = $param;
@@ -317,6 +317,7 @@ class Base extends \Magento\App\Router\AbstractRouter
 
     /**
      * Get router default request path
+     *
      * @return string
      */
     protected function _getDefaultPath()
@@ -412,9 +413,9 @@ class Base extends \Magento\App\Router\AbstractRouter
      */
     protected function _shouldBeSecure($path)
     {
-        return substr($this->_storeConfig->getConfig('web/unsecure/base_url'), 0, 5) === 'https'
-            || $this->_storeConfig->getConfigFlag('web/secure/use_in_frontend')
-                && substr($this->_storeConfig->getConfig('web/secure/base_url'), 0, 5) == 'https'
+        return parse_url($this->_storeConfig->getConfig('web/unsecure/base_url'), PHP_URL_SCHEME) === 'https'
+            || $this->_storeConfig->getConfigFlag(\Magento\Core\Model\Store::XML_PATH_SECURE_IN_FRONTEND)
+                && parse_url($this->_storeConfig->getConfig('web/secure/base_url'), PHP_URL_SCHEME) == 'https'
                 && $this->_urlSecurityInfo->isSecure($path);
     }
 }
