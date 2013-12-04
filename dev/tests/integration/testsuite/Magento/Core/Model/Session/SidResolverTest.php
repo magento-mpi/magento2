@@ -91,7 +91,7 @@ class SidResolverTest extends \PHPUnit_Framework_TestCase
 
     public function tearDown()
     {
-        if (isset($_GET[$this->model->getSessionIdQueryParam($this->session)])) {
+        if (is_object($this->model) && isset($_GET[$this->model->getSessionIdQueryParam($this->session)])) {
             unset($_GET[$this->model->getSessionIdQueryParam($this->session)]);
         }
     }
