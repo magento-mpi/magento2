@@ -476,7 +476,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
         $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
         $tmpFile = uniqid(time(), true) . '.' . $extension;
-        $tmpFilePath = $tmpDirectory->getAbsolutePath(uniqid(time(), true) . '.' . $extension);
+        $tmpFilePath = $tmpDirectory->getAbsolutePath($tmpFile);
 
         try {
             $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));

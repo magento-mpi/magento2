@@ -150,12 +150,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->_objectManager->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $filesystemMock = $this->getMock('\Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
         $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $filesystemMock->expects($this->any())
-            ->method('getDirectoryWrite')
-            ->will($this->returnValue($directoryMock));
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will(
@@ -166,7 +161,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
         // set fixture CSV file
         $result = $this->_entityAdapter
-            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $filesystemMock))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryMock))
             ->isDataValid();
         if ($errors) {
             $this->assertFalse($result);
