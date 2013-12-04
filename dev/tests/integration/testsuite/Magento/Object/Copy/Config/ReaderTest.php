@@ -63,7 +63,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList
+                'moduleList' => $modulesList,
+                'filesystem' => $filesystem
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
@@ -92,8 +93,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testMergeCompleteAndPartial()
     {
         $fileList = array(
-            __DIR__ . '/_files/partialFieldsetFirst.xml',
-            __DIR__ . '/_files/partialFieldsetSecond.xml'
+            file_get_contents(__DIR__ . '/_files/partialFieldsetFirst.xml'),
+            file_get_contents(__DIR__ . '/_files/partialFieldsetSecond.xml')
         );
         $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->setMethods(array('get'))
