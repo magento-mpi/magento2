@@ -1,3 +1,5 @@
+* Fixed bugs:
+  * Fixed error with blank page if try to get access for restricted resource via URL (add Secret Key for Url ="No")
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
