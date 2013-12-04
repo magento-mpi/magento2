@@ -134,7 +134,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
     public function providerGet()
     {
         return array(
-            array('di.xml', array('di.xml', 'enterprise/di.xml')),
+            array('di.xml', array('di.xml', 'anotherfolder/di.xml')),
             array('no_files.xml', array()),
             array('one_file.xml', array('one_file.xml'))
         );
