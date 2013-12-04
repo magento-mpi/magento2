@@ -70,6 +70,10 @@
     text-align: right;
 }
 
+.no-close .ui-dialog-titlebar-close {
+    display: none;
+}
+
 #integration_token_base_fieldset input[readonly] {
     cursor: copy;
 }

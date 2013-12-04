@@ -443,10 +443,6 @@
     border: none;
 }
 
-.no-close .ui-dialog-titlebar-close {
-    display: none;
-}
-
 .ui-dialog .ui-dialog-content {
     padding: 10px 10px 0;
 }
