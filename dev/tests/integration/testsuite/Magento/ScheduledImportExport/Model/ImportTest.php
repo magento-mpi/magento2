@@ -45,7 +45,20 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->method('reindexAll')
             ->will($this->returnSelf());
 
-        $operation = $objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        $directoryList = $objectManager->create(
+            'Magento\Filesystem\DirectoryList',
+            array(
+                'directories' => array(
+                    \Magento\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                ),
+                'root' => BP
+            )
+        );
+        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $directoryList));
+        $operation = $objectManager->create(
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
+            array('filesystem' => $filesystem)
+        );
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

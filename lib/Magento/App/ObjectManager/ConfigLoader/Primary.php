@@ -29,8 +29,8 @@ class Primary
      */
     public function __construct(
         $configDirectoryPath,
-        $appMode = \Magento\App\State::MODE_DEFAULT)
-    {
+        $appMode = \Magento\App\State::MODE_DEFAULT
+    ) {
         $this->_configDirectoryPath = $configDirectoryPath;
         $this->_appMode = $appMode;
     }

@@ -123,35 +123,35 @@ class Operation extends \Magento\Core\Model\AbstractModel
     protected $filesystem;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Filesystem $filesystem,
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory
      * @param \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory
      * @param \Magento\Email\Model\InfoFactory $emailInfoFactory
      * @param \Magento\Core\Model\Config\ValueFactory $configValueFactory
      * @param \Magento\Email\Model\Template\Mailer $templateMailer
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Date $dateModel
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\String $string
-     * @param \Magento\Filesystem $filesystem,
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\GenericFactory $schedOperFactory,
         \Magento\ScheduledImportExport\Model\Scheduled\Operation\DataFactory $operationFactory,
         \Magento\Email\Model\InfoFactory $emailInfoFactory,
         \Magento\Core\Model\Config\ValueFactory $configValueFactory,
         \Magento\Email\Model\Template\Mailer $templateMailer,
-        \Magento\Core\Model\Context $context,
-        \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Date $dateModel,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Stdlib\String $string,
-        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -476,7 +476,7 @@ class Operation extends \Magento\Core\Model\AbstractModel
         $varDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::VAR_DIR);
         $tmpDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
         $tmpFile = uniqid(time(), true) . '.' . $extension;
-        $tmpFilePath = $tmpDirectory->getAbsolutePath(uniqid(time(), true) . '.' . $extension);
+        $tmpFilePath = $tmpDirectory->getAbsolutePath($tmpFile);
 
         try {
             $contents = $varDirectory->readFile($varDirectory->getRelativePath($filePath));

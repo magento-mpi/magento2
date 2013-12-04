@@ -99,6 +99,7 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -112,9 +113,9 @@ class Shipping extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

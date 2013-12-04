@@ -57,3 +57,5 @@ lib/Magento/Oauth/Exception.php
 lib/Magento/App/Helper/AbstractHelper.php
 lib/Magento/App/Helper/Context.php
 
+lib/Magento/Filesystem/DirectoryList/Configuration.php
+lib/Magento/Filesystem/Driver/Socket.php

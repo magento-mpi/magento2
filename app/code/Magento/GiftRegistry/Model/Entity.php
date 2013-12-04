@@ -193,22 +193,22 @@ class Entity extends \Magento\Core\Model\AbstractModel
     protected $mathRandom;
 
     /**
-     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Core\Model\App $application
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Translate $translate
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
-     * @param Type $type
-     * @param Attribute\Config $attributeConfig
-     * @param Item $itemModel
+     * @param \Magento\GiftRegistry\Model\Type $type
+     * @param \Magento\GiftRegistry\Model\Attribute\Config $attributeConfig
+     * @param \Magento\GiftRegistry\Model\Item $itemModel
      * @param \Magento\CatalogInventory\Model\Stock\Item $inventoryStockItem
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
-     * @param PersonFactory $personFactory
-     * @param ItemFactory $itemFactory
+     * @param \Magento\GiftRegistry\Model\PersonFactory $personFactory
+     * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Model\DateFactory $dateFactory
@@ -216,14 +216,14 @@ class Entity extends \Magento\Core\Model\AbstractModel
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Escaper $escaper
      * @param \Magento\Math\Random $mathRandom
-     * @param Resource\Entity $resource
-     * @param Resource\Entity\Collection $resourceCollection
+     * @param \Magento\GiftRegistry\Model\Resource\Entity $resource
+     * @param \Magento\GiftRegistry\Model\Resource\Entity\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Core\Model\App $application,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Translate $translate,

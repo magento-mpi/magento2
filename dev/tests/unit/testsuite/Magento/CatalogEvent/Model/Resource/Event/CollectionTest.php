@@ -150,7 +150,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $this->_collection = $this->getMock(
             'Magento\CatalogEvent\Model\Resource\Event\Collection',
             array('setModel'),
-            array($eventManager, $logger, $fetchStrategy, $entityFactory, $application, $dateTime, $resource)
+            array($entityFactory, $logger, $fetchStrategy, $eventManager, $application, $dateTime, null, $resource)
         );
     }
 

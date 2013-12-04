@@ -17,7 +17,11 @@ class SnapshotTest extends \PHPUnit_Framework_TestCase
     {
         $filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $backupFactory = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
-        $manager = $this->getMock('Magento\Backup\Snapshot', array('getBackupFilename'), array($filesystem, $backupFactory));
+        $manager = $this->getMock(
+            'Magento\Backup\Snapshot',
+            array('getBackupFilename'),
+            array($filesystem, $backupFactory)
+        );
 
         $file = 'var/backup/2.gz';
         $manager->expects($this->once())

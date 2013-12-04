@@ -58,15 +58,15 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\SalesArchive\Model\Resource\Helper $salesHelper
-     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $resourceName,
+        \Magento\SalesArchive\Model\Resource\Helper $salesHelper,
         $moduleName = 'Magento_SalesArchive',
         $connectionName = ''
     ) {

@@ -135,7 +135,7 @@ class CopyRule
             $firstPlaceholderPos = strpos($dirPattern, '*');
             $patternBaseDir = substr($dirPattern, 0, $firstPlaceholderPos);
             $patternTrailing = substr($dirPattern, $firstPlaceholderPos);
-            $patternTrailing = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
+            $patternTrailing = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function ($matches) {
                 switch ($matches[0]) {
                     case '*':
                         return '.*';
@@ -144,7 +144,7 @@ class CopyRule
                     default:
                         return '\\'.$matches[0];
                 }
-            }, $patternTrailing, -1, $count);
+            }, $patternTrailing, -1);
 
             $paths = $directoryHandler->search('#' . $patternTrailing . '#', $patternBaseDir);
         } else {

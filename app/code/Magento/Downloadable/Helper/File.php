@@ -43,12 +43,13 @@ class File extends \Magento\App\Helper\AbstractHelper
     /**
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Helper\Context $context
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Filesystem $filesystem
      * @param array $mimeTypes
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Helper\Context $context,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Filesystem $filesystem,
         array $mimeTypes = array()
     ) {

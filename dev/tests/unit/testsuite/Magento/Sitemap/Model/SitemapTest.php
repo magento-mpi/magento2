@@ -11,6 +11,9 @@
 
 namespace Magento\Sitemap\Model;
 
+/**
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class SitemapTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -534,9 +537,6 @@ class SitemapTest extends \PHPUnit_Framework_TestCase
         $cmsFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_sitemapCmsPageMock));
-
-        $adapterMock = $this->getMockBuilder('Magento\Filesystem\AdapterInterface')
-            ->getMock();
 
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments('Magento\Sitemap\Model\Sitemap', array(

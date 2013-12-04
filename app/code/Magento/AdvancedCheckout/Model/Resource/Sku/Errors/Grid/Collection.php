@@ -32,18 +32,18 @@ class Collection extends \Magento\Data\Collection
     protected $_coreHelper;
 
     /**
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\Catalog\Model\Product $productModel
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogInventory
      * @param \Magento\Core\Helper\Data $coreHelper
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\AdvancedCheckout\Model\Cart $cart,
         \Magento\Catalog\Model\Product $productModel,
         \Magento\CatalogInventory\Model\Stock\Status $catalogInventory,
-        \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Core\Helper\Data $coreHelper
     ) {
         $this->_cart = $cart;
         $this->_productModel = $productModel;

@@ -87,16 +87,16 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     protected $mediaDirectoryWrite;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Backend\Model\Session $session
      * @param \Magento\View\Design\Theme\FlyweightFactory $themeFactory
-     * @param \Magento\App\Helper\Context $context
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Filesystem $filesystem,
         \Magento\Backend\Model\Session $session,
-        \Magento\View\Design\Theme\FlyweightFactory $themeFactory,
-        \Magento\App\Helper\Context $context
+        \Magento\View\Design\Theme\FlyweightFactory $themeFactory
     ) {
         parent::__construct($context);
         $this->filesystem = $filesystem;

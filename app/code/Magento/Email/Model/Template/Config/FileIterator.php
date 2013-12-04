@@ -36,7 +36,7 @@ class FileIterator extends \Magento\Config\FileIterator
      * @return string
      * @throws \UnexpectedValueException
      */
-    function current()
+    public function current()
     {
         if (!isset($this->cached[$this->key()])) {
             $contents = $this->directoryRead->readFile($this->key());

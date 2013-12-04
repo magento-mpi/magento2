@@ -1001,6 +1001,9 @@ return array(
     array('_saveCache', '\Magento\App\Helper\AbstractHelper'),
     array('_removeCache', '\Magento\App\Helper\AbstractHelper'),
     array('_cleanCache', '\Magento\App\Helper\AbstractHelper'),
+    array('changeQuoteCustomerGroupId', '\Magento\Sales\Model\Observer',
+        '\Magento\Sales\Model\Observer\Frontend\Quote\Address\CollectTotals::dispatch'
+    ),
     array('convertPathToUrl', '\Magento\Cms\Helper\Wysiwyg\Images'),
     array('_getFileHandler', 'Magento\Sitemap\Model\Sitemap', '_getStream'),
     array('_getFileObject', 'Magento\Sitemap\Model\Sitemap'),

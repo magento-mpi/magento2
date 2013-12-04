@@ -40,13 +40,13 @@ class Collection extends \Magento\Data\Collection
     protected $fileIteratorFactory;
 
     /**
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Filesystem $filesystem,
         \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
         parent::__construct($entityFactory);
@@ -124,7 +124,7 @@ class Collection extends \Magento\Data\Collection
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
 
-            $directoryPath = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function($matches) {
+            $directoryPath = preg_replace_callback('/[\\\\^$.[\\]|()?*+{}\\-\\/]/', function ($matches) {
                 switch ($matches[0]) {
                     case '*':
                         return '.*';

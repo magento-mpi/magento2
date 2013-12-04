@@ -33,17 +33,17 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('_getMail'))
             ->setConstructorArgs(array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
+                $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->create('Magento\Filesystem'),
                 $objectManager->create('Magento\View\Url'),
                 $objectManager->create('Magento\View\FileSystem'),
-                $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->create('Magento\Core\Model\Store\Config'),
                 $objectManager->create('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Core\Model\StoreManager'),
-                $objectManager->get('Magento\Email\Model\Template\Config')
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             ))
             ->getMock();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
