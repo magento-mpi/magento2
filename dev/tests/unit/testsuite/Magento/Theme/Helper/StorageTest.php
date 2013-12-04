@@ -122,10 +122,11 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE));
 
         $this->helper = new \Magento\Theme\Helper\Storage(
+            $this->contextHelper,
             $this->filesystem,
             $this->session,
-            $this->themeFactory,
-            $this->contextHelper
+            $this->themeFactory
+
         );
     }
 

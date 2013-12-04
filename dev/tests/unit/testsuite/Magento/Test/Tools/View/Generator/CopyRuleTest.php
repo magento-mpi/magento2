@@ -51,8 +51,8 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Theme\Collection',
             array('isLoaded'),
             array(
-                $filesystemMock,
                 $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false),
+                $filesystemMock,
                 $this->getMock('\Magento\Config\FileIteratorFactory', array(), array(), '', false)
             )
         );
