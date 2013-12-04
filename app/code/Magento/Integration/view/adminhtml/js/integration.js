@@ -126,7 +126,6 @@
     $(function() {
         $('#integrationGrid_table').on('click', 'button#delete', function(e){
             $('#integration-delete-container').dialog({
-                title: $.mage.__('Are you sure ?'),
                 modal: true,
                 autoOpen: true,
                 resizable: false,
