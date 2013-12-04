@@ -218,7 +218,10 @@ class Import extends \Magento\ImportExport\Model\AbstractModel
      */
     protected function _getSourceAdapter($sourceFile)
     {
-        return \Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $this->_filesystem);
+        return \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
+            $sourceFile,
+            $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT)
+        );
     }
 
     /**
