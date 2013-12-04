@@ -67,7 +67,7 @@ Class RmaTest extends Functional
         // Step 3: Fill "Order and Returns" form with Test Data from the Pre-Conditions
         $searchPage = Factory::getPageFactory()->getSalesGuestForm();
         $searchForm = $searchPage->getSearchForm();
-        $searchForm->fillCustom($payPalExpressOrder, 'email');
+        $searchForm->fillCustom($payPalExpressOrder, 'Email Address');
 
         // Step 4: Click "Continue"
         $searchForm->submit();
@@ -80,7 +80,7 @@ Class RmaTest extends Functional
         // Step 6: Fill "Return Items Information" form (simple product)
         $returnItemPage = Factory::getPageFactory()->getRmaGuestCreate();
         $returnItemPage->open(array('order_id' => $orderId));
-        $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
+        $returnItemForm = $returnItemPage->getReturnItemForm();
         $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName());
 
         // Step 7: Click "Add Item to Return" for the configurable product.

@@ -11,7 +11,6 @@
 
 namespace Magento\Rma\Test\Block\Form;
 
-use Magento\Sales\Test\Fixture\PaypalExpressOrder;
 use Mtf\Fixture;
 use Mtf\Block\Form;
 use Mtf\Client\Element;
@@ -39,14 +38,14 @@ class Search extends Form
      */
     public function fillCustom($order, $findOrderBy)
     {
-        $this->_rootElement->find('#oar-order-id', Locator::SELECTOR_CSS)->setValue($order->getOrderId());
+        $this->_rootElement->find('oar-order-id', Locator::SELECTOR_ID)->setValue($order->getOrderId());
         $billingLastName = $order->getBillingAddress()->getData('fields/lastname');
         $billingLastName = array_pop($billingLastName);
-        $this->_rootElement->find('#oar-billing-lastname', Locator::SELECTOR_CSS)->setValue($billingLastName);
-        //$this->_rootElement->find('#quick-search-type-id', Locator::SELECTOR_CSS)->setValue($findOrderBy);
+        $this->_rootElement->find('oar-billing-lastname', Locator::SELECTOR_ID)->setValue($billingLastName);
+        $this->_rootElement->find('quick-search-type-id', Locator::SELECTOR_ID, 'select')->setValue($findOrderBy);
         $customerEmail = $order->getCustomer()->getData('fields/login_email');
         $customerEmail = array_pop($customerEmail);
-        $this->_rootElement->find('#oar_email', Locator::SELECTOR_CSS)->setValue($customerEmail);
+        $this->_rootElement->find('oar_email', Locator::SELECTOR_ID)->setValue($customerEmail);
     }
 
     /**
