@@ -1723,4 +1723,6 @@ return array(
     array('Magento\Page\Block\Link\Current', 'Magento\View\Element\Html\Link\Current'),
     array('Magento\Page\Block\Links', 'Magento\View\Element\Html\Links'),
     array('Magento\Page\Block\Link', 'Magento\View\Element\Html\Link'),
+    array('Magento\Core\Model\Layout\Argument\HandlerInterface', 'Magento\View\Layout\Argument\HandlerInterface'),
+    array('Magento\Core\Model\Layout\Argument\HandlerFactory', 'Magento\View\Layout\Argument\HandlerFactory'),
 );
