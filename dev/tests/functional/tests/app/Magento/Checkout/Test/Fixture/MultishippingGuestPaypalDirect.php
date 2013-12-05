@@ -19,7 +19,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * PayPal Payments Pro Method
  * Register on checkout to checkout with multi shipping using PayPal Payments Pro payment method
  *
- * @ZephyrId MAGETWO-12836
  * @package Magento\Checkout\Test\Fixture
  */
 class MultishippingGuestPaypalDirect extends Checkout

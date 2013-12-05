@@ -30,6 +30,8 @@ class LinksPurchasedSeparatelyTest extends Functional
     }
 
     /**
+     * Creating Downloadable product with required fields only and assign it to the category
+     *
      * @ZephyrId MAGETWO-13595
      */
     public function test()

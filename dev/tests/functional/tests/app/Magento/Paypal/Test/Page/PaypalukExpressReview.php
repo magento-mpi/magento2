@@ -33,9 +33,9 @@ class PaypalukExpressReview extends Page
     /**
      * Paypal review block
      *
-     * @var Express\Review
+     * @var string
      */
-    private $reviewBlock;
+    protected $reviewBlock = '.column.main';
 
     /**
      * Custom constructor
@@ -43,11 +43,6 @@ class PaypalukExpressReview extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        //Blocks
-        $this->reviewBlock = Factory::getBlockFactory()->getMagentoPaypalExpressReviewuk(
-            $this->_browser->find('.column.main')
-        );
     }
 
     /**
@@ -57,6 +52,8 @@ class PaypalukExpressReview extends Page
      */
     public function getReviewBlock()
     {
-        return $this->reviewBlock;
+        return Factory::getBlockFactory()->getMagentoPaypalExpressReviewuk(
+            $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

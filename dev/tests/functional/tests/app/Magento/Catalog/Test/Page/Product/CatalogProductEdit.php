@@ -11,9 +11,6 @@
 
 namespace Magento\Catalog\Test\Page\Product;
 
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
-
 /**
  * Class CatalogProductEdit
  * Edit product page

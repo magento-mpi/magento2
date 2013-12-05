@@ -32,9 +32,9 @@ class CreateVirtualTest extends Functional
     }
 
     /**
-     * Create product
+     * Creating Virtual product with required fields only and assign it to the category
      *
-     * @ZephyrId MAGETWO-12514
+     * @ZephyrId MAGETWO-13593
      */
     public function testCreateProduct()
     {

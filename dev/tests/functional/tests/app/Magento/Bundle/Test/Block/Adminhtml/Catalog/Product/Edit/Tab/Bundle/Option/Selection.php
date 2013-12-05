@@ -13,7 +13,6 @@ namespace Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Op
 
 use Mtf\Block\Block;
 use Mtf\Client\Element;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -29,17 +28,17 @@ class Selection extends Block
      *
      * @var array
      */
-    private $_mapping = array();
+    protected $mapping = array();
 
     /**
      * Initialize block elements
      */
     protected function _init()
     {
-        $this->_mapping = array(
-            'selection_price_value' => "[name*='[selection_price_value]']",
-            'selection_price_type' => "[name*='[selection_price_type]']",
-            'selection_qty' => "[name*='[selection_qty]']"
+        $this->mapping = array(
+            'selection_price_value' => "[name$='[selection_price_value]']",
+            'selection_price_type' => "[name$='[selection_price_type]']",
+            'selection_qty' => "[name$='[selection_qty]']"
         );
     }
 
@@ -51,9 +50,9 @@ class Selection extends Block
     public function fillProductRow(array $fields)
     {
         foreach ($fields as $key => $field) {
-            if (isset($this->_mapping[$key])) {
+            if (isset($this->mapping[$key])) {
                 $typifiedElement = isset($field['input']) ? $field['input'] : null;
-                $this->_rootElement->find($this->_mapping[$key], Locator::SELECTOR_CSS, $typifiedElement)
+                $this->_rootElement->find($this->mapping[$key], Locator::SELECTOR_CSS, $typifiedElement)
                     ->setValue($field['value']);
             }
         }

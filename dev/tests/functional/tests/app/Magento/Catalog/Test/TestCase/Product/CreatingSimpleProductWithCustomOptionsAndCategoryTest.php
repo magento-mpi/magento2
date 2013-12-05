@@ -31,7 +31,7 @@ class CreatingSimpleProductWithCustomOptionsAndCategoryTest extends Functional
     }
 
     /**
-     * Create product
+     * Creating simple product with custom options and assigning it to the category
      *
      * @ZephyrId MAGETWO-12703
      */
