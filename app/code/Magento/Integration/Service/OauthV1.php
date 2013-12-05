@@ -110,7 +110,7 @@ class OauthV1 implements OauthV1Interface
         // TODO: This implementation is temporary and should be changed after requirements clarification
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $existingToken = $this->_tokenProvider->getTokenByConsumer($consumer->getId());
+            $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
         } catch (\Exception $e) {
         }
         if (!isset($existingToken)) {
@@ -130,7 +130,7 @@ class OauthV1 implements OauthV1Interface
     {
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
-            $token = $this->_tokenProvider->getTokenByConsumer($consumer->getId());
+            $token = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
             if ($token->getType() != Token::TYPE_ACCESS) {
                 return false;
             }
