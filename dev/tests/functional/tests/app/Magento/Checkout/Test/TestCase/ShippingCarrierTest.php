@@ -160,7 +160,8 @@ class ShippingCarrierTest extends Functional
     {
         return array(
             array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1')
+            array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
+            array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1')
         );
     }
 

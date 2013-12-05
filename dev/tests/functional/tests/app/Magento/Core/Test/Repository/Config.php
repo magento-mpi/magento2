@@ -65,6 +65,7 @@ class Config extends AbstractRepository
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
+        $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
         //Catalog
@@ -172,6 +173,77 @@ class Config extends AbstractRepository
                                     ),
                                     'sallowspecific' => array( //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Fedex shipping method configuration as well as a real US address set in specified
+     * in shipping settings origin.
+     *
+     * @return array
+     */
+    protected function _getShippingCarrierFedex()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'fedex' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => 1 //Yes
+                                    ),
+                                    'account' => array( //Account ID
+                                        'value' => '510087801'
+                                    ),
+                                    'meter_number' => array( //Meter Number
+                                        'value' => '100047915'
+                                    ),
+                                    'key' => array( //Key
+                                        'value' => 'INdxa6ug7qZ2KD7y'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => '4vaGsDBmeBCzvpl1S1DT1jXAB'
+                                    ),
+                                    'sandbox_mode' => array( //Sandbox Mode
+                                        'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'US'
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => '12' //California
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => '90024'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'Los Angeles'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => '1419 Westwood Blvd'
                                     )
                                 )
                             )
