@@ -28,39 +28,28 @@ class TaxRate extends FormInterface
      *
      * @var string
      */
-    private $addNewTaxRate;
+    protected $addNewTaxRate = '.action-add';
 
     /**
      * Dialog window for creating new tax rate
      *
      * @var string
      */
-    private $taxRateUiDialog;
+    protected $taxRateUiDialog = '//*[contains(@class, ui-dialog)]//*[@id="tax-rate-form"]/..';
 
     /**
      * 'Save' button on dialog window for creating new tax rate
      *
      * @var string
      */
-    private $saveTaxRate;
+    protected $saveTaxRate = '#tax-rule-edit-apply-button';
 
     /**
      * Tax rate option
      *
      * @var string
      */
-    private $taxRateOption;
-
-    /**
-     * Initialize elements in block
-     */
-    protected function _init()
-    {
-        $this->addNewTaxRate = '.action-add';
-        $this->taxRateUiDialog = '//*[contains(@class, ui-dialog)]//*[@id="tax-rate-form"]/..';
-        $this->saveTaxRate = '#tax-rule-edit-apply-button';
-        $this->taxRateOption = '//*[contains(@class, "mselect-list-item")]//label';
-    }
+    protected $taxRateOption = '//*[contains(@class, "mselect-list-item")]//label';
 
     /**
      * Select Tax Rate in multiselect and create new one if required

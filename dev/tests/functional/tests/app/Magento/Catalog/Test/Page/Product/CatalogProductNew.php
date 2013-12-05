@@ -15,10 +15,6 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
-use Magento\Catalog\Test\Block\Backend\ProductForm;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 
 /**
  * Class CatalogProductNew
@@ -48,18 +44,20 @@ class CatalogProductNew extends Page
     protected $newAttributeFrame = '#create_new_attribute_container';
 
     /**
-     * @var ProductForm
+     * Product form block
+     *
+     * @var string
      */
-    protected $productFormBlock;
+    protected $productFormBlock = 'body';
 
     /**
      * Global messages block
      *
-     * @var Messages
+     * @var string
      */
-    protected $messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
-    /*
+    /**
      * Selector for message block
      *
      * @var string
@@ -72,13 +70,6 @@ class CatalogProductNew extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . static::MCA;
-
-        $this->productFormBlock = Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
-            $this->_browser->find('body')
-        );
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messagesSelector)
-        );
     }
 
     /**
@@ -97,11 +88,13 @@ class CatalogProductNew extends Page
     /**
      * Get product form block
      *
-     * @return ProductForm
+     * @return \Magento\Catalog\Test\Block\Backend\ProductForm
      */
     public function getProductBlockForm()
     {
-        return $this->productFormBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductForm(
+            $this->_browser->find($this->productFormBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -111,7 +104,9 @@ class CatalogProductNew extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -150,30 +145,12 @@ class CatalogProductNew extends Page
     /**
      * Get the backend catalog product block
      *
-     * @return Related
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related
      */
     public function getRelatedProductGrid()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)
-        );
-    }
-
-    /**
-     * Check for Java Script error message
-     *
-     * @return mixed
-     */
-    protected function waitForProductSaveJavascriptError()
-    {
-        $browser = $this->_browser;
-        $selector = '[class=mage-error]';
-        $strategy = Locator::SELECTOR_CSS;
-        return $this->_browser->waitUntil(
-            function () use ($browser, $selector, $strategy) {
-                $productSavedMessage = $browser->find($selector, $strategy);
-                return $productSavedMessage->isVisible() ? true : null;
-            }
         );
     }
 }

@@ -217,6 +217,9 @@ class ConfigurableProduct extends Product
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
                 ),
+                'website_ids' => array(
+                    'value' => array(1),
+                ),
                 'configurable_attributes_data' => array(
                     'value' => array(
                             '0' => array(

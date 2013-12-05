@@ -24,14 +24,11 @@ use Mtf\Client\Element\Locator;
 class Radio extends Form
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'qty' => '.qty-holder input'
-        );
-    }
+    protected $_mapping = array(
+        'qty' => '.qty-holder input'
+    );
 
     /**
      * Set data in bundle option

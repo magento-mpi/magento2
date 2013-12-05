@@ -28,7 +28,7 @@ class Advanced extends Form
      *
      * @var string
      */
-    private $searchButtonSelector = '.action.search';
+    protected $searchButtonSelector = '.action.search';
 
     /**
      * Fill form with custom fields
