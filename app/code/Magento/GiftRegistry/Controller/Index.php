@@ -134,7 +134,7 @@ class Index extends \Magento\App\Action\Action
                 $this->_getCheckoutSession()->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
             } else {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('giftregistry');
             }
             return;
@@ -162,7 +162,7 @@ class Index extends \Magento\App\Action\Action
                 $wishlistItem = $this->_objectManager->create('Magento\Wishlist\Model\Item')
                     ->loadWithOptions($itemId, 'info_buyRequest');
                 $entity->addItem($wishlistItem->getProductId(), $wishlistItem->getBuyRequest());
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The wish list item has been added to this gift registry.')
                 );
                 $redirectParams['wishlist_id'] = $wishlistItem->getWishlistId();
@@ -175,11 +175,11 @@ class Index extends \Magento\App\Action\Action
                     $this->getResponse()->setRedirect($product->getUrlModel()->getUrl($product, array('_query' => $query)));
                     return;
                 }
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('giftregistry');
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addError(__("We couldn’t add your wish list items to your gift registry."));
+                $this->messageManager->addError(__("We couldn’t add your wish list items to your gift registry."));
             }
         }
 
@@ -195,15 +195,15 @@ class Index extends \Magento\App\Action\Action
             $entity = $this->_initEntity();
             if ($entity->getId()) {
                 $entity->delete();
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted this gift registry.')
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $message = __('Something went wrong while deleting the gift registry.');
-            $this->_getSession()->addException($e, $message);
+            $this->messageManager->addException($e, $message);
         }
         $this->_redirect('*/*/');
     }
@@ -225,10 +225,10 @@ class Index extends \Magento\App\Action\Action
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $message = __('Something went wrong while sharing the gift registry.');
-            $this->_getSession()->addException($e, $message);
+            $this->messageManager->addException($e, $message);
         }
         $this->_redirect('*/*/');
     }
@@ -249,7 +249,7 @@ class Index extends \Magento\App\Action\Action
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('*/*/');
     }
@@ -268,18 +268,18 @@ class Index extends \Magento\App\Action\Action
             if ($entity->getId()) {
                 $items = $this->getRequest()->getParam('items');
                 $entity->updateItems($items);
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You updated the gift registry items.')
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/');
             return;
         } catch (\Magento\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__("We couldn't update the gift registry."));
+            $this->messageManager->addError(__("We couldn't update the gift registry."));
         }
         $this->_redirect('*/*/items', array('_current' => true));
     }
@@ -301,18 +301,18 @@ class Index extends \Magento\App\Action\Action
             $result = $entity->sendShareRegistryEmails();
 
             if ($result->getIsSuccess()) {
-                $this->_getSession()->addSuccess($result->getSuccessMessage());
+                $this->messageManager->addSuccess($result->getSuccessMessage());
             } else {
-                $this->_getSession()->addError($result->getErrorMessage());
+                $this->messageManager->addError($result->getErrorMessage());
                 $this->_getSession()->setSharingForm($this->getRequest()->getPost());
                 $this->_redirect('*/*/share', array('_current' => true));
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $message = __('Something went wrong while sending email(s).');
-            $this->_getSession()->addException($e, $message);
+            $this->messageManager->addException($e, $message);
         }
         $this->_redirect('*/*/');
     }
@@ -400,7 +400,7 @@ class Index extends \Magento\App\Action\Action
             }
             $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/');
         }
     }
@@ -465,7 +465,7 @@ class Index extends \Magento\App\Action\Action
                             $errors = $person->validate();
                             if ($errors !== true) {
                                 foreach ($errors as $err) {
-                                    $this->_getSession()->addError($err);
+                                    $this->messageManager->addError($err);
                                 }
                                 $isError = true;
                             } else {
@@ -488,7 +488,7 @@ class Index extends \Magento\App\Action\Action
                     }
                     if ($errors !== true) {
                         foreach ($errors as $err) {
-                            $this->_getSession()->addError($err);
+                            $this->messageManager->addError($err);
                         }
                         $isError = true;
                     }
@@ -510,7 +510,7 @@ class Index extends \Magento\App\Action\Action
                 $errors = $model->validate();
                 if ($errors !== true) {
                     foreach ($errors as $err) {
-                        $this->_getSession()->addError($err);
+                        $this->messageManager->addError($err);
                     }
                     $isError = true;
                 }
@@ -529,7 +529,7 @@ class Index extends \Magento\App\Action\Action
                             ->getResource()
                             ->deleteOrphan($entityId, $personLeft);
                     }
-                    $this->_getSession()->addSuccess(
+                    $this->messageManager->addSuccess(
                         __('You saved this gift registry.')
                     );
                     if ($isAddAction) {
@@ -537,10 +537,10 @@ class Index extends \Magento\App\Action\Action
                     }
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $isError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __("We couldn't save this gift registry.")
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);

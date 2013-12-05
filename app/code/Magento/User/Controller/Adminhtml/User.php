@@ -110,7 +110,7 @@ class User extends \Magento\Backend\App\AbstractAction
         /** @var $model \Magento\User\Model\User */
         $model = $this->_objectManager->create('Magento\User\Model\User')->load($userId);
         if ($userId && $model->isObjectNew()) {
-            $this->_getSession()->addError(__('This user no longer exists.'));
+            $this->messageManager->addError(__('This user no longer exists.'));
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -130,11 +130,11 @@ class User extends \Magento\Backend\App\AbstractAction
 
         try {
             $model->save();
-            $this->_getSession()->addSuccess(__('You saved the user.'));
+            $this->messageManager->addSuccess(__('You saved the user.'));
             $this->_getSession()->setUserData(false);
             $this->_redirect('adminhtml/*/');
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addMessages($e->getMessages());
+            $this->messageManager->addMessages($e->getMessages());
             $this->_getSession()->setUserData($data);
             $this->_redirect('adminhtml/*/edit', array('_current' => true));
         }

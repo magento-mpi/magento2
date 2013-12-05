@@ -193,7 +193,7 @@ class Quote extends \Magento\Backend\App\Action
                 $this->_redirect('sales_rule/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $id = (int)$this->getRequest()->getParam('rule_id');
                 if (!empty($id)) {
                     $this->_redirect('sales_rule/*/edit', array('id' => $id));
@@ -203,7 +203,7 @@ class Quote extends \Magento\Backend\App\Action
                 return;
 
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('An error occurred while saving the rule data. Please review the log and try again.'));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
@@ -227,9 +227,9 @@ class Quote extends \Magento\Backend\App\Action
                 $this->_redirect('sales_rule/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('An error occurred while deleting the rule. Please review the log and try again.'));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
                 $this->_redirect('sales_rule/*/edit', array('id' => $this->getRequest()->getParam('id')));
@@ -404,7 +404,7 @@ class Quote extends \Magento\Backend\App\Action
                     $generator->setData($data);
                     $generator->generatePool();
                     $generated = $generator->getGeneratedCount();
-                    $this->_getSession()->addSuccess(__('%1 coupon(s) have been generated.', $generated));
+                    $this->messageManager->addSuccess(__('%1 coupon(s) have been generated.', $generated));
                     $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
                     $result['messages']  = $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml();
                 }

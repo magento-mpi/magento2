@@ -163,12 +163,12 @@ class Registration extends \Magento\Backend\App\AbstractAction
             $this->_view->renderLayout();
             $subscriptionData = $this->_initSubscription();
 
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('The subscription \'%1\' has been activated.',
                     $subscriptionData[self::DATA_NAME])
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
     }
 
@@ -203,7 +203,7 @@ class Registration extends \Magento\Backend\App\AbstractAction
      */
     protected function _redirectSucceeded(array $subscriptionData)
     {
-        $this->_getSession()->addSuccess(
+        $this->messageManager->addSuccess(
             __('The subscription \'%1\' has been activated.', $subscriptionData[self::DATA_NAME])
         );
         $this->_redirect('adminhtml/webhook_registration/succeeded',
@@ -217,7 +217,7 @@ class Registration extends \Magento\Backend\App\AbstractAction
      */
     protected function _redirectFailed($errorMessage)
     {
-        $this->_getSession()->addError($errorMessage);
+        $this->messageManager->addError($errorMessage);
         $this->_redirect('adminhtml/webhook_registration/failed');
     }
 }

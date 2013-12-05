@@ -125,7 +125,7 @@ class Integration extends Action
             try {
                 $integrationData = $this->_integrationService->get($integrationId);
             } catch (IntegrationException $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             }
@@ -143,7 +143,7 @@ class Integration extends Action
             }
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         } else {
-            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->messageManager->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -170,7 +170,7 @@ class Integration extends Action
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
                 if (!$integrationData[Info::DATA_ID]) {
-                    $this->_getSession()->addError(__('This integration no longer exists.'));
+                    $this->messageManager->addError(__('This integration no longer exists.'));
                     $this->_redirect('*/*/');
                     return;
                 }
@@ -191,18 +191,18 @@ class Integration extends Action
                 $this->_getSession()
                     ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
             } else {
-                $this->_getSession()->addError(__('The integration was not saved.'));
+                $this->messageManager->addError(__('The integration was not saved.'));
             }
             $this->_redirect('*/*/');
         } catch (\Magento\Integration\Exception $e) {
-            $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
+            $this->messageManager->addError($e->getMessage())->setIntegrationData($integrationData);
             $this->_redirectOnSaveError();
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirectOnSaveError();
         }
     }
@@ -217,13 +217,13 @@ class Integration extends Action
         if ($integrationId) {
             $integrationData = $this->_integrationService->get($integrationId);
             if (!$integrationData[Info::DATA_ID]) {
-                $this->_getSession()->addError(__('This integration no longer exists.'));
+                $this->messageManager->addError(__('This integration no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
             $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
         } else {
-            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->messageManager->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');
             return;
         }

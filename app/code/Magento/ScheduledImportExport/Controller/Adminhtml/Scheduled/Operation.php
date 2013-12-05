@@ -306,10 +306,10 @@ class Operation extends \Magento\Backend\App\Action
                 $this->_view->renderLayout();
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         } else {
-            $this->_getSession()->addError(__('No valid data sent'));
+            $this->messageManager->addError(__('No valid data sent'));
         }
         $this->_redirect('adminhtml/*/index');
     }
@@ -350,13 +350,13 @@ class Operation extends \Magento\Backend\App\Action
             // restore current design area and theme
             $design->setDesignTheme($theme, $area);
         } catch (\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
 
         if ($result) {
-            $this->_getSession()->addSuccess(__('The operation ran.'));
+            $this->messageManager->addSuccess(__('The operation ran.'));
         } else {
-            $this->_getSession()->addError(__('Unable to run operation'));
+            $this->messageManager->addError(__('Unable to run operation'));
         }
 
         $this->_redirect('adminhtml/*/index');

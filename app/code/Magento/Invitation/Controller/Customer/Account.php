@@ -122,7 +122,7 @@ class Account extends \Magento\Customer\Controller\Account
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('customer/account/login');
     }
@@ -158,17 +158,17 @@ class Account extends \Magento\Customer\Controller\Account
                 \Magento\Invitation\Model\Invitation::ERROR_INVALID_DATA
             );
             if (in_array($e->getCode(), $_definedErrorCodes)) {
-                $this->_getSession()->addError($e->getMessage())
+                $this->messageManager->addError($e->getMessage())
                     ->setCustomerFormData($this->getRequest()->getPost());
             } else {
                 if ($this->_objectManager->get('Magento\Customer\Helper\Data')->isRegistrationAllowed()) {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __('Your invitation is not valid. Please create an account.')
                     );
                     $this->_redirect('customer/account/create');
                     return;
                 } else {
-                    $this->_getSession()->addError(__('Your invitation is not valid. Please contact us at %1.',
+                    $this->messageManager->addError(__('Your invitation is not valid. Please contact us at %1.',
                             $this->_objectManager->get('Magento\Core\Model\Store\Config')
                                 ->getConfig('trans_email/ident_support/email'))
                     );
@@ -233,7 +233,7 @@ class Account extends \Magento\Customer\Controller\Account
             return;
         } catch (\Exception $e) {
             // die unhappy
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('magento_invitation/customer_account/create',
                 array('_current' => true, '_secure' => true));
             return;
@@ -253,14 +253,14 @@ class Account extends \Magento\Customer\Controller\Account
             }
             if ($customer->getConfirmation()) {
                 $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
-                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+                $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } else {
-                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+                $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             }
             $this->_getSession()->setUsername($email);
             $this->_redirect('customer/account/');
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Wrong email.'));
+            $this->messageManager->addException($e, __('Wrong email.'));
             $this->_redirect('magento_invitation/customer_account/create',
                 array('_current' => true, '_secure' => true));
         }

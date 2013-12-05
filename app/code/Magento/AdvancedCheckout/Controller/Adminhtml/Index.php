@@ -82,7 +82,7 @@ class Index extends \Magento\Backend\App\Action
         $storeManager = $this->_objectManager->get('Magento\Core\Model\StoreManager');
         if ($storeManager->getStore()->getWebsiteId() == $customer->getWebsiteId()) {
             if ($useRedirects) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('Shopping cart management disabled for this customer.')
                 );
                 $this->_redirect('customer/index/edit', array('id' => $customer->getId()));
@@ -197,10 +197,10 @@ class Index extends \Magento\Backend\App\Action
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('An error has occurred. See error log for details.')
             );
         }
@@ -402,10 +402,10 @@ class Index extends \Magento\Backend\App\Action
             ));
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('An error has occurred. See error log for details.')
             );
         }
@@ -690,14 +690,14 @@ class Index extends \Magento\Backend\App\Action
         try {
             $this->_initData(false)->_processData();
         } catch (\Magento\AdvancedCheckout\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $criticalException = true;
         } catch (\Magento\Core\Exception $e) {
             $this->_reloadQuote();
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_reloadQuote();
-            $this->_getSession()->addException($e, $e->getMessage());
+            $this->messageManager->addException($e, $e->getMessage());
         }
 
         $asJson = $this->getRequest()->getParam('json');

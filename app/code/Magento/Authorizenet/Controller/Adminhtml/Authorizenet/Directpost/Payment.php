@@ -133,11 +133,11 @@ class Payment
             } catch (\Magento\Core\Exception $e) {
                 $message = $e->getMessage();
                 if (!empty($message)) {
-                    $this->_getSession()->addError($message);
+                    $this->messageManager->addError($message);
                 }
                 $isError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
+                $this->messageManager->addException($e, __('Order saving error: %1', $e->getMessage()));
                 $isError = true;
             }
 

@@ -168,18 +168,18 @@ class User extends \Magento\Backend\App\AbstractAction
             try {
                 $user->delete();
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The API user has been deleted.')
                 );
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('user_id' => $userId));
                 return;
             }
         }
-        $this->_getSession()->addError(
+        $this->messageManager->addError(
             __('Unable to find a user to be deleted.')
         );
         $this->_redirect('adminhtml/*/');
@@ -239,7 +239,7 @@ class User extends \Magento\Backend\App\AbstractAction
         /** @var \Magento\Webapi\Model\Acl\User $user */
         $user = $this->_objectManager->create('Magento\Webapi\Model\Acl\User')->load($userId);
         if (!$user->getId() && $userId) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('This user no longer exists.')
             );
             $this->_redirect('adminhtml/*/');

@@ -17,11 +17,6 @@ namespace Magento\Core\Model\Session;
 class AbstractSession
 {
     /**
-     * Configuration path to log exception file
-     */
-    const XML_PATH_LOG_EXCEPTION_FILE = 'dev/log/exception_file';
-
-    /**
      * Session key for list of hosts
      */
     const HOST_KEY = '_session_hosts';
@@ -46,46 +41,11 @@ class AbstractSession
      */
     protected static $_urlHostCache = array();
 
-    /**
-     * @var \Magento\Logger
-     */
-    protected $_logger;
-
-    /**
-     * Core event manager proxy
-     *
-     * @var \Magento\Event\ManagerInterface
-     */
-    protected $_eventManager;
 
     /**
      * @var \Magento\Session\ValidatorInterface
      */
     protected $_validator;
-
-    /**
-     * @var \Magento\Core\Model\Store\Config
-     */
-    protected $_coreStoreConfig;
-
-    /**
-     * Core message
-     *
-     * @var \Magento\Message\Factory
-     */
-    protected $messageFactory;
-
-    /**
-     * Core message collection factory
-     *
-     * @var \Magento\Message\CollectionFactory
-     */
-    protected $messagesFactory;
-
-    /**
-     * @var \Magento\Message\Collection
-     */
-    protected $_messages;
 
     /**
      * @var \Magento\App\RequestInterface
@@ -96,11 +56,6 @@ class AbstractSession
      * @var \Magento\App\State
      */
     protected $_appState;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
-    protected $_storeManager;
 
     /**
      * @var \Magento\Session\SidResolverInterface
@@ -139,13 +94,7 @@ class AbstractSession
         \Magento\Session\StorageInterface $storage
     ) {
         $this->_validator = $validator;
-        $this->_eventManager = $context->getEventManager();
-        $this->_logger = $context->getLogger();
-        $this->_coreStoreConfig = $context->getStoreConfig();
-        $this->messagesFactory = $context->getMessagesFactory();
-        $this->messageFactory = $context->getMessageFactory();
         $this->_request = $context->getRequest();
-        $this->_storeManager = $context->getStoreManager();
         $this->_sidResolver = $sidResolver;
         $this->_sessionConfig = $sessionConfig;
         $this->saveHandler = $saveHandler;
@@ -351,176 +300,6 @@ class AbstractSession
     public function getCookieLifetime()
     {
         return $this->_sessionConfig->getCookieLifetime();
-    }
-
-    /**
-     * Retrieve messages from session
-     *
-     * @param bool $clear
-     * @return \Magento\Message\Collection
-     */
-    public function getMessages($clear = false)
-    {
-        if (!$this->_messages) {
-            $this->_messages = $this->messagesFactory->create();
-        }
-        if ($clear) {
-            $messages = clone $this->_messages;
-            $this->_messages->clear();
-            $this->_eventManager->dispatch('core_session_abstract_clear_messages');
-            return $messages;
-        }
-        return $this->_messages;
-    }
-
-    /**
-     * Not Magento exception handling
-     *
-     * @param \Exception $exception
-     * @param string $alternativeText
-     * @return \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addException(\Exception $exception, $alternativeText)
-    {
-        // log exception to exceptions log
-        $message = sprintf('Exception message: %s%sTrace: %s',
-            $exception->getMessage(),
-            "\n",
-            $exception->getTraceAsString());
-        $file = $this->_coreStoreConfig->getConfig(self::XML_PATH_LOG_EXCEPTION_FILE);
-        $this->_logger->logFile($message, \Zend_Log::DEBUG, $file);
-
-        $this->addMessage(
-            $this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $alternativeText)
-        );
-        return $this;
-    }
-
-    /**
-     * Adding new message to message collection
-     *
-     * @param   \Magento\Message\AbstractMessage $message
-     * @return  \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addMessage(\Magento\Message\AbstractMessage $message)
-    {
-        $this->getMessages()->addMessage($message);
-        $this->_eventManager->dispatch('core_session_abstract_add_message');
-        return $this;
-    }
-
-    /**
-     * Adding new error message
-     *
-     * @param   string $message
-     * @return  \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addError($message)
-    {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_ERROR, $message));
-        return $this;
-    }
-
-    /**
-     * Adding new warning message
-     *
-     * @param   string $message
-     * @return  \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addWarning($message)
-    {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_WARNING, $message));
-        return $this;
-    }
-
-    /**
-     * Adding new notice message
-     *
-     * @param   string $message
-     * @return  \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addNotice($message)
-    {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_NOTICE, $message));
-        return $this;
-    }
-
-    /**
-     * Adding new success message
-     *
-     * @param   string $message
-     * @return  \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addSuccess($message)
-    {
-        $this->addMessage($this->messageFactory->create(\Magento\Message\MessageInterface::TYPE_SUCCESS, $message));
-        return $this;
-    }
-
-    /**
-     * Adding messages array to message collection
-     *
-     * @param   array $messages
-     * @return  \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addMessages($messages)
-    {
-        if (is_array($messages)) {
-            foreach ($messages as $message) {
-                $this->addMessage($message);
-            }
-        }
-        return $this;
-    }
-
-    /**
-     * Adds messages array to message collection, but doesn't add duplicates to it
-     *
-     * @param array|string|\Magento\Message\AbstractMessage $messages
-     * @return \Magento\Core\Model\Session\AbstractSession
-     */
-    public function addUniqueMessages($messages)
-    {
-        if (!is_array($messages)) {
-            $messages = array($messages);
-        }
-        if (!$messages) {
-            return $this;
-        }
-
-        $messagesAlready = array();
-        $items = $this->getMessages()->getItems();
-        foreach ($items as $item) {
-            if ($item instanceof \Magento\Message\AbstractMessage) {
-                $text = $item->getText();
-            } elseif (is_string($item)) {
-                $text = $item;
-            } else {
-                continue; // Some unknown object, do not put it in already existing messages
-            }
-            $messagesAlready[$text] = true;
-        }
-
-        foreach ($messages as $message) {
-            if ($message instanceof \Magento\Message\AbstractMessage) {
-                $text = $message->getText();
-            } elseif (is_string($message)) {
-                $text = $message;
-            } else {
-                $text = null; // Some unknown object, add it anyway
-            }
-
-            // Check for duplication
-            if ($text !== null) {
-                if (isset($messagesAlready[$text])) {
-                    continue;
-                }
-                $messagesAlready[$text] = true;
-            }
-            $this->addMessage($message);
-        }
-
-        return $this;
     }
 
     /**

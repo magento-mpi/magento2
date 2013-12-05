@@ -104,7 +104,7 @@ class Subscription extends \Magento\Backend\App\AbstractAction
 
             $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
         }
     }
@@ -130,13 +130,13 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                 } else {
                     $this->_subscriptionService->create($subscriptionData);
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The subscription \'%1\' has been saved.',
                     $subscriptionData[self::DATA_NAME])
                 );
                 $this->_redirect('adminhtml/*/');
             } else {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('The subscription \'%1\' has not been saved, as no data was provided.',
                     $subscriptionData[self::DATA_NAME])
                 );
@@ -146,7 +146,7 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
         }
     }
@@ -164,22 +164,22 @@ class Subscription extends \Magento\Backend\App\AbstractAction
                         ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
                         : null;
                     $this->_subscriptionService->delete($subscriptionId);
-                    $this->_getSession()->addSuccess(
+                    $this->messageManager->addSuccess(
                         __('The subscription \'%1\' has been removed.',
                         $subscriptionData[self::DATA_NAME])
                     );
                 }
                 catch (\Magento\Core\Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
+                    $this->messageManager->addError($e->getMessage());
                 }
             } else {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('The subscription \'%1\' can not be removed.',
                     $subscriptionData[self::DATA_NAME])
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('adminhtml/*/');
     }
@@ -193,15 +193,15 @@ class Subscription extends \Magento\Backend\App\AbstractAction
             $subscriptionId = $this->getRequest()->getParam(self::PARAM_SUBSCRIPTION_ID);
             if ($subscriptionId) {
                 $subscriptionData = $this->_subscriptionService->revoke($subscriptionId);
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The subscription \'%1\' has been revoked.',
                     $subscriptionData[self::DATA_NAME])
                 );
             } else {
-                $this->_getSession()->addError(__('No Subscription ID was provided with the request.'));
+                $this->messageManager->addError(__('No Subscription ID was provided with the request.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
 
         $this->_redirect('adminhtml/webhook_subscription/index');
@@ -216,15 +216,15 @@ class Subscription extends \Magento\Backend\App\AbstractAction
             $subscriptionId = $this->getRequest()->getParam(self::PARAM_SUBSCRIPTION_ID);
             if ($subscriptionId) {
                 $subscriptionData = $this->_subscriptionService->activate($subscriptionId);
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The subscription \'%1\' has been activated.',
                         $subscriptionData[self::DATA_NAME])
                 );
             } else {
-                $this->_getSession()->addError(__('No Subscription ID was provided with the request.'));
+                $this->messageManager->addError(__('No Subscription ID was provided with the request.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
 
         $this->_redirect('adminhtml/webhook_subscription/index');

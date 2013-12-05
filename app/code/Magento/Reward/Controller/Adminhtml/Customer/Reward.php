@@ -68,7 +68,7 @@ class Reward extends \Magento\Backend\App\Action
                 $this->_getSession()
                     ->addSuccess(__('You removed the orphan points.'));
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
         $this->_redirect('customer/index/edit', array('_current' => true));

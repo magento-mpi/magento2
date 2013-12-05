@@ -156,7 +156,7 @@ class Attribute
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('You cannot edit this attribute.'));
                 $this->_redirect('adminhtml/*/');
                 return;
@@ -196,7 +196,7 @@ class Attribute
             $attributeObject    = $this->_initAttribute()
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode);
             if ($attributeObject->getId()) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('An attribute with this code already exists.')
                 );
 
@@ -238,7 +238,7 @@ class Attribute
             try {
                 $data = $this->_filterPostData($data);
             } catch (\Magento\Core\Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
+                    $this->messageManager->addError($e->getMessage());
                     if (isset($data['attribute_id'])) {
                         $this->_redirect('adminhtml/*/edit', array('_current' => true));
                     } else {
@@ -251,7 +251,7 @@ class Attribute
             if ($attributeId) {
                 $attributeObject->load($attributeId);
                 if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __('You cannot edit this attribute.')
                     );
                     $this->_getSession()->addAttributeData($data);
@@ -296,7 +296,7 @@ class Attribute
             $validateRulesErrors = $helper->checkValidateRules($data['frontend_input'], $data['validate_rules']);
             if (count($validateRulesErrors)) {
                 foreach ($validateRulesErrors as $message) {
-                    $this->_getSession()->addError($message);
+                    $this->messageManager->addError($message);
                 }
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
@@ -323,7 +323,7 @@ class Attribute
                     'attribute' => $attributeObject
                 ));
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You saved the customer attribute.')
                 );
                 $this->_getSession()->setAttributeData(false);
@@ -337,12 +337,12 @@ class Attribute
                 }
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong saving the customer attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
@@ -366,7 +366,7 @@ class Attribute
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()
                 || !$attributeObject->getIsUserDefined())
             {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('You cannot delete this attribute.')
                 );
                 $this->_redirect('adminhtml/*/');
@@ -378,17 +378,17 @@ class Attribute
                     'attribute' => $attributeObject
                 ));
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted the customer attribute.')
                 );
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong deleting the customer attribute.')
                 );
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));

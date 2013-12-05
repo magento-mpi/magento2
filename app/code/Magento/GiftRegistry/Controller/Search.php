@@ -133,7 +133,7 @@ class Search extends \Magento\App\Action\Action
     protected function _validateSearchParams($params)
     {
         if (empty($params) || !is_array($params) || empty($params['search'])) {
-            $this->_getSession()->addNotice(
+            $this->messageManager->addNotice(
                 __('Please enter correct search options.')
             );
             return false;
@@ -142,13 +142,13 @@ class Search extends \Magento\App\Action\Action
         switch ($params['search']) {
             case 'type':
                 if (empty($params['firstname']) || strlen($params['firstname']) < 2) {
-                    $this->_getSession()->addNotice(
+                    $this->messageManager->addNotice(
                         __('Please enter at least 2 letters of the first name.')
                     );
                     return false;
                 }
                 if (empty($params['lastname']) || strlen($params['lastname']) < 2) {
-                    $this->_getSession()->addNotice(
+                    $this->messageManager->addNotice(
                         __('Please enter at least 2 letters of the last name.')
                     );
                     return false;
@@ -157,7 +157,7 @@ class Search extends \Magento\App\Action\Action
 
             case 'email':
                 if (empty($params['email']) || !\Zend_Validate::is($params['email'], 'EmailAddress')) {
-                    $this->_getSession()->addNotice(
+                    $this->messageManager->addNotice(
                         __('Please enter a valid email address.')
                     );
                     return false;
@@ -166,7 +166,7 @@ class Search extends \Magento\App\Action\Action
 
             case 'id':
                 if (empty($params['id'])) {
-                    $this->_getSession()->addNotice(
+                    $this->messageManager->addNotice(
                         __('Please enter a gift registry ID.')
                     );
                     return false;
@@ -174,7 +174,7 @@ class Search extends \Magento\App\Action\Action
                 break;
 
             default:
-                $this->_getSession()->addNotice(
+                $this->messageManager->addNotice(
                     __('Please enter correct search options.')
                 );
                 return false;

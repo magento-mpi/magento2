@@ -49,6 +49,11 @@ class Account extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
@@ -84,6 +89,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Message\Manager $messageManager
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
@@ -96,6 +102,7 @@ class Account extends \Magento\App\Action\Action
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Message\Manager $messageManager,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
@@ -107,6 +114,7 @@ class Account extends \Magento\App\Action\Action
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
+        $this->messageManager = $messageManager;
         $this->_urlFactory = $urlFactory;
         $this->_customerFactory = $customerFactory;
         $this->_formFactory = $formFactory;
@@ -204,15 +212,14 @@ class Account extends \Magento\App\Action\Action
             $this->_redirect('*/*/');
             return;
         }
-        $session = $this->_getSession();
 
         if ($this->getRequest()->isPost()) {
             $login = $this->getRequest()->getPost('login');
             if (!empty($login['username']) && !empty($login['password'])) {
                 try {
-                    $session->login($login['username'], $login['password']);
-                    if ($session->getCustomer()->getIsJustConfirmed()) {
-                        $this->_welcomeCustomer($session->getCustomer(), true);
+                    $this->_getSession()->login($login['username'], $login['password']);
+                    if ($this->_getSession()->getCustomer()->getIsJustConfirmed()) {
+                        $this->_welcomeCustomer($this->_getSession()->getCustomer(), true);
                     }
                 } catch (\Magento\Core\Exception $e) {
                     switch ($e->getCode()) {
@@ -229,13 +236,13 @@ class Account extends \Magento\App\Action\Action
                             $message = $e->getMessage();
                             break;
                     }
-                    $session->addError($message);
-                    $session->setUsername($login['username']);
+                    $this->messageManager->addError($message);
+                    $this->_getSession()->setUsername($login['username']);
                 } catch (\Exception $e) {
                     // $this->_objectManager->get('Magento\Logger')->logException($e); // PA DSS violation: this exception log can disclose customer password
                 }
             } else {
-                $session->addError(__('Login and password are required.'));
+                $this->messageManager->addError(__('Login and password are required.'));
             }
         }
 
@@ -247,19 +254,18 @@ class Account extends \Magento\App\Action\Action
      */
     protected function _loginPostRedirect()
     {
-        $session = $this->_getSession();
-        $lastCustomerId = $session->getLastCustomerId();
-        if (isset($lastCustomerId) && $session->isLoggedIn() && $lastCustomerId != $session->getId()) {
-            $session->unsBeforeAuthUrl()
-                ->setLastCustomerId($session->getId());
+        $lastCustomerId = $this->_getSession()->getLastCustomerId();
+        if (isset($lastCustomerId) && $this->_getSession()->isLoggedIn() && $lastCustomerId != $this->_getSession()->getId()) {
+            $this->_getSession()->unsBeforeAuthUrl()
+                ->setLastCustomerId($this->_getSession()->getId());
         }
-        if (!$session->getBeforeAuthUrl()
-            || $session->getBeforeAuthUrl() == $this->_storeManager->getStore()->getBaseUrl()
+        if (!$this->_getSession()->getBeforeAuthUrl()
+            || $this->_getSession()->getBeforeAuthUrl() == $this->_storeManager->getStore()->getBaseUrl()
         ) {
             // Set default URL to redirect customer to
-            $session->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getAccountUrl());
+            $this->_getSession()->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getAccountUrl());
             // Redirect customer to the last page visited after logging in
-            if ($session->isLoggedIn()) {
+            if ($this->_getSession()->isLoggedIn()) {
                 if (!$this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfigFlag(
                     \Magento\Customer\Helper\Data::XML_PATH_CUSTOMER_STARTUP_REDIRECT_TO_DASHBOARD
                 )) {
@@ -267,26 +273,26 @@ class Account extends \Magento\App\Action\Action
                     if ($referer) {
                         $referer = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($referer);
                         if ($this->_url->isInternal($referer)) {
-                            $session->setBeforeAuthUrl($referer);
+                            $this->_getSession()->setBeforeAuthUrl($referer);
                         }
                     }
-                } elseif ($session->getAfterAuthUrl()) {
-                    $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
+                } elseif ($this->_getSession()->getAfterAuthUrl()) {
+                    $this->_getSession()->setBeforeAuthUrl($this->_getSession()->getAfterAuthUrl(true));
                 }
             } else {
-                $session->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
+                $this->_getSession()->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getLoginUrl());
             }
-        } elseif ($session->getBeforeAuthUrl() == $this->_objectManager->get('Magento\Customer\Helper\Data')->getLogoutUrl()) {
-            $session->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getDashboardUrl());
+        } elseif ($this->_getSession()->getBeforeAuthUrl() == $this->_objectManager->get('Magento\Customer\Helper\Data')->getLogoutUrl()) {
+            $this->_getSession()->setBeforeAuthUrl($this->_objectManager->get('Magento\Customer\Helper\Data')->getDashboardUrl());
         } else {
-            if (!$session->getAfterAuthUrl()) {
-                $session->setAfterAuthUrl($session->getBeforeAuthUrl());
+            if (!$this->_getSession()->getAfterAuthUrl()) {
+                $this->_getSession()->setAfterAuthUrl($this->_getSession()->getBeforeAuthUrl());
             }
-            if ($session->isLoggedIn()) {
-                $session->setBeforeAuthUrl($session->getAfterAuthUrl(true));
+            if ($this->_getSession()->isLoggedIn()) {
+                $this->_getSession()->setBeforeAuthUrl($this->_getSession()->getAfterAuthUrl(true));
             }
         }
-        $this->getResponse()->setRedirect($session->getBeforeAuthUrl(true));
+        $this->getResponse()->setRedirect($this->_getSession()->getBeforeAuthUrl(true));
     }
 
     /**
@@ -332,12 +338,11 @@ class Account extends \Magento\App\Action\Action
      */
     public function createPostAction()
     {
-        $session = $this->_getSession();
-        if ($session->isLoggedIn()) {
+        if ($this->_getSession()->isLoggedIn()) {
             $this->_redirect('*/*/');
             return;
         }
-        $session->setEscapeMessages(true); // prevent XSS injection in user input
+        $this->_getSession()->setEscapeMessages(true); // prevent XSS injection in user input
 
         if (!$this->getRequest()->isPost()) {
             $url = $this->_createUrl()->getUrl('*/*/create', array('_secure' => true));
@@ -362,17 +367,17 @@ class Account extends \Magento\App\Action\Action
             if ($customer->isConfirmationRequired()) {
                 $customer->sendNewAccountEmail(
                     'confirmation',
-                    $session->getBeforeAuthUrl(),
+                    $this->_getSession()->getBeforeAuthUrl(),
                     $this->_storeManager->getStore()->getId()
                 );
                 $email = $this->_objectManager->get('Magento\Customer\Helper\Data')->getEmailConfirmationUrl($customer->getEmail());
-                $session->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Account confirmation is required. Please, check your email for the confirmation link. To resend the confirmation email please <a href="%1">click here</a>.', $email)
                 );
                 $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             } else {
-                $session->setCustomerAsLoggedIn($customer);
+                $this->_getSession()->setCustomerAsLoggedIn($customer);
                 $url = $this->_welcomeCustomer($customer);
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
             }
@@ -381,22 +386,22 @@ class Account extends \Magento\App\Action\Action
             if ($e->getCode() === \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_EXISTS) {
                 $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
                 $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
-                $session->setEscapeMessages(false);
+                $this->_getSession()->setEscapeMessages(false);
             } else {
                 $message = $e->getMessage();
             }
-            $session->addError($message);
+            $this->messageManager->addError($message);
         } catch (\Magento\Validator\ValidatorException $e) {
             foreach ($e->getMessages() as $messages) {
                 foreach ($messages as $message) {
-                    $session->addError($message);
+                    $this->messageManager->addError($message);
                 }
             }
         } catch (\Exception $e) {
-            $session->addException($e, __('Cannot save the customer.'));
+            $this->messageManager->addException($e, __('Cannot save the customer.'));
         }
 
-        $session->setCustomerFormData($this->getRequest()->getPost());
+        $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
         $defaultUrl = $this->_createUrl()->getUrl('*/*/create', array('_secure' => true));
         $this->getResponse()->setRedirect($this->_redirect->error($defaultUrl));
     }
@@ -494,7 +499,7 @@ class Account extends \Magento\App\Action\Action
      */
     protected function _welcomeCustomer(\Magento\Customer\Model\Customer $customer, $isJustConfirmed = false)
     {
-        $this->_getSession()->addSuccess(
+        $this->messageManager->addSuccess(
             __('Thank you for registering with %1.', $this->_storeManager->getStore()->getFrontendName())
         );
         if ($this->_isVatValidationEnabled()) {
@@ -509,7 +514,7 @@ class Account extends \Magento\App\Action\Action
                     $userPrompt = __('If you are a registered VAT customer, please click <a href="%1">here</a> to enter you billing address for proper VAT calculation', $editAddersUrl);
                     break;
             }
-            $this->_getSession()->addSuccess($userPrompt);
+            $this->messageManager->addSuccess($userPrompt);
         }
 
         $customer->sendNewAccountEmail(
@@ -615,7 +620,7 @@ class Account extends \Magento\App\Action\Action
             return;
         } catch (\Exception $e) {
             // die unhappy
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
             $this->getResponse()->setRedirect($this->_redirect->error($url));
             return;
@@ -635,15 +640,15 @@ class Account extends \Magento\App\Action\Action
             }
             if ($customer->getConfirmation()) {
                 $customer->sendNewAccountEmail('confirmation', '', $this->_storeManager->getStore()->getId());
-                $this->_getSession()->addSuccess(__('Please, check your email for confirmation key.'));
+                $this->messageManager->addSuccess(__('Please, check your email for confirmation key.'));
             } else {
-                $this->_getSession()->addSuccess(__('This email does not require confirmation.'));
+                $this->messageManager->addSuccess(__('This email does not require confirmation.'));
             }
             $this->_getSession()->setUsername($email);
             $url = $this->_createUrl()->getUrl('*/*/index', array('_secure' => true));
             $this->getResponse()->setRedirect($this->_redirect->success($url));
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Wrong email.'));
+            $this->messageManager->addException($e, __('Wrong email.'));
             $url = $this->_createUrl()->getUrl('*/*/*', array('email' => $email, '_secure' => true));
             $this->getResponse()->setRedirect($this->_redirect->error($url));
         }
@@ -702,7 +707,7 @@ class Account extends \Magento\App\Action\Action
         if ($email) {
             if (!\Zend_Validate::is($email, 'EmailAddress')) {
                 $this->_getSession()->setForgottenEmail($email);
-                $this->_getSession()->addError(__('Please correct the email address.'));
+                $this->messageManager->addError(__('Please correct the email address.'));
                 $this->_redirect('*/*/forgotpassword');
                 return;
             }
@@ -719,19 +724,19 @@ class Account extends \Magento\App\Action\Action
                     $customer->changeResetPasswordLinkToken($newPasswordToken);
                     $customer->sendPasswordResetConfirmationEmail();
                 } catch (\Exception $exception) {
-                    $this->_getSession()->addError($exception->getMessage());
+                    $this->messageManager->addError($exception->getMessage());
                     $this->_redirect('*/*/forgotpassword');
                     return;
                 }
             }
             $email = $this->_objectManager->get('Magento\Escaper')->escapeHtml($email);
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('If there is an account associated with %1 you will receive an email with a link to reset your password.', $email)
             );
             $this->_redirect('*/*/');
             return;
         } else {
-            $this->_getSession()->addError(__('Please enter your email.'));
+            $this->messageManager->addError(__('Please enter your email.'));
             $this->_redirect('*/*/forgotpassword');
             return;
         }
@@ -764,7 +769,7 @@ class Account extends \Magento\App\Action\Action
                 ->setResetPasswordLinkToken($resetPasswordToken);
             $this->_view->renderLayout();
         } catch (\Exception $exception) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('Your password reset link has expired.')
             );
             $this->_redirect('*/*/forgotpassword');
@@ -787,7 +792,7 @@ class Account extends \Magento\App\Action\Action
         try {
             $this->_validateResetPasswordLinkToken($customerId, $resetPasswordToken);
         } catch (\Exception $exception) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('Your password reset link has expired.')
             );
             $this->_redirect('*/*/');
@@ -811,7 +816,7 @@ class Account extends \Magento\App\Action\Action
         if (!empty($errorMessages)) {
             $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
             foreach ($errorMessages as $errorMessage) {
-                $this->_getSession()->addError($errorMessage);
+                $this->messageManager->addError($errorMessage);
             }
             $this->_redirect('*/*/createpassword', array(
                 'id' => $customerId,
@@ -826,12 +831,12 @@ class Account extends \Magento\App\Action\Action
             $customer->setRpTokenCreatedAt(null);
             $customer->setConfirmation(null);
             $customer->save();
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('Your password has been updated.')
             );
             $this->_redirect('*/*/login');
         } catch (\Exception $exception) {
-            $this->_getSession()->addException($exception, __('Cannot save a new password.'));
+            $this->messageManager->addException($exception, __('Cannot save a new password.'));
             $this->_redirect('*/*/createpassword', array(
                 'id' => $customerId,
                 'token' => $resetPasswordToken
@@ -959,7 +964,7 @@ class Account extends \Magento\App\Action\Action
             if (!empty($errors)) {
                 $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
                 foreach ($errors as $message) {
-                    $this->_getSession()->addError($message);
+                    $this->messageManager->addError($message);
                 }
                 $this->_redirect('*/*/edit');
                 return;

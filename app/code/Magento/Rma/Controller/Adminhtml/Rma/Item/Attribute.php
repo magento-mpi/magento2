@@ -129,7 +129,7 @@ class Attribute extends \Magento\Backend\App\Action
                 return;
             }
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                $this->_getSession()->addError(__('You cannot edit this attribute.'));
+                $this->messageManager->addError(__('You cannot edit this attribute.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
@@ -170,7 +170,7 @@ class Attribute extends \Magento\Backend\App\Action
                 ->loadByCode($this->_getEntityType()->getId(), $attributeCode)
                 ->setCanManageOptionLabels(true);
             if ($attributeObject->getId()) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('An attribute with the same code already exists.')
                 );
 
@@ -198,7 +198,7 @@ class Attribute extends \Magento\Backend\App\Action
             try {
                 $data = $helper->filterPostData($data);
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 if (isset($data['attribute_id'])) {
                     $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 } else {
@@ -211,7 +211,7 @@ class Attribute extends \Magento\Backend\App\Action
             if ($attributeId) {
                 $attributeObject->load($attributeId);
                 if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()) {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __('You cannot edit this attribute.')
                     );
                     $this->_getSession()->addAttributeData($data);
@@ -267,7 +267,7 @@ class Attribute extends \Magento\Backend\App\Action
             try {
                 $attributeObject->save();
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You saved the RMA item attribute.')
                 );
                 $this->_getSession()->setAttributeData(false);
@@ -281,12 +281,12 @@ class Attribute extends \Magento\Backend\App\Action
                 }
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setAttributeData($data);
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong saving the RMA item attribute.')
                 );
                 $this->_getSession()->setAttributeData($data);
@@ -311,7 +311,7 @@ class Attribute extends \Magento\Backend\App\Action
             if ($attributeObject->getEntityTypeId() != $this->_getEntityType()->getId()
                 || !$attributeObject->getIsUserDefined()
             ) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('You cannot delete this attribute.')
                 );
                 $this->_redirect('adminhtml/*/');
@@ -320,17 +320,17 @@ class Attribute extends \Magento\Backend\App\Action
             try {
                 $attributeObject->delete();
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted the RMA attribute.')
                 );
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong deleting the RMA item attribute.')
                 );
                 $this->_redirect('adminhtml/*/edit', array('attribute_id' => $attributeId, '_current' => true));

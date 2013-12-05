@@ -225,7 +225,7 @@ class Version
     {
         $ids = $this->getRequest()->getParam('revision');
         if (!is_array($ids)) {
-            $this->_getSession()->addError(__('Please select revision(s).'));
+            $this->messageManager->addError(__('Please select revision(s).'));
         } else {
             try {
                 $userId = $this->_backendAuthSession->getUser()->getId();
@@ -238,14 +238,14 @@ class Version
                         $revision->delete();
                     }
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()->addError(__('Something went wrong while deleting the revisions.'));
+                $this->messageManager->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
         $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'revisions'));

@@ -21,6 +21,7 @@ class AbstractMessageTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $this->model = $this->getMockBuilder('Magento\Message\AbstractMessage')
+            ->disableOriginalConstructor()
             ->setMethods(array('getType'))
             ->getMockForAbstractClass();
     }

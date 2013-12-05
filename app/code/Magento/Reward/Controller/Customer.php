@@ -99,7 +99,7 @@ class Customer extends \Magento\App\Action\Action
             $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('You saved the settings.')
             );
         }
@@ -127,12 +127,12 @@ class Customer extends \Magento\App\Action\Action
                     $customer->setRewardWarningNotification(false);
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You have been unsubscribed.')
                 );
             }
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('Failed to unsubscribe'));
+            $this->messageManager->addError(__('Failed to unsubscribe'));
         }
 
         $this->_redirect('*/*/info');

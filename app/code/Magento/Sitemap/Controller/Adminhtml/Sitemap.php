@@ -272,16 +272,16 @@ class Sitemap extends  \Magento\Backend\App\Action
             try {
                 $sitemap->generateXml();
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The sitemap "%1" has been generated.', $sitemap->getSitemapFilename()));
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong generating the sitemap.'));
             }
         } else {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('We can\'t find a sitemap to generate.'));
         }
 

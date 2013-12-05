@@ -131,7 +131,7 @@ class Reminder extends \Magento\Backend\App\Action
         try {
             $model = $this->_initRule();
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -205,7 +205,7 @@ class Reminder extends \Magento\Backend\App\Action
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
-                        $this->_getSession()->addError($errorMessage);
+                        $this->messageManager->addError($errorMessage);
                     }
                     $this->_getSession()->setFormData($data);
 
@@ -221,7 +221,7 @@ class Reminder extends \Magento\Backend\App\Action
                 $this->_getSession()->setPageData($model->getData());
                 $model->save();
 
-                $this->_getSession()->addSuccess(__('You saved the reminder rule.'));
+                $this->messageManager->addSuccess(__('You saved the reminder rule.'));
                 $this->_getSession()->setPageData(false);
 
                 if ($redirectBack) {
@@ -233,12 +233,12 @@ class Reminder extends \Magento\Backend\App\Action
                 }
 
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                $this->_getSession()->addError(__('We could not save the reminder rule.'));
+                $this->messageManager->addError(__('We could not save the reminder rule.'));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
@@ -253,14 +253,14 @@ class Reminder extends \Magento\Backend\App\Action
         try {
             $model = $this->_initRule();
             $model->delete();
-            $this->_getSession()->addSuccess(__('You deleted the reminder rule.'));
+            $this->messageManager->addSuccess(__('You deleted the reminder rule.'));
         }
         catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
             return;
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('We could not delete the reminder rule.'));
+            $this->messageManager->addError(__('We could not delete the reminder rule.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
@@ -274,11 +274,11 @@ class Reminder extends \Magento\Backend\App\Action
         try {
             $model = $this->_initRule();
             $model->sendReminderEmails();
-            $this->_getSession()->addSuccess(__('You matched the reminder rule.'));
+            $this->messageManager->addSuccess(__('You matched the reminder rule.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Reminder rule matching error.'));
+            $this->messageManager->addException($e, __('Reminder rule matching error.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/edit', array('id' => $model->getId(), 'active_tab' => 'matched_customers'));

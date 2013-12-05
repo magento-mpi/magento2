@@ -142,10 +142,11 @@ class Cart
 
         // Compose array of messages to add
         $messages = array();
+        /** @var \Magento\Message\MessageInterface $message  */
         foreach ($cart->getQuote()->getMessages() as $message) {
             if ($message) {
                 // Escape HTML entities in quote message to prevent XSS
-                $message->setCode($this->_objectManager->get('Magento\Escaper')->escapeHtml($message->getCode()));
+                $message->setText($this->_objectManager->get('Magento\Escaper')->escapeHtml($message->getText()));
                 $messages[] = $message;
             }
         }

@@ -221,14 +221,14 @@ class Customer extends \Magento\Backend\App\Action
                     throw new \Magento\Core\Exception(__('Please enter at least one email address.'));
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
 
             if ($sentCount) {
-                $this->_getSession()->addSuccess(__('%1 email(s) were sent.', $sentCount));
+                $this->messageManager->addSuccess(__('%1 email(s) were sent.', $sentCount));
             }
             if ($failedCount) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __("We couldn't send '%1 of %2 emails.", $failedCount, count($emailsForSend))
                 );
             }

@@ -50,7 +50,7 @@ class Transactions extends \Magento\Backend\App\Action
         );
 
         if (!$txn->getId()) {
-            $this->_getSession()->addError(__('Please correct the transaction ID and try again.'));
+            $this->messageManager->addError(__('Please correct the transaction ID and try again.'));
             $this->_redirect('sales/*/');
             $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
             return false;

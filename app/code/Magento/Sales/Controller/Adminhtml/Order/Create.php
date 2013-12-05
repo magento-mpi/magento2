@@ -287,11 +287,11 @@ class Create extends \Magento\Backend\App\Action
         }
         if (!empty($couponCode)) {
             if ($this->_getQuote()->getCouponCode() !== $couponCode) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('"%1" coupon code is not valid.', $this->_objectManager->get('Magento\Escaper')
                             ->escapeHtml($couponCode)));
             } else {
-                $this->_getSession()->addSuccess(__('The coupon code has been accepted.'));
+                $this->messageManager->addSuccess(__('The coupon code has been accepted.'));
             }
         }
 
@@ -374,11 +374,11 @@ class Create extends \Magento\Backend\App\Action
         }
         catch (\Magento\Core\Exception $e){
             $this->_reloadQuote();
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         catch (\Exception $e){
             $this->_reloadQuote();
-            $this->_getSession()->addException($e, $e->getMessage());
+            $this->messageManager->addException($e, $e->getMessage());
         }
 
 
@@ -503,18 +503,18 @@ class Create extends \Magento\Backend\App\Action
             $this->_getOrderCreateModel()->saveQuote();
             $message = $e->getMessage();
             if( !empty($message) ) {
-                $this->_getSession()->addError($message);
+                $this->messageManager->addError($message);
             }
             $this->_redirect('sales/*/');
         } catch (\Magento\Core\Exception $e){
             $message = $e->getMessage();
             if( !empty($message) ) {
-                $this->_getSession()->addError($message);
+                $this->messageManager->addError($message);
             }
             $this->_redirect('sales/*/');
         }
         catch (\Exception $e){
-            $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
+            $this->messageManager->addException($e, __('Order saving error: %1', $e->getMessage()));
             $this->_redirect('sales/*/');
         }
     }

@@ -99,7 +99,7 @@ class Targetrule extends \Magento\Backend\App\Action
         if ($ruleId) {
             $model->load($ruleId);
             if (!$model->getId()) {
-                $this->_getSession()->addError(__('This rule no longer exists.'));
+                $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;
             }
@@ -163,7 +163,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
-                        $this->_getSession()->addError($errorMessage);
+                        $this->messageManager->addError($errorMessage);
                     }
                     $this->_getSession()->setFormData($data);
 
@@ -178,7 +178,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 $model->loadPost($data);
                 $model->save();
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You saved the rule.')
                 );
 
@@ -190,13 +190,13 @@ class Targetrule extends \Magento\Backend\App\Action
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Zend_Date_Exception $e) {
-                $this->_getSession()->addError(__('Invalid date.'));
+                $this->messageManager->addError(__('Invalid date.'));
                 $hasError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('An error occurred while saving Product Rule.')
                 );
 

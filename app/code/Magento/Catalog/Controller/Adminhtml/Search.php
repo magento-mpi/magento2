@@ -132,10 +132,10 @@ class Search extends \Magento\Backend\App\Action
                 $model->save();
 
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong while saving the search query.')
                 );
                 $hasError = true;

@@ -170,7 +170,7 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
     {
         $ids = $this->getRequest()->getParam('version');
         if (!is_array($ids)) {
-            $this->_getSession()->addError(__('Please select version(s).'));
+            $this->messageManager->addError(__('Please select version(s).'));
         } else {
             try {
                 $userId = $this->_backendAuthSession->getUser()->getId();
@@ -183,14 +183,14 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
                         $version->delete();
                     }
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()->addError(__('Something went wrong while deleting these versions.'));
+                $this->messageManager->addError(__('Something went wrong while deleting these versions.'));
             }
         }
         $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'versions'));

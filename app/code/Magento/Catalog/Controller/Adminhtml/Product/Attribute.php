@@ -188,7 +188,7 @@ class Attribute extends \Magento\Backend\App\Action
             $attributeSet->setEntityTypeId($this->_entityTypeId)->load($setName, 'attribute_set_name');
             if ($attributeSet->getId()) {
                 $setName = $this->_objectManager->get('Magento\Escaper')->escapeHtml($setName);
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('Attribute Set with name \'%1\' already exists.', $setName)
                 );
 

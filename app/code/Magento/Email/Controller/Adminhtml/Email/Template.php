@@ -152,9 +152,9 @@ class Template extends \Magento\Backend\App\Action
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('An error occurred while deleting email template data. Please review log and try again.')
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);

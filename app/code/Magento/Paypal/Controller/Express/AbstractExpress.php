@@ -275,7 +275,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         try {
             $this->getResponse()->setRedirect($this->_config->getExpressCheckoutEditUrl($this->_initToken()));
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*/review');
         }
     }
@@ -297,9 +297,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('We can\'t update shipping method.'));
+            $this->messageManager->addError(__('We can\'t update shipping method.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if ($isAjax) {
@@ -325,9 +325,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 ->toHtml());
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('We can\'t update Order data.'));
+            $this->messageManager->addError(__('We can\'t update Order data.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->getResponse()->setBody('<script type="text/javascript">window.location.href = '
@@ -351,9 +351,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('We can\'t update Order data.'));
+            $this->messageManager->addError(__('We can\'t update Order data.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if ($isAjax) {
@@ -425,9 +425,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_redirect('checkout/onepage/success');
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('We can\'t place the order.'));
+            $this->messageManager->addError(__('We can\'t place the order.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('*/*/review');

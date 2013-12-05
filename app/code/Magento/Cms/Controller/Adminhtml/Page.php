@@ -173,9 +173,9 @@ class Page extends \Magento\Backend\App\Action
                 return;
 
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong while saving the page.'));
             }
 
@@ -277,7 +277,7 @@ class Page extends \Magento\Backend\App\Action
                 $errorNo = false;
             }
             foreach ($validatorCustomLayout->getMessages() as $message) {
-                $this->_getSession()->addError($message);
+                $this->messageManager->addError($message);
             }
         }
         return $errorNo;

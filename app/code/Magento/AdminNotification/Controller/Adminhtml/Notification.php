@@ -87,7 +87,7 @@ class Notification extends \Magento\Backend\App\AbstractAction
                             ->save();
                     }
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been marked as Read.', count($ids))
                 );
             } catch (\Magento\Core\Exception $e) {
@@ -149,7 +149,7 @@ class Notification extends \Magento\Backend\App\AbstractAction
                             ->save();
                     }
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Total of %1 record(s) have been removed.', count($ids))
                 );
             } catch (\Magento\Core\Exception $e) {

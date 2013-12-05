@@ -91,7 +91,7 @@ class Role extends \Magento\Backend\App\Action
         if ($roleId) {
             $role->load($roleId);
             if (!$role->getId()) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('This API role no longer exists.')
                 );
                 $this->_redirect('adminhtml/*/');
@@ -140,11 +140,11 @@ class Role extends \Magento\Backend\App\Action
 
         try {
             $this->_objectManager->create('Magento\Webapi\Model\Acl\Role')->load($roleId)->delete();
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('The API role has been deleted.')
             );
         } catch (\Exception $e) {
-            $this->_getSession()->addError(
+            $this->messageManager->addError(
                 __('An error occurred while deleting this role.')
             );
         }
@@ -163,7 +163,7 @@ class Role extends \Magento\Backend\App\Action
             /** @var \Magento\Webapi\Model\Acl\Role $role */
             $role = $this->_objectManager->create('Magento\Webapi\Model\Acl\Role')->load($roleId);
             if (!$role->getId() && $roleId) {
-                $this->_getSession()->addError(
+                $this->messageManager->addError(
                     __('This role no longer exists.')
                 );
                 $this->_redirect('adminhtml/*/');
@@ -179,7 +179,7 @@ class Role extends \Magento\Backend\App\Action
                 $this->_saveResources($role->getId(), $isNewRole);
                 $this->_saveUsers($role->getId());
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The API role has been saved.')
                 );
                 $this->_getSession()->setWebapiRoleData(false);
@@ -190,7 +190,7 @@ class Role extends \Magento\Backend\App\Action
                     $this->_redirect('adminhtml/*/edit', array('role_id' => $role->getId()));
                 }
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setWebapiRoleData($data);
                 $this->_redirect('adminhtml/*/edit', array('role_id' => $role->getId()));
             }

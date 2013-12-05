@@ -145,11 +145,11 @@ class Index extends \Magento\Backend\App\Action
                 $model->matchCustomers();
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e,
+            $this->messageManager->addException($e,
                 __('Segment Customers matching error')
             );
             $this->_redirect('customersegment/*/');
@@ -224,7 +224,7 @@ class Index extends \Magento\Backend\App\Action
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
-                        $this->_getSession()->addError($errorMessage);
+                        $this->messageManager->addError($errorMessage);
                     }
                     $this->_getSession()->setFormData($data);
 

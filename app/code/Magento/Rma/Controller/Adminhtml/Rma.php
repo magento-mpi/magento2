@@ -442,13 +442,13 @@ class Rma extends \Magento\Backend\App\Action
         }
         if ($countNonCloseRma) {
             if ($countCloseRma) {
-                $this->_getSession()->addError(__('%1 RMA(s) cannot be closed', $countNonCloseRma));
+                $this->messageManager->addError(__('%1 RMA(s) cannot be closed', $countNonCloseRma));
             } else {
-                $this->_getSession()->addError(__('We cannot close the RMA request(s).'));
+                $this->messageManager->addError(__('We cannot close the RMA request(s).'));
             }
         }
         if ($countCloseRma) {
-            $this->_getSession()->addSuccess(__('%1 RMA (s) have been closed.', $countCloseRma));
+            $this->messageManager->addSuccess(__('%1 RMA (s) have been closed.', $countCloseRma));
         }
 
         if ($returnRma) {
@@ -1103,7 +1103,7 @@ class Rma extends \Magento\Backend\App\Action
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(__('You created a shipping label.'));
+                $this->messageManager->addSuccess(__('You created a shipping label.'));
                 $response->setOk(true);
             }
         } catch (\Magento\Core\Exception $e) {
@@ -1225,7 +1225,7 @@ class Rma extends \Magento\Backend\App\Action
                     $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
+                        $this->messageManager->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -1238,7 +1238,7 @@ class Rma extends \Magento\Backend\App\Action
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()

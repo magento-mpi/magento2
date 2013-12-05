@@ -200,10 +200,10 @@ class Index extends \Magento\Backend\App\Action
         if ($customer->getId()) {
             try {
                 $customer->delete();
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted the customer.'));
             } catch (\Exception $exception){
-                $this->_getSession()->addError($exception->getMessage());
+                $this->messageManager->addError($exception->getMessage());
             }
         }
         $this->_redirect('customer/index');
@@ -253,7 +253,7 @@ class Index extends \Magento\Backend\App\Action
                 }
 
                 $this->_objectManager->get('Magento\Core\Model\Registry')->register('current_customer', $customer);
-                $this->_getSession()->addSuccess(__('You saved the customer.'));
+                $this->messageManager->addSuccess(__('You saved the customer.'));
 
                 $returnToEdit = (bool)$this->getRequest()->getParam('back', false);
                 $customerId = $customer->getId();
@@ -270,7 +270,7 @@ class Index extends \Magento\Backend\App\Action
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
             } catch (\Exception $exception) {
-                $this->_getSession()->addException($exception,
+                $this->messageManager->addException($exception,
                     __('An error occurred while saving the customer.'));
                 $this->_getSession()->setCustomerData($originalRequestData);
                 $returnToEdit = true;
@@ -324,7 +324,7 @@ class Index extends \Magento\Backend\App\Action
             }
             $this->_addSessionErrorMessages($messages);
         } catch (\Exception $exception) {
-            $this->_getSession()->addException($exception,
+            $this->messageManager->addException($exception,
                 __('An error occurred while resetting customer password.'));
         }
 
@@ -671,7 +671,7 @@ class Index extends \Magento\Backend\App\Action
 
         if ($errors !== true && !empty($errors)) {
             foreach ($errors as $error) {
-                $this->_getSession()->addError($error);
+                $this->messageManager->addError($error);
             }
             $response->setError(1);
         }
@@ -708,7 +708,7 @@ class Index extends \Magento\Backend\App\Action
                 $errors = $addressForm->validateData($formData);
                 if ($errors !== true) {
                     foreach ($errors as $error) {
-                        $this->_getSession()->addError($error);
+                        $this->messageManager->addError($error);
                     }
                     $response->setError(1);
                 }
