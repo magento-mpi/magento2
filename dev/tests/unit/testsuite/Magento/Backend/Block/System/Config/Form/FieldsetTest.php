@@ -49,7 +49,7 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
     protected $_testHelper;
 
     /**
-     * @var \Magento\App\Helper\HelperFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
 

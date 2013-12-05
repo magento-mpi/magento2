@@ -105,11 +105,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_frontController;
 
     /**
-     * @var \Magento\App\Helper\HelperFactory
-     */
-    protected $_helperFactory;
-
-    /**
      * @var \Magento\View\Url
      */
     protected $_viewUrl;
@@ -167,7 +162,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_session         = $context->getSession();
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
-        $this->_helperFactory   = $context->getHelperFactory();
         $this->_viewUrl         = $context->getViewUrl();
         $this->_viewConfig      = $context->getViewConfig();
         $this->_cacheState      = $context->getCacheState();
@@ -709,30 +703,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Generate base64-encoded url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrlBase64($route = '', $params = array())
-    {
-        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
-    }
-
-    /**
-     * Generate url-encoded url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrlEncoded($route = '', $params = array())
-    {
-        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
-    }
-
-    /**
      * Retrieve url of themes file
      *
      * @param string $file path to file in theme
@@ -794,9 +764,9 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @param string $name
      * @return \Magento\App\Helper\AbstractHelper
      */
-    public function helper($name)
+    protected function helper($name)
     {
-        return $this->_helperFactory->get($name);
+        return \Magento\App\ObjectManager::getInstance()->get($name);
     }
 
     /**

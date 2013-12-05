@@ -37,7 +37,7 @@ class ButtonTest extends \PHPUnit_Framework_TestCase
     protected $_buttonMock;
 
     /**
-     * @var \Magento\App\Helper\HelperFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
 

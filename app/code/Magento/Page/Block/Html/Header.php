@@ -25,18 +25,26 @@ class Header extends \Magento\View\Block\Template
     protected $_customerSession;
 
     /**
+     * @var \Magento\Core\Helper\File\Storage\Database
+     */
+    protected $_fileStorageHelper;
+
+    /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\Session $customerSession
+     * @param \Magento\Core\Helper\File\Storage\Database $fileStorageHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\Session $customerSession,
+        \Magento\Core\Helper\File\Storage\Database $fileStorageHelper,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
+        $this->_fileStorageHelper = $fileStorageHelper;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -130,10 +138,8 @@ class Header extends \Magento\View\Block\Template
      */
     protected function _isFile($filename)
     {
-        $helper = $this->_helperFactory->get('Magento\Core\Helper\File\Storage\Database');
-
-        if ($helper->checkDbUsage() && !is_file($filename)) {
-            $helper->saveFileToFilesystem($filename);
+        if ($this->_fileStorageHelper->checkDbUsage() && !is_file($filename)) {
+            $this->_fileStorageHelper->saveFileToFilesystem($filename);
         }
 
         return is_file($filename);

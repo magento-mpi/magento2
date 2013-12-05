@@ -38,11 +38,17 @@ extends \Magento\View\Block\Template
     protected $_balanceFactory;
 
     /**
+     * @var \Magento\CustomerBalance\Helper\Data
+     */
+    protected $_customerBalanceHelper;
+
+    /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
+     * @param \Magento\CustomerBalance\Helper\Data $customerBalanceHelper
      * @param array $data
      */
     public function __construct(
@@ -51,11 +57,13 @@ extends \Magento\View\Block\Template
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
+        \Magento\CustomerBalance\Helper\Data $customerBalanceHelper,
         array $data = array()
     ) {
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;
         $this->_orderCreate = $orderCreate;
+        $this->_customerBalanceHelper = $customerBalanceHelper;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -99,7 +107,7 @@ extends \Magento\View\Block\Template
     public function getBalance($convertPrice = false)
     {
         if (
-            !$this->_helperFactory->get('Magento\CustomerBalance\Helper\Data')->isEnabled()
+            !$this->_customerBalanceHelper->isEnabled()
             || !$this->_getBalanceInstance()
         ) {
             return 0.0;

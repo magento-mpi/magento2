@@ -93,4 +93,23 @@ class Php implements TemplateEngineInterface
     {
         return $this->_currentBlock->$name;
     }
+
+    /**
+     * Get helper singleton
+     *
+     * @param string $className
+     * @return \Magento\App\Helper\AbstractHelper
+     * @throws \LogicException
+     */
+    public function helper($className)
+    {
+        $helper = \Magento\App\ObjectManager::getInstance()->get($className);
+        if (false === ($helper instanceof \Magento\App\Helper\AbstractHelper)) {
+            throw new \LogicException(
+                $className . ' doesn\'t extends Magento\App\Helper\AbstractHelper'
+            );
+        }
+
+        return $helper;
+    }
 }

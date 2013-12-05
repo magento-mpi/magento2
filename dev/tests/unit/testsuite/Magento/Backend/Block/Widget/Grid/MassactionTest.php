@@ -52,7 +52,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
     protected $_requestMock;
 
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\App\Helper\HelperFactory
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_helperFactoryMock;
 
