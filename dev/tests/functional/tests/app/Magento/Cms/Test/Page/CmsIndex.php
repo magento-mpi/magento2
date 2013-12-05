@@ -158,11 +158,11 @@ class CmsIndex extends Page
     /**
      * Get store switcher
      *
-     * @return \Magento\Page\Test\Block\Switcher
+     * @return \Magento\Core\Test\Block\Switcher
      */
     public function getStoreSwitcherBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageSwitcher(
+        return Factory::getBlockFactory()->getMagentoCoreSwitcher(
             $this->_browser->find($this->storeSwitcherBlock, Locator::SELECTOR_XPATH)
         );
     }
