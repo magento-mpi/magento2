@@ -24,7 +24,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->markTestSkipped('memory limit');
         parent::setUp();
         $this->_fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
