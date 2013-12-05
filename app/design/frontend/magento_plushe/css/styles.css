@@ -11818,6 +11818,10 @@ img[align="right"] {
 .map.popup .price-including-tax {
   display: block;
 }
+.map.popup + .category.view {
+  position: relative;
+  z-index: 1;
+}
 .mobileAction {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
