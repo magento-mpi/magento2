@@ -30,6 +30,13 @@ class Topmenu extends Block
     protected $moreParentCategories = '.more.parent';
 
     /**
+     * Top Elements of menu
+     *
+     * @var string
+     */
+    protected $navigationMenuItems = "/li";
+
+    /**
      * Select category from top menu by name and click on it
      *
      * @param string $categoryName
@@ -48,4 +55,17 @@ class Topmenu extends Block
         $categoryLink = $this->_rootElement->find('//a[span="' . $categoryName . '"]', Locator::SELECTOR_XPATH);
         $categoryLink->click();
     }
+
+    /**
+     * Check menu items count
+     *
+     * @param int $number
+     * @return bool
+     */
+    public function assertNavigationMenuItemsCount($number)
+    {
+        $selector = $this->navigationMenuItems . '[' . ($number + 1) . ']';
+        return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
+    }
 }
+

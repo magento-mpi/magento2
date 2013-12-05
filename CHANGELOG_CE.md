@@ -1,3 +1,5 @@
+* Fixed bugs:
+  * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
 * Modularity improvements:
   * Session configuration moved into library
   * FormKey logic is moved from Session

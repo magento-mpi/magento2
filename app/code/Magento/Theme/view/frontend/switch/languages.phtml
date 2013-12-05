@@ -14,7 +14,7 @@
 ?>
 
 <?php if(count($this->getStores())>1): ?>
-<div class="switcher language">
+<div class="switcher language" data-ui-id="language-switcher">
     <strong class="label"><span><?php echo __('Language') ?></span></strong>
     <div class="options">
         <strong class="view-<?php echo $this->escapeHtml($this->getCurrentStoreCode()) ?>">

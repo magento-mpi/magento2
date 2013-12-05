@@ -55,8 +55,8 @@ class Edit extends \Magento\Backend\Block\Widget
         \Magento\Backend\Model\Config\Structure $configStructure,
         array $data = array()
     ) {
-        parent::__construct($context, $data);
         $this->_configStructure = $configStructure;
+        parent::__construct($context, $data);
     }
 
     /**
@@ -76,6 +76,7 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->setHeaderCss($section->getHeaderCss());
 
         $this->addChild('save_button', 'Magento\Backend\Block\Widget\Button', array(
+            'id' => 'save',
             'label'     => __('Save Config'),
             'class' => 'save primary',
             'data_attribute'  => array(
