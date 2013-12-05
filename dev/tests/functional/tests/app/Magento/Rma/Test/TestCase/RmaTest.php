@@ -89,10 +89,18 @@ Class RmaTest extends Functional
         $returnItemForm->submitReturn();
 
         // Validate that the success message is displayed on the 'returns' page.
-        Factory::getPageFactory()->getSalesGuestReturns()->getMessageBlock()->assertSuccessMessage();
+        $completedReturn = Factory::getPageFactory()->getSalesGuestReturns();
+        $completedReturn->getMessageBlock()->assertSuccessMessage();
+
+        // Get the return id in order to validate on the grid.
+        $successMessage = $completedReturn->getMessageBlock()->getSuccessMessages();
+        $startPosition = strpos($successMessage, '#') + 1;
+        $endPosition = strpos($successMessage, '.');
+        $returnId = substr($successMessage, $startPosition, $endPosition - $startPosition);
 
         // Validate that the returns grid is now displayed and contains the return just submitted.
-        // TODO: Implement
+        $returnsBlock = $completedReturn->getMyReturnsBlock();
+        //$returnsBlock->assertReturn($returnId);
 
         // Step 10: Login to Backend as Admin
         Factory::getApp()->magentoBackendLoginUser();

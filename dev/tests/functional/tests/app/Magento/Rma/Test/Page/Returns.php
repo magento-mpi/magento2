@@ -29,11 +29,30 @@ class Returns extends Page
     const MCA = 'sales/guest/returns';
 
     /**
+     * Form wrapper selector
+     *
+     * @var string
+     */
+    protected $blockSelector = '//div[@class="order returns"]';
+
+    /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
+    }
+
+    /**
+     * Get returns block
+     *
+     * @return \Magento\Rma\Test\Block\MyReturns
+     */
+    public function getMyReturnsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoRmaMyReturns(
+            $this->_browser->find($this->blockSelector, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
