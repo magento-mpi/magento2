@@ -11,9 +11,10 @@
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
 use Magento\Object;
+use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 use Magento\Integration\Model\Integration;
 
-class Edit extends IntegrationAbstract
+class Edit extends Button
 {
     /**
      * Return 'onclick' action for the button (redirect to the integration edit page).
@@ -50,13 +51,5 @@ class Edit extends IntegrationAbstract
 
         return 'action ' . $class;
 
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function _isDisabled(Object $row)
-    {
-        return false;
     }
 }
