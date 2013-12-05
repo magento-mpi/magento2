@@ -51,6 +51,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     protected $_mockIntegrationSvc;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_mockOauthSvc;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockRegistry;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -94,6 +97,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockIntegrationSvc = $this->getMockBuilder('Magento\Integration\Service\IntegrationV1')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_mockOauthSvc = $this->getMockBuilder('Magento\Integration\Service\OauthV1')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockRequest = $this->getMockBuilder('Magento\App\Request\Http')
@@ -268,6 +274,26 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $integrationContr->deleteAction();
     }
 
+    public function testDeleteActionWithConsumer()
+    {
+        $intData = $this->_getSampleIntegrationData();
+        $intData[Info::DATA_CONSUMER_ID] = 1;
+        $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
+        $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
+            ->will($this->returnValue($intData));
+        $this->_mockIntegrationSvc->expects($this->once())->method('delete')->with($this->anything())
+            ->will($this->returnValue($intData));
+        $this->_mockOauthSvc->expects($this->once())->method('deleteConsumer')->with($this->anything())
+            ->will($this->returnValue($intData));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        // verify success message
+        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+            ->with(__('The integration \'%1\' has been deleted.', $intData[Info::DATA_NAME]));
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->deleteAction();
+    }
+
     public function testDeleteActionConfigSetUp()
     {
         $intData = $this->_getSampleIntegrationData();
@@ -302,7 +328,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $integrationContr->deleteAction();
     }
 
-    public function testDeleteActionForServiceException()
+    public function testDeleteActionForServiceIntegrationException()
     {
         $intData = $this->_getSampleIntegrationData();
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
@@ -314,6 +340,26 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $invalidIdException = new \Magento\Integration\Exception($exceptionMessage);
         $this->_mockIntegrationSvc->expects($this->once())->method('delete')
             ->will($this->throwException($invalidIdException));
+        $this->_mockBackendModSess->expects($this->once())->method('addError')
+            ->with($exceptionMessage);
+        $integrationContr = $this->_createIntegrationController();
+        $integrationContr->deleteAction();
+    }
+
+    public function testDeleteActionForServiceGenericException()
+    {
+        $intData = $this->_getSampleIntegrationData();
+        $this->_mockIntegrationSvc->expects($this->any())->method('get')->with($this->anything())
+            ->will($this->returnValue($intData));
+        $this->_mockRequest->expects($this->once())->method('getParam')->will($this->returnValue('1'));
+        // Use real translate model
+        $this->_mockTranslateModel = null;
+        $exceptionMessage = __("Integration with ID '%1' doesn't exist.", $intData[Info::DATA_ID]);
+        $invalidIdException = new \Exception($exceptionMessage);
+        $this->_mockIntegrationSvc->expects($this->once())->method('delete')
+            ->will($this->throwException($invalidIdException));
+        //Generic Exception(non-Service) should never add the message in session for user display
+        $this->_mockBackendModSess->expects($this->never())->method('addError');
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
     }
@@ -379,6 +425,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $subControllerParams = array(
             'context' => $this->_mockBackendCntCtxt,
             'integrationService' => $this->_mockIntegrationSvc,
+            'oauthService' => $this->_mockOauthSvc,
             'registry' => $this->_mockRegistry,
             'logger' => $loggerMock,
             'integrationData' => $this->_mockIntegrationData

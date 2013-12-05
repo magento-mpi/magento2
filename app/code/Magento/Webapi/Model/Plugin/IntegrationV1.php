@@ -30,24 +30,18 @@ class IntegrationV1
      */
     protected $_userIdentifierFactory;
 
-    /** @var \Magento\Logger */
-    protected $_logger;
-
     /**
      * Construct IntegrationV1 plugin instance
      *
      * @param \Magento\Authz\Service\AuthorizationV1 $authzService
      * @param \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
-     * @param \Magento\Logger $logger
      */
     public function __construct(
         \Magento\Authz\Service\AuthorizationV1 $authzService,
-        \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory,
-        \Magento\Logger $logger
+        \Magento\Authz\Model\UserIdentifier\Factory $userIdentifierFactory
     ) {
         $this->_authzService = $authzService;
         $this->_userIdentifierFactory = $userIdentifierFactory;
-        $this->_logger = $logger;
     }
 
     /**
