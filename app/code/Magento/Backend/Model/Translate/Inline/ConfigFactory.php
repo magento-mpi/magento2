@@ -18,10 +18,9 @@ class ConfigFactory extends \Magento\Core\Model\Translate\Inline\ConfigFactory
     /**
      * Create instance of inline translate config
      *
-     * @param string|null $area
      * @return \Magento\Core\Model\Translate\Inline\ConfigInterface
      */
-    public function create($area = null)
+    public function create()
     {
         return $this->_objectManager->create('Magento\Backend\Model\Translate\Inline\Config');
     }
