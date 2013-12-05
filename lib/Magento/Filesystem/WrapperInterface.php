@@ -85,6 +85,14 @@ interface WrapperInterface
 
     /**
      * @param $path
+     * @param $option
+     * @param $value
+     * @return mixed
+     */
+    public function stream_metadata($path, $option, $value);
+
+    /**
+     * @param $path
      * @param $mode
      * @param $options
      * @param $openedPath
@@ -122,6 +130,12 @@ interface WrapperInterface
      * @return mixed
      */
     public function stream_tell();
+
+    /**
+     * @param $newSize
+     * @return mixed
+     */
+    public function stream_truncate ($newSize);
 
     /**
      * @param $data
