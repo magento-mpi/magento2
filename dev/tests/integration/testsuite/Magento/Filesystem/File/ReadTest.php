@@ -223,6 +223,12 @@ class ReadTest extends \PHPUnit_Framework_TestCase
     {
         $fullPath = __DIR__ . '/../_files/' . $path;
         return Bootstrap::getObjectManager()
-            ->create('Magento\Filesystem\File\Read', array('path' => $fullPath));
+            ->create(
+                'Magento\Filesystem\File\Read',
+                array(
+                    'path' => $fullPath,
+                    'driver' => new \Magento\Filesystem\Driver\Base()
+                )
+            );
     }
 }

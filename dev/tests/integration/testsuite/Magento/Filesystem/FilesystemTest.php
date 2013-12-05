@@ -48,13 +48,13 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test getDirectoryWrite throws exception on trying to get directory with read access
+     * Test getDirectoryWrite throws exception on trying to get directory with write access
      *
      * @expectedException \Magento\Filesystem\FilesystemException
      */
     public function testGetDirectoryWriteException()
     {
-        $this->filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $this->filesystem->getDirectoryWrite(\Magento\Filesystem::THEMES);
     }
 
     /**
