@@ -23,27 +23,27 @@ class DefaultShipment extends \Magento\Sales\Model\Order\Pdf\Items\AbstractItems
     protected $string;
 
     /**
-     * @param \Magento\Stdlib\String $string
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Filesystem $filesystem
+     * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Stdlib\String $string,
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
         \Magento\Filesystem $filesystem,
+        \Magento\Stdlib\String $string,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->string = $string;
-        parent::__construct($taxData, $context, $registry, $filesystem, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $taxData, $filesystem, $resource, $resourceCollection, $data);
     }
 
     /**

@@ -258,7 +258,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
             array(), '', false
         );
         $methods = array('getDirectoryRead', 'getDirectoryWrite', '__wakeup');
-        $filesystem = $this->getMock('Magento\Filesystem', $methods , array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', $methods, array(), '', false);
         $filesystem->expects($this->once())
             ->method('getDirectoryRead')
             ->with(\Magento\Filesystem::ROOT)

@@ -1679,8 +1679,6 @@ return array(
         'Magento\App\Dir\Verification',
         'Magento\Filesystem\DirectoryList\Verification'
     ),
-    array(
-        'Magento\App\Dir',
-        'Magento\Filesystem\DirectoryList'
-    ),
+    array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
+    array('Magento\Core\Model\Logger', 'Magento\Logger'),
 );

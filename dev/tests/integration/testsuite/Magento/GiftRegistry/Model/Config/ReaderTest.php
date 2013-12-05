@@ -40,6 +40,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $moduleReader = $objectManager->create(
             'Magento\Module\Dir\Reader', array(
                 'moduleDirs' => $moduleDirs,
+                'filesystem' => $filesystem
             )
         );
 

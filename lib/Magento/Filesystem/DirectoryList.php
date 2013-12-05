@@ -66,11 +66,15 @@ class DirectoryList
         $this->root = str_replace('\\', '/', $root);
 
         foreach ($this->directories as $code => $configuration) {
-            $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
+            if (!$this->isAbsolute($configuration['path'])) {
+                $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
+            }
         }
 
-        array_merge($this->directories, $directories);
         foreach ($directories as $code => $configuration) {
+            $baseConfiguration = isset($this->directories[$code]) ? $this->directories[$code] : array();
+            $this->directories[$code] = array_merge($baseConfiguration, $configuration);
+
             if (isset($configuration['path'])) {
                 $this->setPath($code, $configuration['path']);
             }
@@ -98,7 +102,9 @@ class DirectoryList
         if (!isset($configuration['path'])) {
             $configuration['path'] = null;
         }
-        $configuration['path'] = $this->makeAbsolute($configuration['path']);
+        if (!$this->isAbsolute($configuration['path'])) {
+            $configuration['path'] = $this->makeAbsolute($configuration['path']);
+        }
 
         $this->directories[$code] = $configuration;
     }
@@ -138,6 +144,17 @@ class DirectoryList
         }
 
         return $result;
+    }
+
+    /**
+     * Verify if path is absolute
+     *
+     * @param string $path
+     * @return bool
+     */
+    protected function isAbsolute($path)
+    {
+        return strpos($path, '/') === 0;
     }
 
     /**

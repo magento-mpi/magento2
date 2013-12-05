@@ -35,17 +35,20 @@ class StoreTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_modelParams = array(
-            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'context'                 => $objectManager->get('Magento\Core\Model\Context'),
             'registry'                => $objectManager->get('Magento\Core\Model\Registry'),
+            'coreFileStorageDatabase' => $objectManager->get('Magento\Core\Helper\File\Storage\Database'),
             'configCacheType'         => $objectManager->get('Magento\App\Cache\Type\Config'),
             'url'                     => $objectManager->get('Magento\Core\Model\Url'),
             'request'                 => $objectManager->get('Magento\App\RequestInterface'),
             'configDataResource'      => $objectManager->get('Magento\Core\Model\Resource\Config\Data'),
+            'filesystem'              => $objectManager->get('Magento\Filesystem'),
             'coreStoreConfig'         => $objectManager->get('Magento\Core\Model\Store\Config'),
             'coreConfig'              => $objectManager->get('Magento\Core\Model\Config'),
             'resource'                => $objectManager->get('Magento\Core\Model\Resource\Store'),
             'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
+            'sidResolver'             => $objectManager->get('Magento\Session\SidResolverInterface'),
+            'cookie'                  => $objectManager->get('Magento\Stdlib\Cookie'),
         );
 
         return $this->getMock(
@@ -186,15 +189,15 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model->load('default');
 
         $this->assertEquals(
-            'http://localhost/static/',
+            'http://localhost/pub/static/',
             $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_STATIC)
         );
         $this->assertEquals(
-            'http://localhost/lib/',
+            'http://localhost/pub/lib/',
             $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LIB)
         );
         $this->assertEquals(
-            'http://localhost/media/',
+            'http://localhost/pub/media/',
             $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
         );
     }

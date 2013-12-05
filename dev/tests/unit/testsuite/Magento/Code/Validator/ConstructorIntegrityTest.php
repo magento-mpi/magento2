@@ -76,8 +76,7 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWrongOrderForParentArguments()
     {
-        $fileName = realpath(__DIR__) . DIRECTORY_SEPARATOR
-            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForConstructorIntegrity.php';
+        $fileName = realpath(__DIR__) . '/_files/ClassesForConstructorIntegrity.php';
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
             'Incompatible argument type: Required type: \Context. ' .
@@ -88,8 +87,7 @@ class ConstructorIntegrityTest extends \PHPUnit_Framework_TestCase
 
     public function testValidateWrongOptionalParamsType()
     {
-        $fileName = realpath(__DIR__) . DIRECTORY_SEPARATOR
-            . '_files' . DIRECTORY_SEPARATOR . 'ClassesForConstructorIntegrity.php';
+        $fileName = realpath(__DIR__) . '/_files/ClassesForConstructorIntegrity.php';
         $this->setExpectedException(
             '\Magento\Code\ValidationException',
             'Incompatible argument type: Required type: array. ' .

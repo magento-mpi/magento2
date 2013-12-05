@@ -234,6 +234,8 @@ class Http extends \Zend_Controller_Request_Http implements \Magento\App\Request
     /**
      * Retrieve HTTP HOST
      *
+     * @todo getHttpHost should return only string (currently method return boolean value too)
+     *
      * @param bool $trimPort
      * @return string
      */

@@ -51,7 +51,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
     protected $directoryWrite;
 
     /**
-     * @var \Magento\Core\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\Helper\Context|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $contextHelper;
 
@@ -76,9 +76,21 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->session          = $this->getMock('Magento\Backend\Model\Session', array(), array(), '', false);
         $this->contextHelper    = $this->getMock('Magento\App\Helper\Context', array(), array(), '', false);
         $this->directoryWrite   = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
-        $this->themeFactory     = $this->getMock('Magento\View\Design\Theme\FlyweightFactory', array(), array(), '', false);
+        $this->themeFactory     = $this->getMock(
+            'Magento\View\Design\Theme\FlyweightFactory',
+            array(),
+            array(),
+            '',
+            false
+        );
         $this->theme            = $this->getMock('Magento\Core\Model\Theme', array(), array(), '', false);
-        $this->customization    = $this->getMock('Magento\View\Design\Theme\Customization', array(), array(), '', false);
+        $this->customization    = $this->getMock(
+            'Magento\View\Design\Theme\Customization',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->filesystem->expects($this->once())
             ->method('getDirectoryWrite')
@@ -110,10 +122,10 @@ class StorageTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(\Magento\Theme\Model\Wysiwyg\Storage::TYPE_IMAGE));
 
         $this->helper = new \Magento\Theme\Helper\Storage(
+            $this->contextHelper,
             $this->filesystem,
             $this->session,
-            $this->themeFactory,
-            $this->contextHelper
+            $this->themeFactory
         );
     }
 

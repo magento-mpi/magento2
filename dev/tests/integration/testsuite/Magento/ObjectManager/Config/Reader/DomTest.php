@@ -48,8 +48,8 @@ class DomTest extends \PHPUnit_Framework_TestCase
     {
         $fixturePath = realpath(__DIR__ . '/../../_files') . '/';
         $this->_fileList = array(
-            $fixturePath . 'config_one.xml',
-            $fixturePath . 'config_two.xml',
+            file_get_contents($fixturePath . 'config_one.xml'),
+            file_get_contents($fixturePath . 'config_two.xml'),
         );
 
         $this->_fileResolverMock = $this->getMock(

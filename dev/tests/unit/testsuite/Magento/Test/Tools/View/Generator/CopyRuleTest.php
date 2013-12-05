@@ -13,7 +13,7 @@ require_once __DIR__ . '/../../../../../../../../tools/Magento/Tools/View/Genera
 class CopyRuleTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var Generator_CopyRule
+     * @var \Magento\Tools\View\Generator\CopyRule
      */
     protected $_object;
 
@@ -51,8 +51,8 @@ class CopyRuleTest extends \PHPUnit_Framework_TestCase
             'Magento\Core\Model\Theme\Collection',
             array('isLoaded'),
             array(
-                $filesystemMock,
                 $this->getMock('Magento\Core\Model\EntityFactory', array(), array(), '', false),
+                $filesystemMock,
                 $this->getMock('\Magento\Config\FileIteratorFactory', array(), array(), '', false)
             )
         );

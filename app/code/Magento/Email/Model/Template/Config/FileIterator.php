@@ -36,11 +36,12 @@ class FileIterator extends \Magento\Config\FileIterator
      * @return string
      * @throws \UnexpectedValueException
      */
-    function current()
+    public function current()
     {
         if (!isset($this->cached[$this->key()])) {
             $contents = $this->directoryRead->readFile($this->key());
-            $moduleName = $this->_moduleDirResolver->getModuleName($this->key());
+            $path = $this->directoryRead->getAbsolutePath($this->key());
+            $moduleName = $this->_moduleDirResolver->getModuleName($path);
             if (!$moduleName) {
                 throw new \UnexpectedValueException(
                     sprintf("Unable to determine a module, file '%s' belongs to.", $this->key())

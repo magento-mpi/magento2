@@ -50,6 +50,9 @@ class Address extends AbstractRepository
                     'email' => array(
                         'value' => 'John.Doe%isolation%@example.com'
                     ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
+                    ),
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
@@ -103,6 +106,9 @@ class Address extends AbstractRepository
                     'email' => array(
                         'value' => 'b.holliday@example.net'
                     ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
+                    ),
                     'street_1' => array(
                         'value' => '727 5th Ave'
                     ),
@@ -138,6 +144,9 @@ class Address extends AbstractRepository
                     ),
                     'lastname' => array(
                         'value' => 'Doe'
+                    ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
                     ),
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'

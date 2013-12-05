@@ -10,9 +10,7 @@
 
 namespace Magento\App;
 
-use Magento\Filesystem\DirectoryList,
-    Magento\App\Config,
-    Magento\ObjectManager\Factory\Factory,
+use Magento\App\Config,
     Magento\Profiler;
 use Magento\Filesystem;
 
@@ -83,14 +81,13 @@ class ObjectManagerFactory
         $diConfig = new $configClass($relations, $definitions);
         $appMode = $options->get(State::PARAM_MODE, State::MODE_DEFAULT);
 
-//        $configDirectoryPath = $directories->getDir(DIR::CONFIG);
         $configData = $this->_loadPrimaryConfig($directories->getDir(\Magento\Filesystem::ROOT), $appMode);
 
         if ($configData) {
             $diConfig->extend($configData);
         }
 
-        $factory = new Factory($diConfig, null, $definitions, $options->get());
+        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, null, $definitions, $options->get());
 
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $locator */

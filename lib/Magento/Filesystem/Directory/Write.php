@@ -202,7 +202,7 @@ class Write extends Read implements WriteInterface
     }
 
     /**
-     * Sets access and modification time of file.
+     * Sets modification time of file, if file does not exist - creates file
      *
      * @param string $path
      * @param int|null $modificationTime
@@ -247,7 +247,7 @@ class Write extends Read implements WriteInterface
     }
 
     /**
-     * Open file in given path
+     * Write contents to file in given mode
      *
      * @param string $path
      * @param string $content

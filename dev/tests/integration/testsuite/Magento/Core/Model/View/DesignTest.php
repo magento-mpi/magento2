@@ -53,8 +53,8 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem');
-        $pubLibDir = $filesystem->getDirectoryWrite(\Magento\Filesystem::PUB_LIB);
-        $pubLibDir->delete('prototype/prototype.min.js');
+        $pubLibPath = $filesystem->getPath(\Magento\Filesystem::PUB_LIB);
+        unlink($pubLibPath . '/prototype/prototype.min.js');
     }
 
     protected function setUp()

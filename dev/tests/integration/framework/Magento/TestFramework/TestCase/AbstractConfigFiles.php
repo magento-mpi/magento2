@@ -92,7 +92,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('There are no xml files in the system for this test.');
         }
         // have the file resolver return all relevant xml files
-        $this->_fileResolverMock->expects($this->once())->method('get')
+        $this->_fileResolverMock->expects($this->any())->method('get')
             ->will($this->returnValue($this->getXmlConfigFiles()));
         try {
             // this will merge all xml files and validate them
@@ -127,7 +127,7 @@ abstract class AbstractConfigFiles extends \PHPUnit_Framework_TestCase
     public function getXmlConfigFiles()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $directory = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::APP);
+        $directory = $objectManager->get('Magento\Filesystem')->getDirectoryRead(\Magento\Filesystem::MODULES);
         return $objectManager->get('\Magento\Config\FileIteratorFactory')->create(
             $directory,
             $directory->search($this->_getConfigFilePathRegex())

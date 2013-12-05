@@ -58,17 +58,17 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $design,
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $appEmulation,
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\View\Url'),
                 $objectManager->get('Magento\View\FileSystem'),
-                $design,
                 $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\Email\Model\Template\Config')
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $emailTemplate->expects($this->once())
@@ -104,17 +104,17 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\View\Design'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\View\Url'),
                 $objectManager->get('Magento\View\FileSystem'),
-                $objectManager->get('Magento\Core\Model\View\Design'),
                 $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
-                $objectManager->get('Magento\Email\Model\Template\Config')
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $template->expects($this->any())->method('_getMail')->will($this->onConsecutiveCalls($mail, $brokenMail));

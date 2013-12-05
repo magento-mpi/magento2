@@ -347,16 +347,15 @@
     </type>
     <type name="Magento\Core\Model\Session\Context">
         <param name="saveMethod">
-            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD</value>
+            <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</value>
         </param>
+    </type>
+    <type name="Magento\Core\Model\Session\Config">
         <param name="savePath">
-            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_PATH</value>
+            <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH</value>
         </param>
         <param name="cacheLimiter">
-            <value type="argument">Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_CACHE_LIMITER</value>
-        </param>
-        <param name="url">
-            <instance type="Magento\Core\Model\Url\Proxy" />
+            <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_CACHE_LIMITER</value>
         </param>
     </type>
     <type name="Magento\Core\Model\StoreManager">

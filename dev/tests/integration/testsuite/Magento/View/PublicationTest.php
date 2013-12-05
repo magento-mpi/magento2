@@ -608,7 +608,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         /** @var $themeCollection \Magento\Core\Model\Theme\Collection */
         $themeCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
             ->create('Magento\Core\Model\Theme\Collection');
-        $theme = $themeCollection->setBaseDir(dirname(__DIR__) . '/Core/Model/_files/design/')
+        $theme = $themeCollection
             ->addTargetPattern('frontend/vendor_default/theme.xml')
             ->getFirstItem()
             ->save();

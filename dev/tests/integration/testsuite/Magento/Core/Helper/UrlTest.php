@@ -38,6 +38,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHomeUrl()
     {
-        $this->assertEquals('http://localhost/index.php/', $this->_helper->getHomeUrl());
+        $this->assertEquals('http://example.com/index.php/', $this->_helper->getHomeUrl());
     }
 }

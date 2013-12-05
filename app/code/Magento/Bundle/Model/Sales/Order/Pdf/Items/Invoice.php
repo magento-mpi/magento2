@@ -25,27 +25,27 @@ class Invoice extends \Magento\Bundle\Model\Sales\Order\Pdf\Items\AbstractItems
     protected $string;
 
     /**
-     * @param \Magento\Stdlib\String $coreString
-     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\Data\Collection\Db $resourceCollection
+     * @param \Magento\Stdlib\String $coreString
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Stdlib\String $coreString,
-        \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Tax\Helper\Data $taxData,
         \Magento\Filesystem $filesystem,
-        \Magento\Data\Collection\Db $resourceCollection = null,
+        \Magento\Stdlib\String $coreString,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
+        \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
         $this->string = $coreString;
-        parent::__construct($taxData, $context, $registry, $filesystem, $resource, $resourceCollection, $data);
+        parent::__construct($context, $registry, $taxData, $filesystem, $resource, $resourceCollection, $data);
     }
 
     /**

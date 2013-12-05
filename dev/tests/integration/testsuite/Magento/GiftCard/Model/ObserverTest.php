@@ -50,17 +50,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             array('_getMail'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
+                $objectManager->get('Magento\Core\Model\StoreManager'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\View\Url'),
                 $objectManager->get('Magento\View\FileSystem'),
-                $objectManager->get('Magento\View\DesignInterface'),
                 $objectManager->get('Magento\Core\Model\Store\Config'),
                 $objectManager->get('Magento\Core\Model\Config'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Core\Model\StoreManager'),
-                $objectManager->get('Magento\Email\Model\Template\Config')
+                $objectManager->get('Magento\Email\Model\Template\Config'),
             )
         );
         $emailTemplateMock->expects($this->once())

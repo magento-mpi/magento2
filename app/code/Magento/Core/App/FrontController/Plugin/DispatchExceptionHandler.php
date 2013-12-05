@@ -53,7 +53,7 @@ class DispatchExceptionHandler
             header('Location: ' . $this->_storeManager->getStore()->getBaseUrl());
             exit;
         } catch (\Magento\Core\Model\Store\Exception $e) {
-            require $this->filesystem->getPath(Filesystem::PUB) . '/' . 'errors' . '/' . '404.php';
+            require $this->filesystem->getPath(Filesystem::PUB) . '/errors/404.php';
             exit;
         }
     }

@@ -18,11 +18,6 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_filesystem;
-
-    /**
-     * @var \PHPUnit_Framework_MockObject_MockObject
-     */
     private $_directory;
 
     /**
@@ -32,16 +27,16 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
+        $filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryRead'), array(), '', false);
         $this->_directory = $this->getMock('Magento\Filesystem\Directory\Read', array('search'), array(), '', false);
 
-        $this->_filesystem->expects($this->any())->method('getDirectoryRead')
+        $filesystem->expects($this->any())->method('getDirectoryRead')
             ->with(\Magento\Filesystem::THEMES)
             ->will($this->returnValue($this->_directory));
 
         $this->_fileFactory = $this->getMock('Magento\View\Layout\File\Factory', array(), array(), '', false);
         $this->_model = new \Magento\View\Layout\File\Source\Override\Theme(
-            $this->_filesystem, $this->_fileFactory
+            $filesystem, $this->_fileFactory
         );
     }
 

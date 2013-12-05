@@ -140,7 +140,7 @@ class Service
      */
     public function getFileContent($filePath)
     {
-        return $this->_tmpDirectory->readFile($filePath);
+        return $this->_tmpDirectory->readFile($this->_tmpDirectory->getRelativePath($filePath));
     }
 
     /**

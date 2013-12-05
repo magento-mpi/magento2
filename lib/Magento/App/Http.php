@@ -11,8 +11,7 @@ namespace Magento\App;
 
 use Magento\Config\Scope,
     Magento\App\ObjectManager\ConfigLoader,
-    Magento\Event,
-    Magento\Filesystem;
+    Magento\Event;
 
 class Http implements \Magento\AppInterface
 {
@@ -64,7 +63,7 @@ class Http implements \Magento\AppInterface
      * @param Scope $configScope
      * @param ConfigLoader $configLoader
      * @param State $state
-     * @param Filesystem $filesystem
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -74,7 +73,7 @@ class Http implements \Magento\AppInterface
         Scope $configScope,
         ConfigLoader $configLoader,
         State $state,
-        Filesystem $filesystem
+        \Magento\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
@@ -124,7 +123,7 @@ class Http implements \Magento\AppInterface
                             $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                         }
                     }
-                    require_once ($this->_filesystem->getPath(Filesystem::PUB) . '/errors/report.php');
+                    require_once ($this->_filesystem->getPath(\Magento\Filesystem::PUB) . '/errors/report.php');
                 }
             } catch (\Exception $exception) {
                 $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP 1.1';

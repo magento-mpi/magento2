@@ -8,6 +8,12 @@
 
 namespace Magento\TestFramework;
 
+/**
+ * Class ObjectManagerFactory
+ *
+ * @package Magento\TestFramework
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 {
     /**
@@ -44,19 +50,17 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
      */
     public function restore(ObjectManager $objectManager, $rootDir, array $arguments)
     {
-        $directories = new \Magento\Filesystem\DirectoryList(
-            $rootDir,
-            isset($arguments[\Magento\Filesystem::PARAM_APP_DIRS])
-                ? $arguments[\Magento\Filesystem::PARAM_APP_DIRS]
-                : array()
-        );
+        $directories = isset($arguments[\Magento\Filesystem::PARAM_APP_DIRS])
+            ? $arguments[\Magento\Filesystem::PARAM_APP_DIRS]
+            : array();
+        $directoryList = new \Magento\Filesystem\DirectoryList($rootDir, $directories);
 
         \Magento\TestFramework\ObjectManager::setInstance($objectManager);
 
         $this->_pluginList->reset();
 
         $objectManager->configure($this->_primaryConfigData);
-        $objectManager->addSharedInstance($directories, 'Magento\Filesystem\DirectoryList');
+        $objectManager->addSharedInstance($directoryList, 'Magento\Filesystem\DirectoryList');
         $objectManager->configure(array(
             'Magento\View\Design\FileResolution\Strategy\Fallback\CachingProxy' => array(
                 'parameters' => array('canSaveMap' => false)
@@ -65,8 +69,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
                 'type' => 'Magento\TestFramework\Db\ConnectionAdapter'
             ),
             'preferences' => array(
-                'Magento\Core\Model\Cookie' => 'Magento\TestFramework\Cookie',
-                'Magento\Backend\Model\Cookie' => 'Magento\TestFramework\Cookie',
+                'Magento\Stdlib\Cookie' => 'Magento\TestFramework\Cookie',
                 'Magento\App\RequestInterface' => 'Magento\TestFramework\Request',
                 'Magento\App\ResponseInterface' => 'Magento\TestFramework\Response',
             ),
@@ -74,7 +77,7 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
 
         $options = new \Magento\App\Config(
             $arguments,
-            new \Magento\App\Config\Loader($directories)
+            new \Magento\App\Config\Loader($directoryList)
         );
 
         $objectManager->addSharedInstance($options, 'Magento\App\Config');
@@ -82,10 +85,6 @@ class ObjectManagerFactory extends \Magento\App\ObjectManagerFactory
         $objectManager->configure(
             $objectManager->get('Magento\App\ObjectManager\ConfigLoader')->load('global')
         );
-
-        /** @var \Magento\Filesystem\DirectoryList\Verification $verification */
-        $verification = $objectManager->get('Magento\Filesystem\DirectoryList\Verification');
-        $verification->createAndVerifyDirectories();
 
         return $objectManager;
     }

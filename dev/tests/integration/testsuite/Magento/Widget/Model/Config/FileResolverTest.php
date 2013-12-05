@@ -16,6 +16,11 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
      */
     private $_object;
 
+    /**
+     * @var \Magento\Filesystem\DirectoryList
+     */
+    protected $directoryList;
+
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -55,21 +60,29 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
             'moduleReader' => $moduleReader,
             'filesystem' => $filesystem
         ));
+
+        $this->directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $dirPath = ltrim(str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__))
+            . '/_files', '/');
+        $this->directoryList->addDirectory(\Magento\Filesystem::MODULES, array('path' => $dirPath));
+
     }
 
     public function testGetDesign()
     {
-        $widgetConfigs = $this->_object->get('widget.xml', 'design');
-        $expected = realpath(__DIR__ . '/_files/design/frontend/Test/etc/widget.xml');
+        $widgetConfigs  = $this->_object->get('widget.xml', 'design');
+        $expected       = realpath(__DIR__ . '/_files/design/frontend/Test/etc/widget.xml');
+        $actual         = $widgetConfigs->key();
         $this->assertCount(1, $widgetConfigs);
-        $this->assertEquals($expected, realpath($widgetConfigs->current()));
+        $this->assertStringEndsWith($actual, $expected);
     }
 
     public function testGetGlobal()
     {
-        $widgetConfigs = $this->_object->get('widget.xml', 'global');
-        $expected = realpath(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
+        $widgetConfigs  = $this->_object->get('widget.xml', 'global');
+        $expected       = realpath(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
+        $actual         = $widgetConfigs->key();
         $this->assertCount(1, $widgetConfigs);
-        $this->assertEquals($expected, realpath($widgetConfigs->current()));
+        $this->assertStringEndsWith($actual, $expected);
     }
 }

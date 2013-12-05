@@ -112,7 +112,7 @@ class Storage
         );
 
         $result['cookie'] = array(
-            'name'     => $this->_helper->getSession()->getSessionName(),
+            'name'     => $this->_helper->getSession()->getName(),
             'value'    => $this->_helper->getSession()->getSessionId(),
             'lifetime' => $this->_helper->getSession()->getCookieLifetime(),
             'path'     => $this->_helper->getSession()->getCookiePath(),
@@ -141,10 +141,10 @@ class Storage
         try {
             $this->mediaWriteDirectory->isExist($thumbnailDir);
             $image = $this->_imageFactory->create();
-            $image->open($source);
+            $image->open($this->mediaWriteDirectory->getAbsolutePath($source));
             $image->keepAspectRatio(true);
             $image->resize(self::THUMBNAIL_WIDTH, self::THUMBNAIL_HEIGHT);
-            $image->save($thumbnailPath);
+            $image->save($this->mediaWriteDirectory->getAbsolutePath($thumbnailPath));
         } catch (\Magento\Filesystem\FilesystemException $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
             return false;

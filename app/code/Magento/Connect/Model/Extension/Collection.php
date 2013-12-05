@@ -44,10 +44,8 @@ class Collection extends \Magento\Data\Collection\Filesystem
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\Core\Model\EntityFactory $entityFactory,
-        \Magento\Filesystem $filesystem
-    ) {
+    public function __construct(\Magento\Core\Model\EntityFactory $entityFactory, \Magento\Filesystem $filesystem)
+    {
         parent::__construct($entityFactory);
         $this->filesystem = $filesystem;
         $this->connectDirectory = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);

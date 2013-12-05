@@ -14,22 +14,6 @@ use Magento\Filesystem\FilesystemException;
 class Filesystem
 {
     /**#@+
-     * Directory access wrappers
-     */
-//    const WRAPPER_FILE = 'local';
-//    const WRAPPER_FTP  = 'ftp';
-//    const WRAPPER_FTPS = 'ftps';
-//    const WRAPPER_SSH2 = 'ssh2';
-    /**#@-*/
-
-    /**#@+
-     * Remote resource access wrappers
-     */
-//    const WRAPPER_HTTP  = 'http';
-//    const WRAPPER_HTTPS = 'https';
-    /**#@-*/
-
-    /**#@+
      * Content wrappers
      */
     const WRAPPER_CONTENT_ZLIB = 'compress.zlib';
@@ -181,14 +165,14 @@ class Filesystem
     protected $readInstances = array();
 
     /**
+     * @var \Magento\Filesystem\WrapperFactory
+     */
+    protected $wrapperFactory;
+    
+    /**
      * @var \Magento\Filesystem\Directory\WriteInterface[]
      */
     protected $writeInstances = array();
-
-    /**
-     * @deprecated
-     */
-    const DIRECTORY_SEPARATOR = '/';
 
 use \Magento\FilesystemDeprecated;
 
@@ -212,6 +196,7 @@ use \Magento\FilesystemDeprecated;
 
         $this->wrapperFactory = new \Magento\Filesystem\WrapperFactory($this->directoryList);
     }
+
 
     /**
      * Create an instance of directory with write permissions

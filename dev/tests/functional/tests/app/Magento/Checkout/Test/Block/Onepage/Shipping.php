@@ -18,7 +18,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Shipping
- * One page checkout status
+ * One page checkout status shipping block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -29,26 +29,23 @@ class Shipping extends Form
      *
      * @var string
      */
-    private $continue;
+    protected $continue = '#shipping-buttons-container button';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '[id="shipping:firstname"]',
-            'lastname' => '[id="shipping:lastname"]',
-            'email' => '[id="shipping:email"]',
-            'telephone' => '[id="shipping:telephone"]',
-            'street_1' => '[id="shipping:street1"]',
-            'city' => '[id="shipping:city"]',
-            'region' => '[id="shipping:region_id"]',
-            'postcode' => '[id="shipping:postcode"]',
-            'country' => '[id="shipping:country_id"]',
-        );
-        $this->continue = '#shipping-buttons-container button';
-    }
+    protected $_mapping = array(
+        'firstname' => '[id="shipping:firstname"]',
+        'lastname' => '[id="shipping:lastname"]',
+        'email' => '[id="shipping:email"]',
+        'company' => '[id="shipping:company"]',
+        'telephone' => '[id="shipping:telephone"]',
+        'street_1' => '[id="shipping:street1"]',
+        'city' => '[id="shipping:city"]',
+        'region' => '[id="shipping:region_id"]',
+        'postcode' => '[id="shipping:postcode"]',
+        'country' => '[id="shipping:country_id"]',
+    );
 
     /**
      * Fill form data. Unset 'email' field as it absent in current form
@@ -75,6 +72,6 @@ class Shipping extends Form
         }
         $this->fill($shippingAddress);
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#shipping-please-wait');
     }
 }
