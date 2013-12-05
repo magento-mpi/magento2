@@ -12,7 +12,6 @@ namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button
 
 use Magento\Object;
 use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
-use Magento\Integration\Model\Integration;
 
 class Edit extends Button
 {
@@ -35,7 +34,7 @@ class Edit extends Button
      */
     protected function _getTitleAttribute(Object $row)
     {
-        return $this->_isDisabled($row) ? '' : __('Edit');
+        return $this->_isConfigBasedIntegration($row) ? __('View') : __('Edit');
     }
 
     /**
@@ -46,8 +45,7 @@ class Edit extends Button
      */
     public function _getClassAttribute(Object $row)
     {
-        $class = ($row->hasData(Integration::SETUP_TYPE)
-            && $row->getData(Integration::SETUP_TYPE) == Integration::TYPE_CONFIG) ? 'info' : 'edit';
+        $class = $this->_isConfigBasedIntegration($row) ? 'info' : 'edit';
 
         return 'action ' . $class;
 
