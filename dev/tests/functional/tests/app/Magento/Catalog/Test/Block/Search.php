@@ -27,23 +27,14 @@ class Search extends Block
      *
      * @var string
      */
-    private $searchInput;
+    protected $searchInput = '#search';
 
     /**
      * Search button
      *
      * @var string
      */
-    private $searchButton;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->searchInput = '#search';
-        $this->searchButton = '[title="Search"]';
-    }
+    protected $searchButton = '[title="Search"]';
 
     /**
      * Search products by a keyword

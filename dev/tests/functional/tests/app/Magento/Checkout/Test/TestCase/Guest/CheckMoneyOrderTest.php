@@ -23,13 +23,14 @@ use Magento\Checkout\Test\Block\Onepage;
  * Class CheckMoneyOrderTest
  * Guest checkout with Check/Money Order payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-12412
  * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrderTest extends Functional
 {
     /**
      * Place order on frontend via one page checkout.
+     *
+     * @ZephyrId MAGETWO-12412
      */
     public function testOnepageCheckout()
     {

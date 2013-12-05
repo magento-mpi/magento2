@@ -27,6 +27,20 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 class Cart extends Block
 {
     /**
+     * Proceed to checkout block
+     *
+     * @var string
+     */
+    protected $onepageLinkBlock = '.action.primary.checkout';
+
+    /**
+     * Multishipping cart link block
+     *
+     * @var string
+     */
+    protected $multishippingLinkBlock = '.action.multicheckout';
+
+    /**
      * 'Clear Shopping Cart' button
      *
      * @var string
@@ -86,7 +100,7 @@ class Cart extends Block
     public function getOnepageLinkBlock()
     {
         return Factory::getBlockFactory()->getMagentoCheckoutOnepageLink(
-            $this->_rootElement->find('.action.primary.checkout')
+            $this->_rootElement->find($this->onepageLinkBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -98,7 +112,7 @@ class Cart extends Block
     public function getMultishippingLinkBlock()
     {
         return Factory::getBlockFactory()->getMagentoCheckoutMultishippingLink(
-            $this->_rootElement->find('[title="Checkout with Multiple Addresses"]')
+            $this->_rootElement->find($this->multishippingLinkBlock, Locator::SELECTOR_CSS)
         );
     }
 
