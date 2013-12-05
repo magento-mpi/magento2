@@ -131,7 +131,6 @@ class Template extends \Magento\Core\Model\Template
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\ConfigInterface $coreConfig
      * @param \Magento\Email\Model\Template\FilterFactory $emailFilterFactory
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Email\Model\Template\Config $emailConfig
      * @param array $data
      *
