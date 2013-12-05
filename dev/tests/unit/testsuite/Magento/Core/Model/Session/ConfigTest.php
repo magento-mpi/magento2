@@ -327,17 +327,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->methodThatNotExist();
     }
 
-    public function testRememberMeSecondsDefaultsToTwoWeeks()
-    {
-        $this->assertEquals(1209600, $this->config->getRememberMeSeconds());
-    }
-
-    public function testRememberMeSecondsIsMutable()
-    {
-        $this->config->setRememberMeSeconds(604800);
-        $this->assertEquals(604800, $this->config->getRememberMeSeconds());
-    }
-
     public function testCookieSecureDefaultsToIniSettings()
     {
         $this->assertSame((bool) ini_get('session.cookie_secure'), $this->config->getCookieSecure());

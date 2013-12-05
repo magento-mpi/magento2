@@ -113,7 +113,7 @@ class AbstractSession
     protected $_sessionConfig;
 
     /**
-     * @var \Zend_Session_SaveHandler_Interface
+     * @var \Magento\Session\SaveHandlerInterface
      */
     protected $saveHandler;
 
@@ -126,7 +126,7 @@ class AbstractSession
      * @param \Magento\Core\Model\Session\Context $context
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Zend_Session_SaveHandler_Interface $saveHandler
+     * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
      */
@@ -134,7 +134,7 @@ class AbstractSession
         \Magento\Core\Model\Session\Context $context,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Zend_Session_SaveHandler_Interface $saveHandler,
+        \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage
     ) {
@@ -166,12 +166,12 @@ class AbstractSession
      * @param string $method
      * @param array $args
      * @return mixed
-     * @throws \Magento\Exception
+     * @throws \InvalidArgumentException
      */
     public function __call($method, $args)
     {
         if (!in_array(substr($method, 0, 3), array('get', 'set', 'uns', 'has'))) {
-            throw new \Magento\Exception(
+            throw new \InvalidArgumentException(
                 sprintf('Invalid method %s::%s(%s)', get_class($this), $method, print_r($args, 1))
             );
         }

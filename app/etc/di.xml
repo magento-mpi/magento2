@@ -52,7 +52,7 @@
         </param>
     </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
-    <preference for="Zend_Session_SaveHandler_Interface" type="Magento\Session\SaveHandler" />
+    <preference for="Magento\Session\SaveHandlerInterface" type="Magento\Session\SaveHandler" />
     <type name="Magento\Session\SaveHandler">
         <param name="saveMethod">
             <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</value>
