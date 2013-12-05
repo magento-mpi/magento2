@@ -200,8 +200,8 @@ class Targetrule extends \Magento\Backend\App\Action
                     __('An error occurred while saving Product Rule.')
                 );
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
+                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -228,19 +228,17 @@ class Targetrule extends \Magento\Backend\App\Action
                 $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addSuccess(__('You deleted the rule.'));
+                $this->messageManager->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
             catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-            ->addError(__("We can't find a page to delete."));
+        $this->messageManager->addError(__("We can't find a page to delete."));
         $this->_redirect('adminhtml/*/');
     }
 
