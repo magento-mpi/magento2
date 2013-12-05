@@ -21,6 +21,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
      */
     protected $_configData;
 
+    /**
+     * @var \Magento\Filesystem\DirectoryList
+     */
+    protected $directoryList;
+
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
@@ -41,10 +46,16 @@ class DataTest extends \PHPUnit_Framework_TestCase
             )
         );
 
+        $this->directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $dirPath = ltrim(str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__))
+            . '/_files', '/');
+        $this->directoryList->addDirectory(\Magento\Filesystem::MODULES, array('path' => $dirPath));
+
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
             'Magento\Module\Declaration\FileResolver', array(
                 'filesystem' => $filesystem,
+                'fileIteratorFactory' => $objectManager->create('Magento\Config\FileIteratorFactory')
             )
         );
 
