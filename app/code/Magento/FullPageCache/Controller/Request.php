@@ -16,17 +16,25 @@ class Request extends \Magento\App\Action\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
+    /**
+     * @var \Magento\Stdlib\Cookie
+     */
+    protected $_cookie;
+    
     /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Stdlib\Cookie $cookie
      */
     public function __construct(
         \Magento\App\Action\Context $context,
-        \Magento\Core\Model\Registry $coreRegistry
+        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Stdlib\Cookie $cookie
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->_cookie = $cookie;
         parent::__construct($context);
     }
 
@@ -63,13 +71,15 @@ class Request extends \Magento\App\Action\Action
 
         /** @var $session \Magento\Core\Model\Session */
         $session = $this->_objectManager->get('Magento\Core\Model\Session');
-        $cookieName = $session->getSessionName();
+        /** @var \Magento\Session\Config\ConfigInterface $sessionConfig */
+        $sessionConfig = $this->_objectManager->get('Magento\Session\Config\ConfigInterface');
+        $cookieName = $session->getName();
         $cookieInfo = array(
-            'lifetime' => $session->getCookie()->getLifetime(),
-            'path'     => $session->getCookie()->getPath(),
-            'domain'   => $session->getCookie()->getDomain(),
-            'secure'   => $session->getCookie()->isSecure(),
-            'httponly' => $session->getCookie()->getHttponly(),
+            'lifetime' => $sessionConfig->getCookieLifetime(),
+            'path'     => $sessionConfig->getCookiePath(),
+            'domain'   => $sessionConfig->getCookieDomain(),
+            'secure'   => $sessionConfig->getCookieSecure(),
+            'httponly' => $sessionConfig->getCookieHttpOnly()
         );
         if (!isset($sessionInfo[$cookieName]) || $sessionInfo[$cookieName] != $cookieInfo) {
             $sessionInfo[$cookieName] = $cookieInfo;

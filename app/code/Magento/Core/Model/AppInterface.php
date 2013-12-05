@@ -43,7 +43,7 @@ interface AppInterface extends \Magento\Core\Model\StoreManagerInterface
     /**
      * Retrieve cookie object
      *
-     * @return \Magento\Core\Model\Cookie
+     * @return \Magento\Stdlib\Cookie
      */
     public function getCookie();
 
