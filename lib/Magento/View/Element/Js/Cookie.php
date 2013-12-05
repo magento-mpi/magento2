@@ -8,7 +8,7 @@
 
 namespace Magento\View\Element\Js;
 
-use Magento\Cookie\ConfigInterface;
+use Magento\Session\Config\ConfigInterface;
 use Magento\Core\Helper\Data;
 use Magento\View\Element\Template;
 use Magento\View\Element\Template\Context;
@@ -18,7 +18,7 @@ class Cookie extends Template
     /**
      * @var ConfigInterface
      */
-    protected $_cookieConfig;
+    protected $sessionConfig;
 
     /**
      * @param Context $context
@@ -32,7 +32,7 @@ class Cookie extends Template
         ConfigInterface $cookieConfig,
         array $data = array()
     ) {
-        $this->_cookieConfig = $cookieConfig;
+        $this->sessionConfig = $cookieConfig;
         parent::__construct($context, $data);
     }
 
@@ -43,7 +43,7 @@ class Cookie extends Template
      */
     public function getDomain()
     {
-        $domain = $this->_cookieConfig->getDomain();
+        $domain = $this->sessionConfig->getCookieDomain();
         if (!empty($domain[0]) && ($domain[0] !== '.')) {
             $domain = '.'.$domain;
         }
@@ -57,6 +57,6 @@ class Cookie extends Template
      */
     public function getPath()
     {
-        return $this->_cookieConfig->getPath();
+        return $this->sessionConfig->getCookiePath();
     }
 }

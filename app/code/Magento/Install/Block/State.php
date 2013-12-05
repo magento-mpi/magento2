@@ -21,13 +21,7 @@ class State extends \Magento\View\Element\Template
     protected $_template = 'state.phtml';
 
     /**
-     * Install Wizard
-     *
-     * @var \Magento\Install\Model\Wizard
-     */
-    protected $_wizard;
-
-    /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Wizard $wizard
      * @param array $data
      */
@@ -36,10 +30,9 @@ class State extends \Magento\View\Element\Template
         \Magento\Install\Model\Wizard $wizard,
         array $data = array()
     ) {
-        $this->_wizard = $wizard;
         parent::__construct($context, $data);
 
-        $this->assign('steps', $this->_wizard->getSteps());
+        $this->assign('steps', $wizard->getSteps());
     }
 
     /**
