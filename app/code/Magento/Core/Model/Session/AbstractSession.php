@@ -152,7 +152,7 @@ class AbstractSession
             $this->_addHost();
             \Magento\Profiler::stop('session_start');
         }
-        $this->storage->init($_SESSION);
+        $this->storage->init(isset($_SESSION) ? $_SESSION : array());
         return $this;
     }
 
