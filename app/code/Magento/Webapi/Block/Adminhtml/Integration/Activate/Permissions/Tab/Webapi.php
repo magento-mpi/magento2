@@ -84,8 +84,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     public function canShowTab()
     {
         $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
-        return $integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG;
-    }
+        return isset($integrationData[Info::DATA_SETUP_TYPE])
+            && ($integrationData[Info::DATA_SETUP_TYPE] == IntegrationModel::TYPE_CONFIG);    }
 
     /**
      * {@inheritDoc}
