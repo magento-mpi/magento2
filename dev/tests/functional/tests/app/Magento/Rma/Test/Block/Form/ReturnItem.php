@@ -41,14 +41,13 @@ class ReturnItem extends Form
      * Fill form with custom fields
      *
      */
-    public function fillCustom($index, $productName)
+    public function fillCustom($index, $productName, $returnItem)
     {
-        // TODO:  Get data from repository.
         $this->_rootElement->find('items:item' . $index, Locator::SELECTOR_ID, 'select')->setValue($productName);
-        $this->_rootElement->find('items:qty_requested' . $index, Locator::SELECTOR_ID)->setValue('1');
-        $this->_rootElement->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')->setValue('Refund');
-        $this->_rootElement->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')->setValue('Opened');
-        $this->_rootElement->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')->setValue('Wrong Size');
+        $this->_rootElement->find('items:qty_requested' . $index, Locator::SELECTOR_ID)->setValue($returnItem->getQuantity());
+        $this->_rootElement->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')->setValue($returnItem->getResolution());
+        $this->_rootElement->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')->setValue($returnItem->getCondition());
+        $this->_rootElement->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')->setValue($returnItem->getReason());
     }
 
     /**

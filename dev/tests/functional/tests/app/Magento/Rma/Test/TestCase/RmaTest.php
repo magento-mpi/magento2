@@ -76,14 +76,17 @@ Class RmaTest extends Functional
         $viewBlock->clickLink('Return');
 
         // Step 6: Fill "Return Items Information" form (simple product)
+        $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
+        $returnItem->switchData('default');
+
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
-        $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName());
+        $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName(), $returnItem);
 
         // Step 7: Click "Add Item to Return" for the configurable product.
         $returnItemForm->submitAddItemToReturn();
 
         // Step 8: Fill "Return Items Information" form (configurable product)
-        $returnItemForm->fillCustom('1', $payPalExpressOrder->getProduct(1)->getProductName());
+        $returnItemForm->fillCustom('1', $payPalExpressOrder->getProduct(1)->getProductName(), $returnItem);
 
         // Step 9: Submit the return.
         $returnItemForm->submitReturn();

@@ -16,7 +16,7 @@ use Mtf\Repository\AbstractRepository;
 /**
  * Class ReturnItem Repository
  *
- * @package Magento\Rma\Address\Repository
+ * @package Magento\Rma\Repository
  */
 class ReturnItem extends AbstractRepository
 {
@@ -30,5 +30,20 @@ class ReturnItem extends AbstractRepository
             'data' => $defaultData
         );
 
+        $this->_data['default'] = $this->_getDefault();
+    }
+
+    protected function _getDefault()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'quantity' => '1',
+                    'resolution' => 'Refund',
+                    'condition' => 'Opened',
+                    'reason' => 'Wrong Size'
+                )
+            )
+        );
     }
 }
