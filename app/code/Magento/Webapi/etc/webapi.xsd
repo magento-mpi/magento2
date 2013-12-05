@@ -13,7 +13,7 @@
     <xs:element name="config" type="configType"/>
     <xs:complexType name="configType">
         <xs:sequence>
-            <xs:element type="serviceType" name="service" maxOccurs="unbounded" minOccurs="0"/>
+            <xs:element type="serviceType" name="service" maxOccurs="unbounded" minOccurs="1"/>
         </xs:sequence>
     </xs:complexType>
     <xs:complexType name="serviceType">

@@ -160,7 +160,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
             ->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRoute));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue($isSecureRequest));
-        $this->_authzServiceMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $this->_restController->dispatch($this->_requestMock);
         $this->assertFalse($this->_responseMock->isException());
     }
@@ -199,7 +199,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue(array()));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
-        $this->_authzServiceMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
 
         // Override default prepareResponse. It should never be called in this case
         $this->_responseMock->expects($this->never())->method('prepareResponse');
@@ -220,7 +220,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
         $this->_serviceMock->expects($this->any())->method(self::SERVICE_METHOD)->will($this->returnValue("invalid"));
         $this->_routeMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
         $this->_requestMock->expects($this->any())->method('isSecure')->will($this->returnValue(false));
-        $this->_authzServiceMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
+        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
 
         // Override default prepareResponse. It should never be called in this case
         $this->_responseMock->expects($this->never())->method('prepareResponse');
@@ -237,7 +237,7 @@ class RestTest extends \PHPUnit_Framework_TestCase
     public function testAuthorizationFailed()
     {
         $this->_appStateMock->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
-        $this->_authzServiceMock->expects($this->any())->method('isAllowed')->will($this->returnValue(false));
+        $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(false));
 
         $this->_restController->dispatch($this->_requestMock);
         /** Ensure that response contains proper error message. */
