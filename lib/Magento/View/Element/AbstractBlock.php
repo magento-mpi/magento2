@@ -37,6 +37,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_session;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @var \Magento\TranslateInterface
      */
     protected $_translator;
@@ -143,6 +148,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_cache           = $context->getCache();
         $this->_design          = $context->getDesignPackage();
         $this->_session         = $context->getSession();
+        $this->_sidResolver     = $context->getSidResolver();
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
         $this->_helperFactory   = $context->getHelperFactory();
@@ -910,7 +916,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($cacheData) {
             $cacheData = str_replace(
                 $this->_getSidPlaceholder($cacheKey),
-                $this->_session->getSessionIdQueryParam() . '=' . $this->_session->getEncryptedSessionId(),
+                $this->_sidResolver->getSessionIdQueryParam($this->_session) . '=' . $this->_session->getSessionId(),
                 $cacheData
             );
         }
@@ -930,7 +936,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         }
         $cacheKey = $this->getCacheKey();
         $data = str_replace(
-            $this->_session->getSessionIdQueryParam() . '=' . $this->_session->getEncryptedSessionId(),
+            $this->_sidResolver->getSessionIdQueryParam($this->_session) . '=' . $this->_session->getSessionId(),
             $this->_getSidPlaceholder($cacheKey),
             $data
         );

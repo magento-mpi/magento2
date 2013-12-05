@@ -550,7 +550,7 @@ class Observer
                 && !$this->_persistentData->isShoppingCartPersist()
                 && !$quote->getIsPersistent()
             ) {
-                $this->_checkoutSession->unsetAll();
+                $this->_checkoutSession->clearQuote()->clearStorage();
                 return;
             }
 
@@ -603,7 +603,7 @@ class Observer
     {
         $quote = $this->_checkoutSession->setLoadInactive()->getQuote();
         if ($quote->getIsActive() && $quote->getCustomerId()) {
-            $this->_checkoutSession->setCustomer(null)->unsetAll();
+            $this->_checkoutSession->setCustomer(null)->clearQuote()->clearStorage();
         } else {
             $quote->setIsActive(true)
                 ->setIsPersistent(false)

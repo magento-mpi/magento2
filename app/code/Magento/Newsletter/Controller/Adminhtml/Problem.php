@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Newsletter subscribers controller
- *
- * @category   Magento
- * @package    Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Newsletter\Controller\Adminhtml;
 
+/**
+ * Newsletter subscribers controller
+ */
 class Problem extends \Magento\Backend\App\Action
 {
     public function indexAction()
@@ -42,9 +38,9 @@ class Problem extends \Magento\Backend\App\Action
 
     public function gridAction()
     {
-        if($this->getRequest()->getParam('_unsubscribe')) {
+        if ($this->getRequest()->getParam('_unsubscribe')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
-            if (count($problems)>0) {
+            if (count($problems) > 0) {
                 $collection = $this->_objectManager->create('Magento\Newsletter\Model\Resource\Problem\Collection');
                 $collection
                     ->addSubscriberInfo()
@@ -59,13 +55,14 @@ class Problem extends \Magento\Backend\App\Action
                 ->addSuccess(__('We unsubscribed the people you identified.'));
         }
 
-        if($this->getRequest()->getParam('_delete')) {
+        if ($this->getRequest()->getParam('_delete')) {
             $problems = (array) $this->getRequest()->getParam('problem', array());
-            if (count($problems)>0) {
+            if (count($problems) > 0) {
                 $collection = $this->_objectManager->create('Magento\Newsletter\Model\Resource\Problem\Collection');
-                $collection
-                    ->addFieldToFilter($collection->getResource()->getIdFieldName(),
-                                       array('in'=>$problems))
+                $collection->addFieldToFilter(
+                    $collection->getResource()->getIdFieldName(),
+                    array('in' => $problems)
+                )
                     ->load();
                 $collection->walk('delete');
             }
