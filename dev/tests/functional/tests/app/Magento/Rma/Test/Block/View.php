@@ -28,7 +28,7 @@ class View extends Block
      *
      * @var string
      */
-    protected $linkSelector = '//div[@class="order toolbar"]/div[@class="actions"]/a[contains(text(), "%s")]';
+    protected $linkSelector = '//div[@class="order toolbar"]//span[contains(text(), "%s")]';
 
     /**
      * Click link on this page.
