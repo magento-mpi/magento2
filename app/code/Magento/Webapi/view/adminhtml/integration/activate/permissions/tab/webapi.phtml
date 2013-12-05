@@ -11,11 +11,15 @@
  */
 ?>
 <fieldset class="fieldset form-inline entry-edit">
-    <div class="field" data-role="tree-resources-container">
-        <div class="control">
-            <div id="resource-tree" class="tree x-tree" data-role="resource-tree"></div>
+    <?php if ($this->isTreeEmpty()): ?>
+        <p><?php echo __('No permissions requested'); ?></p>
+    <?php else: ?>
+        <div class="field" data-role="tree-resources-container">
+            <div class="control">
+                <div id="resource-tree" class="tree x-tree" data-role="resource-tree"></div>
+            </div>
         </div>
-    </div>
+    <?php endif ?>
 </fieldset>
 <script type="text/javascript">
 jQuery(function($) {

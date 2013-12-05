@@ -190,9 +190,9 @@ class Integration extends Action
                 $integrationData = array_merge($integrationData, $data);
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
                 if (!isset($integrationData[Info::DATA_ID])) {
-                    $this->_integrationService->create($integrationData);
+                    $integrationData = $this->_integrationService->create($integrationData);
                 } else {
-                    $this->_integrationService->update($integrationData);
+                    $integrationData = $this->_integrationService->update($integrationData);
                 }
                 if (!$this->getRequest()->isXmlHttpRequest()) {
                     $this->_getSession()
@@ -203,12 +203,12 @@ class Integration extends Action
             }
             if ($this->getRequest()->isXmlHttpRequest()) {
                 $this->getResponse()->setBody(
-                    $this->_coreHelper->jsonEncode(['integrationId' => $integrationData[Info::DATA_NAME]])
+                    $this->_coreHelper->jsonEncode(['integrationId' => $integrationData[Info::DATA_ID]])
                 );
             } else {
                 $this->_redirect('*/*/');
             }
-        } catch (\Magento\Integration\Exception $e) {
+        } catch (IntegrationException $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
             $this->_redirectOnSaveError();
         } catch (\Magento\Core\Exception $e) {

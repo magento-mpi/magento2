@@ -147,6 +147,16 @@ class Webapi extends Template implements TabInterface
     }
 
     /**
+     * Whether tree has any resources.
+     *
+     * @return bool
+     */
+    public function isTreeEmpty()
+    {
+        return $this->_selectedResources === [];
+    }
+
+    /**
      * Return an array of all resource Ids.
      *
      * @param array $resources

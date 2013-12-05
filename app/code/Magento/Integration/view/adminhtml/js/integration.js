@@ -71,7 +71,7 @@
                 },
                 error: function (jqXHR, status, error) {
                     alert($.mage.__('Sorry, something went wrong. Please try again later.'));
-                    console && console.log(status + ': ' + error);
+                    console && console.log(status + ': ' + error + "\nResponse text:\n" + jqXHR.responseText);
                 },
                 complete: function () {
                     jQuery('body').trigger('processStop');
