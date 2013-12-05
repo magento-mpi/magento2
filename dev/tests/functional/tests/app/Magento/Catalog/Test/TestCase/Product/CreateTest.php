@@ -31,7 +31,7 @@ class CreateTest extends Functional
     }
 
     /**
-     * Create product
+     * Creating simple product and assigning it to category
      *
      * @ZephyrId MAGETWO-12514
      */

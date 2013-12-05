@@ -33,16 +33,16 @@ class Paypal extends Page
     /**
      * Form for customer login
      *
-     * @var Block\Login
+     * @var string
      */
-    private $loginBlock;
+    protected $loginBlock = '#loginBox';
 
     /**
      * Paypal review block
      *
-     * @var Block\Review
+     * @var string
      */
-    private $reviewBlock;
+    protected $reviewBlock = '#reviewModule';
 
     /**
      * Custom constructor
@@ -50,12 +50,6 @@ class Paypal extends Page
     protected function _init()
     {
         $this->_url = 'https://www.sandbox.paypal.com/cgi-bin/';
-
-        //Blocks
-        $this->loginBlock = Factory::getBlockFactory()->getMagentoPaypalLogin(
-            $this->_browser->find('loginBox', Locator::SELECTOR_ID));
-        $this->reviewBlock = Factory::getBlockFactory()->getMagentoPaypalReview(
-            $this->_browser->find('reviewModule', Locator::SELECTOR_ID));
     }
 
     /**
@@ -65,7 +59,9 @@ class Paypal extends Page
      */
     public function getLoginBlock()
     {
-        return $this->loginBlock;
+        return Factory::getBlockFactory()->getMagentoPaypalLogin(
+            $this->_browser->find($this->loginBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -75,6 +71,8 @@ class Paypal extends Page
      */
     public function getReviewBlock()
     {
-        return $this->reviewBlock;
+        return Factory::getBlockFactory()->getMagentoPaypalReview(
+            $this->_browser->find($this->reviewBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

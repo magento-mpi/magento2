@@ -25,11 +25,15 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class PaypalExpressOrder extends Checkout
 {
     /**
+     * Order ID
+     *
      * @var string
      */
     private $orderId;
 
     /**
+     * Checkout fixture
+     *
      * @var Checkout
      */
     private $checkoutFixture;
@@ -58,6 +62,8 @@ class PaypalExpressOrder extends Checkout
     }
 
     /**
+     * Get order grans total
+     *
      * @return string
      */
     public function getGrandTotal()
@@ -66,6 +72,8 @@ class PaypalExpressOrder extends Checkout
     }
 
     /**
+     * Get order id
+     *
      * @return string
      */
     public function getOrderId()

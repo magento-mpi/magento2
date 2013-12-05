@@ -25,44 +25,39 @@ use Mtf\Block\Form as FormInstance;
 class Form extends FormInstance
 {
     /**
-     * Save button
+     * 'Save' button
      *
      * @var string
      */
-    protected $saveButton;
+    protected $saveButton = '#save';
+
+    /**
+     * 'Save And Continue Edit' button
+     *
+     * @var string
+     */
+    protected $saveAndContinueButton = '#save_and_continue';
 
     /**
      * Back button
      *
      * @var string
      */
-    protected $backButton;
+    protected $backButton = '#back';
 
     /**
      * Reset button
      *
      * @var string
      */
-    protected $resetButton;
+    protected $resetButton = '#reset';
 
     /**
-     * Delete button
+     * 'Delete' button
      *
      * @var string
      */
-    protected $deleteButton;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->saveButton = '#save';
-        $this->backButton = 'back';
-        $this->resetButton = 'reset';
-        $this->deleteButton = 'delete-button-button';
-    }
+    protected $deleteButton = '#delete-button-button';
 
     /**
      * Update the root form
@@ -95,7 +90,7 @@ class Form extends FormInstance
      */
     public function back()
     {
-        $this->_rootElement->find($this->backButton, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->backButton, Locator::SELECTOR_CSS)->click();
         return $this;
     }
 
@@ -106,7 +101,7 @@ class Form extends FormInstance
      */
     public function reset()
     {
-        $this->_rootElement->find($this->resetButton, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->resetButton, Locator::SELECTOR_CSS)->click();
         return $this;
     }
 
@@ -118,7 +113,16 @@ class Form extends FormInstance
      */
     public function delete(Fixture $fixture = null)
     {
-        $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_ID)->click();
+        $this->_rootElement->find($this->deleteButton, Locator::SELECTOR_CSS)->click();
+        return $this;
+    }
+
+    /**
+     * Click save and continue button on form
+     */
+    public function clickSaveAndContinue()
+    {
+        $this->_rootElement->find($this->saveAndContinueButton, Locator::SELECTOR_CSS)->click();
         return $this;
     }
 }
