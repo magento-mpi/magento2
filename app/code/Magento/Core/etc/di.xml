@@ -468,4 +468,14 @@
             <instance type="Magento\Core\Model\Session\Storage" />
         </param>
     </type>
+    <virtualType name="Magento\Message\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>message</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Message\Session">
+        <param name="storage">
+            <instance type="Magento\Message\Session\Storage" />
+        </param>
+    </type>
 </config>

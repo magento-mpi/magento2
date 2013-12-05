@@ -69,6 +69,16 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_urlFactory;
 
     /**
+     * @var \Magento\Event\ManagerInterface
+     */
+    protected $_eventManager;
+
+    /**
+     * @var \Magento\Core\Model\Store\StorageInterface
+     */
+    protected $_storeManager;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
@@ -82,6 +92,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param array $data
      * @param null $sessionName
      */
@@ -99,6 +111,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Core\Model\Session $session,
+        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         array $data = array(),
         $sessionName = null
     ) {
@@ -109,6 +123,8 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
+        $this->_eventManager = $eventManager;
+        $this->_storeManager = $storeManager;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));

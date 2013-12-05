@@ -14,11 +14,6 @@ namespace Magento\Message;
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * Message session namespace
-     */
-    const MESSAGE_NAMESPACE = 'message';
-
-    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
