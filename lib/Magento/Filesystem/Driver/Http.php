@@ -19,6 +19,11 @@ use Magento\Filesystem\FilesystemException;
 class Http extends Local
 {
     /**
+     * @var string
+     */
+    protected $scheme = 'http';
+
+    /**
      * @param $path
      * @return bool
      * @throws FilesystemException
@@ -197,5 +202,28 @@ class Http extends Local
         $result = @stream_get_line($resource, $length, $ending);
 
         return $result;
+    }
+
+    /**
+     * @param string $basePath
+     * @param string $path
+     * @param string|null $scheme
+     * @return string
+     */
+    public function getAbsolutePath($basePath, $path, $scheme = null)
+    {
+        return $this->getScheme() . $basePath . $path;
+    }
+
+    /**
+     * Return path with scheme
+     *
+     * @param null|string $scheme
+     * @return string
+     */
+    protected function getScheme($scheme = null)
+    {
+        $scheme = $scheme ?: $this->scheme;
+        return $scheme ? $scheme . '://' : '';
     }
 }

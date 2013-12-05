@@ -14,6 +14,11 @@ use Magento\Filesystem\FilesystemException;
 class Local implements \Magento\Filesystem\DriverInterface
 {
     /**
+     * @var string
+     */
+    protected $scheme = '';
+
+    /**
      * Returns last warning message string
      *
      * @return string
@@ -614,5 +619,70 @@ class Local implements \Magento\Filesystem\DriverInterface
                 ));
         }
         return $result;
+    }
+
+    /**
+     * @param string $basePath
+     * @param string $path
+     * @param string|null $scheme
+     * @return string
+     */
+    public function getAbsolutePath($basePath, $path, $scheme = null)
+    {
+        return $this->getScheme($scheme) . $basePath . ltrim($this->fixSeparator($path), '/');
+    }
+
+    /**
+     * Retrieves relative path
+     *
+     * @param string $basePath
+     * @param string $path
+     * @return string
+     */
+    public function getRelativePath($basePath, $path = null)
+    {
+        $path = $this->fixSeparator($path);
+        if ((strpos($path, $basePath) === 0) || ($basePath == $path . '/')) {
+            $result = substr($path, strlen($basePath));
+        } else {
+            $result = $path;
+        }
+        return $result;
+    }
+
+    /**
+     * Fixes path separator
+     * Utility method.
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function fixSeparator($path)
+    {
+        return str_replace('\\', '/', $path);
+    }
+
+    /**
+     * Return path with scheme
+     *
+     * @param null|string $scheme
+     * @return string
+     */
+    protected function getScheme($scheme = null)
+    {
+        return $scheme ? $scheme . '://' : '';
+    }
+
+    /**
+     * Checks is directory contains path
+     * Utility method.
+     *
+     * @param string $path
+     * @param string $directory
+     * @return bool
+     */
+    public function isPathInDirectory($path, $directory)
+    {
+        return 0 === strpos($this->fixSeparator($path), $this->fixSeparator($directory));
     }
 }

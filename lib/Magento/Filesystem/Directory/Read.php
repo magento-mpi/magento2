@@ -72,8 +72,9 @@ class Read implements ReadInterface
     protected function setProperties(array $config)
     {
         if (!empty($config['path'])) {
-            $this->path = rtrim($this->fixSeparator($config['path']), '/') . '/';
+            $this->path = rtrim(str_replace('\\', '/', $config['path']), '/') . '/';
         }
+        // @TODO how to handle $this->scheme ?
         if (!empty($config['protocol'])) {
             $this->scheme = $config['protocol'];
         }
@@ -89,19 +90,7 @@ class Read implements ReadInterface
      */
     public function getAbsolutePath($path = null, $schema = null)
     {
-        return $this->getScheme($schema) . $this->path . ltrim($this->fixSeparator($path), '/');
-    }
-
-    /**
-     * Return path with scheme
-     *
-     * @param null|string $scheme
-     * @return string
-     */
-    protected function getScheme($scheme = null)
-    {
-        $scheme = $scheme ?: $this->scheme;
-        return $scheme ? $scheme . '://' : '';
+        return $this->driver->getAbsolutePath($this->path, $path, $schema);
     }
 
     /**
@@ -112,13 +101,7 @@ class Read implements ReadInterface
      */
     public function getRelativePath($path = null)
     {
-        $path = $this->fixSeparator($path);
-        if ((strpos($path, $this->path) === 0) || ($this->path == $path . '/')) {
-            $result = substr($path, strlen($this->path));
-        } else {
-            $result = $path;
-        }
-        return $result;
+        return $this->driver->getRelativePath($this->path, $path);
     }
     /**
      * Validate of path existence
@@ -129,7 +112,7 @@ class Read implements ReadInterface
      */
     protected function assertExist($path)
     {
-        $absolutePath = $this->getAbsolutePath($path);
+        $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
         if ($this->driver->isExists($absolutePath) === false) {
             throw new FilesystemException(sprintf('The path "%s" doesn\'t exist', $absolutePath));
         }
@@ -147,7 +130,7 @@ class Read implements ReadInterface
         $this->assertExist($path);
 
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
-        $iterator = new \FilesystemIterator($this->getAbsolutePath($path), $flags);
+        $iterator = new \FilesystemIterator($this->driver->getAbsolutePath($this->path, $path), $flags);
         $result = array();
         /** @var \FilesystemIterator $file */
         foreach ($iterator as $file) {
@@ -168,7 +151,7 @@ class Read implements ReadInterface
     {
         clearstatcache();
         if ($path) {
-            $absolutePath = $this->getAbsolutePath($this->getRelativePath($path));
+            $absolutePath = $this->driver->getAbsolutePath($this->path, $this->getRelativePath($path));
         } else {
             $absolutePath = $this->path;
         }
@@ -197,7 +180,7 @@ class Read implements ReadInterface
      */
     public function isExist($path = null)
     {
-        return $this->driver->isExists($this->getAbsolutePath($path));
+        return $this->driver->isExists($this->driver->getAbsolutePath($this->path, $path));
     }
 
     /**
@@ -210,7 +193,7 @@ class Read implements ReadInterface
     public function stat($path)
     {
         $this->assertExist($path);
-        return $this->driver->stat($this->getAbsolutePath($path));
+        return $this->driver->stat($this->driver->getAbsolutePath($this->path, $path));
     }
 
     /**
@@ -222,7 +205,7 @@ class Read implements ReadInterface
      */
     public function isReadable($path)
     {
-        return $this->driver->isReadable($this->getAbsolutePath($path));
+        return $this->driver->isReadable($this->driver->getAbsolutePath($this->path, $path));
     }
 
     /**
@@ -235,7 +218,7 @@ class Read implements ReadInterface
      */
     public function openFile($path, $protocol = null)
     {
-        return $this->fileFactory->create($this->getAbsolutePath($path), $this->driver, $protocol);
+        return $this->fileFactory->create($this->driver->getAbsolutePath($this->path, $path), $this->driver, $protocol);
     }
 
     /**
@@ -248,7 +231,7 @@ class Read implements ReadInterface
      */
     public function readFile($path, $protocol = null)
     {
-        $absolutePath = $this->getAbsolutePath($path, $protocol);
+        $absolutePath = $this->driver->getAbsolutePath($this->path, $path, $protocol);
 
         /** @var \Magento\Filesystem\File\Read $fileReader */
         $fileReader = $this->fileFactory->create($absolutePath, $this->driver, $protocol);
@@ -263,7 +246,7 @@ class Read implements ReadInterface
      */
     public function isFile($path)
     {
-        return $this->driver->isFile($this->getAbsolutePath($path));
+        return $this->driver->isFile($this->driver->getAbsolutePath($this->path, $path));
     }
 
     /**
@@ -274,7 +257,7 @@ class Read implements ReadInterface
      */
     public function isDirectory($path)
     {
-        return $this->driver->isDirectory($this->getAbsolutePath($path));
+        return $this->driver->isDirectory($this->driver->getAbsolutePath($this->path, $path));
     }
 
     /**
@@ -287,18 +270,6 @@ class Read implements ReadInterface
      */
     public function isPathInDirectory($path, $directory)
     {
-        return 0 === strpos($this->fixSeparator($path), $this->fixSeparator($directory));
-    }
-
-    /**
-     * Fixes path separator
-     * Utility method.
-     *
-     * @param string $path
-     * @return string
-     */
-    protected function fixSeparator($path)
-    {
-        return str_replace('\\', '/', $path);
+        return $this->driver->isPathInDirectory($path, $directory);
     }
 }
