@@ -8,7 +8,12 @@
  */
 -->
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-    <referenceBlock name="account.links">
+    <referenceBlock name="register-link">
+        <action method="setIsDisabled" ifconfig="magento_invitation/general/registration_required_invitation">
+            <argument name="is_disabled" xsi:type="boolean">true</argument>
+        </action>
+    </referenceBlock>
+    <referenceBlock name="top.links">
         <block class="Magento\Invitation\Block\Link" name="invitation_link_top">
             <arguments>
                 <argument name="label" xsi:type="string">Send Invitations</argument>

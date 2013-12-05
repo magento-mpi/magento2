@@ -37,11 +37,6 @@
                 <argument name="file" xsi:type="string">mage/mage.js</argument>
             </arguments>
         </block>
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-decorate-js">
-            <arguments>
-                <argument name="file" xsi:type="string">mage/decorate.js</argument>
-            </arguments>
-        </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-translate-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/translate.js</argument>
@@ -85,14 +80,6 @@
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-popup-window-js">
             <arguments>
                 <argument name="file" xsi:type="string">mage/popup-window.js</argument>
-            </arguments>
-        </block>
-        <block class="Magento\Page\Block\Html\Head\Css" name="magento-page-css-tabs-css">
-            <arguments>
-                <argument name="file" xsi:type="string">Magento_Page::css/tabs.css</argument>
-                <argument name="properties" xsi:type="array">
-                    <item name="attributes" xsi:type="string"/>
-                </argument>
             </arguments>
         </block>
         <block class="Magento\Page\Block\Html\Head\Script" name="magento-loader-js">
