@@ -444,6 +444,7 @@
         </param>
     </type>
     <type name="Magento\App\FrontController">
+        <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
         <plugin name="dispatchExceptionHandler" type="Magento\Core\App\FrontController\Plugin\DispatchExceptionHandler" sortOrder="30"/>
         <plugin name="clickjacking" type="Magento\App\FrontController\Plugin\Clickjacking" sortOrder="0"/>
     </type>

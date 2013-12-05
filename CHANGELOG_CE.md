@@ -8,6 +8,7 @@
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
   * Fixed shopping cart rules for a specific customer group
+  * Fixed the bug with schema upgrade scripts are not running after installation
 
 2.0.0.0-dev54
 =============

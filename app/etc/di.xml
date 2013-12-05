@@ -259,7 +259,4 @@
             <value/>
         </param>
     </type>
-    <type name="Magento\App\FrontController">
-        <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-    </type>
 </config>
