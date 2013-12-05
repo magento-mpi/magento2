@@ -15,6 +15,9 @@ use Magento\Webapi\Helper\Data as WebapiHelper;
 
 /**
  * API permissions tab for integration activation dialog.
+ *
+ * TODO: Fix warnings suppression
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
@@ -39,23 +42,23 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
      * @param \Magento\Integration\Helper\Data $integrationData
      * @param \Magento\Webapi\Helper\Data $webapiData
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
         \Magento\Webapi\Helper\Data $webapiData,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
         array $data = array()
     ) {
         $this->_rootResource = $rootResource;

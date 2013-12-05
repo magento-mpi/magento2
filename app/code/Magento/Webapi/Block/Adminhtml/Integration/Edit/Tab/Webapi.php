@@ -49,7 +49,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      * Initialize dependencies.
      *
      * TODO: Fix excessive number of arguments
-     * {@SuppressWarnings(PHPMD.ExcessiveParameterList)
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
