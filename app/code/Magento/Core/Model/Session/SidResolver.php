@@ -65,10 +65,10 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     }
 
     /**
-     * @param AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @return string
      */
-    public function getSid(AbstractSession $session)
+    public function getSid(\Magento\Session\SessionManagerInterface $session)
     {
         $sidKey = null;
         if ($this->coreStoreConfig->getConfig(self::XML_PATH_USE_FRONTEND_SID)
@@ -83,10 +83,10 @@ class SidResolver implements \Magento\Session\SidResolverInterface
     /**
      * Get session id query param
      *
-     * @param AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @return string
      */
-    public function getSessionIdQueryParam(AbstractSession $session)
+    public function getSessionIdQueryParam(\Magento\Session\SessionManagerInterface $session)
     {
         $sessionName = $session->getName();
         if ($sessionName && isset($this->sidNameMap[$sessionName])) {
