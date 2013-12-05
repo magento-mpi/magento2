@@ -66,8 +66,8 @@ class ShippingCarrierTest extends Functional
      * @param $customerDataSet
      * @param $addressDataSet
      * @dataProvider dataProviderShippingCarriers
+     * @ZephyrId MAGETWO-12844
      * @ZephyrId MAGETWO-12848
-     * @ZephyrId MAGETWO-12849
      */
     public function testShippingCarriers(
         $shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet)
@@ -159,6 +159,7 @@ class ShippingCarrierTest extends Functional
     public function dataProviderShippingCarriers()
     {
         return array(
+            array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1')
         );
     }

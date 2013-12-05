@@ -66,6 +66,7 @@ class Config extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
+        $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
@@ -252,6 +253,42 @@ class Config extends AbstractRepository
                                     ),
                                     'debug' => array( //Debug
                                         'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getShippingCarrierUsps()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'usps' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => 1 //Yes
+                                    ),
+                                    'gateway_url' => array( //Gateway URL
+                                        'value' => 'http://production.shippingapis.com/ShippingAPI.dll'
+                                    ),
+                                    'gateway_secure_url' => array( //Secure Gateway URL
+                                        'value' => 'https://secure.shippingapis.com/ShippingAPI.dll'
+                                    ),
+                                    'userid' => array( //User ID
+                                        'value' => '721FRAGR6267'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => '326ZL84XF990'
                                     )
                                 )
                             )

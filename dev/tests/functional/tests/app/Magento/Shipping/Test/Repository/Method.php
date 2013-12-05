@@ -34,6 +34,7 @@ class Method extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['ups'] = $this->_getUps();
+        $this->_data['usps'] = $this->_getUsps();
     }
 
     protected function _getFreeShipping()
@@ -67,6 +68,18 @@ class Method extends AbstractRepository
                 'fields' => array(
                     'shipping_service' => 'United Parcel Service',
                     'shipping_method' => 'Ground'
+                )
+            )
+        );
+    }
+
+    protected function _getUsps()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'United States Postal Service',
+                    'shipping_method' => 'Mail'  /** @todo change to 'Priority Mail' when usps config is updated */
                 )
             )
         );
