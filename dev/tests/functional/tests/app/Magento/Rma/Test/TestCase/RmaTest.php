@@ -100,7 +100,7 @@ Class RmaTest extends Functional
 
         // Validate that the returns grid is now displayed and contains the return just submitted.
         $returnsBlock = $completedReturn->getMyReturnsBlock();
-        //$returnsBlock->assertReturn($returnId);
+        $returnsBlock->assertReturn($returnId);
 
         // Step 10: Login to Backend as Admin
         Factory::getApp()->magentoBackendLoginUser();

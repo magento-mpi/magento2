@@ -39,13 +39,16 @@ class Search extends Form
     public function fillCustom($order, $findOrderBy)
     {
         $this->_rootElement->find('oar-order-id', Locator::SELECTOR_ID)->setValue($order->getOrderId());
+
         $billingLastName = $order->getBillingAddress()->getData('fields/lastname');
         $billingLastName = array_pop($billingLastName);
         $this->_rootElement->find('oar-billing-lastname', Locator::SELECTOR_ID)->setValue($billingLastName);
-        $this->_rootElement->find('quick-search-type-id', Locator::SELECTOR_ID, 'select')->setValue($findOrderBy);
+
         $customerEmail = $order->getCustomer()->getData('fields/login_email');
         $customerEmail = array_pop($customerEmail);
         $this->_rootElement->find('oar_email', Locator::SELECTOR_ID)->setValue($customerEmail);
+
+        $this->_rootElement->find('quick-search-type-id', Locator::SELECTOR_ID, 'select')->setValue($findOrderBy);
     }
 
     /**

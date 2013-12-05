@@ -51,7 +51,7 @@ class Returns extends Page
     public function getMyReturnsBlock()
     {
         return Factory::getBlockFactory()->getMagentoRmaMyReturns(
-            $this->_browser->find($this->blockSelector, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->blockSelector, Locator::SELECTOR_XPATH)
         );
     }
 
