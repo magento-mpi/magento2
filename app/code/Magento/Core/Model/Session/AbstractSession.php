@@ -319,7 +319,7 @@ class AbstractSession
      */
     public function clearStorage()
     {
-        $this->unsetData();
+        $this->storage->unsetData();
         return $this;
     }
 
