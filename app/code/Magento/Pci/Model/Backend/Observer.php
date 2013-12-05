@@ -65,6 +65,11 @@ class Observer
     protected $_actionFlag;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
@@ -74,6 +79,7 @@ class Observer
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Pci\Model\Encryption $encryptor
      * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Message\Manager $messageManager
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
@@ -84,7 +90,8 @@ class Observer
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Pci\Model\Encryption $encryptor,
-        \Magento\App\ActionFlag $actionFlag
+        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Message\Manager $messageManager
     ) {
         $this->_authorization = $authorization;
         $this->_backendConfig = $backendConfig;
@@ -95,6 +102,7 @@ class Observer
         $this->_userFactory = $userFactory;
         $this->_encryptor = $encryptor;
         $this->_actionFlag = $actionFlag;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -168,8 +176,8 @@ class Observer
                     $myAccountUrl = $this->_url->getUrl('adminhtml/system_account/');
                     $message = __('It\'s time to <a href="%1">change your password</a>.', $myAccountUrl);
                 }
-                $this->_session->addNotice($message);
-                $message = $this->_session->getMessages()->getLastAddedMessage();
+                $this->messageManager->addNotice($message);
+                $message = $this->messageManager->getMessages()->getLastAddedMessage();
                 if ($message) {
                     $message->setIdentifier('magento_pci_password_expired')->setIsSticky(true);
                     $this->_authSession->setPciAdminUserIsPasswordExpired(true);
@@ -260,7 +268,7 @@ class Observer
                 $resource = $this->_userResource;
                 $passwordHash = $this->_encryptor->getHash($password, false);
                 $resource->trackPassword($user, $passwordHash, $passwordLifetime);
-                $this->_session->getMessages()->deleteMessageByIdentifier('magento_pci_password_expired');
+                $this->messageManager->getMessages()->deleteMessageByIdentifier('magento_pci_password_expired');
                 $this->_authSession->unsPciAdminUserIsPasswordExpired();
             }
         }
@@ -318,9 +326,9 @@ class Observer
                      * if admin password is expired and access to 'My Account' page is denied
                      * than we need to do force logout with error message
                      */
-                    $this->_authSession->unsetAll();
-                    $this->_session->unsetAll();
-                    $this->_session->addError(
+                    $this->_authSession->clearStorage();
+                    $this->_session->clearStorage();
+                    $this->messageManager->addError(
                         __('Your password has expired; please contact your administrator.')
                     );
                     $controller->getRequest()->setDispatched(false);
