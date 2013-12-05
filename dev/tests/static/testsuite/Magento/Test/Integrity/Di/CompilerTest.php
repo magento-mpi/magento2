@@ -193,7 +193,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
         }
         $class = new \ReflectionClass($className);
         $parent = $class->getParentClass();
-        /** Prevent analyzes of non Magento classes  */
+        /** Prevent analysis of non Magento classes  */
         if ($parent && in_array($parent->getFileName(), $allowedFiles)) {
             $output = array_merge(
                 $this->_buildInheritanceHierarchyTree($parent->getName(), $allowedFiles),
