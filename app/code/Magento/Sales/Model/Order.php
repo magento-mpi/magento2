@@ -674,6 +674,9 @@ class Order extends \Magento\Sales\Model\AbstractModel
      */
     public function canCancel()
     {
+        if (!$this->canVoidPayment()) {
+            return false;
+        }
         if ($this->canUnhold()) {  // $this->isPaymentReview()
             return false;
         }
@@ -727,7 +730,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         if ($this->isCanceled() || $state === self::STATE_COMPLETE || $state === self::STATE_CLOSED) {
             return false;
         }
-        return $this->getPayment()->canVoid(new \Magento\Object);
+        return $this->getPayment()->canVoid($this->getPayment());
     }
 
     /**

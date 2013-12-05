@@ -229,6 +229,8 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
      */
     public function capture(\Magento\Object $payment, $amount)
     {
+        $payment->setShouldCloseParentTransaction(!$this->_getCaptureAmount($amount));
+        $payment->setFirstCaptureFlag(!$this->getInfoInstance()->hasAmountPaid());
         $response = $this->getPbridgeMethodInstance()->capture($payment, $amount);
         if (!$response) {
             $response = $this->getPbridgeMethodInstance()->authorize($payment, $amount);
@@ -249,6 +251,7 @@ class Pro extends \Magento\Paypal\Model\Payflowpro
     {
         $response = $this->getPbridgeMethodInstance()->refund($payment, $amount);
         $payment->addData((array)$response);
+        $payment->setShouldCloseParentTransaction(!$payment->getCreditmemo()->getInvoice()->canRefund());
         return $this;
     }
 
