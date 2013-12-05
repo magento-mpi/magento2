@@ -112,4 +112,14 @@ class CustomerConfig extends Fixture\Config
         $id = $this->getData('sections/customer/groups/create_account/fields/viv_error_group/value');
         return $this->groups[$id];
     }
+
+    /**
+     * Get groups ids
+     *
+     * @return array
+     */
+    public function getGroupIds()
+    {
+        return array_keys($this->groups);
+    }
 }

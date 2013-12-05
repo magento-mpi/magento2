@@ -22,7 +22,7 @@ use Mtf\Fixture\DataFixture;
 class CustomerGroup extends DataFixture
 {
     /**
-     * Create customer via frontend
+     * Create customer group
      */
     public function persist()
     {

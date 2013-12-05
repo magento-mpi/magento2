@@ -13,7 +13,6 @@ namespace Magento\Customer\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Magento\Core\Test\Fixture\Config;
 
 /**
  * Class VAT Customer Group Fixture
@@ -39,7 +38,7 @@ class VatGroup extends DataFixture
     /**
      * Vat config
      *
-     * @var \Magento\Core\Test\Fixture\Config
+     * @var \Magento\Customer\Test\Fixture\CustomerConfig
      */
     protected $vatConfig;
 
@@ -98,14 +97,6 @@ class VatGroup extends DataFixture
     }
 
     /**
-     * @return \Magento\Customer\Test\Fixture\CustomerConfig
-     */
-    public function getVatConfig()
-    {
-        return $this->vatConfig;
-    }
-
-    /**
      * Get customer group
      *
      * @return string
@@ -116,13 +107,52 @@ class VatGroup extends DataFixture
     }
 
     /**
-     * Get VAT value
+     * Get Invalid VAT id group
      *
-     * @param string $type
      * @return string
      */
-    public function getVatForUk($type)
+    public function getInvalidVatGroup()
     {
-        return $this->getData(sprintf('vat/uk/%s/value', $type));
+        return $this->vatConfig->getInvalidVatGroup();
+    }
+
+    /**
+     * Get group name for valid VAT intra-union
+     *
+     * @return string
+     */
+    public function getValidVatIntraUnionGroup()
+    {
+        return $this->vatConfig->getValidVatIntraUnionGroup();
+    }
+
+    /**
+     * Get groups ids
+     *
+     * @return array
+     */
+    public function getGroupsIds()
+    {
+        return $this->vatConfig->getGroupIds();
+    }
+
+    /**
+     * Get invalid VAT number
+     *
+     * @return string
+     */
+    public function getInvalidVatNumber()
+    {
+        return $this->getData('vat/uk/invalid/value');
+    }
+
+    /**
+     * Get valid VAT number
+     *
+     * @return string
+     */
+    public function getValidVatNumber()
+    {
+        return $this->getData('vat/uk/valid/value');
     }
 }

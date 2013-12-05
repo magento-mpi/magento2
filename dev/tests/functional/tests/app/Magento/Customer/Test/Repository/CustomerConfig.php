@@ -51,7 +51,7 @@ class CustomerConfig extends Repository\Config
                             'create_account' => array(
                                 'fields' => array(
                                     'auto_group_assign' => array(
-                                        'value' => 1,
+                                        'value' => self::YES_VALUE,
                                     ),
                                     'tax_calculation_address_type' => array(
                                         'value' => 'billing',
@@ -69,7 +69,7 @@ class CustomerConfig extends Repository\Config
                                         'value' => '%validation_error%',
                                     ),
                                     'vat_frontend_visibility' => array(
-                                        'value' => 1,
+                                        'value' => self::YES_VALUE,
                                     ),
                                 ),
                             ),

@@ -85,12 +85,4 @@ class Address extends DataFixture
         //Default data set
         $this->switchData('address_US_1');
     }
-
-    /**
-     * Persists prepared data into application
-     */
-    public function persist()
-    {
-        parent::persist();
-    }
 }

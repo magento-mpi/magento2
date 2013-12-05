@@ -62,16 +62,16 @@ class VatGroupAssignmentTest extends Functional
         $customerLoginPage->getLoginBlock()->login($this->vatFixture->getCustomer());
         $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
-        $this->fillVatId($customerAddressEditPage, 'invalid');
+        $this->fillVatId($customerAddressEditPage, $this->vatFixture->getInvalidVatNumber());
 
-        $this->checkCustomerGroup($customersPage, $this->vatFixture->getVatConfig()->getInvalidVatGroup());
+        $this->checkCustomerGroup($customersPage, $this->vatFixture->getInvalidVatGroup());
 
         $customerAccountIndexPage->open();
         $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
-        $this->fillVatId($customerAddressEditPage, 'valid');
+        $this->fillVatId($customerAddressEditPage, $this->vatFixture->getValidVatNumber());
 
-        $this->checkCustomerGroup($customersPage, $this->vatFixture->getVatConfig()->getValidVatIntraUnionGroup());
+        $this->checkCustomerGroup($customersPage, $this->vatFixture->getValidVatIntraUnionGroup());
     }
 
     /**
@@ -85,18 +85,26 @@ class VatGroupAssignmentTest extends Functional
         $page->open();
         $grid = $page->getGridBlock();
         $email = $this->vatFixture->getCustomer()->getEmail();
-        $this->assertEquals($groupName, $grid->getGroupByEmail($email));
+        $this->assertTrue($grid->isRowVisible(array(
+            'email' => $email,
+            'group' => $groupName,
+        )));
     }
 
     /**
      * Fill and Save form with new VAT
      *
      * @param Page\CustomerAddressEdit $page
-     * @param $type
+     * @param string $vatId
      */
-    protected function fillVatId(Page\CustomerAddressEdit $page, $type)
+    protected function fillVatId(Page\CustomerAddressEdit $page, $vatId)
     {
         $form = $page->getEditForm();
-        $form->saveVatID($this->vatFixture->getVatForUk($type));
+        $form->saveVatID($vatId);
+    }
+
+    protected function tearDown()
+    {
+        Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->vatFixture);
     }
 }

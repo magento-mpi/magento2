@@ -32,6 +32,20 @@ class SaveCustomerWithAddress extends Curl
     protected $saveUrl = '/customer/address/formPost/?nocookie=true';
 
     /**
+     * Url for saving customer
+     *
+     * @var string
+     */
+    protected $saveCustomer = 'customer/account/createpost/?nocookie=true';
+
+    /**
+     * Url of new address form
+     *
+     * @var string
+     */
+    protected $addressNew = '/customer/address/new/?nocookie=true';
+
+    /**
      * Form key
      *
      * @var string
@@ -115,7 +129,7 @@ class SaveCustomerWithAddress extends Curl
     }
 
     /**
-     * Save new costumer
+     * Save new customer and get form key
      *
      * @param \Magento\Customer\Test\Fixture\Customer $fixture
      * @return CurlTransport
@@ -127,11 +141,12 @@ class SaveCustomerWithAddress extends Curl
         foreach ($data as $key => $field) {
             $fields[$key] = $field['value'];
         }
-        $url = $_ENV['app_frontend_url'] . 'customer/account/createpost/?nocookie=true';
+        $url = $_ENV['app_frontend_url'] . $this->saveCustomer;
         $curl = new CurlTransport();
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $curl->read();
-        $curl->write(CurlInterface::GET,$_ENV['app_frontend_url'] . '/customer/address/new/', '1.0', array());
+        $urlForm = $_ENV['app_frontend_url'] . $this->addressNew;
+        $curl->write(CurlInterface::GET, $urlForm, '1.0', array());
         $response = $curl->read();
         $this->formKey = $this->getFromKey($response);
 

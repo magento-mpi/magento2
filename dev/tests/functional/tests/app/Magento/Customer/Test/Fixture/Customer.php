@@ -33,6 +33,8 @@ class Customer extends DataFixture
 
     /**
      * Create customer via frontend
+     *
+     * @return string
      */
     public function persist()
     {
@@ -83,7 +85,7 @@ class Customer extends DataFixture
      * Get billing address for customer
      *
      * @param string $dataset
-     * @return Address|mixed
+     * @return Address
      */
     public function getDefaultBillingAddress($dataset = 'address_US_1')
     {
@@ -96,7 +98,7 @@ class Customer extends DataFixture
      * Get default shipping address for customer
      *
      * @param string $dataset
-     * @return Address|mixed
+     * @return Address
      */
     public function getDefaultShippingAddress($dataset = 'address_US_1')
     {

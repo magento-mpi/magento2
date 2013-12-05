@@ -52,7 +52,6 @@ class CreateCustomerGroup extends Curl
         return $data;
     }
 
-
     /**
      * Retrieve field value or return null if value does not exist
      *

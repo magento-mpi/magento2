@@ -36,7 +36,11 @@ class CustomerGrid extends Grid
     protected $filters = array(
         'email' => array(
             'selector' => '#customerGrid_filter_email'
-        )
+        ),
+        'group' => array(
+            'selector' => '#customerGrid_filter_group',
+            'input' => 'select'
+        ),
     );
 
     /**
@@ -52,17 +56,5 @@ class CustomerGrid extends Grid
     public function addNewCustomer()
     {
         $this->_rootElement->find($this->addNewCustomer, Locator::SELECTOR_XPATH)->click();
-    }
-
-    /**
-     * Get Group name by email
-     *
-     * @param $email
-     * @return string
-     */
-    public function getGroupByEmail($email)
-    {
-        $group = $this->_rootElement->find(sprintf($this->customerGroupSelector, $email), Locator::SELECTOR_XPATH);
-        return $group->getText();
     }
 }
