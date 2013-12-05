@@ -71,6 +71,11 @@ class CmsIndex extends Page
     protected $customerBlock = '.header .content .links';
 
     /**
+     * Store switcher block path
+     */
+    private $storeSwitcherBlock = '//*[@data-ui-id="language-switcher"]';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -147,6 +152,18 @@ class CmsIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
             $this->_browser->find($this->customerBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get store switcher
+     *
+     * @return \Magento\Core\Test\Block\Switcher
+     */
+    public function getStoreSwitcherBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreSwitcher(
+            $this->_browser->find($this->storeSwitcherBlock, Locator::SELECTOR_XPATH)
         );
     }
 }

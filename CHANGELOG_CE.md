@@ -1,7 +1,10 @@
+* Fixed bugs:
+  * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
 * Modularity improvements:
   * Session configuration moved into library
   * FormKey logic is moved from Session
   * SessionIdFlags is removed from Session
+  * Move Page logic to the Theme module and library
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
