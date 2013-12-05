@@ -22,7 +22,7 @@ interface WrapperInterface
      * @param $options
      * @return mixed
      */
-    public function dir_opendir($path , $options);
+    public function dir_opendir($path, $options);
 
     /**
      * @return mixed
@@ -40,27 +40,27 @@ interface WrapperInterface
      * @param $options
      * @return mixed
      */
-    public function mkdir($path , $mode , $options);
+    public function mkdir($path, $mode, $options);
 
     /**
-     * @param $path_from
-     * @param $path_to
+     * @param $from
+     * @param $to
      * @return mixed
      */
-    public function rename($path_from , $path_to);
+    public function rename($from, $to);
 
     /**
      * @param $path
      * @param $options
      * @return mixed
      */
-    public function rmdir($path , $options);
+    public function rmdir($path, $options);
 
     /**
-     * @param $cast_as
+     * @param $cast
      * @return mixed
      */
-    public function stream_cast($cast_as);
+    public function stream_cast($cast);
 
     /**
      * @return mixed
@@ -87,10 +87,10 @@ interface WrapperInterface
      * @param $path
      * @param $mode
      * @param $options
-     * @param $opened_path
+     * @param $openedPath
      * @return mixed
      */
-    public function stream_open($path , $mode , $options , &$opened_path);
+    public function stream_open($path, $mode, $options, &$openedPath);
 
     /**
      * @param $count
@@ -103,7 +103,7 @@ interface WrapperInterface
      * @param int $whence
      * @return mixed
      */
-    public function stream_seek($offset , $whence = SEEK_SET);
+    public function stream_seek($offset, $whence = SEEK_SET);
 
     /**
      * @param $option
@@ -111,7 +111,7 @@ interface WrapperInterface
      * @param $arg2
      * @return mixed
      */
-    public function stream_set_option($option , $arg1 , $arg2);
+    public function stream_set_option($option, $arg1, $arg2);
 
     /**
      * @return mixed
@@ -140,5 +140,5 @@ interface WrapperInterface
      * @param $flags
      * @return mixed
      */
-    public function url_stat($path , $flags);
+    public function url_stat($path, $flags);
 } 
