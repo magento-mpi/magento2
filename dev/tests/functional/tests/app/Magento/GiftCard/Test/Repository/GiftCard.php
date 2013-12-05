@@ -14,14 +14,14 @@ namespace Magento\GiftCard\Test\Repository;
 use Mtf\Repository\AbstractRepository;
 
 /**
- * Class Product Repository
+ * Class GiftCard Repository
  *
  * @package Magento\GiftCard\Test\Repository
  */
 class GiftCard extends AbstractRepository
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
@@ -32,5 +32,7 @@ class GiftCard extends AbstractRepository
 
         $this->_data['virtual_open_amount'] = $this->_data['default'];
         $this->_data['virtual_open_amount']['data']['category_name'] = '%category::getCategoryName%';
+        $this->_data['virtual_open_amount']['data']['fields']['category_ids'] = array(
+            'value' => array('%category::getCategoryId%'));
     }
 }

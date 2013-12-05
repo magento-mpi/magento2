@@ -48,7 +48,7 @@ class CreateProductTest extends Functional
         $productBlockForm->fill($product);
         $productBlockForm->save($product);
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();

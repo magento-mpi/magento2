@@ -41,15 +41,15 @@ class RelatedProductTest extends Functional
      */
     public function testRelatedProduct()
     {
-        // Precondition: create simple product 1
+        //Precondition: create simple product 1
         $simpleProduct1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simpleProduct1->switchData('simple');
         $simpleProduct1->persist();
-        // Precondition: create simple product 2
+        //Precondition: create simple product 2
         $simpleProduct2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
         $simpleProduct2->switchData('simple');
         $simpleProduct2->persist();
-        // Precondition: create configurable product
+        //Precondition: create configurable product
         $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurableProduct->switchData('configurable');
         $configurableProduct->persist();

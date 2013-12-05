@@ -15,6 +15,11 @@ use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture\AbstractProduct;
 
+/**
+ * Class GiftCard
+ *
+ * @package Magento\GiftCard\Test\Fixture
+ */
 class GiftCard extends AbstractProduct
 {
     /**
@@ -34,10 +39,10 @@ class GiftCard extends AbstractProduct
 
         $data = array(
             'giftcard_type' => array(
-            'value' => 'Virtual',
-            'input_value' => '0',
-            'group' => static::GROUP_PRODUCT_DETAILS,
-            'input' => 'select'
+                'value' => 'Virtual',
+                'input_value' => '0',
+                'group' => static::GROUP_PRODUCT_DETAILS,
+                'input' => 'select'
             ),
             'allow_open_amount' => array(
                 'value' => 'Yes',
@@ -50,17 +55,5 @@ class GiftCard extends AbstractProduct
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoGiftCardGiftCard($this->_dataConfig, $this->_data);
-    }
-
-    /**
-     * Create Gift Card
-     *
-     * @return $this|void
-     */
-    public function persist()
-    {
-        Factory::getApp()->magentoGiftCardCreateGiftCard($this);
-
-        return $this;
     }
 }

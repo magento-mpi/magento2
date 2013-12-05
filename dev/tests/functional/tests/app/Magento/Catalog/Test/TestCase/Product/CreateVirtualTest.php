@@ -50,7 +50,7 @@ class CreateVirtualTest extends Functional
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();

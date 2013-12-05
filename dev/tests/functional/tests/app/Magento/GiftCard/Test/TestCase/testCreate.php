@@ -15,7 +15,12 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\GiftCard\Test\Fixture\GiftCard;
 
-class RequiredFieldsTest extends Functional
+/**
+ * Class testCreate for creating Gift Card
+ *
+ * @package Magento\GiftCard\Test\TestCase
+ */
+class testCreate extends Functional
 {
     /**
      * Login into backend area before test
@@ -26,7 +31,10 @@ class RequiredFieldsTest extends Functional
     }
 
     /**
-     * Create Gift Card
+     * Create Gift Card required field only, with assigning to category
+     * Virtual type, open amount without min and max restrictions
+     *
+     * @ZephyrId MAGETWO-13618
      */
     public function testCreate()
     {
@@ -68,6 +76,8 @@ class RequiredFieldsTest extends Functional
     }
 
     /**
+     * Assert displaying Gift Card in category on frontend
+     *
      * @param GiftCard $product
      */
     protected function assertOnCategory($product)
@@ -81,7 +91,8 @@ class RequiredFieldsTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
+            'Product is absent on category page');
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();

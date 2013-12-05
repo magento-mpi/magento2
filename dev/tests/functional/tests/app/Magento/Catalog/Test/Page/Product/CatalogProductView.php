@@ -69,7 +69,7 @@ class CatalogProductView extends Page
      *
      * @var string
      */
-    protected $giftCardBlockSelector = '.giftcard.form';
+    protected $giftCardBlockSelector = '[data-container-for=giftcard_info]';
 
     /**
      * Custom constructor

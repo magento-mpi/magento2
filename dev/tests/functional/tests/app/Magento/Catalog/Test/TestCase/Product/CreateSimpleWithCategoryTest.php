@@ -57,7 +57,7 @@ class CreateSimpleWithCategoryTest extends Functional
 
         //Verifying
         $this->assertSuccessMessage("You saved the product.");
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
