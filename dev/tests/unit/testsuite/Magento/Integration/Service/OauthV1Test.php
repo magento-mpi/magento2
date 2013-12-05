@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Integration;
@@ -14,6 +15,7 @@ use Magento\Integration\Model\Integration;
 class OauthV1Test extends \PHPUnit_Framework_TestCase
 {
     const VALUE_CONSUMER_ID = 1;
+
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_consumerFactory;
 
@@ -56,8 +58,6 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             'callback_url' => '',
             'rejected_callback_url' => ''
         );
-
-
         $this->_consumerFactory->expects($this->any())
             ->method('create')
             ->will($this->returnValue($this->_consumerMock));
@@ -66,7 +66,6 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->_service = new \Magento\Integration\Service\OauthV1(
             $this->_consumerFactory
         );
-
         $this->_emptyConsumerMock = $this->getMockBuilder('Magento\Integration\Model\Integration')
             ->disableOriginalConstructor()
             ->setMethods(
@@ -103,7 +102,6 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $consumerData = $this->_service->deleteConsumer(self::VALUE_CONSUMER_ID);
         $this->assertEquals($this->_consumerData['entity_id'], $consumerData['entity_id']);
     }
-
 
     /**
      * @expectedException \Magento\Integration\Exception

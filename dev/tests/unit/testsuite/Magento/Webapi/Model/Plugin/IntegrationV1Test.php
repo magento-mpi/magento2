@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -38,11 +39,9 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         $this->_authzServiceMock = $this->getMockBuilder('\Magento\Authz\Service\AuthorizationV1')
             ->disableOriginalConstructor()
             ->setMethods(['removePermissions'])->getMock();
-
         $this->_userIdentifierFactoryMock = $this->getMockBuilder('\Magento\Authz\Model\UserIdentifier\Factory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])->getMock();
-
         $this->_integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationV1(
             $this->_authzServiceMock,
             $this->_userIdentifierFactoryMock
