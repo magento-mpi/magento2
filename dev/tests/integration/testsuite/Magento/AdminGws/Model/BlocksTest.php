@@ -27,9 +27,16 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 
     protected function tearDown()
     {
-        /** @var $auth \Magento\Backend\Model\Auth */
-        $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
-        $auth->logout();
+        /** @var $checkoutSession \Magento\Checkout\Model\Session */
+        $checkoutSession = $this->_objectManager->get('Magento\Checkout\Model\Session');
+        $checkoutSession->clearStorage();
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+        if (isset($_COOKIE[$checkoutSession->getName()])) {
+            unset($_COOKIE[$checkoutSession->getName()]);
+        }
+
         $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }

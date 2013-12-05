@@ -217,11 +217,11 @@ class App implements \Magento\Core\Model\AppInterface
     /**
      * Retrieve cookie object
      *
-     * @return \Magento\Core\Model\Cookie
+     * @return \Magento\Stdlib\Cookie
      */
     public function getCookie()
     {
-        return $this->_objectManager->get('Magento\Core\Model\Cookie');
+        return $this->_objectManager->get('Magento\Stdlib\Cookie');
     }
 
     /**

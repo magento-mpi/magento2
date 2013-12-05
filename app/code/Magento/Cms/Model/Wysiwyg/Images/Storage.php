@@ -448,7 +448,7 @@ class Storage extends \Magento\Object
         $this->resizeFile($targetPath . '/' . $uploader->getUploadedFileName(), true);
 
         $result['cookie'] = array(
-            'name'     => session_name(),
+            'name'     => $this->getSession()->getName(),
             'value'    => $this->getSession()->getSessionId(),
             'lifetime' => $this->getSession()->getCookieLifetime(),
             'path'     => $this->getSession()->getCookiePath(),
