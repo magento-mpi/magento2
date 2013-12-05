@@ -15,7 +15,6 @@ class ReadFactory
      *
      * @param array $config
      * @param \Magento\Filesystem\WrapperFactory $wrapperFactory
-     *
      * @return \Magento\Filesystem\File\ReadInterface
      */
     public function create(array $config, \Magento\Filesystem\WrapperFactory $wrapperFactory)
