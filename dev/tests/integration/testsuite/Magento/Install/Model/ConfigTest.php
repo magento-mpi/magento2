@@ -79,7 +79,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $this->_objectManager->create(
             'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList
+                'moduleList' => $modulesList,
+                'filesystem' => $filesystem
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/Magento/Test/etc');
@@ -154,8 +155,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     public function testMergeCompleteAndPartial()
     {
         $fileList = array(
-            __DIR__ . '/_files/install_wizard_complete.xml',
-            __DIR__ . '/_files/install_wizard_partial.xml'
+            file_get_contents(__DIR__ . '/_files/install_wizard_complete.xml'),
+            file_get_contents(__DIR__ . '/_files/install_wizard_partial.xml')
         );
         $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->setMethods(array('get'))

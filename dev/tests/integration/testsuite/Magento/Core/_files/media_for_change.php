@@ -17,7 +17,7 @@ $designDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInsta
 $themeDir = $designDir . '/frontend/test_default';
 $sourcePath = dirname(__DIR__) . '/Model/_files/design/frontend/test_publication/';
 
-mkdir($themeDir . '/images', 0777, true);
+@mkdir($themeDir . '/images', 0777, true);
 
 // Copy all files to fixture location
 $mTime = time() - 10; // To ensure that all files, changed later in test, will be recognized for publication
