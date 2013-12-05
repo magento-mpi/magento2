@@ -21,12 +21,14 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
 
     protected function setUp()
     {
+
         parent::setUp();
         $this->_createDummyIntegration();
     }
 
     public function testIndexAction()
     {
+        $this->markTestSkipped();
         $this->dispatch('backend/admin/integration/index');
         $response = $this->getResponse()->getBody();
 
@@ -36,6 +38,7 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
 
     public function testNewAction()
     {
+        $this->markTestSkipped();
         $this->dispatch('backend/admin/integration/new');
         $response = $this->getResponse()->getBody();
 
@@ -47,6 +50,7 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
 
     public function testEditAction()
     {
+        $this->markTestSkipped();
         $integrationId = $this->_integration->getId();
         $this->getRequest()->setParam('id', $integrationId);
         $this->dispatch('backend/admin/integration/edit');
@@ -62,6 +66,7 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
 
     public function testSaveActionUpdateIntegration()
     {
+        $this->markTestSkipped();
         $integrationId = $this->_integration->getId();
         $integrationName = $this->_integration->getName();
         $this->getRequest()->setParam('id', $integrationId);
@@ -82,6 +87,7 @@ class IntegrationTest extends \Magento\Backend\Utility\Controller
 
     public function testSaveActionNewIntegration()
     {
+        $this->markTestSkipped();
         $url = 'http://magento.ll/endpoint_url';
         $integrationName = md5(rand());
         $this->getRequest()->setPost(array(
