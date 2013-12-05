@@ -13515,15 +13515,16 @@ img[align="right"] {
   .opc.wrapper .order-review .order.review.data td {
     padding-left: 0;
     padding-right: 5px;
+    text-align: left;
+  }
+  .opc.wrapper .order-review .order.review.data th.qty,
+  .opc.wrapper .order-review .order.review.data td.qty {
+    text-align: center;
   }
   .opc.wrapper .order-review th.col.item,
   .opc.wrapper .order-review th.col.price,
   .opc.wrapper .order-review th.col.subtotal {
     white-space: nowrap;
-  }
-  .opc.wrapper .order-review th.col.price,
-  .opc.wrapper .order-review th.col.subtotal {
-    text-align: center;
   }
   .opc.wrapper .order-review th.excl.tax span,
   .opc.wrapper .order-review th.col.incl.tax span {
@@ -14370,7 +14371,7 @@ img[align="right"] {
   .form.newsletter .action.save {
     width: 100%;
   }
-  .my-account .tags.items.cloud .item {
+  .account .column.main .tags.items.cloud .item {
     font-size: 18px;
   }
   /*
@@ -14396,13 +14397,13 @@ img[align="right"] {
   /*
        My Account -> Downloadable products
        -------------------------------------- */
-  .downloadable-customer-products .my-account {
+  .downloadable-customer-products .column.main {
     overflow-x: scroll;
   }
   /*
       My Account -> My Reviews
       -------------------------------------- */
-  .review-customer-index .my-account {
+  .review-customer-index .column.main {
     overflow-x: scroll;
   }
   /*
@@ -14443,7 +14444,7 @@ img[align="right"] {
      *    My Account -> My orders
      *
     ----------------------------------------------------------------------------- */
-  .sales-order-history .my-account {
+  .sales-order-history .column.main {
     overflow-x: scroll;
   }
   .order.details .order.toolbar {
@@ -14497,7 +14498,6 @@ img[align="right"] {
     margin: 0 -20px 20px;
   }
   .order.details > .actions {
-    text-align: center;
     margin-bottom: 20px;
   }
   .order.details.items {
@@ -15173,6 +15173,13 @@ img[align="right"] {
   }
   .popup .actions .action.cancel span {
     font-size: 18px;
+  }
+  /*
+      Magento_Catalog
+      Compare
+  -------------------------------------- */
+  .catalog-product-compare-index .action.print {
+    margin: -20px 0 20px;
   }
 }
 /*
@@ -17122,16 +17129,23 @@ body.account .column.main .block.event .item {
   /*
           My Account -> Gift Registry
       -------------------------------------- */
-  .magento-giftregistry-index-index .my-account,
-  .magento-giftregistry-index-items .my-account {
+  .magento-giftregistry-index-index .column.main,
+  .magento-giftregistry-index-items .column.main {
     overflow-x: scroll;
   }
-  .magento-giftregistry-index-index .my-account .actions,
-  .magento-giftregistry-index-items .my-account .actions {
+  .magento-giftregistry-index-index .column.main .actions,
+  .magento-giftregistry-index-items .column.main .actions {
     text-align: left;
   }
-  .magento-giftregistry-index-index .my-account .actions .action.primary,
-  .magento-giftregistry-index-items .my-account .actions .action.primary {
+  .magento-giftregistry-index-index .column.main .actions .primary,
+  .magento-giftregistry-index-items .column.main .actions .primary,
+  .magento-giftregistry-index-index .column.main .actions .secondary,
+  .magento-giftregistry-index-items .column.main .actions .secondary {
+    float: none;
+    margin-bottom: 15px;
+  }
+  .magento-giftregistry-index-index .column.main .actions .action.primary,
+  .magento-giftregistry-index-items .column.main .actions .action.primary {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -17150,21 +17164,21 @@ body.account .column.main .block.event .item {
     background-color: #da370a;
     color: #ffffff;
   }
-  .magento-giftregistry-index-index .my-account .actions .action.primary span,
-  .magento-giftregistry-index-items .my-account .actions .action.primary span {
+  .magento-giftregistry-index-index .column.main .actions .action.primary span,
+  .magento-giftregistry-index-items .column.main .actions .action.primary span {
     font-size: 18px;
   }
   .magento-giftregistry-index-index .form.giftregistry,
   .magento-giftregistry-index-items .form.giftregistry {
     overflow-x: scroll;
   }
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .secondary,
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .primary {
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .secondary,
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .primary {
     float: none;
     width: 100%;
   }
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .secondary .action,
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .primary .action {
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .secondary .action,
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .primary .action {
     width: 100%;
     display: block;
     text-align: center;
@@ -17209,10 +17223,10 @@ body.account .column.main .block.event .item {
   /*
           My Account -> My Newsletter
       -------------------------------------- */
-  .my-account .form.newsletter {
+  .account .form.newsletter {
     margin-bottom: 20px;
   }
-  .my-account .form.newsletter .primary .action {
+  .account .form.newsletter .primary .action {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -17231,16 +17245,19 @@ body.account .column.main .block.event .item {
     background-color: #da370a;
     color: #ffffff;
   }
-  .my-account .form.newsletter .primary .action span {
+  .account .form.newsletter .primary .action span {
     font-size: 18px;
   }
-  .my-account .form.newsletter .secondary {
+  .account .form.newsletter .secondary {
     float: none;
     margin-bottom: 15px;
   }
   /*
          My Account -> My Invitations
      -------------------------------------- */
+  .account .invitations .primary {
+    float: none;
+  }
   .account .invitations .primary .action {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
@@ -17348,7 +17365,7 @@ body.account .column.main .block.event .item {
   .form.create.return .fieldset .actions .action.add {
     text-align: center;
   }
-  .magento-rma-returns-history .my-account {
+  .magento-rma-returns-history .column.main {
     overflow-x: scroll;
   }
   .returns.details.view {

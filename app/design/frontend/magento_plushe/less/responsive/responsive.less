@@ -1071,16 +1071,16 @@ and (max-width : @breakPoint1) {
                 td {
                     padding-left: 0;
                     padding-right: 5px;
+                    text-align: left;
+                    &.qty {
+                        text-align: center;
+                    }
                 }
             }
             th.col.item,
             th.col.price,
             th.col.subtotal {
                 white-space: nowrap;
-            }
-            th.col.price,
-            th.col.subtotal {
-                text-align: center;
             }
             th.excl.tax span,
             th.col.incl.tax span {
@@ -1682,10 +1682,12 @@ Multishipping
         }
     }
 
-    .my-account {
-        .tags.items.cloud {
-            .item {
-                font-size: 18px;
+    .account {
+        .column.main {
+            .tags.items.cloud {
+                .item {
+                    font-size: 18px;
+                }
             }
         }
     }
@@ -1707,7 +1709,7 @@ Multishipping
      My Account -> Downloadable products
      -------------------------------------- */
     .downloadable-customer-products {
-        .my-account {
+        .column.main {
             overflow-x: scroll;
         }
     }
@@ -1716,7 +1718,7 @@ Multishipping
     My Account -> My Reviews
     -------------------------------------- */
     .review-customer-index {
-        .my-account {
+        .column.main {
             overflow-x: scroll;
         }
     }
@@ -1750,7 +1752,7 @@ Multishipping
    *
   ----------------------------------------------------------------------------- */
     .sales-order-history {
-        .my-account {
+        .column.main {
             overflow-x: scroll;
         }
     }
@@ -1812,7 +1814,6 @@ Multishipping
             }
         }
         > .actions {
-            text-align: center;
             margin-bottom: 20px;
         }
         &.items {
@@ -2403,6 +2404,15 @@ Multishipping
             .action.cancel {
                 .mobileSecondaryAction();
             }
+        }
+    }
+
+    /*
+    Magento_Catalog Compare
+-------------------------------------- */
+    .catalog-product-compare-index {
+        .action.print {
+            margin: -20px 0 20px;
         }
     }
 

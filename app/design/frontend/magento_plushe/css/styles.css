@@ -12921,15 +12921,16 @@ img[align="right"] {
   .opc.wrapper .order-review .order.review.data td {
     padding-left: 0;
     padding-right: 5px;
+    text-align: left;
+  }
+  .opc.wrapper .order-review .order.review.data th.qty,
+  .opc.wrapper .order-review .order.review.data td.qty {
+    text-align: center;
   }
   .opc.wrapper .order-review th.col.item,
   .opc.wrapper .order-review th.col.price,
   .opc.wrapper .order-review th.col.subtotal {
     white-space: nowrap;
-  }
-  .opc.wrapper .order-review th.col.price,
-  .opc.wrapper .order-review th.col.subtotal {
-    text-align: center;
   }
   .opc.wrapper .order-review th.excl.tax span,
   .opc.wrapper .order-review th.col.incl.tax span {
@@ -13696,7 +13697,7 @@ img[align="right"] {
   .form.newsletter .action.save {
     width: 100%;
   }
-  .my-account .tags.items.cloud .item {
+  .account .column.main .tags.items.cloud .item {
     font-size: 18px;
   }
   /*
@@ -13722,13 +13723,13 @@ img[align="right"] {
   /*
        My Account -> Downloadable products
        -------------------------------------- */
-  .downloadable-customer-products .my-account {
+  .downloadable-customer-products .column.main {
     overflow-x: scroll;
   }
   /*
       My Account -> My Reviews
       -------------------------------------- */
-  .review-customer-index .my-account {
+  .review-customer-index .column.main {
     overflow-x: scroll;
   }
   /*
@@ -13769,7 +13770,7 @@ img[align="right"] {
      *    My Account -> My orders
      *
     ----------------------------------------------------------------------------- */
-  .sales-order-history .my-account {
+  .sales-order-history .column.main {
     overflow-x: scroll;
   }
   .order.details .order.toolbar {
@@ -13823,7 +13824,6 @@ img[align="right"] {
     margin: 0 -20px 20px;
   }
   .order.details > .actions {
-    text-align: center;
     margin-bottom: 20px;
   }
   .order.details.items {
@@ -14499,5 +14499,12 @@ img[align="right"] {
   }
   .popup .actions .action.cancel span {
     font-size: 18px;
+  }
+  /*
+      Magento_Catalog
+      Compare
+  -------------------------------------- */
+  .catalog-product-compare-index .action.print {
+    margin: -20px 0 20px;
   }
 }
