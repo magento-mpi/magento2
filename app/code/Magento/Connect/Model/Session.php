@@ -8,16 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Connect\Model;
 
 /**
  * Auth session model
- *
- * @category    Magento
- * @package     Magento_Connect
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Connect\Model;
-
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
@@ -28,7 +23,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_connectData;
 
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -37,7 +32,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param \Magento\Connect\Helper\Data $connectData
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -46,7 +41,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Connect\Helper\Data $connectData
     ) {
         $this->_connectData = $connectData;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
     }
 

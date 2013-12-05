@@ -1046,6 +1046,15 @@ return array(
     array('getValidator', '\Magento\Core\Model\Session\Context'),
     array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
+
+    array('getEventManager', '\Magento\Core\Model\Session\Context'),
+    array('getLogger', '\Magento\Core\Model\Session\Context'),
+    array('getStoreConfig', '\Magento\Core\Model\Session\Context'),
+    array('getMessageFactory', '\Magento\Core\Model\Session\Context'),
+    array('getMessagesFactory', '\Magento\Core\Model\Session\Context'),
+    array('getStoreManager', '\Magento\Core\Model\Session\Context'),
+    array('getRequest', '\Magento\Core\Model\Session\Context'),
+
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('getSessionSaveMethod', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('setSessionName', '\Magento\Core\Model\Session\AbstractSession', 'setName'),

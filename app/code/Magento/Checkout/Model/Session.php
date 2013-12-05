@@ -8,17 +8,19 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Checkout\Model;
 
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
+    /**
+     * Checkout state begin
+     */
     const CHECKOUT_STATE_BEGIN = 'begin';
 
     /**
      * Quote instance
      *
-     * @var null|\Magento\Sales\Model\Quote
+     * @var \Magento\Sales\Model\Quote
      */
     protected $_quote;
 
@@ -64,7 +66,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_remoteAddress;
 
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -77,7 +79,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param null $sessionName
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -93,7 +95,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
         $this->_remoteAddress = $remoteAddress;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
     }
 
@@ -194,7 +196,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
 
         if ($remoteAddr = $this->_remoteAddress->getRemoteAddress()) {
             $this->_quote->setRemoteIp($remoteAddr);
-            $xForwardIp = $this->_request->getServer('HTTP_X_FORWARDED_FOR');
+            $xForwardIp = $this->request->getServer('HTTP_X_FORWARDED_FOR');
             $this->_quote->setXForwardedFor($xForwardIp);
         }
         return $this->_quote;

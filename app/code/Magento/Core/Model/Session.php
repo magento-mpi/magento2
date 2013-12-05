@@ -20,17 +20,16 @@ namespace Magento\Core\Model;
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
-     * @param array $data
-     * @param null $sessionName
+     * @param null|string $sessionName
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -38,7 +37,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\StorageInterface $storage,
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
     }
 }

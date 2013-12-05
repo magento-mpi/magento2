@@ -8,19 +8,15 @@
  * @license     {license_link}
  */
 
-/**
- * Catalog session model
- *
- * @category   Magento
- * @package    Magento_Catalog
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Catalog\Model;
 
+/**
+ * Catalog session model
+ */
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -29,7 +25,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param null $sessionName
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -37,7 +33,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\StorageInterface $storage,
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
     }
 }

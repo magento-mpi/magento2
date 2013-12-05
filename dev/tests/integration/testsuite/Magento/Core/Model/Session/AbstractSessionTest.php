@@ -34,7 +34,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->_model = $this->getMockForAbstractClass(
             'Magento\Core\Model\Session\AbstractSession',
             array(
-                $objectManager->create('Magento\Core\Model\Session\Context'),
+                $objectManager->create('Magento\App\RequestInterface'),
                 $this->_sidResolver,
                 $objectManager->create('Magento\Session\Config\ConfigInterface'),
             )

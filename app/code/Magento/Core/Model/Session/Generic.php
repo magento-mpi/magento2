@@ -10,7 +10,7 @@ namespace Magento\Core\Model\Session;
 class Generic extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -20,7 +20,7 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
      * @param null $sessionName
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -29,7 +29,7 @@ class Generic extends \Magento\Core\Model\Session\AbstractSession
         array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $data);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $data);
         $this->start($sessionName);
     }
 }

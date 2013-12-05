@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Customer\Model;
+
 /**
  * Customer session model
  */
-namespace Magento\Customer\Model;
-
 class Session extends \Magento\Core\Model\Session\AbstractSession
 {
     /**
@@ -69,7 +69,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
     protected $_urlFactory;
 
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -86,7 +86,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      * @param null $sessionName
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
@@ -109,7 +109,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         $this->_customerFactory = $customerFactory;
         $this->_urlFactory = $urlFactory;
         $this->_session = $session;
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
         $this->_eventManager->dispatch('customer_session_init', array('customer_session' => $this));
     }
@@ -322,7 +322,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
             $arguments = $this->_customerData->getLoginUrlParams();
             if ($this->_session->getCookieShouldBeReceived() && $this->_createUrl()->getUseSession()) {
                 $arguments += array('_query' => array(
-                    $this->_sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
+                    $this->sidResolver->getSessionIdQueryParam($this->_session) => $this->_session->getSessionId()
                 ));
             }
             $action->getResponse()->setRedirect(
@@ -342,7 +342,7 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
      */
     protected function _setAuthUrl($key, $url)
     {
-        $url = $this->_coreUrl->removeRequestParam($url, $this->_sidResolver->getSessionIdQueryParam($this));
+        $url = $this->_coreUrl->removeRequestParam($url, $this->sidResolver->getSessionIdQueryParam($this));
         // Add correct session ID to URL if needed
         $url = $this->_createUrl()->getRebuiltUrl($url);
         return $this->storage->setData($key, $url);

@@ -39,33 +39,28 @@ class AbstractSession
      *
      * @var array
      */
-    protected static $_urlHostCache = array();
+    protected static $urlHostCache = array();
 
 
     /**
      * @var \Magento\Session\ValidatorInterface
      */
-    protected $_validator;
+    protected $validator;
 
     /**
      * @var \Magento\App\RequestInterface
      */
-    protected $_request;
-
-    /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
+    protected $request;
 
     /**
      * @var \Magento\Session\SidResolverInterface
      */
-    protected $_sidResolver;
+    protected $sidResolver;
 
     /**
      * @var \Magento\Session\Config\ConfigInterface
      */
-    protected $_sessionConfig;
+    protected $sessionConfig;
 
     /**
      * @var \Magento\Session\SaveHandlerInterface
@@ -78,7 +73,7 @@ class AbstractSession
     protected $storage;
 
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
@@ -86,18 +81,18 @@ class AbstractSession
      * @param \Magento\Session\StorageInterface $storage
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage
     ) {
-        $this->_validator = $validator;
-        $this->_request = $context->getRequest();
-        $this->_sidResolver = $sidResolver;
-        $this->_sessionConfig = $sessionConfig;
+        $this->request = $request;
+        $this->sidResolver = $sidResolver;
+        $this->sessionConfig = $sessionConfig;
         $this->saveHandler = $saveHandler;
+        $this->validator = $validator;
         $this->storage = $storage;
     }
 
@@ -143,9 +138,9 @@ class AbstractSession
             $this->registerSaveHandler();
 
             // potential custom logic for session id (ex. switching between hosts)
-            $this->setSessionId($this->_sidResolver->getSid($this));
+            $this->setSessionId($this->sidResolver->getSid($this));
             session_start();
-            $this->_validator->validate($this);
+            $this->validator->validate($this);
 
             register_shutdown_function(array($this, 'writeClose'));
 
@@ -279,7 +274,7 @@ class AbstractSession
      */
     public function getCookieDomain()
     {
-        return $this->_sessionConfig->getCookieDomain();
+        return $this->sessionConfig->getCookieDomain();
     }
 
     /**
@@ -289,7 +284,7 @@ class AbstractSession
      */
     public function getCookiePath()
     {
-        return $this->_sessionConfig->getCookiePath();
+        return $this->sessionConfig->getCookiePath();
     }
 
     /**
@@ -299,7 +294,7 @@ class AbstractSession
      */
     public function getCookieLifetime()
     {
-        return $this->_sessionConfig->getCookieLifetime();
+        return $this->sessionConfig->getCookieLifetime();
     }
 
     /**
@@ -325,7 +320,7 @@ class AbstractSession
      */
     public function getSessionIdForHost($urlHost)
     {
-        $httpHost = $this->_request->getHttpHost();
+        $httpHost = $this->request->getHttpHost();
         if (!$httpHost) {
             return '';
         }
@@ -336,15 +331,15 @@ class AbstractSession
         }
         $urlPath = empty($urlHostArr[3]) ? '' : $urlHostArr[3];
 
-        if (!isset(self::$_urlHostCache[$urlHost])) {
+        if (!isset(self::$urlHostCache[$urlHost])) {
             $urlHostArr = explode(':', $urlHost);
             $urlHost = $urlHostArr[0];
             $sessionId = $httpHost !== $urlHost && !$this->isValidForHost($urlHost)
                 ? $this->getSessionId() : '';
-            self::$_urlHostCache[$urlHost] = $sessionId;
+            self::$urlHostCache[$urlHost] = $sessionId;
         }
 
-        return $this->isValidForPath($urlPath) ? self::$_urlHostCache[$urlHost] : $this->getSessionId();
+        return $this->isValidForPath($urlPath) ? self::$urlHostCache[$urlHost] : $this->getSessionId();
     }
 
     /**
@@ -384,7 +379,7 @@ class AbstractSession
      */
     protected function _addHost()
     {
-        $host = $this->_request->getHttpHost();
+        $host = $this->request->getHttpHost();
         if (!$host) {
             return $this;
         }
@@ -429,7 +424,7 @@ class AbstractSession
         }
         session_regenerate_id($deleteOldSession);
 
-        if ($this->_sessionConfig->getUseCookies()) {
+        if ($this->sessionConfig->getUseCookies()) {
             $this->clearSubDomainSessionCookie();
         }
         return $this;
@@ -442,15 +437,15 @@ class AbstractSession
     {
         foreach (array_keys($this->_getHosts()) as $host) {
             // Delete cookies with the same name for parent domains
-            if (strpos($this->_sessionConfig->getCookieDomain(), $host) > 0) {
+            if (strpos($this->sessionConfig->getCookieDomain(), $host) > 0) {
                 setcookie(
                     $this->getName(),
                     '',
                     0,
-                    $this->_sessionConfig->getCookiePath(),
+                    $this->sessionConfig->getCookiePath(),
                     $host,
-                    $this->_sessionConfig->getCookieSecure(),
-                    $this->_sessionConfig->getCookieHttpOnly()
+                    $this->sessionConfig->getCookieSecure(),
+                    $this->sessionConfig->getCookieHttpOnly()
                 );
             }
         }
@@ -463,18 +458,18 @@ class AbstractSession
      */
     public function expireSessionCookie()
     {
-        if (!$this->_sessionConfig->getUseCookies()) {
+        if (!$this->sessionConfig->getUseCookies()) {
             return;
         }
 
         setcookie(
-            $this->getName(),                 // session name
-            '',                               // value
-            0,                                // TTL for cookie
-            $this->_sessionConfig->getCookiePath(),
-            $this->_sessionConfig->getCookieDomain(),
-            $this->_sessionConfig->getCookieSecure(),
-            $this->_sessionConfig->getCookieHttpOnly()
+            $this->getName(),
+            '',
+            0,
+            $this->sessionConfig->getCookiePath(),
+            $this->sessionConfig->getCookieDomain(),
+            $this->sessionConfig->getCookieSecure(),
+            $this->sessionConfig->getCookieHttpOnly()
         );
         $this->clearSubDomainSessionCookie();
     }
