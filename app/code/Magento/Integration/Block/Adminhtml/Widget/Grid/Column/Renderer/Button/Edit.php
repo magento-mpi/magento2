@@ -37,15 +37,24 @@ class Edit extends IntegrationAbstract
         return $this->_isDisabled($row) ? '' : __('Edit');
     }
 
+    /**
+     * Get the icon on the grid according to the integration type
+     *
+     * @param \Magento\Object $row
+     * return string
+     */
     public function _getClassAttribute(Object $row)
     {
         $class = ($row->hasData(Integration::SETUP_TYPE)
-            && $row->getData(Integration::SETUP_TYPE) == Integration::TYPE_CONFIG)? 'info' : 'edit';
+            && $row->getData(Integration::SETUP_TYPE) == Integration::TYPE_CONFIG) ? 'info' : 'edit';
 
         return 'action ' . $class;
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function _isDisabled(Object $row)
     {
         return false;

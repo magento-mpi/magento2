@@ -10,8 +10,8 @@
 
 namespace Magento\Integration\Block\Adminhtml\Integration\Edit\Tab;
 
-use \Magento\Integration\Controller\Adminhtml\Integration;
-use \Magento\Integration\Model\Integration as IntegrationModel;
+use Magento\Integration\Controller\Adminhtml\Integration;
+use Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Main Integration info edit form

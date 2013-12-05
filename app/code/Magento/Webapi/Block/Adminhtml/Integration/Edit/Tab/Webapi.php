@@ -71,12 +71,12 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\FormFactory $formFactory,
         array $data = array()
     ) {
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
 
     /**
