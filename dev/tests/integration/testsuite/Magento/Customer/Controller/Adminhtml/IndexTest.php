@@ -65,7 +65,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages(
+            $this->logicalNot($this->isEmpty()),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
         /**
          * Check that customer data were set to session
          */
@@ -95,7 +98,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that errors was generated and set to session
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages(
+            $this->logicalNot($this->isEmpty()),
+            \Magento\Message\MessageInterface::TYPE_ERROR
+        );
         /**
          * Check that customer data were set to session
          */
@@ -150,7 +156,10 @@ class IndexTest extends \Magento\Backend\Utility\Controller
         /**
          * Check that success message is set
          */
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_SUCCESS);
+        $this->assertSessionMessages(
+            $this->logicalNot($this->isEmpty()),
+            \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
 
         /**
          * Check that customer id set and addresses saved

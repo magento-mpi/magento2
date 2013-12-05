@@ -36,10 +36,9 @@ class Session extends \Magento\Core\Model\Session\AbstractSession
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage,
-        array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $data);
+        parent::__construct($context, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
     }
 }
