@@ -62,7 +62,6 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_consumerMock));
 
-
         $this->_service = new \Magento\Integration\Service\OauthV1(
             $this->_consumerFactory
         );
