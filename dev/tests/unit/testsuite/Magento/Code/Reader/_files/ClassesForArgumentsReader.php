@@ -193,10 +193,20 @@ class ArgumentsOnSeparateLines extends firstClassForParentCall
 
 class ClassWithSuppressWarnings
 {
+    /**
+     * @var stdClass
+     */
     protected $argumentOne;
+
+    /**
+     * @var ClassExtendsDefaultPhpType
+     */
     protected $argumentTwo;
 
     /**
+     * @param stdClass $stdClassObject
+     * @param ClassExtendsDefaultPhpType $secondClass
+     *
      * @SuppressWarnings(Magento.TypeDuplication)
      */
     public function __construct(

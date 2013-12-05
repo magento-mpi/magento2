@@ -50,10 +50,10 @@ class TypeDuplicationTest extends \PHPUnit_Framework_TestCase
 
     public function testInvalidClass()
     {
-        $message = 'Argument type duplication in class TypeDuplication\ValidClassWithDuplicatedTypes in '
+        $message = 'Argument type duplication in class TypeDuplication\InvalidClassWithDuplicatedTypes in '
             . $this->_fixturePath . PHP_EOL . 'Multiple type injection [\TypeDuplication\ArgumentBaseClass]';
         $this->setExpectedException('\Magento\Code\ValidationException', $message);
-        $this->_validator->validate('\TypeDuplication\ValidClassWithDuplicatedTypes');
+        $this->_validator->validate('\TypeDuplication\InvalidClassWithDuplicatedTypes');
     }
 }
 
