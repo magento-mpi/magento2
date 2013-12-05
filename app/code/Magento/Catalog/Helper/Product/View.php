@@ -71,6 +71,11 @@ class View extends \Magento\App\Helper\AbstractHelper
     protected $_view;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Catalog\Model\Session $catalogSession
      * @param \Magento\Catalog\Model\Design $catalogDesign
@@ -78,6 +83,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Message\Manager $messageManager
      * @param array $messageModels
      */
     public function __construct(
@@ -88,6 +94,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\ViewInterface $view,
+        \Magento\Message\Manager $messageManager,
         array $messageModels = array()
     ) {
         $this->_catalogSession = $catalogSession;
@@ -96,8 +103,9 @@ class View extends \Magento\App\Helper\AbstractHelper
         $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;
         $this->_view = $view;
-        parent::__construct($context);
         $this->_messageModels = $messageModels;
+        $this->messageManager = $messageManager;
+        parent::__construct($context);
     }
 
     /**
@@ -200,7 +208,7 @@ class View extends \Magento\App\Helper\AbstractHelper
 
         if ($params->getSpecifyOptions()) {
             $notice = $product->getTypeInstance()->getSpecifyOptionMessage();
-            $this->_catalogSession->addNotice($notice);
+            $this->messageManager->addNotice($notice);
         }
 
         $this->_catalogSession->setLastViewedProductId($product->getId());

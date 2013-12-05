@@ -84,6 +84,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_redirect = $redirect;
         $this->_actionFlag = $actionFlag;
         $this->_view = $view;
+        $this->messageManager = $messageManager;
     }
 
     /**
