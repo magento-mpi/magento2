@@ -13,7 +13,7 @@ namespace Magento\Session;
 /**
  * Magento session save handler
  */
-class SaveHandler implements \Zend_Session_SaveHandler_Interface
+class SaveHandler implements SaveHandlerInterface
 {
     /**
      * @var \SessionHandler
