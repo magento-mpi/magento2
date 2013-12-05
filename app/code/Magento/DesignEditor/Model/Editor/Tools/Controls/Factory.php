@@ -42,13 +42,21 @@ class Factory
      */
     protected $_viewFileSystem;
 
+    /**
+     * @var \Magento\Config\FileIteratorFactory
+     */
     protected $fileIteratorFactory;
 
+    /**
+     * @var \Magento\Filesystem
+     */
     protected $filesystem;
 
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\View\FileSystem $viewFileSystem
+     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -75,12 +83,10 @@ class Factory
         if (!isset($this->_fileNames[$type])) {
             throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
         }
-        $path = $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
+        return $this->_viewFileSystem->getFilename($this->_fileNames[$type], array(
             'area'       => \Magento\View\DesignInterface::DEFAULT_AREA,
             'themeModel' => $theme
         ));
-        $rootDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-        return $this->fileIteratorFactory->create($rootDirectory, array($rootDirectory->getRelativePath($path)));
     }
 
     /**
@@ -99,7 +105,7 @@ class Factory
         \Magento\View\Design\ThemeInterface $parentTheme = null,
         array $files = array()
     ) {
-        $files = $this->_getFilePathByType($type, $theme);
+        $files[] = $this->_getFilePathByType($type, $theme);
         switch ($type) {
             case self::TYPE_QUICK_STYLES:
                 $class = 'Magento\DesignEditor\Model\Config\Control\QuickStyles';
@@ -111,8 +117,14 @@ class Factory
                 throw new \Magento\Exception("Unknown control configuration type: \"{$type}\"");
                 break;
         }
+        $rootDirectory = $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $paths = array();
+        foreach ($files as $file) {
+            $paths[] = $rootDirectory->getRelativePath($file);
+        }
+        $fileIterator = $this->fileIteratorFactory->create($rootDirectory, $paths);
         /** @var $config \Magento\DesignEditor\Model\Config\Control\AbstractControl */
-        $config = $this->_objectManager->create($class, array('configFiles' => $files));
+        $config = $this->_objectManager->create($class, array('configFiles' => $fileIterator));
 
         return $this->_objectManager->create(
             'Magento\DesignEditor\Model\Editor\Tools\Controls\Configuration', array(
