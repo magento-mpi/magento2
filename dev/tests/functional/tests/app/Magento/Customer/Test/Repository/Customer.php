@@ -32,6 +32,7 @@ class Customer extends AbstractRepository
         );
 
         $this->_data['customer_US_1'] = $this->_getUS1();
+        $this->_data['customer_UK_1'] = $this->getUK1();
         $this->_data['backend_customer'] = $this->_getBackendCustomer();
     }
 
@@ -95,6 +96,44 @@ class Customer extends AbstractRepository
                 ),
                 'addresses' => array()
             )
+        );
+    }
+
+    /**
+     * Get customer data for UK
+     *
+     * @return array
+     */
+    protected function getUK1()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jane',
+                        'group' => 'customer_info_tabs_account',
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe',
+                        'group' => 'customer_info_tabs_account',
+                    ),
+                    'email' => array(
+                        'value' => 'Jane.Doe%isolation%@example.com',
+                        'group' => 'customer_info_tabs_account',
+                    ),
+                    'password' => array(
+                        'value' => '123123q',
+                    ),
+                    'confirmation' => array(
+                        'value' => '123123q',
+                    ),
+                ),
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_UK',
+                    ),
+                ),
+            ),
         );
     }
 }

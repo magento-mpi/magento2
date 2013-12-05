@@ -42,10 +42,6 @@ class CustomerAddressEdit extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        $this->editForm = Factory::getBlockFactory()->getMagentoCustomerAddressEdit(
-            $this->_browser->find('form-validate', Locator::SELECTOR_ID)
-        );
     }
 
     /**
@@ -55,6 +51,8 @@ class CustomerAddressEdit extends Page
      */
     public function getEditForm()
     {
-        return $this->editForm;
+        return Factory::getBlockFactory()->getMagentoCustomerAddressEdit(
+            $this->_browser->find('form-validate', Locator::SELECTOR_ID)
+        );
     }
 }

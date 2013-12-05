@@ -52,6 +52,8 @@ class Config extends AbstractRepository
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+        $this->_data['general_store_information'] = $this->getGeneralStore();
+        $this->_data['customer_vat'] = $this->getCustomerVat();
     }
 
     protected function _getFreeShipping()
@@ -930,5 +932,116 @@ class Config extends AbstractRepository
             ),
         );
         return array_merge_recursive($data, $this->_getPaypalDirect());
+    }
+
+    /**
+     * General store and country options settings
+     *
+     * @return array
+     */
+    public function getGeneralStore()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'general' => array(
+                        'section' => 'general',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'store_information' => array(
+                                'fields' => array(
+                                    'name' => array(
+                                        'value' => 'Test',
+                                    ),
+                                    'phone' => array(
+                                        'value' => '630-371-7008',
+                                    ),
+                                    'country_id' => array(
+                                        'value' => 'DE',
+                                    ),
+                                    'region_id' => array(
+                                        'value' => 82,
+                                    ),
+                                    'postcode' => array(
+                                        'value' => '10789',
+                                    ),
+                                    'city' => array(
+                                        'value' => 'Berlin',
+                                    ),
+                                    'street_line1' => array(
+                                        'value' => 'Augsburger Strabe 41',
+                                    ),
+                                    'merchant_vat_number' => array(
+                                        'value' => '111607872'
+                                    ),
+                                ),
+                            ),
+                            'country' => array(
+                                'fields' => array(
+                                    'eu_countries' => array(
+                                        'value' => array('FR', 'DE', 'GB'),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * General store and country options settings
+     *
+     * @return array
+     */
+    public function getCustomerVat()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'customer' => array(
+                        'section' => 'customer',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'create_account' => array(
+                                'fields' => array(
+                                    'auto_group_assign' => array(
+                                        'value' => 1,
+                                    ),
+                                    'tax_calculation_address_type' => array(
+                                        'value' => 'billing',
+                                    ),
+                                    'viv_domestic_group' => array(
+                                        'value' => 82,
+                                    ),
+                                    'viv_intra_union_group' => array(
+                                        'value' => '10789',
+                                    ),
+                                    'viv_invalid_group' => array(
+                                        'value' => 'Berlin',
+                                    ),
+                                    'viv_error_group' => array(
+                                        'value' => 'Augsburger Strabe 41',
+                                    ),
+                                    'vat_frontend_visibility' => array(
+                                        'value' => 1,
+                                    ),
+                                ),
+                            ),
+                            'country' => array(
+                                'fields' => array(
+                                    'eu_countries' => array(
+                                        'value' => array('FR', 'DE', 'GB'),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
     }
 }

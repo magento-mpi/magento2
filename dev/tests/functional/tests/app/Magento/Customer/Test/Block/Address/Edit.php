@@ -29,7 +29,14 @@ class Edit extends Form
      *
      * @var string
      */
-    private $saveAddress;
+    private $saveAddress = '.action.submit';
+
+    /**
+     * VAT field selector
+     *
+     * @var string
+     */
+    protected $vatFieldId = 'vat_id';
 
     /**
      * Initialize block elements
@@ -46,7 +53,6 @@ class Edit extends Form
             'postcode' => '#zip',
             'country' => '#country',
         );
-        $this->saveAddress = '.action.submit';
     }
 
     /**
@@ -69,6 +75,17 @@ class Edit extends Form
     public function editCustomerAddress(Address $fixture)
     {
         $this->fill($fixture);
+        $this->_rootElement->find($this->saveAddress, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Save new VAT id
+     *
+     * @param $vat
+     */
+    public function  saveVatID($vat)
+    {
+        $this->_rootElement->find($this->vatFieldId, Locator::SELECTOR_ID)->setValue($vat);
         $this->_rootElement->find($this->saveAddress, Locator::SELECTOR_CSS)->click();
     }
 }

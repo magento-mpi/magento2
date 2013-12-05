@@ -31,11 +31,6 @@ class Customer extends Page
     const MCA = 'customer';
 
     /**
-     * @var CustomerGrid
-     */
-    protected $_customerGridBlock;
-
-    /**
      * @var PageActions
      */
     protected $_pageActionsBlock;
@@ -46,9 +41,6 @@ class Customer extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_customerGridBlock = Factory::getBlockFactory()->getMagentoCustomerBackendCustomerGrid(
-            $this->_browser->find('#customerGrid')
-        );
         $this->_pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
             $this->_browser->find('.page-actions')
         );
@@ -61,7 +53,9 @@ class Customer extends Page
      */
     public function getCustomerGridBlock()
     {
-        return $this->_customerGridBlock;
+        return Factory::getBlockFactory()->getMagentoCustomerBackendCustomerGrid(
+            $this->_browser->find('#customerGrid')
+        );
     }
 
     /**

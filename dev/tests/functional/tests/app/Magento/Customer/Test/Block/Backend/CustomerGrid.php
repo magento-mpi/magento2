@@ -24,7 +24,14 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class CustomerGrid extends Grid
 {
     /**
-     * Initialize block elements
+     * Customer group selector by customer email
+     *
+     * @var string
+     */
+    protected $customerGroupSelector = '//tr[td[text()[normalize-space()="%s"]]]/td[normalize-space(@class)="col-group"]';
+
+    /**
+     * Initialize block elements  contains
      */
     protected function _init()
     {
@@ -35,5 +42,17 @@ class CustomerGrid extends Grid
                 'selector' => '#customerGrid_filter_email'
             ),
         );
+    }
+
+    /**
+     * Get Group name by email
+     *
+     * @param $email
+     * @return string
+     */
+    public function getGroupByEmail($email)
+    {
+        $group = $this->_rootElement->find(sprintf($this->customerGroupSelector, $email), Locator::SELECTOR_XPATH);
+        return $group->getText();
     }
 }

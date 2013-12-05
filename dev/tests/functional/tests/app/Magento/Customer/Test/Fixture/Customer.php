@@ -36,7 +36,7 @@ class Customer extends DataFixture
      */
     public function persist()
     {
-        Factory::getApp()->magentoCustomerCreateCustomer($this);
+        return Factory::getApp()->magentoCustomerCreateCustomer($this);
     }
 
     /**
@@ -82,35 +82,27 @@ class Customer extends DataFixture
     /**
      * Get billing address for customer
      *
-     * @return Address
+     * @param string $dataset
+     * @return Address|mixed
      */
-    public function getDefaultBillingAddress()
+    public function getDefaultBillingAddress($dataset = 'address_US_1')
     {
-        $defaultBilling = $this->getData('addresses/default_billing');
-        if (!empty($defaultBilling)) {
-            return $defaultBilling;
-        } else {
-            $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $defaultBilling->switchData('address_US_1');
-            return $defaultBilling;
-        }
+        $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultBilling->switchData($dataset);
+        return $defaultBilling;
     }
 
     /**
      * Get default shipping address for customer
      *
-     * @return Address
+     * @param string $dataset
+     * @return Address|mixed
      */
-    public function getDefaultShippingAddress()
+    public function getDefaultShippingAddress($dataset = 'address_US_1')
     {
-        $defaultShipping = $this->getData('addresses/default_billing');
-        if (!empty($defaultShipping)) {
-            return $defaultShipping;
-        } else {
-            $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $defaultShipping->switchData('address_US_1');
-            return $defaultShipping;
-        }
+        $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultShipping->switchData($dataset);
+        return $defaultShipping;
     }
 
     /**
@@ -138,5 +130,15 @@ class Customer extends DataFixture
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $customerAddress->switchData('address_data_US_1');
         return $customerAddress;
+    }
+
+    /**
+     * Get address dataset name
+     *
+     * @return string
+     */
+    public function getAddressDatasetName()
+    {
+        return $this->getData('address/dataset/value');
     }
 }
