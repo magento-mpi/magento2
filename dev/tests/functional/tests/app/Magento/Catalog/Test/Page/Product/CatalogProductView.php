@@ -94,7 +94,7 @@ class CatalogProductView extends Page
     /**
      * Page initialization
      *
-     * @param DataFixture $fixture
+     * @param DataFixture|\Magento\Catalog\Test\Fixture\Product $fixture
      */
     public function init(DataFixture $fixture)
     {

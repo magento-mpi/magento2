@@ -29,7 +29,7 @@ class Bundle extends Product
      *
      * @var array
      */
-    protected $_products = array();
+    protected $products = array();
 
     /**
      * Custom constructor to create bundle product with assigned simple products
@@ -41,10 +41,10 @@ class Bundle extends Product
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['item1_product1::getProductName'] = array($this, '_productProvider');
-        $this->_placeholders['item1_product2::getProductName'] = array($this, '_productProvider');
-        $this->_placeholders['item1_product1::getProductId'] = array($this, '_productProvider');
-        $this->_placeholders['item1_product2::getProductId'] = array($this, '_productProvider');
+        $this->_placeholders['item1_simple1::getProductName'] = array($this, 'productProvider');
+        $this->_placeholders['item1_simple1::getProductId'] = array($this, 'productProvider');
+        $this->_placeholders['item1_virtual2::getProductName'] = array($this, 'productProvider');
+        $this->_placeholders['item1_virtual2::getProductId'] = array($this, 'productProvider');
     }
 
     /**
@@ -53,28 +53,41 @@ class Bundle extends Product
      * @param string $placeholder
      * @return mixed
      */
-    protected function _productProvider($placeholder)
+    protected function productProvider($placeholder)
     {
-        list($key, $method) = explode('::', $placeholder);
-        $product = $this->_getProduct($key);
+        list($productType, $method) = explode('::', $placeholder);
+        list(, $productType) = explode('_', $productType);
+        $product = $this->getProduct(preg_replace('/\d/', '', $productType));
         return is_callable(array($product, $method)) ? $product->$method() : null;
     }
 
     /**
      * Create a new product if it was not assigned
      *
-     * @param string $key
+     * @param string $productType
+     * @throws \InvalidArgumentException
      * @return mixed
      */
-    protected function _getProduct($key)
+    protected function getProduct($productType)
     {
-        if (!isset($this->_products[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-            $product->switchData('simple_required');
+        if (!isset($this->products[$productType])) {
+            switch ($productType) {
+                case 'simple':
+                    $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+                    break;
+                case 'virtual':
+                    $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
+                    break;
+                default:
+                    throw new \InvalidArgumentException(
+                        "Product of type '$productType' cannot be added to bundle product."
+                    );
+            }
+            $product->switchData($productType . '_required');
             $product->persist();
-            $this->_products[$key] = $product;
+            $this->products[$productType] = $product;
         }
-        return $this->_products[$key];
+        return $this->products[$productType];
     }
 
     /**

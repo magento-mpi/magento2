@@ -44,7 +44,7 @@ class ProductForm extends FormTabs
      *
      * @var string
      */
-    protected $affectedAttributeSetBlock = "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..";
+    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
 
     /**
      * @var array
@@ -66,7 +66,7 @@ class ProductForm extends FormTabs
     protected function getAffectedAttributeSetBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductConfigurableAffectedAttributeSet(
-            $this->_rootElement->find($this->affectedAttributeSetBlock, Locator::SELECTOR_XPATH)
+            $this->_rootElement->find($this->affectedAttributeSet, Locator::SELECTOR_XPATH)
         );
     }
 
@@ -75,7 +75,7 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      * @param Element $element
-     * @return FormTabs|void
+     * @return \Magento\Backend\Test\Block\Widget\FormTabs|void
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
@@ -104,7 +104,7 @@ class ProductForm extends FormTabs
     /**
      * Save product
      *
-     * @param Fixture $fixture
+     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture
      * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
     public function save(Fixture $fixture = null)
@@ -147,6 +147,7 @@ class ProductForm extends FormTabs
     public function openUpsellTab()
     {
         // click the up-sell link to get to the tab.
+        $this->showAdvanced();
         $this->waitForElementVisible(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID);
 
         $this->_rootElement->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
@@ -209,7 +210,7 @@ class ProductForm extends FormTabs
         /**
          * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
          */
-        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+        $this->showAdvanced();
 
         /**
          * Wait for the "related tab" shows up and click on it

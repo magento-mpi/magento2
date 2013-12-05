@@ -15,7 +15,7 @@ use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
+use Magento\Catalog\Test\Fixture\Product;
 
 class UpsellTest extends Functional
 {
@@ -48,9 +48,10 @@ class UpsellTest extends Functional
         $configurable->persist();
 
         // Test Steps
-        $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $editProductPage->open(array('id' => $simple1->getProductId()));
-
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
+        $gridBlock = $productGridPage->getProductGrid();
+        $productGridPage->open();
+        $gridBlock->searchAndOpen(array('sku' => $simple1->getProductSku()));
         // Step 1: (logged into Admin in setup)
         // Step 2: For Simple 1 add as up-sells:- Configurable 1 & Simple 2
         // For Simple 1 add as up-sells:- Configurable 1 & Simple 2
@@ -106,23 +107,26 @@ class UpsellTest extends Functional
 
     /**
      * Assign an array of products as upsells to the passed in $product
-     * @param SimpleProduct $product
+     * @param Product $product
      * @param array $upsellProducts
      */
     private function addUpsellProducts($product, $upsellProducts)
     {
-        /** @var SimpleProduct $upsellProduct */
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
+        $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
+
+        $gridBlock = $productGridPage->getProductGrid();
+        $productBlock = $productEditPage->getProductBlockForm();
+
+        $productGridPage->open();
+        $gridBlock->searchAndOpen(array('sku' => $product->getProductSku()));
+        $productBlock->openUpsellTab();
+        /** @var Product $upsellProduct */
         foreach ($upsellProducts as $upsellProduct) {
-            // locate the edit page.
-            $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-            $productEditPage->open(array('id' => $product->getProductId()));
-            $productBlock = $productEditPage->getProductBlockForm();
-            $productBlock->showAdvanced();
-            //$productBlock->waitForElementVisible('[title="Save"][class*=action]', Locator::SELECTOR_CSS);
-            $productEditPage->getProductBlockForm()->openUpsellTab();
             $productEditPage->getUpsellBlock()->searchAndSelect(array('name' => $upsellProduct->getProductName()));
-            $productBlock->save($product);
-            $productEditPage->getMessagesBlock()->assertSuccessMessage();
         }
+        $productBlock->save($product);
+        //Verify that the product was successfully saved
+        $productEditPage->getMessagesBlock()->assertSuccessMessage();
     }
 }

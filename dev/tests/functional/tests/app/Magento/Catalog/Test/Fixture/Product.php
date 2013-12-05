@@ -42,15 +42,18 @@ class Product extends DataFixture
      */
     protected function _initData()
     {
-        $this->_data = array(
-            'fields' => array(
-                'name' => array(
-                    'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . ' %isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
-                ),
-                'sku' => array(
-                    'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . '_sku_%isolation%',
-                    'group' => static::GROUP_PRODUCT_DETAILS
+        $this->_data = array_merge_recursive(
+            $this->_data,
+            array(
+                'fields' => array(
+                    'name' => array(
+                        'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . ' %isolation%',
+                        'group' => static::GROUP_PRODUCT_DETAILS
+                    ),
+                    'sku' => array(
+                        'value' => substr(get_class($this), strrpos(get_class($this), '\\') + 1) . '_sku_%isolation%',
+                        'group' => static::GROUP_PRODUCT_DETAILS
+                    )
                 )
             )
         );

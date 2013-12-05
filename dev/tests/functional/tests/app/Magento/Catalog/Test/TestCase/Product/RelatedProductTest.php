@@ -67,16 +67,22 @@ class RelatedProductTest extends Functional
      */
     private function addRelatedProduct($product, $relatedProducts)
     {
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productEditPage->open(array('id' => $product->getProductId()));
-        $productEditPage->getProductBlockForm()->openRelatedProductTab();
+
+        $gridBlock = $productGridPage->getProductGrid();
+        $productBlock = $productEditPage->getProductBlockForm();
+
+        $productGridPage->open();
+        $gridBlock->searchAndOpen(array('sku' => $product->getProductSku()));
+        $productBlock->openRelatedProductTab();
+        /** @var Product $relatedProduct */
         foreach ($relatedProducts as $relatedProduct) {
-            $productEditPage->getRelatedProductGrid()
-                ->searchAndSelect(array('name' => $relatedProduct->getProductName()));
+            $productEditPage->getUpsellBlock()->searchAndSelect(array('name' => $relatedProduct->getProductName()));
         }
-        $productEditPage->getProductBlockForm()->save($product);
+        $productBlock->save($product);
         //Verify that the product was successfully saved
-        $productEditPage->getMessagesBlock()->assertSuccessMessage("You saved the product.", $productEditPage);
+        $productEditPage->getMessagesBlock()->assertSuccessMessage();
     }
 
     /**

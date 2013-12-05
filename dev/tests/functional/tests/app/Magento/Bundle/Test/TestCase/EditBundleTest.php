@@ -2,46 +2,40 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
+ * @category    Magento
+ * @package     Magento
  * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Catalog\Test\TestCase\Product;
+namespace Magento\Bundle\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
+use Magento\Bundle\Test\Fixture\Bundle;
 
-/**
- * Edit products
- *
- * @package Magento\Catalog\Test\TestCase\Product
- */
-class EditSimpleProductTest extends Functional
+class EditBundleTest extends Functional
 {
-    /**
-     * Login into backend area before test
-     */
     protected function setUp()
     {
         Factory::getApp()->magentoBackendLoginUser();
     }
 
     /**
-     * Edit simple product
-     *
-     * @ZephyrId MAGETWO-12428
+     * Create bundle
+     * @dataProvider createDataProvider
      */
-    public function testEditProduct()
+    public function testEditBundle($fixture)
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $product->switchData('simple');
+        //Data
+        /** @var $product \Magento\Bundle\Test\Fixture\Bundle */
+        /** @var $editProduct \Magento\Bundle\Test\Fixture\Bundle */
+        $product = Factory::getFixtureFactory()->$fixture();
+        $product->switchData('bundle');
         $product->persist();
-        $editProduct = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $editProduct->switchData('simple_edit_required_fields');
+        $editProduct = Factory::getFixtureFactory()->$fixture();
+        $editProduct->switchData('bundle_edit_required_fields');
 
         $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
         $gridBlock = $productGridPage->getProductGrid();
@@ -52,7 +46,7 @@ class EditSimpleProductTest extends Functional
         $productGridPage->open();
         $gridBlock->searchAndOpen(array(
             'sku' => $product->getProductSku(),
-            'type' => 'Simple Product'
+            'type' => 'Bundle Product'
         ));
         $productBlockForm->fill($editProduct);
         $productBlockForm->save($editProduct);
@@ -66,10 +60,18 @@ class EditSimpleProductTest extends Functional
         $this->assertOnCategory($editProduct, $product->getCategoryName());
     }
 
+    public function createDataProvider()
+    {
+        return array(
+            array('getMagentoBundleBundleFixed'),
+            array('getMagentoBundleBundleDynamic')
+        );
+    }
+
     /**
      * Assert existing product on admin product grid
      *
-     * @param SimpleProduct $product
+     * @param Bundle $product
      */
     protected function assertOnGrid($product)
     {
@@ -80,9 +82,7 @@ class EditSimpleProductTest extends Functional
     }
 
     /**
-     * Assert product data on category and product pages
-     *
-     * @param SimpleProduct $product
+     * @param Bundle $product
      * @param string $categoryName
      */
     protected function assertOnCategory($product, $categoryName)
@@ -100,7 +100,7 @@ class EditSimpleProductTest extends Functional
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertSame($product->getProductName(), $productViewBlock->getProductName());
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

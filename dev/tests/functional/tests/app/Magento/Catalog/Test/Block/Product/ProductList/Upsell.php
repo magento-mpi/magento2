@@ -15,7 +15,6 @@ namespace Magento\Catalog\Test\Block\Product\ProductList;
 use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use \Magento\Catalog\Test\Fixture\SimpleProduct;
 
 class Upsell extends Block
 {
@@ -42,7 +41,7 @@ class Upsell extends Block
     /**
      * Click on upsell product link
      *
-     * @param SimpleProduct $product
+     * @param Product $product
      * @return \Mtf\Client\Element
      * @throws \Exception
      */

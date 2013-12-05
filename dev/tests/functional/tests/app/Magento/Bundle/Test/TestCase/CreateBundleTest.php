@@ -15,7 +15,7 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
-class BundleDynamicTest extends Functional
+class CreateBundleTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -28,13 +28,15 @@ class BundleDynamicTest extends Functional
     /**
      * Creating bundle (dynamic) product and assigning it to the category only
      *
+     * @dataProvider createDataProvider
      * @ZephyrId MAGETWO-12702
      */
-    public function testCreate()
+    public function testCreate($fixture)
     {
         //Data
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleDynamic();
-        $bundle->switchData('bundle_dynamic');
+        /** @var $bundle \Magento\Bundle\Test\Fixture\Bundle */
+        $bundle = Factory::getFixtureFactory()->$fixture();
+        $bundle->switchData('bundle');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
@@ -53,6 +55,14 @@ class BundleDynamicTest extends Functional
         //Verification
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);
+    }
+
+    public function createDataProvider()
+    {
+        return array(
+            array('getMagentoBundleBundleFixed'),
+            array('getMagentoBundleBundleDynamic')
+        );
     }
 
     /**
@@ -86,11 +96,8 @@ class BundleDynamicTest extends Functional
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-
-        $actualPrice = $productViewBlock->getProductPrice();
-        $expectedPrice = $product->getProductPrice();
-        $this->assertContains($expectedPrice, $actualPrice);
+        $this->assertSame($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
         $productOptionsBlock = $productPage->getOptionsBlock();
