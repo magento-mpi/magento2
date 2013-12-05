@@ -1044,4 +1044,5 @@ return array(
     array('getDir', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSavePath', '\Magento\Core\Model\Session\Context', '\Magento\Core\Model\Session\Config'),
     array('getSessionSavePath', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
+    array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection')
 );
