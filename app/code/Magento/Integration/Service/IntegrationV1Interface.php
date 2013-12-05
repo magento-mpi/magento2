@@ -7,6 +7,8 @@
  */
 namespace Magento\Integration\Service;
 
+use \Magento\Integration\Model\Integration as IntegrationModel;
+
 /**
  * Integration Service Interface
  */
@@ -17,7 +19,7 @@ interface IntegrationV1Interface
      * Create a new Integration
      *
      * @param array $integrationData
-     * @return array Integration data
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     public function create(array $integrationData);
@@ -26,7 +28,7 @@ interface IntegrationV1Interface
      * Get the details of a specific Integration.
      *
      * @param int $integrationId
-     * @return array Integration data
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     public function get($integrationId);
@@ -35,7 +37,7 @@ interface IntegrationV1Interface
      * Find Integration by name.
      *
      * @param int $integrationName
-     * @return array|null Integration data or null if not found
+     * @return IntegrationModel If integration cannot be found - empty model will be returned
      * @throws \Magento\Integration\Exception
      */
     public function findByName($integrationName);
@@ -45,7 +47,7 @@ interface IntegrationV1Interface
      * Update a Integration.
      *
      * @param array $integrationData
-     * @return array Integration data
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     public function update(array $integrationData);

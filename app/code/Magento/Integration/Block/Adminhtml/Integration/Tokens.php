@@ -67,28 +67,10 @@ class Tokens extends \Magento\Backend\Block\Widget\Form\Generic
     {
         return array(
             array(
-                'name' => self::DATA_TOKEN,
-                'type' => 'text',
-                'metadata' => array(
-                    'label' => __('Token'),
-                    'name' => self::DATA_TOKEN,
-                    'readonly' => true,
-                )
-            ),
-            array(
-                'name' => self::DATA_TOKEN_SECRET,
-                'type' => 'text',
-                'metadata' => array(
-                    'label' => __('Token Secret'),
-                    'name' => self::DATA_TOKEN_SECRET,
-                    'readonly' => true,
-                )
-            ),
-            array(
                 'name' => self::DATA_CONSUMER_KEY,
                 'type' => 'text',
                 'metadata' => array(
-                    'label' => __('Client Key'),
+                    'label' => __('Consumer Key'),
                     'name' => self::DATA_CONSUMER_KEY,
                     'readonly' => true,
                 )
@@ -97,8 +79,26 @@ class Tokens extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => self::DATA_CONSUMER_SECRET,
                 'type' => 'text',
                 'metadata' => array(
-                    'label' => __('Client Secret'),
+                    'label' => __('Consumer Secret'),
                     'name' => self::DATA_CONSUMER_SECRET,
+                    'readonly' => true,
+                )
+            ),
+            array(
+                'name' => self::DATA_TOKEN,
+                'type' => 'text',
+                'metadata' => array(
+                    'label' => __('Access Token'),
+                    'name' => self::DATA_TOKEN,
+                    'readonly' => true,
+                )
+            ),
+            array(
+                'name' => self::DATA_TOKEN_SECRET,
+                'type' => 'text',
+                'metadata' => array(
+                    'label' => __('Access Token Secret'),
+                    'name' => self::DATA_TOKEN_SECRET,
                     'readonly' => true,
                 )
             ),

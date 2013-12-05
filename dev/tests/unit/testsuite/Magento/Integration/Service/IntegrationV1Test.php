@@ -119,7 +119,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->will($this->returnSelf());
         $this->_setValidIntegrationData();
-        $resultData = $this->_service->create($this->_integrationData);
+        $resultData = $this->_service->create($this->_integrationData)->getData();
         $this->assertSame($this->_integrationData, $resultData);
     }
 
@@ -161,7 +161,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->method('save')
             ->will($this->returnSelf());
         $this->_setValidIntegrationData();
-        $integrationData = $this->_service->update($this->_integrationData);
+        $integrationData = $this->_service->update($this->_integrationData)->getData();
         $this->assertEquals($this->_integrationData, $integrationData);
     }
 
@@ -187,7 +187,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->method('getData')
             ->will($this->returnValue($integrationData));
 
-        $updatedData = $this->_service->update($integrationData);
+        $updatedData = $this->_service->update($integrationData)->getData();
         $this->assertEquals($integrationData, $updatedData);
     }
 
@@ -229,7 +229,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_integrationMock->expects($this->never())
             ->method('save');
-        $integrationData = $this->_service->get(self::VALUE_INTEGRATION_ID);
+        $integrationData = $this->_service->get(self::VALUE_INTEGRATION_ID)->getData();
         $this->assertEquals($this->_integrationData, $integrationData);
     }
 
@@ -247,7 +247,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnSelf());
         $this->_integrationMock->expects($this->never())
             ->method('save');
-        $this->_service->get(self::VALUE_INTEGRATION_ID);
+        $this->_service->get(self::VALUE_INTEGRATION_ID)->getData();
     }
 
     /**

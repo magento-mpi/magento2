@@ -120,7 +120,7 @@ class Integration extends Action
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
         if ($integrationId) {
             try {
-                $integrationData = $this->_integrationService->get($integrationId);
+                $integrationData = $this->_integrationService->get($integrationId)->getData();
                 $originalName = $integrationData[Info::DATA_NAME];
             } catch (IntegrationException $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -167,7 +167,7 @@ class Integration extends Action
             $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             if ($integrationId) {
                 try {
-                    $integrationData = $this->_integrationService->get($integrationId);
+                    $integrationData = $this->_integrationService->get($integrationId)->getData();
                 } catch (IntegrationException $e) {
                     $this->_getSession()->addError($e->getMessage());
                     $this->_redirect('*/*/');
@@ -182,6 +182,7 @@ class Integration extends Action
             /** @var array $data */
             $data = $this->getRequest()->getPost();
             if (!empty($data)) {
+                // TODO: Move out work with API permissions to Web API module
                 if (!isset($data['resource'])) {
                     $integrationData['resource'] = array();
                 }
@@ -219,7 +220,7 @@ class Integration extends Action
 
         if ($integrationId) {
             try {
-                $integrationData = $this->_integrationService->get($integrationId);
+                $integrationData = $this->_integrationService->get($integrationId)->getData();
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
             } catch (IntegrationException $e) {
                 $this->_getSession()->addError($e->getMessage());
@@ -257,11 +258,11 @@ class Integration extends Action
     {
         try {
             $integrationId = $this->getRequest()->getParam('id');
-            $integrationData = $this->_integrationService->get($integrationId);
-            $this->_oauthService->createAccessToken($integrationData[IntegrationModel::CONSUMER_ID]);
+            $integration = $this->_integrationService->get($integrationId);
+            $this->_oauthService->createAccessToken($integration->getConsumerId());
             $this->_registry->register(
                 self::REGISTRY_KEY_CURRENT_INTEGRATION,
-                $this->_integrationService->get($integrationId)
+                $this->_integrationService->get($integrationId)->getData()
             );
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());

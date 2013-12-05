@@ -117,7 +117,7 @@ class OauthHelper
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
             $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
-            $integrationData = $integrationService->create(
+            $integration = $integrationService->create(
                 array(
                     'name' => 'Integration' . microtime(),
                     'all_resources' => true
@@ -137,12 +137,12 @@ class OauthHelper
 
             /** @var \Magento\Integration\Service\OauthV1 $oauthService */
             $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
-            $oauthService->createAccessToken($integrationData['consumer_id']);
-            $accessToken = $oauthService->getAccessToken($integrationData['consumer_id']);
+            $oauthService->createAccessToken($integration->getConsumerId());
+            $accessToken = $oauthService->getAccessToken($integration->getConsumerId());
             if (!$accessToken) {
                 throw new LogicException('Access token was not created.');
             }
-            $consumer = $oauthService->loadConsumer($integrationData['consumer_id']);
+            $consumer = $oauthService->loadConsumer($integration->getConsumerId());
             $credentials = new \OAuth\Common\Consumer\Credentials(
                 $consumer->getKey(), $consumer->getSecret(), TESTS_BASE_URL);
             /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */

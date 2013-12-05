@@ -5,6 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model\Plugin;
 
 use Magento\Authz\Model\UserIdentifier;
@@ -80,11 +81,11 @@ class Setup
         $integrations = $this->_integrationConfig->getIntegrations();
         foreach ($integrationNames as $name) {
             if (isset($integrations[$name])) {
-                $integrationData = $this->_integrationService->findByName($name);
-                if (isset($integrationData[Integration::ID])) {
+                $integration = $this->_integrationService->findByName($name);
+                if ($integration->getId()) {
                     $userIdentifier = $this->_userIdentifierFactory->create(
                         UserIdentifier::USER_TYPE_INTEGRATION,
-                        (int)$integrationData[Integration::ID]
+                        $integration->getId()
                     );
                     $this->_authzService->grantPermissions(
                         $userIdentifier,
