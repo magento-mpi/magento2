@@ -39,6 +39,12 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected $_aclResourceProvider;
 
+    /** @var \Magento\Integration\Helper\Data */
+    protected $_integrationData;
+
+    /** @var \Magento\Webapi\Helper\Data */
+    protected $_webapiData;
+
     /**
      * Initialize dependencies.
      *
@@ -68,19 +74,13 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
         $this->_rootResource = $rootResource;
         $this->_rulesCollFactory = $rulesCollFactory;
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
+        parent::__construct($context, $coreData, $registry, $formFactory, $data);
     }
-
-    /** @var \Magento\Integration\Helper\Data */
-    protected $_integrationData;
-
-    /** @var \Magento\Webapi\Helper\Data */
-    protected $_webapiData;
 
     /**
      * Get tab label
