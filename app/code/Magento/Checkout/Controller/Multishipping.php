@@ -128,7 +128,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         }
 
         if (!$this->_preDispatchValidateCustomer()) {
-            return $this;
+            return $this->getResponse();
         }
 
         if ($this->_getCheckoutSession()->getCartWasUpdated(true)
@@ -324,8 +324,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         }
 
         if (!$this->_getState()->getCompleteStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_SELECT_ADDRESSES)) {
-            $this->_redirect('*/*/addresses');
-            return $this;
+            return $this->_redirect('*/*/addresses');
         }
 
         $this->_getState()->setActiveStep(
@@ -384,8 +383,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         }
 
         if (!$this->_getState()->getCompleteStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_SHIPPING)) {
-            $this->_redirect('*/*/shipping');
-            return $this;
+            return $this->_redirect('*/*/shipping');
         }
 
         $this->_getState()->setActiveStep(
@@ -432,7 +430,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     public function overviewAction()
     {
         if (!$this->_validateMinimumAmount()) {
-            return $this;
+            return;
         }
 
         $this->_getState()->setActiveStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_OVERVIEW);
@@ -538,7 +536,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
     {
         if (!$this->_getState()->getCompleteStep(\Magento\Checkout\Model\Type\Multishipping\State::STEP_OVERVIEW)) {
             $this->_redirect('*/*/addresses');
-            return $this;
+            return;
         }
 
         $this->_view->loadLayout();

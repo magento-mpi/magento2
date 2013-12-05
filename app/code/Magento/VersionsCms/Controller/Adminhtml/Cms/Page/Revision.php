@@ -205,7 +205,6 @@ class Revision
                 return;
             }
         }
-        return $this;
     }
 
     /**
@@ -244,7 +243,7 @@ class Revision
         $data = $this->getRequest()->getPost();
         if (empty($data) || !isset($data['page_id'])) {
             $this->_forward('noroute');
-            return $this;
+            return ;
         }
 
         $page = $this->_initPage();
@@ -290,7 +289,6 @@ class Revision
     {
         $this->_objectManager->get('Magento\App\State')
             ->emulateAreaCode('frontend', array($this, 'previewFrontendPage'));
-        return $this;
     }
 
     /**
@@ -305,7 +303,7 @@ class Revision
             $page = $this->_cmsPage->load($data['page_id']);
             if (!$page->getId()) {
                 $this->_forward('noroute');
-                return $this;
+                return ;
             }
 
             /**

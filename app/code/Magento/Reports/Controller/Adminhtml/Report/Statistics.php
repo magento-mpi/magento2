@@ -144,7 +144,6 @@ class Statistics extends \Magento\Backend\App\Action
         } else {
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
         }
-        return $this;
     }
 
     /**
@@ -175,8 +174,6 @@ class Statistics extends \Magento\Backend\App\Action
         } else {
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
         }
-
-        return $this;
     }
 
     public function indexAction()

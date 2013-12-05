@@ -318,7 +318,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     {
         $this->_getSession()->setIsUrlNotice($this->_actionFlag->get('', self::FLAG_IS_URLS_CHECKED));
         $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
-        return $this;
+        return $this->getResponse();
     }
 
     protected function _forward($action, $controller = null, $module = null, array $params = null)

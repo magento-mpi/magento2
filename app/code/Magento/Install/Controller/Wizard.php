@@ -399,8 +399,7 @@ class Wizard extends \Magento\Install\Controller\Action
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
             try {
                 $this->_getInstaller()->installConfig($data);
-                $this->_redirect('*/*/installDb');
-                return $this;
+                return $this->_redirect('*/*/installDb');
             } catch (\Exception $e) {
                 $this->_session->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());

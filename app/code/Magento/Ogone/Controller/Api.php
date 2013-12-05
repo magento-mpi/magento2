@@ -453,7 +453,6 @@ class Api extends \Magento\App\Action\Action
         }
         $this->_getCheckout()->setQuoteId($this->_getCheckout()->getOgoneQuoteId());
         $this->_declineProcess();
-        return $this;
     }
 
     /**
@@ -482,7 +481,6 @@ class Api extends \Magento\App\Action\Action
         }
         $this->_getCheckout()->setQuoteId($this->_getCheckout()->getOgoneQuoteId());
         $this->_cancelProcess();
-        return $this;
     }
 
     /**

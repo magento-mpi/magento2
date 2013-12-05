@@ -149,11 +149,11 @@ class Action extends \Magento\App\Action\AbstractAction
      *
      * @param   string $path
      * @param   array $arguments
-     * @return  \Magento\App\ActionInterface
+     * @return  \Magento\App\ResponseInterface
      */
     protected function _redirect($path, $arguments = array())
     {
         $this->_redirect->redirect($this->getResponse(), $path, $arguments);
-        return $this;
+        return $this->getResponse();
     }
 }

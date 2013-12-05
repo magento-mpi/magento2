@@ -487,8 +487,6 @@ class Index extends \Magento\Backend\App\Action
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
     /**
@@ -533,7 +531,6 @@ class Index extends \Magento\Backend\App\Action
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($configureResult);
-        return $this;
     }
 
     /**
@@ -578,7 +575,6 @@ class Index extends \Magento\Backend\App\Action
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($configureResult);
-        return $this;
     }
 
     /**
@@ -665,8 +661,6 @@ class Index extends \Magento\Backend\App\Action
         /* @var $helper \Magento\Catalog\Helper\Product\Composite */
         $helper = $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite');
         $helper->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
     /**

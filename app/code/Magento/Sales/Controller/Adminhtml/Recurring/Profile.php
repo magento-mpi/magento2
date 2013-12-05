@@ -47,7 +47,6 @@ class Profile extends \Magento\Backend\App\Action
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Sales::sales_recurring_profile');
         $this->_view->renderLayout();
-        return $this;
     }
 
     /**

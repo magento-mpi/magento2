@@ -340,7 +340,8 @@ class Create extends \Magento\Backend\App\Action
         $orderId = $this->getRequest()->getParam('order_id');
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         if (!$this->_objectManager->get('Magento\Sales\Helper\Reorder')->canReorder($order)) {
-            return $this->_forward('noroute');
+            $this->_forward('noroute');
+            return;
         }
 
         if ($order->getId()) {
@@ -565,8 +566,6 @@ class Create extends \Magento\Backend\App\Action
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
     /*
@@ -608,8 +607,6 @@ class Create extends \Magento\Backend\App\Action
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
 

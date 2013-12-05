@@ -183,8 +183,6 @@ class Account extends \Magento\Customer\Controller\Account
 
         $this->_redirect('magento_invitation/customer_account/create',
             array('_current' => true, '_secure' => true));
-
-        return $this;
     }
 
     /**

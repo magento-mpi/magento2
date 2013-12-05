@@ -550,8 +550,7 @@ class Index extends \Magento\App\Action\Action
             if ($isError) {
                 $this->_getSession()->setGiftRegistryEntityFormData($this->getRequest()->getPost());
                 $params = $isAddAction ? array('type_id' => $typeId) : array('entity_id' => $entityId);
-                $this->_redirect('*/*/edit', $params);
-                return $this;
+                return $this->_redirect('*/*/edit', $params);
             } else {
                 $this->_redirect('*/*/');
             }

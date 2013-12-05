@@ -64,7 +64,8 @@ class Customerbalance extends \Magento\Backend\App\Action
         $this->_request = $request;
         if (!$this->_objectManager->get('Magento\CustomerBalance\Helper\Data')->isEnabled()) {
             if ($request->getActionName() != 'noroute') {
-                return $this->_forward('noroute');
+                $this->_forward('noroute');
+                return $this->getResponse();
             }
         }
         return parent::dispatch($request);

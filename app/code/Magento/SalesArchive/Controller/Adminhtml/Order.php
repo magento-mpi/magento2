@@ -1,22 +1,13 @@
 <?php
 /**
+ * Adminhtml sales orders controller
+ *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_SalesArchive
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-/**
- * Adminhtml sales orders controller
- *
- * @category    Magento
- * @package     Magento_SalesArchive
- * @author      Magento Core Team <core@magentocommerce.com>
- */
-namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
-
+namespace Magento\SalesArchive\Controller\Adminhtml;
 
 class Order extends  \Magento\Sales\Controller\Adminhtml\Order
 {

@@ -92,7 +92,7 @@ class Index extends \Magento\Backend\App\Action
     public function createAction()
     {
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->_redirect('*/*/index');
         }
 
         $response = new \Magento\Object();
@@ -208,7 +208,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->_redirect('*/*/index');
         }
 
         $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
