@@ -252,13 +252,6 @@ class Read implements ReadInterface
         /** @var \Magento\Filesystem\File\Read $fileReader */
         $fileReader = $this->fileFactory->create($absolutePath, $this->driver, $protocol);
         return $fileReader->readAll();
-
-        if (!$this->driver->isFile($absolutePath)) {
-            throw new FilesystemException(
-                sprintf('The file "%s" either doesn\'t exist or not a file', $absolutePath)
-            );
-        }
-        return $this->driver->fileGetContents($absolutePath);
     }
 
     /**

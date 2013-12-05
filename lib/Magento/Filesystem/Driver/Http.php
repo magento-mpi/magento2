@@ -16,7 +16,7 @@ use Magento\Filesystem\FilesystemException;
  *
  * @package Magento\Filesystem\Driver
  */
-class Http extends Base
+class Http extends Local
 {
     /**
      * @param $path
