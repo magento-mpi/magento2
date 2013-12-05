@@ -29,7 +29,7 @@ class Edit extends Form
      *
      * @var string
      */
-    private $saveAddress = '.action.submit';
+    protected $saveAddress = '.action.submit';
 
     /**
      * VAT field selector
@@ -41,19 +41,17 @@ class Edit extends Form
     /**
      * Initialize block elements
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '#firstname',
-            'lastname' => '#lastname',
-            'telephone' => '#telephone',
-            'street_1' => '#street_1',
-            'city' => '#city',
-            'region' => '#region_id',
-            'postcode' => '#zip',
-            'country' => '#country',
-        );
-    }
+    protected $_mapping = array(
+        'firstname' => '#firstname',
+        'lastname' => '#lastname',
+        'company' => '#company',
+        'telephone' => '#telephone',
+        'street_1' => '#street_1',
+        'city' => '#city',
+        'region' => '#region_id',
+        'postcode' => '#zip',
+        'country' => '#country',
+    );
 
     /**
      * Fill form data. Unset 'email' field as it absent in current form

@@ -41,7 +41,7 @@ class AppTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCookie()
     {
-        $this->assertInstanceOf('Magento\Core\Model\Cookie', $this->_model->getCookie());
+        $this->assertInstanceOf('Magento\Stdlib\Cookie', $this->_model->getCookie());
     }
 
     /**
@@ -124,8 +124,14 @@ class AppTest extends \PHPUnit_Framework_TestCase
     public function testGetStores()
     {
         $this->assertNotEmpty($this->_mageModel->getStores());
-        $this->assertNotContains(\Magento\Core\Model\App::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores()));
-        $this->assertContains(\Magento\Core\Model\App::ADMIN_STORE_ID, array_keys($this->_mageModel->getStores(true)));
+        $this->assertNotContains(
+            \Magento\Core\Model\Store::DEFAULT_STORE_ID,
+            array_keys($this->_mageModel->getStores())
+        );
+        $this->assertContains(
+            \Magento\Core\Model\Store::DEFAULT_STORE_ID,
+            array_keys($this->_mageModel->getStores(true))
+        );
     }
 
     public function testGetDefaultStoreView()

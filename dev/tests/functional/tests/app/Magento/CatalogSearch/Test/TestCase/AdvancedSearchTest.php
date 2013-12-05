@@ -30,7 +30,7 @@ class AdvancedSearchTest extends Functional
     public function testProductSearch()
     {
         //Data
-        $productFixture = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $productFixture->switchData('simple');
         $productFixture->persist();
 

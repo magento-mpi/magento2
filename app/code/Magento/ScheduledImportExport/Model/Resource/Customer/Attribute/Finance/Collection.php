@@ -50,14 +50,14 @@ class Collection
     protected $_importExportData = null;
 
     /**
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Eav\Model\AttributeFactory $attributeFactory
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
      */
     public function __construct(
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
-        \Magento\Eav\Model\AttributeFactory $attributeFactory,
-        \Magento\Core\Model\EntityFactory $entityFactory
+        \Magento\Eav\Model\AttributeFactory $attributeFactory
     ) {
         $this->_importExportData = $importExportData;
         $this->_attributeFactory = $attributeFactory;

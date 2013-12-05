@@ -20,12 +20,6 @@ namespace Magento\Catalog\Model;
 abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
 {
     /**
-     * Identifier of default store
-     * used for loading default data for entity
-     */
-    const DEFAULT_STORE_ID = 0;
-
-    /**
      * Attribute default values
      *
      * This array contain default values for attributes which was redefine
@@ -72,19 +66,17 @@ abstract class AbstractModel extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

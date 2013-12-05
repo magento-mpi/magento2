@@ -17,6 +17,11 @@ app/design/frontend/magento_plushe/less/responsive/responsive-ee.less
 app/design/frontend/magento_plushe/css/styles-ee.css
 app/design/install/magento_enterprise
 app/etc/enterprise
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfigFilesTest.php
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php
+dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/GiftRegistryConfigFileTest.php
 dev/tests/integration/testsuite/Magento/Test/Design/Frontend/Enterprise
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/_files/view_files_ee.php
 dev/tests/static/testsuite/Magento/Test/Integrity/Enterprise
@@ -56,6 +61,7 @@ app/code/Magento/CatalogEvent
 dev/tests/unit/testsuite/Magento/CatalogEvent
 dev/tests/integration/testsuite/Magento/CatalogEvent
 app/code/Magento/CatalogPermissions
+dev/tests/unit/testsuite/Magento/CatalogPermissions
 dev/tests/integration/testsuite/Magento/CatalogPermissions
 app/code/Magento/CustomerSegment
 dev/tests/unit/testsuite/Magento/CustomerSegment

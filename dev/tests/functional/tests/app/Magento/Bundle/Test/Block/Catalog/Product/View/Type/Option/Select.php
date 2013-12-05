@@ -24,15 +24,12 @@ use Mtf\Client\Element\Locator;
 class Select extends Form
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'value' => 'select',
-            'qty' => 'input.qty'
-        );
-    }
+    protected $_mapping = array(
+        'value' => 'select',
+        'qty' => 'input.qty'
+    );
 
     /**
      * Set data in bundle option

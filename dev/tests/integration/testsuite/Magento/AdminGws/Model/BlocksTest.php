@@ -27,15 +27,22 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
 
     protected function tearDown()
     {
-        /** @var $auth \Magento\Backend\Model\Auth */
-        $auth = $this->_objectManager->get('Magento\Backend\Model\Auth');
-        $auth->logout();
+        /** @var $checkoutSession \Magento\Checkout\Model\Session */
+        $checkoutSession = $this->_objectManager->get('Magento\Checkout\Model\Session');
+        $checkoutSession->clearStorage();
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            session_destroy();
+        }
+        if (isset($_COOKIE[$checkoutSession->getName()])) {
+            unset($_COOKIE[$checkoutSession->getName()]);
+        }
+
         $this->_objectManager->get('Magento\Backend\Model\Url')->turnOnSecretKey();
         parent::tearDown();
     }
 
     /**
-     * @magentoConfigFixture admin_store catalog/magento_catalogpermissions/enabled 1
+     * @magentoConfigFixture default/catalog/magento_catalogpermissions/enabled 1
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Magento/AdminGws/_files/role_websites_login.php
      */
@@ -48,7 +55,7 @@ class BlocksTest extends \Magento\TestFramework\TestCase\AbstractController
     }
 
     /**
-     * @magentoConfigFixture admin_store catalog/magento_catalogpermissions/enabled 1
+     * @magentoConfigFixture default/catalog/magento_catalogpermissions/enabled 1
      * @magentoDataFixture Magento/Catalog/_files/categories.php
      * @magentoDataFixture Magento/AdminGws/_files/role_stores_login.php
      */

@@ -34,7 +34,7 @@ class UserTest extends Functional
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
         //Steps
         $loginPage->open();
-        $loginPage->getLoginBlockForm()->fill($fixture);
-        $loginPage->getLoginBlockForm()->submit();
+        $loginPage->getLoginBlock()->fill($fixture);
+        $loginPage->getLoginBlock()->submit();
     }
 }

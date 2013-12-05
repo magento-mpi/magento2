@@ -83,9 +83,9 @@ class History extends \Magento\Core\Model\AbstractModel
     protected $dateTime;
 
     /**
-     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\Resource\Reward\History $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Reward\Model\Reward $reward
@@ -94,9 +94,9 @@ class History extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\Resource\Reward\History $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Reward\Model\Reward $reward,

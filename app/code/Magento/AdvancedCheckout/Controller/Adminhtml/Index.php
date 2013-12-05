@@ -100,7 +100,7 @@ class Index extends \Magento\Backend\App\Action
 
         $storeId = $this->getRequest()->getParam('store');
 
-        if ($storeId === null || $storeManager->getStore($storeId)->isAdmin()) {
+        if ($storeId === null || $storeId == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $storeId = $cart->getPreferredStoreId();
             if ($storeId && $useRedirects) {
                 // Redirect to preferred store view
@@ -199,7 +199,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -404,7 +404,7 @@ class Index extends \Magento\Backend\App\Action
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_getSession()->addError(
                 __('An error has occurred. See error log for details.')
             );
@@ -591,7 +591,7 @@ class Index extends \Magento\Backend\App\Action
         if ($e instanceof \Magento\Core\Exception) {
             $result = array('error' => $e->getMessage());
         } elseif ($e instanceof \Exception) {
-            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+            $this->_objectManager->get('Magento\Logger')->logException($e);
             $result = array(
                 'error' => __('An error has occurred. See error log for details.')
             );
@@ -911,7 +911,7 @@ class Index extends \Magento\Backend\App\Action
                         } catch (\Magento\Core\Exception $e){
                             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
                         } catch (\Exception $e){
-                            $this->_objectManager->get('Magento\Core\Model\Logger')->logException($e);
+                            $this->_objectManager->get('Magento\Logger')->logException($e);
                         }
                     }
                 }

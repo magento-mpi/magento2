@@ -10,6 +10,7 @@
  * @license     {license_link}
  */
 return array(
+    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
@@ -60,6 +61,7 @@ return array(
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
     array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
@@ -377,4 +379,49 @@ return array(
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
     array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
     array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
+    array(
+        'XML_PATH_USE_FRONTEND_SID',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+    ),
+    array(
+        'SESSION_ID_QUERY_PARAM',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Session\SidResolverInterface::SESSION_ID_QUERY_PARAM'
+    ),
+    array(
+        'XML_PATH_COOKIE_DOMAIN',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_DOMAIN'
+    ),
+    array(
+        'XML_PATH_COOKIE_PATH',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_PATH'
+    ),
+    array(
+        'XML_PATH_COOKIE_LIFETIME',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_LIFETIME'
+    ),
+    array(
+        'XML_PATH_COOKIE_HTTPONLY',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_HTTPONLY'
+    ),
+    array(
+        'PARAM_SESSION_SAVE_METHOD',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'PARAM_SESSION_SAVE_PATH',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'PARAM_SESSION_CACHE_LIMITER',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
 );

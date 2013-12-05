@@ -88,8 +88,8 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_mediaConfig;
 
     public function __construct(
-        \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\App\Resource $resource,
+        \Magento\Sitemap\Helper\Data $sitemapData,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Product\Visibility $productVisibility,
@@ -172,7 +172,8 @@ class Product extends \Magento\Core\Model\Resource\Db\AbstractDb
             ->joinLeft(
                 array('t1_' . $attributeCode => $attribute['table']),
                 'e.entity_id = t1_' . $attributeCode . '.entity_id AND '
-                . $adapter->quoteInto(' t1_' . $attributeCode . '.store_id = ?', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+                . $adapter->quoteInto(' t1_' . $attributeCode . '.store_id = ?',
+                    \Magento\Core\Model\Store::DEFAULT_STORE_ID)
                 . $adapter->quoteInto(' AND t1_'.$attributeCode . '.attribute_id = ?', $attribute['attribute_id']),
                 array());
 
