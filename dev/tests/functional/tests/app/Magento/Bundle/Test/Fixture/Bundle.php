@@ -13,19 +13,16 @@ namespace Magento\Bundle\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class Bundle
  *
  * @package Magento\Bundle\Test\Fixture
  */
-class Bundle extends AbstractProduct
+class Bundle extends Product
 {
-    /**
-     * Attribute set for mapping data into ui tabs
-     */
-    const GROUP_BUNDLE_OPTIONS = 'product_info_tabs_bundle_content';
+    const GROUP = 'product_info_tabs_bundle_content';
 
     /**
      * List of fixtures from created products
@@ -40,7 +37,7 @@ class Bundle extends AbstractProduct
      * @param Config $configuration
      * @param array $placeholders
      */
-    public function __construct(Config $configuration, $placeholders =  array())
+    public function __construct(Config $configuration, $placeholders = array())
     {
         parent::__construct($configuration, $placeholders);
 
@@ -72,7 +69,7 @@ class Bundle extends AbstractProduct
     protected function _getProduct($key)
     {
         if (!isset($this->_products[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+            $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
             $product->switchData('simple_required');
             $product->persist();
             $this->_products[$key] = $product;
@@ -99,8 +96,8 @@ class Bundle extends AbstractProduct
     {
         $options = array();
         $bundleOptions = $this->getData('fields/bundle_selections/value');
-        foreach ($bundleOptions as $option => $optionData) {
-            $optionName =  $optionData['title']['value'];
+        foreach ($bundleOptions as $optionData) {
+            $optionName = $optionData['title']['value'];
             foreach ($optionData['assigned_products'] as $productData) {
                 $options[$optionName] = $productData['search_data']['name'];
             }
@@ -116,7 +113,7 @@ class Bundle extends AbstractProduct
     public function getProductPrice()
     {
         $prices = $this->getData('checkout/prices');
-        return $prices ? $prices : parent::getProductPrice();
+        return $prices ? : parent::getProductPrice();
     }
 
     /**
@@ -134,8 +131,9 @@ class Bundle extends AbstractProduct
                 'fields/bundle_selections/value/' . $option .
                 '/assigned_products/' . $selection . '/data/selection_qty/value'
             );
-            $selectionItem['value'] = $this->getData('fields/bundle_selections/value/' . $option .
-                '/assigned_products/' . $selection . '/search_data/name');
+            $selectionItem['value'] = $this->getData(
+                'fields/bundle_selections/value/' . $option . '/assigned_products/' . $selection . '/search_data/name'
+            );
             $selectionData[] = $selectionItem;
         }
         return $selectionData;
@@ -151,7 +149,7 @@ class Bundle extends AbstractProduct
             'constraint' => 'Success',
             'create_url_params' => array(
                 'type' => 'bundle',
-                'set' => 4,
+                'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
             'input_prefix' => 'product'
         );

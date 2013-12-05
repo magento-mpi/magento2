@@ -28,15 +28,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    private $productTitle;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->productTitle = '.product.name';
-    }
+    protected $productTitle = '.product.name';
 
     /**
      * Check if product with specified name is visible

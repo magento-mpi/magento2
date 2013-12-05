@@ -24,16 +24,27 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class CustomerGrid extends Grid
 {
     /**
-     * Initialize block elements
+     * 'Add New' customer button
+     *
+     * @var string
      */
-    protected function _init()
+    protected $addNewCustomer = "../*[@class='page-actions']//*[@id='add']";
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $filters = array(
+        'email' => array(
+            'selector' => '#customerGrid_filter_email'
+        )
+    );
+
+
+    /**
+     * Add new customer
+     */
+    public function addNewCustomer()
     {
-        parent::_init();
-        $this->editLink = '//td[contains(@class, "col-action")]//a';
-        $this->filters = array(
-            'email' => array(
-                'selector' => '#customerGrid_filter_email'
-            ),
-        );
+        $this->_rootElement->find($this->addNewCustomer, Locator::SELECTOR_XPATH)->click();
     }
 }

@@ -28,16 +28,7 @@ class Success extends Block
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->continue = '.button-set button';
-    }
+    protected $continue = '.button-set button';
 
     /**
      * Fill shipping address

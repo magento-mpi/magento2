@@ -14,7 +14,6 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Block\Multishipping;
 
 /**
  * Class CheckoutMultishippingShipping
@@ -32,9 +31,9 @@ class CheckoutMultishippingBilling extends Page
     /**
      * Billing block form
      *
-     * @var Multishipping\Billing
+     * @var string
      */
-    private $billingBlock;
+    protected $billingBlock = '#multishipping-billing-form';
 
     /**
      * Custom constructor
@@ -42,8 +41,6 @@ class CheckoutMultishippingBilling extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->billingBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingBilling(
-            $this->_browser->find('#multishipping-billing-form', Locator::SELECTOR_CSS));
     }
 
     /**
@@ -53,6 +50,8 @@ class CheckoutMultishippingBilling extends Page
      */
     public function getBillingBlock()
     {
-        return $this->billingBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingBilling(
+            $this->_browser->find($this->billingBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

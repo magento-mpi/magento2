@@ -14,8 +14,8 @@ namespace Magento\Catalog\Test\TestCase\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Fixture;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
@@ -42,11 +42,11 @@ class RelatedProductTest extends Functional
     public function testRelatedProduct()
     {
         // Precondition: create simple product 1
-        $simpleProduct1 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct1 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simpleProduct1->switchData('simple');
         $simpleProduct1->persist();
         // Precondition: create simple product 2
-        $simpleProduct2 = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simpleProduct2 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simpleProduct2->switchData('simple');
         $simpleProduct2->persist();
         // Precondition: create configurable product
@@ -62,8 +62,8 @@ class RelatedProductTest extends Functional
     /**
      * Configure related products in the backend
      *
-     * @param AbstractProduct $product
-     * @param AbstractProduct[] $relatedProducts
+     * @param Product $product
+     * @param Product[] $relatedProducts
      */
     private function addRelatedProduct($product, $relatedProducts)
     {
@@ -82,8 +82,8 @@ class RelatedProductTest extends Functional
     /**
      * Assert configurable product is added to cart together with the proper related product
      *
-     * @param Product $simpleProduct1
-     * @param Product $simpleProduct2
+     * @param SimpleProduct $simpleProduct1
+     * @param SimpleProduct $simpleProduct2
      * @param ConfigurableProduct $configurableProduct
      */
     protected function assertOnTheFrontEnd($simpleProduct1, $simpleProduct2, $configurableProduct)

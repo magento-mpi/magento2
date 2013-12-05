@@ -45,7 +45,8 @@ class NavigationMode extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\DesignEditor\Helper\Data $helper
-     * @param string $areaCode
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param array $areaCode
      * @param array $data
      */
     public function __construct(
@@ -57,6 +58,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $session,
         \Magento\DesignEditor\Helper\Data $helper,
+        \Magento\Session\SidResolverInterface $sidResolver,
         $areaCode,
         array $data = array()
     ) {
@@ -76,6 +78,7 @@ class NavigationMode extends \Magento\Core\Model\Url
             $app,
             $storeManager,
             $session,
+            $sidResolver,
             $areaCode,
             $data
         );
