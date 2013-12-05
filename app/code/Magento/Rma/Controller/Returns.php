@@ -91,8 +91,6 @@ class Returns extends \Magento\App\Action\Action
 
         /** @var \Magento\Core\Model\Date $coreDate */
         $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
-        /** @var \Magento\Core\Model\Session $coreSession */
-        $coreSession = $this->_objectManager->get('Magento\Core\Model\Session');
         if ($this->_canViewOrder($order)) {
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
@@ -129,13 +127,13 @@ class Returns extends \Magento\App\Action\Action
                             ->setCreatedAt($coreDate->gmtDate())
                             ->save();
                     }
-                    $coreSession->addSuccess(
+                    $this->messageManager->addSuccess(
                         __('You submitted Return #%1.', $rmaModel->getIncrementId())
                     );
                     $this->getResponse()->setRedirect($this->_redirect->success($urlModel->getUrl('*/*/history')));
                     return;
                 } catch (\Exception $e) {
-                    $coreSession->addError(
+                    $this->messageManager->addError(
                         __('We cannot create a new return transaction. Please try again later.')
                     );
                     $this->_objectManager->get('Magento\Logger')->logException($e);

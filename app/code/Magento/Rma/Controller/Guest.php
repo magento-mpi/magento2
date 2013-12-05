@@ -127,8 +127,6 @@ class Guest extends \Magento\App\Action\Action
         }
 
         $post = $this->getRequest()->getPost();
-        /** @var \Magento\Core\Model\Session $coreSession */
-        $coreSession = $this->_objectManager->get('Magento\Core\Model\Session');
         /** @var \Magento\Core\Model\Date $coreDate */
         $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
         if (($post) && !empty($post['items'])) {
@@ -165,14 +163,14 @@ class Guest extends \Magento\App\Action\Action
                         ->setCreatedAt($coreDate->gmtDate())
                         ->save();
                 }
-                $coreSession->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
                 $url = $urlModel->getUrl('*/*/returns');
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
             } catch (\Exception $e) {
-                $coreSession->addError(
+                $this->messageManager->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);

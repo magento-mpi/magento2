@@ -279,19 +279,19 @@ class Product extends \Magento\App\Action\Action
                     }
 
                     $review->aggregate();
-                    $session->addSuccess(__('Your review has been accepted for moderation.'));
+                    $this->messageManager->addSuccess(__('Your review has been accepted for moderation.'));
                 } catch (\Exception $e) {
                     $session->setFormData($data);
-                    $session->addError(__('We cannot post the review.'));
+                    $this->messageManager->addError(__('We cannot post the review.'));
                 }
             } else {
                 $session->setFormData($data);
                 if (is_array($validate)) {
                     foreach ($validate as $errorMessage) {
-                        $session->addError($errorMessage);
+                        $this->messageManager->addError($errorMessage);
                     }
                 } else {
-                    $session->addError(__('We cannot post the review.'));
+                    $this->messageManager->addError(__('We cannot post the review.'));
                 }
             }
         }

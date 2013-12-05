@@ -433,7 +433,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
                 foreach ($validateEmail as $error) {
-                    $this->_session->addError($error);
+                    $this->messageManager->addError($error);
                 }
                 $this->_session->setRmaFormData($data);
                 $errors = 1;
@@ -641,7 +641,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         if ($errors) {
-            $this->_session->addError(
+            $this->messageManager->addError(
                 __('There is an error in quantities for item %1.', $preparePost['product_name'])
             );
         }
@@ -867,7 +867,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             }
             if (!empty($errors)) {
                 foreach ($errors as $message) {
-                    $this->_session->addError($message);
+                    $this->messageManager->addError($message);
                 }
             }
             return false;
