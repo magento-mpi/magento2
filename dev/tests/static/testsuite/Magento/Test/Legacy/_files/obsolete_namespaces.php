@@ -11,4 +11,5 @@
  */
 return array(
     array('/app/code/core/Mage', '/app/code/Magento'),
+    array('/app/code/core/Magento/Page'),
 );
