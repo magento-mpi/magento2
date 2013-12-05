@@ -9,7 +9,6 @@
 namespace Magento\View\Element\Js;
 
 use Magento\Session\Config\ConfigInterface;
-use Magento\Core\Helper\Data;
 use Magento\View\Element\Template;
 use Magento\View\Element\Template\Context;
 
@@ -22,13 +21,11 @@ class Cookie extends Template
 
     /**
      * @param Context $context
-     * @param Data $coreData
      * @param ConfigInterface $cookieConfig
      * @param array $data
      */
     public function __construct(
         Context $context,
-        Data $coreData,
         ConfigInterface $cookieConfig,
         array $data = array()
     ) {
