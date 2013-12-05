@@ -10,6 +10,7 @@
 * Fixed bugs:
   * Fixed shopping cart rules for a specific customer group
   * Fixed the bug with schema upgrade scripts are not running after installation
+  * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
 
 2.0.0.0-dev54
 =============
