@@ -235,7 +235,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveActionNew()
     {
-        $intData = $this->_getSampleIntegrationData();
+        $intData = $this->_getSampleIntegrationData()->getData();
         //No id when New Integration is Post-ed
         unset($intData[Info::DATA_ID]);
         $this->_mockRequest->expects($this->any())->method('getPost')->will($this->returnValue($intData));
@@ -352,12 +352,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getSampleIntegrationData()
     {
-        return array(
+        return new \Magento\Object(array(
             Info::DATA_NAME => 'nameTest',
             Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
             Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
             Info::DATA_SETUP_TYPE => 0
-        );
+        ));
     }
 }

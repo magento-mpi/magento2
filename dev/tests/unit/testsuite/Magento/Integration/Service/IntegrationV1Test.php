@@ -63,7 +63,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_integrationMock));
 
-        $authorizationMock = $this->getMock('Magento\Authz\Service\AuthorizationV1Interface');
         $userIdentifierFactory = $this->getMockBuilder('Magento\Authz\Model\UserIdentifier\Factory')
             ->disableOriginalConstructor()->getMock();
         $oauthConsumerHelper = $this->getMockBuilder('Magento\Integration\Service\OauthV1')
@@ -78,8 +77,6 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
 
         $this->_service = new \Magento\Integration\Service\IntegrationV1(
             $this->_integrationFactory,
-            $authorizationMock,
-            $userIdentifierFactory,
             $oauthConsumerHelper
         );
         $this->_emptyIntegrationMock = $this->getMockBuilder('Magento\Integration\Model\Integration')
