@@ -39,14 +39,4 @@ class Config extends DataFixture
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCoreConfig($this->_dataConfig, $this->_data);
     }
-
-    /**
-     * Set VAT groups
-     *
-     * @param array $groups
-     */
-    public function setGroups($groups)
-    {
-        $this->_data = array_replace_recursive($this->_data, $groups);
-    }
 }

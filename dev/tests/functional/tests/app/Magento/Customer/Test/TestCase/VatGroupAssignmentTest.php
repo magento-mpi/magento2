@@ -25,11 +25,19 @@ use Magento\Customer\Test\Page;
 class VatGroupAssignmentTest extends Functional
 {
     /**
+     * Vat fixture
+     *
+     * @var VatGroup
+     */
+    protected $vatFixture;
+
+    /**
      * Login into backend area before test
      */
     protected function setUp()
     {
         Factory::getApp()->magentoBackendLoginUser();
+        $this->vatFixture = Factory::getFixtureFactory()->getMagentoCustomerVatGroup();
     }
 
     /**
@@ -40,45 +48,43 @@ class VatGroupAssignmentTest extends Functional
     public function testEnableCustomerVatAssignment()
     {
         // Data
-        $vatGroup = Factory::getFixtureFactory()->getMagentoCustomerVatGroup();
         $customerLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
-        $customersPage = Factory::getPageFactory()->getCustomer();
+        $customersPage = Factory::getPageFactory()->getCustomerIndex();
         $customerAccountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
         $customerDefaultAddressesPage = Factory::getPageFactory()->getCustomerAddressIndex();
         $customerAddressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
 
-        $vatGroup->persist();
+        $this->vatFixture->persist();
         $customersPage->open();
-        $this->checkCustomerGroup($customersPage, $vatGroup, $vatGroup->getDefaultCustomerGroup());
+        $this->checkCustomerGroup($customersPage, $this->vatFixture->getDefaultCustomerGroup());
 
         $customerLoginPage->open();
-        $customerLoginPage->getLoginBlock()->login($vatGroup->getCustomer());
+        $customerLoginPage->getLoginBlock()->login($this->vatFixture->getCustomer());
         $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
-        $this->fillVatId($customerAddressEditPage, $vatGroup, 'invalid');
+        $this->fillVatId($customerAddressEditPage, 'invalid');
 
-        $this->checkCustomerGroup($customersPage, $vatGroup, $vatGroup->getInvalidVatCustomerGroup());
+        $this->checkCustomerGroup($customersPage, $this->vatFixture->getVatConfig()->getInvalidVatGroup());
 
         $customerAccountIndexPage->open();
         $customerAccountIndexPage->getAccountMenuBlock()->goToAddressBook();
         $customerDefaultAddressesPage->getDefaultAddresses()->goToAddressBook();
-        $this->fillVatId($customerAddressEditPage, $vatGroup, 'valid');
+        $this->fillVatId($customerAddressEditPage, 'valid');
 
-        $this->checkCustomerGroup($customersPage, $vatGroup, $vatGroup->getValidVatCustomerGroup());
+        $this->checkCustomerGroup($customersPage, $this->vatFixture->getVatConfig()->getValidVatIntraUnionGroup());
     }
 
     /**
      * Check customer group in grid
      *
-     * @param Page\Customer $page
-     * @param VatGroup $vatFixture
-     * @param $groupName\
+     * @param Page\CustomerIndex $page
+     * @param $groupName
      */
-    protected function checkCustomerGroup(Page\Customer $page, VatGroup $vatFixture, $groupName)
+    protected function checkCustomerGroup(Page\CustomerIndex $page, $groupName)
     {
         $page->open();
-        $grid = $page->getCustomerGridBlock();
-        $email = $vatFixture->getCustomer()->getEmail();
+        $grid = $page->getGridBlock();
+        $email = $this->vatFixture->getCustomer()->getEmail();
         $this->assertEquals($groupName, $grid->getGroupByEmail($email));
     }
 
@@ -86,12 +92,11 @@ class VatGroupAssignmentTest extends Functional
      * Fill and Save form with new VAT
      *
      * @param Page\CustomerAddressEdit $page
-     * @param VatGroup $vatFixture
-     * @param string $type
+     * @param $type
      */
-    protected function fillVatId(Page\CustomerAddressEdit $page, VatGroup $vatFixture, $type)
+    protected function fillVatId(Page\CustomerAddressEdit $page, $type)
     {
         $form = $page->getEditForm();
-        $form->saveVatID($vatFixture->getVat($type));
+        $form->saveVatID($this->vatFixture->getVatForUk($type));
     }
 }

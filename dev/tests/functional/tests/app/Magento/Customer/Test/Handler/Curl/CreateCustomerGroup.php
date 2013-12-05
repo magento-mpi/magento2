@@ -75,6 +75,7 @@ class CreateCustomerGroup extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
+        /** @var \Magento\Customer\Test\Fixture\CustomerGroup $fixture*/
         $params = $this->prepareData($fixture);
         $url = $_ENV['app_backend_url'] . $this->saveUrl;
         $curl = new BackendDecorator(new CurlTransport(), new Config);
@@ -83,6 +84,24 @@ class CreateCustomerGroup extends Curl
         $response = $curl->read();
         $curl->close();
 
-        return $response;
+        return $this->findId($response, $fixture->getGroupName());
+    }
+
+    /**
+     * Find id of new customer group in response
+     *
+     * @param $response
+     * @param $name
+     * @return string
+     */
+    protected function findId($response, $name)
+    {
+        $regExp = '~/customer/group/edit/id/(\d+)(?=.*?' . $name. ')~s';
+        preg_match_all($regExp, $response, $matches);
+        $result = '';
+        if (!empty($matches[1])) {
+            $result =  array_pop($matches[1]);;
+        }
+        return $result;
     }
 }

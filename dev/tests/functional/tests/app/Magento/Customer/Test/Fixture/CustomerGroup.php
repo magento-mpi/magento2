@@ -26,7 +26,7 @@ class CustomerGroup extends DataFixture
      */
     public function persist()
     {
-        return Factory::getApp()->magentoCustomerCreateCustomerGroup($this);
+        $this->_data['fields']['id']['value'] = Factory::getApp()->magentoCustomerCreateCustomerGroup($this);
     }
 
     /**
@@ -59,5 +59,15 @@ class CustomerGroup extends DataFixture
     public function getGroupName()
     {
         return $this->getData('fields/code/value');
+    }
+
+    /**
+     * Get group id
+     *
+     * @return string
+     */
+    public function getGroupId()
+    {
+        return $this->getData('fields/id/value');
     }
 }
