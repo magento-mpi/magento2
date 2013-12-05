@@ -149,7 +149,7 @@ class ViewTest extends \PHPUnit_Framework_TestCase
 
         // add messages
         foreach ($expectedMessages as $sessionModel => $messageText) {
-            /** @var $session \Magento\Core\Model\Session\AbstractSession */
+            /** @var $session \Magento\Session\SessionManagerInterface */
             $session = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get($sessionModel);
             $session->addNotice($messageText);
         }

@@ -26,7 +26,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Core\Model\Session\AbstractSession _model */
         $this->_model = $objectManager->create('\Magento\Core\Model\Session\Config', array(
             'saveMethod' => 'files',
             'cacheLimiter' => $this->_cacheLimiter

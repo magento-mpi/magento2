@@ -13,7 +13,7 @@ namespace Magento\Adminhtml\Model\Session;
 /**
  * Adminhtml quote session
  */
-class Quote extends \Magento\Core\Model\Session\AbstractSession
+class Quote extends \Magento\Session\SessionManager
 {
     const XML_PATH_DEFAULT_CREATEACCOUNT_GROUP = 'customer/create_account/default_group';
 

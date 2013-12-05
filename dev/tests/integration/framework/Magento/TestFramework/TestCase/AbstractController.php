@@ -194,7 +194,7 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
         \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Core\Model\Session'
     ) {
         $this->_assertSessionErrors = false;
-        /** @var $session \Magento\Core\Model\Session\AbstractSession */
+        /** @var $session \Magento\Session\SessionManagerInterface */
         $session = $this->_objectManager->get($sessionModel);
         $actualMessages = array();
         /** @var $message \Magento\Message\AbstractMessage */

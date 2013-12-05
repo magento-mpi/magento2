@@ -13,7 +13,7 @@ namespace Magento\Customer\Model;
 /**
  * Customer session model
  */
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * Customer object

@@ -159,7 +159,7 @@ class CacheTest extends \Magento\Backend\Utility\Controller
         $this->assertSessionMessages(
             $this->contains("Specified cache type(s) don't exist: invalid_type_1, invalid_type_2"),
             \Magento\Message\MessageInterface::TYPE_ERROR,
-            'Magento\Core\Model\Session\AbstractSession'
+            'Magento\Session\SessionManager'
         );
     }
 

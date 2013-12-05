@@ -9,7 +9,7 @@
  */
 namespace Magento\Backend\Model;
 
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * @param \Magento\App\RequestInterface $request

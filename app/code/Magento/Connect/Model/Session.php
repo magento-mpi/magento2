@@ -13,7 +13,7 @@ namespace Magento\Connect\Model;
 /**
  * Auth session model
  */
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * Connect data

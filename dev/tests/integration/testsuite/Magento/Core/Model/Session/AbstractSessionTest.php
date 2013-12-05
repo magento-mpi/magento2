@@ -14,7 +14,7 @@ namespace Magento\Core\Model\Session;
 class AbstractSessionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_model;
 
@@ -30,9 +30,8 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Session\SidResolverInterface $sidResolver */
         $this->_sidResolver = $objectManager->get('Magento\Session\SidResolverInterface');
 
-        /** @var \Magento\Core\Model\Session\AbstractSession _model */
         $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Session\AbstractSession',
+            'Magento\Session\SessionManager',
             array(
                 $objectManager->create('Magento\App\RequestInterface'),
                 $this->_sidResolver,

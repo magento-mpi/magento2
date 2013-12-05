@@ -18,7 +18,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $backendHelper = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
         $session = $this->getMock(
-            'Magento\Core\Model\Session\AbstractSession',
+            'Magento\Session\SessionManager',
             array('addSuccess'),
             array(),
             '',
@@ -44,7 +44,7 @@ class CacheTest extends \PHPUnit_Framework_TestCase
 
         $valueMap = array(
             array('Magento\Core\Model\Page\Asset\MergeService', $mergeService),
-            array('Magento\Core\Model\Session\AbstractSession', $session),
+            array('Magento\Session\SessionManager', $session),
         );
         $objectManager->expects($this->any())
             ->method('get')

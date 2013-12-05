@@ -81,7 +81,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_getResourceModelStub()));
 
-        $this->_session = $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false);
+        $this->_session = $this->getMock('Magento\Session\SessionManager', array(), array(), '', false);
         $this->_typeOnepage = $this->getMock('Magento\Checkout\Model\Type\Onepage', array(), array(), '', false);
         $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_customerData = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);

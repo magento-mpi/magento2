@@ -38,7 +38,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     /**
      * Session
      *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -100,7 +100,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -119,7 +119,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

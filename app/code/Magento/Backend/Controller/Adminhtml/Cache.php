@@ -54,7 +54,7 @@ class Cache extends \Magento\Backend\App\Action
      */
     protected function _getSession()
     {
-        return $this->_objectManager->get('Magento\Core\Model\Session\AbstractSession');
+        return $this->_objectManager->get('Magento\Session\SessionManagerInterface');
     }
 
     /**

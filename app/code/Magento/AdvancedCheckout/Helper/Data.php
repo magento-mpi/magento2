@@ -73,7 +73,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Contains session object to which data is saved
      *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -187,7 +187,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Checkout\Helper\Cart $checkoutCart
@@ -207,7 +207,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products,
         \Magento\Core\Model\Url $url,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Helper\Cart $checkoutCart,
@@ -244,7 +244,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Return session for affected items
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {
@@ -254,9 +254,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Sets session instance to use for saving data
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      */
-    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
+    public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
         $this->_session = $session;
     }

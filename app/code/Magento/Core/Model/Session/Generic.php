@@ -7,7 +7,7 @@
  */
 namespace Magento\Core\Model\Session;
 
-class Generic extends \Magento\Core\Model\Session\AbstractSession
+class Generic extends \Magento\Session\SessionManager
 {
     /**
      * @param \Magento\App\RequestInterface $request

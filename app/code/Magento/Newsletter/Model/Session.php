@@ -13,7 +13,7 @@ namespace Magento\Newsletter\Model;
 /**
  * Newsletter session model
  */
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * @param \Magento\App\RequestInterface $request

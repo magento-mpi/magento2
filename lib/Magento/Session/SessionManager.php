@@ -1,26 +1,19 @@
 <?php
 /**
- * Core Session Abstract model
+ * Magento session manager
  *
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Session;
+namespace Magento\Session;
 
 /**
  * Session Manager
  */
-class AbstractSession
+class SessionManager implements SessionManagerInterface
 {
-    /**
-     * Session key for list of hosts
-     */
-    const HOST_KEY = '_session_hosts';
-
     /**
      * Default options when a call destroy()
      *
@@ -40,7 +33,6 @@ class AbstractSession
      * @var array
      */
     protected static $urlHostCache = array();
-
 
     /**
      * @var \Magento\Session\ValidatorInterface
@@ -74,19 +66,19 @@ class AbstractSession
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
-     * @param \Magento\Session\SaveHandlerInterface $saveHandler
-     * @param \Magento\Session\ValidatorInterface $validator
-     * @param \Magento\Session\StorageInterface $storage
+     * @param SaveHandlerInterface $saveHandler
+     * @param ValidatorInterface $validator
+     * @param StorageInterface $storage
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
-        \Magento\Session\SidResolverInterface $sidResolver,
+        SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
-        \Magento\Session\SaveHandlerInterface $saveHandler,
-        \Magento\Session\ValidatorInterface $validator,
-        \Magento\Session\StorageInterface $storage
+        SaveHandlerInterface $saveHandler,
+        ValidatorInterface $validator,
+        StorageInterface $storage
     ) {
         $this->request = $request;
         $this->sidResolver = $sidResolver;
@@ -126,7 +118,7 @@ class AbstractSession
      * Configure session handler and start session
      *
      * @param string $sessionName
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManager
      */
     public function start($sessionName = null)
     {
@@ -221,7 +213,7 @@ class AbstractSession
      * Set session name
      *
      * @param string $name
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManager
      */
     public function setName($name)
     {
@@ -301,7 +293,7 @@ class AbstractSession
      * Specify session identifier
      *
      * @param   string|null $sessionId
-     * @return  \Magento\Core\Model\Session\AbstractSession
+     * @return  \Magento\Session\SessionManager
      */
     public function setSessionId($sessionId)
     {
@@ -334,8 +326,7 @@ class AbstractSession
         if (!isset(self::$urlHostCache[$urlHost])) {
             $urlHostArr = explode(':', $urlHost);
             $urlHost = $urlHostArr[0];
-            $sessionId = $httpHost !== $urlHost && !$this->isValidForHost($urlHost)
-                ? $this->getSessionId() : '';
+            $sessionId = $httpHost !== $urlHost && !$this->isValidForHost($urlHost) ? $this->getSessionId() : '';
             self::$urlHostCache[$urlHost] = $sessionId;
         }
 
@@ -375,7 +366,7 @@ class AbstractSession
     /**
      * Register request host name as used with session
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManager
      */
     protected function _addHost()
     {
@@ -403,7 +394,7 @@ class AbstractSession
     /**
      * Clean all host names that were registered with session
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManager
      */
     protected function _cleanHosts()
     {
@@ -415,7 +406,7 @@ class AbstractSession
      * Renew session id and update session cookie
      *
      * @param bool $deleteOldSession
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManager
      */
     public function regenerateId($deleteOldSession = true)
     {

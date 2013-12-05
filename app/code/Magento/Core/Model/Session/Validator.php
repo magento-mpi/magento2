@@ -56,10 +56,10 @@ class Validator implements \Magento\Session\ValidatorInterface
     /**
      * Validate session
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @throws \Magento\Session\Exception
      */
-    public function validate(\Magento\Core\Model\Session\AbstractSession $session)
+    public function validate(\Magento\Session\SessionManagerInterface $session)
     {
         if (!isset($_SESSION[self::VALIDATOR_KEY])) {
             $_SESSION[self::VALIDATOR_KEY] = $this->_getSessionEnvironment();

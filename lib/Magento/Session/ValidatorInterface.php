@@ -20,8 +20,8 @@ interface ValidatorInterface
     /**
      * Validate session
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @throws \Magento\Session\Exception
      */
-    public function validate(\Magento\Core\Model\Session\AbstractSession $session);
+    public function validate(\Magento\Session\SessionManagerInterface $session);
 }

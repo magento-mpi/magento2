@@ -1618,10 +1618,10 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Sets session where data is going to be stored
      *
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @return \Magento\AdvancedCheckout\Model\Cart
      */
-    public function setSession(\Magento\Core\Model\Session\AbstractSession $session)
+    public function setSession(\Magento\Session\SessionManagerInterface $session)
     {
         $this->_getHelper()->setSession($session);
         return $this;
@@ -1630,7 +1630,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     /**
      * Returns current session used to store data about affected items
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

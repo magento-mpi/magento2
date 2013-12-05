@@ -16,7 +16,7 @@ namespace Magento\Backend\Model\Auth;
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class Session
-    extends \Magento\Core\Model\Session\AbstractSession
+    extends \Magento\Session\SessionManager
     implements \Magento\Backend\Model\Auth\StorageInterface
 {
     const XML_PATH_SESSION_LIFETIME = 'admin/security/session_lifetime';

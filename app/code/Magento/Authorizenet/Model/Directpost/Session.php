@@ -11,9 +11,9 @@
 namespace Magento\Authorizenet\Model\Directpost;
 
 /**
- * Authorize.net DirectPost session model.
+ * Authorize.net DirectPost session model
  */
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * @param \Magento\App\RequestInterface $request

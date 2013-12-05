@@ -182,7 +182,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
     /**
      * Session
      *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -221,7 +221,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
      * @param \Magento\Paygate\Model\Authorizenet\RequestFactory $requestFactory
      * @param \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Paygate\Helper\Data $paygateData
@@ -238,7 +238,7 @@ class Authorizenet extends \Magento\Payment\Model\Method\Cc
         \Magento\Paygate\Model\Authorizenet\RequestFactory $requestFactory,
         \Magento\Paygate\Model\Authorizenet\ResultFactory $resultFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Paygate\Helper\Data $paygateData,

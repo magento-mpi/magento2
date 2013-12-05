@@ -10,7 +10,7 @@
 
 namespace Magento\Checkout\Model;
 
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * Checkout state begin

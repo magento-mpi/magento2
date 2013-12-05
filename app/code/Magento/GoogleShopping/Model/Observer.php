@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Google Shopping Observer
- *
- * @category    Magento
- * @package     Magento_GoogleShopping
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\GoogleShopping\Model;
 
+/**
+ * Google Shopping Observer
+ */
 class Observer
 {
     /**
@@ -29,7 +25,7 @@ class Observer
     /**
      * Admin session
      *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -66,7 +62,7 @@ class Observer
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\GoogleShopping\Model\Flag $flag
      */
     public function __construct(
@@ -74,7 +70,7 @@ class Observer
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\GoogleShopping\Model\Flag $flag
     ) {
         $this->_collectionFactory = $collectionFactory;

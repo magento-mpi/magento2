@@ -17,7 +17,7 @@ namespace Magento\Core\Model;
  * @method \Magento\Core\Model\Session setCookieShouldBeReceived(bool $flag)
  * @method \Magento\Core\Model\Session unsCookieShouldBeReceived()
  */
-class Session extends \Magento\Core\Model\Session\AbstractSession
+class Session extends \Magento\Session\SessionManager
 {
     /**
      * @param \Magento\App\RequestInterface $request
