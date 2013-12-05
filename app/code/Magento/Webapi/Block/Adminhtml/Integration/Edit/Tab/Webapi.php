@@ -111,7 +111,8 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     {
         $integrationData = $this->_coreRegistry->registry(IntegrationController::REGISTRY_KEY_CURRENT_INTEGRATION);
         return !isset($integrationData[Info::DATA_SETUP_TYPE])
-            || ($integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG);    }
+            || ($integrationData[Info::DATA_SETUP_TYPE] != IntegrationModel::TYPE_CONFIG);
+    }
 
     /**
      * Whether tab is visible
