@@ -202,9 +202,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         }
 
         if ($request->isDispatched() && $request->getActionName() !== 'denied' && !$this->_isAllowed()) {
-            $this->_forward('denied');
-            $this->_actionFlag->set('', self::FLAG_NO_DISPATCH, true);
-            return parent::dispatch($request);
+            return $this->_forward('denied');
         }
 
         if ($this->_isUrlChecked()) {

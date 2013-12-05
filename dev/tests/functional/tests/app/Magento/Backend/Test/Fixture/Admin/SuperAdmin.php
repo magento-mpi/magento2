@@ -31,7 +31,7 @@ class SuperAdmin extends DataFixture
                 'username' => array(
                     'value' => $config['login']
                 ),
-                'login' => array(
+                'password' => array(
                     'value' => $config['password']
                 )
             )

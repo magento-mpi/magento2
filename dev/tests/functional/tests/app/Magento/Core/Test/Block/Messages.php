@@ -56,6 +56,18 @@ class Messages extends Block
     }
 
     /**
+     * Get all error messages which are present on the page
+     *
+     * @return string
+     */
+    public function getErrorMessages()
+    {
+        return $this->_rootElement
+            ->find($this->errorMessage, Locator::SELECTOR_CSS)
+            ->getText();
+    }
+
+    /**
      * Check for error message
      *
      * @return bool

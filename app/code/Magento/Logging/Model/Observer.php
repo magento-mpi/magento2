@@ -101,47 +101,6 @@ class Observer
     }
 
     /**
-     * Mark actions for logging, if required
-     *
-     * @param \Magento\Event\Observer $observer
-     */
-    public function controllerPredispatch($observer)
-    {
-        /* @var $action \Magento\App\Action\Action */
-        $action = $observer->getEvent()->getControllerAction();
-        /* @var $request \Magento\App\RequestInterface */
-        $request = $observer->getEvent()->getRequest();
-
-        $beforeForwardInfo = $request->getBeforeForwardInfo();
-
-        // Always use current action name bc basing on
-        // it we make decision about access granted or denied
-        $actionName = $request->getRequestedActionName();
-
-        if (empty($beforeForwardInfo)) {
-            $fullActionName = $request->getFullActionName();
-        } else {
-            $fullActionName = array($request->getRequestedRouteName());
-
-            if (isset($beforeForwardInfo['controller_name'])) {
-                $fullActionName[] = $beforeForwardInfo['controller_name'];
-            } else {
-                $fullActionName[] = $request->getRequestedControllerName();
-            }
-
-            if (isset($beforeForwardInfo['action_name'])) {
-                $fullActionName[] = $beforeForwardInfo['action_name'];
-            } else {
-                $fullActionName[] = $actionName;
-            }
-
-            $fullActionName = implode('_', $fullActionName);
-        }
-
-        $this->_processor->initAction($fullActionName, $actionName);
-    }
-
-    /**
      * Model after save observer.
      *
      * @param \Magento\Event\Observer

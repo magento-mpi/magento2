@@ -78,6 +78,7 @@ class Edit extends \Magento\Backend\Block\Widget
         $this->setHeaderCss($section->getHeaderCss());
 
         $this->addChild('save_button', 'Magento\Backend\Block\Widget\Button', array(
+            'id' => 'save',
             'label'     => __('Save Config'),
             'class' => 'save primary',
             'data_attribute'  => array(
