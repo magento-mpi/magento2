@@ -82,10 +82,6 @@ class OauthV1 implements OauthV1Interface
 
     /**
      * {@inheritdoc}
-     *
-     * @return \Magento\Integration\Model\Oauth\Consumer
-     * @throws \Magento\Core\Exception
-     * @throws \Magento\Oauth\Exception
      */
     public function createConsumer($consumerData)
     {
@@ -142,10 +138,6 @@ class OauthV1 implements OauthV1Interface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Magento\Oauth\Exception
-     * @throws \Exception
-     * @throws \Magento\Core\Exception
      */
     public function loadConsumer($consumerId)
     {
@@ -160,9 +152,6 @@ class OauthV1 implements OauthV1Interface
 
     /**
      * {@inheritdoc}
-     *
-     * @throws \Magento\Core\Exception
-     * @throws \Magento\Oauth\Exception
      */
     public function postToConsumer($consumerId, $endpointUrl)
     {
