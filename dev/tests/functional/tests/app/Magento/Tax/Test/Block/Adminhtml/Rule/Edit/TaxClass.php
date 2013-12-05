@@ -28,48 +28,35 @@ class TaxClass extends Block
      *
      * @var string
      */
-    private $taxClassRow;
+    protected $taxClassRow = './/label[input[contains(@class, "mselect-checked")]]';
 
     /**
      * Add new tax class button
      *
      * @var string
      */
-    private $addNewTaxClass;
+    protected $addNewTaxClass = '.action-add';
 
     /**
      * Tax class to select
      *
      * @var string
      */
-    private $taxClassItem;
+    protected $taxClassItem = './/*[contains(@class, "mselect-list-item")]//span';
 
     /**
      * New tax class input field
      *
      * @var string
      */
-    private $newTaxClass;
+    protected $newTaxClass = '.mselect-input';
 
     /**
      * Save new tax class
      *
      * @var string
      */
-    private $saveTaxClass;
-
-    /**
-     * Initialize elements in block
-     */
-    protected function _init()
-    {
-        $this->taxClassRow = './/*[contains(@class, "mselect-list-item")]'
-            .' //label[input[contains(@class, "mselect-checked")]]';
-        $this->addNewTaxClass = '.action-add';
-        $this->taxClassItem = './/*[contains(@class, "mselect-list-item")]//span';
-        $this->newTaxClass = '.mselect-input';
-        $this->saveTaxClass = '.mselect-save';
-    }
+    protected $saveTaxClass = '.mselect-save';
 
     /**
      * Select Tax Class in multiselect and create new one if required

@@ -19,7 +19,6 @@ use Magento\Checkout\Test\Fixture\Checkout;
  * Credit Card (Authorize.net)
  * Guest checkout with Authorize.Net payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-12832
  * @package Magento\Checkout\Test\Fixture
  */
 class GuestAuthorizenet extends Checkout
@@ -58,7 +57,7 @@ class GuestAuthorizenet extends Checkout
         $taxRule->persist();
 
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();

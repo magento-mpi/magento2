@@ -541,10 +541,13 @@
         <group name="adminhtml_system_config">
             <label translate="true">System Configuration</label>
             <events>
+                <event controller_action="adminhtml_system_config_index"
+                       action_alias="view"
+                       post_dispatch="postDispatchConfigView" />
                 <event controller_action="adminhtml_system_config_edit"
                        action_alias="view"
                        post_dispatch="postDispatchConfigView" />
-                <event controller_action="adminhtml_system_config_save"
+                <event controller_action="adminhtml_system_config_save_index"
                        action_alias="save"
                        post_dispatch="postDispatchConfigSave">
                     <skip_on_back>

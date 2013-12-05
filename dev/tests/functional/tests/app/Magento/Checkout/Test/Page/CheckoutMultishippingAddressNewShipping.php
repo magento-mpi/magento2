@@ -14,7 +14,6 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Block\Address;
 
 /**
  * Class CheckoutMultishippingAddressNewShipping
@@ -32,10 +31,9 @@ class CheckoutMultishippingAddressNewShipping extends Page
     /**
      * Form for edit customer address
      *
-     * @var Address\Edit
-     * @private
+     * @var string
      */
-    private $addressesEditBlock;
+    protected $editBlock = '#form-validate';
 
     /**
      * Custom constructor
@@ -43,9 +41,6 @@ class CheckoutMultishippingAddressNewShipping extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->addressesEditBlock = Factory::getBlockFactory()->getMagentoCustomerAddressEdit(
-            $this->_browser->find('#form-validate', Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -53,8 +48,10 @@ class CheckoutMultishippingAddressNewShipping extends Page
      *
      * @return \Magento\Customer\Test\Block\Address\Edit
      */
-    public function getAddressesEditBlock()
+    public function getEditBlock()
     {
-        return $this->addressesEditBlock;
+        return Factory::getBlockFactory()->getMagentoCustomerAddressEdit(
+            $this->_browser->find($this->editBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

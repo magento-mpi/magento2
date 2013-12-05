@@ -14,7 +14,6 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Block\Multishipping;
 
 /**
  * Class CheckoutMultishippingShipping
@@ -32,10 +31,9 @@ class CheckoutMultishippingShipping extends Page
     /**
      * Mustishipping checkout shipping
      *
-     * @var Multishipping\Shipping
-     * @private
+     * @var string
      */
-    private $shippingBlock;
+    protected $shippingBlock = '#shipping_method_form';
 
     /**
      * Custom constructor
@@ -43,9 +41,6 @@ class CheckoutMultishippingShipping extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->shippingBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingShipping(
-            $this->_browser->find('#shipping_method_form', Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -55,6 +50,8 @@ class CheckoutMultishippingShipping extends Page
      */
     public function getShippingBlock()
     {
-        return $this->shippingBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingShipping(
+            $this->_browser->find($this->shippingBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

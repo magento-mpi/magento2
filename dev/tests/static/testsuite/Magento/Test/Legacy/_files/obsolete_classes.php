@@ -1674,4 +1674,6 @@ return array(
         'Magento\Adminhtml\Block\Report\Wishlist',
         'Magento\Reports\Block\Adminhtml\Wishlist'
     ),
+    array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
+    array('Magento\Core\Model\Logger', 'Magento\Logger'),
 );
