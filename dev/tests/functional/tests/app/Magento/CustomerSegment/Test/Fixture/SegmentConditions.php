@@ -19,14 +19,15 @@ use Mtf\Fixture\DataFixture;
  *
  * @package Magento\CustomerSegment\Test\Fixture
  */
-class SegmentCondition extends DataFixture {
+class SegmentConditions extends DataFixture
+{
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     protected function _initData()
     {
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCustomerSegmentConditions($this->_dataConfig, $this->_data);
+            ->getMagentoCustomerSegmentSegmentConditions($this->_dataConfig, $this->_data);
 
         //Default data set
         $this->switchData('retailer_condition');

@@ -12,11 +12,14 @@
 
 namespace Magento\CustomerSegment\Test\Page;
 
-use Magento\Backend\Test\Block\CustomerSegment\Actions;
+
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Core\Test\Block\Messages;
-use Magento\CustomerSegment\Test\Block\Backend\CustomerSegmentForm;
-use Magento\CustomerSegment\Test\Block\Backend\MatchedCustomerGrid;
+use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Report\Customer\Segment\Detail\Grid;
+use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
+use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit;
+use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab\Conditions;
+use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
@@ -25,43 +28,50 @@ use Mtf\Page\Page;
  *
  * @package Magento\CustomerSegment\Test\Page
  */
-class CustomerSegmentNew extends Page {
+class CustomerSegmentNew extends Page
+{
     /**
      * URL for new customer segment
      */
-    const MCA = 'admin/customersegment/new';
+    const MCA = 'customersegment/new';
 
     /**
-     * @var CustomerSegmentForm
+     * Form for creation of the segment
+     *
+     * @var string
+     */
+    protected $segmentForm = '[id="page:main-container"]';
+
+    /**
+     * @var Edit
      */
     protected $newCustomerSegmentForm;
 
     /**
-     * @var Messages
+     * Global messages block
+     *
+     * @var string
      */
-    protected $messagesBlock;
+    protected $messagesBlock = '#messages .messages';
+
     /**
      * Custom constructor
      */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->newCustomerSegmentForm = Factory::getBlockFactory()
-            ->getMagentoCustomerSegmentBackendCustomerSegmentForm($this->_browser->find('[id="page:main-container"]')
-        );
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
-        );
     }
 
     /**
      * Get new customer form
      *
-     * @return CustomerSegmentForm
+     * @return Edit
      */
     public function getNewCustomerSegmentForm()
     {
-        return $this->newCustomerSegmentForm;
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentEdit(
+            $this->_browser->find($this->segmentForm, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -71,17 +81,8 @@ class CustomerSegmentNew extends Page {
      */
     public function getMessageBlock()
     {
-        return $this->messagesBlock;
-    }
-
-    /**
-     * Refresh global page message
-     *
-     */
-    public function setMessageBlock()
-    {
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -112,23 +113,23 @@ class CustomerSegmentNew extends Page {
     /**
      * Get add condition block
      *
-     * @return Actions
+     * @return Conditions
      */
     public function getConditions()
     {
-        return Factory::getBlockFactory()->getMagentoBackendCustomerSegmentActions(
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentEditTabConditions(
             $this->_browser->find('#conditions__1__children')
         );
     }
 
     /**
-     * Get add condition block
+     * Get save block
      *
-     * @return Actions
+     * @return Customersegment
      */
     public function getSave()
     {
-        return Factory::getBlockFactory()->getMagentoBackendCustomerSegmentActions(
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegment(
             $this->_browser->find('.page-actions')
         );
     }
@@ -136,11 +137,11 @@ class CustomerSegmentNew extends Page {
     /**
      * Get matched customer grid block
      *
-     * @return MatchedCustomerGrid
+     * @return Grid
      */
     public function getCustomerGridBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendMatchedCustomerGrid(
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlReportCustomerSegmentDetailGrid(
             $this->_browser->find('#segmentGrid')
         );
     }

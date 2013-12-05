@@ -12,8 +12,8 @@
 
 namespace Magento\CustomerSegment\Test\Page;
 
-use Magento\Backend\Test\Block\PageActions;
-use Magento\CustomerSegment\Test\Block\Backend\CustomerSegmentGrid;
+use Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Grid;
+use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
@@ -23,21 +23,24 @@ use Mtf\Page\Page;
  *
  * @package Magento\CustomerSegment\Test\Page
  */
-class CustomerSegment extends Page {
+class CustomersegmentIndex extends Page
+{
     /**
      * URL for customer segment
      */
     const MCA = 'customersegment';
 
     /**
-     * @var CustomerSegmentGrid
+     * @var Grid
      */
     protected $customerSegmentGridBlock;
 
     /**
-     * @var PageActions
+     * 'Add New' segment button
+     *
+     * @var string
      */
-    protected $pageActionsBlock;
+    protected $addNewSegment = "//button[@id='add']";
 
     /**
      * Custom constructor
@@ -45,18 +48,14 @@ class CustomerSegment extends Page {
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->customerGridBlock = Factory::getBlockFactory()->getMagentoCustomerSegmentBackendCustomerSegmentGrid(
-            $this->_browser->find('#customersegmentGrid')
-        );
-        $this->pageActionsBlock = Factory::getBlockFactory()->getMagentoBackendPageActions(
-            $this->_browser->find('.page-actions')
-        );
+        $this->customerGridBlock = Factory::getBlockFactory()->
+            getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentGrid($this->_browser->find('#customersegmentGrid'));
     }
 
     /**
      * Getter for customer segment grid block
      *
-     * @return CustomerSegmentGrid
+     * @return Grid
      */
     public function getCustomerSegmentGridBlock()
     {
@@ -64,12 +63,10 @@ class CustomerSegment extends Page {
     }
 
     /**
-     * Getter for page actions block
-     *
-     * @return PageActions
+     * Add new segment
      */
-    public function getPageActionsBlock()
+    public function addNewSegment()
     {
-        return $this->pageActionsBlock;
+        $this->_browser->find($this->addNewSegment, Locator::SELECTOR_XPATH)->click();
     }
 }

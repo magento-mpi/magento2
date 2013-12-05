@@ -13,8 +13,8 @@ use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 use Magento\Customer\Test\Fixture\Customer;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\CustomerSegment\Test\Fixture\CustomerSegment;
-use Magento\CustomerSegment\Test\Fixture\SegmentCondition;
+use Magento\CustomerSegment\Test\Fixture\SegmentGeneralProperties;
+use Magento\CustomerSegment\Test\Fixture\SegmentConditions;
 
 class SalesRule extends DataFixture
 {
@@ -29,7 +29,7 @@ class SalesRule extends DataFixture
     protected $productFixture;
 
     /**
-     * @var CustomerSegment
+     * @var SegmentGeneralProperties
      */
     protected $customerSegment;
 
@@ -39,7 +39,7 @@ class SalesRule extends DataFixture
     protected $customerSegmentId;
 
     /**
-     * @var SegmentCondition
+     * @var SegmentConditions
      */
     protected $customerSegmentFixture;
 
@@ -81,7 +81,7 @@ class SalesRule extends DataFixture
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->productFixture->persist();
         // Create the customer segment
-        $this->customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentCustomerSegment();
+        $this->customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
         $this->customerSegmentId = Factory::getApp()->magentoCustomerSegmentCustomerSegment(
             $this->customerSegmentFixture
         );
@@ -89,7 +89,7 @@ class SalesRule extends DataFixture
             throw new Exception('No customer segment id returned by customer segment precondition');
         }
         // Create Customer Segment Condition
-        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentCondition();
+        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions();
         $customerSegmentConditionFixture->setPlaceHolders(
             array('segment_id' => $this->customerSegmentId, 'name' => $this->customerSegmentFixture->getSegmentName())
         );

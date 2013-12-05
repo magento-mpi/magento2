@@ -19,13 +19,15 @@ use Mtf\Repository\AbstractRepository;
  *
  * @package Magento\CustomerSegment\Test\Fixture
  */
-class GeneralProperties extends AbstractRepository {
+class SegmentGeneralProperties extends AbstractRepository
+{
     /**
      *  Conditions Tab html Id
      */
     const GENERAL_TAB_ID = 'magento_customersegment_segment_tabs_general_section';
+
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {

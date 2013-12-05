@@ -10,18 +10,17 @@
  * @license     {license_link}
  */
 
-namespace Magento\CustomerSegment\Test\Block\Backend;
+namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
 
 use Mtf\Client\Element\Locator;
-use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
  * Class CustomerGrid
  * Backend customer grid
  *
- * @package Magento\CustomerSegment\Test\Block\Backend
+ * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment
  */
-class CustomerSegmentGrid extends Grid
+class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Initialize block elements

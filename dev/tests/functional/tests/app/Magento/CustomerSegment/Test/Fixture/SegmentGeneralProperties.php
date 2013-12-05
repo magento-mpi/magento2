@@ -19,7 +19,8 @@ use Mtf\Fixture\DataFixture;
  *
  * @package Magento\CustomerSegment\Test\Fixture
  */
-class CustomerSegment extends DataFixture {
+class SegmentGeneralProperties extends DataFixture
+{
     /**
      * Get segment name
      *
@@ -71,12 +72,12 @@ class CustomerSegment extends DataFixture {
     }
 
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     protected function _initData()
     {
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCustomerSegmentGeneralProperties($this->_dataConfig, $this->_data);
+            ->getMagentoCustomerSegmentSegmentGeneralProperties($this->_dataConfig, $this->_data);
 
         //Default data set
         $this->switchData('all_retail_customers');
