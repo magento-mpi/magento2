@@ -46,16 +46,6 @@ class Read implements ReadInterface
     protected $wrapperFactory;
 
     /**
-     * List wrappers that can have file path
-     *
-     * @var array
-     */
-    protected $fileWrappers = array(
-        \Magento\Filesystem::WRAPPER_STREAM_FILE,
-        \Magento\Filesystem::WRAPPER_STREAM_GLOB
-    );
-
-    /**
      * Constructor. Set properties.
      *
      * @param array $config

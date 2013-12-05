@@ -14,27 +14,38 @@ use Magento\Filesystem\FilesystemException;
 class Filesystem
 {
     /**#@+
-     * Remote access wrappers
+     * Directory access wrappers
      */
-    const WRAPPER_DIR_HTTP  = 'http';
-    const WRAPPER_DIR_HTTPS = 'https';
-    const WRAPPER_DIR_FTP   = 'ftp';
-    const WRAPPER_DIR_FTPS  = 'ftps';
-    const WRAPPER_DIR_SSH2  = 'ssh2'; // extra extension
+//    const WRAPPER_FILE = 'local';
+//    const WRAPPER_FTP  = 'ftp';
+//    const WRAPPER_FTPS = 'ftps';
+//    const WRAPPER_SSH2 = 'ssh2';
     /**#@-*/
 
     /**#@+
-     * Local stream wrappers
+     * Remote resource access wrappers
      */
-    const WRAPPER_STREAM_FILE   = 'file';
-    const WRAPPER_STREAM_PHP    = 'php';
-    const WRAPPER_STREAM_ZLIB   = 'compress.zlib';
-    const WRAPPER_STREAM_DATA   = 'data';
-    const WRAPPER_STREAM_GLOB   = 'glob';
-    const WRAPPER_STREAM_PHAR   = 'phar';
-    const WRAPPER_STREAM_RAR    = 'rar'; // extra extension
-    const WRAPPER_STREAM_OGG    = 'ogg'; // extra extension
-    const WRAPPER_STREAM_EXPECT = 'expect'; // extra extension
+//    const WRAPPER_HTTP  = 'http';
+//    const WRAPPER_HTTPS = 'https';
+    /**#@-*/
+
+    /**#@+
+     * Content wrappers
+     */
+    const WRAPPER_CONTENT_ZLIB = 'compress.zlib';
+    const WRAPPER_CONTENT_PHAR = 'phar';
+    const WRAPPER_CONTENT_RAR  = 'rar';
+    const WRAPPER_CONTENT_OGG  = 'ogg';
+    /**#@-*/
+
+    /**#@+
+     * Directories for remote access
+     */
+    const FTP   = 'ftp';
+    const FTPS  = 'ftps';
+    const SSH2  = 'ssh2';
+    const HTTP  = 'http';
+    const HTTPS = 'https';
     /**#@-*/
 
     /**
@@ -144,14 +155,10 @@ class Filesystem
     const UPLOAD = 'upload';
 
     /**
-     * Virtual directory to access files via socket connections (using http or https schemes)
-     */
-    const SOCKET = 'socket';
-
-    /**
      * System base temporary folder
      */
     const SYS_TMP = 'sys_tmp';
+
 
     /**
      * @var \Magento\Filesystem\DirectoryList

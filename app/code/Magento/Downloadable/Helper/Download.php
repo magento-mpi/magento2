@@ -113,7 +113,7 @@ class Download extends \Magento\App\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
-     * Working Directory (Could be MEDIA or SOCKET).
+     * Working Directory (Could be MEDIA or HTTP).
      * @var \Magento\Filesystem\Directory\Read
      */
     protected $_workingDirectory;
@@ -160,12 +160,13 @@ class Download extends \Magento\App\Helper\AbstractHelper
 
         if (is_null($this->_handle)) {
             if ($this->_linkType == self::LINK_TYPE_URL) {
-                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::SOCKET);
+                $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::HTTP);
                 $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile);
             } elseif ($this->_linkType == self::LINK_TYPE_FILE) {
                 $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
                 $fileExists = $this->_downloadableFile->ensureFileInFilesystem($this->_resourceFile);
                 if ($fileExists) {
+                    // @TODO fix -  ???
                     $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile, '???');
                 } else {
                     throw new \Magento\Core\Exception(__('Invalid download link type.'));

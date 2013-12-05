@@ -14,6 +14,7 @@ use Magento\Filesystem\DirectoryList,
     Magento\App\Config,
     Magento\ObjectManager\Factory\Factory,
     Magento\Profiler;
+use Magento\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -69,7 +70,7 @@ class ObjectManagerFactory
         );
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
-            new \Magento\Filesystem\Driver\Base(),
+            new \Magento\Filesystem\Driver\Local(),
             $directories->getDir(\Magento\Filesystem::DI),
             $directories->getDir(\Magento\Filesystem::GENERATION),
             $options->get('definition.format', 'serialized')
@@ -132,10 +133,6 @@ class ObjectManagerFactory
 
         $directoryListConfig = $locator->get('Magento\Filesystem\DirectoryList\Configuration');
         $directoryListConfig->configure($directories);
-
-        /** @var \Magento\Filesystem\Directory\ReadInterface $socketRead */
-        $socketRead = $locator->get('\Magento\Filesystem')->getDirectoryRead('php');
-        $content = $socketRead->readFile('input', 'php');
 
         return $locator;
     }

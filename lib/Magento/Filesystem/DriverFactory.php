@@ -12,10 +12,6 @@ namespace Magento\Filesystem;
 
 class DriverFactory
 {
-    const BASE = 'base';
-
-    const SOCKET = 'socket';
-
     /**
      * @var \Magento\ObjectManager
      */
@@ -41,7 +37,7 @@ class DriverFactory
      * @return \Magento\Filesystem\DriverInterface
      * @throws \Exception
      */
-    public function get($directoryDriverClass = '\Magento\Filesystem\Driver\Base')
+    public function get($directoryDriverClass = '\Magento\Filesystem\Driver\Local')
     {
         $driver = $this->objectManager->get($directoryDriverClass);
         if (!$driver instanceof \Magento\Filesystem\DriverInterface) {

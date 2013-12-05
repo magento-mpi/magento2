@@ -52,7 +52,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 new \Magento\Filesystem\File\Read(
                     $stream,
-                    new \Magento\Filesystem\Driver\Socket()
+                    new \Magento\Filesystem\Driver\Http()
                 )
             ));
         $this->_filesystem->expects($this->any())
@@ -78,7 +78,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 new \Magento\Filesystem\File\Read(
                     __DIR__ . '/_files/test.csv',
-                    new \Magento\Filesystem\Driver\Base()
+                    new \Magento\Filesystem\Driver\Local()
                 )
             ));
         $this->_filesystem->expects($this->any())

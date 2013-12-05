@@ -141,19 +141,34 @@
                         <uri>pub/cache</uri>
                         <permissions>511</permissions>
                     </view_cache>
-                    <socket>
-                        <driver>Magento\Filesystem\Driver\Socket</driver>
-                    </socket>
-                    <php>
-                        <scheme>php</scheme>
-                    </php>
+                    <ftp>
+                        <read_only>0</read_only>
+                        <permissions>511</permissions>
+                        <driver>Magento\Filesystem\Driver\Local</driver>
+                    </ftp>
+                    <ftps>
+                        <read_only>0</read_only>
+                        <permissions>511</permissions>
+                        <driver>Magento\Filesystem\Driver\Local</driver>
+                    </ftps>
+                    <ssh2>
+                        <read_only>0</read_only>
+                        <permissions>511</permissions>
+                        <driver>Magento\Filesystem\Driver\Local</driver>
+                    </ssh2>
+                    <http>
+                        <read_only>1</read_only>
+                        <driver>Magento\Filesystem\Driver\Http</driver>
+                    </http>
+                    <https>
+                        <read_only>1</read_only>
+                        <driver>Magento\Filesystem\Driver\Https</driver>
+                    </https>
                 </directory>
                 <protocol>
-                    <php>
-                        <scheme>php</scheme>
-                        <use_base_path>1</use_base_path>
-                        <class>Magento\Filesystem\Protocol\Php</class>
-                    </php>
+                    <zlib>
+                        <driver>Magento\Filesystem\Driver\Zlib</driver>
+                    </zlib>
                 </protocol>
             </filesystem>
         </system>

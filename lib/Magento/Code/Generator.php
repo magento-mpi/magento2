@@ -56,7 +56,7 @@ class Generator
         $this->_generator   = $generator;
         $this->_autoloader  = $autoloader ? : new \Magento\Autoload\IncludePath();
         $this->_ioObject    = $ioObject ? : new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\Base(), $this->_autoloader);
+            new \Magento\Filesystem\Driver\Local(), $this->_autoloader);
     }
 
     /**
