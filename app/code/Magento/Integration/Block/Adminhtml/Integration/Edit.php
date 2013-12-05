@@ -1,5 +1,7 @@
 <?php
 /**
+ * Integration edit container.
+ *
  * {license_notice}
  *
  * @copyright   {copyright}
@@ -48,7 +50,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         $this->_removeButton('reset');
         $this->_removeButton('delete');
 
-        if ($this->_isNew()) {
+        if ($this->_isNewIntegration()) {
             $this->removeButton('save')->addButton(
                 'save',
                 [
@@ -75,10 +77,11 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
                                         'gridUrl' => $this->getUrl('*/*/'),
                                     ]
                                 ]
+                            ]
                         ]
                     ]
                 ]
-            ]);
+            );
         }
     }
 
@@ -89,7 +92,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     public function getHeaderText()
     {
-        if ($this->_isNew()) {
+        if ($this->_isNewIntegration()) {
             return __('New Integration');
         } else {
             return __(
@@ -114,7 +117,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      *
      * @return bool
      */
-    protected function _isNew()
+    protected function _isNewIntegration()
     {
         return !isset($this->_registry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION)[Info::DATA_ID]);
     }
