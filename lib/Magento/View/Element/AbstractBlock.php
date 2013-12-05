@@ -37,6 +37,11 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_session;
 
     /**
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
      * @var \Magento\TranslateInterface
      */
     protected $_translator;
@@ -59,27 +64,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      * @var \Magento\App\RequestInterface
      */
     protected $_request;
-
-    /**
-     * Messages block instance
-     *
-     * @var \Magento\View\Element\Messages
-     */
-    protected $_messagesBlock;
-
-    /**
-     * Block html frame open tag
-     *
-     * @var string
-     */
-    protected $_frameOpenTag;
-
-    /**
-     * Block html frame close tag
-     *
-     * @var string
-     */
-    protected $_frameCloseTag;
 
     /**
      * Url Builder
@@ -164,6 +148,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_cache           = $context->getCache();
         $this->_design          = $context->getDesignPackage();
         $this->_session         = $context->getSession();
+        $this->_sidResolver     = $context->getSidResolver();
         $this->_storeConfig     = $context->getStoreConfig();
         $this->_frontController = $context->getFrontController();
         $this->_helperFactory   = $context->getHelperFactory();
@@ -589,24 +574,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Specify block output frame tags
-     *
-     * @param $openTag
-     * @param $closeTag
-     * @return \Magento\View\Element\AbstractBlock
-     */
-    public function setFrameTags($openTag, $closeTag = null)
-    {
-        $this->_frameOpenTag = $openTag;
-        if ($closeTag) {
-            $this->_frameCloseTag = $closeTag;
-        } else {
-            $this->_frameCloseTag = '/' . $openTag;
-        }
-        return $this;
-    }
-
-    /**
      * Produce and return block's html output
      *
      * This method should not be overridden. You can override _toHtml() method in descendants if needed.
@@ -619,6 +586,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($this->_storeConfig->getConfig('advanced/modules_disable_output/' . $this->getModuleName())) {
             return '';
         }
+
         $html = $this->_loadCache();
         if ($html === false) {
             if ($this->hasData('translate_inline')) {
@@ -634,13 +602,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
             }
         }
         $html = $this->_afterToHtml($html);
-
-        /**
-         * Check framing options
-         */
-        if ($this->_frameOpenTag) {
-            $html = '<' . $this->_frameOpenTag . '>' . $html . '<' . $this->_frameCloseTag . '>';
-        }
 
         return $html;
     }
@@ -706,30 +667,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Generate base64-encoded url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrlBase64($route = '', $params = array())
-    {
-        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
-    }
-
-    /**
-     * Generate url-encoded url by route and parameters
-     *
-     * @param   string $route
-     * @param   array $params
-     * @return  string
-     */
-    public function getUrlEncoded($route = '', $params = array())
-    {
-        return $this->helper('Magento\Core\Helper\Data')->urlEncode($this->getUrl($route, $params));
-    }
-
-    /**
      * Retrieve url of themes file
      *
      * @param string $file path to file in theme
@@ -758,31 +695,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected function _getNotFoundUrl($route = '', $params = array('_direct' => 'core/index/notfound'))
     {
         return $this->getUrl($route, $params);
-    }
-
-    /**
-     * Retrieve messages block
-     *
-     * @return \Magento\View\Element\Messages
-     */
-    public function getMessagesBlock()
-    {
-        if (is_null($this->_messagesBlock)) {
-            return $this->getLayout()->getMessagesBlock();
-        }
-        return $this->_messagesBlock;
-    }
-
-    /**
-     * Set messages block
-     *
-     * @param   \Magento\View\Element\Messages $block
-     * @return  \Magento\View\Element\AbstractBlock
-     */
-    public function setMessagesBlock(\Magento\View\Element\Messages $block)
-    {
-        $this->_messagesBlock = $block;
-        return $this;
     }
 
     /**
@@ -965,7 +877,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @return array
      */
-    public function getCacheTags()
+    protected function getCacheTags()
     {
         if (!$this->hasData('cache_tags')) {
             $tags = array();
@@ -981,7 +893,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
      *
      * @return int
      */
-    public function getCacheLifetime()
+    protected function getCacheLifetime()
     {
         if (!$this->hasData('cache_lifetime')) {
             return null;
@@ -1004,7 +916,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         if ($cacheData) {
             $cacheData = str_replace(
                 $this->_getSidPlaceholder($cacheKey),
-                $this->_session->getSessionIdQueryParam() . '=' . $this->_session->getEncryptedSessionId(),
+                $this->_sidResolver->getSessionIdQueryParam($this->_session) . '=' . $this->_session->getSessionId(),
                 $cacheData
             );
         }
@@ -1024,7 +936,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         }
         $cacheKey = $this->getCacheKey();
         $data = str_replace(
-            $this->_session->getSessionIdQueryParam() . '=' . $this->_session->getEncryptedSessionId(),
+            $this->_sidResolver->getSessionIdQueryParam($this->_session) . '=' . $this->_session->getSessionId(),
             $this->_getSidPlaceholder($cacheKey),
             $data
         );

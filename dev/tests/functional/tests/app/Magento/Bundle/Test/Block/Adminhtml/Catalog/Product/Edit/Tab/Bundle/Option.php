@@ -15,98 +15,74 @@ use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection;
-use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid;
 
 /**
  * Class Option
  * Bundle options
- *
- * @package Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle
  */
 class Option extends Block
 {
     /**
      * Grid to assign products to bundle option
      *
-     * @var Grid
+     * @var string
      */
-    private $searchGridBlock;
+    protected $searchGridBlock = '[role=dialog][style*="display: block;"]';
 
     /**
      * Added product row
      *
-     * @var Selection
+     * @var string
      */
-    private $selectionBlock;
+    protected $selectionBlock = '#bundle_selection_row';
 
     /**
      * 'Add Products to Option' button
      *
      * @var string
      */
-    private $addProducts;
+    protected $addProducts = '[data-ui-id$=add-selection-button]';
 
     /**
      * Bundle option toggle
+     *
+     * @var string
      */
-    private $optionToggle;
+    protected $optionToggle = '[data-target$=content]';
 
     /**
      * Bundle option title
      *
      * @var string
      */
-    private $title;
+    protected $title = '[name$="[title]"]';
 
     /**
      * Bundle option type
      *
      * @var string
      */
-    private $type;
+    protected $type = '[name$="[type]"]';
 
     /**
      * Determine whether bundle options is require to fill
      *
      * @var string
      */
-    private $required;
-
-    /**
-     * Counter for bundle options
-     *
-     * @var int
-     */
-    private $blockNumber = 0;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->optionToggle = '[data-target="#bundle_option_' . $this->blockNumber . '-content"]';
-        $this->title = '#id_bundle_options_' . $this->blockNumber . '_title';
-        $this->type = '#bundle_option_' . $this->blockNumber . '_type';
-        $this->required = '#bundle_option_' . $this->blockNumber . ' #field-option-req';
-        $this->addProducts = '#bundle_option_' . $this->blockNumber . '_add_button';
-    }
+    protected $required = '#field-option-req';
 
     /**
      * Get grid for assigning products for bundle option
      *
      * @param Element $context
-     * @return Grid
+     * @return \Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Search\Grid
      */
-    private function getSearchGridBlock(Element $context = null)
+    protected function getSearchGridBlock(Element $context = null)
     {
         $element = $context ? $context : $this->_rootElement;
-        $this->searchGridBlock = Factory::getBlockFactory()
-            ->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSearchGrid(
-                $element->find('[role=dialog][style*="display: block;"]')
-            );
-        return $this->searchGridBlock;
+        return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSearchGrid(
+            $element->find($this->searchGridBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -114,16 +90,14 @@ class Option extends Block
      *
      * @param int $rowNumber
      * @param Element $context
-     * @return Selection
+     * @return \Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option\Selection
      */
-    private function getSelectionBlock($rowNumber, Element $context = null)
+    protected function getSelectionBlock($rowNumber, Element $context = null)
     {
-        $element = $context ?: $this->_rootElement;
-        $this->selectionBlock = Factory::getBlockFactory()
-            ->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSelection(
-                $element->find('#bundle_option_' . $this->blockNumber . ' #bundle_selection_row_' . $rowNumber)
-            );
-        return $this->selectionBlock;
+        $element = $context ? $context : $this->_rootElement;
+        return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSelection(
+            $element->find($this->selectionBlock . '_' . $rowNumber)
+        );
     }
 
     /**

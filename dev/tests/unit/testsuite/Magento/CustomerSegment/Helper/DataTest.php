@@ -28,11 +28,11 @@ class DataTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_sessionMock;
+    private $_formKeyMock;
 
     protected function setUp()
     {
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
         $translate = function (array $args) {
             return reset($args);
         };
@@ -152,9 +152,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
         $form = new \Magento\Data\Form(
-            $this->_sessionMock,
             $factory,
             $collectionFactory,
+            $this->_formKeyMock,
             array('html_id_prefix' => 'pfx_')
         );
         $data = new \Magento\Object();

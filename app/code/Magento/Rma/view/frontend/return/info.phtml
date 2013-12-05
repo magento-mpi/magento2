@@ -12,7 +12,7 @@
     <h1 class="title"><?php echo __('Order #%1 - %2', $_order->getRealOrderId(), $_order->getStatusLabel()) ?></h1>
     <div class="order toolbar"><div class="actions"><?php echo $this->getChildHtml('buttons') ?></div></div>
 </div>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
 <?php echo $this->getStatusHistoryRssUrl($_order) ?>
 <dl class="order info">
     <dt><?php echo __('About This Order:') ?></dt>

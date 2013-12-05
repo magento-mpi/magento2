@@ -64,16 +64,6 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     }
 
     /**
-     * Create message block
-     *
-     * @return \Magento\View\Element\AbstractBlock
-     */
-    public function getMessagesBlock()
-    {
-        return $this->getLayout()->getBlock('messages');
-    }
-
-    /**
      * Add form submission url
      *
      * @return string

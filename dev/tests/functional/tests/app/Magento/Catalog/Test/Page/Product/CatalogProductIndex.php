@@ -14,9 +14,6 @@ namespace Magento\Catalog\Test\Page\Product;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
-use Magento\Backend\Test\Block\Catalog\Product;
-use Magento\Catalog\Test\Block\Backend\ProductGrid;
 
 /**
  * Class CatalogProductIndex
@@ -34,23 +31,23 @@ class CatalogProductIndex extends Page
     /**
      * Catalog product grid on backend
      *
-     * @var ProductGrid
+     * @var string
      */
-    private $backendProductGrid;
+    protected $backendProductGrid = '#productGrid';
 
     /**
      * Global page messages block
      *
-     * @var Messages
+     * @var string
      */
-    private $messageBlock;
+    protected $messageBlock = '#messages';
 
     /**
      * Add product block
      *
-     * @var Product
+     * @var string
      */
-    private $productBlock;
+    protected $productBlock = '#add_new_product';
 
     /**
      * Custom constructor
@@ -58,45 +55,41 @@ class CatalogProductIndex extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->backendProductGrid = Factory::getBlockFactory()->getMagentoCatalogBackendProductGrid(
-            $this->_browser->find('productGrid', Locator::SELECTOR_ID)
-        );
-        $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('messages', Locator::SELECTOR_ID)
-        );
-        $this->productBlock = Factory::getBlockFactory()->getMagentoBackendCatalogProduct(
-            $this->_browser->find('add_new_product', Locator::SELECTOR_ID)
-        );
     }
 
     /**
      * Get the backend catalog product block
      *
-     * @return ProductGrid
+     * @return \Magento\Catalog\Test\Block\Backend\ProductGrid
      */
     public function getProductGrid()
     {
-        return $this->backendProductGrid;
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductGrid(
+            $this->_browser->find($this->backendProductGrid, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get page messages block
      *
-     * @return Messages
+     * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessageBlock()
     {
-        return $this->messageBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get add product block
      *
-     * @return Product
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product
      */
     public function getProductBlock()
     {
-        return $this->productBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProduct(
+            $this->_browser->find($this->productBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

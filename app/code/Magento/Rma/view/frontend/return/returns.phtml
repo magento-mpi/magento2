@@ -16,7 +16,7 @@
         <?php echo $this->getPagerHtml(); ?>
     </div>
     <div class="title"><span><?php echo __('My Returns') ?></span></div>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
     <?php echo $this->getChildHtml('info');?>
     <table class="data table returns items" id="my-returns-table">
         <thead>

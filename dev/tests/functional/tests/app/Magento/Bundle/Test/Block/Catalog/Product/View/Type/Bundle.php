@@ -14,7 +14,6 @@ namespace Magento\Bundle\Test\Block\Catalog\Product\View\Type;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
-use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
 use Magento\Catalog\Test\Block\Product\View\Options;
 
 /**

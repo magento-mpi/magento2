@@ -462,49 +462,12 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertNull($parent->getChildData('unknown_block'));
     }
 
-    public function testSetFrameTags()
-    {
-        $block = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Text');
-        $block->setText('text');
-
-        $block->setFrameTags('p');
-        $this->assertEquals('<p>text</p>', $block->toHtml());
-
-        $block->setFrameTags('p class="note"', '/p');
-        $this->assertEquals('<p class="note">text</p>', $block->toHtml());
-
-        $block->setFrameTags('non-wellformed tag', 'closing tag');
-        $this->assertEquals('<non-wellformed tag>text<closing tag>', $block->toHtml());
-    }
-
     public function testGetUrl()
     {
         $base = 'http://localhost/index.php/';
         $withRoute = "{$base}catalog/product/view/id/10/";
         $this->assertEquals($base, $this->_block->getUrl());
         $this->assertEquals($withRoute, $this->_block->getUrl('catalog/product/view', array('id' => 10)));
-    }
-
-    /**
-     * @covers \Magento\View\Element\AbstractBlock::getUrlBase64
-     * @covers \Magento\View\Element\AbstractBlock::getUrlEncoded
-     */
-    public function testGetUrlBase64()
-    {
-        foreach (array('getUrlBase64', 'getUrlEncoded') as $method) {
-            $base = 'http://localhost/index.php/';
-            $withRoute = "{$base}catalog/product/view/id/10/";
-
-            $encoded = $this->_block->$method();
-            $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Helper\Data')
-                ->urlDecode($encoded), $base);
-            $encoded = $this->_block->$method('catalog/product/view', array('id' => 10));
-            $this->assertEquals(\Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->get('Magento\Core\Helper\Data')
-                ->urlDecode($encoded), $withRoute);
-        }
     }
 
     /**
@@ -525,21 +488,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         $this->assertStringEndsWith(
             '/core/index/notfound', $this->_block->getViewFileUrl('not_exist_folder/wrong_bad_file.xyz')
         );
-    }
-
-    public function testGetSetMessagesBlock()
-    {
-        // Get one from layout
-        $this->_block->setLayout(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-        );
-        $this->assertInstanceOf('Magento\View\Element\Messages', $this->_block->getMessagesBlock());
-
-        // Set explicitly
-        $messages = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface')
-            ->createBlock('Magento\View\Element\Messages');
-        $this->_block->setMessagesBlock($messages);
-        $this->assertSame($messages, $this->_block->getMessagesBlock());
     }
 
     public function testHelper()
@@ -647,24 +595,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
 
         $block->setCacheKey('key');
         $this->assertEquals('key', $block->getCacheKey());
-    }
-
-    public function testGetCacheTags()
-    {
-        $this->assertContains(\Magento\View\Element\AbstractBlock::CACHE_GROUP, $this->_block->getCacheTags());
-
-        $this->_block->setCacheTags(array('one', 'two'));
-        $tags = $this->_block->getCacheTags();
-        $this->assertContains(\Magento\View\Element\AbstractBlock::CACHE_GROUP, $tags);
-        $this->assertContains('one', $tags);
-        $this->assertContains('two', $tags);
-    }
-
-    public function testGetCacheLifetime()
-    {
-        $this->assertNull($this->_block->getCacheLifetime());
-        $this->_block->setCacheLifetime(1800);
-        $this->assertEquals(1800, $this->_block->getCacheLifetime());
     }
 
     /**

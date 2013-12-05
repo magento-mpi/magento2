@@ -29,6 +29,20 @@ class CheckoutOnepageSuccess extends Page
     const MCA = 'checkout/onepage/success';
 
     /**
+     * One page checkout success block
+     *
+     * @var string
+     */
+    protected $successBlock = '//div[contains(@class, "column main")]';
+
+    /**
+     * Page title block
+     *
+     * @var string
+     */
+    protected $titleBlock = '.page.title';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -44,7 +58,7 @@ class CheckoutOnepageSuccess extends Page
     public function getSuccessBlock()
     {
         return Factory::getBlockFactory()->getMagentoCheckoutOnepageSuccess(
-            $this->_browser->find('//div[contains(@class, "column main")]', Locator::SELECTOR_XPATH)
+            $this->_browser->find($this->successBlock, Locator::SELECTOR_XPATH)
         );
     }
 
@@ -56,7 +70,7 @@ class CheckoutOnepageSuccess extends Page
     public function getTitleBlock()
     {
         return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
-            $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
+            $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
         );
     }
 }

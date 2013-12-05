@@ -180,11 +180,12 @@ class Links
     public function getAddButtonHtml()
     {
         $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
-            ->setData(array(
+            ->setData([
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
-                'class' => 'add'
-        ));
+                'class' => 'add',
+                'data_attribute' => ['action' => 'add-link'],
+            ]);
         return $addButton->toHtml();
     }
 

@@ -31,7 +31,7 @@ class Order extends DataFixture
     /**
      * Products for order
      *
-     * @var \Magento\Catalog\Test\Fixture\Product[]
+     * @var \Magento\Catalog\Test\Fixture\SimpleProduct[]
      */
     protected $products = array();
 
@@ -97,7 +97,7 @@ class Order extends DataFixture
         $taxRule->switchData('custom_rule');
         $taxRule->persist();
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
 
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
@@ -126,7 +126,7 @@ class Order extends DataFixture
     /**
      * Get product which should be added to order
      *
-     * @return \Magento\Catalog\Test\Fixture\Product
+     * @return \Magento\Catalog\Test\Fixture\SimpleProduct
      */
     public function getProducts()
     {

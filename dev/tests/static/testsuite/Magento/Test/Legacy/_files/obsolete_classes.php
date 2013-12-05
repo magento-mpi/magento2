@@ -1673,6 +1673,8 @@ return array(
         'Magento\Adminhtml\Block\Report\Wishlist',
         'Magento\Reports\Block\Adminhtml\Wishlist'
     ),
+    array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
+    array('Magento\Core\Model\Logger', 'Magento\Logger'),
     array('Magento\Core\Block\Template\Context', 'Magento\View\Element\Template\Context'),
     array('Magento\Page\Block\Template\Container'),
     array('Magento\Page\Block\Redirect', 'Magento\View\Element\Redirect'),
