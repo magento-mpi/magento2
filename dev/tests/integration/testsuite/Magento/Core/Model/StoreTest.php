@@ -187,15 +187,15 @@ class StoreTest extends \PHPUnit_Framework_TestCase
         $this->_model->load('default');
 
         $this->assertEquals(
-            'http://localhost/static/',
+            'http://localhost/pub/static/',
             $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_STATIC)
         );
         $this->assertEquals(
-            'http://localhost/lib/',
+            'http://localhost/pub/lib/',
             $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_LIB)
         );
         $this->assertEquals(
-            'http://localhost/media/',
+            'http://localhost/pub/media/',
             $this->_model->getBaseUrl(\Magento\Core\Model\Store::URL_TYPE_MEDIA)
         );
     }
