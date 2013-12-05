@@ -136,7 +136,7 @@ class Cart
                     ? $this->_storeConfig->getConfig('sales/minimum_order/description')
                     : __('Minimum order amount is %1', $minimumAmount);
 
-                $cart->getCheckoutSession()->addNotice($warning);
+                $cart->messageManager->addNotice($warning);
             }
         }
 
@@ -150,7 +150,7 @@ class Cart
                 $messages[] = $message;
             }
         }
-        $cart->getCheckoutSession()->addUniqueMessages($messages);
+        $cart->messageManager->addUniqueMessages($messages);
 
         /**
          * if customer enteres shopping cart we should mark quote

@@ -188,11 +188,11 @@ class Cart
 
             $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender($id, $this, $params);
         } catch (\Magento\Core\Exception $e) {
-            $this->_getCustomerSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
             return;
         } catch (\Exception $e) {
-            $this->_getCustomerSession()->addError(__('You cannot configure a product.'));
+            $this->messageManager->addError(__('You cannot configure a product.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('*');
             return;

@@ -131,7 +131,7 @@ class Index extends \Magento\App\Action\Action
             }
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\GiftRegistry\Model\Entity::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
-                $this->_getCheckoutSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl('*/*'));
             } else {
                 $this->messageManager->addError($e->getMessage());

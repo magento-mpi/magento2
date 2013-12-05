@@ -49,11 +49,6 @@ class Account extends \Magento\App\Action\Action
     protected $_customerSession;
 
     /**
-     * @var \Magento\Message\Manager
-     */
-    protected $messageManager;
-
-    /**
      * @var \Magento\Core\Model\UrlFactory
      */
     protected $_urlFactory;
@@ -89,7 +84,6 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Message\Manager $messageManager
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Customer\Model\FormFactory $formFactory
@@ -102,7 +96,6 @@ class Account extends \Magento\App\Action\Action
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Message\Manager $messageManager,
         \Magento\Core\Model\UrlFactory $urlFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Customer\Model\FormFactory $formFactory,
@@ -114,7 +107,6 @@ class Account extends \Magento\App\Action\Action
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
-        $this->messageManager = $messageManager;
         $this->_urlFactory = $urlFactory;
         $this->_customerFactory = $customerFactory;
         $this->_formFactory = $formFactory;

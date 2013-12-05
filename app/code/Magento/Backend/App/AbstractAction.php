@@ -52,11 +52,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     protected $_session;
 
     /**
-     * @var \Magento\Message\Manager
-     */
-    protected $messageManager;
-
-    /**
      * @var \Magento\AuthorizationInterface
      */
     protected $_authorization;
@@ -106,7 +101,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         $this->_locale = $context->getLocale();
         $this->_canUseBaseUrl = $context->getCanUseBaseUrl();
         $this->_session = $context->getSession();
-        $this->messageManager = $context->getMessageManager();
     }
 
     protected function _isAllowed()

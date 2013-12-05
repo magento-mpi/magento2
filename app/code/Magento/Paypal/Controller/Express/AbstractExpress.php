@@ -161,9 +161,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getCheckoutSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getCheckoutSession()->addError(__('We can\'t start Express Checkout.'));
+            $this->messageManager->addError(__('We can\'t start Express Checkout.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
@@ -207,12 +207,12 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->addSuccess(__('Express Checkout and Order have been canceled.'))
                 ;
             } else {
-                $this->_getCheckoutSession()->addSuccess(__('Express Checkout has been canceled.'));
+                $this->messageManager->addSuccess(__('Express Checkout has been canceled.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getCheckoutSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getCheckoutSession()->addError(__('Unable to cancel Express Checkout'));
+            $this->messageManager->addError(__('Unable to cancel Express Checkout'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 
@@ -230,9 +230,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_redirect('*/*/review');
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_checkoutSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_checkoutSession->addError(__('We can\'t process Express Checkout approval.'));
+            $this->messageManager->addError(__('We can\'t process Express Checkout approval.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('checkout/cart');
@@ -257,9 +257,9 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_checkoutSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_checkoutSession->addError(
+            $this->messageManager->addError(
                 __('We can\'t initialize Express Checkout review.')
             );
             $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -386,22 +386,21 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
             $this->_checkout->place($this->_initToken());
 
             // prepare session to success or cancellation page
-            $session = $this->_getCheckoutSession();
-            $session->clearHelperData();
+            $this->_getCheckoutSession()->clearHelperData();
 
             // "last successful quote"
             $quoteId = $this->_getQuote()->getId();
-            $session->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
+            $this->_getCheckoutSession()->setLastQuoteId($quoteId)->setLastSuccessQuoteId($quoteId);
 
             // an order may be created
             $order = $this->_checkout->getOrder();
             if ($order) {
-                $session->setLastOrderId($order->getId())
+                $this->_getCheckoutSession()->setLastOrderId($order->getId())
                     ->setLastRealOrderId($order->getIncrementId());
                 // as well a billing agreement can be created
                 $agreement = $this->_checkout->getBillingAgreement();
                 if ($agreement) {
-                    $session->setLastBillingAgreementId($agreement->getId());
+                    $this->_getCheckoutSession()->setLastBillingAgreementId($agreement->getId());
                 }
             }
 
@@ -412,7 +411,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                 foreach ($profiles as $profile) {
                     $ids[] = $profile->getId();
                 }
-                $session->setLastRecurringProfileIds($ids);
+                $this->_getCheckoutSession()->setLastRecurringProfileIds($ids);
             }
 
             // redirect if PayPal specified some URL (for example, to Giropay bank)

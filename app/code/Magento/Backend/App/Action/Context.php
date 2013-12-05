@@ -61,21 +61,16 @@ class Context extends \Magento\App\Action\Context
     protected $_session;
 
     /**
-     * @var \Magento\Message\Manager
-     */
-    protected $messageManager;
-
-    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Backend\Model\Session $session
-     * @param \Magento\Message\Manager $messageManager
      * @param \Magento\UrlInterface $url
      * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Message\Manager $messageManager
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Helper\Data $helper
@@ -91,11 +86,11 @@ class Context extends \Magento\App\Action\Context
         \Magento\ObjectManager $objectManager,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Backend\Model\Session $session,
-        \Magento\Message\Manager $messageManager,
         \Magento\UrlInterface $url,
         \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\App\ViewInterface $view,
+        \Magento\Message\Manager $messageManager,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Helper\Data $helper,
@@ -113,10 +108,10 @@ class Context extends \Magento\App\Action\Context
             $url,
             $redirect,
             $actionFlag,
-            $view
+            $view,
+            $messageManager
         );
         $this->_session = $session;
-        $this->messageManager = $messageManager;
         $this->_authorization = $authorization;
         $this->_auth = $auth;
         $this->_helper = $helper;
@@ -197,13 +192,5 @@ class Context extends \Magento\App\Action\Context
     public function getSession()
     {
         return $this->_session;
-    }
-
-    /**
-     * @return \Magento\Message\Manager
-     */
-    public function getMessageManager()
-    {
-        return $this->messageManager;
     }
 }

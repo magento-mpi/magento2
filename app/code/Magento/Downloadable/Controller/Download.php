@@ -131,7 +131,7 @@ class Download extends \Magento\App\Action\Action
                 $this->_processDownload($resource, $resourceType);
                 exit(0);
             } catch (\Magento\Core\Exception $e) {
-                $this->_getCustomerSession()->addError(__('Sorry, there was an error getting requested content. Please contact the store owner.'));
+                $this->messageManager->addError(__('Sorry, there was an error getting requested content. Please contact the store owner.'));
             }
         }
         return $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
