@@ -57,13 +57,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_customer;
 
     /**
-     * List of result errors
-     *
-     * @var array
-     */
-    protected $_resultErrors = array();
-
-    /**
      * List of currently affected items skus
      *
      * @var array
@@ -176,6 +169,11 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     protected $_itemFailedStatus;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Checkout\Model\Cart $cart
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Message\Factory $messageFactory
@@ -189,6 +187,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Message\Manager $messageManager
      * @param string $itemFailedStatus
      * @param array $data
      */
@@ -206,6 +205,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Message\Manager $messageManager,
         $itemFailedStatus = \Magento\AdvancedCheckout\Helper\Data::ADD_ITEM_STATUS_FAILED_SKU,
         array $data = array()
     ) {
@@ -223,6 +223,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
         $this->_storeManager = $storeManager;
         $this->_locale = $locale;
         $this->_itemFailedStatus = $itemFailedStatus;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -526,44 +527,6 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
     }
 
     /**
-     * Adds error of operation either to internal array or directly to session (if set)
-     *
-     * @param string $message
-     * @return \Magento\AdvancedCheckout\Model\Cart
-     */
-    protected function _addResultError($message)
-    {
-        $session = $this->getSession();
-        if ($session) {
-            $session->addError($message);
-        } else {
-            $this->_resultErrors[] = $message;
-        }
-        return $this;
-    }
-
-    /**
-     * Returns array of errors encountered during previous operations
-     *
-     * @return array
-     */
-    protected function getResultErrors()
-    {
-        return $this->_resultErrors;
-    }
-
-    /**
-     * Clears array of operation errors, so caller will get only errors related to last operation
-     *
-     * @return \Magento\AdvancedCheckout\Model\Cart
-     */
-    protected function clearResultErrors()
-    {
-        $this->_resultErrors = array();
-        return $this;
-    }
-
-    /**
      * Add multiple products to current order quote.
      * Errors can be received via getResultErrors() or directly into session if it was set via setSession().
      *
@@ -577,7 +540,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
             try {
                 $this->addProduct($productId, $config);
             } catch (\Magento\Core\Exception $e) {
-                $this->_addResultError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 return $e;
             }
@@ -670,7 +633,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                     }
                 }
                 if (!$wishlist) {
-                    $this->_addResultError(__("We couldn't find this wish list."));
+                    $this->messageManager->addError(__("We couldn't find this wish list."));
                     return $this;
                 }
                 $wishlist->setStore($this->getStore())
@@ -678,7 +641,7 @@ class Cart extends \Magento\Object implements \Magento\Checkout\Model\Cart\CartI
                 if ($wishlist->getId() && $item->getProduct()->isVisibleInSiteVisibility()) {
                     $wishlistItem = $wishlist->addNewItem($item->getProduct(), $item->getBuyRequest());
                     if (is_string($wishlistItem)) {
-                        $this->_addResultError($wishlistItem);
+                        $this->messageManager->addError($wishlistItem);
                     } else if ($wishlistItem->getId()) {
                         $this->getQuote()->removeItem($item->getId());
                     }

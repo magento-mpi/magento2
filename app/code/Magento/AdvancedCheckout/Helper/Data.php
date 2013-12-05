@@ -177,6 +177,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_storeManager = null;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\AdvancedCheckout\Model\Cart $cart
      * @param \Magento\AdvancedCheckout\Model\Resource\Product\Collection $products
@@ -194,6 +199,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Message\Manager $messageManager
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -212,7 +218,8 @@ class Data extends \Magento\App\Helper\AbstractHelper
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Message\Manager $messageManager
     ) {
         $this->_cart = $cart;
         $this->_products = $products;
@@ -231,6 +238,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $this->_productFactory = $productFactory;
         $this->_quoteItemFactory = $quoteItemFactory;
         $this->_storeManager = $storeManager;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -472,10 +480,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
     /**
      * Process SKU file uploading and get uploaded data
      *
-     * @param \Magento\Core\Model\Session\AbstractSession|null $session
      * @return array|bool
      */
-    public function processSkuFileUploading($session)
+    public function processSkuFileUploading()
     {
         $importModel = $this->_importFactory->create();
         try {
@@ -486,13 +493,9 @@ class Data extends \Magento\App\Helper\AbstractHelper
             }
             return $rows;
         } catch (\Magento\Core\Exception $e) {
-            if (!is_null($session)) {
-                $session->addError($e->getMessage());
-            }
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            if (!is_null($session)) {
-                $session->addException($e, $this->getFileGeneralErrorText());
-            }
+            $this->messageManager->addException($e, $this->getFileGeneralErrorText());
         }
     }
 

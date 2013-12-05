@@ -205,16 +205,15 @@ class Urlrewrite extends \Magento\Backend\App\Action
 
                 $this->_onUrlRewriteSaveAfter($model);
 
-                $session->addSuccess(__('The URL Rewrite has been saved.'));
+                $this->messageManager->addSuccess(__('The URL Rewrite has been saved.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $session->addError($e->getMessage())
-                    ->setUrlrewriteData($data);
+                $this->messageManager->addError($e->getMessage());
+                $session->setUrlrewriteData($data);
             } catch (\Exception $e) {
-                $session->addException($e,
-                    __('An error occurred while saving URL Rewrite.'))
-                    ->setUrlrewriteData($data);
+                $this->messageManager->addException($e, __('An error occurred while saving URL Rewrite.'));
+                $session->setUrlrewriteData($data);
             }
         }
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));

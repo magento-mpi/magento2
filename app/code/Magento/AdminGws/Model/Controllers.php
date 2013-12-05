@@ -77,6 +77,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_actionFlag;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Session $backendSession
      * @param Resource\CollectionsFactory $collectionsFactory
@@ -88,6 +93,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Message\Manager $messageManager
      */
     public function __construct(
         \Magento\Backend\Model\Url $backendUrl,
@@ -100,7 +106,8 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\ObjectManager $objectManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ResponseInterface $response,
-        \Magento\App\ActionFlag $actionFlag
+        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Message\Manager $messageManager
     ) {
         $this->_registry = $registry;
         $this->_backendUrl = $backendUrl;
@@ -112,6 +119,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         $this->_request = $request;
         $this->_storeManager = $storeManager;
         $this->_response = $response;
+        $this->messageManager = $messageManager;
         parent::__construct($role);
     }
 
@@ -959,7 +967,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         if (!empty($productNotExclusiveIds)) {
             $productNotExclusiveIds = implode(', ', $productNotExclusiveIds);
             $message = __('You need more permissions to delete this item(s): %1.', $productNotExclusiveIds);
-            $this->_backendSession->addError($message);
+            $this->messageManager->addError($message);
         }
 
         $this->_request->setParam('product', $productExclusiveIds);
