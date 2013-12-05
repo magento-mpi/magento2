@@ -17,7 +17,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Login
- * One page checkout status
+ * One page checkout status login block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -38,42 +38,42 @@ class Login extends Form
      *
      * @var string
      */
-    private $email = '[id="login-email"]';
+    protected $email = '[id="login-email"]';
 
     /**
      * Password field
      *
      * @var string
      */
-    private $password = '[id="login-password"]';
+    protected $password = '[id="login-password"]';
 
     /**
      * Login button
      *
      * @var string
      */
-    private $login = '[data-action=checkout-method-login]';
+    protected $login = '[data-action=checkout-method-login]';
 
     /**
      * Continue checkout button
      *
      * @var string
      */
-    private $continue = '#onepage-guest-register-button';
+    protected $continue = '#onepage-guest-register-button';
 
     /**
      * 'Checkout as Guest' radio button
      *
      * @var string
      */
-    private $guestCheckout = '[id="login:guest"]';
+    protected $guestCheckout = '[id="login:guest"]';
 
     /**
      * 'Register' radio button
      *
      * @var string
      */
-    private $registerCustomer = '[id="login:register"]';
+    protected $registerCustomer = '[id="login:register"]';
 
     /**
      * Select how to perform checkout whether guest or registered customer

@@ -14,7 +14,6 @@ namespace Magento\CatalogSearch\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Block\Product\ListProduct;
 
 /**
  * Class CatalogsearchResult
@@ -30,18 +29,11 @@ class CatalogsearchResult extends Page
     const MCA = 'catalogsearch/result';
 
     /**
-     * Css selector for products grid container
+     * List of results of product search
      *
      * @var string
      */
-    protected $productsGridSelector = '.search.results';
-
-    /**
-     * List of results of product search
-     *
-     * @var ListProduct
-     */
-    private $listProductBlock;
+    protected $listProductBlock = '.search.results';
 
     /**
      * Custom constructor
@@ -49,9 +41,6 @@ class CatalogsearchResult extends Page
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->listProductBlock = Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
-            $this->_browser->find($this->productsGridSelector, Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -61,6 +50,8 @@ class CatalogsearchResult extends Page
      */
     public function getListProductBlock()
     {
-        return $this->listProductBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
+            $this->_browser->find($this->listProductBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

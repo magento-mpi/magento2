@@ -13,7 +13,6 @@
 namespace Magento\Customer\Test\Block\Account\Dashboard;
 
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
 
 /**
  * Customer Dashboard Address Book block
@@ -27,16 +26,7 @@ class Address extends Block
      *
      * @var string
      */
-    private $defaultBillingAddressEdit;
-
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->defaultBillingAddressEdit = '[data-ui-id=default-billing-edit-link]';
-    }
+    protected $defaultBillingAddressEdit = '[data-ui-id=default-billing-edit-link]';
 
     /**
      * Edit Default Billing Address

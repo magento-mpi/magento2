@@ -37,11 +37,11 @@ class LoginUser extends Ui
         }
 
         $loginPage = Factory::getPageFactory()->getAdminAuthLogin();
-        $loginForm = $loginPage->getLoginBlockForm();
+        $loginForm = $loginPage->getLoginBlock();
 
         $loginPage->open();
 
-        $adminHeaderPanel = $loginPage->getHeaderPanelBlock();
+        $adminHeaderPanel = $loginPage->getHeaderBlock();
         if (!$adminHeaderPanel || !($adminHeaderPanel->isVisible())) {
             $loginForm->fill($fixture);
             $loginForm->submit();

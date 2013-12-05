@@ -38,7 +38,7 @@ class Product extends DataFixture
     const DEFAULT_ATTRIBUTE_SET_ID  = 4;
 
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     protected function _initData()
     {

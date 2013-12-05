@@ -27,46 +27,22 @@ class Form extends BlockForm
      *
      * @var string
      */
-    protected $submitButtonSelector = '.action.submit';
-
-    /**
-     * Nickname selector
-     *
-     * @var string
-     */
-    protected $nicknameSelector = '#nickname_field';
-
-    /**
-     * Title selector
-     *
-     * @var string
-     */
-    protected $titleSelector = '#summary_field';
-
-    /**
-     * Detail selector
-     *
-     * @var string
-     */
-    protected $detailSelector = '#review_field';
+    protected $submitButton = '.action.submit';
 
     /**
      * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'nickname' => $this->nicknameSelector,
-            'title' => $this->titleSelector,
-            'detail' => $this->detailSelector,
-        );
-    }
+    protected $_mapping = array(
+        'nickname' => '#nickname_field',
+        'title' => '#summary_field',
+        'detail' => '#review_field',
+    );
 
     /**
      * Submit review form
      */
     public function submit()
     {
-        $this->_rootElement->find($this->submitButtonSelector, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->submitButton, Locator::SELECTOR_CSS)->click();
     }
 }

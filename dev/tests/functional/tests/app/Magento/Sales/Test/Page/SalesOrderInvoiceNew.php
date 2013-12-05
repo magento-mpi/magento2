@@ -13,8 +13,6 @@ namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
-use Magento\Backend\Test\Block\Sales\Order\Invoice\Totals;
-use Magento\Backend\Test\Block\Sales\Order\Invoice\Create\Form;
 
 /**
  * Class SalesOrder
@@ -30,16 +28,18 @@ class SalesOrderInvoiceNew extends Page
     const MCA = 'sales/order/invoice/new';
 
     /**
-     * Sales order grid
+     * Invoice form block
      *
-     * @var Form
+     * @var string
      */
-    private $formBlock;
+    protected $formBlock = '#edit_form';
 
     /**
-     * @var Totals
+     * Invoice totals block
+     *
+     * @var string
      */
-    private $totalsBlock;
+    protected $totalsBlock = '#invoice_totals';
 
     /**
      * Custom constructor
@@ -47,32 +47,29 @@ class SalesOrderInvoiceNew extends Page
     protected function _init()
     {
         $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->totalsBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderInvoiceTotals(
-            $this->_browser->find('#invoice_totals')
-        );
-        $this->formBlock = Factory::getBlockFactory()->getMagentoBackendSalesOrderInvoiceCreateForm(
-            $this->_browser->find('#edit_form')
-        );
     }
 
     /**
-     * Get sales order grid
+     * Get invoice totals block
      *
-     * @return Totals
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Totals
      */
     public function getInvoiceTotalsBlock()
     {
-        return $this->totalsBlock;
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderInvoiceTotals(
+            $this->_browser->find($this->totalsBlock)
+        );
     }
 
     /**
-     * Get order actions block
+     * Get invoice form block
      *
-     * @return Form
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Create\Form
      */
     public function getFormBlock()
     {
-        return $this->formBlock;
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderInvoiceCreateForm(
+            $this->_browser->find('#edit_form')
+        );
     }
 }
