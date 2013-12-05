@@ -40,7 +40,13 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $this->_directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
+        $this->_directoryMock = $this->getMock(
+            '\Magento\Filesystem\Directory\Write',
+            array('openFile'),
+            array(),
+            '',
+            false
+        );
         $this->_directoryMock->expects($this->any())
             ->method('openFile')
             ->will(
