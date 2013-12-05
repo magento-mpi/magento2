@@ -1,3 +1,6 @@
+* Integrity improvements:
+  * Covered all Magento classes with argument sequence validator
+  * Added arguments type duplication validator
 * Modularity improvements:
   * Session configuration moved into library
   * FormKey logic is moved from Session
