@@ -1727,4 +1727,5 @@ return array(
     array('Magento\Core\Model\Layout\Argument\HandlerFactory', 'Magento\View\Layout\Argument\HandlerFactory'),
     array('Magento\Core\Model\Theme\Label', 'Magento\View\Design\Theme\Label'),
     array('Magento\Core\Model\Theme\LabelFactory', 'Magento\View\Design\Theme\LabelFactory'),
+    array('Magento\Core\Model\DesignLoader', 'Magento\View\DesignLoader'),
 );
