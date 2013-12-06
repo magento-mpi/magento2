@@ -33,20 +33,28 @@ class Cart
     protected $_storeManager;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Message\Manager $messageManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Message\Manager $messageManager
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
+        $this->messageManager = $messageManager;
         parent::__construct($context);
     }
 
@@ -136,7 +144,7 @@ class Cart
                     ? $this->_storeConfig->getConfig('sales/minimum_order/description')
                     : __('Minimum order amount is %1', $minimumAmount);
 
-                $cart->messageManager->addNotice($warning);
+                $this->messageManager->addNotice($warning);
             }
         }
 
@@ -150,7 +158,7 @@ class Cart
                 $messages[] = $message;
             }
         }
-        $cart->messageManager->addUniqueMessages($messages);
+        $this->messageManager->addUniqueMessages($messages);
 
         /**
          * if customer enteres shopping cart we should mark quote
@@ -214,17 +222,19 @@ class Cart
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
                     $message = __('You added %1 to your shopping cart.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($product->getName()));
-                    $this->_checkoutSession->addSuccess($message);
+                    $this->messageManager->addSuccess($message);
                 }
                 $this->_goBack();
             }
         } catch (\Magento\Core\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
-                $this->_checkoutSession->addNotice($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
+                $this->messageManager->addNotice(
+                    $this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage())
+                );
             } else {
                 $messages = array_unique(explode("\n", $e->getMessage()));
                 foreach ($messages as $message) {
-                    $this->_checkoutSession->addError(
+                    $this->messageManager->addError(
                         $this->_objectManager->get('Magento\Escaper')->escapeHtml($message)
                     );
                 }
@@ -238,7 +248,7 @@ class Cart
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($cartUrl));
             }
         } catch (\Exception $e) {
-            $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
+            $this->messageManager->addException($e, __('We cannot add this item to your shopping cart'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_goBack();
         }
@@ -259,12 +269,12 @@ class Cart
                     $cart->addOrderItem($item, 1);
                 } catch (\Magento\Core\Exception $e) {
                     if ($this->_checkoutSession->getUseNotice(true)) {
-                        $this->_checkoutSession->addNotice($e->getMessage());
+                        $this->messageManager->addNotice($e->getMessage());
                     } else {
-                        $this->_checkoutSession->addError($e->getMessage());
+                        $this->messageManager->addError($e->getMessage());
                     }
                 } catch (\Exception $e) {
-                    $this->_checkoutSession->addException($e, __('We cannot add this item to your shopping cart'));
+                    $this->messageManager->addException($e, __('We cannot add this item to your shopping cart'));
                     $this->_objectManager->get('Magento\Logger')->logException($e);
                     $this->_goBack();
                 }
@@ -289,7 +299,7 @@ class Cart
         }
 
         if (!$quoteItem) {
-            $this->_checkoutSession->addError(__("We can't find the quote item."));
+            $this->messageManager->addError(__("We can't find the quote item."));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -304,7 +314,7 @@ class Cart
                 $quoteItem->getProduct()->getId(), $this, $params
             );
         } catch (\Exception $e) {
-            $this->_checkoutSession->addError(__('We cannot configure the product.'));
+            $this->messageManager->addError(__('We cannot configure the product.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_goBack();
             return;
@@ -358,18 +368,21 @@ class Cart
             );
             if (!$this->_checkoutSession->getNoCartRedirect(true)) {
                 if (!$cart->getQuote()->getHasError()){
-                    $message = __('%1 was updated in your shopping cart.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName()));
-                    $this->_checkoutSession->addSuccess($message);
+                    $message = __(
+                        '%1 was updated in your shopping cart.',
+                        $this->_objectManager->get('Magento\Escaper')->escapeHtml($item->getProduct()->getName())
+                    );
+                    $this->messageManager->addSuccess($message);
                 }
                 $this->_goBack();
             }
         } catch (\Magento\Core\Exception $e) {
             if ($this->_checkoutSession->getUseNotice(true)) {
-                $this->_checkoutSession->addNotice($e->getMessage());
+                $this->messageManager->addNotice($e->getMessage());
             } else {
                 $messages = array_unique(explode("\n", $e->getMessage()));
                 foreach ($messages as $message) {
-                    $this->_checkoutSession->addError($message);
+                    $this->messageManager->addError($message);
                 }
             }
 
@@ -381,7 +394,7 @@ class Cart
                 $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($cartUrl));
             }
         } catch (\Exception $e) {
-            $this->_checkoutSession->addException($e, __('We cannot update the item.'));
+            $this->messageManager->addException($e, __('We cannot update the item.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_goBack();
         }
@@ -436,9 +449,9 @@ class Cart
             }
             $this->_checkoutSession->setCartWasUpdated(true);
         } catch (\Magento\Core\Exception $e) {
-            $this->_checkoutSession->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
+            $this->messageManager->addError($this->_objectManager->get('Magento\Escaper')->escapeHtml($e->getMessage()));
         } catch (\Exception $e) {
-            $this->_checkoutSession->addException($e, __('We cannot update the shopping cart.'));
+            $this->messageManager->addException($e, __('We cannot update the shopping cart.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
     }
@@ -452,9 +465,9 @@ class Cart
             $this->_getCart()->truncate()->save();
             $this->_checkoutSession->setCartWasUpdated(true);
         } catch (\Magento\Core\Exception $exception) {
-            $this->_checkoutSession->addError($exception->getMessage());
+            $this->messageManager->addError($exception->getMessage());
         } catch (\Exception $exception) {
-            $this->_checkoutSession->addException($exception, __('We cannot update the shopping cart.'));
+            $this->messageManager->addException($exception, __('We cannot update the shopping cart.'));
         }
     }
 
@@ -469,7 +482,7 @@ class Cart
                 $this->_getCart()->removeItem($id)
                   ->save();
             } catch (\Exception $e) {
-                $this->_checkoutSession->addError(__('We cannot remove the item.'));
+                $this->messageManager->addError(__('We cannot remove the item.'));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
@@ -542,22 +555,28 @@ class Cart
 
             if ($codeLength) {
                 if ($isCodeLengthValid && $couponCode == $this->_getQuote()->getCouponCode()) {
-                    $this->_checkoutSession->addSuccess(
-                        __('The coupon code "%1" was applied.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode))
+                    $this->messageManager->addSuccess(
+                        __(
+                            'The coupon code "%1" was applied.',
+                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                        )
                     );
                 } else {
-                    $this->_checkoutSession->addError(
-                        __('The coupon code "%1" is not valid.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode))
+                    $this->messageManager->addError(
+                        __(
+                            'The coupon code "%1" is not valid.',
+                            $this->_objectManager->get('Magento\Escaper')->escapeHtml($couponCode)
+                        )
                     );
                 }
             } else {
-                $this->_checkoutSession->addSuccess(__('The coupon code was canceled.'));
+                $this->messageManager->addSuccess(__('The coupon code was canceled.'));
             }
 
         } catch (\Magento\Core\Exception $e) {
-            $this->_checkoutSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_checkoutSession->addError(__('We cannot apply the coupon code.'));
+            $this->messageManager->addError(__('We cannot apply the coupon code.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
 

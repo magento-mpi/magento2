@@ -81,6 +81,11 @@ class Observer
     protected $_resourceRule;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param Resource\RuleFactory $resourceRuleFactory
      * @param Resource\Rule $resourceRule
      * @param Resource\Rule\CollectionFactory $ruleCollFactory
@@ -94,7 +99,8 @@ class Observer
      * @param Rule\Product\Price $productPrice
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime $dateTime
-     * 
+     * @param \Magento\Message\Manager $messageManager
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -108,9 +114,9 @@ class Observer
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Session $backendSession,
-        \Magento\CatalogRule\Model\Rule\Product\Price $productPrice,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Message\Manager $messageManager
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
@@ -124,6 +130,8 @@ class Observer
         $this->_backendSession = $backendSession;
         $this->_coreRegistry = $coreRegistry;
         $this->dateTime = $dateTime;
+        $this->messageManager = $messageManager;
+
     }
 
     /**
@@ -379,8 +387,12 @@ class Observer
 
         if ($disabledRulesCount) {
             $this->_ruleFactory->create()->applyAll();
-            $this->_backendSession->addWarning(
-                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode)
+            $this->messageManager->addWarning(
+                __(
+                    '%1 Catalog Price Rules based on "%2" attribute have been disabled.',
+                    $disabledRulesCount,
+                    $attributeCode
+                )
             );
         }
 
