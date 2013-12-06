@@ -18,7 +18,7 @@
     <h1><?php echo __('My Downloadable Products') ?></h1>
 </div>
 <div class="downloadable-products-history">
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
     <?php if(count($_items)): ?>
         <ol class="list">
             <?php $_odd = ''; ?>

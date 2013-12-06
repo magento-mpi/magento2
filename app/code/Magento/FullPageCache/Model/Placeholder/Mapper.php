@@ -36,10 +36,10 @@ class Mapper
     /**
      * Map block instance to placeholder configuration and returns new placeholder instance
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return \Magento\FullPageCache\Model\Container\Placeholder|null
      */
-    public function map(\Magento\View\Block\AbstractBlock $block)
+    public function map(\Magento\View\Element\AbstractBlock $block)
     {
         $type = $block->getType();
         $placeholderData = null;

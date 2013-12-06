@@ -48,14 +48,12 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     protected $_cache;
 
     /**
-     * Construct
-     *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm
-     * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
@@ -64,10 +62,10 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     public function __construct(
         \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm,
-        \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
@@ -75,8 +73,16 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     ) {
         $this->_resourceEngine = $resourceEngine;
         $this->_cache = $cache;
-        parent::__construct($filterItemFactory, $storeManager, $filterPriceFactory, $customerSession,
-            $catalogLayerFilterPriceAlgorithm, $catalogLayer, $coreRegistry, $data);
+        parent::__construct(
+            $filterItemFactory,
+            $storeManager,
+            $catalogLayer,
+            $filterPriceFactory,
+            $customerSession,
+            $catalogLayerFilterPriceAlgorithm,
+            $coreRegistry,
+            $data
+        );
     }
 
     /**

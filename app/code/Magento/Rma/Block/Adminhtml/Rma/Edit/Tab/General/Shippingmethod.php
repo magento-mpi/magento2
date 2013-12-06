@@ -51,7 +51,6 @@ class Shippingmethod
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -60,7 +59,6 @@ class Shippingmethod
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Rma\Helper\Data $rmaData,
@@ -70,7 +68,7 @@ class Shippingmethod
         $this->_taxData = $taxData;
         $this->_rmaData = $rmaData;
         $this->_shippingFactory = $shippingFactory;
-        parent::__construct($context, $coreData, $registry, $data);
+        parent::__construct($context, $registry, $data);
     }
 
     public function _construct()

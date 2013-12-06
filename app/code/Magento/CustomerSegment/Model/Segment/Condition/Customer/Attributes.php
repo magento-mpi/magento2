@@ -27,22 +27,22 @@ class Attributes
     protected $_resourceCustomer;
 
     /**
-     * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
-     * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Customer\Model\Resource\Customer $resourceCustomer
+     * @param \Magento\Eav\Model\Config $eavConfig
      * @param array $data
      */
     public function __construct(
-        \Magento\Customer\Model\Resource\Customer $resourceCustomer,
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        \Magento\Eav\Model\Config $eavConfig,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Customer\Model\Resource\Customer $resourceCustomer,
+        \Magento\Eav\Model\Config $eavConfig,
         array $data = array()
     ) {
         $this->_resourceCustomer = $resourceCustomer;
         $this->_eavConfig = $eavConfig;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Attributes');
         $this->setValue(null);
     }

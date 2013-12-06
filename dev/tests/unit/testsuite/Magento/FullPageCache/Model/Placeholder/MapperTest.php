@@ -36,7 +36,7 @@ class MapperTest extends \PHPUnit_Framework_TestCase
         );
         $this->_configMock = $this->getMock('Magento\FullPageCache\Model\Placeholder\ConfigInterface');
         $this->_model = new \Magento\FullPageCache\Model\Placeholder\Mapper($this->_factoryMock, $this->_configMock);
-        $this->_blockMock = $this->getMock('Magento\View\Block\Template',
+        $this->_blockMock = $this->getMock('Magento\View\Element\Template',
             array('getType', 'getNameInLayout', 'getCacheKey', 'getCacheKeyInfo'),
             array(), '', false
         );

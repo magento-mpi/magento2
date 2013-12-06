@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\View;
 
-class Options extends \Magento\View\Block\Template
+class Options extends \Magento\View\Element\Template
 {
     protected $_product;
 
@@ -51,8 +51,19 @@ class Options extends \Magento\View\Block\Template
     protected $_catalogProduct;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Product $catalogProduct
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Model\Product\Option $option
@@ -61,8 +72,9 @@ class Options extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\Product $catalogProduct,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Model\Product\Option $option,
@@ -70,12 +82,14 @@ class Options extends \Magento\View\Block\Template
         \Magento\Stdlib\ArrayUtils $arrayUtils,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_catalogProduct = $catalogProduct;
         $this->_registry = $registry;
         $this->_option = $option;
         $this->_taxData = $taxData;
         $this->arrayUtils = $arrayUtils;
-        parent::__construct($context, $coreData, $data);        
+        parent::__construct($context, $data);
     }
 
     /**
@@ -175,7 +189,7 @@ class Options extends \Magento\View\Block\Template
             $config[$option->getId()] = $priceValue;
         }
 
-        return $this->_coreData->jsonEncode($config);
+        return $this->_jsonEncoder->encode($config);
     }
 
     /**

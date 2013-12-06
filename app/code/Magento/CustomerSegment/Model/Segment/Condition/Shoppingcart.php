@@ -22,19 +22,19 @@ class Shoppingcart
     protected $_conditionFactory;
 
     /**
-     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Shoppingcart');
         $this->setValue(null);
     }

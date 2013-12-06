@@ -35,14 +35,14 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_storeManager = null;
 
     /**
-     * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\AdminGws\Model\Role $role
+     * @param \Magento\AdminGws\Helper\Data $adminGwsData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
-        \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\AdminGws\Model\Role $role,
+        \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {

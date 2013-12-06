@@ -106,7 +106,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id' => 'filter_form',
                 'action' => $actionUrl,
                 'method' => 'get',

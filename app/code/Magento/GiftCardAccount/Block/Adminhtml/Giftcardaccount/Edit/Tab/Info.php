@@ -21,8 +21,13 @@ class Info
     protected $_systemStore;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -30,13 +35,14 @@ class Info
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        $this->_jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $registry, $formFactory, $data);
         $this->_systemStore = $systemStore;
     }
 
@@ -165,7 +171,7 @@ class Info
     public function getCurrencyJson()
     {
         $result = $this->_getCurrency();
-        return $this->_coreData->jsonEncode($result);
+        return $this->_jsonEncoder->encode($result);
     }
 
     /**

@@ -64,7 +64,6 @@ class Ordered
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -77,7 +76,6 @@ class Ordered
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -93,7 +91,7 @@ class Ordered
         $this->_ordersFactory = $ordersFactory;
         $this->_salesConfig = $salesConfig;
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $coreRegistry, $data);
+        parent::__construct($context, $urlModel, $collectionFactory, $coreRegistry, $data);
     }
 
     /**

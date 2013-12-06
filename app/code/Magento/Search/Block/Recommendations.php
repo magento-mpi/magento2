@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Block;
 
-class Recommendations extends \Magento\View\Block\Template
+class Recommendations extends \Magento\View\Element\Template
 {
     /**
      * Search data
@@ -34,20 +34,18 @@ class Recommendations extends \Magento\View\Block\Template
     protected $_recommendationsFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Search\Helper\Data $searchData
      * @param \Magento\Search\Model\RecommendationsFactory $recommendationsFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Search\Helper\Data $searchData,
         \Magento\Search\Model\RecommendationsFactory $recommendationsFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_searchData = $searchData;
         $this->_recommendationsFactory = $recommendationsFactory;
     }

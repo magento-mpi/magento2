@@ -10,9 +10,34 @@
 
 namespace Magento\GiftCardAccount\Block\Adminhtml\Giftcardaccount\Edit\Tab;
 
+use Magento\Backend\Block\Widget\Form;
+
 class Send
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
+    /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Data\FormFactory $formFactory
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Core\Model\Registry $registry,
+        \Magento\Data\FormFactory $formFactory,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        array $data = array()
+    ) {
+        $this->_jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $registry, $formFactory, $data);
+    }
+
     /**
      * Init form fields
      *
@@ -82,7 +107,7 @@ class Send
             }
         }
 
-        $websiteStores = $this->_coreData->jsonEncode($websiteStores);
+        $websiteStores = $this->_jsonEncoder->encode($websiteStores);
 
         $result  = '<script type="text/javascript">//<![CDATA[' . "\n";
         $result .= "var websiteStores = $websiteStores;";

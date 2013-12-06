@@ -19,13 +19,13 @@ class Combine extends \Magento\Rule\Model\Condition\Combine
     protected $_attributeFactory;
 
     /**
-     * @param \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\TargetRule\Model\Rule\Condition\Product\AttributesFactory $attributesFactory,
         array $data = array()
     ) {
         $this->_attributeFactory = $attributesFactory;

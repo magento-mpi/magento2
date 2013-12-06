@@ -77,20 +77,20 @@ class Cookie extends \Magento\Stdlib\Cookie
     protected $_customerSession;
 
     /**
-     * @param \Magento\App\RequestInterface $httpRequest
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\FullPageCache\Model\Cache $_fpcCache
+     * @param \Magento\FullPageCache\Model\Cache $fpcCache
      * @param \Magento\Customer\Model\Session $customerSession
      */
     public function __construct(
-        \Magento\App\RequestInterface $httpRequest,
+        \Magento\App\RequestInterface $request,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\FullPageCache\Model\Cache $_fpcCache,
+        \Magento\FullPageCache\Model\Cache $fpcCache,
         \Magento\Customer\Model\Session $customerSession
     ) {
-        parent::__construct($httpRequest);
+        parent::__construct($request);
         $this->_eventManager = $eventManager;
-        $this->_fpcCache = $_fpcCache;
+        $this->_fpcCache = $fpcCache;
         $this->_customerSession = $customerSession;
     }
 

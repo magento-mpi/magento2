@@ -23,8 +23,12 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     protected $_giftRegistryData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Module\Manager
+     */
+    protected $_moduleManager;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -35,11 +39,11 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
+     * @param \Magento\Module\Manager $moduleManager
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -50,12 +54,13 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
+        \Magento\Module\Manager $moduleManager,
         array $data = array()
     ) {
+        $this->_moduleManager = $moduleManager;
         $this->_giftRegistryData = $giftRegistryData;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,
@@ -76,7 +81,7 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      */
     protected function _prepareLayout()
     {
-        $outputEnabled = $this->_coreData->isModuleOutputEnabled($this->getModuleName());
+        $outputEnabled = $this->_moduleManager->isOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
             if ($this->_layout->hasElement('content')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
