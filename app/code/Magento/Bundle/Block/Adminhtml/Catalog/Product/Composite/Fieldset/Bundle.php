@@ -17,6 +17,8 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Composite\Fieldset;
 
+use Magento\Catalog\Block\Product\View\AbstractView;
+
 class Bundle
     extends \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle
 {
@@ -25,7 +27,8 @@ class Bundle
      *
      * @return string
      */
-    public function getJsonConfig() {
+    public function getJsonConfig()
+    {
         $options = array();
         $optionsArray = $this->getOptions();
         foreach ($optionsArray as $option) {
@@ -39,6 +42,6 @@ class Bundle
             }
         }
         $config = array('options' => $options);
-        return $this->_coreData->jsonEncode($config);
+        return $this->jsonEncoder->encode($config);
     }
 }

@@ -14,7 +14,6 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Block\Multishipping;
 
 /**
  * Class CheckoutMultishippingAddresses
@@ -32,10 +31,9 @@ class CheckoutMultishippingAddresses extends Page
     /**
      * Multishipping checkout choose item addresses block
      *
-     * @var Multishipping\Addresses
-     * @private
+     * @var string
      */
-    private $addressesBlock;
+    protected $addressesBlock = '#checkout_multishipping_form';
 
     /**
      * Custom constructor
@@ -43,9 +41,6 @@ class CheckoutMultishippingAddresses extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->addressesBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingAddresses(
-            $this->_browser->find('#checkout_multishipping_form', Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -55,6 +50,8 @@ class CheckoutMultishippingAddresses extends Page
      */
     public function getAddressesBlock()
     {
-        return $this->addressesBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingAddresses(
+            $this->_browser->find($this->addressesBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

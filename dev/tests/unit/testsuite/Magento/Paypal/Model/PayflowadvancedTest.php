@@ -70,7 +70,7 @@ class PayflowadvancedTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $payment = $this->getMockBuilder('Magento\Sales\Model\Order\Payment')
             ->disableOriginalConstructor()
-            ->setMethods(array('getOrder'))
+            ->setMethods(array('getOrder', '__wakeup'))
             ->getMock();
         $payment->expects($this->any())
             ->method('getOrder')

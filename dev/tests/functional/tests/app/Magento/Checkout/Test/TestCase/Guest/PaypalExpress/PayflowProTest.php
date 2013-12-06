@@ -25,12 +25,12 @@ use Magento\Checkout\Test\Fixture\Checkout;
 class PayflowProTest extends Functional
 {
     /**
-     * Place order on frontend via one page checkout and Paypal Express checkout.
-     * Shipping method used is Flat Rate
+     * Guest checkout using PayPal Payflow Link method and offline shipping method
+     *
+     * @ZephyrId MAGETWO-12974
      */
     public function testPayflowProExpress()
     {
-        $this->markTestSkipped('MAGETWO-16653');
         $fixture = Factory::getFixtureFactory()->getMagentoCheckoutExpressPayPalPayflow();
         $fixture->persist();
 

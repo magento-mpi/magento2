@@ -41,7 +41,6 @@ class Product extends \Magento\Backend\Block\Widget
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\TargetRule\Model\Source\Position $position
      * @param \Magento\TargetRule\Helper\Data $targetRuleData
      * @param \Magento\Core\Model\Registry $registry
@@ -49,7 +48,6 @@ class Product extends \Magento\Backend\Block\Widget
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\TargetRule\Model\Source\Position $position,
         \Magento\TargetRule\Helper\Data $targetRuleData,
         \Magento\Core\Model\Registry $registry,
@@ -58,7 +56,7 @@ class Product extends \Magento\Backend\Block\Widget
         $this->_position = $position;
         $this->_coreRegistry = $registry;
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -43,8 +43,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
     protected $_catalogSearchLayer;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\CatalogSearch\Model\Layer $catalogLayer
      * @param \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider
      * @param \Magento\CatalogSearch\Helper\Data $catalogSearchData
@@ -52,8 +51,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\CatalogSearch\Model\Layer $catalogLayer,
         \Magento\CatalogSearch\Model\Resource\EngineProvider $engineProvider,
         \Magento\CatalogSearch\Helper\Data $catalogSearchData,
@@ -63,7 +61,7 @@ class Layer extends \Magento\Catalog\Block\Layer\View
         $this->_engineProvider = $engineProvider;
         $this->_coreRegistry = $registry;
         $this->_catalogSearchData = $catalogSearchData;
-        parent::__construct($context, $coreData, $catalogLayer, $data);
+        parent::__construct($context, $catalogLayer, $data);
     }
 
     /**

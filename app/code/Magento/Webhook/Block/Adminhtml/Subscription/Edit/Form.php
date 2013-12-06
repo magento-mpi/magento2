@@ -35,7 +35,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Webhook\Model\Source\Format $format
@@ -45,7 +44,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Webhook\Model\Source\Format $format,
@@ -53,7 +51,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Webhook\Model\Source\Hook $hook,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
         $this->_formFactory = $formFactory;
         $this->_registry = $registry;
         $this->_format = $format;

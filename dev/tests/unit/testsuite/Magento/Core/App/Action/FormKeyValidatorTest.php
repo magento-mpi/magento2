@@ -19,7 +19,7 @@ class FormKeyValidatorTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_sessionMock;
+    protected $_formKeyMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -28,10 +28,10 @@ class FormKeyValidatorTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array('getFormKey'), array(), '', false);
+        $this->_formKeyMock = $this->getMock('\Magento\Data\Form\FormKey', array('getFormKey'), array(), '', false);
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
         $this->_model = new \Magento\Core\App\Action\FormKeyValidator(
-            $this->_sessionMock
+            $this->_formKeyMock
         );
     }
 
@@ -47,7 +47,7 @@ class FormKeyValidatorTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')
             ->with('form_key', null)
             ->will($this->returnValue($formKey));
-        $this->_sessionMock->expects($this->once())->method('getFormKey')->will($this->returnValue('formKey'));
+        $this->_formKeyMock->expects($this->once())->method('getFormKey')->will($this->returnValue('formKey'));
         $this->assertEquals($expected, $this->_model->validate($this->_requestMock));
     }
 

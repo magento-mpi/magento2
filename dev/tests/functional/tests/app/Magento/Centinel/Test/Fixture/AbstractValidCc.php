@@ -33,7 +33,7 @@ abstract class AbstractValidCc extends Checkout
         Factory::getApp()->magentoTaxRemoveTaxRule();
 
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData($this->getProductTypeName());
         $simple->persist();
 

@@ -35,7 +35,6 @@ class Store
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Store\Group\Factory $groupFactory
@@ -44,7 +43,6 @@ class Store
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Store\Group\Factory $groupFactory,
@@ -53,7 +51,7 @@ class Store
     ) {
         $this->_groupFactory = $groupFactory;
         $this->_websiteFactory = $websiteFactory;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**

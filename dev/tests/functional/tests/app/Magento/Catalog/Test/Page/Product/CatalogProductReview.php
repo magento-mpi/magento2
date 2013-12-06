@@ -58,21 +58,21 @@ class CatalogProductReview extends Page
     /**
      * Get product reviews grid
      *
-     * @return \Magento\Backend\Test\Block\Review\Grid
+     * @return \Magento\Review\Test\Block\Adminhtml\Grid
      */
     public function getGridBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendReviewGrid($this->_browser->find($this->gridSelector));
+        return Factory::getBlockFactory()->getMagentoReviewAdminhtmlGrid($this->_browser->find($this->gridSelector));
     }
 
     /**
      * Get review edit form
      *
-     * @return \Magento\Backend\Test\Block\Review\Edit
+     * @return \Magento\Review\Test\Block\Adminhtml\Edit
      */
     public function getEditForm()
     {
-        return Factory::getBlockFactory()->getMagentoBackendReviewEdit($this->_browser->find($this->editFormSelector));
+        return Factory::getBlockFactory()->getMagentoReviewAdminhtmlEdit($this->_browser->find($this->editFormSelector));
     }
 
     /**

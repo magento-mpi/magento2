@@ -44,9 +44,12 @@ class NavigationMode extends \Magento\Core\Model\Url
      * @param \Magento\Core\Model\App $app
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\DesignEditor\Helper\Data $helper
      * @param string $areaCode
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\App\Route\ConfigInterface $routeConfig,
@@ -56,6 +59,7 @@ class NavigationMode extends \Magento\Core\Model\Url
         \Magento\Core\Model\App $app,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Session $session,
+        \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\DesignEditor\Helper\Data $helper,
         $areaCode,
         array $data = array()
@@ -76,6 +80,7 @@ class NavigationMode extends \Magento\Core\Model\Url
             $app,
             $storeManager,
             $session,
+            $sidResolver,
             $areaCode,
             $data
         );

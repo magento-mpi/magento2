@@ -40,7 +40,6 @@ class Creditmemos
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory
      * @param \Magento\Sales\Model\Order\Creditmemo $orderCreditmemo
@@ -49,7 +48,6 @@ class Creditmemos
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Sales\Model\Resource\Order\Collection\Factory $collectionFactory,
         \Magento\Sales\Model\Order\Creditmemo $orderCreditmemo,
@@ -59,7 +57,7 @@ class Creditmemos
         $this->_coreRegistry = $coreRegistry;
         $this->_orderCreditmemo = $orderCreditmemo;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     protected function _construct()

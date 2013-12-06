@@ -20,12 +20,9 @@ namespace Magento\Paypal\Test\Block\Express;
 class Reviewuk extends Review
 {
     /**
-     * Initialize block elements
+     * Shipping methods dropdown
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        parent::_init();
-        //Elements
-        $this->shippingMethod = '#shipping-method';
-    }
+    protected $shippingMethod = '#shipping-method';
 }

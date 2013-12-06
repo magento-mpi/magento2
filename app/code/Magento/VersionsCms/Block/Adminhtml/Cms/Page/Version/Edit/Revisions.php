@@ -41,7 +41,6 @@ class Revisions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param \Magento\Core\Model\Registry $registry
@@ -51,7 +50,6 @@ class Revisions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\VersionsCms\Helper\Data $cmsData,
         \Magento\Core\Model\Registry $registry,
@@ -63,7 +61,7 @@ class Revisions
         $this->_cmsData = $cmsData;
         $this->_revisionCollFactory = $revisionCollFactory;
         $this->_cmsConfig = $cmsConfig;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     protected function _construct()

@@ -11,14 +11,9 @@
 
 namespace Magento\Catalog\Test\Page\Category;
 
-use Mtf\Fixture;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
-use Magento\Backend\Test\Block\Template;
-use Magento\Backend\Test\Block\Catalog\Category\Tree;
-use Magento\Backend\Test\Block\Catalog\Category\Edit\Form;
 
 /**
  * Class CatalogCategory
@@ -36,73 +31,73 @@ class CatalogCategory extends Page
     /**
      * Category Edit Form on the Backend
      *
-     * @var Form
+     * @var string
      */
-    private $formBlock;
+    protected $formBlock = '#category-edit-container';
 
     /**
      * Categories tree block
      *
-     * @var Tree
+     * @var string
      */
-    private $treeBlock;
-
-    /**
-     * Backend abstract block
-     *
-     * @var Template
-     */
-    private $templateBlock;
+    protected $treeBlock = '.categories-side-col';
 
     /**
      * Get messages block
      *
-     * @var Messages
+     * @var string
      */
-    private $messageBlock;
+    protected $messageBlock = '#messages .messages';
 
+    /**
+     * Backend abstract block
+     *
+     * @var string
+     */
+    protected $templateBlock = './ancestor::body';
+
+    /**
+     * Init page. Set page url
+     */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        //Blocks
-        $this->formBlock = Factory::getBlockFactory()->getMagentoBackendCatalogCategoryEditForm(
-            $this->_browser->find('category-edit-container', Locator::SELECTOR_ID));
-        $this->templateBlock = Factory::getBlockFactory()->getMagentoBackendTemplate(
-            $this->_browser->find('#html-body', Locator::SELECTOR_CSS));
-        $this->treeBlock = Factory::getBlockFactory()->getMagentoBackendCatalogCategoryTree(
-            $this->_browser->find('.categories-side-col', Locator::SELECTOR_CSS, 'tree'), $this->getTemplateBlock());
-        $this->messageBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages', Locator::SELECTOR_CSS));
+    }
+
+    /**
+     * Open page using browser and waiting until loader will be disappeared
+     *
+     * @param array $params
+     * @return $this
+     */
+    public function open(array $params = array())
+    {
+        parent::open();
+        $this->getTemplateBlock()->waitLoader();
     }
 
     /**
      * Get Category edit form
      *
-     * @return \Magento\Backend\Test\Block\Catalog\Category\Edit\Form
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Edit\Form
      */
     public function getFormBlock()
     {
-        return $this->formBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryEditForm(
+            $this->_browser->find($this->formBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Category Tree container on the Backend
      *
-     * @return \Magento\Backend\Test\Block\Catalog\Category\Tree
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Category\Tree
      */
     public function getTreeBlock()
     {
-        return $this->treeBlock;
-    }
-
-    /**
-     * Get abstract block
-     *
-     * @return \Magento\Backend\Test\Block\Template
-     */
-    public function getTemplateBlock()
-    {
-        return $this->templateBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlCategoryTree(
+            $this->_browser->find($this->treeBlock, Locator::SELECTOR_CSS, 'tree'), $this->getTemplateBlock()
+        );
     }
 
     /**
@@ -112,19 +107,20 @@ class CatalogCategory extends Page
      */
     public function getMessageBlock()
     {
-        return $this->messageBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
-     * Open page using browser and waiting until loader will be disappeared
+     * Get abstract block
      *
-     * @param array $params
-     *
-     * @return $this
+     * @return \Magento\Backend\Test\Block\Template
      */
-    public function open(array $params = array())
+    public function getTemplateBlock()
     {
-        parent::open();
-        $this->getTemplateBlock()->waitLoader();
+        return Factory::getBlockFactory()->getMagentoBackendTemplate(
+            $this->_browser->find($this->templateBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

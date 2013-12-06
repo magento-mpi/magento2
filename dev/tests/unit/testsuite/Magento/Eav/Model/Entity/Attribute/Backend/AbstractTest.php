@@ -35,7 +35,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getBackendTable', 'isStatic', 'getAttributeId'),
+            array('getBackendTable', 'isStatic', 'getAttributeId', '__wakeup'),
             array(),
             '',
             false

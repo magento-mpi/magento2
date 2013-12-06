@@ -27,23 +27,21 @@ class Search extends Block
      *
      * @var string
      */
-    private $searchInput;
+    protected $searchInput = '#search';
 
     /**
      * Search button
      *
      * @var string
      */
-    private $searchButton;
+    private $searchButton = '[title="Search"]';
 
     /**
-     * Initialize block elements
+     * Search button
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        $this->searchInput = '#search';
-        $this->searchButton = '[title="Search"]';
-    }
+    protected $placeholder = '//input[@id="search" and contains(@placeholder, "%s")]';
 
     /**
      * Search products by a keyword
@@ -54,5 +52,19 @@ class Search extends Block
     {
         $this->_rootElement->find($this->searchInput, Locator::SELECTOR_CSS)->setValue($keyword);
         $this->_rootElement->find($this->searchButton, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * Check that placeholder contains text
+     *
+     * @param string $placeholderText
+     * @return bool
+     */
+    public function isPlaceholderContains($placeholderText)
+    {
+        $field = $this->_rootElement->find(
+            sprintf($this->placeholder, $placeholderText), Locator::SELECTOR_XPATH
+        );
+        return $field->isVisible();
     }
 }

@@ -18,7 +18,7 @@ use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
 use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 use Magento\Customer\Test\Block\Account\Dashboard\Address;
-use Magento\Page\Test\Block\Html\Title;
+use Magento\Theme\Test\Block\Html\Title;
 
 /**
  * Frontend Customer Dashboard page
@@ -66,7 +66,7 @@ class CustomerAccountIndex extends Page
         $this->dashboardAddress = Factory::getBlockFactory()->getMagentoCustomerAccountDashboardAddress(
             $this->_browser->find('.block.dashboard.addresses', Locator::SELECTOR_CSS)
         );
-        $this->titleBlock = Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        $this->titleBlock = Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
     }

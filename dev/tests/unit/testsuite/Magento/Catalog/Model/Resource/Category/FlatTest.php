@@ -30,7 +30,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
     protected function _getModelMock(array $methods = array())
     {
         return $this->getMockBuilder('Magento\Catalog\Model\Resource\Category\Flat')
-            ->setMethods($methods)
+            ->setMethods(array_merge($methods, array('__wakeup')))
             ->disableOriginalConstructor()
             ->getMock();
     }
@@ -49,7 +49,7 @@ class FlatTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateTableInvokesDdlOperationsIfTheyAreAllowed()
     {
-        $model = $model = $this->_getModelMock(array('_createTable', '_getWriteAdapter'));
+        $model = $this->_getModelMock(array('_createTable', '_getWriteAdapter'));
 
         // Pretend that no transactions have been started
         $this->_dbAdapterMock->expects($this->any())->method('getTransactionLevel')->will($this->returnValue(0));

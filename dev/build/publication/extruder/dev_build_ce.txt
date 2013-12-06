@@ -2,6 +2,8 @@
 # because it is used in infrastructure for running tests
 ~dev/tests/functional
 ~dev/tests/functional-old
+dev/tests/functional/tests/app/Magento/Logging
+dev/tests/functional/tests/app/Magento/Pci
 dev/tests/functional-old/fixture/_testFiles/Enterprise*
 dev/tests/functional-old/fixture/enterprise*
 dev/tests/functional-old/testsuite/Enterprise

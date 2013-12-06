@@ -20,12 +20,12 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Catalog\Test\Fixture
  */
-class ConfigurableProduct extends AbstractProduct
+class ConfigurableProduct extends Product
 {
     /**
      * Mapping data into ui tabs
      */
-    const GROUP_VARIATIONS = 'product_info_tabs_super_config_content';
+    const GROUP = 'product_info_tabs_super_config_content';
 
     /**
      * @var array
@@ -42,21 +42,7 @@ class ConfigurableProduct extends AbstractProduct
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['category'] = array($this, 'categoryProvider');
         $this->_placeholders['attribute_label_1'] = array($this, 'attributeProvider');
-    }
-
-    /**
-     * Create category
-     *
-     * @return string
-     */
-    protected function categoryProvider()
-    {
-        $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-        $category->switchData('subcategory');
-        $category->persist();
-        return $category->getCategoryName();
     }
 
     /**
@@ -177,7 +163,7 @@ class ConfigurableProduct extends AbstractProduct
 
             'create_url_params' => array(
                 'type' => 'configurable',
-                'set' => 4,
+                'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
         );
         $data = array(
@@ -195,6 +181,9 @@ class ConfigurableProduct extends AbstractProduct
                 'weight' => array(
                     'value' => '1',
                     'group' => static::GROUP_PRODUCT_DETAILS
+                ),
+                'website_ids' => array(
+                    'value' => array(1),
                 ),
                 'configurable_attributes_data' => array(
                     'value' => array(
@@ -232,7 +221,7 @@ class ConfigurableProduct extends AbstractProduct
                                 )
                             )
                         ),
-                    'group' => static::GROUP_VARIATIONS
+                    'group' => static::GROUP
                 ),
                 'variations-matrix' => array(
                     'value' => array(
@@ -275,7 +264,7 @@ class ConfigurableProduct extends AbstractProduct
                             )
                         )
                     ),
-                    'group' => static::GROUP_VARIATIONS
+                    'group' => static::GROUP
                 ),
             ),
             'checkout' => array(

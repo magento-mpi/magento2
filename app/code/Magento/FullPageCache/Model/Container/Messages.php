@@ -16,7 +16,7 @@ namespace Magento\FullPageCache\Model\Container;
 class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
 {
     /**
-     * @var \Magento\Core\Model\Cookie
+     * @var \Magento\Stdlib\Cookie
      */
     protected $_coreCookie;
 
@@ -33,7 +33,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Model\Cookie $coreCookie
+     * @param \Magento\Stdlib\Cookie $coreCookie
      * @param \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
      */
     public function __construct(
@@ -44,7 +44,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\FullPageCache\Helper\Url $urlHelper,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Model\Cookie $coreCookie,
+        \Magento\Stdlib\Cookie $coreCookie,
         \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
     ) {
         parent::__construct(
@@ -87,7 +87,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      */
     protected function _renderBlock()
     {
-        $this->_coreCookie->delete(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE);
+        $this->_coreCookie->set(\Magento\FullPageCache\Model\Cookie::COOKIE_MESSAGE, null);
 
         $block = $this->_getPlaceHolderBlock();
 
@@ -105,9 +105,9 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * Add messages from storage to message block
      *
      * @param string $messagesStorage
-     * @param \Magento\View\Block\Messages $block
+     * @param \Magento\View\Element\Messages $block
      */
-    protected function _addMessagesToBlock($messagesStorage, \Magento\View\Block\Messages $block)
+    protected function _addMessagesToBlock($messagesStorage, \Magento\View\Element\Messages $block)
     {
         if ($storage = $this->_storageFactory->get($messagesStorage)) {
             $block->addMessages($storage->getMessages(true));

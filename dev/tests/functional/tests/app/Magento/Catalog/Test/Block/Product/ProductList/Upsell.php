@@ -12,10 +12,10 @@
 
 namespace Magento\Catalog\Test\Block\Product\ProductList;
 
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
-use \Magento\Catalog\Test\Fixture\Product;
+use \Magento\Catalog\Test\Fixture\SimpleProduct;
 
 class Upsell extends Block
 {
@@ -29,10 +29,10 @@ class Upsell extends Block
     /**
      * Verify upsell item
      *
-     * @param AbstractProduct $upsell
+     * @param Product $upsell
      * @return bool
      */
-    public function verifyProductUpsell(AbstractProduct $upsell)
+    public function verifyProductUpsell(Product $upsell)
     {
         $match = $this->_rootElement->find(sprintf($this->linkSelector,
                 $upsell->getProductName()), Locator::SELECTOR_CSS);
@@ -42,7 +42,7 @@ class Upsell extends Block
     /**
      * Click on upsell product link
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      * @return \Mtf\Client\Element
      * @throws \Exception
      */
