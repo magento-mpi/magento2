@@ -11,7 +11,7 @@ namespace Magento\Webapi\Model\Plugin;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Model\Integration;
 
-class IntegrationV1Test extends \PHPUnit_Framework_TestCase
+class IntegrationServiceV1Test extends \PHPUnit_Framework_TestCase
 {
     /**
      * Authorization service mock
