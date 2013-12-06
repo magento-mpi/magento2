@@ -17,26 +17,25 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Method
- * One page checkout status
+ * One page checkout status shipping method block
  *
  * @package Magento\Checkout\Test\Block\Onepage\Shipping
  */
 class Method extends Block
 {
     /**
+     * Shipping method selector
+     *
+     * @var string
+     */
+    protected $shippingMethod = '//dt[text()="%s"]/following-sibling::*//*[contains(text(), "%s")]';
+
+    /**
      * Continue checkout button
      *
      * @var string
      */
-    private $continue;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->continue = '#shipping-method-buttons-container button';
-    }
+    protected $continue = '#shipping-method-buttons-container button';
 
     /**
      * Select shipping method
@@ -46,10 +45,11 @@ class Method extends Block
     public function selectShippingMethod(Checkout $fixture)
     {
         $shippingMethod = $fixture->getShippingMethods()->getData('fields');
-        $selector = '//dt[text()="' . $shippingMethod['shipping_service']
-            . '"]/following-sibling::*//*[contains(text(), "' . $shippingMethod['shipping_method'] . '")]';
+        $selector = sprintf(
+            $this->shippingMethod, $shippingMethod['shipping_service'], $shippingMethod['shipping_method']
+        );
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#shipping-method-please-wait');
     }
 }

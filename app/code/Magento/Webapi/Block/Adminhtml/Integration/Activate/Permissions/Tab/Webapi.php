@@ -153,6 +153,16 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     }
 
     /**
+     * Whether tree has any resources.
+     *
+     * @return bool
+     */
+    public function isTreeEmpty()
+    {
+        return $this->_selectedResources === [];
+    }
+
+    /**
      * Return an array of all resource Ids.
      *
      * @param array $resources

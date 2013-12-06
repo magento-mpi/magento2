@@ -15,13 +15,10 @@ use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Tab;
-use Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option;
 
 /**
  * Class Bundle
  * Bundle options section
- *
- * @package Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab
  */
 class Bundle extends Tab
 {
@@ -31,26 +28,32 @@ class Bundle extends Tab
     const GROUP_PRODUCT_DETAILS = 'product_info_tabs_product-details';
 
     /**
-     * Bundle options block
-     *
-     * @var Option
-     */
-    private $bundleOptionBlock;
-
-    /**
      * 'Create New Option' button
      *
-     * @var Element
+     * @var string
      */
-    private $addNewOption;
+    protected $addNewOption = '#add_new_option';
 
     /**
-     * Initialize block elements
+     * Bundle options block
+     *
+     * @var string
      */
-    protected function _init()
+    protected $bundleOptionBlock = '#bundle_option_';
+
+    /**
+     * Get bundle options block
+     *
+     * @param int $blockNumber
+     * @param Element $context
+     * @return \Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle\Option
+     */
+    protected function getBundleOptionBlock($blockNumber, Element $context = null)
     {
-        //Elements
-        $this->addNewOption = '#add_new_option';
+        $element = $context ? $context : $this->_rootElement;
+        return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOption(
+            $element->find($this->bundleOptionBlock . $blockNumber, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -65,23 +68,6 @@ class Bundle extends Tab
     }
 
     /**
-     * Get bundle options block
-     *
-     * @param Element $context
-     * @return Option
-     */
-    private function getBundleOptionBlock(Element $context = null)
-    {
-        $element = $context ? $context : $this->_rootElement;
-        $this->bundleOptionBlock = Factory::getBlockFactory()
-            ->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOption(
-                $element->find('#product_bundle_container')
-            );
-
-        return $this->bundleOptionBlock;
-    }
-
-    /**
      * Fill bundle options
      *
      * @param array $fields
@@ -92,8 +78,7 @@ class Bundle extends Tab
         $blocksNumber = 0;
         foreach ($fields['bundle_selections']['value'] as $bundleOption) {
             $element->find($this->addNewOption, Locator::SELECTOR_CSS)->click();
-            $bundleOptionsBlock = $this->getBundleOptionBlock($element);
-            $bundleOptionsBlock->setBlockNumber($blocksNumber);
+            $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber, $element);
             $bundleOptionsBlock->fillBundleOption($bundleOption, $element);
             $blocksNumber++;
         }

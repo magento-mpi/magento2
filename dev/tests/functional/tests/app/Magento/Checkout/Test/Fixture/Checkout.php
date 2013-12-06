@@ -31,7 +31,7 @@ class Checkout extends DataFixture
     /**
      * Products for checkout
      *
-     * @var \Magento\Catalog\Test\Fixture\Product[]
+     * @var \Magento\Catalog\Test\Fixture\SimpleProduct[]
      */
     protected $products = array();
 
@@ -108,7 +108,7 @@ class Checkout extends DataFixture
     /**
      * Get product which should be added to shopping cart
      *
-     * @return \Magento\Catalog\Test\Fixture\Product[]
+     * @return \Magento\Catalog\Test\Fixture\SimpleProduct[]
      */
     public function getProducts()
     {

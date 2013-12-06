@@ -76,6 +76,8 @@ class Token extends \Magento\Core\Model\AbstractModel
     protected $_dateTime;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
      * @param \Magento\Stdlib\DateTime $dateTime
@@ -87,9 +89,12 @@ class Token extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
         \Magento\Stdlib\DateTime $dateTime,

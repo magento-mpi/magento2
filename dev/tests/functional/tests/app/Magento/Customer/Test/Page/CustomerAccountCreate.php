@@ -15,8 +15,6 @@ namespace Magento\Customer\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Customer\Test\Block\Form;
-use Magento\Customer\Test\Block\Form\Create;
 
 /**
  * Customer Create page on frontend
@@ -33,9 +31,9 @@ class CustomerAccountCreate extends Page
     /**
      * Customer Create form
      *
-     * @var Create
+     * @var string
      */
-    private $createForm;
+    protected $createForm = '#form-validate';
 
     /**
      * Custom constructor
@@ -43,19 +41,17 @@ class CustomerAccountCreate extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        $this->createForm = Factory::getBlockFactory()->getMagentoCustomerFormCreate(
-            $this->_browser->find('form-validate', Locator::SELECTOR_ID)
-        );
     }
 
     /**
      * Get Customer Create form
      *
-     * @return Create
+     * @return \Magento\Customer\Test\Block\Form\Create
      */
     public function getCreateForm()
     {
-        return $this->createForm;
+        return Factory::getBlockFactory()->getMagentoCustomerFormCreate(
+            $this->_browser->find($this->createForm, Locator::SELECTOR_CSS)
+        );
     }
 }

@@ -110,4 +110,3 @@ class CreateCategory extends Curl
         return isset($matches[1]) ? $matches[1] : null;
     }
 }
- 
