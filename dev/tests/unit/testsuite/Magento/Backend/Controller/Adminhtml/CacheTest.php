@@ -17,14 +17,17 @@ class CacheTest extends \PHPUnit_Framework_TestCase
         $objectManager = $this->getMock('Magento\ObjectManager');
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array(), array(), '', false);
         $backendHelper = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false);
+        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $sessionArg = $helper->getConstructArguments('Magento\Core\Model\Session\AbstractSession', array(
+                'storage' => $this->getMock('Magento\Session\Storage')
+            ));
         $session = $this->getMock(
             'Magento\Session\SessionManager',
             array('addSuccess'),
-            array(),
+            $sessionArg,
             '',
-            false
+            true
         );
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $controller = $helper->getObject('Magento\Backend\Controller\Adminhtml\Cache', array(
                 'objectManager' => $objectManager,
                 'response' => $response,
