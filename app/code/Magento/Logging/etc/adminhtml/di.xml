@@ -16,4 +16,7 @@
             </value>
         </param>
     </type>
+    <type name="Magento\App\ActionInterface">
+        <plugin name="log" type="Magento\Logging\App\Action\Plugin\Log" sortOrder="95"/>
+    </type>
 </config>

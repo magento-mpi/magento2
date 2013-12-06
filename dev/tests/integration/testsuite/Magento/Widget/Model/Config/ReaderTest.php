@@ -25,22 +25,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\Filesystem $filesystem */
-//        $filesystem = $objectManager->create(
-//            'Magento\Filesystem',
-//            array('directoryList' => $objectManager->create(
-//                    'Magento\Filesystem\DirectoryList',
-//                    array(
-//                        'root' => BP,
-//                        'directories' => array(
-//                            \Magento\Filesystem::MODULES => array('path' => __DIR__ . '/_files/code'),
-//                            \Magento\Filesystem::CONFIG => array('path' => __DIR__ . '/_files/code'),
-//                            \Magento\Filesystem::ROOT => array('path' => __DIR__ . '/_files'),
-//                        )
-//                    )
-//                )
-//            )
-//        );
 
         $this->directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
         $dirPath = ltrim(str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__))
