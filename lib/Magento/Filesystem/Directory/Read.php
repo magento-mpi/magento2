@@ -220,17 +220,19 @@ class Read implements ReadInterface
      * Retrieve file contents from given path
      *
      * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
      * @param string|null $protocol
      * @return string
      * @throws FilesystemException
      */
-    public function readFile($path, $protocol = null)
+    public function readFile($path, $flag = null, $context = null, $protocol = null)
     {
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path, $protocol);
 
         /** @var \Magento\Filesystem\File\Read $fileReader */
         $fileReader = $this->fileFactory->create($absolutePath, $this->driver, $protocol);
-        return $fileReader->readAll();
+        return $fileReader->readAll($flag, $context);
     }
 
     /**

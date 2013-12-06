@@ -95,11 +95,13 @@ class Read implements ReadInterface
     /**
      * Return file content
      *
+     * @param string|null $flag
+     * @param resource|null $context
      * @return string
      */
-    public function readAll()
+    public function readAll($flag = null, $context = null)
     {
-       return $this->driver->fileGetContents($this->path);
+       return $this->driver->fileGetContents($this->path, $flag, $context);
     }
 
     /**

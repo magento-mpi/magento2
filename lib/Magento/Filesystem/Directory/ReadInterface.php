@@ -93,10 +93,12 @@ interface ReadInterface
      * Retrieve file contents from given path
      *
      * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
      * @return string
      * @throws \Magento\Filesystem\FilesystemException
      */
-    public function readFile($path);
+    public function readFile($path, $flag = null, $context = null);
 
     /**
      * Checks is directory contains path

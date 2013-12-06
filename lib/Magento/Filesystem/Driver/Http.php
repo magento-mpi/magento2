@@ -78,8 +78,8 @@ class Http extends Local
      * Retrieve file contents from given path
      *
      * @param string $path
-     * @param resource $context
      * @param string|null $flags
+     * @param resource|null $context
      * @return string
      * @throws FilesystemException
      */

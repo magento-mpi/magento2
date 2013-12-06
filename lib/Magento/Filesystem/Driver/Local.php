@@ -136,13 +136,15 @@ class Local implements \Magento\Filesystem\DriverInterface
      * Retrieve file contents from given path
      *
      * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
      * @return string
      * @throws FilesystemException
      */
-    public function fileGetContents($path)
+    public function fileGetContents($path, $flag = null, $context = null)
     {
         clearstatcache();
-        $result = @file_get_contents($path);
+        $result = @file_get_contents($path, $flag, $context);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('Cannot read contents from file "%s" %s',

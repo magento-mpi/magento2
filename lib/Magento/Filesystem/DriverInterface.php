@@ -63,10 +63,12 @@ interface DriverInterface
      * Retrieve file contents from given path
      *
      * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
      * @return string
      * @throws FilesystemException
      */
-    public function fileGetContents($path);
+    public function fileGetContents($path, $flag = null, $context = null);
 
     /**
      * Check if given path is writable
