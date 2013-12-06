@@ -164,12 +164,10 @@
                         <read_only>1</read_only>
                         <driver>Magento\Filesystem\Driver\Https</driver>
                     </https>
-                </directory>
-                <protocol>
                     <zlib>
                         <driver>Magento\Filesystem\Driver\Zlib</driver>
                     </zlib>
-                </protocol>
+                </directory>
             </filesystem>
         </system>
         <web>

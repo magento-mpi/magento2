@@ -30,6 +30,7 @@ class Filesystem
     const SSH2  = 'ssh2';
     const HTTP  = 'http';
     const HTTPS = 'https';
+    const ZLIB  = 'compress.zlib';
     /**#@-*/
 
     /**
