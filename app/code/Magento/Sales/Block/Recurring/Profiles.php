@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Recurring;
 
-class Profiles extends \Magento\View\Block\Template
+class Profiles extends \Magento\View\Element\Template
 {
 
     /**

@@ -45,11 +45,11 @@ class CustomerEdit extends Page
     /**
      * Getter for title block
      *
-     * @return \Magento\Page\Test\Block\Html\Title
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
         );
     }

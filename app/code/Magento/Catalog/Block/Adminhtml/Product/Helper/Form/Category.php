@@ -33,9 +33,9 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     protected $_collectionFactory;
 
     /**
-     * @var \Magento\Core\Helper\Data
+     * @var \Magento\Json\EncoderInterface
      */
-    protected $_coreData;
+    protected $_jsonEncoder;
 
     /**
      * @param \Magento\Data\Form\Element\Factory $factoryElement
@@ -44,7 +44,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
      * @param \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\View\LayoutInterface $layout
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param array $data
      */
     public function __construct(
@@ -54,12 +54,12 @@ class Category extends \Magento\Data\Form\Element\Multiselect
         \Magento\Catalog\Model\Resource\Category\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Data $backendData,
         \Magento\View\LayoutInterface $layout,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_collectionFactory = $collectionFactory;
         $this->_backendData = $backendData;
-        $this->_coreData = $coreData;
         parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
         $this->_layout = $layout;
     }
@@ -107,7 +107,7 @@ class Category extends \Magento\Data\Form\Element\Multiselect
     {
         $htmlId = $this->getHtmlId();
         $suggestPlaceholder = __('start typing to search category');
-        $selectorOptions = $this->_coreData->jsonEncode($this->_getSelectorOptions());
+        $selectorOptions = $this->_jsonEncoder->encode($this->_getSelectorOptions());
         $newCategoryCaption = __('New Category');
 
         $button = $this->_layout

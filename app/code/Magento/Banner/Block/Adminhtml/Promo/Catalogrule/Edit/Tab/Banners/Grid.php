@@ -29,7 +29,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
@@ -39,7 +38,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
@@ -48,7 +46,7 @@ class Grid
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $coreData, $urlModel, $bannerColFactory, $bannerConfig, $data);
+        parent::__construct($context, $urlModel, $bannerColFactory, $bannerConfig, $data);
         $this->_bannerFactory = $bannerFactory;
     }
 

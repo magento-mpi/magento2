@@ -47,7 +47,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      * Construct
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory
      * @param \Magento\Acl\Resource\ProviderInterface $aclResourceProvider
@@ -57,7 +56,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\User\Model\Resource\Rules\CollectionFactory $rulesCollFactory,
         \Magento\Acl\Resource\ProviderInterface $aclResourceProvider,
@@ -70,7 +68,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

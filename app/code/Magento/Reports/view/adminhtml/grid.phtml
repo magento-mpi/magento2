@@ -16,7 +16,7 @@ $numColumns = sizeof($this->getColumns());
 <?php if ($this->canDisplayContainer()): ?>
     <div id="<?php echo $this->getId() ?>">
 <?php else: ?>
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
 <?php endif; ?>
 <?php if ($this->getStoreSwitcherVisibility() || $this->getDateFilterVisibility()): ?>
     <?php if ($this->getStoreSwitcherVisibility()): ?>

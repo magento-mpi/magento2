@@ -9,11 +9,11 @@
 namespace Magento\Webapi\Block\Adminhtml\Integration\Activate\Permissions\Tab;
 
 use Magento\Backend\Block\Widget\Tab\TabInterface;
-use Magento\View\Block\Template;
+use Magento\View\Element\Template;
 use Magento\Acl\Resource\ProviderInterface;
 use Magento\Core\Helper\Data as CoreHelper;
 use Magento\Core\Model\Acl\RootResource;
-use Magento\View\Block\Template\Context;
+use Magento\View\Element\Template\Context;
 use Magento\Integration\Helper\Data as IntegrationHelper;
 use Magento\Webapi\Helper\Data as WebapiHelper;
 
@@ -41,7 +41,6 @@ class Webapi extends Template implements TabInterface
      * Initialize dependencies.
      *
      * @param Context $context
-     * @param CoreHelper $coreData
      * @param RootResource $rootResource
      * @param ProviderInterface $resourceProvider
      * @param IntegrationHelper $integrationData
@@ -50,7 +49,6 @@ class Webapi extends Template implements TabInterface
      */
     public function __construct(
         Context $context,
-        CoreHelper $coreData,
         RootResource $rootResource,
         ProviderInterface $resourceProvider,
         IntegrationHelper $integrationData,
@@ -61,7 +59,7 @@ class Webapi extends Template implements TabInterface
         $this->_webapiHelper = $webapiData;
         $this->_resourceProvider = $resourceProvider;
         $this->_integrationData = $integrationData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

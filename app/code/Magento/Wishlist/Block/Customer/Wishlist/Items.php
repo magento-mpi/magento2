@@ -17,7 +17,7 @@
  */
 namespace Magento\Wishlist\Block\Customer\Wishlist;
 
-class Items extends \Magento\View\Block\Template
+class Items extends \Magento\View\Element\Template
 {
     /**
      * Retrieve table column object list

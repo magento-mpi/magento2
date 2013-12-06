@@ -26,7 +26,6 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory
      * @param \Magento\Banner\Model\Config $bannerConfig
@@ -35,14 +34,13 @@ class Chooser extends \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Banner\Model\Resource\Banner\CollectionFactory $bannerColFactory,
         \Magento\Banner\Model\Config $bannerConfig,
         \Magento\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $urlModel, $bannerColFactory, $bannerConfig, $data);
+        parent::__construct($context, $urlModel, $bannerColFactory, $bannerConfig, $data);
         $this->_elementFactory = $elementFactory;
     }
 

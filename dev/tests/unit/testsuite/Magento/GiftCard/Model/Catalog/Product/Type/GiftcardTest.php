@@ -144,9 +144,12 @@ class GiftcardTest extends \PHPUnit_Framework_TestCase
             'resourceCollection' => $productCollection,
             'collectionFactory' => $this->getMock('Magento\Data\CollectionFactory', array(), array(), '', false),
         ));
-        $this->_product = $this->getMock('Magento\Catalog\Model\Product',
-            array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin'),
-            $arguments, '', false
+        $this->_product = $this->getMock(
+            'Magento\Catalog\Model\Product',
+            array('getGiftcardAmounts', 'getAllowOpenAmount', 'getOpenAmountMax', 'getOpenAmountMin', '__wakeup'),
+            $arguments,
+            '',
+            false
         );
 
         $this->_customOptions = array();
