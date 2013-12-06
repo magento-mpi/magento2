@@ -33,7 +33,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -41,7 +40,6 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -49,7 +47,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     /**

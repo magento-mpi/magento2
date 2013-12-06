@@ -9,7 +9,7 @@
  */
 namespace Magento\Paypal\Block\Standard;
 
-class Redirect extends \Magento\View\Block\AbstractBlock
+class Redirect extends \Magento\View\Element\AbstractBlock
 {
     /**
      * @var \Magento\Data\FormFactory
@@ -32,7 +32,7 @@ class Redirect extends \Magento\View\Block\AbstractBlock
     protected $mathRandom;
 
     /**
-     * @param \Magento\View\Block\Context $context
+     * @param \Magento\View\Element\Context $context
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Paypal\Model\StandardFactory $paypalStandardFactory
@@ -40,7 +40,7 @@ class Redirect extends \Magento\View\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Context $context,
+        \Magento\View\Element\Context $context,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Paypal\Model\StandardFactory $paypalStandardFactory,
@@ -71,7 +71,7 @@ class Redirect extends \Magento\View\Block\AbstractBlock
             $form->addField($field, 'hidden', array('name' => $field, 'value' => $value));
         }
         $idSuffix = $this->mathRandom->getUniqueHash();
-        $submitButton = $this->_elementFactory->create('submit', array('attributes' => array(
+        $submitButton = $this->_elementFactory->create('submit', array('data' => array(
             'value' => __('Click here if you are not redirected within 10 seconds.'),
         )));
         $id = "submit_to_paypal_button_{$idSuffix}";

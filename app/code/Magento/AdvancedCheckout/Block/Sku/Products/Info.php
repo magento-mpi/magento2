@@ -19,7 +19,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Sku\Products;
 
-class Info extends \Magento\View\Block\Template
+class Info extends \Magento\View\Element\Template
 {
     /**
      * Checkout data
@@ -43,16 +43,14 @@ class Info extends \Magento\View\Block\Template
     protected $_productAlertData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\ProductAlert\Helper\Data $productAlertData
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\ProductAlert\Helper\Data $productAlertData,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\Registry $registry,
@@ -61,7 +59,7 @@ class Info extends \Magento\View\Block\Template
         $this->_productAlertData = $productAlertData;
         $this->_checkoutData = $checkoutData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

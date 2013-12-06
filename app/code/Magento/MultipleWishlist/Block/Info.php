@@ -23,8 +23,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
     protected $_customerFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -37,8 +36,7 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -53,7 +51,6 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
         $this->_customerFactory = $customerFactory;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,
@@ -64,16 +61,6 @@ class Info extends \Magento\Wishlist\Block\AbstractBlock
             $productFactory,
             $data
         );
-    }
-
-    /**
-     * Create message block
-     *
-     * @return \Magento\View\Block\AbstractBlock
-     */
-    public function getMessagesBlock()
-    {
-        return $this->getLayout()->getBlock('messages');
     }
 
     /**

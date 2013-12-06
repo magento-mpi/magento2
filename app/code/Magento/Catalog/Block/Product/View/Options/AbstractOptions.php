@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Product\View\Options;
 
-abstract class AbstractOptions extends \Magento\View\Block\Template
+abstract class AbstractOptions extends \Magento\View\Element\Template
 {
     /**
      * Product object
@@ -42,19 +42,17 @@ abstract class AbstractOptions extends \Magento\View\Block\Template
     protected $_taxData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
         $this->_taxData = $taxData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

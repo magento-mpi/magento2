@@ -29,8 +29,8 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory
-     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\Stdlib\String $string
+     * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param array $data
      */
     public function __construct(
@@ -38,19 +38,12 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Resource\Layer\Filter\AttributeFactory $filterAttributeFactory,
-        \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\Stdlib\String $string,
+        \Magento\Search\Model\Resource\Engine $resourceEngine,
         array $data = array()
     ) {
         $this->_resourceEngine = $resourceEngine;
-        parent::__construct(
-            $filterItemFactory,
-            $storeManager,
-            $catalogLayer,
-            $filterAttributeFactory,
-            $string,
-            $data
-        );
+        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $filterAttributeFactory, $string, $data);
     }
 
     /**

@@ -18,7 +18,7 @@
  */
 namespace Magento\Reward\Block\Checkout\Payment;
 
-class Additional extends \Magento\View\Block\Template
+class Additional extends \Magento\View\Element\Template
 {
     /**
      * Reward data
@@ -43,8 +43,7 @@ class Additional extends \Magento\View\Block\Template
     protected $_checkoutSession;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
@@ -52,8 +51,7 @@ class Additional extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -64,7 +62,7 @@ class Additional extends \Magento\View\Block\Template
         $this->_checkoutSession = $checkoutSession;
         $this->_rewardData = $rewardData;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

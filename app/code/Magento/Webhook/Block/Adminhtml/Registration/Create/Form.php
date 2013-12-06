@@ -41,7 +41,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $inputLength = max(self::API_KEY_LENGTH, self::API_SECRET_LENGTH, self::MIN_TEXT_INPUT_LENGTH);
 
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id' => 'api_user',
                 'action' => $this->getUrl(
                     'adminhtml/*/register', array('id' => $subscription[self::DATA_SUBSCRIPTION_ID])

@@ -31,7 +31,6 @@ class Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url\RewriteFactory $rewriteFactory
      * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -39,14 +38,13 @@ class Edit
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url\RewriteFactory $rewriteFactory,
         \Magento\Backend\Helper\Data $adminhtmlData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
         $this->_categoryFactory = $categoryFactory;
-        parent::__construct($context, $coreData, $rewriteFactory, $adminhtmlData, $data);
+        parent::__construct($context, $rewriteFactory, $adminhtmlData, $data);
     }
 
     /**

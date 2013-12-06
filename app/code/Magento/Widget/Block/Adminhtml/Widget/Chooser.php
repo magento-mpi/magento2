@@ -26,19 +26,25 @@ class Chooser extends \Magento\Backend\Block\Template
     protected $_elementFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Data\Form\Element\Factory $elementFactory,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_elementFactory = $elementFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -149,7 +155,7 @@ class Chooser extends \Magento\Backend\Block\Template
         ));
         $hiddenHtml = '';
         if ($this->getHiddenEnabled()) {
-            $hidden = $this->_elementFactory->create('hidden', array('attributes' => $element->getData()));
+            $hidden = $this->_elementFactory->create('hidden', array('data' => $element->getData()));
             $hidden->setId("{$chooserId}value")->setForm($element->getForm());
             if ($element->getRequired()) {
                 $hidden->addClass('required-entry');
@@ -169,7 +175,7 @@ class Chooser extends \Magento\Backend\Block\Template
         $chooser->setData('after_element_html', $hiddenHtml . $chooseButton->toHtml());
 
         // render label and chooser scripts
-        $configJson = $this->_coreData->jsonEncode($config->getData());
+        $configJson = $this->_jsonEncoder->encode($config->getData());
         return '
             <label class="widget-option-label" id="' . $chooserId . 'label">'
             . ($this->getLabel() ? $this->getLabel() : __('Not Selected')) . '</label>

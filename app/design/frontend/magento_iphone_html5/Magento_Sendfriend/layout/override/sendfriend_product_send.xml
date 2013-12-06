@@ -14,7 +14,7 @@
         </action>
     </referenceBlock>
     <referenceBlock name="head">
-        <block class="Magento\Page\Block\Html\Head\Script" name="varien-product-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="varien-product-js">
             <arguments>
                 <argument name="file" xsi:type="string">varien/product.js</argument>
             </arguments>

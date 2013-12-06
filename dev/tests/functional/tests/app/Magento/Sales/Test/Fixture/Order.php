@@ -101,7 +101,7 @@ class Order extends DataFixture
         $simple->switchData('simple_required');
 
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $simple->switchData('configurable_required');
+        $configurable->switchData('configurable_required');
 
         $simple->persist();
         $configurable->persist();

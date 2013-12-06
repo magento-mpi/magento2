@@ -13,7 +13,7 @@
  */
 namespace Magento\Core\Block;
 
-class Formkey extends \Magento\View\Block\Template
+class Formkey extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Data\Form\FormKey
@@ -21,19 +21,17 @@ class Formkey extends \Magento\View\Block\Template
     protected $formKey;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Data\Form\FormKey $formKey
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Data\Form\FormKey $formKey,
         array $data = array()
     ) {
         $this->formKey = $formKey;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

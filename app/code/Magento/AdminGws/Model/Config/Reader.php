@@ -28,8 +28,9 @@ class Reader extends \Magento\Config\Reader\Filesystem
      * @param \Magento\AdminGws\Model\Config\SchemaLocator $schemaLocator
      * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
-     * @param $idAttributes
+     * @param array $idAttributes
      * @param string $domDocumentClass
+     * @param string $defaultScope
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
@@ -38,10 +39,18 @@ class Reader extends \Magento\Config\Reader\Filesystem
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'admingws.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento\Config\Dom'
+        $domDocumentClass = 'Magento\Config\Dom',
+        $defaultScope = 'global'
     ) {
         parent::__construct(
-            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
+            $fileResolver,
+            $converter,
+            $schemaLocator,
+            $validationState,
+            $fileName,
+            $idAttributes,
+            $domDocumentClass,
+            $defaultScope
         );
     }
 }

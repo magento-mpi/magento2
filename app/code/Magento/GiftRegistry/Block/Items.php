@@ -45,8 +45,7 @@ class Items extends \Magento\Checkout\Block\Cart
     protected $quoteItemFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
@@ -59,8 +58,7 @@ class Items extends \Magento\Checkout\Block\Cart
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
@@ -79,7 +77,6 @@ class Items extends \Magento\Checkout\Block\Cart
         $this->quoteItemFactory = $quoteItemFactory;
         parent::__construct(
             $context,
-            $coreData,
             $catalogData,
             $customerSession,
             $checkoutSession,

@@ -117,7 +117,7 @@ class Breadcrumbs extends \Magento\FullPageCache\Model\Container\AbstractContain
             return '';
         }
 
-        /** @var $breadcrumbsBlock \Magento\Page\Block\Html\Breadcrumbs */
+        /** @var $breadcrumbsBlock \Magento\Theme\Block\Html\Breadcrumbs */
         $breadcrumbsBlock = $this->_getPlaceHolderBlock();
         $breadcrumbsBlock->setNameInLayout($this->_placeholder->getAttribute('name'));
         $crumbs = $this->_placeholder->getAttribute('crumbs');
