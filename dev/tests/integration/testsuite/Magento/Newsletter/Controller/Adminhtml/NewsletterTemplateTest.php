@@ -40,7 +40,7 @@ class NewsletterTemplateTest extends \Magento\Backend\Utility\Controller
          * Unset messages
          */
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\Model\Session')
-            ->getMessages(true);
+            ->destroy();
         unset($this->_model);
     }
 

@@ -29,29 +29,22 @@ class Login extends Form
      *
      * @var string
      */
-    private $loginButton;
+    protected $loginButton = '.action.login';
 
     /**
      * 'Register' customer button
      *
      * @var string
      */
-    private $registerButton;
+    protected $registerButton = '.action.create';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        //Initialize mapping
-        $this->_mapping = array(
-            'email' => '#email',
-            'password' => '#pass'
-        );
-        //Elements
-        $this->loginButton = '.action.login';
-        $this->registerButton = '.action.create';
-    }
+    protected $_mapping = array(
+        'email' => '#email',
+        'password' => '#pass'
+    );
 
     /**
      * Fill customer login data
@@ -92,7 +85,6 @@ class Login extends Form
      */
     public function registerCustomer()
     {
-        $this->_rootElement->find('//a[@class="action create"]', Locator::SELECTOR_XPATH)->click();
-
+        $this->_rootElement->find($this->registerButton, Locator::SELECTOR_CSS)->click();
     }
 }

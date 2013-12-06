@@ -27,7 +27,7 @@ class FormTabs extends Form
     /**
      * @var array
      */
-    protected $_tabClasses = array();
+    protected $tabClasses = array();
 
     /**
      * Fill form with tabs
@@ -119,9 +119,9 @@ class FormTabs extends Form
     {
         $tabRootElement = $this->_rootElement->find($tab, Locator::SELECTOR_ID);
 
-        $tabClass = isset($this->_tabClasses[$tab])
-            ? $this->_tabClasses[$tab]
-            : '\\Magento\\Backend\\Test\\Block\\Widget\\Tab';
+        $tabClass = isset($this->tabClasses[$tab])
+            ? $this->tabClasses[$tab]
+            : '\Magento\Backend\Test\Block\Widget\Tab';
         /** @var $tabElement Tab */
         $tabElement = new $tabClass($tabRootElement);
         if (!$tabElement instanceof Tab) {

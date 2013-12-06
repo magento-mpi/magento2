@@ -31,7 +31,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     /**
      * Simple product
      *
-     * @var \Magento\Catalog\Test\Fixture\Product
+     * @var \Magento\Catalog\Test\Fixture\SimpleProduct
      */
     protected $simpleProduct;
 
@@ -48,7 +48,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
     /**
      * Return the simple product
      *
-     * @return \Magento\Catalog\Test\Fixture\Product
+     * @return \Magento\Catalog\Test\Fixture\SimpleProduct
      */
     public function getSimpleProduct()
     {
@@ -86,7 +86,7 @@ class SpecialPriceCheckMoneyOrder extends Checkout
         $taxRule->persist();
 
         // Products with advanced pricing
-        $this->simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $this->simpleProduct = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->simpleProduct->switchData('simple_advanced_pricing');
         $this->simpleProduct->persist();
 

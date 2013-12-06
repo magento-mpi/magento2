@@ -8,6 +8,8 @@
 
 namespace Magento\Integration\Model\Oauth;
 
+use \Magento\Oauth\Helper\Oauth as OauthHelper;
+
 /**
  * oAuth token model
  *
@@ -55,7 +57,7 @@ class Token extends \Magento\Core\Model\AbstractModel
     const USER_TYPE_CUSTOMER = 'customer';
     /**#@- */
 
-    /** @var \Magento\Oauth\Helper\Oauth */
+    /** @var OauthHelper */
     protected $_oauthHelper;
 
     /** @var \Magento\Integration\Helper\Oauth\Data */
@@ -74,26 +76,31 @@ class Token extends \Magento\Core\Model\AbstractModel
     protected $_dateTime;
 
     /**
+     * @param \Magento\Core\Model\Context $context
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory
      * @param \Magento\Url\Validator $urlValidator
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory
      * @param \Magento\Integration\Helper\Oauth\Data $oauthData
-     * @param \Magento\Oauth\Helper\Oauth $oauthHelper
+     * @param OauthHelper $oauthHelper
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\Core\Model\Context $context,
+        \Magento\Core\Model\Registry $registry,
         \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLengthFactory $keyLengthFactory,
         \Magento\Url\Validator $urlValidator,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Integration\Model\Oauth\Consumer\Factory $consumerFactory,
         \Magento\Integration\Helper\Oauth\Data $oauthData,
-        \Magento\Oauth\Helper\Oauth $oauthHelper,
+        OauthHelper $oauthHelper,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
@@ -152,7 +159,7 @@ class Token extends \Magento\Core\Model\AbstractModel
                 'token' => $this->_oauthHelper->generateToken(),
                 'secret' => $this->_oauthHelper->generateTokenSecret(),
                 'verifier' => $this->_oauthHelper->generateVerifier(),
-                'callback_url' => \Magento\Oauth\Helper\Oauth::CALLBACK_ESTABLISHED
+                'callback_url' => OauthHelper::CALLBACK_ESTABLISHED
             ));
             $this->save();
         }
@@ -221,6 +228,7 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function createRequestToken($entityId, $callbackUrl)
     {
+        $callbackUrl = !empty($callbackUrl) ? $callbackUrl : OauthHelper::CALLBACK_ESTABLISHED;
         $this->setData(array(
                'entity_id' => $entityId,
                'type' => self::TYPE_REQUEST,
@@ -286,7 +294,7 @@ class Token extends \Magento\Core\Model\AbstractModel
      */
     public function validate()
     {
-        if (\Magento\Oauth\Helper\Oauth::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
+        if (OauthHelper::CALLBACK_ESTABLISHED != $this->getCallbackUrl()
             && !$this->_urlValidator->isValid($this->getCallbackUrl())
         ) {
             $messages = $this->_urlValidator->getMessages();
@@ -295,14 +303,14 @@ class Token extends \Magento\Core\Model\AbstractModel
 
         /** @var $validatorLength \Magento\Integration\Model\Oauth\Consumer\Validator\KeyLength */
         $validatorLength = $this->_keyLengthFactory->create();
-        $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET);
+        $validatorLength->setLength(OauthHelper::LENGTH_TOKEN_SECRET);
         $validatorLength->setName('Token Secret Key');
         if (!$validatorLength->isValid($this->getSecret())) {
             $messages = $validatorLength->getMessages();
             throw new \Magento\Oauth\Exception(array_shift($messages));
         }
 
-        $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN);
+        $validatorLength->setLength(OauthHelper::LENGTH_TOKEN);
         $validatorLength->setName('Token Key');
         if (!$validatorLength->isValid($this->getToken())) {
             $messages = $validatorLength->getMessages();
@@ -310,7 +318,7 @@ class Token extends \Magento\Core\Model\AbstractModel
         }
 
         if (null !== ($verifier = $this->getVerifier())) {
-            $validatorLength->setLength(\Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_VERIFIER);
+            $validatorLength->setLength(OauthHelper::LENGTH_TOKEN_VERIFIER);
             $validatorLength->setName('Verifier Key');
             if (!$validatorLength->isValid($verifier)) {
                 $messages = $validatorLength->getMessages();

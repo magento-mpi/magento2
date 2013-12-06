@@ -51,8 +51,8 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             'Magento\CustomerSegment\Model\Resource\Customer',
             array('getCustomerWebsiteSegments', 'getIdFieldName'),
             array(
+                $this->getMock('Magento\App\Resource', array(), array(), '', false),
                 $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true),
-                $this->getMock('Magento\App\Resource', array(), array(), '', false)
             )
         );
 

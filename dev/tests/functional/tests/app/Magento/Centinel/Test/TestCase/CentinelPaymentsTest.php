@@ -33,7 +33,7 @@ class CentinelPaymentsTest extends AbstractCentinelPaymentsTest
      */
     public function testValidCreditCard(DataFixture $fixture)
     {
-        $this->markTestSkipped('CICD-776');
+        $this->markTestIncomplete('CICD-776');
         //Data
         $fixture->persist();
 
@@ -48,7 +48,7 @@ class CentinelPaymentsTest extends AbstractCentinelPaymentsTest
 
         //Verifying
         if ($fixture instanceof RegisteredAuthorisenetValidCc) {
-            $this->markTestSkipped('MAGETWO-17484');
+            $this->markTestIncomplete('MAGETWO-17484');
         }
         $this->_verifyOrder($fixture);
     }

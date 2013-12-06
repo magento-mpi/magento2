@@ -29,16 +29,14 @@ class Topmenu extends Block
      *
      * @var string
      */
-    private $moreParentCategories;
+    protected $moreParentCategories = '.more.parent';
 
     /**
-     * Initialize for block elements
+     * Top Elements of menu
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        //Elements
-        $this->moreParentCategories = '.more.parent';
-    }
+    protected $navigationMenuItems = "/li";
 
     /**
      * Select category from top menu by name and click on it
@@ -48,11 +46,28 @@ class Topmenu extends Block
     public function selectCategoryByName($categoryName)
     {
         $moreCategoriesLink = $this->_rootElement->find($this->moreParentCategories, Locator::SELECTOR_CSS);
+        /**
+         * @TODO Eliminate excessive logic
+         * Currently redundant actions are performed: "more categories" clicked even if category is already visible
+         */
         if ($moreCategoriesLink->isVisible()) {
             $moreCategoriesLink->click();
             sleep(2); //TODO should be removed after fix with category sliding
         }
-        $categoryLink = $this->_rootElement->find('//a[span="'.$categoryName.'"]', Locator::SELECTOR_XPATH);
+        $categoryLink = $this->_rootElement->find('//a[span="' . $categoryName . '"]', Locator::SELECTOR_XPATH);
         $categoryLink->click();
     }
+
+    /**
+     * Check menu items count
+     *
+     * @param int $number
+     * @return bool
+     */
+    public function assertNavigationMenuItemsCount($number)
+    {
+        $selector = $this->navigationMenuItems . '[' . ($number + 1) . ']';
+        return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
+    }
 }
+

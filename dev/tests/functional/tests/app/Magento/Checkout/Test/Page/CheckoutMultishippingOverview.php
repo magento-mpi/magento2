@@ -14,7 +14,6 @@ namespace Magento\Checkout\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Checkout\Test\Block\Multishipping;
 
 /**
  * Class CheckoutMultishippingOverview
@@ -32,10 +31,9 @@ class CheckoutMultishippingOverview extends Page
     /**
      * Multishipping checkout overview block
      *
-     * @var Multishipping\Overview
-     * @private
+     * @var string
      */
-    private $overviewBlock;
+    protected $overviewBlock = '#review-order-form';
 
     /**
      * Custom constructor
@@ -43,9 +41,6 @@ class CheckoutMultishippingOverview extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-        $this->overviewBlock = Factory::getBlockFactory()->getMagentoCheckoutMultishippingOverview(
-            $this->_browser->find('#review-order-form', Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -55,6 +50,8 @@ class CheckoutMultishippingOverview extends Page
      */
     public function getOverviewBlock()
     {
-        return $this->overviewBlock;
+        return Factory::getBlockFactory()->getMagentoCheckoutMultishippingOverview(
+            $this->_browser->find($this->overviewBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

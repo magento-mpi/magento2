@@ -67,7 +67,6 @@
                 <block class="Magento\Backend\Block\Widget\Grid\Column" as="edit">
                     <arguments>
                         <argument name="renderer" xsi:type="string">Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button\Edit</argument>
-                        <argument name="class" xsi:type="string">action edit</argument>
                         <argument name="index" xsi:type="string">edit</argument>
                         <argument name="id" xsi:type="string">edit</argument>
                         <argument name="sortable" xsi:type="string">0</argument>

@@ -31,9 +31,9 @@ class CatalogCategoryView extends Page
     /**
      * List of results of product search
      *
-     * @var \Magento\Catalog\Test\Block\Product\ListProduct
+     * @var string
      */
-    private $listProductBlock;
+    protected $listProductBlock = '.products.wrapper.grid';
 
     /**
      * Custom constructor
@@ -41,10 +41,6 @@ class CatalogCategoryView extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_frontend_url'] . self::MCA;
-
-        $this->listProductBlock = Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
-            $this->_browser->find('.products.wrapper.grid', Locator::SELECTOR_CSS)
-        );
     }
 
     /**
@@ -54,6 +50,8 @@ class CatalogCategoryView extends Page
      */
     public function getListProductBlock()
     {
-        return $this->listProductBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
+            $this->_browser->find($this->listProductBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

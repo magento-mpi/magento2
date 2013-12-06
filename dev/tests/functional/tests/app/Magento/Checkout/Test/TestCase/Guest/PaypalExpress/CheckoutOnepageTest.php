@@ -27,6 +27,8 @@ class CheckoutOnepageTest extends Functional
     /**
      * Place order on frontend via one page checkout and Paypal Express checkout.
      * Shipping method used is Flat Rate
+     *
+     * @ZephyrId MAGETWO-12413
      */
     public function testOnepageCheckout()
     {

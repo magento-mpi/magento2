@@ -92,7 +92,7 @@ class BundleDynamic extends Bundle
                         )
                     )
                 ),
-                'group' => static::GROUP_BUNDLE_OPTIONS
+                'group' => static::GROUP
             )
         ) + $this->_data['fields'];
 

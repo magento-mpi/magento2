@@ -12,7 +12,6 @@
 
 namespace Magento\Cms\Test\Block\Backend;
 
-use Mtf\Client\Element\Locator;
 use Magento\Backend\Test\Block\Widget\Grid;
 
 /**
@@ -24,15 +23,11 @@ use Magento\Backend\Test\Block\Widget\Grid;
 class PageGrid extends Grid
 {
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'page_title' => array(
-                'selector' => '#cmsPageGrid_filter_title'
-            ),
-        );
-    }
+    protected $filters = array(
+        'page_title' => array(
+            'selector' => '#cmsPageGrid_filter_title'
+        ),
+    );
 }

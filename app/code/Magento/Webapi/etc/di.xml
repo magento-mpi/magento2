@@ -20,4 +20,7 @@
             </value>
         </param>
     </type>
+    <type name="Magento\Integration\Service\IntegrationV1">
+        <plugin name="webapiIntegrationV1" type="Magento\Webapi\Model\Plugin\IntegrationServiceV1"/>
+    </type>
 </config>
