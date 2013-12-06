@@ -33,7 +33,7 @@ class WriteFactory
      * @param string|null $protocol
      * @return \Magento\Filesystem\File\WriteInterface
      */
-    public function create($path, DriverInterface $driver, $protocol = null, $mode = 'w')
+    public function create($path, DriverInterface $driver, $protocol = null, $mode = 'r')
     {
         $wrapper = $driver;
         if ($protocol) {
