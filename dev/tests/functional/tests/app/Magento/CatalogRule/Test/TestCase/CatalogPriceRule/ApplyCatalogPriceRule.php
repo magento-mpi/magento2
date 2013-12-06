@@ -11,11 +11,13 @@
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
+use Magento\Catalog\Test\Repository\ConfigurableProduct;
 use Magento\Catalog\Test\Repository\SimpleProduct;
 use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class ApplyCatalogPriceRule
@@ -38,9 +40,11 @@ class ApplyCatalogPriceRule extends Functional
         $simple->switchData(SimpleProduct::NEW_CATEGORY);
         $simple->persist();
 
-        // Create Configurable Product
-        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurable->switchData('configurable');
+        // Create Configurable Product with same category
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct(
+            array('categories' => $simple->getCategories())
+        );
+        $configurable->switchData(ConfigurableProduct::CONFIGURABLE);
         $configurable->persist();
 
         /** @var Product[] */
@@ -60,7 +64,6 @@ class ApplyCatalogPriceRule extends Functional
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
-        // TODO Same categoryId for simple and configurable
         $categoryIds = $configurable->getCategoryIds();
         $catalogPriceRuleId = $this->createNewCatalogPriceRule($categoryIds[0]);
 

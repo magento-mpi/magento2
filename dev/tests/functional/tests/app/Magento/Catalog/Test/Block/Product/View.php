@@ -55,6 +55,13 @@ class View extends Block
     protected $productPrice = '.price-box .price';
 
     /**
+     * Product special price element
+     *
+     * @var string
+     */
+    private $productSpecialPrice = '.price-box .special-price .price';
+
+    /**
      * Bundle options block
      *
      * @var string
@@ -121,6 +128,16 @@ class View extends Block
     {
         $priceFromTo = $this->_getPriceFromTo();
         return empty($priceFromTo) ? $this->_getSimplePrice() : $priceFromTo;
+    }
+
+    /**
+     * Return product special price displayed on page
+     *
+     * @return array|string
+     */
+    public function getProductSpecialPrice()
+    {
+        return $this->_rootElement->find($this->productSpecialPrice)->getText();
     }
 
     /**

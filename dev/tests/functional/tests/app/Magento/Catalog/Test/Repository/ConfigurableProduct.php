@@ -20,6 +20,8 @@ use Magento\Catalog\Test\Fixture;
  */
 class ConfigurableProduct extends Product
 {
+    const CONFIGURABLE = 'configurable';
+
     public function __construct(array $defaultConfig, array $defaultData)
     {
         parent::__construct($defaultConfig, $defaultData);
