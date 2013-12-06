@@ -79,5 +79,11 @@ class ApplyMAP extends Functional
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
         $this->assertContains($product->getProductMapPrice(), $productViewBlock->getOldPrice());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getActualPrice());
+        $productViewBlock->addToCart($product);
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage->open();
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $this->assertContains($product->getProductPrice(), $unitPrice, 'Incorrect unit price is displayed in Cart');
     }
 }
