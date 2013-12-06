@@ -170,7 +170,7 @@ class ShippingCarrierTest extends Functional
     /**
      * This method initializes necessary store configuration settings in between data-provider runs.
      */
-    private function initConfiguration()
+    private static function initConfiguration()
     {
         $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
         // Disable all shipping carriers
