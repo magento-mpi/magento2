@@ -50,6 +50,20 @@ class ListProduct extends Block
     }
 
     /**
+     * This method returns the displayed special price for the named product.
+     * @param string $productName String containing the name of the product to find.
+     * @return array|string
+     */
+    public function getProductSpecialPrice($productName)
+    {
+        return $this->_rootElement->find(
+            "//*[@class=\"product details\" and .//*[@title=\"{$productName}\"]]" .
+            "//*[@class=\"special-price\"]//*[@class=\"price\"]",
+            Locator::SELECTOR_XPATH
+        )->getText();
+    }
+
+    /**
      * Check if product with specified name is visible
      *
      * @param string $productName
