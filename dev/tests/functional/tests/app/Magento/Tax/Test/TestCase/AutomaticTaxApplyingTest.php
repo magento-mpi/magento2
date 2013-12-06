@@ -20,6 +20,8 @@ use Mtf\TestCase\Functional;
 class AutomaticTaxApplyingTest extends Functional
 {
     /**
+     * Checkout fixture for automatic tax applying scenario
+     *
      * @var \Magento\Checkout\Test\Fixture\AutomaticTaxApplying
      */
     protected $fixture;
@@ -89,16 +91,16 @@ class AutomaticTaxApplyingTest extends Functional
         $this->assertContains(
             $this->fixture->getCartTax(),
             $totalsBlock->getTax(),
-            'Tax is not equal expected value'
+            'Tax is not equal to expected value'
         );
         $this->assertContains(
             $this->fixture->getCartSubtotal(),
             $totalsBlock->getSubtotal(),
-            'Subtotal is not equal expected value'
+            'Subtotal is not equal to expected value'
         );
         $this->assertContains($this->fixture->getCartGrandTotal(),
             $totalsBlock->getGrandTotal(),
-            'Gran Total is not equal expected value'
+            'Gran Total is not equal to expected value'
         );
     }
 

@@ -28,6 +28,13 @@ class AutomaticTaxApplying extends Checkout
     protected $simpleProduct;
 
     /**
+     * Customer vat group fixture
+     *
+     * @var \Magento\Customer\Test\Fixture\VatGroup
+     */
+    protected $customerVatGroup;
+
+    /**
      * Return the simple product
      *
      * @return \Magento\Catalog\Test\Fixture\SimpleProduct
@@ -36,11 +43,6 @@ class AutomaticTaxApplying extends Checkout
     {
         return $this->simpleProduct;
     }
-
-    /**
-     * @var \Magento\Customer\Test\Fixture\VatGroup
-     */
-    protected $customerVatGroup;
 
     /**
      * Prepare data
@@ -143,7 +145,7 @@ class AutomaticTaxApplying extends Checkout
     }
 
     /**
-     * Get cart subtotal
+     * Get cart tax
      *
      * @return string
      */

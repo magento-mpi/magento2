@@ -48,7 +48,7 @@ class Shipping extends Form
     protected $_mapping = [
         'postcode' => [
             'selector' => '#postcode',
-       ]
+        ]
     ];
 
     /**
