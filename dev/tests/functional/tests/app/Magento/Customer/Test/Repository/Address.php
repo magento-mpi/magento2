@@ -34,6 +34,7 @@ class Address extends AbstractRepository
         $this->_data['address_US_1'] = $this->_getUS1();
         $this->_data['address_US_2'] = $this->_getUS2();
         $this->_data['address_UK'] = $this->getAddressUK();
+        $this->_data['address_UK_with_VAT'] = $this->getAddressUKWithVAT($this->_data['address_UK']);
         $this->_data['address_data_US_1'] = $this->_getDataUS1();
     }
 
@@ -196,20 +197,43 @@ class Address extends AbstractRepository
                     'street[]' => array(
                         'value' => '172, Westminster Bridge Rd',
                     ),
-                    'city' => array(
-                        'value' => 'London',
+                    'country_id' => array(
+                        'value' => 'United Kingdom',
+                        'input_value' => 'GB',
+                        'input' => 'select',
+                        'selector' => '#country',
                     ),
                     'region' => array(
                         'value' => 'London',
                     ),
+                    'city' => array(
+                        'value' => 'London',
+                    ),
                     'postcode' => array(
                         'value' => 'SE1 7RW',
-                    ),
-                    'country_id' => array(
-                        'value' => 'GB',
+                        'selector' => '#zip',
                     ),
                 ),
             ),
         );
+    }
+
+    /**
+     * Get address data for UK with VAT
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function getAddressUKWithVAT($defaultData)
+    {
+        return array_replace_recursive($defaultData, array(
+            'data' => array(
+                'fields' => array(
+                    'vat_id' => array(
+                        'value' => '584451913',
+                    ),
+                ),
+            ),
+        ));
     }
 }

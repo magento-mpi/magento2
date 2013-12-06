@@ -76,7 +76,6 @@ class SaveCustomerWithAddress extends Curl
         return $curlData;
     }
 
-
     /**
      * Retrieve field value or return null if value does not exist
      *
@@ -100,7 +99,7 @@ class SaveCustomerWithAddress extends Curl
     public function execute(Fixture $fixture = null)
     {
         /** @var \Magento\Customer\Test\Fixture\Customer $fixture */
-        $address = $fixture->getDefaultBillingAddress($fixture->getAddressDatasetName());
+        $address = $fixture->getDefaultBillingAddress();
         $fields = $this->prepareData($address->getData('fields'));
         $url = $_ENV['app_frontend_url'] . $this->saveUrl;
         $curl = $this->saveCustomer($fixture);

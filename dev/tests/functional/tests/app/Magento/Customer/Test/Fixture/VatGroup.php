@@ -55,16 +55,22 @@ class VatGroup extends DataFixture
                 ),
             ),
             'vat' => array(
-                'uk' => array(
-                    'invalid' => array(
-                        'value' => '123456789',
-                    ),
-                    'valid' => array(
-                        'value' => '584451913',
-                    ),
+                'invalid' => array(
+                    'value' => '123456789',
+                ),
+                'valid' => array(
+                    'value' => '584451913', //Valid GB VAT number
+                ),
+            ),
+            'customer' => array(
+                'dataset' => array(
+                    'value' => 'customer_UK_1',
                 ),
             ),
         );
+
+        $this->_repository = Factory::getRepositoryFactory()
+            ->getMagentoCustomerVatGroup($this->_dataConfig, $this->_data);
     }
 
     /**
@@ -81,8 +87,9 @@ class VatGroup extends DataFixture
         $this->vatConfig->switchData('customer_vat');
         $this->vatConfig->persist();
 
+        $customerDataset = $this->getData('customer/dataset/value');
         $this->customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
-        $this->customerFixture->switchData('customer_UK_1');
+        $this->customerFixture->switchData($customerDataset);
         Factory::getApp()->magentoCustomerSaveCustomerWithAddress($this->customerFixture);
     }
 
@@ -143,7 +150,7 @@ class VatGroup extends DataFixture
      */
     public function getInvalidVatNumber()
     {
-        return $this->getData('vat/uk/invalid/value');
+        return $this->getData('vat/invalid/value');
     }
 
     /**
@@ -153,6 +160,6 @@ class VatGroup extends DataFixture
      */
     public function getValidVatNumber()
     {
-        return $this->getData('vat/uk/valid/value');
+        return $this->getData('vat/valid/value');
     }
 }

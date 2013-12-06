@@ -11,7 +11,6 @@
 
 namespace Magento\Customer\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**
@@ -33,6 +32,7 @@ class Customer extends AbstractRepository
 
         $this->_data['customer_US_1'] = $this->_getUS1();
         $this->_data['customer_UK_1'] = $this->getUK1();
+        $this->_data['customer_UK_with_VAT'] = $this->getUKWithVAT($this->_data['customer_UK_1']);
         $this->_data['backend_customer'] = $this->_getBackendCustomer();
     }
 
@@ -59,6 +59,11 @@ class Customer extends AbstractRepository
                     'confirmation' => array(
                         'value' => '123123q'
                     )
+                ),
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_US_1',
+                    ),
                 ),
             )
         );
@@ -93,6 +98,11 @@ class Customer extends AbstractRepository
                         'input' => 'select',
                         'input_value' => '1'
                     )
+                ),
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_US_1',
+                    ),
                 ),
                 'addresses' => array()
             )
@@ -135,5 +145,24 @@ class Customer extends AbstractRepository
                 ),
             ),
         );
+    }
+
+    /**
+     * Get customer data for UK with VAT number
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function getUKWithVAT($defaultData)
+    {
+        return array_replace_recursive($defaultData, array(
+            'data' => array(
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_UK_with_VAT',
+                    ),
+                ),
+            ),
+        ));
     }
 }

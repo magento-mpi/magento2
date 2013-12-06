@@ -84,26 +84,24 @@ class Customer extends DataFixture
     /**
      * Get billing address for customer
      *
-     * @param string $dataset
      * @return Address
      */
-    public function getDefaultBillingAddress($dataset = 'address_US_1')
+    public function getDefaultBillingAddress()
     {
         $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $defaultBilling->switchData($dataset);
+        $defaultBilling->switchData($this->getAddressDatasetName());
         return $defaultBilling;
     }
 
     /**
      * Get default shipping address for customer
      *
-     * @param string $dataset
      * @return Address
      */
-    public function getDefaultShippingAddress($dataset = 'address_US_1')
+    public function getDefaultShippingAddress()
     {
         $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $defaultShipping->switchData($dataset);
+        $defaultShipping->switchData($this->getAddressDatasetName());
         return $defaultShipping;
     }
 
@@ -139,7 +137,7 @@ class Customer extends DataFixture
      *
      * @return string
      */
-    public function getAddressDatasetName()
+    protected function getAddressDatasetName()
     {
         return $this->getData('address/dataset/value');
     }

@@ -66,6 +66,8 @@ class Config extends AbstractRepository
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
+        //Customer
+        $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
     }
 
     protected function _getFreeShipping()
@@ -993,6 +995,35 @@ class Config extends AbstractRepository
                                 'fields' => array(
                                     'eu_countries' => array(
                                         'value' => array('FR', 'DE', 'GB'),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Get data for disable automatic assignment customer to customer group
+     *
+     * @return array
+     */
+    public function getDisableGroupAssignData()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'customer' => array(
+                        'section' => 'customer',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'create_account' => array(
+                                'fields' => array(
+                                    'auto_group_assign' => array(
+                                        'value' => self::NO_VALUE,
                                     ),
                                 ),
                             ),

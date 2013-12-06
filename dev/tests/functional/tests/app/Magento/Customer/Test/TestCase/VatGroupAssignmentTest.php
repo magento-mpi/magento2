@@ -103,8 +103,15 @@ class VatGroupAssignmentTest extends Functional
         $form->saveVatID($vatId);
     }
 
+    /**
+     * Remove created customer groups and disable automatic group assign
+     */
     protected function tearDown()
     {
         Factory::getApp()->magentoCustomerRemoveCustomerGroup($this->vatFixture);
+
+        $config = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $config->switchData('customer_disable_group_assign');
+        $config->persist();
     }
 }
