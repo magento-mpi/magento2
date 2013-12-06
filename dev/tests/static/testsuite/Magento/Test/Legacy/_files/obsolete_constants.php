@@ -387,8 +387,16 @@ return array(
     ),
     array('XML_PATH_MERGE_CSS_FILES', 'Magento\View\Asset\MergeService'),
     array('XML_PATH_MERGE_JS_FILES', 'Magento\View\Asset\MergeService'),
-    array('XML_PATH_MINIFICATION_ENABLED', 'Magento\View\Asset\MinifyService'),
-    array('XML_PATH_MINIFICATION_ADAPTER', 'Magento\View\Asset\MinifyService'),
+    array(
+        'XML_PATH_MINIFICATION_ENABLED',
+        'Magento\View\Asset\MinifyService',
+        'Magento\Core\Model\Asset\Config::XML_PATH_MINIFICATION_ENABLED'
+    ),
+    array(
+        'XML_PATH_MINIFICATION_ADAPTER',
+        'Magento\View\Asset\MinifyService',
+        'Magento\Core\Model\Asset\Config::XML_PATH_MINIFICATION_ADAPTER'
+    ),
     array('TYPE_BLOCK', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
     array('TYPE_CONTAINER', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
     array('TYPE_ACTION', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),

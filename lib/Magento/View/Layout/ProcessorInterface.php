@@ -71,7 +71,7 @@ interface ProcessorInterface
 
     /**
      * Retrieve all design abstractions that exist in the system.
-     * 
+     *
      * @return array
      */
     public function getAllDesignAbstractions();
