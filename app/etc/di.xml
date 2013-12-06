@@ -60,6 +60,7 @@
     <preference for="Magento\View\Design\Theme\Image\PathInterface" type="Magento\Core\Model\Theme\Image\Path" />
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
+    <preference for="Magento\View\Design\Theme\Label\ListInterface" type="Magento\Core\Model\Resource\Theme\Collection" />
     <virtualType name="interceptionConfigScope" type="Magento\Config\Scope">
         <param name="defaultScope">
             <value>global</value>
