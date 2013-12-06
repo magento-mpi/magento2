@@ -13,14 +13,29 @@ use Magento\Filesystem\DriverInterface;
 class ReadFactory
 {
     /**
+     * @var \Magento\Filesystem\WrapperFactory
+     */
+    protected $wrapperFactory;
+
+    public function __construct(\Magento\Filesystem\WrapperFactory $wrapperFactory)
+    {
+        $this->wrapperFactory = $wrapperFactory;
+    }
+
+    /**
      * Create a readable file
      *
      * @param string $path
      * @param DriverInterface $driver
+     * @param string|null $protocol
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function create($path, DriverInterface $driver)
+    public function create($path, DriverInterface $driver, $protocol = null)
     {
-        return new \Magento\Filesystem\File\Read($path, $driver);
+        $wrapper = $driver;
+        if ($protocol) {
+            $wrapper = $this->wrapperFactory->get($protocol, $driver);
+        }
+        return new \Magento\Filesystem\File\Read($path, $wrapper);
     }
 }

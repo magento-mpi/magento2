@@ -86,7 +86,7 @@ class ExcelTest extends \PHPUnit_Framework_TestCase
         $name = md5(microtime());
         $file = TESTS_TEMP_DIR . '/' . $name . '.xml';
 
-        $stream = new \Magento\Filesystem\File\Write($file, new \Magento\Filesystem\Driver\Base(), 'w+');
+        $stream = new \Magento\Filesystem\File\Write($file, new \Magento\Filesystem\Driver\Local(), 'w+');
         $stream->lock();
 
         if (!$callback) {

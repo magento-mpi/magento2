@@ -772,7 +772,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 new \Magento\Filesystem\File\Read(
                     $pathToCsvFile,
-                    new \Magento\Filesystem\Driver\Base()
+                    new \Magento\Filesystem\Driver\Local()
                 )
             ));
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToCsvFile, $directoryMock);

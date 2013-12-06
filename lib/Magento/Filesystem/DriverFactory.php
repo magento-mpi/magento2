@@ -12,42 +12,26 @@ namespace Magento\Filesystem;
 
 class DriverFactory
 {
-    const BASE = 'base';
-
-    const SOCKET = 'socket';
-
-    /**
-     * @var \Magento\ObjectManager
-     */
-    protected $objectManager;
-
     /**
      * @var \Magento\Filesystem\DriverInterface[]
      */
-    protected $_drivers = array();
-
-    /**
-     * @param \Magento\ObjectManager $objectManager
-     */
-    public function __construct(\Magento\ObjectManager $objectManager)
-    {
-        $this->objectManager = $objectManager;
-    }
+    protected $drivers = array();
 
     /**
      * Get a driver instance according the given scheme.
      *
-     * @param string $directoryDriverClass [optional]
+     * @param string $driverClass [optional]
      * @return \Magento\Filesystem\DriverInterface
-     * @throws \Exception
+     * @throws \Magento\Filesystem\FilesystemException
      */
-    public function get($directoryDriverClass = '\Magento\Filesystem\Driver\Base')
+    public function get($driverClass = '\Magento\Filesystem\Driver\Local')
     {
-        $driver = $this->objectManager->get($directoryDriverClass);
-        if (!$driver instanceof \Magento\Filesystem\DriverInterface) {
-            throw new \Exception("Invalid filesystem driver class: " . $directoryDriverClass);
+        if (!isset($this->drivers[$driverClass])) {
+            $this->drivers[$driverClass] = new $driverClass;
+            if (!$this->drivers[$driverClass] instanceof \Magento\Filesystem\DriverInterface) {
+                throw new \Magento\Filesystem\FilesystemException("Invalid filesystem driver class: " . $driverClass);
+            }
         }
-
-        return $driver;
+        return $this->drivers[$driverClass];
     }
 }
