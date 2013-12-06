@@ -847,7 +847,7 @@ class Payment extends \Magento\Payment\Model\Info
     public function cancel()
     {
         $isOnline = true;
-        if (!$this->canVoid(new \Magento\Object())) {
+        if (!$this->canVoid($this)) {
             $isOnline = false;
         }
 
