@@ -115,9 +115,7 @@ class DesignAbstraction extends \Magento\View\Element\Html\Select
         // Group the layout options
         $customLayouts = array();
         $pageLayouts = array();
-        /**
-         * @var $layoutProcessor \Magento\View\Layout\ProcessorInterface
-         */
+        /** @var $layoutProcessor \Magento\View\Layout\ProcessorInterface */
         $layoutProcessor = $this->_layoutProcessorFactory->create();
         foreach ($designAbstractions as $pageTypeName => $pageTypeInfo) {
             if ($layoutProcessor->isPageLayoutDesignAbstraction($pageTypeInfo)) {

@@ -1730,5 +1730,12 @@ return array(
     array('Magento\Core\Model\Theme\Label', 'Magento\View\Design\Theme\Label'),
     array('Magento\Core\Model\Theme\LabelFactory', 'Magento\View\Design\Theme\LabelFactory'),
     array('Magento\Core\Model\DesignLoader', 'Magento\View\DesignLoader'),
-    array('Magento\Page\Block\Switcher', 'Magento\Core\Block\Switcher')
+    array('Magento\Page\Block\Switcher', 'Magento\Core\Block\Switcher'),
+    array('Magento\Core\Model\Layout\PageType\Config', 'Magento\View\Layout\PageType\Config'),
+    array('Magento\Core\Model\Layout\PageType\Config\Converter', 'Magento\View\Layout\PageType\Config\Converter'),
+    array('Magento\Core\Model\Layout\PageType\Config\Reader', 'Magento\View\Layout\PageType\Config\Reader'),
+    array(
+        'Magento\Core\Model\Layout\PageType\Config\SchemaLocator',
+        'Magento\View\Layout\PageType\Config\SchemaLocator'
+    ),
 );
