@@ -119,7 +119,7 @@ class Index extends \Magento\App\Action\Action
 
                 $translate->setTranslateInline(true);
 
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Thanks for contacting us with your comments and questions. We\'ll respond to you very soon.')
                 );
                 $this->_redirect('*/*/');
@@ -127,10 +127,7 @@ class Index extends \Magento\App\Action\Action
                 return;
             } catch (\Exception $e) {
                 $translate->setTranslateInline(true);
-
-                $this->_objectManager->get('Magento\Customer\Model\Session')->addError(
-                    __('Something went wrong submitting your request.')
-                );
+                $this->messageManager->addError(__('Something went wrong submitting your request.'));
                 $this->_redirect('*/*/');
                 return;
             }

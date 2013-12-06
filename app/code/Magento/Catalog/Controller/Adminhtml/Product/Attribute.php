@@ -110,16 +110,14 @@ class Attribute extends \Magento\Backend\App\Action
             $model->load($id);
 
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-                    __('This attribute no longer exists.'));
+                $this->messageManager->addError(__('This attribute no longer exists.'));
                 $this->_redirect('catalog/*/');
                 return;
             }
 
             // entity type check
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-                    __('This attribute cannot be edited.'));
+                $this->messageManager->addError(__('This attribute cannot be edited.'));
                 $this->_redirect('catalog/*/');
                 return;
             }
@@ -411,26 +409,26 @@ class Attribute extends \Magento\Backend\App\Action
             // entity type check
             $model->load($id);
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-                    __('This attribute cannot be deleted.'));
+                $this->messageManager->addError(__('This attribute cannot be deleted.'));
                 $this->_redirect('catalog/*/');
                 return;
             }
 
             try {
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('The product attribute has been deleted.'));
+                $this->messageManager->addSuccess(__('The product attribute has been deleted.'));
                 $this->_redirect('catalog/*/');
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_redirect('catalog/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
+                $this->messageManager->addError($e->getMessage());
+                $this->_redirect(
+                    'catalog/*/edit',
+                    array('attribute_id' => $this->getRequest()->getParam('attribute_id'))
+                );
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-            __('We can\'t find an attribute to delete.'));
+        $this->messageManager->addError(__('We can\'t find an attribute to delete.'));
         $this->_redirect('catalog/*/');
     }
 

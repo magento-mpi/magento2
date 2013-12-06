@@ -171,8 +171,7 @@ class Archive extends \Magento\Backend\App\Action
 
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
-            $this->_getSession()
-                ->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
+            $this->messageManager->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
         } else {
             // selected orders is not available for removing from archive
         }

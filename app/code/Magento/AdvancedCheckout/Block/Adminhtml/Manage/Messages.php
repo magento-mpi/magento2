@@ -20,16 +20,16 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 class Messages extends \Magento\View\Block\Messages
 {
     /**
-     * @var \Magento\Backend\Model\Session
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $backendSession;
+    protected $messageManager;
 
     /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
-     * @param \Magento\Backend\Model\Session $backendSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -37,10 +37,10 @@ class Messages extends \Magento\View\Block\Messages
         \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
-        \Magento\Backend\Model\Session $backendSession,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
-        $this->backendSession = $backendSession;
+        $this->messageManager = $messageManager;
         parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
     }
 
@@ -49,7 +49,7 @@ class Messages extends \Magento\View\Block\Messages
      */
     protected function _prepareLayout()
     {
-        $this->addMessages($this->backendSession->getMessages(true));
+        $this->addMessages($this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP, true));
         parent::_prepareLayout();
     }
 }

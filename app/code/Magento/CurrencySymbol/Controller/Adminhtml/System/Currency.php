@@ -124,7 +124,7 @@ class Currency extends \Magento\Backend\App\Action
                 $this->_objectManager->create('Magento\Directory\Model\Currency')->saveRates($data);
                 $this->messageManager->addSuccess(__('All valid rates have been saved.'));
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
 

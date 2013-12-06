@@ -188,7 +188,7 @@ class Review extends \Magento\Backend\App\Action
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
 
-        if(!is_array($reviewsIds)) {
+        if (!is_array($reviewsIds)) {
             $this->messageManager->addError(__('Please select review(s).'));
         } else {
             try {
@@ -196,7 +196,7 @@ class Review extends \Magento\Backend\App\Action
                     $model = $this->_objectManager->create('Magento\Review\Model\Review')->load($reviewId);
                     $model->delete();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($reviewsIds))
                 );
             } catch (\Magento\Core\Exception $e) {
@@ -212,7 +212,7 @@ class Review extends \Magento\Backend\App\Action
     public function massUpdateStatusAction()
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
-        if(!is_array($reviewsIds)) {
+        if (!is_array($reviewsIds)) {
             $this->messageManager->addError(__('Please select review(s).'));
         } else {
             try {
@@ -240,7 +240,7 @@ class Review extends \Magento\Backend\App\Action
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
 
-        if(!is_array($reviewsIds)) {
+        if (!is_array($reviewsIds)) {
             $this->messageManager->addError(__('Please select review(s).'));
         } else {
             try {

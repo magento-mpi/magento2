@@ -210,16 +210,14 @@ class Types extends \Magento\Backend\App\Action
                 }
             }
 
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                ->addSuccess(__('The attribute mapping has been saved.'));
+            $this->messageManager->addSuccess(__('The attribute mapping has been saved.'));
             if (!empty($requiredAttributes)) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                $this->messageManager
                     ->addSuccess($this->_objectManager->get('Magento\GoogleShopping\Helper\Category')->getMessage());
             }
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                ->addError(__("We can't save Attribute Set Mapping."));
+            $this->messageManager->addError(__("We can't save Attribute Set Mapping."));
         }
         $this->_redirect('adminhtml/*/index', array('store' => $this->_getStore()->getId()));
     }

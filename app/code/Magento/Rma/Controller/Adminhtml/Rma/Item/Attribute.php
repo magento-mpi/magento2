@@ -123,8 +123,7 @@ class Attribute extends \Magento\Backend\App\Action
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
-                $this->_getSession()
-                    ->addError(__('Attribute is no longer exists.'));
+                $this->messageManager->addError(__('Attribute is no longer exists.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }

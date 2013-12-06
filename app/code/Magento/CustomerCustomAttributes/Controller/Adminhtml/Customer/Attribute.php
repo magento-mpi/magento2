@@ -150,8 +150,7 @@ class Attribute
         if ($attributeId) {
             $attributeObject->load($attributeId);
             if (!$attributeObject->getId()) {
-                $this->_getSession()
-                    ->addError(__('The attribute no longer exists.'));
+                $this->messageManager->addError(__('The attribute no longer exists.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }

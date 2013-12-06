@@ -182,7 +182,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
     public function indexAction()
     {
         if (!$this->_objectManager->get('Magento\Checkout\Helper\Data')->canOnepageCheckout()) {
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(__('The onepage checkout is disabled.'));
+            $this->messageManager->addError(__('The onepage checkout is disabled.'));
             $this->_redirect('checkout/cart');
             return;
         }
@@ -196,7 +196,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
                 $this->_objectManager->get('Magento\Core\Model\Store\Config')->getConfig('sales/minimum_order/error_message') :
                 __('Subtotal must exceed minimum order amount');
 
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError($error);
+            $this->messageManager->addError($error);
             $this->_redirect('checkout/cart');
             return;
         }

@@ -50,7 +50,7 @@ class Unsubscribe extends \Magento\App\Action\Action
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product \Magento\Catalog\Model\Product */
-            $this->_objectManager->get('Magento\Customer\Model\Session')->addError(__('We can\'t find the product.'));
+            $this->messageManager->addError(__('We can\'t find the product.'));
             $this->_redirect('customer/account/');
             return ;
         }
@@ -105,7 +105,7 @@ class Unsubscribe extends \Magento\App\Action\Action
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         /* @var $product \Magento\Catalog\Model\Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            $this->_objectManager->get('Magento\Customer\Model\Session')->addError(__('The product was not found.'));
+            $this->messageManager->addError(__('The product was not found.'));
             $this->_redirect('customer/account/');
             return ;
         }

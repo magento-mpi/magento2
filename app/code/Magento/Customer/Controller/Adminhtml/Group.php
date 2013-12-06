@@ -116,12 +116,11 @@ class Group extends \Magento\Backend\App\Action
                 }
 
                 $customerGroup->setTaxClassId($taxClass)->save();
-                $this->_objectManager->get('Magento\Session\SessionManagerInterface')
-                    ->addSuccess(__('The customer group has been saved.'));
+                $this->messageManager->addSuccess(__('The customer group has been saved.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Session\SessionManagerInterface')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_objectManager->get('Magento\Session\SessionManagerInterface')
                     ->setCustomerGroupData($customerGroup->getData());
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
@@ -142,19 +141,17 @@ class Group extends \Magento\Backend\App\Action
             /** @var \Magento\Customer\Model\Group $customerGroup */
             $customerGroup = $this->_objectManager->create('Magento\Customer\Model\Group')->load($id);
             if (!$customerGroup->getId()) {
-                $this->_objectManager->get('Magento\Session\SessionManagerInterface')
-                    ->addError(__('The customer group no longer exists.'));
+                $this->messageManager->addError(__('The customer group no longer exists.'));
                 $this->_redirect('customer/*/');
                 return;
             }
             try {
                 $customerGroup->delete();
-                $this->_objectManager->get('Magento\Session\SessionManagerInterface')
-                    ->addSuccess(__('The customer group has been deleted.'));
+                $this->messageManager->addSuccess(__('The customer group has been deleted.'));
                 $this->getResponse()->setRedirect($this->getUrl('customer/group'));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Session\SessionManagerInterface')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('customer/group/edit', array('id' => $id)));
                 return;
             }

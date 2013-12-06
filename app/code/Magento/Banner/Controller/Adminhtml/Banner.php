@@ -65,8 +65,7 @@ class Banner extends \Magento\Backend\App\Action
         $model = $this->_initBanner('id');
 
         if (!$model->getId() && $bannerId) {
-            $this->_getSession()
-                ->addError(__('This banner no longer exists.'));
+            $this->messageManager->addError(__('This banner no longer exists.'));
             $this->_redirect('adminhtml/*/');
             return;
         }

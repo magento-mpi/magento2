@@ -115,15 +115,11 @@ class Transactions extends \Magento\Backend\App\Action
                 ->setOrder($txn->getOrder())
                 ->importTransactionInfo($txn);
             $txn->save();
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
-                __('The transaction details have been updated.')
-            );
+            $this->messageManager->addSuccess(__('The transaction details have been updated.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-                __('We can\'t update the transaction details.')
-            );
+            $this->messageManager->addError(__('We can\'t update the transaction details.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('sales/transactions/view', array('_current' => true));

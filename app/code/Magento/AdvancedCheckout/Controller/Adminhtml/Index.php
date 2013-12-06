@@ -832,7 +832,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
                         /* @var $error \Magento\Message\Error */
-                        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getText());
+                        $this->messageManager->addError($error->getText());
                     }
                 }
             }
@@ -909,7 +909,7 @@ class Index extends \Magento\Backend\App\Action
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
                         } catch (\Magento\Core\Exception $e){
-                            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                            $this->messageManager->addError($e->getMessage());
                         } catch (\Exception $e){
                             $this->_objectManager->get('Magento\Logger')->logException($e);
                         }

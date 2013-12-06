@@ -199,7 +199,7 @@ class Guest extends \Magento\App\Action\Action
 
         $incrementId = $this->_coreRegistry->registry('current_order')->getIncrementId();
         $message = __('We cannot create a return transaction for order #%1.', $incrementId);
-        $this->_objectManager->get('Magento\Core\Model\Session')->addError($message);
+        $this->messageManager->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -242,7 +242,7 @@ class Guest extends \Magento\App\Action\Action
                 );
             }
             if (is_array($response)) {
-               $this->_objectManager->get('Magento\Core\Model\Session')->addError($response['message']);
+                $this->messageManager->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;

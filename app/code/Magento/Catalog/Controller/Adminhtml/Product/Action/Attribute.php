@@ -171,8 +171,10 @@ class Attribute extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         }
         catch (\Exception $e) {
-            $this->_getSession()
-                ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->messageManager->addException(
+                $e,
+                __('Something went wrong while updating the product(s) attributes.')
+            );
         }
 
         $this->_redirect('catalog/product/', array('store'=>$this->_helper->getSelectedStoreId()));
@@ -238,7 +240,7 @@ class Attribute extends \Magento\Backend\App\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()
+            $this->messageManager
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
             $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
             $response->setError(true);

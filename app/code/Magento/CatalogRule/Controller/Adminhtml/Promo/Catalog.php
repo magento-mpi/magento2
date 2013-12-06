@@ -71,7 +71,7 @@ class Catalog extends \Magento\Backend\App\Action
 
         $dirtyRules = $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf();
         if ($dirtyRules->getState()) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addNotice($this->getDirtyRulesNoticeMessage());
+            $this->messageManager->addNotice($this->getDirtyRulesNoticeMessage());
         }
 
         $this->_initAction()
@@ -97,9 +97,7 @@ class Catalog extends \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getRuleId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-                    __('This rule no longer exists.')
-                );
+                $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('catalog_rule/*');
                 return;
             }
@@ -165,9 +163,7 @@ class Catalog extends \Magento\Backend\App\Action
 
                 $model->save();
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('The rule has been saved.')
-                );
+                $this->messageManager->addSuccess(__('The rule has been saved.'));
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData(false);
                 if ($this->getRequest()->getParam('auto_apply')) {
                     $this->getRequest()->setParam('rule_id', $model->getId());
@@ -209,9 +205,7 @@ class Catalog extends \Magento\Backend\App\Action
                 $this->_objectManager->create('Magento\CatalogRule\Model\Flag')->loadSelf()
                     ->setState(1)
                     ->save();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
-                    __('The rule has been deleted.')
-                );
+                $this->messageManager->addSuccess(__('The rule has been deleted.'));
                 $this->_redirect('catalog_rule/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
@@ -225,9 +219,7 @@ class Catalog extends \Magento\Backend\App\Action
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-            __('Unable to find a rule to delete.')
-        );
+        $this->messageManager->addError(__('Unable to find a rule to delete.'));
         $this->_redirect('catalog_rule/*/');
     }
 

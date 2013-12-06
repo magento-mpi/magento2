@@ -65,7 +65,7 @@ class Auth extends \Magento\Backend\App\AbstractAction
                     }
                 }
                 // @codingStandardsIgnoreStart
-                $this->_getSession()
+                $this->messageManager
                     ->addSuccess(__('If there is an account associated with %1 you will receive an email with a link to reset your password.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($email)));
                 // @codingStandardsIgnoreEnd
                 $this->getResponse()->setRedirect(

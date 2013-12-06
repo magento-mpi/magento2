@@ -26,7 +26,7 @@ class Key extends \Magento\Backend\App\Action
         $filename = $this->_objectManager->get('Magento\App\Dir')->getDir(\Magento\App\Dir::CONFIG)
             . DS . 'local.xml';
         if (!is_writeable($filename)) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+            $this->messageManager->addError(
                 __('To enable a key change this file must be writable: %1.', realpath($filename))
             );
             return false;
@@ -82,7 +82,7 @@ class Key extends \Magento\Backend\App\Action
             );
 
             if (!$key) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addNotice(
+                $this->messageManager->addNotice(
                     __('This is your new encryption key: <span style="font-family:monospace;">%1</span>. Be sure to write it down and take good care of it!', $newKey)
                 );
             }
@@ -90,7 +90,7 @@ class Key extends \Magento\Backend\App\Action
         }
         catch (\Exception $e) {
             if ($message = $e->getMessage()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(array('crypt_key' => $key));
         }

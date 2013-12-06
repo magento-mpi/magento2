@@ -493,7 +493,7 @@ class Create extends \Magento\Backend\App\Action
                 ->createOrder();
 
             $this->_getSession()->clearStorage();
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
+            $this->messageManager->addSuccess(__('You created the order.'));
             if ($this->_authorization->isAllowed('Magento_Sales::actions_view')) {
                 $this->_redirect('sales/order/view', array('order_id' => $order->getId()));
             } else {

@@ -115,16 +115,16 @@ class Index extends \Magento\App\Action\Action
                 }
 
                 if ($count > 0) {
-                    $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
+                    $this->messageManager->addSuccess(
                         __('%1 item(s) have been added to the gift registry.', $count)
                     );
                 } else {
-                    $this->_objectManager->get('Magento\Checkout\Model\Session')->addNotice(
+                    $this->messageManager->addNotice(
                         __('We have nothing to add to this gift registry.')
                     );
                 }
                 if (!empty($skippedItems)) {
-                    $this->_objectManager->get('Magento\Checkout\Model\Session')->addNotice(
+                    $this->messageManager->addNotice(
                         __("You can't add virtual products, digital products or gift cards to gift registries.")
                     );
                 }
@@ -139,7 +139,7 @@ class Index extends \Magento\App\Action\Action
             }
             return;
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(__('Failed to add shopping cart items to gift registry.'));
+            $this->messageManager->addError(__('Failed to add shopping cart items to gift registry.'));
         }
 
         if ($entity->getId()) {

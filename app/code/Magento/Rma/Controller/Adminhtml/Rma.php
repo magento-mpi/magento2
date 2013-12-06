@@ -180,7 +180,7 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -1065,8 +1065,7 @@ class Rma extends \Magento\Backend\App\Action
             $model = $this->_initModel();
             if ($model) {
                 if ($this->_createShippingLabel($model)) {
-                    $this->_getSession()
-                        ->addSuccess(__('You created a shipping label.'));
+                    $this->messageManager->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }
                 $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
@@ -1235,8 +1234,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()
-                ->addError(__('Something went wrong creating a shipping label.'));
+            $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
        }
         $this->_redirect('adminhtml/*/edit', array(
             'id' => $this->getRequest()->getParam('id')

@@ -556,9 +556,9 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
                     $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()
-                            ->addError(__('We don\'t recognize or support the file extension in this shipment: %1.',
-                                $shipment->getIncrementId()));
+                        $this->messageManager->addError(
+                            __('We don\'t recognize or support the file extension in this shipment: %1.', $shipment->getIncrementId())
+                        );
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -574,8 +574,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()
-                ->addError(__('An error occurred while creating shipping label.'));
+            $this->messageManager->addError(__('An error occurred while creating shipping label.'));
        }
        $this->_redirect('sales/order_shipment/view', array(
            'shipment_id' => $this->getRequest()->getParam('shipment_id')
@@ -651,12 +650,10 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         }
 
         if ($createdFromOrders) {
-            $this->_getSession()
-                ->addError(__('There are no shipping labels related to selected orders.'));
+            $this->messageManager->addError(__('There are no shipping labels related to selected orders.'));
             $this->_redirect('sales/order/index');
         } else {
-            $this->_getSession()
-                ->addError(__('There are no shipping labels related to selected shipments.'));
+            $this->messageManager->addError(__('There are no shipping labels related to selected shipments.'));
             $this->_redirect('sales/order_shipment/index');
         }
     }

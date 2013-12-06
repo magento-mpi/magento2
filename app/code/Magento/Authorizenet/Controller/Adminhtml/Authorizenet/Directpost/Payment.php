@@ -191,7 +191,7 @@ class Payment
             $this->_getSession()->clearStorage();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clearStorage();
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
+            $this->messageManager->addSuccess(__('You created the order.'));
         }
 
         if (!empty($redirectParams['error_msg'])) {
