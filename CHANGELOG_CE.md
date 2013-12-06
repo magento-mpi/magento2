@@ -8,6 +8,8 @@
   * Partial refunds/invoices in Payflow Pro
   * Fixed shopping cart rules for a specific customer group
   * Fixed the bug with schema upgrade scripts are not running after installation
+  * Design emulation ignores area
+  * Unable to place order with virtual product using Express Checkout
 
 2.0.0.0-dev54
 =============
