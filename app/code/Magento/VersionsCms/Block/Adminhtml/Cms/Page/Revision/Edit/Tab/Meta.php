@@ -33,7 +33,6 @@ class Meta
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
@@ -41,7 +40,6 @@ class Meta
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {

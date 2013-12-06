@@ -72,7 +72,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             ? $subscriptionData[self::DATA_SUBSCRIPTION_ID]
             : 0;
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                  'id'     => 'edit_form',
                  'action' => $this->getUrl('adminhtml/*/save', array('id' => $subscriptionId)),
                  'method' => 'post',

@@ -34,15 +34,15 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_cmsPageResource;
 
     /**
+     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Cms\Model\Resource\Page $cmsPageResource
      * @param \Magento\Catalog\Model\Resource\Category $categoryResource
-     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Core\Model\Registry $coreRegistry
      */
     public function __construct(
+        \Magento\AdminGws\Model\Role $role,
         \Magento\Cms\Model\Resource\Page $cmsPageResource,
         \Magento\Catalog\Model\Resource\Category $categoryResource,
-        \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $coreRegistry
     ) {
         $this->_cmsPageResource = $cmsPageResource;
