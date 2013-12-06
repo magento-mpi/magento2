@@ -12,7 +12,6 @@
 
 namespace Magento\CatalogRule\Test\Page;
 
-use Magento\Backend\Test\Block\PageActions;
 use Magento\CatalogRule\Test\Block\Adminhtml\CatalogPriceRuleGrid;
 use Magento\Core\Test\Block\Messages;
 use Mtf\Factory\Factory;
@@ -53,18 +52,6 @@ class CatalogRule extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogRuleAdminhtmlCatalogPriceRuleGrid(
             $this->_browser->find('#' . self::CATALOG_RULE_GRID_ID)
-        );
-    }
-
-    /**
-     * Get page actions block
-     *
-     * @return PageActions
-     */
-    public function getPageActionsBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions(
-            $this->_browser->find('.page-actions')
         );
     }
 

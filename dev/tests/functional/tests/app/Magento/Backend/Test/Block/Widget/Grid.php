@@ -223,7 +223,7 @@ abstract class Grid extends Block
      *
      * @param array $filter
      * @param bool $isSearchable
-     * @return bool
+     * @return Element
      */
     public function getRow(array $filter, $isSearchable = true)
     {

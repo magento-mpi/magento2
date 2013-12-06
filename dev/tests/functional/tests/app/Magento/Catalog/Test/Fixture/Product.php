@@ -97,8 +97,8 @@ class Product extends DataFixture
     protected function _categoryProvider($placeholder)
     {
         list($key, $method) = explode('::', $placeholder);
-        $product = $this->_getCategory($key);
-        return is_callable(array($product, $method)) ? $product->$method() : null;
+        $category = $this->_getCategory($key);
+        return is_callable(array($category, $method)) ? $category->$method() : null;
     }
 
     /**
@@ -110,12 +110,29 @@ class Product extends DataFixture
     protected function _getCategory($key)
     {
         if (!isset($this->_categories[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-            $product->switchData('subcategory');
-            $product->persist();
-            $this->_categories[$key] = $product;
+            $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+            $category->switchData('subcategory');
+            $category->persist();
+            $this->_categories[$key] = $category;
         }
         return $this->_categories[$key];
+    }
+
+    /**
+     * Get category Ids
+     *
+     * @return array
+     */
+    public function getCategoryIds()
+    {
+        $categoryIds = array();
+        $categoryCounter = 0;
+        /** @var Category $category */
+        foreach ($this->_categories as $category) {
+            $categoryIds[$categoryCounter] = $category->getCategoryId();
+            $categoryCounter++;
+        }
+        return $categoryIds;
     }
 
     /**

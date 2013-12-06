@@ -71,7 +71,7 @@ class CatalogPriceRule extends DataFixture
                     'input_value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|category_ids'
                 ),
                 'conditions__1--1__value' => array(
-                    'value' => 'cat1',
+                    'value' => '%category_id%',
                     'group' => static::GROUP_CONDITIONS,
                     'input' => 'input'
                 )

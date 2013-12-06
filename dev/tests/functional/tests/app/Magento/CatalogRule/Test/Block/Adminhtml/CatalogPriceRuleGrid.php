@@ -13,6 +13,7 @@
 namespace Magento\CatalogRule\Test\Block\Adminhtml;
 
 use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class CatalogPriceRuleGrid
@@ -22,6 +23,13 @@ use Magento\Backend\Test\Block\Widget\Grid;
  */
 class CatalogPriceRuleGrid extends Grid
 {
+    /**
+     * 'Add New' catalog rule button
+     *
+     * @var string
+     */
+    protected $addNewCatalogRule = "../*[@class='page-actions']//*[@id='add']";
+
     /**
      * Initialize block elements
      */
@@ -33,5 +41,13 @@ class CatalogPriceRuleGrid extends Grid
                 'selector' => '#promo_catalog_grid_filter_name'
             ),
         );
+    }
+
+    /**
+     * Add new catalog rule
+     */
+    public function addNewCatalogRule()
+    {
+        $this->_rootElement->find($this->addNewCatalogRule, Locator::SELECTOR_XPATH)->click();
     }
 }

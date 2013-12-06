@@ -29,7 +29,7 @@ class CatalogPriceRuleForm extends FormTabs
     protected function _init()
     {
         // Custom tab classes for catalog price rule form
-        $this->_tabClasses = array(
+        $this->tabClasses = array(
             'promo_catalog_edit_tabs_conditions_section' =>
                 '\\Magento\\CatalogRule\\Test\\Block\\Adminhtml\\Promo\\Catalog\\Edit\\Tab\\Conditions',
         );

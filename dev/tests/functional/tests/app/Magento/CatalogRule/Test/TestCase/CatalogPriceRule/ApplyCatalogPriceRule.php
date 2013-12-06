@@ -12,10 +12,11 @@
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
-use Magento\Catalog\Test\Repository\Product;
+use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class ApplyCatalogPriceRule
@@ -32,14 +33,19 @@ class ApplyCatalogPriceRule extends Functional
     public function testApplyCatalogPriceRule()
     {
         // Create Simple Product
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData(Product::PRODUCT_SIMPLE);
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->persist();
 
         // Create Configurable Product
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
         $configurable->switchData('configurable');
         $configurable->persist();
+
+        /** @var Product[] */
+        $products = array(
+            $simple,
+            $configurable
+        );
 
         // Create Customer
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
@@ -55,20 +61,24 @@ class ApplyCatalogPriceRule extends Functional
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
-        $catalogPriceRuleId = $this->createNewCatalogPriceRule();
+        // todo Same categoryId for simple and configurable
+        $categoryIds = $configurable->getCategoryIds();
+        $catalogPriceRuleId = $this->createNewCatalogPriceRule($categoryIds[0]);
 
         // Update Banner with related Catalog Price Rule
         $banner->relateCatalogPriceRule($catalogPriceRuleId);
         $banner->persist();
 
         // Verify applied catalog price rules
-        $this->verifyPriceRules($simple);
+        //$this->verifyPriceRules($simple);
+
+        $this->verifyCatalogPriceRules($products);
     }
 
     /**
      * Create and Apply new Catalog Price Rule
      */
-    public function createNewCatalogPriceRule()
+    public function createNewCatalogPriceRule($categoryId)
     {
         // Admin login
         Factory::getApp()->magentoBackendLoginUser();
@@ -78,13 +88,15 @@ class ApplyCatalogPriceRule extends Functional
         $catalogRulePage->open();
 
         // Add new Catalog Price Rule
-        $pageActionsBlock = $catalogRulePage->getPageActionsBlock();
-        $pageActionsBlock->clickAddNew();
+        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid->addNewCatalogRule();
 
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
-        $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
+        $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
+            array('category_id' => $categoryId)
+        );
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
@@ -113,6 +125,69 @@ class ApplyCatalogPriceRule extends Functional
 
         // Return Catalog Price Rule Id
         return $catalogPriceRuleId;
+    }
+
+    /**
+     * Verify: product page, cart, one page checkout.
+     *
+     * @param array $products
+     */
+    public function verifyCatalogPriceRules(array $products)
+    {
+        $this->addProducts($products);
+
+        // todo different checkout fixture?
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrder();
+        $fixture->persist();
+
+        $this->checkoutProcess($fixture);
+    }
+
+    /**
+     * Add products to cart
+     *
+     * @param array $products
+     */
+    protected function addProducts(array $products)
+    {
+        // Get empty cart
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+
+        /** @var Product $product */
+        foreach ($products as $product) {
+            $productPage = Factory::getPageFactory()->getCatalogProductView();
+            $productPage->init($product);
+            $productPage->open();
+            $productViewBlock = $productPage->getViewBlock();
+            // todo product special price check
+            // $specialPrice = $productViewBlock->getProductSpecialPrice();
+            // $this->assertContains($product->getProductSpecialPrice(), $productViewBlock->getProductSpecialPrice());
+            $productViewBlock->addToCart($product);
+            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        }
+        // todo cart special price check
+    }
+
+    /**
+     * Process Magento Checkout
+     *
+     * @param Checkout $fixture
+     */
+    protected function checkoutProcess(Checkout $fixture)
+    {
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
+
+        //Proceed Checkout
+        /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
+        $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
+        $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
+        $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
+        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+        // todo one page checkout special price check
     }
 
     /**
