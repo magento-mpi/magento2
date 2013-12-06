@@ -118,13 +118,13 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
             }
         } catch (\Magento\Core\Exception $e) {
             if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
-                $session->addError(__('This product(s) is out of stock.'));
+                $this->messageManager->addError(__('This product(s) is out of stock.'));
             } else {
-                $this->_objectManager->get('Magento\Catalog\Model\Session')->addNotice($e->getMessage());
+                $this->messageManager->addNotice($e->getMessage());
                 $redirectUrl = $item->getProductUrl();
             }
         } catch (\Exception $e) {
-            $session->addException($e, __('Cannot add item to shopping cart'));
+            $this->messageManager->addException($e, __('Cannot add item to shopping cart'));
         }
 
         return $this->getResponse()->setRedirect($redirectUrl);

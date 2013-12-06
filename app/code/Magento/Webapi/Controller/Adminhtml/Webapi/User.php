@@ -130,20 +130,17 @@ class User extends \Magento\Backend\App\AbstractAction
                 $user->save();
                 $userId = $user->getId();
 
-                $this->_getSession()
-                    ->setWebapiUserData(null)
-                    ->addSuccess(__('The API user has been saved.'));
+                $this->_getSession()->setWebapiUserData(null);
+                $this->messageManager->addSuccess(__('The API user has been saved.'));
                 $redirectBack = $this->getRequest()->has('back');
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()
-                    ->setWebapiUserData($data)
-                    ->addError($e->getMessage());
+                $this->_getSession()->setWebapiUserData($data);
+                $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()
-                    ->setWebapiUserData($data)
-                    ->addError($e->getMessage());
+                $this->_getSession()->setWebapiUserData($data);
+                $this->messageManager->addError($e->getMessage());
                 $redirectBack = true;
             }
         }
