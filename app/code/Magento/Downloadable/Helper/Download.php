@@ -164,7 +164,6 @@ class Download extends \Magento\App\Helper\AbstractHelper
                 $this->_workingDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
                 $fileExists = $this->_downloadableFile->ensureFileInFilesystem($this->_resourceFile);
                 if ($fileExists) {
-                    // @TODO fix -  ???
                     $this->_handle = $this->_workingDirectory->openFile($this->_resourceFile, '???');
                 } else {
                     throw new \Magento\Core\Exception(__('Invalid download link type.'));
