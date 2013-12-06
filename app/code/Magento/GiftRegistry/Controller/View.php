@@ -91,8 +91,7 @@ class View extends \Magento\App\Action\Action
         }
         /* @var \Magento\Checkout\Model\Cart */
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
-        /* @var $session \Magento\Core\Model\Session\Generic */
-        $session    = $this->_objectManager->get('Magento\Customer\Model\Session');
+
         $success = false;
 
         try {
@@ -112,12 +111,12 @@ class View extends \Magento\App\Action\Action
             $success = true;
             if (!$count) {
                 $success = false;
-                $session->addError(__('Please enter the quantity of items to add to cart.'));
+                $this->messageManager->addError(__('Please enter the quantity of items to add to cart.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $session->addError(__($e->getMessage()));
+            $this->messageManager->addError(__($e->getMessage()));
         } catch (\Exception $e) {
-            $session->addException($e, __('We cannot add this item to your shopping cart.'));
+            $this->messageManager->addException($e, __('We cannot add this item to your shopping cart.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if (!$success) {

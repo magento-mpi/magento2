@@ -23,11 +23,9 @@ class Observer
     protected $_coreStoreConfig;
 
     /**
-     * Admin session
-     *
-     * @var \Magento\Session\SessionManagerInterface
+     * @var \Magento\Message\Manager
      */
-    protected $_session;
+    protected $messageManager;
 
     /**
      * Admin session
@@ -62,7 +60,7 @@ class Observer
      * @param \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory
      * @param \Magento\AdminNotification\Model\InboxFactory $inboxFactory
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Session\SessionManagerInterface $session
+     * @param \Magento\Message\Manager $messageManager
      * @param \Magento\GoogleShopping\Model\Flag $flag
      */
     public function __construct(
@@ -70,14 +68,14 @@ class Observer
         \Magento\GoogleShopping\Model\MassOperationsFactory $operationsFactory,
         \Magento\AdminNotification\Model\InboxFactory $inboxFactory,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Session\SessionManagerInterface $session,
+        \Magento\Message\Manager $messageManager,
         \Magento\GoogleShopping\Model\Flag $flag
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_operationsFactory = $operationsFactory;
         $this->_inboxFactory = $inboxFactory;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_session = $session;
+        $this->messageManager = $messageManager;
         $this->_flag = $flag;
     }
 
@@ -95,7 +93,7 @@ class Observer
         try {
             $this->_operationsFactory->create()->synchronizeItems($items);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
-            $this->_session->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
+            $this->messageManager->addError('Cannot update Google Content Item. Google requires CAPTCHA.');
         }
 
         return $this;
@@ -115,7 +113,7 @@ class Observer
         try {
             $this->_operationsFactory->create()->deleteItems($items);
         } catch (\Zend_Gdata_App_CaptchaRequiredException $e) {
-            $this->_session->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
+            $this->messageManager->addError('Cannot delete Google Content Item. Google requires CAPTCHA.');
         }
 
         return $this;
