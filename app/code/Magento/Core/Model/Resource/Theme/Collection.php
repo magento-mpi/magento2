@@ -15,7 +15,7 @@ namespace Magento\Core\Model\Resource\Theme;
 
 class Collection
     extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
-    implements \Magento\View\Design\Theme\Label\ListInterface
+    implements \Magento\View\Design\Theme\Label\ListInterface, \Magento\View\Design\Theme\ListInterface
 {
     /**
      * Default page size
