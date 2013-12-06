@@ -85,12 +85,16 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
         $this->_apiConfigMock->expects($this->once())
             ->method('getServiceMethodInfo')
             ->with($operationName, $requestedServices)
-            ->will($this->returnValue(array(
-                \Magento\Webapi\Model\Soap\Config::KEY_CLASS => $className,
-                \Magento\Webapi\Model\Soap\Config::KEY_METHOD => $methodName,
-                \Magento\Webapi\Model\Soap\Config::KEY_IS_SECURE => $isSecure,
-                \Magento\Webapi\Model\Soap\Config::KEY_ACL_RESOURCES => $aclResources
-            )));
+            ->will(
+                $this->returnValue(
+                    array(
+                        \Magento\Webapi\Model\Soap\Config::KEY_CLASS => $className,
+                        \Magento\Webapi\Model\Soap\Config::KEY_METHOD => $methodName,
+                        \Magento\Webapi\Model\Soap\Config::KEY_IS_SECURE => $isSecure,
+                        \Magento\Webapi\Model\Soap\Config::KEY_ACL_RESOURCES => $aclResources
+                    )
+                )
+            );
 
         $this->_authzServiceMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
         $serviceMock = $this->getMockBuilder($className)
@@ -100,7 +104,8 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
 
         $expectedResult = array('foo' => 'bar');
         $serviceMock->expects($this->once())->method($methodName)->will($this->returnValue($expectedResult));
-        $this->_objectManagerMock->expects($this->once())->method('get')->with($className)->will($this->returnValue($serviceMock));
+        $this->_objectManagerMock->expects($this->once())->method('get')->with($className)
+            ->will($this->returnValue($serviceMock));
 
         /** Execute SUT. */
         $this->assertEquals(

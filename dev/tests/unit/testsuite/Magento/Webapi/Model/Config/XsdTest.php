@@ -45,6 +45,7 @@ class XsdTest extends \PHPUnit_Framework_TestCase
         return array(
             /** Valid configurations */
             'valid' => array(
+                // @codingStandardsIgnoreStart
                 '<config>
                     <service class="Magento\TestModule1\Service\AllSoapAndRestV1Interface" baseUrl="/V1/testmodule1">
                         <rest-route httpMethod="GET" method="item" resources="Magento_TestModule1::resource1">/:id</rest-route>
@@ -200,5 +201,6 @@ class XsdTest extends \PHPUnit_Framework_TestCase
                 )
             )
         );
+        // @codingStandardsIgnoreEnd
     }
 }
