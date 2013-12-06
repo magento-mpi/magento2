@@ -50,13 +50,13 @@ abstract class AbstractAdapter
         $this->_directoryHandle = $filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
         if (!$destination) {
             $destination = uniqid('importexport_');
+            $this->_directoryHandle->touch($destination);
         }
         if (!is_string($destination)) {
             throw new \Magento\Core\Exception(__('Destination file path must be a string'));
         }
 
-        $pathinfo = pathinfo($destination);
-        if (empty($pathinfo['dirname']) || !$this->_directoryHandle->isWritable($pathinfo['dirname'])) {
+        if (!$this->_directoryHandle->isWritable()) {
             throw new \Magento\Core\Exception(__('Destination directory is not writable'));
         }
         if ($this->_directoryHandle->isFile($destination) && !$this->_directoryHandle->isWritable($destination)) {
