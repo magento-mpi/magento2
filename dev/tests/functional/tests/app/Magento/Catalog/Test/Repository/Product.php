@@ -22,7 +22,7 @@ use Mtf\Repository\AbstractRepository;
 class Product extends AbstractRepository
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {

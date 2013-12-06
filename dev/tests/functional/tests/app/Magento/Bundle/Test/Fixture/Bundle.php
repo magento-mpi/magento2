@@ -48,46 +48,13 @@ class Bundle extends Product
     }
 
     /**
-     * Retrieve specify data from product.
-     *
-     * @param string $placeholder
-     * @return mixed
+     * @param string $productData
+     * @return string
      */
-    protected function productProvider($placeholder)
+    protected function formatProductType($productData)
     {
-        list($productType, $method) = explode('::', $placeholder);
-        list(, $productType) = explode('_', $productType);
-        $product = $this->getProduct(preg_replace('/\d/', '', $productType));
-        return is_callable(array($product, $method)) ? $product->$method() : null;
-    }
-
-    /**
-     * Create a new product if it was not assigned
-     *
-     * @param string $productType
-     * @throws \InvalidArgumentException
-     * @return mixed
-     */
-    protected function getProduct($productType)
-    {
-        if (!isset($this->products[$productType])) {
-            switch ($productType) {
-                case 'simple':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-                    break;
-                case 'virtual':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
-                    break;
-                default:
-                    throw new \InvalidArgumentException(
-                        "Product of type '$productType' cannot be added to bundle product."
-                    );
-            }
-            $product->switchData($productType . '_required');
-            $product->persist();
-            $this->products[$productType] = $product;
-        }
-        return $this->products[$productType];
+        list(, $productData) = explode('_', $productData);
+        return preg_replace('/\d/', '', $productData);
     }
 
     /**

@@ -38,6 +38,34 @@ class Product extends DataFixture
     const DEFAULT_ATTRIBUTE_SET_ID  = 4;
 
     /**
+     * List of categories fixtures
+     *
+     * @var array
+     */
+    protected $categories = array();
+
+    /**
+     * List of fixtures from created products
+     *
+     * @var array
+     */
+    protected $products = array();
+
+    /**
+     * Custom constructor to create product with assigned category
+     *
+     * @param Config $configuration
+     * @param array $placeholders
+     */
+    public function __construct(Config $configuration, $placeholders = array())
+    {
+        parent::__construct($configuration, $placeholders);
+
+        $this->_placeholders['category::getCategoryName'] = array($this, 'categoryProvider');
+        $this->_placeholders['category::getCategoryId'] = array($this, 'categoryProvider');
+    }
+
+    /**
      * {@inheritdoc}
      */
     protected function _initData()
@@ -60,27 +88,6 @@ class Product extends DataFixture
     }
 
     /**
-     * List of categories fixtures
-     *
-     * @var array
-     */
-    protected $_categories = array();
-
-    /**
-     * Custom constructor to create product with assigned category
-     *
-     * @param Config $configuration
-     * @param array $placeholders
-     */
-    public function __construct(Config $configuration, $placeholders = array())
-    {
-        parent::__construct($configuration, $placeholders);
-
-        $this->_placeholders['category::getCategoryName'] = array($this, '_categoryProvider');
-        $this->_placeholders['category::getCategoryId'] = array($this, '_categoryProvider');
-    }
-
-    /**
      * Get data from repository and reassign it
      */
     public function reset()
@@ -92,15 +99,74 @@ class Product extends DataFixture
     }
 
     /**
+     * Retrieve specify data from product.
+     *
+     * @param string $placeholder
+     * @return mixed
+     */
+    protected function productProvider($placeholder)
+    {
+        list($productData, $method) = explode('::', $placeholder);
+        $product = $this->getProduct($this->formatProductType($productData));
+        return is_callable(array($product, $method)) ? $product->$method() : null;
+    }
+
+    /**
+     * @param string $productData
+     * @return string
+     */
+    protected function formatProductType($productData)
+    {
+        return $productData;
+    }
+
+    /**
+     * Create a new product
+     *
+     * @param string $productType
+     * @throws \InvalidArgumentException
+     * @return Product
+     */
+    public function getProduct($productType)
+    {
+        if (!isset($this->products[$productType])) {
+            switch ($productType) {
+                case 'simple':
+                    $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+                    $product->switchData($productType . '_required');
+                    break;
+                case 'virtual':
+                    $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
+                    $product->switchData($productType . '_required');
+                    break;
+                case 'downloadable':
+                    $product = Factory::getFixtureFactory()
+                        ->getMagentoDownloadableDownloadableProductLinksNotPurchasedSeparately();
+                    break;
+                case 'configurable':
+                    $product = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+                    break;
+                default:
+                    throw new \InvalidArgumentException(
+                        "Product of type '$productType' cannot be added to grouped product."
+                    );
+            }
+            $product->persist();
+            $this->products[$productType] = $product;
+        }
+        return $this->products[$productType];
+    }
+
+    /**
      * Retrieve specify data from category.
      *
      * @param string $placeholder
      * @return mixed
      */
-    protected function _categoryProvider($placeholder)
+    protected function categoryProvider($placeholder)
     {
         list($key, $method) = explode('::', $placeholder);
-        $product = $this->_getCategory($key);
+        $product = $this->getCategory($key);
         return is_callable(array($product, $method)) ? $product->$method() : null;
     }
 
@@ -110,15 +176,15 @@ class Product extends DataFixture
      * @param string $key
      * @return mixed
      */
-    protected function _getCategory($key)
+    protected function getCategory($key)
     {
-        if (!isset($this->_categories[$key])) {
+        if (!isset($this->categories[$key])) {
             $product = Factory::getFixtureFactory()->getMagentoCatalogCategory();
             $product->switchData('subcategory');
             $product->persist();
-            $this->_categories[$key] = $product;
+            $this->categories[$key] = $product;
         }
-        return $this->_categories[$key];
+        return $this->categories[$key];
     }
 
     /**
