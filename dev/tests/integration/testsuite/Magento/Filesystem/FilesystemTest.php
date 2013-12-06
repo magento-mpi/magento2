@@ -62,7 +62,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetPath()
     {
-        $this->assertContains('var', $this->filesystem->getPath(\Magento\Filesystem::VAR_DIR));
+        $this->assertContains('design', $this->filesystem->getPath(\Magento\Filesystem::THEMES));
     }
 
     /**
