@@ -179,9 +179,6 @@ class Write extends Read implements WriteInterface
         if ($this->driver->isFile($absolutePath)) {
             $this->driver->deleteFile($absolutePath);
         } else {
-            foreach ($this->read($path) as $subPath) {
-                $this->delete($subPath);
-            }
             $this->driver->deleteDirectory($absolutePath);
         }
         return true;
