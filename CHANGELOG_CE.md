@@ -1,13 +1,13 @@
 2.0.0.0-dev55
 =============
 * Modularity improvements:
-  * Session configuration moved into library
-  * FormKey logic is moved out from Session
-  * SessionIdFlags is removed from Session
-* Created Integration module UX
+  * Session configuration is moved to library
+  * FormKey logic is removed from Session model
+  * SessionIdFlags is removed from Session model
+* Created UX for Integration module
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
-  * Fixed shopping cart rules for a specific customer group
+  * Fixed an issue that prevented a customer group's shopping cart rules from applying properly to prices. The issue occurred when a customer was manually assigned to a customer group and automatic group assignment was enabled.
 
 2.0.0.0-dev54
 =============
