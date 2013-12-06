@@ -34,6 +34,7 @@ class Address extends AbstractRepository
         $this->_data['address_US_1'] = $this->_getUS1();
         $this->_data['address_US_2'] = $this->_getUS2();
         $this->_data['address_data_US_1'] = $this->_getDataUS1();
+        $this->_data['address_data_DE'] = $this->_getDataGermany();
     }
 
     protected function _getUS1()
@@ -167,6 +168,45 @@ class Address extends AbstractRepository
                     ),
                     'telephone' => array(
                         'value' => '555-55-555-55'
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getDataGermany()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jan'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Jansen'
+                    ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
+                    ),
+                    'country' => array(
+                        'value' => 'Germany',
+                        'input' => 'select'
+                    ),
+                    'street_1' => array(
+                        'value' => 'Augsburger Strabe 41'
+                    ),
+                    'city' => array(
+                        'value' => 'Berlin'
+                    ),
+                    'region' => array(
+                        'value' => 'Berlin',
+                        'input' => 'select'
+                    ),
+                    'postcode' => array(
+                        'value' => '10789'
+                    ),
+                    'telephone' => array(
+                        'value' => '333-33-333-33'
                     )
                 )
             )

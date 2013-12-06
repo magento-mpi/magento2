@@ -32,6 +32,7 @@ class Customer extends AbstractRepository
         );
 
         $this->_data['customer_US_1'] = $this->_getUS1();
+        $this->_data['customer_DE'] = $this->_getGermanyCustomer();
         $this->_data['backend_customer'] = $this->_getBackendCustomer();
     }
 
@@ -50,6 +51,34 @@ class Customer extends AbstractRepository
                     ),
                     'email' => array(
                         'value' => 'John.Doe%isolation%@example.com',
+                        'group' => 'customer_info_tabs_account'
+                    ),
+                    'password' => array(
+                        'value' => '123123q'
+                    ),
+                    'confirmation' => array(
+                        'value' => '123123q'
+                    )
+                ),
+            )
+        );
+    }
+
+    protected function _getGermanyCustomer()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jan',
+                        'group' => 'customer_info_tabs_account'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Jansen',
+                        'group' => 'customer_info_tabs_account'
+                    ),
+                    'email' => array(
+                        'value' => 'Jan.Jansen%isolation%@example.com',
                         'group' => 'customer_info_tabs_account'
                     ),
                     'password' => array(

@@ -45,6 +45,16 @@ class Address extends DataFixture
     }
 
     /**
+     * Get city
+     *
+     * @return string
+     */
+    public function getCity()
+    {
+        return $this->getData('fields/city/value');
+    }
+
+    /**
      * Get country
      *
      * @return string

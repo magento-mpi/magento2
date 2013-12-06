@@ -34,16 +34,8 @@ class ShippingCarrierTest extends Functional
     protected static $checkoutFixture;
 
     /**
-     * Store configuration fixture
-     *
-     * @var Config $configFixture
-     */
-    protected static $configFixture;
-
-    /**
      * Create and persist checkout fixture
      */
-    //protected function setUp()
     public static function setUpBeforeClass()
     {
         // Use checkout fixture to setup precondition data that will be shared by each data-set in the data provider
@@ -51,11 +43,6 @@ class ShippingCarrierTest extends Functional
         // Check or money order
         self::$checkoutFixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrder();
         self::$checkoutFixture->persist();
-
-        // Enable store configuration - Shipping Settings -> Origin for this test
-        self::$configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        self::$configFixture->switchData('shipping_origin_us');
-        self::$configFixture->persist();
     }
 
     /**
@@ -68,13 +55,19 @@ class ShippingCarrierTest extends Functional
      * @dataProvider dataProviderShippingCarriers
      * @ZephyrId MAGETWO-12844
      * @ZephyrId MAGETWO-12848
+     * @ZephyrId MAGETWO-12849
+     * @ZephyrId MAGETWO-12850
      */
     public function testShippingCarriers(
         $shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet)
     {
+        // Initialize store configuration for this data provider run
+        $this->initConfiguration();
+
         // Enable shipping method in store configuration based on method specified in data provider
-        self::$configFixture->switchData($shippingMethodConfig);
-        self::$configFixture->persist();
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $configFixture->switchData($shippingMethodConfig);
+        $configFixture->persist();
 
         // Declare shipping methods based on what will be selected at checkout
         $shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
@@ -146,9 +139,6 @@ class ShippingCarrierTest extends Functional
             $orderPage->getOrderGridBlock()->isRowVisible(array('id' => $orderId)),
             "Order # $orderId was not found on the sales orders grid!"
         );
-
-        // Perform clean up between each data-set data provider run
-        $this->cleanup();
     }
 
     /**
@@ -161,18 +151,27 @@ class ShippingCarrierTest extends Functional
         return array(
             array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1')
+            array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
+            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE')
         );
     }
 
-    private function cleanup()
+    /**
+     * This method initializes necessary store configuration settings in between data-provider runs.
+     */
+    private function initConfiguration()
     {
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
         // Disable all shipping carriers
-        self::$configFixture->switchData('shipping_disable_all_carriers');
-        self::$configFixture->persist();
+        $configFixture->switchData('shipping_disable_all_carriers');
+        $configFixture->persist();
 
-        // Set shipping settings origin back to US
-        self::$configFixture->switchData('shipping_origin_us');
-        self::$configFixture->persist();
+        // Sales > Shipping Settings > Origin - start with US address
+        $configFixture->switchData('shipping_origin_us');
+        $configFixture->persist();
+
+        // General > Currency Setup > Currency Options - start with US Dollar
+        $configFixture->switchData('currency_usd');
+        $configFixture->persist();
     }
 }

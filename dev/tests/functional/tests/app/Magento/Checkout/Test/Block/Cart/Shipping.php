@@ -36,12 +36,13 @@ class Shipping extends Block
     {
         $shippingMethod = $fixture->getData('fields');
 
-        $selector = '//span[text()="' . $shippingMethod['shipping_service']
-            .'"]/following::*/div[@class="field choice item"]//*[contains(text(), "'
-            . $shippingMethod['shipping_method'] . '")]';
+        $selector = '//span[text()="'
+            . $shippingMethod['shipping_service']
+            . '"]/following::*/div[@class="field choice item"]//*[contains(text(), "'
+            . $shippingMethod['shipping_method']
+            . '")]';
 
-        return Functional::assertContains($shippingMethod['shipping_method'],
-            $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText());
+        return Functional::assertTrue($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible());
     }
 
     /**
@@ -75,6 +76,10 @@ class Shipping extends Block
             ->setValue($destination->getCountry());
         $this->_rootElement->find('//select[@id="region_id"]', Locator::SELECTOR_XPATH, 'select')
             ->setValue($destination->getRegion());
+        $cityElement = $this->_rootElement->find('//input[@id="city"]', Locator::SELECTOR_XPATH);
+        if ($cityElement->isVisible()) {
+            $cityElement->setValue($destination->getCity());
+        }
         $this->_rootElement->find('//input[@id="postcode"]', Locator::SELECTOR_XPATH)
             ->setValue($destination->getPostCode());
     }

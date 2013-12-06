@@ -41,6 +41,9 @@ class Config extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
+        // General
+        // Currency Setup
+        $this->_data['currency_usd'] = $this->_getCurrencyUSD();
         //Tax
         $this->_data['default_tax_config'] = $this->_getDefaultTax();
         $this->_data['us_tax_config'] = $this->_getUsTax();
@@ -65,12 +68,48 @@ class Config extends AbstractRepository
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
+        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEu();
         $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+    }
+
+    /**
+     * Set Currency to value passed in.
+     *
+     * @return array
+     */
+    protected function _getCurrencyUSD()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array( //Allowed Currencies
+                                        'value' => ['USD']
+                                    ),
+                                    'base' => array( //Base Currency
+                                        'value' => 'USD'
+                                    ),
+                                    'default' => array( //Default Display Currency
+                                        'value' => 'USD'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     /**
@@ -173,6 +212,100 @@ class Config extends AbstractRepository
                                     ),
                                     'sallowspecific' => array( //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * DHL International shipping method configuration as well as a real EU address set in specified
+     * in shipping settings origin.  Shipping origin is specifically set to Switzerland.
+     *
+     * @return array
+     */
+    protected function _getShippingCarrierDhlIntEu()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'dhlint' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => 1 //Yes
+                                    ),
+                                    'gateway_url' => array( //Gateway URL
+                                        'value' => 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
+                                    ),
+                                    'id' => array( //Access ID
+                                        'value' => 'EvgeniyDE'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => 'aplNb6Rop'
+                                    ),
+                                    'account' => array( //Account Number
+                                        'value' => '152691811'
+                                    ),
+                                    'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'CH' //Switzerland
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => '107' //Bern
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => '3005'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'Bern'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => 'Weinbergstrasse 4'
+                                    ),
+                                    'street_line2' => array( //Street Address Line 2
+                                        'value' => 'Suite 1'
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array( //Allowed Currencies
+                                        'value' => ['CHF']
+                                    ),
+                                    'base' => array( //Base Currency
+                                        'value' => 'CHF'  //Swiss Franc
+                                    ),
+                                    'default' => array( //Default Display Currency
+                                        'value' => 'CHF'
                                     )
                                 )
                             )
