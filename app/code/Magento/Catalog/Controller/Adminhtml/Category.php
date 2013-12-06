@@ -349,7 +349,9 @@ class Category extends \Magento\Backend\App\Action
 
             /** @var $block \Magento\View\Block\Messages */
             $block = $this->_objectManager->get('Magento\View\Block\Messages');
-            $block->setMessages($this->_getSession()->getMessages(true));
+            $block->setMessages(
+                $this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP, true)
+            );
             $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'messages' => $block->getGroupedHtml(),
                 'error'    => $refreshTree !== 'true',

@@ -87,7 +87,7 @@ class Cart
     {
         $returnUrl = $this->getRequest()->getParam('return_url');
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
-            $this->_checkoutSession->getMessages(true);
+            $this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP)->clear();
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')

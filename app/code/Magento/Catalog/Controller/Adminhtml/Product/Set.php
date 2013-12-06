@@ -158,7 +158,9 @@ class Set extends \Magento\Backend\App\Action
             if ($this->getRequest()->getPost('return_session_messages_only')) {
                 /** @var $block \Magento\View\Block\Messages */
                 $block = $this->_objectManager->get('Magento\View\Block\Messages');
-                $block->setMessages($this->_getSession()->getMessages(true));
+                $block->setMessages(
+                    $this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP, true)
+                );
                 $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                     'messages' => $block->getGroupedHtml(),
                     'error'    => $hasError,
