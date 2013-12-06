@@ -115,26 +115,23 @@ class Index extends \Magento\App\Action\Action
                         'message'  => $message
                     ))->save();
                     if ($invitation->sendInvitationEmail()) {
-                        $this->_session->addSuccess(__('You sent the invitation for %1.', $email));
+                        $this->messageManager->addSuccess(__('You sent the invitation for %1.', $email));
                         $sent++;
                     } else {
                         throw new \Exception(''); // not \Magento\Core\Exception intentionally
                     }
-
-                }
-                catch (\Magento\Core\Exception $e) {
+                } catch (\Magento\Core\Exception $e) {
                     if (\Magento\Invitation\Model\Invitation::ERROR_CUSTOMER_EXISTS === $e->getCode()) {
                         $customerExists++;
                     } else {
-                        $this->_session->addError($e->getMessage());
+                        $this->messageManager->addError($e->getMessage());
                     }
-                }
-                catch (\Exception $e) {
-                    $this->_session->addError(__('Something went wrong sending an email to %1.', $email));
+                } catch (\Exception $e) {
+                    $this->messageManager->addError(__('Something went wrong sending an email to %1.', $email));
                 }
             }
             if ($customerExists) {
-                $this->_session->addNotice(
+                $this->messageManager->addNotice(
                     __('We did not send %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }

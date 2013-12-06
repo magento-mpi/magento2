@@ -280,7 +280,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
             $wishlist->delete();
             $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
-            $this->_wishlistSession->addSuccess(
+            $this->messageManager->addSuccess(
                 __('Wish list "%1" has been deleted.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($wishlist->getName()))
             );
         } catch (\Magento\Core\Exception $e) {
@@ -373,7 +373,7 @@ class Index extends \Magento\Wishlist\Controller\Index
                 );
                 $this->_objectManager->get('Magento\Wishlist\Helper\Data')->calculate();
             } catch (\InvalidArgumentException $e) {
-                $this->_getSession->addError(
+                $this->messageManager->addError(
                     __('The item was not found.')
                 );
             } catch (\DomainException $e) {
@@ -393,8 +393,7 @@ class Index extends \Magento\Wishlist\Controller\Index
             }
         }
         $wishlist->save();
-        if ($this->_getSession()->hasBeforeWishlistUrl())
-        {
+        if ($this->_getSession()->hasBeforeWishlistUrl()) {
             $this->getResponse()->setRedirect($this->_getSession()->getBeforeWishlistUrl());
             $this->_getSession()->unsBeforeWishlistUrl();
         } else {
@@ -405,7 +404,6 @@ class Index extends \Magento\Wishlist\Controller\Index
     /**
      * Copy wishlist items to given wishlist
      *
-     * @return void
      * @throws NotFoundException
      */
     public function copyitemsAction()
@@ -456,7 +454,8 @@ class Index extends \Magento\Wishlist\Controller\Index
         }
 
         if (count($alreadyPresent)) {
-            $names = $this->_objectManager->get('Magento\Escaper')->escapeHtml($this->_joinProductNames($alreadyPresent));
+            $names = $this->_objectManager->get('Magento\Escaper')
+                ->escapeHtml($this->_joinProductNames($alreadyPresent));
             $this->messageManager->addError(
                 __('%1 items are already present in %2: %3.', count($alreadyPresent), $wishlistName, $names)
             );

@@ -177,8 +177,8 @@ class Account extends \Magento\Customer\Controller\Account
                 }
             }
         } catch (\Exception $e) {
-            $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                ->addException($e, __('Unable to save the customer.'));
+            $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
+            $this->messageManager->addException($e, __('Unable to save the customer.'));
         }
 
         $this->_redirect('magento_invitation/customer_account/create',

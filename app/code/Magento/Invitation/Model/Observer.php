@@ -40,11 +40,9 @@ class Observer
     protected $_invitationData;
 
     /**
-     * Backend Session
-     *
-     * @var \Magento\Backend\Model\Auth\Session
+     * @var \Magento\Message\Manager
      */
-    protected $_session;
+    protected $messageManager;
 
     /**
      * Request object
@@ -56,18 +54,18 @@ class Observer
     /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Config $config
-     * @param \Magento\Backend\Model\Auth\Session $session
+     * @param \Magento\Message\Manager $messageManager
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Config $config,
-        \Magento\Backend\Model\Auth\Session $session,
+        \Magento\Message\Manager $messageManager,
         \Magento\App\RequestInterface $request
     ) {
         $this->_invitationData = $invitationData;
         $this->_config = $config;
-        $this->_session = $session;
+        $this->messageManager = $messageManager;
         $this->_request = $request;
     }
 
@@ -80,7 +78,7 @@ class Observer
      */
     public function postDispatchInvitationMassUpdate($config, $eventModel)
     {
-        $messages = $this->_session->getMessages();
+        $messages = $this->messageManager->getMessages();
         $errors = $messages->getErrors();
         $notices = $messages->getItemsByType(\Magento\Message\MessageInterface::TYPE_NOTICE);
         $status = (empty($errors) && empty($notices))

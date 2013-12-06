@@ -31,7 +31,7 @@ class Search extends \Magento\App\Action\Action
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
 
     /**
      * Locale model
@@ -219,11 +219,11 @@ class Search extends \Magento\App\Action\Action
             $this->_coreRegistry->register('search_results', $search->getResults($strategy));
             $this->_customerSession->setLastWishlistSearchParams($params);
         } catch (\InvalidArgumentException $e) {
-            $this->_customerSession->addNotice($e->getMessage());
+            $this->messageManager->addNotice($e->getMessage());
         } catch (\Magento\Core\Exception $e) {
-            $this->_customerSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_customerSession->addError(__('We could not perform the search.'));
+            $this->messageManager->addError(__('We could not perform the search.'));
         }
 
         $layout = $this->_view->getLayout();
@@ -300,7 +300,7 @@ class Search extends \Magento\App\Action\Action
                 } catch (\Magento\Core\Exception $e) {
                     if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_NOT_SALABLE) {
                         $notSalable[] = $item;
-                    } else if ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
+                    } elseif ($e->getCode() == \Magento\Wishlist\Model\Item::EXCEPTION_CODE_HAS_REQUIRED_OPTIONS) {
                         $hasOptions[] = $item;
                     } else {
                         $messages[] = __('%1 for "%2"', trim($e->getMessage(), '.'), $item->getProduct()->getName());
@@ -314,7 +314,7 @@ class Search extends \Magento\App\Action\Action
 
         if ($this->_objectManager->get('Magento\Checkout\Helper\Cart')->getShouldRedirectToCart()) {
             $redirectUrl = $this->_objectManager->get('Magento\Checkout\Helper\Cart')->getCartUrl();
-        } else if ($this->_redirect->getRefererUrl()) {
+        } elseif ($this->_redirect->getRefererUrl()) {
             $redirectUrl = $this->_redirect->getRefererUrl();
         }
 
@@ -340,7 +340,7 @@ class Search extends \Magento\App\Action\Action
                 $redirectUrl = $item->getProductUrl();
             } else {
                 foreach ($messages as $message) {
-                    $this->_checkoutSession->addError($message);
+                    $this->messageManager->addError($message);
                 }
             }
         }
@@ -351,7 +351,7 @@ class Search extends \Magento\App\Action\Action
                 $products[] = '"' . $product->getName() . '"';
             }
 
-            $this->_checkoutSession->addSuccess(
+            $this->messageManager->addSuccess(
                 __('%1 product(s) have been added to shopping cart: %2.', count($addedItems), join(', ', $products))
             );
         }

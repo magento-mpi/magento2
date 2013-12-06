@@ -188,8 +188,9 @@ class Integration extends Action
                 } else {
                     $this->_integrationService->update($integrationData);
                 }
-                $this->_getSession()
-                    ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
+                $this->messageManager->addSuccess(
+                    __('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME])
+                );
             } else {
                 $this->messageManager->addError(__('The integration was not saved.'));
             }
