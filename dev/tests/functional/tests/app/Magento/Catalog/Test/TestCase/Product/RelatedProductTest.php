@@ -78,7 +78,7 @@ class RelatedProductTest extends Functional
         $productBlock->openRelatedProductTab();
         /** @var Product $relatedProduct */
         foreach ($relatedProducts as $relatedProduct) {
-            $productEditPage->getUpsellBlock()->searchAndSelect(array('name' => $relatedProduct->getProductName()));
+            $productEditPage->getRelatedBlock()->searchAndSelect(array('name' => $relatedProduct->getProductName()));
         }
         $productBlock->save($product);
         //Verify that the product was successfully saved

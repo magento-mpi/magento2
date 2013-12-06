@@ -25,6 +25,8 @@ class EditBundleTest extends Functional
     /**
      * Create bundle
      * @dataProvider createDataProvider
+     * @ZephyrId MAGETWO-12842
+     * @ZephyrId MAGETWO-12841
      */
     public function testEditBundle($fixture)
     {
