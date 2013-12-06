@@ -194,18 +194,17 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $saveMethod
-     * @param string $iniValue
      * @dataProvider sessionSaveMethodWarningDataProvider
      * @magentoAppIsolation enabled
      */
-    public function testSessionSaveMethodWarning($saveMethod, $iniValue)
+    public function testSessionSaveMethodWarning($saveMethod)
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
         //TODO We got no exception but Error/Warning
         try {
             /** @var \Magento\Core\Model\Session\Config $config */
-            $config = $objectManager->create('Magento\Core\Model\Session\Config', array('saveMethod' => $saveMethod));
+            $objectManager->create('Magento\Core\Model\Session\Config', array('saveMethod' => $saveMethod));
             $this->fail('Expected warning is not thrown');
         } catch (\InvalidArgumentException $e) {
             //do nothing
