@@ -29,7 +29,7 @@
     <event name="core_layout_render_element">
         <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="renderBlockPlaceholder" />
     </event>
-    <event name="core_message_block_render_grouped_html_after">
+    <event name="view_message_block_render_grouped_html_after">
         <observer name="magento_fullpagecache" instance="Magento\FullPageCache\Model\Observer" method="renderBlockPlaceholder" />
     </event>
     <event name="customer_login">

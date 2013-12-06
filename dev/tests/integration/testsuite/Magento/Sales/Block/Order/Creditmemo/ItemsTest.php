@@ -42,7 +42,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetTotalsHtml()
     {
-        $childBlock = $this->_layout->addBlock('Magento\View\Block\Text', 'creditmemo_totals', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\View\Element\Text', 'creditmemo_totals', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getCreditmemo());
@@ -56,7 +56,7 @@ class ItemsTest extends \PHPUnit_Framework_TestCase
 
     public function testGetCommentsHtml()
     {
-        $childBlock = $this->_layout->addBlock('Magento\View\Block\Text', 'creditmemo_comments', 'block');
+        $childBlock = $this->_layout->addBlock('Magento\View\Element\Text', 'creditmemo_comments', 'block');
 
         $expectedHtml = '<b>Any html</b>';
         $this->assertEmpty($childBlock->getEntity());

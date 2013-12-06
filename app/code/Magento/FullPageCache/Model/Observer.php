@@ -274,7 +274,7 @@ class Observer
          * Check if request will be cached
          */
         if ($this->_processor->canProcessRequest($request) && $this->_processor->getRequestProcessor($request)) {
-            $this->_cacheState->setEnabled(\Magento\View\Block\AbstractBlock::CACHE_GROUP, false); // disable blocks cache
+            $this->_cacheState->setEnabled(\Magento\View\Element\AbstractBlock::CACHE_GROUP, false); // disable blocks cache
             $this->_catalogSession->setParamsMemorizeDisabled(true);
         } else {
             $this->_catalogSession->setParamsMemorizeDisabled(false);

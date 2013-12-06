@@ -19,15 +19,6 @@ class EditTest extends \Magento\Test\Block\Adminhtml
     /** @var  \Magento\Webhook\Block\Adminhtml\Subscription\Edit */
     private $_block;
 
-    /** @var  \Magento\Core\Helper\Data */
-    protected $_coreData;
-
-    protected function setUp()
-    {
-        parent::setUp();
-        $this->_coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-    }
-
     public function testGetHeaderTestExisting()
     {
         $subscriptionData = array(
@@ -40,7 +31,6 @@ class EditTest extends \Magento\Test\Block\Adminhtml
             $subscriptionData);
         $this->_block = new \Magento\Webhook\Block\Adminhtml\Subscription\Edit(
             $this->_context,
-            $this->_coreData,
             $this->_registry
         );
         $this->assertEquals('Edit Subscription', $this->_block->getHeaderText());
@@ -55,7 +45,6 @@ class EditTest extends \Magento\Test\Block\Adminhtml
         $this->_registry = new \Magento\Core\Model\Registry();
         $this->_block = new \Magento\Webhook\Block\Adminhtml\Subscription\Edit(
             $this->_context,
-            $this->_coreData,
             $this->_registry
         );
 

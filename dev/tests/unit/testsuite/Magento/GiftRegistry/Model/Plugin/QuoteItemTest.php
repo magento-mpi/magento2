@@ -36,13 +36,23 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundItemToOrderUsualQuote($registryId)
     {
-        $orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item',
-            array('setGiftregistryItemId'), array(), '', false);
+        $orderItemMock = $this->getMock(
+            'Magento\Sales\Model\Order\Item',
+            array('setGiftregistryItemId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_invocationChainMock->expects($this->once())->method('proceed')
             ->will($this->returnValue($orderItemMock));
 
-        $quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Item',
-            array('getQuoteItem', 'getGiftregistryItemId'), array(), '', false);
+        $quoteItemMock = $this->getMock(
+            'Magento\Sales\Model\Quote\Item',
+            array('getQuoteItem', 'getGiftregistryItemId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $quoteItemMock->expects($this->once())->method('getGiftregistryItemId')->will($this->returnValue($registryId));
 
         if ($registryId) {
@@ -58,13 +68,23 @@ class QuoteItemTest extends \PHPUnit_Framework_TestCase
      */
     public function testAroundItemToOrderQuoteAddress($registryId)
     {
-        $orderItemMock = $this->getMock('Magento\Sales\Model\Order\Item',
-            array('setGiftregistryItemId'), array(), '', false);
+        $orderItemMock = $this->getMock(
+            'Magento\Sales\Model\Order\Item',
+            array('setGiftregistryItemId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_invocationChainMock->expects($this->once())->method('proceed')
             ->will($this->returnValue($orderItemMock));
 
-        $quoteItemMock = $this->getMock('Magento\Sales\Model\Quote\Address\Item',
-            array('getQuoteItem', 'getGiftregistryItemId'), array(), '', false);
+        $quoteItemMock = $this->getMock(
+            'Magento\Sales\Model\Quote\Address\Item',
+            array('getQuoteItem', 'getGiftregistryItemId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $stdMock = $this->getMock('stdClass', array('getGiftregistryItemId'), array(), '', false);
         $quoteItemMock->expects($this->once())->method('getQuoteItem')->will($this->returnValue($stdMock));
 

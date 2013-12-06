@@ -29,18 +29,16 @@ class DefaultPrice
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\PricePermissions\Helper\Data $pricePermissionsData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\PricePermissions\Helper\Data $pricePermissionsData,
         array $data = array()
     ) {
         $this->_pricePermissionsData = $pricePermissionsData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

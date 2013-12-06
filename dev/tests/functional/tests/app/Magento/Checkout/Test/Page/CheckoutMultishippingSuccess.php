@@ -51,11 +51,11 @@ class CheckoutMultishippingSuccess extends Page
     /**
      * Get page title block
      *
-     * @return \Magento\Page\Test\Block\Html\Title
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find('.page.title', Locator::SELECTOR_CSS)
         );
     }

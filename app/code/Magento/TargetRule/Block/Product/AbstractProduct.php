@@ -83,8 +83,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     protected $_resourceIndex;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -95,8 +94,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -108,7 +106,7 @@ abstract class AbstractProduct extends \Magento\Catalog\Block\Product\AbstractPr
     ) {
         $this->_resourceIndex = $index;
         $this->_targetRuleData = $targetRuleData;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**

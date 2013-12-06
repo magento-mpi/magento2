@@ -55,7 +55,6 @@ class Packaging extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Core\Model\Registry $registry
@@ -65,7 +64,6 @@ class Packaging extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Core\Model\Registry $registry,
@@ -78,7 +76,7 @@ class Packaging extends \Magento\Backend\Block\Template
         $this->_rmaData = $rmaData;
         $this->_orderFactory = $orderFactory;
         $this->_sizeFactory = $sizeFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

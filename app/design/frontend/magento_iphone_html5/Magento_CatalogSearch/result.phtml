@@ -9,7 +9,7 @@
  */
 ?>
 <?php if($this->getResultCount()): ?>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
 <div class="page-title">
     <?php echo $this->getChildHtml('tagged_product_list_rss_link'); ?>
     <h1><?php echo ($this->getHeaderText() || $this->getHeaderText() === false) ? $this->getHeaderText() : __("Search results for '%1'", $this->helper('Magento\CatalogSearch\Helper\Data')->getEscapedQueryText()) ?></h1>
