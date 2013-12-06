@@ -8,11 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Paypal\Controller\Express;
+
 /**
  * Abstract Express Checkout Controller
  */
-namespace Magento\Paypal\Controller\Express;
-
 abstract class AbstractExpress extends \Magento\App\Action\Action
 {
     /**
@@ -203,9 +203,8 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
                     ->unsLastQuoteId()
                     ->unsLastSuccessQuoteId()
                     ->unsLastOrderId()
-                    ->unsLastRealOrderId()
-                    ->addSuccess(__('Express Checkout and Order have been canceled.'))
-                ;
+                    ->unsLastRealOrderId();
+                $this->messageManager->addSuccess(__('Express Checkout and Order have been canceled.'));
             } else {
                 $this->messageManager->addSuccess(__('Express Checkout has been canceled.'));
             }
