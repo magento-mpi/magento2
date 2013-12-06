@@ -71,7 +71,7 @@ class AccountTest extends \PHPUnit_Framework_TestCase
         $this->_messagesMock = $this->getMockBuilder('Magento\Message\Manager')
             ->disableOriginalConstructor()
             ->setMethods(array('addSuccess'))
-            ->getMock();
+            ->getMockForAbstractClass();
 
         $this->_authSessionMock = $this->getMockBuilder('Magento\Backend\Model\Auth\Session')
             ->disableOriginalConstructor()
