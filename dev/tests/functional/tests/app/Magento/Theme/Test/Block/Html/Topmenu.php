@@ -9,12 +9,12 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Theme\Test\Block\Html;
 
 use Mtf\Block\Block;
-use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
+use Mtf\TestCase\Functional;
 
 /**
  * Class Topmenu
@@ -43,6 +43,8 @@ class Topmenu extends Block
      */
     public function selectCategoryByName($categoryName)
     {
+        Functional::assertNotEmpty($categoryName, 'Category must be specified to select from top menu.');
+
         $moreCategoriesLink = $this->_rootElement->find($this->moreParentCategories, Locator::SELECTOR_CSS);
         /**
          * @TODO Eliminate excessive logic
@@ -50,7 +52,8 @@ class Topmenu extends Block
          */
         if ($moreCategoriesLink->isVisible()) {
             $moreCategoriesLink->click();
-            sleep(2); //TODO should be removed after fix with category sliding
+            //TODO sleep should be removed after fix with category sliding
+            sleep(2);
         }
         $categoryLink = $this->_rootElement->find('//a[span="' . $categoryName . '"]', Locator::SELECTOR_XPATH);
         $categoryLink->click();
@@ -68,4 +71,3 @@ class Topmenu extends Block
         return !$this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 }
-

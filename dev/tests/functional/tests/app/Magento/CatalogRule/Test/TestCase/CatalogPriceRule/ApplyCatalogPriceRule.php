@@ -8,15 +8,14 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
+use Magento\Catalog\Test\Repository\SimpleProduct;
 use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class ApplyCatalogPriceRule
@@ -33,7 +32,8 @@ class ApplyCatalogPriceRule extends Functional
     public function testApplyCatalogPriceRule()
     {
         // Create Simple Product
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple->switchData(Product::PRODUCT_SIMPLE);
         $simple->persist();
 
         // Create Configurable Product
@@ -61,7 +61,7 @@ class ApplyCatalogPriceRule extends Functional
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
-        // todo Same categoryId for simple and configurable
+        // TODO Same categoryId for simple and configurable
         $categoryIds = $configurable->getCategoryIds();
         $catalogPriceRuleId = $this->createNewCatalogPriceRule($categoryIds[0]);
 
@@ -111,8 +111,10 @@ class ApplyCatalogPriceRule extends Functional
         $catalogRulePage->open();
         $gridBlock = $catalogRulePage->getCatalogPriceRuleGridBlock();
         $gridRow = $gridBlock->getRow(array('name' => $catalogRuleFixture->getRuleName()));
-        $this->assertTrue($gridRow->isVisible(),
-                'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid');
+        $this->assertTrue(
+            $gridRow->isVisible(),
+            'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid'
+        );
         // Get the Id
         $catalogPriceRuleId = $gridRow->find('//td[@data-column="rule_id"]', Locator::SELECTOR_XPATH)->getText();
 
@@ -194,7 +196,8 @@ class ApplyCatalogPriceRule extends Functional
      * This method verifies information on the storefront.
      * @param Fixture\Product $product
      */
-    protected function verifyPriceRules(Fixture\Product $product) {
+    protected function verifyPriceRules(Fixture\Product $product)
+    {
         // open the front end home page of the store
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
@@ -204,5 +207,10 @@ class ApplyCatalogPriceRule extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $this->assertEquals(
+            '$10.00',
+            $productListBlock->getProductPrice($product->getProductName()),
+            'Displayed price does not make expected price.'
+        );
     }
 }
