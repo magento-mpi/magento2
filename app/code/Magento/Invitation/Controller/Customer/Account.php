@@ -73,14 +73,12 @@ class Account extends \Magento\Customer\Controller\Account
      * No way to logged in customers
      *
      * @param RequestInterface $request
-     * @return mixed|void
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
     {
-        if (!preg_match('/^(create|createpost)/i', $request->getActionName())
-            || !$this->_config->isEnabledOnFront()
-        ) {
+        if (!preg_match('/^(create|createpost)/i', $request->getActionName()) || !$this->_config->isEnabledOnFront()) {
             throw new NotFoundException();
         }
         if ($this->_getSession()->isLoggedIn()) {

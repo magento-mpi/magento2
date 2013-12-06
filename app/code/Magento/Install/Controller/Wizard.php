@@ -89,7 +89,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

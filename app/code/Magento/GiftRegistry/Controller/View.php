@@ -41,7 +41,7 @@ class View extends \Magento\App\Action\Action
      * Check if gift registry is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)

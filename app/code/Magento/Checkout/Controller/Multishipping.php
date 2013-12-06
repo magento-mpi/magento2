@@ -79,12 +79,12 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         parent::__construct($context, $customerSession);
         $this->_urlBuilder = $urlBuilder;
     }
-    
+
     /**
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

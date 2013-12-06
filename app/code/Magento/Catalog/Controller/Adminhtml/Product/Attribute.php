@@ -51,7 +51,7 @@ class Attribute extends \Magento\Backend\App\Action
      * Dispatch request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {

@@ -92,7 +92,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * Check if multiple wishlist is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)

@@ -39,6 +39,12 @@ class Add extends \Magento\App\Action\Action
         parent::__construct($context);
     }
 
+    /**
+     * Check customer authentication for some actions
+     *
+     * @param RequestInterface $request
+     * @return \Magento\App\ResponseInterface
+     */
     public function dispatch(RequestInterface $request)
     {
         if (!$this->_objectManager->get('Magento\Customer\Model\Session')->authenticate($this)) {

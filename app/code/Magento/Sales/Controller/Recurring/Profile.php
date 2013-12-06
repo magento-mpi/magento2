@@ -55,7 +55,7 @@ class Profile extends \Magento\App\Action\Action
      * Make sure customer is logged in and put it into registry
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

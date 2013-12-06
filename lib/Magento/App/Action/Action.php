@@ -74,6 +74,8 @@ class Action extends \Magento\App\Action\AbstractAction
     }
 
     /**
+     * Dispatch request
+     *
      * @param RequestInterface $request
      * @return ResponseInterface
      * @throws NotFoundException

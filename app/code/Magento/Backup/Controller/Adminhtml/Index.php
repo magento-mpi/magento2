@@ -204,7 +204,7 @@ class Index extends \Magento\Backend\App\Action
     public function rollbackAction()
     {
         if (!$this->_objectManager->get('Magento\Backup\Helper\Data')->isRollbackAllowed()) {
-            return $this->_forward('denied');
+            $this->_forward('denied');
         }
 
         if (!$this->getRequest()->isAjax()) {

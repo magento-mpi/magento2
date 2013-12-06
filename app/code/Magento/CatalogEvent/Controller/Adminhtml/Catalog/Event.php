@@ -59,10 +59,10 @@ class Event extends \Magento\Backend\App\Action
     }
 
     /**
-     * Check is enabled module in config
+     * Dispatch request
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {

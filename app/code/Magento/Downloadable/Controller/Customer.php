@@ -43,7 +43,7 @@ class Customer extends \Magento\App\Action\Action
      * Check customer authentication
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

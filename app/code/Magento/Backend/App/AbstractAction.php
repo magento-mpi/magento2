@@ -192,8 +192,10 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
+     *
+     *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -202,7 +204,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         }
 
         if ($request->isDispatched() && $request->getActionName() !== 'denied' && !$this->_isAllowed()) {
-            return $this->_forward('denied');
+            $this->_forward('denied');
+            return $this->_response;
         }
 
         if ($this->_isUrlChecked()) {
