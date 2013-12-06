@@ -46,6 +46,14 @@ class ShippingCarrierTest extends Functional
     }
 
     /**
+     * Reset store configuration settings back to what other tests expect
+     */
+    public static function tearDownAfterClass()
+    {
+        self::initConfiguration();
+    }
+
+    /**
      * Place order on frontend using shipping carrier from data provider.
      *
      * @param $shippingMethodConfig
