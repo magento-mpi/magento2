@@ -1,5 +1,5 @@
-* Fixed bugs:
-  * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
+2.0.0.0-dev55
+=============
 * Modularity improvements:
   * Session configuration moved into library
   * FormKey logic is moved from Session
@@ -8,8 +8,9 @@
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
-  * Fixed shopping cart rules for a specific customer group
+  * Fixed an issue that prevented a customer group's shopping cart rules from applying properly to prices. The issue occurred when a customer was manually assigned to a customer group and automatic group assignment was enabled.
   * Fixed the bug with schema upgrade scripts are not running after installation
+  * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
 
 2.0.0.0-dev54
 =============
