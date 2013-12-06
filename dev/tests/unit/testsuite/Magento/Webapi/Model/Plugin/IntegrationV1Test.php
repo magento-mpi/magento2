@@ -30,7 +30,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
     /**
      * API setup plugin
      *
-     * @var \Magento\Webapi\Model\Plugin\IntegrationV1
+     * @var \Magento\Webapi\Model\Plugin\IntegrationServiceV1
      */
     protected $_integrationV1Plugin;
 
@@ -42,7 +42,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
         $this->_userIdentifierFactoryMock = $this->getMockBuilder('\Magento\Authz\Model\UserIdentifier\Factory')
             ->disableOriginalConstructor()
             ->setMethods(['create'])->getMock();
-        $this->_integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationV1(
+        $this->_integrationV1Plugin = new \Magento\Webapi\Model\Plugin\IntegrationServiceV1(
             $this->_authzServiceMock,
             $this->_userIdentifierFactoryMock
         );
