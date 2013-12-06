@@ -11,7 +11,7 @@ namespace Magento\Filesystem\Driver;
 
 use Magento\Filesystem\FilesystemException;
 
-class Local implements \Magento\Filesystem\DriverInterface
+class File implements \Magento\Filesystem\DriverInterface
 {
     /**
      * @var string

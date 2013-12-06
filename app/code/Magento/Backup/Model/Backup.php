@@ -290,8 +290,8 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
 
         try {
             /** @var \Magento\Filesystem\Directory\WriteInterface $zlibDirectory */
-            $zlibDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ZLIB);
-            $this->_stream  = $zlibDirectory->openFile($this->_getFilePath(), $mode);
+            $rootDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+            $this->_stream  = $rootDirectory->openFile($this->_getFilePath(), $mode, \Magento\Filesystem::WRAPPER_CONTENT_ZLIB);
         }
         catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Backup\Exception\NotEnoughPermissions(

@@ -28,10 +28,13 @@ class Filesystem
     const FTP   = 'ftp';
     const FTPS  = 'ftps';
     const SSH2  = 'ssh2';
+    /**#@-*/
+
+    /**#@+
+     * Remote resource Access Protocols
+     */
     const HTTP  = 'http';
     const HTTPS = 'https';
-    const ZLIB  = 'compress.zlib';
-    /**#@-*/
 
     /**
      * Custom application dirs
@@ -160,6 +163,11 @@ class Filesystem
     protected $writeFactory;
 
     /**
+     * @var \Magento\Filesystem\File\ReadFactory
+     */
+    protected $fileReadFactory;
+
+    /**
      * @var \Magento\Filesystem\Directory\ReadInterface[]
      */
     protected $readInstances = array();
@@ -174,27 +182,34 @@ class Filesystem
      */
     protected $writeInstances = array();
 
+    /**
+     * @var \Magento\Filesystem\File\ReadInterface[]
+     */
+    protected $remoteResourceInstances = array();
+
 use \Magento\FilesystemDeprecated;
 
     /**
      * @param Filesystem\DirectoryList $directoryList
      * @param Filesystem\Directory\ReadFactory $readFactory
      * @param Filesystem\Directory\WriteFactory $writeFactory
-     * @param Filesystem\AdapterInterface $adapter
+     * @param Filesystem\File\ReadFactory $fileReadFactory
+     * @param Filesystem\File\WriteFactory $fileWriteFactory
      */
     public function __construct(
         \Magento\Filesystem\DirectoryList $directoryList,
         \Magento\Filesystem\Directory\ReadFactory $readFactory,
         \Magento\Filesystem\Directory\WriteFactory $writeFactory,
-        \Magento\Filesystem\AdapterInterface $adapter
+        \Magento\Filesystem\File\ReadFactory $fileReadFactory = null,
+        \Magento\Filesystem\File\WriteFactory $fileWriteFactory = null
     ) {
         $this->directoryList = $directoryList;
         $this->readFactory = $readFactory;
         $this->writeFactory = $writeFactory;
+        $this->fileReadFactory = $fileReadFactory;
+        $this->fileWriteFactory = $fileWriteFactory;
 
-        $this->_adapter = $adapter;
-
-        $this->wrapperFactory = new \Magento\Filesystem\WrapperFactory($this->directoryList);
+        $this->driverFactory = new \Magento\Filesystem\DriverFactory($this->directoryList);
     }
 
     /**
@@ -207,7 +222,7 @@ use \Magento\FilesystemDeprecated;
     {
         if (!array_key_exists($code, $this->readInstances)) {
             $config = $this->directoryList->getConfig($code);
-            $this->readInstances[$code] = $this->readFactory->create($config, $this->wrapperFactory);
+            $this->readInstances[$code] = $this->readFactory->create($config, $this->driverFactory);
         }
         return $this->readInstances[$code];
     }
@@ -227,9 +242,28 @@ use \Magento\FilesystemDeprecated;
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
 
-            $this->writeInstances[$code] = $this->writeFactory->create($config, $this->wrapperFactory);
+            $this->writeInstances[$code] = $this->writeFactory->create($config, $this->driverFactory);
         }
         return $this->writeInstances[$code];
+    }
+
+    /**
+     * @param string $path [optional]
+     * @param null $protocol
+     * @return mixed
+     */
+    public function getRemoteResource($path = '', $protocol)
+    {
+        if (!$this->fileReadFactory) {
+            // case when a temporary Filesystem object is used for loading primary configuration
+            return null;
+        }
+
+        if (!array_key_exists($protocol, $this->remoteResourceInstances)) {
+            $this->remoteResourceInstances[$protocol]
+                = $this->fileReadFactory->create($path, $protocol);
+        }
+        return $this->remoteResourceInstances[$protocol];
     }
 
     /**

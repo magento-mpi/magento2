@@ -9,7 +9,7 @@
  */
 namespace Magento\Filesystem\Driver;
 
-class Zlib extends \Magento\Filesystem\Driver\Local
+class Zlib extends File
 {
     /**
      * @var string

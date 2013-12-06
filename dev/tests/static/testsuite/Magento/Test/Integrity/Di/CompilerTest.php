@@ -239,7 +239,7 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     {
         $autoloader = new \Magento\Autoload\IncludePath();
         $generatorIo = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\Local(),
+            new \Magento\Filesystem\Driver\File(),
             $autoloader,
             $this->_generationDir
         );
