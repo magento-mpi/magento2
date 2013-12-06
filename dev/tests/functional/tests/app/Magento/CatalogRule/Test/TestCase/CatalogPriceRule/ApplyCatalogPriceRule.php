@@ -32,7 +32,9 @@ class ApplyCatalogPriceRule extends Functional
     public function testApplyCatalogPriceRule()
     {
         // Create Simple Product
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct(
+            array(Fixture\SimpleProduct::PRICE_VALUE => 11)
+        );
         $simple->switchData(SimpleProduct::NEW_CATEGORY);
         $simple->persist();
 
@@ -42,10 +44,7 @@ class ApplyCatalogPriceRule extends Functional
         $configurable->persist();
 
         /** @var Product[] */
-        $products = array(
-            $simple,
-            $configurable
-        );
+        $products = array($simple, $configurable);
 
         // Create Customer
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
@@ -70,7 +69,7 @@ class ApplyCatalogPriceRule extends Functional
         $banner->persist();
 
         // Verify applied catalog price rules
-        //$this->verifyPriceRules($simple);
+        $this->verifyPriceRules($simple);
 
         $this->verifyCatalogPriceRules($products);
     }

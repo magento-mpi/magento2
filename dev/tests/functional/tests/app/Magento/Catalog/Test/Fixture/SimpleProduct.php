@@ -15,6 +15,8 @@ use Mtf\System\Config;
 
 class SimpleProduct extends Product
 {
+    const PRICE_VALUE = 'price.value';
+
     /**
      * Custom constructor to create product with assigned category
      *
@@ -25,7 +27,7 @@ class SimpleProduct extends Product
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['price_value'] = 10;
+        $this->_placeholders[self::PRICE_VALUE] = 10;
     }
 
     /**
@@ -42,7 +44,7 @@ class SimpleProduct extends Product
         );
 
         $data = array(
-            'price' => array('value' => '%price_value%', 'group' => static::GROUP_PRODUCT_DETAILS),
+            'price' => array('value' => '%' . self::PRICE_VALUE . '%', 'group' => static::GROUP_PRODUCT_DETAILS),
             'tax_class_id' => array(
                 'value' => 'Taxable Goods',
                 'input_value' => '2',
