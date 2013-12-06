@@ -34,7 +34,8 @@ class Method extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['flat_rate'] = $this->_getFlatRate();
         // Shipping carriers
-        $this->_data['dhlint_eu'] = $this->_getDhlIntEu();
+        $this->_data['dhlint_eu'] = $this->_getDhlIntEU();
+        $this->_data['dhlint_us'] = $this->_getDhlIntUS();
         $this->_data['fedex'] = $this->_getFedex();
         $this->_data['ups'] = $this->_getUps();
         $this->_data['usps'] = $this->_getUsps();
@@ -64,13 +65,25 @@ class Method extends AbstractRepository
         );
     }
 
-    protected function _getDhlIntEu()
+    protected function _getDhlIntEU()
     {
         return array(
             'data' => array(
                 'fields' => array(
                     'shipping_service' => 'DHL',
                     'shipping_method' => 'Express worldwide'
+                )
+            )
+        );
+    }
+
+    protected function _getDhlIntUS()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'DHL',
+                    'shipping_method' => 'Domestic Express'
                 )
             )
         );

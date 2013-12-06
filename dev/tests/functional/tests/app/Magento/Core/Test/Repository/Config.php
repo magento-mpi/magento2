@@ -63,12 +63,13 @@ class Config extends AbstractRepository
         //Payment Services
         $this->_data['3d_secure_credit_card_validation'] = $this->_get3dSecureCreditCardValidation();
         //Shipping settings
-        $this->_data['shipping_origin_us'] = $this->_getShippingOriginUs();
+        $this->_data['shipping_origin_us'] = $this->_getShippingOriginUS();
         //Shipping methods
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
-        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEu();
+        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEU();
+        $this->_data['shipping_carrier_dhlint_us'] = $this->_getShippingCarrierDhlIntUS();
         $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
@@ -117,7 +118,7 @@ class Config extends AbstractRepository
      *
      * @return array
      */
-    protected function _getShippingOriginUs()
+    protected function _getShippingOriginUS()
     {
         return array(
             'data' => array(
@@ -143,6 +144,9 @@ class Config extends AbstractRepository
                                     ),
                                     'street_line1' => array( //Street Address
                                         'value' => '10441 Jefferson Blvd'
+                                    ),
+                                    'street_line2' => array( //Street Address Line 2
+                                        'value' => 'Suite 200'
                                     )
                                 )
                             )
@@ -223,12 +227,13 @@ class Config extends AbstractRepository
     }
 
     /**
-     * DHL International shipping method configuration as well as a real EU address set in specified
-     * in shipping settings origin.  Shipping origin is specifically set to Switzerland.
+     * DHL International shipping method configuration.
+     * Specifically for testing shipping origin of EA (Europe) Region.
+     * Shipping origin is specifically set to Switzerland with currency of Swiss Franc.
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntEu()
+    protected function _getShippingCarrierDhlIntEU()
     {
         return array(
             'data' => array(
@@ -306,6 +311,69 @@ class Config extends AbstractRepository
                                     ),
                                     'default' => array( //Default Display Currency
                                         'value' => 'CHF'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * DHL International shipping method configuration.
+     * Specifically for testing shipping origin of AM (America) Region.
+     *
+     * @return array
+     */
+    protected function _getShippingCarrierDhlIntUS()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'dhlint' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => 1 //Yes
+                                    ),
+                                    'gateway_url' => array( //Gateway URL
+                                        'value' => 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
+                                    ),
+                                    'id' => array( //Access ID
+                                        'value' => 'EvgeniyUSA'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => 'okG43dHy7'
+                                    ),
+                                    'account' => array( //Account Number
+                                        'value' => '799909537'
+                                    ),
+                                    'content_type' => array( //Content Type
+                                        'value' => 'N' //Non documents
+                                    ),
+                                    'unit_of_measure' => array( //Weight Unit
+                                        'value' => 'L' //Pounds
+                                    ),
+                                    'size' => array( //Size
+                                        'value' => '0' //Regular
+                                    ),
+                                    'nondoc_methods' => array( //Allowed Methods
+                                        'value' => ['1','3','4','8','P','Q','E','F','H','J','M','V','Y'] //Select all
+                                    ),
+                                    'sallowspecific' => array( //Ship to Applicable Countries
+                                        'value' => '0' //All Allowed Countries
+                                    ),
+                                    'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => 1 //Yes
+                                    ),
+                                    'debug' => array( //Debug
+                                        'value' => 1 //Yes
                                     )
                                 )
                             )

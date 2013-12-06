@@ -65,6 +65,7 @@ class ShippingCarrierTest extends Functional
      * @ZephyrId MAGETWO-12848
      * @ZephyrId MAGETWO-12849
      * @ZephyrId MAGETWO-12850
+     * @ZephyrId MAGETWO-12851
      */
     public function testShippingCarriers(
         $shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet)
@@ -72,6 +73,7 @@ class ShippingCarrierTest extends Functional
         // Initialize store configuration for this data provider run
         $this->initConfiguration();
 
+        // Configure shipping origin / shipping carrier
         // Enable shipping method in store configuration based on method specified in data provider
         $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $configFixture->switchData($shippingMethodConfig);
@@ -101,7 +103,6 @@ class ShippingCarrierTest extends Functional
         $customerAccountLogoutPage = Factory::getPageFactory()->getCustomerAccountLogout();
         $customerAccountLogoutPage->open();
 
-        // Frontend
         // Add simple, configurable, and bundle products to cart
         foreach (self::$checkoutFixture->getProducts() as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
@@ -111,6 +112,7 @@ class ShippingCarrierTest extends Functional
             Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
 
+        // Get and verify shipping quote
         $cartShippingBlock = Factory::getPageFactory()->getCheckoutCart()->getEstimatedShippingBlock();
         // Make estimated shipping content visible
         $cartShippingBlock->clickEstimateShippingTax();
@@ -160,7 +162,8 @@ class ShippingCarrierTest extends Functional
             array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE')
+            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE'),
+            array('shipping_carrier_dhlint_us', 'dhlint_us', 'customer_US_1', 'address_data_US_1')
         );
     }
 
