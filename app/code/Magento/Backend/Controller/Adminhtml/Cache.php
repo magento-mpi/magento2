@@ -48,16 +48,6 @@ class Cache extends \Magento\Backend\App\Action
     }
 
     /**
-     * Retrieve session model
-     *
-     * @return \Magento\Adminhtml\Model\Session
-     */
-    protected function _getSession()
-    {
-        return $this->_objectManager->get('Magento\Session\SessionManagerInterface');
-    }
-
-    /**
      * Display cache management grid
      */
     public function indexAction()
@@ -95,9 +85,7 @@ class Cache extends \Magento\Backend\App\Action
             $cacheFrontend->clean();
         }
         $this->_eventManager->dispatch('adminhtml_cache_flush_system');
-        $this->messageManager->addSuccess(
-            __("The Magento cache storage has been flushed.")
-        );
+        $this->messageManager->addSuccess(__("The Magento cache storage has been flushed."));
         $this->_redirect('adminhtml/*');
     }
 
@@ -127,12 +115,8 @@ class Cache extends \Magento\Backend\App\Action
             }
         } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-        }
-        catch (\Exception $e) {
-            $this->messageManager->addException(
-                $e,
-                __('An error occurred while enabling cache.')
-            );
+        } catch (\Exception $e) {
+            $this->messageManager->addException($e, __('An error occurred while enabling cache.'));
         }
         $this->_redirect('adminhtml/*');
     }
