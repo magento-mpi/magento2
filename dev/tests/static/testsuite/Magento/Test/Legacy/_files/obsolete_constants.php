@@ -402,4 +402,9 @@ return array(
     array('CONTAINER_OPT_HTML_CLASS', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
     array('CONTAINER_OPT_HTML_ID', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
     array('CONTAINER_OPT_LABEL', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array(
+        'XML_PATH_THEME_ID',
+        '\Magento\Core\Model\View\Design',
+        '\Magento\View\DesignInterface::XML_PATH_THEME_ID',
+    ),
 );

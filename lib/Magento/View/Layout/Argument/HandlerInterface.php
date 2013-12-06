@@ -9,8 +9,6 @@
 /**
  * Layout object argument interface
  *
- * @category    Magento
- * @package     Magento_Core
  * @author      Magento Core Team <core@magentocommerce.com>
  */
 namespace Magento\View\Layout\Argument;
