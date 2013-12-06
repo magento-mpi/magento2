@@ -50,7 +50,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_storeManager;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -60,7 +60,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
@@ -68,7 +68,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         \Magento\App\Dir $dirs,
         \Magento\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
         $this->_localConfigFile = $dirs->getDir(\Magento\App\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';

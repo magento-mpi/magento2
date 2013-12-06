@@ -33,7 +33,7 @@ class Cart
     protected $_storeManager;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -42,14 +42,14 @@ class Cart
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_checkoutSession = $checkoutSession;

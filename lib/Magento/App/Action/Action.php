@@ -59,7 +59,7 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_url;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 

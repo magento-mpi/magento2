@@ -65,7 +65,7 @@ class Observer
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -79,7 +79,7 @@ class Observer
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Pci\Model\Encryption $encryptor
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\AuthorizationInterface $authorization,
@@ -91,7 +91,7 @@ class Observer
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Pci\Model\Encryption $encryptor,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_authorization = $authorization;
         $this->_backendConfig = $backendConfig;

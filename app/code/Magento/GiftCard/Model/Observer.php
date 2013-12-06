@@ -36,7 +36,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_coreStoreConfig;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -98,7 +98,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory
      * @param \Magento\Email\Model\TemplateFactory $templateFactory
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\UrlInterface $urlModel
      * @param \Magento\GiftCard\Helper\Data $giftCardData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -117,7 +117,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Sales\Model\Resource\Order\Invoice\Item\CollectionFactory $itemsFactory,
         \Magento\Email\Model\TemplateFactory $templateFactory,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
-        \Magento\Message\Manager $messageManager,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\UrlInterface $urlModel,
         \Magento\GiftCard\Helper\Data $giftCardData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,

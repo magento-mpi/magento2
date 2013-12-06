@@ -77,7 +77,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -93,7 +93,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Backend\Model\Url $backendUrl,
@@ -107,7 +107,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\ResponseInterface $response,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_registry = $registry;
         $this->_backendUrl = $backendUrl;

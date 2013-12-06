@@ -47,7 +47,7 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_appRootDir;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -56,14 +56,14 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Install\Model\Config $installConfig
      * @param \Magento\App\Dir $dir
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\Filesystem $filesystem,
         \Magento\Install\Model\Config $installConfig,
         \Magento\App\Dir $dir,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
         $this->_filesystem = $filesystem;

@@ -40,7 +40,7 @@ class Observer
     protected $_invitationData;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -54,13 +54,13 @@ class Observer
     /**
      * @param \Magento\Invitation\Helper\Data $invitationData
      * @param \Magento\Invitation\Model\Config $config
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\App\RequestInterface $request
      */
     public function __construct(
         \Magento\Invitation\Helper\Data $invitationData,
         \Magento\Invitation\Model\Config $config,
-        \Magento\Message\Manager $messageManager,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\App\RequestInterface $request
     ) {
         $this->_invitationData = $invitationData;

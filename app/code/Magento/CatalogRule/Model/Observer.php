@@ -81,7 +81,7 @@ class Observer
     protected $_resourceRule;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -99,7 +99,7 @@ class Observer
      * @param Rule\Product\Price $productPrice
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -116,7 +116,7 @@ class Observer
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Stdlib\DateTime $dateTime,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;

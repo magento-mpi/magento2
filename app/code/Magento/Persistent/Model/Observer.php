@@ -121,7 +121,7 @@ class Observer
     protected $_escaper;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -142,7 +142,7 @@ class Observer
      * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -161,7 +161,7 @@ class Observer
         \Magento\App\RequestInterface $requestHttp,
         \Magento\View\LayoutInterface $layout,
         \Magento\Escaper $escaper,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_persistentSession = $persistentSession;

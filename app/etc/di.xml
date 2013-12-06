@@ -275,6 +275,7 @@
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
     </type>
+    <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
     <type name="Magento\Message\Manager">
         <param name="exceptionLogFile">
             <value type="argument">Magento\Message::XML_PATH_LOG_EXCEPTION_FILE</value>

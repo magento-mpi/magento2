@@ -50,7 +50,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_view;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -63,7 +63,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\App\ViewInterface $view
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -74,7 +74,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\App\ViewInterface $view,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -152,7 +152,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Message\Manager
+     * @return \Magento\Message\ManagerInterface
      */
     public function getMessageManager()
     {

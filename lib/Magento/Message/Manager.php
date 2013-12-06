@@ -11,13 +11,8 @@ namespace Magento\Message;
 /**
  * Message manager model
  */
-class Manager
+class Manager implements ManagerInterface
 {
-    /**
-     * Default message group
-     */
-    const DEFAULT_GROUP = 'default';
-
     /**
      * Configuration path to log exception file
      */

@@ -48,7 +48,7 @@ class Observer
     protected $_customerBalance = null;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -65,7 +65,7 @@ class Observer
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -74,7 +74,7 @@ class Observer
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\GiftCardAccount\Model\History $giftCAHistory,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Message\Manager $messageManager,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;

@@ -16,17 +16,17 @@ namespace Magento\Install\Model\Installer;
 class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
         $this->messageManager = $messageManager;

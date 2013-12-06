@@ -55,7 +55,7 @@ class Observer
     protected $_backendSession;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -67,7 +67,7 @@ class Observer
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Backend\Model\Session $backendSession,
@@ -75,7 +75,7 @@ class Observer
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\CatalogSearch\Model\Fulltext $catalogSearchFulltext,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_backendSession = $backendSession;
         $this->_backendUrl = $backendUrl;

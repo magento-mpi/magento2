@@ -44,7 +44,7 @@ class Authentication
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -53,14 +53,14 @@ class Authentication
      * @param \Magento\Backend\Model\Url $url
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $url,
         \Magento\App\ResponseInterface $response,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_auth = $auth;
         $this->_url = $url;

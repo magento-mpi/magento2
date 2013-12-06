@@ -50,7 +50,7 @@ class Renderer extends \Magento\View\Block\Template
     protected $_productConfig = null;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -59,7 +59,7 @@ class Renderer extends \Magento\View\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -67,7 +67,7 @@ class Renderer extends \Magento\View\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Message\Manager $messageManager,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_productConfig = $productConfig;

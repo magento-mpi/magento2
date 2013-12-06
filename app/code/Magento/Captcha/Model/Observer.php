@@ -73,7 +73,7 @@ class Observer
     protected $_actionFlag;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -87,7 +87,7 @@ class Observer
      * @param \Magento\Core\Model\Url $urlManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ActionFlag $actionFlag
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,
@@ -99,7 +99,7 @@ class Observer
         \Magento\Core\Model\Url $urlManager,
         \Magento\App\RequestInterface $request,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_resLogFactory = $resLogFactory;
         $this->_session = $session;

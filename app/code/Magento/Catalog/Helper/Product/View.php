@@ -71,7 +71,7 @@ class View extends \Magento\App\Helper\AbstractHelper
     protected $_view;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -83,7 +83,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Page\Helper\Layout $pageLayout
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $messageModels
      */
     public function __construct(
@@ -94,7 +94,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         \Magento\Page\Helper\Layout $pageLayout,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\ViewInterface $view,
-        \Magento\Message\Manager $messageManager,
+        \Magento\Message\ManagerInterface $messageManager,
         array $messageModels = array()
     ) {
         $this->_catalogSession = $catalogSession;

@@ -109,7 +109,7 @@ class Onepage
     protected $_objectCopyService;
 
     /**
-     * @var \Magento\Message\Manager
+     * @var \Magento\Message\ManagerInterface
      */
     protected $messageManager;
 
@@ -128,7 +128,7 @@ class Onepage
      * @param \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Object\Copy $objectCopyService
-     * @param \Magento\Message\Manager $messageManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -145,7 +145,7 @@ class Onepage
         \Magento\Sales\Model\Service\QuoteFactory $serviceQuoteFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Object\Copy $objectCopyService,
-        \Magento\Message\Manager $messageManager
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_eventManager = $eventManager;
         $this->_customerData = $customerData;
