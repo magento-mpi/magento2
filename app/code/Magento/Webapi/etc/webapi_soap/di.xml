@@ -8,13 +8,25 @@
  */
 -->
 <config>
+    <preference for="Magento\Authz\Model\UserLocatorInterface" type="Magento\Webapi\Model\Authz\UserLocator"/>
+    <type name="Magento\Webapi\Model\Authz\UserLocator">
+        <param name="request">
+            <instance type="Magento\Webapi\Controller\Soap\Request"/>
+        </param>
+    </type>
     <preference for="Magento\App\FrontControllerInterface" type="Magento\Webapi\Controller\Soap" />
+    <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
     <type name="Magento\Webapi\Controller\Soap">
         <param name="soapServer">
             <instance type="Magento\Webapi\Model\Soap\Server\Proxy"/>
         </param>
         <param name="errorProcessor">
             <instance type="Magento\Webapi\Controller\ErrorProcessor\Proxy"/>
+        </param>
+    </type>
+    <type name="Magento\Webapi\Controller\Soap\Handler">
+        <param name="authorizationService">
+            <instance type="Magento\Authz\Service\AuthorizationV1Interface\Proxy" />
         </param>
     </type>
 </config>

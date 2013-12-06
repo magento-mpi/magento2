@@ -8,44 +8,6 @@
  */
 -->
 <config>
-    <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\DefaultPolicy" />
-    <preference for="Magento\Authorization\RoleLocator" type="Magento\Authorization\RoleLocator\DefaultRoleLocator" />
-    <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider"/>
-    <type name="Magento\Acl\Builder">
-        <param name="roleLoader">
-            <instance type="Magento\Acl\Loader\DefaultLoader" />
-        </param>
-        <param name="resourceLoader">
-            <instance type="Magento\Acl\Loader\Resource" />
-        </param>
-        <param name="ruleLoader">
-            <instance type="Magento\Acl\Loader\DefaultLoader" />
-        </param>
-    </type>
-    <type name="Magento\Acl\Loader\Resource">
-        <param name="resourceProvider">
-            <instance type="Magento\Acl\Resource\Provider" />
-        </param>
-    </type>
-    <type name="Magento\Acl\Resource\Provider">
-        <param name="configReader">
-            <instance type="Magento\Acl\Resource\Config\Reader\Filesystem" />
-        </param>
-    </type>
-    <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
-        <param name="converter">
-            <instance type="Magento\Acl\Resource\Config\Converter\Dom" />
-        </param>
-    </type>
-    <type name="Magento\Core\Model\Acl\RootResource">
-        <param name="identifier">
-            <value>Magento_Webapi</value>
-        </param>
-    </type>
-    <type name="Magento\Xml\Generator" shared="false" />
-    <type name="Magento\Xml\Parser" shared="false" />
-    <type name="Magento\Code\Scanner\DirectoryScanner" shared="false" />
-    <type name="Magento\Server\Reflection" shared="false" />
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
@@ -57,5 +19,12 @@
                 </webapi_soap>
             </value>
         </param>
+    </type>
+    <type name="Magento\Xml\Generator" shared="false" />
+    <type name="Magento\Xml\Parser" shared="false" />
+    <type name="Magento\Code\Scanner\DirectoryScanner" shared="false" />
+    <type name="Magento\Server\Reflection" shared="false" />
+    <type name="Magento\Integration\Service\IntegrationV1">
+        <plugin name="webapiIntegrationServiceV1" type="Magento\Webapi\Model\Plugin\IntegrationServiceV1"/>
     </type>
 </config>
