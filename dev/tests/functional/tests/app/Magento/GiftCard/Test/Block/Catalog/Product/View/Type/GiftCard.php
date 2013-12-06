@@ -73,6 +73,7 @@ class GiftCard extends Block
     /**
      * Verifying that Gift Card fields on fronted correspond to Gift Card type:
      * Virtual and Combined - Sender Name, Sender Email, Recipient Name, Recipient Email
+     *
      * @return bool
      */
     public function isGiftCardNotPhysical()

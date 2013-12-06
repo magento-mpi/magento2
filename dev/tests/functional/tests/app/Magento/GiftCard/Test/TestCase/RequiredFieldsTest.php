@@ -52,7 +52,7 @@ class testCreate extends Functional
         $productBlockForm->save($giftcard);
         //Verification
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
