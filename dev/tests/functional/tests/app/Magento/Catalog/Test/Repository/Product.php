@@ -38,6 +38,7 @@ class Product extends AbstractRepository
         );
         $this->_data['simple']['data']['category_name'] = '%category::getCategoryName%';
         $this->_data['simple_advanced_inventory'] = $this->getSimpleAdvancedInventory();
+        $this->_data['simple_with_map'] = $this->getSimpleAppliedMAP($defaultData);
         $this->_data['simple_with_new_category'] = array(
             'config' => $defaultConfig,
             'data' => $this->buildSimpleWithNewCategoryData($defaultData),
@@ -105,6 +106,40 @@ class Product extends AbstractRepository
                 'fields' => array(
                     'special_price' => array(
                         'value' => '9',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
+                    )
+                )
+            )
+        );
+        $product = array_replace_recursive($this->_data['simple'], $pricing);
+
+        return $product;
+    }
+
+    /**
+     * Get simple product with advanced pricing (MAP)
+     *
+     * @return array
+     */
+    protected function getSimpleAppliedMAP()
+    {
+        $pricing = array(
+            'data' => array(
+                'fields' => array(
+                    'msrp_enabled' => array(
+                        'value' => 'Yes',
+                        'input_value' => '1',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp_display_actual_price_type' => array(
+                        'value' => 'On Gesture',
+                        'input_value' => '1',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp' => array(
+                        'value' => '15',
                         'group' => Fixture\Product::GROUP_PRODUCT_PRICING
                     )
                 )

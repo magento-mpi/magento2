@@ -31,6 +31,15 @@ class ListProduct extends Block
     private $productTitle;
 
     /**
+     * @var string
+     */
+    protected $clickForPrice = '[id*=msrp-click]';
+
+    protected $priceMap = '[id*=product-price]';
+
+    protected $actualPrice = "[class='regular-price']";
+
+    /**
      * Initialize block elements
      */
     protected function _init()
@@ -61,5 +70,20 @@ class ListProduct extends Block
         $this->_rootElement->find($this->productTitle, Locator::SELECTOR_CSS)
             ->find('//*[@title="' . $productName . '"]', Locator::SELECTOR_XPATH)
             ->click();
+    }
+
+    public function openMapBlockOnCategoryPage()
+    {
+        $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
+    }
+
+    public function getOldPrice()
+    {
+        return $this->_rootElement->find($this->priceMap, Locator::SELECTOR_CSS)->getText();
+    }
+
+    public function getActualPrice()
+    {
+        return $this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText();
     }
 }

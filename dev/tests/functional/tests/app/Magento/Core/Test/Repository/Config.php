@@ -52,6 +52,8 @@ class Config extends AbstractRepository
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+        //Sales
+        $this->_data['enable_map_config'] = $this->_getMapEnabled();
     }
 
     protected function _getFreeShipping()
@@ -930,5 +932,63 @@ class Config extends AbstractRepository
             ),
         );
         return array_merge_recursive($data, $this->_getPaypalDirect());
+    }
+
+    /**
+     * Enable MAP
+     *
+     * @return array
+     */
+    protected function _getMapEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'sales' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'msrp' => array( //Minimum Advertised Price)
+                                'fields' => array(
+                                    'enabled' => array( //Enabled
+                                        'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable MAP
+     *
+     * @return array
+     */
+    protected function _getMapDisabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'msrp' => array( //Minimum Advertised Price)
+                                'fields' => array(
+                                    'enabled' => array( //Disabled
+                                        'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 }

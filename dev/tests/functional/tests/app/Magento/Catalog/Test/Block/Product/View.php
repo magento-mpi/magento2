@@ -61,6 +61,8 @@ class View extends Block
      */
     private $bundleBlock;
 
+    protected $clickForPrice = '[id*=msrp-popup]';
+
     /**
      * Custom constructor
      */
@@ -219,5 +221,22 @@ class View extends Block
     public function clickAddToCartButton()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    public function openMapBlockOnProductPage()
+    {
+        $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
+    }
+
+    public function getOldPrice()
+    {
+        return $this->_rootElement->find('//*[@class="old price"]//*[@class="price"]', Locator::SELECTOR_XPATH)->
+            getText();
+    }
+
+    public function getActualPrice()
+    {
+        return $this->_rootElement->find('//*[@class="regular-price"]//*[@class="price"]', Locator::SELECTOR_XPATH)->
+            getText();
     }
 }

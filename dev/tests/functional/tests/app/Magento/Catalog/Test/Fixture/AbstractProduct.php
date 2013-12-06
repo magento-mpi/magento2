@@ -156,6 +156,16 @@ class AbstractProduct extends DataFixture
     }
 
     /**
+     * Get product MAP price
+     *
+     * @return string
+     */
+    public function getProductMapPrice()
+    {
+        return $this->getData('fields/msrp/value');
+    }
+
+    /**
      * Get category name
      *
      * @return string
