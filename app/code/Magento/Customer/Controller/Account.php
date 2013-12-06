@@ -968,17 +968,17 @@ class Account extends \Magento\App\Action\Action
 
                 $customer->sendPasswordResetNotificationEmail('reset_frontend');
 
-                $this->_getSession()->setCustomer($customer)
-                    ->addSuccess(__('The account information has been saved.'));
+                $this->_getSession()->setCustomer($customer);
+                $this->messageManager->addSuccess(__('The account information has been saved.'));
 
                 $this->_redirect('customer/account');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                    ->addError($e->getMessage());
+                $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->setCustomerFormData($this->getRequest()->getPost())
-                    ->addException($e, __('Cannot save the customer.'));
+                $this->_getSession()->setCustomerFormData($this->getRequest()->getPost());
+                $this->messageManager->addException($e, __('Cannot save the customer.'));
             }
         }
 

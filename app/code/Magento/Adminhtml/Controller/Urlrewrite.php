@@ -393,10 +393,7 @@ class Urlrewrite extends \Magento\Backend\App\Action
                     __('The URL Rewrite has been deleted.')
                 );
             } catch (\Exception $e) {
-                $errorMessage =
-                    __('An error occurred while deleting URL Rewrite.');
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addException($e, $errorMessage);
+                $this->messageManager->addException($e, __('An error occurred while deleting URL Rewrite.'));
                 $this->_redirect('adminhtml/*/edit/', array('id' => $this->_getUrlRewrite()->getId()));
                 return;
             }

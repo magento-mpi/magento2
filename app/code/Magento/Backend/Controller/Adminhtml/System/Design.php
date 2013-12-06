@@ -114,15 +114,11 @@ class Design extends \Magento\Backend\App\Action
 
             try {
                 $design->delete();
-
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addSuccess(__('You deleted the design change.'));
+                $this->messageManager->addSuccess(__('You deleted the design change.'));
             } catch (\Magento\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addException($e, __("Cannot delete the design change."));
+                $this->messageManager->addException($e, __("Cannot delete the design change."));
             }
         }
         $this->getResponse()->setRedirect($this->getUrl('adminhtml/*/'));
