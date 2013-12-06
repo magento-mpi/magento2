@@ -19,9 +19,10 @@ use Mtf\Factory\Factory;
  * Class Conditions
  * Segment Conditions actions block
  *
- *@package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab
+ * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment\Edit\Tab
  */
-class Conditions extends Block {
+class Conditions extends Block
+{
     /**
      * Backend abstract block
      *

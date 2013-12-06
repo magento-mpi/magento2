@@ -15,19 +15,34 @@ namespace Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class CustomerGrid
- * Backend customer grid
+ * Class Grid
+ * Backend customer segment grid
  *
  * @package Magento\CustomerSegment\Test\Block\Backend\Adminhtml\Customersegment
  */
 class Grid extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
-     * Initialize block elements
+     * 'Add New' segment button
+     *
+     * @var string
      */
-    protected function _init()
+    protected $addNewSegment = "//button[@id='add']";
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $filters = array(
+        'grid_segment_name' => array(
+            'selector' => '#customersegmentGrid_filter_grid_segment_name'
+        )
+    );
+
+    /**
+     * Add new segment
+     */
+    public function addNewSegment()
     {
-        parent::_init();
-        $this->editLink = '//td[@data-column="grid_segment_name"]';
+        $this->_rootElement->find($this->addNewSegment, Locator::SELECTOR_XPATH)->click();
     }
 }

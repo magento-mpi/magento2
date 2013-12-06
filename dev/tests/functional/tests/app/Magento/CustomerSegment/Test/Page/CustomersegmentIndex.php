@@ -28,19 +28,12 @@ class CustomersegmentIndex extends Page
     /**
      * URL for customer segment
      */
-    const MCA = 'customersegment';
+    const MCA = 'customersegment/index';
 
     /**
      * @var Grid
      */
-    protected $customerSegmentGridBlock;
-
-    /**
-     * 'Add New' segment button
-     *
-     * @var string
-     */
-    protected $addNewSegment = "//button[@id='add']";
+    protected $customerSegmentGridBlock = '[id="page:main-container"]';
 
     /**
      * Custom constructor
@@ -48,8 +41,6 @@ class CustomersegmentIndex extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->customerGridBlock = Factory::getBlockFactory()->
-            getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentGrid($this->_browser->find('#customersegmentGrid'));
     }
 
     /**
@@ -59,14 +50,8 @@ class CustomersegmentIndex extends Page
      */
     public function getCustomerSegmentGridBlock()
     {
-        return $this->customerSegmentGridBlock;
-    }
-
-    /**
-     * Add new segment
-     */
-    public function addNewSegment()
-    {
-        $this->_browser->find($this->addNewSegment, Locator::SELECTOR_XPATH)->click();
+        return Factory::getBlockFactory()->getMagentoCustomerSegmentBackendAdminhtmlCustomersegmentGrid(
+            $this->_browser->find($this->customerSegmentGridBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

@@ -41,15 +41,15 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
     /**
      * Initialize block elements
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'email' => array(
-                'selector' => '#segmentGrid_filter_grid_email'
-            )
-        );
-    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected $filters = array(
+        'email' => array(
+            'selector' => '#segmentGrid_filter_grid_email'
+        )
+    );
 
     /**
      * Get Name text from matched customer grid
@@ -58,8 +58,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGridName()
     {
-        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_NAME_COL,
-            Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_NAME_COL, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -69,8 +68,7 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGridEmail()
     {
-        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_EMAIL_COL,
-            Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_EMAIL_COL, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
@@ -80,7 +78,6 @@ class Grid extends \Magento\Backend\Test\Block\Widget\Grid
      */
     public function getGridGroup()
     {
-        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_GROUP_COL,
-            Locator::SELECTOR_XPATH)->getText();
+        return $this->_rootElement->find(self::GRID_XPATH_ROW.self::GRID_GROUP_COL, Locator::SELECTOR_XPATH)->getText();
     }
 }

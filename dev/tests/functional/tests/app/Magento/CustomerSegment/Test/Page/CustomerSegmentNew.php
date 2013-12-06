@@ -33,7 +33,7 @@ class CustomerSegmentNew extends Page
     /**
      * URL for new customer segment
      */
-    const MCA = 'customersegment/new';
+    const MCA = 'customersegment/index/new';
 
     /**
      * Form for creation of the segment
@@ -41,11 +41,6 @@ class CustomerSegmentNew extends Page
      * @var string
      */
     protected $segmentForm = '[id="page:main-container"]';
-
-    /**
-     * @var Edit
-     */
-    protected $newCustomerSegmentForm;
 
     /**
      * Global messages block
