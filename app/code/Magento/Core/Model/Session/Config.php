@@ -11,6 +11,8 @@ namespace Magento\Core\Model\Session;
 
 /**
  * Magento session configuration
+ *
+ * @method Config setSaveHandler()
  */
 class Config implements \Magento\Session\Config\ConfigInterface
 {
