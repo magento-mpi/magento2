@@ -33,8 +33,10 @@ class LabelFactory
      * @param \Magento\ObjectManager $objectManager
      * @param string $instanceName
      */
-    public function __construct(\Magento\ObjectManager $objectManager, $instanceName = 'Magento\View\Design\Theme\Label')
-    {
+    public function __construct(
+        \Magento\ObjectManager $objectManager,
+        $instanceName = 'Magento\View\Design\Theme\Label'
+    ) {
         $this->_objectManager = $objectManager;
         $this->_instanceName = $instanceName;
     }
