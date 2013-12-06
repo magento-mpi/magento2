@@ -20,11 +20,23 @@ class Configuration
     const XML_FILESYSTEM_DIRECTORY_PATH = 'system/filesystem/directory';
 
     /**
+     * Declaration wrapper configuration
+     */
+    const XML_FILESYSTEM_WRAPPER_PATH = 'system/filesystem/protocol';
+
+    /**
      * Filesystem Directory configuration
      *
      * @var array
      */
     protected $directories;
+
+    /**
+     * Filesystem protocols configuration
+     *
+     * @var array
+     */
+    protected $protocols;
 
     /**
      * Store directory configuration
@@ -33,7 +45,8 @@ class Configuration
      */
     public function __construct(\Magento\Core\Model\ConfigInterface $config)
     {
-        $this->directories = $config->getValue(self::XML_FILESYSTEM_DIRECTORY_PATH);
+        $this->directories = $config->getValue(self::XML_FILESYSTEM_DIRECTORY_PATH) ?: array();
+        $this->protocols = $config->getValue(self::XML_FILESYSTEM_WRAPPER_PATH) ?: array();
     }
 
     /**
@@ -45,6 +58,10 @@ class Configuration
     {
         foreach ($this->directories as $code => $directoryConfiguration) {
             $directoryList->addDirectory($code, $directoryConfiguration);
+        }
+
+        foreach ($this->protocols as $code => $protocolConfiguration) {
+            $directoryList->addProtocol($code, $protocolConfiguration);
         }
     }
 }

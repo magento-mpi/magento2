@@ -76,7 +76,7 @@ try {
 
     // 1.2 Generation of Factory and Additional Classes
     $generatorIo = new \Magento\Code\Generator\Io(
-        new \Magento\Filesystem\Driver\Base(),
+        new \Magento\Filesystem\Driver\Local(),
         null,
         $generationDir
     );
