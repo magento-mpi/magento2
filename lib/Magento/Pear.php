@@ -188,7 +188,7 @@ class Pear
     public function run($command, $options=array(), $params=array())
     {
         @set_time_limit(0);
-        @ini_set('memory_limit', '256M');
+        @ini_set('memory_limit', '2048M');
 
         if (empty($this->_cmdCache[$command])) {
             $cmd = PEAR_Command::factory($command, $this->getConfig());
