@@ -345,7 +345,7 @@ class Index extends \Magento\Backend\App\Action
             if (!($error instanceof \Magento\Message\Error)) {
                 $error = new \Magento\Message\Error($error);
             }
-            $session->addMessage($error);
+            $this->messageManager->addMessage($error);
         };
         array_walk_recursive($messages, $callback);
     }
