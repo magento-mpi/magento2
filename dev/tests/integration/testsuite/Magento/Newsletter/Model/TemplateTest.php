@@ -64,7 +64,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
 
     /**
      * This test expects next themes for areas:
-     * install/design/theme/full_name   magento_enterprise
+     * install/design/theme/full_name   magento_basic
      * adminhtml/design/theme/full_name magento_backend
      *
      * @magentoAppIsolation  enabled
@@ -85,8 +85,10 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function getProcessedTemplateAreaDataProvider()
     {
+        $design = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Core\Model\View\Design');
         return array(
-            'install' => array('install',   'magento_enterprise'),
+            'install' => array('install',   $design->getConfigurationDesignTheme('install')),
             'backend' => array('adminhtml', 'magento_backend')
         );
     }
