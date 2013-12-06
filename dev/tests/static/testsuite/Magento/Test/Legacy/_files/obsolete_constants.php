@@ -430,8 +430,16 @@ return array(
         'Magento\Theme\Helper\Robots',
         'Magento\Adminhtml\Block\Page\System\Config\Robots::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
     ),
-    array('XML_PATH_MERGE_CSS_FILES', 'Magento\View\Asset\MergeService'),
-    array('XML_PATH_MERGE_JS_FILES', 'Magento\View\Asset\MergeService'),
+    array(
+        'XML_PATH_MERGE_CSS_FILES',
+        'Magento\View\Asset\MergeService',
+        'Magento\Core\Model\Asset\Config::XML_PATH_MERGE_CSS_FILES'
+    ),
+    array(
+        'XML_PATH_MERGE_JS_FILES',
+        'Magento\View\Asset\MergeService',
+        'Magento\Core\Model\Asset\Config::XML_PATH_MERGE_JS_FILES'
+    ),
     array(
         'XML_PATH_MINIFICATION_ENABLED',
         'Magento\View\Asset\MinifyService',
