@@ -262,7 +262,8 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      *
      * @return \Magento\Rating\Model\Resource\Rating\Collection
      */
-    public function addStoreData() {
+    public function addStoreData()
+    {
         if (!$this->_storeManager->isSingleStoreMode()) {
             if (!$this->_isCollectionLoaded) {
                 $this->_addStoreDataFlag = true;
