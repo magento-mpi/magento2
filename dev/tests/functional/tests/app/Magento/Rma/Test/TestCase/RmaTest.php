@@ -25,37 +25,13 @@ Class RmaTest extends Functional
      */
     public function testRma()
     {
-        // precondition 1: Configure RMA Settings
-        Factory::getApp()->magentoBackendLoginUser();
-        $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $enableRma->switchData('enable_rma');
-        $enableRma->persist();
 
-        // precondition 2a: MAGETWO-12415 - Guest Checkout using "Checkout with PayPal":
-        $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder();
-        $payPalExpressOrder->persist();
+        // Setup Preconditions:
+        $this->configureRma();
+        $payPalExpressOrder = $this->guestCheckoutPayPal();
+        $orderPage = $this->closeSalesOrder($payPalExpressOrder);
 
-        // precondition 2b: MAGETWO-12434 - Closing a Sales Order paid with PayPal Express Checkout
         $orderId = $payPalExpressOrder->getOrderId();
-        //Pages
-        $orderPage = Factory::getPageFactory()->getSalesOrder();
-        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
-        $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
-
-        Factory::getApp()->magentoBackendLoginUser();
-
-        $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-
-        //Create the Shipment
-        $orderPage->getOrderActionsBlock()->ship();
-        $newShipmentPage->getTotalsBlock()->submit();
-
-        //Create the Invoice
-        $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $orderPage->getOrderActionsBlock()->invoice();
-        $newInvoicePage->getInvoiceTotalsBlock()->submit();
 
         // Step 1:  Go to frontend
         $homePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -111,6 +87,67 @@ Class RmaTest extends Functional
         // Step 11: Sales->Order->Returns
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        //$orderPage->getOrderViewTabsBlock()->clickReturnsLink();
+        $orderPage->getFormTabsBlock()->openTab('sales_order_view_tabs_order_rma');
+
+        // Step 12: Open the Returns page, navigate to Return Items tab
+        $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
+        $rmaPage = Factory::getPageFactory()->getRmaEdit();
+        $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+
+        // Step 13: Authorize Simple and Configurable Product
+
+        // Step 14: Process Return for Simple and Configurable Product
+
+        // Step 15: Approve Return for Simple and Configurable Product
+
+        echo "hello";
+    }
+
+    private function configureRma()
+    {
+        // precondition 1: Configure RMA Settings
+        Factory::getApp()->magentoBackendLoginUser();
+        $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $enableRma->switchData('enable_rma');
+        $enableRma->persist();
+
+
+
+    }
+
+    private function guestCheckoutPayPal()
+    {
+        // precondition 2a: MAGETWO-12415 - Guest Checkout using "Checkout with PayPal":
+        $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder();
+        $payPalExpressOrder->persist();
+
+        return $payPalExpressOrder;
+    }
+
+    private function closeSalesOrder($payPalExpressOrder)
+    {
+        // precondition 2b: MAGETWO-12434 - Closing a Sales Order paid with PayPal Express Checkout
+        $orderId = $payPalExpressOrder->getOrderId();
+        //Pages
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
+        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
+        $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
+
+        Factory::getApp()->magentoBackendLoginUser();
+
+        $orderPage->open();
+        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+
+        //Create the Shipment
+        $orderPage->getOrderActionsBlock()->ship();
+        $newShipmentPage->getTotalsBlock()->submit();
+
+        //Create the Invoice
+        $orderPage->open();
+        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
+        $orderPage->getOrderActionsBlock()->invoice();
+        $newInvoicePage->getInvoiceTotalsBlock()->submit();
+
+        return $orderPage;
     }
 }
