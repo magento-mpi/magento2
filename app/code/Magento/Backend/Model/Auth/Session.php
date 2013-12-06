@@ -14,6 +14,7 @@ namespace Magento\Backend\Model\Auth;
  * Backend Auth session model
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ * @todo implement solution that keeps is_first_visit flag in session during redirects
  */
 class Session
     extends \Magento\Session\SessionManager
@@ -72,25 +73,6 @@ class Session
         $this->_backendUrl = $backendUrl;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
-    }
-
-    /**
-     * Pull out information from session whether there is currently the first page after log in
-     *
-     * The idea is to set this value on login(), then redirect happens,
-     * after that on next request the value is grabbed once the session is initialized
-     * Since the session is used as a singleton, the value will be in $_isFirstPageAfterLogin until the end of request,
-     * unless it is reset intentionally from somewhere
-     *
-     * @param string $sessionName
-     * @return \Magento\Backend\Model\Auth\Session
-     * @see self::login()
-     */
-    public function start($sessionName = null)
-    {
-        parent::start($sessionName);
-        // @todo implement solution that keeps is_first_visit flag in session during redirects
-        return $this;
     }
 
     /**

@@ -16,7 +16,6 @@ class Generic extends \Magento\Session\SessionManager
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
-     * @param array $data
      * @param null $sessionName
      */
     public function __construct(
@@ -26,10 +25,9 @@ class Generic extends \Magento\Session\SessionManager
         \Magento\Session\SaveHandlerInterface $saveHandler,
         \Magento\Session\ValidatorInterface $validator,
         \Magento\Session\StorageInterface $storage,
-        array $data = array(),
         $sessionName = null
     ) {
-        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage, $data);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start($sessionName);
     }
 }
