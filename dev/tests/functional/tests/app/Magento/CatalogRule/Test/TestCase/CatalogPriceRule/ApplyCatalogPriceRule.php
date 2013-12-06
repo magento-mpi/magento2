@@ -33,7 +33,7 @@ class ApplyCatalogPriceRule extends Functional
     {
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
-        $simple->switchData(Product::PRODUCT_SIMPLE);
+        $simple->switchData(SimpleProduct::NEW_CATEGORY);
         $simple->persist();
 
         // Create Configurable Product
