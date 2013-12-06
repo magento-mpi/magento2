@@ -17,6 +17,8 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Sales\Order\Address\Form\Renderer;
 
+use Magento\View\Element\Template;
+
 class Vat
     extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
 {
@@ -28,6 +30,25 @@ class Vat
     protected $_validateButton = null;
 
     protected $_template = 'sales/order/create/address/form/renderer/vat.phtml';
+
+    /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        array $data = array()
+    ) {
+        $this->_jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Retrieve validate button block
@@ -48,7 +69,7 @@ class Vat
             $groupMessage = __('The customer is currently assigned to Customer Group %s.')
                 . ' ' . __('Would you like to change the Customer Group for this order?');
 
-            $vatValidateOptions = $this->_coreData->jsonEncode(array(
+            $vatValidateOptions = $this->_jsonEncoder->encode(array(
                 'vatElementId' => $vatElementId,
                 'countryElementId' => $countryElementId,
                 'groupIdHtmlId' => 'group_id',

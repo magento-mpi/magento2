@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Results extends \Magento\View\Block\Template
+class Results extends \Magento\View\Element\Template
 {
     /**
      * Set search results and create html pager block
@@ -24,7 +24,7 @@ class Results extends \Magento\View\Block\Template
     public function setSearchResults($results)
     {
         $this->setData('search_results', $results);
-        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'giftregistry.search.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'giftregistry.search.pager')
             ->setCollection($results)->setIsOutputRequired(false);
         $this->setChild('pager', $pager);
     }

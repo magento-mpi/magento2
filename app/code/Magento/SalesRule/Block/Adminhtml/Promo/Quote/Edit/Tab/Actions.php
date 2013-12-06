@@ -33,7 +33,6 @@ class Actions
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Yesno $sourceYesno
@@ -43,7 +42,6 @@ class Actions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Yesno $sourceYesno,
@@ -54,7 +52,7 @@ class Actions
         $this->_rendererFieldset = $rendererFieldset;
         $this->_ruleActions = $ruleActions;
         $this->_sourceYesno = $sourceYesno;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**

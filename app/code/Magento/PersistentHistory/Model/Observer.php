@@ -238,7 +238,7 @@ class Observer
      * Set whislist items count in top wishlist link block
      *
      * @deprecated after 1.11.2.0
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return null
      */
     public function initWishlist($block)
@@ -253,7 +253,7 @@ class Observer
      * Set persistent wishlist to wishlist sidebar block
      *
      * @deprecated after 1.11.2.0
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return null
      */
     public function initWishlistSidebar($block)
@@ -267,7 +267,7 @@ class Observer
     /**
      * Set persistent orders to recently orders block
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return null
      */
     public function initReorderSidebar($block)

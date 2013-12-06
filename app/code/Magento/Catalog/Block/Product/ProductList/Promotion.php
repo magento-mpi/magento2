@@ -26,8 +26,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
     protected $_layerFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -40,8 +39,7 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
@@ -57,7 +55,6 @@ class Promotion extends \Magento\Catalog\Block\Product\ListProduct
         $this->_productCollectionFactory = $productCollectionFactory;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,

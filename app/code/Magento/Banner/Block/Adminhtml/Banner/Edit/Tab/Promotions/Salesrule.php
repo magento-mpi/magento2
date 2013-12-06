@@ -13,7 +13,6 @@ namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
 {
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -22,7 +21,6 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection
      * @param \Magento\Core\Model\Registry $registry
@@ -30,14 +28,13 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\SalesRule\Model\Resource\Rule\Collection $ruleCollection,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
 

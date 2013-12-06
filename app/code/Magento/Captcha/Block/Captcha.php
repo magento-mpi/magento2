@@ -17,7 +17,7 @@
  */
 namespace Magento\Captcha\Block;
 
-class Captcha extends \Magento\View\Block\Template
+class Captcha extends \Magento\View\Element\Template
 {
     /**
      * Captcha data
@@ -27,19 +27,17 @@ class Captcha extends \Magento\View\Block\Template
     protected $_captchaData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Captcha\Helper\Data $captchaData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Captcha\Helper\Data $captchaData,
         array $data = array()
     ) {
         $this->_captchaData = $captchaData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -27,19 +27,25 @@ class Before extends \Magento\Backend\Block\Template
     protected $_importModel;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\ImportExport\Model\Import $importModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\ImportExport\Model\Import $importModel,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_importModel = $importModel;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -53,7 +59,7 @@ class Before extends \Magento\Backend\Block\Template
         foreach ($behaviors as $entityCode => $behavior) {
             $behaviors[$entityCode] = $behavior['code'];
         }
-        return $this->_coreData->jsonEncode($behaviors);
+        return $this->_jsonEncoder->encode($behaviors);
     }
 
     /**
@@ -64,6 +70,6 @@ class Before extends \Magento\Backend\Block\Template
     public function getUniqueBehaviors()
     {
         $uniqueBehaviors = $this->_importModel->getUniqueEntityBehaviors();
-        return $this->_coreData->jsonEncode(array_keys($uniqueBehaviors));
+        return $this->_jsonEncoder->encode(array_keys($uniqueBehaviors));
     }
 }

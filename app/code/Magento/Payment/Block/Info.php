@@ -13,7 +13,7 @@
  */
 namespace Magento\Payment\Block;
 
-class Info extends \Magento\View\Block\Template
+class Info extends \Magento\View\Element\Template
 {
     /**
      * Payment rendered specific information

@@ -38,7 +38,6 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\CustomerBalance\Model\Balance\History $history
@@ -47,7 +46,6 @@ class Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\CustomerBalance\Model\Balance\History $history,
@@ -57,7 +55,7 @@ class Grid
         $this->_systemStore = $systemStore;
         $this->_historyFactory = $historyFactory;
         $this->_history = $history;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     /**

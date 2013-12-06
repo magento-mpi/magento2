@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Block;
 
-class Form extends \Magento\View\Block\Template
+class Form extends \Magento\View\Element\Template
 {
     /**
      * Invitation Config
@@ -26,18 +26,16 @@ class Form extends \Magento\View\Block\Template
     protected $_config;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Invitation\Model\Config $config
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Invitation\Model\Config $config,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_config = $config;
     }
 
