@@ -17,7 +17,7 @@ class Form
     extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\Theme\LabelFactory
+     * @var \Magento\View\Design\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
@@ -30,7 +30,7 @@ class Form
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param array $data
      */
@@ -38,7 +38,7 @@ class Form
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
+        \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         \Magento\Core\Model\System\Store $systemStore,
         array $data = array()
     ) {
@@ -107,7 +107,7 @@ class Form
                 'required'  => true,
             ));
 
-            /** @var $label \Magento\Core\Model\Theme\Label */
+            /** @var $label \Magento\View\Design\Theme\Label */
             $label = $this->_themeLabelFactory->create();
             $options = $label->getLabelsCollection();
             array_unshift($options, array(

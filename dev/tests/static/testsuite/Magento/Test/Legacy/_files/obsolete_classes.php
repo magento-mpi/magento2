@@ -1725,4 +1725,10 @@ return array(
     array('Magento\Page\Block\Link\Current', 'Magento\View\Element\Html\Link\Current'),
     array('Magento\Page\Block\Links', 'Magento\View\Element\Html\Links'),
     array('Magento\Page\Block\Link', 'Magento\View\Element\Html\Link'),
+    array('Magento\Core\Model\Layout\Argument\HandlerInterface', 'Magento\View\Layout\Argument\HandlerInterface'),
+    array('Magento\Core\Model\Layout\Argument\HandlerFactory', 'Magento\View\Layout\Argument\HandlerFactory'),
+    array('Magento\Core\Model\Theme\Label', 'Magento\View\Design\Theme\Label'),
+    array('Magento\Core\Model\Theme\LabelFactory', 'Magento\View\Design\Theme\LabelFactory'),
+    array('Magento\Core\Model\DesignLoader', 'Magento\View\DesignLoader'),
+    array('Magento\Page\Block\Switcher', 'Magento\Core\Block\Switcher')
 );
