@@ -7,6 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Integration;
@@ -256,39 +257,27 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
     public function testFindByName()
     {
         $this->_integrationMock->expects($this->any())
-            ->method('getData')
-            ->will($this->returnValue($this->_integrationData));
-        $this->_integrationMock->expects($this->any())
             ->method('load')
             ->with(self::VALUE_INTEGRATION_NAME, 'name')
             ->will($this->returnValue($this->_integrationMock));
-        $integrationData = $this->_service->findByName(self::VALUE_INTEGRATION_NAME);
-        $this->assertEquals($this->_integrationData[Integration::NAME], $integrationData[Integration::NAME]);
+        $this->_integrationMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue($this->_integrationData));
+        $integration = $this->_service->findByName(self::VALUE_INTEGRATION_NAME);
+        $this->assertEquals($this->_integrationData[Integration::NAME], $integration->getData()[Integration::NAME]);
     }
 
     public function testFindByNameNotFound()
     {
         $this->_integrationMock->expects($this->any())
-            ->method('getData')
-            ->will($this->returnValue(null));
-        $this->_integrationMock->expects($this->any())
             ->method('load')
             ->with(self::VALUE_INTEGRATION_NAME, 'name')
             ->will($this->returnValue($this->_emptyIntegrationMock));
-        $integrationData = $this->_service->findByName(self::VALUE_INTEGRATION_NAME);
-        $this->assertNull($integrationData);
-    }
-
-    public function testFindByNameEmptyOrNullName()
-    {
-        $this->_integrationMock->expects($this->never())
-            ->method('getData');
-        $this->_integrationMock->expects($this->never())
-            ->method('load');
-        $integrationData = $this->_service->findByName(' ');
-        $this->assertNull($integrationData);
-        $integrationData = $this->_service->findByName(null);
-        $this->assertNull($integrationData);
+        $this->_emptyIntegrationMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue(null));
+        $integration = $this->_service->findByName(self::VALUE_INTEGRATION_NAME);
+        $this->assertNull($integration->getData());
     }
 
     public function testDelete()
@@ -313,7 +302,7 @@ class IntegrationV1Test extends \PHPUnit_Framework_TestCase
 
     /**
      * @expectedException \Magento\Integration\Exception
-     * @expectedExceptionMessage Integration with ID '1' doesn't exist.
+     * @expectedExceptionMessage Integration with ID '1' does not exist.
      */
     public function testDeleteException()
     {
