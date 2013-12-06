@@ -121,4 +121,21 @@ class IntegrationServiceV1
         );
         return $userIdentifier;
     }
+
+    /**
+     * Process integration resource permissions after the integration is created
+     *
+     * @param array $integrationData Data of integration deleted
+     * @return array $integrationData
+     */
+    public function afterDelete(array $integrationData)
+    {
+        //No check needed for integration data since it cannot be empty in the parent invocation - delete
+        $userIdentifier = $this->_userIdentifierFactory->create(
+            UserIdentifier::USER_TYPE_INTEGRATION,
+            (int)$integrationData[IntegrationModel::ID]
+        );
+        $this->_authzService->removePermissions($userIdentifier);
+        return $integrationData;
+    }
 }
