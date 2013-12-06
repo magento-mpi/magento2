@@ -34,7 +34,6 @@ class Simple
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
@@ -44,7 +43,6 @@ class Simple
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
@@ -53,7 +51,7 @@ class Simple
         array $data = array()
     ) {
         $this->_productFactory = $productFactory;
-        parent::__construct($context, $coreData, $registry, $formFactory, $wysiwygConfig, $catalogData, $data);
+        parent::__construct($context, $registry, $formFactory, $wysiwygConfig, $catalogData, $data);
     }
 
     protected function _prepareForm()

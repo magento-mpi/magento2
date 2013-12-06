@@ -18,7 +18,7 @@
 ?>
 <?php $_helper = $this->helper('Magento\Catalog\Helper\Output'); ?>
 <?php $_product = $this->getProduct(); ?>
-<?php $this->getMessagesBlock()->setEscapeMessageFlag(true); ?>
+<?php $this->getLayout()->getMessagesBlock()->setEscapeMessageFlag(true); ?>
 <script type="text/javascript">
     var optionsPrice = new Product.OptionsPrice(<?php echo $this->getJsonConfig() ?>);
 </script>

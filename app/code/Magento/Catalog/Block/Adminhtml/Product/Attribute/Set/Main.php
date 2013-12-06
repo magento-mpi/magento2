@@ -56,8 +56,13 @@ class Main extends \Magento\Backend\Block\Template
     protected $_attributeFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Eav\Model\Entity\TypeFactory $typeFactory
      * @param \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory
      * @param \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory
@@ -68,7 +73,7 @@ class Main extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Eav\Model\Entity\TypeFactory $typeFactory,
         \Magento\Eav\Model\Entity\Attribute\GroupFactory $groupFactory,
         \Magento\Catalog\Model\Resource\Product\Type\Configurable\AttributeFactory $attributeFactory,
@@ -77,13 +82,14 @@ class Main extends \Magento\Backend\Block\Template
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_typeFactory = $typeFactory;
         $this->_groupFactory = $groupFactory;
         $this->_attributeFactory = $attributeFactory;
         $this->_collectionFactory = $collectionFactory;
         $this->_coreRegistry = $registry;
         $this->_catalogProduct = $catalogProduct;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -254,7 +260,7 @@ class Main extends \Magento\Backend\Block\Template
             $items[] = $item;
         }
 
-        return $this->_coreData->jsonEncode($items);
+        return $this->_jsonEncoder->encode($items);
     }
 
     /**
@@ -308,7 +314,7 @@ class Main extends \Magento\Backend\Block\Template
             );
         }
 
-        return $this->_coreData->jsonEncode($items);
+        return $this->_jsonEncoder->encode($items);
     }
 
     /**

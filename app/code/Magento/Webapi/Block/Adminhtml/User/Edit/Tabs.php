@@ -29,7 +29,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     /**
      * Before to HTML.
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _beforeToHtml()
     {

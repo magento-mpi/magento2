@@ -13,6 +13,11 @@ namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
+use Magento\Backend\Test\Block\Sales\Order\Grid;
+use Magento\Core\Test\Block\Messages;
+use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid;
+use Magento\Backend\Test\Block\Sales\Order\Invoice\Grid as InvoiceGrid;
 use Mtf\Client\Element\Locator;
 
 /**
@@ -27,6 +32,13 @@ class SalesOrder extends Page
      * URL for manage orders page
      */
     const MCA = 'sales/order';
+
+    /**
+     * Navigation Menu Block
+     *
+     * @var string
+     */
+    protected $navigationMenuBlock = 'nav';
 
     /**
      * Sales order grid
@@ -142,4 +154,17 @@ class SalesOrder extends Page
             $this->_browser->find($this->transctionGrid, Locator::SELECTOR_CSS)
         );
     }
+
+    /**
+     * Get navigation menu items
+     *
+     * @return \Magento\Theme\Test\Block\Html\Topmenu
+     */
+    public function getNavigationMenuBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTopmenu(
+            $this->_browser->find($this->navigationMenuBlock, Locator::SELECTOR_ID)
+        );
+    }
 }
+

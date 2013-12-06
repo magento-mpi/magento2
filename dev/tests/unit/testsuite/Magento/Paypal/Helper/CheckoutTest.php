@@ -57,7 +57,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     {
         $order = $this->getMockBuilder('Magento\Sales\Model\Order')
             ->disableOriginalConstructor()
-            ->setMethods(array_merge(array('getId'), $mockMethods))
+            ->setMethods(array_merge(array('getId', '__wakeup'), $mockMethods))
             ->getMock();
         $order->expects($this->once())
             ->method('getId')
@@ -118,7 +118,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
     {
         $quote = $this->getMockBuilder('Magento\Sales\Model\Quote')
             ->disableOriginalConstructor()
-            ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId', 'load'))
+            ->setMethods(array('getId', 'save', 'setIsActive', 'setReservedOrderId', 'load', '__wakeup'))
             ->getMock();
         $order = $this->_getOrderMock($hasOrderId);
         $this->_session->expects($this->once())

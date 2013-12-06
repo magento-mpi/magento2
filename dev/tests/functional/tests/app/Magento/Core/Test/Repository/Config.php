@@ -65,6 +65,7 @@ class Config extends AbstractRepository
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+        $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
         //Customer
         $this->_data['address_template'] = $this->_getAddressTemplate();
     }
@@ -976,4 +977,34 @@ class Config extends AbstractRepository
             )
         );
     }
+
+    /**
+     * Disable Secret Key
+     *
+     * @return array
+     */
+    protected function _getSecretKeyEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'admin' => array(
+                        'section' => 'admin',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'security' => array(
+                                'fields' => array(
+                                    'use_form_key' => array(
+                                        'value' => '0'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
 }
+

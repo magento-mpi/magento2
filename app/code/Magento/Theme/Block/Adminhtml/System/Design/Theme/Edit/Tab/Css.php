@@ -38,7 +38,6 @@ class Css
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\ObjectManager $objectManager
@@ -47,14 +46,13 @@ class Css
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\ObjectManager $objectManager,
         \Magento\Theme\Model\Uploader\Service $uploaderService,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $objectManager, $data);
+        parent::__construct($context, $registry, $formFactory, $objectManager, $data);
         $this->_uploaderService = $uploaderService;
     }
 

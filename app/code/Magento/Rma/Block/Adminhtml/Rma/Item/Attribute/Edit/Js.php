@@ -29,19 +29,25 @@ class Js
     protected $_attributeHelper = null;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\CustomAttribute\Helper\Data $attributeHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\CustomAttribute\Helper\Data $attributeHelper,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_attributeHelper = $attributeHelper;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -51,7 +57,7 @@ class Js
      */
     public function getValidateFiltersJson()
     {
-        return $this->_coreData->jsonEncode(
+        return $this->_jsonEncoder->encode(
             $this->_attributeHelper->getAttributeValidateFilters()
         );
     }
@@ -63,7 +69,7 @@ class Js
      */
     public function getFilteTypesJson()
     {
-        return $this->_coreData->jsonEncode(
+        return $this->_jsonEncoder->encode(
             $this->_attributeHelper->getAttributeFilterTypes()
         );
     }

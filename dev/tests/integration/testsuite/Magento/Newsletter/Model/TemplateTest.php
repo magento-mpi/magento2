@@ -38,7 +38,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateFrontend($store, $design)
     {
-        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
+        $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         if ($store != 'default') {
             \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Config')
                 ->setValue(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID, $design, 'store', $store);
@@ -46,7 +46,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $this->_model->emulateDesign($store, 'frontend');
         $processedTemplate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->emulateAreaCode('frontend', array($this->_model, 'getProcessedTemplate'));
-        $expectedTemplateText = "frontend/{$design}/en_US/Magento_Page/favicon.ico";
+        $expectedTemplateText = "frontend/{$design}/en_US/Magento_Theme/favicon.ico";
         $this->assertStringEndsWith($expectedTemplateText, $processedTemplate);
         $this->_model->revertDesign();
     }
@@ -72,11 +72,11 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetProcessedTemplateArea($area, $design)
     {
-        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
+        $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->_model->emulateDesign('default', $area);
         $processedTemplate = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')
             ->emulateAreaCode($area, array($this->_model, 'getProcessedTemplate'));
-        $expectedTemplateText = "{$area}/{$design}/en_US/Magento_Page/favicon.ico";
+        $expectedTemplateText = "{$area}/{$design}/en_US/Magento_Theme/favicon.ico";
         $this->assertStringEndsWith($expectedTemplateText, $processedTemplate);
     }
 

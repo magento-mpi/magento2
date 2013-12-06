@@ -61,7 +61,6 @@ abstract class Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Option\ArrayPool $optionArrayPool
@@ -74,7 +73,6 @@ abstract class Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Option\ArrayPool $optionArrayPool,
@@ -91,7 +89,7 @@ abstract class Form
         $this->_operationData = $operationData;
         $this->_sourceYesno = $sourceYesno;
         $this->string = $string;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
@@ -105,7 +103,7 @@ abstract class Form
         $operation = $this->_coreRegistry->registry('current_operation');
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id'     => 'edit_form',
                 'name'   => 'scheduled_operation',
             ))
