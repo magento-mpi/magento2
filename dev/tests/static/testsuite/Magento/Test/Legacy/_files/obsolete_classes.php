@@ -1738,4 +1738,5 @@ return array(
         'Magento\Core\Model\Layout\PageType\Config\SchemaLocator',
         'Magento\View\Layout\PageType\Config\SchemaLocator'
     ),
+    array('Magento\Core\Model\Theme\CopyService', 'Magento\Theme\Model\CopyService'),
 );
