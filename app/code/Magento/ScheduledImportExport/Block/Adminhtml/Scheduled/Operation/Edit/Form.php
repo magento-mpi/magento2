@@ -103,7 +103,7 @@ abstract class Form
         $operation = $this->_coreRegistry->registry('current_operation');
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id'     => 'edit_form',
                 'name'   => 'scheduled_operation',
             ))

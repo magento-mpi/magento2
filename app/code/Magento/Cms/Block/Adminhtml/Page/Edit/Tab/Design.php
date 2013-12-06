@@ -70,7 +70,7 @@ class Design
 
         /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'html_id_prefix' => 'page_',
             ))
         );
