@@ -15,15 +15,30 @@ use Magento\Filesystem\DriverInterface;
 class WriteFactory
 {
     /**
+     * @var \Magento\Filesystem\WrapperFactory
+     */
+    protected $wrapperFactory;
+
+    public function __construct(\Magento\Filesystem\WrapperFactory $wrapperFactory)
+    {
+        $this->wrapperFactory = $wrapperFactory;
+    }
+
+    /**
      * Create a readable file
      *
      * @param string $path
      * @param DriverInterface $driver
      * @param string $mode
+     * @param string|null $protocol
      * @return \Magento\Filesystem\File\WriteInterface
      */
-    public function create($path, DriverInterface $driver, $mode)
+    public function create($path, DriverInterface $driver, $protocol = null, $mode = 'w')
     {
-        return new \Magento\Filesystem\File\Write($path, $driver, $mode);
+        $wrapper = $driver;
+        if ($protocol) {
+            $wrapper = $this->wrapperFactory->get($protocol, $driver);
+        }
+        return new \Magento\Filesystem\File\Write($path, $wrapper, $mode);
     }
 }

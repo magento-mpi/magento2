@@ -29,28 +29,33 @@ class DirectoryList
      * @var array
      */
     protected $directories = array(
-        Filesystem::ROOT          => array('path' => ''),
-        Filesystem::APP           => array('path' => 'app'),
-        Filesystem::MODULES       => array('path' => 'app/code'),
-        Filesystem::THEMES        => array('path' => 'app/design'),
-        Filesystem::CONFIG        => array('path' => 'app/etc'),
-        Filesystem::LIB           => array('path' => 'lib'),
-        Filesystem::VAR_DIR       => array('path' => 'var'),
-        Filesystem::TMP           => array('path' => 'var/tmp'),
-        Filesystem::CACHE         => array('path' => 'var/cache'),
-        Filesystem::LOG           => array('path' => 'var/log'),
-        Filesystem::SESSION       => array('path' => 'var/session'),
-        Filesystem::DI            => array('path' => 'var/di'),
-        Filesystem::GENERATION    => array('path' => 'var/generation'),
-        Filesystem::SOCKET        => array('path' => null),
-        Filesystem::PUB           => array('path' => 'pub'),
-        Filesystem::PUB_LIB       => array('path' => 'pub/lib'),
-        Filesystem::MEDIA         => array('path' => 'pub/media'),
-        Filesystem::UPLOAD        => array('path' => 'pub/media/upload'),
-        Filesystem::STATIC_VIEW   => array('path' => 'pub/static'),
+        Filesystem::ROOT           => array('path' => ''),
+        Filesystem::APP            => array('path' => 'app'),
+        Filesystem::MODULES        => array('path' => 'app/code'),
+        Filesystem::THEMES         => array('path' => 'app/design'),
+        Filesystem::CONFIG         => array('path' => 'app/etc'),
+        Filesystem::LIB            => array('path' => 'lib'),
+        Filesystem::VAR_DIR        => array('path' => 'var'),
+        Filesystem::TMP            => array('path' => 'var/tmp'),
+        Filesystem::CACHE          => array('path' => 'var/cache'),
+        Filesystem::LOG            => array('path' => 'var/log'),
+        Filesystem::SESSION        => array('path' => 'var/session'),
+        Filesystem::DI             => array('path' => 'var/di'),
+        Filesystem::GENERATION     => array('path' => 'var/generation'),
+        Filesystem::HTTP           => array('path' => null),
+        Filesystem::PUB            => array('path' => 'pub'),
+        Filesystem::PUB_LIB        => array('path' => 'pub/lib'),
+        Filesystem::MEDIA          => array('path' => 'pub/media'),
+        Filesystem::UPLOAD         => array('path' => 'pub/media/upload'),
+        Filesystem::STATIC_VIEW    => array('path' => 'pub/static'),
         Filesystem::PUB_VIEW_CACHE => array('path' => 'pub/cache'),
-        Filesystem::LOCALE          => array('path' => '')
+        Filesystem::LOCALE         => array('path' => '')
     );
+
+    /**
+     * @var array
+     */
+    protected $protocol = array();
 
     /**
      * @param string $root
@@ -79,10 +84,10 @@ class DirectoryList
         }
 
         $this->directories[Filesystem::SYS_TMP] = array(
-            'path' => sys_get_temp_dir(),
-            'read_only' => false,
+            'path'              => sys_get_temp_dir(),
+            'read_only'         => false,
             'allow_create_dirs' => true,
-            'permissions' => 0777
+            'permissions'       => 0777
         );
     }
 
@@ -102,6 +107,23 @@ class DirectoryList
         }
 
         $this->directories[$code] = $configuration;
+    }
+
+    /**
+     * Set protocol wrapper
+     *
+     * @param string $wrapperCode
+     * @param array $configuration
+     */
+    public function addProtocol($wrapperCode, array $configuration)
+    {
+        if (isset($configuration['wrapper'])) {
+            $flag = isset($configuration['url_stream']) ? $configuration['url_stream'] : 0;
+            $wrapperClass = $configuration['wrapper'];
+            stream_wrapper_register($wrapperCode, $wrapperClass, $flag);
+        }
+
+        $this->protocol[$wrapperCode] = $configuration;
     }
 
     /**
@@ -160,6 +182,17 @@ class DirectoryList
             );
         }
         return $this->directories[$code];
+    }
+
+    /**
+     * Return protocol configuration
+     *
+     * @param string $wrapperCode
+     * @return null|array
+     */
+    public function getProtocolConfig($wrapperCode)
+    {
+        return isset($this->protocol[$wrapperCode]) ? $this->protocol[$wrapperCode] : null;
     }
 
     /**

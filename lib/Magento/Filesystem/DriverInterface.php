@@ -63,10 +63,12 @@ interface DriverInterface
      * Retrieve file contents from given path
      *
      * @param string $path
+     * @param string|null $flag
+     * @param resource|null $context
      * @return string
      * @throws FilesystemException
      */
-    public function fileGetContents($path);
+    public function fileGetContents($path, $flag = null, $context = null);
 
     /**
      * Check if given path is writable
@@ -294,4 +296,26 @@ interface DriverInterface
      * @throws FilesystemException
      */
     public function fileUnlock($resource);
+
+    /**
+     * @param string $basePath
+     * @param string $path
+     * @param string|null $scheme
+     * @return mixed
+     */
+    public function getAbsolutePath($basePath, $path, $scheme = null);
+
+    /**
+     * @param string $basePath
+     * @param null $path
+     * @return mixed
+     */
+    public function getRelativePath($basePath, $path = null);
+
+    /**
+     * @param $path
+     * @param $directory
+     * @return mixed
+     */
+    public function isPathInDirectory($path, $directory);
 }

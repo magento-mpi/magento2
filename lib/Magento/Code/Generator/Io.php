@@ -38,16 +38,16 @@ class Io
     private $_autoloader;
 
     /**
-     * @var \Magento\Filesystem\Driver\Base
+     * @var \Magento\Filesystem\Driver\Local
      */
     private $filesystemDriver;
     /**
-     * @param \Magento\Filesystem\Driver\Base   $filesystemDriver
+     * @param \Magento\Filesystem\Driver\Local   $filesystemDriver
      * @param \Magento\Autoload\IncludePath     $autoLoader
      * @param null $generationDirectory
      */
     public function __construct(
-        \Magento\Filesystem\Driver\Base $filesystemDriver,
+        \Magento\Filesystem\Driver\Local $filesystemDriver,
         \Magento\Autoload\IncludePath   $autoLoader = null,
         $generationDirectory = null
     ) {

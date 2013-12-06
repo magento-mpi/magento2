@@ -13,6 +13,26 @@ use Magento\Filesystem\FilesystemException;
 
 class Filesystem
 {
+    /**#@+
+     * Content wrappers
+     */
+    const WRAPPER_CONTENT_ZLIB = 'compress.zlib';
+    const WRAPPER_CONTENT_PHAR = 'phar';
+    const WRAPPER_CONTENT_RAR  = 'rar';
+    const WRAPPER_CONTENT_OGG  = 'ogg';
+    /**#@-*/
+
+    /**#@+
+     * Directories for remote access
+     */
+    const FTP   = 'ftp';
+    const FTPS  = 'ftps';
+    const SSH2  = 'ssh2';
+    const HTTP  = 'http';
+    const HTTPS = 'https';
+    const ZLIB  = 'compress.zlib';
+    /**#@-*/
+
     /**
      * Custom application dirs
      */
@@ -120,11 +140,6 @@ class Filesystem
     const UPLOAD = 'upload';
 
     /**
-     * Virtual directory to access files via socket connections (using http or https schemes)
-     */
-    const SOCKET = 'socket';
-
-    /**
      * System base temporary folder
      */
     const SYS_TMP = 'sys_tmp';
@@ -150,6 +165,11 @@ class Filesystem
     protected $readInstances = array();
 
     /**
+     * @var \Magento\Filesystem\WrapperFactory
+     */
+    protected $wrapperFactory;
+    
+    /**
      * @var \Magento\Filesystem\Directory\WriteInterface[]
      */
     protected $writeInstances = array();
@@ -173,6 +193,8 @@ use \Magento\FilesystemDeprecated;
         $this->writeFactory = $writeFactory;
 
         $this->_adapter = $adapter;
+
+        $this->wrapperFactory = new \Magento\Filesystem\WrapperFactory($this->directoryList);
     }
 
     /**
@@ -185,7 +207,7 @@ use \Magento\FilesystemDeprecated;
     {
         if (!array_key_exists($code, $this->readInstances)) {
             $config = $this->directoryList->getConfig($code);
-            $this->readInstances[$code] = $this->readFactory->create($config);
+            $this->readInstances[$code] = $this->readFactory->create($config, $this->wrapperFactory);
         }
         return $this->readInstances[$code];
     }
@@ -205,7 +227,7 @@ use \Magento\FilesystemDeprecated;
                 throw new FilesystemException(sprintf('The "%s" directory doesn\'t allow write operations', $code));
             }
 
-            $this->writeInstances[$code] = $this->writeFactory->create($config);
+            $this->writeInstances[$code] = $this->writeFactory->create($config, $this->wrapperFactory);
         }
         return $this->writeInstances[$code];
     }

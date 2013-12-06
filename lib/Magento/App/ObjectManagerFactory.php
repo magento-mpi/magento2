@@ -11,7 +11,8 @@
 namespace Magento\App;
 
 use Magento\App\Config,
-    Magento\Profiler;
+    Magento\Profiler,
+    Magento\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -67,7 +68,7 @@ class ObjectManagerFactory
         );
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
-            new \Magento\Filesystem\Driver\Base(),
+            new \Magento\Filesystem\Driver\Local(),
             $directories->getDir(\Magento\Filesystem::DI),
             $directories->getDir(\Magento\Filesystem::GENERATION),
             $options->get('definition.format', 'serialized')

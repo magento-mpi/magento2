@@ -11,7 +11,6 @@ namespace Magento\Filesystem\Directory;
 
 class WriteTest extends \PHPUnit_Framework_TestCase
 {
-
     /**
      * \Magento\Filesystem\Driver
      *
@@ -36,7 +35,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->driver = $this->getMock('Magento\Filesystem\Driver\Base', array(), array(), '', false);
+        $this->driver = $this->getMock('Magento\Filesystem\Driver\Local', array(), array(), '', false);
         $this->fileFactory = $this->getMock('Magento\Filesystem\File\WriteFactory', array(), array(), '', false);
         $this->write = new \Magento\Filesystem\Directory\Write(
             array(), $this->fileFactory, $this->driver, 'cool-permissions');

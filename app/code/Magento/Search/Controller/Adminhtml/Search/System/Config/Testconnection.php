@@ -17,9 +17,27 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
-class Testconnection
-    extends \Magento\Backend\App\Action
+use Magento\App\Action,
+    Magento\Filesystem;
+
+class Testconnection extends \Magento\Backend\App\Action
 {
+    /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @param Action\Context $context
+     * @param Filesystem $filesystem
+     */
+    public function __construct(Action\Context $context, Filesystem $filesystem)
+    {
+        parent::__construct($context);
+        $this->filesystem = $filesystem;
+    }
+
+
     /**
      * Check for connection to server
      */
@@ -33,7 +51,9 @@ class Testconnection
             die;
         }
 
-        $pingUrl = 'http://' . $host . ':' . $port . '/' . $path . '/admin/ping';
+        /** @var \Magento\Filesystem\Directory\ReadInterface $httpResource */
+        $httpResource = $this->filesystem->getDirectoryRead(\Magento\Filesystem::HTTP);
+        $path = $host . ':' . $port . '/' . $path . '/admin/ping';
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];
@@ -54,7 +74,7 @@ class Testconnection
         );
 
         // attempt a HEAD request to the solr ping page
-        $ping = @file_get_contents($pingUrl, false, $context);
+        $ping = $httpResource->readFile($path, null, $context);
 
         // result is false if there was a timeout
         // or if the HTTP status was not 200
