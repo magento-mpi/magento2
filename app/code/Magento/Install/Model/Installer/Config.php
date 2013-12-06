@@ -8,14 +8,11 @@
  * @license     {license_link}
  */
 
+namespace Magento\Install\Model\Installer;
 
 /**
  * Config installer
- * @category   Magento
- * @package    Magento_Install
  */
-namespace Magento\Install\Model\Installer;
-
 class Config extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     const TMP_INSTALL_DATE_VALUE= 'd-d-d-d-d';
@@ -53,18 +50,25 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_storeManager;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Message\Manager $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\App\RequestInterface $request,
         \Magento\App\Dir $dirs,
         \Magento\Filesystem $filesystem,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Message\Manager $messageManager
     ) {
         parent::__construct($installer);
         $this->_localConfigFile = $dirs->getDir(\Magento\App\Dir::CONFIG) . DIRECTORY_SEPARATOR . 'local.xml';
@@ -72,6 +76,7 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
         $this->_request = $request;
         $this->_filesystem = $filesystem;
         $this->_storeManager = $storeManager;
+        $this->messageManager = $messageManager;
     }
 
     public function setConfigData($data)
@@ -187,13 +192,13 @@ class Config extends \Magento\Install\Model\Installer\AbstractInstaller
             $client = new \Magento\HTTP\ZendClient($staticUrl);
             $response = $client->request('GET');
         } catch (\Exception $e){
-            $this->_getInstaller()->getDataModel()->addError(
+            $this->messageManager->addError(
                 __('The URL "%1" is not accessible.', $baseUrl)
             );
             throw $e;
         }
         if ($response->getStatus() != 200) {
-            $this->_getInstaller()->getDataModel()->addError(
+            $this->messageManager->addError(
                 __('The URL "%1" is invalid.', $baseUrl)
             );
             throw new \Magento\Core\Exception(__('Response from the server is invalid.'));

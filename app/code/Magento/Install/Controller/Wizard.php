@@ -402,7 +402,7 @@ class Wizard extends \Magento\Install\Controller\Action
                 $this->_redirect('*/*/installDb');
                 return $this;
             } catch (\Exception $e) {
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());
             }
         }
@@ -428,7 +428,7 @@ class Wizard extends \Magento\Install\Controller\Action
 
             $this->getResponse()->setRedirect($step->getNextUrl());
         } catch (\Exception $e) {
-            $this->_session->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->getResponse()->setRedirect($step->getUrl());
         }
     }
@@ -466,9 +466,9 @@ class Wizard extends \Magento\Install\Controller\Action
         } catch (\Exception $e) {
             $this->_session->setAdminData($adminData);
             if ($e instanceof \Magento\Core\Exception) {
-                $this->_session->addMessages($e->getMessages());
+                $this->messageManager->addMessages($e->getMessages());
             } else {
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
             $this->getResponse()->setRedirect($step->getUrl());
         }

@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Fylesystem installer
- *
- * @category   Magento
- * @package    Magento_Install
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Install\Model\Installer;
 
+/**
+ * Filesystem installer
+ */
 class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**#@+
@@ -51,20 +47,28 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
     protected $_appRootDir;
 
     /**
+     * @var \Magento\Message\Manager
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Install\Model\Config $installConfig
      * @param \Magento\App\Dir $dir
+     * @param \Magento\Message\Manager $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
         \Magento\Filesystem $filesystem,
         \Magento\Install\Model\Config $installConfig,
-        \Magento\App\Dir $dir
+        \Magento\App\Dir $dir,
+        \Magento\Message\Manager $messageManager
     ) {
         parent::__construct($installer);
         $this->_filesystem = $filesystem;
         $this->_installConfig = $installConfig;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -152,9 +156,7 @@ class Filesystem extends \Magento\Install\Model\Installer\AbstractInstaller
             }
 
             if ($setError) {
-                $this->_getInstaller()->getDataModel()->addError(
-                    __('Path "%1" must be writable.', $pathToCheck)
-                );
+                $this->messageManager->addError(__('Path "%1" must be writable.', $pathToCheck));
                 $result = false;
             }
         }
