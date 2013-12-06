@@ -10,6 +10,11 @@
 <config>
     <preference for="Magento\Core\Model\Config\Storage\WriterInterface" type="Magento\Core\Model\Config\Storage\Writer\Db" />
     <preference for="Magento\App\Request\PathInfoProcessorInterface" type="Magento\Backend\App\Request\PathInfoProcessor" />
+    <preference for="Magento\Backend\Model\Auth\StorageInterface" type="Magento\Backend\Model\Auth\Session" />
+    <preference for="Magento\Backend\Model\Config\Structure\SearchInterface" type="Magento\Backend\Model\Config\Structure" />
+    <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
+    <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
+    <preference for="Magento\Adminhtml\Helper\Data" type="Magento\Backend\Helper\Data" />
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
@@ -65,6 +70,9 @@
         <param name="authSession">
             <instance type="Magento\Backend\Model\Auth\Session\Proxy" />
         </param>
+        <param name="formKey">
+            <instance type="Magento\Data\Form\FormKey\Proxy" />
+        </param>
         <param name="areaCode">
             <value>adminhtml</value>
         </param>
@@ -79,19 +87,47 @@
             <value type="argument">Magento\App\State::PARAM_INSTALL_DATE</value>
         </param>
     </type>
+    <preference for="Magento\Authorization\RoleLocator" type="Magento\Backend\Model\Authorization\RoleLocator" />
+    <preference for="Magento\Authorization\Policy" type="Magento\Authorization\Policy\Acl"/>
+    <preference for="Magento\Acl\Resource\ProviderInterface" type="Magento\Acl\Resource\Provider"/>
+    <type name="Magento\Acl\Resource\Config\Reader\Filesystem">
+        <param name="converter">
+            <instance type="Magento\Acl\Resource\Config\Converter\Dom"/>
+        </param>
+    </type>
+    <type name="Magento\Acl\Resource\Provider">
+        <param name="configReader">
+            <instance type="Magento\Acl\Resource\Config\Reader\Filesystem"/>
+        </param>
+    </type>
+    <type name="Magento\Acl\Builder">
+        <param name="resourceLoader">
+            <instance type="Magento\Acl\Loader\Resource"/>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Acl\Cache">
+        <param name="cacheKey">
+            <value>backend_acl_resources</value>
+        </param>
+    </type>
+    <type name="Magento\Core\Model\Acl\RootResource">
+        <param name="identifier">
+            <value>Magento_Adminhtml::all</value>
+        </param>
+    </type>
     <type name="Magento\Backend\Controller\Adminhtml\Index">
         <param name="searchModules">
             <value>
                 <products>
-                    <class>Magento\Adminhtml\Model\Search\Catalog</class>
+                    <class>Magento\Backend\Model\Search\Catalog</class>
                     <acl>Magento_Catalog::catalog</acl>
                 </products>
                 <customers>
-                    <class>Magento\Adminhtml\Model\Search\Customer</class>
+                    <class>Magento\Backend\Model\Search\Customer</class>
                     <acl>Magento_Customer::customer</acl>
                 </customers>
                 <sales>
-                    <class>Magento\Adminhtml\Model\Search\Order</class>
+                    <class>Magento\Backend\Model\Search\Order</class>
                     <acl>Magento_Sales::sales</acl>
                 </sales>
             </value>

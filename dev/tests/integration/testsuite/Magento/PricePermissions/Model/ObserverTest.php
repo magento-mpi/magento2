@@ -30,9 +30,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
 
     public function testAdminhtmlBlockHtmlBeforeProductOpt()
     {
-        $parentBlock = $this->_layout->createBlock('Magento\Adminhtml\Block\Template', 'admin.product.options');
+        $parentBlock = $this->_layout->createBlock('Magento\Backend\Block\Template', 'admin.product.options');
         $optionsBlock = $this->_layout->addBlock(
-            'Magento\Adminhtml\Block\Template',
+            'Magento\Backend\Block\Template',
             'options_box',
             'admin.product.options'
         );
@@ -47,11 +47,11 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     public function testAdminhtmlBlockHtmlBeforeBundleOpt()
     {
         $parentBlock = $this->_layout->createBlock(
-            'Magento\Adminhtml\Block\Template',
+            'Magento\Backend\Block\Template',
             'adminhtml.catalog.product.edit.tab.bundle.option'
         );
         $selectionBlock = $this->_layout->addBlock(
-            'Magento\Adminhtml\Block\Template',
+            'Magento\Backend\Block\Template',
             'selection_template',
             'adminhtml.catalog.product.edit.tab.bundle.option'
         );
@@ -68,9 +68,9 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * Prepare event and run \Magento\PricePermissions\Model\Observer::adminhtmlBlockHtmlBefore
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      */
-    protected function _runAdminhtmlBlockHtmlBefore(\Magento\View\Block\AbstractBlock $block)
+    protected function _runAdminhtmlBlockHtmlBefore(\Magento\View\Element\AbstractBlock $block)
     {
         $event = new \Magento\Event\Observer();
         $event->setBlock($block);

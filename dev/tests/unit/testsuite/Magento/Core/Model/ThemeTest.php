@@ -77,7 +77,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function testIsVirtual($type, $isVirtual)
     {
         /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false);
         $themeModel->setType($type);
         $this->assertEquals($isVirtual, $themeModel->isVirtual());
     }
@@ -103,7 +103,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function testIsPhysical($type, $isPhysical)
     {
         /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false);
         $themeModel->setType($type);
         $this->assertEquals($isPhysical, $themeModel->isPhysical());
     }
@@ -129,7 +129,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function testIsVisible($type, $isVisible)
     {
         /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = $this->getMock('Magento\Core\Model\Theme', null, array(), '', false);
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', array('__wakeup'), array(), '', false);
         $themeModel->setType($type);
         $this->assertEquals($isVisible, $themeModel->isVisible());
     }
@@ -157,7 +157,7 @@ class ThemeTest extends \PHPUnit_Framework_TestCase
     public function testIsDeletable($themeType, $isDeletable)
     {
         /** @var $themeModel \Magento\Core\Model\Theme */
-        $themeModel = $this->getMock('Magento\Core\Model\Theme', array('getType'), array(), '', false);
+        $themeModel = $this->getMock('Magento\Core\Model\Theme', array('getType', '__wakeup'), array(), '', false);
         $themeModel->expects($this->once())
             ->method('getType')
             ->will($this->returnValue($themeType));

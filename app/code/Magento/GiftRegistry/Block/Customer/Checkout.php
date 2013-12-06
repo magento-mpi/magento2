@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-class Checkout extends \Magento\View\Block\Template
+class Checkout extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\GiftRegistry\Model\EntityFactory
@@ -38,8 +38,7 @@ class Checkout extends \Magento\View\Block\Template
     protected $typeMultiShippingFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Checkout\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory
@@ -47,8 +46,7 @@ class Checkout extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\GiftRegistry\Helper\Data $giftRegistryData,
         \Magento\Checkout\Model\Session $customerSession,
         \Magento\Checkout\Model\Type\MultishippingFactory $typeMultiShippingFactory,
@@ -60,7 +58,7 @@ class Checkout extends \Magento\View\Block\Template
         $this->typeMultiShippingFactory = $typeMultiShippingFactory;
         $this->entityFactory = $entityFactory;
 
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

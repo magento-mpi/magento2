@@ -11,7 +11,7 @@
 namespace Magento\Widget\Model\Config;
 
 /**
- * @magentoDataFixture Magento/Adminhtml/controllers/_files/cache/all_types_disabled.php
+ * @magentoDataFixture Magento/Backend/controllers/_files/cache/all_types_disabled.php
  * @magentoAppArea adminhtml
  */
 class DataTest extends \PHPUnit_Framework_TestCase

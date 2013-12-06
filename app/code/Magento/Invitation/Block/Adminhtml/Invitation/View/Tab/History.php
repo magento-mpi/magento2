@@ -17,7 +17,7 @@
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View\Tab;
 
 class History
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     protected $_template = 'view/tab/history.phtml';
@@ -38,20 +38,18 @@ class History
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Invitation\Model\Invitation\HistoryFactory $historyFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_historyFactory = $historyFactory;
     }
 

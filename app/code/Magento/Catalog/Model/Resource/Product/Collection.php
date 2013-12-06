@@ -247,15 +247,14 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
     protected $dateTime;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Event\ManagerInterface $eventManager
+     * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy
-     * @param \Magento\Core\Model\EntityFactory $entityFactory
+     * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\App\Resource $resource
      * @param \Magento\Eav\Model\EntityFactory $eavEntityFactory
+     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Validator\UniversalFactory $universalFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -265,19 +264,20 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrl
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\Resource\Helper $resourceHelper
      * @param \Magento\Stdlib\DateTime $dateTime
-     *
+     * @param mixed $connection
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Event\ManagerInterface $eventManager,
+        \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Logger $logger,
         \Magento\Data\Collection\Db\FetchStrategyInterface $fetchStrategy,
-        \Magento\Core\Model\EntityFactory $entityFactory,
+        \Magento\Event\ManagerInterface $eventManager,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\App\Resource $resource,
         \Magento\Eav\Model\EntityFactory $eavEntityFactory,
+        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -287,8 +287,8 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         \Magento\Catalog\Model\Resource\Url $catalogUrl,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\Resource\Helper $resourceHelper,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Stdlib\DateTime $dateTime,
+        $connection = null
     ) {
         $this->_catalogData = $catalogData;
         $this->_catalogProductFlat = $catalogProductFlat;
@@ -299,8 +299,19 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         $this->_customerSession = $customerSession;
         $this->_resourceHelper = $resourceHelper;
         $this->dateTime = $dateTime;
-        parent::__construct($eventManager, $logger, $fetchStrategy, $entityFactory, $eavConfig, $resource,
-            $eavEntityFactory, $resourceHelper, $universalFactory, $storeManager);
+        parent::__construct(
+            $entityFactory,
+            $logger,
+            $fetchStrategy,
+            $eventManager,
+            $eavConfig,
+            $resource,
+            $eavEntityFactory,
+            $resourceHelper,
+            $universalFactory,
+            $storeManager,
+            $connection
+        );
     }
 
     /**
@@ -405,10 +416,6 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function isEnabledFlat()
     {
-        // Flat Data can be used only on frontend
-        if ($this->_storeManager->getStore()->isAdmin()) {
-            return false;
-        }
         if (!isset($this->_flatEnabled[$this->getStoreId()])) {
             $this->_flatEnabled[$this->getStoreId()] = $this->getFlatHelper()->isAvailable();
         }
@@ -733,7 +740,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
         }
         $store = $this->_storeManager->getStore($store);
 
-        if (!$store->isAdmin()) {
+        if ($store->getId() != \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $this->setStoreId($store);
             $this->_productLimitationFilters['store_id'] = $store->getId();
             $this->_applyProductLimitations();
@@ -785,7 +792,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
             $this->_productLimitationFilters['category_is_anchor'] = 1;
         }
 
-        if ($this->getStoreId() == \Magento\Catalog\Model\AbstractModel::DEFAULT_STORE_ID) {
+        if ($this->getStoreId() == \Magento\Core\Model\Store::DEFAULT_STORE_ID) {
             $this->_applyZeroStoreProductLimitations();
         } else {
             $this->_applyProductLimitations();
@@ -1491,7 +1498,7 @@ class Collection extends \Magento\Catalog\Model\Resource\Collection\AbstractColl
      */
     public function addFilterByRequiredOptions()
     {
-        $this->addAttributeToFilter('required_options', array(array('neq' => '1'), array('null' => true)), 'left');
+        $this->addAttributeToFilter('required_options', array(array('neq' => 1), array('null' => true)), 'left');
         return $this;
     }
 

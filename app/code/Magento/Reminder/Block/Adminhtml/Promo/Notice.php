@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Promo;
 
-class Notice extends \Magento\Adminhtml\Block\Template
+class Notice extends \Magento\Backend\Block\Template
 {
     /**
      * Core registry
@@ -29,19 +29,17 @@ class Notice extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Reminder\Model\Resource\Rule $resourceModel
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Reminder\Model\Resource\Rule $resourceModel,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_coreRegistry = $registry;
         $this->_resourceModel = $resourceModel;
     }

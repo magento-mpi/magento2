@@ -10,6 +10,7 @@
  * @license     {license_link}
  */
 return array(
+    array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
     array('BACKORDERS_BELOW'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
@@ -60,6 +61,7 @@ return array(
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\PackageInterface'),
     array('DEFAULT_THEME_NAME', 'Magento\Core\Model\Design\Package'),
     array('DEFAULT_TIMEZONE', 'Magento\Core\Model\Locale', 'Magento_Core_Model_LocaleInterface::DEFAULT_TIMEZONE'),
+    array('DEFAULT_STORE_ID', 'Magento\Catalog\Model\AbstractModel', 'Magento\Core\Model\Store::DEFAULT_STORE_ID'),
     array('DEFAULT_VALUE_TABLE_PREFIX'),
     array('ENTITY_PRODUCT', 'Magento\Review\Model\Review'),
     array('EXCEPTION_CODE_IS_GROUPED_PRODUCT'),
@@ -82,9 +84,9 @@ return array(
         'Magento\Core\Model\Layout\Merge',
         'Magento_Core_Model_Cache_Type_Layout::CACHE_TAG'
     ),
-    array('LOCALE_CACHE_KEY', 'Magento\Adminhtml\Block\Page\Footer'),
-    array('LOCALE_CACHE_LIFETIME', 'Magento\Adminhtml\Block\Page\Footer'),
-    array('LOCALE_CACHE_TAG', 'Magento\Adminhtml\Block\Page\Footer'),
+    array('LOCALE_CACHE_KEY', 'Magento\Backend\Block\Page\Footer'),
+    array('LOCALE_CACHE_LIFETIME', 'Magento\Backend\Block\Page\Footer'),
+    array('LOCALE_CACHE_TAG', 'Magento\Backend\Block\Page\Footer'),
     array('PATH_PREFIX_CUSTOMIZATION', 'Magento\Core\Model\Theme'),
     array('PATH_PREFIX_CUSTOMIZED', 'Magento\Core\Model\Theme\Files'),
     array('PUBLIC_BASE_THEME_DIR', 'Magento\Core\Model\Design\PackageInterface'),
@@ -152,12 +154,12 @@ return array(
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS',
-        'Magento\View\Block\Template',
+        'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS'
     ),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS',
-        'Magento\View\Block\Template',
+        'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
@@ -377,4 +379,72 @@ return array(
     array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
     array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
     array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
+    array(
+        'XML_PATH_USE_FRONTEND_SID',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\SidResolver::XML_PATH_USE_FRONTEND_SID'
+    ),
+    array(
+        'SESSION_ID_QUERY_PARAM',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Session\SidResolverInterface::SESSION_ID_QUERY_PARAM'
+    ),
+    array(
+        'XML_PATH_COOKIE_DOMAIN',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_DOMAIN'
+    ),
+    array(
+        'XML_PATH_COOKIE_PATH',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_PATH'
+    ),
+    array(
+        'XML_PATH_COOKIE_LIFETIME',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_LIFETIME'
+    ),
+    array(
+        'XML_PATH_COOKIE_HTTPONLY',
+        '\Magento\Stdlib\Cookie',
+        '\Magento\Core\Model\Session\Config::XML_PATH_COOKIE_HTTPONLY'
+    ),
+    array(
+        'PARAM_SESSION_SAVE_METHOD',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'PARAM_SESSION_SAVE_PATH',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'PARAM_SESSION_CACHE_LIMITER',
+        '\Magento\Core\Model\Session\AbstractSession',
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+
+    array(
+        'XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
+        'Magento\Theme\Helper\Robots',
+        'Magento\Adminhtml\Block\Page\System\Config\Robots::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
+    ),
+    array('XML_PATH_MERGE_CSS_FILES', 'Magento\View\Asset\MergeService'),
+    array('XML_PATH_MERGE_JS_FILES', 'Magento\View\Asset\MergeService'),
+    array('XML_PATH_MINIFICATION_ENABLED', 'Magento\View\Asset\MinifyService'),
+    array('XML_PATH_MINIFICATION_ADAPTER', 'Magento\View\Asset\MinifyService'),
+    array('TYPE_BLOCK', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_CONTAINER', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_ACTION', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_ARGUMENTS', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_ARGUMENT', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_REFERENCE_BLOCK', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_REFERENCE_CONTAINER', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_REMOVE', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_MOVE', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_TAG', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_CLASS', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_ID', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_LABEL', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
 );

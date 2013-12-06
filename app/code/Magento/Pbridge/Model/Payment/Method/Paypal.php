@@ -16,18 +16,11 @@ namespace Magento\Pbridge\Model\Payment\Method;
 class Paypal extends \Magento\Paypal\Model\Direct
 {
     /**
-     * Form block type for the frontend
+     * Credit card form block
      *
      * @var string
      */
-    protected $_formBlockType = 'Magento\Pbridge\Block\Checkout\Payment\Paypal';
-
-    /**
-     * Form block type for the backend
-     *
-     * @var string
-     */
-    protected $_backendFormBlockType = 'Magento\Pbridge\Block\Adminhtml\Sales\Order\Create\Paypal';
+    protected $_formBlock;
 
     /**
      * Payment Bridge Payment Method Instance
@@ -51,12 +44,12 @@ class Paypal extends \Magento\Paypal\Model\Direct
     protected $_pbridgeData;
 
     /**
-     * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Payment\Helper\Data $paymentData
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
+     * @param \Magento\Logger $logger
+     * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Centinel\Model\Service $centinelService
      * @param \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory
@@ -65,17 +58,18 @@ class Paypal extends \Magento\Paypal\Model\Direct
      * @param \Magento\App\RequestInterface $requestHttp
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
      * @param \Magento\Pbridge\Helper\Data $pbridgeData
+     * @param string $formBlock
      * @param array $data
-     *
+     * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
-        \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Payment\Helper\Data $paymentData,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
+        \Magento\Logger $logger,
+        \Magento\Module\ModuleListInterface $moduleList,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Centinel\Model\Service $centinelService,
         \Magento\Paypal\Model\Method\ProTypeFactory $proTypeFactory,
@@ -84,16 +78,18 @@ class Paypal extends \Magento\Paypal\Model\Direct
         \Magento\App\RequestInterface $requestHttp,
         \Magento\Paypal\Model\CartFactory $cartFactory,
         \Magento\Pbridge\Helper\Data $pbridgeData,
+        $formBlock,
         array $data = array()
     ) {
         $this->_pbridgeData = $pbridgeData;
+        $this->_formBlock = $formBlock;
         parent::__construct(
-            $logger,
             $eventManager,
-            $coreStoreConfig,
-            $moduleList,
             $paymentData,
+            $coreStoreConfig,
             $logAdapterFactory,
+            $logger,
+            $moduleList,
             $locale,
             $centinelService,
             $proTypeFactory,
@@ -205,7 +201,7 @@ class Paypal extends \Magento\Paypal\Model\Direct
      */
     public function getFormBlockType()
     {
-        return $this->_storeManager->getStore()->isAdmin() ? $this->_backendFormBlockType : $this->_formBlockType;
+        return $this->_formBlock;
     }
 
     /**

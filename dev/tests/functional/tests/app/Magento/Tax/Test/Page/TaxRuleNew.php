@@ -15,8 +15,6 @@ namespace Magento\Tax\Test\Page;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Core\Test\Block\Messages;
-use Magento\Tax\Test\Block\Adminhtml\Rule\Edit\Form;
 
 /**
  * Class TaxRuleNew
@@ -34,16 +32,16 @@ class TaxRuleNew extends Page
     /**
      * Form for tax rule creation
      *
-     * @var Form
+     * @var string
      */
-    private $editBlock;
+    protected $editBlock = '[id="page:main-container"]';
 
     /**
      * Global messages block
      *
-     * @var Messages
+     * @var string
      */
-    private $messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Custom constructor
@@ -51,13 +49,6 @@ class TaxRuleNew extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-
-        $this->editBlock = Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleEditForm(
-            $this->_browser->find('[id="page:main-container"]', Locator::SELECTOR_CSS)
-        );
-        $this->messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
-        );
     }
 
     /**
@@ -67,7 +58,9 @@ class TaxRuleNew extends Page
      */
     public function getEditBlock()
     {
-        return $this->editBlock;
+        return Factory::getBlockFactory()->getMagentoTaxAdminhtmlRuleEditForm(
+            $this->_browser->find($this->editBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
@@ -77,6 +70,8 @@ class TaxRuleNew extends Page
      */
     public function getMessagesBlock()
     {
-        return $this->messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

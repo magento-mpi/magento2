@@ -198,8 +198,8 @@ $CONFIG['translates'] = array(
         'app/design/frontend/base/default/layout/ogone.xml',
         'app/design/frontend/base/default/template/ogone/',
     ),
-    'Magento_Page' => array(
-        'app/code/Magento/Page/',
+    'Magento_Theme' => array(
+        'app/code/Magento/Theme/',
         'app/design/frontend/base/default/template/page/',
         'app/design/frontend/base/default/layout/page.xml',
         'app/design/frontend/default/modern/template/page/',
@@ -582,7 +582,7 @@ $CONFIG['helpers']  = array(
     'media'             => 'Magento_Media',
     'newsletter'        => 'Magento_Newsletter',
     'ogone'             => 'Magento_Ogone',
-    'page'              => 'Magento_Page',
+    'page'              => 'Magento_Theme',
     'pagecache'         => 'Magento_PageCache',
     'captcha'           => 'Magento_Captcha',
     'paybox'            => 'Magento_Paybox',

@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Wysiwyg\Images\Content;
 
-class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
+class Uploader extends \Magento\Backend\Block\Media\Uploader
 {
     /**
      * @var \Magento\Cms\Model\Wysiwyg\Images\Storage
@@ -26,20 +26,18 @@ class Uploader extends \Magento\Adminhtml\Block\Media\Uploader
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\File\Size $fileSize
      * @param \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\File\Size $fileSize,
         \Magento\Cms\Model\Wysiwyg\Images\Storage $imagesStorage,
         array $data = array()
     ) {
         $this->_imagesStorage = $imagesStorage;
-        parent::__construct($context, $coreData, $fileSize, $data);
+        parent::__construct($context, $fileSize, $data);
     }
 
     protected function _construct()

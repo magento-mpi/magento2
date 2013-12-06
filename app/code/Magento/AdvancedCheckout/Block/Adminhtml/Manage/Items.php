@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
-class Items extends \Magento\Adminhtml\Block\Template
+class Items extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\Core\Model\Registry
@@ -36,7 +36,6 @@ class Items extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -44,7 +43,6 @@ class Items extends \Magento\Adminhtml\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -52,7 +50,7 @@ class Items extends \Magento\Adminhtml\Block\Template
     ) {
         $this->_taxConfig = $taxConfig;
         $this->_registry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_wishlistFactory = $wishlistFactory;
     }
 

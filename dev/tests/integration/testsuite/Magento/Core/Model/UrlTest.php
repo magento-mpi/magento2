@@ -98,8 +98,6 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_model->isSecure());
         $this->_model->setSecureIsForced(1);
         $this->assertTrue(is_bool($this->_model->isSecure()));
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setId(\Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
         $this->assertFalse($this->_model->isSecure());
     }
 
@@ -585,7 +583,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
     public function testSessionUrlVar()
     {
         $sessionId = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
-            ->getEncryptedSessionId();
+            ->getSessionId();
         $sessionUrl = $this->_model->sessionUrlVar('<a href="http://example.com/?___SID=U">www.example.com</a>');
         $this->assertEquals('<a href="http://example.com/?SID=' . $sessionId . '">www.example.com</a>',
             $sessionUrl

@@ -18,7 +18,7 @@
 
 namespace Magento\VersionsCms\Block\Adminhtml\Cms;
 
-class Page extends \Magento\Adminhtml\Block\Template
+class Page extends \Magento\Backend\Block\Template
 {
     /**
      * Add  column Versioned to cms page grid

@@ -31,7 +31,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
@@ -39,7 +38,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
@@ -47,7 +45,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     ) {
         $this->_systemStore = $systemStore;
         $this->_segmentFactory = $segmentFactory;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     /**
@@ -143,7 +141,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         if ($this->getIsChooserMode()) {
             return null;
         }
-        return $this->getUrl('adminhtml/*/edit', array('id' => $row->getSegmentId()));
+        return $this->getUrl('*/*/edit', array('id' => $row->getSegmentId()));
     }
 
     /**
@@ -171,6 +169,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/customersegment/grid', array('_current' => true));
+        return $this->getUrl('customersegment/index/grid', array('_current' => true));
     }
 }

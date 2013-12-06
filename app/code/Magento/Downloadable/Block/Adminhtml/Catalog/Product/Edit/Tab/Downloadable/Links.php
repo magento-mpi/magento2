@@ -78,8 +78,13 @@ class Links
     protected $_urlFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -91,7 +96,7 @@ class Links
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -101,6 +106,7 @@ class Links
         \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $coreRegistry;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
@@ -108,7 +114,7 @@ class Links
         $this->_link = $link;
         $this->_attributeFactory = $attributeFactory;
         $this->_urlFactory = $urlFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -157,7 +163,7 @@ class Links
      */
     public function getPurchasedSeparatelySelect()
     {
-        $select = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName('product[links_purchased_separately]')
             ->setId('downloadable_link_purchase_type')
             ->setOptions($this->_sourceModel->toOptionArray())
@@ -174,11 +180,12 @@ class Links
     public function getAddButtonHtml()
     {
         $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
-            ->setData(array(
+            ->setData([
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
-                'class' => 'add'
-        ));
+                'class' => 'add',
+                'data_attribute' => ['action' => 'add-link'],
+            ]);
         return $addButton->toHtml();
     }
 
@@ -383,7 +390,7 @@ class Links
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return $this->_coreData->jsonEncode($this->getConfig()->getData());
+        return $this->_jsonEncoder->encode($this->getConfig()->getData());
     }
 
     /**

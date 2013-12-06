@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
+namespace Magento\User\Model;
 
 /**
  * Admin Role Model
@@ -23,35 +23,30 @@
  * @method \Magento\User\Model\Role setRoleType(string $value)
  * @method int getUserId()
  * @method \Magento\User\Model\Role setUserId(int $value)
+ * @method string getUserType()
+ * @method \Magento\User\Model\Role setUserType(string $value)
  * @method string getRoleName()
  * @method \Magento\User\Model\Role setRoleName(string $value)
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model;
-
 class Role extends \Magento\Core\Model\AbstractModel
 {
-
     /**
      * @var \Magento\User\Model\Resource\Role\User\CollectionFactory
      */
     protected $_userRolesFactory;
 
     /**
-     * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory
      * @param \Magento\User\Model\Resource\Role $resource
      * @param \Magento\User\Model\Resource\Role\Collection $resourceCollection
      * @param array $data
      */
     public function __construct(
-        \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\User\Model\Resource\Role\User\CollectionFactory $userRolesFactory,
         \Magento\User\Model\Resource\Role $resource,
         \Magento\User\Model\Resource\Role\Collection $resourceCollection,
         array $data = array()

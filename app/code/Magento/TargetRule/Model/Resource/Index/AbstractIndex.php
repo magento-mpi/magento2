@@ -33,13 +33,11 @@ abstract class AbstractIndex extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_product;
 
     /**
-     * @param \Magento\Catalog\Model\Resource\Product $product
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Catalog\Model\Resource\Product $product
      */
-    public function __construct(
-        \Magento\Catalog\Model\Resource\Product $product,
-        \Magento\App\Resource $resource
-    ) {
+    public function __construct(\Magento\App\Resource $resource, \Magento\Catalog\Model\Resource\Product $product)
+    {
         $this->_product = $product;
         parent::__construct($resource);
     }

@@ -14,8 +14,8 @@ namespace Magento\Checkout\Test\Block;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
@@ -26,6 +26,20 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
  */
 class Cart extends Block
 {
+    /**
+     * Proceed to checkout block
+     *
+     * @var string
+     */
+    protected $onepageLinkBlock = '.action.primary.checkout';
+
+    /**
+     * Multishipping cart link block
+     *
+     * @var string
+     */
+    protected $multishippingLinkBlock = '.action.multicheckout';
+
     /**
      * 'Clear Shopping Cart' button
      *
@@ -48,9 +62,16 @@ class Cart extends Block
     protected $itemUnitPriceSelector = '//td[@class="col price excl tax"]//span[@class="price"]';
 
     /**
+     * Unit Price value
+     *
+     * @var string
+     */
+    protected $cartProductPrice = '//tr[string(td/div/strong/a)="%s"]/td[@class="col price excl tax"]/span/span';
+
+    /**
      * Get sub-total for the specified item in the cart
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      * @return string
      */
     public function getCartItemSubTotal($product)
@@ -62,7 +83,7 @@ class Cart extends Block
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      * @return string
      */
     public function getCartItemUnitPrice($product)
@@ -79,7 +100,7 @@ class Cart extends Block
     public function getOnepageLinkBlock()
     {
         return Factory::getBlockFactory()->getMagentoCheckoutOnepageLink(
-            $this->_rootElement->find('.action.primary.checkout')
+            $this->_rootElement->find($this->onepageLinkBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -91,7 +112,7 @@ class Cart extends Block
     public function getMultishippingLinkBlock()
     {
         return Factory::getBlockFactory()->getMagentoCheckoutMultishippingLink(
-            $this->_rootElement->find('[title="Checkout with Multiple Addresses"]')
+            $this->_rootElement->find($this->multishippingLinkBlock, Locator::SELECTOR_CSS)
         );
     }
 
@@ -117,7 +138,7 @@ class Cart extends Block
     /**
      * Check if a product has been successfully added to the cart
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      * @return boolean
      */
     public function isProductInShoppingCart($product)
@@ -129,7 +150,7 @@ class Cart extends Block
     /**
      * Return the name of the specified product.
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      * @return string
      */
     private function getProductName($product)
@@ -142,5 +163,17 @@ class Cart extends Block
             }
         }
         return $productName;
+    }
+
+    /**
+     * Get product price "Unit Price" by product name
+     *
+     * @param $productName
+     * @return string
+     */
+    public function getProductPriceByName($productName)
+    {
+        $priceSelector = sprintf($this->cartProductPrice, $productName);
+        return $this->_rootElement->find($priceSelector, Locator::SELECTOR_XPATH)->getText();
     }
 }

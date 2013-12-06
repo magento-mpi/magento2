@@ -42,15 +42,15 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $filterManager;
 
     /**
+     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\App\Helper\Context $context
      * @param \Magento\Filter\FilterManager $filterManager
      */
     public function __construct(
+        \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\App\Helper\Context $context,
         \Magento\Filter\FilterManager $filterManager
     ) {
         $this->_eavConfig = $eavConfig;

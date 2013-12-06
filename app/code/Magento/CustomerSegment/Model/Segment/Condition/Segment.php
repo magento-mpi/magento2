@@ -45,19 +45,19 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
     protected $_customerSession;
 
     /**
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\CustomerSegment\Model\Customer $customer
      * @param \Magento\CustomerSegment\Helper\Data $customerSegmentData
      * @param \Magento\Backend\Helper\Data $adminhtmlData
-     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\CustomerSegment\Model\Customer $customer,
         \Magento\CustomerSegment\Helper\Data $customerSegmentData,
         \Magento\Backend\Helper\Data $adminhtmlData,
-        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
@@ -113,7 +113,7 @@ class Segment extends \Magento\Rule\Model\Condition\AbstractCondition
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserGrid', array(
+        return $this->_adminhtmlData->getUrl('customersegment/index/chooserGrid', array(
             'value_element_id' => $this->_valueElement->getId(),
             'form' => $this->getJsFormObject(),
         ));

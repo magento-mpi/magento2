@@ -27,18 +27,16 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -53,11 +51,11 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
         $this->getLayout()->getBlock('page-title')->setPageTitle($this->_headerText);
         $this->_addButton('back', array(
             'label' => __('Back'),
-            'onclick' => "setLocation('{$this->getUrl('adminhtml/*/')}')",
+            'onclick' => "setLocation('{$this->getUrl('invitations/*/')}')",
             'class' => 'back',
         ), -1);
         if ($invitation->canBeCanceled()) {
-            $massCancelUrl = $this->getUrl('adminhtml/*/massCancel', array('_query' => array('invitations' => array($invitation->getId()))));
+            $massCancelUrl = $this->getUrl('invitations/*/massCancel', array('_query' => array('invitations' => array($invitation->getId()))));
             $this->_addButton('cancel', array(
                 'label' => __('Discard Invitation'),
                 'onclick' => 'deleteConfirm(\''. $this->escapeJsQuote(
@@ -77,7 +75,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
             ), -1);
         }
         if ($invitation->canBeSent()) {
-            $massResendUrl = $this->getUrl('adminhtml/*/massResend', array('_query' => http_build_query(array('invitations' => array($invitation->getId())))));
+            $massResendUrl = $this->getUrl('invitations/*/massResend', array('_query' => http_build_query(array('invitations' => array($invitation->getId())))));
             $this->_addButton('resend', array(
                 'label' => __('Send Invitation'),
                 'onclick' => "setLocation('{$massResendUrl}')",
@@ -104,6 +102,6 @@ class View extends \Magento\Adminhtml\Block\Widget\Container
      */
     public function getSaveMessageUrl()
     {
-        return $this->getUrl('adminhtml/*/saveInvitation', array('id'=>$this->getInvitation()->getId()));
+        return $this->getUrl('invitations/*/saveInvitation', array('id'=>$this->getInvitation()->getId()));
     }
 }

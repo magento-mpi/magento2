@@ -35,12 +35,12 @@ class UrlTest extends \PHPUnit_Framework_TestCase
      */
     public function testIsSecure()
     {
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig('web/secure/use_in_adminhtml', true);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\App\ConfigInterface')
+            ->setValue('web/secure/use_in_adminhtml', true);
         $this->assertTrue($this->_model->isSecure());
 
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
-            ->getStore()->setConfig('web/secure/use_in_adminhtml', false);
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Backend\App\ConfigInterface')
+            ->setValue('web/secure/use_in_adminhtml', false);
         $this->assertFalse($this->_model->isSecure());
 
         $this->_model->setData('secure_is_forced', true);
@@ -92,7 +92,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
             ->setRouteName('default_router');
 
         $this->_model->setRequest($request);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session\AbstractSession')
             ->setData('_form_key', 'salt');
         $this->assertEquals($expectedHash, $this->_model->getSecretKey($routeName, $controller, $action));
     }
@@ -143,7 +143,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
         $request->setControllerName('controller')->setActionName('action');
         $request->initForward()->setControllerName(uniqid())->setActionName(uniqid());
         $this->_model->setRequest($request);
-        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session')
+        \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\Session\AbstractSession')
             ->setData('_form_key', 'salt');
         $this->assertEquals(
             $encryptor->getHash('controller' . 'action' . 'salt'),

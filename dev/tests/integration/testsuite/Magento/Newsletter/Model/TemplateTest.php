@@ -30,7 +30,6 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     /**
      * This test expects next themes for areas:
      * install/design/theme/full_name   magento_basic
-     * adminhtml/design/theme/full_name magento_basic
      * current_store design/theme/full_name magento_iphone
      * fixturestore_store design/theme/full_name magento_blank
      *
@@ -40,12 +39,12 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     public function testGetProcessedTemplate($area, $store, $design)
     {
         $this->markTestIncomplete('Test partially fails bc of MAGETWO-557.');
-        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
-        $this->assertStringEndsWith('theme/frontend/magento_demo/en_US/Magento_Page/favicon.ico',
+        $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
+        $this->assertStringEndsWith('theme/frontend/magento_blank/en_US/Magento_Theme/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
         $this->_model->emulateDesign($store, $area);
-        $expectedTemplateText = "theme/{$area}/{$design}/en_US/Magento_Page/favicon.ico";
+        $expectedTemplateText = "theme/{$area}/{$design}/en_US/Magento_Theme/favicon.ico";
         $this->assertStringEndsWith($expectedTemplateText, $this->_model->getProcessedTemplate());
         $this->_model->revertDesign();
     }
@@ -57,7 +56,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             'install'        => array('install',   'default',      'magento_demo'),
-            'backend'        => array('adminhtml', 'admin',        'magento_basic'),
+            'backend'        => array('adminhtml', 'admin',        'magento_backend'),
             'frontend'       => array('frontend',  'default',      'magento_iphone'),
             'frontend store' => array('frontend',  'fixturestore', 'magento_blank'),
         );

@@ -14,7 +14,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
  * Customer account form block
  */
 class View
-    extends \Magento\Adminhtml\Block\Template
+    extends \Magento\Backend\Block\Template
     implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
 {
     /**
@@ -35,7 +35,6 @@ class View
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * @var \Magento\Log\Model\Visitor
      */
     protected $_modelVisitor;
@@ -57,7 +56,6 @@ class View
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Log\Model\CustomerFactory $logFactory
      * @param \Magento\Core\Model\Registry $registry
@@ -67,7 +65,6 @@ class View
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Log\Model\CustomerFactory $logFactory,
         \Magento\Core\Model\Registry $registry,
@@ -80,7 +77,7 @@ class View
         $this->_groupFactory = $groupFactory;
         $this->_logFactory = $logFactory;
         $this->dateTime = $dateTime;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

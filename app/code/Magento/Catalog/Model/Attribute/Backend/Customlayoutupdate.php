@@ -18,29 +18,20 @@ namespace Magento\Catalog\Model\Attribute\Backend;
 class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
 {
 
-   /**
-    * Product custom layout update attribute validate function.
-    * In case invalid data throws exception.
-    *
-    * @param \Magento\Object $object
-    * @throws \Magento\Eav\Model\Entity\Attribute\Exception
-    */
     /**
-     * Layoutupdate validator factory
+     * Layout update validator factory
      *
-     * @var \Magento\Adminhtml\Model\LayoutUpdate\ValidatorFactory
+     * @var \Magento\Core\Model\Layout\Update\ValidatorFactory
      */
     protected $_layoutUpdateValidatorFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Adminhtml\Model\LayoutUpdate\ValidatorFactory $layoutUpdateValidatorFactory
      * @param \Magento\Logger $logger
+     * @param \Magento\Core\Model\Layout\Update\ValidatorFactory $layoutUpdateValidatorFactory
      */
     public function __construct(
-        \Magento\Adminhtml\Model\LayoutUpdate\ValidatorFactory $layoutUpdateValidatorFactory,
-        \Magento\Logger $logger
+        \Magento\Logger $logger,
+        \Magento\Core\Model\Layout\Update\ValidatorFactory $layoutUpdateValidatorFactory
     ) {
         $this->_layoutUpdateValidatorFactory = $layoutUpdateValidatorFactory;
         parent::__construct($logger);
@@ -55,7 +46,7 @@ class Customlayoutupdate extends \Magento\Eav\Model\Entity\Attribute\Backend\Abs
             return true;
         }
 
-        /** @var $validator \Magento\Adminhtml\Model\LayoutUpdate\Validator */
+        /** @var $validator \Magento\Core\Model\Layout\Update\Validator */
         $validator = $this->_layoutUpdateValidatorFactory->create();
         if (!$validator->isValid($xml)) {
             $messages = $validator->getMessages();

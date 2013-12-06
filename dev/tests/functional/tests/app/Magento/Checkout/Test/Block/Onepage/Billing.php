@@ -18,7 +18,7 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class Billing
- * One page checkout status
+ * One page checkout status billing block
  *
  * @package Magento\Checkout\Test\Block\Onepage
  */
@@ -29,34 +29,30 @@ class Billing extends Form
      *
      * @var string
      */
-    private $continue;
+    protected $continue = '#billing-buttons-container button';
 
     /**
      * 'Ship to different address' radio button
      *
      * @var string
      */
-    private $useForShipping;
+    protected $useForShipping = '[id="billing:use_for_shipping_no"]';
 
     /**
-     * Initialize block elements
+     * {@inheritdoc}
      */
-    protected function _init()
-    {
-        $this->_mapping = array(
-            'firstname' => '[id="billing:firstname"]',
-            'lastname' => '[id="billing:lastname"]',
-            'email' => '[id="billing:email"]',
-            'telephone' => '[id="billing:telephone"]',
-            'street_1' => '[id="billing:street1"]',
-            'city' => '[id="billing:city"]',
-            'region' => '[id="billing:region_id"]',
-            'postcode' => '[id="billing:postcode"]',
-            'country' => '[id="billing:country_id"]',
-        );
-        $this->continue = '#billing-buttons-container button';
-        $this->useForShipping = '[id="billing:use_for_shipping_no"]';
-    }
+    protected $_mapping = array(
+        'firstname' => '[id="billing:firstname"]',
+        'lastname' => '[id="billing:lastname"]',
+        'email' => '[id="billing:email"]',
+        'company' => '[id="billing:company"]',
+        'telephone' => '[id="billing:telephone"]',
+        'street_1' => '[id="billing:street1"]',
+        'city' => '[id="billing:city"]',
+        'region' => '[id="billing:region_id"]',
+        'postcode' => '[id="billing:postcode"]',
+        'country' => '[id="billing:country_id"]',
+    );
 
     /**
      * Fill billing address
@@ -66,11 +62,13 @@ class Billing extends Form
     public function fillBilling(Checkout $fixture)
     {
         $billingAddress = $fixture->getBillingAddress();
-        $this->fill($billingAddress);
+        if ($billingAddress) {
+            $this->fill($billingAddress);
+        }
         if ($fixture->getShippingAddress()) {
             $this->_rootElement->find($this->useForShipping, Locator::SELECTOR_CSS)->click();
         }
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
-        $this->waitForElementNotVisible('.please-wait');
+        $this->waitForElementNotVisible('#billing-please-wait');
     }
 }

@@ -11,7 +11,6 @@
 
 namespace Magento\Sales\Test\Page;
 
-use Magento\Backend\Test\Block\PageActions;
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Magento\Backend\Test\Block\Sales\Order\Grid;
@@ -19,6 +18,7 @@ use Magento\Core\Test\Block\Messages;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 use Magento\Backend\Test\Block\Sales\Order\Transactions\Grid as TransactionsGrid;
 use Magento\Backend\Test\Block\Sales\Order\Invoice\Grid as InvoiceGrid;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class SalesOrder
@@ -34,6 +34,48 @@ class SalesOrder extends Page
     const MCA = 'sales/order';
 
     /**
+     * Navigation Menu Block
+     *
+     * @var string
+     */
+    protected $navigationMenuBlock = 'nav';
+
+    /**
+     * Sales order grid
+     *
+     * @var string
+     */
+    protected $gridBlock = '#sales_order_grid';
+
+    /**
+     * Messages block
+     *
+     * @var string
+     */
+    protected $messageBlock = '#messages .messages';
+
+    /**
+     * Order actions block
+     *
+     * @var string
+     */
+    protected $orderActionsBlock = '.page-actions';
+
+    /**
+     * Order view tabs block
+     *
+     * @var string
+     */
+    protected $formTabsBlock = '#sales_order_view_tabs';
+
+    /**
+     * Transactions grid
+     *
+     * @var string
+     */
+    protected $transctionGrid = '#order_transactions';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -44,53 +86,59 @@ class SalesOrder extends Page
     /**
      * Get sales order grid
      *
-     * @return Grid
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Grid
      */
     public function getOrderGridBlock()
     {
-        return Factory::getBlockFactory()->getMagentoBackendSalesOrderGrid($this->_browser->find('#sales_order_grid'));
-    }
-
-    /**
-     * Get order actions block
-     *
-     * @return PageActions
-     */
-    public function getOrderActionsBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoBackendPageActions($this->_browser->find('.page-actions'));
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderGrid(
+            $this->_browser->find($this->gridBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get messages block
      *
-     * @return Messages
+     * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessagesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find('#messages .messages'));
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messageBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get order actions block
+     *
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Actions
+     */
+    public function getOrderActionsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderActions(
+            $this->_browser->find($this->orderActionsBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Get Order view tabs block
      *
-     * @return FormTabs
+     * @return \Magento\Backend\Test\Block\Widget\FormTabs
      */
-    public function getTabsWidget()
+    public function getFormTabsBlock()
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find('#sales_order_view_tabs')
+            $this->_browser->find($this->formTabsBlock, Locator::SELECTOR_CSS)
         );
     }
 
     /**
      * Get invoices grid
      *
-     * @return InvoiceGrid
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Invoice\Grid
      */
     public function getInvoicesGrid()
     {
-        return Factory::getBlockFactory()->getMagentoBackendSalesOrderInvoiceGrid(
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderInvoiceGrid(
             $this->_browser->find('#order_invoices')
         );
     }
@@ -98,12 +146,25 @@ class SalesOrder extends Page
     /**
      * Get transactions grid
      *
-     * @return TransactionsGrid
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Transactions\Grid
      */
     public function getTransactionsGrid()
     {
-        return Factory::getBlockFactory()->getMagentoBackendSalesOrderTransactionsGrid(
-            $this->_browser->find('#order_transactions')
+        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderTransactionsGrid(
+            $this->_browser->find($this->transctionGrid, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get navigation menu items
+     *
+     * @return \Magento\Theme\Test\Block\Html\Topmenu
+     */
+    public function getNavigationMenuBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTopmenu(
+            $this->_browser->find($this->navigationMenuBlock, Locator::SELECTOR_ID)
         );
     }
 }
+

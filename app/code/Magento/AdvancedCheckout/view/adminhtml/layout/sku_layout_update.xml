@@ -10,7 +10,7 @@
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <update handle="adminhtml_sku_errors_block"/>
     <referenceBlock name="head">
-        <block class="Magento\Page\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-composite-configure-js">
+        <block class="Magento\Theme\Block\Html\Head\Script" name="magento-adminhtml-catalog-product-composite-configure-js">
             <arguments>
                 <argument name="file" xsi:type="string">Magento_Catalog::catalog/product/composite/configure.js</argument>
             </arguments>

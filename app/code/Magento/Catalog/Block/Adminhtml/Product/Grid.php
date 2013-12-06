@@ -58,7 +58,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
@@ -71,7 +70,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\WebsiteFactory $websiteFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
@@ -89,7 +87,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         $this->_status = $status;
         $this->_visibility = $visibility;
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     protected function _construct()
@@ -129,7 +127,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
         }
         if ($store->getId()) {
             //$collection->setStoreId($store->getId());
-            $adminStore = \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
             $collection->addStoreFilter($store);
             $collection->joinAttribute(
                 'name',
@@ -137,7 +134,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
                 'entity_id',
                 null,
                 'inner',
-                $adminStore
+                \Magento\Core\Model\Store::DEFAULT_STORE_ID
             );
             $collection->joinAttribute(
                 'custom_name',

@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftWrapping\Block\Adminhtml\Sales\Order\Create;
 
-class Link extends \Magento\Adminhtml\Block\Template
+class Link extends \Magento\Backend\Block\Template
 {
     /**
      * Gift wrapping data
@@ -33,21 +33,19 @@ class Link extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\GiftWrapping\Model\WrappingFactory $wrappingFactory,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingFactory = $wrappingFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

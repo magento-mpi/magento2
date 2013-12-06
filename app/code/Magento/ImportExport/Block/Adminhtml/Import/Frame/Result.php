@@ -17,7 +17,9 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Import\Frame;
 
-class Result extends \Magento\Adminhtml\Block\Template
+use Magento\View\Element\Template;
+
+class Result extends \Magento\Backend\Block\Template
 {
     /**
      * JavaScript actions for response.
@@ -44,6 +46,25 @@ class Result extends \Magento\Adminhtml\Block\Template
         'success' => array(),
         'notice'  => array()
     );
+
+    /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        array $data = array()
+    ) {
+        $this->_jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $data);
+    }
 
     /**
      * Add action for response.
@@ -166,8 +187,8 @@ class Result extends \Magento\Adminhtml\Block\Template
      */
     public function getMessagesHtml()
     {
-        /** @var $messagesBlock \Magento\View\Block\Messages */
-        $messagesBlock = $this->_layout->createBlock('Magento\View\Block\Messages');
+        /** @var $messagesBlock \Magento\View\Element\Messages */
+        $messagesBlock = $this->_layout->createBlock('Magento\View\Element\Messages');
 
         foreach ($this->_messages as $priority => $messages) {
             $method = "add{$priority}";
@@ -190,6 +211,6 @@ class Result extends \Magento\Adminhtml\Block\Template
         if (!isset($this->_actions['import_validation_messages'])) {
             $this->addAction('innerHTML', 'import_validation_messages', $this->getMessagesHtml());
         }
-        return $this->_coreData->jsonEncode($this->_actions);
+        return $this->_jsonEncoder->encode($this->_actions);
     }
 }

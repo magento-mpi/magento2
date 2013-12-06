@@ -9,7 +9,7 @@
 -->
 <config>
     <router id="admin">
-        <route id="adminhtml">
+        <route id="multiplewishlist" frontName="multiplewishlist">
             <module name="Magento_MultipleWishlist_Adminhtml" before="Magento_Adminhtml" />
         </route>
     </router>

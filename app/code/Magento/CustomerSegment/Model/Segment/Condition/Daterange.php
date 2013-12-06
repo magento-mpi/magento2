@@ -36,24 +36,24 @@ class Daterange
     /**
      * Adminhtml data
      *
-     * @var \Magento\Adminhtml\Helper\Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_adminhtmlData = null;
 
     /**
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
-     * @param \Magento\Adminhtml\Helper\Data $adminhtmlData
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
+     * @param \Magento\Backend\Helper\Data $adminhtmlData
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        \Magento\Adminhtml\Helper\Data $adminhtmlData,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
+        \Magento\Backend\Helper\Data $adminhtmlData,
         array $data = array()
     ) {
         $this->_adminhtmlData = $adminhtmlData;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
 
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Daterange');
         $this->setValue(null);
@@ -122,7 +122,7 @@ class Daterange
      */
     public function getValueElementChooserUrl()
     {
-        return $this->_adminhtmlData->getUrl('adminhtml/customersegment/chooserDaterange', array(
+        return $this->_adminhtmlData->getUrl('customersegment/index/chooserDaterange', array(
             'value_element_id' => $this->_valueElement->getId(),
         ));
     }

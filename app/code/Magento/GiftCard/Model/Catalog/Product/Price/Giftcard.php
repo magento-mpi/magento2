@@ -32,17 +32,17 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
     protected $_minMaxCache = array();
 
     /**
-     * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Event\ManagerInterface $eventManager
      */
     public function __construct(
-        \Magento\Customer\Model\Session $customerSession,
-        \Magento\Core\Model\LocaleInterface $locale,
         \Magento\CatalogRule\Model\Resource\RuleFactory $ruleFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Customer\Model\Session $customerSession,
         \Magento\Event\ManagerInterface $eventManager
     ) {
         $this->_storeManager = $storeManager;

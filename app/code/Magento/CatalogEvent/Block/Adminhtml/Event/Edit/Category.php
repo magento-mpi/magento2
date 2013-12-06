@@ -28,8 +28,13 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
     protected $_categoryFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
@@ -37,14 +42,14 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $categoryTree, $registry, $data);
-
+        parent::__construct($context, $categoryTree, $registry, $data);
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_categoryFactory = $categoryFactory;
     }
 
@@ -73,7 +78,7 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
             $result = $this->_getNodesArray($this->getRoot(null, $recursionLevel));
         }
         if ($asJson) {
-            return $this->_coreData->jsonEncode($result);
+            return $this->_jsonEncoder->encode($result);
         }
         return $result;
     }

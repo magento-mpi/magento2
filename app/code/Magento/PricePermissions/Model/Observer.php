@@ -174,7 +174,7 @@ class Observer
     /**
      * Call needed function depending on block name
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _filterByBlockName($block)
     {
@@ -189,7 +189,7 @@ class Observer
     /**
      * Remove status option in massaction
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _removeStatusMassaction($block)
     {
@@ -201,7 +201,7 @@ class Observer
     /**
      * Remove price column from grid
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _removeColumnPrice($block)
     {
@@ -211,7 +211,7 @@ class Observer
     /**
      * Remove price and total columns from grid
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _removeColumnsPriceTotal($block)
     {
@@ -221,7 +221,7 @@ class Observer
     /**
      * Set read price to false
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setCanReadPriceFalse($block)
     {
@@ -233,7 +233,7 @@ class Observer
     /**
      * Set read and edit price to false
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setCanEditReadPriceFalse($block)
     {
@@ -246,7 +246,7 @@ class Observer
     /**
      * Set edit and read tab to false
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setTabEditReadFalse($block)
     {
@@ -261,7 +261,7 @@ class Observer
     /**
      * Set edit and read price in child block to false
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setOptionsEditReadFalse($block)
     {
@@ -279,7 +279,7 @@ class Observer
     /**
      * Set default product price
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setCanEditReadDefaultPrice($block)
     {
@@ -292,7 +292,7 @@ class Observer
     /**
      * Set edit and read price to child block
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setCanEditReadChildBlock($block)
     {
@@ -315,7 +315,7 @@ class Observer
     /**
      * Set form element value and readonly
      *
-     * @param \Magento\Adminhtml\Block\Template $block
+     * @param \Magento\Backend\Block\Template $block
      */
     protected function _setFormElementAttributes($block)
     {
@@ -341,7 +341,7 @@ class Observer
      */
     public function adminhtmlBlockHtmlBefore($observer)
     {
-        /** @var $block \Magento\Adminhtml\Block\Template */
+        /** @var $block \Magento\Backend\Block\Template */
         $block = $observer->getBlock();
 
         $this->_filterByBlockName($block);
@@ -388,14 +388,14 @@ class Observer
     }
 
     /**
-     * Handle core_block_abstract_to_html_before event
+     * Handle view_block_abstract_to_html_before event
      *
      * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function coreBlockAbstractToHtmlBefore($observer)
+    public function viewBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\View\Block\AbstractBlock */
+         /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {
@@ -799,7 +799,7 @@ class Observer
     /**
      * Hide price elements on Price Tab of Product Edit Page if needed
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return void
      */
     protected function _hidePriceElements($block)

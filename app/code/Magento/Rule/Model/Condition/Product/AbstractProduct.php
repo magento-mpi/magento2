@@ -47,7 +47,7 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     /**
      * Adminhtml data
      *
-     * @var \Magento\Adminhtml\Helper\Data
+     * @var \Magento\Backend\Helper\Data
      */
     protected $_backendData;
 
@@ -72,8 +72,8 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
     protected $_attrSetCollection;
 
     /**
-     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
@@ -81,8 +81,8 @@ abstract class AbstractProduct extends \Magento\Rule\Model\Condition\AbstractCon
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,

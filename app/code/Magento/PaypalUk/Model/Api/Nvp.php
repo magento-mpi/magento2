@@ -323,11 +323,6 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
     protected $mathRandom;
 
     /**
-     * Constructor
-     *
-     * By default is looking for first argument as array and assigns it as object
-     * attributes This behavior may change in child classes
-     *
      * @param \Magento\Customer\Helper\Address $customerAddress
      * @param \Magento\Logger $logger
      * @param \Magento\Core\Model\LocaleInterface $locale
@@ -335,6 +330,7 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
      * @param \Magento\Directory\Model\CountryFactory $countryFactory
      * @param \Magento\Math\Random $mathRandom
+     * @param array $data
      */
     public function __construct(
         \Magento\Customer\Helper\Address $customerAddress,
@@ -343,10 +339,19 @@ class Nvp extends \Magento\Paypal\Model\Api\Nvp
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
-        \Magento\Math\Random $mathRandom
+        \Magento\Math\Random $mathRandom,
+        array $data = array()
     ) {
         $this->mathRandom = $mathRandom;
-        parent::__construct($customerAddress, $logger, $locale, $regionFactory, $logAdapterFactory, $countryFactory);
+        parent::__construct(
+            $customerAddress,
+            $logger,
+            $locale,
+            $regionFactory,
+            $logAdapterFactory,
+            $countryFactory,
+            $data
+        );
     }
 
     /**

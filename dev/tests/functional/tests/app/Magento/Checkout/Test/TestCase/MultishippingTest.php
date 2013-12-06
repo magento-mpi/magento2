@@ -28,6 +28,7 @@ class MultishippingTest extends Functional
      *
      * @param Checkout $fixture
      * @dataProvider dataProviderMultishippingCheckout
+     *
      * @ZephyrId MAGETWO-12836
      */
     public function testMultishippingCheckout(Checkout $fixture)
@@ -62,7 +63,7 @@ class MultishippingTest extends Functional
         if ($fixture->getNewShippingAddresses()) {
             foreach ($fixture->getNewShippingAddresses() as $address) {
                 Factory::getPageFactory()->getCheckoutMultishippingAddresses()->getAddressesBlock()->addNewAddress();
-                Factory::getPageFactory()->getCheckoutMultishippingAddressNewShipping()->getAddressesEditBlock()
+                Factory::getPageFactory()->getCheckoutMultishippingAddressNewShipping()->getEditBlock()
                     ->editCustomerAddress($address);
             }
         }

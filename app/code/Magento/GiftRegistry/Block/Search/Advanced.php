@@ -30,8 +30,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
     protected $_formData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
@@ -41,8 +40,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
@@ -54,7 +52,7 @@ class Advanced extends \Magento\GiftRegistry\Block\Form\Element
         $this->_registry = $registry;
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
-        parent::__construct($context, $coreData, $configCacheType, $country, $region, $data);
+        parent::__construct($context, $configCacheType, $country, $region, $data);
     }
 
     /**

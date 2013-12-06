@@ -16,7 +16,7 @@
  */
 namespace Magento\GiftRegistry\Block\Search;
 
-class Form extends \Magento\View\Block\Template
+class Form extends \Magento\View\Element\Template
 {
     protected $_formData = null;
 
@@ -31,20 +31,18 @@ class Form extends \Magento\View\Block\Template
     protected $typeFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\GiftRegistry\Model\TypeFactory $typeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->customerSession = $customerSession;
         $this->typeFactory = $typeFactory;
     }
@@ -94,7 +92,7 @@ class Form extends \Magento\View\Block\Template
      */
     public function getTypeSelectHtml()
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setData(array(
                 'id'    => 'params-type-id',
                 'class' => 'select'

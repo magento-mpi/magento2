@@ -22,6 +22,19 @@ use Mtf\Repository\AbstractRepository;
  */
 class Config extends AbstractRepository
 {
+    /**
+     * Configuration option constants
+     */
+    const EXCLUDING_TAX = 1;
+    const NO_VALUE = 0;
+    const YES_VALUE = 1;
+
+    /**
+     * Config repository constructor
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
@@ -38,14 +51,21 @@ class Config extends AbstractRepository
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
+        $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
+        $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
         $this->_data['authorizenet'] = $this->_getAuthorizeNet();
+        $this->_data['authorizenet_3d_secure'] = $this->_getAuthorizeNet3dSecure();
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
+        //Payment Services
+        $this->_data['3d_secure_credit_card_validation'] = $this->_get3dSecureCreditCardValidation();
         //Shipping methods
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
+        $this->_data['check_money_order'] = $this->getCheckmo();
+        $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
     }
 
     protected function _getFreeShipping()
@@ -61,7 +81,7 @@ class Config extends AbstractRepository
                             'freeshipping' => array( //Free Shipping
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'free_shipping_subtotal' => array( //Minimum Order Amount
                                         'value' => 10
@@ -73,7 +93,7 @@ class Config extends AbstractRepository
                                         'value' => 'US' //United States
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -97,7 +117,7 @@ class Config extends AbstractRepository
                             'flatrate' => array( //Flat Rate
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'price' => array( //Price
                                         'value' => 5
@@ -130,7 +150,7 @@ class Config extends AbstractRepository
                             'authorizenet' => array( //Credit Card (Authorize.net)
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'login' => array( //API Login ID
                                         'value' => '36sCtGS8w'
@@ -139,22 +159,22 @@ class Config extends AbstractRepository
                                         'value' => 'authorize'
                                     ),
                                     'trans_key' => array( //Transaction Key
-                                        'value' => '67RY59y59p25JQsZ'
+                                        'value' => '"67RY59y59p25JQsZ"'
                                     ),
                                     'cgi_url' => array( //Gateway URL
                                         'value' => 'https://test.authorize.net/gateway/transact.dll'
                                     ),
                                     'test' => array( //Test Mode
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'cctypes' => array( //Card Types
                                         'value' => 'AE,VI,MC,DI' //American Express, Visa, MasterCard, Discover
                                     ),
                                     'useccv' => array( //Credit Card Verification
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'centinel' => array( //3D Secure Card Validation
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -163,6 +183,31 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    protected function _getAuthorizeNet3dSecure()
+    {
+        $data = array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'authorizenet' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'centinel' => array( //3D Secure Card Validation
+                                        'value' => 1 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        return array_merge_recursive($data, $this->_getAuthorizeNet());
     }
 
     protected function _getPaypalDisabled()
@@ -178,49 +223,49 @@ class Config extends AbstractRepository
                             'paypal_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'paypal_standard' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'paypal_direct' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'verisign' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'paypaluk_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'payflow_advanced' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'payflow_link' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 0
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -265,17 +310,17 @@ class Config extends AbstractRepository
                                                                 'value' => 'AEhCkH8sFI39Bz94iP79RT9Mt0MVAkCzF6NaWuXG2QtQFTkCUVG0z83m'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
-                                                                'value' => 1 //Yes
+                                                                'value' => self::YES_VALUE
                                                             ),
                                                             'use_proxy' => array( //API Uses Proxy
-                                                                'value' => 0 //No
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_wpp' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 )
                                             ),
@@ -283,6 +328,15 @@ class Config extends AbstractRepository
                                                 'fields' => array(
                                                     'payment_action' => array( //Payment Action
                                                         'value' => 'Authorization' //Authorization
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 0
+                                                            )
+                                                        )
                                                     )
                                                 )
                                             )
@@ -293,7 +347,7 @@ class Config extends AbstractRepository
                             'paypal_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -338,17 +392,17 @@ class Config extends AbstractRepository
                                                                 'value' => 'AOolWQExAt2k.RZzqZ6i6hWlSW4vAnkvVXvL8r1P-kXgqaV7sfD.ftNQ'
                                                             ),
                                                             'sandbox_flag' => array( //Sandbox Mode
-                                                                'value' => 1 //Yes
+                                                                'value' => self::YES_VALUE
                                                             ),
                                                             'use_proxy' => array( //API Uses Proxy
-                                                                'value' => 0 //No
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_express_checkout' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 ),
                                             ),
@@ -357,7 +411,16 @@ class Config extends AbstractRepository
                                                     'payment_action' => array( //Payment Action
                                                         'value' => 'Authorization' //Authorization
                                                     )
-                                                )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_ec_advanced' => array(
+                                                        'fields' => array(
+                                                            'debug' => array(
+                                                                'value' => 0
+                                                            )
+                                                        ),
+                                                    )
+                                                ),
                                             )
                                         )
                                     )
@@ -409,17 +472,17 @@ class Config extends AbstractRepository
                                                                 'value' => 'Temp1234'
                                                             ),
                                                             'sandbox_flag' => array( // Test Mode
-                                                                'value' => 1
+                                                                'value' => self::YES_VALUE
                                                             ),
                                                             'use_proxy' => array( // Use Proxy
-                                                                'value' => 0
+                                                                'value' => self::NO_VALUE
                                                             )
                                                         )
                                                     )
                                                 ),
                                                 'fields' => array(
                                                     'enable_paypal_payflow' => array( //Enable this Solution
-                                                        'value' => 1 //Yes
+                                                        'value' => self::YES_VALUE
                                                     )
                                                 )
                                             ),
@@ -427,6 +490,15 @@ class Config extends AbstractRepository
                                                 'fields' => array(
                                                     'payment_action' => array( // Payment Action
                                                         'value' => 'Authorization'
+                                                    )
+                                                ),
+                                                'groups' => array(
+                                                    'settings_paypal_payflow_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 0
+                                                            )
+                                                        )
                                                     )
                                                 )
                                             )
@@ -437,7 +509,7 @@ class Config extends AbstractRepository
                             'paypaluk_express' => array(
                                 'fields' => array(
                                     'active' => array(
-                                        'value' => 1
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -446,6 +518,46 @@ class Config extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Data for PayPal Payflow Pro Edition method with 3D Secure
+     */
+    protected function _getPayPalPayflowPro3dSecure()
+    {
+        $data =  array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_payment_gateways' => array(
+                                'groups' => array(
+                                    'paypal_verisign_with_express_checkout_us' => array(
+                                        'groups' => array(
+                                            'settings_paypal_payflow' => array(
+                                                'groups' => array(
+                                                    'settings_paypal_payflow_advanced' => array(
+                                                        'fields' => array(
+                                                            'centinel' => array( //3D Secure Card Validation
+                                                                'value' => 1
+                                                            )
+                                                        )
+                                                    )
+                                                )
+                                            )
+                                        )
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+        return array_merge_recursive($data, $this->_getPaypalPayFlowPro());
     }
 
     /**
@@ -510,10 +622,10 @@ class Config extends AbstractRepository
                             'display' => array( // Price Display Settings
                                 'fields' => array(
                                     'type' => array( // Display Product Prices In Catalog
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'shipping' => array( // Display Shipping Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     )
                                 )
                             )
@@ -542,28 +654,28 @@ class Config extends AbstractRepository
                             'cart_display' => array( // Shipping Cart Display Settings
                                 'fields' => array(
                                     'price' => array( // Display Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'subtotal' => array( // Display Subtotal
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'shipping' => array( // Display Shipping Amount
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'gift_wrapping' => array( // Display Gift Wrapping Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'printed_card' => array( // Display Printed Card Prices
-                                        'value' => 1 //Excluding Tax
+                                        'value' => self::EXCLUDING_TAX
                                     ),
                                     'grandtotal' => array( // Include Tax In Grand Total
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'full_summary' => array( // Display Full Tax Summary
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'zero_tax' => array( // Display Zero Tax Subtotal
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -678,7 +790,7 @@ class Config extends AbstractRepository
                             'authorizenet' => array( //Credit Card (Authorize.net)
                                 'fields' => array(
                                     'active' => array( //Enabled
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -717,4 +829,150 @@ class Config extends AbstractRepository
             )
         );
     }
+
+    /**
+     * Enable Check/Money order
+     *
+     * @return array
+     */
+    protected function getCheckmo()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'checkmo' => array( //Credit Card (Authorize.net)
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => self::YES_VALUE,
+                                    ),
+                                    'order_status' => array(
+                                        'value' => 'pending', //New Order Status
+                                    ),
+                                    'allowspecific' => array(
+                                        'value' => 0, //All Allowed Counries
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Enable 3D Secure Credit Card Validation
+     *
+     * @return array
+     */
+    protected function _get3dSecureCreditCardValidation()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment_services' => array(
+                        'section' => 'payment_services',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'centinel' => array( //3D Secure Credit Card Validation
+                                'fields' => array(
+                                    'processor_id' => array(
+                                        'value' => '134-01'
+                                    ),
+                                    'merchant_id' => array(
+                                        'value' => 'magentoTEST'
+                                    ),
+                                    'password' => array(
+                                        'value' => 'mag3nt0T3ST'
+                                    ),
+                                    'test_mode' => array(
+                                        'value' => 1 //Yes
+                                    ),
+                                    'debug' => array(
+                                        'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Data for PayPal Payments Pro Edition method with 3D Secure
+     */
+    protected function _getPayPalPaymentsPro3dSecure()
+    {
+        $data = array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_group_all_in_one' => array( // PayPal All-in-One Payment Solutions
+                                'groups' => array(
+                                    'wpp_us' => array( // Payments Pro (Includes Express Checkout)
+                                        'groups' => array(
+                                            'wpp_settings' => array( // Basic Settings - PayPal Express Checkout
+                                                'groups' => array(
+                                                    'wpp_settings_advanced' => array( // Advanced Settings
+                                                        'fields' => array(
+                                                            'centinel' => array( // 3D Secure Card Validation
+                                                                'value' => 1
+                                                            ),
+                                                        ),
+                                                    ),
+                                                ),
+                                            ),
+                                        ),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+        return array_merge_recursive($data, $this->_getPaypalDirect());
+    }
+
+    /**
+     * Disable Secret Key
+     *
+     * @return array
+     */
+    protected function _getSecretKeyEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'admin' => array(
+                        'section' => 'admin',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'security' => array(
+                                'fields' => array(
+                                    'use_form_key' => array(
+                                        'value' => '0'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
 }
+

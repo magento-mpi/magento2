@@ -35,7 +35,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
         $app->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
 
         $collection = $objectManager->create('Magento\Core\Model\Resource\Theme\Collection');
-        $themeId = $collection->getThemeByFullPath('frontend/magento_demo')->getId();
+        $themeId = $collection->getThemeByFullPath('frontend/magento_blank')->getId();
         /** @var $storeManager \Magento\Core\Model\StoreManagerInterface */
         $storeManager = $objectManager->get('Magento\Core\Model\StoreManagerInterface');
         $storeManager->getStore('fixturestore')->setConfig(
@@ -49,7 +49,7 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             $this->stringEndsWith('/static/frontend/magento_plushe/en_US/images/logo.gif')
         );
         $subscriberTwo->expects($this->once())->method('setBodyHTML')->with(
-            $this->stringEndsWith('/static/frontend/magento_demo/de_DE/images/logo.gif')
+            $this->stringEndsWith('/static/frontend/magento_blank/de_DE/images/logo.gif')
         );
         /** @var $filter \Magento\Newsletter\Model\Template\Filter */
         $filter = $objectManager->get('Magento\Newsletter\Model\Template\Filter');
@@ -58,16 +58,16 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl', '__wakeup', 'setTemplateFilter'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $design,
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $appEmulation,
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\View\Url'),
                 $objectManager->get('Magento\View\FileSystem'),
-                $design,
                 $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Dir'),
                 $objectManager->get('Magento\Email\Model\Template\Config'),
             )
@@ -105,16 +105,16 @@ class QueueTest extends \PHPUnit_Framework_TestCase
             array('_getMail', '_getLogoUrl', '__wakeup'),
             array(
                 $objectManager->get('Magento\Core\Model\Context'),
+                $objectManager->get('Magento\Core\Model\View\Design'),
                 $objectManager->get('Magento\Core\Model\Registry'),
                 $objectManager->get('Magento\Core\Model\App\Emulation'),
+                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\Filesystem'),
                 $objectManager->get('Magento\View\Url'),
                 $objectManager->get('Magento\View\FileSystem'),
-                $objectManager->get('Magento\Core\Model\View\Design'),
                 $objectManager->get('Magento\Core\Model\Store\ConfigInterface'),
                 $objectManager->get('Magento\Core\Model\ConfigInterface'),
                 $objectManager->get('Magento\Email\Model\Template\FilterFactory'),
-                $objectManager->get('Magento\Core\Model\StoreManagerInterface'),
                 $objectManager->get('Magento\App\Dir'),
                 $objectManager->get('Magento\Email\Model\Template\Config'),
             )

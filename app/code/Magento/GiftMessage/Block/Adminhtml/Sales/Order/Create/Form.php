@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
 
-class Form extends \Magento\Adminhtml\Block\Template
+class Form extends \Magento\Backend\Block\Template
 {
     /**
      * @var \Magento\Adminhtml\Model\Session\Quote
@@ -26,18 +26,16 @@ class Form extends \Magento\Adminhtml\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

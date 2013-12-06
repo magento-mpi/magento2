@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Category;
 
-class View extends \Magento\View\Block\Template
+class View extends \Magento\View\Element\Template
 {
     /**
      * Core registry
@@ -34,22 +34,20 @@ class View extends \Magento\View\Block\Template
     protected $_catalogLayer;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_catalogLayer = $catalogLayer;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _prepareLayout()
@@ -79,7 +77,7 @@ class View extends \Magento\View\Block\Template
             ) {
                 $headBlock->addChild(
                     'magento-page-head-category-canonical-link',
-                    'Magento\Page\Block\Html\Head\Link',
+                    'Magento\Theme\Block\Html\Head\Link',
                     array(
                         'url' => $category->getUrl(),
                         'properties' => array('attributes' => array('rel' => 'canonical'))

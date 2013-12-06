@@ -26,7 +26,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory
      * @param \Magento\Core\Model\Registry $registry
@@ -34,7 +34,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\CustomerSegment\Model\SegmentFactory $segmentFactory,
         \Magento\Core\Model\Registry $registry,
@@ -42,7 +42,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
     ) {
         $this->_segmentFactory = $segmentFactory;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $authSession, $data);
+        parent::__construct($context, $jsonEncoder, $authSession, $data);
     }
 
     /**
@@ -95,7 +95,7 @@ class Tabs extends \Magento\Backend\Block\Widget\Tabs
                     ->getSegmentCustomersQty($segment->getId());
                 $this->addTab('customers_tab', array(
                     'label' => __('Matched Customers (%1)', $customersQty),
-                    'url'   => $this->getUrl('adminhtml/report_customer_customersegment/customerGrid',
+                    'url'   => $this->getUrl('customersegment/report_customer_customersegment/customerGrid',
                         array('segment_id' => $segment->getId())),
                     'class' => 'ajax',
                 ));

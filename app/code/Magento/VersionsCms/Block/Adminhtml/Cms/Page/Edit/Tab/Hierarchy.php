@@ -44,8 +44,19 @@ class Hierarchy
     protected $_nodeCollFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @var \Magento\Json\DecoderInterface
+     */
+    protected $_jsonDecoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory
@@ -53,16 +64,19 @@ class Hierarchy
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\VersionsCms\Helper\Hierarchy $cmsHierarchy,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Resource\Hierarchy\Node\CollectionFactory $nodeCollFactory,
         array $data = array()
     ) {
+        $this->_jsonDecoder = $jsonDecoder;
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_cmsHierarchy = $cmsHierarchy;
         $this->_nodeCollFactory = $nodeCollFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -82,7 +96,7 @@ class Hierarchy
      */
     public function getNodesJson()
     {
-        return $this->_coreData->jsonEncode($this->getNodes());
+        return $this->_jsonEncoder->encode($this->getNodes());
     }
 
     /**
@@ -94,7 +108,7 @@ class Hierarchy
         if (is_null($this->_nodes)) {
             $this->_nodes = array();
             try{
-                $data = $this->_coreData->jsonDecode($this->getPage()->getNodesData());
+                $data = $this->_jsonDecoder->decode($this->getPage()->getNodesData());
             }catch (\Zend_Json_Exception $e){
                 $data = null;
             }
@@ -214,7 +228,7 @@ class Hierarchy
             'id' => $this->getPage()->getId()
         );
 
-        return $this->_coreData->jsonEncode($data);
+        return $this->_jsonEncoder->encode($data);
     }
 
     /**
