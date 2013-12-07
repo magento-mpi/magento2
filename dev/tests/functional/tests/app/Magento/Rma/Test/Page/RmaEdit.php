@@ -51,6 +51,13 @@ class RmaEdit extends Page
     protected $rmaEditBlock = 'edit_form';
 
     /**
+     * Messages Block
+     *
+     * @var string
+     */
+    protected $messagesBlock = 'messages';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -91,6 +98,18 @@ class RmaEdit extends Page
     {
         return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaRmaEditForm(
             $this->_browser->find($this->rmaEditBlock, Locator::SELECTOR_ID)
+        );
+    }
+
+    /**
+     * Get global messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessageBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_ID)
         );
     }
 }

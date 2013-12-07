@@ -99,16 +99,19 @@ Class RmaTest extends Functional
         // Step 13: Authorize Simple and Configurable Product
         $rmaPage->getRmaEditFormBlock()->fillAuthorized($products, 1);
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
+        $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
         $rmaPage->getRmaEditFormBlock()->fillReturned($products,1);
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
+        $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
         $rmaPage->getRmaEditFormBlock()->fillApproved($products, 1);
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
+        $rmaPage->getMessageBlock()->assertSuccessMessage();
     }
 
     private function configureRma()
