@@ -210,9 +210,9 @@ class ApplyCatalogPriceRule extends Functional
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $this->assertEquals(
-            '$10.00',
-            $productListBlock->getProductPrice($product->getProductName()),
-            'Displayed price does not make expected price.'
+            '$5.00',
+            $productListBlock->getProductSpecialPrice($product->getProductName()),
+            'Displayed price does not match expected price.'
         );
     }
 }
