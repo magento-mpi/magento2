@@ -72,13 +72,13 @@ class ApplyCatalogPriceRule extends Functional
         $banner->persist();
 
         // Verify applied catalog price rules
-        $this->verifyPriceRules($simple);
-
-        $this->verifyCatalogPriceRules($products);
+        $this->verifyPriceRules($products);
     }
 
     /**
      * Create and Apply new Catalog Price Rule
+     * @param string $categoryId
+     * @return string $catalogPriceRuleId
      */
     public function createNewCatalogPriceRule($categoryId)
     {
@@ -132,42 +132,23 @@ class ApplyCatalogPriceRule extends Functional
     }
 
     /**
-     * Verify: product page, cart, one page checkout.
-     *
-     * @param array $products
-     */
-    public function verifyCatalogPriceRules(array $products)
-    {
-        $this->addProducts($products);
-
-        // todo different checkout fixture?
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrder();
-        $fixture->persist();
-
-        $this->checkoutProcess($fixture);
-    }
-
-    /**
      * Add products to cart
-     *
-     * @param array $products
+     * @param Product[] $products
      */
-    protected function addProducts(array $products)
+    protected function verifyAddProducts(array $products)
     {
         // Get empty cart
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
-        /** @var Product $product */
         foreach ($products as $product) {
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
             $productViewBlock = $productPage->getViewBlock();
-            // todo product special price check
-            // $specialPrice = $productViewBlock->getProductSpecialPrice();
-            // $this->assertContains($product->getProductSpecialPrice(), $productViewBlock->getProductSpecialPrice());
+            $appliedRulePrice = (string)($product->getProductPrice() * .5);
+            $this->assertContains($appliedRulePrice, $productViewBlock->getProductSpecialPrice());
             $productViewBlock->addToCart($product);
             Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         }
@@ -176,7 +157,6 @@ class ApplyCatalogPriceRule extends Functional
 
     /**
      * Process Magento Checkout
-     *
      * @param Checkout $fixture
      */
     protected function checkoutProcess(Checkout $fixture)
@@ -196,23 +176,45 @@ class ApplyCatalogPriceRule extends Functional
 
     /**
      * This method verifies information on the storefront.
-     * @param Fixture\Product $product
+     * @param Product[] $products
      */
-    protected function verifyPriceRules(Fixture\Product $product)
+    protected function verifyPriceRules(array $products)
+    {
+        // Verify category page prices
+        $this->verifyCategoryPrices($products);
+
+        // Verify product and cart page prices
+        $this->verifyAddProducts($products);
+
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrder(
+            array('products' => $products)
+        );
+        $fixture->persist();
+        // Verify one page checkout prices
+        $this->checkoutProcess($fixture);
+    }
+
+    /**
+     * This method verifies special prices on the category page.
+     * @param Product[] $products
+     */
+    protected function verifyCategoryPrices(array $products)
     {
         // open the front end home page of the store
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
         $frontendHomePage->open();
         // open the category associated with the product
-        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        $frontendHomePage->getTopmenu()->selectCategoryByName($products[0]->getCategoryName());
         // verify the product is displayed in the category
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
-        $this->assertEquals(
-            '$5.00',
-            $productListBlock->getProductSpecialPrice($product->getProductName()),
-            'Displayed price does not match expected price.'
-        );
+        foreach ($products as $product) {
+            $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+            $this->assertContains(
+                (string)($product->getProductPrice() * .5),
+                $productListBlock->getProductSpecialPrice($product->getProductName()),
+                'Displayed price does not match expected price.'
+            );
+        }
     }
 }
