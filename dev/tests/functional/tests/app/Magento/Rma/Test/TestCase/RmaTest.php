@@ -28,7 +28,9 @@ Class RmaTest extends Functional
 
         // Setup Preconditions:
         $this->configureRma();
+
         $payPalExpressOrder = $this->guestCheckoutPayPal();
+        $products = $payPalExpressOrder->getProducts();
         $orderPage = $this->closeSalesOrder($payPalExpressOrder);
 
         $orderId = $payPalExpressOrder->getOrderId();
@@ -95,12 +97,18 @@ Class RmaTest extends Functional
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
 
         // Step 13: Authorize Simple and Configurable Product
+        $rmaPage->getRmaEditFormBlock()->fillAuthorized($products, 1);
+        $rmaPage->getRmaActionsBlock()->saveAndEdit();
 
         // Step 14: Process Return for Simple and Configurable Product
+        $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+        $rmaPage->getRmaEditFormBlock()->fillReturned($products,1);
+        $rmaPage->getRmaActionsBlock()->saveAndEdit();
 
         // Step 15: Approve Return for Simple and Configurable Product
-
-        echo "hello";
+        $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+        $rmaPage->getRmaEditFormBlock()->fillApproved($products, 1);
+        $rmaPage->getRmaActionsBlock()->saveAndEdit();
     }
 
     private function configureRma()

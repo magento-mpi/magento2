@@ -43,6 +43,12 @@ class RmaEdit extends Page
      */
     protected $rmaActionsBlock = '.page-actions';
 
+    /**
+     * Rma edit form block
+     *
+     * @var string
+     */
+    protected $rmaEditBlock = 'edit_form';
 
     /**
      * Custom constructor
@@ -73,6 +79,18 @@ class RmaEdit extends Page
     {
         return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaActions(
             $this->_browser->find($this->rmaActionsBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get Rma Edit Form block
+     *
+     * @return \Magento\Rma\Test\Block\Adminhtml\Rma\RmaEditForm
+     */
+    public function getRmaEditFormBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaRmaEditForm(
+            $this->_browser->find($this->rmaEditBlock, Locator::SELECTOR_ID)
         );
     }
 }

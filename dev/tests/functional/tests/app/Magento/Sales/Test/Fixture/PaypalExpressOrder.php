@@ -104,4 +104,12 @@ class PaypalExpressOrder extends Checkout
     {
         return $this->checkoutFixture->products[$index];
     }
+
+    /**
+     * @returns array
+     */
+    public function getProducts()
+    {
+        return $this->checkoutFixture->getProducts();
+    }
 }
