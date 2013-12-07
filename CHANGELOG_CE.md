@@ -1,11 +1,20 @@
+* Implemented API Integration UX flows
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module
 * Fixed bugs:
   * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
+  * Fixed a bug that allowed editing an Integration created using configuration files via a direct URL
+  * Fixed displaying the Login page in a jQuery dialog when the session times out after activating an Integration
 * Modularity improvements:
   * Session configuration moved into library
   * FormKey logic is moved from Session
   * SessionIdFlags is removed from Session
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
+  * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:
   * Fixed shopping cart rules for a specific customer group
   * Fixed the bug with schema upgrade scripts are not running after installation
