@@ -11,6 +11,8 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\TestFramework\Authentication\OauthHelper;
+
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
 
@@ -104,6 +106,33 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $requestData = array('name' => $createdItemName);
         $item = $this->_webApiCall($serviceInfo, $requestData);
         $this->assertEquals($createdItemName, $item['name'], 'Item creation failed');
+    }
+
+    /**
+     *  Test create item with missing proper resources to fail AuthZ
+     */
+    public function testCreateWithoutResources()
+    {
+        $createdItemName = 'createdItemName';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'operation' => $this->_soapService . 'Create'
+            )
+        );
+        $requestData = array('name' => $createdItemName);
+
+        // getting new credentials that do not match the api resources
+        OauthHelper::clearApiAccessCredentials();
+        OauthHelper::getApiAccessCredentials([]);
+        $this->assertUnauthorizedException($serviceInfo, $requestData);
+
+        // to allow good credentials to be restored (this is statically stored on OauthHelper)
+        OauthHelper::clearApiAccessCredentials();
     }
 
     /**

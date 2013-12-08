@@ -99,6 +99,8 @@ class OauthHelper
     /**
      * Create an access token, tied to integration which has permissions to all API resources in the system.
      *
+     * @param array $resources list of resources to grant to the integration
+     *
      * @return array
      * <pre>
      * array (
@@ -110,19 +112,24 @@ class OauthHelper
      * </pre>
      * @throws LogicException
      */
-    public static function getApiAccessCredentials()
+    public static function getApiAccessCredentials($resources = null)
     {
         if (!self::$_apiCredentials) {
             /** @var $objectManager \Magento\TestFramework\ObjectManager */
             $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
             /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
             $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
-            $integration = $integrationService->create(
-                array(
-                    'name' => 'Integration' . microtime(),
-                    'all_resources' => true
-                )
-            );
+
+            $params = ['name' => 'Integration' . microtime()];
+
+            if ($resources === null || $resources == 'all' ) {
+                $params['all_resources'] = true;
+            }
+            else {
+                $params['resources'] = $resources;
+            }
+
+            $integration = $integrationService->create($params);
 
             /** Magento cache must be cleared to activate just created ACL role. */
             $varPath = realpath('../../../var');
@@ -155,6 +162,11 @@ class OauthHelper
             );
         }
         return self::$_apiCredentials;
+    }
+
+    public static function clearApiAccessCredentials()
+    {
+        self::$_apiCredentials = false;
     }
 
     /**
