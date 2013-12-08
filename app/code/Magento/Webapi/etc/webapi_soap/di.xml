@@ -14,13 +14,8 @@
             <instance type="Magento\Webapi\Controller\Soap\Request"/>
         </param>
     </type>
-
     <preference for="Magento\App\FrontControllerInterface" type="Magento\Webapi\Controller\Soap" />
     <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
-    <type name="Magento\Xml\Generator" shared="false" />
-    <type name="Magento\Xml\Parser" shared="false" />
-    <type name="Magento\Code\Scanner\DirectoryScanner" shared="false" />
-    <type name="Magento\Server\Reflection" shared="false" />
     <type name="Magento\Webapi\Controller\Soap">
         <param name="soapServer">
             <instance type="Magento\Webapi\Model\Soap\Server\Proxy"/>

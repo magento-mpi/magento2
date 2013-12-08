@@ -10,11 +10,12 @@ namespace Magento\Integration\Service;
 
 use Magento\Oauth\OauthInterface;
 use Magento\Integration\Model\Oauth\Token\Provider as TokenProvider;
-use \Magento\Integration\Model\Oauth\Token as Token;
-use \Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
-use \Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
-use \Magento\Oauth\Helper\Oauth as OauthHelper;
-use \Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
+use Magento\Integration\Model\Oauth\Token as Token;
+use Magento\Integration\Model\Oauth\Token\Factory as TokenFactory;
+use Magento\Integration\Helper\Oauth\Data as IntegrationOauthHelper;
+use Magento\Oauth\Helper\Oauth as OauthHelper;
+use Magento\Integration\Model\Oauth\Consumer\Factory as ConsumerFactory;
+use Magento\Integration\Model\Oauth\Consumer as ConsumerModel;
 
 /**
  * Integration oAuth service.

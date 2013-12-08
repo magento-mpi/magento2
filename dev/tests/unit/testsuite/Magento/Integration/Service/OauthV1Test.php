@@ -63,7 +63,14 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_consumerMock));
 
         $this->_service = new \Magento\Integration\Service\OauthV1(
-            $this->_consumerFactory
+            $this->getMock('Magento\Core\Model\StoreManagerInterface', [], [], '', false),
+            $this->_consumerFactory,
+            $this->getMock('Magento\Integration\Model\Oauth\Token\Factory', [], [], '', false),
+            $this->getMock('Magento\Integration\Helper\Oauth\Data', [], [], '', false),
+            $this->getMock('Magento\HTTP\ZendClient', [], [], '', false),
+            $this->getMock('Magento\Logger', [], [], '', false),
+            $this->getMock('Magento\Oauth\Helper\Oauth', [], [], '', false),
+            $this->getMock('Magento\Integration\Model\Oauth\Token\Provider', [], [], '', false)
         );
         $this->_emptyConsumerMock = $this->getMockBuilder('Magento\Integration\Model\Integration')
             ->disableOriginalConstructor()

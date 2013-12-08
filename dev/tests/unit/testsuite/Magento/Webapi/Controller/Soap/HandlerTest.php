@@ -22,7 +22,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_apiConfigMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Webapi\Controller\Soap\Request */
     protected $_requestMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
@@ -39,6 +39,7 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
                 array('getServiceMethodInfo')
             )->disableOriginalConstructor()
             ->getMock();
+
         $this->_requestMock = $this->getMockBuilder('Magento\Webapi\Controller\Soap\Request')
             ->setMethods(array('getRequestedServices'))
             ->disableOriginalConstructor()
@@ -59,12 +60,14 @@ class HandlerTest extends \PHPUnit_Framework_TestCase
             $this->_apiConfigMock,
             $this->_authzServiceMock
         );
+
         parent::setUp();
     }
 
     protected function tearDown()
     {
         unset($this->_handler);
+        unset($this->_objectManagerMock);
         unset($this->_apiConfigMock);
         unset($this->_requestMock);
         unset($this->_authzServiceMock);

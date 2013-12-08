@@ -14,13 +14,8 @@
             <instance type="Magento\Webapi\Controller\Rest\Request"/>
         </param>
     </type>
-
     <preference for="Magento\App\FrontControllerInterface" type="Magento\Webapi\Controller\Rest" />
     <type name="Magento\Webapi\Controller\Rest\Router\Route" shared="false" />
-    <type name="Magento\Xml\Generator" shared="false" />
-    <type name="Magento\Xml\Parser" shared="false" />
-    <type name="Magento\Code\Scanner\DirectoryScanner" shared="false" />
-    <type name="Magento\Server\Reflection" shared="false" />
     <type name="Magento\Webapi\Controller\Rest\Request\Deserializer\Factory">
         <param name="deserializers">
             <value>
