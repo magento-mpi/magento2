@@ -25,11 +25,17 @@ class ApplicationTest extends \PHPUnit_Framework_TestCase
         $dbInstance = $this->getMockForAbstractClass('Magento\TestFramework\Db\AbstractDb', array(), '', false);
         $installDir = '/install/dir';
         $appMode = \Magento\App\State::MODE_DEVELOPER;
+        $directoryList = new \Magento\Filesystem\DirectoryList(BP);
         $filesystem = new \Magento\Filesystem(
-            new \Magento\Filesystem\DirectoryList(BP),
+            $directoryList,
             new \Magento\Filesystem\Directory\ReadFactory(),
             new \Magento\Filesystem\Directory\WriteFactory(),
-            new \Magento\Filesystem\Adapter\Local()
+            new \Magento\Filesystem\File\ReadFactory(
+                new \Magento\Filesystem\DriverFactory($directoryList)
+            ),
+            new \Magento\Filesystem\File\WriteFactory(
+                new \Magento\Filesystem\DriverFactory($directoryList)
+            )
         );
 
         $object = new \Magento\TestFramework\Application(
