@@ -234,10 +234,10 @@ class Installer extends \Magento\Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param \Magento\Object $model
+     * @param \Magento\Session\SessionManagerInterface $model
      * @return \Magento\Install\Model\Installer
      */
-    public function setDataModel(\Magento\Object $model)
+    public function setDataModel(\Magento\Session\SessionManagerInterface $model)
     {
         $this->_dataModel = $model;
         return $this;

@@ -77,7 +77,7 @@ class Profile extends \Magento\App\Action\Action
     {
         $this->_title->add(__('Recurring Billing Profiles'));
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 
@@ -163,7 +163,7 @@ class Profile extends \Magento\App\Action\Action
             $this->_title->add(__('Recurring Billing Profiles'));
             $this->_title->add(__('Profile #%1', $profile->getReferenceId()));
             $this->_view->loadLayout();
-            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
             if ($navigationBlock) {
                 $navigationBlock->setActive('sales/recurring_profile/');

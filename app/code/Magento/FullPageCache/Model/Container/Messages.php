@@ -111,7 +111,6 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
     {
         if ($storage = $this->_storageFactory->get($messagesStorage)) {
             $block->addMessages($storage->getMessages(true));
-            $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
         }
     }
 }

@@ -159,7 +159,7 @@ class Set extends \Magento\Backend\App\Action
                 /** @var $block \Magento\View\Block\Messages */
                 $block = $this->_objectManager->get('Magento\View\Block\Messages');
                 $block->setMessages(
-                    $this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP, true)
+                    $this->messageManager->getMessages(true)
                 );
                 $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                     'messages' => $block->getGroupedHtml(),
@@ -177,7 +177,7 @@ class Set extends \Magento\Backend\App\Action
         } else {
             $response = array();
             if ($hasError) {
-                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages();
                 $response['error']   = 1;
                 $response['message'] = $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {

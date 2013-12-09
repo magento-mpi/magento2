@@ -42,13 +42,6 @@ class Messages extends \Magento\View\Block\Template
     protected $contentWrapTagName = 'span';
 
     /**
-     * Flag which require message text escape
-     *
-     * @var bool
-     */
-    protected $escapeMessageFlag = false;
-
-    /**
      * Storage for used types of message storages
      *
      * @var array
@@ -82,10 +75,16 @@ class Messages extends \Magento\View\Block\Template
     protected $collectionFactory;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -93,10 +92,12 @@ class Messages extends \Magento\View\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->messageFactory = $messageFactory;
         $this->collectionFactory = $collectionFactory;
+        $this->messageManager = $messageManager;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -107,21 +108,9 @@ class Messages extends \Magento\View\Block\Template
      */
     protected function _prepareLayout()
     {
-        $this->addStorageType(get_class($this->_session));
-        $this->addMessages($this->_session->getMessages(true));
+        $this->addStorageType($this->messageManager->getDefaultGroup());
+        $this->addMessages($this->messageManager->getMessages(true));
         parent::_prepareLayout();
-        return $this;
-    }
-
-    /**
-     * Set message escape flag
-     *
-     * @param bool $flag
-     * @return \Magento\View\Block\Messages
-     */
-    public function setEscapeMessageFlag($flag)
-    {
-        $this->escapeMessageFlag = $flag;
         return $this;
     }
 
@@ -293,7 +282,7 @@ class Messages extends \Magento\View\Block\Template
                 foreach ($messages as $message) {
                     $html.= '<' . $this->secondLevelTagName . '>';
                     $html.= '<' . $this->contentWrapTagName .  $this->getUiId('message', $type) .  '>';
-                    $html.= ($this->escapeMessageFlag) ? $this->escapeHtml($message->getText()) : $message->getText();
+                    $html.= $message->getText();
                     $html.= '</' . $this->contentWrapTagName . '>';
                     $html.= '</' . $this->secondLevelTagName . '>';
                 }
@@ -362,15 +351,5 @@ class Messages extends \Magento\View\Block\Template
     public function addStorageType($type)
     {
         $this->usedStorageTypes[] = $type;
-    }
-
-    /**
-     * Whether or not to escape the message.
-     *
-     * @return boolean
-     */
-    public function shouldEscapeMessage()
-    {
-        return $this->escapeMessageFlag;
     }
 }

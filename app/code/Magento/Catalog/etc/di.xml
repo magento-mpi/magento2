@@ -13,14 +13,6 @@
     <type name="Magento\Log\Model\Resource\Log">
         <plugin name="catalogLog" type="Magento\Catalog\Model\Plugin\Log" />
     </type>
-    <type name="Magento\Catalog\Helper\Product\View">
-        <param name="messageModels">
-            <value>
-                <catalog>Magento\Catalog\Model\Session</catalog>
-                <checkout>Magento\Checkout\Model\Session</checkout>
-            </value>
-        </param>
-    </type>
     <type name="Magento\Catalog\Helper\Product">
         <param name="typeSwitcherLabel">
             <value>Virtual</value>

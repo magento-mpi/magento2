@@ -41,6 +41,7 @@ class Account extends \Magento\Customer\Controller\Account
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Escaper $escaper
      * @param \Magento\Invitation\Model\Config $config
      * @param \Magento\Invitation\Model\InvitationFactory $invitationFactory
      */
@@ -55,11 +56,22 @@ class Account extends \Magento\Customer\Controller\Account
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Escaper $escaper,
         \Magento\Invitation\Model\Config $config,
         \Magento\Invitation\Model\InvitationFactory $invitationFactory
     ) {
-        parent::__construct($context, $coreRegistry, $customerSession, $urlFactory, $customerFactory,
-            $formFactory, $addressFactory, $string, $formKeyValidator, $storeManager
+        parent::__construct(
+            $context,
+            $coreRegistry,
+            $customerSession,
+            $urlFactory,
+            $customerFactory,
+            $formFactory,
+            $addressFactory,
+            $string,
+            $formKeyValidator,
+            $storeManager,
+            $escaper
         );
         $this->_config = $config;
         $this->_invitationFactory = $invitationFactory;
@@ -118,7 +130,7 @@ class Account extends \Magento\Customer\Controller\Account
         try {
             $this->_initInvitation();
             $this->_view->loadLayout();
-            $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $this->_view->renderLayout();
             return;
         } catch (\Magento\Core\Exception $e) {

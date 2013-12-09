@@ -17,6 +17,8 @@
  */
 namespace Magento\Backend\Controller\Adminhtml;
 
+use Magento\Tax\Exception;
+
 class Dashboard extends \Magento\Backend\App\Action
 {
     /**

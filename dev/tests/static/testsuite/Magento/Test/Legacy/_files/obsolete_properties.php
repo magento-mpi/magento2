@@ -138,4 +138,5 @@ return array(
     array('_appState', 'Magento\Core\Model\Session\AbstractSession'),
     array('_dir', 'Magento\Core\Model\Session\AbstractSession'),
     array('_savePath', 'Magento\Core\Model\Session\AbstractSession'),
+    array('escapeMessageFlag', 'Magento\View\Block\Messages'),
 );

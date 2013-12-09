@@ -21,82 +21,89 @@ interface ManagerInterface
     /**
      * Retrieve messages
      *
-     * @param string $group
      * @param bool $clear
+     * @param string|null $group
      * @return Collection
      */
-    public function getMessages($group = self::DEFAULT_GROUP, $clear = false);
+    public function getMessages($clear = false, $group = null);
+
+    /**
+     * Retrieve default message group
+     *
+     * @return string
+     */
+    public function getDefaultGroup();
 
     /**
      * Adding new message to message collection
      *
      * @param MessageInterface $message
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addMessage(MessageInterface $message, $group = self::DEFAULT_GROUP);
+    public function addMessage(MessageInterface $message, $group = null);
 
     /**
      * Adding messages array to message collection
      *
      * @param array $messages
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addMessages(array $messages, $group = self::DEFAULT_GROUP);
+    public function addMessages(array $messages, $group = null);
 
     /**
      * Adding new error message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addError($message, $group = self::DEFAULT_GROUP);
+    public function addError($message, $group = null);
 
     /**
      * Adding new warning message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addWarning($message, $group = self::DEFAULT_GROUP);
+    public function addWarning($message, $group = null);
 
     /**
      * Adding new notice message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addNotice($message, $group = self::DEFAULT_GROUP);
+    public function addNotice($message, $group = null);
 
     /**
      * Adding new success message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addSuccess($message, $group = self::DEFAULT_GROUP);
+    public function addSuccess($message, $group = null);
 
     /**
      * Adds messages array to message collection, but doesn't add duplicates to it
      *
      * @param array|MessageInterface $messages
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addUniqueMessages($messages, $group = self::DEFAULT_GROUP);
+    public function addUniqueMessages($messages, $group = null);
 
     /**
      * Not Magento exception handling
      *
      * @param \Exception $exception
      * @param string $alternativeText
-     * @param string $group
+     * @param string|null $group
      * @return ManagerInterface
      */
-    public function addException(\Exception $exception, $alternativeText, $group = self::DEFAULT_GROUP);
+    public function addException(\Exception $exception, $alternativeText, $group = null);
 }

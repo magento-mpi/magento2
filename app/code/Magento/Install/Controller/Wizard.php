@@ -173,7 +173,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_view->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_view->getLayout()->initMessages();
 
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Begin', 'install.begin', 'content');
 
@@ -205,7 +205,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_view->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
 
         $this->_view->renderLayout();
@@ -256,7 +256,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_actionFlag->set('', self::FLAG_NO_POST_DISPATCH, true);
 
         $this->_prepareLayout();
-        $this->_view->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Download', 'install.download', 'content');
 
         $this->_view->renderLayout();
@@ -372,7 +372,7 @@ class Wizard extends \Magento\Install\Controller\Action
         }
 
         $this->_prepareLayout();
-        $this->_view->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Config', 'install.config', 'content');
 
         $this->_view->renderLayout();
@@ -441,7 +441,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_checkIfInstalled();
 
         $this->_prepareLayout();
-        $this->_view->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_view->getLayout()->initMessages();
 
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Admin', 'install.administrator', 'content');
         $this->_view->renderLayout();
@@ -491,7 +491,7 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_objectManager->get('Magento\AdminNotification\Model\Survey')->saveSurveyViewed(true);
 
         $this->_prepareLayout();
-        $this->_view->getLayout()->initMessages('Magento\Install\Model\Session');
+        $this->_view->getLayout()->initMessages();
 
         $this->_view->getLayout()->addBlock('Magento\Install\Block\End', 'install.end', 'content');
         $this->_view->renderLayout();

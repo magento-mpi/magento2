@@ -615,7 +615,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         if ($response->getError()) {
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 

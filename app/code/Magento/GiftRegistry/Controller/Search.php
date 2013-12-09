@@ -221,7 +221,7 @@ class Search extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Search'));
@@ -235,7 +235,7 @@ class Search extends \Magento\App\Action\Action
     public function resultsAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
 
         $params = $this->getRequest()->getParam('params');
         if ($params) {

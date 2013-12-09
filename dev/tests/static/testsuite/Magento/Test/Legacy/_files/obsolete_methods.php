@@ -1068,5 +1068,7 @@ return array(
     array('warning', '\Magento\Message\Factory', 'create'),
     array('success', '\Magento\Message\Factory', 'create'),
     array('notice', '\Magento\Message\Factory', 'create'),
-    array('getDisplayMode', '\Magento\Catalog\Model\Session')
+    array('getDisplayMode', '\Magento\Catalog\Model\Session'),
+    array('setEscapeMessageFlag', 'Magento\View\Block\Messages'),
+    array('shouldEscapeMessage', 'Magento\View\Block\Messages'),
 );

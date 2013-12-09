@@ -81,6 +81,11 @@ class Account extends \Magento\App\Action\Action
     protected $_formKeyValidator;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $escaper;
+
+    /**
      * @param \Magento\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
@@ -91,6 +96,7 @@ class Account extends \Magento\App\Action\Action
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -102,7 +108,8 @@ class Account extends \Magento\App\Action\Action
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Stdlib\String $string,
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Escaper $escaper
     ) {
         $this->_storeManager = $storeManager;
         $this->_coreRegistry = $coreRegistry;
@@ -113,6 +120,7 @@ class Account extends \Magento\App\Action\Action
         $this->_addressFactory = $addressFactory;
         $this->string = $string;
         $this->_formKeyValidator = $formKeyValidator;
+        $this->escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -173,8 +181,7 @@ class Account extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->getBlock('head')->setTitle(__('My Account'));
         $this->_view->renderLayout();
     }
@@ -190,8 +197,7 @@ class Account extends \Magento\App\Action\Action
         }
         $this->getResponse()->setHeader('Login-Required', 'true');
         $this->_view->loadLayout();
-        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 
@@ -321,7 +327,7 @@ class Account extends \Magento\App\Action\Action
         }
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 
@@ -334,7 +340,6 @@ class Account extends \Magento\App\Action\Action
             $this->_redirect('*/*/');
             return;
         }
-        $this->_getSession()->setEscapeMessages(true); // prevent XSS injection in user input
 
         if (!$this->getRequest()->isPost()) {
             $url = $this->_createUrl()->getUrl('*/*/create', array('_secure' => true));
@@ -378,7 +383,6 @@ class Account extends \Magento\App\Action\Action
             if ($e->getCode() === \Magento\Customer\Model\Customer::EXCEPTION_EMAIL_EXISTS) {
                 $url = $this->_createUrl()->getUrl('customer/account/forgotpassword');
                 $message = __('There is already an account with this email address. If you are sure that it is your email address, <a href="%1">click here</a> to get your password and access your account.', $url);
-                $this->_getSession()->setEscapeMessages(false);
             } else {
                 $message = $e->getMessage();
             }
@@ -386,7 +390,7 @@ class Account extends \Magento\App\Action\Action
         } catch (\Magento\Validator\ValidatorException $e) {
             foreach ($e->getMessages() as $messages) {
                 foreach ($messages as $message) {
-                    $this->messageManager->addError($message);
+                    $this->messageManager->addError($this->escaper->escapeHtml($message));
                 }
             }
         } catch (\Exception $e) {
@@ -670,7 +674,7 @@ class Account extends \Magento\App\Action\Action
         $this->_view->getLayout()->getBlock('accountConfirmation')
             ->setEmail($this->getRequest()->getParam('email', $email));
 
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 
@@ -686,7 +690,7 @@ class Account extends \Magento\App\Action\Action
         );
         $this->_getSession()->unsForgottenEmail();
 
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 
@@ -873,8 +877,7 @@ class Account extends \Magento\App\Action\Action
     public function editAction()
     {
         $this->_view->loadLayout();
-        $messageStores = array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session');
-        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages();
 
         $block = $this->_view->getLayout()->getBlock('customer_edit');
         if ($block) {

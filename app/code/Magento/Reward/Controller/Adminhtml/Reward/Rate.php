@@ -221,7 +221,7 @@ class Rate extends \Magento\Backend\App\Action
 
         if ($message) {
             $this->messageManager->addError($message);
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $response->setError(true);
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

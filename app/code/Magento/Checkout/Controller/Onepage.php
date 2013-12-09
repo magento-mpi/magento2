@@ -207,7 +207,7 @@ class Onepage extends \Magento\Checkout\Controller\Action
         $this->getOnepage()->initCheckout();
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Customer\Model\Session');
+        $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('Checkout'));
         $this->_view->renderLayout();
     }
@@ -266,9 +266,10 @@ class Onepage extends \Magento\Checkout\Controller\Action
 
         $session->clearQuote();
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Checkout\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_eventManager->dispatch(
-            'checkout_onepage_controller_success_action', array('order_ids' => array($lastOrderId))
+            'checkout_onepage_controller_success_action',
+            array('order_ids' => array($lastOrderId))
         );
         $this->_view->renderLayout();
     }

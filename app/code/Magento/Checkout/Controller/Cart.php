@@ -87,7 +87,7 @@ class Cart
     {
         $returnUrl = $this->getRequest()->getParam('return_url');
         if ($returnUrl && $this->_isInternalUrl($returnUrl)) {
-            $this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP)->clear();
+            $this->messageManager->getMessages()->clear();
             $this->getResponse()->setRedirect($returnUrl);
         } elseif (!$this->_storeConfig->getConfig('checkout/cart/redirect_to_cart')
             && !$this->getRequest()->getParam('in_cart')
@@ -167,11 +167,10 @@ class Cart
         $this->_checkoutSession->setCartWasUpdated(true);
 
         \Magento\Profiler::start(__METHOD__ . 'cart_display');
-        $messageStores = array('Magento\Checkout\Model\Session', 'Magento\Catalog\Model\Session');
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages($messageStores);
+        $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('Shopping Cart'));
         $this->_view->renderLayout();
         \Magento\Profiler::stop(__METHOD__ . 'cart_display');

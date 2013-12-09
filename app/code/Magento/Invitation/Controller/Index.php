@@ -140,7 +140,7 @@ class Index extends \Magento\App\Action\Action
         }
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
@@ -156,7 +156,7 @@ class Index extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         if ($block = $this->_view->getLayout()->getBlock('invitations_list')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());

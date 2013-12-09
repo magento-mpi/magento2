@@ -44,11 +44,9 @@ class Manager implements ManagerInterface
     protected $logger;
 
     /**
-     * File for exceptions log
-     *
-     * @var string
+     * @var $string
      */
-    protected $exceptionLogFile;
+    protected $defaultGroup;
 
     /**
      * @param Session $session
@@ -56,7 +54,7 @@ class Manager implements ManagerInterface
      * @param CollectionFactory $messagesFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Logger $logger
-     * @param $exceptionLogFile
+     * @param string $defaultGroup
      */
     public function __construct(
         Session $session,
@@ -64,25 +62,47 @@ class Manager implements ManagerInterface
         CollectionFactory $messagesFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Logger $logger,
-        $exceptionLogFile
+        $defaultGroup = self::DEFAULT_GROUP
     ) {
         $this->session = $session;
         $this->messageFactory = $messageFactory;
         $this->messagesFactory = $messagesFactory;
         $this->eventManager = $eventManager;
         $this->logger = $logger;
-        $this->exceptionLogFile = $exceptionLogFile;
+        $this->defaultGroup = $defaultGroup;
+    }
+
+    /**
+     * Retrieve default message group
+     *
+     * @return string
+     */
+    public function getDefaultGroup()
+    {
+        return $this->defaultGroup;
+    }
+
+    /**
+     * Retrieve default  message group or custom if was set
+     *
+     * @param string|null $group
+     * @return string
+     */
+    protected function prepareGroup($group)
+    {
+        return !empty($group) ? $group : $this->defaultGroup;
     }
 
     /**
      * Retrieve messages
      *
-     * @param string $group
+     * @param string|null $group
      * @param bool $clear
      * @return Collection
      */
-    public function getMessages($group = self::DEFAULT_GROUP, $clear = false)
+    public function getMessages($clear = false, $group = null)
     {
+        $group = $this->prepareGroup($group);
         if (!$this->session->getData($group)) {
             $this->session->setData($group, $this->messagesFactory->create());
         }
@@ -100,11 +120,12 @@ class Manager implements ManagerInterface
      * Adding new message to message collection
      *
      * @param MessageInterface $message
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addMessage(MessageInterface $message, $group = self::DEFAULT_GROUP)
+    public function addMessage(MessageInterface $message, $group = null)
     {
+        $group = $this->prepareGroup($group);
         $this->getMessages($group)->addMessage($message);
         $this->eventManager->dispatch('core_session_abstract_add_message');
         return $this;
@@ -114,11 +135,12 @@ class Manager implements ManagerInterface
      * Adding messages array to message collection
      *
      * @param array $messages
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addMessages(array $messages, $group = self::DEFAULT_GROUP)
+    public function addMessages(array $messages, $group = null)
     {
+        $group = $this->prepareGroup($group);
         if (is_array($messages)) {
             foreach ($messages as $message) {
                 $this->addMessage($message, $group);
@@ -131,11 +153,12 @@ class Manager implements ManagerInterface
      * Adding new error message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addError($message, $group = self::DEFAULT_GROUP)
+    public function addError($message, $group = null)
     {
+        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $message), $group);
         return $this;
     }
@@ -144,11 +167,12 @@ class Manager implements ManagerInterface
      * Adding new warning message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addWarning($message, $group = self::DEFAULT_GROUP)
+    public function addWarning($message, $group = null)
     {
+        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_WARNING, $message), $group);
         return $this;
     }
@@ -157,11 +181,12 @@ class Manager implements ManagerInterface
      * Adding new notice message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addNotice($message, $group = self::DEFAULT_GROUP)
+    public function addNotice($message, $group = null)
     {
+        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_NOTICE, $message), $group);
         return $this;
     }
@@ -170,11 +195,12 @@ class Manager implements ManagerInterface
      * Adding new success message
      *
      * @param string $message
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addSuccess($message, $group = self::DEFAULT_GROUP)
+    public function addSuccess($message, $group = null)
     {
+        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message), $group);
         return $this;
     }
@@ -183,10 +209,10 @@ class Manager implements ManagerInterface
      * Adds messages array to message collection, but doesn't add duplicates to it
      *
      * @param array|MessageInterface $messages
-     * @param string $group
+     * @param string|null $group
      * @return $this
      */
-    public function addUniqueMessages($messages, $group = self::DEFAULT_GROUP)
+    public function addUniqueMessages($messages, $group = null)
     {
         if (!is_array($messages)) {
             $messages = array($messages);
@@ -194,6 +220,7 @@ class Manager implements ManagerInterface
         if (empty($messages)) {
             return $this;
         }
+        $group = $this->prepareGroup($group);
 
         $messagesAlready = array();
         $items = $this->getMessages($group)->getItems();
@@ -230,8 +257,9 @@ class Manager implements ManagerInterface
      * @param string $group
      * @return $this
      */
-    public function addException(\Exception $exception, $alternativeText, $group = self::DEFAULT_GROUP)
+    public function addException(\Exception $exception, $alternativeText, $group = null)
     {
+        $group = $this->prepareGroup($group);
         $message = sprintf(
             'Exception message: %s%sTrace: %s',
             $exception->getMessage(),
@@ -239,7 +267,7 @@ class Manager implements ManagerInterface
             $exception->getTraceAsString()
         );
 
-        $this->logger->logFile($message, \Zend_Log::DEBUG, $this->exceptionLogFile);
+        $this->logger->logFile($message, \Zend_Log::DEBUG, \Magento\Logger::LOGGER_EXCEPTION);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $alternativeText), $group);
         return $this;
     }

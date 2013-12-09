@@ -49,7 +49,7 @@ class Messages extends \Magento\View\Block\Messages
      */
     protected function _prepareLayout()
     {
-        $this->addMessages($this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP, true));
+        $this->addMessages($this->messageManager->getMessages(true));
         parent::_prepareLayout();
     }
 }

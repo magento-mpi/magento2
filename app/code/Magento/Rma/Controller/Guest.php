@@ -177,7 +177,7 @@ class Guest extends \Magento\App\Action\Action
             }
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Core\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());

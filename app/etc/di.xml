@@ -45,6 +45,7 @@
     <preference for="Magento\View\Design\Theme\Domain\PhysicalInterface" type="Magento\Core\Model\Theme\Domain\Physical" />
     <preference for="Magento\View\Design\Theme\Domain\VirtualInterface" type="Magento\Core\Model\Theme\Domain\Virtual" />
     <preference for="Magento\View\Design\Theme\Domain\StagingInterface" type="Magento\Core\Model\Theme\Domain\Staging" />
+    <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
     <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\App\Request\Http">
         <param name="pathInfoProcessor">
@@ -274,11 +275,5 @@
     </type>
     <type name="Magento\App\FrontController">
         <plugin name="install" type="Magento\Module\FrontController\Plugin\Install" sortOrder="40"/>
-    </type>
-    <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
-    <type name="Magento\Message\Manager">
-        <param name="exceptionLogFile">
-            <value type="argument">Magento\Message\Manager::XML_PATH_LOG_EXCEPTION_FILE</value>
-        </param>
     </type>
 </config>

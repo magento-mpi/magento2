@@ -178,7 +178,7 @@ class Search extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -227,7 +227,7 @@ class Search extends \Magento\App\Action\Action
         }
 
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Customer\Model\Session');
+        $layout->initMessages();
         $headBlock = $layout->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Wish List Search'));
@@ -260,12 +260,7 @@ class Search extends \Magento\App\Action\Action
             $block->setRefererUrl($this->_redirect->getRefererUrl());
         }
 
-        $messageStores = array(
-            'Magento\Customer\Model\Session',
-            'Magento\Checkout\Model\Session',
-            'Magento\Wishlist\Model\Session'
-        );
-        $this->_view->getLayout()->initMessages($messageStores);
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 

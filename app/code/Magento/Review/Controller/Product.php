@@ -357,7 +357,7 @@ class Product extends \Magento\App\Action\Action
         }
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages(array('Magento\Review\Model\Session', 'Magento\Catalog\Model\Session'));
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 

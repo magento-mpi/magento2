@@ -80,7 +80,7 @@ class Shared extends \Magento\Wishlist\Controller\AbstractController
         $this->_coreRegistry->register('shared_wishlist', $wishlist);
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages(array('Magento\Checkout\Model\Session', 'Magento\Wishlist\Model\Session'));
+        $this->_view->getLayout()->initMessages();
         $this->_view->renderLayout();
     }
 

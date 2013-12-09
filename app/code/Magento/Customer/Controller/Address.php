@@ -102,8 +102,7 @@ class Address extends \Magento\App\Action\Action
     {
         if (count($this->_getSession()->getCustomer()->getAddresses())) {
             $this->_view->loadLayout();
-            $this->_view->getLayout()
-                ->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
+            $this->_view->getLayout()->initMessages();
 
             $block = $this->_view->getLayout()->getBlock('address_book');
             if ($block) {
@@ -131,7 +130,7 @@ class Address extends \Magento\App\Action\Action
     public function formAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation');
         if ($navigationBlock) {
             $navigationBlock->setActive('customer/address');

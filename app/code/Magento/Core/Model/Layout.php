@@ -228,9 +228,9 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_appState;
 
     /**
-     * @var \Magento\ObjectManager
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_objectManager;
+    protected $messageManager;
 
     /**
      * @param \Magento\View\Layout\ProcessorFactory $processorFactory
@@ -247,7 +247,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param DataService\Graph $dataServiceGraph
      * @param Store\Config $coreStoreConfig
      * @param \Magento\App\State $appState
-     * @param \Magento\ObjectManager $objectManager
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param string $area
      */
     public function __construct(
@@ -265,7 +265,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\DataService\Graph $dataServiceGraph,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\App\State $appState,
-        \Magento\ObjectManager $objectManager,
+        \Magento\Message\ManagerInterface $messageManager,
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
@@ -286,7 +286,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $this->_processorFactory = $processorFactory;
         $this->themeFactory = $themeFactory;
         $this->_logger = $logger;
-        $this->_objectManager = $objectManager;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -1652,25 +1652,24 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * Init messages by message storage(s), loading and adding messages to layout messages block
      *
      * @throws \UnexpectedValueException
-     * @param string|array $messages
+     * @param string|array $messageGroups
      */
-    public function initMessages($messages)
+    public function initMessages($messageGroups = array())
     {
-        if (!is_array($messages)) {
-            $messages = array($messages);
+        foreach ($this->_prepareMessageGroup($messageGroups) as $group) {
+            $block = $this->getMessagesBlock();
+            $block->addMessages($this->messageManager->getMessages(true, $group));
+            $block->addStorageType($group);
         }
-        foreach ($messages as $storageName) {
-            $storage = $this->_objectManager->get($storageName);
-            if ($storage) {
-                $block = $this->getMessagesBlock();
-                $block->addMessages($storage->getMessages(true));
-                $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
-                $block->addStorageType($storageName);
-            } else {
-                throw new \UnexpectedValueException(
-                    __('Invalid messages storage "%1" for layout messages initialization', (string)$storageName)
-                );
-            }
+    }
+
+    protected function _prepareMessageGroup($messageGroups)
+    {
+        if (!is_array($messageGroups)) {
+            $messageGroups = array($messageGroups);
+        } elseif (empty($messageGroups)) {
+            $messageGroups[] = $this->messageManager->getDefaultGroup();
         }
+        return $messageGroups;
     }
 }

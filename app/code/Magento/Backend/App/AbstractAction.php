@@ -372,7 +372,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $block = $this->_view->getLayout()
             ->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {

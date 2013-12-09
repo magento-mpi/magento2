@@ -70,9 +70,7 @@ class Manage extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages(
-            array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session')
-        );
+        $this->_view->getLayout()->initMessages();
 
         if ($block = $this->_view->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());

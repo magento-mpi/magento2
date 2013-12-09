@@ -121,7 +121,7 @@ class Variable extends \Magento\Backend\App\Action
         $result = $variable->validate();
         if ($result !== true && is_string($result)) {
             $this->messageManager->addError($result);
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $response->setError(true);
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

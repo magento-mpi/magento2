@@ -58,7 +58,7 @@ class Customer extends \Magento\App\Action\Action
             return;
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {

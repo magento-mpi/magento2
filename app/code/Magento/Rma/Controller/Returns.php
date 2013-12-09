@@ -62,7 +62,7 @@ class Returns extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Catalog\Model\Session');
+        $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('My Returns'));
 
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
@@ -141,7 +141,7 @@ class Returns extends \Magento\App\Action\Action
             }
             $this->_view->loadLayout();
             $layout = $this->_view->getLayout();
-            $layout->initMessages('Magento\Core\Model\Session');
+            $layout->initMessages();
             $layout->getBlock('head')->setTitle(__('Create New Return'));
             if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
@@ -232,7 +232,7 @@ class Returns extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Catalog\Model\Session');
+        $layout->initMessages();
         $layout->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
 
@@ -266,7 +266,7 @@ class Returns extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Catalog\Model\Session');
+        $layout->initMessages();
 
         if ($navigationBlock = $layout->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('sales/order/history');

@@ -184,7 +184,7 @@ class Instance extends \Magento\Backend\App\Action
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->messageManager->addError($result);
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $response->setError(true);
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

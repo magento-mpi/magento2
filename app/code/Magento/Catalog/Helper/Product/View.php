@@ -24,11 +24,11 @@ class View extends \Magento\App\Helper\AbstractHelper
     public $ERR_BAD_CONTROLLER_INTERFACE = 2;
 
     /**
-     * List of catalog product session message models name
+     * List of catalog product session message groups
      *
      * @var array
      */
-    protected $_messageModels;
+    protected $messageGroups;
 
     /**
      * Core registry
@@ -84,7 +84,7 @@ class View extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\ViewInterface $view
      * @param \Magento\Message\ManagerInterface $messageManager
-     * @param array $messageModels
+     * @param array $messageGroups
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
@@ -95,7 +95,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\App\ViewInterface $view,
         \Magento\Message\ManagerInterface $messageManager,
-        array $messageModels = array()
+        array $messageGroups = array()
     ) {
         $this->_catalogSession = $catalogSession;
         $this->_catalogDesign = $catalogDesign;
@@ -103,7 +103,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         $this->_pageLayout = $pageLayout;
         $this->_coreRegistry = $coreRegistry;
         $this->_view = $view;
-        $this->_messageModels = $messageModels;
+        $this->messageGroups = $messageGroups;
         $this->messageManager = $messageManager;
         parent::__construct($context);
     }
@@ -216,9 +216,7 @@ class View extends \Magento\App\Helper\AbstractHelper
         $this->initProductLayout($product, $controller);
 
         if ($controller instanceof \Magento\Catalog\Controller\Product\View\ViewInterface) {
-            foreach ($this->_messageModels as $sessionModel) {
-                $this->_view->getLayout()->initMessages($sessionModel);
-            }
+            $this->_view->getLayout()->initMessages($this->messageGroups);
         } else {
             throw new \Magento\Core\Exception(
                 __('Bad controller interface for showing product'),

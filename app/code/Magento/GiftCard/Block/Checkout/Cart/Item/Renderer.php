@@ -24,6 +24,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur
      * @param array $data
      */
@@ -32,11 +33,12 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\GiftCard\Helper\Catalog\Product\Configuration $giftCardCtlgProdConfigur,
         array $data = array()
     ) {
         $this->_giftCardCtlgProdConfigur = $giftCardCtlgProdConfigur;
-        parent::__construct($context, $coreData, $productConfig, $checkoutSession, $data);
+        parent::__construct($context, $coreData, $productConfig, $checkoutSession, $messageManager, $data);
     }
 
     /**
