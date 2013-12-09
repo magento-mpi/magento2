@@ -10,6 +10,7 @@
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
+  * Fixed losing previously assigned categories after next product save with changed category selector field
   * Fixed shopping cart rules for a specific customer group
   * Fixed the bug with schema upgrade scripts are not running after installation
   * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
