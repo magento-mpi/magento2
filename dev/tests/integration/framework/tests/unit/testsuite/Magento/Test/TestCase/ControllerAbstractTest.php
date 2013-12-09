@@ -28,7 +28,8 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             ->addMessage(new \Magento\Message\Error('error_two'))
             ->addMessage(new \Magento\Message\Notice('some_notice'))
         ;
-        $session = new \Magento\Object(array('messages' => $messagesCollection));
+        $messageManager = $this->getMock('\Magento\Message\Manager', array(), array(), '', false);
+        $messageManager->expects($this->any())->method('getMessages')->will($this->returnValue($messagesCollection));
         $request = new \Magento\TestFramework\Request(
             $this->getMock('\Magento\App\Route\ConfigInterface', array(), array(), '', false),
             $this->getMock('Magento\App\Request\PathInfoProcessorInterface', array(), array(), '', false)
@@ -43,7 +44,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
             ->will($this->returnValueMap(array(
                 array('Magento\App\RequestInterface', $request),
                 array('Magento\App\ResponseInterface', $response),
-                array('Magento\Core\Model\Session', $session),
+                array('Magento\Message\Manager', $messageManager),
             )));
     }
 
@@ -125,6 +126,7 @@ class ControllerAbstractTest extends \Magento\TestFramework\TestCase\AbstractCon
      */
     public function testAssertSessionMessagesSuccess(array $expectedMessages, $messageTypeFilter)
     {
+        /** @var \PHPUnit_Framework_MockObject_MockObject|\PHPUnit_Framework_Constraint $constraint */
         $constraint = $this->getMock('PHPUnit_Framework_Constraint', array('toString', 'matches'));
         $constraint
             ->expects($this->once())

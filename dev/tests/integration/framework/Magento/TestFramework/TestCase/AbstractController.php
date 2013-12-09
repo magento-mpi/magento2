@@ -194,11 +194,11 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
         \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
     ) {
         $this->_assertSessionErrors = false;
-        /** @var $massages \Magento\Message\ManagerInterface */
-        $massages = $this->_objectManager->get($messageManager);
+        /** @var $messages \Magento\Message\ManagerInterface */
+        $messages = $this->_objectManager->get($messageManager);
         $actualMessages = array();
         /** @var $message \Magento\Message\AbstractMessage */
-        foreach ($massages->getMessages()->getItemsByType($messageType) as $message) {
+        foreach ($messages->getMessages()->getItemsByType($messageType) as $message) {
             $actualMessages[] = $message->getText();
         }
         $this->assertThat(
