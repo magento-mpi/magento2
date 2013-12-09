@@ -52,7 +52,8 @@ class InstallerTest extends \PHPUnit_Framework_TestCase
                 $objectManager->get('Magento\App\RequestInterface'),
                 new \Magento\App\Dir(__DIR__, array(), array(\Magento\App\Dir::CONFIG => self::$_tmpDir)),
                 new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local()),
-                $objectManager->get('Magento\Core\Model\StoreManager')
+                $objectManager->get('Magento\Core\Model\StoreManager'),
+                $objectManager->get('Magento\Message\Manager')
             );
             $objectManager->addSharedInstance($installerConfig, 'Magento\Install\Model\Installer\Config');
         }
