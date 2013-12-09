@@ -373,7 +373,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             'allow_create_dirs' => true
         );
         $directoryFactory = Bootstrap::getObjectManager()->create('Magento\Filesystem\Directory\WriteFactory');
-        $directory = $directoryFactory->create($config);
+        $directory = $directoryFactory->create($config, new \Magento\Filesystem\DriverFactory());
         $this->testDirectories[] = $directory;
         return $directory;
     }

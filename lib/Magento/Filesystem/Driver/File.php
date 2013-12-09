@@ -421,7 +421,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function fileRead($resource, $length)
     {
         $result = @fread($resource, $length);
-        if (!$result) {
+        if ($result === false) {
             throw new FilesystemException(
                 sprintf('File cannot be read %s',
                     $this->getWarningMessage()

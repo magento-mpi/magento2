@@ -210,7 +210,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
                 'Magento\Filesystem\File\Write',
                 array(
                     'path' => $this->currentFilePath,
-                    'driver' => new \Magento\Filesystem\Driver\Base(),
+                    'driver' => new \Magento\Filesystem\Driver\File(),
                     'mode' => $mode
                 )
             );

@@ -102,7 +102,7 @@ class CsvTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 new \Magento\Filesystem\File\Read(
                     __DIR__ . '/_files/test.csv',
-                    new \Magento\Filesystem\Driver\Base()
+                    new \Magento\Filesystem\Driver\File()
                 )
             ));
         $model = new \Magento\ImportExport\Model\Import\Source\Csv(

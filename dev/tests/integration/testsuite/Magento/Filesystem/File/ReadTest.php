@@ -227,7 +227,7 @@ class ReadTest extends \PHPUnit_Framework_TestCase
                 'Magento\Filesystem\File\Read',
                 array(
                     'path' => $fullPath,
-                    'driver' => new \Magento\Filesystem\Driver\Base()
+                    'driver' => new \Magento\Filesystem\Driver\File()
                 )
             );
     }

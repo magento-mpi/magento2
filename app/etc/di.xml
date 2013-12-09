@@ -60,8 +60,7 @@
     <preference for="Magento\Session\SidResolverInterface" type="Magento\Core\Model\Session\SidResolver\Proxy" />
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\Config\ScopeListInterface" type="interceptionConfigScope" />
-    <preference for="Magento\Filesystem\Driver" type="Magento\Filesystem\Driver\Base" />
-    <preference for="Magento\Filesystem\AdapterInterface" type="Magento\Filesystem\Adapter\Local" />
+    <preference for="Magento\Filesystem\Driver" type="Magento\Filesystem\Driver\File" />
     <virtualType name="interceptionConfigScope" type="Magento\Config\Scope">
         <param name="defaultScope">
             <value>global</value>
