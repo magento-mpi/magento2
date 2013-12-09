@@ -37,6 +37,20 @@ class Tab extends AbstractForm
     }
 
     /**
+     * Verify data to fields on tab
+     *
+     * @param array $fields
+     * @param Element $element
+     *
+     * @return bool
+     */
+    public function verifyFormTab(array $fields, Element $element)
+    {
+        $data = $this->dataMapping($fields);
+        return $this->_verify($data, $element);
+    }
+
+    /**
      * Update data to fields on tab
      *
      * @param array $fields

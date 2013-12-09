@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Returns;
 
-class Returns extends \Magento\View\Block\Template
+class Returns extends \Magento\View\Element\Template
 {
     /**
      * Rma data
@@ -37,8 +37,7 @@ class Returns extends \Magento\View\Block\Template
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -46,8 +45,7 @@ class Returns extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Rma\Helper\Data $rmaData,
@@ -58,7 +56,7 @@ class Returns extends \Magento\View\Block\Template
         $this->_coreRegistry = $registry;
         $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function _construct()
@@ -84,7 +82,7 @@ class Returns extends \Magento\View\Block\Template
         parent::_prepareLayout();
 
         $pager = $this->getLayout()
-            ->createBlock('Magento\Page\Block\Html\Pager', 'sales.order.history.pager')
+            ->createBlock('Magento\Theme\Block\Html\Pager', 'sales.order.history.pager')
             ->setCollection($this->getReturns());
         $this->setChild('pager', $pager);
         $this->getReturns()->load();

@@ -25,20 +25,16 @@ class ProductGrid extends Grid
     /**
      * Initialize block elements
      */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => '#productGrid_product_filter_name'
-            ),
-            'sku' => array(
-                'selector' => '#productGrid_product_filter_sku'
-            ),
-            'type' => array(
-                'selector' => '#productGrid_product_filter_type',
-                'input' => 'select'
-            )
-        );
-    }
+    protected $filters = array(
+        'name' => array(
+            'selector' => '#productGrid_product_filter_name'
+        ),
+        'sku' => array(
+            'selector' => '#productGrid_product_filter_sku'
+        ),
+        'type' => array(
+            'selector' => '#productGrid_product_filter_type',
+            'input' => 'select'
+        )
+    );
 }

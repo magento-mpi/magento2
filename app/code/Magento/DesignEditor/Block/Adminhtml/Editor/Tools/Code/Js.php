@@ -29,7 +29,6 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Config\Customization $customizationConfig
@@ -38,14 +37,13 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Config\Customization $customizationConfig,
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
         $this->_customizationConfig = $customizationConfig;
         $this->_themeContext = $themeContext;
     }
@@ -59,7 +57,7 @@ class Js extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'action' => '#',
                 'method' => 'post',
             ))

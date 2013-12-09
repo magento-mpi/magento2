@@ -44,8 +44,19 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     protected $_productFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -57,22 +68,25 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
+        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Stdlib\String $string,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_productFactory = $productFactory;
         $this->_taxCalculation = $taxCalculation;
         $this->string = $string;
-        parent::__construct($context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
+        parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
     }
 
     /**
@@ -110,7 +124,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
                 $params = array('_ignore_category'=>true);
                 $headBlock->addChild(
                     'magento-page-head-product-canonical-link',
-                    'Magento\Page\Block\Html\Head\Link',
+                    'Magento\Theme\Block\Html\Head\Link',
                     array(
                         'url' => $product->getUrlModel()->getUrl($product, $params),
                         'properties' => array('attributes' => array('rel' => 'canonical'))
@@ -185,7 +199,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
     {
         $config = array();
         if (!$this->hasOptions()) {
-            return $this->_coreData->jsonEncode($config);
+            return $this->_jsonEncoder->encode($config);
         }
 
         $_request = $this->_taxCalculation->getRateRequest(false, false, false);
@@ -240,7 +254,7 @@ class View extends \Magento\Catalog\Block\Product\AbstractProduct
             }
         }
 
-        return $this->_coreData->jsonEncode($config);
+        return $this->_jsonEncoder->encode($config);
     }
 
     /**

@@ -28,7 +28,7 @@ class GuestPayPalPayflow extends Checkout
         $this->_data = array(
             'totals' => array(
                 'grand_total' => '$156.81',
-                'comment_history' => 'We will authorize $156.81'
+                'comment_history' => 'Authorized amount of $156.81'
             )
         );
     }
@@ -55,7 +55,7 @@ class GuestPayPalPayflow extends Checkout
         $taxRule->persist();
 
         //Products
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();

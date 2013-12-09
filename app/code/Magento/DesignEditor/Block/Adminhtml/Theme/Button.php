@@ -13,7 +13,7 @@
  */
 namespace Magento\DesignEditor\Block\Adminhtml\Theme;
 
-class Button extends \Magento\View\Block\Template
+class Button extends \Magento\View\Element\Template
 {
     /**
      * Define block template

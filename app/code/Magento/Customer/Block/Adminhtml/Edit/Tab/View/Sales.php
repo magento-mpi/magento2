@@ -38,7 +38,6 @@ class Sales extends \Magento\Backend\Block\Template
     protected $_currency;
 
     /**
-     * @param \Magento\Core\Helper\Data $coreData
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
@@ -57,7 +56,6 @@ class Sales extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -65,7 +63,6 @@ class Sales extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Sales\Model\Resource\Sale\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -74,7 +71,7 @@ class Sales extends \Magento\Backend\Block\Template
         $this->_coreRegistry = $coreRegistry;
         $this->_currencyFactory = $currencyFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

@@ -21,8 +21,8 @@ class Price
     extends \Magento\TargetRule\Model\Actions\Condition\Product\Special
 {
     /**
-     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
@@ -30,17 +30,15 @@ class Price
      * @param array $data
      */
     public function __construct(
-        \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
         array $data = array()
     ) {
-        parent::__construct(
-            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
-        );
+        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Special\Price');
         $this->setValue(100);
     }

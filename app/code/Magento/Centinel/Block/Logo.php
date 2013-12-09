@@ -13,7 +13,7 @@
  */
 namespace Magento\Centinel\Block;
 
-class Logo extends \Magento\View\Block\Template
+class Logo extends \Magento\View\Element\Template
 {
 
     protected $_template = 'logo.phtml';

@@ -42,23 +42,23 @@ class Attributes
     protected $_conditionFactory;
 
     /**
+     * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\Customer\Model\Resource\Address $resourceAddress
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory
-     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\Customer\Model\Resource\Address $resourceAddress,
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory,
         \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory,
-        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_conditionFactory = $conditionFactory;
@@ -66,7 +66,7 @@ class Attributes
         $this->_eavConfig = $eavConfig;
         $this->_countryFactory = $countryFactory;
         $this->_allregionFactory = $allregionFactory;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\Attributes');
         $this->setValue(null);
     }

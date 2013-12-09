@@ -40,7 +40,6 @@ class Express extends \Magento\Paypal\Model\Express
     protected $_paypalInfoFactory;
 
     /**
-     * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
@@ -49,10 +48,10 @@ class Express extends \Magento\Paypal\Model\Express
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Paypal\Model\CartFactory $cartFactory
+     * @param \Magento\Paypal\Model\InfoFactory $paypalInfoFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
@@ -61,10 +60,20 @@ class Express extends \Magento\Paypal\Model\Express
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Paypal\Model\CartFactory $cartFactory,
+        \Magento\Paypal\Model\InfoFactory $paypalInfoFactory,
         array $data = array()
     ) {
-        parent::__construct($eventManager, $paymentData, $coreStoreConfig, $logAdapterFactory, $proTypeFactory,
-            $storeManager, $urlBuilder, $cartFactory, $data);
+        parent::__construct(
+            $eventManager,
+            $paymentData,
+            $coreStoreConfig,
+            $logAdapterFactory,
+            $proTypeFactory,
+            $storeManager,
+            $urlBuilder,
+            $cartFactory,
+            $data
+        );
         $this->_paypalInfoFactory = $paypalInfoFactory;
     }
 

@@ -38,7 +38,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    private $_sessionMock;
+    private $_formKeyMock;
 
     /**
      * @var \Zend_Db_Select
@@ -49,11 +49,17 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     {
         $this->_bannerSegmentLink = $this->getMock(
             'Magento\BannerCustomerSegment\Model\Resource\BannerSegmentLink',
-            array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter'),
-            array(), '', false
+            array('loadBannerSegments', 'saveBannerSegments', 'addBannerSegmentFilter', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $this->_segmentCustomer = $this->getMock(
-            'Magento\CustomerSegment\Model\Customer', array('getCurrentCustomerSegmentIds'), array(), '', false
+            'Magento\CustomerSegment\Model\Customer',
+            array('getCurrentCustomerSegmentIds', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $this->_segmentHelper = $this->getMock(
             'Magento\CustomerSegment\Helper\Data', array('isEnabled', 'addSegmentFieldsToForm'), array(), '', false
@@ -67,7 +73,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_select = new \Zend_Db_Select(
             $this->getMockForAbstractClass('Zend_Db_Adapter_Abstract', array(), '', false)
         );
-        $this->_sessionMock = $this->getMock('Magento\Core\Model\Session', array(), array(), '', false);
+        $this->_formKeyMock = $this->getMock('Magento\Data\Form\FormKey', array(), array(), '', false);
     }
 
     protected function tearDown()
@@ -168,7 +174,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $factory = $this->getMock('Magento\Data\Form\Element\Factory', array(), array(), '', false);
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
-        $form = new \Magento\Data\Form($this->_sessionMock, $factory, $collectionFactory);
+        $form = new \Magento\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
@@ -187,7 +193,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $collectionFactory = $this->getMock('Magento\Data\Form\Element\CollectionFactory', array('create'),
             array(), '', false);
 
-        $form = new \Magento\Data\Form($this->_sessionMock, $factory, $collectionFactory);
+        $form = new \Magento\Data\Form($factory, $collectionFactory, $this->_formKeyMock);
         $model = new \Magento\Object();
         $block = $this->getMock('Magento\Backend\Block\Widget\Form\Element\Dependence', array(), array(), '', false);
 
