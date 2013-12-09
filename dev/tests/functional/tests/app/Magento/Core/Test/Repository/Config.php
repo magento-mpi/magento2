@@ -68,6 +68,7 @@ class Config extends AbstractRepository
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
+        $this->_data['disable_map_config'] = $this->_getMapDisabled();
     }
 
     protected function _getFreeShipping()

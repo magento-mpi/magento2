@@ -13,14 +13,14 @@ namespace Magento\GiftCard\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 
 /**
  * Class GiftCard
  *
  * @package Magento\GiftCard\Test\Fixture
  */
-class GiftCard extends AbstractProduct
+class GiftCard extends Product
 {
     /**
      * Initialize fixture data

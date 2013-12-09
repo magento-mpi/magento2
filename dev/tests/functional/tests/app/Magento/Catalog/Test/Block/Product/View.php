@@ -61,6 +61,11 @@ class View extends Block
      */
     protected $bundleBlock = '#product-options-wrapper';
 
+    /**
+     * Click for Price link on Product page
+     *
+     * @var string
+     */
     protected $clickForPrice = '[id*=msrp-popup]';
 
     /**
@@ -215,17 +220,30 @@ class View extends Block
         return true;
     }
 
+    /**
+     * Open MAP block on Product View page
+     */
     public function openMapBlockOnProductPage()
     {
         $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
     }
 
+    /**
+     * Get Minimum Advertised Price value on frontend (Product View)
+     *
+     * @return array|string
+     */
     public function getOldPrice()
     {
         return $this->_rootElement->find('//*[@class="old price"]//*[@class="price"]', Locator::SELECTOR_XPATH)->
             getText();
     }
 
+    /**
+     * Get actual Price value on frontend (Product View)
+     *
+     * @return array|string
+     */
     public function getActualPrice()
     {
         return $this->_rootElement->find('//*[@class="regular-price"]//*[@class="price"]', Locator::SELECTOR_XPATH)->

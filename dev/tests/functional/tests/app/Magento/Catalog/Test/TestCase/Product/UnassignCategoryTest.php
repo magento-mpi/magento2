@@ -38,7 +38,7 @@ class UnassignCategoryTest extends Functional
     public function testUnassignOnProductPage()
     {
         //Data
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple');
         $simple->persist();
         //Steps

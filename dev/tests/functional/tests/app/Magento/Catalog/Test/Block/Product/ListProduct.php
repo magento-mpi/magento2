@@ -31,12 +31,24 @@ class ListProduct extends Block
     protected $productTitle = '.product.name';
 
     /**
+     * Click for Price link on category page
+     *
      * @var string
      */
     protected $clickForPrice = '[id*=msrp-click]';
 
+    /**
+     * Old (MAP) price
+     *
+     * @var string
+     */
     protected $priceMap = '[id*=product-price]';
 
+    /**
+     * Actual product price
+     *
+     * @var string
+     */
     protected $actualPrice = "[class='regular-price']";
 
     /**
@@ -64,16 +76,29 @@ class ListProduct extends Block
             ->click();
     }
 
+    /**
+     * Open MAP block on category page
+     */
     public function openMapBlockOnCategoryPage()
     {
         $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
     }
 
+    /**
+     * Get Minimum Advertised Price value on frontend (Category page)
+     *
+     * @return array|string
+     */
     public function getOldPrice()
     {
         return $this->_rootElement->find($this->priceMap, Locator::SELECTOR_CSS)->getText();
     }
 
+    /**
+     * Get actual Price value on frontend (Category page)
+     *
+     * @return array|string
+     */
     public function getActualPrice()
     {
         return $this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText();
