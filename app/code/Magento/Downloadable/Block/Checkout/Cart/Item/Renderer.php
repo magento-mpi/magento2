@@ -41,10 +41,11 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
-        parent::__construct($context, $coreData, $productConfig, $checkoutSession, $data);
+        parent::__construct($context, $coreData, $productConfig, $checkoutSession, $messageManager, $data);
     }
 
     /**

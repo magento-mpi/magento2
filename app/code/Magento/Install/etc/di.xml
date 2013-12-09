@@ -113,11 +113,6 @@
             <instance type="Magento\Install\Model\Session" />
         </param>
     </type>
-    <type name="Magento\Install\Model\Installer\Pear">
-        <param name='session'>
-            <instance type="Magento\Install\Model\Session" />
-        </param>
-    </type>
     <type name="Magento\Install\Model\Installer\AbstractInstaller">
         <param name="installer">
             <instance type="Magento\Install\Model\Installer\Proxy" />
