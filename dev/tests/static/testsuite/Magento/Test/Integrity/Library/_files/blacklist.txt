@@ -61,4 +61,4 @@ lib/Magento/App/Helper/Context.php
 lib/Magento/Session/SidResolverInterface.php
 
 lib/Magento/Filesystem/DirectoryList/Configuration.php
-lib/Magento/Filesystem/Driver/Socket.php
+lib/Magento/Filesystem/Driver/Http.php
