@@ -97,14 +97,14 @@ class DirectTest extends \PHPUnit_Framework_TestCase
             ->method('isExist')
             ->will($this->returnValue(true));
 
-        $this->_directory->expects($this->exactly(2))
+        $this->_directory->expects($this->at(3))
             ->method('readFile')
-            ->will($this->returnValueMap(
-                array(
-                    array('/pub/script_one.js', 'script1'),
-                    array('/pub/script_two.js', 'script2'),
-                )
-            ));
+            ->with('/pub/script_one.js')
+            ->will($this->returnValue('script1'));
+        $this->_directory->expects($this->at(7))
+            ->method('readFile')
+            ->with('/pub/script_two.js')
+            ->will($this->returnValue('script2'));
 
         $this->_directory->expects($this->once())
             ->method('writeFile')

@@ -33,7 +33,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             '',
             false
         );
-        $paths = array(
+        $this->_paths = array(
             __DIR__ . '/_files/Fixture/ModuleOne/etc/email_templates_one.xml',
             __DIR__ . '/_files/Fixture/ModuleTwo/etc/email_templates_two.xml',
         );
@@ -57,20 +57,15 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_moduleDirResolver = $this->getMock(
             'Magento\Module\Dir\ReverseResolver', array(), array(), '', false
         );
-        $filesystemDirectoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false);
+        $this->_filesystemDirectoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '',
+            false);
 
-        $filesystemDirectoryMock->expects($this->any())
-            ->method('readFile')
-            ->will($this->returnValueMap(array(
-                array($paths[0], file_get_contents($paths[0])),
-                array($paths[1], file_get_contents($paths[1]))
-            )));
-        $filesystemDirectoryMock->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
+        $this->_filesystemDirectoryMock->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
 
         $fileIterator = new \Magento\Email\Model\Template\Config\FileIterator(
-            $filesystemDirectoryMock,
+            $this->_filesystemDirectoryMock,
             $this->_moduleDirResolver,
-            $paths
+            $this->_paths
         );
         $fileResolver->expects($this->once())
             ->method('get')
@@ -89,6 +84,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testRead()
     {
+
+        $this->_filesystemDirectoryMock->expects($this->at(0))
+            ->method('readFile')
+            ->will($this->returnValue(file_get_contents($this->_paths[0])));
+        $this->_filesystemDirectoryMock->expects($this->at(2))
+            ->method('readFile')
+            ->will($this->returnValue(file_get_contents($this->_paths[1])));
         $this->_moduleDirResolver
             ->expects($this->at(0))
             ->method('getModuleName')
