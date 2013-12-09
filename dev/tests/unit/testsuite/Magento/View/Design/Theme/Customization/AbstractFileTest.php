@@ -242,7 +242,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
         $model->expects($this->once())->method('getFullPath')->with($file)->will($this->returnValue('test_path'));
 
         $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write',
-            array('writeFile', 'delete'), array(), '', false);
+            array('writeFile', 'delete', 'getRelativePath'), array(), '', false);
         $directoryMock->expects($this->once())->method('writeFile')->will($this->returnValue(true));
         $directoryMock->expects($this->once())->method('delete')->will($this->returnValue(true));
 
@@ -269,7 +269,7 @@ class AbstractFileTest extends \PHPUnit_Framework_TestCase
             'sort_order' => 12
         ));
         $directoryMock = $this->getMock('Magento\Filesystem\Directory\Write',
-            array('touch', 'delete'), array(), '', false);
+            array('touch', 'delete', 'getRelativePath'), array(), '', false);
         $directoryMock->expects($this->once())->method('touch')->will($this->returnValue(true));
         $directoryMock->expects($this->once())->method('delete')->will($this->returnValue(true));
 
