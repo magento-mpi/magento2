@@ -183,7 +183,7 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
 
         $mergedDir = '_merged';
         $this->_directory->expects($this->once())
-            ->method('getRelativePath')
+            ->method('getAbsolutePath')
             ->with(\Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR)
             ->will($this->returnValue($mergedDir));
 
