@@ -14,11 +14,6 @@ namespace Magento\Message;
 class Manager implements ManagerInterface
 {
     /**
-     * Configuration path to log exception file
-     */
-    const XML_PATH_LOG_EXCEPTION_FILE = 'dev/log/exception_file';
-
-    /**
      * @var Session
      */
     protected $session;

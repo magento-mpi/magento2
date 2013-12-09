@@ -424,4 +424,8 @@ return array(
         'Magento\Core\Model\Session\AbstractSession',
         'Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
     ),
+    array(
+        'XML_PATH_LOG_EXCEPTION_FILE',
+        'Magento\Core\Model\Session\AbstractSession'
+    ),
 );
