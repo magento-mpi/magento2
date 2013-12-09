@@ -34,7 +34,7 @@ class Type extends \Magento\View\Block\Template
     /**
      * Install installer config
      *
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -42,14 +42,14 @@ class Type extends \Magento\View\Block\Template
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer\Config $installerConfig
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Session\Generic $session
      * @param array $data
      */
     public function __construct(
         \Magento\View\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer\Config $installerConfig,
-        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Session\Generic $session,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $data);

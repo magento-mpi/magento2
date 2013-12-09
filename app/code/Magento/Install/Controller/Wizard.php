@@ -42,7 +42,7 @@ class Wizard extends \Magento\Install\Controller\Action
     /**
      * Install Session
      *
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -58,7 +58,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * @param \Magento\Config\Scope $configScope
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $wizard
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Module\UpdaterInterface $dbUpdater
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\State $appState
@@ -68,7 +68,7 @@ class Wizard extends \Magento\Install\Controller\Action
         \Magento\Config\Scope $configScope,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $wizard,
-        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Session\Generic $session,
         \Magento\Module\UpdaterInterface $dbUpdater,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\State $appState

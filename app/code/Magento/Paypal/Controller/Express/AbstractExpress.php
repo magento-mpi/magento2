@@ -84,7 +84,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     protected $_checkoutFactory;
 
     /**
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_paypalSession;
 
@@ -95,7 +95,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory
-     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Session\Generic $paypalSession
      */
     public function __construct(
         \Magento\App\Action\Context $context,
@@ -104,7 +104,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Paypal\Model\Express\Checkout\Factory $checkoutFactory,
-        \Magento\Core\Model\Session\Generic $paypalSession
+        \Magento\Session\Generic $paypalSession
     ) {
         $this->_customerSession = $customerSession;
         $this->_quoteFactory = $quoteFactory;
@@ -492,7 +492,7 @@ abstract class AbstractExpress extends \Magento\App\Action\Action
     /**
      * PayPal session instance getter
      *
-     * @return \Magento\Core\Model\Session\Generic
+     * @return \Magento\Session\Generic
      */
     private function _getSession()
     {

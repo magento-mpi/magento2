@@ -527,7 +527,7 @@ class Index
             $item->setQty($qty);
         }
 
-        /* @var $session \Magento\Core\Model\Session\Generic */
+        /* @var $session \Magento\Session\Generic */
         $session    = $this->_objectManager->get('Magento\Wishlist\Model\Session');
         $cart       = $this->_objectManager->get('Magento\Checkout\Model\Cart');
 

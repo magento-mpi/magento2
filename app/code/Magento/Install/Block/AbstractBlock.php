@@ -34,7 +34,7 @@ abstract class AbstractBlock extends \Magento\View\Block\Template
     /**
      * Install session
      *
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -43,7 +43,7 @@ abstract class AbstractBlock extends \Magento\View\Block\Template
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Session\Generic $session
      * @param array $data
      */
     public function __construct(
@@ -51,7 +51,7 @@ abstract class AbstractBlock extends \Magento\View\Block\Template
         \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Session\Generic $session,
         array $data = array()
     ) {
         parent::__construct($context, $coreData, $data);

@@ -13,7 +13,7 @@
             <value>install</value>
         </param>
     </virtualType>
-    <virtualType name="Magento\Install\Model\Session" type="Magento\Core\Model\Session\Generic">
+    <virtualType name="Magento\Install\Model\Session" type="Magento\Session\Generic">
         <param name="storage">
             <instance type="Magento\Install\Model\Session\Storage" />
         </param>

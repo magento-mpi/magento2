@@ -137,7 +137,9 @@ class OperationTest
         chdir($cwd);
 
         $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_SUCCESS);
+        $this->assertSessionMessages(
+            $this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
     }
 
     /**

@@ -90,7 +90,7 @@ class Product extends \Magento\App\Action\Action
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Catalog\Model\Design $catalogDesign
-     * @param \Magento\Core\Model\Session\Generic $reviewSession
+     * @param \Magento\Session\Generic $reviewSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -104,7 +104,7 @@ class Product extends \Magento\App\Action\Action
         \Magento\Rating\Model\RatingFactory $ratingFactory,
         \Magento\Core\Model\Session $session,
         \Magento\Catalog\Model\Design $catalogDesign,
-        \Magento\Core\Model\Session\Generic $reviewSession,
+        \Magento\Session\Generic $reviewSession,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeManager = $storeManager;

@@ -13,6 +13,6 @@ namespace Magento\Catalog\Model;
 /**
  * Catalog session model
  */
-class Session extends \Magento\Core\Model\Session\Generic
+class Session extends \Magento\Session\Generic
 {
 }

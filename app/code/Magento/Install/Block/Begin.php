@@ -29,7 +29,7 @@ class Begin extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Session\Generic $session
      * @param null $eulaFile
      * @param array $data
      */
@@ -38,7 +38,7 @@ class Begin extends \Magento\Install\Block\AbstractBlock
         \Magento\Core\Helper\Data $coreData,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Session\Generic $session,
         $eulaFile = null,
         array $data = array()
     ) {

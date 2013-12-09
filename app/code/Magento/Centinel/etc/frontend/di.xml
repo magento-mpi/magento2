@@ -13,7 +13,7 @@
             <value>centinel_validator</value>
         </param>
     </virtualType>
-    <virtualType name="Magento\Centinel\Model\Session" type="Magento\Core\Model\Session\Generic">
+    <virtualType name="Magento\Centinel\Model\Session" type="Magento\Session\Generic">
         <param name="storage">
             <instance type="Magento\Centinel\Model\Session\Storage" />
         </param>

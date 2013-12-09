@@ -64,7 +64,7 @@ class Index extends \Magento\Wishlist\Controller\Index
      * @param \Magento\Core\App\Action\FormKeyValidator $formKeyValidator
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
-     * @param \Magento\Core\Model\Session\Generic $wishlistSession
+     * @param \Magento\Session\Generic $wishlistSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
      */
@@ -76,7 +76,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
-        \Magento\Core\Model\Session\Generic $wishlistSession,
+        \Magento\Session\Generic $wishlistSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\Resource\Wishlist\CollectionFactory $wishlistCollectionFactory
     ) {
