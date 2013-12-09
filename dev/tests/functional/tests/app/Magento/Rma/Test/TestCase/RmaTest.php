@@ -117,7 +117,6 @@ Class RmaTest extends Functional
     private function configureRma()
     {
         // precondition 1: Configure RMA Settings
-        Factory::getApp()->magentoBackendLoginUser();
         $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $enableRma->switchData('enable_rma');
         $enableRma->persist();
@@ -129,9 +128,11 @@ Class RmaTest extends Functional
     private function guestCheckoutPayPal()
     {
         // precondition 2a: MAGETWO-12415 - Guest Checkout using "Checkout with PayPal":
-        $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrderWithMultipleProducts();
+        $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->persist();
+        $payPalExpressOrder->setAdditionalProducts(array($configurable));
         $payPalExpressOrder->persist();
-
         return $payPalExpressOrder;
     }
 

@@ -39,6 +39,12 @@ class PaypalExpressOrder extends Checkout
     private $checkoutFixture;
 
     /**
+     * Product Array
+     * @var array
+     * */
+    private $additionalProducts;
+
+    /**
      * Prepare data for guest checkout using "Checkout with PayPal" button on product page
      */
     protected function _initData()
@@ -58,6 +64,13 @@ class PaypalExpressOrder extends Checkout
     public function persist()
     {
         $this->checkoutFixture->persist();
+        if(!is_null($this->additionalProducts))
+        {
+            foreach($this->additionalProducts as $product)
+            {
+                $this->checkoutFixture->addProduct($product);
+            }
+        }
         $this->orderId = Factory::getApp()->magentoCheckoutCreatePaypalExpressOrder($this->checkoutFixture);
     }
 
@@ -111,5 +124,13 @@ class PaypalExpressOrder extends Checkout
     public function getProducts()
     {
         return $this->checkoutFixture->getProducts();
+    }
+
+    /**
+     * @param array
+     */
+    public function setAdditionalProducts($products = null)
+    {
+        $this->additionalProducts = $products;
     }
 }

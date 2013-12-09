@@ -224,4 +224,9 @@ class Checkout extends DataFixture
     {
         return (bool) $this->getData('customer/is_registered');
     }
+
+    public function addProduct($product)
+    {
+        array_push($this->products, $product);
+    }
 }
