@@ -51,7 +51,9 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $constructArguments = $objectManager->getConstructArguments('Magento\Backend\Model\Session',
             array('storage' => new \Magento\Session\Storage));
-        $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',array('setFormData'), $constructArguments);
+        $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',
+            array('setFormData'), $constructArguments
+        );
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
         $this->_objectManager->expects($this->any())
