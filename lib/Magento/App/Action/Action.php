@@ -96,7 +96,7 @@ class Action extends \Magento\App\Action\AbstractAction
         if ($request->isDispatched() && !$this->_actionFlag->get('', self::FLAG_NO_DISPATCH)) {
             \Magento\Profiler::start('action_body');
             $actionMethodName = $request->getActionName() . 'Action';
-            $this->_response = $this->$actionMethodName() ?: $this->_response;
+            $this->$actionMethodName();
             \Magento\Profiler::start('postdispatch');
             if (!$this->_actionFlag->get('', \Magento\App\Action\Action::FLAG_NO_POST_DISPATCH)) {
                 $this->_eventManager->dispatch(

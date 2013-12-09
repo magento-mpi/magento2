@@ -192,8 +192,6 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
-     *
-     *
      * @param \Magento\App\RequestInterface $request
      * @return \Magento\App\ResponseInterface
      */
