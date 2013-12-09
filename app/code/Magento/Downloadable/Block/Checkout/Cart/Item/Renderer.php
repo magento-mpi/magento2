@@ -32,6 +32,7 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig
      * @param array $data
      */
@@ -40,8 +41,8 @@ class Renderer extends \Magento\Checkout\Block\Cart\Item\Renderer
         \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Helper\Product\Configuration $productConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Downloadable\Helper\Catalog\Product\Configuration $dwnCtlgProdConfig,
         array $data = array()
     ) {
         $this->_downloadProdConfig = $dwnCtlgProdConfig;
