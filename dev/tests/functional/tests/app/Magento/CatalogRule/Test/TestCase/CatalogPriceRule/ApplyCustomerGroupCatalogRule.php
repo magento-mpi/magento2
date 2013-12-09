@@ -116,17 +116,13 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
-        $appliedRulePrice = (string)($product->getProductPrice());
+        $appliedRulePrice = $product->getProductPrice();
         $this->assertContains($appliedRulePrice, $productViewBlock->getProductPrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $this->assertContains(
-            $product->getProductPrice(),
-            $unitPrice,
-            "Discount was not correctly applied"
-        );
+        $this->assertContains($product->getProductPrice(), $unitPrice, "Discount was not correctly applied");
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
     }
 
