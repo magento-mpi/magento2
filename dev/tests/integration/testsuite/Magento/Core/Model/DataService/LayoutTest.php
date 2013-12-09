@@ -13,21 +13,45 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
 {
     private $_dataServiceGraph;
 
+    /**
+     * @var \Magento\ObjectManager
+     */
+    protected $objectManager;
+
+    protected $filesystem;
+
     protected function setUp()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         // Need to call this first so we get proper config
+
+        $rootPath = $this->objectManager->get('Magento\Filesystem')
+            ->getDirectoryRead(\Magento\Filesystem::ROOT)
+            ->getAbsolutePath();
+
+        $path =str_replace('\\', '/', realpath(__DIR__ . '/../DataService/LayoutTest'));
+        $directoryList = new \Magento\Filesystem\DirectoryList(
+            $rootPath,
+            array(\Magento\Filesystem::MODULES => array('path' => $path))
+        );
+
+        $this->filesystem = new \Magento\Filesystem(
+            $directoryList,
+            new \Magento\Filesystem\Directory\ReadFactory(),
+            new \Magento\Filesystem\Directory\WriteFactory()
+        );
+
         $config = $this->_loadServiceCallsConfig();
         parent::setUp();
         $this->dispatch("catalog/category/view/foo/bar");
         $fixtureFileName = __DIR__ . '/LayoutTest/Magento/Catalog/Service/TestProduct.php';
         include $fixtureFileName;
-        $invoker = $objectManager->create(
+        $invoker = $this->objectManager->create(
             'Magento\Core\Model\DataService\Invoker',
             array('config' => $config)
         );
         /** @var \Magento\Core\Model\DataService\Graph $dataServiceGraph */
-        $this->_dataServiceGraph = $objectManager->create(
+        $this->_dataServiceGraph = $this->objectManager->create(
             'Magento\Core\Model\DataService\Graph',
             array('dataServiceInvoker' => $invoker)
         );
@@ -35,18 +59,29 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
 
     protected function _loadServiceCallsConfig()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $modulesDir = new \Magento\Module\Dir(
+            $this->filesystem,
+            $this->objectManager->get('Magento\Stdlib\String')
+        );
         /** @var \Magento\Module\Dir\Reader $moduleReader */
-        $moduleReader = $objectManager->create('Magento\Module\Dir\Reader');
-        $moduleReader->setModuleDir('Magento_Catalog', 'etc', __DIR__ . '/LayoutTest/Magento/Catalog/etc');
+
+        $moduleReader = new \Magento\Module\Dir\Reader(
+            $modulesDir,
+            $this->objectManager->get('Magento\Module\ModuleListInterface'),
+            $this->filesystem,
+            $this->objectManager->get('Magento\Config\FileIteratorFactory')
+        );
 
         /** @var \Magento\Core\Model\DataService\Config\Reader\Factory $dsCfgReaderFactory */
-        $dsCfgReaderFactory = $objectManager->create(
+        $dsCfgReaderFactory = $this->objectManager->create(
             'Magento\Core\Model\DataService\Config\Reader\Factory'
         );
 
         /** @var \Magento\Core\Model\DataService\Config $config */
-        $dataServiceConfig = new \Magento\Core\Model\DataService\Config($dsCfgReaderFactory, $moduleReader);
+        $dataServiceConfig = new \Magento\Core\Model\DataService\Config(
+            $dsCfgReaderFactory,
+            $moduleReader
+        );
         return $dataServiceConfig;
     }
 
