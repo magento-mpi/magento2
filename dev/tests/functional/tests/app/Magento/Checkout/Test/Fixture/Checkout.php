@@ -227,6 +227,6 @@ class Checkout extends DataFixture
 
     public function addProduct($product)
     {
-        array_push($this->products, $product);
+        array_unshift($this->products, $product);
     }
 }
