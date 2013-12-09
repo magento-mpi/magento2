@@ -47,6 +47,11 @@ class Form extends \Magento\View\Block\Template
     protected $_reviewSession;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Session\Generic $reviewSession
@@ -54,6 +59,7 @@ class Form extends \Magento\View\Block\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Rating\Model\RatingFactory $ratingFactory
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -64,6 +70,7 @@ class Form extends \Magento\View\Block\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Rating\Model\RatingFactory $ratingFactory,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_reviewSession = $reviewSession;
@@ -71,6 +78,7 @@ class Form extends \Magento\View\Block\Template
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
         $this->_ratingFactory = $ratingFactory;
+        $this->messageManager = $messageManager;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -105,7 +113,7 @@ class Form extends \Magento\View\Block\Template
 
         $this->setTemplate('form.phtml')
             ->assign('data', $data)
-            ->assign('messages', $this->_reviewSession->getMessages(true));
+            ->assign('messages', $this->messageManager->getMessages(true));
     }
 
     public function getProductInfo()

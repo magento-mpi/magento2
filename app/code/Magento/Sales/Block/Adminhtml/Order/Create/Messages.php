@@ -20,38 +20,11 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 class Messages extends \Magento\View\Block\Messages
 {
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
-     */
-    protected $sessionQuote;
-
-    /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Message\Factory $messageFactory
-     * @param \Magento\Message\CollectionFactory $collectionFactory
-     * @param \Magento\Message\ManagerInterface $messageManager
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Message\Factory $messageFactory,
-        \Magento\Message\CollectionFactory $collectionFactory,
-        \Magento\Message\ManagerInterface $messageManager,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
-        array $data = array()
-    ) {
-        $this->sessionQuote = $sessionQuote;
-        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $messageManager, $data);
-    }
-
-    /**
      * @return \Magento\View\Block\Messages
      */
     protected function _prepareLayout()
     {
-        $this->addMessages($this->sessionQuote->getMessages(true));
+        $this->addMessages($this->messageManager->getMessages(true));
         parent::_prepareLayout();
     }
 
