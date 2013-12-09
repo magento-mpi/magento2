@@ -188,17 +188,17 @@ abstract class AbstractController extends \PHPUnit_Framework_TestCase
      *
      * @param \PHPUnit_Framework_Constraint $constraint Constraint to compare actual messages against
      * @param string|null $messageType Message type filter, one of the constants \Magento\Message\MessageInterface::*
-     * @param string $sessionModel Class of the session model that manages messages
+     * @param string $messageManager Class of the session model that manages messages
      */
     public function assertSessionMessages(
-        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Core\Model\Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
     ) {
         $this->_assertSessionErrors = false;
-        /** @var $session \Magento\Session\SessionManagerInterface */
-        $session = $this->_objectManager->get($sessionModel);
+        /** @var $massages \Magento\Message\ManagerInterface */
+        $massages = $this->_objectManager->get($messageManager);
         $actualMessages = array();
         /** @var $message \Magento\Message\AbstractMessage */
-        foreach ($session->getMessages()->getItemsByType($messageType) as $message) {
+        foreach ($massages->getMessages()->getItemsByType($messageType) as $message) {
             $actualMessages[] = $message->getText();
         }
         $this->assertThat(

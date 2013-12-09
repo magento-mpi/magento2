@@ -65,11 +65,11 @@ class Controller extends \Magento\TestFramework\TestCase\AbstractController
      *
      * @param \PHPUnit_Framework_Constraint $constraint
      * @param string|null $messageType
-     * @param string $sessionModel
+     * @param string $messageManager
      */
     public function assertSessionMessages(
-        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $sessionModel = 'Magento\Backend\Model\Session'
+        \PHPUnit_Framework_Constraint $constraint, $messageType = null, $messageManager = 'Magento\Message\Manager'
     ) {
-        parent::assertSessionMessages($constraint, $messageType, $sessionModel);
+        parent::assertSessionMessages($constraint, $messageType, $messageManager);
     }
 }
