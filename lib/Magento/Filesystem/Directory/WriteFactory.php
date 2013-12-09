@@ -16,14 +16,14 @@ class WriteFactory
      * Create a readable directory
      *
      * @param array $config
-     * @param \Magento\Filesystem\WrapperFactory $wrapperFactory
+     * @param \Magento\Filesystem\DriverFactory $driverFactory
      * @return \Magento\Filesystem\File\ReadInterface
      */
-    public function create(array $config, \Magento\Filesystem\WrapperFactory $wrapperFactory)
+    public function create(array $config, \Magento\Filesystem\DriverFactory $driverFactory)
     {
-        $directoryDriver = isset($config['driver']) ? $config['driver'] : '\Magento\Filesystem\Driver\Local';
-        $driver = new $directoryDriver();
-        $factory = new \Magento\Filesystem\File\WriteFactory($wrapperFactory);
+        $directoryDriver = isset($config['driver']) ? $config['driver'] : null;
+        $driver = $driverFactory->get($directoryDriver);
+        $factory = new \Magento\Filesystem\File\WriteFactory($driverFactory);
 
         return new \Magento\Filesystem\Directory\Write($config, $factory, $driver);
     }

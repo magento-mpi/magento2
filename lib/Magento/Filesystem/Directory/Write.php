@@ -241,7 +241,7 @@ class Write extends Read implements WriteInterface
         $this->create($folder);
         $this->assertWritable($folder);
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path);
-        return $this->fileFactory->create($absolutePath, $this->driver, $protocol, $mode);
+        return $this->fileFactory->create($absolutePath, $protocol, $this->driver, $mode);
     }
 
     /**

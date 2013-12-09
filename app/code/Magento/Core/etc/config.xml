@@ -144,18 +144,23 @@
                     <ftp>
                         <read_only>0</read_only>
                         <permissions>511</permissions>
-                        <driver>Magento\Filesystem\Driver\Local</driver>
+                        <driver>Magento\Filesystem\Driver\File</driver>
                     </ftp>
                     <ftps>
                         <read_only>0</read_only>
                         <permissions>511</permissions>
-                        <driver>Magento\Filesystem\Driver\Local</driver>
+                        <driver>Magento\Filesystem\Driver\File</driver>
                     </ftps>
                     <ssh2>
                         <read_only>0</read_only>
                         <permissions>511</permissions>
-                        <driver>Magento\Filesystem\Driver\Local</driver>
+                        <driver>Magento\Filesystem\Driver\File</driver>
                     </ssh2>
+                </directory>
+                <protocol>
+                    <zlib>
+                        <driver>Magento\Filesystem\Driver\Zlib</driver>
+                    </zlib>
                     <http>
                         <read_only>1</read_only>
                         <driver>Magento\Filesystem\Driver\Http</driver>
@@ -164,10 +169,7 @@
                         <read_only>1</read_only>
                         <driver>Magento\Filesystem\Driver\Https</driver>
                     </https>
-                    <zlib>
-                        <driver>Magento\Filesystem\Driver\Zlib</driver>
-                    </zlib>
-                </directory>
+                </protocol>
             </filesystem>
         </system>
         <web>

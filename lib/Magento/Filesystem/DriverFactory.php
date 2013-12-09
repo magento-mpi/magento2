@@ -20,14 +20,18 @@ class DriverFactory
     /**
      * Get a driver instance according the given scheme.
      *
-     * @param string $driverClass [optional]
-     * @return \Magento\Filesystem\DriverInterface
-     * @throws \Magento\Filesystem\FilesystemException
+     * @param null $driverClass
+     * @param DriverInterface $driver
+     * @return DriverInterface
+     * @throws FilesystemException
      */
-    public function get($driverClass = '\Magento\Filesystem\Driver\Local')
+    public function get($driverClass = null, DriverInterface $driver = null)
     {
+        if ($driverClass === null) {
+            $driverClass = '\Magento\Filesystem\Driver\File';
+        }
         if (!isset($this->drivers[$driverClass])) {
-            $this->drivers[$driverClass] = new $driverClass;
+            $this->drivers[$driverClass] = new $driverClass($driver);
             if (!$this->drivers[$driverClass] instanceof \Magento\Filesystem\DriverInterface) {
                 throw new \Magento\Filesystem\FilesystemException("Invalid filesystem driver class: " . $driverClass);
             }

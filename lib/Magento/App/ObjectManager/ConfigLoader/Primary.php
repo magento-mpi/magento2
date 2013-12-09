@@ -47,8 +47,7 @@ class Primary
                 new \Magento\Filesystem(
                     new \Magento\Filesystem\DirectoryList($this->_configDirectoryPath),
                     new \Magento\Filesystem\Directory\ReadFactory(),
-                    new \Magento\Filesystem\Directory\WriteFactory(),
-                    new \Magento\Filesystem\Adapter\Local()
+                    new \Magento\Filesystem\Directory\WriteFactory()
                 ),
                 new \Magento\Config\FileIteratorFactory()
             ),

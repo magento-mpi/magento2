@@ -213,7 +213,7 @@ class Read implements ReadInterface
      */
     public function openFile($path, $protocol = null)
     {
-        return $this->fileFactory->create($this->driver->getAbsolutePath($this->path, $path), $this->driver, $protocol);
+        return $this->fileFactory->create($this->driver->getAbsolutePath($this->path, $path), $protocol, $this->driver);
     }
 
     /**
@@ -231,7 +231,7 @@ class Read implements ReadInterface
         $absolutePath = $this->driver->getAbsolutePath($this->path, $path, $protocol);
 
         /** @var \Magento\Filesystem\File\Read $fileReader */
-        $fileReader = $this->fileFactory->create($absolutePath, $this->driver, $protocol);
+        $fileReader = $this->fileFactory->create($absolutePath, $protocol, $this->driver);
         return $fileReader->readAll($flag, $context);
     }
 

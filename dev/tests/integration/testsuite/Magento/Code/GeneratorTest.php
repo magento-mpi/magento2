@@ -54,7 +54,7 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         \Magento\Autoload\IncludePath::addIncludePath($generationDirectory);
 
         $this->_ioObject = new \Magento\Code\Generator\Io(
-            new \Magento\Filesystem\Driver\Local(),
+            new \Magento\Filesystem\Driver\File(),
             new \Magento\Autoload\IncludePath(),
             $generationDirectory
         );
