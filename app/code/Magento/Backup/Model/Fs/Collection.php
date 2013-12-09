@@ -70,8 +70,10 @@ class Collection extends \Magento\Data\Collection\Filesystem
         }
         $extensions = implode('|', $extensions);
 
+        $this->_varDirectory->create('backups');
+        $path = rtrim($this->_varDirectory->getAbsolutePath($this->_path), '/') . '/backups';
         $this->setOrder('time', self::SORT_ORDER_DESC)
-            ->addTargetDir($this->_varDirectory->getAbsolutePath($this->_path))
+            ->addTargetDir($path)
             ->setFilesFilter('/^[a-z0-9\-\_]+\.' . $extensions . '$/')
             ->setCollectRecursively(false);
     }

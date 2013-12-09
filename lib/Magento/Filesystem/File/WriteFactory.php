@@ -19,6 +19,9 @@ class WriteFactory
      */
     protected $driverFactory;
 
+    /**
+     * @param \Magento\Filesystem\DriverFactory $driverFactory
+     */
     public function __construct(\Magento\Filesystem\DriverFactory $driverFactory)
     {
         $this->driverFactory = $driverFactory;
@@ -35,10 +38,9 @@ class WriteFactory
      */
     public function create($path, $protocol, DriverInterface $directoryDriver = null, $mode = 'r')
     {
+        $fileDriver = $directoryDriver;
         if ($protocol) {
             $fileDriver = $this->driverFactory->get($protocol, $directoryDriver);
-        } else {
-            $fileDriver = $directoryDriver;
         }
         return new \Magento\Filesystem\File\Write($path, $fileDriver, $mode);
     }

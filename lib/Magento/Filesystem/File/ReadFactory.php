@@ -17,6 +17,9 @@ class ReadFactory
      */
     protected $driverFactory;
 
+    /**
+     * @param \Magento\Filesystem\DriverFactory $driverFactory
+     */
     public function __construct(\Magento\Filesystem\DriverFactory $driverFactory)
     {
         $this->driverFactory = $driverFactory;
@@ -32,10 +35,9 @@ class ReadFactory
      */
     public function create($path, $protocol, DriverInterface $directoryDriver = null)
     {
+        $fileDriver = $directoryDriver;
         if ($protocol) {
             $fileDriver = $this->driverFactory->get($protocol, $directoryDriver);
-        } else {
-            $fileDriver = $directoryDriver;
         }
         return new \Magento\Filesystem\File\Read($path, $fileDriver);
     }

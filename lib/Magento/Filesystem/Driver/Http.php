@@ -30,7 +30,7 @@ class Http extends File
      */
     public function isExists($path)
     {
-        $headers = array_change_key_case(get_headers($path, 1), CASE_LOWER);
+        $headers = array_change_key_case(get_headers($this->getScheme() . $path, 1), CASE_LOWER);
 
         $status = $headers[0];
 
@@ -132,7 +132,7 @@ class Http extends File
      */
     public function fileOpen($path, $mode)
     {
-        $urlProp = parse_url($path);
+        $urlProp = parse_url($this->getScheme() . $path);
         if (!isset($urlProp['scheme']) || strtolower($urlProp['scheme'] != 'http')) {
             throw new FilesystemException(__('Please correct the download URL scheme.'));
         }

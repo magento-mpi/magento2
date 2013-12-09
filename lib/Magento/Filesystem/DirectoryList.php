@@ -117,6 +117,7 @@ class DirectoryList
      */
     public function addProtocol($wrapperCode, array $configuration)
     {
+        $wrapperCode = isset($configuration['protocol']) ? $configuration['protocol'] : $wrapperCode;
         if (isset($configuration['wrapper'])) {
             $flag = isset($configuration['url_stream']) ? $configuration['url_stream'] : 0;
             $wrapperClass = $configuration['wrapper'];

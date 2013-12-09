@@ -51,9 +51,8 @@ class Testconnection extends \Magento\Backend\App\Action
             die;
         }
 
-        /** @var \Magento\Filesystem\Directory\ReadInterface $httpResource */
-        $httpResource = $this->filesystem->getDirectoryRead(\Magento\Filesystem::HTTP);
         $path = $host . ':' . $port . '/' . $path . '/admin/ping';
+        $httpResource = $this->filesystem->getRemoteResource($path, \Magento\Filesystem::HTTP);
 
         if (isset($_REQUEST['timeout'])) {
             $timeout = (int)$_REQUEST['timeout'];

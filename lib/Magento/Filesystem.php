@@ -35,6 +35,7 @@ class Filesystem
      */
     const HTTP  = 'http';
     const HTTPS = 'https';
+    /**#@-*/
 
     /**
      * Custom application dirs

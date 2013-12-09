@@ -160,14 +160,17 @@
                 <protocol>
                     <zlib>
                         <driver>Magento\Filesystem\Driver\Zlib</driver>
+                        <protocol>compress.zlib</protocol>
                     </zlib>
                     <http>
                         <read_only>1</read_only>
                         <driver>Magento\Filesystem\Driver\Http</driver>
+                        <protocol>http</protocol>
                     </http>
                     <https>
                         <read_only>1</read_only>
                         <driver>Magento\Filesystem\Driver\Https</driver>
+                        <protocol>https</protocol>
                     </https>
                 </protocol>
             </filesystem>

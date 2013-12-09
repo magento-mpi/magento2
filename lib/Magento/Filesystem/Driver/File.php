@@ -42,7 +42,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function isExists($path)
     {
         clearstatcache();
-        $result = @file_exists($path);
+        $result = @file_exists($this->getScheme() . $path);
         if ($result === null) {
             throw new FilesystemException(
                 sprintf('Error occurred during execution %s',
@@ -62,7 +62,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function stat($path)
     {
         clearstatcache();
-        $result = @stat($path);
+        $result = @stat($this->getScheme() . $path);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('Cannot gather stats! %s',
@@ -82,7 +82,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function isReadable($path)
     {
         clearstatcache();
-        $result = @is_readable($path);
+        $result = @is_readable($this->getScheme() . $path);
         if ($result === null) {
             throw new FilesystemException(
                 sprintf('Error occurred during execution %s',
@@ -102,7 +102,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function isFile($path)
     {
         clearstatcache();
-        $result = @is_file($path);
+        $result = @is_file($this->getScheme() . $path);
         if ($result === null) {
             throw new FilesystemException(
                 sprintf('Error occurred during execution %s',
@@ -122,7 +122,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function isDirectory($path)
     {
         clearstatcache();
-        $result = @is_dir($path);
+        $result = @is_dir($this->getScheme() . $path);
         if ($result === null) {
             throw new FilesystemException(
                 sprintf('Error occurred during execution %s',
@@ -144,7 +144,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function fileGetContents($path, $flag = null, $context = null)
     {
         clearstatcache();
-        $result = @file_get_contents($path, $flag, $context);
+        $result = @file_get_contents($this->getScheme() . $path, $flag, $context);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('Cannot read contents from file "%s" %s',
@@ -165,7 +165,7 @@ class File implements \Magento\Filesystem\DriverInterface
     public function isWritable($path)
     {
         clearstatcache();
-        $result = @is_writable($path);
+        $result = @is_writable($this->getScheme() . $path);
         if ($result === null) {
             throw new FilesystemException(
                 sprintf('Error occurred during execution %s',
@@ -183,7 +183,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function getParentDirectory($path)
     {
-        return dirname($path);
+        return dirname($this->getScheme() . $path);
     }
 
     /**
@@ -196,7 +196,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function createDirectory($path, $permissions)
     {
-        $result = @mkdir($path, $permissions, true);
+        $result = @mkdir($this->getScheme() . $path, $permissions, true);
         if (!$result) {
             throw new FilesystemException(sprintf('Directory "%s" cannot be created %s',
                 $path,
@@ -216,7 +216,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function rename($oldPath, $newPath)
     {
-        $result = @rename($oldPath, $newPath);
+        $result = @rename($this->getScheme() . $oldPath, $newPath);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The "%s" path cannot be renamed into "%s" %s',
@@ -238,7 +238,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function copy($source, $destination)
     {
-        $result = @copy($source, $destination);
+        $result = @copy($this->getScheme() . $source, $destination);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The file or directory "%s" cannot be copied to "%s" %s',
@@ -259,7 +259,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function deleteFile($path)
     {
-        $result = @unlink($path);
+        $result = @unlink($this->getScheme() . $path);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The file "%s" cannot be deleted %s',
@@ -289,7 +289,7 @@ class File implements \Magento\Filesystem\DriverInterface
                 $this->deleteFile($entity->getPathname());
             }
         }
-        $result = @rmdir($path);
+        $result = @rmdir($this->getScheme() . $path);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The directory "%s" cannot be deleted %s',
@@ -310,7 +310,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function changePermissions($path, $permissions)
     {
-        $result = @chmod($path, $permissions);
+        $result = @chmod($this->getScheme() . $path, $permissions);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('Cannot change permissions for path "%s" %s',
@@ -332,9 +332,9 @@ class File implements \Magento\Filesystem\DriverInterface
     public function touch($path, $modificationTime = null)
     {
         if (!$modificationTime) {
-            $result = @touch($path);
+            $result = @touch($this->getScheme() . $path);
         } else {
-            $result = @touch($path, $modificationTime);
+            $result = @touch($this->getScheme() . $path, $modificationTime);
         }
         if (!$result) {
             throw new FilesystemException(
@@ -357,7 +357,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function filePutContents($path, $content, $mode = null)
     {
-        $result = @file_put_contents($path, $content, $mode);
+        $result = @file_put_contents($this->getScheme() . $path, $content, $mode);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('The specified "%s" file could not be written %s',
@@ -378,7 +378,7 @@ class File implements \Magento\Filesystem\DriverInterface
      */
     public function fileOpen($path, $mode)
     {
-        $result = @fopen($path, $mode);
+        $result = @fopen($this->getScheme() . $path, $mode);
         if (!$result) {
             throw new FilesystemException(
                 sprintf('File "%s" cannot be opened %s',

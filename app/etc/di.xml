@@ -255,4 +255,12 @@
             <value/>
         </param>
     </type>
+    <type name="Magento\Filesystem">
+        <param name="fileReadFactory">
+            <instance type="Magento\Filesystem\File\ReadFactory" />
+        </param>
+        <param name="fileWriteFactory">
+            <instance type="Magento\Filesystem\File\WriteFactory" />
+        </param>
+    </type>
 </config>

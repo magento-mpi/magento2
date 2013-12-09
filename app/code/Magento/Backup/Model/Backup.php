@@ -91,7 +91,7 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
         parent::__construct($data);
 
         $this->_filesystem = $filesystem;
-        $this->varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR) . '/backups';
+        $this->varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->_helper = $helper;
         $this->_locale = $locale;
         $this->_backendAuthSession = $authSession;
@@ -289,9 +289,13 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
         $mode = $write ? 'wb' . self::COMPRESS_RATE : 'rb';
 
         try {
-            /** @var \Magento\Filesystem\Directory\WriteInterface $zlibDirectory */
-            $rootDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
-            $this->_stream  = $rootDirectory->openFile($this->_getFilePath(), $mode, \Magento\Filesystem::WRAPPER_CONTENT_ZLIB);
+            /** @var \Magento\Filesystem\Directory\WriteInterface $varDirectory */
+            $varDirectory = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
+            $this->_stream = $varDirectory->openFile(
+                $this->_getFilePath(),
+                $mode,
+                \Magento\Filesystem::WRAPPER_CONTENT_ZLIB
+            );
         }
         catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Backup\Exception\NotEnoughPermissions(
@@ -446,6 +450,6 @@ class Backup extends \Magento\Object implements \Magento\Backup\Db\BackupInterfa
      */
     protected function _getFilePath()
     {
-        return $this->getPath() . '/' . $this->getFileName();
+        return $this->varDirectory->getRelativePath($this->getPath() . '/' . $this->getFileName());
     }
 }
