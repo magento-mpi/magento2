@@ -66,6 +66,11 @@ class Quote extends \Magento\Session\SessionManager
     protected $_storeManager;
 
     /**
+     * @var \Magento\Core\Model\Store\Config
+     */
+    protected $_coreStoreConfig;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
@@ -76,6 +81,7 @@ class Quote extends \Magento\Session\SessionManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Session\StorageInterface $storage
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -87,12 +93,14 @@ class Quote extends \Magento\Session\SessionManager
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Session\StorageInterface $storage,
-        \Magento\Core\Model\StoreManagerInterface $storeManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Core\Model\Store\Config $coreStoreConfig
     ) {
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
         $this->_orderFactory = $orderFactory;
         $this->_storeManager = $storeManager;
+        $this->_coreStoreConfig = $coreStoreConfig;
         parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
         $this->start();
         if ($this->_storeManager->hasSingleStore()) {
