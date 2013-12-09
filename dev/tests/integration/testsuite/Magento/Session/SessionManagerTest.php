@@ -172,9 +172,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
     {
         $cases = array(
             'db'           => array('db', 'user', array()),
-            'eaccelerator' => array('eaccelerator', 'eaccelerator', array()),
-            //'empty'        => array('', '', array()),
-            //'dummy'        => array('dummy', '', array()),
+            'eaccelerator' => array('eaccelerator', 'eaccelerator', array())
         );
 
         if (defined('MEMCACHE_SESSION_SAVE_PATH')) {
