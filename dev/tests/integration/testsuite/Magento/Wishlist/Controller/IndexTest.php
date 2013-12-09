@@ -79,7 +79,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
             if (strpos($message->getText(), '&lt;script&gt;alert(&quot;xss&quot;);&lt;/script&gt;') !== false) {
                 $isProductNamePresent = true;
             }
-            $this->assertNotContains('<script>alert("xss");</script>', (string)$message->getCode());
+            $this->assertNotContains('<script>alert("xss");</script>', (string)$message->getText());
         }
         $this->assertTrue($isProductNamePresent, 'Product name was not found in session messages');
     }
