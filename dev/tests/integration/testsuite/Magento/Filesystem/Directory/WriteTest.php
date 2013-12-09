@@ -60,7 +60,7 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         return array(
             array('newDir1', 0777, "newDir1"),
             array('newDir1', 0777, "root_dir1/subdir1/subdir2"),
-            array('newDir2', 0644, "root_dir2/subdir"),
+            array('newDir2', 0755, "root_dir2/subdir"),
             array('newDir1', 0777, ".")
         );
     }
