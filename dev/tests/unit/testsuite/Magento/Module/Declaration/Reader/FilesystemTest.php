@@ -86,8 +86,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
         $filesystem = new \Magento\Filesystem(
             new \Magento\Filesystem\DirectoryList($baseDir),
             new \Magento\Filesystem\Directory\ReadFactory(),
-            new \Magento\Filesystem\Directory\WriteFactory(),
-            new \Magento\Filesystem\Adapter\Local()
+            new \Magento\Filesystem\Directory\WriteFactory()
         );
         $iteratorFactory = new \Magento\Config\FileIteratorFactory();
 
