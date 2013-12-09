@@ -53,7 +53,7 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
             array('getDirectoryWrite', 'getPath'), array(), '', false);
         $this->_directory = $this->getMock(
             'Magento\Filesystem\Directory\Write',
-            array('delete', 'getRelativePath'), array(), '', false
+            array('delete', 'getRelativePath' , 'getAbsolutePath'), array(), '', false
         );
         $this->_state = $this->getMock('Magento\App\State', array(), array(), '', false);
 
@@ -182,8 +182,12 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_directory));
 
         $mergedDir = '_merged';
-        $this->_directory->expects($this->once())
+        $this->_directory->expects($this->any())
             ->method('getAbsolutePath')
+            ->with(\Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR)
+            ->will($this->returnValue($mergedDir));
+        $this->_directory->expects($this->once())
+            ->method('getRelativePath')
             ->with(\Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR)
             ->will($this->returnValue($mergedDir));
 
