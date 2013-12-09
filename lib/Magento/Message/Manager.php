@@ -121,7 +121,7 @@ class Manager implements ManagerInterface
     public function addMessage(MessageInterface $message, $group = null)
     {
         $group = $this->prepareGroup($group);
-        $this->getMessages($group)->addMessage($message);
+        $this->getMessages(false, $group)->addMessage($message);
         $this->eventManager->dispatch('core_session_abstract_add_message');
         return $this;
     }
@@ -135,7 +135,6 @@ class Manager implements ManagerInterface
      */
     public function addMessages(array $messages, $group = null)
     {
-        $group = $this->prepareGroup($group);
         if (is_array($messages)) {
             foreach ($messages as $message) {
                 $this->addMessage($message, $group);
@@ -153,7 +152,6 @@ class Manager implements ManagerInterface
      */
     public function addError($message, $group = null)
     {
-        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_ERROR, $message), $group);
         return $this;
     }
@@ -167,7 +165,6 @@ class Manager implements ManagerInterface
      */
     public function addWarning($message, $group = null)
     {
-        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_WARNING, $message), $group);
         return $this;
     }
@@ -181,7 +178,6 @@ class Manager implements ManagerInterface
      */
     public function addNotice($message, $group = null)
     {
-        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_NOTICE, $message), $group);
         return $this;
     }
@@ -195,7 +191,6 @@ class Manager implements ManagerInterface
      */
     public function addSuccess($message, $group = null)
     {
-        $group = $this->prepareGroup($group);
         $this->addMessage($this->messageFactory->create(MessageInterface::TYPE_SUCCESS, $message), $group);
         return $this;
     }
@@ -218,7 +213,7 @@ class Manager implements ManagerInterface
         $group = $this->prepareGroup($group);
 
         $messagesAlready = array();
-        $items = $this->getMessages($group)->getItems();
+        $items = $this->getMessages(false, $group)->getItems();
         foreach ($items as $item) {
             if ($item instanceof MessageInterface) {
                 $text = $item->getText();
@@ -254,7 +249,6 @@ class Manager implements ManagerInterface
      */
     public function addException(\Exception $exception, $alternativeText, $group = null)
     {
-        $group = $this->prepareGroup($group);
         $message = sprintf(
             'Exception message: %s%sTrace: %s',
             $exception->getMessage(),
