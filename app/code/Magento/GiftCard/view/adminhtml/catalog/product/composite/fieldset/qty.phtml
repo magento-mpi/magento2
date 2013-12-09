@@ -10,15 +10,13 @@
 ?>
 <?php /* @var $this \Magento\Catalog\Block\Adminhtml\Product\Composite\Fieldset\Qty */ ?>
 
-<div class="giftcard-qty-form">
-    <ul class="form-list">
-        <li class="fields">
-            <div class="field">
-                <label><?php echo __('Quantity'); ?></label>
-                <div class="input-box">
-                    <input id="product_composite_configure_input_qty" class="input-text" type="text" name="qty" value="<?php echo $this->getQtyValue() * 1 ?>">
-                </div>
-            </div>
-        </li>
-    </ul>
+<div class="field giftcard-qty-form">
+    <label class="label"><span><?php echo __('Quantity'); ?></span></label>
+    <div class="control">
+        <input id="product_composite_configure_input_qty"
+               class="input-text"
+               type="text"
+               name="qty"
+               value="<?php echo $this->getQtyValue() * 1 ?>">
+    </div>
 </div>

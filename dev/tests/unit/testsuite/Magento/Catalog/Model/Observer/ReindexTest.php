@@ -29,7 +29,7 @@ class ReindexTest extends \PHPUnit_Framework_TestCase
 
         $fulltextReindex = $this->getMock(
             'Magento\CatalogSearch\Model\Resource\Fulltext',
-            array('rebuildIndex'),
+            array('rebuildIndex', '__wakeup'),
             array(),
             '',
             false

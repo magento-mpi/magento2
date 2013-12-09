@@ -48,9 +48,9 @@ class Diff
                 }
                 $dataArray = (array)$dataArray;
                 if (!$specialFlag) {
-                    $html = '<dl>';
+                    $html = '<dl class="list-parameters">';
                     foreach ($dataArray as $key => $value) {
-                        $html .= '<dt>' . $key . '</dt><dd>' . $this->escapeHtml($value) . '</dd>';
+                        $html .= '<dt class="parameter">' . $key . '</dt><dd class="value">' . $this->escapeHtml($value) . '</dd>';
                     }
                     $html .= '</dl>';
                 }

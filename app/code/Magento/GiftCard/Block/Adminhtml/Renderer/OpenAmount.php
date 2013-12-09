@@ -25,19 +25,19 @@ class OpenAmount extends \Magento\Data\Form\Element\Select
     protected $_element;
 
     /**
-     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
-     * @param array $attributes
+     * @param \Magento\Escaper $escaper
+     * @param array $data
      */
     public function __construct(
-        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
-        array $attributes = array()
+        \Magento\Escaper $escaper,
+        array $data = array()
     ) {
         $this->_element = $factoryElement->create('checkbox');
-        parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }
 
     /**

@@ -14,7 +14,7 @@
  */
 namespace Magento\GiftWrapping\Block\Sales;
 
-class Totals extends \Magento\View\Block\Template
+class Totals extends \Magento\View\Element\Template
 {
     /**
      * Gift wrapping data
@@ -24,19 +24,17 @@ class Totals extends \Magento\View\Block\Template
     protected $_giftWrappingData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         array $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

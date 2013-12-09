@@ -15,7 +15,7 @@
         <a href="<?php echo $this->getCancelUrl() ?>" onclick="if( confirm('<?php echo __('Are you sure you want to do this?') ?>') ) { window.location.href = '<?php echo $this->getCancelUrl() ?>'; } return false;"><?php echo __('Cancel') ?></a>
     <?php endif; ?>
 </div>
-<?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+<?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
 <div class="billing-agreements">
     <div class="info-box">
         <h2 class="box-title"><?php echo __('Agreement Information') ?></h2>

@@ -23,13 +23,14 @@ use Magento\Checkout\Test\Block\Onepage;
  * Class CheckMoneyOrderTest
  * Guest checkout with Check/Money Order payment method and offline shipping method
  *
- * @ZephyrId MAGETWO-12412
  * @package Magento\Checkout\Test\Fixture
  */
 class CheckMoneyOrderTest extends Functional
 {
     /**
      * Place order on frontend via one page checkout.
+     *
+     * @ZephyrId MAGETWO-12412
      */
     public function testOnepageCheckout()
     {
@@ -93,10 +94,10 @@ class CheckMoneyOrderTest extends Functional
      * Check product price in cart
      *
      * @param CheckMoneyOrder $fixture
-     * @param Fixture\AbstractProduct $product
+     * @param Fixture\Product $product
      * @param Block\Cart $block
      */
-    protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\AbstractProduct $product, Block\Cart $block)
+    protected function checkProductPrice(CheckMoneyOrder $fixture, Fixture\Product $product, Block\Cart $block)
     {
         $expected = $fixture->getProductPriceWithTax($product);
         $this->assertEquals($expected, $block->getProductPriceByName($product->getProductName()));

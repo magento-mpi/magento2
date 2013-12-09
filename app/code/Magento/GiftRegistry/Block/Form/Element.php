@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Form;
 
-class Element extends \Magento\View\Block\Template
+class Element extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Directory\Model\Country
@@ -34,16 +34,14 @@ class Element extends \Magento\View\Block\Template
     protected $_regionCollection;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Country $country
      * @param \Magento\Directory\Model\RegionFactory $region
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Country $country,
         \Magento\Directory\Model\RegionFactory $region,
@@ -52,7 +50,7 @@ class Element extends \Magento\View\Block\Template
         $this->_configCacheType = $configCacheType;
         $this->country = $country;
         $this->region = $region;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
 
@@ -168,7 +166,7 @@ class Element extends \Magento\View\Block\Template
      */
     public function getSelectHtml($name, $id, $options = array(), $value = null, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setClass('select ' . $class)
@@ -225,7 +223,7 @@ class Element extends \Magento\View\Block\Template
             $formatType = \Magento\Core\Model\LocaleInterface::FORMAT_TYPE_MEDIUM;
         }
 
-        $calendar = $this->getLayout()->createBlock('Magento\View\Block\Html\Date')
+        $calendar = $this->getLayout()->createBlock('Magento\View\Element\Html\Date')
             ->setName($this->_getFieldName($name))
             ->setId($this->_getFieldId($id))
             ->setValue($value)

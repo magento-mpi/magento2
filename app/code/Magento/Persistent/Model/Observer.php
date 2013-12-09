@@ -215,7 +215,7 @@ class Observer
             return $this;
         }
 
-        /** @var $block \Magento\View\Block\AbstractBlock */
+        /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getEvent()->getBlock();
 
         if (!$block) {
@@ -241,7 +241,7 @@ class Observer
     /**
      * Emulate 'welcome' block with persistent data
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return \Magento\Persistent\Model\Observer
      */
     public function emulateWelcomeBlock($block)
@@ -268,7 +268,7 @@ class Observer
     /**
      * Emulate 'top links' block with persistent data
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      */
     public function emulateTopLinks($block)
     {
@@ -550,7 +550,7 @@ class Observer
                 && !$this->_persistentData->isShoppingCartPersist()
                 && !$quote->getIsPersistent()
             ) {
-                $this->_checkoutSession->unsetAll();
+                $this->_checkoutSession->clearQuote()->clearStorage();
                 return;
             }
 
@@ -603,7 +603,7 @@ class Observer
     {
         $quote = $this->_checkoutSession->setLoadInactive()->getQuote();
         if ($quote->getIsActive() && $quote->getCustomerId()) {
-            $this->_checkoutSession->setCustomer(null)->unsetAll();
+            $this->_checkoutSession->setCustomer(null)->clearQuote()->clearStorage();
         } else {
             $quote->setIsActive(true)
                 ->setIsPersistent(false)

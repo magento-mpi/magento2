@@ -12,13 +12,13 @@
 
 namespace Magento\Customer\Test\Page;
 
-use Magento\Core\Test\Block\Messages;
-use Magento\Customer\Test\Block\Backend\CustomerForm;
+use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
 
 /**
- * Class for creating new customer in backend page
+ * Class CustomerNew
+ * New customer page in backend
  *
  * @package Magento\Customer\Test\Page
  */
@@ -30,14 +30,18 @@ class CustomerNew extends Page
     const MCA = 'customer/new';
 
     /**
-     * @var CustomerForm
+     * Form for creation of the customer
+     *
+     * @var string
      */
-    protected $_newCustomerForm;
+    protected $customerForm = '[id="page:main-container"]';
 
     /**
-     * @var Messages
+     * Global messages block
+     *
+     * @var string
      */
-    protected $_messagesBlock;
+    protected $messagesBlock = '#messages .messages';
 
     /**
      * Custom constructor
@@ -45,31 +49,29 @@ class CustomerNew extends Page
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
-        $this->_newCustomerForm = Factory::getBlockFactory()->getMagentoCustomerBackendCustomerForm(
-            $this->_browser->find('[id="page:main-container"]')
-        );
-        $this->_messagesBlock = Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
-        );
     }
 
     /**
      * Get new customer form
      *
-     * @return CustomerForm
+     * @return \Magento\Customer\Test\Block\Backend\CustomerForm
      */
     public function getNewCustomerForm()
     {
-        return $this->_newCustomerForm;
+        return Factory::getBlockFactory()->getMagentoCustomerBackendCustomerForm(
+            $this->_browser->find($this->customerForm, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Getter for global page message
      *
-     * @return Messages
+     * @return \Magento\Core\Test\Block\Messages
      */
     public function getMessageBlock()
     {
-        return $this->_messagesBlock;
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
+        );
     }
 }

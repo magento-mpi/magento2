@@ -28,15 +28,13 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
     protected $_coreStoreConfig;
 
     /**
-     * Construct
-     *
      * @param \Magento\Catalog\Model\Layer\Filter\ItemFactory $filterItemFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Escaper $escaper
-     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param array $data
      */
     public function __construct(
@@ -45,13 +43,20 @@ class Category extends \Magento\Catalog\Model\Layer\Filter\Category
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Escaper $escaper,
-        \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
         array $data = array()
     ) {
         $this->_coreStoreConfig = $coreStoreConfig;
-        parent::__construct($filterItemFactory, $storeManager, $catalogLayer, $categoryFactory, $escaper,
-            $coreRegistry, $data);
+        parent::__construct(
+            $filterItemFactory,
+            $storeManager,
+            $catalogLayer,
+            $categoryFactory,
+            $escaper,
+            $coreRegistry,
+            $data
+        );
     }
 
     /**

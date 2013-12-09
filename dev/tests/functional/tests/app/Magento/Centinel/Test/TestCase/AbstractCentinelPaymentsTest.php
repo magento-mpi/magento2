@@ -151,7 +151,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
 
         //Create Account
         $homePage->open();
-        $topLinks = $homePage->getTopLinks();
+        $topLinks = $homePage->getLinksBlock();
         $topLinks->openLink('register');
 
         $createPage->getCreateForm()->create($customer);
@@ -161,7 +161,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
 
         //Log Out
-        $customerMenu = $homePage->getCustomerMenu();
+        $customerMenu = $homePage->getCustomerMenuBlock();
         $customerMenu->toggle();
         $customerMenu->openLink('Log Out');
     }

@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Class CreateSimpleWithCategoryTest
@@ -39,7 +39,7 @@ class CreateSimpleWithCategoryTest extends Functional
     public function testCreateProduct()
     {
         //Data
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $product->switchData('simple_with_new_category');
 
         //Page & Blocks
@@ -85,9 +85,9 @@ class CreateSimpleWithCategoryTest extends Functional
     /**
      * Assert simple product on Frontend
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      */
-    protected function assertProductOnFrontend(Product $product)
+    protected function assertProductOnFrontend(SimpleProduct $product)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();

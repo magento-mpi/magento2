@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Create simple product for BAT
@@ -31,13 +31,13 @@ class CreateTest extends Functional
     }
 
     /**
-     * Create product
+     * Creating simple product and assigning it to category
      *
      * @ZephyrId MAGETWO-12514
      */
     public function testCreateProduct()
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $product->switchData('simple');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
@@ -62,7 +62,7 @@ class CreateTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      */
     protected function assertOnGrid($product)
     {
@@ -76,7 +76,7 @@ class CreateTest extends Functional
     /**
      * Assert product data on category and product pages
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      */
     protected function assertOnCategory($product)
     {

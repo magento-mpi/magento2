@@ -127,7 +127,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_registry = null;
 
     /**
      * @var \Magento\App\Cache\TypeListInterface
@@ -167,11 +167,6 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
     protected $_fpcObserverFactory;
 
     /**
-     * @var \Magento\FullPageCache\Model\Cache\SubProcessorFactory
-     */
-    protected $_processorFactory;
-
-    /**
      * @var array
      */
     protected $_allowedCache = array();
@@ -189,43 +184,40 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
      * @param Metadata $metadata
      * @param Store\Identifier $storeIdentifier
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Core\Model\Registry $coreRegistry
+     * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\App\Cache\TypeListInterface $typeList
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
-     * @param \Magento\Core\Model\Config $coreConfig
      * @param Cookie $fpcCookie
      * @param \Magento\Core\Model\Session $coreSession
      * @param \Magento\FullPageCache\Helper\Url $urlHelper
      * @param ObserverFactory $fpcObserverFactory
-     * @param Cache\SubProcessorFactory $processorFactory
      * @param array $allowedCache
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\FullPageCache\Model\Processor\RestrictionInterface $restriction,
-        \Magento\FullPageCache\Model\Cache $fpcCache,
-        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $subProcessorFactory,
-        \Magento\FullPageCache\Model\Container\PlaceholderFactory $placeholderFactory,
-        \Magento\FullPageCache\Model\ContainerFactory $containerFactory,
-        \Magento\FullPageCache\Model\Environment $environment,
-        \Magento\FullPageCache\Model\Request\Identifier $requestIdentifier,
-        \Magento\FullPageCache\Model\DesignPackage\Info $designInfo,
-        \Magento\FullPageCache\Model\Metadata $metadata,
-        \Magento\FullPageCache\Model\Store\Identifier $storeIdentifier,
+        Processor\RestrictionInterface $restriction,
+        Cache $fpcCache,
+        Cache\SubProcessorFactory $subProcessorFactory,
+        Container\PlaceholderFactory $placeholderFactory,
+        ContainerFactory $containerFactory,
+        Environment $environment,
+        Request\Identifier $requestIdentifier,
+        DesignPackage\Info $designInfo,
+        Metadata $metadata,
+        Store\Identifier $storeIdentifier,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Core\Model\Registry $registry,
         \Magento\App\Cache\TypeListInterface $typeList,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
-        \Magento\FullPageCache\Model\Cookie $fpcCookie,
+        Cookie $fpcCookie,
         \Magento\Core\Model\Session $coreSession,
         \Magento\FullPageCache\Helper\Url $urlHelper,
-        \Magento\FullPageCache\Model\ObserverFactory $fpcObserverFactory,
-        \Magento\FullPageCache\Model\Cache\SubProcessorFactory $processorFactory,
+        ObserverFactory $fpcObserverFactory,
         array $allowedCache = array()
     ) {
         $this->_eventManager = $eventManager;
         $this->_coreStoreConfig = $coreStoreConfig;
-        $this->_coreRegistry = $coreRegistry;
+        $this->_registry = $registry;
         $this->_containerFactory = $containerFactory;
         $this->_placeholderFactory = $placeholderFactory;
         $this->_subProcessorFactory = $subProcessorFactory;
@@ -243,7 +235,6 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         $this->_coreSession = $coreSession;
         $this->_urlHelper = $urlHelper;
         $this->_fpcObserverFactory = $fpcObserverFactory;
-        $this->_processorFactory = $processorFactory;
         $this->_allowedCache = $allowedCache;
     }
 
@@ -435,8 +426,8 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
         if ($isProcessed) {
             return $content;
         } else {
-            $this->_coreRegistry->register('cached_page_content', $content);
-            $this->_coreRegistry->register('cached_page_containers', $containers);
+            $this->_registry->register('cached_page_content', $content);
+            $this->_registry->register('cached_page_containers', $containers);
             $request->setModuleName('pagecache')
                 ->setControllerName('request')
                 ->setActionName('process')
@@ -581,12 +572,12 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                 $this->_metadata->setMetadata('routing_requested_controller', $request->getRequestedControllerName());
                 $this->_metadata->setMetadata('routing_requested_action', $request->getRequestedActionName());
 
-                $this->_metadata->setMetadata('sid_cookie_name', $this->_coreSession->getSessionName());
+                $this->_metadata->setMetadata('sid_cookie_name', $this->_coreSession->getName());
 
                 $this->_metadata->saveMetadata($this->getRequestTags());
             }
 
-            if ($this->_environment->hasQuery(\Magento\Core\Model\Session\AbstractSession::SESSION_ID_QUERY_PARAM)) {
+            if ($this->_environment->hasQuery(\Magento\Core\Model\Session\SidResolver::SESSION_ID_QUERY_PARAM)) {
                 $this->_fpcCookie->updateCustomerCookies();
                 $this->_fpcObserverFactory->create()->updateCustomerProductIndex();
             }
@@ -643,7 +634,7 @@ class Processor implements \Magento\FullPageCache\Model\RequestProcessorInterfac
                     }
                 }
                 if (is_string($model)) {
-                    $this->_requestProcessor = $this->_processorFactory->create($model);
+                    $this->_requestProcessor = $this->_subProcessorFactory->create($model);
                 }
             }
         }

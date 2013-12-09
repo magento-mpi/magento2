@@ -14,8 +14,8 @@ namespace Magento\Catalog\Test\TestCase\Product;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Fixture;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 /**
@@ -62,8 +62,8 @@ class RelatedProductTest extends Functional
     /**
      * Configure related products in the backend
      *
-     * @param AbstractProduct $product
-     * @param AbstractProduct[] $relatedProducts
+     * @param Product $product
+     * @param Product[] $relatedProducts
      */
     private function addRelatedProduct($product, $relatedProducts)
     {
@@ -82,8 +82,8 @@ class RelatedProductTest extends Functional
     /**
      * Assert configurable product is added to cart together with the proper related product
      *
-     * @param Product $simpleProduct1
-     * @param Product $simpleProduct2
+     * @param SimpleProduct $simpleProduct1
+     * @param SimpleProduct $simpleProduct2
      * @param ConfigurableProduct $configurableProduct
      */
     protected function assertOnTheFrontEnd($simpleProduct1, $simpleProduct2, $configurableProduct)

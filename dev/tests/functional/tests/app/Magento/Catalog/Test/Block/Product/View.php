@@ -14,9 +14,9 @@ namespace Magento\Catalog\Test\Block\Product;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
+use Magento\Catalog\Test\Fixture\GroupedProduct;
 
 /**
  * Class View
@@ -31,70 +31,56 @@ class View extends Block
      *
      * @var string
      */
-    private $addToCart;
+    protected $addToCart = '#product-addtocart-button';
 
     /**
      * 'Check out with PayPal' button
      *
      * @var string
      */
-    private $paypalCheckout;
+    protected $paypalCheckout = '[data-action=checkout-form-submit]';
 
     /**
      * Product name element
      *
      * @var string
      */
-    private $productName;
+    protected $productName = '.page.title.product span';
 
     /**
      * Product price element
      *
      * @var string
      */
-    private $productPrice;
+    protected $productPrice = '.price-box .price';
 
     /**
      * Bundle options block
      *
-     * @var Bundle
+     * @var string
      */
-    private $bundleBlock;
+    protected $bundleBlock = '#product-options-wrapper';
 
     protected $clickForPrice = '[id*=msrp-popup]';
-
-    /**
-     * Custom constructor
-     */
-    protected function _init()
-    {
-        //Elements
-        $this->addToCart = '#product-addtocart-button';
-        $this->paypalCheckout = '[data-action=checkout-form-submit]';
-        $this->productName = '.page.title.product span';
-        $this->productPrice = '.price-box .price';
-
-        //Blocks
-        $this->bundleBlock = Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find('#product-options-wrapper', Locator::SELECTOR_CSS));
-    }
 
     /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
      */
-    public function getBundleBlock()
+    protected function getBundleBlock()
     {
-        return $this->bundleBlock;
+        return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
+            $this->_rootElement->find($this->bundleBlock, Locator::SELECTOR_CSS)
+        );
     }
 
     /**
      * Add product to shopping cart
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      */
-    public function addToCart(AbstractProduct $product)
+    public function addToCart(Product $product)
     {
         $this->fillOptions($product);
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
@@ -159,20 +145,6 @@ class View extends Block
     }
 
     /**
-     * Return configurable product options
-     *
-     * @return array
-     */
-    public function getProductOptions()
-    {
-        for ($i =2; $i<=3; $i++) {
-            $options[] = $this->_rootElement
-                ->find(".super-attribute-select option:nth-child($i)")->getText();
-        }
-        return $options;
-    }
-
-    /**
      * Verify configurable product options
      *
      * @param ConfigurableProduct $product
@@ -183,9 +155,11 @@ class View extends Block
         $attributes = $product->getConfigurableOptions();
         foreach ($attributes as $attributeName => $attribute) {
             foreach ($attribute as $optionName) {
-                $option = $this->_rootElement->find('//*[*[@class="product options configure"]//span[text()="'
-                    . $attributeName . '"]]//select/option[contains(text(), "' . $optionName . '")]',
-                    Locator::SELECTOR_XPATH);
+                $option = $this->_rootElement->find(
+                    '//*[*[@class="product options configure"]//span[text()="' . $attributeName
+                        . '"]]//select/option[contains(text(), "' . $optionName . '")]',
+                    Locator::SELECTOR_XPATH
+                );
                 if (!$option->isVisible()) {
                     return false;
                 };
@@ -197,7 +171,7 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param AbstractProduct $product
+     * @param Product $product
      */
     public function fillOptions($product)
     {
@@ -221,6 +195,24 @@ class View extends Block
     public function clickAddToCartButton()
     {
         $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->click();
+    }
+
+    /**
+     * @param GroupedProduct $product
+     * @return bool
+     */
+    public function verifyGroupedProducts(GroupedProduct $product)
+    {
+        foreach ($product->getAssociatedProductNames() as $name) {
+            $option = $this->_rootElement->find(
+                "//*[@id='super-product-table']//tr[td/strong='$name']",
+                Locator::SELECTOR_XPATH
+            );
+            if (!$option->isVisible()) {
+                return false;
+            };
+        }
+        return true;
     }
 
     public function openMapBlockOnProductPage()

@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Create product
@@ -37,7 +37,7 @@ class CreateProductTest extends Functional
      */
     public function testCreateProductAdvancedInventory()
     {
-        $product = Factory::getFixtureFactory()->getMagentoCatalogProduct();
+        $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $product->switchData('simple_advanced_inventory');
         //Data
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
@@ -61,7 +61,7 @@ class CreateProductTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      */
     protected function assertOnGrid($product)
     {
@@ -74,7 +74,7 @@ class CreateProductTest extends Functional
     /**
      * Assert product data on category and product pages
      *
-     * @param Product $product
+     * @param SimpleProduct $product
      */
     protected function assertOnCategory($product)
     {

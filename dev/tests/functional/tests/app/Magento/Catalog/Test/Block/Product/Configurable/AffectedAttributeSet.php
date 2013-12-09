@@ -29,33 +29,21 @@ class AffectedAttributeSet extends Block
      *
      * @var string
      */
-    private $affectedAttributeSet;
+    protected $affectedAttributeSet = '[name=affected-attribute-set][value=new]';
 
     /**
      * New attribute set name
      *
      * @var string
      */
-    private $attributeSetName;
+    protected $attributeSetName = '[name=new-attribute-set-name]';
 
     /**
      * 'Confirm' button
      *
      * @var string
      */
-    private $confirmButton;
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        //Elements
-        $this->affectedAttributeSet = '[name=affected-attribute-set][value=new]';
-        $this->attributeSetName = '[name=new-attribute-set-name]';
-        $this->confirmButton = '[id*=confirm-button]';
-    }
+    protected $confirmButton = '[id*=confirm-button]';
 
     /**
      * Choose affected attribute set

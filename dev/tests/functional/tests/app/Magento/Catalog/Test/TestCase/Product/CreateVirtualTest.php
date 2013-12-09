@@ -32,9 +32,9 @@ class CreateVirtualTest extends Functional
     }
 
     /**
-     * Create product
+     * Creating Virtual product with required fields only and assign it to the category
      *
-     * @ZephyrId MAGETWO-12514
+     * @ZephyrId MAGETWO-13593
      */
     public function testCreateProduct()
     {
@@ -63,7 +63,7 @@ class CreateVirtualTest extends Functional
     /**
      * Assert existing product on admin product grid
      *
-     * @param Product $product
+     * @param VirtualProduct $product
      */
     protected function assertOnGrid($product)
     {
@@ -77,7 +77,7 @@ class CreateVirtualTest extends Functional
     /**
      * Assert product data on category and product pages
      *
-     * @param Product $product
+     * @param VirtualProduct $product
      */
     protected function assertOnCategory($product)
     {

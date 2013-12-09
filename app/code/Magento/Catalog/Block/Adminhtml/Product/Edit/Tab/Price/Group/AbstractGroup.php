@@ -68,7 +68,6 @@ abstract class AbstractGroup
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\Catalog\Helper\Data $catalogData
@@ -77,7 +76,6 @@ abstract class AbstractGroup
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Model\GroupFactory $groupFactory,
         \Magento\Directory\Helper\Data $directoryHelper,
         \Magento\Catalog\Helper\Data $catalogData,
@@ -88,7 +86,7 @@ abstract class AbstractGroup
         $this->_directoryHelper = $directoryHelper;
         $this->_catalogData = $catalogData;
         $this->_coreRegistry = $registry;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

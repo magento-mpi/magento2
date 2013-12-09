@@ -14,7 +14,7 @@
  */
 namespace Magento\CustomerBalance\Block\Sales\Order;
 
-class Customerbalance extends \Magento\View\Block\Template
+class Customerbalance extends \Magento\View\Element\Template
 {
     /**
      * Retrieve current order model instance

@@ -201,7 +201,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testLogActionNotInited()
     {
         $loggingEventMock = $this->getMockBuilder('Magento\Logging\Model\Event')
-            ->setMethods(array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', 'setData'))
+            ->setMethods(array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', 'setData', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -239,7 +239,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($messages));
 
         $loggingEventMock = $this->getMockBuilder('Magento\Logging\Model\Event')
-            ->setMethods(array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save'))
+            ->setMethods(array('setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $loggingEventMock->expects($this->once())
@@ -296,7 +296,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         /** @var \Magento\Sales\Model\Quote|\PHPUnit_Framework_MockObject_MockObject $modelMock */
         $this->_quoteMock = $this->getMockBuilder('Magento\Sales\Model\Quote')
-            ->setMethods(array('getId', 'getDataUsingMethod'))
+            ->setMethods(array('getId', 'getDataUsingMethod', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -319,7 +319,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(1));
 
         $this->_changesMock = $this->getMockBuilder('Magento\Logging\Model\Event\Changes')
-            ->setMethods(array('cleanupData', 'hasDifference', 'setSourceName', 'setSourceId', 'save'))
+            ->setMethods(array('cleanupData', 'hasDifference', 'setSourceName', 'setSourceId', 'save', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
 
@@ -356,7 +356,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
 
         $loggingMock = $this->getMockBuilder('Magento\Logging\Model\Event')
             ->setMethods(array('getId', 'setAction', 'setEventCode', 'setInfo', 'setIsSuccess', 'save',
-                    'setAdditionalInfo'))
+                    'setAdditionalInfo', '__wakeup'))
             ->disableOriginalConstructor()
             ->getMock();
         $loggingMock->expects($this->once())

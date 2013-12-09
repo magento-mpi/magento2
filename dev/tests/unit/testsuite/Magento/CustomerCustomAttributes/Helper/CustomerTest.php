@@ -41,15 +41,6 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
         $this->_inputValidatorMock =
             $this->getMockBuilder('Magento\Eav\Model\Adminhtml\System\Config\Source\Inputtype\Validator')
                 ->disableOriginalConstructor()->getMock();
-
-        $abstractHelperMock = $this->getMockBuilder('Magento\App\Helper\AbstractHelper')
-            ->disableOriginalConstructor()->getMock();
-
-        $objectManagerMock = $this->getMockBuilder('Magento\ObjectManager')->getMock();
-        $objectManagerMock->expects($this->any())
-            ->method('get')
-            ->will($this->returnValue($abstractHelperMock));
-        \Magento\App\ObjectManager::setInstance($objectManagerMock);
     }
 
     /**
@@ -69,9 +60,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array('Some error message')));
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
+            $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
-            $this->_contextMock,
             $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock
@@ -97,9 +88,9 @@ class CustomerTest extends \PHPUnit_Framework_TestCase
             ->method('getMessages');
 
         $helper = new \Magento\CustomerCustomAttributes\Helper\Customer(
+            $this->_contextMock,
             $this->getMock('Magento\Eav\Model\Config', array(), array(), '', false),
             $this->getMockForAbstractClass('Magento\Core\Model\LocaleInterface'),
-            $this->_contextMock,
             $this->getMock('Magento\Filter\FilterManager', array(), array(), '', false),
             $this->_dataHelperMock,
             $this->_inputValidatorMock

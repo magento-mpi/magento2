@@ -28,7 +28,7 @@ class ListProduct extends Block
      *
      * @var string
      */
-    private $productTitle;
+    protected $productTitle = '.product.name';
 
     /**
      * @var string
@@ -38,14 +38,6 @@ class ListProduct extends Block
     protected $priceMap = '[id*=product-price]';
 
     protected $actualPrice = "[class='regular-price']";
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        $this->productTitle = '.product.name';
-    }
 
     /**
      * Check if product with specified name is visible

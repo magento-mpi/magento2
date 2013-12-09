@@ -1,0 +1,13 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <preference for="Magento\Authz\Service\AuthorizationV1Interface" type="Magento\Authz\Service\AuthorizationV1"/>
+    <preference for="Magento\Authz\Model\UserLocatorInterface" type="Magento\Authz\Model\UserLocator\Guest"/>
+</config>

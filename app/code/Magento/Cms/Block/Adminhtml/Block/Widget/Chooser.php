@@ -31,7 +31,6 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Cms\Model\BlockFactory $blockFactory
      * @param \Magento\Cms\Model\Resource\Block\CollectionFactory $collectionFactory
@@ -39,7 +38,6 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Cms\Model\BlockFactory $blockFactory,
         \Magento\Cms\Model\Resource\Block\CollectionFactory $collectionFactory,
@@ -47,7 +45,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     ) {
         $this->_blockFactory = $blockFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     /**
