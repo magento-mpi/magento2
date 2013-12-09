@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Controller\Adminhtml\Search\System\Config;
 
-use Magento\App\Action,
+use Magento\Backend\App\Action,
     Magento\Filesystem;
 
 class Testconnection extends \Magento\Backend\App\Action
