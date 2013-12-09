@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\CustomerSegment\Model;
+
 /**
  * Segment/customer relatio model. Model working in website scope. If website is not declared
  * all methods are working in current ran website scoupe
@@ -24,13 +26,7 @@
  * @method \Magento\CustomerSegment\Model\Customer setUpdatedDate(string $value)
  * @method int getWebsiteId()
  * @method \Magento\CustomerSegment\Model\Customer setWebsiteId(int $value)
- *
- * @category    Magento
- * @package     Magento_CustomerSegment
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\CustomerSegment\Model;
-
 class Customer extends \Magento\Core\Model\AbstractModel
 {
     /**
