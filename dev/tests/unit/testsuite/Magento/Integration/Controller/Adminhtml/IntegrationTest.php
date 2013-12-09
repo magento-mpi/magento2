@@ -11,6 +11,9 @@ namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
     /** @var \PHPUnit_Framework_MockObject_MockObject */

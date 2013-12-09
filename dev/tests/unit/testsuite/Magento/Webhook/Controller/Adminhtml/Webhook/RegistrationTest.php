@@ -9,9 +9,11 @@
  */
 namespace Magento\Webhook\Controller\Adminhtml\Webhook;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class RegistrationTest extends \PHPUnit_Framework_TestCase
 {
-
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockObjectManager;
 

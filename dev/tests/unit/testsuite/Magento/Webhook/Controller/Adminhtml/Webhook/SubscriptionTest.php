@@ -9,6 +9,9 @@
  */
 namespace Magento\Webhook\Controller\Adminhtml\Webhook;
 
+/**
+ * @SuppressWarnings(PHPMD.TooManyFields)
+ */
 class SubscriptionTest extends \PHPUnit_Framework_TestCase
 {
 
