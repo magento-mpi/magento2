@@ -11,7 +11,7 @@ namespace Magento\Config;
 /**
  * Class FileIterator
  */
-class FileIterator implements \Iterator
+class FileIterator implements \Iterator, \Countable
 {
     /**
      * @var array
@@ -21,7 +21,7 @@ class FileIterator implements \Iterator
     /**
      * @var array
      */
-    protected $paths;
+    protected $paths = array();
 
     /**
      * @var int
@@ -100,5 +100,13 @@ class FileIterator implements \Iterator
             $result[$this->key()] = $item;
         }
         return $result;
+    }
+
+    /**
+     * @return int
+     */
+    public function count()
+    {
+        return count($this->paths);
     }
 }
