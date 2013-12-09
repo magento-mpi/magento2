@@ -42,19 +42,16 @@ class Cart
      * @param \Magento\Core\Model\Store\ConfigInterface $storeConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\App\Action\Context $context,
         \Magento\Core\Model\Store\ConfigInterface $storeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Message\ManagerInterface $messageManager
+        \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_storeConfig = $storeConfig;
         $this->_checkoutSession = $checkoutSession;
         $this->_storeManager = $storeManager;
-        $this->messageManager = $messageManager;
         parent::__construct($context);
     }
 
