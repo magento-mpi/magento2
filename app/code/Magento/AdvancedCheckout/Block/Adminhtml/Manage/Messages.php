@@ -20,11 +20,6 @@ namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 class Messages extends \Magento\View\Block\Messages
 {
     /**
-     * @var \Magento\Message\ManagerInterface
-     */
-    protected $messageManager;
-
-    /**
      * @param \Magento\View\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
@@ -40,8 +35,7 @@ class Messages extends \Magento\View\Block\Messages
         \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
-        $this->messageManager = $messageManager;
-        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $messageManager, $data);
     }
 
     /**
