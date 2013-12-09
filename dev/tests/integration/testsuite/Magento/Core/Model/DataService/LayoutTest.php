@@ -18,18 +18,22 @@ class LayoutTest extends \Magento\TestFramework\TestCase\AbstractController
      */
     protected $objectManager;
 
+    /**
+     * @var \Magento\Filesystem
+     */
     protected $filesystem;
 
+    /**
+     * Setup
+     */
     protected function setUp()
     {
         $this->objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        // Need to call this first so we get proper config
-
         $rootPath = $this->objectManager->get('Magento\Filesystem')
             ->getDirectoryRead(\Magento\Filesystem::ROOT)
             ->getAbsolutePath();
 
-        $path =str_replace('\\', '/', realpath(__DIR__ . '/../DataService/LayoutTest'));
+        $path = str_replace('\\', '/', realpath(__DIR__ . '/../DataService/LayoutTest'));
         $directoryList = new \Magento\Filesystem\DirectoryList(
             $rootPath,
             array(\Magento\Filesystem::MODULES => array('path' => $path))
