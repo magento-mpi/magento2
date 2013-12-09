@@ -18,13 +18,13 @@ class AbstractCondition extends \Magento\Rule\Model\Condition\AbstractCondition
     protected $_resourceSegment;
 
     /**
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         array $data = array()
     ) {
         $this->_resourceSegment = $resourceSegment;

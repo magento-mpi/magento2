@@ -17,7 +17,7 @@
  */
 namespace Magento\GiftRegistry\Block\Customer;
 
-class Date extends \Magento\View\Block\Html\Date
+class Date extends \Magento\View\Element\Html\Date
 {
     /**
      * Return escaped value

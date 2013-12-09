@@ -42,8 +42,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             $this->getMock('Magento\Reward\Model\RewardFactory', array('create'), array(), '', false);
         $this->_sessionMock = $this->getMock('Magento\Checkout\Model\Session',
             array('setUpdateSection', 'setGotoSection'), array(), '', false);
-        $this->_orderMock =
-            $this->getMock('Magento\Sales\Model\Order', array('getRewardPointsBalance'), array(), '', false);
+        $this->_orderMock = $this->getMock(
+                'Magento\Sales\Model\Order',
+                array('getRewardPointsBalance', '__wakeup'),
+                array(),
+                '',
+                false
+            );
         $this->_model = new \Magento\Reward\Model\Reward\Balance\Validator(
             $this->_storeManagerMock,
             $this->_modelFactoryMock,
@@ -57,7 +62,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
-        $reward = $this->getMock('Magento\Reward\Model\Reward', array('getPointsBalance'), array(), '', false);
+        $reward = $this->getMock(
+            'Magento\Reward\Model\Reward',
+            array('getPointsBalance', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($reward));
         $reward->expects($this->once())->method('getPointsBalance')->will($this->returnValue(1));
         $this->_model->validate($this->_orderMock);
@@ -73,7 +84,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
         $store = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);
         $this->_storeManagerMock->expects($this->once())->method('getStore')->will($this->returnValue($store));
         $store->expects($this->once())->method('getWebsiteId');
-        $reward = $this->getMock('Magento\Reward\Model\Reward', array('getPointsBalance'), array(), '', false);
+        $reward = $this->getMock(
+            'Magento\Reward\Model\Reward',
+            array('getPointsBalance', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_modelFactoryMock->expects($this->once())->method('create')->will($this->returnValue($reward));
         $reward->expects($this->once())->method('getPointsBalance')->will($this->returnValue(0.5));
         $this->_sessionMock->expects($this->once())->method('setUpdateSection')->with('payment-method');

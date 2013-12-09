@@ -154,12 +154,12 @@ return array(
     array('XML_PATH_COUNTRY_DEFAULT', 'Magento\Paypal\Model\System\Config\Backend\MerchantCountry'),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS',
-        'Magento\View\Block\Template',
+        'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS'
     ),
     array(
         'XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS',
-        'Magento\View\Block\Template',
+        'Magento\View\Element\Template',
         'Magento\Core\Model\TemplateEngine\Plugin::XML_PATH_DEBUG_TEMPLATE_HINTS_BLOCKS'
     ),
     array('XML_PATH_DEFAULT_COUNTRY', 'Magento\Core\Model\Locale'),
@@ -422,4 +422,27 @@ return array(
         '\Magento\Core\Model\Session\AbstractSession',
         '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
     ),
+
+    array(
+        'XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
+        'Magento\Theme\Helper\Robots',
+        'Magento\Adminhtml\Block\Page\System\Config\Robots::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
+    ),
+    array('XML_PATH_MERGE_CSS_FILES', 'Magento\View\Asset\MergeService'),
+    array('XML_PATH_MERGE_JS_FILES', 'Magento\View\Asset\MergeService'),
+    array('XML_PATH_MINIFICATION_ENABLED', 'Magento\View\Asset\MinifyService'),
+    array('XML_PATH_MINIFICATION_ADAPTER', 'Magento\View\Asset\MinifyService'),
+    array('TYPE_BLOCK', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_CONTAINER', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_ACTION', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_ARGUMENTS', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_ARGUMENT', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_REFERENCE_BLOCK', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_REFERENCE_CONTAINER', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_REMOVE', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('TYPE_MOVE', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_TAG', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_CLASS', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_HTML_ID', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
+    array('CONTAINER_OPT_LABEL', '\Magento\Core\Model\Layout', '\Magento\View\Layout\Element'),
 );

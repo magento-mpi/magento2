@@ -35,23 +35,6 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     /**#@-*/
 
     /**
-     * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Data\FormFactory $formFactory
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
-        \Magento\Core\Model\Registry $registry,
-        \Magento\Data\FormFactory $formFactory,
-        array $data = array()
-    ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
-    }
-
-    /**
      * Set form id prefix, declare fields for integration info
      *
      * @return \Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info

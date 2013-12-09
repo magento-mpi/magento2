@@ -10,7 +10,7 @@
 
 namespace Magento\GiftCardAccount\Block\Sales\Order;
 
-class Giftcards extends \Magento\View\Block\Template
+class Giftcards extends \Magento\View\Element\Template
 {
     /**
      * Gift card account data
@@ -20,19 +20,17 @@ class Giftcards extends \Magento\View\Block\Template
     protected $_giftCardAccountData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         array $data = array()
     ) {
         $this->_giftCardAccountData = $giftCardAccountData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

@@ -30,7 +30,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testRender()
     {
-        $blockMock = $this->getMockBuilder('Magento\View\Block\Template')
+        $blockMock = $this->getMockBuilder('Magento\View\Element\Template')
             ->setMethods(array('testMethod'))
             ->disableOriginalConstructor()->getMock();
 
@@ -59,7 +59,7 @@ class PhpTest extends \PHPUnit_Framework_TestCase
      */
     public function testRenderException()
     {
-        $blockMock = $this->getMockBuilder('Magento\View\Block\Template')
+        $blockMock = $this->getMockBuilder('Magento\View\Element\Template')
             ->setMethods(array('testMethod'))
             ->disableOriginalConstructor()->getMock();
 

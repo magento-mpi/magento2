@@ -76,7 +76,13 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
     public function testDispatchIfRewardCurrencyAmountAboveNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Magento\Sales\Model\Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            array('getBaseRewardCurrencyAmount', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
@@ -97,7 +103,13 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
     public function testDispatchIfRewardCurrencyAmountBelowNull()
     {
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Magento\Sales\Model\Order', array('getBaseRewardCurrencyAmount'), array(), '', false);
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            array('getBaseRewardCurrencyAmount', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));
         $event->expects($this->once())->method('getOrder')->will($this->returnValue($order));
@@ -112,8 +124,12 @@ class PlaceOrderTest extends \PHPUnit_Framework_TestCase
     {
         $data = array('key1' => array('points_delta' => 60), 'key2' => array('points_delta' => 45));
         $this->_restrictionMock->expects($this->once())->method('isAllowed')->will($this->returnValue(true));
-        $order = $this->getMock('Magento\Sales\Model\Order',
-            array('getBaseRewardCurrencyAmount', 'setRewardSalesrulePoints'), array(), '', false
+        $order = $this->getMock(
+            'Magento\Sales\Model\Order',
+            array('getBaseRewardCurrencyAmount', 'setRewardSalesrulePoints', '__wakeup'),
+            array(),
+            '',
+            false
         );
         $event = $this->getMock('Magento\Event', array('getOrder'), array(), '', false);
         $this->_observerMock->expects($this->once())->method('getEvent')->will($this->returnValue($event));

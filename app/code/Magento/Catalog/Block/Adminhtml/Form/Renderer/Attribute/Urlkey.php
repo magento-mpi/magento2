@@ -36,21 +36,19 @@ class Urlkey
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $elementFactory
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $elementFactory,
         \Magento\Catalog\Helper\Data $catalogData,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
         $this->_catalogData = $catalogData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function getElementHtml()
@@ -68,7 +66,7 @@ class Urlkey
             'disabled' => true,
         );
         /** @var \Magento\Data\Form\Element\Hidden $hidden */
-        $hidden = $this->_elementFactory->create('hidden', array('attributes' => $data));
+        $hidden = $this->_elementFactory->create('hidden', array('data' => $data));
         $hidden->setForm($element->getForm());
 
         $storeId = $element->getForm()->getDataObject()->getStoreId();
@@ -77,7 +75,7 @@ class Urlkey
         $data['value'] = $element->getValue();
         $data['checked'] = $this->_catalogData->shouldSaveUrlRewritesHistory($storeId);
         /** @var \Magento\Data\Form\Element\Checkbox $checkbox */
-        $checkbox = $this->_elementFactory->create('checkbox', array('attributes' => $data));
+        $checkbox = $this->_elementFactory->create('checkbox', array('data' => $data));
         $checkbox->setForm($element->getForm());
 
         return parent::getElementHtml() . '<br/>' . $hidden->getElementHtml() . $checkbox->getElementHtml() . $checkbox->getLabelHtml();
