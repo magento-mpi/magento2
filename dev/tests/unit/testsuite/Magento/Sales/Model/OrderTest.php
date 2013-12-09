@@ -110,7 +110,8 @@ class OrderTest extends \PHPUnit_Framework_TestCase
         if ($allInvoiced || in_array($orderState, array(
             \Magento\Sales\Model\Order::STATE_CANCELED,
             \Magento\Sales\Model\Order::STATE_COMPLETE,
-            \Magento\Sales\Model\Order::STATE_CLOSED
+            \Magento\Sales\Model\Order::STATE_CLOSED,
+            \Magento\Sales\Model\Order::STATE_PAYMENT_REVIEW
         ))) {
             $expectedResult = false;
         }
