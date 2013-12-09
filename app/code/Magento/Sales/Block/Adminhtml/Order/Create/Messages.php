@@ -29,6 +29,7 @@ class Messages extends \Magento\View\Block\Messages
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param array $data
      */
@@ -37,11 +38,12 @@ class Messages extends \Magento\View\Block\Messages
         \Magento\Core\Helper\Data $coreData,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->sessionQuote = $sessionQuote;
-        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $data);
+        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $messageManager, $data);
     }
 
     /**
