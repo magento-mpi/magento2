@@ -60,7 +60,9 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_filesystemDirectoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '',
             false);
 
-        $this->_filesystemDirectoryMock->expects($this->any())->method('getAbsolutePath')->will($this->returnArgument(0));
+        $this->_filesystemDirectoryMock->expects($this->any())
+            ->method('getAbsolutePath')
+            ->will($this->returnArgument(0));
 
         $fileIterator = new \Magento\Email\Model\Template\Config\FileIterator(
             $this->_filesystemDirectoryMock,
