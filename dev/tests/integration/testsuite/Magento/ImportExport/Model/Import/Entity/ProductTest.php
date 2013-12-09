@@ -544,8 +544,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $pathToFile = __DIR__ . '/_files/products_to_import_invalid_attribute_set.csv';
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile);
         $this->_model->setSource($source)
-            ->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND
-))
+            ->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND))
             ->isDataValid();
         $this->_model->importData();
 
