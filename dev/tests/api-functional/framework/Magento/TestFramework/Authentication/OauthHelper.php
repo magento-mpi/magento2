@@ -10,6 +10,9 @@
 namespace Magento\TestFramework\Authentication;
 
 use Zend\Stdlib\Exception\LogicException;
+use Magento\TestFramework\Helper\Bootstrap;
+use OAuth\Common\Consumer\Credentials;
+use Magento\TestFramework\Authentication\Rest\OauthClient;
 
 class OauthHelper
 {
@@ -32,8 +35,7 @@ class OauthHelper
      */
     public static function getConsumerCredentials($date = null)
     {
-        /** @var $objectManager \Magento\TestFramework\ObjectManager */
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $objectManager = Bootstrap::getObjectManager();
         /** @var $oauthService \Magento\Integration\Service\OauthV1 */
         $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
 
@@ -69,18 +71,15 @@ class OauthHelper
      * array (
      *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //token key
      *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //token secret
-     *   'oauth_client' => $oauthClient // \Magento\TestFramework\Authentication\Rest\OauthClient instance used to fetch
-     *                                      the access token
+     *   'oauth_client' => $oauthClient // OauthClient instance used to fetch the access token
      *   );
      * </pre>
      */
     public static function getAccessToken()
     {
         $consumerCredentials = self::getConsumerCredentials();
-        $credentials = new \OAuth\Common\Consumer\Credentials(
-            $consumerCredentials['key'], $consumerCredentials['secret'], TESTS_BASE_URL);
-        /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
-        $oAuthClient = new \Magento\TestFramework\Authentication\Rest\OauthClient($credentials);
+        $credentials = new Credentials($consumerCredentials['key'], $consumerCredentials['secret'], TESTS_BASE_URL);
+        $oAuthClient = new OauthClient($credentials);
         $requestToken = $oAuthClient->requestRequestToken();
         $accessToken = $oAuthClient->requestAccessToken(
             $requestToken->getRequestToken(),
@@ -106,8 +105,7 @@ class OauthHelper
      * array (
      *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //token key
      *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //token secret
-     *   'oauth_client' => $oauthClient // \Magento\TestFramework\Authentication\Rest\OauthClient instance used to fetch
-     *                                      the access token
+     *   'oauth_client' => $oauthClient // OauthClient instance used to fetch the access token
      *   );
      * </pre>
      * @throws LogicException
@@ -115,8 +113,7 @@ class OauthHelper
     public static function getApiAccessCredentials($resources = null)
     {
         if (!self::$_apiCredentials) {
-            /** @var $objectManager \Magento\TestFramework\ObjectManager */
-            $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+            $objectManager = Bootstrap::getObjectManager();
             /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
             $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
 
@@ -124,9 +121,8 @@ class OauthHelper
 
             if ($resources === null || $resources == 'all' ) {
                 $params['all_resources'] = true;
-            }
-            else {
-                $params['resources'] = $resources;
+            } else {
+                $params['resource'] = $resources;
             }
 
             $integration = $integrationService->create($params);
@@ -150,10 +146,10 @@ class OauthHelper
                 throw new LogicException('Access token was not created.');
             }
             $consumer = $oauthService->loadConsumer($integration->getConsumerId());
-            $credentials = new \OAuth\Common\Consumer\Credentials(
+            $credentials = new Credentials(
                 $consumer->getKey(), $consumer->getSecret(), TESTS_BASE_URL);
-            /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient */
-            $oAuthClient = new \Magento\TestFramework\Authentication\Rest\OauthClient($credentials);
+            /** @var $oAuthClient OauthClient */
+            $oAuthClient = new OauthClient($credentials);
 
             self::$_apiCredentials = array(
                 'key' => $accessToken->getToken(),
@@ -164,6 +160,9 @@ class OauthHelper
         return self::$_apiCredentials;
     }
 
+    /**
+     * Forget API access credentials.
+     */
     public static function clearApiAccessCredentials()
     {
         self::$_apiCredentials = false;
