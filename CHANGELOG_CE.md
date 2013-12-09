@@ -6,8 +6,6 @@
 * Removed the Webhook module
 * Fixed bugs:
   * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
-  * Fixed a bug that allowed editing an Integration created using configuration files via a direct URL
-  * Fixed displaying the Login page in a jQuery dialog when the session times out after activating an Integration
 * Modularity improvements:
   * Session configuration moved into library
   * FormKey logic is moved from Session
