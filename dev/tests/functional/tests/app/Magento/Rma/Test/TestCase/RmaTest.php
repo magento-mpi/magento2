@@ -25,7 +25,6 @@ Class RmaTest extends Functional
      */
     public function testRma()
     {
-
         // Setup Preconditions:
         $this->configureRma();
 
@@ -120,9 +119,6 @@ Class RmaTest extends Functional
         $enableRma = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $enableRma->switchData('enable_rma');
         $enableRma->persist();
-
-
-
     }
 
     private function guestCheckoutPayPal()
