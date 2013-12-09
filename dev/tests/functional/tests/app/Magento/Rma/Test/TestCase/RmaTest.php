@@ -129,7 +129,7 @@ Class RmaTest extends Functional
     private function guestCheckoutPayPal()
     {
         // precondition 2a: MAGETWO-12415 - Guest Checkout using "Checkout with PayPal":
-        $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrder();
+        $payPalExpressOrder = Factory::getFixtureFactory()->getMagentoSalesPaypalExpressOrderWithMultipleProducts();
         $payPalExpressOrder->persist();
 
         return $payPalExpressOrder;
