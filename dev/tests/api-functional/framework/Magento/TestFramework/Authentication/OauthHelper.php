@@ -99,7 +99,6 @@ class OauthHelper
      * Create an access token, tied to integration which has permissions to all API resources in the system.
      *
      * @param array $resources list of resources to grant to the integration
-     *
      * @return array
      * <pre>
      * array (
