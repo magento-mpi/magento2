@@ -376,8 +376,6 @@ return array(
         '\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2'
     ),
     array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
-    array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
-    array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
     array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
     array(
         'XML_PATH_USE_FRONTEND_SID',
