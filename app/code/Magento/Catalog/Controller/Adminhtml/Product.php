@@ -896,8 +896,8 @@ class Product extends \Magento\Backend\App\Action
                 }
 
             } catch (\Magento\Core\Exception $e) {
-                $this->messageManager->addError($e->getMessage())
-                    ->setProductData($data);
+                $this->messageManager->addError($e->getMessage());
+                $this->_session->setProductData($data);
                 $redirectBack = true;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);

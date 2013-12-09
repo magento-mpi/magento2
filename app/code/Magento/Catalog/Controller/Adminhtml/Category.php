@@ -339,7 +339,8 @@ class Category extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You saved the category.'));
                 $refreshTree = 'true';
             } catch (\Exception $e){
-                $this->messageManager->addError($e->getMessage())->setCategoryData($data);
+                $this->messageManager->addError($e->getMessage());
+                $this->_getSession()->setCategoryData($data);
                 $refreshTree = 'false';
             }
         }
