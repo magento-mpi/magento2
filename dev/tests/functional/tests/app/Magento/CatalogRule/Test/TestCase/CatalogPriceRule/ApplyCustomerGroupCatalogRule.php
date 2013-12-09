@@ -151,6 +151,11 @@ class ApplyCustomerGroupCatalogRule extends Functional
             $productListBlock->getProductSpecialPrice($product->getProductName()),
             'Displayed price does not match expected price.'
         );
+        $this->assertContains(
+            $product->getProductPrice(),
+            $productListBlock->getProductPrice($product->getProductName()),
+            'Displayed price does not match expected price.'
+        );
         // Verify product and cart page prices
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->open();
@@ -160,15 +165,14 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
-        $appliedRulePrice = (string)($product->getProductPrice() * .5);
-        $this->assertContains($appliedRulePrice, $productViewBlock->getProductSpecialPrice());
+        $this->assertContains((string)($product->getProductPrice() * .5), $productViewBlock->getProductSpecialPrice());
+        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         // Verify price in the cart
-        $discountPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
         $this->assertContains(
             (string)($product->getProductPrice() * .5),
-            $discountPrice,
+            $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
             "Discount was not correctly applied"
         );
     }
