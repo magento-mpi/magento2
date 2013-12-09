@@ -62,7 +62,7 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUp()
     {
-        $this->tmpDir = TESTS_TEMP_DIR . '/' . 'fallback';
+        $this->tmpDir = TESTS_TEMP_DIR . '/fallback';
         mkdir($this->tmpDir);
 
         $this->fallback = $this->getMock(
@@ -248,15 +248,27 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function getFilesystemMock($isDirectory = true)
     {
-        $directoryRead = $this->getMock('Magento\Filesystem\Directory\Read', array('isDirectory'), array(), '', false);
+        $directoryRead = $this->getMock(
+            'Magento\Filesystem\Directory\Read',
+            array('isDirectory', 'getRelativePath'),
+            array(),
+            '',
+            false
+        );
         $directoryRead->expects($this->once())
             ->method('isDirectory')
             ->will($this->returnValue($isDirectory));
+        $directoryRead->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0));
         $this->directoryWrite = $this->getMock(
             'Magento\Filesystem\Directory\Write',
             array('getRelativePath','isFile', 'readFile', 'isDirectory', 'create', 'writeFile'),
             array(), '', false
         );
+        $this->directoryWrite->expects($this->any())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0));
         $methods = array('getDirectoryRead', 'getDirectoryWrite', '__wakeup');
         $filesystem = $this->getMock('Magento\Filesystem', $methods, array(), '', false);
         $filesystem->expects($this->once())
