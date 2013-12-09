@@ -40,32 +40,30 @@ class Attributes
     protected $_editable;
 
     /**
-     * @param \Magento\Rule\Block\Editable $editable
-     * @param \Magento\Catalog\Model\Product\Type $type
-     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\Backend\Helper\Data $backendData
      * @param \Magento\Eav\Model\Config $config
      * @param \Magento\Catalog\Model\Product $product
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection
+     * @param \Magento\Rule\Block\Editable $editable
+     * @param \Magento\Catalog\Model\Product\Type $type
      * @param array $data
      */
     public function __construct(
-        \Magento\Rule\Block\Editable $editable,
-        \Magento\Catalog\Model\Product\Type $type,
-        \Magento\Backend\Helper\Data $backendData,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\Backend\Helper\Data $backendData,
         \Magento\Eav\Model\Config $config,
         \Magento\Catalog\Model\Product $product,
         \Magento\Catalog\Model\Resource\Product $productResource,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\Collection $attrSetCollection,
+        \Magento\Rule\Block\Editable $editable,
+        \Magento\Catalog\Model\Product\Type $type,
         array $data = array()
     ) {
         $this->_editable = $editable;
         $this->_type = $type;
-        parent::__construct(
-            $backendData, $context, $config, $product, $productResource, $attrSetCollection, $data
-        );
+        parent::__construct($context, $backendData, $config, $product, $productResource, $attrSetCollection, $data);
         $this->setType('Magento\TargetRule\Model\Actions\Condition\Product\Attributes');
         $this->setValue(null);
         $this->setValueType(self::VALUE_TYPE_SAME_AS);

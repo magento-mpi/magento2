@@ -1,3 +1,7 @@
+* Integrity improvements:
+  * Covered all Magento classes with argument sequence validator
+  * Added arguments type duplication validator
+  
 2.0.0.0-dev55
 =============
 * Modularity improvements:
