@@ -46,6 +46,11 @@
     <preference for="Magento\View\Design\Theme\Domain\VirtualInterface" type="Magento\Core\Model\Theme\Domain\Virtual" />
     <preference for="Magento\View\Design\Theme\Domain\StagingInterface" type="Magento\Core\Model\Theme\Domain\Staging" />
     <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
+    <type name="Magento\Message\Manager">
+        <param name="session">
+            <instance type="Magento\Message\Session\Proxy" />
+        </param>
+    </type>
     <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\App\Request\Http">
         <param name="pathInfoProcessor">

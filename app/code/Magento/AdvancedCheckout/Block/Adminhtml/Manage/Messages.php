@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Admin Checkout block for showing messages
- *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
+/**
+ * Admin Checkout block for showing messages
+ */
 class Messages extends \Magento\View\Block\Messages
 {
     /**

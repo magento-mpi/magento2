@@ -8,18 +8,13 @@
  * @license     {license_link}
  */
 
-
-/**
- * Layout model
- *
- * @category    Magento
- * @package     Magento_Core
- */
 namespace Magento\Core\Model;
 
 use Magento\View\Element\BlockFactory;
 
 /**
+ * Layout model
+ *
  * @SuppressWarnings(PHPMD.ExcessiveClassComplexity)
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  * @SuppressWarnings(PHPMD.TooManyFields)
@@ -175,6 +170,7 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
 
     /**
      * Renderers registered for particular name
+     *
      * @var array
      */
     protected $_renderers = array();
@@ -184,21 +180,21 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      *
      * @var \Magento\Core\Helper\Data
      */
-    protected $_coreData = null;
+    protected $_coreData;
 
     /**
      * Core data
      *
      * @var \Magento\App\Helper\HelperFactory
      */
-    protected $_factoryHelper = null;
+    protected $_factoryHelper;
 
     /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
      */
-    protected $_eventManager = null;
+    protected $_eventManager;
 
     /**
      * Core store config
