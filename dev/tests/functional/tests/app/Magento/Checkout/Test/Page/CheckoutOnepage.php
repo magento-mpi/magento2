@@ -193,7 +193,9 @@ class CheckoutOnepage extends Page
      */
     public function getPayflowCcBlock()
     {
-        $this->_browser->switchToFrame($this->_payflowAdvancedFrame);
-        return $this->payflowAdvancedBlock;
+        $this->_browser->switchToFrame(new Locator($this->_payflowAdvancedFrame));
+        return Factory::getBlockFactory()->getMagentoPaymentFormPayflowAdvancedCc(
+            $this->_browser->find($this->payflowAdvancedBlock)
+        );
     }
 }
