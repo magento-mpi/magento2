@@ -123,7 +123,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\App\Dir $dir,
-        $saveMethod = 'files',
+        $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null
     ) {

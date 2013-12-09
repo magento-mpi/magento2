@@ -25,7 +25,7 @@ class SaveHandler implements SaveHandlerInterface
      * @param string $saveMethod
      * @param string $default
      */
-    public function __construct(SaveHandlerFactory $saveHandlerFactory, $saveMethod, $default = 'files')
+    public function __construct(SaveHandlerFactory $saveHandlerFactory, $saveMethod, $default = self::DEFAULT_HANDLER)
     {
         try {
             $adapter = $saveHandlerFactory->create($saveMethod);
