@@ -58,6 +58,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $_messageManager;
+
     /**
      * Setup object manager and initialize mocks
      */
@@ -101,6 +104,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_messageManager = $this->getMockBuilder('Magento\Message\ManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testIndexAction()
@@ -142,7 +148,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'This integration no longer exists.';
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
@@ -162,7 +168,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'Integration ID is not specified or is invalid.';
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $this->_verifyLoadAndRenderLayout();
@@ -174,7 +180,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'Integration ID is not specified or is invalid.';
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $this->_integrationContr = $this->_createIntegrationController();
@@ -193,7 +199,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockIntegrationSvc->expects($this->any())->method('update')->with($this->anything())
             ->will($this->returnValue($intData));
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with(__('The integration \'%1\' has been saved.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -210,7 +216,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -230,7 +236,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with(__('The integration \'%1\' has been saved.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -287,6 +293,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'translator' => $this->_mockTranslateModel,
             'request' => $this->_mockRequest,
             'response' => $this->_mockResponse,
+            'messageManager' => $this->_messageManager
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper

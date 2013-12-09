@@ -57,6 +57,9 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_messageManager;
+
     protected function setUp()
     {
         /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
@@ -91,15 +94,14 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
             ->disableOriginalConstructor()
             ->getMock();
-
         $this->_mockSubSvc = $this->getMockBuilder('Magento\Webhook\Service\SubscriptionV1')
             ->disableOriginalConstructor()
             ->getMock();
-
         $this->_mockRequest = $this->getMockBuilder('Magento\App\Request\Http')
             ->disableOriginalConstructor()
             ->getMock();
         $this->_mockResponse = $this->getMock('Magento\App\Response\Http');
+        $this->_messageManager = $this->getMock('Magento\Message\ManagerInterface');
     }
 
     public function testActivateActionException()
@@ -109,7 +111,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
 
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($expectedMessage));
         $registrationContr = $this->_createRegistrationController();
         $registrationContr->activateAction();
@@ -139,7 +141,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
 
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($expectedMessage));
 
         $registrationContr = $this->_createRegistrationController();
@@ -160,7 +162,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
 
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($expectedMessage));
 
         $registrationContr = $this->_createRegistrationController();
@@ -173,7 +175,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // Verify error message
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo('API Key, API Secret and Contact Email are required fields.'));
         $registrationContr = $this->_createRegistrationController();
         $registrationContr->registerAction();
@@ -197,7 +199,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // Verify error message
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo('Invalid Email address provided'));
         $registrationContr = $this->_createRegistrationController();
         $registrationContr->registerAction();
@@ -256,7 +258,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             ));
 
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been activated.'));
 
         $this->_registrationContr = $this->_createRegistrationController();
@@ -273,7 +275,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockSubSvc->expects($this->any())->method('get')
             ->will($this->throwException(new \Magento\Core\Exception($expectedMessage)));
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($expectedMessage));
 
         $registrationContr = $this->_createRegistrationController();
@@ -321,6 +323,7 @@ class RegistrationTest extends \PHPUnit_Framework_TestCase
             'response' => $this->_mockResponse,
             'helper' => $this->_mockBackendHlpData,
             'translator' => $this->_mockTranslateModel,
+            'messageManager' => $this->_messageManager
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper

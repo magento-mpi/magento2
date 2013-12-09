@@ -57,6 +57,9 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_messageManager;
+
     /**
      * Setup object manager and initialize mocks
      */
@@ -102,6 +105,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockConfigScope = $this->getMockBuilder('Magento\Config\ScopeInterface')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_messageManager = $this->getMock('Magento\Message\ManagerInterface');
     }
 
     public function testIndexAction()
@@ -155,7 +159,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
@@ -179,7 +183,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ));
 
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been saved.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -203,7 +207,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
                 ));
 
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo('The subscription \'\' has not been saved, as no data was provided.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -222,7 +226,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -248,7 +252,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been saved.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -270,7 +274,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'testSubscription\' has been saved.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -304,7 +308,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
         // Verify error message
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo('The subscription \'nameTest\' can not be removed.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -334,7 +338,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been removed.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -368,7 +372,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -398,7 +402,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been revoked.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -409,7 +413,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
     {
         // Verify error
         $this->_mockTranslateModel = null;
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo('No Subscription ID was provided with the request.'));
         $this->_subscriptionContr = $this->_createSubscriptionController();
         $this->_subscriptionContr->revokeAction();
@@ -435,7 +439,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -463,7 +467,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
 
         // success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with($this->equalTo('The subscription \'nameTest\' has been activated.'));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -475,7 +479,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
 
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo('No Subscription ID was provided with the request.'));
         $this->_subscriptionContr = $this->_createSubscriptionController();
         $this->_subscriptionContr->activateAction();
@@ -501,7 +505,7 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
 
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
 
         $subscriptionContr = $this->_createSubscriptionController();
@@ -560,7 +564,8 @@ class SubscriptionTest extends \PHPUnit_Framework_TestCase
             'translator' => $this->_mockTranslateModel,
             'request' => $this->_mockRequest,
             'response' => $this->_mockResponse,
-            'title' => $title
+            'title' => $title,
+            'messageManager' => $this->_messageManager
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper

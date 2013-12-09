@@ -15,24 +15,29 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
     protected $_controller;
 
     /**
-     * @var \Magento\App\ResponseInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\ResponseInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_responseMock;
 
     /**
-     * @var \Magento\App\RequestInterface|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\App\RequestInterface|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_requestMock;
 
     /**
-     * @var \Magento\Backend\Model\Session|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\Backend\Model\Session|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_sessionMock;
 
     /**
-     * @var \Magento\ObjectManager|PHPUnit_Framework_MockObject_MockObject
+     * @var \Magento\ObjectManager|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_objectManager;
+
+    /**
+     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_messageManager;
 
     /**
      * Init model for future tests
@@ -43,20 +48,24 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
         $this->_responseMock = $this->getMock('Magento\App\Response\Http', array(), array(), '', false);
         $this->_responseMock->headersSentThrowsException = false;
         $this->_requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',
-            array('addError', 'setFormData'), array(), '', false);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $constructArguments = $objectManager->getConstructArguments('Magento\Backend\Model\Session',
+            array('storage' => new \Magento\Session\Storage));
+        $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',array('setFormData'), $constructArguments);
         $this->_objectManager = $this->getMock('Magento\ObjectManager', array(), array(), '', false);
         $registryMock = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false, false);
         $this->_objectManager->expects($this->any())
             ->method('get')
             ->with($this->equalTo('Magento\Core\Model\Registry'))
             ->will($this->returnValue($registryMock));
+        $this->_messageManager = $this->getMock('\Magento\Message\ManagerInterface', array(), array(), '', false);
 
         $arguments = array(
             'response' => $this->_responseMock,
             'request' => $this->_requestMock,
             'session' => $this->_sessionMock,
             'objectManager' => $this->_objectManager,
+            'messageManager' => $this->_messageManager
         );
 
         $context = $helper->getObject('Magento\Backend\App\Action\Context', $arguments);
@@ -84,7 +93,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')->will($this->returnValue(null));
 
         $creditmemoMock = $this->getMock(
-            'Magento\Sales\Model\Order\Creditmemo', array('load', 'getGrandTotal'), array(), '', false
+            'Magento\Sales\Model\Order\Creditmemo', array('load', 'getGrandTotal', '__wakeup'), array(), '', false
         );
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());
@@ -116,7 +125,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
             ->method('getParam')->will($this->returnValue(null));
 
         $creditmemoMock = $this->getMock('Magento\Sales\Model\Order\Creditmemo',
-            array('load', 'getGrandTotal', 'getAllowZeroGrandTotal'), array(), '', false);
+            array('load', 'getGrandTotal', 'getAllowZeroGrandTotal', '__wakeup'), array(), '', false);
         $creditmemoMock->expects($this->once())->method('load')
             ->with($this->equalTo($creditmemoId))->will($this->returnSelf());
         $creditmemoMock->expects($this->once())->method('getGrandTotal')->will($this->returnValue('0'));
@@ -139,7 +148,7 @@ class CreditmemoTest extends \PHPUnit_Framework_TestCase
      */
     protected function _setSaveActionExpectationForMageCoreException($data, $errorMessage)
     {
-        $this->_sessionMock->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($errorMessage));
         $this->_sessionMock->expects($this->once())

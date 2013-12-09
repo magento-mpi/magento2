@@ -41,7 +41,8 @@ class Failed extends \Magento\Backend\Block\Template
      */
     public function getSessionError()
     {
-        $lastAdded = $this->messageManager->getMessages(true)->getLastAddedMessage();
+        $lastAdded = $this->messageManager->getMessages(\Magento\Message\ManagerInterface::DEFAULT_GROUP, true)
+            ->getLastAddedMessage();
         return $lastAdded ? $lastAdded->toString() : null;
     }
 }

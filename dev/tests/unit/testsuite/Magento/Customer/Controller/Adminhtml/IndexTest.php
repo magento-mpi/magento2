@@ -59,6 +59,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_messageManager;
+
+    /**
      * Prepare required values
      */
     protected function setUp()
@@ -90,6 +95,10 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getUrl'))
             ->getMock();
 
+        $this->_messageManager = $this->getMockBuilder('Magento\Message\ManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
+
         $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
         $this->_testedObject = $helperObjectManager->getObject('Magento\Customer\Controller\Adminhtml\Index',
             array(
@@ -97,8 +106,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
                 'session' => $this->_session,
                 'objectManager' => $this->_objectManager,
                 'request' => $this->_request,
-                'response' => $this->_response
-
+                'response' => $this->_response,
+                'messageManager' => $this->_messageManager
             )
         );
     }
@@ -202,7 +211,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento\Core\Model\Url'))
             ->will($this->returnValue($coreHelperMock));
 
-        $this->_session->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addSuccess')
             ->with($this->equalTo('Customer will receive an email with a link to reset password.'));
         $this->_testedObject->resetPasswordAction();
@@ -218,7 +227,8 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected function _getCustomerMock($customerId, $returnId = null)
     {
         $customerMock = $this->getMock('Magento\Customer\Model\Customer',
-            array('setResetPasswordUrl', 'changeResetPasswordLinkToken', 'sendPasswordReminderEmail', 'load', 'getId'),
+            array('setResetPasswordUrl', 'changeResetPasswordLinkToken', 'sendPasswordReminderEmail', 'load',
+                'getId', '__wakeup'),
             array(), '', false);
         $customerMock->expects($this->any())
             ->method('load')

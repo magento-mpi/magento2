@@ -67,7 +67,7 @@ class SessionManager implements SessionManagerInterface
     /**
      * @param \Magento\App\RequestInterface $request
      * @param SidResolverInterface $sidResolver
-     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
+     * @param Config\ConfigInterface $sessionConfig
      * @param SaveHandlerInterface $saveHandler
      * @param ValidatorInterface $validator
      * @param StorageInterface $storage
@@ -75,7 +75,7 @@ class SessionManager implements SessionManagerInterface
     public function __construct(
         \Magento\App\RequestInterface $request,
         SidResolverInterface $sidResolver,
-        \Magento\Session\Config\ConfigInterface $sessionConfig,
+        Config\ConfigInterface $sessionConfig,
         SaveHandlerInterface $saveHandler,
         ValidatorInterface $validator,
         StorageInterface $storage
