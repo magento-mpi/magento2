@@ -28,6 +28,7 @@
   * [#224](https://github.com/magento/magento2/pull/224) -- sprintf function becomes not locale aware at \Magento\Tax\Helper\Data::getPriceTaxSql
   * [#338](https://github.com/magento/magento2/pull/338) -- Correcting SQL for required_options column
   * [#327](https://github.com/magento/magento2/pull/327) -- cart api bug fix & partial invoice credit memo divide by zero warning
+  * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id - see #390
   * [#423](https://github.com/magento/magento2/issues/423) -- Can't login backend after running some time - dev53
 * Fixed bugs:
   * Fixed error when Magento cannot be reinstalled to the same database with table prefix
