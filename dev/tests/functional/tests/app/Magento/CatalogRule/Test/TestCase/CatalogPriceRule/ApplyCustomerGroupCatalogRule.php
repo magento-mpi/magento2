@@ -8,10 +8,11 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
+use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\SimpleProduct;
+use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
@@ -54,7 +55,7 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
-        $catalogRuleFixture->setPlaceHolders(['category_id' => $categoryIds[0]]);
+        $catalogRuleFixture->setPlaceHolders(array('category_id' => $categoryIds[0]));
         $catalogRuleFixture->switchData('customer_group_catalog_rule');
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
@@ -81,5 +82,98 @@ class ApplyCustomerGroupCatalogRule extends Functional
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
         $messagesBlock->assertSuccessMessage();
+
+        $this->verifyGuestPrice($simpleProductFixture);
+        $this->verifyCustomerPrice($simpleProductFixture, $customerFixture);
+    }
+
+    /**
+     * This method verifies guest price information on the storefront.
+     * @param Product $product
+     */
+    protected function verifyGuestPrice($product)
+    {
+        // Verify frontend category page prices
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $frontendHomePage->open();
+        // open the category associated with the price rule
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        // verify price in catalog list
+        $productListBlock = $categoryPage->getListProductBlock();
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $this->assertContains(
+            $product->getProductPrice(),
+            $productListBlock->getProductPrice($product->getProductName()),
+            'Displayed price does not match expected price.'
+        );
+        // Verify product and cart page prices
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+        // Verify product detail
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $productPage->init($product);
+        $productPage->open();
+        $productViewBlock = $productPage->getViewBlock();
+        $appliedRulePrice = (string)($product->getProductPrice());
+        $this->assertContains($appliedRulePrice, $productViewBlock->getProductPrice());
+        // Verify price in the cart
+        $productViewBlock->addToCart($product);
+        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $this->assertContains(
+            $product->getProductPrice(),
+            $unitPrice,
+            "Discount was not correctly applied"
+        );
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+    }
+
+    /**
+     * This method verifies customer price information on the storefront.
+     * @param Product $product
+     * @param Customer $customer
+     */
+    protected function verifyCustomerPrice($product, $customer)
+    {
+        // Login on front end as customer
+        $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
+        $customerAccountLoginPage->open();
+        $loginBlock = $customerAccountLoginPage->getLoginBlock();
+        $loginBlock->login($customer);
+        // Verify category list page price
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $frontendHomePage->open();
+        // open the category associated with the price rule
+        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
+        $productListBlock = $categoryPage->getListProductBlock();
+        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $this->assertContains(
+            (string)($product->getProductPrice() * .5),
+            $productListBlock->getProductSpecialPrice($product->getProductName()),
+            'Displayed price does not match expected price.'
+        );
+        // Verify product and cart page prices
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+        $checkoutCartPage->open();
+        $checkoutCartPage->getCartBlock()->clearShoppingCart();
+        // Verify category detail page price
+        $productPage = Factory::getPageFactory()->getCatalogProductView();
+        $productPage->init($product);
+        $productPage->open();
+        $productViewBlock = $productPage->getViewBlock();
+        $appliedRulePrice = (string)($product->getProductPrice() * .5);
+        $this->assertContains($appliedRulePrice, $productViewBlock->getProductSpecialPrice());
+        $productViewBlock->addToCart($product);
+        Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        // Verify price in the cart
+        $discountPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+        $this->assertContains(
+            (string)($product->getProductPrice() * .5),
+            $discountPrice,
+            "Discount was not correctly applied"
+        );
     }
 }
