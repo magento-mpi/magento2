@@ -13,11 +13,12 @@ namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 use Magento\Catalog\Test\Fixture;
 use Magento\Catalog\Test\Repository\ConfigurableProduct;
 use Magento\Catalog\Test\Repository\SimpleProduct;
-use Magento\Checkout\Test\Fixture\Checkout;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct as FixtureConfigurableProduct;
+use Magento\CatalogRule\Test\Fixture\CheckMoneyOrderFlat;
 
 /**
  * Class ApplyCatalogPriceRule
@@ -143,35 +144,55 @@ class ApplyCatalogPriceRule extends Functional
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
 
         foreach ($products as $product) {
+            // Open Product page
             $productPage = Factory::getPageFactory()->getCatalogProductView();
             $productPage->init($product);
             $productPage->open();
             $productViewBlock = $productPage->getViewBlock();
-            $appliedRulePrice = (string)($product->getProductPrice() * .5);
-            $this->assertContains($appliedRulePrice, $productViewBlock->getProductSpecialPrice());
+
+            // Verify Product page price
+            $appliedRulePrice = $product->getProductPrice() * .5;
+            if ($product instanceof FixtureConfigurableProduct) {
+                // Select option
+                $productViewBlock->fillOptions($product);
+                $appliedRulePrice += $product->getProductOptionsPrice();
+            }
+            $this->assertContains((string)$appliedRulePrice, $productViewBlock->getProductSpecialPrice());
+
+            // Add to Cart
             $productViewBlock->addToCart($product);
-            Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+            $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
+            $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
+
+            // Verify Cart page price
+            $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
+            $this->assertContains((string)$appliedRulePrice, $unitPrice, 'Incorrect price for ' . $product->getProductName());
         }
-        // todo cart special price check
     }
 
     /**
      * Process Magento Checkout
-     * @param Checkout $fixture
+     * @param CheckMoneyOrderFlat $fixture
      */
-    protected function checkoutProcess(Checkout $fixture)
+    protected function checkoutProcess(CheckMoneyOrderFlat $fixture)
     {
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->getCartBlock()->getOnepageLinkBlock()->proceedToCheckout();
 
         //Proceed Checkout
-        /** @var \Magento\Checkout\Test\Page\CheckoutOnepage $checkoutOnePage */
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
         $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
-        // todo one page checkout special price check
+        $reviewBlock = $checkoutOnePage->getReviewBlock();
+
+        $this->assertContains(
+            $fixture->getGrandTotal(),
+            $reviewBlock->getGrandTotal(),
+            'Incorrect Grand Total'
+        );
+        $reviewBlock->placeOrder();
     }
 
     /**
@@ -186,12 +207,16 @@ class ApplyCatalogPriceRule extends Functional
         // Verify product and cart page prices
         $this->verifyAddProducts($products);
 
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrder(
+        // Verify one page checkout prices
+        $fixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCheckMoneyOrderFlat(
             array('products' => $products)
         );
         $fixture->persist();
-        // Verify one page checkout prices
         $this->checkoutProcess($fixture);
+
+        //Verify order Id available
+        $successPage = Factory::getPageFactory()->getCheckoutOnepageSuccess();
+        $this->assertNotEmpty($successPage->getSuccessBlock()->getOrderId($fixture));
     }
 
     /**

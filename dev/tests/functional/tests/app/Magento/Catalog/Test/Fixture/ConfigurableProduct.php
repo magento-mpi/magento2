@@ -309,4 +309,28 @@ class ConfigurableProduct extends Product
     {
         return $this->getData('checkout/special_price');
     }
+
+    /**
+     * Get product options price
+     *
+     * @return float|int
+     */
+    public function getProductOptionsPrice()
+    {
+        $price = 0;
+        $selections = $this->getData('checkout/selections');
+        foreach ($selections as $selection) {
+            $optionName = $selection['option_name'];
+            $attributes = $this->getData('fields/configurable_attributes_data/value');
+            foreach ($attributes as $attribute) {
+                $optionCount = 0;
+                while (isset($attribute[$optionCount])) {
+                    if ($attribute[$optionCount]['option_label']['value'] == $optionName)
+                        $price += $attribute[$optionCount]['pricing_value']['value'];
+                    ++$optionCount;
+                }
+            }
+        }
+        return $price;
+    }
 }

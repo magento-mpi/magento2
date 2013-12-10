@@ -85,7 +85,7 @@ class Cart extends Block
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param SimpleProduct $product
+     * @param Product $product
      * @return string
      */
     public function getCartItemUnitPrice($product)
@@ -132,6 +132,8 @@ class Cart extends Block
      * Returns the total discount price
      *
      * @var string
+     * @return string
+     * @throws Exception
      */
     public function getDiscountTotal()
     {
