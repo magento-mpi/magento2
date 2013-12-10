@@ -56,38 +56,8 @@ class RmaTest extends Functional
         $viewBlock = Factory::getPageFactory()->getSalesGuestView()->getViewBlock();
         $viewBlock->clickLink('Return');
 
-        // Step 6: Fill "Return Items Information" form (simple product)
-        $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
-        $returnItem->switchData('default');
-
-        $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
-        $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName(), $returnItem);
-
-        // Step 7: Click "Add Item to Return" for the configurable product.
-        $returnItemForm->submitAddItemToReturn();
-
-        // Step 8: Fill "Return Items Information" form (configurable product)
-        $returnItemForm->fillCustom('1', $payPalExpressOrder->getProduct(1)->getProductName(), $returnItem);
-
-        // Step 9: Submit the return.
-        $returnItemForm->submitReturn();
-
-        // Validate that the success message is displayed on the 'returns' page.
-        $completedReturn = Factory::getPageFactory()->getSalesGuestReturns();
-        $completedReturn->getMessageBlock()->assertSuccessMessage();
-
-        // Get the return id in order to validate on the grid.
-        $successMessage = $completedReturn->getMessageBlock()->getSuccessMessages();
-        $returnId = array();
-        preg_match('/#(.*?)\./s', $successMessage, $returnId);
-        $returnId = $returnId[1];
-
-        // Validate that the returns grid is now displayed and contains the return just submitted.
-        $returnsBlock = $completedReturn->getReturnsReturnsBlock();
-        $this->assertTrue(
-            $returnsBlock->isRowVisible($returnId),
-            "Return Id was not found on the returns grid."
-        );
+        // Steps 6 - 9:
+        $returnId = $this->createRma($payPalExpressOrder);
 
         // Step 10: Login to Backend as Admin
         Factory::getApp()->magentoBackendLoginUser();
@@ -157,5 +127,49 @@ class RmaTest extends Functional
     {
         // precondition 2b: MAGETWO-12434 - Closing a Sales Order paid with PayPal Express Checkout
         return Factory::getApp()->magentoSalesCloseOrder($payPalExpressOrder);
+    }
+
+    /**
+     * Creates a Rma on the frontend.
+     *
+     * @param $payPalExpressOrder
+     * @return int $returnId
+     */
+    private function createRma($payPalExpressOrder) {
+        // Step 6: Fill "Return Items Information" form (simple product)
+        $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
+        $returnItem->switchData('default');
+
+        $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
+        $returnItemForm->fill($returnItem);
+        $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName(), $returnItem);
+
+        // Step 7: Click "Add Item to Return" for the configurable product.
+        $returnItemForm->submitAddItemToReturn();
+
+        // Step 8: Fill "Return Items Information" form (configurable product)
+        $returnItemForm->fillCustom('1', $payPalExpressOrder->getProduct(1)->getProductName(), $returnItem);
+
+        // Step 9: Submit the return.
+        $returnItemForm->submitReturn();
+
+        // Validate that the success message is displayed on the 'returns' page.
+        $completedReturn = Factory::getPageFactory()->getSalesGuestReturns();
+        $completedReturn->getMessageBlock()->assertSuccessMessage();
+
+        // Get the return id in order to validate on the grid.
+        $successMessage = $completedReturn->getMessageBlock()->getSuccessMessages();
+        $returnId = array();
+        preg_match('/#(.*?)\./s', $successMessage, $returnId);
+        $returnId = $returnId[1];
+
+        // Validate that the returns grid is now displayed and contains the return just submitted.
+        $returnsBlock = $completedReturn->getReturnsReturnsBlock();
+        $this->assertTrue(
+            $returnsBlock->isRowVisible($returnId),
+            "Return Id was not found on the returns grid."
+        );
+
+        return $returnId;
     }
 }
