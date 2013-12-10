@@ -373,7 +373,6 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $filesystem = $objectManager->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
         $directoryWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
