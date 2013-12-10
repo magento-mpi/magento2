@@ -22,19 +22,25 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
      */
     protected $_registry = null;
 
+    /** @var \Magento\Integration\Helper\Data */
+    protected $_integrationData;
+
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Integration\Helper\Data $integrationData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Integration\Helper\Data $integrationData,
         array $data = array()
     ) {
         $this->_registry = $registry;
+        $this->_integrationData = $integrationData;
         parent::__construct($context, $coreData, $data);
     }
 
@@ -49,6 +55,12 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
         parent::_construct();
         $this->_removeButton('reset');
         $this->_removeButton('delete');
+
+        if ($this->_integrationData->isConfigType(
+            $this->_registry->registry(Integration::REGISTRY_KEY_CURRENT_INTEGRATION))
+        ) {
+            $this->_removeButton('save');
+        }
 
         if ($this->_isNewIntegration()) {
             $this->removeButton('save')->addButton(
