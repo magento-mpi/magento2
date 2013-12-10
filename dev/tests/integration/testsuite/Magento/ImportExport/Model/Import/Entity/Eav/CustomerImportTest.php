@@ -127,6 +127,13 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             __DIR__ . '/_files/customers_to_import.csv',
             $this->directoryWrite
         );
+
+        /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
+        $customerCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Customer\Model\Resource\Customer\Collection');
+        $this->assertEquals(3, $customerCollection->count(), 'Count of existing customers are invalid');
+
+
         $this->_model->setParameters(
                 array(
                     'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_DELETE
