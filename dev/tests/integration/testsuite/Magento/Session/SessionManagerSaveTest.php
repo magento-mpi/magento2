@@ -39,7 +39,7 @@ class SessionManagerSaveTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Core\Model\Session\Config $config */
         $config = $objectManger->create('Magento\Core\Model\Session\Config', $params);
 
-
+        /** @var \Magento\Session\SessionManager $sessionManager */
         $sessionManager = $objectManger->create('Magento\Session\SessionManager', array('sessionConfig' => $config));
         $sessionManager->start();
 
