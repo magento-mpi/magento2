@@ -988,7 +988,7 @@ class Config extends AbstractRepository
         return array(
             'data' => array(
                 'sections' => array(
-                    'payment' => array(
+                    'sales' => array(
                         'section' => 'sales',
                         'website' => null,
                         'store' => null,

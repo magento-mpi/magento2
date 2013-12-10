@@ -31,9 +31,6 @@ class SimpleProduct extends Product
             'config' => $defaultConfig,
             'data' => $this->buildSimpleWithNewCategoryData($defaultData),
         );
-        $this->_data['simple']['data']['fields']['category_ids'] = array(
-            'value' => array('%category::getCategoryId%')
-        );
         $this->_data['simple_advanced_pricing'] = $this->getSimpleAdvancedPricing();
         $this->_data['simple_custom_options'] = $this->getSimpleCustomOption();
         $this->_data['simple_with_map'] = $this->getSimpleAppliedMAP($defaultData);
