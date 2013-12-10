@@ -56,19 +56,7 @@ class CheckoutCart extends Page
     public function getEstimatedShippingBlock()
     {
         return Factory::getBlockFactory()->getMagentoCheckoutCartShipping(
-            $this->_browser->find('//div[@class="block shipping"]/div', Locator::SELECTOR_XPATH)
-        );
-    }
-
-    /**
-     * Get estimated shipping rate block
-     *
-     * @return \Magento\Checkout\Test\Block\Cart\Shipping
-     */
-    public function getEstimatedShippingRateBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCheckoutCartShipping(
-            $this->_browser->find('//form [@id="co-shipping-method-form"]', Locator::SELECTOR_XPATH)
+            $this->_browser->find('.block.shipping > div')
         );
     }
 

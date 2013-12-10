@@ -71,16 +71,13 @@ class Shipping extends Block
     /**
      * Assert that the passed in shipping method is present
      *
-     * @param Method[] $fixture
+     * @param string $carrier
+     * @param string $method
      * @return bool
      */
-    public function isShippingCarrierMethodVisible($fixture)
+    public function isShippingCarrierMethodVisible($carrier, $method)
     {
-        $shippingMethod = $fixture->getData('fields');
-
-        $selector = sprintf($this->shippingCarrierMethodSelector,
-            $shippingMethod['shipping_service'], $shippingMethod['shipping_method']);
-
+        $selector = sprintf($this->shippingCarrierMethodSelector, $carrier, $method);
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 

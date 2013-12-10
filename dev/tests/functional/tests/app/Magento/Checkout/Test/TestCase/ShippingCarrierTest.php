@@ -78,6 +78,9 @@ class ShippingCarrierTest extends Functional
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
+        // Ensure customer from previous run is logged out
+        $customerAccountLogoutPage = Factory::getPageFactory()->getCustomerAccountLogout();
+        $customerAccountLogoutPage->open();
         // Login with customer created in checkout fixture
         $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
         $customerAccountLoginPage->open();
@@ -98,14 +101,20 @@ class ShippingCarrierTest extends Functional
         }
 
         // Get and verify shipping quote
-        $cartShippingBlock = Factory::getPageFactory()->getCheckoutCart()->getEstimatedShippingBlock();
+        $cartPage = Factory::getPageFactory()->getCheckoutCart();
+        $cartShippingBlock = $cartPage->getEstimatedShippingBlock();
         // Make estimated shipping content visible
         $cartShippingBlock->clickEstimateShippingTax();
         $cartShippingBlock->fillDestination(self::$checkoutFixture);
         $cartShippingBlock->clickGetAQuote();
-        $cartShippingRateBlock = Factory::getPageFactory()->getCheckoutCart()->getEstimatedShippingRateBlock();
-        $this->assertTrue($cartShippingRateBlock
-                ->isShippingCarrierMethodVisible(self::$checkoutFixture->getShippingMethods()));
+        // Verify expected shipping carrier and method are present
+        $shippingMethod = self::$checkoutFixture->getShippingMethods()->getData('fields');
+        $carrier = $shippingMethod['shipping_service'];
+        $method = $shippingMethod['shipping_method'];
+        $this->assertTrue(
+            $cartPage->getEstimatedShippingBlock()
+                ->isShippingCarrierMethodVisible($carrier, $method), "Shipping rate not found for $carrier - $method"
+        );
 
         // Place order on frontend via onepage checkout
         // Use customer from checkout fixture
