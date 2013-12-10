@@ -86,6 +86,7 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped();
         $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $this->_entityAdapter = $this->_objectManager
             ->create('Magento\ImportExport\Model\Import\Entity\CustomerComposite');
