@@ -148,7 +148,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $newPlace = $dir2->read();
 
         $this->assertTrue(in_array($name, $created));
-        $this->assertTrue(in_array($newName, $newPlace));
         $this->assertFalse(in_array($name, $oldPlace));
     }
 
@@ -314,36 +313,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test for writeFile method
-     *
-     * @dataProvider writeFileProvider
-     * @param string $basePath
-     * @param int $permissions
-     * @param string $path
-     * @param string $content
-     * @param int $mode
-     * @param int $bytes
-     */
-    public function testWriteFile($basePath, $permissions, $path, $content, $mode, $bytes)
-    {
-        $directory = $this->getDirectoryInstance($basePath, $permissions);
-        $this->assertEquals($bytes, $directory->writeFile($path, $content, $mode));
-    }
-
-    /**
-     * Data provider for testWriteFile
-     *
-     * @return array
-     */
-    public function writeFileProvider()
-    {
-        return array(
-            array('newDir1', 0777, 'newFile.txt', 'content', 0777, 7),
-            array('newDir1', 0777, 'subdirectory/newFile.txt', 'content', 0777, 7)
-        );
-    }
-
-    /**
      * Tear down
      */
     public function tearDown()
@@ -372,8 +341,10 @@ class WriteTest extends \PHPUnit_Framework_TestCase
             'permissions' => $permissions,
             'allow_create_dirs' => true
         );
-        $directoryFactory = Bootstrap::getObjectManager()->create('Magento\Filesystem\Directory\WriteFactory');
-        $directory = $directoryFactory->create($config, new \Magento\Filesystem\DriverFactory());
+        $objectManager = Bootstrap::getObjectManager();
+        $directoryFactory = $objectManager->create('Magento\Filesystem\Directory\WriteFactory');
+        $directory = $directoryFactory->create($config,
+            new \Magento\Filesystem\DriverFactory($objectManager->get('Magento\Filesystem\DirectoryList')));
         $this->testDirectories[] = $directory;
         return $directory;
     }

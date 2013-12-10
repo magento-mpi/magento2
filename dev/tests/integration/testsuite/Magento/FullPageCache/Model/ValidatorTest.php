@@ -91,7 +91,8 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
             ->get('Magento\App\Cache\TypeListInterface');
 
         // manual unset cache type
-        $cacheTypeList->cleanType($cacheType);
+//        $cacheTypeList->cleanType($cacheType);
+
 
         // invoke get data dependencies method
         switch ($type) {
