@@ -15,7 +15,7 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
-class CreateBundleTest extends Functional
+class BundleDynamicTest extends Functional
 {
     /**
      * Login into backend area before test
@@ -28,14 +28,12 @@ class CreateBundleTest extends Functional
     /**
      * Creating bundle (dynamic) product and assigning it to the category only
      *
-     * @dataProvider createDataProvider
      * @ZephyrId MAGETWO-12702
      */
-    public function testCreate($fixture)
+    public function testCreate()
     {
         //Data
-        /** @var $bundle \Magento\Bundle\Test\Fixture\Bundle */
-        $bundle = Factory::getFixtureFactory()->$fixture();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleDynamic();
         $bundle->switchData('bundle');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
@@ -55,14 +53,6 @@ class CreateBundleTest extends Functional
         //Verification
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);
-    }
-
-    public function createDataProvider()
-    {
-        return array(
-            array('getMagentoBundleBundleFixed'),
-            array('getMagentoBundleBundleDynamic')
-        );
     }
 
     /**
