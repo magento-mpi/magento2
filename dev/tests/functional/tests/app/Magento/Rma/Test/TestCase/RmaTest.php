@@ -43,7 +43,7 @@ class RmaTest extends Functional
         $searchOrder = Factory::getFixtureFactory()->getMagentoRmaOrderSearch();
         $searchOrder->setOrderId($orderId);
         $searchOrder->setFindOrderBy('Email Address');
-        $searchOrder->setBillingLastName($payPalExpressOrder->getBillingAddress()->getData('fields/lastname/value'));
+        $searchOrder->setBillingLastname($payPalExpressOrder->getBillingAddress()->getData('fields/lastname/value'));
         $searchOrder->setEmailAddress($payPalExpressOrder->getCustomer()->getData('fields/login_email/value'));
 
         $searchForm = Factory::getPageFactory()->getSalesGuestForm()->getSearchForm();
@@ -78,12 +78,12 @@ class RmaTest extends Functional
 
         // Get the return id in order to validate on the grid.
         $successMessage = $completedReturn->getMessageBlock()->getSuccessMessages();
-        $startPosition = strpos($successMessage, '#') + 1;
-        $endPosition = strpos($successMessage, '.');
-        $returnId = substr($successMessage, $startPosition, $endPosition - $startPosition);
+        $returnId = array();
+        preg_match('/#(.*?)\./s', $successMessage, $returnId);
+        $returnId = $returnId[1];
 
         // Validate that the returns grid is now displayed and contains the return just submitted.
-        $returnsBlock = $completedReturn->getMyReturnsBlock();
+        $returnsBlock = $completedReturn->getReturnsReturnsBlock();
         $this->assertTrue(
             $returnsBlock->isRowVisible($returnId),
             "Return Id was not found on the returns grid."
