@@ -59,7 +59,7 @@ class Collection
                 unset($this->messages[$type]);
             }
         }
-        if (!$this->lastAddedMessage->getIsSticky()) {
+        if ($this->lastAddedMessage instanceof MessageInterface && !$this->lastAddedMessage->getIsSticky()) {
             $this->lastAddedMessage = null;
         }
         return $this;
