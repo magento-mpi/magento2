@@ -61,20 +61,14 @@ class Form extends Block
     /**
      * Fill form with custom fields
      *
-     * @param $order
-     * @param $findOrderBy
+     * @param OrderSearch $orderSearch
      */
-    public function fillCustom($order, $findOrderBy)
+    public function fillCustom($orderSearch)
     {
-        $this->_rootElement->find($this->orderIdSelector, Locator::SELECTOR_ID)->setValue($order->getOrderId());
-
-        $billingLastName = $order->getBillingAddress()->getData('fields/lastname/value');
-        $this->_rootElement->find($this->orderBillingLastnameSelector, Locator::SELECTOR_ID)->setValue($billingLastName);
-
-        $customerEmail = $order->getCustomer()->getData('fields/login_email/value');
-        $this->_rootElement->find($this->orderEmailSelector, Locator::SELECTOR_ID)->setValue($customerEmail);
-
-        $this->_rootElement->find($this->orderSearchTypeSelector, Locator::SELECTOR_ID, 'select')->setValue($findOrderBy);
+        $this->_rootElement->find($this->orderIdSelector, Locator::SELECTOR_ID)->setValue($orderSearch->getOrderId());
+        $this->_rootElement->find($this->orderBillingLastnameSelector, Locator::SELECTOR_ID)->setValue($orderSearch->getBillingLastname());
+        $this->_rootElement->find($this->orderEmailSelector, Locator::SELECTOR_ID)->setValue($orderSearch->getEmailAddress());
+        $this->_rootElement->find($this->orderSearchTypeSelector, Locator::SELECTOR_ID, 'select')->setValue($orderSearch->getFindOrderBy());
     }
 
     /**
