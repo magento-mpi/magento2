@@ -102,12 +102,15 @@ class OauthV1 implements OauthV1Interface
     /**
      * {@inheritdoc}
      */
-    public function createAccessToken($consumerId)
+    public function createAccessToken($consumerId, $clearExistingToken = false)
     {
-        // TODO: This implementation is temporary and should be changed after requirements clarification
         try {
             $consumer = $this->_consumerFactory->create()->load($consumerId);
             $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            if ($existingToken && $clearExistingToken) {
+                $existingToken->delete();
+                unset($existingToken);
+            }
         } catch (\Exception $e) {
         }
         if (!isset($existingToken)) {

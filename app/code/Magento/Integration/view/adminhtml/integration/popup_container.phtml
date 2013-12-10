@@ -12,8 +12,8 @@
 ?>
 <script type="text/javascript">
     window.integration = new Integration(
-        '<?php echo $this->getUrl('*/*/permissionsDialog', ['id' => ':id']); ?>',
-        '<?php echo $this->getUrl('*/*/tokensDialog', ['id' => ':id']); ?>',
+        '<?php echo $this->getUrl('*/*/permissionsDialog', ['id' => ':id', 'reauthorize' => ':isReauthorize']); ?>',
+        '<?php echo $this->getUrl('*/*/tokensDialog', ['id' => ':id', 'reauthorize' => ':isReauthorize']); ?>',
         '<?php echo $this->getUrl('*/*'); ?>'
     );
 </script>

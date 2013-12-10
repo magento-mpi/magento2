@@ -151,6 +151,7 @@
             popup: {
                 show: function (ctx) {
                     var dialog = $(ctx).attr('data-row-dialog');
+                    var isReauthorize = $(ctx).attr('data-row-is-reauthorize');
 
                     if (!url.hasOwnProperty(dialog)) {
                         throw 'Invalid dialog type';
@@ -162,8 +163,8 @@
                         throw 'Unable to find integration ID';
                     }
 
-                    // Replace placeholder in URL with actual ID
-                    var ajaxUrl = url[dialog].replace(':id', integrationId);
+                    // Replace placeholders in URL
+                    var ajaxUrl = url[dialog].replace(':id', integrationId).replace(':isReauthorize', isReauthorize);
 
                     try {
                         // Get integration name either from current element or from neighbor column
@@ -175,12 +176,13 @@
 
                     var okButton = {
                         permissions: {
-                            text: $.mage.__('Allow'),
+                            text: (isReauthorize == '1') ? $.mage.__('Reauthorize') : $.mage.__('Allow'),
                             'class': 'primary',
                             // This data is going to be used in the next dialog
                             'data-row-id': integrationId,
                             'data-row-name': integrationName,
                             'data-row-dialog': 'tokens',
+                            'data-row-is-reauthorize': isReauthorize,
                             click: function () {
                                 // Find the 'Allow' button and clone - it has all necessary data, but is going to be
                                 // destroyed along with the current dialog

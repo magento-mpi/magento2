@@ -19,17 +19,9 @@ class Activate extends Link
     /**
      * {@inheritDoc}
      */
-    public function getUrlPattern()
-    {
-        return ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? '*/*/activate' : '*/*/reauthorize';
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getCaption()
     {
-        return ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? __('Activate') : __('Re-Authorize');
+        return ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? __('Activate') : __('Reauthorize');
     }
 
     /**
@@ -56,7 +48,8 @@ class Activate extends Link
     {
         return [
             'row-id' => $this->_row->getId(),
-            'row-dialog' => 'permissions'
+            'row-dialog' => 'permissions',
+            'row-is-reauthorize' => ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? '0' : '1'
         ];
     }
 }
