@@ -68,7 +68,7 @@
     </type>
     <type name="\Magento\Backend\Model\Observer">
         <param name="backendSession">
-            <instance type="\Magento\Backend\Model\Session\Proxy" />
+            <instance type="Magento\Backend\Model\Session\Proxy" />
         </param>
     </type>
     <type name="Magento\Backend\Model\Url">
