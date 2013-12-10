@@ -1050,8 +1050,6 @@ return array(
     array('getEventManager', '\Magento\Core\Model\Session\Context'),
     array('getLogger', '\Magento\Core\Model\Session\Context'),
     array('getStoreConfig', '\Magento\Core\Model\Session\Context'),
-    array('getMessageFactory', '\Magento\Core\Model\Session\Context'),
-    array('getMessagesFactory', '\Magento\Core\Model\Session\Context'),
     array('getStoreManager', '\Magento\Core\Model\Session\Context'),
     array('getRequest', '\Magento\Core\Model\Session\Context'),
 
