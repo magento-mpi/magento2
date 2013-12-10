@@ -40,9 +40,9 @@ class Success extends \Magento\View\Element\Template
     protected $_agreementFactory;
 
     /**
-     * @var \Magento\Sales\Model\Resource\Recurring\Profile\Collection
+     * @var \Magento\Sales\Model\Recurring\ProfileFactory
      */
-    protected $_profileCollFactory;
+    protected $_profileFactory;
 
     /**
      * @var \Magento\Sales\Model\Order\Config
@@ -55,7 +55,7 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
-     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollFactory
+     * @param \Magento\Sales\Model\Recurring\ProfileFactory $profileFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
@@ -65,7 +65,7 @@ class Success extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollFactory,
+        \Magento\Sales\Model\Recurring\ProfileFactory $profileFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
@@ -73,7 +73,7 @@ class Success extends \Magento\View\Element\Template
         $this->_customerSession = $customerSession;
         $this->_orderFactory = $orderFactory;
         $this->_agreementFactory = $agreementFactory;
-        $this->_profileCollFactory = $profileCollFactory;
+        $this->_profileFactory = $profileFactory;
         $this->_orderConfig = $orderConfig;
         parent::__construct($context, $data);
     }
@@ -159,7 +159,7 @@ class Success extends \Magento\View\Element\Template
     {
         $profileIds = $this->_checkoutSession->getLastRecurringProfileIds();
         if ($profileIds && is_array($profileIds)) {
-            $collection = $this->_profileCollFactory->create()->getCollection()
+            $collection = $this->_profileFactory->create()->getCollection()
                 ->addFieldToFilter('profile_id', array('in' => $profileIds))
             ;
             $profiles = array();
