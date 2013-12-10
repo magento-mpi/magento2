@@ -221,7 +221,7 @@ class Installer extends \Magento\Object
     /**
      * Get data model
      *
-     * @return \Magento\Session\Generic
+     * @return \Magento\Object
      */
     public function getDataModel()
     {
@@ -234,10 +234,10 @@ class Installer extends \Magento\Object
     /**
      * Set data model to store data between installation steps
      *
-     * @param \Magento\Session\SessionManagerInterface $model
+     * @param \Magento\Object $model
      * @return \Magento\Install\Model\Installer
      */
-    public function setDataModel(\Magento\Session\SessionManagerInterface $model)
+    public function setDataModel($model)
     {
         $this->_dataModel = $model;
         return $this;
