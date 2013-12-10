@@ -13,5 +13,4 @@ namespace Magento\Session\SaveHandler;
  */
 class Native extends \SessionHandler
 {
-
 }
