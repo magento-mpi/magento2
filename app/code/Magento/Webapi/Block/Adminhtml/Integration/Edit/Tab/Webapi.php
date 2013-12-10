@@ -52,7 +52,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      *
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
@@ -64,7 +63,6 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\Acl\RootResource $rootResource,
@@ -79,7 +77,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_aclResourceProvider = $aclResourceProvider;
         $this->_webapiData = $webapiData;
         $this->_integrationData = $integrationData;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
