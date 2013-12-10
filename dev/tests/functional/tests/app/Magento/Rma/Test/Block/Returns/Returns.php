@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Block;
+namespace Magento\Rma\Test\Block\Returns;
 
 use Mtf\Fixture;
 use Mtf\Block\Block;
@@ -19,9 +19,9 @@ use Mtf\Client\Element\Locator;
 /**
  * Order view block
  *
- * @package Magento\Rma\Test\Block
+ * @package Magento\Rma\Test\Block\Returns
  */
-class MyReturns extends Block
+class Returns extends Block
 {
     /**
      * Row selector
@@ -33,11 +33,8 @@ class MyReturns extends Block
     /**
      * Verify specific return.
      */
-    public function assertReturn($returnId)
+    public function isRowVisible($returnId)
     {
-        $return = $this->_rootElement->find(sprintf($this->rowSelector, $returnId), Locator::SELECTOR_XPATH);
-        if (!$return->isVisible()) {
-            throw new \Exception(sprintf('"%s" return is not visible', $returnId));
-        }
+        return $this->_rootElement->find(sprintf($this->rowSelector, $returnId), Locator::SELECTOR_XPATH)->isVisible();
     }
 }

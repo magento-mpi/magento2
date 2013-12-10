@@ -9,31 +9,31 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Page;
+namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class ReturnItem
- * Return Item page
+ * Class View
+ * View orders page
  *
- * @package Magento\Rma\Test\Page
+ * @package Magento\Sales\Test\Page
  */
-class ReturnItem extends Page
+class SalesGuestView extends Page
 {
     /**
-     * URL for return page
+     * URL for order view page
      */
-    const MCA = 'rma/guest/create';
+    const MCA = 'sales/guest/view';
 
     /**
      * Form wrapper selector
      *
      * @var string
      */
-    private $formWrapperSelector = '//form[@id="rma_create_form"]';
+    protected $blockSelector = '//div[@class="order details view"]';
 
     /**
      * Custom constructor
@@ -44,14 +44,14 @@ class ReturnItem extends Page
     }
 
     /**
-     * Get return item block form
+     * Get View block
      *
-     * @return \Magento\Rma\Test\Block\Form\ReturnItem
+     * @return \Magento\Sales\Test\Block\Order\Info
      */
-    public function getReturnItemForm()
+    public function getViewBlock()
     {
-        return Factory::getBlockFactory()->getMagentoRmaFormReturnItem(
-            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_XPATH)
+        return Factory::getBlockFactory()->getMagentoSalesOrderInfoButtons(
+            $this->_browser->find($this->blockSelector, Locator::SELECTOR_XPATH)
         );
     }
 }

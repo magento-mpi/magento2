@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Block\Form;
+namespace Magento\Rma\Test\Block\Returns;
 
 use Mtf\Fixture;
 use Mtf\Block\Form;
@@ -19,23 +19,23 @@ use Mtf\Client\Element\Locator;
 /**
  * Return Item form block
  *
- * @package Magento\Rma\Test\Block\Form
+ * @package Magento\Rma\Test\Block\Returns
  */
-class ReturnItem extends Form
+class Create extends Form
 {
     /**
      * Add Item to Return button selector
      *
      * @var string
      */
-    private $addItemToReturnButtonSelector = 'add-item-to-return';
+    protected $addItemToReturnButtonSelector = 'add-item-to-return';
 
     /**
      * Return button selector
      *
      * @var string
      */
-    private $returnButtonSelector = 'submit.save';
+    protected $returnButtonSelector = 'submit.save';
 
     /**
      * Fill form with custom fields

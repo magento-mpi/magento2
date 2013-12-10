@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Block;
+namespace Magento\Sales\Test\Block\Order\Info;
 
 use Mtf\Fixture;
 use Mtf\Block\Block;
@@ -19,9 +19,9 @@ use Mtf\Client\Element\Locator;
 /**
  * Order view block
  *
- * @package Magento\Rma\Test\Block
+ * @package Magento\Sales\Test\Block\Order\Info
  */
-class View extends Block
+class Buttons extends Block
 {
     /**
      * Link selector

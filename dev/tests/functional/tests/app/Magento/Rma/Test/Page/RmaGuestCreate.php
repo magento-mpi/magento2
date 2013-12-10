@@ -16,24 +16,24 @@ use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class View
- * View orders page
+ * Class ReturnItem
+ * Return Item page
  *
  * @package Magento\Rma\Test\Page
  */
-class View extends Page
+class RmaGuestCreate extends Page
 {
     /**
-     * URL for order view page
+     * URL for return page
      */
-    const MCA = 'sales/guest/view';
+    const MCA = 'rma/guest/create';
 
     /**
      * Form wrapper selector
      *
      * @var string
      */
-    protected $blockSelector = '//div[@class="order details view"]';
+    protected $formWrapperSelector = '//form[@id="rma_create_form"]';
 
     /**
      * Custom constructor
@@ -44,14 +44,14 @@ class View extends Page
     }
 
     /**
-     * Get View block
+     * Get return item block form
      *
-     * @return \Magento\Rma\Test\Block\View
+     * @return \Magento\Rma\Test\Block\Form\ReturnItem
      */
-    public function getViewBlock()
+    public function getReturnItemForm()
     {
-        return Factory::getBlockFactory()->getMagentoRmaView(
-            $this->_browser->find($this->blockSelector, Locator::SELECTOR_XPATH)
+        return Factory::getBlockFactory()->getMagentoRmaReturnsCreate(
+            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_XPATH)
         );
     }
 }

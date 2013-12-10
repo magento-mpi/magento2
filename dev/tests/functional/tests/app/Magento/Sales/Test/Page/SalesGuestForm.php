@@ -9,19 +9,19 @@
  * @license     {license_link}
  */
 
-namespace Magento\Rma\Test\Page;
+namespace Magento\Sales\Test\Page;
 
 use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
 /**
- * Class Search
+ * Class SalesGuestForm
  * Orders and returns search page
  *
- * @package Magento\Rma\Test\Page
+ * @package Magento\Sales\Test\Page
  */
-class Search extends Page
+class SalesGuestForm extends Page
 {
     /**
      * URL for orders and returns search page
@@ -33,7 +33,7 @@ class Search extends Page
      *
      * @var string
      */
-    private $formWrapperSelector = '.form.orders.search';
+    protected $formWrapperSelector = 'oar-widget-orders-and-returns-form';
 
     /**
      * Custom constructor
@@ -46,12 +46,12 @@ class Search extends Page
     /**
      * Get search block form
      *
-     * @return \Magento\Rma\Test\Block\Form\Search
+     * @return \Magento\Sales\Test\Block\Widget\Guest\Form
      */
     public function getSearchForm()
     {
-        return Factory::getBlockFactory()->getMagentoRmaFormSearch(
-            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_CSS)
+        return Factory::getBlockFactory()->getMagentoSalesWidgetGuestForm(
+            $this->_browser->find($this->formWrapperSelector, Locator::SELECTOR_ID)
         );
     }
 }
