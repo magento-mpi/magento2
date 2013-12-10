@@ -12,6 +12,7 @@ namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\SimpleProduct;
+use Magento\CatalogRule\Test\Repository\CatalogPriceRule as Repository;
 use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -24,6 +25,7 @@ use Mtf\Client\Element\Locator;
  */
 class ApplyCustomerGroupCatalogRule extends Functional
 {
+    const DISCOUNT = .5;
     /**
      * Applying Catalog Price Rules to specific customer group
      *
@@ -56,7 +58,7 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
         $catalogRuleFixture->setPlaceHolders(array('category_id' => $categoryIds[0]));
-        $catalogRuleFixture->switchData('customer_group_catalog_rule');
+        $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL);
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
@@ -147,7 +149,7 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $this->assertContains(
-            (string)($product->getProductPrice() * .5),
+            (string)($product->getProductPrice() * static::DISCOUNT),
             $productListBlock->getProductSpecialPrice($product->getProductName()),
             'Displayed price does not match expected price.'
         );
@@ -165,13 +167,13 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertContains((string)($product->getProductPrice() * .5), $productViewBlock->getProductSpecialPrice());
+        $this->assertContains((string)($product->getProductPrice() * static::DISCOUNT), $productViewBlock->getProductSpecialPrice());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
-            (string)($product->getProductPrice() * .5),
+            (string)($product->getProductPrice() * static::DISCOUNT),
             $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
             "Discount was not correctly applied"
         );

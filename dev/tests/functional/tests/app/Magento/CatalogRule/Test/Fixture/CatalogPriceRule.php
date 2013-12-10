@@ -11,6 +11,7 @@
 
 namespace Magento\CatalogRule\Test\Fixture;
 
+use Magento\CatalogRule\Test\Repository\CatalogPriceRule as Repository;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
@@ -30,7 +31,7 @@ class CatalogPriceRule extends DataFixture
             ->getMagentoCatalogRuleCatalogPriceRule($this->_dataConfig, $this->_data);
 
         //Default data set
-        $this->switchData('catalog_price_rule');
+        $this->switchData(Repository::CATALOG_PRICE_RULE);
     }
 
     public function getRuleName()
