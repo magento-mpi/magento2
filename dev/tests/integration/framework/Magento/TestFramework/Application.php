@@ -283,7 +283,7 @@ class Application
             copy($file, $targetModulesDir . DIRECTORY_SEPARATOR . basename($file));
         }
 
-        /* Make sure that local.xml contains an invalid installation date */
+        /* Make sure that local.xml does not contain an invalid installation date */
         $installDate = (string)$this->_localXml->install->date;
         if ($installDate && strtotime($installDate)) {
             throw new \Magento\Exception('Local configuration must contain an invalid installation date.');

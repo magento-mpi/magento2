@@ -17,6 +17,9 @@
         <param name="typeSwitcherLabel">
             <value>Virtual</value>
         </param>
+        <param name="catalogSession">
+            <instance type="Magento\Catalog\Model\Session\Proxy" />
+        </param>
     </type>
     <type name="Magento\Catalog\Model\Product">
         <param name="catalogProductStatus">
@@ -41,6 +44,9 @@
     <type name="Magento\Catalog\Model\Resource\Product\Collection">
         <param name="catalogUrl">
             <instance type="Magento\Catalog\Model\Resource\Url\Proxy" />
+        </param>
+        <param name="customerSession">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Entity\Product\Attribute\Design\Options\Container">
@@ -68,6 +74,9 @@
     <type name="Magento\Catalog\Helper\Data">
         <param name="templateFilterModel">
             <value>Magento\Catalog\Model\Template\Filter</value>
+        </param>
+        <param name="catalogSession">
+            <instance type="Magento\Catalog\Model\Session\Proxy" />
         </param>
     </type>
     <type name="Magento\Catalog\Model\Config\Source\GridPerPage">
