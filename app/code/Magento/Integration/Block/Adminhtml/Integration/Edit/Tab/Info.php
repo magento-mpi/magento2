@@ -30,6 +30,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
     const DATA_NAME = 'name';
     const DATA_EMAIL = 'email';
     const DATA_ENDPOINT = 'endpoint';
+    const DATA_IDENTITY_LINK_URL = 'identity_link_url';
     const DATA_SETUP_TYPE = 'setup_type';
     const DATA_CONSUMER_ID = 'consumer_id';
     /**#@-*/
@@ -162,6 +163,18 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                     'Enter URL where Oauth credentials can be sent when using Oauth for token exchange. We strongly recommend using https://.'
                 )
                 // @codingStandardsIgnoreEnd
+            )
+        );
+        $fieldset->addField(
+            self::DATA_IDENTITY_LINK_URL,
+            'text',
+            array(
+                'label' => __('Identity link URL'),
+                'name' => self::DATA_IDENTITY_LINK_URL,
+                'disabled' => $disabled,
+                'note' => __(
+                    'Enter URL where the consumer key can be linked to the identity system in Integrations.'
+                )
             )
         );
     }

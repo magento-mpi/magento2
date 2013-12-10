@@ -8,7 +8,8 @@
 return array(
     'TestIntegration1' => array(
         'email' => 'test-integration1@example.com',
-         'endpoint_url' => 'http://example.com/endpoint1'
+         'endpoint_url' => 'http://example.com/endpoint1',
+         'identity_link_url' => 'http://www.example.com/identity1'
     ),
     'TestIntegration2' => array(
         'email' => 'test-integration2@example.com',

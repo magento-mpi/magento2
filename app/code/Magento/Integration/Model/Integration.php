@@ -51,6 +51,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     const NAME = 'name';
     const EMAIL = 'email';
     const ENDPOINT = 'endpoint';
+    const IDENTITY_LINK_URL = 'identity_link_url';
     const SETUP_TYPE = 'setup_type';
     const CONSUMER_ID = 'consumer_id';
     /**#@-*/
