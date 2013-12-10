@@ -37,12 +37,16 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
     /** @var WebapiHelper */
     protected $_webapiHelper;
 
+    /** @var \Magento\Core\Helper\Data  */
+    protected $_coreHelper;
+
     /**
      * Initialize dependencies.
      *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
+     * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Core\Model\Acl\RootResource $rootResource
      * @param \Magento\Acl\Resource\ProviderInterface $resourceProvider
      * @param \Magento\Integration\Helper\Data $integrationData
@@ -53,6 +57,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
+        \Magento\Core\Helper\Data $coreHelper,
         \Magento\Core\Model\Acl\RootResource $rootResource,
         \Magento\Acl\Resource\ProviderInterface $resourceProvider,
         \Magento\Integration\Helper\Data $integrationData,
@@ -63,6 +68,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_resourceProvider = $resourceProvider;
         $this->_integrationData = $integrationData;
         $this->_webapiHelper = $webapiData;
+        $this->_coreHelper = $coreHelper;
         parent::__construct($context, $registry, $formFactory, $data);
     }
 
@@ -130,7 +136,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
         $resources = $this->_resourceProvider->getAclResources();
         $aclResourcesTree = $this->_integrationData->mapResources($resources[1]['children']);
 
-        return $this->_coreData->jsonEncode($aclResourcesTree);
+        return $this->_coreHelper->jsonEncode($aclResourcesTree);
     }
 
     /**
@@ -147,7 +153,7 @@ class Webapi extends \Magento\Backend\Block\Widget\Form\Generic
              $resources = $this->_resourceProvider->getAclResources();
              $selectedResources = $this->_getAllResourceIds($resources[1]['children']);
         }
-        return $this->_coreData->jsonEncode($selectedResources);
+        return $this->_coreHelper->jsonEncode($selectedResources);
     }
 
     /**
