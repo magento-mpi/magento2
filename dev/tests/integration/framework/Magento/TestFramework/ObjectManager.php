@@ -34,6 +34,12 @@ class ObjectManager extends \Magento\App\ObjectManager
             }
         }
 
+        foreach ($this->_sharedInstances as $object) {
+            if ($object instanceof \Magento\Session\SessionManagerInterface) {
+                $object->destroy();
+            }
+        }
+
         \Magento\Core\Model\Config\Base::destroy();
         $sharedInstances = array(
             'Magento\ObjectManager' => $this, 'Magento\App\ObjectManager' => $this
