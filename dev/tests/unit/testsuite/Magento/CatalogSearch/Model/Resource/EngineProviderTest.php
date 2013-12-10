@@ -41,8 +41,13 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetPositive()
     {
-        $engineMock = $this->getMock('Magento\CatalogSearch\Model\Resource\Fulltext\Engine',
-            array('test'), array(), '', false);
+        $engineMock = $this->getMock(
+            'Magento\CatalogSearch\Model\Resource\Fulltext\Engine',
+            array('test', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $engineMock->expects($this->once())
             ->method('test')
             ->will($this->returnValue(true));
@@ -62,8 +67,8 @@ class EngineProviderTest extends \PHPUnit_Framework_TestCase
 
     public function testGetNegative()
     {
-        $engineMock = $this->getMock('Magento\CatalogSearch\Model\Resource\Fulltext\Engine',
-            array('test'), array(), '', false);
+        $engineMock = $this->getMock(
+            'Magento\CatalogSearch\Model\Resource\Fulltext\Engine', array('test', '__wakeup'), array(), '', false);
         $engineMock->expects($this->never())
             ->method('test');
 

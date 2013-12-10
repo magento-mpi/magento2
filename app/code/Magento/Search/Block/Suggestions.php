@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Block;
 
-class Suggestions extends \Magento\View\Block\Template
+class Suggestions extends \Magento\View\Element\Template
 {
     /**
      * Search data
@@ -32,22 +32,20 @@ class Suggestions extends \Magento\View\Block\Template
     protected $_suggestions;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Search\Model\Suggestions $suggestions
      * @param \Magento\Search\Helper\Data $searchData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Search\Model\Suggestions $suggestions,
         \Magento\Search\Helper\Data $searchData,
         array $data = array()
     ) {
         $this->_suggestions = $suggestions;
         $this->_searchData = $searchData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

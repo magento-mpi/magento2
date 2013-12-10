@@ -22,7 +22,6 @@ class Catalogrule
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection
      * @param \Magento\Core\Model\Registry $registry
@@ -30,14 +29,13 @@ class Catalogrule
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
         $this->setCollection($ruleCollection);
     }
 

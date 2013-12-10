@@ -41,7 +41,6 @@ class Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory
      * @param \Magento\ScheduledImportExport\Helper\Data $importExportData
      * @param \Magento\Core\Model\Registry $registry
@@ -49,7 +48,6 @@ class Edit
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\ScheduledImportExport\Model\Scheduled\OperationFactory $operationFactory,
         \Magento\ScheduledImportExport\Helper\Data $importExportData,
         \Magento\Core\Model\Registry $registry,
@@ -58,7 +56,7 @@ class Edit
         $this->_operationFactory = $operationFactory;
         $this->_coreRegistry = $registry;
         $this->_importExportData = $importExportData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

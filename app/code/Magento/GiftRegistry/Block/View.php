@@ -27,7 +27,7 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
     protected $typeFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
@@ -40,13 +40,13 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
+        \Magento\Core\Helper\Data $coreData,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Directory\Model\CountryFactory $countryFactory,
         \Magento\GiftRegistry\Model\TypeFactory $typeFactory,
@@ -56,12 +56,12 @@ class View extends \Magento\GiftRegistry\Block\Customer\Items
         $this->typeFactory = $typeFactory;
         parent::__construct(
             $context,
-            $coreData,
             $catalogConfig,
             $registry,
             $taxData,
             $catalogData,
             $mathRandom,
+            $coreData,
             $itemFactory,
             $data
         );

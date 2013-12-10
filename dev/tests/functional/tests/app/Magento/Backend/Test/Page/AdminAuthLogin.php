@@ -43,6 +43,13 @@ class AdminAuthLogin extends Page
     protected $headerBlock = '.header-panel';
 
     /**
+     * Global messages block
+     *
+     * @var string
+     */
+    protected $messageBlock = '#messages .messages';
+
+    /**
      * Constructor
      */
     protected function _init()
@@ -71,6 +78,18 @@ class AdminAuthLogin extends Page
     {
         return Factory::getBlockFactory()->getMagentoBackendPageHeader(
             $this->_browser->find($this->headerBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get global messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messageBlock)
         );
     }
 }

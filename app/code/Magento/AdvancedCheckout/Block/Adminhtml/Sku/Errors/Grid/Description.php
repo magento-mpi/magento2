@@ -34,19 +34,25 @@ class Description extends \Magento\Backend\Block\Template
     protected $_checkoutData = null;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_checkoutData = $checkoutData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -57,8 +63,8 @@ class Description extends \Magento\Backend\Block\Template
     public function getConfigureButtonHtml()
     {
         $canConfigure = $this->getProduct()->canConfigure() && !$this->getItem()->getIsConfigureDisabled();
-        $productId = $this->escapeHtml($this->_coreData->jsonEncode($this->getProduct()->getId()));
-        $itemSku = $this->escapeHtml($this->_coreData->jsonEncode($this->getItem()->getSku()));
+        $productId = $this->escapeHtml($this->_jsonEncoder->encode($this->getProduct()->getId()));
+        $itemSku = $this->escapeHtml($this->_jsonEncoder->encode($this->getItem()->getSku()));
 
         /* @var $button \Magento\Adminhtml\Block\Widget\Button */
         $button = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button', '', array('data' => array(

@@ -2,40 +2,43 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_GoogleCheckout
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-/**
- * Redirect to GoogleCheckout
- *
- * @category    Magento
- * @package     Magento_GoogleCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\GoogleCheckout\Block;
 
-class Redirect extends \Magento\Page\Block\Redirect
+/**
+ * Redirect to GoogleCheckout
+ */
+class Redirect extends \Magento\View\Element\Redirect
 {
     /**
-     *  Get target URL
+     * URL for redirect location
      *
-     *  @return string
+     * @return string URL
      */
-    public function getTargetURL ()
+    public function getTargetURL()
     {
         return $this->getRedirectUrl();
     }
 
-
-    public function getMethod ()
+    /**
+     * HTML form method attribute
+     *
+     * @return string Method
+     */
+    public function getFormMethod()
     {
         return 'GET';
     }
 
-    public function getMessage ()
+    /**
+     * Additional custom message
+     *
+     * @return string Output message
+     */
+    public function getMessage()
     {
         return __('You will be redirected to GoogleCheckout in a few seconds.');
     }

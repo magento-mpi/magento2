@@ -87,14 +87,14 @@ class Observer
     }
 
     /**
-     * Handle core_block_abstract_to_html_before event
+     * Handle view_block_abstract_to_html_before event
      *
      * @param \Magento\Event\Observer $observer
      * @return void
      */
-    public function coreBlockAbstractToHtmlBefore($observer)
+    public function viewBlockAbstractToHtmlBefore($observer)
     {
-         /** @var $block \Magento\View\Block\AbstractBlock */
+         /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getBlock();
         $blockNameInLayout = $block->getNameInLayout();
         switch ($blockNameInLayout) {

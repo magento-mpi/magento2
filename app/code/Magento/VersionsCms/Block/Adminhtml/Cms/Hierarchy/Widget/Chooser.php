@@ -29,22 +29,28 @@ class Chooser extends \Magento\Backend\Block\Template
     protected $_widgetRadio;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
-     * @param \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio
+     * @param Radio $widgetRadio
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         \Magento\VersionsCms\Block\Adminhtml\Cms\Hierarchy\Widget\Radio $widgetRadio,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_nodeFactory = $nodeFactory;
         $this->_widgetRadio = $widgetRadio;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -161,7 +167,7 @@ class Chooser extends \Magento\Backend\Block\Template
      */
     public function getNodesJson()
     {
-        return $this->_coreData->jsonEncode($this->getNodes());
+        return $this->_jsonEncoder->encode($this->getNodes());
     }
 
     /**

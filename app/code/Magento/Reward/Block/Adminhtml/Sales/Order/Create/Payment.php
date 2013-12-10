@@ -39,7 +39,6 @@ class Payment extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Reward\Model\RewardFactory $rewardFactory
@@ -47,7 +46,6 @@ class Payment extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Reward\Model\RewardFactory $rewardFactory,
@@ -56,7 +54,7 @@ class Payment extends \Magento\Backend\Block\Template
         $this->_rewardData = $rewardData;
         $this->_orderCreate = $orderCreate;
         $this->_rewardFactory = $rewardFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

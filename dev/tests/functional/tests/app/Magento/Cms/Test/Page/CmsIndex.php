@@ -71,6 +71,11 @@ class CmsIndex extends Page
     protected $customerBlock = '.header .content .links';
 
     /**
+     * Store switcher block path
+     */
+    private $storeSwitcherBlock = '//*[@data-ui-id="language-switcher"]';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -93,11 +98,11 @@ class CmsIndex extends Page
     /**
      * Get category title block
      *
-     * @return \Magento\Page\Test\Block\Html\Topmenu
+     * @return \Magento\Theme\Test\Block\Html\Topmenu
      */
     public function getTopmenu()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlTopmenu(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTopmenu(
             $this->_browser->find($this->topmenuBlock, Locator::SELECTOR_CSS)
         );
     }
@@ -105,11 +110,11 @@ class CmsIndex extends Page
     /**
      * Get title block
      *
-     * @return \Magento\Page\Test\Block\Html\Title
+     * @return \Magento\Theme\Test\Block\Html\Title
      */
     public function getTitleBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
         );
     }
@@ -117,11 +122,11 @@ class CmsIndex extends Page
     /**
      * Get footer block
      *
-     * @return \Magento\Page\Test\Block\Html\Footer
+     * @return \Magento\Theme\Test\Block\Html\Footer
      */
     public function getFooterBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlFooter(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlFooter(
             $this->_browser->find($this->footerBlock, Locator::SELECTOR_CSS)
         );
     }
@@ -129,11 +134,11 @@ class CmsIndex extends Page
     /**
      * Get Top Links block
      *
-     * @return \Magento\Page\Test\Block\Links
+     * @return \Magento\Theme\Test\Block\Links
      */
     public function getLinksBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageLinks(
+        return Factory::getBlockFactory()->getMagentoThemeLinks(
             $this->_browser->find($this->linksBlock, Locator::SELECTOR_CSS)
         );
     }
@@ -147,6 +152,18 @@ class CmsIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoCustomerAccountCustomer(
             $this->_browser->find($this->customerBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get store switcher
+     *
+     * @return \Magento\Core\Test\Block\Switcher
+     */
+    public function getStoreSwitcherBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreSwitcher(
+            $this->_browser->find($this->storeSwitcherBlock, Locator::SELECTOR_XPATH)
         );
     }
 }

@@ -27,19 +27,19 @@ class DefaultAddress
     protected $_eavConfig;
 
     /**
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Eav\Model\Config $eavConfig
-     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
-        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Customer\Address\DefaultAddress');
         $this->setValue('default_billing');
     }
