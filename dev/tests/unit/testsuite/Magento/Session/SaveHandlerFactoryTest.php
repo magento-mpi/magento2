@@ -21,6 +21,7 @@ class SaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
         $model = new SaveHandlerFactory($objectManager, $handlers);
         $result = $model->create($saveMethod);
         $this->assertInstanceOf($saveClass, $result);
+        $this->assertInstanceOf('\Magento\Session\SaveHandler\Native', $result);
         $this->assertInstanceOf('\SessionHandler', $result);
     }
 
@@ -31,7 +32,7 @@ class SaveHandlerFactoryTest extends \PHPUnit_Framework_TestCase
     {
         return array(
             array(
-                array(), '\SessionHandler', 'files'
+                array(), 'Magento\Session\SaveHandler\Native', 'files'
             )
         );
     }
