@@ -54,9 +54,6 @@ $bootstrap = new \Magento\TestFramework\Bootstrap(
 );
 $bootstrap->runBootstrap();
 
-// Hook to destroy session that was started during Magento installation by some dependency
-session_destroy();
-
 \Magento\TestFramework\Helper\Bootstrap::setInstance(new \Magento\TestFramework\Helper\Bootstrap($bootstrap));
 
 Magento\TestFramework\Utility\Files::init(new Magento\TestFramework\Utility\Files($magentoBaseDir));

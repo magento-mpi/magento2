@@ -50,4 +50,20 @@ class Storage extends \Magento\Object implements StorageInterface
     {
         return $this->namespace;
     }
+
+    /**
+     * Additional get data with clear mode
+     *
+     * @param string $key
+     * @param bool $clear
+     * @return mixed
+     */
+    public function getData($key = '', $clear = false)
+    {
+        $data = parent::getData($key);
+        if ($clear && isset($this->_data[$key])) {
+            unset($this->_data[$key]);
+        }
+        return $data;
+    }
 }
