@@ -31,8 +31,7 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
             ->will(
                 $this->returnValue(
                     $directory->openFile($directory->getRelativePath(
-                            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv',
-                        'r'
+                            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
                     ))
                 )
             );

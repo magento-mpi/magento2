@@ -380,7 +380,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->method('openFile')
             ->will(
                 $this->returnValue(
-                    $directory->openFile($directory->getRelativePath($sourceFile), 'r')
+                    $directory->openFile($directory->getRelativePath($sourceFile))
                 )
             );
 
@@ -479,7 +479,7 @@ class AddressTest extends \PHPUnit_Framework_TestCase
             ->method('openFile')
             ->will(
                 $this->returnValue(
-                    $directory->openFile($directory->getRelativePath($sourceFile), 'r')
+                    $directory->openFile($directory->getRelativePath($sourceFile))
                 )
             );
 

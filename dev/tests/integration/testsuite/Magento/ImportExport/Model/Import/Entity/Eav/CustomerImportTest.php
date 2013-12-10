@@ -51,7 +51,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             ->method('openFile')
             ->will(
                 $this->returnValue(
-                    $directory->openFile($directory->getRelativePath(__DIR__ . '/_files/customers_to_import.csv'), 'r')
+                    $directory->openFile($directory->getRelativePath(__DIR__ . '/_files/customers_to_import.csv'))
                 )
             );
     }

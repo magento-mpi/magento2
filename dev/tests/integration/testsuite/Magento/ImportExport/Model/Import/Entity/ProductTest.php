@@ -92,8 +92,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath(__DIR__ . '/_files/products_to_import.csv'),
-                'r'
+                $directory->getRelativePath(__DIR__ . '/_files/products_to_import.csv')
             )));
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
@@ -146,8 +145,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath(__DIR__ . '/_files/products_to_import_with_datetime.csv'),
-                'r'
+                $directory->getRelativePath(__DIR__ . '/_files/products_to_import_with_datetime.csv')
             )));
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
@@ -199,8 +197,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath($pathToFile),
-                'r'
+                $directory->getRelativePath($pathToFile)
             )));
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directoryMock);
@@ -270,8 +267,7 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $directoryMock->expects($this->any())
             ->method('openFile')
             ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath(__DIR__ . '/_files/products_to_import_with_datetime.csv'),
-                'r'
+                $directory->getRelativePath(__DIR__ . '/_files/products_to_import_with_datetime.csv')
             )));
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
