@@ -30,7 +30,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Session\SidResolverInterface $sidResolver */
         $this->_sidResolver = $objectManager->get('Magento\Session\SidResolverInterface');
 
-        /** @var \Magento\Core\Model\Session\AbstractSession _model */
+        /** @var \Magento\Session\SessionManager _model */
         $this->_model = $objectManager->create(
             'Magento\Session\SessionManager',
             array(
@@ -42,11 +42,6 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
                 $objectManager->create('Magento\Session\StorageInterface')
             )
         );
-    }
-
-    protected function tearDown()
-    {
-        $this->_model->destroy();
     }
 
     public function testGetData()
@@ -162,6 +157,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $sessionManager = $objectManger->create('Magento\Session\SessionManager', array('sessionConfig' => $config));
         $sessionManager->start();
 
+        echo $iniValue.PHP_EOL;
         $this->assertEquals(ini_get('session.save_handler'), $iniValue);
     }
 
@@ -176,13 +172,13 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         );
 
         if (defined('MEMCACHE_SESSION_SAVE_PATH')) {
-            array_merge($cases, array(
+            $cases = array_merge($cases, array(
                 'memcache' => array('memcache', 'memcache', array('savePath' => MEMCACHE_SESSION_SAVE_PATH))
             ));
         }
 
         if (defined('MEMCACHED_SESSION_SAVE_PATH')) {
-            array_merge($cases, array(
+            $cases = array_merge($cases, array(
                 'memcached' => array('memcached', 'memcached', array('savePath' => MEMCACHED_SESSION_SAVE_PATH))
             ));
         }
