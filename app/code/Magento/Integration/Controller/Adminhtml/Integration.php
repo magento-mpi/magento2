@@ -319,11 +319,19 @@ class Integration extends Action
         try {
             $integrationId = $this->getRequest()->getParam('id');
             $integration = $this->_integrationService->get($integrationId);
-            $this->_oauthService->createAccessToken($integration->getConsumerId());
-            $this->_registry->register(
-                self::REGISTRY_KEY_CURRENT_INTEGRATION,
-                $this->_integrationService->get($integrationId)->getData()
-            );
+            $endpoint = $integration->getEndpoint();
+            if (!empty($endpoint)) {
+                //Integration chooses to use Oauth for token exchange
+                $this->_oauthService->postToConsumer($integration->getConsumerId(), $endpoint);
+                //TODO: Empty response indicating Oauth. Fix if needed.
+                return;
+            } else {
+                $this->_oauthService->createAccessToken($integration->getConsumerId());
+                $this->_registry->register(
+                    self::REGISTRY_KEY_CURRENT_INTEGRATION,
+                    $this->_integrationService->get($integrationId)->getData()
+                );
+            }
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*');
@@ -337,6 +345,29 @@ class Integration extends Action
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
     }
+
+    /**
+     * Update integration status after successful callback from Identity login
+     */
+    public function loginSuccessCallbackAction()
+    {
+        $consumerId = $this->getRequest()->getParam(IntegrationModel::CONSUMER_ID);
+        $integration = $this->_integrationService->findByConsumerId($consumerId);
+        $integration->setStatus(IntegrationModel::STATUS_ACTIVE);
+        $this->_integrationService->update($integration->getData());
+        $this->getResponse()->setBody($this->_getWinCloseJs());
+    }
+
+    /**
+     * Retrieve response js for loginSuccessCallbackAction()
+     * @return string
+     */
+    protected function _getWinCloseJs()
+    {
+        return '<script type="text/javascript">setTimeout("self.close()",1000);</script>';
+    }
+
+
 
     /**
      * Redirect merchant to 'Edit integration' or 'New integration' if error happened during integration save.

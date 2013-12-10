@@ -42,6 +42,15 @@ interface IntegrationV1Interface
     public function findByName($integrationName);
 
     /**
+     * Get the details of an Integration by consumer_id.
+     *
+     * @param int $consumerId
+     * @return IntegrationModel
+     * @throws \Magento\Integration\Exception
+     */
+    public function findByConsumerId($consumerId);
+
+    /**
      * Update an Integration.
      *
      * @param array $integrationData

@@ -90,6 +90,71 @@
             reauthorize: reauthorizeDialogUrl
         };
 
+        var IdentityLogin = {
+            win : null,
+            strLocation : null,
+            checker : null,
+            isCalledBack : false,
+
+            Constants :{
+                //TODO:Fix hardcoded URL and use it from the integration
+                LOGIN_URL : 'http://consumer:82/login.html',
+                CALLBACK_ACTION : 'loginSuccessCallback',
+                CHECKER_INTERVAL : 500,
+                //Login screen size plus some buffer
+                WIDTH : 680+20,
+                HEIGHT : 510+20,
+                //Make the deductions dynamic based on screen settings
+                LEFT : screen.width-680+20-30,
+                TOP : screen.height-510+20-300
+            },
+
+            invokePopup : function () {
+                /**
+                 Reset callback flag on subsequent invocations
+                 */
+                IdentityLogin.isCalledBack = false;
+
+                IdentityLogin.win = window.open(IdentityLogin.Constants.LOGIN_URL ,'',
+                    'top=' + IdentityLogin.Constants.TOP +
+                        ', left=' + IdentityLogin.Constants.LEFT +
+                        ', width=' + IdentityLogin.Constants.WIDTH +
+                        ', height=' + IdentityLogin.Constants.HEIGHT + ',scrollbars=no');
+
+                if (IdentityLogin.checker != null)
+                    clearInterval(IdentityLogin.checker);
+
+                IdentityLogin.checker = setInterval( IdentityLogin.fnCheckLocation, IdentityLogin.Constants.CHECKER_INTERVAL );
+            },
+
+            fnCheckLocation : function () {
+                if (IdentityLogin.win == null)
+                    return;
+                // Check to see if the location has changed.
+                try {
+                    var calbackIndex = IdentityLogin.win.location.href.indexOf(IdentityLogin.Constants.CALLBACK_ACTION);
+                    if (calbackIndex > 0) {
+                        /**
+                         User redirected from Integration site. Doesn't guarantee login
+                         */
+                        IdentityLogin.isCalledBack = true;
+                    }
+                    if(IdentityLogin.win.closed || calbackIndex != -1){
+                        clearInterval(IdentityLogin.checker);
+                        if(IdentityLogin.isCalledBack){
+                            window.location.reload();
+                        }
+                    }
+                } catch (e) {
+                    //squash
+                    if(IdentityLogin.win.closed){
+                        clearInterval(IdentityLogin.checker);
+                    }
+                    return;
+                }
+            }
+        };
+
         var _showPopup = function (dialog, title, okButton, url) {
             $.ajax({
                 url: url,
@@ -102,6 +167,13 @@
                     $('body').trigger('processStart');
                 },
                 success: function (html) {
+
+                    //need to improve the check. Currently if no HTML response then Oauth flow
+                    if(!html){;
+                        IdentityLogin.invokePopup();
+                        return
+                    }
+
                     var popup = $('#integration-popup-container');
 
                     popup.html(html);
