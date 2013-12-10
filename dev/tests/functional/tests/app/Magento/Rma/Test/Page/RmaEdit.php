@@ -23,11 +23,10 @@ use Mtf\Client\Element\Locator;
  */
 class RmaEdit extends Page
 {
-
     /**
      * URL for RMA Edit page
      */
-    const MCA = 'rma/edit';
+    const MCA = 'admin/rma/edit';
 
     /**
      * Rma edit tabs block
@@ -62,7 +61,7 @@ class RmaEdit extends Page
      */
     protected function _init()
     {
-        $this->_url = $this->_url = $_ENV['app_backend_url'] . self::MCA;
+        $this->_url = $_ENV['app_backend_url'] . self::MCA;
     }
 
     /**
