@@ -118,6 +118,9 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         return $this->_session;
     }
 
+    /**
+     * @return \Magento\Message\ManagerInterface
+     */
     protected function getMessageManager()
     {
         return $this->messageManager;

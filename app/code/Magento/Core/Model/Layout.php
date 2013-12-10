@@ -1659,6 +1659,12 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         }
     }
 
+    /**
+     * Validate message groups
+     *
+     * @param array $messageGroups
+     * @return array
+     */
     protected function _prepareMessageGroup($messageGroups)
     {
         if (!is_array($messageGroups)) {
