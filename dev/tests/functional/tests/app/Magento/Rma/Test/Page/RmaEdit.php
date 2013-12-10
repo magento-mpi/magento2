@@ -96,7 +96,7 @@ class RmaEdit extends Page
      */
     public function getRmaEditFormBlock()
     {
-        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaRmaEditForm(
+        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlRmaEditTabItems(
             $this->_browser->find($this->rmaEditBlock, Locator::SELECTOR_ID)
         );
     }

@@ -13,12 +13,10 @@ namespace Magento\Rma\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
 
-Class RmaTest extends Functional
+class RmaTest extends Functional
 {
     /**
-     *
      * Returning items using return merchandise authorization
      *
      * @ZephirId MAGETWO-12432
@@ -99,19 +97,19 @@ Class RmaTest extends Functional
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
 
         // Step 13: Authorize Simple and Configurable Product
-        $rmaPage->getRmaEditFormBlock()->fillAuthorized($products, 1);
+        $rmaPage->getRmaEditFormBlock()->fillCustom($products, 1, 'AUTHORIZE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
-        $rmaPage->getRmaEditFormBlock()->fillReturned($products,1);
+        $rmaPage->getRmaEditFormBlock()->fillCustom($products,1, 'RETURN_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
-        $rmaPage->getRmaEditFormBlock()->fillApproved($products, 1);
+        $rmaPage->getRmaEditFormBlock()->fillCustom($products, 1, 'APPROVE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
     }

@@ -174,9 +174,14 @@ class SalesOrder extends Page
         );
     }
 
+    /**
+     * Get order returns block
+     *
+     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Returns
+     */
     public function getOrderReturnsBlock()
     {
-        return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderReturns(
+        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlOrderViewTabRma(
             $this->_browser->find($this->orderReturnsBlock, Locator::SELECTOR_ID)
         );
     }

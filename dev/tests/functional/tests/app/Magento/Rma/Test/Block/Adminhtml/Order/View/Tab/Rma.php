@@ -9,7 +9,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Sales\Test\Block\Adminhtml\Order;
+namespace Magento\Rma\Test\Block\Adminhtml\Order\View\Tab;
 
 use Mtf\Block\Block;
 use Mtf\Client\Element\Locator;
@@ -18,9 +18,9 @@ use Mtf\Client\Element\Locator;
  * Class Returns
  * Order Returns block
  *
- * @package Magento\Sales\Test\Block\Adminhtml\Order
+ * @package Magento\Rma\Test\Block\Adminhtml\Order\View\Tab
  */
-class Returns extends \Magento\Backend\Test\Block\Widget\Grid
+class Rma extends \Magento\Backend\Test\Block\Widget\Grid
 {
     /**
      * Returns
@@ -37,16 +37,4 @@ class Returns extends \Magento\Backend\Test\Block\Widget\Grid
             'selector' => '#order_rma_filter_increment_id_to'
         ),
     );
-
-    /**
-     * Get Returns Grid
-     *
-     * @return string
-     */
-    public function getReturnsContent($returnId)
-    {
-        $this->searchAndOpen();
-        //return $this->_rootElement->find($this->rmaLink, Locator::SELECTOR_XPATH)->click();
-
-    }
 }
