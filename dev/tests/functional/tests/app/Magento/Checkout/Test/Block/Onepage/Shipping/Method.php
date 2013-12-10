@@ -40,14 +40,13 @@ class Method extends Block
     /**
      * Select shipping method
      *
-     * @param Checkout|\Magento\Shipping\Test\Fixture\Method $fixture
+     * @param Checkout|\Magento\Shipping\Test\Fixture\Method[] $fixture
      */
     public function selectShippingMethod($fixture)
     {
         if ($fixture instanceof \Magento\Shipping\Test\Fixture\Method) {
             $shippingMethod = $fixture->getData('fields');
-        }
-        else {
+        } else {
             $shippingMethod = $fixture->getShippingMethods()->getData('fields');
         }
         $selector = sprintf(

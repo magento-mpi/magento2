@@ -13,6 +13,7 @@ namespace Magento\Checkout\Test\Fixture;
 
 use Magento\Customer\Test\Fixture\Address;
 use Magento\Customer\Test\Fixture\Customer;
+use Magento\Shipping\Test\Fixture\Method;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 
@@ -61,7 +62,7 @@ class Checkout extends DataFixture
     /**
      * Shipping methods
      *
-     * @var \Magento\Shipping\Test\Fixture\Method
+     * @var Method
      */
     protected $shippingMethods;
 
@@ -244,5 +245,15 @@ class Checkout extends DataFixture
     public function setCustomer(Customer $customer)
     {
         $this->customer = $customer;
+    }
+
+    /**
+     * Set the shipping methods for this checkout instance
+     *
+     * @param Method $shippingMethods
+     */
+    public function setShippingMethod(Method $shippingMethods)
+    {
+        $this->shippingMethods = $shippingMethods;
     }
 }

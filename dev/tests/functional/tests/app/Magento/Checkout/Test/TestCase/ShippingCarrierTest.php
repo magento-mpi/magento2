@@ -14,9 +14,6 @@ namespace Magento\Checkout\Test\TestCase;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Checkout\Test\Fixture\Checkout;
-use Magento\Customer\Test\Fixture\Customer;
-use Magento\Core\Test\Fixture\Config;
-
 
 /**
  * Class ShippingCarrierTest
@@ -60,6 +57,7 @@ class ShippingCarrierTest extends Functional
      * @param $shippingMethodCheckout
      * @param $customerDataSet
      * @param $addressDataSet
+     *
      * @dataProvider dataProviderShippingCarriers
      * @ZephyrId MAGETWO-12844
      * @ZephyrId MAGETWO-12848
@@ -68,40 +66,27 @@ class ShippingCarrierTest extends Functional
      * @ZephyrId MAGETWO-12851
      */
     public function testShippingCarriers(
-        $shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet)
-    {
-        // Initialize store configuration for this data provider run
-        $this->initConfiguration();
-
-        // Configure shipping origin / shipping carrier
-        // Enable shipping method in store configuration based on method specified in data provider
-        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
-        $configFixture->switchData($shippingMethodConfig);
-        $configFixture->persist();
-
-        // Declare shipping methods based on what will be selected at checkout
-        $shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
-        $shippingMethods->switchData($shippingMethodCheckout);
-
-        // Create customer based upon data-provider data-set
-        $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
-        $customer->switchData($customerDataSet);
-        $customer->persist();
-        self::$checkoutFixture->setCustomer($customer);
-
-        // Specify existing customer data-set (does not contain email address or password)
-        $billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-        $billingAddress->switchData($addressDataSet);
-        self::$checkoutFixture->setBillingAddress($billingAddress);
+        $shippingMethodConfig,
+        $shippingMethodCheckout,
+        $customerDataSet,
+        $addressDataSet
+    ) {
+        $this->performPreConditions($shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet);
 
         // Frontend
         // Ensure shopping cart is empty
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartPage->open();
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
-        // Ensure customer is logged out
-        $customerAccountLogoutPage = Factory::getPageFactory()->getCustomerAccountLogout();
-        $customerAccountLogoutPage->open();
+        // Login with customer created in checkout fixture
+        $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
+        $customerAccountLoginPage->open();
+        $customerAccountLoginPage->getLoginBlock()->login(self::$checkoutFixture->getCustomer());
+        // Add address to customer's address book to be used at checkout
+        $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
+        $accountIndexPage->getDashboardAddress()->editBillingAddress();
+        $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
+        $addressEditPage->getEditForm()->editCustomerAddress((self::$checkoutFixture->getCustomer()->getAddressData()));
 
         // Add simple, configurable, and bundle products to cart
         foreach (self::$checkoutFixture->getProducts() as $product) {
@@ -119,21 +104,18 @@ class ShippingCarrierTest extends Functional
         $cartShippingBlock->fillDestination(self::$checkoutFixture);
         $cartShippingBlock->clickGetAQuote();
         $cartShippingRateBlock = Factory::getPageFactory()->getCheckoutCart()->getEstimatedShippingRateBlock();
-        $cartShippingRateBlock->assertShippingCarrierMethod($shippingMethods);
-
-        // Login with customer created in checkout fixture
-        $customerAccountLoginPage = Factory::getPageFactory()->getCustomerAccountLogin();
-        $customerAccountLoginPage->open();
-        $customerAccountLoginPage->getLoginBlock()->login($customer);
+        $this->assertTrue($cartShippingRateBlock
+                ->isShippingCarrierMethodVisible(self::$checkoutFixture->getShippingMethods()));
 
         // Place order on frontend via onepage checkout
         // Use customer from checkout fixture
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
         $checkoutOnePage->open();
-        $checkoutOnePage->getBillingBlock()->fillBilling(self::$checkoutFixture);
+        $checkoutOnePage->getBillingBlock()->clickContinue();
 
         // Select shipping method at checkout based on method specified in data provider
-        $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($shippingMethods);
+        $checkoutOnePage->getShippingMethodBlock()
+            ->selectShippingMethod(self::$checkoutFixture->getShippingMethods());
 
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod(self::$checkoutFixture);
         $checkoutOnePage->getReviewBlock()->placeOrder();
@@ -184,5 +166,45 @@ class ShippingCarrierTest extends Functional
         // General > Currency Setup > Currency Options - start with US Dollar
         $configFixture->switchData('currency_usd');
         $configFixture->persist();
+    }
+
+    /**
+     * This method performs all preConditions for this data-set run.
+     *
+     * @param $shippingMethodConfig
+     * @param $shippingMethodCheckout
+     * @param $customerDataSet
+     * @param $addressDataSet
+     */
+    private function performPreConditions(
+        $shippingMethodConfig,
+        $shippingMethodCheckout,
+        $customerDataSet,
+        $addressDataSet
+    ) {
+        // Initialize store configuration for this data provider run
+        $this->initConfiguration();
+
+        // Configure shipping origin / shipping carrier
+        // Enable shipping method in store configuration based on method specified in data provider
+        $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
+        $configFixture->switchData($shippingMethodConfig);
+        $configFixture->persist();
+
+        // Declare shipping methods based on what will be selected at checkout
+        $shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
+        $shippingMethods->switchData($shippingMethodCheckout);
+        self::$checkoutFixture->setShippingMethod($shippingMethods);
+
+        // Create customer based upon data-provider data-set
+        $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
+        $customer->switchData($customerDataSet);
+        $customer->persist();
+        self::$checkoutFixture->setCustomer($customer);
+
+        // Specify existing customer data-set (does not contain email address or password)
+        $billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $billingAddress->switchData($addressDataSet);
+        self::$checkoutFixture->setBillingAddress($billingAddress);
     }
 }

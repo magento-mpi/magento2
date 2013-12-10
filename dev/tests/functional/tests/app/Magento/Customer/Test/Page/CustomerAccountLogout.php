@@ -13,8 +13,6 @@
 namespace Magento\Customer\Test\Page;
 
 use Mtf\Page\Page;
-use Mtf\Factory\Factory;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class CustomerAccountLogout

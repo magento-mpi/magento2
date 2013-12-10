@@ -247,7 +247,7 @@ class Config extends AbstractRepository
                             'dhlint' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'gateway_url' => array( //Gateway URL
                                         'value' => 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
@@ -262,7 +262,7 @@ class Config extends AbstractRepository
                                         'value' => '152691811'
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -341,7 +341,7 @@ class Config extends AbstractRepository
                             'dhlint' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'gateway_url' => array( //Gateway URL
                                         'value' => 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
@@ -371,10 +371,10 @@ class Config extends AbstractRepository
                                         'value' => '0' //All Allowed Countries
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'debug' => array( //Debug
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -404,7 +404,7 @@ class Config extends AbstractRepository
                             'fedex' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'account' => array( //Account ID
                                         'value' => '510087801'
@@ -419,7 +419,7 @@ class Config extends AbstractRepository
                                         'value' => '4vaGsDBmeBCzvpl1S1DT1jXAB'
                                     ),
                                     'sandbox_mode' => array( //Sandbox Mode
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -469,16 +469,16 @@ class Config extends AbstractRepository
                             'ups' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'active_rma' => array( //Enabled for RMA
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'type' => array( //UPS Type
                                         'value' => 'UPS_XML' //United Parcel Service XML
                                     ),
                                     'is_account_live' => array( //Live account
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'password' => array( //Password
                                         'value' => 'magento200'
@@ -499,7 +499,7 @@ class Config extends AbstractRepository
                                         'value' => 'ECAB751ABF189ECA'
                                     ),
                                     'negotiated_active' => array( //Enable Negotiated Rates
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'shipper_number' => array( //Shipper Number
                                         'value' => '207W88'
@@ -523,10 +523,10 @@ class Config extends AbstractRepository
                                         'value' => 0 //All Allowed Countries
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
-                                        'value' => 0 //No
+                                        'value' => self::NO_VALUE
                                     ),
                                     'debug' => array( //Debug
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     )
                                 )
                             )
@@ -550,7 +550,7 @@ class Config extends AbstractRepository
                             'usps' => array(
                                 'fields' => array(
                                     'active' => array( //Enabled for Checkout
-                                        'value' => 1 //Yes
+                                        'value' => self::YES_VALUE
                                     ),
                                     'gateway_url' => array( //Gateway URL
                                         'value' => 'http://production.shippingapis.com/ShippingAPI.dll'
@@ -590,36 +590,36 @@ class Config extends AbstractRepository
                         'groups' => array(
                             'ups' => array(
                                 'fields' => array(
-                                    'active' => array(
-                                        'value' => 0
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'usps' => array(
                                 'fields' => array(
-                                    'active' => array(
-                                        'value' => 0
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'fedex' => array(
                                 'fields' => array(
-                                    'active' => array(
-                                        'value' => 0
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'dhl' => array(
                                 'fields' => array(
-                                    'active' => array(
-                                        'value' => 0
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             ),
                             'dhlint' => array(
                                 'fields' => array(
-                                    'active' => array(
-                                        'value' => 0
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
