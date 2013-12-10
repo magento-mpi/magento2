@@ -42,10 +42,7 @@ class ArgumentsReader
             if ($parameter->isOptional()) {
                 if ($parameter->isDefaultValueAvailable()) {
                     $value = $parameter->getDefaultValue();
-                    if ($parameter->isDefaultValueConstant()) {
-                        $const = $parameter->getDefaultValueConstantName();
-                        $default = strpos($const, 'self::') === 0 ? $const : '\\' . $const;
-                    } elseif (true == is_array($value)) {
+                    if (true == is_array($value)) {
                         $default = $this->_varExportMin($value);
                     } elseif (true == is_int($value)) {
                         $default = $value;
@@ -80,6 +77,11 @@ class ArgumentsReader
      */
     public function getParentCall(\ReflectionClass $class, array $classArguments)
     {
+        /** Skip native PHP types */
+        if (!$class->getFileName()) {
+            return null;
+        }
+
         $trimFunction = function (&$value) {
             $value = trim($value, PHP_EOL . ' $');
         };
@@ -91,17 +93,19 @@ class ArgumentsReader
 
         $source = file($class->getFileName());
         $content = implode('', array_slice($source, $start, $length));
-        $pattern = '/parent::__construct\(([a-zA-Z0-9_$, ' . PHP_EOL . ']*)\);/';
+        $pattern = '/parent::__construct\(([ ' . PHP_EOL . ']*[$]{1}[a-zA-Z0-9_]*,)*[ ' . PHP_EOL . ']*'
+            . '([$]{1}[a-zA-Z0-9_]*){1}[' . PHP_EOL . ' ]*\);/';
 
         if (!preg_match($pattern, $content, $matches)) {
             return null;
         }
 
-        $arguments = $matches[1];
+        $arguments = $matches[0];
         if (!trim($arguments)) {
             return null;
         }
 
+        $arguments = substr(trim($arguments), 20, -2);
         $arguments = explode(',', $arguments);
         array_walk($arguments, $trimFunction);
 
@@ -165,5 +169,26 @@ class ArgumentsReader
         } else {
             return var_export($var, true);
         }
+    }
+
+    /**
+     * Get constructor annotations
+     *
+     * @param \ReflectionClass $class
+     * @return array
+     */
+    public function getAnnotations(\ReflectionClass $class)
+    {
+        $regexp = '(@([a-z_][a-z0-9_]+)\(([^\)]+)\))i';
+        $docBlock = $class->getConstructor()->getDocComment();
+        $annotations = array();
+        preg_match_all($regexp, $docBlock, $matches);
+        foreach (array_keys($matches[0]) as $index) {
+            $name  = $matches[1][$index];
+            $value = trim($matches[2][$index], '" ');
+            $annotations[$name] = $value;
+        }
+
+        return $annotations;
     }
 } 

@@ -6,14 +6,12 @@
  * @license     {license_link}
  */
 
-/**
- * \Magento\User roles controller
- */
 namespace Magento\User\Controller\Adminhtml\User;
+
+use Magento\User\Model\Acl\Role\Group as RoleGroup;
 
 class Role extends \Magento\Backend\App\AbstractAction
 {
-
     /**
      * Core registry
      *
@@ -76,7 +74,7 @@ class Role extends \Magento\Backend\App\AbstractAction
     /**
      * Preparing layout for output
      *
-     * @return \Magento\User\Controller\Adminhtml\User\Role
+     * @return Role
      */
     protected function _initAction()
     {
@@ -100,7 +98,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
         $role = $this->_roleFactory->create()->load($this->getRequest()->getParam($requestVariable));
         // preventing edit of relation role
-        if ($role->getId() && $role->getRoleType() != 'G') {
+        if ($role->getId() && $role->getRoleType() != RoleGroup::ROLE_TYPE) {
             $role->unsetData($role->getIdFieldName());
         }
 
@@ -226,7 +224,7 @@ class Role extends \Magento\Backend\App\AbstractAction
 
             $role->setName($roleName)
                  ->setPid($this->getRequest()->getParam('parent_id', false))
-                 ->setRoleType('G');
+                 ->setRoleType(RoleGroup::ROLE_TYPE);
             $this->_eventManager->dispatch(
                 'admin_permissions_role_prepare_save',
                 array('object' => $role, 'request' => $this->getRequest())
@@ -275,6 +273,7 @@ class Role extends \Magento\Backend\App\AbstractAction
      * @param int $userId
      * @param int $roleId
      * @return bool
+     * @throws \Exception
      */
     protected function _deleteUserFromRole($userId, $roleId)
     {
@@ -285,7 +284,6 @@ class Role extends \Magento\Backend\App\AbstractAction
                 ->deleteFromRole();
         } catch (\Exception $e) {
             throw $e;
-            return false;
         }
         return true;
     }

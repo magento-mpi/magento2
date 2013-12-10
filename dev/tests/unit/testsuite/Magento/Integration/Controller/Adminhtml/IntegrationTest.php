@@ -10,7 +10,6 @@
 namespace Magento\Integration\Controller\Adminhtml;
 
 use Magento\Integration\Block\Adminhtml\Integration\Edit\Tab\Info;
-use Magento\Integration\Controller\Adminhtml\Integration;
 
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -66,7 +65,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_setMageObjectManager();
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
         // Initialize mocks which are used in several test cases
         $this->_mockApp = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('getConfig'))
@@ -150,6 +151,10 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // put data in session, the magic function getFormData is called so, must match __call method name
         $this->_mockBackendModSess->expects($this->any())
             ->method('__call')->will($this->returnValue(array('name' => 'nonExistentInt')));
+
+        $invalidIdException = new \Magento\Integration\Exception($exceptionMessage);
+        $this->_mockIntegrationSvc->expects($this->any())
+            ->method('get')->will($this->throwException($invalidIdException));
         $this->_verifyLoadAndRenderLayout();
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->editAction();
@@ -234,18 +239,6 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Makes sure that Mage has a mock object manager set.
-     *
-     */
-    protected function _setMageObjectManager()
-    {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        \Magento\App\ObjectManager::setInstance($this->_mockObjectManager);
-    }
-
-    /**
      * Creates the IntegrationController to test.
      *
      * @return \Magento\Integration\Controller\Adminhtml\Integration
@@ -269,6 +262,10 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $menuMock = $this->getMockBuilder('Magento\Backend\Model\Menu')
             ->disableOriginalConstructor()
             ->getMock();
+        $loggerMock = $this->getMockBuilder('Magento\Logger')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $loggerMock->expects($this->any())->method('logException')->will($this->returnSelf());
         $menuMock->expects($this->any())->method('getParentItems')->will($this->returnValue(array()));
         $blockMock->expects($this->any())->method('getMenuModel')->will($this->returnValue($menuMock));
         $layoutMock->expects($this->any())->method('getMessagesBlock')->will($this->returnValue($blockMock));
@@ -291,6 +288,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'context' => $this->_mockBackendCntCtxt,
             'integrationService' => $this->_mockIntegrationSvc,
             'registry' => $this->_mockRegistry,
+            'logger' => $loggerMock
         );
         /** Create IntegrationController to test */
         $integrationContr = $this->_objectManagerHelper
@@ -331,8 +329,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             Info::DATA_NAME => 'nameTest',
             Info::DATA_ID => '1',
             Info::DATA_EMAIL => 'test@magento.com',
-            Info::DATA_AUTHENTICATION => 1,
-            Info::DATA_ENDPOINT => 'http://magento.ll/endpoint'
+            Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
+            Info::DATA_SETUP_TYPE => 0
         );
     }
 }

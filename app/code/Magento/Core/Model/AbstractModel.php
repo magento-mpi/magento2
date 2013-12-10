@@ -171,7 +171,7 @@ abstract class AbstractModel extends \Magento\Object
     public function __sleep()
     {
         $properties = array_keys(get_object_vars($this));
-        $properties = array_diff($properties, array('_eventManager', '_cacheManager', '_coreRegistry'));
+        $properties = array_diff($properties, array('_eventManager', '_cacheManager', '_coreRegistry', '_appState'));
         return $properties;
     }
 
@@ -184,6 +184,7 @@ abstract class AbstractModel extends \Magento\Object
         $this->_eventManager = $objectManager->get('Magento\Event\ManagerInterface');
         $this->_cacheManager = $objectManager->get('Magento\App\CacheInterface');
         $this->_coreRegistry = $objectManager->get('Magento\Core\Model\Registry');
+        $context = $objectManager->get('Magento\Core\Model\Context');
     }
 
     /**
@@ -615,10 +616,7 @@ abstract class AbstractModel extends \Magento\Object
         if ($this->_coreRegistry->registry('isSecureArea')) {
             return;
         }
-        /* Store manager does not work well in this place when injected via context */
-        if (!\Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Core\Model\StoreManager')->getStore()->isAdmin()
-        ) {
+        if ($this->_appState->getAreaCode() !== \Magento\Backend\App\Area\FrontNameResolver::AREA_CODE) {
             throw new \Magento\Core\Exception(__('Cannot complete this operation from non-admin area.'));
         }
     }

@@ -39,7 +39,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $systemStore
@@ -50,7 +49,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $systemStore,
@@ -63,7 +61,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         $this->_customerFactory = $customerFactory;
         $this->_productFactory = $productFactory;
         $this->_systemStore = $systemStore;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     protected function _prepareForm()
@@ -74,7 +72,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id'        => 'edit_form',
                 'action'    => $this->getUrl('catalog/*/save', array(
                     'id' => $this->getRequest()->getParam('id'),

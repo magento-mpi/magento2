@@ -2,22 +2,17 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_User
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
+namespace Magento\User\Model\Resource\Role;
+
+use Magento\User\Model\Acl\Role\Group as RoleGroup;
 
 /**
  * Admin role collection
- *
- * @category    Magento
- * @package     Magento_User
- * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\User\Model\Resource\Role;
-
 class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractCollection
 {
     /**
@@ -33,12 +28,13 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      * Add user filter
      *
      * @param int $userId
+     * @param string $userType
      * @return \Magento\User\Model\Resource\Role\Collection
      */
-    public function setUserFilter($userId)
+    public function setUserFilter($userId, $userType)
     {
         $this->addFieldToFilter('user_id', $userId);
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('user_type', $userType);
         return $this;
     }
 
@@ -49,7 +45,7 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
      */
     public function setRolesFilter()
     {
-        $this->addFieldToFilter('role_type', 'G');
+        $this->addFieldToFilter('role_type', RoleGroup::ROLE_TYPE);
         return $this;
     }
 

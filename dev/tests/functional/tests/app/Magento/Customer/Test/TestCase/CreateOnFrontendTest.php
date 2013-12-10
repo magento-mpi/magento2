@@ -13,7 +13,6 @@ namespace Magento\Customer\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Customer\Test\Fixture\Customer;
 
 /**
  * Create Customer on frontend and set default billing address
@@ -29,7 +28,7 @@ class CreateOnFrontendTest extends Functional
      */
     public function testCreateCustomer()
     {
-        $this->markTestSkipped('MAGETWO-17912');
+        $this->markTestIncomplete('CICD-776');
         //Data
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->switchData('customer_US_1');
@@ -42,7 +41,7 @@ class CreateOnFrontendTest extends Functional
 
         //Step 1 Create Account
         $homePage->open();
-        $topLinks = $homePage->getTopLinks();
+        $topLinks = $homePage->getLinksBlock();
         $topLinks->openLink('register');
 
         $createPage->getCreateForm()->create($customer);

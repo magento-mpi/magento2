@@ -73,8 +73,8 @@ class SegmentTest extends \PHPUnit_Framework_TestCase
             array('getConditionsSql', 'getConditions'), array(), '', false);
 
         $this->_resourceModel = new \Magento\CustomerSegment\Model\Resource\Segment(
-            $this->getMock('Magento\Core\Model\Resource\HelperPool', array(), array(), '', false),
             $this->_resource,
+            $this->getMock('Magento\Core\Model\Resource\HelperPool', array(), array(), '', false),
             $this->_configShare,
             $this->getMock('Magento\Stdlib\DateTime', null, array(), '', true)
         );

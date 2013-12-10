@@ -27,15 +27,15 @@ class Setup extends \Magento\Core\Model\Resource\Setup
 
     /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
+     * @param string $resourceName
      * @param \Magento\Cms\Model\PageFactory $pageFactory
-     * @param $resourceName
      * @param string $moduleName
      * @param string $connectionName
      */
     public function __construct(
         \Magento\Core\Model\Resource\Setup\Context $context,
-        \Magento\Cms\Model\PageFactory $pageFactory,
         $resourceName,
+        \Magento\Cms\Model\PageFactory $pageFactory,
         $moduleName = 'Magento_WebsiteRestriction',
         $connectionName = ''
     ) {

@@ -15,7 +15,7 @@ namespace Magento\Catalog\Block;
  *
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Navigation extends \Magento\View\Block\Template
+class Navigation extends \Magento\View\Element\Template
 {
     protected $_categoryInstance = null;
 
@@ -74,8 +74,7 @@ class Navigation extends \Magento\View\Block\Template
     protected $_productCollectionFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory
      * @param \Magento\Catalog\Model\Layer $catalogLayer
@@ -86,8 +85,7 @@ class Navigation extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollectionFactory,
         \Magento\Catalog\Model\Layer $catalogLayer,
@@ -104,7 +102,7 @@ class Navigation extends \Magento\View\Block\Template
         $this->_catalogCategory = $catalogCategory;
         $this->_registry = $registry;
         $this->_categoryInstance = $categoryFactory->create();
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()
@@ -283,8 +281,7 @@ class Navigation extends \Magento\View\Block\Template
         $html = array();
 
         // get all children
-        // If Flat Data enabled then use it but only on frontend
-        if ($this->_catalogCategoryFlat->isAvailable() && !$this->_storeManager->getStore()->isAdmin()) {
+        if ($this->_catalogCategoryFlat->isAvailable()) {
             $children = (array)$category->getChildrenNodes();
             $childrenCount = count($children);
         } else {

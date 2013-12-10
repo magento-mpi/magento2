@@ -34,7 +34,6 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Eav\Model\Config $eavConfig
@@ -44,7 +43,6 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Eav\Model\Config $eavConfig,
@@ -52,7 +50,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\DesignEditor\Model\Theme\Context $themeContext,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
         $this->_eavConfig = $eavConfig;
         $this->_controlFactory = $controlFactory;
         $this->_themeContext = $themeContext;
@@ -78,7 +76,7 @@ class ImageSizing extends \Magento\Backend\Block\Widget\Form\Generic
     {
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'action'   => '#',
                 'method'   => 'post',
             ))

@@ -28,21 +28,21 @@ class Config
     protected $_giftWrappingData = null;
 
     /**
-     * @param \Magento\Escaper $escaper
      * @param \Magento\Data\Form\Element\Factory $factoryElement
      * @param \Magento\Data\Form\Element\CollectionFactory $factoryCollection
+     * @param \Magento\Escaper $escaper
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
-     * @param array $attributes
+     * @param array $data
      */
     public function __construct(
-        \Magento\Escaper $escaper,
         \Magento\Data\Form\Element\Factory $factoryElement,
         \Magento\Data\Form\Element\CollectionFactory $factoryCollection,
+        \Magento\Escaper $escaper,
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
-        $attributes = array()
+        $data = array()
     ) {
         $this->_giftWrappingData = $giftWrappingData;
-        parent::__construct($escaper, $factoryElement, $factoryCollection, $attributes);
+        parent::__construct($factoryElement, $factoryCollection, $escaper, $data);
     }
 
     /**

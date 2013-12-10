@@ -21,8 +21,13 @@ class OptionTest extends \PHPUnit_Framework_TestCase
      */
     public function testSetProduct($product, $expectedProduct, $expectedProductId)
     {
-        $model = $this->getMock('Magento\GiftRegistry\Model\Item\Option',
-            array('getValue'), array(), '', false);
+        $model = $this->getMock(
+            'Magento\GiftRegistry\Model\Item\Option',
+            array('getValue', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $model->setProduct($product);
 
         $this->assertEquals($expectedProduct, $model->getProduct());

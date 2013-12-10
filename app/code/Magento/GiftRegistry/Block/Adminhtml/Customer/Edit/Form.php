@@ -34,7 +34,6 @@ class Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory
@@ -42,7 +41,6 @@ class Form
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\GiftRegistry\Model\TypeFactory $giftRegistryTypeFactory,
@@ -51,7 +49,7 @@ class Form
         $this->_coreRegistry = $registry;
         $this->customerFactory = $customerFactory;
         $this->giftRegistryTypeFactory = $giftRegistryTypeFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

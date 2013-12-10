@@ -18,7 +18,7 @@
 namespace Magento\Banner\Block\Widget;
 
 class Banner
-    extends \Magento\View\Block\Template
+    extends \Magento\View\Element\Template
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -102,8 +102,7 @@ class Banner
     protected $_renderedParams = array();
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Banner\Model\Resource\Banner $resource
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
@@ -111,15 +110,14 @@ class Banner
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Banner\Model\Resource\Banner $resource,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Cms\Model\Template\FilterProvider $filterProvider,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_bannerResource = $resource;
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;

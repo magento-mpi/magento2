@@ -62,6 +62,16 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected $_actionFlag;
 
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @var \Magento\Customer\Helper\Data
+     */
+    protected $_customerData;
+
     protected function setUp()
     {
         $this->_objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
@@ -77,7 +87,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_customerData = $this->getMock('Magento\Customer\Helper\Data', array(), array(), '', false);
         $this->_helper = $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false);
         $this->_urlManager = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_actionFlag = $this->getMock('Magento\App\ActionFlag', array(), array(), '', false);
         $this->_observer = $this->_objectManager->getObject(
             'Magento\Captcha\Model\Observer',
@@ -89,7 +98,6 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
                 'customerData' => $this->_customerData,
                 'helper' => $this->_helper,
                 'urlManager' => $this->_urlManager,
-                'filesystem' => $this->_filesystem,
                 'actionFlag' => $this->_actionFlag
             )
         );
@@ -185,8 +193,13 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getResourceModelStub()
     {
-        $resourceModel = $this->getMock('Magento\Captcha\Model\Resource\Log',
-            array('deleteUserAttempts', 'deleteOldAttempts'), array(), '', false);
+        $resourceModel = $this->getMock(
+            'Magento\Captcha\Model\Resource\Log',
+            array('deleteUserAttempts', 'deleteOldAttempts', '__wakeup'),
+            array(),
+            '',
+            false
+        );
 
         return $resourceModel;
     }

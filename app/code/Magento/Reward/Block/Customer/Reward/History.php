@@ -17,7 +17,7 @@
  */
 namespace Magento\Reward\Block\Customer\Reward;
 
-class History extends \Magento\View\Block\Template
+class History extends \Magento\View\Element\Template
 {
     /**
      * History records collection
@@ -44,7 +44,12 @@ class History extends \Magento\View\Block\Template
     protected $_historyFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param \Magento\Customer\Model\Session $customerSession
@@ -52,17 +57,18 @@ class History extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Reward\Helper\Data $rewardData,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Resource\Reward\History\CollectionFactory $historyFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_rewardData = $rewardData;
         $this->_customerSession = $customerSession;
         $this->_historyFactory = $historyFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -188,7 +194,7 @@ class History extends \Magento\View\Block\Template
     protected function _prepareLayout()
     {
         if ($this->_isEnabled()) {
-            $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'reward.history.pager')
+            $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'reward.history.pager')
                 ->setCollection($this->_getCollection())->setIsOutputRequired(false)
             ;
             $this->setChild('pager', $pager);

@@ -135,9 +135,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
     protected $_poolFactory = null;
 
     /**
-     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\GiftCardAccount\Helper\Data $giftCardAccountData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource
      * @param \Magento\Email\Model\Template $coreEmailTemplate
@@ -152,9 +152,9 @@ class Giftcardaccount extends \Magento\Core\Model\AbstractModel
      * @param array $data
      */
     public function __construct(
-        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\GiftCardAccount\Helper\Data $giftCardAccountData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\GiftCardAccount\Model\Resource\Giftcardaccount $resource,
         \Magento\Email\Model\Template $coreEmailTemplate,

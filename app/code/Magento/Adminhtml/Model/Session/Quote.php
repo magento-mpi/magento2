@@ -62,6 +62,8 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
 
     /**
      * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Session\Config\ConfigInterface $sessionConfig
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
@@ -69,6 +71,8 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
      */
     public function __construct(
         \Magento\Core\Model\Session\Context $context,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Session\Config\ConfigInterface $sessionConfig,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\OrderFactory $orderFactory,
@@ -77,8 +81,8 @@ class Quote extends \Magento\Core\Model\Session\AbstractSession
         $this->_quoteFactory = $quoteFactory;
         $this->_customerFactory = $customerFactory;
         $this->_orderFactory = $orderFactory;
-        parent::__construct($context, $data);
-        $this->init('adminhtml_quote');
+        parent::__construct($context, $sidResolver, $sessionConfig, $data);
+        $this->start('adminhtml_quote');
         if ($this->_storeManager->hasSingleStore()) {
             $this->setStoreId($this->_storeManager->getStore(true)->getId());
         }

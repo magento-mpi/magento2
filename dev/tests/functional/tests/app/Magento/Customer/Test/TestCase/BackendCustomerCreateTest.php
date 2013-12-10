@@ -34,23 +34,23 @@ class BackendCustomerCreateTest extends Functional
         //Data
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('backend_customer');
-        //Pages & Blocks
-        $customerPage = Factory::getPageFactory()->getCustomer();
-        $gridBlock = $customerPage->getCustomerGridBlock();
-        $pageActionsBlock = $customerPage->getPageActionsBlock();
+        $searchData = array(
+            'email' => $customerFixture->getEmail()
+        );
+        //Pages
+        $customerPage = Factory::getPageFactory()->getCustomerIndex();
         $customerCreatePage = Factory::getPageFactory()->getCustomerNew();
-        $newCustomerForm = $customerCreatePage->getNewCustomerForm();
-        $messagesBlock = $customerCreatePage->getMessageBlock();
         //Steps
         $customerPage->open();
-        $pageActionsBlock->clickAddNew();
-        $newCustomerForm->fill($customerFixture);
-        $newCustomerForm->clickSaveAndContinue();
-        $messagesBlock->assertSuccessMessage($customerFixture);
+        $customerPage->getGridBlock()->addNewCustomer();
+        $customerCreatePage->getNewCustomerForm()->fill($customerFixture);
+        $customerCreatePage->getNewCustomerForm()->clickSaveAndContinue();
+        $customerCreatePage->getMessageBlock()->assertSuccessMessage($customerFixture);
         //Verifying
         $customerPage->open();
-        $this->assertTrue($gridBlock->isRowVisible(array(
-            'email' => $customerFixture->getEmail()
-        )), 'Customer email "' . $customerFixture->getEmail() . '" not found in the grid');
+        $this->assertTrue(
+            $customerPage->getGridBlock()->isRowVisible($searchData),
+            'Customer email "' . $searchData['email'] . '" not found in the grid'
+        );
     }
 }

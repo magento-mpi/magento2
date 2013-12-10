@@ -39,20 +39,20 @@ class Eav extends \Magento\Eav\Helper\Data
     protected $_resource;
 
     /**
-     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
-     * @param \Magento\App\Resource $resource
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
+     * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory
+     * @param \Magento\App\Resource $resource
      */
     public function __construct(
-        \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
-        \Magento\App\Resource $resource,
         \Magento\App\Helper\Context $context,
         \Magento\Eav\Model\Entity\Attribute\Config $attributeConfig,
-        \Magento\Core\Model\Store\Config $coreStoreConfig
+        \Magento\Core\Model\Store\Config $coreStoreConfig,
+        \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Eav\Model\Resource\Entity\Attribute\Option\CollectionFactory $collectionFactory,
+        \Magento\App\Resource $resource
     ) {
         $this->_storeManager = $storeManager;
         $this->_collectionFactory = $collectionFactory;

@@ -15,10 +15,10 @@ class FormTest extends \PHPUnit_Framework_TestCase
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $layout = $this->getMock('\Magento\Core\Model\Layout', ['getBlock'], [], '', false);
-        $template = $this->getMock('\Magento\View\Block\Template', ['getChildBlock'], [], '', false);
+        $template = $this->getMock('\Magento\View\Element\Template', ['getChildBlock'], [], '', false);
         $layout->expects($this->once())->method('getBlock')->with('customer_form_template')
             ->will($this->returnValue($template));
-        $renderer = $this->getMock('\Magento\View\Block\Template', [], [], '', false);;
+        $renderer = $this->getMock('\Magento\View\Element\Template', [], [], '', false);;
         $template->expects($this->once())->method('getChildBlock')->with('text')->will($this->returnValue($renderer));
 
         $block = $objectHelper->getObject('Magento\CustomerCustomAttributes\Block\Form');

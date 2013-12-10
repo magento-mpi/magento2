@@ -10,7 +10,7 @@
 ?>
 
 <h2 class="subtitle">
-    <?php echo $this->getMessagesBlock()->getGroupedHtml() ?>
+    <?php echo $this->getLayout()->getMessagesBlock()->getGroupedHtml() ?>
 </h2>
 
 <form action="<?php echo $this->getAddActionUrl(); ?>" method="post" id="form-validate" class="form validation" data-hasrequired="<?php echo __('* Required Fields') ?>">

@@ -29,16 +29,16 @@ class Type
     protected $_inputType = 'select';
 
     /**
-     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Rule\Model\Condition\Context $context
+     * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param array $data
      */
     public function __construct(
-        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Rule\Model\Condition\Context $context,
+        \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         array $data = array()
     ) {
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Type');
         $this->setValue('shipping');
     }

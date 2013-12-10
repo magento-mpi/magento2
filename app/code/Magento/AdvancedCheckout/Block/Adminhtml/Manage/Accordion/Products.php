@@ -42,8 +42,13 @@ class Products
     protected $_catalogStockStatus;
 
     /**
+     * @var \Magento\Json\DecoderInterface
+     */
+    protected $_jsonDecoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\DecoderInterface $jsonDecoder
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -55,17 +60,18 @@ class Products
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
+        \Magento\Json\DecoderInterface $jsonDecoder,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Sales\Model\Config $salesConfig,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $urlModel, $collectionFactory, $coreRegistry, $data);
+        $this->_jsonDecoder = $jsonDecoder;
+        parent::__construct($context, $urlModel, $collectionFactory, $coreRegistry, $data);
         $this->_catalogStockStatus = $catalogStockStatus;
         $this->_catalogConfig = $catalogConfig;
         $this->_salesConfig = $salesConfig;
@@ -202,7 +208,7 @@ class Products
     protected function _getSelectedProducts()
     {
         if ($this->getRequest()->getPost('source')) {
-            $source = $this->_coreData->jsonDecode($this->getRequest()->getPost('source'));
+            $source = $this->_jsonDecoder->decode($this->getRequest()->getPost('source'));
             if (isset($source['source_products']) && is_array($source['source_products'])) {
                 return array_keys($source['source_products']);
             }

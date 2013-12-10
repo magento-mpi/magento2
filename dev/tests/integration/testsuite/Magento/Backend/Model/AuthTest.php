@@ -66,9 +66,6 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->assertInstanceOf('Magento\Backend\Model\Auth\Credential\StorageInterface', $storage);
     }
 
-    /**
-     * @magentoAppIsolation enabled
-     */
     public function testLoginSuccessful()
     {
         $this->_model->login(
@@ -77,25 +74,24 @@ class AuthTest extends \PHPUnit_Framework_TestCase
         $this->assertGreaterThan(time() - 10, $this->_model->getAuthStorage()->getUpdatedAt());
     }
 
+    /**
+     * @magentoAppIsolation enabled
+     */
     public function testLogout()
     {
         $this->_model->login(
             \Magento\TestFramework\Bootstrap::ADMIN_NAME, \Magento\TestFramework\Bootstrap::ADMIN_PASSWORD);
         $this->assertNotEmpty($this->_model->getAuthStorage()->getData());
-        $this->_model->getAuthStorage()
-            ->getCookie()
-            ->set($this->_model->getAuthStorage()->getSessionName(), 'session_id');
+        $cookie = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('\Magento\Stdlib\Cookie');
+        $cookie->set($this->_model->getAuthStorage()->getName(), 'session_id');
         $this->_model->logout();
         $this->assertEmpty($this->_model->getAuthStorage()->getData());
-        $this->assertEmpty($this->_model->getAuthStorage()
-            ->getCookie()
-            ->get($this->_model->getAuthStorage()->getSessionName())
-        );
+        $this->assertEmpty($cookie->get($this->_model->getAuthStorage()->getName()));
     }
 
     /**
      * Disabled form security in order to prevent exit from the app
-     * @magentoConfigFixture current_store admin/security/session_lifetime 100
+     * @magentoAdminConfigFixture admin/security/session_lifetime 100
      */
     public function testIsLoggedIn()
     {

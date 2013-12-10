@@ -26,7 +26,6 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Core\Model\WebsiteFactory $websiteFactory
      * @param \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory
@@ -40,7 +39,6 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Core\Model\WebsiteFactory $websiteFactory,
         \Magento\Eav\Model\Resource\Entity\Attribute\Set\CollectionFactory $setsFactory,
@@ -55,7 +53,6 @@ class Grid extends \Magento\Catalog\Block\Adminhtml\Product\Grid
         $this->_websitesFactory = $websitesFactory;
         parent::__construct(
             $context,
-            $coreData,
             $urlModel,
             $websiteFactory,
             $setsFactory,

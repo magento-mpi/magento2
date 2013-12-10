@@ -268,7 +268,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
 
     /**
      * {@inheritdoc}
-     * @deprecated
      */
     public function getArea()
     {

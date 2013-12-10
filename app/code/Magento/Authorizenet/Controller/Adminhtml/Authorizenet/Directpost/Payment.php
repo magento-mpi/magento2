@@ -171,7 +171,7 @@ class Payment
             && isset($redirectParams['x_invoice_num'])
             && isset($redirectParams['controller_action_name'])
         ) {
-            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\Data')
+            $params['redirect_parent'] = $this->_objectManager->get('Magento\Authorizenet\Helper\HelperInterface')
                 ->getSuccessOrderUrl($redirectParams);
             $this->_getDirectPostSession()->unsetData('quote_id');
             //cancel old order
@@ -188,9 +188,9 @@ class Payment
                 }
             }
             //clear sessions
-            $this->_getSession()->clear();
+            $this->_getSession()->clearStorage();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clear();
+            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clearStorage();
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
         }
 

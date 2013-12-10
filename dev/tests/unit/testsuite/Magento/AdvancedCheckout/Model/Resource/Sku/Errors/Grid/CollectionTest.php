@@ -22,7 +22,7 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $status = $this->getCatalogInventoryStatusMock();
         $helper = $this->getCoreHelperMock();
         $entity = $this->getEntityFactoryMock();
-        $collection = new Collection($cart, $product, $status, $helper, $entity);
+        $collection = new Collection($entity, $cart, $product, $status, $helper);
         $collection->loadData();
     }
 

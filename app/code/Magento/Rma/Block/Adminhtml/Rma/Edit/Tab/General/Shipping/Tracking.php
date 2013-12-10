@@ -41,7 +41,6 @@ class Tracking extends \Magento\Backend\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -50,7 +49,6 @@ class Tracking extends \Magento\Backend\Block\Template
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Rma\Model\Resource\Shipping\CollectionFactory $shippingCollFactory,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Rma\Helper\Data $rmaData,
@@ -61,7 +59,7 @@ class Tracking extends \Magento\Backend\Block\Template
         $this->_shippingConfig = $shippingConfig;
         $this->_coreRegistry = $registry;
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

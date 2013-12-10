@@ -52,7 +52,7 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
                 'position' => 3,
                 'type' => null,
                 'isOptional' => true,
-                'default' => '\ClassWithAllArgumentTypes::DEFAULT_VALUE'
+                'default' => "'Const Value'"
             ),
             'optionalNumValue' => array(
                 'name' => 'optionalNumValue',
@@ -119,7 +119,7 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
                 'position' => 3,
                 'type' => null,
                 'isOptional' => true,
-                'default' => '\ClassWithAllArgumentTypes::DEFAULT_VALUE'
+                'default' => "'Const Value'"
             ),
             'optionalNumValue' => array(
                 'name' => 'optionalNumValue',
@@ -297,4 +297,13 @@ class ArgumentsReaderTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testGetAnnotations()
+    {
+        $class = new \ReflectionClass('\ClassWithSuppressWarnings');
+        $expected = array(
+            'SuppressWarnings' => 'Magento.TypeDuplication',
+        );
+        $this->assertEquals($expected, $this->_model->getAnnotations($class));
+    }
 }
+

@@ -67,26 +67,28 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $string;
 
     /**
+     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param \Magento\Core\Model\System\Store $systemStore
      * @param \Magento\Acl\Builder $aclBuilder
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\User\Model\Resource\Role\Collection $userRoles
      * @param \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups
-     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\ConfigInterface $config
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\Stdlib\String $string
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Magento\Core\Model\System\Store $systemStore,
         \Magento\Acl\Builder $aclBuilder,
         \Magento\ObjectManager $objectManager,
         \Magento\User\Model\Resource\Role\Collection $userRoles,
         \Magento\Core\Model\Resource\Store\Group\Collection $storeGroups,
-        \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\ConfigInterface $config,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\App\RequestInterface $request,
@@ -349,7 +351,10 @@ class Observer extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this;
         }
 
-        $storeId = $this->_request->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID);
+        $storeCode = $this->_request->getParam('store');
+        $storeId = $storeCode
+            ? $this->_storeManager->getStore($storeCode)->getId()
+            : \Magento\Core\Model\Store::DEFAULT_STORE_ID;
         if ($this->_role->hasStoreAccess($storeId)) {
             return $this;
         }

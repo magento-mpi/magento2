@@ -36,14 +36,14 @@ class Segment extends \Magento\Rule\Model\Resource\AbstractResource
     protected $dateTime;
 
     /**
-     * @param \Magento\Core\Model\Resource\HelperPool $resourceHelperPool
      * @param \Magento\App\Resource $resource
+     * @param \Magento\Core\Model\Resource\HelperPool $resourceHelperPool
      * @param \Magento\Customer\Model\Config\Share $configShare
      * @param \Magento\Stdlib\DateTime $dateTime
      */
     public function __construct(
-        \Magento\Core\Model\Resource\HelperPool $resourceHelperPool,
         \Magento\App\Resource $resource,
+        \Magento\Core\Model\Resource\HelperPool $resourceHelperPool,
         \Magento\Customer\Model\Config\Share $configShare,
         \Magento\Stdlib\DateTime $dateTime
     ) {

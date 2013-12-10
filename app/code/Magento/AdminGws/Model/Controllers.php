@@ -77,24 +77,26 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_actionFlag;
 
     /**
+     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param Resource\CollectionsFactory $collectionsFactory
+     * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
-     * @param Role $role
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
-        \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $registry,
         \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,
@@ -180,7 +182,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function validateCatalogProductEdit($controller)
     {
         // redirect from disallowed scope
-        if ($this->_isDisallowedStoreInRequest()) {
+        if (!$this->_isAllowedStoreInRequest()) {
             return $this->_redirect(array('*/*/*', 'id' => $this->_request->getParam('id')));
         }
     }
@@ -214,7 +216,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         $store = $this->_storeManager->getStore(
-            $this->_request->getParam('store', \Magento\Core\Model\AppInterface::ADMIN_STORE_ID)
+            $this->_request->getParam('store', \Magento\Core\Model\Store::DEFAULT_STORE_ID)
         );
         if (!$this->_role->hasStoreAccess($store->getId())) {
             $this->_forward();
@@ -360,7 +362,7 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
         }
 
         // redirect from disallowed store scope
-        if ($this->_isDisallowedStoreInRequest()) {
+        if (!$this->_isAllowedStoreInRequest()) {
             return $this->_redirect(
                 array(
                     '*/*/*', 'store' => $this->_storeManager->getAnyStoreView()->getId(),
@@ -542,10 +544,14 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param string $idFieldName
      * @return bool
      */
-    protected function _isDisallowedStoreInRequest($idFieldName = 'store')
+    protected function _isAllowedStoreInRequest($idFieldName = 'store')
     {
-        $store = $this->_storeManager->getStore($this->_request->getParam($idFieldName), 0);
-        return ($store->isAdmin() ? false : !$this->_role->hasStoreAccess($store->getId()));
+        $storeId = $this->_request->getParam($idFieldName);
+        if (empty($storeId)) {
+            return true;
+        }
+        $store = $this->_storeManager->getStore($storeId);
+        return $this->_role->hasStoreAccess($store->getId());
     }
 
     /**

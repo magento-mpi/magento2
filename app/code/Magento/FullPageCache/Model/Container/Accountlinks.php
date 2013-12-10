@@ -45,7 +45,6 @@ class Accountlinks extends \Magento\FullPageCache\Model\Container\Customer
      */
     protected function _renderBlock()
     {
-        /** @var $block \Magento\Page\Block\Template\Links */
         $block = $this->_getPlaceHolderBlock();
         $block->setNameInLayout($this->_placeholder->getAttribute('name'));
 

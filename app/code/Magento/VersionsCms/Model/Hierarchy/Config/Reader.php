@@ -24,11 +24,12 @@ class Reader extends \Magento\Config\Reader\Filesystem
     /**
      * @param \Magento\Config\FileResolverInterface $fileResolver
      * @param \Magento\VersionsCms\Model\Hierarchy\Config\Converter $converter
-     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param \Magento\VersionsCms\Model\Hierarchy\Config\SchemaLocator $schemaLocator
+     * @param \Magento\Config\ValidationStateInterface $validationState
      * @param string $fileName
      * @param array $idAttributes
      * @param string $domDocumentClass
+     * @param string $defaultScope
      */
     public function __construct(
         \Magento\Config\FileResolverInterface $fileResolver,
@@ -37,10 +38,18 @@ class Reader extends \Magento\Config\Reader\Filesystem
         \Magento\Config\ValidationStateInterface $validationState,
         $fileName = 'menu_hierarchy.xml',
         $idAttributes = array(),
-        $domDocumentClass = 'Magento\Config\Dom'
+        $domDocumentClass = 'Magento\Config\Dom',
+        $defaultScope = 'global'
     ) {
         parent::__construct(
-            $fileResolver, $converter, $schemaLocator, $validationState, $fileName, $idAttributes, $domDocumentClass
+            $fileResolver,
+            $converter,
+            $schemaLocator,
+            $validationState,
+            $fileName,
+            $idAttributes,
+            $domDocumentClass,
+            $defaultScope
         );
     }
 

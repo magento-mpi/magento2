@@ -27,21 +27,19 @@ class Form extends \Magento\Backend\Block\Widget\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Helper\Data $backendData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Helper\Data $backendData,
         array $data = array()
     ) {
         $this->_backendData = $backendData;
         $this->_formFactory = $formFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()
@@ -54,7 +52,7 @@ class Form extends \Magento\Backend\Block\Widget\Form
     protected function _prepareForm()
     {
         $form = $this->_formFactory->create(array(
-            'attributes'=> array(
+            'data'=> array(
                 'id' => 'edit_form',
                 'action' => $this->_backendData->getUrl('adminhtml/*/save'),
                 'method' => 'post',

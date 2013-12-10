@@ -113,6 +113,12 @@ class Store extends \Magento\Core\Model\AbstractModel
     const BASE_URL_PLACEHOLDER            = '{{base_url}}';
 
     /**
+     * Identifier of default store
+     * used for loading data of default scope
+     */
+    const DEFAULT_STORE_ID = 0;
+
+    /**
      * @var \Magento\App\Cache\Type\Config
      */
     protected $_configCacheType;
@@ -274,9 +280,21 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_config;
 
     /**
-     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
+     * @var \Magento\Session\SidResolverInterface
+     */
+    protected $_sidResolver;
+
+    /**
+     * Cookie model
+     *
+     * @var \Magento\Stdlib\Cookie
+     */
+    protected $_cookie;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Core\Model\Url $url
      * @param \Magento\App\RequestInterface $request
@@ -286,15 +304,17 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\Core\Model\Resource\Store $resource
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Session\SidResolverInterface $sidResolver
+     * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param \Magento\App\State $appState
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
     public function __construct(
-        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Core\Model\Url $url,
         \Magento\App\RequestInterface $request,
@@ -304,6 +324,8 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Config $coreConfig,
         \Magento\Core\Model\Resource\Store $resource,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Session\SidResolverInterface $sidResolver,
+        \Magento\Stdlib\Cookie $cookie,
         \Magento\App\State $appState,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
@@ -318,9 +340,11 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_isCustomEntryPoint = $isCustomEntryPoint;
         $this->_dir = $dir;
         $this->_config = $coreConfig;
+        $this->_storeManager = $storeManager;
+        $this->_sidResolver = $sidResolver;
+        $this->_cookie = $cookie;
         $this->_appState = $appState;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
-        $this->_storeManager = $storeManager;
     }
 
     public function __sleep()
@@ -328,10 +352,8 @@ class Store extends \Magento\Core\Model\AbstractModel
         $properties = parent::__sleep();
         $properties = array_diff($properties, array(
             '_coreFileStorageDatabase',
-            '_eventDispatcher',
-            '_cacheManager',
             '_coreStoreConfig',
-            '_coreConfig'
+            '_config'
         ));
         return $properties;
     }
@@ -342,16 +364,14 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function __wakeup()
     {
         parent::__wakeup();
-        $this->_eventManager = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Event\ManagerInterface');
-        $this->_cacheManager    = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\App\CacheInterface');
+        $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
+            ->get('Magento\Core\Helper\File\Storage\Database');
         $this->_coreStoreConfig = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Store\Config');
         $this->_config = \Magento\App\ObjectManager::getInstance()
             ->get('Magento\Core\Model\Config');
-        $this->_coreFileStorageDatabase = \Magento\App\ObjectManager::getInstance()
-            ->get('Magento\Core\Helper\File\Storage\Database');
+        $this->_cookie = \Magento\App\ObjectManager::getInstance()
+            ->get('Magento\Stdlib\Cookie');
     }
 
     /**
@@ -370,8 +390,9 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected function _getSession()
     {
         if (!$this->_session) {
-            $this->_session = \Magento\App\ObjectManager::getInstance()->create('Magento\Core\Model\Session')
-                ->init('store_'.$this->getCode());
+            $this->_session = \Magento\App\ObjectManager::getInstance()
+                ->create('Magento\Core\Model\Session')
+                ->start('store_' . $this->getCode());
         }
         return $this->_session;
     }
@@ -587,14 +608,14 @@ class Store extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Remove script file name from url in case when server rewrites are enabled
+     * Append script file name to url in case when server rewrites are disabled
      *
      * @param   string $url
      * @return  string
      */
     protected function _updatePathUseRewrites($url)
     {
-        if ($this->isAdmin()
+        if ($this->getForceDisableRewrites()
             || !$this->getConfig(self::XML_PATH_USE_REWRITES)
             || !$this->_appState->isInstalled()
         ) {
@@ -660,9 +681,9 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function isUseStoreInUrl()
     {
-        return $this->_appState->isInstalled()
-        && $this->getConfig(self::XML_PATH_STORE_IN_URL)
-        && !$this->isAdmin();
+        return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
+        && $this->_appState->isInstalled()
+        && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**
@@ -676,31 +697,6 @@ class Store extends \Magento\Core\Model\AbstractModel
     }
 
     /**
-     * Check if store is admin store
-     *
-     * @return boolean
-     */
-    public function isAdmin()
-    {
-        return $this->getId() == \Magento\Core\Model\AppInterface::ADMIN_STORE_ID;
-    }
-
-
-    /**
-     * Check if backend URLs should be secure
-     *
-     * @return boolean
-     */
-    public function isAdminUrlSecure()
-    {
-        if ($this->_isAdminSecure === null) {
-            $this->_isAdminSecure = (boolean) (int) (string) $this->_config
-                ->getValue(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_ADMIN, 'default');
-        }
-        return $this->_isAdminSecure;
-    }
-
-    /**
      * Check if frontend URLs should be secure
      *
      * @return boolean
@@ -708,10 +704,20 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isFrontUrlSecure()
     {
         if ($this->_isFrontSecure === null) {
-            $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(\Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
-                $this->getId());
+            $this->_isFrontSecure = $this->_coreStoreConfig->getConfigFlag(
+                \Magento\Core\Model\Url::XML_PATH_SECURE_IN_FRONT,
+                $this->getId()
+            );
         }
         return $this->_isFrontSecure;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isUrlSecure()
+    {
+        return $this->isFrontUrlSecure();
     }
 
     /**
@@ -822,11 +828,9 @@ class Store extends \Magento\Core\Model\AbstractModel
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
             if ($code == $this->getDefaultCurrency()) {
-                \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\App')->getCookie()->delete(self::COOKIE_CURRENCY, $code);
+                $this->_cookie->set(self::COOKIE_CURRENCY, null);
             } else {
-                \Magento\App\ObjectManager::getInstance()
-                    ->get('Magento\Core\Model\App')->getCookie()->set(self::COOKIE_CURRENCY, $code);
+                $this->_cookie->set(self::COOKIE_CURRENCY, $code);
             }
         }
         return $this;
@@ -1085,7 +1089,7 @@ class Store extends \Magento\Core\Model\AbstractModel
      */
     public function getCurrentUrl($fromStore = true)
     {
-        $sidQueryParam = $this->_getSession()->getSessionIdQueryParam();
+        $sidQueryParam = $this->_sidResolver->getSessionIdQueryParam($this->_getSession());
         $requestString = $this->getUrlModel()->escape(ltrim(
             \Magento\App\ObjectManager::getInstance()
                 ->get('Magento\Core\Model\App')->getRequest()->getRequestString(),

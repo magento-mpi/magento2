@@ -41,7 +41,6 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Data\CollectionFactory $dataCollectionFactory
@@ -50,7 +49,6 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Data\CollectionFactory $dataCollectionFactory,
@@ -60,7 +58,7 @@ class Cart extends \Magento\Adminhtml\Block\Widget\Grid
         $this->_dataCollectionFactory = $dataCollectionFactory;
         $this->_coreRegistry = $coreRegistry;
         $this->_quoteFactory = $quoteFactory;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     protected function _construct()

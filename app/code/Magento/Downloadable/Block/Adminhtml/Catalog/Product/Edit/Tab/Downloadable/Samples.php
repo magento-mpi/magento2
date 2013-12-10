@@ -61,8 +61,13 @@ class Samples
     protected $_urlFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase
      * @param \Magento\Downloadable\Helper\File $downloadableFile
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -72,7 +77,7 @@ class Samples
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Core\Helper\File\Storage\Database $coreFileStorageDatabase,
         \Magento\Downloadable\Helper\File $downloadableFile,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -80,13 +85,14 @@ class Samples
         \Magento\Backend\Model\UrlFactory $urlFactory,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_coreFileStorageDb = $coreFileStorageDatabase;
         $this->_downloadableFile = $downloadableFile;
         $this->_coreRegistry = $coreRegistry;
         $this->_sampleModel = $sampleModel;
         $this->_urlFactory = $urlFactory;
 
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -118,11 +124,12 @@ class Samples
     public function getAddButtonHtml()
     {
         $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
-            ->setData(array(
+            ->setData([
                 'label' => __('Add New Row'),
                 'id' => 'add_sample_item',
                 'class' => 'add',
-        ));
+                'data_attribute' => ['action' => 'add-sample'],
+            ]);
         return $addButton->toHtml();
     }
 
@@ -239,7 +246,7 @@ class Samples
         $this->getConfig()->setReplaceBrowseWithRemove(true);
         $this->getConfig()->setWidth('32');
         $this->getConfig()->setHideUploadButton(true);
-        return $this->_coreData->jsonEncode($this->getConfig()->getData());
+        return $this->_jsonEncoder->encode($this->getConfig()->getData());
     }
 
     /**

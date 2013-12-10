@@ -18,8 +18,11 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
-use Magento\Catalog\Test\Block\Product\Configurable\AffectedAttributeSet;
-use Magento\Catalog\Test\Fixture\AbstractProduct;
+use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\GroupedProduct;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Bundle\Test\Fixture\Bundle;
+use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 
 /**
  * Class ProductForm
@@ -30,35 +33,30 @@ use Magento\Catalog\Test\Fixture\AbstractProduct;
 class ProductForm extends FormTabs
 {
     /**
-     * Choose affected attribute set dialog popup window
+     * 'Save' split button
      *
-     * @var AffectedAttributeSet
+     * @var string
      */
-    private $affectedAttributeSetBlock;
+    protected $saveButton = '#save-split-button-button';
 
     /**
-     * Initialize block elements
+     * Choose affected attribute set dialog popup window
+     *
+     * @var string
      */
-    protected function _init()
-    {
-        //Custom tab classes for product form
-        $this->_tabClasses = array(
-            'product_info_tabs_bundle_content' =>
-                '\\Magento\\Bundle\\Test\\Block\\Adminhtml\\Catalog\\Product\\Edit\\Tab\\Bundle',
-            'product_info_tabs_super_config_content' =>
-                '\\Magento\\Backend\\Test\\Block\\Catalog\\Product\\Edit\\Tab\\Super\\Config'
-        );
-        //Elements
-        $this->saveButton = '#save-split-button-button';
-        //Blocks
-        $this->affectedAttributeSetBlock = Factory::getBlockFactory()->
-            getMagentoCatalogProductConfigurableAffectedAttributeSet(
-                $this->_rootElement->find(
-                    "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..",
-                    Locator::SELECTOR_XPATH
-                )
-            );
-    }
+    protected $affectedAttributeSetBlock = "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..";
+
+    /**
+     * @var array
+     */
+    protected $tabClasses = array(
+        Bundle::GROUP => '\Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
+        ConfigurableProduct::GROUP => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config',
+        GroupedProduct::GROUP => '\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts',
+        DownloadableProduct::GROUP
+            => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
+        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab'
+    );
 
     /**
      * Get choose affected attribute set dialog popup window
@@ -67,7 +65,9 @@ class ProductForm extends FormTabs
      */
     protected function getAffectedAttributeSetBlock()
     {
-        return $this->affectedAttributeSetBlock;
+        return Factory::getBlockFactory()->getMagentoCatalogProductConfigurableAffectedAttributeSet(
+            $this->_rootElement->find($this->affectedAttributeSetBlock, Locator::SELECTOR_XPATH)
+        );
     }
 
     /**
@@ -75,6 +75,7 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      * @param Element $element
+     * @return FormTabs|void
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
@@ -104,6 +105,7 @@ class ProductForm extends FormTabs
      * Save product
      *
      * @param Fixture $fixture
+     * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
     public function save(Fixture $fixture = null)
     {
@@ -116,9 +118,9 @@ class ProductForm extends FormTabs
     /**
      * Save new category
      *
-     * @param AbstractProduct $fixture
+     * @param Product $fixture
      */
-    public function addNewCategory(AbstractProduct $fixture)
+    public function addNewCategory(Product $fixture)
     {
         $this->openNewCategoryDialog();
         $this->_rootElement->find('input#new_category_name', Locator::SELECTOR_CSS)
