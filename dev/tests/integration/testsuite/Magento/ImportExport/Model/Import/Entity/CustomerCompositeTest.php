@@ -147,21 +147,13 @@ class CustomerCompositeTest extends \PHPUnit_Framework_TestCase
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         // set entity adapter parameters
         $this->_entityAdapter->setParameters(array('behavior' => $behavior));
+        /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will(
-                $this->returnValue(
-                    $directory->openFile($directory->getRelativePath($sourceFile))
-                )
-            );
+        $rootDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
         // set fixture CSV file
         $result = $this->_entityAdapter
-            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryMock))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $rootDirectory))
             ->isDataValid();
         if ($errors) {
             $this->assertFalse($result);

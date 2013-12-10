@@ -57,13 +57,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($model->$action());
 
-        $this->assertEquals(
-            array(
-                $rootDir . '/code',
-                $rootDir . '/var/tmp',
-            ),
-            $snapshot->getIgnorePaths()
-        );
+        $paths = $snapshot->getIgnorePaths();
+        $path1 = str_replace('\\', '/', $paths[0]);
+        $path2 = str_replace('\\', '/', $paths[1]);
+        $rootDir = str_replace('\\', '/', $rootDir);
+
+        $this->assertEquals($rootDir . '/code', $path1);
+        $this->assertEquals($rootDir . '/var/tmp', $path2);
     }
 
     /**
