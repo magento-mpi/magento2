@@ -236,11 +236,6 @@ class Store extends \Magento\Core\Model\AbstractModel
     protected $_url;
 
     /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
-
-    /**
      * @var bool
      */
     protected $_isCustomEntryPoint = false;
@@ -307,7 +302,6 @@ class Store extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Stdlib\Cookie $cookie
      * @param \Magento\Data\Collection\Db $resourceCollection
-     * @param \Magento\App\State $appState
      * @param bool $isCustomEntryPoint
      * @param array $data
      */
@@ -326,7 +320,6 @@ class Store extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Stdlib\Cookie $cookie,
-        \Magento\App\State $appState,
         \Magento\Data\Collection\Db $resourceCollection = null,
         $isCustomEntryPoint = false,
         array $data = array()
@@ -343,7 +336,6 @@ class Store extends \Magento\Core\Model\AbstractModel
         $this->_storeManager = $storeManager;
         $this->_sidResolver = $sidResolver;
         $this->_cookie = $cookie;
-        $this->_appState = $appState;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 

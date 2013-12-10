@@ -90,10 +90,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      */
     protected $_customFactory;
 
-    /**
-     * @var \Magento\App\State
-     */
-    protected $_appState;
 
     /**
      * Initialize dependencies
@@ -105,7 +101,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      * @param \Magento\View\Design\Theme\ImageFactory $imageFactory
      * @param \Magento\View\Design\Theme\Validator $validator
      * @param \Magento\View\Design\Theme\CustomizationFactory $customizationFactory
-     * @param \Magento\App\State $appState
      * @param Resource\Theme $resource
      * @param Resource\Theme\Collection $resourceCollection
      * @param array $data
@@ -120,7 +115,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         \Magento\View\Design\Theme\ImageFactory $imageFactory,
         \Magento\View\Design\Theme\Validator $validator,
         \Magento\View\Design\Theme\CustomizationFactory $customizationFactory,
-        \Magento\App\State $appState,
         \Magento\Core\Model\Resource\Theme $resource = null,
         \Magento\Core\Model\Resource\Theme\Collection $resourceCollection = null,
         array $data = array()
@@ -131,7 +125,6 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
         $this->_imageFactory = $imageFactory;
         $this->_validator = $validator;
         $this->_customFactory = $customizationFactory;
-        $this->_appState = $appState;
 
         $this->addData(array(
             'type' => self::TYPE_VIRTUAL

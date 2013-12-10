@@ -26,19 +26,26 @@ class Context implements \Magento\ObjectManager\ContextInterface
      */
     protected $_logger;
 
+    /**
+     * @var \Magento\App\State
+     */
+    protected $_appState;
 
     /**
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventDispatcher
      * @param \Magento\App\CacheInterface $cacheManager
+     * @param \Magento\App\State $appState
      */
     public function __construct(
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventDispatcher,
-        \Magento\App\CacheInterface $cacheManager
+        \Magento\App\CacheInterface $cacheManager,
+        \Magento\App\State $appState
     ) {
         $this->_eventDispatcher = $eventDispatcher;
         $this->_cacheManager = $cacheManager;
+        $this->_appState = $appState;
         $this->_logger = $logger;
     }
 
@@ -64,5 +71,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getLogger()
     {
         return $this->_logger;
+    }
+
+    /**
+     * @return \Magento\App\State
+     */
+    public function getAppState()
+    {
+        return $this->_appState;
     }
 }

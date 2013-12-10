@@ -49,7 +49,6 @@ class StoreTest extends \PHPUnit_Framework_TestCase
             'storeManager'            => $objectManager->get('Magento\Core\Model\StoreManager'),
             'sidResolver'             => $objectManager->get('Magento\Session\SidResolverInterface'),
             'cookie'                  => $objectManager->get('Magento\Stdlib\Cookie'),
-            'appState'                => $objectManager->get('Magento\App\State'),
         );
 
         return $this->getMock(
@@ -361,8 +360,7 @@ class StoreTest extends \PHPUnit_Framework_TestCase
 
         $params = $this->_modelParams;
         $params['context'] = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-            ->create('Magento\Core\Model\Context');
-        $params['appState'] = $appStateMock;
+            ->create('Magento\Core\Model\Context', array('appState' => $appStateMock));
 
         $model = $this->getMock('Magento\Core\Model\Store', array('getConfig'), $params);
 
