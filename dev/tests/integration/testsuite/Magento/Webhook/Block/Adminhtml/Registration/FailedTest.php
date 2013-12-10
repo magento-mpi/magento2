@@ -21,19 +21,22 @@ class FailedTest extends \PHPUnit_Framework_TestCase
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
 
-        /** @var \Magento\Backend\Model\Session $session */
-        $session = $objectManager->create('Magento\Backend\Model\Session');
+        /** @var \Magento\Message\ManagerInterface $messageManager */
+        $messageManager = $objectManager->create('Magento\Message\ManagerInterface');
         $context = $objectManager->create(
             'Magento\Backend\Block\Template\Context',
-            array('backendSession' => $session)
+            array('messageManager' => $messageManager)
         );
-        $messageCollection = $objectManager->create('Magento\Message\Collection');
-        $message = $objectManager->create('Magento\Message\Notice', array('code' => ''));
-        $messageCollection->addMessage($message);
-        $session->setData('messages', $messageCollection);
 
-        $block = $objectManager->create('Magento\Webhook\Block\Adminhtml\Registration\Failed',
-            array('context' => $context));
+        /** @var \Magento\Message\Notice $message */
+        $message = $objectManager->create('Magento\Message\Notice', array('text' => ''));
+        $messageManager->addMessage($message);
+
+        /** @var \Magento\Webhook\Block\Adminhtml\Registration\Failed $block */
+        $block = $objectManager->create(
+            'Magento\Webhook\Block\Adminhtml\Registration\Failed',
+            array('context' => $context)
+        );
 
         $this->assertEquals($message->toString(), $block->getSessionError());
     }
