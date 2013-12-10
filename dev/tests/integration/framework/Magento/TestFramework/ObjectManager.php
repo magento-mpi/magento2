@@ -34,10 +34,12 @@ class ObjectManager extends \Magento\App\ObjectManager
             }
         }
 
-        foreach ($this->_sharedInstances as $object) {
-            if ($object instanceof \Magento\Session\SessionManagerInterface && $object->isSessionExists()) {
-                $object->writeClose();
-                break;
+        if (session_status() === PHP_SESSION_ACTIVE) {
+            foreach ($this->_sharedInstances as $object) {
+                if ($object instanceof \Magento\Session\SessionManagerInterface) {
+                    $object->writeClose();
+                    break;
+                }
             }
         }
 
