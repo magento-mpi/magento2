@@ -16,6 +16,11 @@ namespace Magento\Session;
 class SaveHandlerFactory
 {
     /**
+     * Php native session handler
+     */
+    const PHP_NATIVE_HANDLER = 'Magento\Session\SaveHandler\Native';
+
+    /**
      * @var \Magento\ObjectManager
      */
     protected $objectManager;
@@ -47,7 +52,7 @@ class SaveHandlerFactory
      */
     public function create($saveMethod, $params = array())
     {
-        $sessionHandler = '\SessionHandler';
+        $sessionHandler = self::PHP_NATIVE_HANDLER;
         if (isset($this->handlers[$saveMethod])) {
             $sessionHandler = $this->handlers[$saveMethod];
         }
