@@ -34,7 +34,7 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreate($messageType)
     {
-        $message = $this->model->create($messageType);
+        $message = $this->model->create($messageType, 'some text');
         $this->assertInstanceOf('\Magento\Message\MessageInterface', $message);
     }
 
@@ -54,6 +54,6 @@ class FactoryTest extends \PHPUnit_Framework_TestCase
      */
     public function testCreateWrong()
     {
-        $this->model->create('Wrong');
+        $this->model->create('Wrong', 'some text');
     }
 }
