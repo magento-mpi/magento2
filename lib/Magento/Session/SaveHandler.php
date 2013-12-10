@@ -44,7 +44,6 @@ class SaveHandler implements SaveHandlerInterface
      */
     public function open($savePath, $name)
     {
-        echo '==='.get_class($this->saveHandlerAdapter).'<br />'.PHP_EOL;
         return $this->saveHandlerAdapter->open($savePath, $name);
     }
 
