@@ -375,17 +375,10 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         $filesystem = $objectManager->create('Magento\Filesystem');
         $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
 
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will(
-                $this->returnValue(
-                    $directory->openFile($directory->getRelativePath($sourceFile))
-                )
-            );
+        $directoryWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
         $result = $this->_entityAdapter
-            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryMock))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryWrite))
             ->isDataValid();
         $this->assertFalse($result, 'Validation result must be false.');
 
@@ -472,19 +465,9 @@ class AddressTest extends \PHPUnit_Framework_TestCase
         /** @var $objectManager \Magento\TestFramework\ObjectManager */
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $filesystem = $objectManager->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will(
-                $this->returnValue(
-                    $directory->openFile($directory->getRelativePath($sourceFile))
-                )
-            );
-
+        $directoryWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $result = $this->_entityAdapter
-            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryMock))
+            ->setSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile, $directoryWrite))
             ->isDataValid();
         $this->assertTrue($result, 'Validation result must be true.');
 

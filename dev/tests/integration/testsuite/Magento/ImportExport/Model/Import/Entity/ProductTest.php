@@ -86,17 +86,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         }
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath(__DIR__ . '/_files/products_to_import.csv')
-            )));
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
-            $directoryMock
+            $directory
         );
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
@@ -139,18 +133,10 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         }
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath(__DIR__ . '/_files/products_to_import_with_datetime.csv')
-            )));
-
+        $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import.csv',
-            $directoryMock
+            $directory
         );
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,
@@ -191,16 +177,9 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         $pathToFile = __DIR__ . '/_files/product_with_custom_options.csv';
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
+        $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath($pathToFile)
-            )));
-
-        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directoryMock);
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile, $directory);
         $this->_model->setSource($source)
             ->setParameters(array('behavior' => $behavior))
             ->isDataValid();
@@ -260,19 +239,11 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         }
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will($this->returnValue($directory->openFile(
-                $directory->getRelativePath(__DIR__ . '/_files/products_to_import_with_datetime.csv')
-            )));
+        $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/products_to_import_with_datetime.csv',
-            $directoryMock
+            $directory
         );
         $this->_model->setParameters(array(
             'behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_REPLACE,

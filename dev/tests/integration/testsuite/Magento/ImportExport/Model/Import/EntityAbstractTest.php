@@ -22,22 +22,10 @@ class EntityAbstractTest extends \PHPUnit_Framework_TestCase
     public function testSaveValidatedBunches()
     {
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-
-        $directoryMock = $this->getMock('\Magento\Filesystem\Directory\Write', array('openFile'), array(), '', false);
-
-        $directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will(
-                $this->returnValue(
-                    $directory->openFile($directory->getRelativePath(
-                            __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv'
-                    ))
-                )
-            );
+        $directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/Entity/Eav/_files/customers_for_validation_test.csv',
-            $directoryMock
+            $directory
         );
         $source->rewind();
         $expected = $source->current();

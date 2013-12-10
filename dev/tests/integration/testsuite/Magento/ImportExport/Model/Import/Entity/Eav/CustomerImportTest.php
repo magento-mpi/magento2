@@ -24,11 +24,9 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
     protected $_model;
 
     /**
-     * Mock for filesystem library
-     *
      * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_directoryMock;
+    protected $directoryWrite;
 
     protected function setUp()
     {
@@ -38,22 +36,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             ->create('Magento\ImportExport\Model\Import\Entity\Eav\Customer');
 
         $filesystem = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->create('Magento\Filesystem');
-        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
-
-        $this->_directoryMock = $this->getMock(
-            '\Magento\Filesystem\Directory\Write',
-            array('openFile'),
-            array(),
-            '',
-            false
-        );
-        $this->_directoryMock->expects($this->any())
-            ->method('openFile')
-            ->will(
-                $this->returnValue(
-                    $directory->openFile($directory->getRelativePath(__DIR__ . '/_files/customers_to_import.csv'))
-                )
-            );
+        $this->directoryWrite = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
     }
 
     /**
@@ -74,7 +57,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
 
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/customers_to_import.csv',
-            $this->_directoryMock
+            $this->directoryWrite
         );
 
         /** @var $customersCollection \Magento\Customer\Model\Resource\Customer\Collection */
@@ -142,7 +125,7 @@ class CustomerImportTest extends \PHPUnit_Framework_TestCase
             ->loadArea(\Magento\Core\Model\App\Area::AREA_FRONTEND);
         $source = new \Magento\ImportExport\Model\Import\Source\Csv(
             __DIR__ . '/_files/customers_to_import.csv',
-            $this->_directoryMock
+            $this->directoryWrite
         );
 
         /** @var $customerCollection \Magento\Customer\Model\Resource\Customer\Collection */
