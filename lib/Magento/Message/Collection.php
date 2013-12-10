@@ -21,7 +21,7 @@ class Collection
     protected $messages = array();
 
     /**
-     * @var string
+     * @var MessageInterface
      */
     protected $lastAddedMessage;
 
@@ -58,6 +58,9 @@ class Collection
             if (empty($this->messages[$type])) {
                 unset($this->messages[$type]);
             }
+        }
+        if (!$this->lastAddedMessage->getIsSticky()) {
+            $this->lastAddedMessage = null;
         }
         return $this;
     }

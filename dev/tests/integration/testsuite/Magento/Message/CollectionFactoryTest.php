@@ -19,7 +19,7 @@ class CollectionFactoryTest extends \PHPUnit_Framework_TestCase
     protected $model;
 
     /**
-     * @var \Magento\TestFramework\Helper\ObjectManager
+     * @var \Magento\ObjectManager
      */
     protected $objectManager;
 

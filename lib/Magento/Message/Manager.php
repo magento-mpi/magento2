@@ -120,7 +120,6 @@ class Manager implements ManagerInterface
      */
     public function addMessage(MessageInterface $message, $group = null)
     {
-        $group = $this->prepareGroup($group);
         $this->getMessages(false, $group)->addMessage($message);
         $this->eventManager->dispatch('core_session_abstract_add_message');
         return $this;
@@ -135,10 +134,8 @@ class Manager implements ManagerInterface
      */
     public function addMessages(array $messages, $group = null)
     {
-        if (is_array($messages)) {
-            foreach ($messages as $message) {
-                $this->addMessage($message, $group);
-            }
+        foreach ($messages as $message) {
+            $this->addMessage($message, $group);
         }
         return $this;
     }
@@ -210,7 +207,6 @@ class Manager implements ManagerInterface
         if (empty($messages)) {
             return $this;
         }
-        $group = $this->prepareGroup($group);
 
         $messagesAlready = array();
         $items = $this->getMessages(false, $group)->getItems();
