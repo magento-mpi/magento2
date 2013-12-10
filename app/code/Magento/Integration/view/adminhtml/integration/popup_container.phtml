@@ -14,8 +14,7 @@
     window.integration = new Integration(
         '<?php echo $this->getUrl('*/*/permissionsDialog', ['id' => ':id']); ?>',
         '<?php echo $this->getUrl('*/*/tokensDialog', ['id' => ':id']); ?>',
-        '', // Not implemented
-        '' // Not implemented
+        '<?php echo $this->getUrl('*/*'); ?>'
     );
 </script>
 <div id="integration-popup-container" style="display:none;"></div>

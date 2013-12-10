@@ -82,12 +82,11 @@
         }
     });
 
-    window.Integration = function (permissionsDialogUrl, tokensDialogUrl, deactivateDialogUrl, reauthorizeDialogUrl) {
+    window.Integration = function (permissionsDialogUrl, tokensDialogUrl, gridUrl) {
         var url = {
             permissions: permissionsDialogUrl,
             tokens: tokensDialogUrl,
-            deactivate: deactivateDialogUrl,
-            reauthorize: reauthorizeDialogUrl
+            grid: gridUrl
         };
 
         var _showPopup = function (dialog, title, okButton, url) {
@@ -102,16 +101,25 @@
                     $('body').trigger('processStart');
                 },
                 success: function (html) {
-                    var popup = $('#integration-popup-container');
+                    if (html.indexOf('_redirect') !== -1) {
+                        window.location.href = JSON.parse(html)['_redirect'];
+                        return;
+                    }
 
+                    var popup = $('#integration-popup-container');
+                    var buttons = [];
                     popup.html(html);
 
-                    var buttons = [{
-                        text: $.mage.__('Cancel'),
-                        click: function() {
-                            $(this).dialog('close');
-                        }
-                    }];
+                    if (dialog == 'permissions') {
+                        // We don't need this button in 'tokens' dialog, since if you got there - integration is
+                        // already activated and have necessary tokens
+                        buttons.push({
+                            text: $.mage.__('Cancel'),
+                            click: function () {
+                                $(this).dialog('close');
+                            }
+                        });
+                    }
 
                     // Add confirmation button to the list of dialog buttons
                     buttons.push(okButton);
@@ -122,10 +130,15 @@
                         autoOpen: true,
                         minHeight: 450,
                         minWidth: 600,
-                        dialogClass: 'integration-dialog',
+                        dialogClass: dialog == 'permissions' ? 'integration-dialog' : 'integration-dialog no-close',
                         position: {at: 'center'},
+                        closeOnEscape: false,
                         buttons: buttons
                     });
+                },
+                error: function (jqXHR, status, error) {
+                    alert($.mage.__('Sorry, something went wrong. Please try again later.'));
+                    console && console.log(status + ': ' + error + "\nResponse text:\n" + jqXHR.responseText);
                 },
                 complete: function () {
                     // Hide the spinner
@@ -139,7 +152,7 @@
                 show: function (ctx) {
                     var dialog = $(ctx).attr('data-row-dialog');
 
-                    if (['permissions', 'deactivate', 'reauthorize', 'tokens'].indexOf(dialog) === -1) {
+                    if (!url.hasOwnProperty(dialog)) {
                         throw 'Invalid dialog type';
                     }
 
@@ -178,10 +191,11 @@
                             }
                         },
                         tokens: {
-                            text: $.mage.__('Activate'),
+                            text: $.mage.__('Done'),
                             'class': 'primary',
                             click: function () {
-                                alert('Not implemented');
+                                // Integration has been activated at the point of generating tokens
+                                window.location.href = url.grid;
                             }
                         }
                     };
