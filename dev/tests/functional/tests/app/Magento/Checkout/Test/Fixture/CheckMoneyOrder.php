@@ -11,7 +11,6 @@
 
 namespace Magento\Checkout\Test\Fixture;
 
-use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture;
 
@@ -22,20 +21,6 @@ use Magento\Catalog\Test\Fixture;
  */
 class CheckMoneyOrder extends Checkout
 {
-    /**
-     * Custom constructor to create check/money order checkout
-     *
-     * @param Config $configuration
-     * @param array $placeholders
-     */
-    public function __construct(Config $configuration, $placeholders = array())
-    {
-        parent::__construct($configuration, $placeholders);
-
-        if (isset($placeholders['products']))
-            $this->products = $placeholders['products'];
-    }
-
     /**
      * Prepare Check/Money order data
      */
@@ -83,23 +68,21 @@ class CheckMoneyOrder extends Checkout
         $taxRule->persist();
 
         //Products
-        if (!isset($this->products)) {
-            $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-            $simple->switchData('simple_required');
-            $simple->persist();
-            $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-            $configurable->switchData('configurable_required');
-            $configurable->persist();
-            $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-            $bundle->switchData('bundle_fixed_required');
-            $bundle->persist();
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simple->switchData('simple_required');
+        $simple->persist();
+        $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
+        $configurable->switchData('configurable_required');
+        $configurable->persist();
+        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
+        $bundle->switchData('bundle_fixed_required');
+        $bundle->persist();
 
-            $this->products = array(
-                $simple,
-                $configurable,
-                $bundle,
-            );
-        }
+        $this->products = array(
+            $simple,
+            $configurable,
+            $bundle,
+        );
 
         //Checkout data
         $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
