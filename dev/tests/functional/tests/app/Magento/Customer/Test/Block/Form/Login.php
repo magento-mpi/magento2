@@ -78,6 +78,7 @@ class Login extends Form
     public function submit()
     {
         $this->_rootElement->find($this->loginButton, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementNotVisible($this->loginButton);
     }
 
     /**

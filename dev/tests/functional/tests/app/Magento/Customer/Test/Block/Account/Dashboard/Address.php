@@ -34,5 +34,6 @@ class Address extends Block
     public function editBillingAddress()
     {
         $this->_rootElement->find($this->defaultBillingAddressEdit)->click();
+        $this->waitForElementNotVisible($this->defaultBillingAddressEdit);
     }
 }
