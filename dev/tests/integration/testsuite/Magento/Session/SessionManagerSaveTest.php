@@ -11,7 +11,7 @@
 
 namespace Magento\Session;
 
-class SessionManagerTest extends \PHPUnit_Framework_TestCase
+class SessionManagerSaveTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param string $saveMethod
