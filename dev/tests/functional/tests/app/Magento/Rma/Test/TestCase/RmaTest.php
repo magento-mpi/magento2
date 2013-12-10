@@ -93,7 +93,7 @@ class RmaTest extends Functional
 
         // Step 12: Open the Returns page, navigate to Return Items tab
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
-        $rmaPage = Factory::getPageFactory()->getRmaEdit();
+        $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
 
         // Step 13: Authorize Simple and Configurable Product
@@ -114,6 +114,9 @@ class RmaTest extends Functional
         $rmaPage->getMessageBlock()->assertSuccessMessage();
     }
 
+    /**
+     * Sets Rma configuration on application backend
+     */
     private function configureRma()
     {
         // precondition 1: Configure RMA Settings
@@ -122,6 +125,11 @@ class RmaTest extends Functional
         $enableRma->persist();
     }
 
+    /**
+     * Completes guest checkout using PayPalExpress
+     *
+     * @return \Magento\Sales\Test\Fixture\PaypalExpressOrder
+     */
     private function guestCheckoutPayPal()
     {
         // precondition 2a: MAGETWO-12415 - Guest Checkout using "Checkout with PayPal":
@@ -133,30 +141,15 @@ class RmaTest extends Functional
         return $payPalExpressOrder;
     }
 
+    /**
+     * Closes the sales order on the application backend
+     *
+     * @param $payPalExpressOrder
+     * @return \Magento\Sales\Test\Handler\Ui\CloseOrder
+     */
     private function closeSalesOrder($payPalExpressOrder)
     {
         // precondition 2b: MAGETWO-12434 - Closing a Sales Order paid with PayPal Express Checkout
-        $orderId = $payPalExpressOrder->getOrderId();
-        //Pages
-        $orderPage = Factory::getPageFactory()->getSalesOrder();
-        $newInvoicePage = Factory::getPageFactory()->getSalesOrderInvoiceNew();
-        $newShipmentPage = Factory::getPageFactory()->getSalesOrderShipmentNew();
-
-        Factory::getApp()->magentoBackendLoginUser();
-
-        $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-
-        //Create the Shipment
-        $orderPage->getOrderActionsBlock()->ship();
-        $newShipmentPage->getTotalsBlock()->submit();
-
-        //Create the Invoice
-        $orderPage->open();
-        $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
-        $orderPage->getOrderActionsBlock()->invoice();
-        $newInvoicePage->getInvoiceTotalsBlock()->submit();
-
-        return $orderPage;
+        return Factory::getApp()->magentoSalesCloseOrder($payPalExpressOrder);
     }
 }
