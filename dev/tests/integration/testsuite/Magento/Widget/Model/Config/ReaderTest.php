@@ -33,12 +33,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->directoryList->addDirectory(\Magento\Filesystem::CONFIG, array('path' => $dirPath));
         $this->directoryList->addDirectory(\Magento\Filesystem::ROOT, array('path' => $dirPath));
 
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::MODULES => array('absolute_path' => dirname(__DIR__) . $dirPath)
-            )
-        ));
-
         $filesystem = $objectManager->create('Magento\Filesystem');
 
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
