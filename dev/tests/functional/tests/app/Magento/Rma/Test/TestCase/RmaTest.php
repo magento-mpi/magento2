@@ -47,14 +47,10 @@ class RmaTest extends Functional
         $homePage->getFooterBlock()->clickLink('Orders and Returns');
 
         // Step 3: Fill "Order and Returns" form with Test Data from the Pre-Conditions
-        $searchOrder = Factory::getFixtureFactory()->getMagentoRmaOrderSearch();
-        $searchOrder->setOrderId($orderId);
-        $searchOrder->setFindOrderBy('Email Address');
-        $searchOrder->setBillingLastname($payPalExpressOrder->getBillingAddress()->getData('fields/lastname/value'));
-        $searchOrder->setEmailAddress($payPalExpressOrder->getCustomer()->getData('fields/login_email/value'));
-
+        $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
+        $returnItem->prepareData($payPalExpressOrder);
         $searchForm = Factory::getPageFactory()->getSalesGuestForm()->getSearchForm();
-        $searchForm->fillCustom($searchOrder);
+        $searchForm->fill($returnItem);
 
         // Step 4: Click "Continue"
         $searchForm->submit();

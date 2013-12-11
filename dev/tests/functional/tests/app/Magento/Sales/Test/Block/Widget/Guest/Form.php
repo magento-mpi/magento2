@@ -21,55 +21,30 @@ use Mtf\Client\Element\Locator;
  *
  * @package Magento\Sales\Test\Block\Widget\Guest
  */
-class Form extends Block
+class Form extends \Mtf\Block\Form
 {
+    protected $_mapping = [
+        'order_id' => [
+            'selector' => '#oar-order-id'
+        ],
+        'billing_last_name' => [
+            'selector' => '#oar-billing-lastname'
+        ],
+        'find_order_by' => [
+            'selector' => '#quick-search-type-id',
+            'input' => 'select'
+        ],
+        'email_address' => [
+            'selector' => '#oar_email'
+        ],
+    ];
+
     /**
      * Search button selector
      *
      * @var string
      */
     protected $searchButtonSelector = '.action.submit';
-
-    /**
-     * Order Id selector
-     *
-     * @var string
-     */
-    protected $orderIdSelector = 'oar-order-id';
-
-    /**
-     * Order Billing Lastname selector
-     *
-     * @var string
-     */
-    protected $orderBillingLastnameSelector = 'oar-billing-lastname';
-
-    /**
-     * Order Email selector
-     *
-     * @var string
-     */
-    protected $orderEmailSelector = 'oar_email';
-
-    /**
-     * Order Search Type selector
-     *
-     * @var string
-     */
-    protected $orderSearchTypeSelector = 'quick-search-type-id';
-
-    /**
-     * Fill form with custom fields
-     *
-     * @param OrderSearch $orderSearch
-     */
-    public function fillCustom($orderSearch)
-    {
-        $this->_rootElement->find($this->orderIdSelector, Locator::SELECTOR_ID)->setValue($orderSearch->getOrderId());
-        $this->_rootElement->find($this->orderBillingLastnameSelector, Locator::SELECTOR_ID)->setValue($orderSearch->getBillingLastname());
-        $this->_rootElement->find($this->orderEmailSelector, Locator::SELECTOR_ID)->setValue($orderSearch->getEmailAddress());
-        $this->_rootElement->find($this->orderSearchTypeSelector, Locator::SELECTOR_ID, 'select')->setValue($orderSearch->getFindOrderBy());
-    }
 
     /**
      * Submit search form

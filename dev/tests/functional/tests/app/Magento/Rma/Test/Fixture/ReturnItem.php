@@ -22,15 +22,56 @@ use Mtf\Fixture\DataFixture;
 class ReturnItem extends DataFixture
 {
     /**
+     * Prepare search data for creating RMA
+     *
+     * @param \Magento\Sales\Test\Fixture\PaypalExpressOrder $fixture
+     */
+    public function prepareData(\Magento\Sales\Test\Fixture\PaypalExpressOrder $fixture)
+    {
+        $this->_data['fields']['order_id']['value'] = $fixture->getOrderId();
+        //$this->_data['fields']['billing_last_name']['value'] = $fixture->getBillingAddress()->getLastName()['value'];
+        $this->_data['fields']['billing_last_name']['value'] = $fixture->getBillingAddress()->getData('fields/lastname/value');
+        //$this->_data['fields']['email_address']['value'] = $fixture->getCustomer()->getEmail()['value'];
+        $this->_data['fields']['email_address']['value'] = $fixture->getCustomer()->getData('fields/login_email/value');
+
+        // TODO:  Add products.
+        //$this->_data['fields']['product_name_1']['value'] = $fixture->getProduct(0)->getProductName();
+        //$this->_data['fields']['product_name_2']['value'] = $fixture->getProduct(1)->getProductName();
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()
     {
-        $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoRmaReturnItem($this->_dataConfig, $this->_data);
-
-        //Default data set
-        $this->switchData('default');
+        $this->_data = array(
+            'fields' => array(
+                'order_id' => array(
+                    'value' => ''
+                ),
+                'billing_last_name' => array(
+                    'value' => ''
+                ),
+                'find_order_by' => array(
+                    'value' => 'Email Address'
+                ),
+                'email_address' => array(
+                    'value' => ''
+                )
+                /*'quantity' => array(
+                    'value' => '1'
+                ),
+                'resolution' => array(
+                    'value' => 'Refund'
+                ),
+                'condition' => array(
+                    'value' => 'Opened'
+                ),
+                'reason' => array(
+                    'value' => 'Wrong Size'
+                )*/
+            )
+        );
     }
 
     /**

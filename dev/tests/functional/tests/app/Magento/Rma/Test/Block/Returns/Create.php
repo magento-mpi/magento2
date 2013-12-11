@@ -48,16 +48,16 @@ class Create extends Form
             ->setValue($productName);
         $this->_rootElement
             ->find('items:qty_requested' . $index, Locator::SELECTOR_ID)
-            ->setValue($returnItem->getQuantity());
+            ->setValue('1'); // $returnItem->getQuantity()
         $this->_rootElement
             ->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue($returnItem->getResolution());
+            ->setValue('Refund'); //$returnItem->getResolution()
         $this->_rootElement
             ->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue($returnItem->getCondition());
+            ->setValue('Opened'); //$returnItem->getCondition()
         $this->_rootElement
             ->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue($returnItem->getReason());
+            ->setValue('Wrong Size'); //$returnItem->getReason()
     }
 
     /**
