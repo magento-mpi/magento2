@@ -637,8 +637,10 @@ class Product extends \Magento\ImportExport\Model\Export\Entity\AbstractEntity
             switch($lastMemoryLimitLetter) {
                 case 'g':
                     $memoryLimit *= 1024;
+                // fall-through intentional
                 case 'm':
                     $memoryLimit *= 1024;
+                // fall-through intentional
                 case 'k':
                     $memoryLimit *= 1024;
                     break;
