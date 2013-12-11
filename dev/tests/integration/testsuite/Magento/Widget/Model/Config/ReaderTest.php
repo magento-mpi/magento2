@@ -33,13 +33,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->directoryList->addDirectory(\Magento\Filesystem::CONFIG, array('path' => $dirPath));
         $this->directoryList->addDirectory(\Magento\Filesystem::ROOT, array('path' => $dirPath));
 
-        \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-            \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::MODULES => array('path' => dirname(__DIR__) . $dirPath)
-            )
-        ));
-
-        $filesystem = $objectManager->create('Magento\Filesystem');
+        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $this->directoryList));
 
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
@@ -47,8 +41,6 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                 'filesystem' => $filesystem,
             )
         );
-
-
 
         /** @var \Magento\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $objectManager->create(
@@ -67,7 +59,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList
+                'moduleList' => $modulesList,
+                'filesystem' => $filesystem,
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
@@ -76,6 +69,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $fileResolver = $objectManager->create(
             'Magento\Widget\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
+                'filesystem' => $filesystem
             )
         );
 
