@@ -40,7 +40,7 @@ class Generic implements \Magento\Core\Model\Option\ArrayInterface
         $configData = $this->_shippingUsps->getCode($this->_code);
         $arr = array();
         foreach ($configData as $code => $title) {
-            $arr[] = array('value' => $code, 'label' => $title);
+            $arr[] = array('value' => $code, 'label' => __($title));
         }
         return $arr;
     }
