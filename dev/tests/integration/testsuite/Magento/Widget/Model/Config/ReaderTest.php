@@ -35,7 +35,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::MODULES => array('absolute_path' => dirname(__DIR__) . $dirPath)
+                \Magento\Filesystem::MODULES => array('path' => dirname(__DIR__) . $dirPath)
             )
         ));
 

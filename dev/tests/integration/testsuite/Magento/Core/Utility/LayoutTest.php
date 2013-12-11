@@ -19,7 +19,7 @@ class LayoutTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::APP => array('absolute_path' => BP . '/dev/tests/integration'),
+                \Magento\Filesystem::APP => array('path' => BP . '/dev/tests/integration'),
             )
         ));
         $this->_utility = new \Magento\Core\Utility\Layout($this);

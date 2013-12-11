@@ -66,9 +66,7 @@ class DirectoryList
         $this->root = str_replace('\\', '/', $root);
 
         foreach ($this->directories as $code => $configuration) {
-            if (isset($configuration['absolute_path'])) {
-                $this->directories[$code]['path'] = $configuration['absolute_path'];
-            } else {
+            if (!$this->isAbsolute($configuration['path'])) {
                 $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
             }
         }
@@ -77,10 +75,8 @@ class DirectoryList
             $baseConfiguration = isset($this->directories[$code]) ? $this->directories[$code] : array();
             $this->directories[$code] = array_merge($baseConfiguration, $configuration);
 
-            if (isset($configuration['absolute_path'])) {
-                $this->setPath($code, $configuration['absolute_path']);
-            } else {
-                $this->setPath($code, $configuration['relative_path']);
+            if (isset($configuration['path'])) {
+                $this->setPath($code, $configuration['path']);
             }
             if (isset($configuration['uri'])) {
                 $this->setUri($code, $configuration['uri']);
@@ -103,11 +99,11 @@ class DirectoryList
      */
     public function addDirectory($code, array $configuration)
     {
-        if (isset($configuration['absolute_path'])) {
-            $configuration['path'] = $configuration['absolute_path'];
-        } else {
-            $path = isset($configuration['relative_path']) ? $configuration['relative_path'] : null;
-            $configuration['path'] = $this->makeAbsolute($path);
+        if (!isset($configuration['path'])) {
+            $configuration['path'] = null;
+        }
+        if (!$this->isAbsolute($configuration['path'])) {
+            $configuration['path'] = $this->makeAbsolute($configuration['path']);
         }
 
         $this->directories[$code] = $configuration;
@@ -149,6 +145,22 @@ class DirectoryList
         }
 
         return $result;
+    }
+
+    /**
+     * Verify if path is absolute
+     *
+     * @param string $path
+     * @return bool
+     */
+    protected function isAbsolute($path)
+    {
+        $path = strtr($path, '\\', '/');
+        $isUnixRoot = strpos($path, '/') === 0;
+        $isWindowsRoot = preg_match('#^\w{1}:/#', $path);
+        $isWindowsLetter = parse_url($path, PHP_URL_SCHEME) !== null;
+
+        return $isUnixRoot || $isWindowsRoot || $isWindowsLetter;
     }
 
     /**

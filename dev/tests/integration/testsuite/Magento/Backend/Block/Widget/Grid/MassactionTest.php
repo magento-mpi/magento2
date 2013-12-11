@@ -54,7 +54,7 @@ class MassactionTest extends \PHPUnit_Framework_TestCase
             \Magento\Core\Model\App::PARAM_RUN_CODE => 'admin',
             \Magento\Core\Model\App::PARAM_RUN_TYPE => 'store',
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => array('absolute_path' => __DIR__ . '/../../_files/design')
+                \Magento\Filesystem::THEMES => array('path' => __DIR__ . '/../../_files/design')
             ),
         ));
     }

@@ -74,70 +74,70 @@
                 <directory>
                     <design>
                         <read_only>1</read_only>
-                        <relative_path>app/design</relative_path>
+                        <path>app/design</path>
                     </design>
                     <var>
                         <read_only>0</read_only>
-                        <relative_path>var</relative_path>
+                        <path>var</path>
                         <allow_create_dirs>1</allow_create_dirs>
                         <permissions>511</permissions>
                     </var>
                     <tmp>
                         <read_only>0</read_only>
-                        <relative_path>var/tmp</relative_path>
+                        <path>var/tmp</path>
                         <allow_create_dirs>1</allow_create_dirs>
                         <permissions>511</permissions>
                     </tmp>
                     <cache>
                         <read_only>0</read_only>
-                        <relative_path>var/cache</relative_path>
+                        <path>var/cache</path>
                         <allow_create_dirs>1</allow_create_dirs>
                         <permissions>511</permissions>
                     </cache>
                     <log>
                         <read_only>0</read_only>
-                        <relative_path>var/log</relative_path>
+                        <path>var/log</path>
                         <allow_create_dirs>1</allow_create_dirs>
                         <permissions>511</permissions>
                     </log>
                     <session>
                         <read_only>0</read_only>
-                        <relative_path>var/session</relative_path>
+                        <path>var/session</path>
                         <allow_create_dirs>1</allow_create_dirs>
                         <permissions>511</permissions>
                     </session>
                     <pub>
                         <read_only>0</read_only>
-                        <relative_path>pub</relative_path>
+                        <path>pub</path>
                         <uri>pub</uri>
                         <permissions>511</permissions>
                     </pub>
                     <pub_lib>
                         <read_only>1</read_only>
-                        <relative_path>pub/lib</relative_path>
+                        <path>pub/lib</path>
                         <uri>pub/lib</uri>
                     </pub_lib>
                     <media>
                         <read_only>0</read_only>
-                        <relative_path>pub/media</relative_path>
+                        <path>pub/media</path>
                         <uri>pub/media</uri>
                         <permissions>511</permissions>
                     </media>
                     <upload>
                         <read_only>0</read_only>
-                        <relative_path>pub/media/upload</relative_path>
+                        <path>pub/media/upload</path>
                         <uri>pub/media/upload</uri>
                         <permissions>511</permissions>
                     </upload>
                     <static>
                         <read_only>0</read_only>
-                        <relative_path>pub/static</relative_path>
+                        <path>pub/static</path>
                         <uri>pub/static</uri>
                         <permissions>511</permissions>
                     </static>
                     <view_cache>
                         <read_only>0</read_only>
-                        <relative_path>pub/cache</relative_path>
+                        <path>pub/cache</path>
                         <uri>pub/cache</uri>
                         <permissions>511</permissions>
                     </view_cache>

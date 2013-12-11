@@ -126,12 +126,12 @@ class Application
         $generationDir = "$installDir/generation";
         $this->_initParams = array(
             Filesystem::PARAM_APP_DIRS => array(
-                Filesystem::CONFIG      => array('absolute_path' => $this->_installEtcDir),
-                Filesystem::VAR_DIR     => array('absolute_path' => $installDir),
-                Filesystem::MEDIA       => array('absolute_path' => "$installDir/media"),
-                Filesystem::STATIC_VIEW => array('absolute_path' => "$installDir/pub_static"),
-                Filesystem::PUB_VIEW_CACHE => array('absolute_path' => "$installDir/pub_cache"),
-                Filesystem::GENERATION => array('absolute_path' => $generationDir)
+                Filesystem::CONFIG      => array('path' => $this->_installEtcDir),
+                Filesystem::VAR_DIR     => array('path' => $installDir),
+                Filesystem::MEDIA       => array('path' => "$installDir/media"),
+                Filesystem::STATIC_VIEW => array('path' => "$installDir/pub_static"),
+                Filesystem::PUB_VIEW_CACHE => array('path' => "$installDir/pub_cache"),
+                Filesystem::GENERATION => array('path' => $generationDir)
             ),
             \Magento\App\State::PARAM_MODE => $appMode
         );
