@@ -11,7 +11,7 @@
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
     \Magento\Filesystem::PARAM_APP_DIRS => array(
-        \Magento\Filesystem::THEMES => array('path' => dirname(__DIR__) . '/design')
+        \Magento\Filesystem::THEMES => array('absolute_path' => dirname(__DIR__) . '/design')
     )
 ));
 
