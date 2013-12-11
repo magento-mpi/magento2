@@ -91,7 +91,7 @@ class RmaEdit extends Page
     /**
      * Get Rma Edit Form block
      *
-     * @return \Magento\Rma\Test\Block\Adminhtml\Rma\RmaEditForm
+     * @return \Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab\Items
      */
     public function getRmaEditFormBlock()
     {

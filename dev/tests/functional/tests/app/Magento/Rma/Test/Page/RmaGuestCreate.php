@@ -46,7 +46,7 @@ class RmaGuestCreate extends Page
     /**
      * Get return item block form
      *
-     * @return \Magento\Rma\Test\Block\Form\ReturnItem
+     * @return \Magento\Rma\Test\Block\Returns\Create
      */
     public function getReturnItemForm()
     {

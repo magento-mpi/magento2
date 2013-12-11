@@ -44,9 +44,9 @@ class SalesGuestView extends Page
     }
 
     /**
-     * Get View block
+     * Get view block
      *
-     * @return \Magento\Sales\Test\Block\Order\Info
+     * @return \Magento\Sales\Test\Block\Order\Info\Buttons
      */
     public function getViewBlock()
     {

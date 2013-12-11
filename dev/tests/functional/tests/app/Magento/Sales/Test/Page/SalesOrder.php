@@ -177,7 +177,7 @@ class SalesOrder extends Page
     /**
      * Get order returns block
      *
-     * @return \Magento\Sales\Test\Block\Adminhtml\Order\Returns
+     * @return \Magento\Rma\Test\Block\Adminhtml\Order\View\Tab\Rma
      */
     public function getOrderReturnsBlock()
     {
