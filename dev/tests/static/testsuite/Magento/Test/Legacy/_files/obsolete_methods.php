@@ -1068,4 +1068,5 @@ return array(
     array('getUrlEncoded', 'Magento\View\Element\AbstractBlock'),
     array('getUrlBase64', 'Magento\View\Element\AbstractBlock'),
     array('getMessagesBlock', 'Magento\MultipleWishlist\Block\Info'),
+    array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection')
 );
