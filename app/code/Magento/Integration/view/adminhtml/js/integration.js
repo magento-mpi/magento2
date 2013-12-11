@@ -96,18 +96,24 @@
             isCalledBack: false,
             successCallbackUrl: successCallbackUrl,
             Constants: {
+                /*
+                 This interval is set such that it adjusts to the child window closing timeout of 1000 ms. This will
+                 give the checker function enough time to detect if the successCallback has been invoked
+                 */
                 CHECKER_INTERVAL: 500,
                 //Login screen size plus some buffer
-                WIDTH: 680 + 20,
-                HEIGHT: 510 + 20,
-                LEFT: screen.width - 680 + 20 - 30,
-                TOP: screen.height - 510 + 20 - 300
+                WIDTH: 680,
+                HEIGHT: 510,
+                // subtract pixels(30) and width(680) from screen width to move popup from extreme left
+                LEFT: screen.width - 680 - 30,
+                // subtract pixels(300) and height(300) from screen height to move from top
+                TOP: screen.height - 510 - 300
             },
 
             invokePopup: function (identityCallbackUrl, consumerId) {
                 // Callback should be invoked only once. Reset callback flag on subsequent invocations.
                 IdentityLogin.isCalledBack = false;
-                var param = $.param({"consumer_id": consumerId, "successCallback": IdentityLogin.successCallbackUrl});
+                var param = $.param({"consumer_id": consumerId, "success_call_back": IdentityLogin.successCallbackUrl});
                 IdentityLogin.win = window.open(identityCallbackUrl + '?' + param, '',
                     'top=' + IdentityLogin.Constants.TOP +
                         ', left=' + IdentityLogin.Constants.LEFT +

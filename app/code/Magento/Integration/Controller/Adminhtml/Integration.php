@@ -319,7 +319,7 @@ class Integration extends Action
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
             $endpoint = $integration->getEndpoint();
-            if (strlen($endpoint) > 0) {
+            if (isset($endpoint) && trim($endpoint) !== '') {
                 //Integration chooses to use Oauth for token exchange
                 $this->_oauthService->postToConsumer($integration->getConsumerId(), $endpoint);
                 $result = [
