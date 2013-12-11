@@ -155,7 +155,12 @@ class DirectoryList
      */
     protected function isAbsolute($path)
     {
-        return strpos($path, '/') === 0;
+        $path = strtr($path, '\\', '/');
+        $isUnixRoot = strpos($path, '/') === 0;
+        $isWindowsRoot = preg_match('#^\w{1}:/#', $path);
+        $isWindowsLetter = parse_url($path, PHP_URL_SCHEME) !== null;
+
+        return $isUnixRoot || $isWindowsRoot || $isWindowsLetter;
     }
 
     /**
