@@ -6,7 +6,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model;
+namespace Magento\View;
 
 class DesignLoader
 {
@@ -50,4 +50,4 @@ class DesignLoader
         $area->load(\Magento\Core\Model\App\Area::PART_TRANSLATE);
         $area->detectDesign($this->_request);
     }
-} 
+}
