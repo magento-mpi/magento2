@@ -55,6 +55,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     const IDENTITY_LINK_URL = 'identity_link_url';
     const SETUP_TYPE = 'setup_type';
     const CONSUMER_ID = 'consumer_id';
+    const STATUS = 'status';
     /**#@-*/
 
     /**
@@ -126,6 +127,6 @@ class Integration extends \Magento\Core\Model\AbstractModel
      */
     public function getStatus()
     {
-        return (int)$this->getData('status');
+        return (int)$this->getData(self::STATUS);
     }
 }
