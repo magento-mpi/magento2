@@ -66,7 +66,7 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $directoryList->addDirectory(\Magento\Filesystem::TMP, array('path' => $tmpDirPath));
         $directoryList->addDirectory(\Magento\Filesystem::MEDIA, array('path' => $tmpDirPath));
 
-        $this->_filesystem = $this->_objectManager->get('Magento\Filesystem');
+        $this->_filesystem = $this->_objectManager->create('Magento\Filesystem', array('directoryList' => $directoryList));
         $this->directoryVar = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->directoryTmp = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::TMP);
 
@@ -82,7 +82,8 @@ class StorageTest extends \PHPUnit_Framework_TestCase
         $this->_helperStorage = $this->_objectManager->get('Magento\Theme\Helper\Storage');
 
         $this->_storageModel = $this->_objectManager->create('Magento\Theme\Model\Wysiwyg\Storage', array(
-            'helper' => $this->_helperStorage
+            'helper' => $this->_helperStorage,
+            'filesystem' => $this->_filesystem
         ));
     }
 
