@@ -71,6 +71,9 @@ class RmaTest extends Functional
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
         $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
+        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
+            'Product lists does not match items returned list'
+        );
 
         // Step 13: Authorize Simple and Configurable Product
         $rmaPage->getRmaEditFormBlock()->fillCustom($products, 1, 'AUTHORIZE_QTY');

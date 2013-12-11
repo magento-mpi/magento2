@@ -43,11 +43,21 @@ class Create extends Form
      */
     public function fillCustom($index, $productName, $returnItem)
     {
-        $this->_rootElement->find('items:item' . $index, Locator::SELECTOR_ID, 'select')->setValue($productName);
-        $this->_rootElement->find('items:qty_requested' . $index, Locator::SELECTOR_ID)->setValue($returnItem->getQuantity());
-        $this->_rootElement->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')->setValue($returnItem->getResolution());
-        $this->_rootElement->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')->setValue($returnItem->getCondition());
-        $this->_rootElement->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')->setValue($returnItem->getReason());
+        $this->_rootElement
+            ->find('items:item' . $index, Locator::SELECTOR_ID, 'select')
+            ->setValue($productName);
+        $this->_rootElement
+            ->find('items:qty_requested' . $index, Locator::SELECTOR_ID)
+            ->setValue($returnItem->getQuantity());
+        $this->_rootElement
+            ->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')
+            ->setValue($returnItem->getResolution());
+        $this->_rootElement
+            ->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')
+            ->setValue($returnItem->getCondition());
+        $this->_rootElement
+            ->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')
+            ->setValue($returnItem->getReason());
     }
 
     /**
