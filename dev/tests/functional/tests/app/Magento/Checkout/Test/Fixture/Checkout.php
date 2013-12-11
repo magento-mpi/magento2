@@ -27,7 +27,7 @@ class Checkout extends DataFixture
     /**
      * Customer
      *
-     * @var Customer
+     * @var \Magento\Customer\Test\Fixture\Customer
      */
     protected $customer;
 
@@ -41,7 +41,7 @@ class Checkout extends DataFixture
     /**
      * Checkout billing address
      *
-     * @var Address
+     * @var \Magento\Customer\Test\Fixture\Address
      */
     protected $billingAddress;
 
@@ -62,7 +62,7 @@ class Checkout extends DataFixture
     /**
      * Shipping methods
      *
-     * @var Method
+     * @var \Magento\Shipping\Test\Fixture\Method
      */
     protected $shippingMethods;
 
@@ -121,7 +121,7 @@ class Checkout extends DataFixture
     /**
      * Get customer type to define how to perform checkout
      *
-     * @return Customer
+     * @return \Magento\Customer\Test\Fixture\Customer
      */
     public function getCustomer()
     {
@@ -131,7 +131,7 @@ class Checkout extends DataFixture
     /**
      * Get customer billing address
      *
-     * @return Address
+     * @return \Magento\Customer\Test\Fixture\Address
      */
     public function getBillingAddress()
     {
@@ -255,5 +255,10 @@ class Checkout extends DataFixture
     public function setShippingMethod(Method $shippingMethods)
     {
         $this->shippingMethods = $shippingMethods;
+    }
+
+    public function addProduct($product)
+    {
+        array_unshift($this->products, $product);
     }
 }
