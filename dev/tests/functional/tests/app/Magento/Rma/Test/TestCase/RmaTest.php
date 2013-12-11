@@ -139,11 +139,7 @@ class RmaTest extends Functional
     private function createRma($returnItem, $payPalExpressOrder) {
         // Step 6: Fill "Return Items Information" form (simple product)
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
-
-        $returnItem->setQuantity('1');
-        $returnItem->setResolution('Refund');
-        $returnItem->setCondition('Opened');
-        $returnItem->setReason('Wrong Size');
+        $returnItem->switchData('rma');
 
         $returnItem->setProductName($payPalExpressOrder->getProduct(0)->getProductName());
         $returnItemForm->fillRma('0', $returnItem);

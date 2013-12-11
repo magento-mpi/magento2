@@ -23,34 +23,6 @@ use \Magento\Sales\Test\Fixture\PaypalExpressOrder;
 class ReturnItem extends DataFixture
 {
     /**
-     * Quantity
-     *
-     * @var int
-     */
-    protected $quantity;
-
-    /**
-     * Resolution
-     *
-     * @var string
-     */
-    protected $resolution;
-
-    /**
-     * Condition
-     *
-     * @var string
-     */
-    protected $condition;
-
-    /**
-     * Reason
-     *
-     * @var string
-     */
-    protected $reason;
-
-    /**
      * Product Name
      *
      * @var string
@@ -74,6 +46,9 @@ class ReturnItem extends DataFixture
      */
     protected function _initData()
     {
+        $this->_repository = Factory::getRepositoryFactory()
+                ->getMagentoRmaReturnItem($this->_dataConfig, $this->_data);
+
         $this->_data = array(
             'fields' => array(
                 'order_id' => array(
@@ -99,7 +74,7 @@ class ReturnItem extends DataFixture
      */
     public function getQuantity()
     {
-        return $this->quantity;
+        return $this->getData('fields/quantity');
     }
 
     /**
@@ -109,7 +84,7 @@ class ReturnItem extends DataFixture
      */
     public function getResolution()
     {
-        return $this->resolution;
+        return $this->getData('fields/resolution');
     }
 
     /**
@@ -119,7 +94,7 @@ class ReturnItem extends DataFixture
      */
     public function getCondition()
     {
-        return $this->condition;
+        return $this->getData('fields/condition');
     }
 
     /**
@@ -129,7 +104,7 @@ class ReturnItem extends DataFixture
      */
     public function getReason()
     {
-        return $this->reason;
+        return $this->getData('fields/reason');
     }
 
     /**
@@ -140,47 +115,6 @@ class ReturnItem extends DataFixture
     public function getProductName()
     {
         return $this->productName;
-    }
-
-    /**
-     *
-     * Set quantity to return
-     *
-     * @return int
-     */
-    public function setQuantity($quantity)
-    {
-        return $this->quantity = $quantity;
-    }
-
-    /**
-     * Set resolution of return
-     *
-     * @return string
-     */
-    public function setResolution($resolution)
-    {
-        return $this->resolution = $resolution;
-    }
-
-    /**
-     * Set condition of return
-     *
-     * @return string
-     */
-    public function setCondition($condition)
-    {
-        return $this->condition = $condition;
-    }
-
-    /**
-     * Set reason of return
-     *
-     * @return string
-     */
-    public function setReason($reason)
-    {
-        return $this->reason = $reason;
     }
 
     /**
