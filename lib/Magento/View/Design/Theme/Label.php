@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +9,7 @@
 /**
  * Theme_Label class used for system configuration
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\View\Design\Theme;
 
 class Label
 {
@@ -23,16 +21,11 @@ class Label
     protected $_labelsCollection;
 
     /**
-     * @var \Magento\Core\Model\Resource\Theme\CollectionFactory
+     * @param \Magento\View\Design\Theme\Label\ListInterface $labelList
      */
-    protected $_collectionFactory;
-
-    /**
-     * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory
-     */
-    public function __construct(\Magento\Core\Model\Resource\Theme\CollectionFactory $collectionFactory)
+    public function __construct(\Magento\View\Design\Theme\Label\ListInterface $labelList)
     {
-        $this->_collectionFactory = $collectionFactory;
+        $this->_labelsCollection = $labelList;
     }
 
     /**
@@ -43,13 +36,7 @@ class Label
      */
     public function getLabelsCollection($label = false)
     {
-        if (!$this->_labelsCollection) {
-            $themeCollection = $this->_collectionFactory->create();
-            $themeCollection->setOrder('theme_title', \Magento\Data\Collection::SORT_ORDER_ASC);
-            $themeCollection->filterVisibleThemes()->addAreaFilter(\Magento\Core\Model\App\Area::AREA_FRONTEND);
-            $this->_labelsCollection = $themeCollection->toOptionArray();
-        }
-        $options = $this->_labelsCollection;
+        $options = $this->_labelsCollection->getLabels();
         if ($label) {
             array_unshift($options, array('value' => '', 'label' => $label));
         }

@@ -3,18 +3,18 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Theme
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Theme;
+namespace Magento\Theme\Model;
 
 class CopyServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**#@+
-     * @var \Magento\Core\Model\Theme\CopyService
+     * @var \Magento\Theme\Model\CopyService
      */
     protected $_object;
 
@@ -154,7 +154,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
 
         $eventManager = $this->getMock('Magento\Event\ManagerInterface', array('dispatch'), array(), '', false);
 
-        $this->_object = new \Magento\Core\Model\Theme\CopyService(
+        $this->_object = new \Magento\Theme\Model\CopyService(
             $this->_filesystem,
             $this->_fileFactory,
             $this->_link,
@@ -180,7 +180,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\CopyService::_copyLayoutCustomization
+     * @covers \Magento\Theme\Model\CopyService::_copyLayoutCustomization
      */
     public function testCopyLayoutUpdates()
     {
@@ -253,7 +253,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\CopyService::_copyDatabaseCustomization
+     * @covers \Magento\Theme\Model\CopyService::_copyDatabaseCustomization
      */
     public function testCopyDatabaseCustomization()
     {
@@ -332,7 +332,7 @@ class CopyServiceTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @covers \Magento\Core\Model\Theme\CopyService::_copyFilesystemCustomization
+     * @covers \Magento\Theme\Model\CopyService::_copyFilesystemCustomization
      */
     public function testCopyFilesystemCustomization()
     {

@@ -6,6 +6,9 @@
   * FormKey logic is moved from Session
   * SessionIdFlags is removed from Session
   * Move Page logic to the Theme module and library
+  * Layout page type config moved into library
+  * Design loader moved to library
+  * Theme label moved to library
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
