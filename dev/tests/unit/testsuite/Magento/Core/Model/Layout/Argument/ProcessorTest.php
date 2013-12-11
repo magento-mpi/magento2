@@ -41,7 +41,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
             false
         );
         $this->_handlerFactory = $this->getMock(
-            'Magento\Core\Model\Layout\Argument\HandlerFactory',
+            'Magento\View\Layout\Argument\HandlerFactory',
             array(),
             array(),
             '',
@@ -62,7 +62,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
     public function testProcess(array $argument, $isUpdater, $result)
     {
         $argumentHandlerMock = $this->getMock(
-            'Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
+            'Magento\View\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->once())
             ->method('process')
@@ -120,7 +120,7 @@ class ProcessorTest extends \PHPUnit_Framework_TestCase
         );
 
         $argumentHandlerMock = $this->getMock(
-            'Magento\Core\Model\Layout\Argument\HandlerInterface', array(), array(), '', false
+            'Magento\View\Layout\Argument\HandlerInterface', array(), array(), '', false
         );
         $argumentHandlerMock->expects($this->once())
             ->method('parse')

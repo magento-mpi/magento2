@@ -15,6 +15,13 @@ class Rules
     const DESIGN_CHANGE_CACHE_SUFFIX    = 'FPC_DESIGN_CHANGE_CACHE';
 
     /**
+     * Regular expressions matches cache
+     *
+     * @var array
+     */
+    protected $_regexMatchCache = array();
+
+    /**
      * Design change model
      *
      * @var \Magento\Core\Model\Design
@@ -61,8 +68,20 @@ class Rules
         $output = '';
         $rules = $exceptions ? @unserialize($exceptions) : array();
         if (false === empty($rules)) {
-            $output = \Magento\Core\Model\View\Design::getPackageByUserAgent($rules);
+            foreach ($rules as $rule) {
+                if (!empty($this->_regexMatchCache[$rule['regexp']][$_SERVER['HTTP_USER_AGENT']])) {
+                    $output = $rule['value'];
+                }
+
+                $regexp = '/' . trim($rule['regexp'], '/') . '/';
+
+                if (@preg_match($regexp, $_SERVER['HTTP_USER_AGENT'])) {
+                    $this->_regexMatchCache[$rule['regexp']][$_SERVER['HTTP_USER_AGENT']] = true;
+                    $output = $rule['value'];
+                }
+            }
         }
+
         return $output;
     }
 
