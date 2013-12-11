@@ -145,7 +145,6 @@ class WriteTest extends \PHPUnit_Framework_TestCase
         $created = $dir1->read();
         $dir1->renameFile($name, $newName, $dir2);
         $oldPlace = $dir1->read();
-        $newPlace = $dir2->read();
 
         $this->assertTrue(in_array($name, $created));
         $this->assertFalse(in_array($name, $oldPlace));
