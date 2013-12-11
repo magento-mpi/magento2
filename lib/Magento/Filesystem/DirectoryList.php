@@ -69,7 +69,7 @@ class DirectoryList
             if (isset($configuration['absolute_path'])) {
                 $this->directories[$code]['path'] = $configuration['absolute_path'];
             } else {
-                $this->directories[$code]['path'] = $this->makeAbsolute($configuration['relative_path']);
+                $this->directories[$code]['path'] = $this->makeAbsolute($configuration['path']);
             }
         }
 
