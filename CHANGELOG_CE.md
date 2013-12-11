@@ -6,6 +6,7 @@
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
   * [#399](https://github.com/magento/magento2/pull/399) -- Raising the memory limit to 512M for unit tests
+  * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
 * Modularity improvements:
   * Layout page type config moved into library
   * Design loader moved to library
