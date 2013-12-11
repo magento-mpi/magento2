@@ -376,14 +376,13 @@ class Publisher implements \Magento\View\PublicFilesManagerInterface
                 /* Add module directory to relative URL */
                 $filePath = dirname($params['module'] . '/' . $parentFileName)
                     . '/' . $fileId;
-                $filePath = $this->_filesystem->normalizePath($filePath, true);
                 if (strpos($filePath, $params['module']) === 0) {
                     $filePath = ltrim(str_replace($params['module'], '', $filePath), '/');
                 } else {
                     $params['module'] = false;
                 }
             } else {
-                $filePath = $this->_filesystem->normalizePath(dirname($parentFileName) . '/' . $fileId, true);
+                $filePath = dirname($parentFileName) . '/' . $fileId;
             }
         }
 

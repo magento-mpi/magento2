@@ -46,15 +46,13 @@ class CssResolver
      */
     public function replaceCssRelativeUrls($cssContent, $originalPath, $newPath, $cbRelUrlToPublicPath = null)
     {
-        $newPath = $this->filesystem->normalizePath($newPath);
         $relativeUrls = $this->_extractCssRelativeUrls($cssContent);
         foreach ($relativeUrls as $urlNotation => $originalRelativeUrl) {
             if ($cbRelUrlToPublicPath) {
                 $filePath = call_user_func($cbRelUrlToPublicPath, $originalRelativeUrl, $originalPath);
             } else {
-                $filePath = $this->filesystem->normalizePath(dirname($originalPath) . '/' . $originalRelativeUrl);
+                $filePath = dirname($originalPath) . '/' . $originalRelativeUrl;
             }
-            $filePath = $this->filesystem->normalizePath($filePath);
             $relativePath = $this->_getFileRelativePath($newPath, $filePath);
             $urlNotationNew = str_replace($originalRelativeUrl, $relativePath, $urlNotation);
             $cssContent = str_replace($urlNotation, $urlNotationNew, $cssContent);
@@ -98,7 +96,6 @@ class CssResolver
          * that urls follow the structure of directory paths.
          */
         $topDir = $this->filesystem->getPath(\Magento\Filesystem::ROOT);
-        $topDir = $this->filesystem->normalizePath($topDir);
         if (strpos($file, $topDir) !== 0 || strpos($referencedFile, $topDir) !== 0) {
             throw new \Magento\Exception('Offset can be calculated for internal resources only.');
         }
