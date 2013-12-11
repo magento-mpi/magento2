@@ -20,10 +20,18 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
     protected $_consumerFactory;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
+    protected $_tokenProviderMock;
+
+    /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_consumerMock;
 
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     private $_emptyConsumerMock;
+
+    /**
+     * @var \Magento\Integration\Model\Oauth\Token
+     */
+    private $_tockenMock;
 
     /** @var \Magento\Integration\Service\OauthV1 */
     private $_service;
@@ -31,11 +39,24 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
     /** @var array */
     private $_consumerData;
 
+    /**
+     * @var
+     */
+    private $_tockenFactory;
+
     protected function setUp()
     {
         $this->_consumerFactory = $this->getMockBuilder('Magento\Integration\Model\Oauth\Consumer\Factory')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_tokenProviderMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token\Provider')
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->_tockenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $this->_tockenFactory = $this->getMock('Magento\Integration\Model\Oauth\Token\Factory', [], [], '', false);
         $this->_consumerMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Consumer')
             ->disableOriginalConstructor()
             ->setMethods(
@@ -65,12 +86,12 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->_service = new \Magento\Integration\Service\OauthV1(
             $this->getMock('Magento\Core\Model\StoreManagerInterface', [], [], '', false),
             $this->_consumerFactory,
-            $this->getMock('Magento\Integration\Model\Oauth\Token\Factory', [], [], '', false),
+            $this->_tockenFactory,
             $this->getMock('Magento\Integration\Helper\Oauth\Data', [], [], '', false),
             $this->getMock('Magento\HTTP\ZendClient', [], [], '', false),
             $this->getMock('Magento\Logger', [], [], '', false),
             $this->getMock('Magento\Oauth\Helper\Oauth', [], [], '', false),
-            $this->getMock('Magento\Integration\Model\Oauth\Token\Provider', [], [], '', false)
+            $this->_tokenProviderMock
         );
         $this->_emptyConsumerMock = $this->getMockBuilder('Magento\Integration\Model\Integration')
             ->disableOriginalConstructor()
@@ -124,5 +145,94 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->_consumerMock->expects($this->never())
             ->method('delete');
         $this->_service->deleteConsumer(self::VALUE_CONSUMER_ID);
+    }
+
+    public function testCreateAccessTokenWithoutClearExisting()
+    {
+
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenProviderMock->expects($this->at(0))
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue($this->_tockenMock));
+
+        $this->_tokenProviderMock->expects($this->at(1))
+            ->method('createRequestToken')
+            ->with($this->_consumerMock);
+
+        $this->_tokenProviderMock->expects($this->at(2))
+            ->method('getAccessToken')
+            ->with($this->_consumerMock);
+
+        $this->_tockenFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_tockenMock));
+
+        $this->_tockenMock->expects($this->at(0))
+            ->method('delete');
+
+        $this->_tockenMock->expects($this->once())
+            ->method('createVerifierToken')
+            ->with(self::VALUE_CONSUMER_ID);
+
+        $this->_tokenProviderMock->expects($this->once())
+            ->method('createRequestToken')
+            ->with($this->_consumerMock);
+
+        $this->_tokenProviderMock->expects($this->once())
+            ->method('getAccessToken')
+            ->with($this->_consumerMock);
+
+        $this->assertTrue($this->_service->createAccessToken(self::VALUE_CONSUMER_ID, true));
+    }
+
+    public function testCreateAccessTokenWithClearExisting()
+    {
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenProviderMock->expects($this->at(0))
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue($this->_tockenMock));
+
+        $this->_tockenMock->expects($this->never())
+            ->method('delete');
+
+        $this->assertFalse($this->_service->createAccessToken(self::VALUE_CONSUMER_ID, false));
+    }
+
+    public function testCreateAccessTokenWithoutExisting()
+    {
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(0)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenProviderMock->expects($this->at(0))
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue(false));
+
+        $this->_tockenMock->expects($this->never())
+            ->method('delete');
+
+        $this->_tockenFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->_tockenMock));
+
+        $this->_tockenMock->expects($this->never())
+            ->method('createVerifierToken');
+
+        $this->_tokenProviderMock->expects($this->never())
+            ->method('createRequestToken');
+
+        $this->_tokenProviderMock->expects($this->never())
+            ->method('getAccessToken');
+
+        $this->assertFalse($this->_service->createAccessToken(0, false));
     }
 }
