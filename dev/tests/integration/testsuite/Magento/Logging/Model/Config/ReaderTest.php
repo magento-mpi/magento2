@@ -26,7 +26,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
                     'Magento\Filesystem\DirectoryList',
                     array(
                         'root' => BP,
-                        'directoriess' => array(
+                        'directories' => array(
                             \Magento\Filesystem::MODULES => array('path' => __DIR__ . '/_files'),
                             \Magento\Filesystem::CONFIG => array('path' => __DIR__ . '/_files'),
                         )
