@@ -22,7 +22,7 @@ class View extends \Magento\Catalog\Block\Layer\View
     /**
      * Extended search layer
      *
-     * @var \Magento\Search\Model\Search\Layer
+     * @var \Magento\Search\Model\Catalog\Layer
      */
     protected $_searchLayer;
 
@@ -37,14 +37,14 @@ class View extends \Magento\Catalog\Block\Layer\View
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Search\Helper\Data $searchData
-     * @param \Magento\Search\Model\Search\Layer $searchLayer
+     * @param \Magento\Search\Model\Catalog\Layer $searchLayer
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Search\Helper\Data $searchData,
-        \Magento\Search\Model\Search\Layer $searchLayer,
+        \Magento\Search\Model\Catalog\Layer $searchLayer,
         array $data = array()
     ) {
         $this->_searchData = $searchData;
