@@ -147,35 +147,34 @@ class Items extends Form
     /**
      * Fill form fields
      *
-     * @param array $products
-     * @param int $quantity
-     * @param $fillFields
+     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItemFixture
+     * @param string $fillFields
      * @return null
      */
-    public function fillCustom($products, $quantity, $fillFields)
+    public function fillCustom($returnItemFixture, $fillFields)
     {
+        $products = $returnItemFixture->getProductNames();
         foreach($products as $product)
         {
-            $productName = $product->getProductName();
-
+            $quantity = $returnItemFixture->getQuantity();
             if (Items::$AUTHORIZE_QTY === $fillFields) {
                 $quantitySearchString = $this->productRow . $this->quantityAuthorizedField;
                 $status = $this->statusAuthorized;
             }
-            elseif (Items::$RETURN_QTY == $fillFields) {
+            elseif (Items::$RETURN_QTY === $fillFields) {
                 $quantitySearchString = $this->productRow . $this->quantityReturnedField;
                 $status = $this->statusReturnReceived;
             }
-            elseif (Items::$APPROVE_QTY == $fillFields) {
+            elseif (Items::$APPROVE_QTY === $fillFields) {
                 $quantitySearchString = $this->productRow . $this->quantityApprovedField;
                 $status = $this->statusApproved;
             }
             else {
                 return null;
             }
-            $quantitySearchString = sprintf($quantitySearchString, $productName);
+            $quantitySearchString = sprintf($quantitySearchString, $product);
             $statusSearchString = $this->productRow . $this->statusField;
-            $statusSearchString = sprintf($statusSearchString, $productName);
+            $statusSearchString = sprintf($statusSearchString, $product);
             $this->_rootElement->find($quantitySearchString, Locator::SELECTOR_XPATH)->setValue($quantity);
             $this->_rootElement->find($statusSearchString, Locator::SELECTOR_XPATH,'select')->setValue($status);
         }

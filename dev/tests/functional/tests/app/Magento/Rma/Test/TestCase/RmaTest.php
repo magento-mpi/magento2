@@ -73,19 +73,19 @@ class RmaTest extends Functional
         );
 
         // Step 13: Authorize Simple and Configurable Product
-        $rmaPage->getRmaEditFormBlock()->fillCustom($products, 1, 'AUTHORIZE_QTY');
+        $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'AUTHORIZE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 14: Process Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
-        $rmaPage->getRmaEditFormBlock()->fillCustom($products,1, 'RETURN_QTY');
+        $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'RETURN_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
 
         // Step 15: Approve Return for Simple and Configurable Product
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
-        $rmaPage->getRmaEditFormBlock()->fillCustom($products, 1, 'APPROVE_QTY');
+        $rmaPage->getRmaEditFormBlock()->fillCustom($returnItem, 'APPROVE_QTY');
         $rmaPage->getRmaActionsBlock()->saveAndEdit();
         $rmaPage->getMessageBlock()->assertSuccessMessage();
     }
