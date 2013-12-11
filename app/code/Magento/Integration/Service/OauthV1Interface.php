@@ -58,6 +58,16 @@ interface OauthV1Interface
     public function loadConsumer($consumerId);
 
     /**
+     * Load consumer by its key.
+     *
+     * @param int $key
+     * @return \Magento\Integration\Model\Oauth\Consumer
+     * @throws \Magento\Oauth\Exception
+     * @throws \Magento\Core\Exception
+     */
+    public function loadConsumerByKey($key);
+
+    /**
      * Execute post to integration (consumer) HTTP Post URL. Generate and return oauth_verifier.
      *
      * @param int $consumerId - The consumer Id.

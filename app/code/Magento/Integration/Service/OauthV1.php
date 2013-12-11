@@ -154,6 +154,21 @@ class OauthV1 implements OauthV1Interface
     /**
      * {@inheritdoc}
      */
+    public function loadConsumerByKey($key)
+    {
+        try {
+            return $this->_consumerFactory->create()->load($key, 'key');
+
+        } catch (\Magento\Core\Exception $exception) {
+            throw $exception;
+        } catch (\Exception $exception) {
+            throw new \Magento\Oauth\Exception(__('Unexpected error. Unable to load oAuth consumer account.'));
+        }
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     public function postToConsumer($consumerId, $endpointUrl)
     {
         try {
