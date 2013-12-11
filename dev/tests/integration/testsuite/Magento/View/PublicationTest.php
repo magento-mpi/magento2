@@ -512,7 +512,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
         $appInstallDir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir();
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => array('absolute_path' => "$appInstallDir/media_for_change"),
+                \Magento\Filesystem::THEMES => array('path' => "$appInstallDir/media_for_change"),
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
@@ -560,7 +560,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => array('absolute_path' => dirname(__DIR__) . '/Core/Model/_files/design/')
+                \Magento\Filesystem::THEMES => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\State')->setAreaCode('frontend');
@@ -597,7 +597,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => array('absolute_path' => dirname(__DIR__) . '/Core/Model/_files/design/')
+                \Magento\Filesystem::THEMES => array('path' => dirname(__DIR__) . '/Core/Model/_files/design/')
             )
         ));
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')->loadAreaPart(
