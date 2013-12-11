@@ -76,7 +76,7 @@ class DesignTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
             \Magento\Filesystem::PARAM_APP_DIRS => array(
-                \Magento\Filesystem::THEMES => array('path' => realpath(__DIR__ . '/../_files/design')),
+                \Magento\Filesystem::THEMES => array('absolute_path' => realpath(__DIR__ . '/../_files/design')),
             ),
         ));
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
