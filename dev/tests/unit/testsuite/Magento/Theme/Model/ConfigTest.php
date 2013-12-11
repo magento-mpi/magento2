@@ -117,7 +117,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_ID)
+            ->with('path', \Magento\View\DesignInterface::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())
@@ -160,7 +160,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
 
         $this->_configData->expects($this->at(2))
             ->method('addFieldToFilter')
-            ->with('path', \Magento\Core\Model\View\Design::XML_PATH_THEME_ID)
+            ->with('path', \Magento\View\DesignInterface::XML_PATH_THEME_ID)
             ->will($this->returnValue(array($configEntity)));
 
         $this->_themeMock->expects($this->any())

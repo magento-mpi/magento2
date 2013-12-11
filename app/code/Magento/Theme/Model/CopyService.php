@@ -3,7 +3,7 @@
  * {license_notice}
  *
  * @category    Magento
- * @package     Magento_Core
+ * @package     Magento_Theme
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -11,7 +11,7 @@
 /**
  * Service of copying customizations from one theme to another
  */
-namespace Magento\Core\Model\Theme;
+namespace Magento\Theme\Model;
 
 class CopyService
 {
