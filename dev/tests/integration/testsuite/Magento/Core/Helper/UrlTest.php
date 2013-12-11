@@ -38,6 +38,7 @@ class UrlTest extends \PHPUnit_Framework_TestCase
 
     public function testGetHomeUrl()
     {
+        $this->markTestSkipped('Task: MAGETWO-18162');
         $this->assertEquals('http://example.com/index.php/', $this->_helper->getHomeUrl());
     }
 }

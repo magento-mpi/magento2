@@ -77,7 +77,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList
+                'moduleList' => $modulesList,
+                'filesystem' => $filesystem
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
