@@ -35,7 +35,7 @@ class RmaTest extends Functional
 
         $payPalExpressOrder = $this->guestCheckoutPayPal();
         $products = $payPalExpressOrder->getProducts();
-        $orderPage = $this->closeSalesOrder($payPalExpressOrder);
+        $this->closeSalesOrder($payPalExpressOrder);
 
         $orderId = $payPalExpressOrder->getOrderId();
 
@@ -70,6 +70,7 @@ class RmaTest extends Functional
         Factory::getApp()->magentoBackendLoginUser();
 
         // Step 11: Sales->Order->Returns
+        $orderPage = Factory::getPageFactory()->getSalesOrder();
         $orderPage->open();
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $orderPage->getFormTabsBlock()->openTab('sales_order_view_tabs_order_rma');

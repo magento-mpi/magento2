@@ -17,10 +17,10 @@ use Mtf\Handler\Ui;
 use Mtf\Factory\Factory;
 
 /**
- * Class CreatePaypalExpressOrder
- * Create a product
+ * Class CloseOrder
+ * Closes a sales order
  *
- * @package Magento\Checkout\Test\Handler\Ui
+ * @package Magento\Sales\Test\Handler\Ui
  */
 class CloseOrder extends Ui
 {
@@ -28,7 +28,6 @@ class CloseOrder extends Ui
      * Close sales order
      *
      * @param Fixture $fixture [optional]
-     * @return mixed|string
      */
     public function execute(Fixture $fixture = null)
     {
@@ -52,7 +51,5 @@ class CloseOrder extends Ui
         $orderPage->getOrderGridBlock()->searchAndOpen(array('id' => $orderId));
         $orderPage->getOrderActionsBlock()->invoice();
         $newInvoicePage->getInvoiceTotalsBlock()->submit();
-
-        return $orderPage;
     }
 }
