@@ -16,6 +16,11 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\CustomerSegment\Test\Fixture\SegmentGeneralProperties;
 use Magento\CustomerSegment\Test\Fixture\SegmentConditions;
 
+/**
+ * Class SalesRule
+ *
+ * @package Magento\SalesRule\Test\Fixture
+ */
 class SalesRule extends DataFixture
 {
     /**
@@ -44,10 +49,16 @@ class SalesRule extends DataFixture
     protected $customerSegmentFixture;
 
     /**
+     * @var int
+     */
+    private $salesRuleId;
+
+    /**
      * Initialize fixture data
      */
     protected function _initData()
     {
+        $this->salesRuleId = -1;
         $this->_repository = Factory::getRepositoryFactory()->getMagentoSalesRuleSalesRule(
             $this->_dataConfig,
             $this->_data
@@ -55,6 +66,11 @@ class SalesRule extends DataFixture
         $this->switchData(Repository::SIMPLE);
     }
 
+    /**
+     * Setup preconditions and persist
+     *
+     * @throws Exception
+     */
     public function persist()
     {
         // Login to the backend
@@ -81,7 +97,8 @@ class SalesRule extends DataFixture
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->productFixture->persist();
         // Create the customer segment
-        $this->customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
+        $this->customerSegmentFixture = Factory::getFixtureFactory()
+            ->getMagentoCustomerSegmentSegmentGeneralProperties();
         $this->customerSegmentId = Factory::getApp()->magentoCustomerSegmentCustomerSegment(
             $this->customerSegmentFixture
         );
@@ -147,5 +164,21 @@ class SalesRule extends DataFixture
     public function getProductPrice()
     {
         return $this->productFixture->getProductPrice();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSalesRuleId()
+    {
+        return $this->salesRuleId;
+    }
+
+    /**
+     * @param int $srid
+     */
+    public function setSalesRuleId($srid)
+    {
+        $this->salesRuleId = $srid;
     }
 }

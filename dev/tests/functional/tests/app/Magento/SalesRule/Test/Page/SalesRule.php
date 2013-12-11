@@ -15,6 +15,11 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 
+/**
+ * Class SalesRule
+ *
+ * @package Magento\SalesRule\Test\Page
+ */
 class SalesRule extends Page
 {
     /**
@@ -22,10 +27,19 @@ class SalesRule extends Page
      */
     const MCA = 'sales_rule/promo_quote';
 
-    const CLICK_ADD_NEW_SELECTOR = '.page-actions button#add';
+    /**
+     * @var string
+     */
+    protected $clickAddNewSelector = '.page-actions button#add';
 
-    const PROMO_QUOTE_GRID_SELECTOR = 'promo_quote_grid';
+    /**
+     * @var string
+     */
+    protected $promoQuoteGridSelector = 'promo_quote_grid';
 
+    /**
+     * Init Method
+     */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
@@ -39,12 +53,15 @@ class SalesRule extends Page
     public function getPromoQuoteGrid()
     {
         return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuote(
-            $this->_browser->find(self::PROMO_QUOTE_GRID_SELECTOR, Locator::SELECTOR_ID)
+            $this->_browser->find($this->promoQuoteGridSelector, Locator::SELECTOR_ID)
         );
     }
 
+    /**
+     * Click the add new button
+     */
     public function clickAddNew()
     {
-        $this->_browser->find(self::CLICK_ADD_NEW_SELECTOR)->click();
+        $this->_browser->find($this->clickAddNewSelector)->click();
     }
 }

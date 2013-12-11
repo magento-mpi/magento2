@@ -15,9 +15,14 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
-use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Actions;
+use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions;
 use Magento\Backend\Test\Block\Widget\FormTabs;
 
+/**
+ * Class SalesRuleNew
+ *
+ * @package Magento\SalesRule\Test\Page
+ */
 class SalesRuleNew extends Page
 {
     /**
@@ -27,20 +32,36 @@ class SalesRuleNew extends Page
 
     /**
      * Id of Conditions Tab
+     *
+     * @var string
      */
-    const CONDITIONS_TAB_SELECTOR = 'promo_catalog_edit_tabs_conditions_section';
+    protected $conditionsTabSelector = 'promo_catalog_edit_tabs_conditions_section';
 
     /**
-     * Constant of ACTIONS Tab Id
+     * ACTIONS Tab Id
+     *
+     * @var string
      */
-    const ACTIONS_TAB_SELECTOR = 'promo_catalog_edit_tabs_actions_section';
+    protected $actionTabSelector = 'promo_catalog_edit_tabs_actions_section';
 
-    const CONDITIONS_CHILD_SELECTOR = 'conditions__1__children';
+    /**
+     * @var string
+     */
+    protected $conditionsChildSelector = 'conditions__1__children';
 
-    const MESSAGES_BLOCK_SELECTOR = '#messages .messages';
+    /**
+     * @var string
+     */
+    protected $messageBlockSelector = '#messages .messages';
 
-    const PROMO_QUOTE_FORM_SELECTOR = 'page:main-container';
+    /**
+     * @var string
+     */
+    protected $promoQuoteFormSelector = 'page:main-container';
 
+    /**
+     * Init method
+     */
     protected function _init()
     {
         $this->_url = $_ENV['app_backend_url'] . self::MCA;
@@ -52,7 +73,7 @@ class SalesRuleNew extends Page
     public function getPromoQuoteForm()
     {
         return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuoteEditForm(
-            $this->_browser->find(self::PROMO_QUOTE_FORM_SELECTOR, Locator::SELECTOR_ID)
+            $this->_browser->find($this->promoQuoteFormSelector, Locator::SELECTOR_ID)
         );
     }
 
@@ -61,9 +82,7 @@ class SalesRuleNew extends Page
      */
     public function getMessageBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find(self::MESSAGES_BLOCK_SELECTOR)
-        );
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messageBlockSelector));
     }
 
     /**
@@ -72,7 +91,7 @@ class SalesRuleNew extends Page
     public function getConditionsFormTab()
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find(self::CONDITIONS_TAB_SELECTOR, Locator::SELECTOR_ID)
+            $this->_browser->find($this->conditionsTabSelector, Locator::SELECTOR_ID)
         );
     }
 
@@ -82,17 +101,33 @@ class SalesRuleNew extends Page
     public function getActionsFormTab()
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find(self::ACTIONS_TAB_SELECTOR, Locator::SELECTOR_ID)
+            $this->_browser->find($this->actionTabSelector, Locator::SELECTOR_ID)
         );
     }
 
     /**
-     * @return Actions
+     * @return Conditions
      */
-    public function getConditionsActions()
+    public function getConditionsTab()
     {
-        return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuoteEditTabActions(
-            $this->_browser->find(self::CONDITIONS_CHILD_SELECTOR, Locator::SELECTOR_ID)
+        return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuoteEditTabConditions(
+            $this->_browser->find($this->conditionsChildSelector, Locator::SELECTOR_ID)
         );
+    }
+
+    /**
+     * @return string
+     */
+    public function getConditionsTabSelector()
+    {
+        return $this->conditionsTabSelector;
+    }
+
+    /**
+     * @return string
+     */
+    public function getActionsTabSelector()
+    {
+        return $this->actionTabSelector;
     }
 }
