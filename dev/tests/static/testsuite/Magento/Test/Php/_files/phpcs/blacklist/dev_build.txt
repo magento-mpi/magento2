@@ -3,5 +3,3 @@
 dev/tools/PHP-Parser
 # Not required to scan build director
 dev/build
-# PSR-1 not applied to
-dev/tests/functional
