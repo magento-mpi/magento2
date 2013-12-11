@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Repository;
+namespace Magento\CurrencySymbol\Test\Repository;
 
 use Mtf\Repository\AbstractRepository;
 
@@ -56,4 +56,3 @@ class CurrencyRate extends AbstractRepository
         );
     }
 }
-

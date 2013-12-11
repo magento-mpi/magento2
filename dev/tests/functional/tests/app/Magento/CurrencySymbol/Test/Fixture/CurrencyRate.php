@@ -10,25 +10,25 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Fixture;
+namespace Magento\CurrencySymbol\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
 /**
- * Class Currency
+ * Class CurrencyRate
  * Magento currency rates
  *
  * @package Magento\Core\Test\Fixture
  */
-class Currency extends DataFixture
+class CurrencyRate extends DataFixture
 {
     /**
      * Persist currency rates to application
      */
     public function persist()
     {
-        Factory::getApp()->magentoCoreApplyCurrencyRates($this);
+        Factory::getApp()->magentoCurrencySymbolApplyCurrencyRates($this);
     }
 
     /**
@@ -37,6 +37,6 @@ class Currency extends DataFixture
     protected function _initData()
     {
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoCoreCurrencyRate($this->_dataConfig, $this->_data);
+            ->getMagentoCurrencySymbolCurrencyRate($this->_dataConfig, $this->_data);
     }
 }

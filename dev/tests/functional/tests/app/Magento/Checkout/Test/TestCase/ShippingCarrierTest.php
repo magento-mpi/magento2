@@ -53,11 +53,11 @@ class ShippingCarrierTest extends Functional
     /**
      * Place order on frontend using shipping carrier from data provider.
      *
-     * @param $shippingMethodConfig
-     * @param $shippingMethodCheckout
-     * @param $customerDataSet
-     * @param $addressDataSet
-     * @param null $currencyRateDataSet
+     * @param string $shippingMethodConfig
+     * @param string $shippingMethodCheckout
+     * @param string $customerDataSet
+     * @param string $addressDataSet
+     * @param string|null $currencyRateDataSet
      *
      * @dataProvider dataProviderShippingCarriers
      * @ZephyrId MAGETWO-12844
@@ -120,8 +120,8 @@ class ShippingCarrierTest extends Functional
         $carrier = $shippingMethod['shipping_service'];
         $method = $shippingMethod['shipping_method'];
         $this->assertTrue(
-            $cartPage->getEstimatedShippingBlock()
-                ->isShippingCarrierMethodVisible($carrier, $method), "Shipping rate not found for $carrier - $method"
+            $cartPage->getEstimatedShippingBlock()->isShippingCarrierMethodVisible($carrier, $method),
+            "Shipping rate not found for $carrier - $method"
         );
 
         // Place order on frontend via onepage checkout
@@ -188,11 +188,11 @@ class ShippingCarrierTest extends Functional
     /**
      * This method performs all preConditions for this data-set run.
      *
-     * @param $shippingMethodConfig
-     * @param $shippingMethodCheckout
-     * @param $customerDataSet
-     * @param $addressDataSet
-     * @param $currencyDataSet
+     * @param string $shippingMethodConfig
+     * @param string $shippingMethodCheckout
+     * @param string $customerDataSet
+     * @param string $addressDataSet
+     * @param string|null $currencyDataSet
      */
     private function performPreConditions(
         $shippingMethodConfig,
@@ -212,9 +212,9 @@ class ShippingCarrierTest extends Functional
 
         // Configure currency rates if this data provider run requires it
         if (!is_null($currencyDataSet)) {
-            $currencyFixture = Factory::getFixtureFactory()->getMagentoCoreCurrency();
-            $currencyFixture->switchData($currencyDataSet);
-            $currencyFixture->persist();
+            $currencyRateFixture = Factory::getFixtureFactory()->getMagentoCurrencySymbolCurrencyRate();
+            $currencyRateFixture->switchData($currencyDataSet);
+            $currencyRateFixture->persist();
         }
 
         // Declare shipping methods based on what will be selected at checkout

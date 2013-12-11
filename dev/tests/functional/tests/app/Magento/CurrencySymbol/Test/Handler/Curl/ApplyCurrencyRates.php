@@ -10,7 +10,7 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Test\Handler\Curl;
+namespace Magento\CurrencySymbol\Test\Handler\Curl;
 
 use Mtf\Fixture;
 use Mtf\Handler\Curl;
@@ -31,6 +31,7 @@ class ApplyCurrencyRates extends Curl
      *
      * @param Fixture $fixture
      * @return mixed|void
+     * @throws \Exception
      */
     public function execute(Fixture $fixture = null)
     {
@@ -44,5 +45,9 @@ class ApplyCurrencyRates extends Curl
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();
         $curl->close();
+
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
+            throw new \Exception("Currency rates setting by curl handler was not successful! Response: $response");
+        }
     }
 }
