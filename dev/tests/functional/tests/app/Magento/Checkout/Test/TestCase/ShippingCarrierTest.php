@@ -57,6 +57,7 @@ class ShippingCarrierTest extends Functional
      * @param $shippingMethodCheckout
      * @param $customerDataSet
      * @param $addressDataSet
+     * @param null $currencyRateDataSet
      *
      * @dataProvider dataProviderShippingCarriers
      * @ZephyrId MAGETWO-12844
@@ -69,9 +70,16 @@ class ShippingCarrierTest extends Functional
         $shippingMethodConfig,
         $shippingMethodCheckout,
         $customerDataSet,
-        $addressDataSet
+        $addressDataSet,
+        $currencyRateDataSet = null
     ) {
-        $this->performPreConditions($shippingMethodConfig, $shippingMethodCheckout, $customerDataSet, $addressDataSet);
+        $this->performPreConditions(
+            $shippingMethodConfig,
+            $shippingMethodCheckout,
+            $customerDataSet,
+            $addressDataSet,
+            $currencyRateDataSet
+        );
 
         // Frontend
         // Ensure shopping cart is empty
@@ -153,7 +161,7 @@ class ShippingCarrierTest extends Functional
             array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE'),
+            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE', 'usd_chf_rate_0_9'),
             array('shipping_carrier_dhlint_us', 'dhlint_us', 'customer_US_1', 'address_data_US_1')
         );
     }
@@ -184,12 +192,14 @@ class ShippingCarrierTest extends Functional
      * @param $shippingMethodCheckout
      * @param $customerDataSet
      * @param $addressDataSet
+     * @param $currencyDataSet
      */
     private function performPreConditions(
         $shippingMethodConfig,
         $shippingMethodCheckout,
         $customerDataSet,
-        $addressDataSet
+        $addressDataSet,
+        $currencyDataSet
     ) {
         // Initialize store configuration for this data provider run
         $this->initConfiguration();
@@ -199,6 +209,13 @@ class ShippingCarrierTest extends Functional
         $configFixture = Factory::getFixtureFactory()->getMagentoCoreConfig();
         $configFixture->switchData($shippingMethodConfig);
         $configFixture->persist();
+
+        // Configure currency rates if this data provider run requires it
+        if (!is_null($currencyDataSet)) {
+            $currencyFixture = Factory::getFixtureFactory()->getMagentoCoreCurrency();
+            $currencyFixture->switchData($currencyDataSet);
+            $currencyFixture->persist();
+        }
 
         // Declare shipping methods based on what will be selected at checkout
         $shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();

@@ -98,12 +98,6 @@ class Config extends AbstractRepository
                                 'fields' => array(
                                     'allow' => array( //Allowed Currencies
                                         'value' => ['USD']
-                                    ),
-                                    'base' => array( //Base Currency
-                                        'value' => 'USD'
-                                    ),
-                                    'default' => array( //Default Display Currency
-                                        'value' => 'USD'
                                     )
                                 )
                             )
@@ -305,13 +299,7 @@ class Config extends AbstractRepository
                             'options' => array(
                                 'fields' => array(
                                     'allow' => array( //Allowed Currencies
-                                        'value' => ['CHF']
-                                    ),
-                                    'base' => array( //Base Currency
-                                        'value' => 'CHF'  //Swiss Franc
-                                    ),
-                                    'default' => array( //Default Display Currency
-                                        'value' => 'CHF'
+                                        'value' => ['USD','CHF']
                                     )
                                 )
                             )
