@@ -134,18 +134,18 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             }
 
             if (!$isAuto && !empty($facets)) {
-                $range  = $this->getPriceRange();
+                $range = $this->getPriceRange();
             }
 
             $i = 0;
             $maxIntervalsNumber = $this->getMaxIntervalsNumber();
             $lastSeparator = null;
             foreach ($facets as $key => $count) {
-                ++$i;
-                preg_match('/\[([\d\.\\\*]+) TO ([\d\.\\\*]+)\]$/', $key, $separator);
-                $separator[1] = str_replace('\\*', '*', $separator[1]);
-                $separator[2] = str_replace('\\*', '*', $separator[2]);
+                if (!preg_match('/\[([\d\.\*]+) TO ([\d\.\*]+)\]$/', $key, $separator)) {
+                    continue;
+                }
 
+                ++$i;
                 $label = null;
                 $value = null;
                 if (isset($this->_facets[$separator[1] . '_' . $separator[2]])) {

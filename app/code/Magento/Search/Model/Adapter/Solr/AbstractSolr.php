@@ -105,7 +105,7 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param array $options
-     * 
+     *
      * @throws \Magento\Core\Exception
      */
     public function __construct(
@@ -300,12 +300,13 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
                 } else {
                     foreach ($facetFieldConditions as $facetCondition) {
                         if (is_array($facetCondition) && isset($facetCondition['from'])
-                                && isset($facetCondition['to'])) {
-                            $from = (isset($facetCondition['from']) && strlen(trim($facetCondition['from'])))
-                                ? $this->_prepareQueryText($facetCondition['from'])
+                            && isset($facetCondition['to'])
+                        ) {
+                            $from = strlen(trim($facetCondition['from']))
+                                ? $facetCondition['from']
                                 : '*';
-                            $to = (isset($facetCondition['to']) && strlen(trim($facetCondition['to'])))
-                                ? $this->_prepareQueryText($facetCondition['to'])
+                            $to = strlen(trim($facetCondition['to']))
+                                ? $facetCondition['to']
                                 : '*';
                             $fieldCondition = "$facetField:[$from TO $to]";
                         } else {
