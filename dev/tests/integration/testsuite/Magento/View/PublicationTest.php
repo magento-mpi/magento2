@@ -33,6 +33,7 @@ class PublicationTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped();
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         $objectManager->get('Magento\App\State')->setAreaCode('frontend');
         $this->_viewService = $objectManager->create('Magento\View\Service');
