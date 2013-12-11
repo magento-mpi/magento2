@@ -17,13 +17,6 @@ use Mtf\TestCase\Functional;
 class RmaTest extends Functional
 {
     /**
-     * Attributes of the return
-     *
-     * @var \Magento\Rma\Test\Fixture\ReturnItem
-     */
-    protected $returnItem;
-
-    /**
      * Returning items using return merchandise authorization
      *
      * @ZephirId MAGETWO-12432
@@ -60,7 +53,7 @@ class RmaTest extends Functional
         $viewBlock->clickLink('Return');
 
         // Steps 6 - 9:
-        $returnId = $this->createRma($payPalExpressOrder);
+        $returnId = $this->createRma($returnItem, $payPalExpressOrder);
 
         // Step 10: Login to Backend as Admin
         Factory::getApp()->magentoBackendLoginUser();
@@ -75,7 +68,7 @@ class RmaTest extends Functional
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
         $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
-        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $this->returnItem),
+        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
             'Product lists does not match items returned list'
         );
 
@@ -139,23 +132,28 @@ class RmaTest extends Functional
     /**
      * Creates a Rma on the frontend.
      *
+     * @param $returnItem
      * @param $payPalExpressOrder
      * @return int $returnId
      */
-    private function createRma($payPalExpressOrder) {
+    private function createRma($returnItem, $payPalExpressOrder) {
         // Step 6: Fill "Return Items Information" form (simple product)
-        $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
-        $returnItem->switchData('default');
-        $this->returnItem=$returnItem;
-
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
-        $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName(), $returnItem);
+
+        $returnItem->setQuantity('1');
+        $returnItem->setResolution('Refund');
+        $returnItem->setCondition('Opened');
+        $returnItem->setReason('Wrong Size');
+
+        $returnItem->setProductName($payPalExpressOrder->getProduct(0)->getProductName());
+        $returnItemForm->fillRma('0', $returnItem);
 
         // Step 7: Click "Add Item to Return" for the configurable product.
         $returnItemForm->submitAddItemToReturn();
 
         // Step 8: Fill "Return Items Information" form (configurable product)
-        $returnItemForm->fillCustom('1', $payPalExpressOrder->getProduct(1)->getProductName(), $returnItem);
+        $returnItem->setProductName($payPalExpressOrder->getProduct(1)->getProductName());
+        $returnItemForm->fillRma('1', $returnItem);
 
         // Step 9: Submit the return.
         $returnItemForm->submitReturn();

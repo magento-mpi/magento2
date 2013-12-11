@@ -40,24 +40,26 @@ class Create extends Form
     /**
      * Fill form with custom fields
      *
+     * @param $index
+     * @param $returnItem
      */
-    public function fillCustom($index, $productName, $returnItem)
+    public function fillRma($index, $returnItem)
     {
         $this->_rootElement
             ->find('items:item' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue($productName);
+            ->setValue($returnItem->getProductName());
         $this->_rootElement
             ->find('items:qty_requested' . $index, Locator::SELECTOR_ID)
-            ->setValue('1'); // $returnItem->getQuantity()
+            ->setValue($returnItem->getQuantity());
         $this->_rootElement
             ->find('items:resolution' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue('Refund'); //$returnItem->getResolution()
+            ->setValue($returnItem->getResolution());
         $this->_rootElement
             ->find('items:condition' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue('Opened'); //$returnItem->getCondition()
+            ->setValue($returnItem->getCondition());
         $this->_rootElement
             ->find('items:reason' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue('Wrong Size'); //$returnItem->getReason()
+            ->setValue($returnItem->getReason());
     }
 
     /**
