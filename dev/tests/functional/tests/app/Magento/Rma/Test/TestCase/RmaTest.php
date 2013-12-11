@@ -17,6 +17,13 @@ use Mtf\TestCase\Functional;
 class RmaTest extends Functional
 {
     /**
+     * Attributes of the return
+     *
+     * @var \Magento\Rma\Test\Fixture\ReturnItem
+     */
+    protected $returnItem;
+
+    /**
      * Returning items using return merchandise authorization
      *
      * @ZephirId MAGETWO-12432
@@ -71,7 +78,7 @@ class RmaTest extends Functional
         $orderPage->getOrderReturnsBlock()->searchAndOpen(array('id' => $returnId));
         $rmaPage = Factory::getPageFactory()->getAdminRmaEdit();
         $rmaPage->getFormTabsBlock()->openTab('rma_info_tabs_items_section');
-        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $returnItem),
+        $this->assertTrue($rmaPage->getRmaEditFormBlock()->assertProducts($products, $this->returnItem),
             'Product lists does not match items returned list'
         );
 
@@ -142,6 +149,7 @@ class RmaTest extends Functional
         // Step 6: Fill "Return Items Information" form (simple product)
         $returnItem = Factory::getFixtureFactory()->getMagentoRmaReturnItem();
         $returnItem->switchData('default');
+        $this->returnItem=$returnItem;
 
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
         $returnItemForm->fill($returnItem);
