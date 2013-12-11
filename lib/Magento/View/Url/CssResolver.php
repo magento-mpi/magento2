@@ -53,11 +53,39 @@ class CssResolver
             } else {
                 $filePath = dirname($originalPath) . '/' . $originalRelativeUrl;
             }
-            $relativePath = $this->_getFileRelativePath($newPath, $filePath);
+            $filePath = $this->_normalizePath(str_replace('\\', '/', $filePath));
+            $relativePath = $this->_getFileRelativePath(
+                $this->_normalizePath(str_replace('\\', '/', $newPath)), $filePath
+            );
             $urlNotationNew = str_replace($originalRelativeUrl, $relativePath, $urlNotation);
             $cssContent = str_replace($urlNotation, $urlNotationNew, $cssContent);
         }
         return $cssContent;
+    }
+
+    /**
+     * Remove unmeaning path chunks from path
+     *
+     * @param string $path
+     * @return string
+     */
+    protected function _normalizePath($path)
+    {
+        $parts = explode('/', $path);
+        $result = array();
+
+        foreach ($parts as $part) {
+            if ('..' === $part) {
+                if (!count($result) || ($result[count($result) - 1] == '..')) {
+                    $result[] = $part;
+                } else {
+                    array_pop($result);
+                }
+            } else if ('.' !== $part) {
+                $result[] = $part;
+            }
+        }
+        return implode('/', $result);
     }
 
     /**
