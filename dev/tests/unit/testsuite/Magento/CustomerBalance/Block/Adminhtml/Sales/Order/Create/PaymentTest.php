@@ -68,9 +68,13 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
      */
     public function setUp()
     {
-        $this->_balanceInstance =
-            $this->getMock('Magento\CustomerBalance\Model\Balance',
-                array('setCustomerId', 'setWebsiteId', 'getAmount', 'loadByCustomer'), array(), '', false);
+        $this->_balanceInstance =$this->getMock(
+            'Magento\CustomerBalance\Model\Balance',
+            array('setCustomerId', 'setWebsiteId', 'getAmount', 'loadByCustomer', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_balanceFactoryMock = $this->getMock(
             'Magento\CustomerBalance\Model\BalanceFactory', array('create'), array(), '', false
         );
@@ -104,7 +108,12 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         );
 
         $quoteMock = $this->getMock(
-            'Magento\Sales\Model\Quote', array('getCustomerId', 'getStoreId'), array(), '', false);
+            'Magento\Sales\Model\Quote',
+            array('getCustomerId', 'getStoreId', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_orderCreateMock->expects($this->any())->method('getQuote')->will($this->returnValue($quoteMock));
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(true));
         $quoteMock->expects($this->any())->method('getStoreId')->will($this->returnValue(true));

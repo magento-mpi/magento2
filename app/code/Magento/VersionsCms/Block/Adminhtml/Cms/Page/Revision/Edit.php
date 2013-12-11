@@ -22,20 +22,18 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Config $cmsConfig
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Config $cmsConfig,
         array $data = array()
     ) {
         $this->_cmsConfig = $cmsConfig;
-        parent::__construct($context, $coreData, $registry, $data);
+        parent::__construct($context, $registry, $data);
     }
 
     /**
@@ -83,14 +81,12 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
             ),
         ));
 
-        $page = $this->_coreRegistry->registry('cms_page');
-
         if ($this->_cmsConfig->canCurrentUserPublishRevision()) {
             $this->_addButton('publish', array(
                 'id'        => 'publish_button',
                 'label'     => __('Publish'),
                 'onclick'   => "publishAction('" . $this->getPublishUrl() . "')",
-                'class'     => 'publish' . ($page && $page->getId() ? '' : ' no-display'),
+                'class'     => 'publish' . ($this->_coreRegistry->registry('cms_page')->getId()? '' : ' no-display'),
             ), 1);
 
             if ($this->_cmsConfig->canCurrentUserSaveRevision()) {
@@ -122,6 +118,7 @@ class Edit extends \Magento\Cms\Block\Adminhtml\Page\Edit
                 ),
             ));
 
+            $page = $this->_coreRegistry->registry('cms_page');
             // Adding button to create new version
             $this->_addButton('new_version', array(
                 'id'        => 'new_version',

@@ -38,7 +38,6 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory
      * @param \Magento\Core\Model\Registry $registry
@@ -46,7 +45,6 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Wishlist\Model\Resource\Item\CollectionFactory $itemsFactory,
         \Magento\Core\Model\Registry $registry,
@@ -55,7 +53,7 @@ class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
         $this->_coreRegistry = $registry;
         $this->_quoteFactory = $quoteFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _prepareLayout()

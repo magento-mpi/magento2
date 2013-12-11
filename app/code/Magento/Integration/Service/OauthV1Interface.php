@@ -35,9 +35,10 @@ interface OauthV1Interface
      * Create access token for provided consumer.
      *
      * @param int $consumerId
+     * @param bool $clearExistingToken
      * @return bool If token was created
      */
-    public function createAccessToken($consumerId);
+    public function createAccessToken($consumerId, $clearExistingToken = false);
 
     /**
      * Retrieve access token assigned to the consumer.

@@ -22,15 +22,15 @@ class Integration extends Action
     /** Param Key for extracting integration id from Request */
     const PARAM_INTEGRATION_ID = 'id';
 
-    /** Keys used for registering data into the registry */
+    /** Reauthorize flag is used to distinguish activation from reauthorization */
+    const PARAM_REAUTHORIZE = 'reauthorize';
+
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
 
     /**
-     * Core registry
-     *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_registry = null;
+    protected $_registry;
 
     /** @var \Magento\Logger */
     protected $_logger;
@@ -238,7 +238,6 @@ class Integration extends Action
     public function permissionsDialogAction()
     {
         $integrationId = (int)$this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
-
         if ($integrationId) {
             try {
                 $integrationData = $this->_integrationService->get($integrationId)->getData();
@@ -317,7 +316,7 @@ class Integration extends Action
     public function processTokensAction()
     {
         try {
-            $integrationId = $this->getRequest()->getParam('id');
+            $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
             $endpoint = $integration->getEndpoint();
             if (strlen($endpoint) > 0) {
@@ -330,7 +329,9 @@ class Integration extends Action
                 $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
                 return;
             } else {
-                $this->_oauthService->createAccessToken($integration->getConsumerId());
+                $clearExistingToken = (int)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
+                $this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken);
+                $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
                 $this->_registry->register(
                     self::REGISTRY_KEY_CURRENT_INTEGRATION,
                     $this->_integrationService->get($integrationId)->getData()

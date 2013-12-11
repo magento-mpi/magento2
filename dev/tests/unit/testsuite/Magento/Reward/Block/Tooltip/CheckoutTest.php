@@ -26,7 +26,7 @@ class CheckoutTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $rewardInstance = $this->getMockBuilder('Magento\Reward\Model\Reward')
             ->disableOriginalConstructor()
-            ->setMethods(array('setWebsiteId', 'setCustomer', 'getActionInstance'))
+            ->setMethods(array('setWebsiteId', 'setCustomer', 'getActionInstance', '__wakeup'))
             ->getMock();
         $storeManager = $this->getMockBuilder('Magento\Core\Model\StoreManager')
             ->disableOriginalConstructor()

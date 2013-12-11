@@ -31,15 +31,15 @@ class Collections extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $_collectionsFactory;
 
     /**
+     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
-     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
+        \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_collectionsFactory = $collectionsFactory;

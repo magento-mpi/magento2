@@ -39,7 +39,13 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
     protected $_productFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
@@ -47,11 +53,13 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
      */
     public function __construct(
         \Magento\Backend\Block\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_coreData = $coreData;
         $this->_productFactory = $productFactory;
@@ -89,6 +97,6 @@ class Ajax extends \Magento\Backend\Block\AbstractBlock
             $output[] = $resultObject->getData();
         }
 
-        return $this->_coreData->jsonEncode($output);
+        return $this->_jsonEncoder->encode($output);
     }
 }

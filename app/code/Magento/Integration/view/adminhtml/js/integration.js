@@ -82,12 +82,11 @@
         }
     });
 
-    window.Integration = function (permissionsDialogUrl, processTokensUrl, deactivateDialogUrl, reauthorizeDialogUrl, successCallbackUrl) {
+    window.Integration = function (permissionsDialogUrl, processTokensUrl, gridUrl, successCallbackUrl) {
         var url = {
             permissions: permissionsDialogUrl,
             tokens: processTokensUrl,
-            deactivate: deactivateDialogUrl,
-            reauthorize: reauthorizeDialogUrl
+            grid: gridUrl
         };
 
         var IdentityLogin = {
@@ -162,7 +161,12 @@
                     // Show the spinner
                     $('body').trigger('processStart');
                 },
+
                 success: function (result) {
+                    if (result.indexOf('_redirect') !== -1) {
+                        window.location.href = JSON.parse(result)['_redirect'];
+                        return;
+                    }
                     var identityLinkUrl = null, consumerId = null;
                     try {
                         var resultObj = $.parseJSON(result);
@@ -176,15 +180,19 @@
                         return
                     }
                     var popup = $('#integration-popup-container');
-                    popup.html(result);
-                    var buttons = [
-                        {
+                    popup.html(result)
+
+                    var buttons = [];
+                    if (dialog == 'permissions') {
+                        // We don't need this button in 'tokens' dialog, since if you got there - integration is
+                        // already activated and have necessary tokens
+                        buttons.push({
                             text: $.mage.__('Cancel'),
                             click: function () {
                                 $(this).dialog('close');
                             }
-                        }
-                    ];
+                        });
+                    }
 
                     // Add confirmation button to the list of dialog buttons
                     buttons.push(okButton);
@@ -195,10 +203,15 @@
                         autoOpen: true,
                         minHeight: 450,
                         minWidth: 600,
-                        dialogClass: 'integration-dialog',
+                        dialogClass: dialog == 'permissions' ? 'integration-dialog' : 'integration-dialog no-close',
                         position: {at: 'center'},
+                        closeOnEscape: false,
                         buttons: buttons
                     });
+                },
+                error: function (jqXHR, status, error) {
+                    alert($.mage.__('Sorry, something went wrong. Please try again later.'));
+                    console && console.log(status + ': ' + error + "\nResponse text:\n" + jqXHR.responseText);
                 },
                 complete: function () {
                     // Hide the spinner
@@ -211,8 +224,9 @@
             popup: {
                 show: function (ctx) {
                     var dialog = $(ctx).attr('data-row-dialog');
+                    var isReauthorize = $(ctx).attr('data-row-is-reauthorize');
 
-                    if (['permissions', 'deactivate', 'reauthorize', 'tokens'].indexOf(dialog) === -1) {
+                    if (!url.hasOwnProperty(dialog)) {
                         throw 'Invalid dialog type';
                     }
 
@@ -222,8 +236,8 @@
                         throw 'Unable to find integration ID';
                     }
 
-                    // Replace placeholder in URL with actual ID
-                    var ajaxUrl = url[dialog].replace(':id', integrationId);
+                    // Replace placeholders in URL
+                    var ajaxUrl = url[dialog].replace(':id', integrationId).replace(':isReauthorize', isReauthorize);
 
                     try {
                         // Get integration name either from current element or from neighbor column
@@ -235,12 +249,13 @@
 
                     var okButton = {
                         permissions: {
-                            text: $.mage.__('Allow'),
+                            text: (isReauthorize == '1') ? $.mage.__('Reauthorize') : $.mage.__('Allow'),
                             'class': 'primary',
                             // This data is going to be used in the next dialog
                             'data-row-id': integrationId,
                             'data-row-name': integrationName,
                             'data-row-dialog': 'tokens',
+                            'data-row-is-reauthorize': isReauthorize,
                             click: function () {
                                 // Find the 'Allow' button and clone - it has all necessary data, but is going to be
                                 // destroyed along with the current dialog
@@ -251,10 +266,11 @@
                             }
                         },
                         tokens: {
-                            text: $.mage.__('Activate'),
+                            text: $.mage.__('Done'),
                             'class': 'primary',
                             click: function () {
-                                alert('Not implemented');
+                                // Integration has been activated at the point of generating tokens
+                                window.location.href = url.grid;
                             }
                         }
                     };

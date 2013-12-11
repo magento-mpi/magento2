@@ -31,7 +31,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Search\Model\Adminhtml\Search\Grid\Options $options
      * @param \Magento\Core\Model\Registry $registry
@@ -39,13 +38,12 @@ class Grid extends \Magento\Backend\Block\Widget\Grid
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Search\Model\Adminhtml\Search\Grid\Options $options,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
         $this->_options = $options;
         $this->_registryManager = $registry;
         $this->setDefaultFilter(array('query_id_selected' => 1));
