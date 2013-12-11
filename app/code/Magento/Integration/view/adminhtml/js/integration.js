@@ -7,7 +7,7 @@
 /*jshint jquery:true*/
 /*global FORM_KEY*/
 /*global integration*/
-(function($, window) {
+(function ($, window) {
     "use strict";
     $.widget('mage.integration', {
         /**
@@ -82,72 +82,69 @@
         }
     });
 
-    window.Integration = function (permissionsDialogUrl, tokensDialogUrl, deactivateDialogUrl, reauthorizeDialogUrl) {
+    window.Integration = function (permissionsDialogUrl, processTokensUrl, deactivateDialogUrl, reauthorizeDialogUrl, baseUrl) {
         var url = {
             permissions: permissionsDialogUrl,
-            tokens: tokensDialogUrl,
+            tokens: processTokensUrl,
             deactivate: deactivateDialogUrl,
             reauthorize: reauthorizeDialogUrl
         };
 
         var IdentityLogin = {
-            win : null,
-            strLocation : null,
-            checker : null,
-            isCalledBack : false,
-
-            Constants :{
-                //TODO:Fix hardcoded URL and use it from the integration
-                LOGIN_URL : 'http://consumer:82/login.html',
-                CALLBACK_ACTION : 'loginSuccessCallback',
-                CHECKER_INTERVAL : 500,
+            win: null,
+            strLocation: null,
+            checker: null,
+            isCalledBack: false,
+            successCallbackUrl: baseUrl + 'loginSuccessCallback',
+            Constants: {
+                CHECKER_INTERVAL: 500,
                 //Login screen size plus some buffer
-                WIDTH : 680+20,
-                HEIGHT : 510+20,
-                //Make the deductions dynamic based on screen settings
-                LEFT : screen.width-680+20-30,
-                TOP : screen.height-510+20-300
+                WIDTH: 680 + 20,
+                HEIGHT: 510 + 20,
+                LEFT: screen.width - 680 + 20 - 30,
+                TOP: screen.height - 510 + 20 - 300
             },
 
-            invokePopup : function () {
-                /**
-                 Reset callback flag on subsequent invocations
-                 */
+            invokePopup: function (identityCallbackUrl, consumerId) {
+                // Callback should be invoked only once. Reset callback flag on subsequent invocations.
                 IdentityLogin.isCalledBack = false;
-
-                IdentityLogin.win = window.open(IdentityLogin.Constants.LOGIN_URL ,'',
+                var param = $.param({"consumer_id": consumerId, "successCallback": IdentityLogin.successCallbackUrl});
+                IdentityLogin.win = window.open(identityCallbackUrl + '?' + param, '',
                     'top=' + IdentityLogin.Constants.TOP +
                         ', left=' + IdentityLogin.Constants.LEFT +
                         ', width=' + IdentityLogin.Constants.WIDTH +
                         ', height=' + IdentityLogin.Constants.HEIGHT + ',scrollbars=no');
 
-                if (IdentityLogin.checker != null)
+                if (IdentityLogin.checker != null) {
+                    //Clear any previous check
                     clearInterval(IdentityLogin.checker);
-
-                IdentityLogin.checker = setInterval( IdentityLogin.fnCheckLocation, IdentityLogin.Constants.CHECKER_INTERVAL );
+                }
+                //Polling to detect url of the child window.
+                IdentityLogin.checker = setInterval(IdentityLogin.fnCheckLocation, IdentityLogin.Constants.CHECKER_INTERVAL);
             },
 
-            fnCheckLocation : function () {
+            /**
+             * Function to check the location of the child popoup window.
+             * Once detected if the callback is successful, parent window will be reloaded
+             */
+            fnCheckLocation: function () {
                 if (IdentityLogin.win == null)
                     return;
                 // Check to see if the location has changed.
                 try {
-                    var calbackIndex = IdentityLogin.win.location.href.indexOf(IdentityLogin.Constants.CALLBACK_ACTION);
-                    if (calbackIndex > 0) {
-                        /**
-                         User redirected from Integration site. Doesn't guarantee login
-                         */
-                        IdentityLogin.isCalledBack = true;
-                    }
-                    if(IdentityLogin.win.closed || calbackIndex != -1){
+                    //Is the success callback invoked
+                    IdentityLogin.isCalledBack = IdentityLogin.win.location.href == IdentityLogin.successCallbackUrl;
+                    if (IdentityLogin.win.closed || IdentityLogin.isCalledBack) {
+                        //Stop the the polling
                         clearInterval(IdentityLogin.checker);
-                        if(IdentityLogin.isCalledBack){
+                        if (IdentityLogin.isCalledBack) {
+                            //Check for window closed
                             window.location.reload();
                         }
                     }
                 } catch (e) {
-                    //squash
-                    if(IdentityLogin.win.closed){
+                    //squash. In case Window closed without success callback, clear polling
+                    if (IdentityLogin.win.closed) {
                         clearInterval(IdentityLogin.checker);
                     }
                     return;
@@ -159,31 +156,35 @@
             $.ajax({
                 url: url,
                 cache: false,
-                dataType: 'html',
                 data: {form_key: window.FORM_KEY},
                 method: 'GET',
                 beforeSend: function () {
                     // Show the spinner
                     $('body').trigger('processStart');
                 },
-                success: function (html) {
-
-                    //need to improve the check. Currently if no HTML response then Oauth flow
-                    if(!html){;
-                        IdentityLogin.invokePopup();
+                success: function (result) {
+                    var identityLinkUrl = null, consumerId = null;
+                    try {
+                        var resultObj = $.parseJSON(result);
+                        identityLinkUrl = resultObj['identity_link_url'];
+                        consumerId = resultObj['consumer_id'];
+                    } catch (e) {
+                        //This is expected if result is not json. Do nothing.
+                    }
+                    if (identityLinkUrl && consumerId) {
+                        IdentityLogin.invokePopup(identityLinkUrl, consumerId);
                         return
                     }
-
                     var popup = $('#integration-popup-container');
-
-                    popup.html(html);
-
-                    var buttons = [{
-                        text: $.mage.__('Cancel'),
-                        click: function() {
-                            $(this).dialog('close');
+                    popup.html(result);
+                    var buttons = [
+                        {
+                            text: $.mage.__('Cancel'),
+                            click: function () {
+                                $(this).dialog('close');
+                            }
                         }
-                    }];
+                    ];
 
                     // Add confirmation button to the list of dialog buttons
                     buttons.push(okButton);
@@ -267,8 +268,8 @@
     /**
      * Confirm dialog for delete integration action
      */
-    $(function() {
-        $('#integrationGrid_table').on('click', 'button#delete', function(e){
+    $(function () {
+        $('#integrationGrid_table').on('click', 'button#delete', function (e) {
             $('#integration-delete-container').dialog({
                 modal: true,
                 autoOpen: true,
@@ -278,11 +279,11 @@
                 dialogClass: "no-close",
                 position: {at: 'top'},
                 buttons: {
-                    Cancel: function() {
-                        $(this).dialog( "close" );
+                    Cancel: function () {
+                        $(this).dialog("close");
                     },
-                    Delete: function() {
-                        $(this).dialog( "close" );
+                    Delete: function () {
+                        $(this).dialog("close");
                         window.location.href = $(e.target).data('url');
                     }
                 }

@@ -312,18 +312,22 @@ class Integration extends Action
     }
 
     /**
-     * Show tokens popup.
+     * Show tokens popup for simple tokens or post consumer credentials for Oauth integration.
      */
-    public function tokensDialogAction()
+    public function processTokensAction()
     {
         try {
             $integrationId = $this->getRequest()->getParam('id');
             $integration = $this->_integrationService->get($integrationId);
             $endpoint = $integration->getEndpoint();
-            if (!empty($endpoint)) {
+            if (strlen($endpoint) > 0) {
                 //Integration chooses to use Oauth for token exchange
                 $this->_oauthService->postToConsumer($integration->getConsumerId(), $endpoint);
-                //TODO: Empty response indicating Oauth. Fix if needed.
+                $result = [
+                    IntegrationModel::IDENTITY_LINK_URL => $integration->getIdentityLinkUrl(),
+                    IntegrationModel::CONSUMER_ID => $integration->getConsumerId()
+                ];
+                $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
                 return;
             } else {
                 $this->_oauthService->createAccessToken($integration->getConsumerId());
@@ -347,27 +351,12 @@ class Integration extends Action
     }
 
     /**
-     * Update integration status after successful callback from Identity login
+     * Close window after callback has succeeded
      */
     public function loginSuccessCallbackAction()
     {
-        $consumerId = $this->getRequest()->getParam(IntegrationModel::CONSUMER_ID);
-        $integration = $this->_integrationService->findByConsumerId($consumerId);
-        $integration->setStatus(IntegrationModel::STATUS_ACTIVE);
-        $this->_integrationService->update($integration->getData());
-        $this->getResponse()->setBody($this->_getWinCloseJs());
+        $this->getResponse()->setBody('<script type="text/javascript">setTimeout("self.close()",1000);</script>');
     }
-
-    /**
-     * Retrieve response js for loginSuccessCallbackAction()
-     * @return string
-     */
-    protected function _getWinCloseJs()
-    {
-        return '<script type="text/javascript">setTimeout("self.close()",1000);</script>';
-    }
-
-
 
     /**
      * Redirect merchant to 'Edit integration' or 'New integration' if error happened during integration save.

@@ -37,7 +37,7 @@ interface IntegrationV1Interface
      * Find Integration by name.
      *
      * @param string $integrationName
-     * @return array|null Integration data or null if not found
+     * @return IntegrationModel
      */
     public function findByName($integrationName);
 
@@ -46,7 +46,6 @@ interface IntegrationV1Interface
      *
      * @param int $consumerId
      * @return IntegrationModel
-     * @throws \Magento\Integration\Exception
      */
     public function findByConsumerId($consumerId);
 
