@@ -11,9 +11,6 @@
 
 namespace Magento\Rma\Test\Block\Adminhtml\Order\View\Tab;
 
-use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
-
 /**
  * Class Returns
  * Order Returns block

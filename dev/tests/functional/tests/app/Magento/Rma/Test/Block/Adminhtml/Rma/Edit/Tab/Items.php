@@ -11,7 +11,6 @@
 
 namespace Magento\Rma\Test\Block\Adminhtml\Rma\Edit\Tab;
 
-use Mtf\Block\Block;
 use Mtf\Block\Form;
 use Mtf\Client\Element\Locator;
 
@@ -23,7 +22,6 @@ use Mtf\Client\Element\Locator;
  */
 class Items extends Form
 {
-
     /**
      * Constant for authorized quantity fields.
      *
@@ -150,14 +148,15 @@ class Items extends Form
      * Fill form fields
      *
      * @param array $products
-     * @param integer $quantity
+     * @param int $quantity
+     * @param $fillFields
+     * @return null
      */
     public function fillCustom($products, $quantity, $fillFields)
     {
         foreach($products as $product)
         {
-            $productName = $product->getData('fields/name');
-            $productName = $productName['value'];
+            $productName = $product->getProductName();
 
             if (Items::$AUTHORIZE_QTY === $fillFields) {
                 $quantitySearchString = $this->productRow . $this->quantityAuthorizedField;
@@ -185,8 +184,8 @@ class Items extends Form
     /**
      * Checks if all products from the order are in the return grid
      *
-     * @param $products
-     * @param $returnItem
+     * @param array $products
+     * @param \Magento\Rma\Test\Fixture\ReturnItem $returnItem
      * @return bool
      */
     public function assertProducts($products, $returnItem)
@@ -194,47 +193,54 @@ class Items extends Form
         $result = true;
         foreach ($products as $product)
         {
-            $productName = $product->getData('fields/name/value');
+            $productName = $product->getProductName();
+
             $productSearchString = $this->productRow . $this->productNameField;
             $productSearchString = sprintf($productSearchString, $productName);
             $gridProductName = $this->_rootElement->find($productSearchString, Locator::SELECTOR_XPATH)->getText();
             if(strpos($gridProductName, $productName) === false) {
                 $result = false;
             }
-            $returnQuantity = $returnItem->getData('fields/quantity');
-            $returnReason = $returnItem->getData('fields/reason');
-            $returnCondition = $returnItem->getData('fields/condition');
-            $returnResolution = $returnItem->getData('fields/resolution');
 
-            $returnQuantitySearchString = $this->productRow . $this->productQuantityRequestedField;
-            $returnQuantitySearchString = sprintf($returnQuantitySearchString, $productName);
-            $gridQuantityRequested = $this->_rootElement
-                ->find($returnQuantitySearchString, Locator::SELECTOR_XPATH)->getText();
-            if(strpos($gridQuantityRequested, $returnQuantity) === false) {
-                $result = false;
-            }
+            $returnItemFields = $returnItem->getData('fields');
 
-            $returnReasonSearchString = $this->productRow . $this->productReasonField;
-            $returnReasonSearchString = sprintf($returnReasonSearchString, $productName);
-            $gridReason = $this->_rootElement->find($returnReasonSearchString, Locator::SELECTOR_XPATH)->getText();
-            if(strpos($gridReason, $returnReason) === false) {
-                $result = false;
-            }
-
-            $returnConditionSearchString = $this->productRow . $this->productConditionField;
-            $returnConditionSearchString = sprintf($returnConditionSearchString, $productName);
-            $gridCondition = $this->_rootElement
-                ->find($returnConditionSearchString, Locator::SELECTOR_XPATH)->getText();
-            if(strpos($gridCondition, $returnCondition) === false) {
-                $result = false;
-            }
-
-            $returnResolutionSearchString = $this->productRow . $this->productResolutionField;
-            $returnResolutionSearchString = sprintf($returnResolutionSearchString, $productName);
-            $gridResolution = $this->_rootElement
-                ->find($returnResolutionSearchString, Locator::SELECTOR_XPATH)->getText();
-            if(strpos($gridResolution, $returnResolution) === false) {
-                $result = false;
+            foreach ($returnItemFields as $returnItemField => $returnItemValue)
+            {
+                if ($returnItemField === 'quantity') {
+                    $returnQuantitySearchString = $this->productRow . $this->productQuantityRequestedField;
+                    $returnQuantitySearchString = sprintf($returnQuantitySearchString, $productName);
+                    $gridQuantityRequested = $this->_rootElement
+                        ->find($returnQuantitySearchString, Locator::SELECTOR_XPATH)->getText();
+                    if(strpos($gridQuantityRequested, $returnItemValue) === false) {
+                        $result = false;
+                    }
+                }
+                elseif ($returnItemField === 'reason') {
+                    $returnReasonSearchString = $this->productRow . $this->productReasonField;
+                    $returnReasonSearchString = sprintf($returnReasonSearchString, $productName);
+                    $gridReason = $this->_rootElement->find($returnReasonSearchString, Locator::SELECTOR_XPATH)->getText();
+                    if(strpos($gridReason, $returnItemValue) === false) {
+                        $result = false;
+                    }
+                }
+                elseif ($returnItemField === 'condition') {
+                    $returnConditionSearchString = $this->productRow . $this->productConditionField;
+                    $returnConditionSearchString = sprintf($returnConditionSearchString, $productName);
+                    $gridCondition = $this->_rootElement
+                        ->find($returnConditionSearchString, Locator::SELECTOR_XPATH)->getText();
+                    if(strpos($gridCondition, $returnItemValue) === false) {
+                        $result = false;
+                    }
+                }
+                elseif ($returnItemField === 'resolution') {
+                    $returnResolutionSearchString = $this->productRow . $this->productResolutionField;
+                    $returnResolutionSearchString = sprintf($returnResolutionSearchString, $productName);
+                    $gridResolution = $this->_rootElement
+                        ->find($returnResolutionSearchString, Locator::SELECTOR_XPATH)->getText();
+                    if(strpos($gridResolution, $returnItemValue) === false) {
+                        $result = false;
+                    }
+                }
             }
         }
         return $result;
