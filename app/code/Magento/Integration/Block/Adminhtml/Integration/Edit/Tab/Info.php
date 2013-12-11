@@ -156,7 +156,7 @@ class Info extends \Magento\Backend\Block\Widget\Form\Generic
                 'name' => self::DATA_IDENTITY_LINK_URL,
                 'disabled' => $disabled,
                 'note' => __(
-                    'Enter URL where the consumer key can be linked to the identity system in Integrations.'
+                    'URL to redirect user to link their 3rd party account with this Magento integration credentials.'
                 )
             )
         );

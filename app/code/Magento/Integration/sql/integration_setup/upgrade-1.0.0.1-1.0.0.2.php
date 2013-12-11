@@ -12,12 +12,10 @@
 $installer = $this;
 $installer->getConnection()->addColumn(
     $installer->getTable('integration'),
-    'setup_type',
+    'identity_link_url',
     array(
-        'type' => \Magento\DB\Ddl\Table::TYPE_SMALLINT,
-        'unsigned' => true,
-        'nullable' => false,
-        'default' => 0,
-        'comment' => 'Integration type - manual or config file'
+        'type' => \Magento\DB\Ddl\Table::TYPE_TEXT,
+        'length' => 255,
+        'comment' => 'Identity linking Url'
     )
 );
