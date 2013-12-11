@@ -39,7 +39,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      *
      * @var string
      */
-    protected $_iframeBlockType = 'Magento\View\Block\Template';
+    protected $_iframeBlockType = 'Magento\View\Element\Template';
 
     /**
      * Default iframe template
@@ -91,8 +91,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     protected $_customerSession;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Pbridge\Model\Session $pbridgeSession
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
@@ -100,8 +99,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Pbridge\Model\Session $pbridgeSession,
         \Magento\Directory\Model\RegionFactory $regionFactory,
@@ -112,7 +110,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
         $this->_customerSession = $customerSession;
         $this->_pbridgeSession = $pbridgeSession;
         $this->_regionFactory = $regionFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -172,7 +170,7 @@ abstract class AbstractIframe extends \Magento\Payment\Block\Form
     /**
      * Create and return iframe block
      *
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     public function getIframeBlock()
     {

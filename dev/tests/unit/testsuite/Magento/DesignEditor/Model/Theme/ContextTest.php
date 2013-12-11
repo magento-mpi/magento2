@@ -28,7 +28,7 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     protected $_themeFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\CopyService
+     * @var \Magento\Theme\Model\CopyService
      */
     protected $_copyService;
 
@@ -41,11 +41,16 @@ class ContextTest extends \PHPUnit_Framework_TestCase
     {
         $this->_themeFactory = $this->getMock('Magento\Core\Model\ThemeFactory', array('create'), array(), '', false);
 
-        $this->_theme = $this->getMock('Magento\Core\Model\Theme',
-            array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual', '__wakeup'), array(), '', false);
+        $this->_theme = $this->getMock(
+            'Magento\Core\Model\Theme',
+            array('load', 'getId', 'getType', 'getDomainModel', 'isVirtual', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $this->_themeFactory->expects($this->any())->method('create')->will($this->returnValue($this->_theme));
 
-        $this->_copyService = $this->getMock('Magento\Core\Model\Theme\CopyService', array('copy'), array(), '', false);
+        $this->_copyService = $this->getMock('Magento\Theme\Model\CopyService', array('copy'), array(), '', false);
 
         $this->_model = new \Magento\DesignEditor\Model\Theme\Context(
             $this->_themeFactory,

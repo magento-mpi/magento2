@@ -35,22 +35,22 @@ class Amount
     protected $_directoryHelper;
 
     /**
-     * @param \Magento\Core\Model\Config $config
+     * @param \Magento\Logger $logger
      * @param \Magento\Directory\Model\CurrencyFactory $currencyFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Catalog\Helper\Data $catalogData
+     * @param \Magento\Core\Model\Config $config
      * @param \Magento\Directory\Helper\Data $directoryHelper
      * @param \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
-     * @param \Magento\Catalog\Helper\Data $catalogData
-     * @param \Magento\Logger $logger
      */
     public function __construct(
-        \Magento\Core\Model\Config $config,
+        \Magento\Logger $logger,
         \Magento\Directory\Model\CurrencyFactory $currencyFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        \Magento\Directory\Helper\Data $directoryHelper,
-        \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource,
         \Magento\Catalog\Helper\Data $catalogData,
-        \Magento\Logger $logger
+        \Magento\Core\Model\Config $config,
+        \Magento\Directory\Helper\Data $directoryHelper,
+        \Magento\GiftCard\Model\Resource\Attribute\Backend\Giftcard\Amount $amountResource
     ) {
         $this->_storeManager = $storeManager;
         $this->_directoryHelper = $directoryHelper;

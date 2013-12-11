@@ -15,7 +15,7 @@
  */
 namespace Magento\Checkout\Block\Onepage;
 
-abstract class AbstractOnepage extends \Magento\View\Block\Template
+abstract class AbstractOnepage extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\App\Cache\Type\Config
@@ -44,7 +44,12 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
     protected $_countryCollFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreData;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Customer\Model\Session $customerSession
@@ -54,7 +59,7 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Customer\Model\Session $customerSession,
@@ -63,12 +68,13 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         array $data = array()
     ) {
+        $this->_coreData = $coreData;
         $this->_configCacheType = $configCacheType;
         $this->_customerSession = $customerSession;
         $this->_checkoutSession = $resourceSession;
         $this->_countryCollFactory = $countryCollFactory;
         $this->_regionCollFactory = $regionCollFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -169,7 +175,7 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
                 }
             }
 
-            $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+            $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
                 ->setName($type.'_address_id')
                 ->setId($type.'-address-select')
                 ->setClass('address-select')
@@ -191,7 +197,7 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
         if (is_null($countryId)) {
             $countryId = $this->_coreData->getDefaultCountry();
         }
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName($type.'[country_id]')
             ->setId($type.':country_id')
             ->setTitle(__('Country'))
@@ -204,7 +210,7 @@ abstract class AbstractOnepage extends \Magento\View\Block\Template
 
     public function getRegionHtmlSelect($type)
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setName($type.'[region]')
             ->setId($type.':region')
             ->setTitle(__('State/Province'))

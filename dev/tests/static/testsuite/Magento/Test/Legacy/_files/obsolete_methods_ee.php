@@ -125,5 +125,15 @@ return array(
     array('applyIndexChanges', 'Magento\Search\Model\Observer'),
     array('holdCommit', 'Magento\Search\Model\Observer'),
     array('getDefaultMenuLayoutCode', 'Magento\VersionsCms\Model\Hierarchy\Config'),
+    array(
+        'coreBlockAbstractToHtmlBefore',
+        'Magento\PricePermissions\Model\Observer',
+        'viewBlockAbstractToHtmlBefore'
+    ),
+    array(
+        'coreBlockAbstractToHtmlBefore',
+        'Magento\PromotionPermissions\Model\Observer',
+        'viewBlockAbstractToHtmlBefore'
+    ),
     array('getServerIoDriver', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'),
 );

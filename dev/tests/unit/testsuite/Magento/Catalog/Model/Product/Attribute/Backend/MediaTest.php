@@ -30,8 +30,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
         $fileStorageDb = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
         $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
-        $resource = $this->getMock('Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media',
-            array('getMainTable', '__wakeup'), array(), '', false);
+        $resource = $this->getMock(
+            'Magento\Catalog\Model\Resource\Product\Attribute\Backend\Media',
+            array('getMainTable', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $resource->expects($this->any())
             ->method('getMainTable')
             ->will($this->returnValue('table'));

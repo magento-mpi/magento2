@@ -23,20 +23,18 @@ class Grid
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $addressesFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Customer\Model\Resource\Address\Attribute\CollectionFactory $addressesFactory,
         array $data = array()
     ) {
         $this->_addressesFactory = $addressesFactory;
-        parent::__construct($context, $coreData, $urlModel, $data);
+        parent::__construct($context, $urlModel, $data);
     }
 
     /**

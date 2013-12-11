@@ -9,7 +9,7 @@
  */
 namespace Magento\Reward\Block\Sales\Order;
 
-class Total extends \Magento\View\Block\Template
+class Total extends \Magento\View\Element\Template
 {
     /**
      * Reward data
@@ -19,19 +19,17 @@ class Total extends \Magento\View\Block\Template
     protected $_rewardData = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Reward\Helper\Data $rewardData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardData,
         array $data = array()
     ) {
         $this->_rewardData = $rewardData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

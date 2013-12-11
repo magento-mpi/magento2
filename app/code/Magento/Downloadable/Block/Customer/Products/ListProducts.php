@@ -17,7 +17,7 @@
  */
 namespace Magento\Downloadable\Block\Customer\Products;
 
-class ListProducts extends \Magento\View\Block\Template
+class ListProducts extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -35,16 +35,14 @@ class ListProducts extends \Magento\View\Block\Template
     protected $_itemsFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory
      * @param \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Downloadable\Model\Resource\Link\Purchased\CollectionFactory $linksFactory,
         \Magento\Downloadable\Model\Resource\Link\Purchased\Item\CollectionFactory $itemsFactory,
@@ -53,7 +51,7 @@ class ListProducts extends \Magento\View\Block\Template
         $this->_customerSession = $customerSession;
         $this->_linksFactory = $linksFactory;
         $this->_itemsFactory = $itemsFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -96,7 +94,7 @@ class ListProducts extends \Magento\View\Block\Template
     {
         parent::_prepareLayout();
 
-        $pager = $this->getLayout()->createBlock('Magento\Page\Block\Html\Pager', 'downloadable.customer.products.pager')
+        $pager = $this->getLayout()->createBlock('Magento\Theme\Block\Html\Pager', 'downloadable.customer.products.pager')
             ->setCollection($this->getItems());
         $this->setChild('pager', $pager);
         $this->getItems()->load();

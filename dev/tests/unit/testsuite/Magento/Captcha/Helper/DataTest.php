@@ -179,7 +179,9 @@ class DataTest extends \PHPUnit_Framework_TestCase
         $website = $this->getMock(
             'Magento\Core\Model\Website',
             array('getCode', '__wakeup'),
-            array(), '', false
+            array(),
+            '',
+            false
         );
 
         $website->expects($this->any())

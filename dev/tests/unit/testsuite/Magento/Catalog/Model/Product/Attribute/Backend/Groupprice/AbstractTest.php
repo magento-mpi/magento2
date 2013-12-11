@@ -44,9 +44,9 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
                 'logger' => $loggerMock,
                 'currencyFactory' => $currencyFactoryMock,
                 'storeManager' => $storeManagerMock,
-                'catalogProductType' => $productTypeMock,
                 'catalogData' => $this->_helper,
                 'config' => $configMock,
+                'catalogProductType' => $productTypeMock,
             )
         );
         $resource = $this->getMock('StdClass', array('getMainTable'));
@@ -66,7 +66,7 @@ class AbstractTest extends \PHPUnit_Framework_TestCase
 
         $attribute = $this->getMock(
             'Magento\Eav\Model\Entity\Attribute\AbstractAttribute',
-            array('getBackendTable', 'isStatic', 'getAttributeId', 'getName'),
+            array('getBackendTable', 'isStatic', 'getAttributeId', 'getName', '__wakeup'),
             array(),
             '',
             false

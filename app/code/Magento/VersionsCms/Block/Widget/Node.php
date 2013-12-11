@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Widget;
 
 class Node
-    extends \Magento\View\Block\Html\Link
+    extends \Magento\View\Element\Html\Link
     implements \Magento\Widget\Block\BlockInterface
 {
     /**
@@ -44,22 +44,20 @@ class Node
     protected $_hierarchyNodeFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $hierarchyNodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_hierarchyNodeFactory = $hierarchyNodeFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -67,9 +65,9 @@ class Node
      *
      * @return string
      */
-    public function getAnchorText()
+    public function getLabel()
     {
-        $value = $this->_getInstanceData('anchor_text');
+        $value = $this->_getInstanceData('label');
 
         return ($value !== false ? $value : $this->_node->getLabel());
     }

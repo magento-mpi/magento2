@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Hierarchy;
 
-class Menu extends \Magento\View\Block\Template
+class Menu extends \Magento\View\Element\Template
 {
     const TAG_UL    = 'ul';
     const TAG_OL    = 'ol';
@@ -67,22 +67,20 @@ class Menu extends \Magento\View\Block\Template
     protected $_nodeFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\VersionsCms\Model\Hierarchy\NodeFactory $nodeFactory,
         array $data = array()
     ) {
         $this->_coreRegistry = $registry;
         $this->_nodeFactory = $nodeFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()
@@ -121,7 +119,7 @@ class Menu extends \Magento\View\Block\Template
     /**
      * Add context menu params to block data
      *
-     * @return \Magento\View\Block\Template
+     * @return \Magento\View\Element\Template
      */
     protected function _loadNodeMenuParams()
     {

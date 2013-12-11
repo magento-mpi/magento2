@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\General\Shipping;
 
-class Methods extends \Magento\View\Block\Template
+class Methods extends \Magento\View\Element\Template
 {
     /**
      * Tax data
@@ -27,22 +27,28 @@ class Methods extends \Magento\View\Block\Template
     protected $_coreRegistry = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_coreRegistry = $registry;
         $this->_taxData = $taxData;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     public function _construct()
@@ -76,6 +82,6 @@ class Methods extends \Magento\View\Block\Template
         $data['PriceOriginal']  = $method->getPrice();
         $data['Code']           = $method->getCode();
 
-        return $this->_coreData->jsonEncode($data);
+        return $this->_jsonEncoder->encode($data);
     }
 }

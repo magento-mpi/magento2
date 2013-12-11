@@ -39,25 +39,25 @@ class Attributes
     protected $_eavConfig;
 
     /**
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
      * @param \Magento\Eav\Model\Config $eavConfig
      * @param \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory
      * @param \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory
-     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
         \Magento\Eav\Model\Config $eavConfig,
         \Magento\Directory\Model\Config\Source\CountryFactory $countryFactory,
         \Magento\Directory\Model\Config\Source\AllregionFactory $allregionFactory,
-        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_eavConfig = $eavConfig;
         $this->_countryFactory = $countryFactory;
         $this->_allregionFactory = $allregionFactory;
-        parent::__construct($resourceSegment, $context, $data);
+        parent::__construct($context, $resourceSegment, $data);
         $this->setType('Magento\CustomerSegment\Model\Segment\Condition\Order\Address\Attributes');
         $this->setValue(null);
     }

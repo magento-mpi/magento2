@@ -15,7 +15,7 @@
 namespace Magento\CustomerBalance\Block\Adminhtml\Sales\Order\Create;
 
 class Payment
-extends \Magento\View\Block\Template
+extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\CustomerBalance\Model\Balance
@@ -38,16 +38,14 @@ extends \Magento\View\Block\Template
     protected $_balanceFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\CustomerBalance\Model\BalanceFactory $balanceFactory,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
@@ -56,7 +54,7 @@ extends \Magento\View\Block\Template
         $this->_balanceFactory = $balanceFactory;
         $this->_sessionQuote = $sessionQuote;
         $this->_orderCreate = $orderCreate;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

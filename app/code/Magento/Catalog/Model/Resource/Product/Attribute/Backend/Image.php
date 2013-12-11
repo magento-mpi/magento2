@@ -36,15 +36,13 @@ class Image
     protected $_fileUploaderFactory;
 
     /**
-     * Construct
-     *
-     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Logger $logger
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
      */
     public function __construct(
-        \Magento\Filesystem $filesystem,
         \Magento\Logger $logger,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\File\UploaderFactory $fileUploaderFactory
     ) {
         $this->_filesystem = $filesystem;

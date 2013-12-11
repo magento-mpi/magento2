@@ -197,7 +197,12 @@ class ExportTest extends \PHPUnit_Framework_TestCase
     {
         /** @var $operation \Magento\ScheduledImportExport\Model\Scheduled\Operation */
         $operation = $this->getMock(
-            'Magento\ScheduledImportExport\Model\Scheduled\Operation', null, array(), '', false);
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
+            array('__wakeup'),
+            array(),
+            '',
+            false
+        );
         $operation->setData($operationData);
 
         return $operation;

@@ -50,7 +50,6 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
@@ -61,7 +60,6 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
@@ -74,7 +72,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         $this->_giftMessageSave = $giftMessageSave;
         $this->_taxConfig = $taxConfig;
         $this->_taxData = $taxData;
-        parent::__construct($context, $coreData, $sessionQuote, $orderCreate, $data);
+        parent::__construct($context, $sessionQuote, $orderCreate, $data);
     }
 
     protected function _construct()
@@ -411,7 +409,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * Get order item extra info block
      *
      * @param \Magento\Sales\Model\Quote\Item $item
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     public function getItemExtraInfo($item)
     {

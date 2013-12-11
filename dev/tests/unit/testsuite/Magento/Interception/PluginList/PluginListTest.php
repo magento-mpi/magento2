@@ -74,8 +74,8 @@ class PluginListTest extends \PHPUnit_Framework_TestCase
             $omConfigMock,
             new \Magento\Interception\Definition\Runtime(),
             array('global'),
-            null,
-            'interception'
+            'interception',
+            null
         );
     }
 

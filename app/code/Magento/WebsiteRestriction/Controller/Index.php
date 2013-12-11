@@ -121,7 +121,7 @@ class Index extends \Magento\App\Action\Action
             $this->_view->addActionLayoutHandles();
 
             if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Page\Helper\Layout')
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')
                     ->applyHandle($page->getRootTemplate());
             }
 
@@ -132,7 +132,7 @@ class Index extends \Magento\App\Action\Action
             $this->_view->generateLayoutBlocks();
 
             if ($page->getRootTemplate()) {
-                $this->_objectManager->get('Magento\Page\Helper\Layout')
+                $this->_objectManager->get('Magento\Theme\Helper\Layout')
                     ->applyTemplate($page->getRootTemplate());
             }
 

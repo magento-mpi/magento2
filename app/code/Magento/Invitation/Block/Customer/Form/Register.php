@@ -23,8 +23,10 @@ class Register extends \Magento\Customer\Block\Form\Register
     protected $_coreRegistry;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
@@ -34,11 +36,13 @@ class Register extends \Magento\Customer\Block\Form\Register
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
+        \Magento\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Core\Model\Registry $coreRegistry,
@@ -48,9 +52,11 @@ class Register extends \Magento\Customer\Block\Form\Register
         parent::__construct(
             $context,
             $coreData,
+            $jsonEncoder,
             $configCacheType,
             $regionCollFactory,
             $countryCollFactory,
+            $moduleManager,
             $customerSession,
             $addressFactory,
             $data

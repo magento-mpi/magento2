@@ -2,8 +2,6 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Core
  * @subpackage  unit_tests
  * @copyright   {copyright}
  * @license     {license_link}
@@ -28,7 +26,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_factoryMock = $this->getMock('Magento\Core\Model\Layout\Argument\HandlerFactory', array(), array(),
+        $this->_factoryMock = $this->getMock('Magento\View\Layout\Argument\HandlerFactory', array(), array(),
             '', false);
         $this->_model = new \Magento\Core\Model\Layout\Argument\Handler\ArrayHandler($this->_factoryMock);
     }
@@ -42,7 +40,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $getHandlerCallback = function ($type) use ($expected) {
             $handlerModel = $this->getMock(
-                'Magento\Core\Model\Layout\Argument\HandlerInterface',
+                'Magento\View\Layout\Argument\HandlerInterface',
                 array(),
                 array(),
                 '',
@@ -114,7 +112,7 @@ class ArrayTest extends \PHPUnit_Framework_TestCase
     {
         $getHandlerCallback = function ($type) {
             $handlerModel = $this->getMock(
-                'Magento\Core\Model\Layout\Argument\HandlerInterface',
+                'Magento\View\Layout\Argument\HandlerInterface',
                 array(),
                 array(),
                 '',

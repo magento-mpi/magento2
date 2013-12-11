@@ -32,9 +32,9 @@ class FilterTest extends \PHPUnit_Framework_TestCase
     public function testViewDirective()
     {
         $url = $this->_model->viewDirective(array(
-            '{{view url="Magento_Page::favicon.ico"}}',
+            '{{view url="Magento_Theme::favicon.ico"}}',
             'view',
-            ' url="Magento_Page::favicon.ico"', // note leading space
+            ' url="Magento_Theme::favicon.ico"', // note leading space
         ));
         $this->assertStringEndsWith('favicon.ico', $url);
     }
@@ -115,7 +115,7 @@ class FilterTest extends \PHPUnit_Framework_TestCase
         $themeId = $collection->getThemeByFullPath('frontend/test_default')->getId();
         $objectManager->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore()->setConfig(
-                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
+                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
                 $themeId
             );
 

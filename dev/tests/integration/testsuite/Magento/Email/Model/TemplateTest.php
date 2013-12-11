@@ -96,8 +96,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $this->_setBlankThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico';
-        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
+        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Theme/favicon.ico';
+        $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplate());
         $this->_model->setDesignConfig(array(
             'area' => 'frontend',
@@ -118,7 +118,7 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         $theme->load('magento_blank', 'theme_path');
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface')
             ->getStore('fixturestore')->setConfig(
-                \Magento\Core\Model\View\Design::XML_PATH_THEME_ID,
+                \Magento\View\DesignInterface::XML_PATH_THEME_ID,
                 $theme->getId()
             );
     }
@@ -131,9 +131,9 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
     {
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
-        $this->_model->setTemplateText('{{view url="Magento_Page::favicon.ico"}}');
+        $this->_model->setTemplateText('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsWith(
-            'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico',
+            'static/frontend/magento_blank/en_US/Magento_Theme/favicon.ico',
             $this->_model->getProcessedTemplate()
         );
     }
@@ -147,8 +147,8 @@ class TemplateTest extends \PHPUnit_Framework_TestCase
         \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\App')
             ->getArea(\Magento\Core\Model\App\Area::AREA_FRONTEND)->load();
         $this->_setBlankThemeForFixtureStore();
-        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Page/favicon.ico';
-        $this->_model->setTemplateSubject('{{view url="Magento_Page::favicon.ico"}}');
+        $expectedViewUrl = 'static/frontend/magento_blank/en_US/Magento_Theme/favicon.ico';
+        $this->_model->setTemplateSubject('{{view url="Magento_Theme::favicon.ico"}}');
         $this->assertStringEndsNotWith($expectedViewUrl, $this->_model->getProcessedTemplateSubject(array()));
         $this->_model->setDesignConfig(array(
             'area' => 'frontend',
