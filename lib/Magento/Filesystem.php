@@ -249,11 +249,11 @@ use \Magento\FilesystemDeprecated;
     }
 
     /**
-     * @param string $path [optional]
-     * @param null $protocol
+     * @param string $path
+     * @param string $protocol
      * @return mixed
      */
-    public function getRemoteResource($path = '', $protocol)
+    public function getRemoteResource($path, $protocol)
     {
         if (!$this->fileReadFactory) {
             // case when a temporary Filesystem object is used for loading primary configuration
