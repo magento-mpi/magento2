@@ -152,7 +152,6 @@ class RmaTest extends Functional
         $this->returnItem=$returnItem;
 
         $returnItemForm = Factory::getPageFactory()->getRmaGuestCreate()->getReturnItemForm();
-        $returnItemForm->fill($returnItem);
         $returnItemForm->fillCustom('0', $payPalExpressOrder->getProduct(0)->getProductName(), $returnItem);
 
         // Step 7: Click "Add Item to Return" for the configurable product.
