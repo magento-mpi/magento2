@@ -45,9 +45,11 @@ class Create extends Form
      */
     public function fillRma($index, $returnItem)
     {
+        $products = $returnItem->getProductNames();
+
         $this->_rootElement
             ->find('items:item' . $index, Locator::SELECTOR_ID, 'select')
-            ->setValue($returnItem->getProductName());
+            ->setValue($products[0]);
         $this->_rootElement
             ->find('items:qty_requested' . $index, Locator::SELECTOR_ID)
             ->setValue($returnItem->getQuantity());

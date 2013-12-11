@@ -23,11 +23,11 @@ use \Magento\Sales\Test\Fixture\PaypalExpressOrder;
 class ReturnItem extends DataFixture
 {
     /**
-     * Product Name
+     * Product Names
      *
-     * @var string
+     * @var array
      */
-    protected $productName;
+    protected $productNames = array();
 
     /**
      * Prepare search data for creating RMA
@@ -110,20 +110,20 @@ class ReturnItem extends DataFixture
     /**
      * Get product name of return
      *
-     * @return string
+     * @return array
      */
-    public function getProductName()
+    public function getProductNames()
     {
-        return $this->productName;
+        return $this->productNames;
     }
 
     /**
-     * Set product name of return
+     * Add product names to return
      *
-     * @return string
+     * @param string
      */
-    public function setProductName($productName)
+    public function addProductName($productName)
     {
-        return $this->productName = $productName;
+        array_unshift($this->productNames, $productName);
     }
 }
