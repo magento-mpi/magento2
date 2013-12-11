@@ -82,7 +82,7 @@
         }
     });
 
-    window.Integration = function (permissionsDialogUrl, processTokensUrl, deactivateDialogUrl, reauthorizeDialogUrl, baseUrl) {
+    window.Integration = function (permissionsDialogUrl, processTokensUrl, deactivateDialogUrl, reauthorizeDialogUrl, successCallbackUrl) {
         var url = {
             permissions: permissionsDialogUrl,
             tokens: processTokensUrl,
@@ -95,7 +95,7 @@
             strLocation: null,
             checker: null,
             isCalledBack: false,
-            successCallbackUrl: baseUrl + 'loginSuccessCallback',
+            successCallbackUrl: successCallbackUrl,
             Constants: {
                 CHECKER_INTERVAL: 500,
                 //Login screen size plus some buffer
