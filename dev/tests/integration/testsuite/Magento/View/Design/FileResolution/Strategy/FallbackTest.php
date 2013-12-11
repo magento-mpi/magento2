@@ -33,6 +33,7 @@ class FallbackTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
+        $this->markTestSkipped();
         $this->_baseDir = realpath(__DIR__ . '/../../../_files/fallback');
         $this->_viewDir = $this->_baseDir . '/design';
     }
