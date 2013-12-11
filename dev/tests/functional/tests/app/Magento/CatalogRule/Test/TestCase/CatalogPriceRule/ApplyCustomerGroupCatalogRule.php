@@ -25,7 +25,11 @@ use Mtf\Client\Element\Locator;
  */
 class ApplyCustomerGroupCatalogRule extends Functional
 {
-    const DISCOUNT = .5;
+    /**
+     *  Variable for discount amount converted to decimal form
+     */
+    private $_discountDecimal;
+
     /**
      * Applying Catalog Price Rules to specific customer group
      *
@@ -59,6 +63,8 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
         $catalogRuleFixture->setPlaceHolders(array('category_id' => $categoryIds[0]));
         $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL);
+        // convert the discount amount to a decimal form
+        $this->_discountDecimal = ($catalogRuleFixture->getDiscountAmount() * .01);
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
@@ -149,7 +155,7 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
         $this->assertContains(
-            (string)($product->getProductPrice() * static::DISCOUNT),
+            (string)($product->getProductPrice() * $this->_discountDecimal),
             $productListBlock->getProductSpecialPrice($product->getProductName()),
             'Displayed price does not match expected price.'
         );
@@ -167,13 +173,13 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertContains((string)($product->getProductPrice() * static::DISCOUNT), $productViewBlock->getProductSpecialPrice());
+        $this->assertContains((string)($product->getProductPrice() * $this->_discountDecimal), $productViewBlock->getProductSpecialPrice());
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         // Verify price in the cart
         $this->assertContains(
-            (string)($product->getProductPrice() * static::DISCOUNT),
+            (string)($product->getProductPrice() * $this->_discountDecimal),
             $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product),
             "Discount was not correctly applied"
         );

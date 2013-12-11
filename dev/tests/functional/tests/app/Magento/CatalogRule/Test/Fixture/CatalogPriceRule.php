@@ -34,9 +34,20 @@ class CatalogPriceRule extends DataFixture
         $this->switchData(Repository::CATALOG_PRICE_RULE);
     }
 
+    /**
+     * Get the rule name value
+     */
     public function getRuleName()
     {
         return $this->getData('fields/rule_name/value');
+    }
+
+    /**
+     * Get the discount amount value
+     */
+    public function getDiscountAmount()
+    {
+        return $this->getData('fields/rule_discount_amount/value');
     }
 
     /**
