@@ -226,7 +226,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     public function getMaxPriceInt()
     {
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $uniquePart = strtoupper(md5(serialize($searchParams . '_' . $this->getCurrencyRate())));
+        $uniquePart = strtoupper(md5(serialize($searchParams) . '_' . $this->getCurrencyRate()));
         $cacheKey = 'MAXPRICE_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = $this->_cache->load($cacheKey);
@@ -259,8 +259,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
         $intervalParams = $this->getInterval();
         $intervalParams = $intervalParams ? ($intervalParams[0] . '-' . $intervalParams[1]) : '';
-        $uniquePart = strtoupper(md5(serialize($searchParams . '_'
-            . $this->getCurrencyRate() . '_' . $intervalParams)));
+        $uniquePart = strtoupper(md5(serialize($searchParams) . '_'
+            . $this->getCurrencyRate() . '_' . $intervalParams));
         $cacheKey = 'PRICE_SEPARATORS_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = $this->_cache->load($cacheKey);
