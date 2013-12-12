@@ -15,14 +15,14 @@ use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Bundle\Test\Fixture\Bundle;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Bundle\Test\Fixture\Bundle;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 
 /**
  * Class ProductForm
@@ -44,7 +44,7 @@ class ProductForm extends FormTabs
      *
      * @var string
      */
-    protected $affectedAttributeSetBlock = "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..";
+    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
 
     /**
      * @var array
@@ -53,9 +53,10 @@ class ProductForm extends FormTabs
         Bundle::GROUP => '\Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
         ConfigurableProduct::GROUP => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config',
         GroupedProduct::GROUP => '\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts',
-        DownloadableProduct::GROUP
-            => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
-        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab'
+        DownloadableProduct::GROUP => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
+        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab',
+        Related::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related',
+        Upsell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell'
     );
 
     /**
@@ -66,7 +67,7 @@ class ProductForm extends FormTabs
     protected function getAffectedAttributeSetBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductConfigurableAffectedAttributeSet(
-            $this->_rootElement->find($this->affectedAttributeSetBlock, Locator::SELECTOR_XPATH)
+            $this->_rootElement->find($this->affectedAttributeSet, Locator::SELECTOR_XPATH)
         );
     }
 
@@ -75,14 +76,12 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      * @param Element $element
-     * @return FormTabs|void
+     * @return \Magento\Backend\Test\Block\Widget\FormTabs|void
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
-        /**
-         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
-         */
-        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+        // Open tab "Advanced Settings" to make all nested tabs visible and available to interact
+        $this->showAdvanced();
         /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
         if ($fixture->getCategoryName()) {
             $this->fillCategory($fixture->getCategoryName());
@@ -104,7 +103,7 @@ class ProductForm extends FormTabs
     /**
      * Save product
      *
-     * @param Fixture $fixture
+     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture
      * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
     public function save(Fixture $fixture = null)
@@ -139,18 +138,9 @@ class ProductForm extends FormTabs
     public function showAdvanced()
     {
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-    }
-
-    /**
-     * Open the Up-sells tab.
-     */
-    public function openUpsellTab()
-    {
-        // click the up-sell link to get to the tab.
-        $this->waitForElementVisible(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID);
-
-        $this->_rootElement->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
-        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
+        $this->waitForElementVisible(
+            '[aria-labelledby="ui-accordion-product_info_tabs-advanced-header-0"] [role="tab"]:last-child'
+        );
     }
 
     /**
@@ -204,18 +194,4 @@ class ProductForm extends FormTabs
         $this->waitForElementVisible('input#new_category_name');
     }
 
-    public function openRelatedProductTab()
-    {
-        /**
-         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
-         */
-        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-
-        /**
-         * Wait for the "related tab" shows up and click on it
-         */
-        $this->waitForElementVisible(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID);
-        $this->_rootElement->find(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID)->click();
-        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-    }
 }

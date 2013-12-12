@@ -2,3 +2,4 @@
 # because it is used in infrastructure for running tests
 ~dev/tests/functional
 ~dev/tests/functional-old
+~dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/blacklist/dev_build_ee.txt

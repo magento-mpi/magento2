@@ -38,7 +38,7 @@ class NodePrinter extends LevelNodeVisitor
         // dump an error to the console if the line is long (+1 is to allow for \n at the end)
         if (NodeLeveler::MAX_LINE_LENGTH + 1 < strlen($line)) {
             echo "Warning: Line Longer Than Max (" . strlen($line) . " > " . NodeLeveler::MAX_LINE_LENGTH . ')';
-            echo "\n-----\n$line\n-----\n";
+            echo "\n-----\n{$line}\n-----\n";
         }
         // add the resulting string
         $this->result .= $line;

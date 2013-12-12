@@ -9,6 +9,8 @@ dev/tests/static/testsuite/Magento/Test/Legacy/_files/words_internal.xml
 dev/tests/static/testsuite/Magento/Test/Legacy/FilesystemTest.php
 dev/tests/static/testsuite/Magento/Test/Php/_files/{whitelist,blacklist}/non_public.txt
 dev/tests/static/testsuite/Magento/Test/Php/_files/phpcpd/blacklist/non_public.txt
+dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/blacklist/dev_build_ce.txt
+dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/blacklist/dev_build_ee.txt
 dev/tests/performance/testsuite/benchmark
 dev/tests/performance/testsuite/fixtures/benchmark
 dev/tests/performance/apply_fixture.php

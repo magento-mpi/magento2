@@ -93,7 +93,7 @@ class CreatingSimpleProductWithCustomOptionsAndCategoryTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         $productOptionsBlock = $productPage->getCustomOptionBlock();
         $fixture = $product->getData('fields/custom_options/value');

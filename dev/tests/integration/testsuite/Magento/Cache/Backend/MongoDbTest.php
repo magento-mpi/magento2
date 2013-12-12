@@ -220,7 +220,7 @@ class MongoDbTest extends \PHPUnit_Framework_TestCase
     /**
      * @dataProvider cleanDataProvider
      */
-    public function testClean($mode, $tags = array(), $expectedIds)
+    public function testClean($mode, $tags, $expectedIds)
     {
         $this->_prepareCollection();
 
