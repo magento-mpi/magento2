@@ -187,10 +187,17 @@ class AbstractSession extends \Magento\Object
      * @param string $namespace
      * @param string $sessionName
      * @return \Magento\Core\Model\Session\AbstractSession
+     * @throws \Magento\Core\Model\Session\Exception
      */
     public function start($namespace = 'default', $sessionName = null)
     {
         if (!$this->isSessionExists()) {
+            if (headers_sent()) {
+                throw new \Magento\Core\Model\Session\Exception(
+                    'Session must be started before any output has been sent'
+                );
+            }
+
             if (!empty($sessionName)) {
                 $this->setSessionName($sessionName);
             }
@@ -213,10 +220,7 @@ class AbstractSession extends \Magento\Object
      */
     public function isSessionExists()
     {
-        if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
-            return false;
-        }
-        return true;
+        return session_status() === PHP_SESSION_ACTIVE;
     }
 
     /**
@@ -636,12 +640,14 @@ class AbstractSession extends \Magento\Object
      *
      * @param bool $deleteOldSession
      * @return \Magento\Core\Model\Session\AbstractSession
-     * @throws \LogicException
+     * @throws \Magento\Core\Model\Session\Exception
      */
     public function regenerateId($deleteOldSession = true)
     {
-        if ($this->isSessionExists()) {
-            return $this;
+        if (headers_sent()) {
+            throw new \Magento\Core\Model\Session\Exception(
+                'Can not regenerate session id because HTTP headers already sent.'
+            );
         }
         session_regenerate_id($deleteOldSession);
 

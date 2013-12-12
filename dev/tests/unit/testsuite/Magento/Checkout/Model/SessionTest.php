@@ -10,6 +10,7 @@
  * Test class for \Magento\Checkout\Model\Session
  */
 namespace Magento\Checkout\Model;
+include(__DIR__ . '/../_files/session.php');
 
 class SessionTest extends \PHPUnit_Framework_TestCase
 {
@@ -36,18 +37,29 @@ class SessionTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
+        $appState = $this->getMock('\Magento\App\State', array(), array(), '', false);
+        $appState->expects($this->any())->method('isInstalled')->will($this->returnValue(true));
+
+        $request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
+        $request->expects($this->any())->method('getHttpHost')->will($this->returnValue(array()));
+
+        $validator = $this->getMock('\Magento\Core\Model\Session\Validator', array(), array(), '', false);
+        $validator->expects($this->once())->method('validate')->will($this->returnValue(true));
+
+        $context = $this->getMock('Magento\Core\Model\Session\Context', array(), array(), '', false);
+        $context->expects($this->once())->method('getAppState')->will($this->returnValue($appState));
+        $context->expects($this->once())->method('getRequest')->will($this->returnValue($request));
+        $context->expects($this->once())->method('getValidator')->will($this->returnValue($validator));
+
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $constructArguments = $objectManager->getConstructArguments(
-            'Magento\Checkout\Model\Session',
-            array(
-                 'context' => $this->getMock('Magento\Core\Model\Session\Context', array(), array(), '', false),
-                 'orderFactory' => $orderFactory,
-                 'messageCollFactory' => $messageCollFactory,
-                 'quoteFactory' => $quoteFactory,
-            )
+        $constructArguments = array(
+            'context' => $context,
+            'orderFactory' => $orderFactory,
+            'messageCollFactory' => $messageCollFactory,
+            'quoteFactory' => $quoteFactory,
         );
         /** @var \Magento\Checkout\Model\Session $session */
-        $session = $this->getMock('Magento\Checkout\Model\Session', array('init'), $constructArguments);
+        $session = $objectManager->getObject('Magento\Checkout\Model\Session', $constructArguments);
         $session->setLastRealOrderId($orderId);
 
         $this->assertSame($orderMock, $session->getLastRealOrder());
