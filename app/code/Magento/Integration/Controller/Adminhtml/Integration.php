@@ -348,6 +348,8 @@ class Integration extends Action
         try {
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
+            /** Remove existing token associated with consumer before issuing a new one. */
+            $this->_oauthService->deleteToken($integration->getConsumerId());
             //Integration chooses to use Oauth for token exchange
             $this->_oauthService->postToConsumer($integration->getConsumerId(), $integration->getEndpoint());
             /** Generate JS popup content */

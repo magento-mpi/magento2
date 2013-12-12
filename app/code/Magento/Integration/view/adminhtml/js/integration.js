@@ -196,7 +196,7 @@
                         popupHtml = result;
                     }
 
-                    popup.html(popupHtml)
+                    popup.html(popupHtml);
 
                     var buttons = [],
                         dialogProperties = {
@@ -222,7 +222,6 @@
                         dialogProperties['minHeight'] = 150;
                         dialogProperties['minWidth'] = 500;
                         dialogProperties['closeOnEscape'] = true;
-                        dialogProperties['position'] = {at: 'top'};
                     }
 
                     // Add confirmation button to the list of dialog buttons. okButton not set for tokenExchange dialog

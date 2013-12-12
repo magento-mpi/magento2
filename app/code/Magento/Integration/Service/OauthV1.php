@@ -219,6 +219,21 @@ class OauthV1 implements OauthV1Interface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function deleteToken($consumerId)
+    {
+        try {
+            $consumer = $this->_consumerFactory->create()->load($consumerId);
+            $existingToken = $this->_tokenProvider->getTokenByConsumerId($consumer->getId());
+            $existingToken->delete();
+            return true;
+        } catch (\Exception $e) {
+            return false;
+        }
+    }
+
+    /**
      * Load consumer by id.
      *
      * @param int $consumerId

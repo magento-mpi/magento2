@@ -86,4 +86,12 @@ interface OauthV1Interface
      * @return array Consumer data array
      */
     public function deleteConsumer($consumerId);
+
+    /**
+     * Remove token associated with provided consumer.
+     *
+     * @param int $consumerId
+     * @return bool If token was deleted
+     */
+    public function deleteToken($consumerId);
 }
