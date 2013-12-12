@@ -9,6 +9,7 @@
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
 * Fixed bugs:
+  * Fixed inline translations in adminhtml area
   * Partial refunds/invoices in Payflow Pro
   * Fixed shopping cart rules for a specific customer group
   * Fixed the bug with schema upgrade scripts are not running after installation
