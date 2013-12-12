@@ -15,6 +15,7 @@
   * Fixed the bug with schema upgrade scripts are not running after installation
   * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
   * Fixed the bug that shipping labels can't be created
+  * Fixed wrong redirection after customer registration during multishipping checkout
 
 2.0.0.0-dev54
 =============
@@ -55,7 +56,6 @@
   * Fixed Related Products Rule page so that category can be selected on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
   * Fixed the bug with international DHL quotes
-  * Fixed wrong redirection after customer registration during multishipping checkout
 
 2.0.0.0-dev53
 =============
