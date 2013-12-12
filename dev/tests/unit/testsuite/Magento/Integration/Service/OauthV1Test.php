@@ -16,22 +16,22 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
 {
     const VALUE_CONSUMER_ID = 1;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Integration\Model\Oauth\Consumer\Factory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_consumerFactory;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Integration\Model\Oauth\Token\Provider|\PHPUnit_Framework_MockObject_MockObject */
     protected $_tokenProviderMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Integration\Model\Oauth\Consumer|\PHPUnit_Framework_MockObject_MockObject */
     private $_consumerMock;
 
-    /** @var \PHPUnit_Framework_MockObject_MockObject */
+    /** @var \Magento\Integration\Model\Integration|\PHPUnit_Framework_MockObject_MockObject */
     private $_emptyConsumerMock;
 
     /**
-     * @var \Magento\Integration\Model\Oauth\Token
+     * @var \Magento\Integration\Model\Oauth\Token|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $_tockenMock;
+    private $_tokenMock;
 
     /** @var \Magento\Integration\Service\OauthV1 */
     private $_service;
@@ -40,9 +40,9 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
     private $_consumerData;
 
     /**
-     * @var
+     * @var \Magento\Integration\Model\Oauth\Token\Factory|\PHPUnit_Framework_MockObject_MockObject
      */
-    private $_tockenFactory;
+    private $_tokenFactoryMock;
 
     protected function setUp()
     {
@@ -52,11 +52,11 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->_tokenProviderMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token\Provider')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_tockenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
+        $this->_tokenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
             ->disableOriginalConstructor()
             ->getMock();
 
-        $this->_tockenFactory = $this->getMock('Magento\Integration\Model\Oauth\Token\Factory', [], [], '', false);
+        $this->_tokenFactoryMock = $this->getMock('Magento\Integration\Model\Oauth\Token\Factory', [], [], '', false);
         $this->_consumerMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Consumer')
             ->disableOriginalConstructor()
             ->setMethods(
@@ -86,7 +86,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->_service = new \Magento\Integration\Service\OauthV1(
             $this->getMock('Magento\Core\Model\StoreManagerInterface', [], [], '', false),
             $this->_consumerFactory,
-            $this->_tockenFactory,
+            $this->_tokenFactoryMock,
             $this->getMock('Magento\Integration\Helper\Oauth\Data', [], [], '', false),
             $this->getMock('Magento\HTTP\ZendClient', [], [], '', false),
             $this->getMock('Magento\Logger', [], [], '', false),
@@ -155,26 +155,26 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->with(self::VALUE_CONSUMER_ID)
             ->will($this->returnValue($this->_consumerMock));
 
-        $this->_tokenProviderMock->expects($this->at(0))
+        $this->_tokenProviderMock->expects($this->any())
             ->method('getTokenByConsumerId')
-            ->will($this->returnValue($this->_tockenMock));
+            ->will($this->returnValue($this->_tokenMock));
 
-        $this->_tokenProviderMock->expects($this->at(1))
+        $this->_tokenProviderMock->expects($this->any())
             ->method('createRequestToken')
             ->with($this->_consumerMock);
 
-        $this->_tokenProviderMock->expects($this->at(2))
+        $this->_tokenProviderMock->expects($this->any())
             ->method('getAccessToken')
             ->with($this->_consumerMock);
 
-        $this->_tockenFactory->expects($this->any())
+        $this->_tokenFactoryMock->expects($this->any())
             ->method('create')
-            ->will($this->returnValue($this->_tockenMock));
+            ->will($this->returnValue($this->_tokenMock));
 
-        $this->_tockenMock->expects($this->at(0))
+        $this->_tokenMock->expects($this->any())
             ->method('delete');
 
-        $this->_tockenMock->expects($this->once())
+        $this->_tokenMock->expects($this->once())
             ->method('createVerifierToken')
             ->with(self::VALUE_CONSUMER_ID);
 
@@ -196,11 +196,11 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->with(self::VALUE_CONSUMER_ID)
             ->will($this->returnValue($this->_consumerMock));
 
-        $this->_tokenProviderMock->expects($this->at(0))
+        $this->_tokenProviderMock->expects($this->any())
             ->method('getTokenByConsumerId')
-            ->will($this->returnValue($this->_tockenMock));
+            ->will($this->returnValue($this->_tokenMock));
 
-        $this->_tockenMock->expects($this->never())
+        $this->_tokenMock->expects($this->never())
             ->method('delete');
 
         $this->assertFalse($this->_service->createAccessToken(self::VALUE_CONSUMER_ID, false));
@@ -213,18 +213,18 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->with(0)
             ->will($this->returnValue($this->_consumerMock));
 
-        $this->_tokenProviderMock->expects($this->at(0))
+        $this->_tokenProviderMock->expects($this->any())
             ->method('getTokenByConsumerId')
             ->will($this->returnValue(false));
 
-        $this->_tockenMock->expects($this->never())
+        $this->_tokenMock->expects($this->never())
             ->method('delete');
 
-        $this->_tockenFactory->expects($this->any())
+        $this->_tokenFactoryMock->expects($this->any())
             ->method('create')
-            ->will($this->returnValue($this->_tockenMock));
+            ->will($this->returnValue($this->_tokenMock));
 
-        $this->_tockenMock->expects($this->never())
+        $this->_tokenMock->expects($this->never())
             ->method('createVerifierToken');
 
         $this->_tokenProviderMock->expects($this->never())
