@@ -199,7 +199,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
 
         /* @TODO: Move catalog and checkout storage types to appropriate modules */
         $messageBlock = $this->_view->getLayout()->getMessagesBlock();
-        $messageBlock->addStorageType(\Magento\Message\ManagerInterface::DEFAULT_GROUP);
+        $messageBlock->addStorageType($this->messageManager->getDefaultGroup());
         $messageBlock->addMessages(
             $this->messageManager->getMessages(true)
         );
