@@ -15,44 +15,59 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Bundle\Test\Fixture\Bundle;
 
-class BundleDynamicTest extends Functional
+class EditBundleTest extends Functional
 {
-    /**
-     * Login into backend area before test
-     */
     protected function setUp()
     {
         Factory::getApp()->magentoBackendLoginUser();
     }
 
     /**
-     * Creating bundle (dynamic) product and assigning it to the category only
-     *
-     * @ZephyrId MAGETWO-12702
+     * Create bundle
+     * @dataProvider createDataProvider
+     * @ZephyrId MAGETWO-12842
+     * @ZephyrId MAGETWO-12841
      */
-    public function testCreate()
+    public function testEditBundle($fixture)
     {
         //Data
-        $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleDynamic();
-        $bundle->switchData('bundle');
-        //Pages & Blocks
-        $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
-        $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
-        $productBlockForm = $createProductPage->getProductBlockForm();
-        //Steps
-        $manageProductsGrid->open();
-        $manageProductsGrid->getProductBlock()->addProduct('bundle');
-        $productBlockForm->fill($bundle);
-        $productBlockForm->save($bundle);
-        //Verification
-        $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        /** @var $product \Magento\Bundle\Test\Fixture\Bundle */
+        /** @var $editProduct \Magento\Bundle\Test\Fixture\Bundle */
+        $product = Factory::getFixtureFactory()->$fixture();
+        $product->switchData('bundle');
+        $product->persist();
+        $editProduct = Factory::getFixtureFactory()->$fixture();
+        $editProduct->switchData('bundle_edit_required_fields');
+
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
+        $gridBlock = $productGridPage->getProductGrid();
+        $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
+        $productBlockForm = $editProductPage->getProductBlockForm();
         $cachePage = Factory::getPageFactory()->getAdminCache();
+
+        $productGridPage->open();
+        $gridBlock->searchAndOpen(array(
+            'sku' => $product->getProductSku(),
+            'type' => 'Bundle Product'
+        ));
+        $productBlockForm->fill($editProduct);
+        $productBlockForm->save($editProduct);
+        //Verifying
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
+        // Flush cache
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
-        //Verification
-        $this->assertOnGrid($bundle);
-        $this->assertOnCategory($bundle);
+        //Verifying
+        $this->assertOnGrid($editProduct);
+        $this->assertOnCategory($editProduct, $product->getCategoryName());
+    }
+
+    public function createDataProvider()
+    {
+        return array(
+            array('getMagentoBundleBundleFixed'),
+            array('getMagentoBundleBundleDynamic')
+        );
     }
 
     /**
@@ -70,8 +85,9 @@ class BundleDynamicTest extends Functional
 
     /**
      * @param Bundle $product
+     * @param string $categoryName
      */
-    protected function assertOnCategory($product)
+    protected function assertOnCategory($product, $categoryName)
     {
         //Pages
         $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -79,7 +95,7 @@ class BundleDynamicTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         //Steps
         $frontendHomePage->open();
-        $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
+        $frontendHomePage->getTopmenu()->selectCategoryByName($categoryName);
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
@@ -88,13 +104,5 @@ class BundleDynamicTest extends Functional
         $productViewBlock = $productPage->getViewBlock();
         $this->assertSame($product->getProductName(), $productViewBlock->getProductName());
         $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
-
-        // @TODO: add click on "Customize and Add To Cart" button and assert options count
-        $productOptionsBlock = $productPage->getOptionsBlock();
-        $actualOptions = $productOptionsBlock->getBundleOptions();
-        $expectedOptions = $product->getBundleOptions();
-        foreach ($actualOptions as $optionType => $actualOption) {
-            $this->assertContains($expectedOptions[$optionType], $actualOption);
-        }
     }
 }

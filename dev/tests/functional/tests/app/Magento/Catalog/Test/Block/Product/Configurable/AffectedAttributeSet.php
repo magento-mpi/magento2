@@ -54,9 +54,9 @@ class AffectedAttributeSet extends Block
     {
         $attributeSetName = $fixture->getAffectedAttributeSet();
         if ($attributeSetName) {
-            $this->_rootElement->find($this->affectedAttributeSet, Locator::SELECTOR_CSS)->click();
-            $this->_rootElement->find($this->attributeSetName, Locator::SELECTOR_CSS)->setValue($attributeSetName);
+            $this->_rootElement->find($this->affectedAttributeSet)->click();
+            $this->_rootElement->find($this->attributeSetName)->setValue($attributeSetName);
         }
-        $this->_rootElement->find($this->confirmButton, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->confirmButton)->click();
     }
 }
