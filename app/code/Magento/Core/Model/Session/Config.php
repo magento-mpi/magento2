@@ -300,6 +300,15 @@ class Config implements \Magento\Session\Config\ConfigInterface
      */
     public function setSavePath($savePath)
     {
+        if (preg_match('#^(tcp|unix)\://#i', $savePath) == 0) {
+            if (!is_dir($savePath)) {
+                throw new \InvalidArgumentException('Invalid save_path provided; not a directory');
+            }
+            if (!is_writable($savePath)) {
+                throw new \InvalidArgumentException('Invalid save_path provided; not writable');
+            }
+        }
+
         $this->setOption('session.save_path', $savePath);
         return $this;
     }
