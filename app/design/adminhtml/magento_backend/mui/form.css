@@ -115,7 +115,7 @@ span.required {
 
 .addon {
     padding: 0;
-    display: block;
+    display: table;
     width: 100%;
 }
 

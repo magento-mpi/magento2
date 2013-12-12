@@ -158,6 +158,7 @@ class Role extends \Magento\Backend\App\Action
     public function saveAction()
     {
         $data = $this->getRequest()->getPost();
+        $redirectBack = false;
         if ($data) {
             $roleId = $this->getRequest()->getPost('role_id', false);
             /** @var \Magento\Webapi\Model\Acl\Role $role */
@@ -184,7 +185,7 @@ class Role extends \Magento\Backend\App\Action
                 );
                 $this->_getSession()->setWebapiRoleData(false);
 
-                if ($roleId && !$this->getRequest()->has('continue')) {
+                if ($roleId && !$this->getRequest()->has('back')) {
                     $this->_redirect('adminhtml/*/');
                 } else {
                     $this->_redirect('adminhtml/*/edit', array('role_id' => $role->getId()));

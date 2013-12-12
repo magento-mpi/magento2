@@ -47,6 +47,7 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
         ), 100);
 
         $this->_updateButton('save', 'label', __('Save API Role'));
+        $this->_updateButton('save', 'id', 'save_button');
         $this->_updateButton('delete', 'label', __('Delete API Role'));
     }
 
