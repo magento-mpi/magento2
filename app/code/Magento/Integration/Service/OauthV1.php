@@ -161,7 +161,6 @@ class OauthV1 implements OauthV1Interface
     {
         try {
             return $this->_consumerFactory->create()->load($key, 'key');
-
         } catch (\Magento\Core\Exception $exception) {
             throw $exception;
         } catch (\Exception $exception) {

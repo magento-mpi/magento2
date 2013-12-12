@@ -61,7 +61,7 @@ interface OauthV1Interface
     /**
      * Load consumer by its key.
      *
-     * @param int $key
+     * @param string $key
      * @return \Magento\Integration\Model\Oauth\Consumer
      * @throws \Magento\Oauth\Exception
      * @throws \Magento\Core\Exception
