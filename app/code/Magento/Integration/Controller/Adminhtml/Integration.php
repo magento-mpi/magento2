@@ -340,6 +340,8 @@ class Integration extends Action
             return;
         }
         $this->_view->loadLayout(false);
+        //This cannot precede loadlayout(false) else the messages will be removed
+        $this->_setActivationSuccessMsg($clearExistingToken, $integration->getName());
         $this->_view->renderLayout();
     }
 
@@ -352,13 +354,16 @@ class Integration extends Action
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
             /** Remove existing token associated with consumer before issuing a new one. */
-            if ($this->_oauthService->deleteToken($integration->getConsumerId())) {
+            $isReauthorize = $this->_oauthService->deleteToken($integration->getConsumerId());
+            if ($isReauthorize) {
                 $integration->setStatus(IntegrationModel::STATUS_INACTIVE)->save();
             }
             //Integration chooses to use Oauth for token exchange
             $this->_oauthService->postToConsumer($integration->getConsumerId(), $integration->getEndpoint());
             /** Generate JS popup content */
             $this->_view->loadLayout(false);
+            //This cannot precede loadlayout(false) else the messages will be removed
+            $this->_setActivationSuccessMsg($isReauthorize, $integration->getName());
             $this->_view->renderLayout();
             $popupContent = $this->_response->getBody();
             /** Initialize response body */
@@ -418,5 +423,18 @@ class Integration extends Action
         } else {
             return parent::_redirect($path, $arguments);
         }
+    }
+
+    /**
+     * Set success message based on Integration activation or re-authorization.
+     *
+     * @param boolean $isReauthorize Is a re-authorization flow
+     * @param string $name Integration name
+     */
+    protected function _setActivationSuccessMsg($isReauthorize, $name)
+    {
+        $successMsg = $isReauthorize ? "The integration '%1' has been re-authorized."
+                                        : "The integration '%1' has been activated.";
+        $this->_getSession()->addSuccess(__($successMsg, $name));
     }
 }
