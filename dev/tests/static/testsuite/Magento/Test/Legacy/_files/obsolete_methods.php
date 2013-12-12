@@ -77,6 +77,7 @@ return array(
     array('_getIdAttributes', 'Magento\ObjectManager\Config\Reader\Dom'),
     array('_getInitialXml', 'Magento\ObjectManager\Config\Reader\Dom'),
     array('_getInputHtml', 'Magento\ImportExport\Block\Adminhtml\Export\Filter'),
+    array('_getItemPriceBlock', 'Magento\Wishlist\Block\AbstractBlock'),
     array('_getLabelForStore', 'Magento\Catalog\Model\Resource\Eav\Attribute'),
     array('_getMultiSelectHtml', 'Magento\ImportExport\Block\Adminhtml\Export\Filter'),
     array('_getNumberFromToHtml', 'Magento\ImportExport\Block\Adminhtml\Export\Filter'),
