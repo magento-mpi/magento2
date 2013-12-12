@@ -95,6 +95,8 @@ class Conditions extends Tab
         if ($fixture instanceof SalesRule) {
             // Add new condition
             $this->clickAddNew();
+            $this->getTemplateBlock()->waitLoader();
+            $this->reinitRootElement();
             // Select Customer Segment
             $this->selectCondition(self::CUSTOMER_SEGMENT);
             $this->getTemplateBlock()->waitLoader();
