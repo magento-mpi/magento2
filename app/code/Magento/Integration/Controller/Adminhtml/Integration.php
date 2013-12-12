@@ -319,8 +319,9 @@ class Integration extends Action
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
             $clearExistingToken = (int)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
-            $this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken);
-            $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
+            if ($this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken)) {
+                $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
+            }
             $this->_registry->register(
                 self::REGISTRY_KEY_CURRENT_INTEGRATION,
                 $this->_integrationService->get($integrationId)->getData()
