@@ -311,35 +311,20 @@ class Integration extends Action
     }
 
     /**
-     * Show tokens popup for simple tokens or post consumer credentials for Oauth integration.
+     * Show tokens popup for simple tokens
      */
-    public function processTokensAction()
+    public function tokensDialogAction()
     {
         try {
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
-            $endpoint = $integration->getEndpoint();
-            if (isset($endpoint) && trim($endpoint) !== '') {
-                //Integration chooses to use Oauth for token exchange
-                $this->_oauthService->postToConsumer($integration->getConsumerId(), $endpoint);
-                $result = [
-                    IntegrationModel::IDENTITY_LINK_URL => $integration->getIdentityLinkUrl(),
-                    IntegrationModel::CONSUMER_ID => $integration->getConsumerId()
-                ];
-                $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
-                return;
-            } else {
-                $clearExistingToken = (int)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
-
-                if ($this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken)) {
-                    $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
-                }
-
-                $this->_registry->register(
-                    self::REGISTRY_KEY_CURRENT_INTEGRATION,
-                    $this->_integrationService->get($integrationId)->getData()
-                );
-            }
+            $clearExistingToken = (int)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
+            $this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken);
+            $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
+            $this->_registry->register(
+                self::REGISTRY_KEY_CURRENT_INTEGRATION,
+                $this->_integrationService->get($integrationId)->getData()
+            );
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*');
@@ -352,6 +337,39 @@ class Integration extends Action
         }
         $this->_view->loadLayout(false);
         $this->_view->renderLayout();
+    }
+
+    /**
+     * Post consumer credentials for Oauth integration.
+     */
+    public function tokensExchangeAction()
+    {
+        try {
+            $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+            $integration = $this->_integrationService->get($integrationId);
+            //Integration chooses to use Oauth for token exchange
+            $this->_oauthService->postToConsumer($integration->getConsumerId(), $integration->getEndpoint());
+            /** Generate JS popup content */
+            $this->_view->loadLayout(false);
+            $this->_view->renderLayout();
+            $popupContent = $this->_response->getBody();
+            /** Initialize response body */
+            $result = [
+                IntegrationModel::IDENTITY_LINK_URL => $integration->getIdentityLinkUrl(),
+                IntegrationModel::CONSUMER_ID => $integration->getConsumerId(),
+                'popup_content' => $popupContent
+            ];
+            $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
+        } catch (\Magento\Core\Exception $e) {
+            $this->_getSession()->addError($e->getMessage());
+            $this->_redirect('*/*');
+            return;
+        } catch (\Exception $e) {
+            $this->_logger->logException($e);
+            $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+            $this->_redirect('*/*');
+            return;
+        }
     }
 
     /**

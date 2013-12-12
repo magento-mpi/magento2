@@ -49,7 +49,8 @@ class Activate extends Link
         return [
             'row-id' => $this->_row->getId(),
             'row-dialog' => 'permissions',
-            'row-is-reauthorize' => ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? '0' : '1'
+            'row-is-reauthorize' => ($this->_row->getStatus() == Integration::STATUS_INACTIVE) ? '0' : '1',
+            'row-is-token-exchange' => ($this->_row->getEndpoint() && $this->_row->getIdentityLinkUrl()) ? '1' : '0'
         ];
     }
 }
