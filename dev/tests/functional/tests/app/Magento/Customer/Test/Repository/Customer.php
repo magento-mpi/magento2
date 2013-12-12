@@ -11,7 +11,6 @@
 
 namespace Magento\Customer\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**
@@ -61,6 +60,8 @@ class Customer extends AbstractRepository
         $this->_data['customer_UK'] = $this->_getUnitedKingdomCustomer();
         $this->_data['backend_customer'] = $this->_getBackendCustomer($this->groupGeneral);
         $this->_data['backend_retailer_customer'] = $this->_getBackendCustomer($this->groupRetailer);
+        $this->_data['customer_UK_1'] = $this->getUK1();
+        $this->_data['customer_UK_with_VAT'] = $this->getUKWithVAT($this->_data['customer_UK_1']);
     }
 
     protected function _getUS1()
@@ -86,6 +87,11 @@ class Customer extends AbstractRepository
                     'confirmation' => array(
                         'value' => '123123q'
                     )
+                ),
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_US_1',
+                    ),
                 ),
             )
         );
@@ -183,8 +189,70 @@ class Customer extends AbstractRepository
                         'value' => '123123q'
                     )
                 ),
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_US_1',
+                    ),
+                ),
                 'addresses' => array()
             )
         );
+    }
+
+    /**
+     * Get customer data for UK
+     *
+     * @return array
+     */
+    protected function getUK1()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jane',
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe',
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
+                    ),
+                    'email' => array(
+                        'value' => 'Jane.Doe%isolation%@example.com',
+                        'group' => self::GROUP_CUSTOMER_INFO_TABS_ACCOUNT,
+                    ),
+                    'password' => array(
+                        'value' => '123123q',
+                    ),
+                    'confirmation' => array(
+                        'value' => '123123q',
+                    ),
+                ),
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_UK',
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Get customer data for UK with VAT number
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function getUKWithVAT($defaultData)
+    {
+        return array_replace_recursive($defaultData, array(
+            'data' => array(
+                'address' => array(
+                    'dataset' => array(
+                        'value' => 'address_UK_with_VAT',
+                    ),
+                ),
+            ),
+        ));
     }
 }

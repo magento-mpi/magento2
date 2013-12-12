@@ -30,6 +30,20 @@ class CatalogProductNew extends Page
     const MCA = 'catalog/product/new';
 
     /**
+     * New attribute selector
+     *
+     * @var string
+     */
+    protected $newAttribute = 'body';
+
+    /**
+     * New attribute frame selector
+     *
+     * @var string
+     */
+    protected $newAttributeFrame = '#create_new_attribute_container';
+
+    /**
      * Product form block
      *
      * @var string
@@ -93,6 +107,27 @@ class CatalogProductNew extends Page
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
+    }
+
+    /**
+     * Get attribute edit block
+     *
+     * @return \Magento\Catalog\Test\Block\Backend\Product\Attribute\Edit
+     */
+    public function getAttributeEditBlock()
+    {
+        $this->_browser->switchToFrame(new Locator($this->newAttributeFrame));
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductAttributeEdit(
+            $this->_browser->find($this->newAttribute, Locator::SELECTOR_TAG_NAME)
+        );
+    }
+
+    /**
+     * Switch back to main page from iframe
+     */
+    public function switchToMainPage()
+    {
+        $this->_browser->switchToFrame();
     }
 
     /**
