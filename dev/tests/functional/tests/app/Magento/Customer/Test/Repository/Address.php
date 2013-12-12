@@ -238,7 +238,7 @@ class Address extends AbstractRepository
                     'city' => array(
                         'value' => 'Manchester'
                     ),
-                    'region' => array(
+                    'province' => array(
                         'value' => 'Manchester'
                     ),
                     'postcode' => array(
