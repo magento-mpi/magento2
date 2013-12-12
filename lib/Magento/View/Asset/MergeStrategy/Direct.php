@@ -56,7 +56,7 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
     protected function composeMergedContent(array $publicFiles, $targetFile, $contentType)
     {
         $result = array();
-        $isCss = $contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS;
+        $isCss = ($contentType == \Magento\View\Publisher::CONTENT_TYPE_CSS) ? true : false;
 
         foreach ($publicFiles as $file) {
             if (!$this->_directory->isExist($this->_directory->getRelativePath($file))) {
@@ -64,7 +64,7 @@ class Direct implements \Magento\View\Asset\MergeStrategyInterface
             }
             $content = $this->_directory->readFile($this->_directory->getRelativePath($file));
             if ($isCss) {
-                $content = $this->cssUrlResolver->replaceCssRelativeUrls($content, $file, $targetFile);
+                $content = $this->_cssUrlResolver->replaceCssRelativeUrls($content, $file, $targetFile);
             }
             $result[] = $content;
         }

@@ -72,7 +72,6 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Escaper $escaper
      * @param \Magento\Filter\FilterManager $filterManager
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\FileSystem $viewFileSystem
      * @param \Magento\View\TemplateEnginePool $enginePool
@@ -103,7 +102,6 @@ class Context extends \Magento\View\Element\Context
         \Magento\Escaper $escaper,
         \Magento\Filter\FilterManager $filterManager,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\App\Dir $dirs,
         \Magento\Filesystem $filesystem,
         \Magento\View\FileSystem $viewFileSystem,
         \Magento\View\TemplateEnginePool $enginePool,

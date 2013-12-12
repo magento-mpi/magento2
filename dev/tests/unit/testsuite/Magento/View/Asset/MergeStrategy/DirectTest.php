@@ -46,8 +46,8 @@ class DirectTest extends \PHPUnit_Framework_TestCase
             ->method('getRelativePath')
             ->will($this->returnArgument(0));
 
-        $this->_object = new \Magento\Core\Model\Page\Asset\MergeStrategy\Direct(
-            $this->_filesystem, $this->_dirs, $this->_cssUrlResolver
+        $this->_object = new \Magento\View\Asset\MergeStrategy\Direct(
+            $this->_filesystem, $this->_cssUrlResolver
         );
     }
 

@@ -42,12 +42,18 @@ class FileExistsTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_filesystem = $this->getMock('Magento\Filesystem', array('getDirectoryWrite'), array(), '', false);
+        $this->_filesystem = $this->getMock(
+            'Magento\Filesystem',
+            array('getDirectoryWrite', 'getDirectoryRead'),
+            array(),
+            '',
+            false
+        );
         $this->_directory = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
-        $this->_filesystem->expects($this->once())
-            ->method('getDirectoryWrite')
+        $this->_filesystem->expects($this->any())
+            ->method('getDirectoryRead')
             ->will($this->returnValue($this->_directory));
-        $this->_strategy = $this->getMock('Magento\Core\Model\Page\Asset\MergeStrategyInterface');
+        $this->_strategy = $this->getMock('Magento\View\Asset\MergeStrategyInterface');
 
         $this->_object = new \Magento\View\Asset\MergeStrategy\FileExists(
             $this->_strategy,
