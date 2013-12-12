@@ -36,28 +36,18 @@ class Edit extends \Magento\Backend\Block\Widget\Form\Container
     {
         parent::_construct();
 
-        // TODO: Avoid varienForm usage, it is deprecated
-        $this->_formScripts[] = "function saveAndContinueEdit(url)" .
-            "{var tagForm = new varienForm('edit_form'); tagForm.submit(url);}";
-
         $this->_addButton('save_and_continue', array(
             'label' => __('Save and Continue Edit'),
-            'onclick' => "saveAndContinueEdit('" . $this->getSaveAndContinueUrl() . "')",
-            'class' => 'save'
+            'class' => 'save',
+            'data_attribute'  => array(
+                'mage-init' => array(
+                    'button' => array('event' => 'saveAndContinueEdit', 'target' => '#edit_form'),
+                ),
+            ),
         ), 100);
 
         $this->_updateButton('save', 'label', __('Save API Role'));
         $this->_updateButton('delete', 'label', __('Delete API Role'));
-    }
-
-    /**
-     * Retrieve role SaveAndContinue URL.
-     *
-     * @return string
-     */
-    public function getSaveAndContinueUrl()
-    {
-        return $this->getUrl('adminhtml/*/save', array('_current' => true, 'continue' => true));
     }
 
     /**

@@ -10,9 +10,10 @@
  * @var \Magento\View\Element\Template $this
  */
 ?>
+<?php $apiRoleEditId = $this->getLayout()->getBlock('webapi.role.edit'); ?>
 <?php $usersGridBlock = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid'); ?>
 <?php $inRoleUsersColumn = $this->getLayout()->getBlock('webapi.role.edit.tab.users.grid.columnSet.in_role_users'); ?>
-<?php if ($usersGridBlock && $usersGridBlock->getJsObjectName()): ?>
+<?php if (($usersGridBlock && $usersGridBlock->getJsObjectName()) && ($apiRoleEditId && $apiRoleEditId->getApiRole()->getId())): ?>
     <script type="text/javascript">
     var checkBoxes = $H({});
     var warning = false;
