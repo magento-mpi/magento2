@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <template id="magento_invitation_email_template" label="Customer Invitation" file="invitation.html" type="html"/>
+    <template id="magento_invitation_email_template" label="Customer Invitation" file="invitation.html" type="html" module="Magento_Invitation"/>
 </config>
