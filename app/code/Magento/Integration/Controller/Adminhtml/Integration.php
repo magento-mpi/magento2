@@ -41,7 +41,7 @@ class Integration extends Action
     /** @var IntegrationOauthService */
     protected $_oauthService;
 
-    /** @var \Magento\Core\Helper\Data  */
+    /** @var \Magento\Core\Helper\Data */
     protected $_coreHelper;
 
     /** @var \Magento\Integration\Helper\Data */
@@ -201,23 +201,26 @@ class Integration extends Action
                 }
                 $integrationData = array_merge($integrationData, $data);
                 if (!isset($integrationData[Info::DATA_ID])) {
-                    $integrationData = $this->_integrationService->create($integrationData);
+                    $integration = $this->_integrationService->create($integrationData);
                 } else {
-                    $integrationData = $this->_integrationService->update($integrationData);
+                    $integration = $this->_integrationService->update($integrationData);
                 }
                 if (!$this->getRequest()->isXmlHttpRequest()) {
                     $this->_getSession()
-                        ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
+                        ->addSuccess(__('The integration \'%1\' has been saved.', $integration->getName()));
+                }
+                if ($this->getRequest()->isXmlHttpRequest()) {
+                    $isTokenExchange = ($integration->getEndpoint() && $integration->getIdentityLinkUrl()) ? '1' : '0';
+                    $this->getResponse()->setBody(
+                        $this->_coreHelper->jsonEncode(
+                            ['integrationId' => $integration->getId(), 'isTokenExchange' => $isTokenExchange]
+                        )
+                    );
+                } else {
+                    $this->_redirect('*/*/');
                 }
             } else {
                 $this->_getSession()->addError(__('The integration was not saved.'));
-            }
-            if ($this->getRequest()->isXmlHttpRequest()) {
-                $this->getResponse()->setBody(
-                    $this->_coreHelper->jsonEncode(['integrationId' => $integrationData[Info::DATA_ID]])
-                );
-            } else {
-                $this->_redirect('*/*/');
             }
         } catch (IntegrationException $e) {
             $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
@@ -349,7 +352,9 @@ class Integration extends Action
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
             /** Remove existing token associated with consumer before issuing a new one. */
-            $this->_oauthService->deleteToken($integration->getConsumerId());
+            if ($this->_oauthService->deleteToken($integration->getConsumerId())) {
+                $integration->setStatus(IntegrationModel::STATUS_INACTIVE)->save();
+            }
             //Integration chooses to use Oauth for token exchange
             $this->_oauthService->postToConsumer($integration->getConsumerId(), $integration->getEndpoint());
             /** Generate JS popup content */

@@ -59,7 +59,9 @@
                         window.integration.popup.show($('<span>').attr({
                             'data-row-dialog': 'permissions',
                             'data-row-id': data['integrationId'],
-                            'data-row-name': $('#integration_properties_name').val()
+                            'data-row-name': $('#integration_properties_name').val(),
+                            'data-row-is-reauthorize': '0',
+                            'data-row-is-token-exchange': data['isTokenExchange']
                         }));
                         var that = this;
                         $('#integration-popup-container').on('dialogclose', function () {
@@ -221,7 +223,6 @@
                     } else if (dialog == 'tokensExchange') {
                         dialogProperties['minHeight'] = 150;
                         dialogProperties['minWidth'] = 500;
-                        dialogProperties['closeOnEscape'] = true;
                     }
 
                     // Add confirmation button to the list of dialog buttons. okButton not set for tokenExchange dialog
