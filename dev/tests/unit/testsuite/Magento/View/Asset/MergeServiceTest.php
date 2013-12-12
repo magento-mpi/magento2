@@ -158,25 +158,10 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
 
     public function testCleanMergedJsCss()
     {
-//        $this->_dirs->expects($this->once())
-//            ->method('getDir')
-//            ->with(\Magento\App\Dir::PUB_VIEW_CACHE)
-//            ->will($this->returnValue('/pub/cache'));
-
-
-        $mergedDir = '/pub/cache/' . \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR;
+        $mergedDir = \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR;
         $this->_directory->expects($this->once())
             ->method('delete')
-            ->with($mergedDir, null);
-
-        $mediaStub = $this->getMock('Magento\Core\Helper\File\Storage\Database', array(), array(), '', false);
-        $mediaStub->expects($this->once())
-            ->method('deleteFolder')
             ->with($mergedDir);
-        $this->_objectManager->expects($this->once())
-            ->method('get')
-            ->with('Magento\Core\Helper\File\Storage\Database')
-            ->will($this->returnValue($mediaStub));
 
         $this->_object->cleanMergedJsCss();
     }
