@@ -463,23 +463,4 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->setOption('referer_check', 'BARBAZ');
         $this->assertEquals('BARBAZ', ini_get('session.referer_check'));
     }
-
-    /**
-     * @expectedException \InvalidArgumentException
-     */
-    public function testSetSavePathWithException()
-    {
-        $this->config->setSavePath('/temp' . uniqid());
-    }
-
-    public function testSetSavePath()
-    {
-        $path = 'unix:///var/run/memcached/memcached.socket';
-        $this->config->setSavePath($path);
-        $this->assertEquals($path, ini_get('session.save_path'));
-
-        $path = 'tcp://memcache_host:11211?persistent=1&weight=2&timeout=10&retry_interval=10';
-        $this->config->setSavePath($path);
-        $this->assertEquals($path, ini_get('session.save_path'));
-    }
 }
