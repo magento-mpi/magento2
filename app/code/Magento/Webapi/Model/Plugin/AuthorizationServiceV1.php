@@ -11,7 +11,6 @@ use Magento\Code\Plugin\InvocationChain;
 use Magento\Authz\Model\UserIdentifier;
 use Magento\Integration\Service\IntegrationV1 as IntegrationService;
 use Magento\Integration\Model\Integration;
-use Magento\Integration\Exception as IntegrationException;
 use Magento\Logger;
 
 /**
@@ -29,7 +28,7 @@ class AuthorizationServiceV1
     protected $_userIdentifier;
 
     /**
-     * Inject integration service and logger.
+     * Inject dependencies.
      *
      * @param IntegrationService $integrationService
      * @param Logger             $logger
@@ -62,9 +61,8 @@ class AuthorizationServiceV1
         }
 
         try {
-            /** @var Integration $integration */
             $integration = $this->_integrationService->get($userIdentifier->getUserId());
-        } catch (IntegrationException $e) {
+        } catch (\Exception $e) {
             // Wrong integration ID or DB not reachable or whatever - give up and don't allow just in case
             $this->_logger->logException($e);
             return false;
