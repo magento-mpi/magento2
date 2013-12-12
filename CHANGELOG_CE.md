@@ -55,6 +55,7 @@
   * Fixed Related Products Rule page so that category can be selected on conditions tab
   * Fixed Magento_Paypal_Controller_ExpressTest integration test so it is re-enabled
   * Fixed the bug with international DHL quotes
+  * Fixed wrong redirection after customer registration during multishipping checkout
 
 2.0.0.0-dev53
 =============
