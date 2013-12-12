@@ -33,11 +33,17 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
     protected $_jsonEncoder;
 
     /**
+     * @var \Magento\CatalogEvent\Helper\Adminhtml\Event
+     */
+    protected $_eventAdminhtml;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\CategoryFactory $categoryFactory
+     * @param \Magento\CatalogEvent\Helper\Adminhtml\Event $eventAdminhtml
      * @param array $data
      */
     public function __construct(
@@ -46,8 +52,10 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
         \Magento\Core\Model\Registry $registry,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\CatalogEvent\Helper\Adminhtml\Event $eventAdminhtml,
         array $data = array()
     ) {
+        $this->_eventAdminhtml = $eventAdminhtml;
         parent::__construct($context, $categoryTree, $registry, $data);
         $this->_jsonEncoder = $jsonEncoder;
         $this->_categoryFactory = $categoryFactory;
@@ -108,7 +116,7 @@ class Category extends \Magento\Catalog\Block\Adminhtml\Category\AbstractCategor
      */
     protected function _getNodesArray($node)
     {
-        $eventHelper = $this->helper('Magento\CatalogEvent\Helper\Adminhtml\Event');
+        $eventHelper = $this->_eventAdminhtml;
         $result = array(
             'id'             => (int)$node->getId(),
             'parent_id'      => (int)$node->getParentId(),

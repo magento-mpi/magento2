@@ -24,7 +24,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\UrlInterface $urlBuilder
-     * @param \Magento\Core\Model\Translate $translator
+     * @param \Magento\TranslateInterface $translator
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Core\Model\Session\AbstractSession $session
@@ -41,7 +41,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\AuthorizationInterface $authorization
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -49,7 +49,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\View\LayoutInterface $layout,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\UrlInterface $urlBuilder,
-        \Magento\Core\Model\Translate $translator,
+        \Magento\TranslateInterface $translator,
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
         \Magento\Core\Model\Session\AbstractSession $session,
@@ -67,10 +67,11 @@ class Context extends \Magento\View\Element\Context
         \Magento\AuthorizationInterface $authorization,
         array $data = array()
     ) {
-        $this->_authorization = $authorization;       
-        parent::__construct($request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design,
-            $session, $storeConfig, $frontController, $viewUrl, $viewConfig, $cacheState, $logger, $app,
-            $escaper, $filterManager, $locale, $data
+        $this->_authorization = $authorization;
+        parent::__construct(
+            $request, $layout, $eventManager, $urlBuilder, $translator, $cache, $design, $session, $sidResolver,
+            $storeConfig, $frontController, $viewUrl, $viewConfig, $cacheState, $logger, $app, $escaper,
+            $filterManager, $locale, $data
         );
     }
 

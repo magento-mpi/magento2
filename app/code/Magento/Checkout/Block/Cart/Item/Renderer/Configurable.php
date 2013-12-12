@@ -23,6 +23,31 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
     const USE_PARENT_IMAGE          = 'parent';
 
     /**
+     * @var \Magento\Catalog\Helper\Image
+     */
+    protected $_imageHelper;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
+     * @param \Magento\Checkout\Model\Session $checkoutSession
+     * @param \Magento\Catalog\Helper\Image $imageHelper
+     * @param \Magento\Core\Helper\Url $urlHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\View\Element\Template\Context $context,
+        \Magento\Catalog\Helper\Product\Configuration $productConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Catalog\Helper\Image $imageHelper,
+        \Magento\Core\Helper\Url $urlHelper,
+        array $data = array()
+    ) {
+        $this->_imageHelper = $imageHelper;
+        parent::__construct($context, $productConfig, $checkoutSession, $imageHelper, $urlHelper, $data);
+    }
+
+    /**
      * Get item configurable product
      *
      * @return \Magento\Catalog\Model\Product
@@ -61,7 +86,7 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
             || ($this->_storeConfig->getConfig(self::CONFIGURABLE_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getProduct();
         }
-        return $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
+        return $this->_imageHelper->init($product, 'thumbnail');
     }
 
     /**

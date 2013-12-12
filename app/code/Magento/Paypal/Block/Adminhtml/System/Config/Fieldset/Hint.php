@@ -22,6 +22,25 @@ class Hint
     protected $_template = 'Magento_Paypal::system/config/fieldset/hint.phtml';
 
     /**
+     * @var \Magento\Adminhtml\Helper\Js
+     */
+    protected $_jsHelper;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Adminhtml\Helper\Js $jsHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Adminhtml\Helper\Js $jsHelper,
+        array $data = array()
+    ) {
+        $this->_jsHelper = $jsHelper;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Render fieldset html
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element
@@ -79,6 +98,6 @@ class Hint
                 });
             });
         ';
-        return $this->toHtml() . $this->helper('Magento\Adminhtml\Helper\Js')->getScript($js);
+        return $this->toHtml() . $this->_jsHelper->getScript($js);
     }
 }

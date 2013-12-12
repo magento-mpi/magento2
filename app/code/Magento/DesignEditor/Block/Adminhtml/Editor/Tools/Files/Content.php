@@ -19,13 +19,40 @@ class Content
     extends \Magento\Theme\Block\Adminhtml\Wysiwyg\Files\Content
 {
     /**
+     * @var \Magento\Theme\Helper\Storage
+     */
+    protected $_storageHelper;
+
+    /**
+     * @var \Magento\Core\Helper\Data
+     */
+    protected $_coreHelper;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Theme\Helper\Storage $storageHelper
+     * @param \Magento\Core\Helper\Data $coreHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Theme\Helper\Storage $storageHelper,
+        \Magento\Core\Helper\Data $coreHelper,
+        array $data = array()
+    ) {
+        $this->_coreHelper = $coreHelper;
+        $this->_storageHelper = $storageHelper;
+        parent::__construct($context, $storageHelper, $coreHelper, $data);
+    }
+
+    /**
      * Get header text
      *
      * @return string
      */
     public function getHeaderText()
     {
-        return __('CSS Editor ') . __($this->helper('Magento\Theme\Helper\Storage')->getStorageTypeName());
+        return __('CSS Editor ') . __($this->_storageHelper->getStorageTypeName());
     }
     /**
      * Javascript setup object for filebrowser instance
@@ -50,6 +77,6 @@ class Content
             'showBreadcrumbs' => false
         ));
 
-        return $this->helper('Magento\Core\Helper\Data')->jsonEncode($setupObject);
+        return $this->_coreHelper->jsonEncode($setupObject);
     }
 }

@@ -22,18 +22,16 @@ class Group extends \Magento\Backend\Block\Widget\Form
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\DesignEditor\Helper\Data $designEditorHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\DesignEditor\Helper\Data $designEditorHelper,
         array $data = array()
     ) {
         $this->_designEditorHelper = $designEditorHelper;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
