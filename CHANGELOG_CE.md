@@ -2,6 +2,7 @@
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
   * Fixed losing previously assigned categories after next product save with changed category selector field
   * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
+  * Fixed the error during place an order with Recurring profile payment
   * Fixed wrong redirection after customer registration during multishipping checkout
   * Fixed the bug that shipping labels can't be created
 * GitHub requests:
@@ -15,7 +16,7 @@
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
-
+  
 2.0.0.0-dev55
 =============
 * Modularity improvements:

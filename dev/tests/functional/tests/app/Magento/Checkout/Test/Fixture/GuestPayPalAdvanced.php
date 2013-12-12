@@ -18,33 +18,17 @@ use Mtf\Factory\Factory;
  *
  * @package Magento\Checkout\Test\Fixture
  */
-class ExpressPayPalPayflow extends Checkout
+class GuestPayPalAdvanced extends Checkout
 {
     /**
-     * Paypal customer buyer
-     *
-     * @var \Magento\Paypal\Test\Fixture\Customer
-     */
-    private $paypalCustomer;
-
-    /**
-     * Get Paypal buyer account
-     *
-     * @return \Magento\Paypal\Test\Fixture\Customer
-     */
-    public function getPaypalCustomer()
-    {
-        return $this->paypalCustomer;
-    }
-
-    /**
-     * Prepare Authorize.Net data
+     * Prepare for PayPal Payflow Edition
      */
     protected function _initData()
     {
         $this->_data = array(
             'totals' => array(
-                'grand_total' => '$156.81'
+                'grand_total' => '$156.81',
+                'comment_history' => 'Authorized amount of $156.81'
             )
         );
     }
@@ -58,7 +42,7 @@ class ExpressPayPalPayflow extends Checkout
         $this->_persistConfiguration(array(
             'flat_rate',
             'paypal_disabled_all_methods',
-            'paypal_payflow_pro',
+            'paypal_advanced',
             'default_tax_config',
             'display_price',
             'display_shopping_cart'
@@ -95,12 +79,9 @@ class ExpressPayPalPayflow extends Checkout
         $this->shippingMethods->switchData('flat_rate');
 
         $this->paymentMethod = Factory::getFixtureFactory()->getMagentoPaymentMethod();
-        $this->paymentMethod->switchData('paypal_express');
+        $this->paymentMethod->switchData('paypal_advanced');
 
         $this->creditCard = Factory::getFixtureFactory()->getMagentoPaymentCc();
-        $this->creditCard->switchData('visa_direct');
-
-        $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
-        $this->paypalCustomer->switchData('customer_US');
+        $this->creditCard->switchData('visa_payflow_advanced');
     }
 }
