@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Catch;
 
@@ -26,19 +25,18 @@ class CatchStatement extends AbstractControlStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the try line
-        $line->add('} catch (');
+        $this->addToLine($treeNode, '} catch (');
         // add in the type of exception
-        $this->resolveNode($this->node->type, $treeNode);
+        $treeNode = $this->resolveNode($this->node->type, $treeNode);
         // add in the variable of the exception
-        $line->add(' $')->add($this->node->var)->add(') {')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ' $')->add($this->node->var)->add(') {')->add(new HardLineBreak());
         // add in the statements inside the catch
-        $this->processNodes($this->node->stmts, $treeNode);
+        return $this->processNodes($this->node->stmts, $treeNode);
     }
 }

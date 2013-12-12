@@ -8,12 +8,13 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_Encapsed;
 
 class EncapsedReference extends AbstractScalarReference
 {
+    const ENCAPSED_QUOTE = '"';
+
     /**
      * This method constructs a new statement based on the specified string
      * @param PHPParser_Node_Scalar_Encapsed $node
@@ -26,20 +27,28 @@ class EncapsedReference extends AbstractScalarReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // need to deal with heredoc
         $heredocCloseTag = $this->node->getAttribute(ParserLexer::HEREDOC_CLOSE_TAG);
         if (null !== $heredocCloseTag) {
-            $this->processHeredoc($line, $heredocCloseTag, $this->node->parts, $treeNode);
+            if ($this->node->hasAttribute(ParserLexer::ORIGINAL_VALUE)) {
+                $this->processHeredoc(
+                    $treeNode,
+                    $heredocCloseTag,
+                    $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE)
+                );
+            } else {
+                $this->processHeredoc($treeNode, $heredocCloseTag, $this->node->parts);
+            }
         } else {
-            $line->add('"');
-            $this->encapsList($this->node->parts, '"', $treeNode);
-            $line->add('"');
+            $this->addToLine($treeNode, self::ENCAPSED_QUOTE);
+            $this->encapsList($this->node->parts, self::ENCAPSED_QUOTE, $treeNode);
+            $this->addToLine($treeNode, self::ENCAPSED_QUOTE);
         }
+        return $treeNode;
     }
 }
