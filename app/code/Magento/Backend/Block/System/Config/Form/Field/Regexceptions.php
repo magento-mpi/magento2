@@ -22,27 +22,25 @@ class Regexceptions
     protected $_elementFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\LabelFactory
+     * @var \Magento\View\Design\Theme\LabelFactory
      */
     protected $_labelFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Data\Form\Element\Factory $elementFactory
-     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Data\Form\Element\Factory $elementFactory,
-        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\View\Design\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_elementFactory = $elementFactory;
         $this->_labelFactory = $labelFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -70,7 +68,7 @@ class Regexceptions
     public function renderCellTemplate($columnName)
     {
         if ($columnName == 'value' && isset($this->_columns[$columnName])) {
-            /** @var $label \Magento\Core\Model\Theme\Label */
+            /** @var $label \Magento\View\Design\Theme\Label */
             $label = $this->_labelFactory->create();
             $options = $label->getLabelsCollection(__('-- No Theme --'));
             $element = $this->_elementFactory->create('select');

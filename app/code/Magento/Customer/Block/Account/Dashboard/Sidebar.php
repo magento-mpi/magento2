@@ -18,7 +18,7 @@
 
 namespace Magento\Customer\Block\Account\Dashboard;
 
-class Sidebar extends \Magento\View\Block\Template
+class Sidebar extends \Magento\View\Element\Template
 {
     protected $_cartItemsCount;
 
@@ -57,8 +57,7 @@ class Sidebar extends \Magento\View\Block\Template
     protected $_itemsCompareFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
@@ -67,8 +66,7 @@ class Sidebar extends \Magento\View\Block\Template
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
@@ -81,7 +79,7 @@ class Sidebar extends \Magento\View\Block\Template
         $this->_quoteFactory = $quoteFactory;
         $this->_wishListFactory = $wishListFactory;
         $this->_itemsCompareFactory = $itemsCompareFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
 

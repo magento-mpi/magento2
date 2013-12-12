@@ -82,11 +82,11 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
     protected $messageManager;
 
     /**
+     * @param \Magento\AdminGws\Model\Role $role
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param Resource\CollectionsFactory $collectionsFactory
+     * @param \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory
      * @param \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes
-     * @param Role $role
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\ObjectManager $objectManager
@@ -94,13 +94,15 @@ class Controllers extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\Message\ManagerInterface $messageManager
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
+        \Magento\AdminGws\Model\Role $role,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\AdminGws\Model\Resource\CollectionsFactory $collectionsFactory,
         \Magento\Catalog\Model\Resource\ProductFactory $productFactoryRes,
-        \Magento\AdminGws\Model\Role $role,
         \Magento\Core\Model\Registry $registry,
         \Magento\App\RequestInterface $request,
         \Magento\ObjectManager $objectManager,

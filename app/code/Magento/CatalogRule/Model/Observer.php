@@ -96,7 +96,6 @@ class Observer
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Backend\Model\Session $backendSession
-     * @param Rule\Product\Price $productPrice
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -131,7 +130,6 @@ class Observer
         $this->_coreRegistry = $coreRegistry;
         $this->dateTime = $dateTime;
         $this->messageManager = $messageManager;
-
     }
 
     /**

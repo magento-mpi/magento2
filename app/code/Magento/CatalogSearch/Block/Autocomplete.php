@@ -13,7 +13,7 @@
  */
 namespace Magento\CatalogSearch\Block;
 
-class Autocomplete extends \Magento\View\Block\AbstractBlock
+class Autocomplete extends \Magento\View\Element\AbstractBlock
 {
     protected $_suggestData = null;
 
@@ -42,8 +42,9 @@ class Autocomplete extends \Magento\View\Block\AbstractBlock
                 $item['row_class'] .= ' last';
             }
 
-            $html .=  '<li title="'.$this->escapeHtml($item['title']).'" class="'.$item['row_class'].'">'
-                . '<span class="amount">'.$item['num_of_results'].'</span>'.$this->escapeHtml($item['title']).'</li>';
+            $escapedTitle = $this->escapeHtml($item['title']);
+            $html .=  '<li title="'.$escapedTitle.'" class="'.$item['row_class'].'">'
+                . '<span class="amount">'.$item['num_of_results'].'</span>'.$escapedTitle.'</li>';
         }
 
         $html.= '</ul>';

@@ -13,7 +13,7 @@ class MergeTest extends \PHPUnit_Framework_TestCase
     /**
      * Fixture XML instruction(s) to be used in tests
      */
-    const FIXTURE_LAYOUT_XML = '<block class="Magento\View\Block\Template" template="fixture.phtml"/>';
+    const FIXTURE_LAYOUT_XML = '<block class="Magento\View\Element\Template" template="fixture.phtml"/>';
 
     /**
      * @var \Magento\Core\Model\Layout\Merge
@@ -170,8 +170,8 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals($handles, $this->_model->getHandles());
         $expectedResult = '
             <root>
-                <block class="Magento\View\Block\Template" template="fixture_template_one.phtml"/>
-                <block class="Magento\View\Block\Template" template="fixture_template_two.phtml"/>
+                <block class="Magento\View\Element\Template" template="fixture_template_one.phtml"/>
+                <block class="Magento\View\Element\Template" template="fixture_template_two.phtml"/>
             </root>
         ';
         $actualResult = '<root>' . $this->_model->asString() . '</root>';
@@ -264,5 +264,46 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame($expected, $this->_model->getAllDesignAbstractions());
+    }
+
+    public function testIsPageLayoutDesignAbstractions()
+    {
+        $expected = array(
+            'customer_account'  => array(
+                'name' => 'customer_account',
+                'label' => 'Customer My Account (All Pages)',
+                'design_abstraction' => 'custom'
+            ),
+            'page_empty'  => array(
+                'name' => 'page_empty',
+                'label' => 'All Empty Layout Pages',
+                'design_abstraction' => 'page_layout'
+            ),
+            'empty_data' => array(),
+        );
+
+        $this->assertTrue($this->_model->isPageLayoutDesignAbstraction($expected['page_empty']));
+        $this->assertFalse($this->_model->isPageLayoutDesignAbstraction($expected['customer_account']));
+        $this->assertFalse($this->_model->isPageLayoutDesignAbstraction($expected['empty_data']));
+    }
+
+    public function testIsCustomDesignAbstractions()
+    {
+        $expected = array(
+            'customer_account'  => array(
+                'name' => 'customer_account',
+                'label' => 'Customer My Account (All Pages)',
+                'design_abstraction' => 'custom'
+            ),
+            'page_empty'  => array(
+                'name' => 'page_empty',
+                'label' => 'All Empty Layout Pages',
+                'design_abstraction' => 'page_layout'
+            ),
+            'empty_data' => array(),
+        );
+        $this->assertTrue($this->_model->isCustomerDesignAbstraction($expected['customer_account']));
+        $this->assertFalse($this->_model->isCustomerDesignAbstraction($expected['page_empty']));
+        $this->assertFalse($this->_model->isCustomerDesignAbstraction($expected['empty_data']));
     }
 }

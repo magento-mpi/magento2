@@ -27,31 +27,29 @@ class Main
     protected $_store;
 
     /**
-     * @var \Magento\Core\Model\Theme\LabelFactory
+     * @var \Magento\View\Design\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $store
-     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $store,
-        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
+        \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_store = $store;
         $this->_themeLabelFactory = $themeLabelFactory;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
@@ -125,7 +123,7 @@ class Main
 
         /** @var \Magento\Data\Form $form */
         $form = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'id' => 'edit_form',
                 'action' => $this->getData('action'),
                 'method' => 'post',
@@ -153,7 +151,7 @@ class Main
             'disabled' => true
         ));
 
-        /** @var $label \Magento\Core\Model\Theme\Label */
+        /** @var $label \Magento\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $options = $label->getLabelsCollection(__('-- Please Select --'));
         $fieldset->addField('theme_id', 'select', array(

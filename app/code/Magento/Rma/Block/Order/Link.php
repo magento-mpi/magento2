@@ -24,8 +24,7 @@ class Link extends \Magento\Sales\Block\Order\Link
     protected $_collectionFactory;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\App\DefaultPathInterface $defaultPath
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory
@@ -33,8 +32,7 @@ class Link extends \Magento\Sales\Block\Order\Link
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\App\DefaultPathInterface $defaultPath,
         \Magento\Core\Model\Registry $registry,
         \Magento\Rma\Model\Resource\Rma\Grid\CollectionFactory $collectionFactory,
@@ -43,7 +41,7 @@ class Link extends \Magento\Sales\Block\Order\Link
     ) {
         $this->_collectionFactory = $collectionFactory;
         $this->_rmaHelper = $rmaHelper;
-        parent::__construct($context, $coreData, $defaultPath, $registry, $data);
+        parent::__construct($context, $defaultPath, $registry, $data);
     }
 
     /**

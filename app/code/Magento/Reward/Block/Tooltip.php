@@ -13,7 +13,7 @@
  */
 namespace Magento\Reward\Block;
 
-class Tooltip extends \Magento\View\Block\Template
+class Tooltip extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\Customer\Model\Session
@@ -40,29 +40,27 @@ class Tooltip extends \Magento\View\Block\Template
     protected $_actionInstance;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Reward\Helper\Data $rewardHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Reward\Model\Reward $rewardInstance
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Reward\Helper\Data $rewardHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Reward\Model\Reward $rewardInstance,
         array $data = array()
     ) {
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
         $this->_customerSession = $customerSession;
         $this->_rewardHelper = $rewardHelper;
         $this->_rewardInstance = $rewardInstance;
     }
 
     /**
-     * @return $this|\Magento\View\Block\AbstractBlock
+     * @return $this|\Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

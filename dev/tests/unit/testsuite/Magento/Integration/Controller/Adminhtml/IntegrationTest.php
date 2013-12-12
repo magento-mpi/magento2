@@ -71,7 +71,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         /** @var \Magento\TestFramework\Helper\ObjectManager $objectManagerHelper */
         $this->_objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_setMageObjectManager();
+        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
+            ->disableOriginalConstructor()
+            ->getMock();
         // Initialize mocks which are used in several test cases
         $this->_mockApp = $this->getMockBuilder('Magento\Core\Model\App')
             ->setMethods(array('getConfig'))
@@ -243,18 +245,6 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->with(__('The integration \'%1\' has been saved.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
-    }
-
-    /**
-     * Makes sure that Mage has a mock object manager set.
-     *
-     */
-    protected function _setMageObjectManager()
-    {
-        $this->_mockObjectManager = $this->getMockBuilder('Magento\ObjectManager')
-            ->disableOriginalConstructor()
-            ->getMock();
-        \Magento\App\ObjectManager::setInstance($this->_mockObjectManager);
     }
 
     /**

@@ -40,8 +40,7 @@ class End extends \Magento\Install\Block\AbstractBlock
     protected $_cryptKey;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
      * @param \Magento\Session\Generic $session
@@ -51,8 +50,7 @@ class End extends \Magento\Install\Block\AbstractBlock
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
         \Magento\Session\Generic $session,
@@ -62,7 +60,7 @@ class End extends \Magento\Install\Block\AbstractBlock
         array $data = array()
     ) {
         $this->_cryptKey = $cryptKey;
-        parent::__construct($context, $coreData, $installer, $installWizard, $session, $data);
+        parent::__construct($context, $installer, $installWizard, $session, $data);
         $this->_coreConfig = $coreConfig;
         $this->_survey = $survey;
     }

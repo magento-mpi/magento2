@@ -41,7 +41,6 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
@@ -49,7 +48,6 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
@@ -58,7 +56,7 @@ class Info extends \Magento\Adminhtml\Block\Widget\Container
         $this->_coreRegistry = $registry;
         $this->_authSession = $authSession;
         $this->_userFactory = $userFactory;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     protected function _construct()

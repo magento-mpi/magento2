@@ -19,8 +19,15 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Massaction;
 
+use Magento\View\Element\Template;
+
 abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
 {
+    /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
     /**
      * Backend data helper
      *
@@ -36,6 +43,20 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
     protected $_items = array();
 
     protected $_template = 'Magento_Backend::widget/grid/massaction.phtml';
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Json\EncoderInterface $jsonEncoder,
+        array $data = array()
+    ) {
+        $this->_jsonEncoder = $jsonEncoder;
+        parent::__construct($context, $data);
+    }
 
     protected function _construct()
     {
@@ -118,7 +139,7 @@ abstract class AbstractMassaction extends \Magento\Backend\Block\Widget
             $result[$itemId] = $item->toArray();
         }
 
-        return $this->_coreData->jsonEncode($result);
+        return $this->_jsonEncoder->encode($result);
     }
 
     /**

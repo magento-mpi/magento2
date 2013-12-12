@@ -39,7 +39,7 @@ class IndexTest extends \Magento\TestFramework\TestCase\AbstractController
         $this->dispatch('restriction/index/stub');
         $body = $this->getResponse()->getBody();
         $this->assertContains('<h1>Cms Page Design Blank Title</h1>', $body);
-        $this->assertContains('theme/frontend/default/blank/en_US/Magento_Page/favicon.ico', $body);
+        $this->assertContains('theme/frontend/default/blank/en_US/Magento_Theme/favicon.ico', $body);
         $this->assertHeaderPcre('Http/1.1', '/^503 Service Unavailable$/');
     }
 }

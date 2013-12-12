@@ -23,15 +23,15 @@ abstract class AbstractCombine extends \Magento\Rule\Model\Condition\Combine
     protected $_conditionFactory;
 
     /**
+     * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory
      * @param \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment
-     * @param \Magento\Rule\Model\Condition\Context $context
      * @param array $data
      */
     public function __construct(
+        \Magento\Rule\Model\Condition\Context $context,
         \Magento\CustomerSegment\Model\ConditionFactory $conditionFactory,
         \Magento\CustomerSegment\Model\Resource\Segment $resourceSegment,
-        \Magento\Rule\Model\Condition\Context $context,
         array $data = array()
     ) {
         $this->_resourceSegment = $resourceSegment;

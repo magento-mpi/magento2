@@ -793,7 +793,7 @@ class Index extends \Magento\Backend\App\Action
         switch ($listType) {
             case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\AbstractSku::LIST_TYPE:
                 $info['sku'] = $itemId;
-
+            // fall-through is intentional
             case \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors::LIST_TYPE:
                 if ((!isset($info['sku'])) || (string)$info['sku'] == '') { // Allow SKU == '0'
                     return false;

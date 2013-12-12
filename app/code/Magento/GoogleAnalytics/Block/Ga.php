@@ -18,7 +18,7 @@
  */
 namespace Magento\GoogleAnalytics\Block;
 
-class Ga extends \Magento\View\Block\Template
+class Ga extends \Magento\View\Element\Template
 {
     /**
      * Google analytics data
@@ -33,22 +33,20 @@ class Ga extends \Magento\View\Block\Template
     protected $_salesOrderCollection;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection
      * @param \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Sales\Model\Resource\Order\CollectionFactory $salesOrderCollection,
         \Magento\GoogleAnalytics\Helper\Data $googleAnalyticsData,
         array $data = array()
     ) {
         $this->_googleAnalyticsData = $googleAnalyticsData;
         $this->_salesOrderCollection = $salesOrderCollection;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
@@ -85,7 +83,7 @@ class Ga extends \Magento\View\Block\Template
     {
         $pageName   = trim($this->getPageName());
         $optPageURL = '';
-        if ($pageName && preg_match('/^\/.*/i', $pageName)) {
+        if ($pageName && substr($pageName, 0, 1) == '/' && strlen($pageName) > 1) {
             $optPageURL = ", '{$this->escapeJsQuote($pageName)}'";
         }
         return "

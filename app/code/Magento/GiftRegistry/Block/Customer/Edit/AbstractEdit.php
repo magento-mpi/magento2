@@ -64,8 +64,9 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
     protected $_registry = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
@@ -75,8 +76,9 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Core\Helper\Data $coreData,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\App\Cache\Type\Config $configCacheType,
         \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory,
         \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory,
@@ -88,7 +90,9 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
         $this->_registry = $registry;
         $this->customerSession = $customerSession;
         $this->attributeConfig = $attributeConfig;
-        parent::__construct($context, $coreData, $configCacheType, $regionCollFactory, $countryCollFactory, $data);
+        parent::__construct(
+            $context, $coreData, $jsonEncoder, $configCacheType, $regionCollFactory, $countryCollFactory, $data
+        );
     }
 
     /**
@@ -227,7 +231,7 @@ abstract class AbstractEdit extends \Magento\Directory\Block\Data
      */
     public function getSelectHtml($options, $name, $id, $value = false, $class = '')
     {
-        $select = $this->getLayout()->createBlock('Magento\View\Block\Html\Select')
+        $select = $this->getLayout()->createBlock('Magento\View\Element\Html\Select')
             ->setData(array(
                 'id'    => $id,
                 'class' => 'select global-scope '. $class

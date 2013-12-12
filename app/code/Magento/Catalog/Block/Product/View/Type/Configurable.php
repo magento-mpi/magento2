@@ -49,8 +49,13 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
     protected $_taxCalculation;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
+     * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Config $catalogConfig
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
@@ -62,22 +67,23 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Catalog\Model\Config $catalogConfig,
         \Magento\Core\Model\Registry $registry,
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
         \Magento\Stdlib\ArrayUtils $arrayUtils,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Tax\Model\Calculation $taxCalculation,
         \Magento\Catalog\Helper\Product $catalogProduct,
         array $data = array()
     ) {
         $this->_taxCalculation = $taxCalculation;
         $this->_catalogProduct = $catalogProduct;
+        $this->_jsonEncoder = $jsonEncoder;
         parent::__construct(
-            $context, $coreData, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
+            $context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $arrayUtils, $data
         );
     }
 
@@ -300,7 +306,7 @@ class Configurable extends \Magento\Catalog\Block\Product\View\AbstractView
 
         $config = array_merge($config, $this->_getAdditionalConfig());
 
-        return $this->_coreData->jsonEncode($config);
+        return $this->_jsonEncoder->encode($config);
     }
 
     /**

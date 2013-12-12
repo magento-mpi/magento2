@@ -348,11 +348,9 @@ class Category extends \Magento\Backend\App\Action
         if ($this->getRequest()->getPost('return_session_messages_only')) {
             $category->load($category->getId()); // to obtain truncated category name
 
-            /** @var $block \Magento\View\Block\Messages */
-            $block = $this->_objectManager->get('Magento\View\Block\Messages');
-            $block->setMessages(
-                $this->messageManager->getMessages(true)
-            );
+            /** @var $block \Magento\View\Element\Messages */
+            $block = $this->_objectManager->get('Magento\View\Element\Messages');
+            $block->setMessages($this->messageManager->getMessages(true));
             $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'messages' => $block->getGroupedHtml(),
                 'error'    => $refreshTree !== 'true',

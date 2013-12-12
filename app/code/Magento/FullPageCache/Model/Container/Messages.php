@@ -111,9 +111,9 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * Add messages from storage to message block
      *
      * @param string $messagesGroup
-     * @param \Magento\View\Block\Messages $block
+     * @param \Magento\View\Element\Messages $block
      */
-    protected function _addMessagesToBlock($messagesGroup, \Magento\View\Block\Messages $block)
+    protected function _addMessagesToBlock($messagesGroup, \Magento\View\Element\Messages $block)
     {
         $block->addMessages($this->messageManager->getMessages(true, $messagesGroup));
     }

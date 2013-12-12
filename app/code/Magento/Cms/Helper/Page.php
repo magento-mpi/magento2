@@ -27,7 +27,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
     /**
      * Catalog product
      *
-     * @var \Magento\Page\Helper\Layout
+     * @var \Magento\Theme\Helper\Layout
      */
     protected $_pageLayout;
 
@@ -83,7 +83,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
      * @param \Magento\App\Helper\Context $context
      * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Cms\Model\Page $page
-     * @param \Magento\Page\Helper\Layout $pageLayout
+     * @param \Magento\Theme\Helper\Layout $pageLayout
      * @param \Magento\View\DesignInterface $design
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -95,7 +95,7 @@ class Page extends \Magento\App\Helper\AbstractHelper
         \Magento\App\Helper\Context $context,
         \Magento\Message\ManagerInterface $messageManager,
         \Magento\Cms\Model\Page $page,
-        \Magento\Page\Helper\Layout $pageLayout,
+        \Magento\Theme\Helper\Layout $pageLayout,
         \Magento\View\DesignInterface $design,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager,

@@ -15,7 +15,7 @@ namespace Magento\Backend\Block;
  *
  * @SuppressWarnings(PHPMD.NumberOfChildren)
  */
-class Template extends \Magento\View\Block\Template
+class Template extends \Magento\View\Element\Template
 {
     /**
      * @var \Magento\AuthorizationInterface
@@ -44,12 +44,10 @@ class Template extends \Magento\View\Block\Template
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         array $data = array()
     ) {
         $this->_locale = $context->getLocale();
@@ -57,7 +55,7 @@ class Template extends \Magento\View\Block\Template
         $this->mathRandom = $context->getMathRandom();
         $this->_backendSession = $context->getBackendSession();
         $this->formKey = $context->getFormKey();
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**

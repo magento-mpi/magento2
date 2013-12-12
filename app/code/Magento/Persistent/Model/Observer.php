@@ -213,7 +213,7 @@ class Observer
             return $this;
         }
 
-        /** @var $block \Magento\View\Block\AbstractBlock */
+        /** @var $block \Magento\View\Element\AbstractBlock */
         $block = $observer->getEvent()->getBlock();
 
         if (!$block) {
@@ -239,7 +239,7 @@ class Observer
     /**
      * Emulate 'welcome' block with persistent data
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      * @return \Magento\Persistent\Model\Observer
      */
     public function emulateWelcomeBlock($block)
@@ -266,7 +266,7 @@ class Observer
     /**
      * Emulate 'top links' block with persistent data
      *
-     * @param \Magento\View\Block\AbstractBlock $block
+     * @param \Magento\View\Element\AbstractBlock $block
      */
     public function emulateTopLinks($block)
     {

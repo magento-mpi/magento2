@@ -17,10 +17,10 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create;
 
-class Messages extends \Magento\View\Block\Messages
+class Messages extends \Magento\View\Element\Messages
 {
     /**
-     * @return \Magento\View\Block\Messages
+     * @return \Magento\View\Element\Messages
      */
     protected function _prepareLayout()
     {

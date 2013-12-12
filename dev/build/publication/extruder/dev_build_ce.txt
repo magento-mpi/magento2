@@ -2,6 +2,8 @@
 # because it is used in infrastructure for running tests
 ~dev/tests/functional
 ~dev/tests/functional-old
+dev/tests/functional/tests/app/Magento/Logging
+dev/tests/functional/tests/app/Magento/Pci
 dev/tests/functional-old/fixture/_testFiles/Enterprise*
 dev/tests/functional-old/fixture/enterprise*
 dev/tests/functional-old/testsuite/Enterprise
@@ -9,5 +11,6 @@ dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/PlaceholderConfig
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/AdminGwsConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/WebsiteRestrictionConfigFilesTest.php
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/MenuHierarchyConfigFilesTest.php
-dev/tests/unit/testsuite/Magento/VersionsCms
 dev/tests/integration/testsuite/Magento/Test/Integrity/Modular/GiftRegistryConfigFileTest.php
+~dev/tests/static/testsuite/Magento/Test/Php/_files/phpcs/blacklist/dev_build_ce.txt
+dev/tests/unit/testsuite/Magento/VersionsCms

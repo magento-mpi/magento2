@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\View;
 
-class Messages extends \Magento\View\Block\Messages
+class Messages extends \Magento\View\Element\Messages
 {
     /**
      * Core registry
@@ -27,8 +27,7 @@ class Messages extends \Magento\View\Block\Messages
     protected $coreRegistry = null;
 
     /**
-     * @param \Magento\View\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Message\Factory $messageFactory
      * @param \Magento\Message\CollectionFactory $collectionFactory
      * @param \Magento\Message\ManagerInterface $messageManager
@@ -36,8 +35,7 @@ class Messages extends \Magento\View\Block\Messages
      * @param array $data
      */
     public function __construct(
-        \Magento\View\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
+        \Magento\View\Element\Template\Context $context,
         \Magento\Message\Factory $messageFactory,
         \Magento\Message\CollectionFactory $collectionFactory,
         \Magento\Message\ManagerInterface $messageManager,
@@ -45,7 +43,7 @@ class Messages extends \Magento\View\Block\Messages
         array $data = array()
     ) {
         $this->coreRegistry = $registry;
-        parent::__construct($context, $coreData, $messageFactory, $collectionFactory, $messageManager, $data);
+        parent::__construct($context, $messageFactory, $collectionFactory, $messageManager, $data);
     }
 
     protected function _getOrder()

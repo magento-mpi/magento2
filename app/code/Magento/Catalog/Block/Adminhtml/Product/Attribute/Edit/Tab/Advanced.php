@@ -35,7 +35,6 @@ class Advanced
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Config\Source\Yesno $yesNo
@@ -44,7 +43,6 @@ class Advanced
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Config\Source\Yesno $yesNo,
@@ -53,7 +51,7 @@ class Advanced
     ) {
         $this->_yesNo = $yesNo;
         $this->_eavData = $eavData;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
@@ -65,7 +63,7 @@ class Advanced
     {
         $attributeObject = $this->getAttributeObject();
 
-        $form = $this->_formFactory->create(array('attributes' => array(
+        $form = $this->_formFactory->create(array('data' => array(
             'id' => 'edit_form',
             'action' => $this->getData('action'),
             'method' => 'post'

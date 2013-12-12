@@ -27,7 +27,6 @@ class Subtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\Defaul
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Sales\Helper\Data $salesData
@@ -37,7 +36,6 @@ class Subtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\Defaul
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Sales\Helper\Data $salesData,
@@ -46,7 +44,7 @@ class Subtotal extends \Magento\Sales\Block\Adminhtml\Order\Create\Totals\Defaul
         array $data = array()
     ) {
         $this->_taxConfig = $taxConfig;
-        parent::__construct($context, $coreData, $sessionQuote, $orderCreate, $salesData, $salesConfig, $data);
+        parent::__construct($context, $sessionQuote, $orderCreate, $salesData, $salesConfig, $data);
     }
 
     /**

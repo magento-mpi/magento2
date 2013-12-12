@@ -85,17 +85,17 @@ class Session extends \Magento\Session\SessionManager
      * @param \Magento\Session\SaveHandlerInterface $saveHandler
      * @param \Magento\Session\ValidatorInterface $validator
      * @param \Magento\Session\StorageInterface $storage
-     * @param \Magento\Customer\Model\Config\Share $configShare
+     * @param Config\Share $configShare
      * @param \Magento\Core\Helper\Url $coreUrl
      * @param \Magento\Customer\Helper\Data $customerData
-     * @param \Magento\Customer\Model\Resource\Customer $customerResource
-     * @param \Magento\Customer\Model\CustomerFactory $customerFactory
+     * @param Resource\Customer $customerResource
+     * @param CustomerFactory $customerFactory
      * @param \Magento\Core\Model\UrlFactory $urlFactory
      * @param \Magento\Core\Model\Session $session
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
-     * @param array $data
      * @param null $sessionName
+     * @param array $data
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -113,8 +113,8 @@ class Session extends \Magento\Session\SessionManager
         \Magento\Core\Model\Session $session,
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
-        array $data = array(),
-        $sessionName = null
+        $sessionName = null,
+        array $data = array()
     ) {
         $this->_coreUrl = $coreUrl;
         $this->_customerData = $customerData;

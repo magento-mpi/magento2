@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_ClosureUse;
 
@@ -25,19 +24,15 @@ class ClosureUseReference extends AbstractReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /*
-            public function pExpr_ClosureUse(PHPParser_Node_Expr_ClosureUse $node) {
-            return ($node->byRef ? '&' : '') . '$' . $node->var;}
-        */
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         if ($this->node->byRef) {
-            $line->add('&');
+            $this->addToLine($treeNode, '&');
         }
-        $line->add('$')->add($this->node->var);
+        $this->addToLine($treeNode, '$')->add($this->node->var);
+        return $treeNode;
     }
 }
