@@ -22,7 +22,7 @@ class CatalogPriceRule extends AbstractRepository
 {
     const CATALOG_PRICE_RULE = 'catalog_price_rule';
 
-    const CUSTOMER_GROUP_GENERAL = 'customer_group_catalog_rule';
+    const CUSTOMER_GROUP_GENERAL_RULE = 'customer_group_general_rule';
 
     const GROUP_RULE_INFORMATION = 'promo_catalog_edit_tabs_main_section';
 
@@ -35,7 +35,7 @@ class CatalogPriceRule extends AbstractRepository
         $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
 
         $this->_data[self::CATALOG_PRICE_RULE] = $this->_getCatalogPriceRule();
-        $this->_data[self::CUSTOMER_GROUP_GENERAL] = $this->_getCustomerGroupCatalogRule();
+        $this->_data[self::CUSTOMER_GROUP_GENERAL_RULE] = $this->_getCustomerGroupGeneralRule();
     }
 
     protected function _getCatalogPriceRule()
@@ -83,7 +83,7 @@ class CatalogPriceRule extends AbstractRepository
         );
     }
 
-    protected function _getCustomerGroupCatalogRule()
+    protected function _getCustomerGroupGeneralRule()
     {
         return array(
             'data' => array(

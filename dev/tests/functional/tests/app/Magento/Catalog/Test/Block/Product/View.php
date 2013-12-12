@@ -229,4 +229,14 @@ class View extends Block
         }
         return true;
     }
+
+    /**
+     * Check if product special price is visible
+     *
+     * @return bool
+     */
+    public function isProductSpecialPriceVisible()
+    {
+        return $this->_rootElement->find($this->productSpecialPrice)->isVisible();
+    }
 }

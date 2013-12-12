@@ -16,7 +16,6 @@ use Magento\CatalogRule\Test\Repository\CatalogPriceRule as Repository;
 use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Client\Element\Locator;
 
 /**
  * Class ApplyCustomerGroupCatalogRule
@@ -63,10 +62,9 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
             array('category_id' => $categoryIds[0])
         );
-        $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL);
+        $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL_RULE);
         // convert the discount amount to a decimal form
         $this->_discountDecimal = ($catalogRuleFixture->getDiscountAmount() * .01);
-        $catalogRuleFixture->switchData('customer_group_catalog_rule');
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
@@ -77,21 +75,12 @@ class ApplyCustomerGroupCatalogRule extends Functional
         // Verify Notice Message
         $messagesBlock->assertNoticeMessage();
 
-        // Verify Catalog Price Rule in grid
-        $catalogRulePage->open();
-        $gridBlock = $catalogRulePage->getCatalogPriceRuleGridBlock();
-        $gridRow = $gridBlock->getRow(array('name' => $catalogRuleFixture->getRuleName()));
-        $this->assertTrue(
-            $gridRow->isVisible(),
-            'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid'
-        );
-
         // Apply Catalog Price Rule
+        $catalogRulePage->open();
         $catalogRulePage->applyRules();
 
         // Verify Success Message
-        $messagesBlock = $catalogRulePage->getMessagesBlock();
-        $messagesBlock->assertSuccessMessage();
+        $catalogRulePage->getMessagesBlock()->assertSuccessMessage();
 
         $this->verifyGuestPrice($simpleProductFixture);
         $this->verifyCustomerPrice($simpleProductFixture, $customerFixture);
@@ -111,33 +100,40 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         // verify price in catalog list
         $productListBlock = $categoryPage->getListProductBlock();
-        $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        // verify the special price is not applied
+        $this->assertFalse(
+            $productListBlock->isProductSpecialPriceVisible($product->getProductName()),
+            'Special price is visible adn not expected.'
+        );
         $this->assertContains(
             $product->getProductPrice(),
             $productListBlock->getProductPrice($product->getProductName()),
             'Displayed price does not match expected price.'
         );
-        // Verify product and cart page prices
-        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
-        $checkoutCartPage->open();
-        $checkoutCartPage->getCartBlock()->clearShoppingCart();
         // Verify product detail
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
+        // verify special price is not applied
+        $this->assertFalse(
+            $productViewBlock->isProductSpecialPriceVisible(),
+            'Special price is visible adn not expected.'
+        );
         $appliedRulePrice = $product->getProductPrice();
         $this->assertContains($appliedRulePrice, $productViewBlock->getProductPrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
+        $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $this->assertContains($product->getProductPrice(), $unitPrice, "Discount was not correctly applied");
+        $this->assertContains($product->getProductPrice(), $unitPrice, 'Displayed price is not the expected price');
         $checkoutCartPage->getCartBlock()->clearShoppingCart();
     }
 
     /**
      * This method verifies customer price information on the storefront.
+     *
      * @param Product $product
      * @param Customer $customer
      */
@@ -175,7 +171,10 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertContains((string)($product->getProductPrice() * $this->_discountDecimal), $productViewBlock->getProductSpecialPrice());
+        $this->assertContains(
+            (string)($product->getProductPrice() * $this->_discountDecimal),
+            $productViewBlock->getProductSpecialPrice()
+        );
         $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
