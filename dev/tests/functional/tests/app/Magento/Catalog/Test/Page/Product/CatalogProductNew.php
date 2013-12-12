@@ -147,7 +147,7 @@ class CatalogProductNew extends Page
      *
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related
      */
-    public function getRelatedProductGrid()
+    public function getRelatedBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)

@@ -35,6 +35,7 @@ class Method extends AbstractRepository
         $this->_data['paypal_express'] = $this->_getPayPalExpress();
         $this->_data['paypal_direct'] = $this->_getPayPalDirect();
         $this->_data['paypal_payflow_pro'] = $this->_getPayPalPayflowPro();
+        $this->_data['paypal_advanced'] = $this->_getPayPalAdvanced();
         $this->_data['check_money_order'] = $this->_getCheckMoneyOrder();
     }
 
@@ -91,6 +92,23 @@ class Method extends AbstractRepository
             'data' => array(
                 'fields' => array(
                     'payment_code' => 'verisign'
+                ),
+            )
+        );
+    }
+
+    /**
+     * Provides Credit Card Data for PayPal Payflow Pro Method
+     *
+     * @return array
+     */
+    protected function _getPayPalAdvanced()
+    {
+        return array(
+            'config' => array(),
+            'data' => array(
+                'fields' => array(
+                    'payment_code' => 'payflow_advanced'
                 ),
             )
         );

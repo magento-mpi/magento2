@@ -57,7 +57,7 @@ class Config extends Tab
      */
     public function open(Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ? : $this->_rootElement;
         $element->find(static::GROUP_PRODUCT_DETAILS, Locator::SELECTOR_ID)->click();
     }
 
