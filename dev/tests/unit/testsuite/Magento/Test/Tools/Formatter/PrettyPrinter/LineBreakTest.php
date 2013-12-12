@@ -9,8 +9,11 @@ namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardConditionalLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HeredocTerminatingLineCondition;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
+use Magento\Tools\Formatter\PrettyPrinter\LineBreakCondition;
 use Magento\Tools\Formatter\PrettyPrinter\ParameterLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 
@@ -208,35 +211,31 @@ class LineBreakTest extends TestBase
         );
 
         return array(
+            array($constAlpha, 0, "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"),
+            array($constAlpha, 1, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"),
+            array($constAlpha, 2, "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"),
+            array($constNumber, 0, "const ONE = '1';\n"),
+            array($constNumber, 1, "const ONE = '1';\n"),
+            array($constNumber, 2, "const ONE = '1';\n"),
+            array(array("HEREDOC", new HardConditionalLineBreak(new LineBreakCondition(';')), ';'), 0, "HEREDOC;"),
             array(
-                $constAlpha,
+                array(
+                    "HEREDOC",
+                    new HardConditionalLineBreak(new LineBreakCondition(';')),
+                    ',"other")'
+                ),
                 0,
-                "const AlPHA = 'a', BETA = 'b', GAMMA = 'c';\n"
+                "HEREDOC\n,\"other\")"
             ),
             array(
-                $constAlpha,
+                array(
+                    "HEREDOC",
+                    new HardConditionalLineBreak(new HeredocTerminatingLineCondition()),
+                    new CallLineBreak(),
+                    ');'
+                ),
                 1,
-                "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"
-            ),
-            array(
-                $constAlpha,
-                2,
-                "const AlPHA = 'a',\nBETA = 'b',\nGAMMA = 'c';\n"
-            ),
-            array(
-                $constNumber,
-                0,
-                "const ONE = '1';\n"
-            ),
-            array(
-                $constNumber,
-                1,
-                "const ONE = '1';\n"
-            ),
-            array(
-                $constNumber,
-                2,
-                "const ONE = '1';\n"
+                "HEREDOC\n);"
             ),
         );
     }

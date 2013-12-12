@@ -13,11 +13,6 @@ class CastIntOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Int $node)
     {
-        parent::__construct($node);
-    }
-
-    public function operator()
-    {
-        return '(int) ';
+        parent::__construct($node, 'int');
     }
 }

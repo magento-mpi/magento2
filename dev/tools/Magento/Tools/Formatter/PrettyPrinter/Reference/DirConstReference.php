@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use PHPParser_Node_Scalar_DirConst;
 
 class DirConstReference extends AbstractScalarReference
