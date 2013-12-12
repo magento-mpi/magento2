@@ -35,11 +35,14 @@ class CurrencyRate extends AbstractRepository
             'data' => $defaultData
         );
 
+        // Exchange rate between US Dollar and Swiss Franc
         $this->_data['usd_chf_rate_0_9'] = $this->_getCurrencyRateUSDCHF();
+        // Exchange rate between US Dollar and British Pound Sterling
+        $this->_data['usd_gbp_rate_0_6'] = $this->_getCurrencyRateUSDGBP();
     }
 
     /**
-     * Currency rate - US Dollars, Swiss Franc 0.9
+     * Currency rate - US Dollars, Swiss Franc
      *
      * @return array
      */
@@ -50,6 +53,24 @@ class CurrencyRate extends AbstractRepository
                 'fields' => array(
                     'rate[USD][CHF]' => array(
                         'value' => '0.9'
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Currency rate - US Dollars, British Pound Sterling
+     *
+     * @return array
+     */
+    protected function _getCurrencyRateUSDGBP()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'rate[USD][GBP]' => array(
+                        'value' => '0.6'
                     )
                 )
             )

@@ -97,7 +97,7 @@ class ShippingCarrierTest extends Functional
         $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
         $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
-        $addressEditPage->getEditForm()->editCustomerAddress((self::$checkoutFixture->getCustomer()->getAddressData()));
+        $addressEditPage->getEditForm()->editCustomerAddress((self::$checkoutFixture->getBillingAddress()));
 
         // Add simple, configurable, and bundle products to cart
         foreach (self::$checkoutFixture->getProducts() as $product) {
@@ -162,7 +162,7 @@ class ShippingCarrierTest extends Functional
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE', 'usd_chf_rate_0_9'),
-            array('shipping_carrier_dhlint_us', 'dhlint_us', 'customer_US_1', 'address_data_US_1')
+            array('shipping_carrier_dhlint_uk', 'dhlint_uk', 'customer_UK', 'address_data_UK', 'usd_gbp_rate_0_6')
         );
     }
 

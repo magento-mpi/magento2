@@ -35,6 +35,7 @@ class Address extends AbstractRepository
         $this->_data['address_US_2'] = $this->_getUS2();
         $this->_data['address_data_US_1'] = $this->_getDataUS1();
         $this->_data['address_data_DE'] = $this->_getDataGermany();
+        $this->_data['address_data_UK'] = $this->_getDataUnitedKingdom();
     }
 
     protected function _getUS1()
@@ -207,6 +208,44 @@ class Address extends AbstractRepository
                     ),
                     'telephone' => array(
                         'value' => '333-33-333-33'
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getDataUnitedKingdom()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jane'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe'
+                    ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
+                    ),
+                    'country' => array(
+                        'value' => 'United Kingdom',
+                        'input' => 'select'
+                    ),
+                    'street_1' => array(
+                        'value' => '42 King Street West'
+                    ),
+                    'city' => array(
+                        'value' => 'Manchester'
+                    ),
+                    'region' => array(
+                        'value' => 'Manchester'
+                    ),
+                    'postcode' => array(
+                        'value' => 'M3 2WY'
+                    ),
+                    'telephone' => array(
+                        'value' => '444-44-444-44'
                     )
                 )
             )

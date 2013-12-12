@@ -69,7 +69,7 @@ class Config extends AbstractRepository
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
         $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEU();
-        $this->_data['shipping_carrier_dhlint_us'] = $this->_getShippingCarrierDhlIntUS();
+        $this->_data['shipping_carrier_dhlint_uk'] = $this->_getShippingCarrierDhlIntUK();
         $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
         $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
         $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
@@ -245,7 +245,7 @@ class Config extends AbstractRepository
                                         'value' => self::YES_VALUE
                                     ),
                                     'gateway_url' => array( //Gateway URL
-                                        'value' => 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
+                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
                                     ),
                                     'id' => array( //Access ID
                                         'value' => 'EvgeniyDE'
@@ -257,6 +257,9 @@ class Config extends AbstractRepository
                                         'value' => '152691811'
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'debug' => array( //Debug
                                         'value' => self::YES_VALUE
                                     )
                                 )
@@ -313,11 +316,11 @@ class Config extends AbstractRepository
 
     /**
      * DHL International shipping method configuration.
-     * Specifically for testing shipping origin of AM (America) Region.
+     * Specifically for testing domestic shipping within the UK.
      *
      * @return array
      */
-    protected function _getShippingCarrierDhlIntUS()
+    protected function _getShippingCarrierDhlIntUK()
     {
         return array(
             'data' => array(
@@ -333,37 +336,62 @@ class Config extends AbstractRepository
                                         'value' => self::YES_VALUE
                                     ),
                                     'gateway_url' => array( //Gateway URL
-                                        'value' => 'https://xmlpi-ea.dhl.com/XMLShippingServlet'
+                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
                                     ),
                                     'id' => array( //Access ID
-                                        'value' => 'EvgeniyUSA'
+                                        'value' => 'EvgeniyDE'
                                     ),
                                     'password' => array( //Password
-                                        'value' => 'okG43dHy7'
+                                        'value' => 'aplNb6Rop'
                                     ),
                                     'account' => array( //Account Number
-                                        'value' => '799909537'
-                                    ),
-                                    'content_type' => array( //Content Type
-                                        'value' => 'N' //Non documents
-                                    ),
-                                    'unit_of_measure' => array( //Weight Unit
-                                        'value' => 'L' //Pounds
-                                    ),
-                                    'size' => array( //Size
-                                        'value' => '0' //Regular
-                                    ),
-                                    'nondoc_methods' => array( //Allowed Methods
-                                        'value' => ['1','3','4','8','P','Q','E','F','H','J','M','V','Y'] //Select all
-                                    ),
-                                    'sallowspecific' => array( //Ship to Applicable Countries
-                                        'value' => '0' //All Allowed Countries
+                                        'value' => '152691811'
                                     ),
                                     'showmethod' => array( //Show Method if Not Applicable
                                         'value' => self::YES_VALUE
                                     ),
                                     'debug' => array( //Debug
                                         'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'GB' //United Kingdom
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => 'London'
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => 'SE10 8SE'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'London'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => '89 Royal Hill'
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array( //Allowed Currencies
+                                        'value' => ['USD','GBP']
                                     )
                                 )
                             )

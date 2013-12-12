@@ -32,6 +32,13 @@ class Edit extends Form
     protected $saveAddress = '.action.submit';
 
     /**
+     * 'region' input element when Country selected does not have a pre-defined pull-down list of regions
+     *
+     * @var string
+     */
+    protected $inputRegion = '#region';
+
+    /**
      * {@inheritdoc}
      */
     protected $_mapping = array(
@@ -47,7 +54,7 @@ class Edit extends Form
     );
 
     /**
-     * Fill form data. Unset 'email' field as it absent in current form
+     * Fill form data. Unset 'email' field as it absent in current form.  Region field requires special handling.
      *
      * @param array $fields
      * @param Element $element
@@ -55,7 +62,19 @@ class Edit extends Form
     protected function _fill(array $fields, Element $element = null)
     {
         unset($fields['email']);
+
+        $regionValue = $fields['region']['value'];
+        unset($fields['region']);
+
         parent::_fill($fields);
+
+        // Region is either a SELECT or an INPUT depending on the selected Country
+        $regionElement = $this->_rootElement->find($this->_mapping['region'], Locator::SELECTOR_CSS, 'select');
+        if (!$regionElement->isVisible()) {
+            // region_id select is not visible, swap in the region input field
+            $regionElement = $this->_rootElement->find($this->inputRegion);
+        }
+        $regionElement->setValue($regionValue);
     }
 
     /**

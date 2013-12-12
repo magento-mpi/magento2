@@ -58,7 +58,14 @@ class Shipping extends Block
      *
      * @var string
      */
-    protected $regionSelector = '//select[@id="region_id"]';
+    protected $regionSelector = '//input[@id="region"]';
+
+    /**
+     * Selector to access the destination region_id element
+     *
+     * @var string
+     */
+    protected $regionIdSelector = '//select[@id="region_id"]';
 
     /**
      * Selector to access the specific shipping carrier method
@@ -111,8 +118,12 @@ class Shipping extends Block
         }
         $this->_rootElement->find($this->countrySelector, Locator::SELECTOR_XPATH, 'select')
             ->setValue($destination->getCountry());
-        $this->_rootElement->find($this->regionSelector, Locator::SELECTOR_XPATH, 'select')
-            ->setValue($destination->getRegion());
+        // Region is either a SELECT or an INPUT depending on the country
+        $regionElement = $this->_rootElement->find($this->regionIdSelector, Locator::SELECTOR_XPATH, 'select');
+        if (!$regionElement->isVisible()) {
+            $regionElement = $this->_rootElement->find($this->regionSelector, Locator::SELECTOR_XPATH);
+        }
+        $regionElement->setValue($destination->getRegion());
         $cityElement = $this->_rootElement->find($this->citySelector, Locator::SELECTOR_XPATH);
         if ($cityElement->isVisible()) {
             $cityElement->setValue($destination->getCity());
