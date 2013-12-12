@@ -24,8 +24,12 @@ class ArgumentSequenceTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_fixturePath = realpath(__DIR__) . '/_files/ClassesForArgumentSequence.php';
+        $path = realpath(__DIR__) . '/_files/ClassesForArgumentSequence.php';
+        $this->_fixturePath = str_replace('\\', '/', $path);
         $this->_validator = new \Magento\Code\Validator\ArgumentSequence();
+
+        /** Build internal cache */
+        $this->_validator->validate('\ArgumentSequence\ParentClass');
     }
 
     public function testValidSequence()
