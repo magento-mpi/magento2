@@ -24,7 +24,7 @@ class Weight
      *
      * @var array
      */
-    static $weights = array(
+    static protected $weights = array(
         1,
         2,
         3,

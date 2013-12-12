@@ -163,8 +163,8 @@ class Permissions
         if ($this->getCategoryId()) {
             $categoryId = $this->getCategory()->getParentId();
         }
-        // parent category
-        else if ($this->getRequest()->getParam('parent')) {
+        elseif ($this->getRequest()->getParam('parent')) {
+            // parent category
             $categoryId = $this->getRequest()->getParam('parent');
         }
 

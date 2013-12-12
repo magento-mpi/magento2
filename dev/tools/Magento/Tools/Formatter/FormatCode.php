@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter;
 
+use DateTime;
 use Magento\Tools\Formatter\PrettyPrinter\Printer;
 use PHPParser_Error;
 
@@ -101,6 +102,7 @@ function getReference($filename, $rootDirectory)
  */
 function fixFile($filename, $rootDirectory)
 {
+    $start = new DateTime();
     // read the file into memory
     printMessage('Reading: ' . getReference($filename, $rootDirectory));
     $originalCode = file_get_contents($filename);
@@ -109,9 +111,13 @@ function fixFile($filename, $rootDirectory)
     try {
         // perform the parsing
         $prettyPrinter->parseCode();
-        // write out the formatted code
-        printMessage('Writing: ' . getReference($filename, $rootDirectory));
-        file_put_contents($filename, $prettyPrinter->getFormattedCode());
+        if ($prettyPrinter->hasChange()) {
+            // write out the formatted code
+            printMessage('Writing: ' . getReference($filename, $rootDirectory));
+            file_put_contents($filename, $prettyPrinter->getFormattedCode());
+        } else {
+            printMessage('No changes required.');
+        }
     } catch (PHPParser_Error $e) {
         $output = $prettyPrinter->getFormattedCode();
         if (null !== $output) {
@@ -123,6 +129,8 @@ function fixFile($filename, $rootDirectory)
             throw $e;
         }
     }
+    $stop = new DateTime();
+    printMessage('Processing took: ' . $stop->diff($start)->format('%h:%I:%S'));
 }
 /**
  * This method fixes the named file.
@@ -135,6 +143,8 @@ function fixFileCsFixer($filename)
     // execute the command
     system($commandLine);
 }
+# holds the start time of running the application
+$startTask = new DateTime();
 # holds the local root directory
 $rootDirectory = '.';
 # holds the blacklisted items
@@ -194,4 +204,8 @@ foreach ($files as $filename) {
 if (!$quiet && strlen($messageSummary) > 0) {
     echo 'Error found in processing: ' . PHP_EOL;
     echo $messageSummary;
+}
+$stopTask = new DateTime();
+if ($fileCount > 1) {
+    printMessage("Processed {$fileCount} files in {$stopTask->diff($startTask)->format('%h:%I:%S')}");
 }

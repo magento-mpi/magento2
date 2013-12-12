@@ -119,6 +119,16 @@ class Customer extends DataFixture
     }
 
     /**
+     * Get customer group
+     *
+     * @return string
+     */
+    public function getGroup()
+    {
+        return $this->getData('fields/group_id/value');
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()
