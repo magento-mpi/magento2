@@ -109,7 +109,7 @@ class InvalidChildClass extends ParentClass
      */
     public function __construct(
         ContextObject $contextObject,
-//        ChildRequiredObject $childRequiredObject,
+        ChildRequiredObject $childRequiredObject,
         ParentRequiredObject $parentRequiredObject,
         array $parentRequiredScalar,
         array $childRequiredScalar,
@@ -119,7 +119,7 @@ class InvalidChildClass extends ParentClass
         ChildOptionalObject $childOptionalObject = null,
         array $childOptionalScalar = array()
     ) {
-//        $this->childRequiredObject = $childRequiredObject;
+        $this->childRequiredObject = $childRequiredObject;
         $this->childRequiredScalar = $childRequiredScalar;
         $this->childOptionalObject = $childOptionalObject;
         $this->childOptionalScalar = $childOptionalScalar;

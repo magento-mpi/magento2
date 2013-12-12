@@ -55,6 +55,7 @@ class Generate implements \Magento\Code\Minifier\StrategyInterface
         if ($this->_isUpdateNeeded($originalFile, $targetFile)) {
             $content = $this->rootDirectory->readFile($originalFile);
             $content = $this->adapter->minify($content);
+            $targetFile = $this->pubViewCacheDir->getRelativePath($targetFile);
             $this->pubViewCacheDir->writeFile($targetFile, $content);
             $this->pubViewCacheDir->touch($targetFile, $this->rootDirectory->stat($originalFile)['mtime']);
         }

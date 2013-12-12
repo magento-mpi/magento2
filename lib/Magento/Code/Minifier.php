@@ -66,6 +66,7 @@ class Minifier
             $this->_strategy->minifyFile($originalFileRelative, $minifiedFile);
         }
 
+        $minifiedFile = $this->pubViewCacheDir->getRelativePath($minifiedFile);
         return $this->pubViewCacheDir->getAbsolutePath($minifiedFile);
     }
 
