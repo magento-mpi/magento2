@@ -226,27 +226,6 @@ class View extends Block
     public function openMapBlockOnProductPage()
     {
         $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
-    }
-
-    /**
-     * Get Minimum Advertised Price value on frontend (Product View)
-     *
-     * @return array|string
-     */
-    public function getOldPrice()
-    {
-        return $this->_rootElement->find('//*[@class="old price"]//*[@class="price"]', Locator::SELECTOR_XPATH)->
-            getText();
-    }
-
-    /**
-     * Get actual Price value on frontend (Product View)
-     *
-     * @return array|string
-     */
-    public function getActualPrice()
-    {
-        return $this->_rootElement->find('//*[@class="regular-price"]//*[@class="price"]', Locator::SELECTOR_XPATH)->
-            getText();
+        $this->waitForElementVisible('#map-popup', Locator::SELECTOR_CSS);
     }
 }

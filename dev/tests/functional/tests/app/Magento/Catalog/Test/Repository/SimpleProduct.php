@@ -33,7 +33,7 @@ class SimpleProduct extends Product
         );
         $this->_data['simple_advanced_pricing'] = $this->getSimpleAdvancedPricing();
         $this->_data['simple_custom_options'] = $this->getSimpleCustomOption();
-        $this->_data['simple_with_map'] = $this->getSimpleAppliedMAP($defaultData);
+        $this->_data['simple_with_map'] = $this->getSimpleAppliedMap($defaultData);
     }
 
     /**
@@ -166,7 +166,7 @@ class SimpleProduct extends Product
      *
      * @return array
      */
-    protected function getSimpleAppliedMAP()
+    protected function getSimpleAppliedMap()
     {
         $pricing = array(
             'data' => array(

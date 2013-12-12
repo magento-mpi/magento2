@@ -258,7 +258,7 @@ class Product extends DataFixture
     /**
      * Get product Minimum Advertised Price
      *
-     * @return mixed
+     * @return string
      */
     public function getProductMapPrice()
     {

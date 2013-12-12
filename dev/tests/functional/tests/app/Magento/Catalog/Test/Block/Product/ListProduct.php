@@ -38,20 +38,6 @@ class ListProduct extends Block
     protected $clickForPrice = '[id*=msrp-click]';
 
     /**
-     * Old (MAP) price
-     *
-     * @var string
-     */
-    protected $priceMap = '[id*=product-price]';
-
-    /**
-     * Actual product price
-     *
-     * @var string
-     */
-    protected $actualPrice = "[class='regular-price']";
-
-    /**
      * Check if product with specified name is visible
      *
      * @param string $productName
@@ -85,22 +71,12 @@ class ListProduct extends Block
     }
 
     /**
-     * Get Minimum Advertised Price value on frontend (Category page)
+     * Get Minimum Advertised Price on Category page
      *
      * @return array|string
      */
-    public function getOldPrice()
+    public function getOldPriceCategoryPage()
     {
-        return $this->_rootElement->find($this->priceMap, Locator::SELECTOR_CSS)->getText();
-    }
-
-    /**
-     * Get actual Price value on frontend (Category page)
-     *
-     * @return array|string
-     */
-    public function getActualPrice()
-    {
-        return $this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText();
+        return $this->_rootElement->find("[id*=product-price]", Locator::SELECTOR_CSS)->getText();
     }
 }
