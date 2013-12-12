@@ -8,9 +8,6 @@
 
 namespace Magento\View\Asset;
 
-use Magento\Filesystem,
-    Magento\Filesystem\Directory\Write;
-
 class MergeServiceTest extends \PHPUnit_Framework_TestCase
 {
     /**
@@ -34,7 +31,7 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     protected $_filesystem;
 
     /**
-     * @var Write | \PHPUnit_Framework_MockObject_MockObject
+     * @var \PHPUnit_Framework_MockObject_MockObject
      */
     protected $_directory;
 
@@ -46,20 +43,17 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManager = $this->getMockForAbstractClass('Magento\ObjectManager', array('create'));
-        $this->_storeConfig = $this->getMock(
-            'Magento\Core\Model\Store\Config', array('getConfigFlag'), array(), '', false
-        );
-        $this->_filesystem = $this->getMock('Magento\Filesystem',
-            array('getDirectoryWrite', 'getPath'), array(), '', false);
-        $this->_directory = $this->getMock(
-            'Magento\Filesystem\Directory\Write',
-            array('delete', 'getRelativePath' , 'getAbsolutePath'), array(), '', false
-        );
+        $this->_config = $this->getMock('Magento\View\Asset\ConfigInterface', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_directory = $this->getMock('\Magento\Filesystem\Directory\Write', array(), array(), '', false);
         $this->_state = $this->getMock('Magento\App\State', array(), array(), '', false);
+        $this->_filesystem->expects($this->any())
+            ->method('getDirectoryWrite')
+            ->will($this->returnValue($this->_directory));
 
         $this->_object = new \Magento\View\Asset\MergeService(
             $this->_objectManager,
-            $this->_storeConfig,
+            $this->_config,
             $this->_filesystem,
             $this->_state
         );
@@ -77,40 +71,34 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     /**
      * @param array $assets
      * @param string $contentType
-     * @param string $storeConfigPath
      * @param string $appMode
      * @param string $mergeStrategy
      * @dataProvider getMergedAssetsDataProvider
      */
-    public function testGetMergedAssets(array $assets, $contentType, $storeConfigPath, $appMode, $mergeStrategy)
+    public function testGetMergedAssets(array $assets, $contentType, $appMode, $mergeStrategy)
     {
-        $mergedAsset = $this->getMock('Magento\Core\Model\Page\Asset\AssetInterface');
-        $this->_storeConfig
-            ->expects($this->any())
-            ->method('getConfigFlag')
-            ->will($this->returnValueMap(array(
-                array($storeConfigPath, null, true),
-            )))
-        ;
+        $mergedAsset = $this->getMock('Magento\View\Asset\AssetInterface');
+        $this->_config->expects($this->once())
+            ->method('isMergeCssFiles')
+            ->will($this->returnValue(true));
+        $this->_config->expects($this->once())
+            ->method('isMergeJsFiles')
+            ->will($this->returnValue(true));
 
         $mergeStrategyMock = $this->getMock($mergeStrategy, array(), array(), '', false);
 
-        $this->_objectManager
-            ->expects($this->once())
+        $this->_objectManager->expects($this->once())
             ->method('create')
             ->with(
-                'Magento\Core\Model\Page\Asset\Merged',
+                'Magento\View\Asset\Merged',
                 array('assets' => $assets, 'mergeStrategy' => $mergeStrategyMock)
             )
-            ->will($this->returnValue($mergedAsset))
-        ;
+            ->will($this->returnValue($mergedAsset));
 
-        $this->_objectManager
-            ->expects($this->once())
+        $this->_objectManager->expects($this->once())
             ->method('get')
             ->with($mergeStrategy)
-            ->will($this->returnValue($mergeStrategyMock))
-        ;
+            ->will($this->returnValue($mergeStrategyMock));
         $this->_state
             ->expects($this->once())
             ->method('getMode')
@@ -121,68 +109,63 @@ class MergeServiceTest extends \PHPUnit_Framework_TestCase
     public static function getMergedAssetsDataProvider()
     {
         $jsAssets = array(
-            new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/script_one.js'),
-            new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/script_two.js')
+            new \Magento\View\Asset\Remote('http://127.0.0.1/magento/script_one.js'),
+            new \Magento\View\Asset\Remote('http://127.0.0.1/magento/script_two.js')
         );
         $cssAssets = array(
-            new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/style_one.css'),
-            new \Magento\Core\Model\Page\Asset\Remote('http://127.0.0.1/magento/style_two.css')
+            new \Magento\View\Asset\Remote('http://127.0.0.1/magento/style_one.css'),
+            new \Magento\View\Asset\Remote('http://127.0.0.1/magento/style_two.css')
         );
         return array(
             'js production mode' => array(
                 $jsAssets,
                 \Magento\View\Publisher::CONTENT_TYPE_JS,
-                \Magento\Core\Model\Page\Asset\MergeService::XML_PATH_MERGE_JS_FILES,
                 \Magento\App\State::MODE_PRODUCTION,
-                'Magento\Core\Model\Page\Asset\MergeStrategy\FileExists'
+                'Magento\View\Asset\MergeStrategy\FileExists'
             ),
             'css production mode' => array(
                 $cssAssets,
                 \Magento\View\Publisher::CONTENT_TYPE_CSS,
-                \Magento\Core\Model\Page\Asset\MergeService::XML_PATH_MERGE_CSS_FILES,
                 \Magento\App\State::MODE_PRODUCTION,
-                'Magento\Core\Model\Page\Asset\MergeStrategy\FileExists'
+                'Magento\View\Asset\MergeStrategy\FileExists'
             ),
             'js default mode' => array(
                 $jsAssets,
                 \Magento\View\Publisher::CONTENT_TYPE_JS,
-                \Magento\Core\Model\Page\Asset\MergeService::XML_PATH_MERGE_JS_FILES,
                 \Magento\App\State::MODE_DEFAULT,
-                'Magento\Core\Model\Page\Asset\MergeStrategy\Checksum'
+                'Magento\View\Asset\MergeStrategy\Checksum'
             ),
             'css default mode' => array(
                 $cssAssets,
                 \Magento\View\Publisher::CONTENT_TYPE_CSS,
-                \Magento\Core\Model\Page\Asset\MergeService::XML_PATH_MERGE_CSS_FILES,
                 \Magento\App\State::MODE_DEFAULT,
-                'Magento\Core\Model\Page\Asset\MergeStrategy\Checksum'
+                'Magento\View\Asset\MergeStrategy\Checksum'
             ),
             'js developer mode' => array(
                 $jsAssets,
                 \Magento\View\Publisher::CONTENT_TYPE_JS,
-                \Magento\Core\Model\Page\Asset\MergeService::XML_PATH_MERGE_JS_FILES,
                 \Magento\App\State::MODE_DEVELOPER,
-                'Magento\Core\Model\Page\Asset\MergeStrategy\Checksum'
+                'Magento\View\Asset\MergeStrategy\Checksum'
             ),
             'css developer mode' => array(
                 $cssAssets,
                 \Magento\View\Publisher::CONTENT_TYPE_CSS,
-                \Magento\Core\Model\Page\Asset\MergeService::XML_PATH_MERGE_CSS_FILES,
                 \Magento\App\State::MODE_DEVELOPER,
-                'Magento\Core\Model\Page\Asset\MergeStrategy\Checksum'
+                'Magento\View\Asset\MergeStrategy\Checksum'
             ),
         );
     }
 
     public function testCleanMergedJsCss()
     {
-        $this->_dirs->expects($this->once())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::PUB_VIEW_CACHE)
-            ->will($this->returnValue('/pub/cache'));
+//        $this->_dirs->expects($this->once())
+//            ->method('getDir')
+//            ->with(\Magento\App\Dir::PUB_VIEW_CACHE)
+//            ->will($this->returnValue('/pub/cache'));
 
-        $mergedDir = '/pub/cache/' . \Magento\Core\Model\Page\Asset\Merged::PUBLIC_MERGE_DIR;
-        $this->_filesystem->expects($this->once())
+
+        $mergedDir = '/pub/cache/' . \Magento\View\Asset\Merged::PUBLIC_MERGE_DIR;
+        $this->_directory->expects($this->once())
             ->method('delete')
             ->with($mergedDir, null);
 
