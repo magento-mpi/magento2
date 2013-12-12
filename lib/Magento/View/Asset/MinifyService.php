@@ -116,7 +116,7 @@ class MinifyService
             $this->minifiers[$contentType] = $this->objectManager->create('Magento\Code\Minifier',
                 array(
                     'strategy' => $strategy,
-                    'baseDir' => $baseDir
+                    'directoryName' => $baseDir
                 )
             );
         }

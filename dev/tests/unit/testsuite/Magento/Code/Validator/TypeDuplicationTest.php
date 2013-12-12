@@ -25,8 +25,8 @@ class TypeDuplicationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_fixturePath = realpath(__DIR__)
-            . DIRECTORY_SEPARATOR . '_files'
-            . DIRECTORY_SEPARATOR . 'ClassesForTypeDuplication.php';
+            . '/' . '_files'
+            . '/' . 'ClassesForTypeDuplication.php';
         $this->_validator = new \Magento\Code\Validator\TypeDuplication();
     }
 
