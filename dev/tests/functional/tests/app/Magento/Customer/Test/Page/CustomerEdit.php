@@ -12,6 +12,8 @@
 
 namespace Magento\Customer\Test\Page;
 
+use Magento\Theme\Test\Block\Html\Title;
+use Magento\Customer\Test\Block\Backend\CustomerForm;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -35,6 +37,12 @@ class CustomerEdit extends Page
     protected $titleBlock = '.page-title .title';
 
     /**
+     * @var string
+     */
+    protected $editCustomerForm = '[id="page:main-container"]';
+
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -45,12 +53,23 @@ class CustomerEdit extends Page
     /**
      * Getter for title block
      *
-     * @return \Magento\Page\Test\Block\Html\Title
+     * @return Title
      */
     public function getTitleBlock()
     {
-        return Factory::getBlockFactory()->getMagentoPageHtmlTitle(
+        return Factory::getBlockFactory()->getMagentoThemeHtmlTitle(
             $this->_browser->find($this->titleBlock, Locator::SELECTOR_CSS)
         );
     }
-} 
+
+    /**
+     * Get new customer form
+     *
+     * @return CustomerForm
+     */
+    public function getEditCustomerForm()
+    {
+        return Factory::getBlockFactory()->getMagentoCustomerBackendCustomerForm(
+            $this->_browser->find($this->editCustomerForm));
+    }
+}

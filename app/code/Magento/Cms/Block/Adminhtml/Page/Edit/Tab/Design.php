@@ -17,36 +17,34 @@ class Design
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Core\Model\Theme\LabelFactory
+     * @var \Magento\View\Design\Theme\LabelFactory
      */
     protected $_labelFactory;
 
     /**
-     * @var \Magento\Page\Model\Source\Layout
+     * @var \Magento\Theme\Model\Layout\Source\Layout
      */
     protected $_pageLayout;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Page\Model\Source\Layout $pageLayout
-     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
+     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Page\Model\Source\Layout $pageLayout,
-        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
+        \Magento\View\Design\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_labelFactory = $labelFactory;
         $this->_pageLayout = $pageLayout;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**
@@ -72,7 +70,7 @@ class Design
 
         /** @var \Magento\Data\Form $form */
         $form   = $this->_formFactory->create(array(
-            'attributes' => array(
+            'data' => array(
                 'html_id_prefix' => 'page_',
             ))
         );

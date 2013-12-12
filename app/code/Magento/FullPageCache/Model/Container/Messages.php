@@ -105,9 +105,9 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * Add messages from storage to message block
      *
      * @param string $messagesStorage
-     * @param \Magento\View\Block\Messages $block
+     * @param \Magento\View\Element\Messages $block
      */
-    protected function _addMessagesToBlock($messagesStorage, \Magento\View\Block\Messages $block)
+    protected function _addMessagesToBlock($messagesStorage, \Magento\View\Element\Messages $block)
     {
         if ($storage = $this->_storageFactory->get($messagesStorage)) {
             $block->addMessages($storage->getMessages(true));

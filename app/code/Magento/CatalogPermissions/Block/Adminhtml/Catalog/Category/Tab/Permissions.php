@@ -46,8 +46,13 @@ class Permissions
     protected $_permIndexFactory;
 
     /**
+     * @var \Magento\Json\EncoderInterface
+     */
+    protected $_jsonEncoder;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory
@@ -58,20 +63,21 @@ class Permissions
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
+        \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\CatalogPermissions\Model\Permission\IndexFactory $permIndexFactory,
         \Magento\CatalogPermissions\Model\Resource\Permission\CollectionFactory $permissionCollFactory,
         \Magento\Customer\Model\Resource\Group\CollectionFactory $groupCollFactory,
         \Magento\CatalogPermissions\Helper\Data $catalogPermData,
         array $data = array()
     ) {
+        $this->_jsonEncoder = $jsonEncoder;
         $this->_permIndexFactory = $permIndexFactory;
         $this->_permissionCollFactory = $permissionCollFactory;
         $this->_groupCollFactory = $groupCollFactory;
         $this->_catalogPermData = $catalogPermData;
-        parent::__construct($context, $coreData, $categoryTree, $registry, $data);
+        parent::__construct($context, $categoryTree, $registry, $data);
     }
 
     /**
@@ -126,7 +132,7 @@ class Permissions
             $config = array_merge($additionalConfig, $config);
         }
 
-        return $this->_coreData->jsonEncode($config);
+        return $this->_jsonEncoder->encode($config);
     }
 
     /**
@@ -157,8 +163,8 @@ class Permissions
         if ($this->getCategoryId()) {
             $categoryId = $this->getCategory()->getParentId();
         }
-        // parent category
-        else if ($this->getRequest()->getParam('parent')) {
+        elseif ($this->getRequest()->getParam('parent')) {
+            // parent category
             $categoryId = $this->getRequest()->getParam('parent');
         }
 

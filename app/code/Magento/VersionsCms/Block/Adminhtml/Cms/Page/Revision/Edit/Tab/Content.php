@@ -30,29 +30,25 @@ class Content
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig
      * @param \Magento\VersionsCms\Helper\Data $cmsData
-     * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backend\Model\Auth\Session $backendAuthSession
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Cms\Model\Wysiwyg\Config $wysiwygConfig,
         \Magento\VersionsCms\Helper\Data $cmsData,
-        \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         array $data = array()
     ) {
         $this->_cmsData = $cmsData;
         $this->_backendAuthSession = $backendAuthSession;
-        parent::__construct($context, $coreData, $registry, $formFactory, $wysiwygConfig, $data);
+        parent::__construct($context, $registry, $formFactory, $wysiwygConfig, $data);
     }
 
     /**

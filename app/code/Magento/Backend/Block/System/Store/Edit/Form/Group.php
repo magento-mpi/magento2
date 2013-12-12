@@ -40,7 +40,6 @@ class Group
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Catalog\Model\Config\Source\Category $category
@@ -50,7 +49,6 @@ class Group
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Core\Helper\Data $coreData,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Catalog\Model\Config\Source\Category $category,
@@ -61,7 +59,7 @@ class Group
         $this->_category = $category;
         $this->_storeFactory = $storeFactory;
         $this->_websiteFactory = $websiteFactory;
-        parent::__construct($context, $coreData, $registry, $formFactory, $data);
+        parent::__construct($context, $registry, $formFactory, $data);
     }
 
     /**

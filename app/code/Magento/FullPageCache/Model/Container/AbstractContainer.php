@@ -308,7 +308,7 @@ abstract class AbstractContainer implements \Magento\FullPageCache\Model\Contain
     /**
      * Get Place Holder Block
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _getPlaceHolderBlock()
     {

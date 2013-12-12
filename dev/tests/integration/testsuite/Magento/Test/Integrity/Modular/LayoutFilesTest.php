@@ -14,7 +14,7 @@ namespace Magento\Test\Integrity\Modular;
 class LayoutFilesTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
+     * @var \Magento\View\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
@@ -26,7 +26,7 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_handlerFactory = $objectManager->get('Magento\Core\Model\Layout\Argument\HandlerFactory');
+        $this->_handlerFactory = $objectManager->get('Magento\View\Layout\Argument\HandlerFactory');
         $this->_types = $this->_handlerFactory->getTypes();
     }
 
@@ -46,7 +46,7 @@ class LayoutFilesTest extends \PHPUnit_Framework_TestCase
                 continue;
             }
             try {
-                /* @var $handler \Magento\Core\Model\Layout\Argument\HandlerInterface */
+                /* @var $handler \Magento\View\Layout\Argument\HandlerInterface */
                 $handler = $this->_handlerFactory->getArgumentHandlerByType($type);
                 $argument = $handler->parse($argument);
                 if ($this->_isIgnored($argument)) {

@@ -147,7 +147,7 @@ class Container extends \Magento\Backend\Block\Template
      * @param mixed $data
      * @return \Magento\Backend\Block\Widget\Container
      */
-    protected function _updateButton($buttonId, $key=null, $data)
+    protected function _updateButton($buttonId, $key, $data)
     {
         foreach ($this->_buttons as $level => $buttons) {
             if (isset($buttons[$buttonId])) {
@@ -178,7 +178,7 @@ class Container extends \Magento\Backend\Block\Template
      * @param mixed $data
      * @return \Magento\Backend\Block\Widget\Container
      */
-    public function updateButton($buttonId, $key = null, $data)
+    public function updateButton($buttonId, $key, $data)
     {
         return $this->_updateButton($buttonId, $key, $data);
     }
@@ -186,7 +186,7 @@ class Container extends \Magento\Backend\Block\Template
     /**
      * Preparing child blocks for each added button
      *
-     * @return \Magento\View\Block\AbstractBlock
+     * @return \Magento\View\Element\AbstractBlock
      */
     protected function _prepareLayout()
     {

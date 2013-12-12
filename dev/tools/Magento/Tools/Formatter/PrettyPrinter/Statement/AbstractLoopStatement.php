@@ -17,16 +17,15 @@ abstract class AbstractLoopStatement extends AbstractStatement
     /**
      * This method adds in the closing element and the body statements of a loop.
      * @param TreeNode $treeNode
+     * @return TreeNode
      */
     protected function addBody(TreeNode $treeNode)
     {
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the terminating paren and opening brace
-        $line->add(') {')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ') {')->add(new HardLineBreak());
         // add in the children nodes
         $this->processNodes($this->node->stmts, $treeNode);
         // add the closing brace on a new line
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 }
