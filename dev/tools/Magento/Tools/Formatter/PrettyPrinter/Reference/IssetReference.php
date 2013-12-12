@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Isset;
 
@@ -26,17 +25,14 @@ class IssetReference extends AbstractFunctionReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the empty statement
-        $line->add('isset(');
+        $this->addToLine($treeNode, 'isset');
         // add in the actual variable reference
-        $this->processArgumentList($this->node->vars, $treeNode, $line, new CallLineBreak());
-        // add in the closer
-        $line->add(')');
+        return $this->processArgsList($this->node->vars, $treeNode, new CallLineBreak());
     }
 }

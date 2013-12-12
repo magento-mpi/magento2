@@ -127,7 +127,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $storeManager->expects($this->any())
             ->method('setConfig')
             ->with(
-                $this->equalTo(\Magento\Core\Model\View\Design::XML_PATH_THEME_ID),
+                $this->equalTo(\Magento\View\DesignInterface::XML_PATH_THEME_ID),
                 $this->equalTo(self::THEME_ID)
             )
             ->will($this->returnSelf());
@@ -140,7 +140,7 @@ class StateTest extends \PHPUnit_Framework_TestCase
         $configMock->expects($this->any())
             ->method('setNode')
             ->with(
-                $this->equalTo('default/' . \Magento\Core\Model\View\Design::XML_PATH_THEME_ID),
+                $this->equalTo('default/' . \Magento\View\DesignInterface::XML_PATH_THEME_ID),
                 $this->equalTo(self::THEME_ID)
             )
             ->will($this->returnSelf());

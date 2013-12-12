@@ -68,7 +68,7 @@ class Printer
             if (count($commentMap) > 0) {
                 echo "REMOVED COMMENTS" . PHP_EOL;
                 while (list($key, $value) = each($commentMap)) {
-                    echo "line($key): $value" . PHP_EOL;
+                    echo "line({$key}): {$value}" . PHP_EOL;
                 }
             }
         }
@@ -80,6 +80,14 @@ class Printer
     public function getFormattedCode()
     {
         return $this->formattedCode;
+    }
+
+    /**
+     * This method returns if the formatted code indicates a change.
+     */
+    public function hasChange()
+    {
+        return null !== $this->formattedCode && strcmp($this->originalCode, $this->formattedCode) !== 0;
     }
 
     /**
