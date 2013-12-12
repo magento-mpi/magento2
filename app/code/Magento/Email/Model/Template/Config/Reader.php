@@ -12,11 +12,6 @@ namespace Magento\Email\Model\Template\Config;
 class Reader extends \Magento\Config\Reader\Filesystem
 {
     /**
-     * @var \Magento\Module\Dir\ReverseResolver
-     */
-    private $_moduleDirResolver;
-
-    /**
      * List of id attributes for merge
      *
      * @var array
