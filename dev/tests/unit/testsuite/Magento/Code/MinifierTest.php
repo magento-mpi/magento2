@@ -59,7 +59,10 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
         );
         $this->pubViewCacheDir = $this->getMock(
             'Magento\Filesystem\Directory\Read',
-            array('getAbsolutePath'), array(), '', false
+            array('getAbsolutePath', 'getRelativePath'),
+            array(),
+            '',
+            false
         );
         $this->filesystem->expects($this->at(0))
             ->method('getDirectoryRead')
@@ -96,6 +99,11 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
             ->with($this->matches($this->minifyDir . '%ssome.min.js'))
             ->will($this->returnValue('/pub/cache/' . $this->minifyDir . '/original/some.min.js'));
 
+        $this->pubViewCacheDir->expects($this->once())
+            ->method('getRelativePath')
+            ->with($this->matches($this->minifyDir . '%ssome.min.js'))
+            ->will($this->returnValue($this->minifyDir . '/original/some.min.js'));
+
         $this->strategy->expects($this->once())
             ->method('minifyFile')
             ->with($this->minifyDir . '/original/some.js', $this->matches($this->minifyDir . '%ssome.min.js'));
@@ -122,6 +130,7 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
     {
         $originalFile = '/pub/cache/' . $this->minifyDir . '/original/some.js';
         $expectedMinifiedFile = '/pub/cache/' . $this->minifyDir . '/original/some.min.js';
+        $expectedMinifiedFileRelative = $this->minifyDir . '/original/some.min.js';
 
         $this->rootDirectory->expects($this->at(0))
             ->method('getRelativePath')
@@ -137,6 +146,11 @@ class MinifierTest extends \PHPUnit_Framework_TestCase
             ->method('getAbsolutePath')
             ->with($this->minifyDir . '/original/some.min.js')
             ->will($this->returnValue($expectedMinifiedFile));
+
+        $this->pubViewCacheDir->expects($this->once())
+            ->method('getRelativePath')
+            ->with($this->minifyDir . '/original/some.min.js')
+            ->will($this->returnValue($expectedMinifiedFileRelative));
 
         $minifiedFile = $this->minifier->getMinifiedFile($originalFile);
         $this->assertStringEndsWith($minifiedFile, $expectedMinifiedFile);
