@@ -69,7 +69,7 @@ class ImageTest extends \PHPUnit_Framework_TestCase
             'Magento\View\Design\Theme\Image\Uploader',
             array(),
             array(),
-            'UploaderProxy',
+            '',
             false,
             false
         );

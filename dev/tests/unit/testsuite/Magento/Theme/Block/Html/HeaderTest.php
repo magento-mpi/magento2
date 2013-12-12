@@ -18,7 +18,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
      */
     public function testGetLogoSrc()
     {
-        $context = $this->getMock('Magento\View\Block\Template\Context', array(), array(), '', false);
+        $context = $this->getMock('Magento\View\Element\Template\Context', array(), array(), '', false);
         $filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false );
         $mediaDirectory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false );
         $storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
