@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 abstract class AbstractPostfixOperator extends AbstractOperator
@@ -20,21 +19,21 @@ abstract class AbstractPostfixOperator extends AbstractOperator
     */
     protected function resolvePostfixOperator(TreeNode $treeNode)
     {
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // Resolve the children according to precedence.
-        $this->resolvePrecedence($this->expr(), $treeNode, -1);
-        $line->add($this->operator());
+        $treeNode = $this->resolvePrecedence($this->expr(), $treeNode, -1);
+        $this->addToLine($treeNode, $this->operator());
+        return $treeNode;
     }
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        $this->resolvePostfixOperator($treeNode);
+        return $this->resolvePostfixOperator($treeNode);
     }
 
     public function expr()

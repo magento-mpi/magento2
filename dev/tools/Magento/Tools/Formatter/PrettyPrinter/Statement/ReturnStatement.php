@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Return;
 
@@ -26,20 +25,20 @@ class ReturnStatement extends AbstractStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the return line
-        $line->add('return');
+        $this->addToLine($treeNode, 'return');
         // add in the express, if available
         if (null !== $this->node->expr) {
-            $line->add(' ');
-            $this->resolveNode($this->node->expr, $treeNode);
+            $this->addToLine($treeNode, ' ');
+            $treeNode = $this->resolveNode($this->node->expr, $treeNode);
         }
         // terminate the line
-        $line->add(';')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ';')->add(new HardLineBreak());
+        return $treeNode;
     }
 }
