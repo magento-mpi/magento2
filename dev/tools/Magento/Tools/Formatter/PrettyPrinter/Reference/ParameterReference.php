@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Param;
 
@@ -25,28 +24,28 @@ class ParameterReference extends AbstractVariableReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // if the type is specified, add it to the line
         if ($this->node->type) {
             // if the type is a string, just add it
             if (is_string($this->node->type)) {
-                $line->add($this->node->type);
+                $this->addToLine($treeNode, $this->node->type);
             } else {
                 // otherwise, assume it is a node, and resolve it
-                $this->resolveNode($this->node->type, $treeNode);
+                $treeNode = $this->resolveNode($this->node->type, $treeNode);
             }
-            $line->add(' ');
+            $this->addToLine($treeNode, ' ');
         }
         // if the parameter is by reference, so note it
         if ($this->node->byRef) {
-            $line->add('&');
+            $this->addToLine($treeNode, '&');
         }
         // add in the variable reference
-        $this->addVariableReference($treeNode, $line);
+        $this->addVariableReference($treeNode);
+        return $treeNode;
     }
 }

@@ -13,11 +13,6 @@ class CastDoubleOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Double $node)
     {
-        parent::__construct($node);
-    }
-
-    public function operator()
-    {
-        return '(double) ';
+        parent::__construct($node, 'double');
     }
 }

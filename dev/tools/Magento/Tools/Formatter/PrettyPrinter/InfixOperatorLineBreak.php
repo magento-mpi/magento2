@@ -18,7 +18,7 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
 
     public function __construct(AbstractInfixOperator $operator)
     {
-        parent::__construct(array(array(' '), array(new HardIndentLineBreak())));
+        parent::__construct(array(array(' '), array(new HardIndentLineBreak(), new HardLineBreak())));
         $this->operator = $operator;
     }
 
@@ -47,5 +47,32 @@ class InfixOperatorLineBreak extends ConditionalLineBreak
     public function getSortOrder()
     {
         return 200 + 99 - $this->operator->precedence();
+    }
+
+    /**
+     * This method returns the value for the break based on the passed in information.
+     * @param int $level Indicator for the level for which the break is being resolved.
+     * @param int $index Zero based index of this break occurrence in the line.
+     * @param int $total Total number of this break occurrences in the line.
+     * @param array $lineBreakData Data that the line break can use.
+     * @return
+     */
+    public function getValue($level, $index, $total, array &$lineBreakData)
+    {
+        switch ($level) {
+            case 0:
+                $retval = ' ';
+                break;
+            default:
+                if (isset(
+                    $lineBreakData[NodeLevelerSortOrder::INDENT_LEVEL]
+                ) && $lineBreakData[NodeLevelerSortOrder::INDENT_LEVEL] > 0
+                ) {
+                    $retval = new HardLineBreak();
+                } else {
+                    $retval = new HardIndentLineBreak();
+                }
+        }
+        return $retval;
     }
 }
