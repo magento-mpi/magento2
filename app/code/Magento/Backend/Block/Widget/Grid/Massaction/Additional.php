@@ -24,7 +24,7 @@ namespace Magento\Backend\Block\Widget\Grid\Massaction;
 class Additional extends \Magento\Backend\Block\Widget\Form\Generic
 {
     /**
-     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
+     * @var \Magento\View\Layout\Argument\HandlerFactory
      */
     protected $_handlerFactory;
 
@@ -32,14 +32,14 @@ class Additional extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
-     * @param \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory
+     * @param \Magento\View\Layout\Argument\HandlerFactory $handlerFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
-        \Magento\Core\Model\Layout\Argument\HandlerFactory $handlerFactory,
+        \Magento\View\Layout\Argument\HandlerFactory $handlerFactory,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);

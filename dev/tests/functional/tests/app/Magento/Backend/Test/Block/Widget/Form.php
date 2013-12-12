@@ -39,6 +39,13 @@ class Form extends FormInstance
     protected $saveAndContinueButton = '#save_and_continue';
 
     /**
+     * 'Save And Continue Edit' button
+     *
+     * @var string
+     */
+    protected $saveAndContinueEditButton = '#save_and_continue_edit';
+
+    /**
      * Back button
      *
      * @var string
@@ -123,6 +130,15 @@ class Form extends FormInstance
     public function clickSaveAndContinue()
     {
         $this->_rootElement->find($this->saveAndContinueButton, Locator::SELECTOR_CSS)->click();
+        return $this;
+    }
+
+    /**
+     * Click save and continue button on form
+     */
+    public function clickSaveAndContinueEdit()
+    {
+        $this->_rootElement->find($this->saveAndContinueEditButton, Locator::SELECTOR_CSS)->click();
         return $this;
     }
 }

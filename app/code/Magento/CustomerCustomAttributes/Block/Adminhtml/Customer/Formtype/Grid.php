@@ -22,7 +22,7 @@ class Grid
     protected $_formTypesFactory;
 
     /**
-     * @var \Magento\Core\Model\Theme\LabelFactory
+     * @var \Magento\View\Design\Theme\LabelFactory
      */
     protected $_themeLabelFactory;
 
@@ -30,14 +30,14 @@ class Grid
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory
-     * @param \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory
+     * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
         \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
-        \Magento\Core\Model\Theme\LabelFactory $themeLabelFactory,
+        \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_formTypesFactory = $formTypesFactory;
@@ -93,7 +93,7 @@ class Grid
             'type'      => 'store'
         ));
 
-        /** @var $label \Magento\Core\Model\Theme\Label */
+        /** @var $label \Magento\View\Design\Theme\Label */
         $label = $this->_themeLabelFactory->create();
         $design = $label->getLabelsCollection();
         array_unshift($design, array(
