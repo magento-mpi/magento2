@@ -142,7 +142,6 @@ class Adminhtml extends \PHPUnit_Framework_TestCase
             $escaperMock,
             $filterManagerMock,
             $this->_localeMock,
-            $this->_dirMock,
             $this->_filesystemMock,
             $viewFileSystemMock,
             $templatePoolMock,

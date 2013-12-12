@@ -44,7 +44,13 @@ class ValidatorTest extends \PHPUnit_Framework_TestCase
     protected function _getQuoteItemMock()
     {
         $fixturePath = __DIR__ . '/_files/';
-        $itemDownloadable = $this->getMock('Magento\Sales\Model\Quote\Item', array('getAddress'), array(), '', false);
+        $itemDownloadable = $this->getMock(
+            'Magento\Sales\Model\Quote\Item',
+            array('getAddress', '__wakeup'),
+            array(),
+            '',
+            false
+        );
         $itemDownloadable->expects($this->any())
             ->method('getAddress')
             ->will($this->returnValue(new \stdClass()));

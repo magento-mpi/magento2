@@ -59,10 +59,15 @@ class ArgumentSequence implements ValidatorInterface
                 $parentClass = '\\' . $parentClass;
             }
 
-            if (isset($this->_cache[$parentClass])) {
-                $parentCall = $this->_argumentsReader->getParentCall($class, array());
-                if ($parentCall) {
-                    $parentArguments = $this->_cache[$parentClass];
+            $parentCall = $this->_argumentsReader->getParentCall($class, array());
+            if ($parentCall) {
+                if (isset($this->_cache[$parentClass])) {
+                    $parentCall = $this->_argumentsReader->getParentCall($class, array());
+                    if ($parentCall) {
+                        $parentArguments = $this->_cache[$parentClass];
+                    }
+                } else {
+                    $parentArguments = $this->_argumentsReader->getConstructorArguments($parent, false, true);
                 }
             }
         }
