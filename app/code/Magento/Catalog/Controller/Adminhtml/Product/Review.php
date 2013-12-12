@@ -113,7 +113,7 @@ class Review extends \Magento\Backend\App\Action
     {
         if (($data = $this->getRequest()->getPost()) && ($reviewId = $this->getRequest()->getParam('id'))) {
             $review = $this->_objectManager->create('Magento\Review\Model\Review')->load($reviewId);
-            $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+            $session = $this->_objectManager->get('Magento\Backend\Model\Session');
             if (! $review->getId()) {
                 $session->addError(__('The review was removed by another user or does not exist.'));
             } else {
@@ -164,7 +164,7 @@ class Review extends \Magento\Backend\App\Action
     public function deleteAction()
     {
         $reviewId   = $this->getRequest()->getParam('id', false);
-        $session    = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session    = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         try {
             $this->_objectManager->create('Magento\Review\Model\Review')->setId($reviewId)
@@ -190,7 +190,7 @@ class Review extends \Magento\Backend\App\Action
     public function massDeleteAction()
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
-        $session    = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session    = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         if(!is_array($reviewsIds)) {
              $session->addError(__('Please select review(s).'));
@@ -200,7 +200,7 @@ class Review extends \Magento\Backend\App\Action
                     $model = $this->_objectManager->create('Magento\Review\Model\Review')->load($reviewId);
                     $model->delete();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($reviewsIds))
                 );
             } catch (\Magento\Core\Exception $e) {
@@ -216,12 +216,12 @@ class Review extends \Magento\Backend\App\Action
     public function massUpdateStatusAction()
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
-        $session    = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session    = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         if(!is_array($reviewsIds)) {
              $session->addError(__('Please select review(s).'));
         } else {
-            /* @var $session \Magento\Adminhtml\Model\Session */
+            /* @var $session \Magento\Backend\Model\Session */
             try {
                 $status = $this->getRequest()->getParam('status');
                 foreach ($reviewsIds as $reviewId) {
@@ -246,13 +246,13 @@ class Review extends \Magento\Backend\App\Action
     public function massVisibleInAction()
     {
         $reviewsIds = $this->getRequest()->getParam('reviews');
-        $session    = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session    = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         if(!is_array($reviewsIds)) {
              $session->addError(__('Please select review(s).'));
         } else {
-            $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
-            /* @var $session \Magento\Adminhtml\Model\Session */
+            $session = $this->_objectManager->get('Magento\Backend\Model\Session');
+            /* @var $session \Magento\Backend\Model\Session */
             try {
                 $stores = $this->getRequest()->getParam('stores');
                 foreach ($reviewsIds as $reviewId) {
@@ -308,7 +308,7 @@ class Review extends \Magento\Backend\App\Action
     public function postAction()
     {
         $productId  = $this->getRequest()->getParam('product_id', false);
-        $session    = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session    = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         if ($data = $this->getRequest()->getPost()) {
             if ($this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->hasSingleStore()) {

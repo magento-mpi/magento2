@@ -66,14 +66,14 @@ class Search extends \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('This search no longer exists.'));
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('This search no longer exists.'));
                 $this->_redirect('catalog/*');
                 return;
             }
         }
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -158,16 +158,16 @@ class Search extends \Magento\Backend\App\Action
                 $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query');
                 $model->setId($id);
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You deleted the search.'));
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(__('You deleted the search.'));
                 $this->_redirect('catalog/*/');
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 $this->_redirect('catalog/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a search term to delete.'));
+        $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('We can\'t find a search term to delete.'));
         $this->_redirect('catalog/*/');
     }
 
@@ -175,18 +175,18 @@ class Search extends \Magento\Backend\App\Action
     {
         $searchIds = $this->getRequest()->getParam('search');
         if (!is_array($searchIds)) {
-             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select catalog searches.'));
+             $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Please select catalog searches.'));
         } else {
             try {
                 foreach ($searchIds as $searchId) {
                     $model = $this->_objectManager->create('Magento\CatalogSearch\Model\Query')->load($searchId);
                     $model->delete();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('Total of %1 record(s) were deleted', count($searchIds))
                 );
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
             }
         }
 

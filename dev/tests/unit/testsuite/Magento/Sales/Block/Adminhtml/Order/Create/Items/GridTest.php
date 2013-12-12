@@ -30,7 +30,7 @@ class GridTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->getMock();
 
-        $sessionMock = $this->getMockBuilder('Magento\Adminhtml\Model\Session\Quote')
+        $sessionMock = $this->getMockBuilder('Magento\Backend\Model\Session\Quote')
             ->disableOriginalConstructor()
             ->setMethods(array('getQuote'))
             ->getMock();

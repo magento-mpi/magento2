@@ -107,7 +107,7 @@ class Targetrule extends \Magento\Backend\App\Action
 
         $this->_title->add($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -200,8 +200,8 @@ class Targetrule extends \Magento\Backend\App\Action
                     __('An error occurred while saving Product Rule.')
                 );
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -228,18 +228,18 @@ class Targetrule extends \Magento\Backend\App\Action
                 $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Backend\Model\Session')
                     ->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
             catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+        $this->_objectManager->get('Magento\Backend\Model\Session')
             ->addError(__("We can't find a page to delete."));
         $this->_redirect('adminhtml/*/');
     }

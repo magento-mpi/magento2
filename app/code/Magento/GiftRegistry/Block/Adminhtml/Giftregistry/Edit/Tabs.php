@@ -11,7 +11,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit;
 
 class Tabs
-    extends \Magento\Adminhtml\Block\Widget\Tabs
+    extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Intialize form

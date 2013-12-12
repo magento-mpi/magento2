@@ -50,7 +50,7 @@ class Cache extends \Magento\Backend\App\Action
     /**
      * Retrieve session model
      *
-     * @return \Magento\Adminhtml\Model\Session
+     * @return \Magento\Backend\Model\Session
      */
     protected function _getSession()
     {

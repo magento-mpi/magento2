@@ -24,7 +24,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected $_varienObserver;
 
     /**
-     * @var \Magento\Adminhtml\Block\Widget\Grid
+     * @var \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected $_block;
 
@@ -47,7 +47,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             array('_removeColumnFromGrid', '_hidePriceElements'),
             $constructArguments
         );
-        $this->_block = $this->getMock('Magento\Adminhtml\Block\Widget\Grid',
+        $this->_block = $this->getMock('Magento\Backend\Block\Widget\Grid',
             array('getNameInLayout', 'getMassactionBlock', 'setCanReadPrice', 'setCanEditPrice', 'setTabData',
                 'getChildBlock', 'getParentBlock', 'setDefaultProductPrice', 'getForm'),
             array(), '', false);
@@ -92,7 +92,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_setGetNameInLayoutExpects('admin.customer.view.cart');
 
         $this->_observer->expects($this->exactly(2))->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'),
+            ->with($this->isInstanceOf('Magento\Backend\Block\Widget\Grid'),
             $this->logicalOr(
                 $this->equalTo('price'),
                 $this->equalTo('total')
@@ -220,7 +220,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
         $this->_setGetNameInLayoutExpects('adminhtml.catalog.product.edit.tab.attributes');
 
         $this->_observer->expects($this->once())->method('_hidePriceElements')
-            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'));
+            ->with($this->isInstanceOf('Magento\Backend\Block\Widget\Grid'));
 
         $this->_observer->adminhtmlBlockHtmlBefore($this->_varienObserver);
     }
@@ -256,7 +256,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($parentBlock));
 
         $this->_observer->expects($this->exactly(2))->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'),
+            ->with($this->isInstanceOf('Magento\Backend\Block\Widget\Grid'),
             $this->logicalOr(
                 $this->equalTo('price'),
                 $this->equalTo('total')
@@ -269,7 +269,7 @@ class ObserverTest extends \PHPUnit_Framework_TestCase
     protected function _assertPriceColumnRemove()
     {
         $this->_observer->expects($this->once())->method('_removeColumnFromGrid')
-            ->with($this->isInstanceOf('Magento\Adminhtml\Block\Widget\Grid'), $this->equalTo('price'));
+            ->with($this->isInstanceOf('Magento\Backend\Block\Widget\Grid'), $this->equalTo('price'));
     }
 
     protected function _setGetNameInLayoutExpects($blockName)

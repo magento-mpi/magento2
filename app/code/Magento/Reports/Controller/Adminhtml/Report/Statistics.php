@@ -128,13 +128,13 @@ class Statistics extends \Magento\Backend\App\Action
             foreach ($collectionsNames as $collectionName) {
                 $this->_objectManager->create($collectionName)->aggregate($date);
             }
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addSuccess(__('Recent statistics have been updated.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addError(__('We can\'t refresh recent statistics.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
@@ -159,13 +159,13 @@ class Statistics extends \Magento\Backend\App\Action
             foreach ($collectionsNames as $collectionName) {
                 $this->_objectManager->create($collectionName)->aggregate();
             }
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addSuccess(__('We updated lifetime statistics.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addError(__('We can\'t refresh lifetime statistics.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }

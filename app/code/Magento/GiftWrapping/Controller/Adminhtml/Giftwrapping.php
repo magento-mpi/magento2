@@ -109,7 +109,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $model = $this->_initModel();
         $this->_initAction();
-        $formData = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData();
+        $formData = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData();
         if ($formData) {
             $model->addData($formData);
         }
@@ -142,7 +142,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 }
 
                 $model->save();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Backend\Model\Session')
                     ->addSuccess(__('You saved the gift wrapping.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
@@ -151,11 +151,11 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Backend\Model\Session')
                     ->addError(__("We couldn't save the gift wrapping."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
@@ -179,12 +179,12 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     throw new \Magento\Core\Exception(__('You have not updated the image.'));
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                $this->_objectManager->get('Magento\Backend\Model\Session')
                     ->addError(__("We couldn't save the gift wrapping."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }

@@ -175,7 +175,7 @@ class Set extends \Magento\Backend\App\Action
         } else {
             $response = array();
             if ($hasError) {
-                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
                 $response['error']   = 1;
                 $response['message'] = $this->_view->getLayout()->getMessagesBlock()->getGroupedHtml();
             } else {

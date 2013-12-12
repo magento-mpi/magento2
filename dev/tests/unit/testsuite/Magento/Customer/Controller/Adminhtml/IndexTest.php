@@ -104,7 +104,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Adminhtml\Controller\Customer::resetPasswordAction()
+     * Test \Magento\Backend\Controller\Customer::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomer()
     {
@@ -124,7 +124,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Adminhtml\Controller\Customer::resetPasswordAction()
+     * Test \Magento\Backend\Controller\Customer::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomerId()
     {

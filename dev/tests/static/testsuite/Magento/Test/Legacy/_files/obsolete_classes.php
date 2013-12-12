@@ -639,7 +639,7 @@ return array(
     array('Mage_DesignEditor_Block_Page_Html_Head'),
     array('Mage_Directory_Model_Resource_Currency_Collection'),
     array('Mage_Downloadable_FileController', 'Magento\Downloadable\Controller\Adminhtml\Downloadable\File'),
-    array('Mage_Downloadable_Product_EditController', 'Magento\Adminhtml\Controller\Catalog\Product'),
+    array('Mage_Downloadable_Product_EditController', 'Magento\Backend\Controller\Catalog\Product'),
     array('Mage_Eav_Model_Convert_Adapter_Entity'),
     array('Mage_Eav_Model_Convert_Adapter_Grid'),
     array('Mage_Eav_Model_Convert_Parser_Abstract'),
@@ -817,7 +817,7 @@ return array(
     array(
         'Magento\Catalog\Block\Product\View\Media',
         'Decomposed into \Magento\Catalog\Block\Product\View\Gallery'
-            . ' and \Magento\Catalog\Block\Product\View\BaseImage classes'
+        . ' and \Magento\Catalog\Block\Product\View\BaseImage classes'
     ),
     array('Magento\Wishlist\Block\Links', 'Magento\Wishlist\Block\Link'),
     array('Mage_Adminhtml_Block_Api_Tab_Userroles'),
@@ -1430,7 +1430,7 @@ return array(
     array('Magento\Core\Model\Fieldset\Config\Converter', 'Magento\Object\Copy\Config\Converter'),
     array('Magento\Core\Model\Fieldset\Config\Data', 'Magento\Object\Copy\Config\Data'),
     array('Magento\Core\Model\Fieldset\Config\Reader', 'Magento\Object\Copy\Config\Reader'),
-    array('Magento\Core\Model\Fieldset\Config\SchemaLocator', 'Magento\Object\Copy\Config\SchemaLocator'),    
+    array('Magento\Core\Model\Fieldset\Config\SchemaLocator', 'Magento\Object\Copy\Config\SchemaLocator'),
     array('Magento\Core\Model\ModuleManager', 'Magento\Module\Manager'),
     array('Magento\Core\Model\EntryPoint\Media', 'Magento\Core\App\Media'),
     array('Magento\Core\Controller\Varien\Action', 'Magento\App\Action\Action'),

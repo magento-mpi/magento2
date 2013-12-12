@@ -117,7 +117,7 @@ class Banner extends \Magento\Backend\App\Action
 
             // prepare post data
             if (isset($data['banner_catalog_rules'])) {
-                $related = $this->_objectManager->get('Magento\Adminhtml\Helper\Js')
+                $related = $this->_objectManager->get('Magento\Backend\Helper\Js')
                     ->decodeGridSerializedInput($data['banner_catalog_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;
@@ -125,7 +125,7 @@ class Banner extends \Magento\Backend\App\Action
                 $data['banner_catalog_rules'] = $related;
             }
             if (isset($data['banner_sales_rules'])) {
-                $related = $this->_objectManager->get('Magento\Adminhtml\Helper\Js')
+                $related = $this->_objectManager->get('Magento\Backend\Helper\Js')
                     ->decodeGridSerializedInput($data['banner_sales_rules']);
                 foreach ($related as $_key => $_rid) {
                     $related[$_key] = (int)$_rid;

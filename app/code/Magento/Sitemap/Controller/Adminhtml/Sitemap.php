@@ -91,7 +91,7 @@ class Sitemap extends  \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
                     __('This sitemap no longer exists.'));
                 $this->_redirect('adminhtml/*/');
                 return;
@@ -101,7 +101,7 @@ class Sitemap extends  \Magento\Backend\App\Action
         $this->_title->add($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
 
         // 3. Set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->setData($data);
         }
@@ -142,10 +142,10 @@ class Sitemap extends  \Magento\Backend\App\Action
                 $validator->setPaths($helper->getSitemapValidPaths());
                 if (!$validator->isValid($path)) {
                     foreach ($validator->getMessages() as $message) {
-                        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($message);
+                        $this->_objectManager->get('Magento\Backend\Model\Session')->addError($message);
                     }
                     // save data in session
-                    $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
+                    $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                     // redirect to edit form
                     $this->_redirect('adminhtml/*/edit', array(
                         'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
@@ -178,10 +178,10 @@ class Sitemap extends  \Magento\Backend\App\Action
                 // save the data
                 $model->save();
                 // display success message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('The sitemap has been saved.'));
                 // clear previously saved data from session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -199,9 +199,9 @@ class Sitemap extends  \Magento\Backend\App\Action
 
             } catch (\Exception $e) {
                 // display error message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 // save data in session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('adminhtml/*/edit', array(
                     'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
@@ -236,7 +236,7 @@ class Sitemap extends  \Magento\Backend\App\Action
                 }
                 $model->delete();
                 // display success message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('The sitemap has been deleted.'));
                 // go to grid
                 $this->_redirect('adminhtml/*/');
@@ -244,14 +244,14 @@ class Sitemap extends  \Magento\Backend\App\Action
 
             } catch (\Exception $e) {
                 // display error message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('adminhtml/*/edit', array('sitemap_id' => $id));
                 return;
             }
         }
         // display error message
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+        $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
             __('We can\'t find a sitemap to delete.'));
         // go to grid
         $this->_redirect('adminhtml/*/');

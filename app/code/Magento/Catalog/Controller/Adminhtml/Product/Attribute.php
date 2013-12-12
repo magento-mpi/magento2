@@ -110,7 +110,7 @@ class Attribute extends \Magento\Backend\App\Action
             $model->load($id);
 
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
                     __('This attribute no longer exists.'));
                 $this->_redirect('catalog/*/');
                 return;
@@ -118,7 +118,7 @@ class Attribute extends \Magento\Backend\App\Action
 
             // entity type check
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
                     __('This attribute cannot be edited.'));
                 $this->_redirect('catalog/*/');
                 return;
@@ -126,7 +126,7 @@ class Attribute extends \Magento\Backend\App\Action
         }
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getAttributeData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getAttributeData(true);
         if (! empty($data)) {
             $model->addData($data);
         }
@@ -192,7 +192,7 @@ class Attribute extends \Magento\Backend\App\Action
                     __('Attribute Set with name \'%1\' already exists.', $setName)
                 );
 
-                $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+                $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
                 $response->setError(true);
                 $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
             }
@@ -225,7 +225,7 @@ class Attribute extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getPost();
         if ($data) {
             /** @var $session \Magento\Backend\Model\Auth\Session */
-            $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+            $session = $this->_objectManager->get('Magento\Backend\Model\Session');
 
             $isNewAttributeSet = false;
             if (!empty($data['new_attribute_set_name'])) {
@@ -411,7 +411,7 @@ class Attribute extends \Magento\Backend\App\Action
             // entity type check
             $model->load($id);
             if ($model->getEntityTypeId() != $this->_entityTypeId) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
                     __('This attribute cannot be deleted.'));
                 $this->_redirect('catalog/*/');
                 return;
@@ -419,17 +419,17 @@ class Attribute extends \Magento\Backend\App\Action
 
             try {
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('The product attribute has been deleted.'));
                 $this->_redirect('catalog/*/');
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 $this->_redirect('catalog/*/edit', array('attribute_id' => $this->getRequest()->getParam('attribute_id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+        $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
             __('We can\'t find an attribute to delete.'));
         $this->_redirect('catalog/*/');
     }

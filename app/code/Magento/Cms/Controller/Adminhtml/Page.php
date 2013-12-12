@@ -98,7 +98,7 @@ class Page extends \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(
                     __('This page no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
@@ -108,7 +108,7 @@ class Page extends \Magento\Backend\App\Action
         $this->_title->add($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -159,10 +159,10 @@ class Page extends \Magento\Backend\App\Action
                 $model->save();
 
                 // display success message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('The page has been saved.'));
                 // clear previously saved data from session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));
@@ -202,7 +202,7 @@ class Page extends \Magento\Backend\App\Action
                 $title = $model->getTitle();
                 $model->delete();
                 // display success message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('The page has been deleted.'));
                 // go to grid
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'success'));
@@ -212,14 +212,14 @@ class Page extends \Magento\Backend\App\Action
             } catch (\Exception $e) {
                 $this->_eventManager->dispatch('adminhtml_cmspage_on_delete', array('title' => $title, 'status' => 'fail'));
                 // display error message
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('page_id' => $id));
                 return;
             }
         }
         // display error message
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('We can\'t find a page to delete.'));
+        $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('We can\'t find a page to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

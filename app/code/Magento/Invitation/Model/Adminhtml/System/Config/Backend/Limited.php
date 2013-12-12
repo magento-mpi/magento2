@@ -23,7 +23,7 @@ class Limited
     /**
      * Admin Session
      *
-     * @var \Magento\Adminhtml\Model\Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
@@ -32,7 +32,7 @@ class Limited
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
-     * @param \Magento\Adminhtml\Model\Session $session
+     * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -42,7 +42,7 @@ class Limited
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
-        \Magento\Adminhtml\Model\Session $session,
+        \Magento\Backend\Model\Session $session,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()

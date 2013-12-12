@@ -46,11 +46,11 @@ class Payment
     /**
      * Retrieve session object
      *
-     * @return \Magento\Adminhtml\Model\Session\Quote
+     * @return \Magento\Backend\Model\Session\Quote
      */
     protected function _getOrderSession()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
     }
 
     /**
@@ -190,8 +190,8 @@ class Payment
             //clear sessions
             $this->_getSession()->clearStorage();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clearStorage();
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
+            $this->_objectManager->get('Magento\Backend\Model\Session')->clearStorage();
+            $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(__('You created the order.'));
         }
 
         if (!empty($redirectParams['error_msg'])) {

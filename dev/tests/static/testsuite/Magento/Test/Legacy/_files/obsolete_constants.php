@@ -333,7 +333,7 @@ return array(
     array(
         'XML_PATH_PUBLIC_FILES_VALID_PATHS',
         '\Magento\Core\Helper\Data',
-        '\Magento\Adminhtml\Helper\Catalog::XML_PATH_PUBLIC_FILES_VALID_PATHS'
+        '\Magento\Catalog\Helper\Catalog::XML_PATH_PUBLIC_FILES_VALID_PATHS'
     ),
     array(
         'TYPE_PHYSICAL',
@@ -376,6 +376,8 @@ return array(
         '\Magento\Image\Adapter\AdapterInterface::ADAPTER_GD2'
     ),
     array('XML_PATH_IMAGE_TYPES', 'Magento\Adminhtml\Block\Catalog\Product\Frontend\Product\Watermark'),
+    array('XML_PATH_WEBHOOK', 'Magento\Webhook\Model\Source\Hook'),
+    array('XML_PATH_SUBSCRIPTIONS', 'Magento\Webhook\Model\Subscription\Config'),
     array('PAYMENT_INFO_TRANSPORT_SHIPPING_OVERRIDEN', 'Magento\Paypal\Model\Express\Checkout'),
     array(
         'XML_PATH_USE_FRONTEND_SID',
@@ -426,7 +428,7 @@ return array(
     array(
         'XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
         'Magento\Theme\Helper\Robots',
-        'Magento\Adminhtml\Block\Page\System\Config\Robots::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
+        'Magento\Backend\Block\Page\System\Config\Robots::XML_PATH_ROBOTS_DEFAULT_CUSTOM_INSTRUCTIONS',
     ),
     array(
         'XML_PATH_MERGE_CSS_FILES',

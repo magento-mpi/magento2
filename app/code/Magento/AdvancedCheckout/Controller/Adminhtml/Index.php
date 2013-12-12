@@ -56,7 +56,7 @@ class Index extends \Magento\Backend\App\Action
     public function getCartModel()
     {
         return $this->_objectManager->get('Magento\AdvancedCheckout\Model\Cart')
-            ->setSession($this->_objectManager->get('Magento\Adminhtml\Model\Session'))
+            ->setSession($this->_objectManager->get('Magento\Backend\Model\Session'))
             ->setContext(\Magento\AdvancedCheckout\Model\Cart::CONTEXT_ADMIN_CHECKOUT)
             ->setCurrentStore($this->getRequest()->getPost('store'));
     }
@@ -654,7 +654,7 @@ class Index extends \Magento\Backend\App\Action
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
+            $sessionQuote = $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
         } catch (\Exception $e) {
             $configureResult->setError(true);
@@ -729,7 +729,7 @@ class Index extends \Magento\Backend\App\Action
         $this->_view->generateLayoutBlocks();
         $result = $this->_view->getLayout()->renderElement('content');
         if ($this->getRequest()->getParam('as_js_varname')) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setUpdateResult($result);
             $this->_redirect('checkout/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -832,7 +832,7 @@ class Index extends \Magento\Backend\App\Action
                 if ($this->getCartModel()->getQuote()->getHasError()) {
                     foreach ($this->getCartModel()->getQuote()->getErrors() as $error) {
                         /* @var $error \Magento\Message\Error */
-                        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($error->getCode());
+                        $this->_objectManager->get('Magento\Backend\Model\Session')->addError($error->getCode());
                     }
                 }
             }
@@ -909,7 +909,7 @@ class Index extends \Magento\Backend\App\Action
                         try {
                             $this->getCartModel()->addProduct($itemInfo->getProductId(), $config);
                         } catch (\Magento\Core\Exception $e){
-                            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
                         } catch (\Exception $e){
                             $this->_objectManager->get('Magento\Logger')->logException($e);
                         }
@@ -977,7 +977,7 @@ class Index extends \Magento\Backend\App\Action
      */
     public function showUpdateResultAction()
     {
-        $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

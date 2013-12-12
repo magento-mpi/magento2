@@ -27,7 +27,7 @@ class Creditmemo
     {
         $data = $this->getRequest()->getParam('creditmemo');
         if (!$data) {
-            $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+            $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         }
 
         if (isset($data['items'])) {
@@ -223,7 +223,7 @@ class Creditmemo
                 $this->_title->add(__("New Memo"));
             }
 
-            if ($comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true)) {
+            if ($comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true)) {
                 $creditmemo->setCommentText($comment);
             }
 

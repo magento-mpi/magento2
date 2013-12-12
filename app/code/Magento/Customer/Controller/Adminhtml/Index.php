@@ -122,7 +122,7 @@ class Index extends \Magento\Backend\App\Action
         $customer = $this->_coreRegistry->registry('current_customer');
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCustomerData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getCustomerData(true);
 
         // restore data from SESSION
         if ($data) {
@@ -616,7 +616,7 @@ class Index extends \Magento\Backend\App\Action
         }
 
         if ($response->getError()) {
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
 
@@ -723,7 +723,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -731,11 +731,11 @@ class Index extends \Magento\Backend\App\Action
                     $customer->setIsSubscribed(true);
                     $customer->save();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($exception->getMessage());
             }
         }
         $this->_redirect('customer/*/index');
@@ -748,7 +748,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -756,11 +756,11 @@ class Index extends \Magento\Backend\App\Action
                     $customer->setIsSubscribed(false);
                     $customer->save();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($exception->getMessage());
             }
         }
 
@@ -774,7 +774,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 $customer = $this->_objectManager->create('Magento\Customer\Model\Customer');
@@ -783,11 +783,11 @@ class Index extends \Magento\Backend\App\Action
                         ->load($customerId)
                         ->delete();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were deleted.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($exception->getMessage());
             }
         }
 
@@ -801,7 +801,7 @@ class Index extends \Magento\Backend\App\Action
     {
         $customersIds = $this->getRequest()->getParam('customer');
         if (!is_array($customersIds)) {
-             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(__('Please select customer(s).'));
+             $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Please select customer(s).'));
         } else {
             try {
                 foreach ($customersIds as $customerId) {
@@ -809,11 +809,11 @@ class Index extends \Magento\Backend\App\Action
                     $customer->setGroupId($this->getRequest()->getParam('group'));
                     $customer->save();
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(
                     __('A total of %1 record(s) were updated.', count($customersIds))
                 );
             } catch (\Exception $exception) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($exception->getMessage());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($exception->getMessage());
             }
         }
 

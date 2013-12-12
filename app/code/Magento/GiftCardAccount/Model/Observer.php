@@ -50,7 +50,7 @@ class Observer
     /**
      * Admin Session Quote
      *
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_adminSessionQuote = null;
 
@@ -67,7 +67,7 @@ class Observer
      * @param \Magento\CustomerBalance\Model\Balance $customerBalance
      * @param \Magento\GiftCardAccount\Model\History $giftCAHistory
      * @param \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory
-     * @param \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $adminSessionQuote
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      */
     public function __construct(
@@ -76,7 +76,7 @@ class Observer
         \Magento\CustomerBalance\Model\Balance $customerBalance,
         \Magento\GiftCardAccount\Model\History $giftCAHistory,
         \Magento\GiftCardAccount\Model\GiftcardaccountFactory $giftCAFactory,
-        \Magento\Adminhtml\Model\Session\Quote $adminSessionQuote,
+        \Magento\Backend\Model\Session\Quote $adminSessionQuote,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         $this->_eventManager = $eventManager;

@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Core\Model\System\Store

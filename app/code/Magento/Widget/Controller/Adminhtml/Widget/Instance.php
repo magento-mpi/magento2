@@ -184,7 +184,7 @@ class Instance extends \Magento\Backend\App\Action
         $result = $widgetInstance->validate();
         if ($result !== true && is_string($result)) {
             $this->_getSession()->addError($result);
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
             $response->setError(true);
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }
@@ -282,9 +282,9 @@ class Instance extends \Magento\Backend\App\Action
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
-        /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
+        /* @var $serializer \Magento\Backend\Block\Widget\Grid\Serializer */
         $serializer = $this->_view->getLayout()->createBlock(
-            'Magento\Adminhtml\Block\Widget\Grid\Serializer',
+            'Magento\Backend\Block\Widget\Grid\Serializer',
             '',
             array(
                 'data' => array(

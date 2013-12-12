@@ -10,7 +10,7 @@
 
 namespace Magento\Sales\Block\Adminhtml\Order\Status;
 
-class Assign extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Assign extends \Magento\Backend\Block\Widget\Form\Container
 {
 
     protected function _construct()

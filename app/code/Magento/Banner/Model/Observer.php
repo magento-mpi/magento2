@@ -18,7 +18,7 @@ class Observer
     /**
      * Adminhtml js
      *
-     * @var \Magento\Adminhtml\Helper\Js
+     * @var \Magento\Backend\Helper\Js
      */
     protected $_adminhtmlJs = null;
 
@@ -30,11 +30,11 @@ class Observer
     protected $_bannerFactory = null;
 
     /**
-     * @param \Magento\Adminhtml\Helper\Js $adminhtmlJs
+     * @param \Magento\Backend\Helper\Js $adminhtmlJs
      * @param \Magento\Banner\Model\Resource\BannerFactory $bannerFactory
      */
     public function __construct(
-        \Magento\Adminhtml\Helper\Js $adminhtmlJs,
+        \Magento\Backend\Helper\Js $adminhtmlJs,
         \Magento\Banner\Model\Resource\BannerFactory $bannerFactory
     ) {
         $this->_adminhtmlJs = $adminhtmlJs;

@@ -25,7 +25,7 @@ class Problem extends \Magento\Backend\App\Action
         }
 
         $this->_view->getLayout()->getMessagesBlock()->setMessages(
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true)
+            $this->_objectManager->get('Magento\Backend\Model\Session')->getMessages(true)
         );
         $this->_view->loadLayout();
 
@@ -51,7 +51,7 @@ class Problem extends \Magento\Backend\App\Action
                 $collection->walk('unsubscribe');
             }
 
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addSuccess(__('We unsubscribed the people you identified.'));
         }
 
@@ -67,11 +67,11 @@ class Problem extends \Magento\Backend\App\Action
                 $collection->walk('delete');
             }
 
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+            $this->_objectManager->get('Magento\Backend\Model\Session')
                 ->addSuccess(__('The problems you identified have been deleted.'));
         }
         $this->_view->getLayout()->getMessagesBlock()->setMessages(
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getMessages(true)
+            $this->_objectManager->get('Magento\Backend\Model\Session')->getMessages(true)
         );
 
         $this->_view->loadLayout(false);
