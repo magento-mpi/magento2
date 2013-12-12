@@ -21,8 +21,15 @@
   * FormKey logic is moved out from Session model
   * SessionIdFlags is removed from Session model
   * Move Page logic to the Theme module and library
-* Created UX for the Integration module
+* Implemented API Integration UX flows
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module
+* Created integration module UX
 * Created authorization service (Magento_Authz module)
+  * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:
   * Fixed the issue that prevented a customer group's shopping cart rules from applying properly to prices. The issue occurred when a customer was manually assigned to a customer group and automatic group assignment was enabled.
   * Fixed the bug with schema upgrade scripts not running after installation
