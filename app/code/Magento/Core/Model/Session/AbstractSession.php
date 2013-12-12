@@ -186,8 +186,8 @@ class AbstractSession extends \Magento\Object
      *
      * @param string $namespace
      * @param string $sessionName
-     * @return \Magento\Core\Model\Session\AbstractSession
      * @throws \Magento\Core\Model\Session\Exception
+     * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function start($namespace = 'default', $sessionName = null)
     {

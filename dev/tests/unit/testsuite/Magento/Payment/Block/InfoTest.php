@@ -30,7 +30,9 @@ class InfoTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getStore'))
             ->disableOriginalConstructor()
             ->getMock();
-        $context = $helper->getObject('Magento\View\Element\Template\Context', array('storeManager' => $this->_storeManager));
+        $context = $helper->getObject(
+            'Magento\View\Element\Template\Context', array('storeManager' => $this->_storeManager)
+        );
         $this->_object = $helper->getObject('Magento\Payment\Block\Info', array('context' => $context));
     }
 
