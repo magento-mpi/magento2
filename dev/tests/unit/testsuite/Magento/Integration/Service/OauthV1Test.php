@@ -11,6 +11,7 @@
 namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Integration;
+use Magento\Oauth\OauthInterface;
 
 class OauthV1Test extends \PHPUnit_Framework_TestCase
 {
@@ -147,7 +148,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->_service->deleteConsumer(self::VALUE_CONSUMER_ID);
     }
 
-    public function testCreateAccessTokenWithoutClearExisting()
+    public function testCreateAccessTokenAndClearExisting()
     {
 
         $this->_consumerMock->expects($this->any())
@@ -171,7 +172,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue($this->_tokenMock));
 
-        $this->_tokenMock->expects($this->any())
+        $this->_tokenMock->expects($this->once())
             ->method('delete');
 
         $this->_tokenMock->expects($this->once())
@@ -189,7 +190,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_service->createAccessToken(self::VALUE_CONSUMER_ID, true));
     }
 
-    public function testCreateAccessTokenWithClearExisting()
+    public function testCreateAccessTokenWithoutClearingExisting()
     {
         $this->_consumerMock->expects($this->any())
             ->method('load')
@@ -206,7 +207,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->_service->createAccessToken(self::VALUE_CONSUMER_ID, false));
     }
 
-    public function testCreateAccessTokenWithoutExisting()
+    public function testCreateAccessTokenInvalidConsumerId()
     {
         $this->_consumerMock->expects($this->any())
             ->method('load')
@@ -215,24 +216,29 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
 
         $this->_tokenProviderMock->expects($this->any())
             ->method('getTokenByConsumerId')
-            ->will($this->returnValue(false));
+            ->will($this->throwException(
+                new \Magento\Oauth\Exception(
+                    'A token with consumer ID 0 does not exist',
+                    OauthInterface::ERR_TOKEN_REJECTED
+                )
+            ));
 
         $this->_tokenMock->expects($this->never())
             ->method('delete');
 
-        $this->_tokenFactoryMock->expects($this->any())
+        $this->_tokenFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_tokenMock));
 
-        $this->_tokenMock->expects($this->never())
+        $this->_tokenMock->expects($this->once())
             ->method('createVerifierToken');
 
-        $this->_tokenProviderMock->expects($this->never())
+        $this->_tokenProviderMock->expects($this->once())
             ->method('createRequestToken');
 
-        $this->_tokenProviderMock->expects($this->never())
+        $this->_tokenProviderMock->expects($this->once())
             ->method('getAccessToken');
 
-        $this->assertFalse($this->_service->createAccessToken(0, false));
+        $this->assertTrue($this->_service->createAccessToken(0, false));
     }
 }
