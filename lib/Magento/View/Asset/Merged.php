@@ -160,7 +160,7 @@ class Merged implements \Iterator
 
         $mergedDir = $filesystem->getDirectoryRead(\Magento\Filesystem::PUB_VIEW_CACHE)
             ->getAbsolutePath(self::PUBLIC_MERGE_DIR);
-        return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->_contentType;
+        return $mergedDir . '/' . md5(implode('|', $relFileNames)) . '.' . $this->contentType;
     }
 
     /**
