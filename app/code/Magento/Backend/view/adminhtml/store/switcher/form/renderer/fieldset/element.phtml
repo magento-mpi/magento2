@@ -13,7 +13,7 @@
 $element = $this->getElement();
 $note = $element->getNote() ? '<div class="note">' . $element->getNote() . '</div>' : '';
 $elementBeforeLabel = $element->getExtType() == 'checkbox' || $element->getExtType() == 'radio';
-$addOn = $element->getBeforeElementHtml() || ($element->getAfterElementHtml() && $element->getAfterElementHtml() != '');
+$addOn = $element->getBeforeElementHtml() || $element->getAfterElementHtml();
 $fieldId = ($element->getHtmlContainerId()) ? ' id="' . $element->getHtmlContainerId() . '"' : '';
 $fieldClass = "field field-{$element->getId()} {$element->getCssClass()}";
 $fieldClass .= ($elementBeforeLabel) ? ' choice' : '';
@@ -48,5 +48,4 @@ $fieldAttributes = $fieldId . ' class="' . $fieldClass . '" '
         <?php echo $this->getHintHtml() ?>
     </div>
     <?php endif; ?>
-    <?php echo $element->getAfterElementJs(); ?>
 <?php endif; ?>
