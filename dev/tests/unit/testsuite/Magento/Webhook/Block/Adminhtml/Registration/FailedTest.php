@@ -22,8 +22,6 @@ class FailedTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
-        /** @var  $coreData \Magento\Core\Helper\Data */
-        $coreData = $this->getMock('Magento\Core\Helper\Data', array(), array(), '', false);
         $this->_lastMessage = $this->getMockBuilder('Magento\Message\AbstractMessage')
             ->disableOriginalConstructor()
             ->getMock();
@@ -40,9 +38,9 @@ class FailedTest extends \PHPUnit_Framework_TestCase
             ->method('getMessages')
             ->will($this->returnValue($messages));
 
-        $this->_block = $helper->getObject('\Magento\Webhook\Block\Adminhtml\Registration\Failed',
+        $this->_block = $helper->getObject(
+            'Magento\Webhook\Block\Adminhtml\Registration\Failed',
             array(
-                'coreData' => $coreData,
                 'messageManager' => $messageManager
             )
         );
