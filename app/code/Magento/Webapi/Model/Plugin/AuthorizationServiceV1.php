@@ -24,7 +24,7 @@ class AuthorizationServiceV1
     /** @var Logger */
     protected $_logger;
 
-    /** @var UserIdentifier  */
+    /** @var UserIdentifier */
     protected $_userIdentifier;
 
     /**

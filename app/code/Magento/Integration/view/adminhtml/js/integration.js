@@ -229,7 +229,7 @@
                         buttons.push(okButton);
                     }
                     // Add button only if its not empty
-                    if (typeof buttons !== 'undefined' && buttons.length > 0) {
+                    if (buttons.length > 0) {
                         dialogProperties['buttons'] = buttons
                     }
                     popup.dialog(dialogProperties);
