@@ -106,8 +106,7 @@ class SalesRule extends DataFixture
             throw new Exception('No customer segment id returned by customer segment precondition');
         }
         // Create Customer Segment Condition
-        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions();
-        $customerSegmentConditionFixture->setPlaceHolders(
+        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions(
             array('segment_id' => $this->customerSegmentId, 'name' => $this->customerSegmentFixture->getSegmentName())
         );
         $customerSegmentConditionFixture->switchData('retailer_condition_curl');

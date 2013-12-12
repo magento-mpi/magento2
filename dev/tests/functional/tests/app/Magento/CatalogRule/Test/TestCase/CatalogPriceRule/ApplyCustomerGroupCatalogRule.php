@@ -60,11 +60,13 @@ class ApplyCustomerGroupCatalogRule extends Functional
         // Fill and Save the Form
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
-        $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule();
-        $catalogRuleFixture->setPlaceHolders(array('category_id' => $categoryIds[0]));
+        $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
+            array('category_id' => $categoryIds[0])
+        );
         $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL);
         // convert the discount amount to a decimal form
         $this->_discountDecimal = ($catalogRuleFixture->getDiscountAmount() * .01);
+        $catalogRuleFixture->switchData('customer_group_catalog_rule');
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 

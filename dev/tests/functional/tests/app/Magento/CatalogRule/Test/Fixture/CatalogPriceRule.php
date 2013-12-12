@@ -49,13 +49,5 @@ class CatalogPriceRule extends DataFixture
     {
         return $this->getData('fields/rule_discount_amount/value');
     }
-
-    /**
-     * Update the placeholder
-     */
-    public function setPlaceHolders(array $placeholders = array())
-    {
-        $this->_placeholders = $placeholders;
-    }
 }
 
