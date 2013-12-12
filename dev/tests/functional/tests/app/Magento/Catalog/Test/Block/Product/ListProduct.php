@@ -14,6 +14,7 @@ namespace Magento\Catalog\Test\Block\Product;
 use Mtf\Block\Block;
 use Mtf\Client\Element;
 use Mtf\Client\Element\Locator;
+use Mtf\Factory\Factory;
 
 /**
  * Class SearchResultsList
@@ -24,10 +25,18 @@ use Mtf\Client\Element\Locator;
 class ListProduct extends Block
 {
     /**
-     * This member contains the class identifiers for the product detail block
+     * This member holds the class name for the price block found inside the product details.
+     *
      * @var string
      */
-    protected $productDetails = '.product.details';
+    protected $priceBlockClass = 'price-box';
+
+    /**
+     * This member contains the selector to find the product details for the named product.
+     *
+     * @var string
+     */
+    protected $productDetailsSelector = '//*[@class="product details" and .//*[@title="%s"]]';
 
     /**
      * Product name
@@ -37,30 +46,16 @@ class ListProduct extends Block
     protected $productTitle = '.product.name';
 
     /**
-     * This method returns the displayed price for the named product.
+     * This method returns the price box block for the named product.
+     *
      * @param string $productName String containing the name of the product to find.
-     * @return array|string
+     * @return Block
      */
-    public function getProductPrice($productName)
+    public function getProductPriceBlock($productName)
     {
-        return $this->_rootElement->find(
-            "//*[@class=\"product details\" and .//*[@title=\"{$productName}\"]]//*[@class=\"price\"]",
-            Locator::SELECTOR_XPATH
-        )->getText();
-    }
-
-    /**
-     * This method returns the displayed special price for the named product.
-     * @param string $productName String containing the name of the product to find.
-     * @return array|string
-     */
-    public function getProductSpecialPrice($productName)
-    {
-        return $this->_rootElement->find(
-            "//*[@class=\"product details\" and .//*[@title=\"{$productName}\"]]" .
-            "//*[@class=\"special-price\"]//*[@class=\"price\"]",
-            Locator::SELECTOR_XPATH
-        )->getText();
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
+            $this->getProductDetailsElement($productName)->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        );
     }
 
     /**
@@ -85,7 +80,17 @@ class ListProduct extends Block
     }
 
     /**
+     * This method returns the element representing the product details for the named product.
+     *
+     * @param string $productName String containing the name of the product
+     */
+    protected function getProductDetailsElement($productName) {
+        return $this->_rootElement->find(sprintf($this->productDetailsSelector, $productName), Locator::SELECTOR_XPATH);
+    }
+
+    /**
      * This method returns the element on the page associated with the product name.
+     *
      * @param string $productName String containing the name of the product
      * @return Element
      */
