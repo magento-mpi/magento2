@@ -342,11 +342,6 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test -->
             <word>CustomerSegment</word>
-            <path>dev/tests/functional/tests/app/Magento</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
-            <word>CustomerSegment</word>
             <word>Magento\Logging</word>
             <word>Pbridge</word>
             <word>Magento\Search</word>
@@ -379,27 +374,6 @@
             <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
             <word>Pbridge</word>
             <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
-        </item>
-        <item>
-            <word>CustomerSegment</word>
-            <path>dev/tests/functional/tests/app/Magento/Backend/Test/Block/CustomerSegment</path>
-        </item>
-        <item>
-            <word>CustomerSegment</word>
-            <path>dev/tests/functional/tests/app/Magento/CustomerSegment</path>
-        </item>
-        <item>
-            <word>Magento/Banner</word>
-            <word>Magento\Banner</word>
-            <path>dev/tests/functional/tests/app/Magento/Banner</path>
-        </item>
-        <item>
-            <word>Magento_Banner</word>
-            <path>dev/tests/functional/tests/app/Magento/Widget/Test/Handler/Curl/CreateInstance.php</path>
-        </item>
-        <item>
-            <word>CustomerSegment</word>
-            <path>dev/tests/functional/tests/app/Magento/SalesRule/Test/TestCase/SalesRuleTest.php</path>
         </item>
     </whitelist>
 </config>

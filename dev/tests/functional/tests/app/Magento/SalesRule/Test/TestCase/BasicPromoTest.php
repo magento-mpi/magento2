@@ -12,7 +12,6 @@ namespace Magento\SalesRule\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\SalesRule\Test\Page\SalesRuleNew;
 use Magento\SalesRule\Test\Repository\SalesRule as Repository;
 
 /**
@@ -33,6 +32,18 @@ class BasicPromoTest extends Functional
         $fixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
         // All Preconditions are setup here
         $fixture->persist();
+        // Precondition
+        // Create the customer segment
+        $customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
+        /* @var int $customerSegmentId */
+        $customerSegmentId = Factory::getApp()->magentoCustomerSegmentCustomerSegment($customerSegmentFixture);
+        $this->assertNotEmpty($customerSegmentId, 'No customer segment id returned by customer segment precondition');
+        // Create Customer Segment Condition
+        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions(
+            array('segment_id' => $customerSegmentId, 'name' => $customerSegmentFixture->getSegmentName())
+        );
+        $customerSegmentConditionFixture->switchData('retailer_condition_curl');
+        Factory::getApp()->magentoCustomerSegmentCustomerSegmentCondition($customerSegmentConditionFixture);
         // Open the backend page to create a sales rule
         $salesRulePage = Factory::getPageFactory()->getSalesRulePromoQuote();
         $salesRulePage->open();
@@ -45,7 +56,7 @@ class BasicPromoTest extends Functional
         // Setup Condition open tab
         $salesRulePageNew->getConditionsFormTab()->openTab($salesRulePageNew->getConditionsTabSelector());
         // Add New Condition
-        $salesRulePageNew->getConditionsTab()->addCustomerSegmentCondition($fixture);
+        $salesRulePageNew->getConditionsTab()->addCustomerSegmentCondition($fixture, $customerSegmentId);
         // Setup Discount
         $salesRulePageNew->getActionsFormTab()->openTab($salesRulePageNew->getActionsTabSelector());
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();

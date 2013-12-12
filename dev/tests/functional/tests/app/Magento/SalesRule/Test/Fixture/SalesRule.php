@@ -13,8 +13,6 @@ use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 use Magento\Customer\Test\Fixture\Customer;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\CustomerSegment\Test\Fixture\SegmentGeneralProperties;
-use Magento\CustomerSegment\Test\Fixture\SegmentConditions;
 
 /**
  * Class SalesRule
@@ -32,21 +30,6 @@ class SalesRule extends DataFixture
      * @var Product
      */
     protected $productFixture;
-
-    /**
-     * @var SegmentGeneralProperties
-     */
-    protected $customerSegment;
-
-    /**
-     * @var int
-     */
-    protected $customerSegmentId;
-
-    /**
-     * @var SegmentConditions
-     */
-    protected $customerSegmentFixture;
 
     /**
      * @var int
@@ -96,21 +79,6 @@ class SalesRule extends DataFixture
         // Create a product
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->productFixture->persist();
-        // Create the customer segment
-        $this->customerSegmentFixture = Factory::getFixtureFactory()
-            ->getMagentoCustomerSegmentSegmentGeneralProperties();
-        $this->customerSegmentId = Factory::getApp()->magentoCustomerSegmentCustomerSegment(
-            $this->customerSegmentFixture
-        );
-        if (empty($this->customerSegmentId)) {
-            throw new Exception('No customer segment id returned by customer segment precondition');
-        }
-        // Create Customer Segment Condition
-        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions(
-            array('segment_id' => $this->customerSegmentId, 'name' => $this->customerSegmentFixture->getSegmentName())
-        );
-        $customerSegmentConditionFixture->switchData('retailer_condition_curl');
-        Factory::getApp()->magentoCustomerSegmentCustomerSegmentCondition($customerSegmentConditionFixture);
     }
 
     /**
@@ -139,14 +107,6 @@ class SalesRule extends DataFixture
     public function getCustomerFixture()
     {
         return $this->customerFixture;
-    }
-
-    /**
-     * @return string
-     */
-    public function getCustomerSegmentId()
-    {
-        return $this->customerSegmentId;
     }
 
     /**

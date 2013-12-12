@@ -88,8 +88,9 @@ class Conditions extends Tab
      * Add a customer segment condition
      *
      * @param Fixture $fixture
+     * @param int $customerSegmentId
      */
-    public function addCustomerSegmentCondition(Fixture $fixture)
+    public function addCustomerSegmentCondition(Fixture $fixture, $customerSegmentId)
     {
         if ($fixture instanceof SalesRule) {
             // Add new condition
@@ -103,7 +104,7 @@ class Conditions extends Tab
             $this->getTemplateBlock()->waitLoader();
             $this->reinitRootElement();
             // Set Customer Segment Id
-            $this->selectConditionValue($fixture->getCustomerSegmentId());
+            $this->selectConditionValue($customerSegmentId);
             // Apply change
             $this->clickApply();
         }
