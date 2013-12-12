@@ -249,7 +249,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Session|\Magento\Session\SessionManager
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

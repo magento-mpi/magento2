@@ -68,7 +68,7 @@ class Context
     protected $design;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $session;
 
@@ -239,7 +239,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Session|\Magento\Session\SessionManagerInterface
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

@@ -32,7 +32,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
