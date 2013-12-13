@@ -41,9 +41,6 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $simpleProductFixture->switchData(SimpleProduct::NEW_CATEGORY);
         $simpleProductFixture->persist();
         $categoryIds = $simpleProductFixture->getCategoryIds();
-        // Create Customer Group
-        $customerGroupFixture = Factory::getFixtureFactory()->getMagentoCustomerGroupCustomerGroup();
-        $customerGroupFixture->persist();
         // Create Customer
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customerFixture->switchData('customer_US_1');
