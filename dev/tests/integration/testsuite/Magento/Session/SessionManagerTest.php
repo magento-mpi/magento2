@@ -117,6 +117,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this->_model->start('test');
         $this->assertEmpty($this->_model->getSessionIdForHost('localhost'));
         $this->assertNotEmpty($this->_model->getSessionIdForHost('test'));
+        $this->_model->destroy();
     }
 
     public function testIsValidForHost()
@@ -130,5 +131,6 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->_model->isValidForHost('test.com'));
         $this->assertTrue($this->_model->isValidForHost('localhost'));
+        $this->_model->destroy();
     }
 }
