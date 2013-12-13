@@ -43,7 +43,7 @@ class WsdlGenerationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             array(
                 'testModule1AllSoapAndRestV1',
                 'testModule1AllSoapAndRestV2',
-                'testModule2AllSoapNoRestV1',
+                'testModule2SubsetRestV1',
             )
         );
         $soapClient = $soapAdapter->instantiateSoapClient($wsdlUrl);
@@ -78,7 +78,7 @@ class WsdlGenerationTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             ),
             array(
                 33,
-                "testModule2AllSoapNoRestV1Item",
+                "testModule2SubsetRestV1Item",
                 (object)array(
                     'id' => 33,
                 )

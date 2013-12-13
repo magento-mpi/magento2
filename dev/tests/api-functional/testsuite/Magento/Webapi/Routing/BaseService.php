@@ -5,38 +5,73 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+namespace Magento\Webapi\Routing;
 
 /**
  * Base class for all Service based routing tests
  */
-namespace Magento\Webapi\Routing;
-
 abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstract
 {
-
     /**
-     * Utility to check a particular adapter and assert the exception
+     * Check a particular adapter and assert unauthorized access
      *
-     * @param $serviceInfo
-     * @param $requestData
+     * @param array      $serviceInfo
+     * @param array|null $requestData
      */
-    protected function assertNoRouteOrOperationException($serviceInfo, $requestData = null)
+    protected function assertUnauthorizedException($serviceInfo, $requestData = null)
     {
         if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
-            $this->assertSoapException($serviceInfo, $requestData);
+            $this->_assertSoapException($serviceInfo, $requestData, 'Not Authorized.');
         } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
-            $this->assertNoRestRouteException($serviceInfo, $requestData);
+            $this->_assertRestUnauthorizedException($serviceInfo, $requestData);
         }
     }
 
     /**
-     * This is a helper function to invoke the REST api and assert for
-     * test cases that no such REST route exist
+     * Invoke the REST api and assert access is unauthorized
      *
-     * @param $serviceInfo
-     * @param $requestData
+     * @param array      $serviceInfo
+     * @param array|null $requestData
      */
-    protected function assertNoRestRouteException($serviceInfo, $requestData = null)
+    protected function _assertRestUnauthorizedException($serviceInfo, $requestData = null)
+    {
+        try {
+            $this->_webApiCall($serviceInfo, $requestData);
+        } catch (\Exception $e) {
+            $this->assertContains(
+                '{"errors":[{"message":"Not Authorized.","http_code":401',
+                $e->getMessage(),
+                sprintf(
+                    'REST routing did not fail as expected for the method "%s" of service "%s"',
+                    $serviceInfo['rest']['httpMethod'],
+                    $serviceInfo['rest']['resourcePath']
+                )
+            );
+        }
+    }
+
+    /**
+     * Check a particular adapter and assert the exception
+     *
+     * @param array      $serviceInfo
+     * @param array|null $requestData
+     */
+    protected function _assertNoRouteOrOperationException($serviceInfo, $requestData = null)
+    {
+        if (TESTS_WEB_API_ADAPTER == self::ADAPTER_SOAP) {
+            $this->_assertSoapException($serviceInfo, $requestData);
+        } else if (TESTS_WEB_API_ADAPTER == self::ADAPTER_REST) {
+            $this->_assertNoRestRouteException($serviceInfo, $requestData);
+        }
+    }
+
+    /**
+     * Invoke the REST api and assert for test cases that no such REST route exist
+     *
+     * @param array      $serviceInfo
+     * @param array|null $requestData
+     */
+    protected function _assertNoRestRouteException($serviceInfo, $requestData = null)
     {
         try {
             $this->_webApiCall($serviceInfo, $requestData);
@@ -54,28 +89,28 @@ abstract class BaseService extends \Magento\TestFramework\TestCase\WebapiAbstrac
     }
 
     /**
-     * TODO: Temporary \Exception assertion. Need to refine
-     * This is a helper function to invoke the SOAP api and assert for the NoWebApiXmlTestTest
-     * test cases that no such SOAP route exists
+     * Invoke the SOAP api and assert for the NoWebApiXmlTestTest test cases that no such SOAP route exists
      *
-     * @param $serviceInfo
-     * @param $requestData
+     * @param array      $serviceInfo
+     * @param array|null $requestData
+     * @param string     $expectedMessage
      */
-    protected function assertSoapException($serviceInfo, $requestData = null)
+    protected function _assertSoapException($serviceInfo, $requestData = null, $expectedMessage = '')
     {
         try {
             $this->_webApiCall($serviceInfo, $requestData);
         } catch (\Exception $e) {
-            $this->assertEquals(
-                get_class($e),
-                'SoapFault',
-                sprintf(
-                    'Expected SoapFault exception not generated for
-                    Service - "%s" and Operation - "%s"',
+            if (get_class($e) !== 'SoapFault') {
+                $this->fail(sprintf(
+                    'Expected SoapFault exception not generated for Service - "%s" and Operation - "%s"',
                     $serviceInfo['soap']['service'],
                     $serviceInfo['soap']['operation']
-                )
-            );
+                ));
+            }
+
+            if ($expectedMessage) {
+                $this->assertEquals($expectedMessage, $e->getMessage());
+            }
         }
     }
 

@@ -5,19 +5,21 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Integration\Service;
+
+use \Magento\Integration\Model\Integration as IntegrationModel;
 
 /**
  * Integration Service Interface
  */
 interface IntegrationV1Interface
 {
-
     /**
      * Create a new Integration
      *
      * @param array $integrationData
-     * @return array Integration data
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     public function create(array $integrationData);
@@ -26,7 +28,7 @@ interface IntegrationV1Interface
      * Get the details of a specific Integration.
      *
      * @param int $integrationId
-     * @return array Integration data
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     public function get($integrationId);
@@ -34,20 +36,26 @@ interface IntegrationV1Interface
     /**
      * Find Integration by name.
      *
-     * @param int $integrationName
+     * @param string $integrationName
      * @return array|null Integration data or null if not found
-     * @throws \Magento\Integration\Exception
      */
     public function findByName($integrationName);
 
-
     /**
-     * Update a Integration.
+     * Update an Integration.
      *
      * @param array $integrationData
-     * @return array Integration data
+     * @return IntegrationModel
      * @throws \Magento\Integration\Exception
      */
     public function update(array $integrationData);
 
+    /**
+     * Delete an Integration.
+     *
+     * @param int $integrationId
+     * @return array Integration data
+     * @throws \Magento\Integration\Exception if the integration does not exist or cannot be deleted
+     */
+    public function delete($integrationId);
 }

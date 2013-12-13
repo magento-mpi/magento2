@@ -91,6 +91,6 @@ class CreateProductTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }
