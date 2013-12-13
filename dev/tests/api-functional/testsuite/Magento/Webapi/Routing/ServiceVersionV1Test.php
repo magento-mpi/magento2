@@ -130,8 +130,12 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         // getting new credentials that do not match the api resources
         OauthHelper::clearApiAccessCredentials();
         OauthHelper::getApiAccessCredentials([]);
-        $this->assertUnauthorizedException($serviceInfo, $requestData);
-
+        try {
+            $this->assertUnauthorizedException($serviceInfo, $requestData);
+        } catch (\Exception $e) {
+            OauthHelper::clearApiAccessCredentials();
+            throw $e;
+        }
         // to allow good credentials to be restored (this is statically stored on OauthHelper)
         OauthHelper::clearApiAccessCredentials();
     }

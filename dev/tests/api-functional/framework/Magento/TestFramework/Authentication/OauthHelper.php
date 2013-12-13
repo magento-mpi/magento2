@@ -35,22 +35,18 @@ class OauthHelper
      */
     public static function getConsumerCredentials($date = null)
     {
+        $integration = self::_createIntegration('all');
         $objectManager = Bootstrap::getObjectManager();
         /** @var $oauthService \Magento\Integration\Service\OauthV1 */
         $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
-
+        $consumer = $oauthService->loadConsumer($integration->getConsumerId());
         $url = TESTS_BASE_URL;
-        $data = array(
-            'name' => 'consumerName',
-            'callback_url' => $url,
-            'rejected_callback_url' => $url
-        );
-
+        $consumer->setCallbackUrl($url);
+        $consumer->setRejectedCallbackUrl($url);
         if (!is_null($date)) {
-            $data['created_at'] = $date;
+            $consumer->setCreatedAt($date);
         }
-
-        $consumer = $oauthService->createConsumer($data);
+        $consumer->save();
         $token = $objectManager->create('Magento\Integration\Model\Oauth\Token');
         $verifier = $token->createVerifierToken($consumer->getId())->getVerifier();
 
@@ -112,31 +108,8 @@ class OauthHelper
     public static function getApiAccessCredentials($resources = null)
     {
         if (!self::$_apiCredentials) {
+            $integration = self::_createIntegration($resources);
             $objectManager = Bootstrap::getObjectManager();
-            /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
-            $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
-
-            $params = ['name' => 'Integration' . microtime()];
-
-            if ($resources === null || $resources == 'all' ) {
-                $params['all_resources'] = true;
-            } else {
-                $params['resource'] = $resources;
-            }
-
-            $integration = $integrationService->create($params);
-
-            /** Magento cache must be cleared to activate just created ACL role. */
-            $varPath = realpath('../../../var');
-            if (!$varPath) {
-                throw new LogicException("Magento cache cannot be cleared after new ACL role creation.");
-            } else {
-                $cachePath = $varPath . '/cache';
-                if (is_dir($cachePath)) {
-                    self::_rmRecursive($cachePath);
-                }
-            }
-
             /** @var \Magento\Integration\Service\OauthV1 $oauthService */
             $oauthService = $objectManager->get('Magento\Integration\Service\OauthV1');
             $oauthService->createAccessToken($integration->getConsumerId());
@@ -186,5 +159,41 @@ class OauthHelper
         } else {
             unlink($dir);
         }
+    }
+
+    /**
+     * Create integration instance.
+     *
+     * @param array $resources
+     * @return \Magento\Integration\Model\Integration
+     * @throws \Zend\Stdlib\Exception\LogicException
+     */
+    protected static function _createIntegration($resources)
+    {
+        $objectManager = Bootstrap::getObjectManager();
+        /** @var $integrationService \Magento\Integration\Service\IntegrationV1Interface */
+        $integrationService = $objectManager->get('Magento\Integration\Service\IntegrationV1Interface');
+
+        $params = ['name' => 'Integration' . microtime()];
+
+        if ($resources === null || $resources == 'all') {
+            $params['all_resources'] = true;
+        } else {
+            $params['resource'] = $resources;
+        }
+        $integration = $integrationService->create($params);
+        $integration->setStatus(\Magento\Integration\Model\Integration::STATUS_ACTIVE)->save();
+
+        /** Magento cache must be cleared to activate just created ACL role. */
+        $varPath = realpath('../../../var');
+        if (!$varPath) {
+            throw new LogicException("Magento cache cannot be cleared after new ACL role creation.");
+        } else {
+            $cachePath = $varPath . '/cache';
+            if (is_dir($cachePath)) {
+                self::_rmRecursive($cachePath);
+            }
+        }
+        return $integration;
     }
 }

@@ -82,7 +82,15 @@ class Token extends \Magento\App\Action\Action
 
             // Request access token in exchange of a pre-authorized token
             $response = $this->_oauthService->getAccessToken(
-                $request, $requestUrl, $this->getRequest()->getMethod());
+                $request,
+                $requestUrl,
+                $this->getRequest()->getMethod()
+            );
+            //After sending the access token, update the integration status to active;
+            $consumer = $this->_intOauthService->loadConsumerByKey($request['oauth_consumer_key']);
+            $this->_integrationService->findByConsumerId($consumer->getId())
+                ->setStatus(IntegrationModel::STATUS_ACTIVE)
+                ->save();
         } catch (\Exception $exception) {
             $response = $this->_helper->prepareErrorResponse(
                 $exception,
@@ -90,11 +98,5 @@ class Token extends \Magento\App\Action\Action
             );
         }
         $this->getResponse()->setBody(http_build_query($response));
-
-        //After sending the access token, update the integration status to active;
-        $consumer = $this->_intOauthService->loadConsumerByKey($request['oauth_consumer_key']);
-        $this->_integrationService->findByConsumerId($consumer->getId())
-            ->setStatus(IntegrationModel::STATUS_ACTIVE)
-            ->save();
     }
 }
