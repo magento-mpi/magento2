@@ -363,7 +363,7 @@
             <instance type="Magento\App\Request\Http\Proxy" />
         </param>
         <param name="helper">
-            <instance type="\Magento\Core\Helper\Data\Proxy" />
+            <instance type="Magento\Core\Helper\Data\Proxy" />
         </param>
     </type>
     <type name="Magento\Core\Model\Config\Section\Processor\Placeholder">

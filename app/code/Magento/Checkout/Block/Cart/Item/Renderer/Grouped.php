@@ -23,31 +23,6 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
     const USE_PARENT_IMAGE      = 'parent';
 
     /**
-     * @var \Magento\Catalog\Helper\Image
-     */
-    protected $_imageHelper;
-
-    /**
-     * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
-     * @param \Magento\Checkout\Model\Session $checkoutSession
-     * @param \Magento\Catalog\Helper\Image $imageHelper
-     * @param \Magento\Core\Helper\Url $urlHelper
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\View\Element\Template\Context $context,
-        \Magento\Catalog\Helper\Product\Configuration $productConfig,
-        \Magento\Checkout\Model\Session $checkoutSession,
-        \Magento\Catalog\Helper\Image $imageHelper,
-        \Magento\Core\Helper\Url $urlHelper,
-        array $data = array()
-    ) {
-        $this->_imageHelper = $imageHelper;
-        parent::__construct($context, $productConfig, $checkoutSession, $imageHelper, $urlHelper, $data);
-    }
-
-    /**
      * Get item grouped product
      *
      * @return \Magento\Catalog\Model\Product
@@ -70,7 +45,7 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
     {
         $product = $this->getProduct();
         if (!$product->getData('thumbnail')
-            ||($product->getData('thumbnail') == 'no_selection')
+            || ($product->getData('thumbnail') == 'no_selection')
             || ($this->_storeConfig->getConfig(self::GROUPED_PRODUCT_IMAGE) == self::USE_PARENT_IMAGE)) {
             $product = $this->getGroupedProduct();
         }
@@ -88,10 +63,8 @@ class Grouped extends \Magento\Checkout\Block\Cart\Item\Renderer
     {
         $renderer = $this->getRenderedBlock()->getItemRenderer($this->getItem()->getRealProductType());
         $renderer->setItem($this->getItem());
-//        $renderer->overrideProductUrl($this->getProductUrl());
         $renderer->overrideProductThumbnail($this->getProductThumbnail());
         $rendererHtml = $renderer->toHtml();
-//        $renderer->overrideProductUrl(null);
         $renderer->overrideProductThumbnail(null);
         return $rendererHtml;
     }
