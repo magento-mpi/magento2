@@ -44,11 +44,6 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        $this->_model->clearStorage();
-    }
-
     public function testGetData()
     {
         $this->_model->setData(array('test_key' => 'test_value'));
