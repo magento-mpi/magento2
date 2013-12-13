@@ -34,12 +34,12 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
         $this->_model = $objectManager->create(
             'Magento\Session\SessionManager',
             array(
-                $objectManager->create('Magento\App\RequestInterface'),
+                $objectManager->get('Magento\App\RequestInterface'),
                 $this->_sidResolver,
-                $objectManager->create('Magento\Session\Config\ConfigInterface'),
-                $objectManager->create('Magento\Session\SaveHandlerInterface'),
-                $objectManager->create('Magento\Session\ValidatorInterface'),
-                $objectManager->create('Magento\Session\StorageInterface')
+                $objectManager->get('Magento\Session\Config\ConfigInterface'),
+                $objectManager->get('Magento\Session\SaveHandlerInterface'),
+                $objectManager->get('Magento\Session\ValidatorInterface'),
+                $objectManager->get('Magento\Session\StorageInterface')
             )
         );
     }
