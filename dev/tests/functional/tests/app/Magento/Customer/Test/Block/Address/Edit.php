@@ -52,6 +52,7 @@ class Edit extends Form
         'province' => '#region',
         'postcode' => '#zip',
         'country' => '#country',
+        'country_id' => '#country',
     );
 
     /**

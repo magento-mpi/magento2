@@ -110,17 +110,17 @@ class ShippingCarrierTest extends Functional
 
         // Get and verify shipping quote
         $cartPage = Factory::getPageFactory()->getCheckoutCart();
-        $cartShippingBlock = $cartPage->getEstimatedShippingBlock();
+        $cartShippingBlock = $cartPage->getShippingBlock();
         // Make estimated shipping content visible
-        $cartShippingBlock->clickEstimateShippingTax();
-        $cartShippingBlock->fillDestination(self::$checkoutFixture);
-        $cartShippingBlock->clickGetAQuote();
+        $cartShippingBlock->openEstimateShippingAndTax();
+        $cartShippingBlock->fill(self::$checkoutFixture->getBillingAddress());
+        $cartShippingBlock->getQuote();
         // Verify expected shipping carrier and method are present
         $shippingMethod = self::$checkoutFixture->getShippingMethods()->getData('fields');
         $carrier = $shippingMethod['shipping_service'];
         $method = $shippingMethod['shipping_method'];
         $this->assertTrue(
-            $cartPage->getEstimatedShippingBlock()->isShippingCarrierMethodVisible($carrier, $method),
+            $cartPage->getShippingBlock()->isShippingCarrierMethodVisible($carrier, $method),
             "Shipping rate not found for $carrier - $method"
         );
 
@@ -161,8 +161,8 @@ class ShippingCarrierTest extends Functional
             array('shipping_carrier_usps', 'usps', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_ups', 'ups', 'customer_US_1', 'address_data_US_1'),
             array('shipping_carrier_fedex', 'fedex', 'customer_US_1', 'address_data_US_1'),
-            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE', 'address_data_DE', 'usd_chf_rate_0_9'),
-            array('shipping_carrier_dhlint_uk', 'dhlint_uk', 'customer_UK', 'address_data_UK', 'usd_gbp_rate_0_6')
+            array('shipping_carrier_dhlint_eu', 'dhlint_eu', 'customer_DE_1', 'address_DE', 'usd_chf_rate_0_9'),
+            array('shipping_carrier_dhlint_uk', 'dhlint_uk', 'customer_UK_1', 'address_UK_2', 'usd_gbp_rate_0_6')
         );
     }
 

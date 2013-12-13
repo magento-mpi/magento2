@@ -63,18 +63,6 @@ class CheckoutCart extends Page
     }
 
     /**
-     * Get estimated shipping block
-     *
-     * @return \Magento\Checkout\Test\Block\Cart\Shipping
-     */
-    public function getEstimatedShippingBlock()
-    {
-        return Factory::getBlockFactory()->getMagentoCheckoutCartShipping(
-            $this->_browser->find('.block.shipping > div')
-        );
-    }
-
-    /**
      * Get messages block
      *
      * @return \Magento\Core\Test\Block\Messages

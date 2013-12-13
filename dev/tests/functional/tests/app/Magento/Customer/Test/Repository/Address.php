@@ -155,19 +155,20 @@ class Address extends AbstractRepository
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
-                    'city' => array(
-                        'value' => 'Culver City'
-                    ),
-                    'region' => array(
-                        'value' => 'California',
-                        'input' => 'select'
-                    ),
-                    'postcode' => array(
-                        'value' => '90230'
-                    ),
                     'country' => array(
                         'value' => 'United States',
                         'input' => 'select'
+                    ),
+                    'region' => array(
+                        'value' => 'California',
+                        'input' => 'select',
+                        'selector' => '#region_id'
+                    ),
+                    'city' => array(
+                        'value' => 'Culver City'
+                    ),
+                    'postcode' => array(
+                        'value' => '90230'
                     ),
                     'telephone' => array(
                         'value' => '555-55-555-55'
@@ -239,24 +240,26 @@ class Address extends AbstractRepository
                     'company' => array(
                         'value' => 'Magento %isolation%'
                     ),
-                    'country' => array(
-                        'value' => 'United Kingdom',
-                        'input' => 'select'
+                    'telephone' => array(
+                        'value' => '444-44-444-44'
                     ),
                     'street_1' => array(
                         'value' => '42 King Street West'
                     ),
+                    'country' => array(
+                        'value' => 'United Kingdom',
+                        'input' => 'select',
+                    ),
+                    'province' => array(
+                        'value' => 'Manchester',
+                        'selector' => '#region',
+                    ),
                     'city' => array(
                         'value' => 'Manchester'
                     ),
-                    'province' => array(
-                        'value' => 'Manchester'
-                    ),
                     'postcode' => array(
-                        'value' => 'M3 2WY'
-                    ),
-                    'telephone' => array(
-                        'value' => '444-44-444-44'
+                        'value' => 'M3 2WY',
+                        'selector' => '#zip',
                     )
                 )
             )
@@ -313,7 +316,8 @@ class Address extends AbstractRepository
                     ),
                     'region' => array(
                         'value' => 'Berlin',
-                        'input' => 'select'
+                        'input' => 'select',
+                        'selector' => '#region_id',
                     ),
                     'postcode' => array(
                         'value' => '10789'
