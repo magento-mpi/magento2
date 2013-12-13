@@ -62,7 +62,7 @@ class Product extends DataFixture
         parent::__construct($configuration, $placeholders);
 
         if (isset($placeholders['categories']))
-            $this->_categories = $placeholders['categories'];
+            $this->categories = $placeholders['categories'];
         else {
             $this->_placeholders['category::getCategoryName'] = array($this, 'categoryProvider');
             $this->_placeholders['category::getCategoryId'] = array($this, 'categoryProvider');
@@ -198,7 +198,7 @@ class Product extends DataFixture
      */
     public function getCategories()
     {
-        return $this->_categories;
+        return $this->categories;
     }
 
     /**
@@ -211,7 +211,7 @@ class Product extends DataFixture
         $categoryIds = array();
         $categoryCounter = 0;
         /** @var Category $category */
-        foreach ($this->_categories as $category) {
+        foreach ($this->categories as $category) {
             $categoryIds[$categoryCounter] = $category->getCategoryId();
             $categoryCounter++;
         }
