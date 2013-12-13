@@ -1,4 +1,7 @@
 * Fixed bugs:
+  * Fixed user switching to alternate store-view when click on the Category (with Add Store Code to Urls="Yes" in the config)
+  * Fixed printing Order/Shipping/Credit Memo from Backend
+  * Fixed 404 Error on attempt to print Shipping Label
   * Fixed duplication of JavaScript Resources in head on frontend
   * Fixed Plushe Issue - Disabled states on Configurable product page should be consistent
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
