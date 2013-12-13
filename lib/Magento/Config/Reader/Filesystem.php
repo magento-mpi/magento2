@@ -147,7 +147,7 @@ class Filesystem implements \Magento\Config\ReaderInterface
                     $domDocument->merge($file);
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
-                throw new \Magento\Exception("Invalid XML in file " . $file . ":\n" . $e->getMessage());
+                throw new \Magento\Exception("Invalid XML in file " . key($file) . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isValidated) {
