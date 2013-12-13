@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
@@ -89,7 +88,8 @@ class Price extends Block
      *
      * @return string
      */
-    public function getEffectivePrice() {
+    public function getEffectivePrice()
+    {
         // if a special price is available, then return that
         $priceElement = $this->_rootElement->find($this->specialPriceClass, Locator::SELECTOR_CLASS_NAME);
         if (!$priceElement->isVisible()) {
@@ -107,7 +107,8 @@ class Price extends Block
      *
      * @return string
      */
-    public function getRegularPrice() {
+    public function getRegularPrice()
+    {
         // either return the old price (implies special price display or a regular price
         $priceElement = $this->_rootElement->find($this->oldPriceClass, Locator::SELECTOR_CLASS_NAME);
         if (!$priceElement->isVisible()) {
@@ -122,8 +123,15 @@ class Price extends Block
      *
      * @return string
      */
-    public function getSpecialPrice() {
-        return $this->_rootElement->find($this->specialPriceClass, Locator::SELECTOR_CLASS_NAME)->find($this->priceClass, Locator::SELECTOR_CLASS_NAME)->getText();
+    public function getSpecialPrice()
+    {
+        return $this->_rootElement->find(
+            $this->specialPriceClass,
+            Locator::SELECTOR_CLASS_NAME
+        )->find(
+            $this->priceClass,
+            Locator::SELECTOR_CLASS_NAME
+        )->getText();
     }
 
     /**
@@ -131,7 +139,8 @@ class Price extends Block
      *
      * @return bool
      */
-    public function isSpecialPriceVisible() {
+    public function isSpecialPriceVisible()
+    {
         return $this->_rootElement->find($this->specialPriceClass, Locator::SELECTOR_CLASS_NAME)->isVisible();
     }
 }

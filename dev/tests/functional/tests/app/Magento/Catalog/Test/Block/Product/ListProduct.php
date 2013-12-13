@@ -84,8 +84,12 @@ class ListProduct extends Block
      *
      * @param string $productName String containing the name of the product
      */
-    protected function getProductDetailsElement($productName) {
-        return $this->_rootElement->find(sprintf($this->productDetailsSelector, $productName), Locator::SELECTOR_XPATH);
+    protected function getProductDetailsElement($productName)
+    {
+        return $this->_rootElement->find(
+            sprintf($this->productDetailsSelector, $productName),
+            Locator::SELECTOR_XPATH
+        );
     }
 
     /**

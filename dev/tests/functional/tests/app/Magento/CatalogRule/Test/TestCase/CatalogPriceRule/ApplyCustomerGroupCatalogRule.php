@@ -64,7 +64,7 @@ class ApplyCustomerGroupCatalogRule extends Functional
         );
         $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL_RULE);
         // convert the discount amount to a decimal form
-        $this->_discountDecimal = ($catalogRuleFixture->getDiscountAmount() * .01);
+        $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 

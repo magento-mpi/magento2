@@ -166,7 +166,11 @@ class ApplyCatalogPriceRule extends Functional
 
             // Verify Cart page price
             $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-            $this->assertContains((string)$appliedRulePrice, $unitPrice, 'Incorrect price for ' . $product->getProductName());
+            $this->assertContains(
+                (string)$appliedRulePrice,
+                $unitPrice,
+                'Incorrect price for ' . $product->getProductName()
+            );
         }
     }
 
@@ -187,11 +191,7 @@ class ApplyCatalogPriceRule extends Functional
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
         $reviewBlock = $checkoutOnePage->getReviewBlock();
 
-        $this->assertContains(
-            $fixture->getGrandTotal(),
-            $reviewBlock->getGrandTotal(),
-            'Incorrect Grand Total'
-        );
+        $this->assertContains($fixture->getGrandTotal(), $reviewBlock->getGrandTotal(), 'Incorrect Grand Total');
         $reviewBlock->placeOrder();
     }
 
