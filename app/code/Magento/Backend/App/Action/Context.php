@@ -69,8 +69,8 @@ class Context extends \Magento\App\Action\Context
      * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\App\ViewInterface $view
-     * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Message\ManagerInterface $messageManager
+     * @param \Magento\Backend\Model\Session $session
      * @param \Magento\AuthorizationInterface $authorization
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Helper\Data $helper
@@ -89,8 +89,8 @@ class Context extends \Magento\App\Action\Context
         \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
         \Magento\App\ViewInterface $view,
-        \Magento\Backend\Model\Session $session,
         \Magento\Message\ManagerInterface $messageManager,
+        \Magento\Backend\Model\Session $session,
         \Magento\AuthorizationInterface $authorization,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Helper\Data $helper,

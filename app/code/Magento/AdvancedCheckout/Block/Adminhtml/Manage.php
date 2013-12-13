@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Admin Checkout main form container
- *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\AdvancedCheckout\Block\Adminhtml;
 
+/**
+ * Admin Checkout main form container
+ */
 class Manage extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
