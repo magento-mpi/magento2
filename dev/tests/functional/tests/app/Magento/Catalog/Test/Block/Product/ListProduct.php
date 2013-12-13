@@ -82,7 +82,7 @@ class ListProduct extends Block
     public function openMapBlockOnCategoryPage($productName)
     {
         $this->_rootElement->find(sprintf($this->clickForPrice, $productName), Locator::SELECTOR_XPATH)->click();
-        $this->waitForElementVisible($this->$mapPopup, Locator::SELECTOR_CSS);
+        $this->waitForElementVisible($this->mapPopup, Locator::SELECTOR_CSS);
     }
 
     /**
