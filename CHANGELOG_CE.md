@@ -1,8 +1,10 @@
+2.0.0.0-dev56
+=============
 * Fixed bugs:
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
   * Fixed losing previously assigned categories after next product save with changed category selector field
   * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
-  * Fixed the error during place an order with Recurring profile payment
+  * Fixed the error while placing an order with Recurring profile payment
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
@@ -16,6 +18,12 @@
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
+* Implemented API Integration UX flows
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module
 
 2.0.0.0-dev55
 =============
@@ -24,13 +32,7 @@
   * FormKey logic is moved out from Session model
   * SessionIdFlags is removed from Session model
   * Move Page logic to the Theme module and library
-* Implemented API Integration UX flows
-  * Ability to create and edit API Integrations
-  * Ability to delete API integrations that were not created using configuration files
-* Removed System REST menu item and all associated UX flows
-  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
-* Removed the Webhook module
-* Created integration module UX
+* Created UX for the Integration module
 * Created authorization service (Magento_Authz module)
   * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:
