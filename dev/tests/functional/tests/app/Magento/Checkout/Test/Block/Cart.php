@@ -86,14 +86,21 @@ class Cart extends Block
      * Get unit price for the specified item in the cart
      *
      * @param SimpleProduct $product
-     * @return string
+     * @param string $currency
+     *
+     * @return float
      */
-    public function getCartItemUnitPrice($product)
+    public function getCartItemUnitPrice($product, $currency = '$')
     {
         $selector = '//tr[normalize-space(td)="' . $this->getProductName(
             $product
         ) . '"]' . $this->itemUnitPriceSelector;
-        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+
+        $prices = explode("\n", trim($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText()));
+        if (count($prices) == 1) {
+            return floatval(trim($prices[0], $currency));
+        }
+        return $this->formatPricesData($prices, $currency);
     }
 
     /**

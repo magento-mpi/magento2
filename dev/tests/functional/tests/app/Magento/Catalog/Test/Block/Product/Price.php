@@ -23,6 +23,27 @@ use Mtf\Client\Element\Locator;
 class Price extends Block
 {
     /**
+     * * Minimum Advertised Price
+     *
+     * @var string
+     */
+    protected $priceMap = '.old.price .price';
+
+    /**
+     * Actual Price
+     *
+     * @var string
+     */
+    protected $actualPrice = '.regular-price .price';
+
+    /**
+     * 'Add to Cart' button
+     *
+     * @var string
+     */
+    protected $addToCart = '.action.tocart';
+
+    /**
      * @param string $currency
      * @return string|array
      */
@@ -53,27 +74,6 @@ class Price extends Block
     }
 
     /**
-     * * Minimum Advertised Price
-     *
-     * @var string
-     */
-    protected $priceMap = '.old.price .price';
-
-    /**
-     * Actual Price
-     *
-     * @var string
-     */
-    protected $actualPrice = "[class='regular-price'] .price";
-
-    /**
-     * 'Add to Cart' button
-     *
-     * @var string
-     */
-    protected $addToCart = '.action.tocart';
-
-    /**
      * Get Minimum Advertised Price value
      *
      * @return array|string
@@ -86,11 +86,18 @@ class Price extends Block
     /**
      * Get actual Price value on frontend
      *
-     * @return array|string
+     * @param string $currency
+     *
+     * @return array|float
      */
-    public function getActualPrice()
+    public function getActualPrice($currency = '$')
     {
-        return $this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText();
+        //@TODO it have to rewrite when will be possibility to divide it to different blocks(by product type)
+        $prices = explode("\n", trim($this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText()));
+        if (count($prices) == 1) {
+            return floatval(trim($prices[0], $currency));
+        }
+        return $this->formatPricesData($prices, $currency);
     }
 
     /**

@@ -103,7 +103,7 @@ class ApplyMapTest extends Functional
         //Verification on Product View page
         $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
             'Displayed on Product page MAP is incorrect');
-        $this->assertContains($product->getProductPrice(), $mapBlock->getActualPrice(),
+        $this->assertEquals($product->getProductPrice(), $mapBlock->getActualPrice(),
             'Displayed on Product page price is incorrect');
     }
 
@@ -123,7 +123,7 @@ class ApplyMapTest extends Functional
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
         //Verification in Shopping Cart
         $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-        $this->assertContains($product->getProductPrice(), $unitPrice, 'Incorrect unit price is displayed in Cart');
+        $this->assertEquals($product->getProductPrice(), $unitPrice, 'Incorrect unit price is displayed in Cart');
     }
 
     /**
