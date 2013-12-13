@@ -186,17 +186,11 @@ class AbstractSession extends \Magento\Object
      *
      * @param string $namespace
      * @param string $sessionName
-     * @throws \Magento\Core\Model\Session\Exception
      * @return \Magento\Core\Model\Session\AbstractSession
      */
     public function start($namespace = 'default', $sessionName = null)
     {
         if (!$this->isSessionExists()) {
-            if (headers_sent()) {
-                throw new \Magento\Core\Model\Session\Exception(
-                    'Session must be started before any output has been sent'
-                );
-            }
 
             if (!empty($sessionName)) {
                 $this->setSessionName($sessionName);
@@ -220,7 +214,10 @@ class AbstractSession extends \Magento\Object
      */
     public function isSessionExists()
     {
-        return session_status() === PHP_SESSION_ACTIVE;
+        if (session_status() === PHP_SESSION_NONE && !headers_sent()) {
+            return false;
+        }
+        return true;
     }
 
     /**

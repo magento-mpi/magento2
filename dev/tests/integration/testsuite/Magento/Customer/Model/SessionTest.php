@@ -10,6 +10,7 @@
  */
 
 namespace Magento\Customer\Model;
+include(__DIR__ . '/../_files/session.php');
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer.php

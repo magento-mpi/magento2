@@ -10,7 +10,6 @@
  */
 
 namespace Magento\AdminGws\Model;
-include(__DIR__ . '/../../Customer/_files/session.php');
 
 /**
  * @magentoAppArea adminhtml
