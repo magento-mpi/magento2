@@ -51,7 +51,7 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_helperFactoryMock;
+    protected $_helperMock;
 
     protected function setUp()
     {
@@ -66,11 +66,13 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
             'Magento\App\Helper\HelperFactory', array('get'), array(), '', false, false
         );
 
+        $this->_helperMock = $this->getMock('Magento\Core\Helper\Js', array(), array(), '', false, false);
+
         $data = array(
             'request' => $this->_requestMock,
             'urlBuilder' => $this->_urlModelMock,
             'layout' => $this->_layoutMock,
-            'helperFactory' => $this->_helperFactoryMock,
+            'jsHelper' => $this->_helperMock,
             'data' => array(
                 'group' => $groupMock
             )
@@ -110,14 +112,6 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithoutStoredElements()
     {
-        $helperMock = $this->getMock('Magento\Core\Helper\Js', array(), array(), '', false, false);
-
-        $this->_helperFactoryMock
-            ->expects($this->once())
-            ->method('get')
-            ->with('Magento\Core\Helper\Js')
-            ->will($this->returnValue($helperMock));
-
         $collection = $this->_testHelper->getObject('Magento\Data\Form\Element\Collection');
         $this->_elementMock->expects($this->any())->method('getElements')->will($this->returnValue($collection));
         $actualHtml = $this->_object->render($this->_elementMock);
@@ -128,14 +122,7 @@ class FieldsetTest extends \PHPUnit_Framework_TestCase
 
     public function testRenderWithStoredElements()
     {
-        $helperMock = $this->getMock('Magento\Core\Helper\Js', array(), array(), '', false, false);
-        $helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
-
-        $this->_helperFactoryMock
-            ->expects($this->once())
-            ->method('get')
-            ->with('Magento\Core\Helper\Js')
-            ->will($this->returnValue($helperMock));
+        $this->_helperMock->expects($this->any())->method('getScript')->will($this->returnArgument(0));
 
         $fieldMock = $this->getMock('Magento\Data\Form\Element\Text',
             array('getId', 'getTooltip', 'toHtml'),

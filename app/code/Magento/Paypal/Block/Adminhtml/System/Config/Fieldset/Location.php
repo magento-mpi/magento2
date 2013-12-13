@@ -19,27 +19,6 @@ class Location
     extends \Magento\Backend\Block\System\Config\Form\Fieldset
 {
     /**
-     * @var \Magento\Adminhtml\Helper\Js
-     */
-    protected $_jsHelper;
-
-    /**
-     * @param \Magento\Backend\Block\Context $context
-     * @param \Magento\Backend\Model\Auth\Session $authSession
-     * @param \Magento\Adminhtml\Helper\Js $jsHelper
-     * @param array $data
-     */
-    public function __construct(
-        \Magento\Backend\Block\Context $context,
-        \Magento\Backend\Model\Auth\Session $authSession,
-        \Magento\Adminhtml\Helper\Js $jsHelper,
-        array $data = array()
-    ) {
-        $this->_jsHelper = $jsHelper;
-        parent::__construct($context, $authSession, $jsHelper, $data);
-    }
-
-    /**
      * Render fieldset html
      *
      * @param \Magento\Data\Form\Element\AbstractElement $element

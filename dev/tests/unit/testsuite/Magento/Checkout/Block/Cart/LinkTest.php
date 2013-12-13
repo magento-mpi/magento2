@@ -92,25 +92,12 @@ class LinkTest extends \PHPUnit_Framework_TestCase
             ->disableOriginalConstructor()
             ->setMethods(array('getSummaryCount'))
             ->getMock();
-        $helperFactory = $this->getMockBuilder('Magento\App\Helper\HelperFactory')
-            ->disableOriginalConstructor()
-            ->setMethods(array('get'))
-            ->getMock();
-        $helperFactory->expects($this->any())->method('get')->will($this->returnValue($helper));
-
-        /** @var  \Magento\View\Element\Template\Context $context */
-        $context = $this->_objectManagerHelper->getObject(
-            'Magento\View\Element\Template\Context',
-            array(
-                'helperFactory' => $helperFactory
-            )
-        );
 
         /** @var \Magento\Checkout\Block\Cart\Link $block */
         $block = $this->_objectManagerHelper->getObject(
             'Magento\Checkout\Block\Cart\Link',
             array(
-                'context' => $context,
+                'cartHelper' => $helper,
             )
         );
         $helper->expects($this->any())->method('getSummaryCount')->will($this->returnValue($productCount));
