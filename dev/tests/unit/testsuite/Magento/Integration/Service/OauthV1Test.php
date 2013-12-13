@@ -16,6 +16,7 @@ use Magento\Oauth\OauthInterface;
 class OauthV1Test extends \PHPUnit_Framework_TestCase
 {
     const VALUE_CONSUMER_ID = 1;
+    const VALUE_CONSUMER_KEY = 'asdfghjklaqwerfdtyuiomnbgfdhbsoi';
 
     /** @var \Magento\Integration\Model\Oauth\Consumer\Factory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_consumerFactory;
@@ -73,7 +74,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_consumerData = array(
             'entity_id' => self::VALUE_CONSUMER_ID,
-            'key' => 'jhgjhgjgjiyuiuyuyhhhjkjlklkj',
+            'key' => self::VALUE_CONSUMER_KEY,
             'secret' => 'iuyytrfdsdfbnnhbmkkjlkjl',
             'created_at' => '',
             'updated_at' => '',
@@ -240,5 +241,59 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->method('getAccessToken');
 
         $this->assertTrue($this->_service->createAccessToken(0, false));
+    }
+
+    public function testLoadConsumer()
+    {
+        $this->_consumerMock->expects($this->once())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+        $this->_consumerMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue($this->_consumerData));
+        $consumer = $this->_service->loadConsumer(self::VALUE_CONSUMER_ID);
+        $consumerData = $consumer->getData();
+        $this->assertEquals($this->_consumerData['entity_id'], $consumerData['entity_id']);
+    }
+
+    /**
+     * @expectedException \Magento\Oauth\Exception
+     * @expectedExceptionMessage Unexpected error. Unable to load oAuth consumer account.
+     */
+    public function testLoadConsumerException()
+    {
+        $this->_consumerMock->expects($this->once())
+            ->method('load')
+            ->will($this->throwException(
+                    new \Magento\Oauth\Exception('Unexpected error. Unable to load oAuth consumer account.')));
+        $this->_service->loadConsumer(self::VALUE_CONSUMER_ID);
+    }
+
+    public function testLoadConsumerByKey()
+    {
+        $this->_consumerMock->expects($this->once())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_KEY, 'key')
+            ->will($this->returnValue($this->_consumerMock));
+        $this->_consumerMock->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue($this->_consumerData));
+        $consumer = $this->_service->loadConsumerByKey(self::VALUE_CONSUMER_KEY);
+        $consumerData = $consumer->getData();
+        $this->assertEquals($this->_consumerData['key'], $consumerData['key']);
+    }
+
+    /**
+     * @expectedException \Magento\Oauth\Exception
+     * @expectedExceptionMessage Unexpected error. Unable to load oAuth consumer account.
+     */
+    public function testLoadConsumerByKeyException()
+    {
+        $this->_consumerMock->expects($this->once())
+            ->method('load')
+            ->will($this->throwException(
+                    new \Magento\Oauth\Exception('Unexpected error. Unable to load oAuth consumer account.')));
+        $this->_service->loadConsumerByKey(self::VALUE_CONSUMER_KEY);
     }
 }
