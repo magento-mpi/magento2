@@ -51,6 +51,8 @@ class Price extends Block
     /**
      * This method returns the effective price represented by the block. If a special price is presented, it uses that.
      * Otherwise, the regular price is used.
+     *
+     * @return string
      */
     public function getEffectivePrice() {
         // if a special price is available, then return that
@@ -67,6 +69,8 @@ class Price extends Block
 
     /**
      * This method returns the regular price represented by the block.
+     *
+     * @return string
      */
     public function getRegularPrice() {
         // either return the old price (implies special price display or a regular price
@@ -80,8 +84,19 @@ class Price extends Block
 
     /**
      * This method returns the special price represented by the block.
+     *
+     * @return string
      */
     public function getSpecialPrice() {
         return $this->_rootElement->find($this->specialPriceClass, Locator::SELECTOR_CLASS_NAME)->find($this->priceClass, Locator::SELECTOR_CLASS_NAME)->getText();
+    }
+
+    /**
+     * This method returns if the special price is visible.
+     *
+     * @return bool
+     */
+    public function isSpecialPriceVisible() {
+        return $this->_rootElement->find($this->specialPriceClass, Locator::SELECTOR_CLASS_NAME)->isVisible();
     }
 }

@@ -104,19 +104,4 @@ class ListProduct extends Block
             Locator::SELECTOR_XPATH
         );
     }
-
-    /**
-     * Check if product special price is visible
-     *
-     * @param string $productName
-     * @return bool
-     */
-    public function isProductSpecialPriceVisible($productName)
-    {
-        return $this->_rootElement->find(
-            "//*[@class=\"product details\" and .//*[@title=\"{$productName}\"]]" .
-            "//*[@class=\"special-price\"]//*[@class=\"price\"]",
-            Locator::SELECTOR_XPATH
-        )->isVisible();
-    }
 }

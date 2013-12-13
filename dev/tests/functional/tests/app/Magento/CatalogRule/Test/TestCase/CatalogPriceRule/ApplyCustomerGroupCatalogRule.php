@@ -100,14 +100,12 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         // verify price in catalog list
         $productListBlock = $categoryPage->getListProductBlock();
+        $productPriceBlock = $productListBlock->getProductPriceBlock($product->getProductName());
         // verify the special price is not applied
-        $this->assertFalse(
-            $productListBlock->isProductSpecialPriceVisible($product->getProductName()),
-            'Special price is visible adn not expected.'
-        );
+        $this->assertFalse($productPriceBlock->isSpecialPriceVisible(), 'Special price is visible and not expected.');
         $this->assertContains(
             $product->getProductPrice(),
-            $productListBlock->getProductPrice($product->getProductName()),
+            $productPriceBlock->getEffectivePrice(),
             'Displayed price does not match expected price.'
         );
         // Verify product detail
@@ -152,15 +150,16 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
+        $productPriceBlock = $productListBlock->getProductPriceBlock($product->getProductName());
         $this->assertContains(
             (string)($product->getProductPrice() * $this->_discountDecimal),
-            $productListBlock->getProductSpecialPrice($product->getProductName()),
-            'Displayed price does not match expected price.'
+            $productPriceBlock->getSpecialPrice(),
+            'Displayed special price does not match expected price.'
         );
         $this->assertContains(
             $product->getProductPrice(),
-            $productListBlock->getProductPrice($product->getProductName()),
-            'Displayed price does not match expected price.'
+            $productPriceBlock->getRegularPrice(),
+            'Displayed regular price does not match expected price.'
         );
         // Verify product and cart page prices
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
