@@ -19,7 +19,7 @@
                 <div class="field email<?php if ($_index == 1) echo ' required' ?>">
                     <label for="email_<?php echo $_index ?>" class="label"><span><?php echo $_index; ?></span></label>
                     <div class="control">
-                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text<?php if ($_index == 1) echo ' required-entry' ?>" type="text" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
+                        <input tabindex="<?php echo $_index ?>" name="email[]" id="email_<?php echo $_index ?>" title="<?php echo __('Email') ?>" value="" class="input-text<?php if ($_index == 1) echo ' required-entry' ?>" type="email" data-validate="{'validate-email':true<?php if ($_index == 1): ?>, required:true<?php endif;?>}" />
                     </div>
                 </div>
                 <?php endfor; ?>
@@ -67,7 +67,7 @@
         })(jQuery);
     </script>
 <?php else:?>
-    <p class="empty"><?php echo __('You cannot send more invitations'); ?></p>
+    <div class="message info empty"><span><?php echo __('You cannot send more invitations'); ?></span></div>
     <div class="actions">
         <div class="secondary">
             <a href="<?php echo $this->helper('Magento\Invitation\Helper\Data')->getCustomerInvitationUrl() ?>" class="action back"><span><?php  echo __('Back to Invitations') ?></span></a>
