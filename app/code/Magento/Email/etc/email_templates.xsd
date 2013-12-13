@@ -15,17 +15,8 @@
     <xs:element name="config">
         <xs:complexType>
             <xs:sequence>
-                <xs:element name="template" type="emailTemplateModularType" minOccurs="1" maxOccurs="unbounded"/>
+                <xs:element name="template" type="emailTemplateType" minOccurs="1" maxOccurs="unbounded"/>
             </xs:sequence>
         </xs:complexType>
     </xs:element>
-
-    <!-- Module context is determined automatically during merger, it is not stored in individual config files -->
-    <xs:complexType name="emailTemplateModularType">
-        <xs:complexContent>
-            <xs:extension base="emailTemplateType">
-                <xs:attribute name="module" type="xs:string" use="required"/>
-            </xs:extension>
-        </xs:complexContent>
-    </xs:complexType>
 </xs:schema>
