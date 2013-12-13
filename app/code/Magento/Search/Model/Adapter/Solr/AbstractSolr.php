@@ -336,12 +336,12 @@ abstract class AbstractSolr extends \Magento\Search\Model\Adapter\AbstractAdapte
         if (is_array($filters) && !empty($filters)) {
             foreach ($filters as $field => $value) {
                 if (is_array($value)) {
-                    if ($field == 'price' || isset($value['from']) || isset($value['to'])) {
+                    if (isset($value['from']) || isset($value['to'])) {
                         $from = (isset($value['from']) && !empty($value['from']))
-                            ? $this->_prepareFilterQueryText($value['from'])
+                            ? $value['from']
                             : '*';
                         $to = (isset($value['to']) && !empty($value['to']))
-                            ? $this->_prepareFilterQueryText($value['to'])
+                            ? $value['to']
                             : '*';
                         $fieldCondition = "$field:[$from TO $to]";
                     } else {

@@ -53,7 +53,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm
+     * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
@@ -65,7 +65,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm,
+        \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
@@ -79,7 +79,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $catalogLayer,
             $filterPriceFactory,
             $customerSession,
-            $catalogLayerFilterPriceAlgorithm,
+            $priceAlgorithm,
             $coreRegistry,
             $data
         );
