@@ -31,7 +31,7 @@ class DeleteSalesRule extends Curl
      */
     public function execute(Fixture $fixture = null)
     {
-        if ($fixture instanceof SalesRule && $fixture->getSalesRuleId() > 0) {
+        if ($fixture instanceof SalesRule && $fixture->getSalesRuleId() !== null) {
             $url = $_ENV['app_backend_url'] . 'sales_rule/promo_quote/delete/id/' . $fixture->getSalesRuleId() . '/';
             $curl = new BackendDecorator(new CurlTransport(), new Config());
             $curl->addOption(CURLOPT_HEADER, 1);

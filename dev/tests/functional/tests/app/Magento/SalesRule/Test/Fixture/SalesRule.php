@@ -34,10 +34,10 @@ class SalesRule extends DataFixture
     /**
      * @var int
      */
-    private $salesRuleId;
+    private $salesRuleId = null;
 
     /**
-     * Initialize fixture data
+     * {@inheritDoc}
      */
     protected function _initData()
     {
@@ -65,11 +65,11 @@ class SalesRule extends DataFixture
         $this->customerFixture->persist();
         // Customer needs to be in a group and front end customer creation doesn't set group
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
-        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
-        $customerGrid = $customerGridPage->getGridBlock();
         // Edit Customer just created
         $customerGridPage->open();
+        $customerGrid = $customerGridPage->getGridBlock();
         $customerGrid->searchAndOpen(array('email' => $this->customerFixture->getEmail()));
+        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
         $editCustomerForm = $customerEditPage->getEditCustomerForm();
         // Set group to Retailer
         $editCustomerForm->openTab('customer_info_tabs_account');

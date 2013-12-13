@@ -38,7 +38,7 @@ class SalesRule extends Page
     protected $promoQuoteGridSelector = 'promo_quote_grid';
 
     /**
-     * Init Method
+     * {@inheritDoc}
      */
     protected function _init()
     {

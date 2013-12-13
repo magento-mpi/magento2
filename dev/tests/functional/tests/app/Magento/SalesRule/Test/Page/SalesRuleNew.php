@@ -35,32 +35,38 @@ class SalesRuleNew extends Page
      *
      * @var string
      */
-    protected $conditionsTabSelector = 'promo_catalog_edit_tabs_conditions_section';
+    protected $conditionsTabId = 'promo_catalog_edit_tabs_conditions_section';
 
     /**
      * ACTIONS Tab Id
      *
      * @var string
      */
-    protected $actionTabSelector = 'promo_catalog_edit_tabs_actions_section';
+    protected $actionTabId = 'promo_catalog_edit_tabs_actions_section';
 
     /**
+     * Condition Child Selector
+     *
      * @var string
      */
     protected $conditionsChildSelector = 'conditions__1__children';
 
     /**
+     * Message Block Selector
+     *
      * @var string
      */
     protected $messageBlockSelector = '#messages .messages';
 
     /**
+     * Promo Quote Form Selector
+     *
      * @var string
      */
     protected $promoQuoteFormSelector = 'page:main-container';
 
     /**
-     * Init method
+     * {@inheritDoc}
      */
     protected function _init()
     {
@@ -68,6 +74,8 @@ class SalesRuleNew extends Page
     }
 
     /**
+     * Get the Promo Quote Form
+     *
      * @return Form
      */
     public function getPromoQuoteForm()
@@ -78,6 +86,8 @@ class SalesRuleNew extends Page
     }
 
     /**
+     * Get the Messages Block
+     *
      * @return Messages
      */
     public function getMessageBlock()
@@ -86,26 +96,32 @@ class SalesRuleNew extends Page
     }
 
     /**
+     * Get the Conditions Form Tab
+     *
      * @return FormTabs
      */
     public function getConditionsFormTab()
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find($this->conditionsTabSelector, Locator::SELECTOR_ID)
+            $this->_browser->find($this->conditionsTabId, Locator::SELECTOR_ID)
         );
     }
 
     /**
+     * Get the Actions Tab
+     *
      * @return FormTabs
      */
     public function getActionsFormTab()
     {
         return Factory::getBlockFactory()->getMagentoBackendWidgetFormTabs(
-            $this->_browser->find($this->actionTabSelector, Locator::SELECTOR_ID)
+            $this->_browser->find($this->actionTabId, Locator::SELECTOR_ID)
         );
     }
 
     /**
+     * Get the Conditions Tab
+     *
      * @return Conditions
      */
     public function getConditionsTab()
@@ -116,18 +132,22 @@ class SalesRuleNew extends Page
     }
 
     /**
+     * Get the Conditions Tab Selector
+     *
      * @return string
      */
-    public function getConditionsTabSelector()
+    public function getConditionsTabId()
     {
-        return $this->conditionsTabSelector;
+        return $this->conditionsTabId;
     }
 
     /**
+     * Get the Actions Tab Selector
+     *
      * @return string
      */
-    public function getActionsTabSelector()
+    public function getActionsTabId()
     {
-        return $this->actionTabSelector;
+        return $this->actionTabId;
     }
 }

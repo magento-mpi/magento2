@@ -24,15 +24,10 @@ class Quote extends Grid
      */
     protected $rowIdSelector = 'td.col-rule_id';
 
-    protected $filters = array('name' => array('selector' => '#promo_quote_grid_filter_name'));
-
     /**
-     * Init method
+     * {@inheritDoc}
      */
-    protected function _init()
-    {
-        parent::_init();
-    }
+    protected $filters = array('name' => array('selector' => '#promo_quote_grid_filter_name'));
 
     /**
      * Return the id of the row that matched the search filter
