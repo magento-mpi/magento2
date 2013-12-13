@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed duplication of JavaScript Resources in head on frontend
   * Fixed Plushe Issue - Disabled states on Configurable product page should be consistent
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
   * Fixed losing previously assigned categories after next product save with changed category selector field
