@@ -173,7 +173,7 @@ class CreateWithAttributeTest extends Functional
             $product->getProductName(), $productViewBlock->getProductName(),
             'Product name does not correspond to specified.'
         );
-        $this->assertContains(
+        $this->assertEquals(
             $product->getProductPrice(), $productViewBlock->getProductPrice(),
             'Product price does not correspond to specified.'
         );
