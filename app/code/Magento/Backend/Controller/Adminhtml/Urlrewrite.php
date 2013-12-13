@@ -15,7 +15,7 @@
  * @package    Magento_Adminhtml
  * @author      Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Backend\Controller;
+namespace Magento\Backend\Controller\Adminhtml;
 
 class Urlrewrite extends \Magento\Backend\App\Action
 {
