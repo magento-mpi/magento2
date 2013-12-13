@@ -5,13 +5,13 @@
   * Fixed 3D Secure Information absence on Admin Order Info page
   * Fixed possibility to download or revert Backup
   * Fixed Session Fixation in User Registration during Checkout
-  * Fixed fails during installation
   * Fixed fatal error while login to backend
   * Fixed the error during place an order with Recurring profile payment
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
+  * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
 * Modularity improvements:
   * Layout page type config moved into library
   * Design loader moved to library
