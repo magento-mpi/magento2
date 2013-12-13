@@ -692,17 +692,6 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     }
 
     /**
-     * Return helper object
-     *
-     * @param string $name
-     * @return \Magento\App\Helper\AbstractHelper
-     */
-    protected function helper($name)
-    {
-        return \Magento\App\ObjectManager::getInstance()->get($name);
-    }
-
-    /**
      * Retrieve formatting date
      *
      * @param   string $date
