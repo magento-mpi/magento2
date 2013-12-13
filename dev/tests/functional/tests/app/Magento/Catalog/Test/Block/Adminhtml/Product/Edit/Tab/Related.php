@@ -12,38 +12,31 @@
 
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
-use Magento\Backend\Test\Block\Widget\Grid;
+use Mtf\Client\Element;
+use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Factory\Factory;
 
 /**
- * Class Related
- * Backend catalog product grid under "related products" tag when editing
+ * Related Tab
  *
- * @package Magento\Catalog\Test\Block
+ * @package Magento\Catalog\Test\Block\Product
  */
-class Related extends Grid
+class Related extends Tab
 {
-    /*
-     * Related Products Tab
-     */
-    const RELATED_PRODUCT_GRID = 'product_info_tabs_related';
+    const GROUP = 'product_info_tabs_related';
 
     /**
-     * Initialize block elements
+     * @param array $products
+     * @param Element $context
      */
-    protected function _init()
+    public function fillFormTab(array $products, Element $context = null)
     {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => '#related_product_grid_filter_name'
-            ),
-            'sku' => array(
-                'selector' => '#related_product_grid_filter_sku'
-            ),
-            'type' => array(
-                'selector' => '#related_product_grid_filter_type',
-                'input' => 'select'
-            )
+        $element = $context ? : $this->_rootElement;
+        $relatedBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelatedGrid(
+            $element->find('#related_product_grid')
         );
+        foreach ($products['related_products']['value'] as $product) {
+            $relatedBlock->searchAndSelect($product);
+        }
     }
 }

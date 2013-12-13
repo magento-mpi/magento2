@@ -42,7 +42,7 @@ class Select extends Form
 
         $select = $this->_rootElement->find($this->_mapping['value'], Locator::SELECTOR_CSS, 'select');
         $select->setValue($data['value']);
-        $qtyField = $this->_rootElement->find($this->_mapping['qty'], Locator::SELECTOR_CSS);
+        $qtyField = $this->_rootElement->find($this->_mapping['qty']);
         if (!$qtyField->isDisabled()) { //TODO should be remove after fix qty field
             $qtyField->setValue($data['qty']);
         }

@@ -16,7 +16,6 @@ use Mtf\Page\Page;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
 use Magento\Core\Test\Block\Messages;
-use Magento\Customer\Test\Block\DashboardHeaderPanelTitle;
 use Magento\Customer\Test\Block\Account\Dashboard\Address;
 use Magento\Theme\Test\Block\Html\Title;
 
@@ -52,6 +51,13 @@ class CustomerAccountIndex extends Page
      * @var Title
      */
     protected $titleBlock;
+
+    /**
+     * Account menu selector
+     *
+     * @var string
+     */
+    protected $accountMenuSelector = '.nav.items';
 
     /**
      * Custom constructor
@@ -99,5 +105,17 @@ class CustomerAccountIndex extends Page
     public function getTitleBlock()
     {
         return $this->titleBlock;
+    }
+
+    /**
+     * Get Account Menu Block
+     *
+     * @return \Magento\Customer\Test\Block\Account\Menu
+     */
+    public function getAccountMenuBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCustomerAccountMenu(
+            $this->_browser->find($this->accountMenuSelector, Locator::SELECTOR_CSS)
+        );
     }
 }

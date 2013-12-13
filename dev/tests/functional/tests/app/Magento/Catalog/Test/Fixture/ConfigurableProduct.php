@@ -46,6 +46,20 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Provide data to product from new attribute
+     *
+     * @param ProductAttribute $attribute
+     */
+    public function provideNewAttributeData(ProductAttribute $attribute)
+    {
+        $options = $attribute->getOptionLabels();
+        $placeholders['new_attribute_label'] = $attribute->getAttributeLabel();
+        $placeholders['new_attribute_option_1_label'] = $options[0];
+        $placeholders['new_attribute_option_2_label'] = $options[1];
+        $this->_applyPlaceholders($this->_data, $placeholders);
+    }
+
+    /**
      * Create new configurable attribute and add it to product
      *
      * @return string
@@ -60,7 +74,6 @@ class ConfigurableProduct extends Product
         $this->_dataConfig['options'][$attribute->getAttributeId()]['id'] = $attribute->getOptionIds();
 
         $options = $attribute->getOptionLabels();
-        $placeholders['attribute_code_1'] = $attribute->getAttributeCode();
         $placeholders['attribute_1_name'] = $attribute->getAttributeLabel();
         $placeholders['attribute_1_option_label_1'] = $options[0];
         $placeholders['attribute_1_option_label_2'] = $options[1];
@@ -112,13 +125,24 @@ class ConfigurableProduct extends Product
     public function getVariationSkus()
     {
         $variationSkus = array();
-        foreach ($this->getData('fields/variations-matrix/value') as $variation) {
+        foreach ($this->getVariationsMatrix() as $variation) {
             if (is_array($variation)) {
                 $variationSkus[] = $variation['value']['name']['value'];
             }
         }
 
         return $variationSkus;
+    }
+
+    /**
+     * Get variations matrix
+     *
+     * @return array
+     */
+    public function getVariationsMatrix()
+    {
+        $variations = $this->getData('fields/variations-matrix/value');
+        return is_array($variations) ? $variations : array();
     }
 
     /**
@@ -135,6 +159,17 @@ class ConfigurableProduct extends Product
     }
 
     /**
+     * Get configurable attributes data
+     *
+     * @return array
+     */
+    public function getConfigurableAttributes()
+    {
+        $attributes = $this->getData('fields/configurable_attributes_data/value');
+        return is_array($attributes) ? $attributes : array();
+    }
+
+    /**
      * Get configurable product options
      *
      * @return array
@@ -142,7 +177,7 @@ class ConfigurableProduct extends Product
     public function getConfigurableOptions()
     {
         $options = array();
-        foreach ($this->getData('fields/configurable_attributes_data/value') as $attribute) {
+        foreach ($this->getConfigurableAttributes() as $attribute) {
             foreach ($attribute as $option) {
                 if (isset($option['option_label']['value'])) {
                     $options[$attribute['label']['value']][] = $option['option_label']['value'];
@@ -228,7 +263,6 @@ class ConfigurableProduct extends Product
                         '0' => array(
                             'configurable_attribute' => array(
                                 '0' => array(
-                                    'attribute_label' => '%attribute_code_1%',
                                     'attribute_option' => '%attribute_1_option_label_1%'
                                 )
                             ),
@@ -247,7 +281,6 @@ class ConfigurableProduct extends Product
                         '1' => array(
                             'configurable_attribute' => array(
                                 '0' => array(
-                                    'attribute_label' => '%attribute_code_1%',
                                     'attribute_option' => '%attribute_1_option_label_2%'
                                 )
                             ),
