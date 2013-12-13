@@ -11,8 +11,9 @@
 namespace Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
 use Magento\Object;
+use Magento\Integration\Block\Adminhtml\Widget\Grid\Column\Renderer\Button;
 
-class Edit extends IntegrationAbstract
+class Edit extends Button
 {
     /**
      * Return 'onclick' action for the button (redirect to the integration edit page).
@@ -33,6 +34,20 @@ class Edit extends IntegrationAbstract
      */
     protected function _getTitleAttribute(Object $row)
     {
-        return $this->_isDisabled($row) ? '' : __('Edit');
+        return $this->_isConfigBasedIntegration($row) ? __('View') : __('Edit');
+    }
+
+    /**
+     * Get the icon on the grid according to the integration type
+     *
+     * @param \Magento\Object $row
+     * return string
+     */
+    public function _getClassAttribute(Object $row)
+    {
+        $class = $this->_isConfigBasedIntegration($row) ? 'info' : 'edit';
+
+        return 'action ' . $class;
+
     }
 }

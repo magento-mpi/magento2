@@ -34,10 +34,12 @@ class Customer extends DataFixture
 
     /**
      * Create customer via frontend
+     *
+     * @return string
      */
     public function persist()
     {
-        Factory::getApp()->magentoCustomerCreateCustomer($this);
+        return Factory::getApp()->magentoCustomerCreateCustomer($this);
     }
 
     /**
@@ -87,16 +89,10 @@ class Customer extends DataFixture
      */
     public function getDefaultBillingAddress()
     {
-        $defaultBilling = $this->getData('addresses/default_billing');
-        if (!empty($defaultBilling)) {
-            $defaultBilling->setCustomer($this);
-            return $defaultBilling;
-        } else {
-            $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $defaultBilling->switchData('address_US_1');
-            $defaultBilling->setCustomer($this);
-            return $defaultBilling;
-        }
+        $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultBilling->switchData($this->getAddressDatasetName());
+        $defaultBilling->setCustomer($this);
+        return $defaultBilling;
     }
 
     /**
@@ -106,16 +102,10 @@ class Customer extends DataFixture
      */
     public function getDefaultShippingAddress()
     {
-        $defaultShipping = $this->getData('addresses/default_billing');
-        if (!empty($defaultShipping)) {
-            $defaultShipping->setCustomer($this);
-            return $defaultShipping;
-        } else {
-            $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $defaultShipping->switchData('address_US_1');
-            $defaultShipping->setCustomer($this);
-            return $defaultShipping;
-        }
+        $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultShipping->switchData($this->getAddressDatasetName());
+        $defaultShipping->setCustomer($this);
+        return $defaultShipping;
     }
 
     /**
@@ -154,5 +144,15 @@ class Customer extends DataFixture
         $customerAddress->switchData('address_data_US_1');
         $customerAddress->setCustomer($this);
         return $customerAddress;
+    }
+
+    /**
+     * Get address dataset name
+     *
+     * @return string
+     */
+    protected function getAddressDatasetName()
+    {
+        return $this->getData('address/dataset/value');
     }
 }

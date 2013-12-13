@@ -26,8 +26,6 @@ lib/Magento/DB/Adapter/Pdo/Mysql.php
 dev/tests/unit/testsuite/Magento/DB/Adapter/Pdo/MysqlTest.php
 dev/tests/unit/testsuite/Magento/Simplexml/ElementTest.php
 dev/tests/unit/testsuite/Magento/Test/Tools/Migration/System/Configuration/ParserTest.php
-dev/tests/unit/testsuite/Magento/Webhook/Model/Resource/SubscriptionTest.php
-dev/tests/unit/testsuite/Magento/Webhook/Model/Subscription/ConfigTest.php
 # The following is third party code not really in the correct location
 dev/tools/Magento/Tools/I18n/Zend
 # don't format the test files in these directories. 

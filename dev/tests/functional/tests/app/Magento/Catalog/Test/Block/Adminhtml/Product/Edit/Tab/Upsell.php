@@ -2,6 +2,7 @@
 /**
  * {license_notice}
  *
+ * @spi
  * @category    Mtf
  * @package     Mtf
  * @subpackage  functional_tests
@@ -12,43 +13,30 @@
 namespace Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab;
 
 use Mtf\Client\Element;
-use Mtf\Client\Element\Locator;
+use Magento\Backend\Test\Block\Widget\Tab;
+use Mtf\Factory\Factory;
 
-class Upsell extends \Magento\Backend\Test\Block\Widget\Grid
+/**
+ * Upsell Tab
+ *
+ * @package Magento\Catalog\Test\Block\Product
+ */
+class Upsell extends Tab
 {
-    /**
-     * Tab where upsells section is placed
-     */
-    const GROUP_UPSELL = 'product_info_tabs_upsell';
+    const GROUP = 'product_info_tabs_upsell';
 
     /**
-     * Open upsells section
-     *
+     * @param array $products
      * @param Element $context
      */
-    public function open(Element $context = null)
+    public function fillFormTab(array $products, Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
-        $element->find(static::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
-    }
-
-    /**
-     * Initialize block elements
-     */
-    protected function _init()
-    {
-        parent::_init();
-        $this->filters = array(
-            'name' => array(
-                'selector' => '#up_sell_product_grid_filter_name'
-            ),
-            'sku' => array(
-                'selector' => '#up_sell_product_grid_filter_sku'
-            ),
-            'type' => array(
-                'selector' => '#up_sell_product_grid_filter_type',
-                'input' => 'select'
-            )
+        $element = $context ? : $this->_rootElement;
+        $upSellBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabUpsellGrid(
+            $element->find('#up_sell_product_grid')
         );
+        foreach ($products['upsell_products']['value'] as $product) {
+            $upSellBlock->searchAndSelect($product);
+        }
     }
 }
