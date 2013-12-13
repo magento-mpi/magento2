@@ -77,7 +77,7 @@ class ApplyMapTest extends Functional
             'Product is invisible on Category page');
         $this->assertContains($product->getProductMapPrice(), $productListBlock->getOldPriceCategoryPage(),
             'Displayed on Category page MAP is incorrect');
-//        $productListBlock->openMapBlockOnCategoryPage();
+        $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
 //        $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
 //        'Displayed on Category page MAP is incorrect');
 //        $this->assertContains($product->getProductPrice(), $mapBlock->getActualPrice(),

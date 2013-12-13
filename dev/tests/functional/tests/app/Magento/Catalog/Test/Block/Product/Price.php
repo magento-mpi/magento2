@@ -23,20 +23,12 @@ use Mtf\Client\Element\Locator;
  */
 class Price extends Block
 {
-
-    /**
-     * MAP block
-     *
-     * @var string
-     */
-    protected $mapBlock = '#map-popup-content';
-
     /**
      * Minimum Advertised Price
      *
      * @var string
      */
-    protected $priceMap = "[class='old price'] .price";
+    protected $priceMap = '.old.price .price';
 
     /**
      * Actual Price
@@ -50,7 +42,7 @@ class Price extends Block
      *
      * @var string
      */
-    protected $addToCart = "[class='action tocart']";
+    protected $addToCart = '.action.tocart';
 
     /**
      * Get Minimum Advertised Price value
@@ -59,8 +51,7 @@ class Price extends Block
      */
     public function getOldPrice()
     {
-        return $this->_rootElement->find($this->priceMap, Locator::SELECTOR_CSS)->
-            getText();
+        return $this->_rootElement->find($this->priceMap, Locator::SELECTOR_CSS)->getText();
     }
 
     /**
@@ -70,8 +61,7 @@ class Price extends Block
      */
     public function getActualPrice()
     {
-        return $this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->
-            getText();
+        return $this->_rootElement->find($this->actualPrice, Locator::SELECTOR_CSS)->getText();
     }
 
     /**

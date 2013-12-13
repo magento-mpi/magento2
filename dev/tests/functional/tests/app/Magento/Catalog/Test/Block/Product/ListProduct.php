@@ -35,7 +35,21 @@ class ListProduct extends Block
      *
      * @var string
      */
-    protected $clickForPrice = '[id*=msrp-click]';
+    protected $clickForPrice = "//div[contains(@class, 'product details') and ('%s')]//a[contains(@id, 'msrp-click')]";
+
+    /**
+     * MAP popup on Category page
+     *
+     * @var string
+     */
+    protected $mapPopup = '#map-popup';
+
+    /**
+     * Minimum Advertised Price on category page
+     *
+     * @var string
+     */
+    protected $oldPrice = "[id*=product-price]";
 
     /**
      * Check if product with specified name is visible
@@ -65,9 +79,10 @@ class ListProduct extends Block
     /**
      * Open MAP block on category page
      */
-    public function openMapBlockOnCategoryPage()
+    public function openMapBlockOnCategoryPage($productName)
     {
-        $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find(sprintf($this->clickForPrice, $productName), Locator::SELECTOR_XPATH)->click();
+        $this->waitForElementVisible($this->$mapPopup, Locator::SELECTOR_CSS);
     }
 
     /**
@@ -77,6 +92,6 @@ class ListProduct extends Block
      */
     public function getOldPriceCategoryPage()
     {
-        return $this->_rootElement->find("[id*=product-price]", Locator::SELECTOR_CSS)->getText();
+        return $this->_rootElement->find($this->oldPrice, Locator::SELECTOR_CSS)->getText();
     }
 }
