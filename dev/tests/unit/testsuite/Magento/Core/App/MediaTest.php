@@ -191,13 +191,13 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     public function testProcessRequestReturnsFileIfItsProperlySynchronized()
     {
         $relativeFilePath = '_files';
-        $filePath = __DIR__ . '/' . $relativeFilePath;
+        $filePath = str_replace('\\', '/', __DIR__ . '/' . $relativeFilePath);
         $this->_appState->expects($this->once())->method('isInstalled')->will($this->returnValue(true));
         $this->_requestMock->expects($this->any())->method('getPathInfo')
               ->will($this->returnValue($this->_mediaDirectory . '/'));
         $this->_sync->expects($this->once())->method('synchronize');
         $this->_requestMock->expects($this->any())
-             ->method('getFilePath')->will($this->returnValue(realpath($filePath)));
+             ->method('getFilePath')->will($this->returnValue($filePath));
 
         $this->directoryReadMock->expects($this->once())
             ->method('getRelativePath')

@@ -26,7 +26,8 @@ class ContextAggregationTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_model = new \Magento\Code\Validator\ContextAggregation();
-        $this->_fixturePath  = realpath(__DIR__) . '/_files/ClassesForContextAggregation.php';
+        $this->_fixturePath = str_replace('\\', '/', realpath(__DIR__) . '/_files/ClassesForContextAggregation.php');
+
     }
 
     public function testClassArgumentAlreadyInjectedIntoContext()
