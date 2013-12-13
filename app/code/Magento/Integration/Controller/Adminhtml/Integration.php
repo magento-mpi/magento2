@@ -177,11 +177,15 @@ class Integration extends Action
         $this->_view->loadLayout();
         $this->_getSession()->setIntegrationData(array());
         $this->_setActiveMenu('Magento_Integration::system_integrations');
-        $this->_addBreadcrumb(
-            __('Edit "%1" Integration', $integrationData[Info::DATA_NAME]),
-            __('Edit "%1" Integration', $integrationData[Info::DATA_NAME])
-        );
-        $this->_title->add(__('Edit "%1" Integration', $originalName));
+
+        if ($this->_integrationData->isConfigType($integrationData)) {
+            $title = __('View "%1" Integration', $originalName);
+        } else {
+            $title = __('Edit "%1" Integration', $originalName);
+        }
+
+        $this->_addBreadcrumb($title, $title);
+        $this->_title->add($title);
         $this->_view->renderLayout();
     }
 
