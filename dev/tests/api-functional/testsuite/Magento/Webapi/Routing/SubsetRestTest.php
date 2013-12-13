@@ -11,8 +11,23 @@
  */
 namespace Magento\Webapi\Routing;
 
-class SubsetRestTest extends \Magento\Webapi\Routing\SoapOnlyTest
+class SubsetRestTest extends \Magento\Webapi\Routing\BaseService
 {
+    /**
+     * @var string
+     */
+    protected $_version;
+
+    /**
+     * @var string
+     */
+    protected $_restResourcePath;
+
+    /**
+     * @var string
+     */
+    protected $_soapService;
+
     /**
      * @Override
      */

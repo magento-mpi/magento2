@@ -14,7 +14,7 @@
             <argument translate="true" name="title" xsi:type="string">My Credit Card profiles</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Pbridge\Block\Payment\Profile" name="pbridge.payment.profile" template="payment/profile.phtml"/>
     </referenceContainer>
 </layout>

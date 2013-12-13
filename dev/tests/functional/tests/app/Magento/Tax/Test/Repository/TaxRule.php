@@ -35,7 +35,7 @@ class TaxRule extends AbstractRepository
 
         $this->_data['custom_rule'] = array_replace_recursive($this->_data['default'], $this->_getCustomTaxRule());
         $this->_data['us_ca_ny_rule'] = $this->_getUscanyTaxRule();
-
+        $this->_data['uk_full_tax_rule'] = $this->getUKFullTaxRule($this->_data['default']);
     }
 
     /**
@@ -112,5 +112,24 @@ class TaxRule extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Get UK full tax rule
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function getUKFullTaxRule($defaultData)
+    {
+        return array_replace_recursive($defaultData, array(
+            'data' => array(
+                'fields' => array(
+                    'tax_rate' => array(
+                        'value' => '%uk_full_tax_rate%'
+                    ),
+                ),
+            ),
+        ));
     }
 }

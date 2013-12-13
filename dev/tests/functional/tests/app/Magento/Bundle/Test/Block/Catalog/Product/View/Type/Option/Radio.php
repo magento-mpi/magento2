@@ -38,6 +38,6 @@ class Radio extends Form
     public function fillOption(array $data)
     {
         $this->_rootElement->find('//*[contains(text(), ' . $data['value'] . ')]', Locator::SELECTOR_XPATH)->click();
-        $this->_rootElement->find($this->_mapping['qty'], Locator::SELECTOR_CSS)->setValue($data['qty']);
+        $this->_rootElement->find($this->_mapping['qty'])->setValue($data['qty']);
     }
 }

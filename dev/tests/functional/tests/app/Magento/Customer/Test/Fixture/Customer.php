@@ -33,10 +33,12 @@ class Customer extends DataFixture
 
     /**
      * Create customer via frontend
+     *
+     * @return string
      */
     public function persist()
     {
-        Factory::getApp()->magentoCustomerCreateCustomer($this);
+        return Factory::getApp()->magentoCustomerCreateCustomer($this);
     }
 
     /**
@@ -86,14 +88,9 @@ class Customer extends DataFixture
      */
     public function getDefaultBillingAddress()
     {
-        $defaultBilling = $this->getData('addresses/default_billing');
-        if (!empty($defaultBilling)) {
-            return $defaultBilling;
-        } else {
-            $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $defaultBilling->switchData('address_US_1');
-            return $defaultBilling;
-        }
+        $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultBilling->switchData($this->getAddressDatasetName());
+        return $defaultBilling;
     }
 
     /**
@@ -103,14 +100,9 @@ class Customer extends DataFixture
      */
     public function getDefaultShippingAddress()
     {
-        $defaultShipping = $this->getData('addresses/default_billing');
-        if (!empty($defaultShipping)) {
-            return $defaultShipping;
-        } else {
-            $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
-            $defaultShipping->switchData('address_US_1');
-            return $defaultShipping;
-        }
+        $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $defaultShipping->switchData($this->getAddressDatasetName());
+        return $defaultShipping;
     }
 
     /**
@@ -148,5 +140,15 @@ class Customer extends DataFixture
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $customerAddress->switchData('address_data_US_1');
         return $customerAddress;
+    }
+
+    /**
+     * Get address dataset name
+     *
+     * @return string
+     */
+    protected function getAddressDatasetName()
+    {
+        return $this->getData('address/dataset/value');
     }
 }

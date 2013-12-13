@@ -44,7 +44,10 @@ class SimpleProduct extends Product
         );
 
         $data = array(
-            'price' => array('value' => '%' . self::PRICE_VALUE . '%', 'group' => static::GROUP_PRODUCT_DETAILS),
+            'price' => array(
+                'value' => '%' . self::PRICE_VALUE . '%',
+                'group' => static::GROUP_PRODUCT_DETAILS
+            ),
             'tax_class_id' => array(
                 'value' => 'Taxable Goods',
                 'input_value' => '2',

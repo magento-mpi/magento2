@@ -295,11 +295,6 @@
             <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
         </item>
         <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>GiftCard</word>
-            <path>app/code/Magento/Webhook/view/adminhtml/css/boxes.css</path>
-        </item>
-        <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>GiftRegistry</word>
             <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>

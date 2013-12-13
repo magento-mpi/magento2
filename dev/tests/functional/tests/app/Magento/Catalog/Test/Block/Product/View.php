@@ -17,6 +17,8 @@ use Mtf\Client\Element\Locator;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
+use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
+use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
 /**
  * Class View
@@ -76,7 +78,17 @@ class View extends Block
     protected function getBundleBlock()
     {
         return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find($this->bundleBlock, Locator::SELECTOR_CSS)
+            $this->_rootElement->find($this->bundleBlock)
+        );
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Block\Product\Price
+     */
+    protected function getPriceBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
+            $this->_rootElement->find('.product.info.main .price-box')
         );
     }
 
@@ -112,22 +124,11 @@ class View extends Block
     /**
      * Return product price displayed on page
      *
-     * @return array|string
-     */
-    protected function _getSimplePrice()
-    {
-        return $this->_rootElement->find($this->productPrice)->getText();
-    }
-
-    /**
-     * Return product price displayed on page
-     *
      * @return array|string Returns arrays with keys corresponding to fixture keys
      */
     public function getProductPrice()
     {
-        $priceFromTo = $this->_getPriceFromTo();
-        return empty($priceFromTo) ? $this->_getSimplePrice() : $priceFromTo;
+        return $this->getPriceBlock()->getPrice();
     }
 
     /**
@@ -141,22 +142,17 @@ class View extends Block
     }
 
     /**
-     * Get bundle product price in form "From: To:"
+     * Return configurable product options
      *
-     * @return array e.g. array('price_from' => '$110', 'price_to' => '$120')
+     * @return array
      */
-    protected function _getPriceFromTo()
+    public function getProductOptions()
     {
-        $priceFrom = $this->_rootElement->find('.price-from');
-        $priceTo = $this->_rootElement->find('.price-to');
-        $price = array();
-        if ($priceFrom->isVisible()) {
-            $price['price_from'] = $priceFrom->find('.price')->getText();
+        $options = array();
+        for ($i = 2; $i <= 3; $i++) {
+            $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child($i)")->getText();
         }
-        if ($priceTo->isVisible()) {
-            $price['price_to'] = $priceTo->find('.price')->getText();
-        }
-        return $price;
+        return $options;
     }
 
     /**
@@ -186,7 +182,7 @@ class View extends Block
     /**
      * Fill in the option specified for the product
      *
-     * @param Product $product
+     * @param BundleFixture|Product $product
      */
     public function fillOptions($product)
     {
@@ -225,7 +221,7 @@ class View extends Block
             );
             if (!$option->isVisible()) {
                 return false;
-            };
+            }
         }
         return true;
     }
