@@ -76,6 +76,7 @@ class Shipping extends Form
     public function getQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
+        $this->waitForElementNotVisible('.please-wait');
     }
 
     /**
