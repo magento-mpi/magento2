@@ -152,6 +152,7 @@ class ObjectConstraint extends \PHPUnit_Framework_Constraint
      *
      * @param mixed $other
      * @return string
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      */
     protected function failureDescription($other)
     {
