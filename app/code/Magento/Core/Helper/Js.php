@@ -184,6 +184,7 @@ class Js extends \Magento\App\Helper\AbstractHelper
         $this->_addTranslation('Activate', __('Activate'));
         $this->_addTranslation('Reauthorize', __('Reauthorize'));
         $this->_addTranslation('Cancel', __('Cancel'));
+        $this->_addTranslation('Done', __('Done'));
         $this->_addTranslation('Save', __('Save'));
         $this->_addTranslation('File extension not known or unsupported type.', __('File extension not known or unsupported type.'));
         $this->_addTranslation('Configure Product', __('Configure Product'));

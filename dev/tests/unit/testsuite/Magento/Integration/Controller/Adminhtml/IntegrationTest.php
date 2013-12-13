@@ -258,13 +258,15 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
 
     public function testSaveActionNew()
     {
-        $intData = $this->_getSampleIntegrationData()->getData();
+        $integration = $this->_getSampleIntegrationData();
         //No id when New Integration is Post-ed
-        unset($intData[Info::DATA_ID]);
-        $this->_mockRequest->expects($this->any())->method('getPost')->will($this->returnValue($intData));
-        $intData[Info::DATA_ID] = 1;
+        $integration->unsetData(array('integration_id', 'id'));
+        $this->_mockRequest->expects($this->any())->method('getPost')->will(
+            $this->returnValue($integration->getData())
+        );
+        $integration->setData('id', 1);
         $this->_mockIntegrationSvc->expects($this->any())->method('create')->with($this->anything())
-            ->will($this->returnValue($intData));
+            ->will($this->returnValue($integration));
         $this->_mockIntegrationSvc->expects($this->any())->method('get')->with(1)->will(
             $this->returnValue(null)
         );
@@ -272,7 +274,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockTranslateModel = null;
         // verify success message
         $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
-            ->with(__('The integration \'%1\' has been saved.', $intData[Info::DATA_NAME]));
+            ->with(__('The integration \'%1\' has been saved.', $integration->getName()));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
     }
@@ -469,13 +471,14 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /**
      * Return sample Integration Data
      *
-     * @return array
+     * @return \Magento\Object
      */
     protected function _getSampleIntegrationData()
     {
         return new \Magento\Object(array(
             Info::DATA_NAME => 'nameTest',
             Info::DATA_ID => '1',
+            'id' => '1', // This will allow usage of both getIntegrationId() and getId()
             Info::DATA_EMAIL => 'test@magento.com',
             Info::DATA_ENDPOINT => 'http://magento.ll/endpoint',
             Info::DATA_SETUP_TYPE => IntegrationModel::TYPE_MANUAL
