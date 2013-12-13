@@ -95,6 +95,27 @@ abstract class Grid extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Selector of element to wait for. If set by child will wait for element after action
+     *
+     * @var string
+     */
+    protected $waitForSelector;
+
+    /**
+     * Locator type of waitForSelector
+     *
+     * @var Locator
+     */
+    protected $waitForSelectorType = Locator::SELECTOR_CSS;
+
+    /**
+     * Wait for should be for visibility or not?
+     *
+     * @var boolean
+     */
+    protected $waitForSelectorVisible = true;
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -156,6 +177,19 @@ abstract class Grid extends Block
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->editLink, Locator::SELECTOR_CSS)->click();
+            if (!empty($this->waitForSelector)) {
+                if ($this->waitForSelectorVisible) {
+                    $this->getTemplateBlock()->waitForElementVisible(
+                        $this->waitForSelector,
+                        $this->waitForSelectorType
+                    );
+                } else {
+                    $this->getTemplateBlock()->waitForElementNotVisible(
+                        $this->waitForSelector,
+                        $this->waitForSelectorType
+                    );
+                }
+            }
         } else {
             throw new \Exception('Searched item was not found.');
         }

@@ -63,5 +63,7 @@ class SalesRule extends Page
     public function clickAddNew()
     {
         $this->_browser->find($this->clickAddNewSelector)->click();
+        // Wait for the current grid to go away, replaced by the new form
+        $this->getPromoQuoteGrid()->waitForElementNotVisible($this->clickAddNewSelector);
     }
 }

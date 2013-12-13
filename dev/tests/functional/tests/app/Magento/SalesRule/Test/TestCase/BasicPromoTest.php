@@ -62,7 +62,7 @@ class BasicPromoTest extends Functional
         $conditionsFixture = Factory::getFixtureFactory()->getMagentoSalesRuleSalesRule();
         $conditionsFixture->switchData(Repository::ACTIONS);
         $salesRulePageNew->getPromoQuoteForm()->fill($conditionsFixture);
-        $newSalesRuleForm->clickSave();
+        $newSalesRuleForm->save();
         // Verify success message
         $this->assertContains(
             'The rule has been saved.',

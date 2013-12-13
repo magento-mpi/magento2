@@ -95,16 +95,10 @@ class Conditions extends Tab
         if ($fixture instanceof SalesRule) {
             // Add new condition
             $this->clickAddNew();
-            $this->getTemplateBlock()->waitLoader();
-            $this->reinitRootElement();
             // Select Customer Segment
             $this->selectCondition(self::CUSTOMER_SEGMENT);
-            $this->getTemplateBlock()->waitLoader();
-            $this->reinitRootElement();
             // Click ellipsis
             $this->clickEllipsis();
-            $this->getTemplateBlock()->waitLoader();
-            $this->reinitRootElement();
             // Set Customer Segment Id
             $this->selectConditionValue($customerSegmentId);
             // Apply change
@@ -118,6 +112,8 @@ class Conditions extends Tab
     public function clickAddNew()
     {
         $this->_rootElement->find('img.rule-param-add.v-middle')->click();
+        $this->getTemplateBlock()->waitLoader();
+        $this->reinitRootElement();
     }
 
     /**
@@ -126,6 +122,8 @@ class Conditions extends Tab
     public function selectCondition($type)
     {
         $this->_rootElement->find($this->conditionSelector, Locator::SELECTOR_ID, 'select')->setValue($type);
+        $this->getTemplateBlock()->waitLoader();
+        $this->reinitRootElement();
     }
 
     /**
@@ -142,6 +140,8 @@ class Conditions extends Tab
     public function clickEllipsis()
     {
         $this->_rootElement->find('//a[contains(text(),"...")]', Locator::SELECTOR_XPATH)->click();
+        $this->getTemplateBlock()->waitLoader();
+        $this->reinitRootElement();
     }
 
     /**
@@ -150,5 +150,7 @@ class Conditions extends Tab
     public function clickApply()
     {
         $this->_rootElement->find('//a[@class="rule-param-apply"]', Locator::SELECTOR_XPATH)->click();
+        $this->getTemplateBlock()->waitLoader();
+        $this->reinitRootElement();
     }
 }

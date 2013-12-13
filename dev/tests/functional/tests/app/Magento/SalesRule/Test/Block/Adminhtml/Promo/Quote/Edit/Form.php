@@ -20,6 +20,16 @@ use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions;
 class Form extends FormTabs
 {
     /**
+     * {@inheritDoc}
+     */
+    protected $waitForSelector = 'div#promo_catalog_edit_tabs';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $waitForSelectorVisible = false;
+
+    /**
      * Set up tab classes
      * @var array
      */
@@ -28,12 +38,4 @@ class Form extends FormTabs
         Conditions::GROUP => '\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions',
         Actions::GROUP => '\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Actions'
     );
-
-    /**
-     * Click save button on form
-     */
-    public function clickSave()
-    {
-        $this->_rootElement->find('#save')->click();
-    }
 }
