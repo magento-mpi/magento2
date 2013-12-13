@@ -29,6 +29,13 @@ class Info extends Block
     protected $email = '//th[text()="Email"]/following-sibling::*/a';
 
     /**
+     * Customer group
+     *
+     * @var string
+     */
+    protected $group = '//th[text()="Customer Group"]/following-sibling::*';
+
+    /**
      * Get email from the data inside block
      *
      * @return string
@@ -36,5 +43,15 @@ class Info extends Block
     public function getCustomerEmail()
     {
         return $this->_rootElement->find($this->email, Locator::SELECTOR_XPATH)->getText();
+    }
+
+    /**
+     * Get group from the data inside block
+     *
+     * @return string
+     */
+    public function getCustomerGroup()
+    {
+        return $this->_rootElement->find($this->group, Locator::SELECTOR_XPATH)->getText();
     }
 }

@@ -16,6 +16,7 @@ use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Fixture;
 use Mtf\Handler\Direct;
 use Mtf\Factory\Factory;
+use Magento\Catalog\Model\Product\Visibility;
 
 /**
  * Class CreateProduct
@@ -31,10 +32,10 @@ class CreateProduct extends Direct
      */
     protected $_mappingData = array(
         'visibility' => array(
-            Product::VISIBILITY_NOT_VISIBLE => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_NOT_VISIBLE,
-            Product::VISIBILITY_IN_CATALOG  => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_CATALOG,
-            Product::VISIBILITY_IN_SEARCH   => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_IN_SEARCH,
-            Product::VISIBILITY_BOTH        => \Magento\Catalog\Model\Product\Visibility::VISIBILITY_BOTH,
+            Product::VISIBILITY_NOT_VISIBLE => Visibility::VISIBILITY_NOT_VISIBLE,
+            Product::VISIBILITY_IN_CATALOG  => Visibility::VISIBILITY_IN_CATALOG,
+            Product::VISIBILITY_IN_SEARCH   => Visibility::VISIBILITY_IN_SEARCH,
+            Product::VISIBILITY_BOTH        => Visibility::VISIBILITY_BOTH,
         )
     );
 

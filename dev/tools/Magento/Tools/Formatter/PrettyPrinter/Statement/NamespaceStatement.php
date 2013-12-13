@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Namespace;
 
@@ -24,21 +23,29 @@ class NamespaceStatement extends AbstractStatement
     }
 
     /**
+     * We should trim these comments
+     * @return bool
+     */
+    public function isTrimComments()
+    {
+        return true;
+    }
+
+    /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line->add('namespace ');
+        $this->addToLine($treeNode, 'namespace ');
         // finish out the line
-        $this->resolveNode($this->node->name, $treeNode);
-        $line->add(';')->add(new HardLineBreak())->add(new HardLineBreak());
+        $treeNode = $this->resolveNode($this->node->name, $treeNode);
+        $this->addToLine($treeNode, ';')->add(new HardLineBreak())->add(new HardLineBreak());
         // child nodes of namespace are at the same level as namespace
-        $this->processNodes($this->node->stmts, $treeNode);
+        return $this->processNodes($this->node->stmts, $treeNode);
     }
 
     /**
@@ -54,14 +61,5 @@ class NamespaceStatement extends AbstractStatement
     {
         // this is called to add the use and class lines
         return $originatingNode->addSibling($newNode);
-    }
-
-    /**
-     * We should trim these comments
-     * @return bool
-     */
-    public function isTrimComments()
-    {
-        return true;
     }
 }

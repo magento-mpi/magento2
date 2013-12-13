@@ -7,8 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Foreach;
 
@@ -26,27 +24,26 @@ class ForEachStatement extends AbstractLoopStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line->add('foreach (');
+        $this->addToLine($treeNode, 'foreach (');
         // add in the collection
-        $this->resolveNode($this->node->expr, $treeNode);
-        $line->add(' as ');
+        $treeNode = $this->resolveNode($this->node->expr, $treeNode);
+        $this->addToLine($treeNode, ' as ');
         // add in the key, if specified
         if (null !== $this->node->keyVar) {
-            $this->resolveNode($this->node->keyVar, $treeNode);
-            $line->add(' => ');
+            $treeNode = $this->resolveNode($this->node->keyVar, $treeNode);
+            $this->addToLine($treeNode, ' => ');
         }
         if ($this->node->byRef) {
-            $line->add('&');
+            $this->addToLine($treeNode, '&');
         }
-        $this->resolveNode($this->node->valueVar, $treeNode);
+        $treeNode = $this->resolveNode($this->node->valueVar, $treeNode);
         // add in the rest
-        $this->addBody($treeNode);
+        return $this->addBody($treeNode);
     }
 }

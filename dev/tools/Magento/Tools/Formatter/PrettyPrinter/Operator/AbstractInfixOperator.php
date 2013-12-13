@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Operator;
 
 use Magento\Tools\Formatter\PrettyPrinter\InfixOperatorLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 abstract class AbstractInfixOperator extends AbstractOperator
@@ -27,7 +26,7 @@ abstract class AbstractInfixOperator extends AbstractOperator
         // Resolve the children according to precedence.
         $this->resolvePrecedence($this->left(), $treeNode, -1);
         $this->addOperatorToLine($treeNode);
-        $this->resolvePrecedence($this->right(), $treeNode, 1);
+        return $this->resolvePrecedence($this->right(), $treeNode, 1);
     }
 
     /**
@@ -35,19 +34,18 @@ abstract class AbstractInfixOperator extends AbstractOperator
      */
     protected function addOperatorToLine(TreeNode $treeNode)
     {
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        $line->add(' ')->add($this->operator())->add(new InfixOperatorLineBreak($this));
+        $this->addToLine($treeNode, ' ')->add($this->operator())->add(new InfixOperatorLineBreak($this));
     }
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        $this->resolveInfixOperator($treeNode);
+        return $this->resolveInfixOperator($treeNode);
     }
 
     public function left()

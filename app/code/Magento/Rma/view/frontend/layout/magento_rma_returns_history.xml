@@ -14,7 +14,7 @@
             <argument name="path" xsi:type="string">rma/returns/history/</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Rma\Block\Returns\History" name="rma.returns.history">
             <container name="rma.returns.history.info" as="info" label="Returns History Info"/>
         </block>
