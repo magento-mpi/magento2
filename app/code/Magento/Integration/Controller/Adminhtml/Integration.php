@@ -160,9 +160,9 @@ class Integration extends Action
         $this->_setActiveMenu('Magento_Integration::system_integrations');
 
         if ($this->_integrationData->isConfigType($integrationData)) {
-            $title = __('View "%2" Integration', $originalName);
+            $title = __('View "%1" Integration', $originalName);
         } else {
-            $title = __('Edit "%2" Integration', $originalName);
+            $title = __('Edit "%1" Integration', $originalName);
         }
 
         $this->_addBreadcrumb($title, $title);
