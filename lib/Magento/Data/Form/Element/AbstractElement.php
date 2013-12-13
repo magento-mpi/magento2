@@ -227,10 +227,10 @@ abstract class AbstractElement extends \Magento\Data\Form\AbstractForm
             . $this->_getUiId()
             . ' value="' . $this->getEscapedValue() . '" ' . $this->serialize($this->getHtmlAttributes()) . '/>';
         if ($this->getAfterElementJs() && $this->getAfterElementJs() != '') {
-            $html.= $this->getAfterElementJs();
+            $html .= $this->getAfterElementJs();
         }
         if ($this->getAfterElementHtml() && $this->getAfterElementHtml() != '') {
-            $html.= '<label class="addafter" for="' . $this->getHtmlId() . '">' . $this->getAfterElementHtml() . '</label>';
+            $html .= '<label class="addafter" for="' . $this->getHtmlId() . '">' . $this->getAfterElementHtml() . '</label>';
         }
         return $html;
     }
