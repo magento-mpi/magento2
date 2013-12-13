@@ -34,6 +34,7 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
                         'directories' => array(
                             \Magento\Filesystem::MODULES => array('path' => __DIR__ . '/_files/code'),
                             \Magento\Filesystem::THEMES => array('path' => __DIR__ . '/_files/design'),
+                            \Magento\Filesystem::CONFIG => array('path' => __DIR__ . '/_files/'),
                         )
                     )
                 )
@@ -53,7 +54,8 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
 
         $moduleReader = $objectManager->create('Magento\Module\Dir\Reader', array(
-            'moduleList' => $moduleListMock
+            'moduleList' => $moduleListMock,
+            'filesystem' => $filesystem
         ));
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
         $this->_object = $objectManager->create('Magento\Widget\Model\Config\FileResolver', array(
@@ -79,7 +81,6 @@ class FileResolverTest extends \PHPUnit_Framework_TestCase
 
     public function testGetGlobal()
     {
-        $this->markTestSkipped('Task: MAGETWO-18162');
         $widgetConfigs  = $this->_object->get('widget.xml', 'global');
         $expected       = realpath(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
         $actual         = $widgetConfigs->key();
