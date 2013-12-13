@@ -17,6 +17,7 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
 {
     const VALUE_CONSUMER_ID = 1;
     const VALUE_CONSUMER_KEY = 'asdfghjklaqwerfdtyuiomnbgfdhbsoi';
+    const VALUE_TOKEN_TYPE = 'access';
 
     /** @var \Magento\Integration\Model\Oauth\Consumer\Factory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_consumerFactory;
@@ -295,5 +296,53 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->throwException(
                     new \Magento\Oauth\Exception('Unexpected error. Unable to load oAuth consumer account.')));
         $this->_service->loadConsumerByKey(self::VALUE_CONSUMER_KEY);
+    }
+
+    public function testDeleteToken()
+    {
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenProviderMock->expects($this->any())
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue($this->_tokenMock));
+
+        $this->_tokenMock->expects($this->once())
+            ->method('delete');
+
+        $this->assertTrue($this->_service->deleteToken(self::VALUE_CONSUMER_ID));
+    }
+
+    public function testDeleteTokenNegative()
+    {
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenProviderMock->expects($this->any())
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue($this->_tokenMock));
+
+        $this->_tokenMock->expects($this->never())
+            ->method('delete');
+
+        $this->assertFalse($this->_service->deleteToken(null));
+    }
+
+    public function testGetAccessTokenNoAccess()
+    {
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenProviderMock->expects($this->any())
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue($this->_tokenMock));
+
+        $this->assertFalse($this->_service->getAccessToken(self::VALUE_CONSUMER_ID), false);
     }
 }
