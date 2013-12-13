@@ -391,7 +391,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param array $optionsArray
      * @param \Zend_Pdf_Page $page
      */
-    protected function _drawCustomOptions($optionsArray = array(), $page)
+    protected function _drawCustomOptions($optionsArray, $page)
     {
         $this->_setFontRegular($page, 6);
         foreach ($optionsArray as $value) {

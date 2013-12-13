@@ -40,9 +40,7 @@ class FormTabs extends Form
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
-            $tabElement = $this->getTabElement($tab);
-            $tabElement->open($this->_rootElement);
-            $tabElement->fillFormTab($tabFields, $this->_rootElement);
+            $this->openTab($tab)->fillFormTab($tabFields, $this->_rootElement);
         }
         return $this;
     }
@@ -59,10 +57,7 @@ class FormTabs extends Form
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
-            $tabElement = $this->getTabElement($tab);
-            $tabElement->open($this->_rootElement);
-            $tabElement->verifyFormTab($tabFields, $this->_rootElement);
-            if(!$tabElement->verifyFormTab($tabFields, $this->_rootElement)){
+            if (!$this->openTab($tab)->verifyFormTab($tabFields, $this->_rootElement)) {
                 throw new \Exception('Invalid form data.');
             }
         }
@@ -79,9 +74,7 @@ class FormTabs extends Form
     {
         $tabs = $this->getFieldsByTabs($fixture);
         foreach ($tabs as $tab => $tabFields) {
-            $tabElement = $this->getTabElement($tab);
-            $tabElement->open($this->_rootElement);
-            $tabElement->updateFormTab($tabFields, $this->_rootElement);
+            $this->openTab($tab)->updateFormTab($tabFields, $this->_rootElement);
         }
         return $this;
     }
@@ -135,12 +128,12 @@ class FormTabs extends Form
      * Open tab
      *
      * @param string $tabName
-     * @return FormTabs
+     * @return Tab
      */
     public function openTab($tabName)
     {
         $tabElement = $this->getTabElement($tabName);
         $tabElement->open($this->_rootElement);
-        return $this;
+        return $tabElement;
     }
 }

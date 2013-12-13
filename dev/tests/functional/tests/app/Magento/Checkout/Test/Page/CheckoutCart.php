@@ -29,6 +29,20 @@ class CheckoutCart extends Page
     const MCA = 'checkout/cart';
 
     /**
+     * Cart shipping block
+     *
+     * @var string
+     */
+    protected $shippingBlock = '.block.shipping';
+
+    /**
+     * Cart totals block
+     *
+     * @var string
+     */
+    protected $totalsBlock = '#shopping-cart-totals-table';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -57,6 +71,30 @@ class CheckoutCart extends Page
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
             $this->_browser->find('.messages .messages', Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get cart shipping block
+     *
+     * @return \Magento\Checkout\Test\Block\Cart\Shipping
+     */
+    public function getShippingBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCheckoutCartShipping(
+            $this->_browser->find($this->shippingBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get cart totals block
+     *
+     * @return \Magento\Checkout\Test\Block\Cart\Totals
+     */
+    public function getTotalsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCheckoutCartTotals(
+            $this->_browser->find($this->totalsBlock, Locator::SELECTOR_CSS)
         );
     }
 }
