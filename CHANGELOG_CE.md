@@ -2,14 +2,14 @@
 =============
 * Fixed bugs:
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
-  * Fixed losing previously assigned categories after next product save with changed category selector field
-  * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
-  * Fixed the error while placing an order with Recurring profile payment
+  * Fixed losing previously assigned categories after saving the product with changed category selector field
+  * Fixed losing of a newly created category assignment after variations generation during Configurable product or Gift Card creation
+  * Fixed the error in order placement with Recurring profile payment
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
 * Modularity improvements:
-  * Layout page type config moved into library
+  * Layout page type config moved to library
   * Design loader moved to library
   * Theme label moved to library
 * Themes update:
@@ -18,10 +18,10 @@
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
-* Implemented API Integration UX flows
+* Implemented API Integration UX flows:
   * Ability to create and edit API Integrations
   * Ability to delete API integrations that were not created using configuration files
-* Removed System REST menu item and all associated UX flows
+* Removed System REST menu item and all associated UX flows:
   * Users, Roles, and Webhook Subscriptions sub-menu items were removed
 * Removed the Webhook module
 
