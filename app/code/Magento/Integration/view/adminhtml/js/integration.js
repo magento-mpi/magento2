@@ -84,7 +84,13 @@
         }
     });
 
-    window.Integration = function (permissionsDialogUrl, tokensDialogUrl, tokensExchangeUrl, gridUrl, successCallbackUrl) {
+    window.Integration = function (
+        permissionsDialogUrl,
+        tokensDialogUrl,
+        tokensExchangeUrl,
+        gridUrl,
+        successCallbackUrl
+    ) {
         var url = {
             permissions: permissionsDialogUrl,
             tokens: tokensDialogUrl,
@@ -92,12 +98,18 @@
             grid: gridUrl
         };
 
+        var integration = {
+            consumer_id: null,
+            reauthorize: null
+        };
+
         var IdentityLogin = {
             win: null,
             strLocation: null,
             checker: null,
             isCalledBack: false,
-            jqInfoDialog: $('#integration-popup-container'), //Info popup dialog. Should be hidden when login window is closed
+            //Info popup dialog. Should be hidden when login window is closed
+            jqInfoDialog: $('#integration-popup-container'),
             successCallbackUrl: successCallbackUrl,
             Constants: {
                 /*
@@ -130,7 +142,9 @@
                     clearInterval(IdentityLogin.checker);
                 }
                 //Polling to detect url of the child window.
-                IdentityLogin.checker = setInterval(IdentityLogin.fnCheckLocation, IdentityLogin.Constants.CHECKER_INTERVAL);
+                IdentityLogin.checker = setInterval(
+                    IdentityLogin.fnCheckLocation, IdentityLogin.Constants.CHECKER_INTERVAL
+                );
             },
 
             /**
@@ -138,8 +152,9 @@
              * Once detected if the callback is successful, parent window will be reloaded
              */
             fnCheckLocation: function () {
-                if (IdentityLogin.win == null)
+                if (IdentityLogin.win == null) {
                     return;
+                }
                 // Check to see if the location has changed.
                 try {
                     //Is the success callback invoked
@@ -148,8 +163,9 @@
                         //Stop the the polling
                         clearInterval(IdentityLogin.checker);
                         if (IdentityLogin.isCalledBack) {
+                            $('body').trigger('processStart');
                             //Check for window closed
-                            window.location.reload();
+                            window.location.href = url.grid + '?' + $.param(integration);
                             IdentityLogin.jqInfoDialog.dialog('close');
                         }
                     }
@@ -159,7 +175,6 @@
                         IdentityLogin.jqInfoDialog.dialog('close');
                         clearInterval(IdentityLogin.checker);
                     }
-                    return;
                 }
             }
         };
@@ -189,6 +204,8 @@
                         identityLinkUrl = resultObj['identity_link_url'];
                         consumerId = resultObj['consumer_id'];
                         popupHtml = resultObj['popup_content'];
+                        integration.consumer_id = consumerId;
+                        integration.reauthorize = resultObj['is_reauthorize'];
                     } catch (e) {
                         //This is expected if result is not json. Do nothing.
                     }

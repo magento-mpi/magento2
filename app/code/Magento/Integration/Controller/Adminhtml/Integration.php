@@ -25,6 +25,10 @@ class Integration extends Action
     /** Reauthorize flag is used to distinguish activation from reauthorization */
     const PARAM_REAUTHORIZE = 'reauthorize';
 
+    /** Param key to pass consumer ID */
+    const PARAM_CONSUMER_ID = 'consumer_id';
+
+    /** Registry key for current integration ID */
     const REGISTRY_KEY_CURRENT_INTEGRATION = 'current_integration';
 
     /**
@@ -80,6 +84,21 @@ class Integration extends Action
      */
     public function indexAction()
     {
+        if ($this->_request->has(self::PARAM_CONSUMER_ID)) {
+            // We've got here by redirecting from activate action via token exchange
+            $consumerId = $this->_request->getParam(self::PARAM_CONSUMER_ID);
+            $isReauthorize = (bool)$this->_request->getParam(self::PARAM_REAUTHORIZE, 0);
+
+            if (!is_null($consumerId)) {
+                try {
+                    $integration = $this->_integrationService->findByConsumerId($consumerId);
+                    $this->_setActivationInProcessMsg($isReauthorize, $integration->getName());
+                } catch (\Magento\Integration\Exception $e) {
+                    // Do nothing - there's no such integration
+                }
+            }
+        }
+
         $this->_view->loadLayout();
         $this->_setActiveMenu('Magento_Integration::system_integrations');
         $this->_addBreadcrumb(__('Integrations'), __('Integrations'));
@@ -321,7 +340,7 @@ class Integration extends Action
         try {
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
             $integration = $this->_integrationService->get($integrationId);
-            $clearExistingToken = (int)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
+            $clearExistingToken = (bool)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
             if ($this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken)) {
                 $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
             }
@@ -352,24 +371,32 @@ class Integration extends Action
     {
         try {
             $integrationId = $this->getRequest()->getParam(self::PARAM_INTEGRATION_ID);
+            $isReauthorize = (bool)$this->getRequest()->getParam(self::PARAM_REAUTHORIZE, 0);
             $integration = $this->_integrationService->get($integrationId);
-            /** Remove existing token associated with consumer before issuing a new one. */
-            $isReauthorize = $this->_oauthService->deleteToken($integration->getConsumerId());
+
             if ($isReauthorize) {
+                /** Remove existing token associated with consumer before issuing a new one. */
+                $areTokensCleared = $this->_oauthService->deleteToken($integration->getConsumerId());
+            }
+
+            if (!isset($areTokensCleared) || $areTokensCleared) {
                 $integration->setStatus(IntegrationModel::STATUS_INACTIVE)->save();
+            } else {
+                $this->_setActivationFailedMsg($isReauthorize, $integration->getName());
+                $this->_redirect('*/*');
+                return;
             }
             //Integration chooses to use Oauth for token exchange
             $this->_oauthService->postToConsumer($integration->getConsumerId(), $integration->getEndpoint());
             /** Generate JS popup content */
             $this->_view->loadLayout(false);
-            //This cannot precede loadlayout(false) else the messages will be removed
-            $this->_setActivationSuccessMsg($isReauthorize, $integration->getName());
             $this->_view->renderLayout();
             $popupContent = $this->_response->getBody();
             /** Initialize response body */
             $result = [
                 IntegrationModel::IDENTITY_LINK_URL => $integration->getIdentityLinkUrl(),
                 IntegrationModel::CONSUMER_ID => $integration->getConsumerId(),
+                'is_reauthorize' => $isReauthorize,
                 'popup_content' => $popupContent
             ];
             $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
@@ -429,12 +456,38 @@ class Integration extends Action
      * Set success message based on Integration activation or re-authorization.
      *
      * @param boolean $isReauthorize Is a re-authorization flow
-     * @param string $name Integration name
+     * @param string $integrationName Integration name
      */
-    protected function _setActivationSuccessMsg($isReauthorize, $name)
+    protected function _setActivationSuccessMsg($isReauthorize, $integrationName)
     {
-        $successMsg = $isReauthorize ? "The integration '%1' has been re-authorized."
-                                        : "The integration '%1' has been activated.";
-        $this->_getSession()->addSuccess(__($successMsg, $name));
+        $successMsg = $isReauthorize ? __("The integration '%1' has been re-authorized.", $integrationName)
+                                     : __("The integration '%1' has been activated.", $integrationName);
+        $this->_getSession()->addSuccess($successMsg);
+    }
+
+    /**
+     * Let the admin know that activation was failed.
+     *
+     * @param bool   $isReauthorize
+     * @param string $integrationName
+     */
+    protected function _setActivationFailedMsg($isReauthorize, $integrationName)
+    {
+        $msg = $isReauthorize ? __("Integration '%1' re-authorization has been failed.", $integrationName)
+                              : __("Integration '%1' activation has been failed.", $integrationName);
+        $this->_getSession()->addError($msg);
+    }
+
+    /**
+     * Let the admin know that integration has been sent for activation and token exchange is in process.
+     *
+     * @param bool   $isReauthorize
+     * @param string $integrationName
+     */
+    protected function _setActivationInProcessMsg($isReauthorize, $integrationName)
+    {
+        $msg = $isReauthorize ? __("Integration '%1' has been sent for re-authorization.", $integrationName)
+                              : __("Integration '%1' has been sent for activation.", $integrationName);
+        $this->_getSession()->addNotice($msg);
     }
 }
