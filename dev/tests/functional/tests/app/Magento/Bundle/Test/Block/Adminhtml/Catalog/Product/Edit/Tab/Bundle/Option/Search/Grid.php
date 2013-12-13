@@ -54,6 +54,6 @@ class Grid extends GridInterface
      */
     public function addProducts()
     {
-        $this->_rootElement->find($this->addProducts, Locator::SELECTOR_CSS)->click();
+        $this->_rootElement->find($this->addProducts)->click();
     }
 }

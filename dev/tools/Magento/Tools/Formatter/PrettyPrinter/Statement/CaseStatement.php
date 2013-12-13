@@ -7,6 +7,7 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
+use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
@@ -26,21 +27,64 @@ class CaseStatement extends AbstractConditionalStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the control word
         if (null !== $this->node->cond) {
-            $line->add('case ');
-            $this->resolveNode($this->node->cond, $treeNode);
+            $this->addToLine($treeNode, 'case ');
+            $treeNode = $this->resolveNode($this->node->cond, $treeNode);
         } else {
-            $line->add('default');
+            $this->addToLine($treeNode, 'default');
         }
-        $line->add(':')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ':')->add(new HardLineBreak());
         // add in the statements
-        $this->processNodes($this->node->stmts, $treeNode);
+        return $this->processNodes($this->node->stmts, $treeNode);
+    }
+
+    /**
+     * This method adds the current comment line to the current tree node.
+     * @param string $commentLine String containing the current comment.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     */
+    protected function addCommentToNode($commentLine, TreeNode $treeNode)
+    {
+        // cases should not have their own comments; if they do, add it as the last child to the sibling node
+        $siblingNode = $this->getPriorSibling($treeNode->getParent()->getChildren(), $treeNode);
+        // if found, then add the comment
+        if (isset($siblingNode)) {
+            $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
+            $siblingNode->addChild($newNode);
+        } else {
+            // otherwise, just let the base class do common action
+            parent::addCommentToNode($commentLine, $treeNode);
+        }
+    }
+
+    /**
+     * This method returns the previous node to the passed in node. Null is returned if not found
+     * or found as the first child.
+     * @param array $children Array of children to search
+     * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode|null
+     */
+    protected function getPriorSibling(array $children, TreeNode $treeNode)
+    {
+        // assume not found
+        $siblingNode = null;
+        // make sure the array pointer is starting at the beginning
+        reset($children);
+        // look for the exact match
+        $found = false;
+        while (!$found && next($children)) {
+            $found = current($children) === $treeNode;
+        }
+        // if found, then really want the previous node
+        if ($found) {
+            $siblingNode = prev($children);
+        }
+        return $siblingNode;
     }
 }

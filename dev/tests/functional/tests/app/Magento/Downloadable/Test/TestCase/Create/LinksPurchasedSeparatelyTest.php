@@ -85,12 +85,12 @@ class LinksPurchasedSeparatelyTest extends Functional
 
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         $productPage->getDownloadableLinksBlock()
             ->check([['title' => $product->getData('fields/downloadable/link/0/title/value')]]);
-        $this->assertContains(
-            (string)($product->getProductPrice() + $product->getData('fields/downloadable/link/0/price/value')),
+        $this->assertEquals(
+            (int)$product->getProductPrice() + $product->getData('fields/downloadable/link/0/price/value'),
             $productViewBlock->getProductPrice()
         );
     }

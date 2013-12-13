@@ -147,7 +147,7 @@ class CreateConfigurable extends Curl
     /**
      * Create configurable product
      *
-     * @param Fixture $fixture [optional]
+     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture [optional]
      * @return mixed|string
      * @throws \Exception
      */

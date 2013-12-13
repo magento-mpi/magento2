@@ -13,11 +13,6 @@ class CastBoolOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Bool $node)
     {
-        parent::__construct($node);
-    }
-
-    public function operator()
-    {
-        return '(bool) ';
+        parent::__construct($node, 'bool');
     }
 }

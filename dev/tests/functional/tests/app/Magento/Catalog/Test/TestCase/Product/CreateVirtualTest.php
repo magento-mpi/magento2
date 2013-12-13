@@ -95,6 +95,6 @@ class CreateVirtualTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

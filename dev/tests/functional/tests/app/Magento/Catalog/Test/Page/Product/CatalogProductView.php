@@ -108,7 +108,7 @@ class CatalogProductView extends Page
     /**
      * Page initialization
      *
-     * @param DataFixture $fixture
+     * @param DataFixture|\Magento\Catalog\Test\Fixture\Product $fixture
      */
     public function init(DataFixture $fixture)
     {
@@ -180,7 +180,7 @@ class CatalogProductView extends Page
      *
      * @return \Magento\Catalog\Test\Block\Product\ProductList\Upsell
      */
-    public function getUpsellBlock()
+    public function getUpsellProductBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductProductListUpsell(
             $this->_browser->find($this->upsellSelector, Locator::SELECTOR_CSS)

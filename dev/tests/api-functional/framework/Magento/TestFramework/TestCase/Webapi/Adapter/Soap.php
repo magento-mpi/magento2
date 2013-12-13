@@ -77,10 +77,10 @@ class Soap
      */
     public function instantiateSoapClient($wsdlUrl)
     {
-        $token = \Magento\TestFramework\Authentication\OauthHelper::getAccessToken();
+        $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
         $opts = array(
             'http'=>array(
-                'header'=>"Authorization: Bearer " . $token['key']
+                'header'=>"Authorization: Bearer " . $accessCredentials['key']
             )
         );
         $context = stream_context_create($opts);

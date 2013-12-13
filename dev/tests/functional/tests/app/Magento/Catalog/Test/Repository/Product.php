@@ -22,7 +22,7 @@ use Mtf\Repository\AbstractRepository;
 class Product extends AbstractRepository
 {
     /**
-     * {inheritdoc}
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
@@ -49,11 +49,11 @@ class Product extends AbstractRepository
                 'fields' => array(
                     'name' => array(
                         'value' => 'edited ' . $productType . ' %isolation%',
-                        'group' => \Magento\Catalog\Test\Fixture\Product::GROUP_PRODUCT_DETAILS
+                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
                     ),
                     'sku' => array(
                         'value' => 'edited ' . $productType . '_sku_%isolation%',
-                        'group' => \Magento\Catalog\Test\Fixture\Product::GROUP_PRODUCT_DETAILS
+                        'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
                     )
                 )
             )

@@ -20,6 +20,8 @@ namespace Magento\Integration\Model;
  * @method \int getType()
  * @method Integration setType(\int $value)
  * @method \string getEndpoint()
+ * @method Integration setConsumerId(\string $consumerId)
+ * @method \string getConsumerId()
  * @method Integration setEndpoint(\string $endpoint)
  * @method \string getCreatedAt()
  * @method Integration setCreatedAt(\string $createdAt)
@@ -50,6 +52,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     const EMAIL = 'email';
     const ENDPOINT = 'endpoint';
     const SETUP_TYPE = 'setup_type';
+    const CONSUMER_ID = 'consumer_id';
     /**#@-*/
 
     /**
@@ -91,7 +94,7 @@ class Integration extends \Magento\Core\Model\AbstractModel
     /**
      * Prepare data to be saved to database
      *
-     * @return \Magento\Integration\Model\Integration
+     * @return Integration
      */
     protected function _beforeSave()
     {
@@ -101,5 +104,16 @@ class Integration extends \Magento\Core\Model\AbstractModel
         }
         $this->setUpdatedAt($this->_dateTime->formatDate(true));
         return $this;
+    }
+
+    /**
+     * Load integration by oAuth consumer ID.
+     *
+     * @param int $consumerId
+     * @return Integration
+     */
+    public function loadByConsumerId($consumerId)
+    {
+        return $this->load($consumerId, self::CONSUMER_ID);
     }
 }

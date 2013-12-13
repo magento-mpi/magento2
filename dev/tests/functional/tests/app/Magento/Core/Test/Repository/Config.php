@@ -51,6 +51,7 @@ class Config extends AbstractRepository
         $this->_data['paypal_direct'] = $this->_getPaypalDirect();
         $this->_data['paypal_disabled_all_methods'] = $this->_getPaypalDisabled();
         $this->_data['paypal_payflow_pro'] = $this->_getPaypalPayFlowPro();
+        $this->_data['paypal_advanced'] = $this->_getPaypalAdvanced();
         $this->_data['paypal_payflow_pro_3d_secure'] = $this->_getPayPalPayflowPro3dSecure();
         $this->_data['paypal_payments_pro_3d_secure'] = $this->_getPayPalPaymentsPro3dSecure();
         $this->_data['authorizenet_disable'] = $this->_getAuthorizeNetDisable();
@@ -68,7 +69,11 @@ class Config extends AbstractRepository
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
+        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         $this->_data['disable_map_config'] = $this->_getMapDisabled();
+        //Customer
+        $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
+
     }
 
     protected function _getFreeShipping()
@@ -351,6 +356,78 @@ class Config extends AbstractRepository
                                 'fields' => array(
                                     'active' => array(
                                         'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+    protected function _getPaypalAdvanced()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'payment' => array(
+                        'section' => 'payment',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'paypal_group_all_in_one' => array( //PayPal All-in-One Payment Solutions
+                                'groups' => array(
+                                    'payflow_advanced_us' => array( //Payments Pro (Includes Express Checkout)
+                                        'groups' => array(
+                                            'required_settings' => array( //Required PayPal Settings
+                                                'groups' => array(
+                                                    'payments_advanced' => array( //Payments Pro and Express Checkout
+                                                        'fields' => array(
+                                                            'business_account' => array( //Email Associated with PayPal
+                                                                'value' => 'rlus_1349181941_biz@ebay.com'
+                                                            ),
+                                                            'partner' => array( //Partner
+                                                                'value' => 'PayPal'
+                                                            ),
+                                                            'vendor' => array( //Vendor
+                                                                'value' => 'mpiteamadvanced123'
+                                                            ),
+                                                            'user' => array( //User
+                                                                'value' => 'mpiteamadvanced123'
+                                                            ),
+                                                            'pwd' => array( //Password
+                                                                'value' => 'Temp1234'
+                                                            ),
+                                                            'sandbox_flag' => array( //Sandbox Mode
+                                                                'value' => 1 //Yes
+                                                            ),
+                                                            'use_proxy' => array( //API Uses Proxy
+                                                                'value' => 0 //No
+                                                            )
+                                                        )
+                                                    )
+                                                ),
+                                                'fields' => array(
+                                                    'enable_payflow_advanced' => array( //Enable this Solution
+                                                        'value' => 1 //Yes
+                                                    )
+                                                )
+                                            ),
+                                            'settings_payments_advanced' => array( //Basic Settings - PayPal Payments Pro
+                                                'fields' => array(
+                                                    'payment_action' => array( //Payment Action
+                                                        'value' => 'Authorization' //Authorization
+                                                    )
+                                                ),
+                                            )
+                                        )
+                                    )
+                                )
+                            ),
+                            'paypal_express' => array(
+                                'fields' => array(
+                                    'active' => array(
+                                        'value' => 1
                                     )
                                 )
                             )
@@ -1033,6 +1110,92 @@ class Config extends AbstractRepository
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * General store and country options settings
+     *
+     * @return array
+     */
+    public function getGeneralStoreGermany()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'general' => array(
+                        'section' => 'general',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'store_information' => array(
+                                'fields' => array(
+                                    'name' => array(
+                                        'value' => 'Test',
+                                    ),
+                                    'phone' => array(
+                                        'value' => '630-371-7008',
+                                    ),
+                                    'country_id' => array(
+                                        'value' => 'DE',
+                                    ),
+                                    'region_id' => array(
+                                        'value' => 82,
+                                    ),
+                                    'postcode' => array(
+                                        'value' => '10789',
+                                    ),
+                                    'city' => array(
+                                        'value' => 'Berlin',
+                                    ),
+                                    'street_line1' => array(
+                                        'value' => 'Augsburger Strabe 41',
+                                    ),
+                                    'merchant_vat_number' => array(
+                                        'value' => '111607872'
+                                    ),
+                                ),
+                            ),
+                            'country' => array(
+                                'fields' => array(
+                                    'eu_countries' => array(
+                                        'value' => array('FR', 'DE', 'GB'),
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
+        );
+    }
+
+    /**
+     * Get data for disable automatic assignment customer to customer group
+     *
+     * @return array
+     */
+    public function getDisableGroupAssignData()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'customer' => array(
+                        'section' => 'customer',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'create_account' => array(
+                                'fields' => array(
+                                    'auto_group_assign' => array(
+                                        'value' => self::NO_VALUE,
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 }

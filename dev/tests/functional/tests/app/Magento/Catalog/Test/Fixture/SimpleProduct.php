@@ -35,7 +35,7 @@ class SimpleProduct extends Product
 
         $data = array(
             'price'  => array(
-                'value' => '10',
+                'value' => 10,
                 'group' => static::GROUP_PRODUCT_DETAILS
             ),
             'tax_class_id' => array(

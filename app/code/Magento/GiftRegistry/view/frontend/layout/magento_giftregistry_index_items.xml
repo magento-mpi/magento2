@@ -14,7 +14,12 @@
             <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceBlock name="customer-account-navigation-giftregistry-link">
+        <arguments>
+            <argument name="is_highlighted" xsi:type="boolean">true</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Items" name="giftregistry.customer.items" template="customer/items.phtml">
             <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="default" template="Magento_GiftRegistry::customer/items/default.phtml"/>
             <block class="Magento\Checkout\Block\Cart\Item\Renderer" as="simple" template="Magento_GiftRegistry::customer/items/default.phtml"/>

@@ -44,13 +44,20 @@ class Config extends Tab
     protected $matrixBlock = '[data-role=product-variations-matrix] table';
 
     /**
+     * Product attribute block selector by attribute name
+     *
+     * @var string
+     */
+    protected $attribute = '//div[*/*/span="%s"]';
+
+    /**
      * Open Variations section
      *
      * @param Element $context
      */
     public function open(Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ? : $this->_rootElement;
         $element->find(static::GROUP_PRODUCT_DETAILS, Locator::SELECTOR_ID)->click();
     }
 
@@ -62,11 +69,11 @@ class Config extends Tab
      */
     protected function getAttributeBlock($attributeName)
     {
-        $attributeBlock = Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperAttribute(
-            $this->_rootElement->find('//div[*/*/span="' . $attributeName . '"]', Locator::SELECTOR_XPATH)
+        $attributeSelector = sprintf($this->attribute, $attributeName);
+        $this->waitForElementVisible($attributeSelector, Locator::SELECTOR_XPATH);
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperAttribute(
+            $this->_rootElement->find($attributeSelector, Locator::SELECTOR_XPATH)
         );
-
-        return $attributeBlock;
     }
 
     /**
@@ -97,16 +104,34 @@ class Config extends Tab
      */
     public function fillFormTab(array $fields, Element $element)
     {
-        $attributes = array();
-        foreach ($fields['configurable_attributes_data']['value'] as $attribute) {
+        $attributes = $fields['configurable_attributes_data']['value'];
+        foreach ($attributes as $attribute) {
             $this->selectAttribute($attribute['label']['value']);
-            $attributes[$attribute['label']['value']] = $attribute;
         }
-        foreach ($attributes as $key => $attribute) {
-            $this->getAttributeBlock($key)->fillAttributeOptions($attribute);
-        }
+        $this->fillAttributeOptions($attributes);
         $this->generateVariations();
-        $this->getMatrixBlock()->fillVariation($fields['variations-matrix']['value']);
+        $this->fillVariationsMatrix($fields['variations-matrix']['value']);
+    }
+
+    /**
+     * Fill variations matrix
+     *
+     * @param $fields
+     */
+    public function fillVariationsMatrix($fields)
+    {
+        $this->getMatrixBlock()->fillVariation($fields);
+    }
+
+    /**
+     * Fill attribute options
+     *
+     * @param array $attributes
+     */
+    public function fillAttributeOptions(array $attributes) {
+        foreach ($attributes as $attribute) {
+            $this->getAttributeBlock($attribute['label']['value'])->fillAttributeOptions($attribute);
+        }
     }
 
     /**

@@ -57,6 +57,7 @@ class Line
     /**
      * This method adds the token to the list of tokens.
      * @param mixed $token The token to be added.
+     * @return Line
      */
     public function add($token)
     {
@@ -71,11 +72,18 @@ class Line
             if ($tokenCount > 0 && is_string($this->tokens[$tokenCount - 1]) && is_string($token)) {
                 $this->tokens[$tokenCount - 1] .= $token;
             } else {
-                // just add the token to the end of the list
-                $this->tokens[] = $token;
-                // persist line break information
-                if ($token instanceof ConditionalLineBreak) {
-                    $this->saveLineBreakToken($token);
+                $lastToken = $this->getLastToken();
+                // if the last token depends on the next value, give it a chance to operate
+                if ($lastToken instanceof LineCondition) {
+                    $token = $lastToken->processToken($this->tokens, $token);
+                }
+                if (null !== $token) {
+                    // just add the token to the end of the list
+                    $this->tokens[] = $token;
+                    // persist line break information
+                    if ($token instanceof ConditionalLineBreak) {
+                        $this->saveLineBreakToken($token);
+                    }
                 }
             }
         }
@@ -196,12 +204,12 @@ class Line
         return $this->getCurrentLines($level);
     }
 
-    public function splitLineBySortOrder($sortOrder)
+    public function splitLineBySortOrder($sortOrder, &$lineBreakData)
     {
         // reset the index information for the line breaks
         $this->resetLineBreakIndex();
         // get the array of arrays containing the compiled tokens
-        return $this->getCurrentLinesBySortOrder($sortOrder);
+        return $this->getCurrentLinesBySortOrder($sortOrder, $lineBreakData);
     }
 
     /**
@@ -282,13 +290,13 @@ class Line
     /**
      * This method breaks the current line into additional lines, based on the sort order.
      * @param $sortOrder
+     * @param $lineBreakData
      * @return array
      */
-    private function getCurrentLinesBySortOrder($sortOrder)
+    private function getCurrentLinesBySortOrder($sortOrder, &$lineBreakData)
     {
         $currentLines = array();
         $index = 0;
-        $lineBreakData = array();
         // break down the line by only resolving the line breaks based on sort order
         foreach ($this->tokens as $token) {
             // if no current line, create one and put it in the array

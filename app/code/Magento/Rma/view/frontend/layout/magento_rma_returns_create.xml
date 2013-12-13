@@ -14,7 +14,7 @@
             <argument name="path" xsi:type="string">rma/returns/history/</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Rma\Block\Returns\Create" as="create" name="rma.returns.create" template="return/create.phtml">
             <action method="setFormCode">
                 <argument name="code" xsi:type="string">default</argument>
