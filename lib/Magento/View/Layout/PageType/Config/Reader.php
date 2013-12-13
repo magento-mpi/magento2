@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Layout\PageType\Config;
+namespace Magento\View\Layout\PageType\Config;
 
 class Reader extends \Magento\Config\Reader\Filesystem
 {
@@ -16,7 +16,5 @@ class Reader extends \Magento\Config\Reader\Filesystem
      *
      * @var array
      */
-    protected $_idAttributes = array(
-        '/page_types/type' => 'id',
-    );
+    protected $_idAttributes = array('/page_types/type' => 'id');
 }

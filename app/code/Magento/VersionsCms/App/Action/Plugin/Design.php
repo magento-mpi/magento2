@@ -11,7 +11,7 @@ namespace Magento\VersionsCms\App\Action\Plugin;
 class Design
 {
     /**
-     * @var \Magento\Core\Model\DesignLoader
+     * @var \Magento\View\DesignLoader
      */
     protected $_designLoader;
 
@@ -26,12 +26,12 @@ class Design
     protected $_request;
 
     /**
-     * @param \Magento\Core\Model\DesignLoader $designLoader
+     * @param \Magento\View\DesignLoader $designLoader
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      */
     public function __construct(
-        \Magento\Core\Model\DesignLoader $designLoader,
+        \Magento\View\DesignLoader $designLoader,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState
     ) {

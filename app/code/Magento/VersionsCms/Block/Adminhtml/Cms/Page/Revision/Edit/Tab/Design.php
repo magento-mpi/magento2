@@ -34,7 +34,7 @@ class Design
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
-     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param \Magento\VersionsCms\Helper\Data $cmsData
      * @param array $data
      */
@@ -43,7 +43,7 @@ class Design
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
-        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\View\Design\Theme\LabelFactory $labelFactory,
         \Magento\VersionsCms\Helper\Data $cmsData,
         array $data = array()
     ) {

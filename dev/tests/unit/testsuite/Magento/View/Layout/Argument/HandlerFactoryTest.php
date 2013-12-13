@@ -10,14 +10,14 @@
  */
 
 /**
- * Test class for \Magento\Core\Model\Layout\Argument\HandlerFactory
+ * Test class for \Magento\View\Layout\Argument\HandlerFactory
  */
-namespace Magento\Core\Model\Layout\Argument;
+namespace Magento\View\Layout\Argument;
 
 class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Layout\Argument\HandlerFactory
+     * @var \Magento\View\Layout\Argument\HandlerFactory
      */
     protected $_model;
 
@@ -29,7 +29,14 @@ class HandlerFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_objectManagerMock = $this->getMock('Magento\ObjectManager');
-        $this->_model = new \Magento\Core\Model\Layout\Argument\HandlerFactory($this->_objectManagerMock);
+        $this->_model = new \Magento\View\Layout\Argument\HandlerFactory(
+            $this->_objectManagerMock,
+            array(
+                'object'  => 'Magento\Core\Model\Layout\Argument\Handler\Object',
+                'options' => 'Magento\Core\Model\Layout\Argument\Handler\Options',
+                'url'     => 'Magento\Core\Model\Layout\Argument\Handler\Url',
+            )
+        );
     }
 
     protected function tearDown()

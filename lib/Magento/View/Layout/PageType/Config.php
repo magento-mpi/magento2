@@ -7,7 +7,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Core\Model\Layout\PageType;
+namespace Magento\View\Layout\PageType;
 
 class Config
 {
@@ -35,7 +35,7 @@ class Config
     /**
      * Initialize page types list
      *
-     * @return \Magento\Core\Model\Layout\PageType\Config
+     * @return \Magento\View\Layout\PageType\Config
      */
     protected function _initPageTypes()
     {
