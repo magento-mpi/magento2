@@ -45,7 +45,7 @@
         <?php echo $this->getChildHtml('pager'); ?>
     </div>
 <?php else:?>
-    <p class="no giftregistry"><?php echo __('No gift registries have been created.'); ?></p>
+    <div class="message info empty"><span><?php echo __('No gift registries have been created.'); ?></span></div>
 <?php endif;?>
 
 <div class="actions">

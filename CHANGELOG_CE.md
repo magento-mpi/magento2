@@ -7,6 +7,7 @@
   * Fixed Session Fixation in User Registration during Checkout
   * Fixed fails during installation
   * Fixed fatal error while login to backend
+  * Fixed the error during place an order with Recurring profile payment
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
@@ -16,10 +17,13 @@
   * Design loader moved to library
   * Theme label moved to library
   * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
+* Themes update:
+  * Reduced amount of templates and layouts in magento_plushe theme
+  * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
-  
+
 2.0.0.0-dev55
 =============
 * Modularity improvements:
@@ -27,8 +31,15 @@
   * FormKey logic is moved out from Session model
   * SessionIdFlags is removed from Session model
   * Move Page logic to the Theme module and library
-* Created UX for the Integration module
+* Implemented API Integration UX flows
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module
+* Created integration module UX
 * Created authorization service (Magento_Authz module)
+  * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:
   * Fixed the issue that prevented a customer group's shopping cart rules from applying properly to prices. The issue occurred when a customer was manually assigned to a customer group and automatic group assignment was enabled.
   * Fixed the bug with schema upgrade scripts not running after installation
