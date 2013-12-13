@@ -10,6 +10,9 @@
   * Layout page type config moved into library
   * Design loader moved to library
   * Theme label moved to library
+* Themes update:
+  * Reduced amount of templates and layouts in magento_plushe theme
+  * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
