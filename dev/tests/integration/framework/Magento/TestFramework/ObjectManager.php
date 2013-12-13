@@ -34,15 +34,6 @@ class ObjectManager extends \Magento\App\ObjectManager
             }
         }
 
-        if (session_status() === PHP_SESSION_ACTIVE) {
-            foreach ($this->_sharedInstances as $object) {
-                if ($object instanceof \Magento\Session\SessionManagerInterface) {
-                    $object->writeClose();
-                    break;
-                }
-            }
-        }
-
         \Magento\Core\Model\Config\Base::destroy();
         $sharedInstances = array(
             'Magento\ObjectManager' => $this, 'Magento\App\ObjectManager' => $this
@@ -53,6 +44,11 @@ class ObjectManager extends \Magento\App\ObjectManager
 
         if (isset($this->_sharedInstances['Magento\Config\Scope'])) {
             $sharedInstances['Magento\Config\Scope'] = $this->_sharedInstances['Magento\Config\Scope'];
+        }
+
+        if (isset($this->_sharedInstances['Magento\Core\Model\Session\Config'])) {
+            $sharedInstances['Magento\Core\Model\Session\Config'] =
+                $this->_sharedInstances['Magento\Core\Model\Session\Config'];
         }
         $this->_sharedInstances = $sharedInstances;
         $this->_config->clean();

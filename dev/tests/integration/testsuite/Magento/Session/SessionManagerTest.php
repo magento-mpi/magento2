@@ -46,7 +46,7 @@ class SessionManagerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $this->_model->destroy();
+        $this->_model->clearStorage();
     }
 
     public function testGetData()
