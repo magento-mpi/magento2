@@ -24,6 +24,18 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
      */
     protected $_moduleDirResolver;
 
+    /**
+     * @var \Magento\Filesystem\Directory\Read|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_filesystemDirectoryMock;
+
+    /**
+     * Paths to fixtures
+     *
+     * @var array
+     */
+    protected $_paths;
+
     protected function setUp()
     {
         $fileResolver = $this->getMock(
@@ -57,8 +69,13 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $this->_moduleDirResolver = $this->getMock(
             'Magento\Module\Dir\ReverseResolver', array(), array(), '', false
         );
-        $this->_filesystemDirectoryMock = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '',
-            false);
+        $this->_filesystemDirectoryMock = $this->getMock(
+            '\Magento\Filesystem\Directory\Read',
+            array(),
+            array(),
+            '',
+            false
+        );
 
         $this->_filesystemDirectoryMock->expects($this->any())
             ->method('getAbsolutePath')
@@ -79,8 +96,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
             $fileResolver,
             $this->_converter,
             $schemaLocator,
-            $validationState,
-            $this->_moduleDirResolver
+            $validationState
         );
     }
 

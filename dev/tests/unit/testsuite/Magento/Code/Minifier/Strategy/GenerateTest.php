@@ -78,6 +78,9 @@ class GenerateTest extends \PHPUnit_Framework_TestCase
             ->with($originalFile)
             ->will($this->returnValue($content));
         $this->pubViewCacheDir->expects($this->once())
+            ->method('getRelativePath')
+            ->will($this->returnArgument(0));
+        $this->pubViewCacheDir->expects($this->once())
             ->method('writeFile')
             ->with($minifiedFile, $minifiedContent);
 
