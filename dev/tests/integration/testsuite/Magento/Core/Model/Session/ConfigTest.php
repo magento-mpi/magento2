@@ -50,6 +50,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('localhost', $this->_model->getCookieDomain());
         $this->assertEquals(false, $this->_model->getCookieSecure());
         $this->assertEquals(true, $this->_model->getCookieHttpOnly());
+        $this->assertEquals($this->_model->getOption('save_path'), ini_get('session.save_path'));
     }
 }
 
