@@ -108,7 +108,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                         'httpMethod' => 'GET',
                         'method' => 'someMethod',
                         'route' => '',
-                        'isSecure' => false
+                        'isSecure' => false,
+                        'resources' => array('Magento_TestModule1::resource1')
                     )
                 )
             ),
@@ -120,7 +121,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                         'httpMethod' => 'GET',
                         'method' => 'someMethod',
                         'route' => '',
-                        'isSecure' => false
+                        'isSecure' => false,
+                        'resources' => array('Magento_TestModule1::resource2')
                     )
                 )
             )
@@ -132,7 +134,8 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
                     'someMethod' => array(
                         'method' => 'someMethod',
                         'inputRequired' => '',
-                        'isSecure' => ''
+                        'isSecure' => '',
+                        'resources' => array('Magento_TestModule1::resource1')
                     )
                 ),
                 'class' => 'Magento\Module\Service\FooV1Interface'

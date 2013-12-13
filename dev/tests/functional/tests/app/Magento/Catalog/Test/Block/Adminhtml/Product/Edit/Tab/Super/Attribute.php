@@ -60,13 +60,13 @@ class Attribute extends Block
     {
         foreach ($fields as $field) {
             if (isset($field['option_label']['value'])) {
-                $optionRow = $this->_rootElement->find('//tr[td="' . $field['option_label']['value'] . '"]',
-                    Locator::SELECTOR_XPATH);
-                if (isset($field['pricing_value'])) {
+                $optionRow = $this->getOptionRow($field['option_label']['value']);
+
+                if (isset($field['pricing_value']['value'])) {
                     $optionRow->find($this->pricingValue, Locator::SELECTOR_CSS)
                         ->setValue($field['pricing_value']['value']);
                 }
-                if ($field['is_percent']['value'] == 'Yes') {
+                if (isset($field['is_percent']['value']) && $field['is_percent']['value'] == 'Yes') {
                     $optionRow->find($this->priceTypeButton, Locator::SELECTOR_CSS)->click();
                     $optionRow->find($this->priceTypeValue . '//a[text()="%"]', Locator::SELECTOR_XPATH)->click();
                 }
@@ -74,5 +74,16 @@ class Attribute extends Block
                     ->setValue($field['include']['value']);
             }
         }
+    }
+
+    /**
+     * Get option row
+     *
+     * @param string $optionLabel
+     * @return Element
+     */
+    protected function getOptionRow($optionLabel)
+    {
+        return $this->_rootElement->find('//tr[td="' . $optionLabel . '"]', Locator::SELECTOR_XPATH);
     }
 }
