@@ -134,20 +134,20 @@ class Filesystem implements \Magento\Config\ReaderInterface
     {
         /** @var \Magento\Config\Dom $domDocument */
         $domDocument = null;
-        foreach ($fileList as $file) {
+        foreach ($fileList as $key => $content) {
             try {
                 if (is_null($domDocument)) {
                     $class = $this->_domDocumentClass;
                     $domDocument = new $class(
-                        $file,
+                        $content,
                         $this->_idAttributes,
                         $this->_perFileSchema
                     );
                 } else {
-                    $domDocument->merge($file);
+                    $domDocument->merge($content);
                 }
             } catch (\Magento\Config\Dom\ValidationException $e) {
-                throw new \Magento\Exception("Invalid XML in file " . key($file) . ":\n" . $e->getMessage());
+                throw new \Magento\Exception("Invalid XML in file " . $key . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isValidated) {

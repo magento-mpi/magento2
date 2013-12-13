@@ -77,11 +77,11 @@ abstract class AbstractXml
      */
     protected function _merge($configFiles)
     {
-        foreach ($configFiles as $file) {
+        foreach ($configFiles as $key => $content) {
             try {
-                $this->_getDomConfigModel()->merge($file);
+                $this->_getDomConfigModel()->merge($content);
             } catch (\Magento\Config\Dom\ValidationException $e) {
-                throw new \Magento\Exception("Invalid XML in file " . key($file) . ":\n" . $e->getMessage());
+                throw new \Magento\Exception("Invalid XML in file " . $key . ":\n" . $e->getMessage());
             }
         }
         if ($this->_isRuntimeValidated()) {
