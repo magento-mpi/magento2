@@ -131,11 +131,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
 
     /**
      * @param string $submittedValue
-     * @param string $matchedAttributeId
      * @param bool $expectedFilterApplied
+     * @param string $expectedAttributeId
      * @dataProvider applyDataProvider
      */
-    public function testApply($submittedValue, $matchedAttributeId, $expectedFilterApplied)
+    public function testApply($submittedValue, $expectedFilterApplied, $expectedAttributeId = null)
     {
         // Call expectations
         $options = array(
@@ -175,7 +175,7 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
                 ->with($this->_filterItem);
             $this->_productCollection->expects($this->once())
                 ->method('addFqFilter')
-                ->with(array('attribute_search_field' => array('attribute_id2')));
+                ->with(array('attribute_search_field' => array($expectedAttributeId)));
         } else {
             $this->_state->expects($this->never())
                 ->method('addFilter');
@@ -191,12 +191,11 @@ class AttributeTest extends \PHPUnit_Framework_TestCase
         return array(
             'existing attribute' => array(
                 'attribute_label2',
-                'attribute_id2',
                 true,
+                'attribute_id2',
             ),
             'non-existing attribute' => array(
                 'spoofing_content',
-                null,
                 false,
             ),
         );

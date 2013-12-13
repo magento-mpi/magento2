@@ -9,6 +9,10 @@
 
 namespace Magento\Search\Model\Catalog\Layer\Filter;
 
+/**
+ * Suppress coupling warning, because it is rather issue of the class tested, than the test itself
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
+ */
 class PriceTest extends \PHPUnit_Framework_TestCase
 {
     /**
