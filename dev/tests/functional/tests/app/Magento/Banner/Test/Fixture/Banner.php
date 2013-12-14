@@ -11,6 +11,7 @@
 
 namespace Magento\Banner\Test\Fixture;
 
+use Magento\Banner\Test\Repository\Banner as Repository;
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
 
@@ -34,7 +35,7 @@ class Banner extends DataFixture
      */
     public function persist()
     {
-        if ($this->id == null) {
+        if ($this->id === null) {
             $this->id = Factory::getApp()->magentoBannerCreateBanner($this);
             $this->_data['fields']['banner_id']['value'] = $this->id;
         }
@@ -58,26 +59,9 @@ class Banner extends DataFixture
      */
     protected function _initData()
     {
-        $this->_data = array(
-            'fields' => array(
-                // Banner Name = banner1
-                'name' => array(
-                    'value' => 'banner1'
-                ),
-                // Active = yes
-                'is_enabled' => array(
-                    'value' => '1'
-                ),
-                // Content = text/insert variable
-                'store_contents' => array(
-                     'value' => array(
-                         '0' => '{{config path="general/store_information/name"}}'
-                     )
-                )
-            )
-        );
-
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoBannerBanner($this->_dataConfig, $this->_data);
+
+        $this->switchData(Repository::TEXT_BANNER);
     }
 }

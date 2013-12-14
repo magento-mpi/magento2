@@ -10,7 +10,6 @@
  */
 namespace Magento\CatalogRule\Test\Repository;
 
-use Mtf\Factory\Factory;
 use Mtf\Repository\AbstractRepository;
 
 /**
@@ -29,6 +28,10 @@ class CatalogPriceRule extends AbstractRepository
     const GROUP_CONDITIONS = 'promo_catalog_edit_tabs_conditions_section';
 
     const GROUP_ACTIONS = 'promo_catalog_edit_tabs_actions_section';
+
+    const CONDITION_TYPE = 'conditions__1__new_child';
+
+    const CONDITION_VALUE = 'conditions__1--1__value';
 
     public function __construct(array $defaultConfig, array $defaultData)
     {
@@ -67,13 +70,13 @@ class CatalogPriceRule extends AbstractRepository
                         'input' => 'select'
                     ),
                     'rule_discount_amount' => array('value' => '50.0000', 'group' => static::GROUP_ACTIONS),
-                    'conditions__1__new_child' => array(
+                    self::CONDITION_TYPE => array(
                         'value' => 'Category',
                         'group' => static::GROUP_CONDITIONS,
                         'input' => 'select',
                         'input_value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|category_ids'
                     ),
-                    'conditions__1--1__value' => array(
+                    self::CONDITION_VALUE => array(
                         'value' => '%category_id%',
                         'group' => static::GROUP_CONDITIONS,
                         'input' => 'input'
@@ -112,13 +115,13 @@ class CatalogPriceRule extends AbstractRepository
                         'input' => 'select'
                     ),
                     'rule_discount_amount' => array('value' => '50.0000', 'group' => static::GROUP_ACTIONS),
-                    'conditions__1__new_child' => array(
+                    self::CONDITION_TYPE => array(
                         'value' => 'Category',
                         'group' => static::GROUP_CONDITIONS,
                         'input' => 'select',
                         'input_value' => 'Magento\CatalogRule\Model\Rule\Condition\Product|category_ids'
                     ),
-                    'conditions__1--1__value' => array(
+                    self::CONDITION_VALUE => array(
                         'value' => '%category_id%',
                         'group' => static::GROUP_CONDITIONS,
                         'input' => 'input'

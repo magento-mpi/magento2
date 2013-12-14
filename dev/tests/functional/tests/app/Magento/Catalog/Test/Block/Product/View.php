@@ -18,7 +18,6 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
 /**
  * Class View
@@ -61,7 +60,7 @@ class View extends Block
      *
      * @var string
      */
-    private $productSpecialPrice = '.price-box .special-price .price';
+    protected $productSpecialPrice = '.price-box .special-price .price';
 
     /**
      * Bundle options block

@@ -49,7 +49,7 @@ class ListProduct extends Block
      * This method returns the price box block for the named product.
      *
      * @param string $productName String containing the name of the product to find.
-     * @return Block
+     * @return Price
      */
     public function getProductPriceBlock($productName)
     {
@@ -83,6 +83,7 @@ class ListProduct extends Block
      * This method returns the element representing the product details for the named product.
      *
      * @param string $productName String containing the name of the product
+     * @return Element
      */
     protected function getProductDetailsElement($productName)
     {

@@ -259,7 +259,7 @@ abstract class Grid extends Block
      * @param bool $isSearchable
      * @return Element
      */
-    public function getRow(array $filter, $isSearchable = true)
+    protected function getRow(array $filter, $isSearchable = true)
     {
         if ($isSearchable) {
             $this->search($filter);

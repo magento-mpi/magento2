@@ -9,12 +9,11 @@
  * @license     {license_link}
  */
 
-namespace Magento\CatalogRule\Test\Fixture;
+namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Guest checkout with Check/Money order payment method, flat shipping method, no tax.
@@ -56,10 +55,7 @@ class CheckMoneyOrderFlat extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
-            'flat_rate',
-            'check_money_order'
-        ));
+        $this->_persistConfiguration(array('flat_rate', 'check_money_order'));
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();

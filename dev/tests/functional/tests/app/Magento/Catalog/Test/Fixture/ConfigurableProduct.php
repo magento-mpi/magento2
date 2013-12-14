@@ -13,6 +13,7 @@ namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\System\Config;
 use Mtf\Factory\Factory;
+use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 
 /**
  * Class ConfigurableProduct
@@ -197,7 +198,7 @@ class ConfigurableProduct extends Product
             'constraint' => 'Success',
 
             'create_url_params' => array(
-                'type' => 'configurable',
+                'type' => Repository::CONFIGURABLE,
                 'set' => static::DEFAULT_ATTRIBUTE_SET_ID,
             ),
         );

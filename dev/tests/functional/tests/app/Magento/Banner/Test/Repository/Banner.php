@@ -21,13 +21,44 @@ use Mtf\Repository\AbstractRepository;
 class Banner extends AbstractRepository
 {
     /**
-     * {inheritdoc}
+     * Key for text banner
+     */
+    const TEXT_BANNER = 'text';
+
+    /**
+     * {@inheritdoc}
      */
     public function __construct(array $defaultConfig, array $defaultData)
     {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
+        $this->_data['default'] = array('config' => $defaultConfig, 'data' => $defaultData);
+
+        $this->_data[self::TEXT_BANNER] = $this->getTextBanner();
+    }
+
+    /**
+     * Data for Banner containing Text
+     */
+    protected function getTextBanner()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    // Banner Name = banner1
+                    'name' => array(
+                        'value' => 'banner1'
+                    ),
+                    // Active = yes
+                    'is_enabled' => array(
+                        'value' => '1'
+                    ),
+                    // Content = text/insert variable
+                    'store_contents' => array(
+                        'value' => array(
+                            '0' => '{{config path="general/store_information/name"}}'
+                        )
+                    )
+                )
+            )
         );
     }
 }

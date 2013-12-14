@@ -11,7 +11,7 @@
 
 namespace Magento\CatalogRule\Test\Page;
 
-use Magento\CatalogRule\Test\Block\Adminhtml\CatalogPriceRuleForm;
+use Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog\Edit;
 use Mtf\Client\Element\Locator;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -30,6 +30,11 @@ class CatalogRuleNew extends Page
     const MCA = 'catalog_rule/promo_catalog/new';
 
     /**
+     * @var string
+     */
+    protected $formSelector = 'page:main-container';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -40,12 +45,12 @@ class CatalogRuleNew extends Page
     /**
      * Get the general information block
      *
-     * @return CatalogPriceRuleForm
+     * @return Edit
      */
     public function getCatalogPriceRuleForm()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogRuleAdminhtmlCatalogPriceRuleForm(
-            $this->_browser->find('body', Locator::SELECTOR_CSS)
+        return Factory::getBlockFactory()->getMagentoCatalogRuleAdminhtmlPromoCatalogEdit(
+            $this->_browser->find($this->formSelector, Locator::SELECTOR_ID)
         );
     }
 }

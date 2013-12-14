@@ -12,7 +12,7 @@
 
 namespace Magento\CatalogRule\Test\Page;
 
-use Magento\CatalogRule\Test\Block\Adminhtml\CatalogPriceRuleGrid;
+use Magento\CatalogRule\Test\Block\Adminhtml\Promo\Catalog;
 use Magento\Core\Test\Block\Messages;
 use Mtf\Factory\Factory;
 use Mtf\Page\Page;
@@ -31,9 +31,16 @@ class CatalogRule extends Page
     const MCA = 'catalog_rule/promo_catalog';
 
     /**
-     * Catalog price rule grid block id
+     * Messages block selector
+     *
+     * @var string
      */
-    const CATALOG_RULE_GRID_ID = 'promo_catalog_grid';
+    protected $messagesBlock = '#messages .messages';
+
+    /**
+     * Catalog price rule grid block selector
+     */
+    protected $catalogRuleGrid = '#promo_catalog_grid';
 
     /**
      * Custom constructor
@@ -46,12 +53,12 @@ class CatalogRule extends Page
     /**
      * Get catalog price rule grid block
      *
-     * @return CatalogPriceRuleGrid
+     * @return Catalog
      */
     public function getCatalogPriceRuleGridBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCatalogRuleAdminhtmlCatalogPriceRuleGrid(
-            $this->_browser->find('#' . self::CATALOG_RULE_GRID_ID)
+        return Factory::getBlockFactory()->getMagentoCatalogRuleAdminhtmlPromoCatalog(
+            $this->_browser->find($this->catalogRuleGrid)
         );
     }
 
@@ -63,7 +70,7 @@ class CatalogRule extends Page
     public function getMessagesBlock()
     {
         return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find('#messages .messages')
+            $this->_browser->find($this->messagesBlock)
         );
     }
 

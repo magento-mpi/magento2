@@ -32,7 +32,7 @@ class ConfigurableProduct extends Product
     public function __construct(array $defaultConfig, array $defaultData)
     {
         parent::__construct($defaultConfig, $defaultData);
-        $this->_data['configurable']['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
+        $this->_data[self::CONFIGURABLE]['data']['affect_configurable_product_attributes'] = 'Template %isolation%';
         $this->_data['configurable_advanced_pricing'] = $this->getConfigurableAdvancedPricing();
 
         $this->_data['product_variations'] = array(
@@ -58,7 +58,7 @@ class ConfigurableProduct extends Product
                 )
             )
         );
-        $product = array_replace_recursive($this->_data['configurable'], $pricing);
+        $product = array_replace_recursive($this->_data[self::CONFIGURABLE], $pricing);
 
         return $product;
     }

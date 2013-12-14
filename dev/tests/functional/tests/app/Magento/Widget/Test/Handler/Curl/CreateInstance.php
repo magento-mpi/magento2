@@ -41,17 +41,14 @@ class CreateInstance extends Curl
             $fields[$key] = $field['value'];
         }
 
-        // todo: substitute type/code and theme_id
-        $instanceType = 'magento_banner';
-        $themeId = '3';
-
-        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $instanceType . '/theme_id/' . $themeId;
+        $url = $_ENV['app_backend_url'] . 'admin/widget_instance/save/code/' . $fixture->getData('type') .
+                '/theme_id/' . $fixture->getData('theme');
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $fields);
         $response = $curl->read();
         $curl->close();
 
-        if (!strpos($response, 'The widget instance has been saved')) {
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception("Widget instance creation by curl handler was not successful! Response: $response");
         }
         $id = null;

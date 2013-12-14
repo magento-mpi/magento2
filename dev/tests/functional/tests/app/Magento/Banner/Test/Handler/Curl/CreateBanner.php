@@ -36,7 +36,7 @@ class CreateBanner extends Curl
     public function execute(Fixture $fixture = null)
     {
         $response = $this->postRequest($fixture);
-        if (!strpos($response, 'You saved the banner')) {
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception('Banner creation by curl handler was not successful! Response: ' . $response);
         }
         $bannerId = null;
@@ -50,10 +50,9 @@ class CreateBanner extends Curl
      * Post request for creating banner
      *
      * @param Fixture $fixture [optional]
-     * @throws \Exception
-     * @return null|string banner_id
+     * @return string
      */
-    public function postRequest(Fixture $fixture = null)
+    protected function postRequest(Fixture $fixture = null)
     {
         $data = $fixture->getData('fields');
         $fields = array();

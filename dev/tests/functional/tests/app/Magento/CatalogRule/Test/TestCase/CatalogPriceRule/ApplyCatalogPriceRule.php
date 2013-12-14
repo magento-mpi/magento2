@@ -11,14 +11,13 @@
 namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture;
-use Magento\Catalog\Test\Repository\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 use Magento\Catalog\Test\Repository\SimpleProduct;
+use Magento\Checkout\Test\Fixture\CheckMoneyOrderFlat;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct as FixtureConfigurableProduct;
-use Magento\CatalogRule\Test\Fixture\CheckMoneyOrderFlat;
 
 /**
  * Class ApplyCatalogPriceRule
@@ -27,6 +26,8 @@ use Magento\CatalogRule\Test\Fixture\CheckMoneyOrderFlat;
  */
 class ApplyCatalogPriceRule extends Functional
 {
+    private $discountRate;
+
     /**
      * Apply Catalog Price Rule to Products
      *
@@ -45,10 +46,9 @@ class ApplyCatalogPriceRule extends Functional
         $configurable = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct(
             array('categories' => $simple->getCategories())
         );
-        $configurable->switchData(ConfigurableProduct::CONFIGURABLE);
+        $configurable->switchData(Repository::CONFIGURABLE);
         $configurable->persist();
 
-        /** @var Product[] */
         $products = array($simple, $configurable);
 
         // Create Customer
@@ -61,7 +61,8 @@ class ApplyCatalogPriceRule extends Functional
         $banner->persist();
 
         // Create Frontend App
-        $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetInstance();
+        $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetWidget();
+        $customer->switchData('magento_banner');
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
@@ -103,6 +104,9 @@ class ApplyCatalogPriceRule extends Functional
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
+        // Save fixture discount rate
+        $this->discountRate = $catalogRuleFixture->getDiscountAmount() * .01;
+
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
         $messagesBlock->assertSuccessMessage();
@@ -113,16 +117,15 @@ class ApplyCatalogPriceRule extends Functional
         // Verify Catalog Price Rule in grid
         $catalogRulePage->open();
         $gridBlock = $catalogRulePage->getCatalogPriceRuleGridBlock();
-        $gridRow = $gridBlock->getRow(array('name' => $catalogRuleFixture->getRuleName()));
         $this->assertTrue(
-            $gridRow->isVisible(),
+            $gridBlock->isRuleVisible($catalogRuleFixture->getRuleName()),
             'Rule name "' . $catalogRuleFixture->getRuleName() . '" not found in the grid'
         );
         // Get the Id
-        $catalogPriceRuleId = $gridRow->find('//td[@data-column="rule_id"]', Locator::SELECTOR_XPATH)->getText();
+        $catalogPriceRuleId = $gridBlock->getCatalogPriceId($catalogRuleFixture->getRuleName());
 
         // Apply Catalog Price Rule
-        $catalogRulePage->applyRules();
+        $gridBlock->applyRules();
 
         // Verify Success Message
         $messagesBlock = $catalogRulePage->getMessagesBlock();
@@ -151,8 +154,8 @@ class ApplyCatalogPriceRule extends Functional
             $productViewBlock = $productPage->getViewBlock();
 
             // Verify Product page price
-            $appliedRulePrice = $product->getProductPrice() * .5;
-            if ($product instanceof FixtureConfigurableProduct) {
+            $appliedRulePrice = $product->getProductPrice() * $this->discountRate;
+            if ($product instanceof ConfigurableProduct) {
                 // Select option
                 $productViewBlock->fillOptions($product);
                 $appliedRulePrice += $product->getProductOptionsPrice();
@@ -208,7 +211,7 @@ class ApplyCatalogPriceRule extends Functional
         $this->verifyAddProducts($products);
 
         // Verify one page checkout prices
-        $fixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCheckMoneyOrderFlat(
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(
             array('products' => $products)
         );
         $fixture->persist();
@@ -221,6 +224,7 @@ class ApplyCatalogPriceRule extends Functional
 
     /**
      * This method verifies special prices on the category page.
+     *
      * @param Product[] $products
      */
     protected function verifyCategoryPrices(array $products)
@@ -237,7 +241,7 @@ class ApplyCatalogPriceRule extends Functional
             $this->assertTrue($productListBlock->isProductVisible($product->getProductName()));
             $productPriceBlock = $productListBlock->getProductPriceBlock($product->getProductName());
             $this->assertContains(
-                (string)($product->getProductPrice() * .5),
+                (string)($product->getProductPrice() * $this->discountRate),
                 $productPriceBlock->getEffectivePrice(),
                 'Displayed price does not match expected price.'
             );

@@ -209,11 +209,9 @@ class Product extends DataFixture
     public function getCategoryIds()
     {
         $categoryIds = array();
-        $categoryCounter = 0;
         /** @var Category $category */
         foreach ($this->categories as $category) {
-            $categoryIds[$categoryCounter] = $category->getCategoryId();
-            $categoryCounter++;
+            $categoryIds[] = $category->getCategoryId();
         }
         return $categoryIds;
     }
