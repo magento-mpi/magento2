@@ -98,11 +98,6 @@
             grid: gridUrl
         };
 
-        var integration = {
-            consumer_id: null,
-            reauthorize: null
-        };
-
         var IdentityLogin = {
             win: null,
             strLocation: null,
@@ -165,7 +160,7 @@
                         if (IdentityLogin.isCalledBack) {
                             $('body').trigger('processStart');
                             //Check for window closed
-                            window.location.href = url.grid + '?' + $.param(integration);
+                            window.location.reload();
                             IdentityLogin.jqInfoDialog.dialog('close');
                         }
                     }
@@ -175,6 +170,7 @@
                         IdentityLogin.jqInfoDialog.dialog('close');
                         clearInterval(IdentityLogin.checker);
                     }
+                    return;
                 }
             }
         };
@@ -204,8 +200,6 @@
                         identityLinkUrl = resultObj['identity_link_url'];
                         consumerId = resultObj['consumer_id'];
                         popupHtml = resultObj['popup_content'];
-                        integration.consumer_id = consumerId;
-                        integration.reauthorize = resultObj['is_reauthorize'];
                     } catch (e) {
                         //This is expected if result is not json. Do nothing.
                     }
