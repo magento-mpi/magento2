@@ -36,10 +36,8 @@ class ApplyCatalogPriceRule extends Functional
     public function testApplyCatalogPriceRule()
     {
         // Create Simple Product
-        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct(
-            array(Fixture\SimpleProduct::PRICE_VALUE => 11)
-        );
-        $simple->switchData(SimpleProduct::NEW_CATEGORY);
+        $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simple->switchData(SimpleProduct::BASE);
         $simple->persist();
 
         // Create Configurable Product with same category

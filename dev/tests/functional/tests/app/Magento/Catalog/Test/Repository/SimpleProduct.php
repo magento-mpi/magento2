@@ -23,6 +23,8 @@ class SimpleProduct extends Product
 
     const ADVANCED_PRICING = 'simple_advanced_pricing';
 
+    const BASE = 'simple';
+
     const CUSTOM_OPTIONS = 'simple_custom_options';
 
     const NEW_CATEGORY = 'simple_with_new_category';
