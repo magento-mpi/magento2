@@ -2,6 +2,10 @@
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
   * Fixed losing previously assigned categories after next product save with changed category selector field
   * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
+  * Fixed inline translations in adminhtml area
+  * Partial refunds/invoices in Payflow Pro
+  * Design emulation ignores area
+  * Unable to place order with virtual product using Express Checkout
   * Fixed the error during place an order with Recurring profile payment
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection

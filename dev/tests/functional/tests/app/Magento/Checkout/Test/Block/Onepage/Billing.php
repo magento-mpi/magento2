@@ -52,6 +52,7 @@ class Billing extends Form
         'region' => '[id="billing:region_id"]',
         'postcode' => '[id="billing:postcode"]',
         'country' => '[id="billing:country_id"]',
+        'address_id' => '[name="billing_address_id"]',
     );
 
     /**
