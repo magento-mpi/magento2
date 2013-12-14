@@ -176,6 +176,7 @@ return array(
     array('addCustomersToAlertQueueAction'),
     array('addCustomerToSegments'),
     array('addHandle', 'Magento\Core\Model\Layout\Update', 'Magento\Core\Model\Layout\Merge'),
+    array('addItemPriceBlockType'),
     array('addItemRender', 'Magento\Sales\Block\Adminhtml\Items\AbstractItems'),
     array('addItemRender', 'Magento\Checkout\Block\Cart\AbstractCart'),
     array('addItemRender', 'Magento\Sales\Block\Items\AbstractItems'),

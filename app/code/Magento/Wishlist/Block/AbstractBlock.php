@@ -35,13 +35,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected $_wishlist;
 
     /**
-     * List of block settings to render prices for different product types
-     *
-     * @var array
-     */
-    protected $_itemPriceBlockTypes = array();
-
-    /**
      * Wishlist data
      *
      * @var \Magento\Wishlist\Helper\Data
@@ -86,20 +79,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
         parent::__construct($context, $catalogConfig, $registry, $taxData, $catalogData, $mathRandom, $data);
-    }
-
-    /**
-     * Internal constructor, that is called from real constructor
-     *
-     */
-    protected function _construct()
-    {
-        parent::_construct();
-        $this->addItemPriceBlockType(
-            'default',
-            'Magento\Wishlist\Block\Render\Item\Price',
-            'render/item/price.phtml'
-        );
     }
 
     /**
@@ -328,23 +307,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     public function hasWishlistItems()
     {
         return $this->getWishlistItemsCount() > 0;
-    }
-
-    /**
-     * Adds special block to render price for item with specific product type
-     *
-     * @param string $type
-     * @param string $block
-     * @param string $template
-     */
-    public function addItemPriceBlockType($type, $block = '', $template = '')
-    {
-        if ($type) {
-            $this->_itemPriceBlockTypes[$type] = array(
-                'block' => $block,
-                'template' => $template
-            );
-        }
     }
 
     /**
