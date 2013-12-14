@@ -12,6 +12,7 @@ namespace Magento\Integration\Service;
 
 use Magento\Integration\Model\Integration;
 use Magento\Oauth\OauthInterface;
+use Magento\Integration\Model\Oauth\Token;
 
 class OauthV1Test extends \PHPUnit_Framework_TestCase
 {
@@ -57,6 +58,14 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->getMock();
         $this->_tokenMock = $this->getMockBuilder('Magento\Integration\Model\Oauth\Token')
             ->disableOriginalConstructor()
+            ->setMethods(
+                [
+                    'createVerifierToken',
+                    'getType',
+                    '__wakeup',
+                    'delete'
+                ]
+            )
             ->getMock();
 
         $this->_tokenFactoryMock = $this->getMock('Magento\Integration\Model\Oauth\Token\Factory', [], [], '', false);
@@ -344,5 +353,23 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($this->_tokenMock));
 
         $this->assertFalse($this->_service->getAccessToken(self::VALUE_CONSUMER_ID), false);
+    }
+
+    public function testGetAccessSuccess()
+    {
+        $this->_consumerMock->expects($this->any())
+            ->method('load')
+            ->with(self::VALUE_CONSUMER_ID)
+            ->will($this->returnValue($this->_consumerMock));
+
+        $this->_tokenMock->expects($this->once())
+            ->method('getType')
+            ->will($this->returnValue(Token::TYPE_ACCESS));
+
+        $this->_tokenProviderMock->expects($this->any())
+            ->method('getTokenByConsumerId')
+            ->will($this->returnValue($this->_tokenMock));
+
+         $this->assertEquals($this->_service->getAccessToken(self::VALUE_CONSUMER_ID), $this->_tokenMock);
     }
 }
