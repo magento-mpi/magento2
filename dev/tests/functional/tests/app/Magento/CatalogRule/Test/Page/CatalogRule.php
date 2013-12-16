@@ -73,12 +73,4 @@ class CatalogRule extends Page
             $this->_browser->find($this->messagesBlock)
         );
     }
-
-    /**
-     * Click "Apply Rule" button
-     */
-    public function applyRules()
-    {
-        $this->_browser->find('#apply_rules')->click();
-    }
 }

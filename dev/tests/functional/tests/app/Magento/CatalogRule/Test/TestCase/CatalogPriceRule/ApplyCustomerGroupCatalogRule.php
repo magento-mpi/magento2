@@ -77,7 +77,8 @@ class ApplyCustomerGroupCatalogRule extends Functional
 
         // Apply Catalog Price Rule
         $catalogRulePage->open();
-        $catalogRulePage->applyRules();
+        $catalogRuleGrid = $catalogRulePage->getCatalogPriceRuleGridBlock();
+        $catalogRuleGrid->applyRules();
 
         // Verify Success Message
         $catalogRulePage->getMessagesBlock()->assertSuccessMessage();
