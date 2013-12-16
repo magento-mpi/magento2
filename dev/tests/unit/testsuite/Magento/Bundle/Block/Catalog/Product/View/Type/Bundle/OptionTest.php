@@ -17,55 +17,43 @@ class OptionTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_block = new \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option(
-            $this->getMock('\Magento\View\Element\Template\Context', array(), array(), '', false),
-            $this->getMock('\Magento\Json\EncoderInterface', array(), array(), '', false),
-            $this->getMock('\Magento\Catalog\Helper\Data', array(), array(), '', false),
-            $this->getMock('\Magento\Tax\Helper\Data', array(), array(), '', false),
-            $this->getMock('\Magento\Core\Model\Registry', array(), array(), '', false),
-            $this->getMock('\Magento\Stdlib\String', array(), array(), '', false),
-            $this->getMock('\Magento\Math\Random', array(), array(), '', false),
-            $this->getMock('\Magento\Tax\Model\Calculation', array(), array(), '', false),
-            array()
+        $objectManagerHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
+
+        $this->_block =
+            $objectManagerHelper->getObject('\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option');
+
+        $product = $this->getMock(
+            '\Magento\Catalog\Model\Product', array('hasPreconfiguredValues', 'getPreconfiguredValues', '__wakeup'),
+            array(), '', false
         );
+        $product->expects($this->atLeastOnce())->method('hasPreconfiguredValues')->will($this->returnValue(true));
+        $product->expects($this->atLeastOnce())
+            ->method('getPreconfiguredValues')
+            ->will($this->returnValue(new \Magento\Object(array('bundle_option' => array(15 => 315, 16 => 316)))));
+
+        $this->_block->setData('product', $product);
     }
 
     public function testSetOption()
     {
-        $selection = $this->getMock('\Magento\Catalog\Model\Product', array(), array(), '', false);
-
-        $product = $this->getMock(
-            '\Magento\Catalog\Model\Product',
-            array('hasPreconfiguredValues', '__wakeup'), array(), '', false);
-        $product->expects($this->exactly(2))
-            ->method('hasPreconfiguredValues')
-            ->will($this->returnValue(false));
-
-        $this->_block->setData('product', $product);
-
         $option = $this->getMock('\Magento\Bundle\Model\Option', array(), array(), '', false);
+        $option->expects($this->any())->method('getId')->will($this->returnValue(15));
 
-        $result = $this->_block->setOption($option);
-        $this->assertInstanceOf('\Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option', $result);
-        $this->assertSame($option, $this->_block->getOption());
+        $otherOption = $this->getMock('\Magento\Bundle\Model\Option', array(), array(), '', false);
+        $otherOption->expects($this->any())->method('getId')->will($this->returnValue(16));
 
-        /**
-         * here system should go into
-         * \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option::_getSelectedOptions() and run
-         * $product->hasPreconfiguredValues() first time
-         */
-        $this->_block->isSelected($selection);
+        $selection = $this->getMock(
+            '\Magento\Catalog\Model\Product', array('getSelectionId', '__wakeup'), array(), '', false
+        );
+        $selection->expects($this->atLeastOnce())->method('getSelectionId')->will($this->returnValue(315));
 
-        /**
-         * setOption() sets _selectedOptions to null
-         */
-        $this->_block->setOption($option);
+        $this->assertSame($this->_block, $this->_block->setOption($option));
+        $this->assertTrue($this->_block->isSelected($selection));
 
-        /**
-         * here system should go into
-         * \Magento\Bundle\Block\Catalog\Product\View\Type\Bundle\Option::_getSelectedOptions() and run
-         * $product->hasPreconfiguredValues() second time
-         */
-        $this->_block->isSelected($selection);
+        $this->_block->setOption($otherOption);
+        $this->assertFalse(
+            $this->_block->isSelected($selection),
+            'Selected value should change after new option is set'
+        );
     }
 }
