@@ -380,12 +380,12 @@ class Integration extends Action
             ];
             $this->getResponse()->setBody($this->_coreHelper->jsonEncode($result));
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*');
             return;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+            $this->messageManager->addError(__('Internal error. Check exception log for details.'));
             $this->_redirect('*/*');
             return;
         }
@@ -441,7 +441,7 @@ class Integration extends Action
     {
         $successMsg = $isReauthorize ? __("The integration '%1' has been re-authorized.", $integrationName)
             : __("The integration '%1' has been activated.", $integrationName);
-        $this->_getSession()->addSuccess($successMsg);
+        $this->messageManager->addSuccess($successMsg);
     }
 
     /**
@@ -454,7 +454,7 @@ class Integration extends Action
     {
         $msg = $isReauthorize ? __("Integration '%1' re-authorization has been failed.", $integrationName)
             : __("Integration '%1' activation has been failed.", $integrationName);
-        $this->_getSession()->addError($msg);
+        $this->messageManager->addError($msg);
     }
 
     /**
@@ -467,6 +467,6 @@ class Integration extends Action
     {
         $msg = $isReauthorize ? __("Integration '%1' has been sent for re-authorization.", $integrationName)
             : __("Integration '%1' has been sent for activation.", $integrationName);
-        $this->_getSession()->addNotice($msg);
+        $this->messageManager->addNotice($msg);
     }
 }

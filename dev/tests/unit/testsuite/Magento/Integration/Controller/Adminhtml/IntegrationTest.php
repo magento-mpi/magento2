@@ -507,9 +507,9 @@ HANDLE;
         $this->_oauthSvcMock->expects($this->once())->method('deleteToken');
         $this->_oauthSvcMock->expects($this->once())->method('postToConsumer');
 
-        $this->_backendSessionMock->expects($this->once())->method('addNotice');
-        $this->_backendSessionMock->expects($this->never())->method('addError');
-        $this->_backendSessionMock->expects($this->never())->method('addSuccess');
+        $this->_messageManager->expects($this->once())->method('addNotice');
+        $this->_messageManager->expects($this->never())->method('addError');
+        $this->_messageManager->expects($this->never())->method('addSuccess');
 
         $this->_viewMock->expects($this->once())->method('loadLayout');
         $this->_viewMock->expects($this->once())->method('renderLayout');
