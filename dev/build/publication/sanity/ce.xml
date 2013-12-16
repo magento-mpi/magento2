@@ -135,6 +135,12 @@
             <path>dev/tests/functional-old/runtests.sh</path>
         </item>
         <item>
+            <word>Magento/Rma</word>
+            <word>Magento\Rma</word>
+            <word>Magento_Rma</word>
+            <path>dev/tests/functional</path>
+        </item>
+        <item>
             <word>Enterprise</word>
             <path>app/code/Magento/Core/Model/App.php</path>
         </item>

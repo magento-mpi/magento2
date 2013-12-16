@@ -39,6 +39,12 @@ class PaypalExpressOrder extends Checkout
     private $checkoutFixture;
 
     /**
+     * Product Array
+     * @var array
+     * */
+    private $additionalProducts;
+
+    /**
      * Prepare data for guest checkout using "Checkout with PayPal" button on product page
      */
     protected function _initData()
@@ -58,6 +64,13 @@ class PaypalExpressOrder extends Checkout
     public function persist()
     {
         $this->checkoutFixture->persist();
+        if(!is_null($this->additionalProducts))
+        {
+            foreach($this->additionalProducts as $product)
+            {
+                $this->checkoutFixture->addProduct($product);
+            }
+        }
         $this->orderId = Factory::getApp()->magentoCheckoutCreatePaypalExpressOrder($this->checkoutFixture);
     }
 
@@ -79,5 +92,45 @@ class PaypalExpressOrder extends Checkout
     public function getOrderId()
     {
         return $this->orderId;
+    }
+
+    /**
+     * @return \Magento\Customer\Test\Fixture\Address
+     */
+    public function getBillingAddress()
+    {
+        return $this->checkoutFixture->getBillingAddress();
+    }
+
+    /**
+     * @return \Magento\Customer\Test\Fixture\Customer
+     */
+    public function getCustomer()
+    {
+        return $this->checkoutFixture->getPayPalCustomer();
+    }
+
+    /**
+     * @return \Magento\Catalog\Test\Fixture\SimpleProduct
+     */
+    public function getProduct($index)
+    {
+        return $this->checkoutFixture->products[$index];
+    }
+
+    /**
+     * @returns array
+     */
+    public function getProducts()
+    {
+        return $this->checkoutFixture->getProducts();
+    }
+
+    /**
+     * @param array
+     */
+    public function setAdditionalProducts($products = null)
+    {
+        $this->additionalProducts = $products;
     }
 }
