@@ -1081,7 +1081,6 @@ return array(
     array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection'),
     array('getLocalPackagesPath', 'Magento\Connect\Helper\Data'),
     array('getLocalPackagesPathV1x', 'Magento\Connect\Helper\Data'),
-    array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection'),
     array('getSessionSaveMethod', '\Magento\Core\Model\Session\AbstractSession', '\Magento\Core\Model\Session\Config'),
     array('setSessionName', '\Magento\Core\Model\Session\AbstractSession', 'setName'),
     array('getCode', '\Magento\Message\AbstractMessage', 'getText'),
