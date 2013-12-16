@@ -323,4 +323,14 @@ class Product extends DataFixture
     {
         return $this->getData('category_new/parent_category/value');
     }
+
+    /**
+     * Get product Minimum Advertised Price
+     *
+     * @return string
+     */
+    public function getProductMapPrice()
+    {
+        return $this->getData('fields/msrp/value');
+    }
 }
