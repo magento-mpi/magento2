@@ -329,10 +329,7 @@ class Integration extends Action
             if ($this->_oauthService->createAccessToken($integration->getConsumerId(), $clearExistingToken)) {
                 $integration->setStatus(IntegrationModel::STATUS_ACTIVE)->save();
             }
-            $this->_registry->register(
-                self::REGISTRY_KEY_CURRENT_INTEGRATION,
-                $this->_integrationService->get($integrationId)->getData()
-            );
+            $this->_registry->register( self::REGISTRY_KEY_CURRENT_INTEGRATION, $integration->getData());
         } catch (\Magento\Core\Exception $e) {
             $this->_getSession()->addError($e->getMessage());
             $this->_redirect('*/*');
