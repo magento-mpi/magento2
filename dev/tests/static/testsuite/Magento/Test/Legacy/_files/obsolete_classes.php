@@ -600,7 +600,16 @@ return array(
     array('Mage_Core_Controller_Magento_Router_Admin', 'Magento\Backend\App\Router\DefaultRouter'),
     array('Mage_Core_Model_Convert'),
     array('Mage_Core_Model_Config_Fieldset', 'Magento\Core\Model\Fieldset\Config'),
-    array('Mage_Core_Model_Config_Options', 'Magento\App\Dir'),
+    array('Mage_Core_Model_Config_Options', 'Magento\Filesystem'),
+    array('Magento\App\Dir', 'Magento\Filesystem'),
+    array('Magento\Filesystem\Adapter\Local', 'Magento\Filesystem\Driver\File'),
+    array('Magento\Filesystem\Adapter\Zlib', 'Magento\Filesystem\Driver\Zlib'),
+    array('Magento\Filesystem\AdapterInterface'),
+    array('Magento\Filesystem\Stream\FactoryInterface'),
+    array('Magento\Filesystem\Stream\Local'),
+    array('Magento\Filesystem\Stream\Mode'),
+    array('Magento\Filesystem\Stream\Zlib'),
+    array('Magento\Filesystem\Stream\Mode\Zlib'),
     array('Mage_Core_Model_Config_Module'),
     array('Mage_Core_Model_Config_System'),
     array('Mage_Core_Model_Design_Source_Apply'),
@@ -1672,6 +1681,10 @@ return array(
     array(
         'Magento\Adminhtml\Block\Report\Wishlist',
         'Magento\Reports\Block\Adminhtml\Wishlist'
+    ),
+    array(
+        'Magento\App\Dir\Verification',
+        'Magento\Filesystem\DirectoryList\Verification'
     ),
     array('Magento\Core\Model\Cookie', 'Magento\Stdlib\Cookie'),
     array('Magento\Core\Model\Logger', 'Magento\Logger'),

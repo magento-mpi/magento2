@@ -79,7 +79,7 @@ class Mage_Listener_EventListenerTest extends Unit_PHPUnit_TestCase
     public function testAutoAttachDataProvider()
     {
         return array(
-            array(SELENIUM_TESTS_BASEDIR . implode(DIRECTORY_SEPARATOR,
+            array(SELENIUM_TESTS_BASEDIR . implode('/',
                 array('', 'framework', 'Mage', 'Listener', 'Observers', '*.php')), 2),
             array('foo', 0),
         );

@@ -102,6 +102,18 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     protected $_connectionName = 'core_setup';
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\ReadInterface
+     */
+    protected $modulesDir;
+
+    /**
      * @param \Magento\Core\Model\Resource\Setup\Context $context
      * @param $resourceName
      * @param $moduleName
@@ -123,6 +135,8 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $this->_themeFactory = $context->getThemeFactory();
         $this->_themeResourceFactory = $context->getThemeResourceFactory();
         $this->_moduleConfig = $context->getModuleList()->getModule($moduleName);
+        $this->filesystem = $context->getFilesystem();
+        $this->modulesDir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_connectionName = $connectionName ?: $this->_connectionName;
     }
 
@@ -330,25 +344,24 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     {
         $modName    = (string)$this->_moduleConfig['name'];
 
-        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . DS . $this->_resourceName;
-        if (!is_dir($filesDir) || !is_readable($filesDir)) {
+        $filesDir   = $this->_modulesReader->getModuleDir('sql', $modName) . '/' . $this->_resourceName;
+        $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
+        if (!$this->modulesDir->isDirectory($modulesDirPath) || !$this->modulesDir->isReadable($modulesDirPath)) {
             return array();
         }
 
         $dbFiles    = array();
         $typeFiles  = array();
-        $regExpDb   = sprintf('#^%s-(.*)\.(php|sql)$#i', $actionType);
-        $regExpType = sprintf('#^%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
-        $handlerDir = dir($filesDir);
-        while (false !== ($file = $handlerDir->read())) {
+        $regExpDb   = sprintf('#%s-(.*)\.(php|sql)$#i', $actionType);
+        $regExpType = sprintf('#%s-%s-(.*)\.(php|sql)$#i', 'mysql4', $actionType);
+        foreach ($this->modulesDir->read($modulesDirPath) as $file) {
             $matches = array();
             if (preg_match($regExpDb, $file, $matches)) {
-                $dbFiles[$matches[1]] = $filesDir . DS . $file;
+                $dbFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
             } else if (preg_match($regExpType, $file, $matches)) {
-                $typeFiles[$matches[1]] = $filesDir . DS . $file;
+                $typeFiles[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
             }
         }
-        $handlerDir->close();
 
         if (empty($typeFiles) && empty($dbFiles)) {
             return array();
@@ -374,17 +387,16 @@ class Setup implements \Magento\Module\Updater\SetupInterface
         $modName    = (string)$this->_moduleConfig['name'];
         $files      = array();
 
-        $filesDir   = $this->_modulesReader->getModuleDir('data', $modName) . DS . $this->_resourceName;
-        if (is_dir($filesDir) && is_readable($filesDir)) {
-            $regExp     = sprintf('#^%s-(.*)\.php$#i', $actionType);
-            $handlerDir = dir($filesDir);
-            while (false !== ($file = $handlerDir->read())) {
+        $filesDir   = $this->_modulesReader->getModuleDir('data', $modName) . '/' . $this->_resourceName;
+        $modulesDirPath = $this->modulesDir->getRelativePath($filesDir);
+        if ($this->modulesDir->isDirectory($modulesDirPath) && $this->modulesDir->isReadable($modulesDirPath)) {
+            $regExp     = sprintf('#%s-(.*)\.php$#i', $actionType);
+            foreach ($this->modulesDir->read($modulesDirPath) as $file) {
                 $matches = array();
                 if (preg_match($regExp, $file, $matches)) {
-                    $files[$matches[1]] = $filesDir . DS . $file;
+                    $files[$matches[1]] = $this->modulesDir->getAbsolutePath($file);
                 }
             }
-            $handlerDir->close();
         }
 
         if (empty($files)) {
@@ -458,7 +470,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
                         $result = include $fileName;
                         break;
                     case 'sql':
-                        $sql = file_get_contents($fileName);
+                        $sql = $this->modulesDir->readFile($this->modulesDir->getRelativePath($fileName));
                         if (!empty($sql)) {
 
                             $result = $this->run($sql);
@@ -790,5 +802,13 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     public function getEventManager()
     {
         return $this->_eventManager;
+    }
+
+    /**
+     * @return \Magento\Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
     }
 }

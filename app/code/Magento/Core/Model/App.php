@@ -409,7 +409,10 @@ class App implements \Magento\Core\Model\AppInterface
         if (session_module_name() == 'files') {
             /** @var \Magento\Filesystem $filesystem */
             $filesystem = $this->_objectManager->create('Magento\Filesystem');
-            $filesystem->delete(session_save_path());
+            $sessionDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::SESSION);
+            foreach ($sessionDirectory->read() as $path) {
+                $sessionDirectory->delete($path);
+            }
         }
         return $this;
     }

@@ -44,9 +44,9 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     protected $_appState;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $_filesystem;
 
     protected function setUp()
     {
@@ -67,7 +67,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getHttpHost')->will($this->returnValue('init.host'));
         $this->_appState = $this->getMock('\Magento\App\State', array('isInstalled'), array(), '', false, false);
         $this->_appState->expects($this->atLeastOnce())->method('isInstalled')->will($this->returnValue(true));
-        $this->_dir = $this->getMock('\Magento\App\Dir', array(), array(), '', false, false);
+        $this->_filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false, false);
 
         $this->config = new \Magento\Core\Model\Session\Config(
             $this->_configMock,
@@ -75,8 +75,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_stringHelperMock,
             $this->_requestMock,
             $this->_appState,
-            $this->_dir,
-            'files',
+            $this->_filesystem,
             __DIR__
         );
     }

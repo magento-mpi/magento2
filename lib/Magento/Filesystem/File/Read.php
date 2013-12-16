@@ -8,6 +8,7 @@
 
 namespace Magento\Filesystem\File;
 
+use Magento\Filesystem\DriverInterface;
 use Magento\Filesystem\FilesystemException;
 
 class Read implements ReadInterface
@@ -34,11 +35,22 @@ class Read implements ReadInterface
     protected $resource;
 
     /**
-     * @param string $path
+     * @var \Magento\Filesystem\DriverInterface
      */
-    public function __construct($path)
+    protected $driver;
+
+    /**
+     * Constructor
+     *
+     * @param $path
+     * @param DriverInterface $driver
+     */
+    public function __construct($path, DriverInterface $driver)
     {
         $this->path = $path;
+
+        $this->driver = $driver;
+
         $this->open();
     }
 
@@ -46,28 +58,27 @@ class Read implements ReadInterface
      * Open file
      *
      * @throws FilesystemException
+     * @return $this
      */
     protected function open()
     {
         $this->assertValid();
-        $this->resource = fopen($this->path, $this->mode);
-        if ($this->resource === false) {
-            throw new FilesystemException(sprintf('The file "%s" cannot be opened', $this->path));
-        }
+        $this->resource = $this->driver->fileOpen($this->path, $this->mode);
+        return $this;
     }
 
     /**
      * Assert file existence
      *
-     * @throws FilesystemException
+     * @return bool
+     * @throws \Magento\Filesystem\FilesystemException
      */
     protected function assertValid()
     {
-        clearstatcache();
-
-        if (!file_exists($this->path)) {
+        if (!$this->driver->isExists($this->path)) {
             throw new FilesystemException(sprintf('The file "%s" doesn\'t exist', $this->path));
         }
+        return true;
     }
 
     /**
@@ -78,7 +89,31 @@ class Read implements ReadInterface
      */
     public function read($length)
     {
-        return fread($this->resource, $length);
+        return $this->driver->fileRead($this->resource, $length);
+    }
+
+    /**
+     * Return file content
+     *
+     * @param string|null $flag
+     * @param resource|null $context
+     * @return string
+     */
+    public function readAll($flag = null, $context = null)
+    {
+       return $this->driver->fileGetContents($this->path, $flag, $context);
+    }
+
+    /**
+     * Reads the line with specified number of bytes from the current position.
+     *
+     * @param int $length The number of bytes to read
+     * @param string $ending [optional]
+     * @return string
+     */
+    public function readLine($length, $ending = null)
+    {
+        return $this->driver->fileReadLine($this->resource, $length, $ending);
     }
 
     /**
@@ -92,17 +127,17 @@ class Read implements ReadInterface
      */
     public function readCsv($length = 0, $delimiter = ',', $enclosure = '"', $escape = '\\')
     {
-        return fgetcsv($this->resource, $length, $delimiter, $enclosure, $escape);
+        return $this->driver->fileGetCsv($this->resource, $length, $delimiter, $enclosure, $escape);
     }
 
     /**
-     * Returns the current position
+     * Returns the current cursor position
      *
      * @return int
      */
     public function tell()
     {
-        return ftell($this->resource);
+        return $this->driver->fileTell($this->resource);
     }
 
     /**
@@ -114,7 +149,7 @@ class Read implements ReadInterface
      */
     public function seek($offset, $whence = SEEK_SET)
     {
-        return fseek($this->resource, $offset, $whence);
+        return $this->driver->fileSeek($this->resource, $offset, $whence);
     }
 
     /**
@@ -124,7 +159,7 @@ class Read implements ReadInterface
      */
     public function eof()
     {
-        return feof($this->resource);
+        return $this->driver->endOfFile($this->resource);
     }
 
     /**
@@ -134,6 +169,6 @@ class Read implements ReadInterface
      */
     public function close()
     {
-        return fclose($this->resource);
+        return $this->driver->fileClose($this->resource);
     }
 }

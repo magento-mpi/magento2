@@ -135,4 +135,5 @@ return array(
         'Magento\PromotionPermissions\Model\Observer',
         'viewBlockAbstractToHtmlBefore'
     ),
+    array('getServerIoDriver', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'),
 );

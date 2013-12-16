@@ -32,7 +32,7 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
     protected function setUp()
     {
         $this->_responseFactory = $this->getMock('Magento\App\ResponseFactory', array(), array(), '', false);
-        $this->_fileSystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
+        $this->_fileSystemMock = $this->getMock('Magento\Filesystem\Driver\File', array(), array(), '', false);
         $this->_responseMock = $this->getMock('Magento\App\Response\Http', array('setHeader'), array(), '', false);
         $this->_responseFactory
             ->expects($this->any())
@@ -65,7 +65,9 @@ class FileFactoryTest extends \PHPUnit_Framework_TestCase
             'type' => 'filename',
             'value' => $file
         );
-        $this->_fileSystemMock->expects($this->once())->method('getFileSize')->will($this->returnValue('string'));
+        $this->_fileSystemMock->expects($this->once())
+            ->method('stat')
+            ->will($this->returnValue(array('size' => 'string')));
         $this->_fileSystemMock->expects($this->once())->method('isFile')->with($file)->will($this->returnValue(false));
         $this->_model->create('fileName', $content);
     }

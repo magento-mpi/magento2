@@ -187,7 +187,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $fixturePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $fixturePath = __DIR__ . '/_files/';
         $groups = require_once($fixturePath . 'groups_array.php');
         $requestParamMap = array(
             array('section', null, 'test_section'),

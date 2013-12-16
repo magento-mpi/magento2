@@ -72,8 +72,10 @@ class Download extends \Magento\Install\Block\AbstractBlock
      */
     public function hasLocalCopy()
     {
-        $dir = $this->_moduleReader->getModuleDir('etc', 'Magento_Adminhtml');
-        if ($dir && $this->_filesystem->isDirectory($dir)) {
+        $path = $this->_moduleReader->getModuleDir('etc', 'Magento_Adminhtml');
+        $directory = $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+
+        if ($path && $directory->isDirectory($directory->getRelativePath($path))) {
             return true;
         }
         return false;

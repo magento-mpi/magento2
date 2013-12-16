@@ -10,8 +10,8 @@
  */
 
 \Magento\TestFramework\Helper\Bootstrap::getInstance()->reinitialize(array(
-    \Magento\App\Dir::PARAM_APP_DIRS => array(
-        \Magento\App\Dir::THEMES => dirname(__DIR__) . '/design'
+    \Magento\Filesystem::PARAM_APP_DIRS => array(
+        \Magento\Filesystem::THEMES => array('path' => dirname(__DIR__) . '/design')
     )
 ));
 
@@ -21,8 +21,5 @@
 /** @var $registration \Magento\Core\Model\Theme\Registration */
 $registration = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
     ->create('Magento\Core\Model\Theme\Registration');
-$registration->register(
-    __DIR__,
-    implode(DIRECTORY_SEPARATOR, array('*', '*', 'theme.xml'))
-);
+$registration->register('*/*/theme.xml');
 

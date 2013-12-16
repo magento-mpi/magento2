@@ -20,19 +20,19 @@ class Archive extends \Magento\Object
      *
      * @var string
      */
-    protected $_file = '';
+    protected $file = '';
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_filesystem;
+    protected $directory;
 
     /**
      * @param \Magento\Filesystem $fileSystem
      */
     public function __construct(\Magento\Filesystem $fileSystem)
     {
-        $this->_filesystem = $fileSystem;
+        $this->directory = $fileSystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
     }
 
     /**
@@ -42,7 +42,7 @@ class Archive extends \Magento\Object
      */
     public function getBasePath()
     {
-        return BP . DS . 'var' . DS . 'logging' . DS . 'archive';
+        return $this->directory->getAbsolutePath('logging/archive');
     }
 
     /**
@@ -64,17 +64,17 @@ class Archive extends \Magento\Object
      */
     public function loadByBaseName($baseName)
     {
-        $this->_file = '';
+        $this->file = '';
         $this->unsBaseName();
         if (!$this->_validateBaseName($baseName)) {
             return $this;
         }
         $filename = $this->generateFilename($baseName);
-        if (!$this->_filesystem->isFile($filename)) {
+        if (!$this->directory->isFile($this->directory->getRelativePath($filename))) {
             return $this;
         }
         $this->setBaseName($baseName);
-        $this->_file = $filename;
+        $this->file = $filename;
         return $this;
     }
 
@@ -86,7 +86,7 @@ class Archive extends \Magento\Object
      */
     public function generateFilename($baseName)
     {
-        return $this->getBasePath() . DS . substr($baseName, 0, 4) . DS . substr($baseName, 4, 2) . DS . $baseName;
+        return $this->getBasePath() . '/' . substr($baseName, 0, 4) . '/' . substr($baseName, 4, 2) . '/' . $baseName;
     }
 
     /**
@@ -96,7 +96,7 @@ class Archive extends \Magento\Object
      */
     public function getFilename()
     {
-        return $this->_file;
+        return $this->file;
     }
 
     /**
@@ -106,10 +106,8 @@ class Archive extends \Magento\Object
      */
     public function getContents()
     {
-        if ($this->_file) {
-            return $this->_filesystem
-                ->setWorkingDirectory($this->getBasePath())
-                ->read($this->_file);
+        if ($this->file) {
+            return $this->directory->readFile($this->directory->getRelativePath($this->file));
         }
         return '';
     }
@@ -141,10 +139,7 @@ class Archive extends \Magento\Object
         }
 
         $filename = $this->generateFilename($baseName);
-        $this->_filesystem
-            ->setWorkingDirectory($this->getBasePath())
-            ->setIsAllowCreateDirectories(true, 755)
-            ->touch($filename);
+        $this->directory->touch($this->directory->getRelativePath($filename));
 
         $this->loadByBaseName($baseName);
         return true;

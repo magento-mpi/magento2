@@ -833,21 +833,20 @@ class Index extends \Magento\Backend\App\Action
             throw new NotFoundException();
         }
 
-        $path = $this->_objectManager->get('Magento\App\Dir')->getDir('media') . DS . 'customer';
-
         /** @var \Magento\Filesystem $filesystem */
         $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        $filesystem->setWorkingDirectory($path);
-        $fileName   = $path . $file;
-        if (!$filesystem->isFile($fileName)
+        $directory = $filesystem->getDirectoryRead(\Magento\Filesystem:: MEDIA);
+        $fileName = 'customer/' . $file;
+        $path = $directory->getAbsolutePath($fileName);
+        if (!$directory->isFile($fileName)
             && !$this->_objectManager->get('Magento\Core\Helper\File\Storage')
-                ->processStorageFile(str_replace('/', DS, $fileName))
+                ->processStorageFile($path)
         ) {
             throw new NotFoundException();
         }
 
         if ($plain) {
-            $extension = pathinfo($fileName, PATHINFO_EXTENSION);
+            $extension = pathinfo($path, PATHINFO_EXTENSION);
             switch (strtolower($extension)) {
                 case 'gif':
                     $contentType = 'image/gif';
@@ -862,9 +861,9 @@ class Index extends \Magento\Backend\App\Action
                     $contentType = 'application/octet-stream';
                     break;
             }
-
-            $contentLength = $filesystem->getFileSize($fileName);
-            $contentModify = $filesystem->getMTime($fileName);
+            $stat = $directory->stat($fileName);
+            $contentLength = $stat['size'];
+            $contentModify = $stat['mtime'];
 
             $this->getResponse()
                 ->setHttpResponseCode(200)
@@ -875,9 +874,9 @@ class Index extends \Magento\Backend\App\Action
                 ->clearBody();
             $this->getResponse()->sendHeaders();
 
-            echo $filesystem->read($fileName);
+            echo $directory->readFile($fileName);
         } else {
-            $name = pathinfo($fileName, PATHINFO_BASENAME);
+            $name = pathinfo($path, PATHINFO_BASENAME);
             $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
                 'value' => $fileName

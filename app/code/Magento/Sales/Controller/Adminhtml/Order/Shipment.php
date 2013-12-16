@@ -480,7 +480,8 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = $this->_objectManager->create('Magento\Shipping\Model\Shipping\Labels')->requestToShipment($shipment);
+        $response = $this->_objectManager->create('Magento\Shipping\Model\Shipping\Labels')
+            ->requestToShipment($shipment);
         if ($response->hasErrors()) {
             throw new \Magento\Core\Exception($response->getErrors());
         }
@@ -691,10 +692,9 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
      */
     protected function _createPdfPageFromImageString($imageString)
     {
-        /** @var \Magento\Filesystem $filesystem */
-        $filesystem = $this->_objectManager->get('Magento\Filesystem');
-        /** @var $tmpDir \Magento\App\Dir */
-        $tmpDir = $this->_objectManager->get('Magento\App\Dir', $filesystem->getWorkingDirectory());
+        /** @var \Magento\Filesystem\Directory\Write $directory */
+        $directory = $this->_objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem::TMP);
         $image = imagecreatefromstring($imageString);
         if (!$image) {
             return false;
@@ -705,12 +705,11 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = $tmpDir->getDir(\Magento\App\Dir::TMP) . 'shipping_labels_'
-                     . uniqid(mt_rand()) . time() . '.png';
+        $tmpFileName = $directory->getAbsolutePath('shipping_labels_' . uniqid(mt_rand()) . time() . '.png');
         imagepng($image, $tmpFileName);
         $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        $filesystem->delete($tmpFileName);
+        $directory->delete($directory->getRelativePath($tmpFileName));
         return $page;
     }
 
