@@ -19,7 +19,7 @@ class FileFactory
     /**
      * @var \Magento\Filesystem
      */
-    protected $_filesystemDriver;
+    protected $_filesystem;
 
     /**
      * @param \Magento\App\ResponseInterface $responseInterface
@@ -49,7 +49,7 @@ class FileFactory
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {
-        $filesystem = $this->_filesystemDriver;
+        $filesystem = $this->_filesystem;
         $isFile = false;
         $file = null;
         if (is_array($content)) {
