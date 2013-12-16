@@ -12,34 +12,26 @@
 namespace Magento\Widget\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Mtf\Fixture\DataFixture;
 
 /**
- * Class Widget Fixture
+ * Class BannerRotatorWidget Fixture
  *
  * @package Magento\Widget\Test\Fixture
  */
 
-class Widget extends DataFixture
+class BannerRotatorWidget extends Widget
 {
-    /**
-     * Create Widget Instance
-     *
-     * @return Widget
-     */
-    public function persist()
-    {
-        $id = Factory::getApp()->magentoWidgetCreateInstance($this);
-        $this->_data['fields']['id'] = $id;
-        return $this;
-    }
-
     /**
      * Init data
      */
     protected function _initData()
     {
         $this->_repository = Factory::getRepositoryFactory()
-            ->getMagentoWidgetWidget($this->_dataConfig, $this->_data);
+            ->getMagentoWidgetBannerRotatorWidget($this->_dataConfig, $this->_data);
+
+        $default = $this->_repository->get('default');
+
+        $this->_dataConfig = $default['config'];
+        $this->_data = $default['data'];
     }
 }

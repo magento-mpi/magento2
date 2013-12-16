@@ -61,8 +61,7 @@ class ApplyCatalogPriceRule extends Functional
         $banner->persist();
 
         // Create Frontend App
-        $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetWidget();
-        $customer->switchData('magento_banner');
+        $frontendApp = Factory::getFixtureFactory()->getMagentoWidgetBannerRotatorWidget();
         $frontendApp->persist();
 
         // Create new Catalog Price Rule
