@@ -93,7 +93,8 @@ class Design extends \Magento\Backend\App\Action
             try {
                 $design->save();
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You saved the design change.'));
+                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
+                    ->addSuccess(__('You saved the design change.'));
             } catch (\Exception $e){
                 $this->_objectManager->get('Magento\Adminhtml\Model\Session')
                     ->addError($e->getMessage())

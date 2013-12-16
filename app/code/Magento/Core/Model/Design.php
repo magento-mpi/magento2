@@ -58,11 +58,17 @@ class Design extends \Magento\Core\Model\AbstractModel
     protected $_dateTime;
 
     /**
-     * @param \Magento\Core\Model\Context $context
-     * @param \Magento\Core\Model\Registry $registry
-     * @param \Magento\Core\Model\LocaleInterface $locale
+     * @var \Magento\Core\Filter\Date
+     */
+    protected $filterDate;
+
+    /**
+     * @param Context $context
+     * @param Registry $registry
+     * @param LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
-     * @param \Magento\Core\Model\Resource\AbstractResource $resource
+     * @param \Magento\Core\Filter\Date $filterDate
+     * @param Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -71,13 +77,15 @@ class Design extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Core\Filter\Date $filterDate,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
-        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
         $this->_locale = $locale;
         $this->_dateTime = $dateTime;
+        $this->filterDate = $filterDate;
+        parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
     /**
@@ -132,6 +140,21 @@ class Design extends \Magento\Core\Model\AbstractModel
         if ($design) {
             $packageInto->setDesignTheme($design);
         }
+        return $this;
+    }
+
+    /**
+     * @return Design
+     */
+    protected function _beforeSave()
+    {
+        parent::_beforeSave();
+        $this->setDateFrom(
+            $this->filterDate->filter($this->getDateFrom())
+        );
+        $this->setDateTo(
+            $this->filterDate->filter($this->getDateTo())
+        );
         return $this;
     }
 }
