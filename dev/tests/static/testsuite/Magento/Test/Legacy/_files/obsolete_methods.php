@@ -1069,5 +1069,7 @@ return array(
     array('getUrlBase64', 'Magento\View\Element\AbstractBlock'),
     array('getMessagesBlock', 'Magento\MultipleWishlist\Block\Info'),
     array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection'),
-    array('helper', 'Magento\View\Element\AbstractBlock')
+    array('helper', 'Magento\View\Element\AbstractBlock'),
+    array('getDataHelperName', 'Magento\Backend\Block\Dashboard\AbstractDashboard'),
+    array('setDataHelperName', 'Magento\Backend\Block\Dashboard\AbstractDashboard'),
 );

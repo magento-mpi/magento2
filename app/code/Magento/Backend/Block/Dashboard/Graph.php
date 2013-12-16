@@ -108,14 +108,17 @@ class Graph extends \Magento\Backend\Block\Dashboard\AbstractDashboard
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory
      * @param \Magento\Backend\Helper\Dashboard\Data $dashboardData
+     * @param \Magento\Backend\Helper\Dashboard\Order $dataHelper
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Reports\Model\Resource\Order\CollectionFactory $collectionFactory,
         \Magento\Backend\Helper\Dashboard\Data $dashboardData,
+        \Magento\Backend\Helper\Dashboard\Order $dataHelper = null,
         array $data = array()
     ) {
+        $this->_dataHelper = $dataHelper;
         $this->_dashboardData = $dashboardData;
         parent::__construct($context, $collectionFactory, $data);
     }
