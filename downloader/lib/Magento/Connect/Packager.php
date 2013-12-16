@@ -250,16 +250,16 @@ class Packager
         foreach ($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
-            $dest = $targetPath . DIRECTORY_SEPARATOR . $filePath . DIRECTORY_SEPARATOR . $fileName;
+            $dest = $targetPath . '/' . $filePath . '/' . $fileName;
             if(@file_exists($dest)) {
                 @unlink($dest);
                 $this->removeEmptyDirectory(dirname($dest));
             }
         }
 
-        $destDir = $targetPath . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
+        $destDir = $targetPath . '/' . \Magento\Connect\Package::PACKAGE_XML_DIR;
         $destFile = $package->getReleaseFilename() . '.xml';
-        @unlink($destDir . DS . $destFile);
+        @unlink($destDir . '/' . $destFile);
     }
 
     /**
@@ -280,7 +280,7 @@ class Packager
             $ftp->delete($file);
             $this->removeEmptyDirectory(dirname($file), $ftp);
         }
-        $remoteXml = \Magento\Connect\Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
+        $remoteXml = \Magento\Connect\Package::PACKAGE_XML_DIR . '/' . $package->getReleaseFilename() . '.xml';
         $ftp->delete($remoteXml);
         $ftp->chdir($ftpDir);
     }
@@ -355,13 +355,13 @@ class Packager
         $ftpDir = $ftp->getcwd();
         $contents = $package->getContents();
         $arc = $this->getArchiver();
-        $target = dirname($file) . DS . $package->getReleaseFilename();
+        $target = dirname($file) . '/' . $package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $tar = $arc->unpack($file, $target);
         $modeFile = $this->_getFileMode($configObj);
         $modeDir = $this->_getDirMode($configObj);
         foreach ($contents as $file) {
-            $source = $tar . DS . $file;
+            $source = $tar . '/' . $file;
             if (file_exists($source) && is_file($source)) {
                 $args = array(ltrim($file,"/"), $source);
                 if($modeDir||$modeFile) {
@@ -374,7 +374,7 @@ class Packager
 
         $localXml = $tar . \Magento\Connect\Package\Reader::DEFAULT_NAME_PACKAGE;
         if (is_file($localXml)) {
-            $remoteXml = \Magento\Connect\Package::PACKAGE_XML_DIR . DS . $package->getReleaseFilename() . '.xml';
+            $remoteXml = \Magento\Connect\Package::PACKAGE_XML_DIR . '/' . $package->getReleaseFilename() . '.xml';
             $ftp->upload($remoteXml, $localXml, $modeDir, $modeFile);
         }
 
@@ -394,7 +394,7 @@ class Packager
     {
         $contents = $package->getContents();
         $arc = $this->getArchiver();
-        $target = dirname($file) . DS . $package->getReleaseFilename();
+        $target = dirname($file) . '/' . $package->getReleaseFilename();
         @mkdir($target, 0777, true);
         $tar = $arc->unpack($file, $target);
         $modeFile = $this->_getFileMode($configObj);
@@ -403,9 +403,9 @@ class Packager
         foreach ($contents as $file) {
             $fileName = basename($file);
             $filePath = dirname($file);
-            $source = $tar . DS . $file;
-            @mkdir($targetPath. DS . $filePath, $modeDir, true);
-            $dest = $targetPath . DS . $filePath . DS . $fileName;
+            $source = $tar . '/' . $file;
+            @mkdir($targetPath . '/' . $filePath, $modeDir, true);
+            $dest = $targetPath . '/' . $filePath . '/' . $fileName;
             if (is_file($source)) {
                 @copy($source, $dest);
                 if($modeFile) {
@@ -418,9 +418,9 @@ class Packager
 
         $packageXml = $tar . \Magento\Connect\Package\Reader::DEFAULT_NAME_PACKAGE;
         if (is_file($packageXml)) {
-            $destDir = $targetPath . DS . \Magento\Connect\Package::PACKAGE_XML_DIR;
+            $destDir = $targetPath . '/' . \Magento\Connect\Package::PACKAGE_XML_DIR;
             $destFile = $package->getReleaseFilename() . '.xml';
-            $dest = $destDir . DS . $destFile;
+            $dest = $destDir . '/' . $destFile;
 
             @copy($packageXml, $dest);
             @chmod($dest, $modeFile);
@@ -444,7 +444,7 @@ class Packager
         $hashContents = $p->getHashContents();
         $listModified = array();
         foreach ($hashContents as $file=>$hash) {
-            if (md5_file($configObj->magento_root . DS . $file)!==$hash) {
+            if (md5_file($configObj->magento_root . '/' . $file)!==$hash) {
                 $listModified[] = $file;
             }
         }

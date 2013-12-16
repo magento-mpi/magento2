@@ -8,9 +8,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
-copy(
-    __DIR__ . DS . 'robots.txt',
-    \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir()
-        . DS . 'robots.txt'
-);
+/** @var \Magento\Filesystem\Directory\Write $rootDirectory */
+$rootDirectory = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::ROOT);
+$rootDirectory->copyFile($rootDirectory->getRelativePath(__DIR__ . '/robots.txt'), 'robots.txt');

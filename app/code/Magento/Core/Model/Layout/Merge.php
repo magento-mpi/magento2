@@ -108,6 +108,11 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
     protected $_logger;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
      * Init merge model
      *
      * @param \Magento\View\DesignInterface $design
@@ -118,6 +123,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
      * @param \Magento\Cache\FrontendInterface $cache
      * @param \Magento\Core\Model\Layout\Update\Validator $validator
      * @param \Magento\Logger $logger
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\View\Design\ThemeInterface $theme Non-injectable theme instance
      */
     public function __construct(
@@ -129,6 +135,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         \Magento\Cache\FrontendInterface $cache,
         \Magento\Core\Model\Layout\Update\Validator $validator,
         \Magento\Logger $logger,
+        \Magento\Filesystem $filesystem,
         \Magento\View\Design\ThemeInterface $theme = null
     ) {
         $this->_theme = $theme ?: $design->getDesignTheme();
@@ -139,6 +146,7 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $this->_cache = $cache;
         $this->_layoutValidator = $validator;
         $this->_logger = $logger;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -576,9 +584,11 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         $layoutStr = '';
         $theme = $this->_getPhysicalTheme($this->_theme);
         $updateFiles = $this->_fileSource->getFiles($theme);
+        $dir = $this->filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
         $useErrors = libxml_use_internal_errors(true);
         foreach ($updateFiles as $file) {
-            $fileStr = (string)file_get_contents($file->getFilename());
+            $filename = $dir->getRelativePath($file->getFilename());
+            $fileStr = $dir->readFile($filename);
             $fileStr = $this->_substitutePlaceholders($fileStr);
             /** @var $fileXml \Magento\View\Layout\Element */
             $fileXml = $this->_loadXmlString($fileStr);

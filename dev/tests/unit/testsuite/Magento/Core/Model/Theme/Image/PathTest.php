@@ -24,7 +24,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_dirMock;
+    protected $_filesystem;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\View\Url
@@ -38,15 +38,15 @@ class PathTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
+        $this->_filesystem = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_viewUrlMock = $this->getMock('Magento\View\Url', array(), array(), '', false);
         $this->_storeManagerMock = $this->getMock('Magento\Core\Model\StoreManager', array(), array(), '', false);
 
-        $this->_dirMock->expects($this->any())->method('getDir')->with(\Magento\App\Dir::MEDIA)
+        $this->_filesystem->expects($this->any())->method('getPath')->with(\Magento\Filesystem::MEDIA)
             ->will($this->returnValue('/media'));
 
         $this->_model = new Path(
-            $this->_dirMock,
+            $this->_filesystem,
             $this->_viewUrlMock,
             $this->_storeManagerMock
         );
@@ -55,7 +55,7 @@ class PathTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $this->_model = null;
-        $this->_dirMock = null;
+        $this->_filesystem = null;
         $this->_viewUrlMock = null;
         $this->_storeManagerMock = null;
     }
@@ -88,8 +88,8 @@ class PathTest extends \PHPUnit_Framework_TestCase
     public function testImagePreviewDirectoryGetter()
     {
         $this->assertEquals(
-            \Magento\Filesystem::fixSeparator('/media/theme/preview'),
-            \Magento\Filesystem::fixSeparator($this->_model->getImagePreviewDirectory())
+            '/media/theme/preview',
+            $this->_model->getImagePreviewDirectory()
         );
     }
 
@@ -99,8 +99,8 @@ class PathTest extends \PHPUnit_Framework_TestCase
     public function testTemporaryDirectoryGetter()
     {
         $this->assertEquals(
-            \Magento\Filesystem::fixSeparator('/media/theme/origin'),
-            \Magento\Filesystem::fixSeparator($this->_model->getTemporaryDirectory())
+            '/media/theme/origin',
+            $this->_model->getTemporaryDirectory()
         );
     }
 }

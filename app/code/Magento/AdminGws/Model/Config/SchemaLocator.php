@@ -30,8 +30,7 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
      */
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
-        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_AdminGws')
-            . DIRECTORY_SEPARATOR . 'admingws.xsd';
+        $this->_schema = $moduleReader->getModuleDir('etc', 'Magento_AdminGws') . '/admingws.xsd';
     }
 
     /**

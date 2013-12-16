@@ -99,9 +99,9 @@ class Config implements \Magento\Session\Config\ConfigInterface
     protected $_appState;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $_filesystem;
 
     /**
      * @param \Magento\Core\Model\Store\Config $storeConfig
@@ -109,7 +109,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
      * @param \Magento\Stdlib\String $stringHelper
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      */
@@ -119,7 +119,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
         \Magento\Stdlib\String $stringHelper,
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         $savePath = null,
         $cacheLimiter = null
     ) {
@@ -128,10 +128,10 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $this->_stringHelper = $stringHelper;
         $this->_httpRequest = $request;
         $this->_appState = $appState;
-        $this->_dir = $dir;
+        $this->_filesystem = $filesystem;
 
         if (!$this->_appState->isInstalled() || !$savePath) {
-            $savePath = $this->_dir->getDir('session');
+            $savePath = $this->_filesystem->getPath('session');
         }
         $this->setSavePath($savePath);
 

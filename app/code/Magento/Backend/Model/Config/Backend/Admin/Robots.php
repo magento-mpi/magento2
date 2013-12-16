@@ -16,14 +16,14 @@ namespace Magento\Backend\Model\Config\Backend\Admin;
 class Robots extends \Magento\Core\Model\Config\Value
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_filesystem;
+    protected $_directory;
 
     /**
      * @var string
      */
-    protected $_filePath;
+    protected $_file;
 
     /**
      * @param \Magento\Core\Model\Context $context
@@ -31,7 +31,6 @@ class Robots extends \Magento\Core\Model\Config\Value
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -42,7 +41,6 @@ class Robots extends \Magento\Core\Model\Config\Value
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dir,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -56,8 +54,8 @@ class Robots extends \Magento\Core\Model\Config\Value
             $resourceCollection,
             $data
         );
-        $this->_filesystem = $filesystem;
-        $this->_filePath = $dir->getDir(\Magento\App\Dir::ROOT) . '/robots.txt';
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT);
+        $this->_file = 'robots.txt';
     }
 
     /**
@@ -67,9 +65,8 @@ class Robots extends \Magento\Core\Model\Config\Value
      */
     protected function _getDefaultValue()
     {
-        $file = $this->_filePath;
-        if ($this->_filesystem->isFile($file)) {
-            return $this->_filesystem->read($file);
+        if ($this->_directory->isFile($this->_file)) {
+            return $this->_directory->readFile($this->_file);
         }
         return false;
     }
@@ -81,7 +78,7 @@ class Robots extends \Magento\Core\Model\Config\Value
      */
     protected function _afterLoad()
     {
-        if (!(string) $this->getValue()) {
+        if (!(string)$this->getValue()) {
             $this->setValue($this->_getDefaultValue());
         }
 
@@ -96,7 +93,7 @@ class Robots extends \Magento\Core\Model\Config\Value
     protected function _afterSave()
     {
         if ($this->getValue()) {
-            $this->_filesystem->write($this->_filePath, $this->getValue());
+            $this->_directory->writeFile($this->_file, $this->getValue());
         }
 
         return parent::_afterSave();

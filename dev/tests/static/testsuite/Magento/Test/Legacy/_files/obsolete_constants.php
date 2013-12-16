@@ -12,6 +12,7 @@
 return array(
     array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
     array('BACKORDERS_BELOW'),
+    array('DS'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
     array('CACHE_TAG', 'Magento\Core\Model\AppInterface'),
@@ -466,4 +467,8 @@ return array(
         '\Magento\Core\Model\View\Design',
         '\Magento\View\DesignInterface::XML_PATH_THEME_ID',
     ),
+    array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
+    array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
+    array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
+    array('PARAM_APP_URIS', 'Magento\Filesystem')
 );

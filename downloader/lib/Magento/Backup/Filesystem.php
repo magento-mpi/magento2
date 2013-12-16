@@ -264,6 +264,6 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     protected function _getTarTmpPath()
     {
         $tmpName = '~tmp-'. microtime(true) . '.tar';
-        return $this->getBackupsDir() . DS . $tmpName;
+        return $this->getBackupsDir() . '/' . $tmpName;
     }
 }
