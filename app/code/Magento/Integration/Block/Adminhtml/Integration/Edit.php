@@ -26,6 +26,8 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     protected $_integrationHelper;
 
     /**
+     * Initialize dependencies.
+     *
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Integration\Helper\Data $integrationHelper
@@ -39,7 +41,7 @@ class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
     ) {
         $this->_registry = $registry;
         $this->_integrationHelper = $integrationHelper;
-        parent::__construct($context, $coreData, $data);
+        parent::__construct($context, $data);
     }
 
     /**
