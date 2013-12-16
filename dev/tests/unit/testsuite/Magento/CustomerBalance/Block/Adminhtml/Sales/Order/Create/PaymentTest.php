@@ -46,11 +46,6 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
-    protected $_helperFactoryMock;
-
-    /**
-     * @var \Magento\Core\Model\StoreManagerInterface
-     */
     protected $_helperMock;
 
     /**
@@ -118,12 +113,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $quoteMock->expects($this->any())->method('getCustomerId')->will($this->returnValue(true));
         $quoteMock->expects($this->any())->method('getStoreId')->will($this->returnValue(true));
         $this->_helperMock = $this->getMock('Magento\CustomerBalance\Helper\Data', array(), array(), '', false);
-        $this->_helperFactoryMock = $this->getMock('Magento\App\Helper\HelperFactory', array(), array(), '', false);
 
-        $this->_helperFactoryMock->expects($this->once())
-            ->method('get')
-            ->with($this->equalTo('Magento\CustomerBalance\Helper\Data'))
-            ->will($this->returnValue($this->_helperMock));
         $this->_storeMock = $this->getMock('Magento\Core\Model\Store', array(), array(), '', false);;
         $this->_storeManagerMock->expects($this->any())
             ->method('getStore')
@@ -136,7 +126,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
                 'sessionQuote' => $this->_sessionQuoteMock,
                 'orderCreate' => $this->_orderCreateMock,
                 'balanceFactory' => $this->_balanceFactoryMock,
-                'helperFactory' => $this->_helperFactoryMock,
+                'customerBalanceHelper' => $this->_helperMock,
             )
         );
     }
