@@ -370,6 +370,6 @@ class OauthV1Test extends \PHPUnit_Framework_TestCase
             ->method('getTokenByConsumerId')
             ->will($this->returnValue($this->_tokenMock));
 
-         $this->assertEquals($this->_service->getAccessToken(self::VALUE_CONSUMER_ID), $this->_tokenMock);
+        $this->assertEquals($this->_service->getAccessToken(self::VALUE_CONSUMER_ID), $this->_tokenMock);
     }
 }

@@ -101,6 +101,7 @@ class OauthHelper
      *   'key' => 'ajdsjashgdkahsdlkjasldkjals', //token key
      *   'secret' => 'alsjdlaskjdlaksjdlasjkdlas', //token secret
      *   'oauth_client' => $oauthClient // OauthClient instance used to fetch the access token
+     *   'integration' => $integration // Integration instance associated with access token
      *   );
      * </pre>
      * @throws LogicException
@@ -126,7 +127,8 @@ class OauthHelper
             self::$_apiCredentials = array(
                 'key' => $accessToken->getToken(),
                 'secret' => $accessToken->getSecret(),
-                'oauth_client' => $oAuthClient
+                'oauth_client' => $oAuthClient,
+                'integration' => $integration
             );
         }
         return self::$_apiCredentials;
