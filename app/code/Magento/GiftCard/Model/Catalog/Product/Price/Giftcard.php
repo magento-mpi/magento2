@@ -72,7 +72,7 @@ class Giftcard extends \Magento\Catalog\Model\Product\Type\Price
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
-    public function getFinalPrice($qty=null, $product)
+    public function getFinalPrice($qty, $product)
     {
         $finalPrice = $product->getPrice();
         if ($product->hasCustomOptions()) {

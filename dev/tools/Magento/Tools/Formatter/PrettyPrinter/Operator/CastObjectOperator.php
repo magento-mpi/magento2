@@ -13,11 +13,6 @@ class CastObjectOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Object $node)
     {
-        parent::__construct($node);
-    }
-
-    public function operator()
-    {
-        return '(object) ';
+        parent::__construct($node, 'object');
     }
 }

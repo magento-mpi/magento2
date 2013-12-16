@@ -52,10 +52,11 @@ class CreateConfigurableTest extends Functional
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
         $this->assertOnGrid($product);
         $this->assertOnFrontend($product);
@@ -112,7 +113,7 @@ class CreateConfigurableTest extends Functional
         $productListBlock->openProductViewPage($product->getProductName());
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
             'Product name does not correspond to specified.');
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice(),
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice(),
             'Product price does not correspond to specified.');
         $this->assertTrue($productViewBlock->verifyProductOptions($product), 'Added configurable options are absent');
     }
