@@ -18,7 +18,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma;
 
-class Create extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Create extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected function _construct()
     {

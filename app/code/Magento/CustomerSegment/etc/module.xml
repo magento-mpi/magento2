@@ -12,7 +12,6 @@
         <sequence>
             <module name="Magento_Customer"/>
             <module name="Magento_CustomerCustomAttributes"/>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Catalog"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_Rule"/>
@@ -21,7 +20,6 @@
         <depends>
             <module name="Magento_Catalog"/>
             <module name="Magento_Customer"/>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_Rule"/>
             <module name="Magento_Log"/>
             <module name="Magento_Core"/>

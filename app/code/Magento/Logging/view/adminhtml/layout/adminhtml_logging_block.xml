@@ -76,7 +76,7 @@
                         <argument name="index" xsi:type="string">ip</argument>
                         <argument name="type" xsi:type="string">text</argument>
                         <argument name="filter" xsi:type="string">Magento\Logging\Block\Adminhtml\Grid\Filter\Ip</argument>
-                        <argument name="renderer" xsi:type="string">Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Ip</argument>
+                        <argument name="renderer" xsi:type="string">Magento\Backend\Block\Widget\Grid\Column\Renderer\Ip</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
                         <argument name="width" xsi:type="string">125</argument>
                     </arguments>
@@ -116,7 +116,7 @@
                         <argument name="index" xsi:type="string">info</argument>
                         <argument name="type" xsi:type="string">text</argument>
                         <argument name="sortable" xsi:type="string">0</argument>
-                        <argument name="filter" xsi:type="string">Magento\Adminhtml\Block\Widget\Grid\Column\Filter\Text</argument>
+                        <argument name="filter" xsi:type="string">Magento\Backend\Block\Widget\Grid\Column\Filter\Text</argument>
                         <argument name="renderer" xsi:type="string">Magento\Logging\Block\Adminhtml\Grid\Renderer\Details</argument>
                         <argument name="width" xsi:type="string">100</argument>
                     </arguments>

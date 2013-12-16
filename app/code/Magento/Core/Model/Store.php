@@ -676,8 +676,8 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isUseStoreInUrl()
     {
         return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
-            && $this->_appState->isInstalled()
-            && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+        && $this->_appState->isInstalled()
+        && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**

@@ -58,7 +58,7 @@ class Search extends \Magento\Backend\App\Action
         $id = $this->getRequest()->getParam('id');
         /** @var \Magento\CatalogSearch\Model\Query $model */
         $model = $this->_queryFactory->create();
-        $backendSession = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
 
         if ($id) {
             $model->load($id);

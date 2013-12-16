@@ -21,10 +21,6 @@ class Version
      */
     protected $_pageVersionFactory;
 
-    /**
-     * @var \Magento\Adminhtml\Model\Session
-     */
-    protected $_adminhtmlSession;
 
     /**
      * @var \Magento\VersionsCms\Model\Page\Revision
@@ -40,7 +36,6 @@ class Version
      * @param \Magento\VersionsCms\Model\Page\Version $pageVersion
      * @param \Magento\Cms\Model\PageFactory $pageFactory
      * @param \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory
-     * @param \Magento\Adminhtml\Model\Session $adminhtmlSession
      * @param \Magento\VersionsCms\Model\Page\Revision $pageRevision
      */
     public function __construct(
@@ -52,11 +47,9 @@ class Version
         \Magento\VersionsCms\Model\Page\Version $pageVersion,
         \Magento\Cms\Model\PageFactory $pageFactory,
         \Magento\VersionsCms\Model\Page\VersionFactory $pageVersionFactory,
-        \Magento\Adminhtml\Model\Session $adminhtmlSession,
         \Magento\VersionsCms\Model\Page\Revision $pageRevision
     ) {
         $this->_pageVersionFactory = $pageVersionFactory;
-        $this->_adminhtmlSession = $adminhtmlSession;
         $this->_pageRevision = $pageRevision;
         parent::__construct(
             $context,
@@ -127,7 +120,7 @@ class Version
 
         $this->_initPage();
 
-        $data = $this->_adminhtmlSession->getFormData(true);
+        $data = $this->_session->getFormData(true);
         if (!empty($data)) {
             $_data = $version->getData();
             $_data = array_merge($_data, $data);
@@ -188,7 +181,7 @@ class Version
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // save data in session
-                $this->_adminhtmlSession->setFormData($data);
+                $this->_session->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('adminhtml/*/edit', array(
                     'page_id' => $this->getRequest()->getParam('page_id'),
@@ -326,7 +319,7 @@ class Version
                 // display success message
                 $this->messageManager->addSuccess(__('You have created the new version.'));
                 // clear previously saved data from session
-                $this->_adminhtmlSession->setFormData(false);
+                $this->_session->setFormData(false);
                 if (isset($data['revision_id'])) {
                     $this->_redirect('adminhtml/cms_page_revision/edit', array(
                         'page_id' => $version->getPageId(),
@@ -344,7 +337,7 @@ class Version
                 $this->messageManager->addError($e->getMessage());
                 if ($this->_redirect->getRefererUrl()) {
                     // save data in session
-                    $this->_adminhtmlSession->setFormData($data);
+                    $this->_session->setFormData($data);
                 }
                 // redirect to edit form
                 $editUrl = $this->getUrl('adminhtml/cms_page/edit',

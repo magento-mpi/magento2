@@ -282,9 +282,9 @@ class Instance extends \Magento\Backend\App\Action
             ->setUseMassaction(true)
             ->setProductTypeId($productTypeId)
             ->setSelectedProducts(explode(',', $selected));
-        /* @var $serializer \Magento\Adminhtml\Block\Widget\Grid\Serializer */
+        /* @var $serializer \Magento\Backend\Block\Widget\Grid\Serializer */
         $serializer = $this->_view->getLayout()->createBlock(
-            'Magento\Adminhtml\Block\Widget\Grid\Serializer',
+            'Magento\Backend\Block\Widget\Grid\Serializer',
             '',
             array(
                 'data' => array(

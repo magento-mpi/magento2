@@ -2,6 +2,10 @@
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
   * Fixed losing previously assigned categories after next product save with changed category selector field
   * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
+  * Fixed 3D Secure Information absence on Admin Order Info page
+  * Fixed possibility to download or revert Backup
+  * Fixed Session Fixation in User Registration during Checkout
+  * Fixed fatal error while login to backend
   * Fixed inline translations in adminhtml area
   * Partial refunds/invoices in Payflow Pro
   * Design emulation ignores area
@@ -12,11 +16,14 @@
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
+  * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
+  * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
   * Layout page type config moved into library
   * Design loader moved to library
   * Theme label moved to library
+  * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
   * Core Session and Cookie models decomposed and moved to library
     * \Magento\Stdlib\Cookie library created
     * Session Manager and Session Config interfaces provided

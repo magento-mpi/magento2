@@ -17,7 +17,7 @@
  */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
-class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
+class Accordion extends \Magento\Backend\Block\Widget\Accordion
 {
     /**
      * Add accordion items based on layout updates

@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab;
 
-class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
+class Upsell extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
@@ -158,7 +158,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare collection
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
@@ -182,7 +182,7 @@ class Upsell extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Add columns to grid
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

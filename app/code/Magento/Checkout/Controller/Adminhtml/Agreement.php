@@ -66,7 +66,7 @@ class Agreement extends \Magento\Backend\App\Action
 
         $this->_title->add($agreementModel->getId() ? $agreementModel->getName() : __('New Condition'));
 
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getAgreementData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getAgreementData(true);
         if (!empty($data)) {
             $agreementModel->setData($data);
         }
@@ -106,7 +106,7 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Something went wrong while saving this condition.'));
             }
 
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setAgreementData($postData);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setAgreementData($postData);
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
         }
     }

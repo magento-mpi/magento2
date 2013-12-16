@@ -86,14 +86,14 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         );
 
         $fieldset->setProductName($this->escapeHtml($item->getProductAdminName()));
-        $okButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        $okButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('OK'),
                 'class'   => 'ok_button',
             ));
         $fieldset->setOkButton($okButton->toHtml());
 
-        $cancelButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        $cancelButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
                 'label'   => __('Cancel'),
                 'class'   => 'cancel_button',
@@ -124,7 +124,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
     {
         \Magento\Data\Form::setElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento\Adminhtml\Block\Widget\Form\Renderer\Element',
+                'Magento\Backend\Block\Widget\Form\Renderer\Element',
                 $this->getNameInLayout() . '_element'
             )
         );
@@ -136,7 +136,7 @@ class Item extends \Magento\Backend\Block\Widget\Form\Generic
         );
         \Magento\Data\Form::setFieldsetElementRenderer(
             $this->getLayout()->createBlock(
-                'Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element',
+                'Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element',
                 $this->getNameInLayout() . '_fieldset_element'
             )
         );

@@ -100,7 +100,7 @@ class Sitemap extends  \Magento\Backend\App\Action
         $this->_title->add($model->getId() ? $model->getSitemapFilename() : __('New Site Map'));
 
         // 3. Set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->setData($data);
         }
@@ -144,7 +144,7 @@ class Sitemap extends  \Magento\Backend\App\Action
                         $this->messageManager->addError($message);
                     }
                     // save data in session
-                    $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
+                    $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                     // redirect to edit form
                     $this->_redirect('adminhtml/*/edit', array(
                         'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));
@@ -175,7 +175,7 @@ class Sitemap extends  \Magento\Backend\App\Action
                 // display success message
                 $this->messageManager->addSuccess(__('The sitemap has been saved.'));
                 // clear previously saved data from session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -195,7 +195,7 @@ class Sitemap extends  \Magento\Backend\App\Action
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // save data in session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('adminhtml/*/edit', array(
                     'sitemap_id' => $this->getRequest()->getParam('sitemap_id')));

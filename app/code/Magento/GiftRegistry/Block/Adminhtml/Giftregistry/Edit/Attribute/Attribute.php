@@ -11,7 +11,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute;
 
 class Attribute
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * Instance of gift registry type model
@@ -78,13 +78,13 @@ class Attribute
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
             'label' => __('Add Attribute'),
             'class' => 'action-add',
             'id'    => $this->getFieldPrefix() . '_add_new_attribute'
         ));
 
-        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
             'label' => __('Delete Attribute'),
             'class' => 'action-delete delete-attribute-option'
         ));

@@ -116,13 +116,13 @@ class Index extends \Magento\Backend\App\Action
                 }
 
                 $this->messageManager->addSuccess(__('You saved the rating.'));
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRatingData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setRatingData(false);
 
                 $this->_redirect('rating/*/');
                 return;
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRatingData($this->getRequest()->getPost());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setRatingData($this->getRequest()->getPost());
                 $this->_redirect('rating/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }

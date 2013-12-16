@@ -40,7 +40,7 @@ class Observer
     protected $_url;
 
     /**
-     * @var \Magento\Adminhtml\Model\Session
+     * @var \Magento\Backend\Model\Session
      */
     protected $_session;
 
@@ -74,7 +74,7 @@ class Observer
      * @param \Magento\Backend\App\ConfigInterface $backendConfig
      * @param \Magento\Pci\Model\Resource\Admin\User $userResource
      * @param \Magento\Backend\Model\Url $url
-     * @param \Magento\Adminhtml\Model\Session $session
+     * @param \Magento\Backend\Model\Session $session
      * @param \Magento\Backend\Model\Auth\Session $authSession
      * @param \Magento\User\Model\UserFactory $userFactory
      * @param \Magento\Pci\Model\Encryption $encryptor
@@ -86,7 +86,7 @@ class Observer
         \Magento\Backend\App\ConfigInterface $backendConfig,
         \Magento\Pci\Model\Resource\Admin\User $userResource,
         \Magento\Backend\Model\Url $url,
-        \Magento\Adminhtml\Model\Session $session,
+        \Magento\Backend\Model\Session $session,
         \Magento\Backend\Model\Auth\Session $authSession,
         \Magento\User\Model\UserFactory $userFactory,
         \Magento\Pci\Model\Encryption $encryptor,
