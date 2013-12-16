@@ -120,7 +120,9 @@ fclose($fh);
 $testOutput = __DIR__ . '/test-output';
 
 $filesystemAdapter = new \Magento\Filesystem\Driver\File();
-$filesystemAdapter->deleteDirectory($testOutput);
+if ($filesystemAdapter->isExists($testOutput)) {
+    $filesystemAdapter->deleteDirectory($testOutput);
+}
 mkdir($testOutput);
 
 $command
