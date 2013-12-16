@@ -67,8 +67,9 @@ class Config extends AbstractRepository
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
-        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         //Customer
+        $this->_data['address_template'] = $this->_getAddressTemplate();
+        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
     }
 
@@ -1020,6 +1021,36 @@ class Config extends AbstractRepository
             ),
         );
         return array_merge_recursive($data, $this->_getPaypalDirect());
+    }
+
+    /**
+     * Data for address template configuration
+     *
+     * @return array
+     */
+    protected function _getAddressTemplate()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'customer' => array(
+                        'section' => 'customer',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'address_templates' => array(
+                                'fields' => array(
+                                    'oneline' => array(
+                                        'value' => '{{var firstname}} {{var lastname}}, {{var street}}, {{var city}},'
+                                            . ' {{var region}} {{var postcode}}, {{var country}}'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     /**

@@ -87,4 +87,14 @@ class Login extends Form
     {
         $this->_rootElement->find($this->registerButton, Locator::SELECTOR_CSS)->click();
     }
+
+    /**
+     * Check whether block is visible
+     *
+     * @return bool
+     */
+    public function isVisible()
+    {
+        return $this->_rootElement->isVisible();
+    }
 }

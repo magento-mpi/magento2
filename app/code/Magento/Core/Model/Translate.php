@@ -270,7 +270,7 @@ class Translate implements TranslateInterface
             $this->_loadModuleTranslation($module['name']);
         }
 
-        $this->_loadThemeTranslation($forceReload);
+        $this->_loadThemeTranslation($forceReload, $area);
         $this->_loadDbTranslation($forceReload);
 
         if (!$forceReload) {
@@ -439,15 +439,16 @@ class Translate implements TranslateInterface
      * @param boolean $forceReload
      * @return \Magento\Core\Model\Translate
      */
-    protected function _loadThemeTranslation($forceReload = false)
+    protected function _loadThemeTranslation($forceReload = false, $area = null)
     {
         if (!$this->_config[self::CONFIG_KEY_DESIGN_THEME]) {
             return $this;
         }
 
+        $area = isset($area) ? $area : $this->_appState->getAreaCode();
         $requiredLocaleList = $this->_composeRequiredLocaleList($this->getLocale());
         foreach ($requiredLocaleList as $locale) {
-            $file = $this->_getThemeTranslationFile($locale);
+            $file = $this->_getThemeTranslationFile($locale, $area);
             $this->_addData(
                 $this->_getFileData($file),
                 self::CONFIG_KEY_DESIGN_THEME . $this->_config[self::CONFIG_KEY_DESIGN_THEME],
@@ -493,9 +494,11 @@ class Translate implements TranslateInterface
      * @param string $locale
      * @return string
      */
-    protected function _getThemeTranslationFile($locale)
+    protected function _getThemeTranslationFile($locale, $area = null)
     {
-        return $this->_viewFileSystem->getFilename(\Magento\Filesystem::LOCALE . '/' . $locale . '.csv');
+        $area = isset($area) ? $area : $this->_appState->getAreaCode();
+        return $this->_viewFileSystem
+            ->getFilename(\Magento\Filesystem::LOCALE . '/' . $locale . '.csv', array('area' => $area));
     }
 
     /**
