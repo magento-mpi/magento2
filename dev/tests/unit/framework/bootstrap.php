@@ -19,8 +19,8 @@ require BP . '/app/autoload.php';
     realpath(BP . '/lib'),
 ));
 if (is_dir(TESTS_TEMP_DIR)) {
-    $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
-    $filesystemAdapter->delete(TESTS_TEMP_DIR);
+    $filesystemAdapter = new \Magento\Filesystem\Driver\File();
+    $filesystemAdapter->deleteDirectory(TESTS_TEMP_DIR);
 }
 mkdir(TESTS_TEMP_DIR);
 

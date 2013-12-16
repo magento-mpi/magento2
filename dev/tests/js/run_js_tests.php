@@ -119,8 +119,8 @@ fclose($fh);
 
 $testOutput = __DIR__ . '/test-output';
 
-$filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
-$filesystemAdapter->delete($testOutput);
+$filesystemAdapter = new \Magento\Filesystem\Driver\File();
+$filesystemAdapter->deleteDirectory($testOutput);
 mkdir($testOutput);
 
 $command
