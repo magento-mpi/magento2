@@ -76,6 +76,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_requestMock,
             $this->_appState,
             $this->_filesystem,
+            \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
             __DIR__
         );
     }
