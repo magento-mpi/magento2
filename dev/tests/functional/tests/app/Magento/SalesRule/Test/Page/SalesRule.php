@@ -38,6 +38,11 @@ class SalesRule extends Page
     protected $promoQuoteGridSelector = 'promo_quote_grid';
 
     /**
+     * @var string
+     */
+    protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
+
+    /**
      * {@inheritDoc}
      */
     protected function _init()
@@ -62,8 +67,17 @@ class SalesRule extends Page
      */
     public function clickAddNew()
     {
-        $this->_browser->find($this->clickAddNewSelector)->click();
+        $button = $this->_browser->find($this->clickAddNewSelector);
+        $button->click();
         // Wait for the current grid to go away, replaced by the new form
-        $this->getPromoQuoteGrid()->waitForElementNotVisible($this->clickAddNewSelector);
+        $selector = $this->promoQuoteFormSelector;
+        $browser = $this->_browser;
+        $browser->waitUntil(
+            function () use ($button, $browser, $selector) {
+                $button = $browser->find($selector);
+                return $button->isVisible() ? true : null;
+            }
+        );
+
     }
 }
