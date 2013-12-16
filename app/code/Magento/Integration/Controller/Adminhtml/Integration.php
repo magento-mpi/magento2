@@ -360,13 +360,8 @@ class Integration extends Action
             $integration = $this->_integrationService->get($integrationId);
             if ($isReauthorize) {
                 /** Remove existing token associated with consumer before issuing a new one. */
-                $areTokensCleared = $this->_oauthService->deleteToken($integration->getConsumerId());
-            }
-            if (!isset($areTokensCleared) || $areTokensCleared) {
+                $this->_oauthService->deleteToken($integration->getConsumerId());
                 $integration->setStatus(IntegrationModel::STATUS_INACTIVE)->save();
-            } else {
-                $this->_setActivationFailedMsg($isReauthorize, $integration->getName());
-                $this->_redirect('*/*');
             }
             //Integration chooses to use Oauth for token exchange
             $this->_oauthService->postToConsumer($integration->getConsumerId(), $integration->getEndpoint());
