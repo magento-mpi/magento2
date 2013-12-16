@@ -57,10 +57,10 @@ class SalesRule extends AbstractRepository
                 'fields' => array(
                     'name' => array('value' => 'Simple Cart Price Rule %isolation%', 'group' => Main::GROUP),
                     'website_ids' => array(
-                        'value' => 'Main Website',
+                        'value' => array('Main Website'),
                         'group' => Main::GROUP,
-                        'input' => 'select',
-                        'input_value' => '1'
+                        'input' => 'multiselect',
+                        'input_value' => array('1')
                     ),
                     'customer_group_ids' => array(
                         'value' => array('NOT LOGGED IN', 'General', 'Wholesale', 'Retailer'),
