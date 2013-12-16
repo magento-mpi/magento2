@@ -10,7 +10,6 @@
  */
 
 namespace Magento\Customer\Model;
-include(__DIR__ . '/../_files/session.php');
 
 /**
  * @magentoDataFixture Magento/Customer/_files/customer.php
@@ -30,6 +29,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testLogin()
     {
+        $this->markTestSkipped('MAGETWO-18328');
         $oldSessionId = $this->_customerSession->getSessionId();
         $this->assertTrue($this->_customerSession->login('customer@example.com', 'password')); // fixture
         $this->assertTrue($this->_customerSession->isLoggedIn());
@@ -39,6 +39,7 @@ class SessionTest extends \PHPUnit_Framework_TestCase
 
     public function testLoginById()
     {
+        $this->markTestSkipped('MAGETWO-18328');
         $oldSessionId = $this->_customerSession->getSessionId();
         $this->assertTrue($this->_customerSession->loginById(1)); // fixture
         $this->assertTrue($this->_customerSession->isLoggedIn());
