@@ -261,11 +261,6 @@ class Js extends \Magento\App\Helper\AbstractHelper
         $this->_addTranslation('Your order cannot be completed at this time as there is no shipping methods available for it. Please make necessary changes in your shipping address.', __('Your order cannot be completed at this time as there is no shipping methods available for it. Please make necessary changes in your shipping address.'));
         $this->_addTranslation('Please specify shipping method.', __('Please specify shipping method.'));
         $this->_addTranslation('Your order cannot be completed at this time as there is no payment methods available for it.', __('Your order cannot be completed at this time as there is no payment methods available for it.'));
-        // integration.js
-        $this->_addTranslation('Sorry, something went wrong. Please try again later.', __('Sorry, something went wrong. Please try again later.'));
-        $this->_addTranslation('Cancel', __('Cancel'));
-        $this->_addTranslation('Allow', __('Allow'));
-        $this->_addTranslation('Activate', __('Activate'));
         // @codingStandardsIgnoreEnd
     }
 
