@@ -1,3 +1,11 @@
+* Fixed bugs:
+  * Fixed inline translations in adminhtml area
+  * Partial refunds/invoices in Payflow Pro
+  * Design emulation ignores area
+  * Unable to place order with virtual product using Express Checkout
+  * Fixed wrong redirection after customer registration during multishipping checkout
+  * Fixed the bug that shipping labels can't be created
+
 2.0.0.0-dev56
 =============
 * Fixed bugs:

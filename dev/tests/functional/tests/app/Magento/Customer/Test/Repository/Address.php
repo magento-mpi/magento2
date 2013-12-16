@@ -34,7 +34,9 @@ class Address extends AbstractRepository
         $this->_data['address_US_1'] = $this->_getUS1();
         $this->_data['address_US_2'] = $this->_getUS2();
         $this->_data['address_UK'] = $this->getAddressUK();
+        $this->_data['address_UK_2'] = $this->getAddressUK2();
         $this->_data['address_UK_with_VAT'] = $this->getAddressUKWithVAT($this->_data['address_UK']);
+        $this->_data['address_DE'] = $this->getAddressDE();
         $this->_data['address_data_US_1'] = $this->_getDataUS1();
     }
 
@@ -153,19 +155,20 @@ class Address extends AbstractRepository
                     'street_1' => array(
                         'value' => '6161 West Centinela Avenue'
                     ),
-                    'city' => array(
-                        'value' => 'Culver City'
-                    ),
-                    'region' => array(
-                        'value' => 'California',
-                        'input' => 'select'
-                    ),
-                    'postcode' => array(
-                        'value' => '90230'
-                    ),
                     'country' => array(
                         'value' => 'United States',
                         'input' => 'select'
+                    ),
+                    'region' => array(
+                        'value' => 'California',
+                        'input' => 'select',
+                        'selector' => '#region_id'
+                    ),
+                    'city' => array(
+                        'value' => 'Culver City'
+                    ),
+                    'postcode' => array(
+                        'value' => '90230'
                     ),
                     'telephone' => array(
                         'value' => '555-55-555-55'
@@ -219,6 +222,51 @@ class Address extends AbstractRepository
     }
 
     /**
+     * Get second address for UK
+     * 
+     * @return array
+     */
+    protected function getAddressUK2()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jane'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Doe'
+                    ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
+                    ),
+                    'telephone' => array(
+                        'value' => '444-44-444-44'
+                    ),
+                    'street_1' => array(
+                        'value' => '42 King Street West'
+                    ),
+                    'country' => array(
+                        'value' => 'United Kingdom',
+                        'input' => 'select',
+                    ),
+                    'province' => array(
+                        'value' => 'Manchester',
+                        'selector' => '#region',
+                    ),
+                    'city' => array(
+                        'value' => 'Manchester'
+                    ),
+                    'postcode' => array(
+                        'value' => 'M3 2WY',
+                        'selector' => '#zip',
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Get address data for UK with VAT
      *
      * @param array $defaultData
@@ -235,5 +283,50 @@ class Address extends AbstractRepository
                 ),
             ),
         ));
+    }
+
+    /**
+     * Get address for Germany
+     * 
+     * @return array
+     */
+    protected function getAddressDE()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'firstname' => array(
+                        'value' => 'Jan'
+                    ),
+                    'lastname' => array(
+                        'value' => 'Jansen'
+                    ),
+                    'company' => array(
+                        'value' => 'Magento %isolation%'
+                    ),
+                    'country' => array(
+                        'value' => 'Germany',
+                        'input' => 'select'
+                    ),
+                    'street_1' => array(
+                        'value' => 'Augsburger Strabe 41'
+                    ),
+                    'city' => array(
+                        'value' => 'Berlin'
+                    ),
+                    'region' => array(
+                        'value' => 'Berlin',
+                        'input' => 'select',
+                        'selector' => '#region_id',
+                    ),
+                    'postcode' => array(
+                        'value' => '10789'
+                    ),
+                    'telephone' => array(
+                        'value' => '333-33-333-33'
+                    )
+                )
+            )
+        );
     }
 }
