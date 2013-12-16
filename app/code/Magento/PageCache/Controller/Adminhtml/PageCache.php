@@ -8,15 +8,11 @@
  * @license     {license_link}
  */
 
-/**
- * Page cache admin controller
- *
- * @category    Magento
- * @package     Magento_PageCache
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\PageCache\Controller\Adminhtml;
 
+/**
+ * Page cache admin controller
+ */
 class PageCache extends \Magento\Backend\App\Action
 {
     /**
@@ -34,11 +30,9 @@ class PageCache extends \Magento\Backend\App\Action
                     __('The external full page cache has been cleaned.')
                 );
             }
-        }
-        catch (\Magento\Core\Exception $e) {
+        } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
-        }
-        catch (\Exception $e) {
+        } catch (\Exception $e) {
             $this->messageManager->addException(
                 $e,
                 __('Something went wrong while clearing the external full page cache.')

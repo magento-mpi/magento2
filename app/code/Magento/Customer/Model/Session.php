@@ -313,7 +313,7 @@ class Session extends \Magento\Session\SessionManager
     public function logout()
     {
         if ($this->isLoggedIn()) {
-            $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()) );
+            $this->_eventManager->dispatch('customer_logout', array('customer' => $this->getCustomer()));
             $this->_logout();
         }
         return $this;
