@@ -97,13 +97,13 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     {
         $outputEnabled = $this->_moduleManager->isOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
-            if ($this->_layout->hasElement('my.account.wrapper')) {
+            if ($this->_layout->hasElement('content')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
                 if ($oldBlock) {
-                    $this->_layout->unsetChild('my.account.wrapper', 'customer.wishlist');
+                    $this->_layout->unsetChild('content', 'customer.wishlist');
                     $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
                 }
-                $this->_layout->setChild('my.account.wrapper', $this->getNameInLayout(), 'customer.wishlist');
+                $this->_layout->setChild('content', $this->getNameInLayout(), 'customer.wishlist');
             }
         }
         return parent::_prepareLayout();

@@ -40,6 +40,7 @@
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
+    <preference for="Magento\Core\Model\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>

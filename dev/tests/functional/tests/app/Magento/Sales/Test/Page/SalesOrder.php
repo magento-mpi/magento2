@@ -2,11 +2,11 @@
 /**
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Mtf
+ * @package Mtf
+ * @subpackage functional_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Sales\Test\Page;
@@ -74,6 +74,13 @@ class SalesOrder extends Page
      * @var string
      */
     protected $transctionGrid = '#order_transactions';
+
+    /**
+     * Order returns block
+     *
+     * @var string
+     */
+    protected $orderReturnsBlock = 'order_rma';
 
     /**
      * Custom constructor
@@ -166,5 +173,16 @@ class SalesOrder extends Page
             $this->_browser->find($this->navigationMenuBlock, Locator::SELECTOR_ID)
         );
     }
-}
 
+    /**
+     * Get order returns block
+     *
+     * @return \Magento\Rma\Test\Block\Adminhtml\Order\View\Tab\Rma
+     */
+    public function getOrderReturnsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoRmaAdminhtmlOrderViewTabRma(
+            $this->_browser->find($this->orderReturnsBlock, Locator::SELECTOR_ID)
+        );
+    }
+}

@@ -59,14 +59,7 @@ class GuestPaypalExpress extends Checkout
     public function persist()
     {
         //Configuration
-        $this->_persistConfiguration(array(
-            'flat_rate',
-            'paypal_disabled_all_methods',
-            'paypal_express',
-            'display_price',
-            'display_shopping_cart',
-            'default_tax_config'
-        ));
+        $this->_persistConfiguration($this->_getConfigFixtures());
 
         //Tax
         Factory::getApp()->magentoTaxRemoveTaxRule();
@@ -82,7 +75,7 @@ class GuestPaypalExpress extends Checkout
         $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_fixed_required');
+        $bundle->switchData('bundle_required');
         $bundle->persist();
 
         $this->products = array(
@@ -92,7 +85,7 @@ class GuestPaypalExpress extends Checkout
         );
 
         //Checkout data
-        $this->billingAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
+        $this->billingAddress = $this->_initBillingAddress();
         $this->billingAddress->switchData('address_US_1');
 
         $this->shippingMethods = Factory::getFixtureFactory()->getMagentoShippingMethod();
@@ -106,5 +99,32 @@ class GuestPaypalExpress extends Checkout
 
         $this->paypalCustomer = Factory::getFixtureFactory()->getMagentoPaypalCustomer();
         $this->paypalCustomer->switchData('customer_US');
+    }
+
+    /**
+     * Init billing address for checkout
+     *
+     * @return \Magento\Customer\Test\Fixture\Address
+     */
+    protected function _initBillingAddress()
+    {
+        return Factory::getFixtureFactory()->getMagentoCustomerAddress();
+    }
+
+    /**
+     * Get configuration fixtures
+     *
+     * @return array
+     */
+    protected function _getConfigFixtures()
+    {
+        return array(
+            'flat_rate',
+            'paypal_disabled_all_methods',
+            'paypal_express',
+            'display_price',
+            'display_shopping_cart',
+            'default_tax_config'
+        );
     }
 }

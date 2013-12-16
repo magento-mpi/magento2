@@ -79,9 +79,9 @@ class Option extends Block
      */
     protected function getSearchGridBlock(Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ? : $this->_rootElement;
         return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSearchGrid(
-            $element->find($this->searchGridBlock, Locator::SELECTOR_CSS)
+            $element->find($this->searchGridBlock)
         );
     }
 
@@ -94,21 +94,10 @@ class Option extends Block
      */
     protected function getSelectionBlock($rowNumber, Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ? : $this->_rootElement;
         return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOptionSelection(
             $element->find($this->selectionBlock . '_' . $rowNumber)
         );
-    }
-
-    /**
-     * Set block number
-     *
-     * @param int $blockNumber
-     */
-    public function setBlockNumber($blockNumber)
-    {
-        $this->blockNumber = $blockNumber;
-        $this->_init();
     }
 
     /**
@@ -116,8 +105,8 @@ class Option extends Block
      */
     public function expand()
     {
-        if (!$this->_rootElement->find($this->title, Locator::SELECTOR_CSS)->isVisible()) {
-            $this->_rootElement->find($this->optionToggle, Locator::SELECTOR_CSS)->click();
+        if (!$this->_rootElement->find($this->title)->isVisible()) {
+            $this->_rootElement->find($this->optionToggle)->click();
         }
     }
 
@@ -133,7 +122,7 @@ class Option extends Block
         $this->fillOptionData($fields);
         foreach ($fields['assigned_products'] as $field) {
             if (is_array($field)) {
-                $this->_rootElement->find($this->addProducts, Locator::SELECTOR_CSS)->click();
+                $this->_rootElement->find($this->addProducts)->click();
                 $searchBlock = $this->getSearchGridBlock($context);
                 $searchBlock->searchAndSelect($field['search_data']);
                 $searchBlock->addProducts();

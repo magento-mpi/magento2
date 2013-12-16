@@ -50,10 +50,11 @@ class CreateVirtualTest extends Functional
         $productBlockForm->save($product);
         //Verifying
         $createProductPage->getMessagesBlock()->assertSuccessMessage();
-        // Flush cache
+        //Flush cache
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verifying
         $this->assertOnGrid($product);
         $this->assertOnCategory($product);
@@ -94,6 +95,6 @@ class CreateVirtualTest extends Functional
         $productPage = Factory::getPageFactory()->getCatalogProductView();
         $productViewBlock = $productPage->getViewBlock();
         $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }
