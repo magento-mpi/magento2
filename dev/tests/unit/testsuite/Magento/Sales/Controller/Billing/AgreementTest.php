@@ -106,7 +106,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
     public function testCancelActionAgreementDoesNotBelongToCustomer()
     {
-        $this->_agreement->expects($this->any())->method('canCancel')->will($this->returnValue(true));
+        $this->_agreement->expects($this->never())->method('canCancel');
         $this->_agreement->expects($this->never())->method('cancel');
 
         $errorMessage = 'Please specify the correct billing agreement ID and try again.';
@@ -120,7 +120,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
     public function testCancelActionAgreementStatusDoesNotAllowToCancel()
     {
-        $this->_agreement->expects($this->any())->method('canCancel')->will($this->returnValue(false));
+        $this->_agreement->expects($this->once())->method('canCancel')->will($this->returnValue(false));
         $this->_agreement->expects($this->never())->method('cancel');
 
         $this->_session->expects($this->once())->method('getCustomerId')->will($this->returnValue(871));
