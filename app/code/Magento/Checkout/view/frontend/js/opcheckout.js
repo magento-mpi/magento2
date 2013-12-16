@@ -390,7 +390,7 @@
                 if ($.isNumeric(checkoutPrice)) {
                     this.checkoutPrice = checkoutPrice;
                 }
-                if (this.checkoutPrice < this.options.minBalance) {
+                if (this.checkoutPrice < this.options.minBalance && !this.options.hasRecurringItems) {
                     this._disablePaymentMethods();
                 } else {
                     this._enablePaymentMethods();
