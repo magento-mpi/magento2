@@ -8,6 +8,7 @@
  */
 -->
 <config>
+    <preference for="Magento\Theme\Helper\Storage" type="Magento\Theme\Helper\Storage\Proxy" />
     <type name="Magento\Theme\Model\Config">
         <param name="configCache">
             <instance type="Magento\App\Cache\Type\Config" />
