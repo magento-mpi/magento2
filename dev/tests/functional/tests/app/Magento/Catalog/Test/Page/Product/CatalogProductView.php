@@ -79,9 +79,23 @@ class CatalogProductView extends Page
     protected $upsellSelector = '.block.upsell';
 
     /**
+     * Gift Card Block selector
+     *
+     * @var string
+     */
+    protected $giftCardBlockSelector = '[data-container-for=giftcard_info]';
+
+    /**
      * @var string
      */
     protected $downloadableLinksSelector = '[data-container-for=downloadable-links]';
+
+    /**
+     * MAP popup
+     *
+     * @var string
+     */
+    protected $mapBlock = '#map-popup-content';
 
     /**
      * Custom constructor
@@ -198,12 +212,36 @@ class CatalogProductView extends Page
     }
 
     /**
+     * Get gift card options block
+     *
+     * @return \Magento\GiftCard\Test\Block\Catalog\Product\View\Type\GiftCard
+     */
+    public function getGiftCardBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoGiftCardCatalogProductViewTypeGiftCard(
+            $this->_browser->find($this->giftCardBlockSelector, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
      * @return \Magento\Downloadable\Test\Block\Catalog\Product\Links
      */
     public function getDownloadableLinksBlock()
     {
         return Factory::getBlockFactory()->getMagentoDownloadableCatalogProductLinks(
             $this->_browser->find($this->downloadableLinksSelector)
+        );
+    }
+
+    /**
+     * Get product price block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\Price
+     */
+    public function getMapBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
+            $this->_browser->find($this->mapBlock, Locator::SELECTOR_CSS)
         );
     }
 }

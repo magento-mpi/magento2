@@ -42,6 +42,7 @@ class Config extends AbstractRepository
             'data' => $defaultData
         );
         // General
+        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         // Currency Setup
         $this->_data['currency_usd'] = $this->_getCurrencyUSD();
         //Tax
@@ -77,12 +78,14 @@ class Config extends AbstractRepository
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+        //Sales
+        $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
+        $this->_data['disable_map_config'] = $this->_getMapDisabled();
+        $this->_data['enable_rma'] = $this->_getRmaEnabled();
         //Customer
         $this->_data['address_template'] = $this->_getAddressTemplate();
-        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
-        $this->_data['enable_rma'] = $this->_getRmaEnabled();
     }
 
     /**
@@ -1531,6 +1534,64 @@ class Config extends AbstractRepository
             ),
         );
         return array_merge_recursive($data, $this->_getPaypalDirect());
+    }
+
+    /**
+     * Enable MAP
+     *
+     * @return array
+     */
+    protected function _getMapEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'sales' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'msrp' => array( //Minimum Advertised Price)
+                                'fields' => array(
+                                    'enabled' => array( //Enabled
+                                        'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable MAP
+     *
+     * @return array
+     */
+    protected function _getMapDisabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'sales' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'msrp' => array( //Minimum Advertised Price)
+                                'fields' => array(
+                                    'enabled' => array( //Disabled
+                                        'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     /**
