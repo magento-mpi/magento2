@@ -23,13 +23,28 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $_cacheLimiter = 'private_no_expire';
 
+    /**
+     * @var \Magento\TestFramework\ObjectManager
+     */
+    protected $_objectManager;
+
     protected function setUp()
     {
-        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        $this->_model = $objectManager->create('\Magento\Core\Model\Session\Config', array(
+        $this->_objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $sessionManager \Magento\Session\SessionManager */
+        $sessionManager = $this->_objectManager->get('Magento\Session\SessionManager');
+        if ($sessionManager->isSessionExists()) {
+            $sessionManager->destroy();
+        }
+        $this->_model = $this->_objectManager->create('Magento\Core\Model\Session\Config', array(
             'saveMethod' => 'files',
             'cacheLimiter' => $this->_cacheLimiter
         ));
+    }
+
+    protected function tearDown()
+    {
+        $this->_objectManager->removeSharedInstance('Magento\Core\Model\Session\Config');
     }
 
     /**
@@ -60,4 +75,3 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals('files', $this->_model->getSaveHandler());
     }
 }
-
