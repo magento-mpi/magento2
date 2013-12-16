@@ -285,7 +285,9 @@ class Theme extends \Magento\Core\Model\AbstractModel implements \Magento\View\D
      */
     public function getFullPath()
     {
-        return $this->getThemePath() ? $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath() : null;
+        return $this->getThemePath()
+            ? $this->getArea() . self::PATH_SEPARATOR . $this->getThemePath()
+            : null;
     }
 
     /**

@@ -17,18 +17,18 @@ class EnterpriseConfigurator implements ConfiguratorInterface
     protected $_basePath;
 
     /**
-     * @var \Magento\Io\File
+     * @var \Magento\Filesystem\Driver\File
      */
-    protected $_filesystem;
+    protected $_filesystemDriver;
 
     /**
      * @param $basePath
-     * @param \Magento\Io\File $filesystem
+     * @param \Magento\Filesystem\Driver\File $filesystemDriver
      */
-    public function __construct($basePath, \Magento\Io\File $filesystem)
+    public function __construct($basePath, \Magento\Filesystem\Driver\File $filesystemDriver)
     {
         $this->_basePath = $basePath;
-        $this->_filesystem = $filesystem;
+        $this->_filesystemDriver = $filesystemDriver;
     }
 
     /**
@@ -38,29 +38,23 @@ class EnterpriseConfigurator implements ConfiguratorInterface
      */
     public function configure()
     {
-        $enablerPath = $this->_basePath
-            . DIRECTORY_SEPARATOR . 'app'
-            . DIRECTORY_SEPARATOR . 'etc'
-            . DIRECTORY_SEPARATOR;
-
+        $enablerPath = $this->_basePath . '/app/etc/';
         //enable enterprise edition modules
-        $this->_filesystem->cp(
-            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml.dist',
-            $enablerPath . 'enterprise' . DIRECTORY_SEPARATOR . 'module.xml'
+        $this->_filesystemDriver->copy(
+            $enablerPath . 'enterprise/module.xml.dist',
+            $enablerPath . 'enterprise/module.xml'
         );
 
         //set edition constant
-        $appFile = $this->_basePath . DIRECTORY_SEPARATOR . 'app' . DIRECTORY_SEPARATOR . 'code'
-            . DIRECTORY_SEPARATOR . 'Magento' . DIRECTORY_SEPARATOR . 'Core' . DIRECTORY_SEPARATOR
-            . 'Model' . DIRECTORY_SEPARATOR . 'App.php';
-        $content = $this->_filesystem->read($appFile);
+        $appFile = $this->_basePath . '/app/code/Magento/Core/Model/App.php';
+        $content = $this->_filesystemDriver->fileGetContents($appFile);
         $content = str_replace('self::EDITION_COMMUNITY', 'self::EDITION_ENTERPRISE', $content);
-        $this->_filesystem->write($appFile, $content);
+        $this->_filesystemDriver->filePutContents($appFile, $content);
 
         //set downloader chanel
-        $configFile = $this->_basePath . DIRECTORY_SEPARATOR . 'downloader' . DIRECTORY_SEPARATOR . 'config.ini';
-        $content = $this->_filesystem->read($configFile);
+        $configFile = $this->_basePath . '/downloader/config.ini';
+        $content = $this->_filesystemDriver->fileGetContents($configFile);
         $content = str_replace('community', 'enterprise', $content);
-        $this->_filesystem->write($configFile, $content);
+        $this->_filesystemDriver->filePutContents($configFile, $content);
     }
 }

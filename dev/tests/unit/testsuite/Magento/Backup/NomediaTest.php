@@ -19,9 +19,9 @@ require_once(__DIR__ . '/_files/io.php');
 class NomediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dirMock;
+    protected $_filesystemMock;
 
     /**
      * @var \Magento\Backup\Factory
@@ -60,11 +60,11 @@ class NomediaTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->will($this->returnValue(true));
 
+        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
         $this->_backupFactoryMock->expects($this->once())
             ->method('create')
             ->will($this->returnValue($this->_backupDbMock));
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
     }
 
     /**
@@ -75,17 +75,17 @@ class NomediaTest extends \PHPUnit_Framework_TestCase
     {
         $this->_backupFactoryMock->expects($this->once())->method('create');
 
-        $rootDir = __DIR__ . DS . '_files' . DS . 'data';
+        $rootDir = __DIR__ . '/_files/data';
 
-        $model = new \Magento\Backup\Nomedia($this->_dirMock, $this->_backupFactoryMock);
+        $model = new \Magento\Backup\Nomedia($this->_filesystemMock, $this->_backupFactoryMock);
         $model->setRootDir($rootDir);
         $model->$action();
         $this->assertTrue($model->getIsSuccess());
 
         $this->assertEquals(
             array(
-                $rootDir . DIRECTORY_SEPARATOR . 'media',
-                $rootDir . DIRECTORY_SEPARATOR . 'pub' . DIRECTORY_SEPARATOR . 'media',
+                $rootDir . '/media',
+                $rootDir . '/pub/media',
             ),
             $model->getIgnorePaths()
         );

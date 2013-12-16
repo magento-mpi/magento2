@@ -10,9 +10,7 @@
 namespace Magento\Tools\Translate;
 
 require_once __DIR__ . '/config.inc.php';
-if (!defined('DS')) {
-    define('DS', DIRECTORY_SEPARATOR);
-}
+
 if (!defined('BASE_PATH')) {
     define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 }
@@ -110,7 +108,7 @@ class ModuleTranslations
     {
         $writeError = false;
         $_config = self::getConfig();
-        $localeDir = BASE_PATH . DS . $_config['paths']['locale'] . $locale;
+        $localeDir = BASE_PATH . '/' . $_config['paths']['locale'] . $locale;
         if (!is_dir($localeDir)) {
             if (!mkdir($localeDir, 0777, true)) {
                 $writeError = true;
@@ -124,9 +122,9 @@ class ModuleTranslations
             throw new \Exception("Directory $localeDir is not writable \n\n");
         }
 
-        $files = glob(BASE_PATH . DS . 'app' . DS . 'code' . DS . '*' . DS . '*' . DS .  'locale'
-            . DS . $locale . DS . '*.' . EXTENSION);
-        $newFileMask = $localeDir . DS . '%s';
+        $files = glob(BASE_PATH . '/app/code/*/*/locale/'
+            . $locale . '/*.' . EXTENSION);
+        $newFileMask = $localeDir . '/%s';
         foreach ($files as $file) {
             copy($file, sprintf($newFileMask, basename($file)));
         }
@@ -145,14 +143,14 @@ class ModuleTranslations
         $writeError = false;
         $_config = self::getConfig();
         $pathLocales = $_config['paths']['locale'];
-        $localeDir = BASE_PATH . DS . $pathLocales . $locale;
+        $localeDir = BASE_PATH . '/' . $pathLocales . $locale;
         if (!is_dir($localeDir)) {
             throw new \Exception("Directory $localeDir is not writable \n\n");
         }
 
-        $files = glob($localeDir . DS . '*.' . EXTENSION);
-        $newFileMask = BASE_PATH . DS . 'app' . DS . 'code' . DS . '%s' . DS . '%s' . DS .  'locale'
-            . DS . $locale . DS . '%s' . '.' . EXTENSION;
+        $files = glob($localeDir . '/*.' . EXTENSION);
+        $newFileMask = BASE_PATH . '/app/code/%s/%s/locale/'
+            . $locale . '/%s' . '.' . EXTENSION;
         foreach ($files as $file) {
             $baseFileName = basename($file, '.' . EXTENSION);
             $parts = explode('_', $baseFileName);
@@ -183,21 +181,21 @@ class ModuleTranslations
     public static function cleanTranslations($locale)
     {
         $_config = self::getConfig();
-        $localeDir = BASE_PATH . DS . $_config['paths']['locale'] . $locale;
+        $localeDir = BASE_PATH . '/' . $_config['paths']['locale'] . $locale;
         if (!is_dir($localeDir)) {
             throw new \Exception("Directory $localeDir is not writable \n\n");
         }
-        $files = glob($localeDir . DS . '*.' . EXTENSION);
+        $files = glob($localeDir . '/*.' . EXTENSION);
         foreach ($files as $file) {
             if (is_writable($file)) {
                 unlink($file);
             }
         }
 
-        $files = glob($localeDir . DS . '*');
+        $files = glob($localeDir . '/*');
         if (empty($files)) {
             rmdir($localeDir);
-            $files = glob(dirname($localeDir) . DS . '*' . DS);
+            $files = glob(dirname($localeDir) . '/*' . '/');
             if (empty($files)) {
                 rmdir(dirname($localeDir));
             }

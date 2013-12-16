@@ -9,6 +9,9 @@
  */
 namespace Magento\Module\Dir;
 
+use Magento\Filesystem\Directory\Read;
+use Magento\Filesystem;
+
 class Reader
 {
     /**
@@ -16,50 +19,63 @@ class Reader
      *
      * @var array
      */
-    protected $_customModuleDirs = array();
+    protected $customModuleDirs = array();
 
     /**
      * Directory registry
      *
      * @var \Magento\Module\Dir
      */
-    protected $_moduleDirs;
+    protected $moduleDirs;
 
     /**
      * Modules configuration provider
      *
      * @var \Magento\Module\ModuleListInterface
      */
-    protected $_modulesList;
+    protected $modulesList;
 
+    /**
+     * @var Read
+     */
+    protected $modulesDirectory;
+
+    protected $fileIteratorFactory;
     /**
      * @param \Magento\Module\Dir $moduleDirs
      * @param \Magento\Module\ModuleListInterface $moduleList
+     * @param Filesystem $filesystem
+     * @param \Magento\Config\FileIteratorFactory $fileIterator
      */
     public function __construct(
-        \Magento\Module\Dir $moduleDirs,
-        \Magento\Module\ModuleListInterface $moduleList
+        \Magento\Module\Dir                 $moduleDirs,
+        \Magento\Module\ModuleListInterface $moduleList,
+        \Magento\Filesystem                 $filesystem,
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
-        $this->_moduleDirs = $moduleDirs;
-        $this->_modulesList = $moduleList;
+        $this->moduleDirs           = $moduleDirs;
+        $this->modulesList          = $moduleList;
+        $this->fileIteratorFactory  = $fileIteratorFactory;
+        $this->modulesDirectory     = $filesystem->getDirectoryRead(Filesystem::MODULES);
     }
 
     /**
      * Go through all modules and find configuration files of active modules
      *
      * @param $filename
-     * @return array
+     * @return \Magento\Config\FileIterator
      */
     public function getConfigurationFiles($filename)
     {
         $result = array();
-        foreach (array_keys($this->_modulesList->getModules()) as $moduleName) {
-            $file = $this->getModuleDir('etc', $moduleName) . DIRECTORY_SEPARATOR . $filename;
-            if (file_exists($file)) {
-                $result[] = $file;
+        foreach (array_keys($this->modulesList->getModules()) as $moduleName) {
+            $file = $this->getModuleDir('etc', $moduleName) . '/' . $filename;
+            $path = $this->modulesDirectory->getRelativePath($file);
+            if ($this->modulesDirectory->isExist($path)) {
+                $result[] = $path;
             }
         }
-        return $result;
+        return $this->fileIteratorFactory->create($this->modulesDirectory, $result);
     }
 
     /**
@@ -71,10 +87,10 @@ class Reader
      */
     public function getModuleDir($type, $moduleName)
     {
-        if (isset($this->_customModuleDirs[$moduleName][$type])) {
-            return $this->_customModuleDirs[$moduleName][$type];
+        if (isset($this->customModuleDirs[$moduleName][$type])) {
+            return $this->customModuleDirs[$moduleName][$type];
         }
-        return $this->_moduleDirs->getDir($moduleName, $type);
+        return $this->moduleDirs->getDir($moduleName, $type);
     }
 
     /**
@@ -86,6 +102,6 @@ class Reader
      */
     public function setModuleDir($moduleName, $type, $path)
     {
-        $this->_customModuleDirs[$moduleName][$type] = $path;
+        $this->customModuleDirs[$moduleName][$type] = $path;
     }
 }

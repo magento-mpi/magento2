@@ -32,9 +32,8 @@ class Mage_Selenium_Helper_FileTest extends Unit_PHPUnit_TestCase
      */
     public function testLoadYamlFile()
     {
-        $customers = $this->_fileHelper->loadYamlFile(implode(DIRECTORY_SEPARATOR,
-            array(SELENIUM_TESTS_BASEDIR, 'fixture', 'default', 'core', 'Mage', 'UnitTest', 'data',
-                  'UnitTestsData.yml')));
+        $customers = $this->_fileHelper
+            ->loadYamlFile(SELENIUM_TESTS_BASEDIR . 'fixture/default/core/Mage/UnitTest/data/UnitTestsData.yml');
         $this->assertInternalType('array', $customers);
         $this->assertNotEmpty($customers);
         $this->assertGreaterThanOrEqual(3, count($customers));
@@ -53,8 +52,7 @@ class Mage_Selenium_Helper_FileTest extends Unit_PHPUnit_TestCase
      */
     public function testLoadYamlFileException()
     {
-        $this->assertFalse($this->_fileHelper->loadYamlFile(
-            SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'phpunit.xml'));
+        $this->assertFalse($this->_fileHelper->loadYamlFile(SELENIUM_TESTS_BASEDIR . '/phpunit.xml'));
     }
 
     /**
@@ -62,8 +60,8 @@ class Mage_Selenium_Helper_FileTest extends Unit_PHPUnit_TestCase
      */
     public function testLoadYamlFiles()
     {
-        $allYmlData = $this->_fileHelper->loadYamlFiles(implode(DIRECTORY_SEPARATOR,
-            array(SELENIUM_TESTS_BASEDIR, 'fixture', 'default', 'core', 'Mage', 'UnitTest', 'data', '*.yml')));
+        $allYmlData = $this->_fileHelper
+            ->loadYamlFiles(SELENIUM_TESTS_BASEDIR . '/fixture/default/core/Mage/UnitTest/data/*.yml');
 
         $this->assertInternalType('array', $allYmlData);
         $this->assertNotEmpty($allYmlData);

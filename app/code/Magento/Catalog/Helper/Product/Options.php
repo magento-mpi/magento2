@@ -21,9 +21,9 @@ namespace Magento\Catalog\Helper\Product;
 class Options extends \Magento\App\Helper\AbstractHelper
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $_filesystem;
+    protected $directory;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -32,7 +32,7 @@ class Options extends \Magento\App\Helper\AbstractHelper
     public function __construct(\Magento\App\Helper\Context $context, \Magento\Filesystem $filesystem)
     {
         parent::__construct($context);
-        $this->_filesystem = $filesystem;
+        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
     }
 
     /**
@@ -60,7 +60,7 @@ class Options extends \Magento\App\Helper\AbstractHelper
                 ->clearBody();
             $response->sendHeaders();
 
-            echo $this->_filesystem->read($filePath);
+            echo $this->directory->readFile($this->directory->getRelativePath($filePath));
         } catch (\Exception $e) {
             return false;
         }

@@ -77,11 +77,21 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('X-Frame-Options'))
             ->will($this->returnValue(true));
 
-        $this->_objectManager = $this->getMock('Magento\ObjectManager');
+        $this->_objectManager = $this->getMockBuilder('Magento\App\ObjectManager')
+            ->disableOriginalConstructor()
+            ->setMethods(array('get', 'create'))
+            ->getMock();
+        $frontControllerMock = $this->getMockBuilder('Magento\App\FrontController')
+            ->disableOriginalConstructor()
+            ->getMock();
+
+        $actionFlagMock = $this->getMockBuilder('Magento\App\ActionFlag')
+            ->disableOriginalConstructor()
+            ->getMock();
 
         $this->_session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
-            ->setMethods(array('setIsUrlNotice', 'addSuccess'))
+            ->setMethods(array('setIsUrlNotice', 'addSuccess', '__wakeup'))
             ->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
@@ -90,17 +100,40 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getUrl'))
             ->getMock();
 
-        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $this->_testedObject = $helperObjectManager->getObject('Magento\Customer\Controller\Adminhtml\Index',
-            array(
-                'helper' => $this->_helper,
-                'session' => $this->_session,
-                'objectManager' => $this->_objectManager,
-                'request' => $this->_request,
-                'response' => $this->_response
+        $translator = $this->getMockBuilder('Magento\Core\Model\Translate')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getTranslateInline', '__wakeup'))
+            ->getMock();
 
-            )
+        $contextArgs = array(
+            'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager',
+            'getFrontController', 'getActionFlag',
+            'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
+        $contextMock = $this->getMockBuilder('\Magento\Backend\App\Action\Context')
+            ->disableOriginalConstructor()
+            ->setMethods($contextArgs)
+            ->getMock();
+        $contextMock->expects($this->any())->method('getRequest')->will($this->returnValue($this->_request));
+        $contextMock->expects($this->any())->method('getResponse')->will($this->returnValue($this->_response));
+        $contextMock->expects($this->any())
+            ->method('getObjectManager')
+            ->will($this->returnValue($this->_objectManager));
+        $contextMock->expects($this->any())
+            ->method('getFrontController')
+            ->will($this->returnValue($frontControllerMock));
+        $contextMock->expects($this->any())
+            ->method('getActionFlag')
+            ->will($this->returnValue($actionFlagMock));
+
+        $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helper));
+        $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
+        $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
+
+        $args = array('context' => $contextMock);
+
+        $helperObjectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $this->_testedObject = $helperObjectManager->getObject('Magento\Customer\Controller\Adminhtml\Index', $args);
     }
 
     /**
@@ -185,8 +218,12 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->method('generateResetPasswordLinkToken')
             ->will($this->returnValue($token));
 
-        $coreHelperMock = $this->getMock('Magento\Core\Model\Url', array(), array(), '', false);
+        $coreHelperMock = $this->getMockBuilder('Magento\Core\Model\Url')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getUrl', '__wakeup'))
+            ->getMock();
         $coreHelperMock->expects($this->any())->method('getUrl')->will($this->returnValue($testUrl));
+
         $this->_objectManager->expects($this->at(0))
             ->method('create')
             ->with($this->equalTo('Magento\Customer\Model\Customer'))
@@ -217,11 +254,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getCustomerMock($customerId, $returnId = null)
     {
-        $customerMock = $this->getMock('Magento\Customer\Model\Customer',
-            array('setResetPasswordUrl', 'changeResetPasswordLinkToken', 'sendPasswordReminderEmail', 'load',
-                'getId', '__wakeup',
-            ),
-            array(), '', false);
+        $customerMock = $this->getMockBuilder('Magento\Customer\Model\Customer')
+            ->disableOriginalConstructor()
+            ->setMethods(array('load', 'getId', 'changeResetPasswordLinkToken', 'setResetPasswordUrl',
+                'sendPasswordReminderEmail', '__wakeup'))
+            ->getMock();
         $customerMock->expects($this->any())
             ->method('load')
             ->with($this->equalTo($customerId));
