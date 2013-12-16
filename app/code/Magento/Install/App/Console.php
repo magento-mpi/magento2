@@ -114,8 +114,7 @@ class Console implements \Magento\AppInterface
         }
         if (!$installer->hasErrors()) {
             if ($isUninstallMode) {
-                $msg = $result ? 'Uninstalled successfully'
-                    : 'Ignoring attempt to uninstall non-installed application';
+                $msg = $result ? 'Uninstalled successfully' : 'Ignoring attempt to uninstall non-installed application';
             } else {
                 $msg = 'Installed successfully' . ($result ? ' (encryption key "' . $result . '")' : '');
             }
@@ -138,11 +137,11 @@ class Console implements \Magento\AppInterface
         $installer = $this->_installerFactory->create(array('installArgs' => $this->_arguments));
         if (isset($this->_arguments['show_locales'])) {
             $this->_output->export($installer->getAvailableLocales());
-        } else if (isset($this->_arguments['show_currencies'])) {
+        } elseif (isset($this->_arguments['show_currencies'])) {
             $this->_output->export($installer->getAvailableCurrencies());
-        } else if (isset($this->_arguments['show_timezones'])) {
+        } elseif (isset($this->_arguments['show_timezones'])) {
             $this->_output->export($installer->getAvailableTimezones());
-        } else if (isset($this->_arguments['show_install_options'])) {
+        } elseif (isset($this->_arguments['show_install_options'])) {
             $this->_output->export($installer->getAvailableInstallOptions());
         } else {
             $this->_handleInstall($installer);

@@ -33,6 +33,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
      */
     protected $_directoryMock;
 
+    /**
+     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_messageManager;
+
     protected function setUp()
     {
         $this->_directoryMock = $this->getMock('Magento\Filesystem\Directory\Write', array(), array(), '', false);
@@ -46,11 +51,13 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryWrite')
             ->will($this->returnValue($this->_directoryMock));
 
+        $this->_messageManager = $this->getMock('\Magento\Message\ManagerInterface', array(), array(), '', false);
         $this->_model = new \Magento\Install\Model\Installer\Config(
             $this->getMock('Magento\Install\Model\Installer', array(), array(), '', false),
             $this->getMock('Magento\App\RequestInterface', array(), array(), '', false),
             $this->_filesystemMock,
-            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false)
+            $this->getMock('Magento\Core\Model\StoreManagerInterface', array(), array(), '', false),
+            $this->_messageManager
         );
     }
 

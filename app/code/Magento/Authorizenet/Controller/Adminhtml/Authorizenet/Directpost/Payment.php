@@ -133,11 +133,11 @@ class Payment
             } catch (\Magento\Core\Exception $e) {
                 $message = $e->getMessage();
                 if (!empty($message)) {
-                    $this->_getSession()->addError($message);
+                    $this->messageManager->addError($message);
                 }
                 $isError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e, __('Order saving error: %1', $e->getMessage()));
+                $this->messageManager->addException($e, __('Order saving error: %1', $e->getMessage()));
                 $isError = true;
             }
 
@@ -191,7 +191,7 @@ class Payment
             $this->_getSession()->clearStorage();
             $this->_getDirectPostSession()->removeCheckoutOrderIncrementId($redirectParams['x_invoice_num']);
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->clearStorage();
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addSuccess(__('You created the order.'));
+            $this->messageManager->addSuccess(__('You created the order.'));
         }
 
         if (!empty($redirectParams['error_msg'])) {
