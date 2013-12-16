@@ -51,13 +51,23 @@ class Address extends DataFixture
     }
 
     /**
-     * Get telephone number
+     * Get city
      *
      * @return string
      */
-    public function getTelephone()
+    public function getCity()
     {
-        return $this->getData('fields/telephone');
+        return $this->getData('fields/city/value');
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->getData('fields/country/value');
     }
 
     /**
@@ -78,6 +88,36 @@ class Address extends DataFixture
     public function getLastName()
     {
         return $this->getData('fields/lastname');
+    }
+
+    /**
+     * Get postal code
+     *
+     * @return string
+     */
+    public function getPostCode()
+    {
+        return $this->getData('fields/postcode/value');
+    }
+
+    /**
+     * Get region
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->getData('fields/region/value');
+    }
+
+    /**
+     * Get telephone number
+     *
+     * @return string
+     */
+    public function getTelephone()
+    {
+        return $this->getData('fields/telephone');
     }
 
     /**
