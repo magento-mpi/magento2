@@ -36,6 +36,13 @@ class CatalogCategoryView extends Page
     protected $listProductBlock = '.products.wrapper.grid';
 
     /**
+     * MAP popup
+     *
+     * @var string
+     */
+    protected $mapBlock = '#map-popup-content';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -52,6 +59,18 @@ class CatalogCategoryView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductListProduct(
             $this->_browser->find($this->listProductBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get product price block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\Price
+     */
+    public function getMapBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
+            $this->_browser->find($this->mapBlock, Locator::SELECTOR_CSS)
         );
     }
 }

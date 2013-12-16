@@ -23,11 +23,13 @@ class Key extends \Magento\Backend\App\Action
      */
     protected function _checkIsLocalXmlWriteable()
     {
-        $filename = $this->_objectManager->get('Magento\App\Dir')->getDir(\Magento\App\Dir::CONFIG)
-            . DS . 'local.xml';
-        if (!is_writeable($filename)) {
+        /** @var \Magento\Filesystem\Directory\Write $configDirectory */
+        $configDirectory = $this->_objectManager->get('Magento\Filesystem')
+            ->getDirectoryWrite(\Magento\Filesystem::CONFIG);
+        if (!$configDirectory->isWritable('local.xml')) {
             $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError(
-                __('To enable a key change this file must be writable: %1.', realpath($filename))
+                __('To enable a key change this file must be writable: %1.',
+                    $configDirectory->getAbsolutePath('local.xml'))
             );
             return false;
         }

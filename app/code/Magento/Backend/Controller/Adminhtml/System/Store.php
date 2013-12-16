@@ -463,7 +463,9 @@ class Store extends \Magento\Backend\App\Action
             $backup   = $this->_objectManager->create('Magento\Backup\Model\Backup')
                 ->setTime(time())
                 ->setType('db')
-                ->setPath($this->_objectManager->get('Magento\App\Dir')->getDir('var') . DS . 'backups');
+                ->setPath(
+                    $this->_objectManager->get('Magento\Filesystem')->getPath(\Magento\Filesystem::VAR_DIR) . '/backups'
+                );
 
             $backupDb->createBackup($backup);
             $this->_getSession()->addSuccess(__('The database was backed up.'));

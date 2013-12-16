@@ -154,21 +154,26 @@ class Samples
                 'sample_type' => $item->getSampleType(),
                 'sort_order' => $item->getSortOrder(),
             );
-            $file = $fileHelper->getFilePath(
-                $this->_sampleModel->getBasePath(), $item->getSampleFile()
-            );
-            if ($item->getSampleFile() && !is_file($file)) {
-                $this->_coreFileStorageDb->saveFileToFilesystem($file);
+
+            $sampleFile = $item->getSampleFile();
+            if ($sampleFile) {
+                $file = $fileHelper->getFilePath(
+                    $this->_sampleModel->getBasePath(), $sampleFile
+                );
+
+                $fileExist = $fileHelper->ensureFileInFilesystem($file);
+
+                if ($fileExist) {
+                    $tmpSampleItem['file_save'] = array(
+                        array(
+                            'file' => $sampleFile,
+                            'name' => $fileHelper->getFileFromPathFile($sampleFile),
+                            'size' => $fileHelper->getFileSize($file),
+                            'status' => 'old'
+                        ));
+                }
             }
-            if ($item->getSampleFile() && is_file($file)) {
-                $tmpSampleItem['file_save'] = array(
-                    array(
-                        'file' => $item->getSampleFile(),
-                        'name' => $fileHelper->getFileFromPathFile($item->getSampleFile()),
-                        'size' => filesize($file),
-                        'status' => 'old'
-                    ));
-            }
+
             if ($this->getProduct() && $item->getStoreTitle()) {
                 $tmpSampleItem['store_title'] = $item->getStoreTitle();
             }

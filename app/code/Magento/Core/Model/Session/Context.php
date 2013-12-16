@@ -66,6 +66,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_storeManager;
 
     /**
+     * Filesystem instance
+     *
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+    
+    /**
      * @param \Magento\Core\Model\Session\Validator $validator
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -75,6 +82,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
+     * @param \Magento\Filesystem $filesystem
      * @param string $saveMethod
      */
     public function __construct(
@@ -87,6 +95,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
+        \Magento\Filesystem $filesystem,
         $saveMethod = 'files'
     ) {
         $this->_validator = $validator;
@@ -99,6 +108,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_request = $request;
         $this->_appState = $appState;
         $this->_storeManager = $storeManager;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -147,6 +157,14 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getAppState()
     {
         return $this->_appState;
+    }
+
+    /**
+     * @return \Magento\Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
     }
 
     /**

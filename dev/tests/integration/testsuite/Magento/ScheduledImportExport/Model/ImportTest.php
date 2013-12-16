@@ -24,7 +24,7 @@ class ImportTest extends \PHPUnit_Framework_TestCase
         // Mock the reindexAll() method, because it has DDL operations, thus breaks DB-isolating transaction
         $model = $this->getMock('Magento\ScheduledImportExport\Model\Import', array('reindexAll'), array(
             $objectManager->get('Magento\Logger'),
-            $objectManager->get('Magento\App\Dir'),
+            $objectManager->get('Magento\Filesystem'),
             $objectManager->get('Magento\Core\Model\Log\AdapterFactory'),
             $objectManager->get('Magento\ImportExport\Helper\Data'),
             $objectManager->get('Magento\Core\Model\Config'),
@@ -45,7 +45,20 @@ class ImportTest extends \PHPUnit_Framework_TestCase
             ->method('reindexAll')
             ->will($this->returnSelf());
 
-        $operation = $objectManager->create('Magento\ScheduledImportExport\Model\Scheduled\Operation');
+        $directoryList = $objectManager->create(
+            'Magento\Filesystem\DirectoryList',
+            array(
+                'directories' => array(
+                    \Magento\Filesystem::VAR_DIR => array('path' => __DIR__ . '/../_files/')
+                ),
+                'root' => BP
+            )
+        );
+        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $directoryList));
+        $operation = $objectManager->create(
+            'Magento\ScheduledImportExport\Model\Scheduled\Operation',
+            array('filesystem' => $filesystem)
+        );
         $operation->setFileInfo(array(
             'file_name' => __DIR__ . '/../_files/product.csv',
             'server_type' => 'file',

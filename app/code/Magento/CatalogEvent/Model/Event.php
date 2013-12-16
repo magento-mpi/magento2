@@ -66,11 +66,11 @@ class Event extends \Magento\Core\Model\AbstractModel
     protected $_locale;
 
     /**
-     * Directory model
+     * Filesystem facade
      *
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $_filesystem;
 
     /**
      * Store manager
@@ -90,7 +90,7 @@ class Event extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Core\Model\LocaleInterface $locale
-     * @param \Magento\App\Dir $dir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\CatalogEvent\Model\Resource\Event $resource
@@ -101,7 +101,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Core\Model\LocaleInterface $locale,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\CatalogEvent\Model\Resource\Event $resource = null,
@@ -111,7 +111,7 @@ class Event extends \Magento\Core\Model\AbstractModel
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
 
         $this->_storeManager = $storeManager;
-        $this->_dir = $dir;
+        $this->_filesystem = $filesystem;
         $this->_locale = $locale;
         $this->dateTime = $dateTime;
     }
@@ -208,7 +208,9 @@ class Event extends \Magento\Core\Model\AbstractModel
     {
         //in the current version should be used instance of \Magento\Core\Model\File\Uploader
         if ($value instanceof \Magento\File\Uploader) {
-            $value->save($this->_dir->getDir(\Magento\App\Dir::MEDIA) . DS . strtr(self::IMAGE_PATH, '/', DS));
+            $value->save(
+                $this->_filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA)->getAbsolutePath(self::IMAGE_PATH)
+            );
             $value = $value->getUploadedFileName();
         }
 

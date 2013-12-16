@@ -24,7 +24,7 @@ class Mage_Test_LoaderTest extends Unit_PHPUnit_TestCase
     protected function setUp()
     {
         $this->_loader = new Mage_Test_Loader();
-        $this->_includeDirs = set_include_path(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        $this->_includeDirs = set_include_path(__DIR__ . '/_files');
     }
 
     protected function tearDown()
@@ -45,8 +45,7 @@ class Mage_Test_LoaderTest extends Unit_PHPUnit_TestCase
      */
     public function testLoadNotExists()
     {
-        $this->setExpectedException('PHPUnit_Framework_Exception',
-            'not' . DIRECTORY_SEPARATOR . 'exists' . DIRECTORY_SEPARATOR . 'class.php');
+        $this->setExpectedException('PHPUnit_Framework_Exception', 'not/exists/class.php');
         $this->_loader->load('not_exists_class');
     }
 }

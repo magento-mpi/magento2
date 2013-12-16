@@ -2,10 +2,10 @@
 /**
  * {license_notice}
  *
- * @category    Magento
- * @package     Magento_Rma
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Magento
+ * @package Magento_Rma
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 /**
@@ -89,12 +89,12 @@ class Rma
     /**
      * Get Url to action
      *
-     * @param  string $action action Url part
+     * @param string $action action Url part
      * @return string
      */
     protected function _getControllerUrl($action = '')
     {
-        return '*/rma/' . $action;
+        return 'adminhtml/rma/' . $action;
     }
 
     /**

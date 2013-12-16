@@ -25,7 +25,7 @@ class FilesystemTest extends \PHPUnit_Framework_TestCase
              */
             function ($path) {
                 $this->assertFileNotExists(
-                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() . DIRECTORY_SEPARATOR . $path
+                    \Magento\TestFramework\Utility\Files::init()->getPathToSource() . '/' . $path
                 );
             },
             $this->relocationsDataProvider()
