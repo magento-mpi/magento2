@@ -175,7 +175,7 @@ class Multishipping extends \Magento\Checkout\Controller\Action
         $this->_view->getLayout()->initMessages();
 
         // set account create url
-        $loginForm = $this->_view->getLayout()->getBlock('customer_form_login');
+        $loginForm = $this->_view->getLayout()->getBlock('customer.new');
         if ($loginForm) {
             $loginForm->setCreateAccountUrl($this->_getHelper()->getMSRegisterUrl());
         }

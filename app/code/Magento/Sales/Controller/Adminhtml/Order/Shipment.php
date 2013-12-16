@@ -480,7 +480,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
             return false;
         }
         $shipment->setPackages($this->getRequest()->getParam('packages'));
-        $response = $this->_objectManager->create('Magento\Shipping\Model\Shipping')->requestToShipment($shipment);
+        $response = $this->_objectManager->create('Magento\Shipping\Model\Shipping\Labels')->requestToShipment($shipment);
         if ($response->hasErrors()) {
             throw new \Magento\Core\Exception($response->getErrors());
         }
