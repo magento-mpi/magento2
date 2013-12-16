@@ -220,7 +220,7 @@
                             minWidth: 600,
                             dialogClass: dialog == 'permissions' ? 'integration-dialog' : 'integration-dialog no-close',
                             position: {at: 'center'},
-                            closeOnEscape: true
+                            closeOnEscape: false
                         };
                     if (dialog == 'permissions') {
                         // We don't need this button in 'tokens' dialog, since if you got there - integration is
