@@ -425,6 +425,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo(self::INTEGRATION_ID))
             ->will($this->returnValue($this->_getSampleIntegrationData()));
 
+        // @codingStandardsIgnoreStart
         $handle = <<<HANDLE
 <layout xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
     <handle id="adminhtml_integration_activate_permissions_webapi">
@@ -438,6 +439,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     </handle>
 </layout>
 HANDLE;
+        // @codingStandardsIgnoreEnd
 
         $layoutUpdates = new LayoutElement($handle);
         $this->_registryMock->expects($this->any())->method('register');
@@ -523,7 +525,9 @@ HANDLE;
         $this->_layoutMergeMock = $this->getMockBuilder('Magento\Core\Model\Layout\Merge')
             ->disableOriginalConstructor()
             ->getMock();
-        $this->_layoutMock->expects($this->any())->method('getUpdate')->will($this->returnValue($this->_layoutMergeMock));
+        $this->_layoutMock->expects($this->any())
+            ->method('getUpdate')
+            ->will($this->returnValue($this->_layoutMergeMock));
         $testElement = new \Magento\Simplexml\Element('<test>test</test>');
         $this->_layoutMock->expects($this->any())->method('getNode')->will($this->returnValue($testElement));
         // for _setActiveMenu
