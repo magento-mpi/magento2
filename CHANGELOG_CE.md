@@ -26,6 +26,7 @@
   * Fixed default billing and shipping address not honored through backend
   * Fixed inability to choose DB as Media Storage
   * Fixed PHP issues found during the UI testing of backend
+  * Fixed can not create Shipping Label for Priority Mail methods from USPS
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
