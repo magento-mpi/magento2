@@ -49,12 +49,14 @@ class Edit extends Form
         'street_1' => '#street_1',
         'city' => '#city',
         'region' => '#region_id',
+        'province' => '#region',
         'postcode' => '#zip',
         'country' => '#country',
+        'country_id' => '#country',
     );
 
     /**
-     * Fill form data. Unset 'email' field as it absent in current form
+     * Fill form data. Unset 'email' field as it absent in current form.
      *
      * @param array $fields
      * @param Element $element

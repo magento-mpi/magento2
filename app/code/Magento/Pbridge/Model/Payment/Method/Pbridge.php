@@ -340,7 +340,8 @@ class Pbridge extends \Magento\Payment\Model\Method\AbstractMethod
             ->setData('is_virtual', $order->getIsVirtual())
             ->setData('notify_url',
                 $this->_url->getUrl('magento_pbridge/PbridgeIpn/', array('_store' =>  $order->getStore()->getStoreId()))
-            );
+            )
+            ->setData('is_first_capture', $payment->hasFirstCaptureFlag() ? $payment->getFirstCaptureFlag() : true);
 
         $request->setData('billing_address', $this->_getAddressInfo($order->getBillingAddress()));
         if ($order->getCustomer() && $order->getCustomer()->getId()) {

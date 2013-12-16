@@ -53,7 +53,12 @@ class Import extends \Magento\ImportExport\Model\Import
         $sourceFile = $operation->getFileSource($this);
         $result = false;
         if ($sourceFile) {
-            $result = $this->validateSource(\Magento\ImportExport\Model\Import\Adapter::findAdapterFor($sourceFile));
+            $result = $this->validateSource(
+                \Magento\ImportExport\Model\Import\Adapter::findAdapterFor(
+                    $sourceFile,
+                    $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP)
+                )
+            );
         }
         $isAllowedForcedImport = $operation->getForceImport()
             && $this->getProcessedRowsCount() != $this->getInvalidRowsCount();

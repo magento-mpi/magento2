@@ -63,7 +63,7 @@ class Search extends \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $backendSession->addError(__('This search no longer exists.'));
+                $this->messageManager->addError(__('This search no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;
             }

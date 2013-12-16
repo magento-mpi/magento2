@@ -31,6 +31,6 @@ class EditTest extends \PHPUnit_Framework_TestCase
         $this->_block->addInputTypeTemplate('test', 'Magento_GiftRegistry::attributes/text.phtml');
         $template = $this->_block->getInputTypeTemplate('test');
         $this->assertFileExists($template);
-        $this->assertStringEndsWith('attributes' . DIRECTORY_SEPARATOR . 'text.phtml', $template);
+        $this->assertStringEndsWith('attributes/text.phtml', $template);
     }
 }

@@ -40,10 +40,11 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $constructArguments = $objectManager->getConstructArguments(
             'Magento\Checkout\Model\Session',
             array(
-                 'context' => $this->getMock('Magento\Core\Model\Session\Context', array(), array(), '', false),
-                 'orderFactory' => $orderFactory,
-                 'messageCollFactory' => $messageCollFactory,
-                 'quoteFactory' => $quoteFactory,
+                'request' => $this->getMock('Magento\App\RequestInterface', array(), array(), '', false),
+                'orderFactory' => $orderFactory,
+                'messageCollFactory' => $messageCollFactory,
+                'quoteFactory' => $quoteFactory,
+                'storage' => new \Magento\Session\Storage
             )
         );
         /** @var \Magento\Checkout\Model\Session $session */

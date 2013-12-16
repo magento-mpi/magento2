@@ -27,14 +27,9 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     protected $_encryptor;
 
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\WriteInterface
      */
-    protected $_filesystem;
-
-    /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dir;
+    protected $_directory;
 
     /**
      * @var \Magento\Backend\Model\Config\Structure
@@ -44,21 +39,18 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
     /**
      * @param \Magento\App\Resource $resource
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Backend\Model\Config\Structure $structure
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      */
     public function __construct(
         \Magento\App\Resource $resource,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dir,
         \Magento\Backend\Model\Config\Structure $structure,
         \Magento\Encryption\EncryptorInterface $encryptor
     ) {
-        $this->_dir = $dir;
         $this->_encryptor = clone $encryptor;
         parent::__construct($resource);
-        $this->_filesystem = $filesystem;
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::CONFIG);
         $this->_structure = $structure;
     }
 
@@ -109,15 +101,15 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
      */
     public function changeEncryptionKey($key = null)
     {
-        $this->_filesystem->setWorkingDirectory($this->_dir->getDir(\Magento\App\Dir::CONFIG));
-        // prepare new key, encryptor and new file contents
-        $file = $this->_dir->getDir(\Magento\App\Dir::CONFIG) . DS . 'local.xml';
 
-        if (!$this->_filesystem->isWritable($file)) {
+        // prepare new key, encryptor and new file contents
+        $file = 'local.xml';
+
+        if (!$this->_directory->isWritable($file)) {
             throw new \Exception(__('File %1 is not writeable.', $file));
         }
 
-        $contents = $this->_filesystem->read($file);
+        $contents = $this->_directory->readFile($file);
         if (null === $key) {
             $key = md5(time());
         }
@@ -131,7 +123,7 @@ class Change extends \Magento\Core\Model\Resource\Db\AbstractDb
         try {
             $this->_reEncryptSystemConfigurationValues();
             $this->_reEncryptCreditCardNumbers();
-            $this->_filesystem->write($file, $contents);
+            $this->_directory->writeFile($file, $contents);
             $this->commit();
             return $key;
         }

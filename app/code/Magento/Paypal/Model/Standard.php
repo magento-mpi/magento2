@@ -86,7 +86,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
-     * @param \Magento\Core\Model\Session\Generic $paypalSession
+     * @param \Magento\Session\Generic $paypalSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\UrlInterface $urlBuilder
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
@@ -103,7 +103,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory,
-        \Magento\Core\Model\Session\Generic $paypalSession,
+        \Magento\Session\Generic $paypalSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\UrlInterface $urlBuilder,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
@@ -138,7 +138,7 @@ class Standard extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Get paypal session namespace
      *
-     * @return \Magento\Core\Model\Session\Generic
+     * @return \Magento\Session\Generic
      */
     public function getSession()
     {

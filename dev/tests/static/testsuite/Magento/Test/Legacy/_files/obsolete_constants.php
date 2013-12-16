@@ -12,6 +12,7 @@
 return array(
     array('ADMIN_STORE_ID', 'Magento\Core\Model\AppInterface'),
     array('BACKORDERS_BELOW'),
+    array('DS'),
     array('BACKORDERS_YES'),
     array('CACHE_TAG', 'Magento\Api\Model\Config', 'Magento_Api_Model_Cache_Type::CACHE_TAG'),
     array('CACHE_TAG', 'Magento\Core\Model\AppInterface'),
@@ -285,18 +286,8 @@ return array(
     array('XML_PATH_ENCRYPTION_MODEL', 'Magento\Core\Helper\Data'),
     array('CONFIG_KEY_PATH_TO_MAP_FILE', 'Magento\Core\Model\Resource\Setup\Migration'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\App\UpdaterInterface'),
-    array(
-        'XML_NODE_SESSION_SAVE',
-        'Magento\Core\Model\Session\AbstractSession',
-        'Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_METHOD'
-    ),
     array('XML_PATH_IGNORE_DEV_MODE', 'Magento\Module\UpdaterInterface'),
     array('XML_PATH_SKIP_PROCESS_MODULES_UPDATES', 'Magento\Module\UpdaterInterface'),
-    array(
-        'XML_NODE_SESSION_SAVE_PATH',
-        'Magento\Core\Model\Session\AbstractSession',
-        'Magento\Core\Model\Session\AbstractSession::PARAM_SESSION_SAVE_PATH'
-    ),
     array('XML_PATH_USE_CUSTOM_ADMIN_PATH', 'Magento\Backend\Helper\Data'),
     array('XML_PATH_CUSTOM_ADMIN_PATH', 'Magento\Backend\Helper\Data'),
     array('XML_PATH_BACKEND_AREA_FRONTNAME', 'Magento\Backend\Helper\Data'),
@@ -415,12 +406,26 @@ return array(
     array(
         'PARAM_SESSION_SAVE_PATH',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH'
     ),
     array(
         'PARAM_SESSION_CACHE_LIMITER',
         '\Magento\Core\Model\Session\AbstractSession',
-        '\Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+        '\Magento\Core\Model\Session\Config::PARAM_SESSION_CACHE_LIMITER'
+    ),
+    array(
+        'XML_NODE_SESSION_SAVE_PATH',
+        'Magento\Core\Model\Session\AbstractSession',
+        'Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_PATH'
+    ),
+    array(
+        'XML_NODE_SESSION_SAVE',
+        'Magento\Core\Model\Session\AbstractSession',
+        'Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD'
+    ),
+    array(
+        'XML_PATH_LOG_EXCEPTION_FILE',
+        'Magento\Core\Model\Session\AbstractSession'
     ),
 
     array(
@@ -466,4 +471,8 @@ return array(
         '\Magento\Core\Model\View\Design',
         '\Magento\View\DesignInterface::XML_PATH_THEME_ID',
     ),
+    array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Logo'),
+    array('UPLOAD_ROOT', 'Magento\Backend\Model\Config\Backend\Favicon'),
+    array('DIRECTORY_SEPARATOR', 'Magento\Filesystem'),
+    array('PARAM_APP_URIS', 'Magento\Filesystem')
 );

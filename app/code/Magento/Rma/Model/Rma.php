@@ -173,6 +173,11 @@ class Rma extends \Magento\Core\Model\AbstractModel
     protected $_escaper;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Rma\Helper\Data $rmaData
@@ -200,6 +205,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Escaper $escaper
      * @param \Magento\Rma\Model\Resource\Rma $resource
      * @param \Magento\Core\Model\LocaleInterface $locale
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
      */
@@ -231,6 +237,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         \Magento\Escaper $escaper,
         \Magento\Rma\Model\Resource\Rma $resource,
         \Magento\Core\Model\LocaleInterface $locale,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
     ) {
@@ -258,6 +265,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         $this->_shippingFactory = $shippingFactory;
         $this->_escaper = $escaper;
         $this->locale = $locale;
+        $this->messageManager = $messageManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -433,7 +441,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $validateEmail = $this->_validateEmail($this->getCustomerCustomEmail());
             if (is_array($validateEmail)) {
                 foreach ($validateEmail as $error) {
-                    $this->_session->addError($error);
+                    $this->messageManager->addError($error);
                 }
                 $this->_session->setRmaFormData($data);
                 $errors = 1;
@@ -641,7 +649,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
         }
 
         if ($errors) {
-            $this->_session->addError(
+            $this->messageManager->addError(
                 __('There is an error in quantities for item %1.', $preparePost['product_name'])
             );
         }
@@ -859,7 +867,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             $errorKeys  = array_merge($errorKey, $errorKeys);
         }
 
-        $eMessages  = $this->_session->getMessages()->getErrors();
+        $eMessages  = $this->messageManager->getMessages()->getErrors();
         if (!empty($errors) || !empty($eMessages)) {
             $this->_session->setRmaFormData($data);
             if (!empty($errorKeys)) {
@@ -867,7 +875,7 @@ class Rma extends \Magento\Core\Model\AbstractModel
             }
             if (!empty($errors)) {
                 foreach ($errors as $message) {
-                    $this->_session->addError($message);
+                    $this->messageManager->addError($message);
                 }
             }
             return false;

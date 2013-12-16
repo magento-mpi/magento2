@@ -57,8 +57,6 @@ class MultishippingTest extends Functional
         //Register new customer
         Factory::getPageFactory()->getCheckoutMultishippingLogin()->getLoginBlock()->registerCustomer();
         $multishippingRegisterPage = Factory::getPageFactory()->getCheckoutMultishippingRegister();
-        //Hack. Opening of this page must be removed when https://jira.corp.x.com/browse/MAGETWO-16318 will be fixed
-        $multishippingRegisterPage->open();
         $multishippingRegisterPage->getRegisterBlock()->registerCustomer($fixture->getCustomer());
 
         //Mapping products and shipping addresses

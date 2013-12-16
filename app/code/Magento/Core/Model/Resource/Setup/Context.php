@@ -60,16 +60,24 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_encryptor;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * Constructor
+     *
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
      * @param \Magento\App\Resource $resource
      * @param \Magento\Module\Dir\Reader $modulesReader
      * @param \Magento\Module\ModuleListInterface $moduleList
      * @param \Magento\Core\Model\Resource\Resource $resourceResource
-     * @param \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory
+     * @param MigrationFactory $migrationFactory
      * @param \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory
      * @param \Magento\Core\Model\Theme\CollectionFactory $themeFactory
      * @param \Magento\Encryption\EncryptorInterface $encryptor
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\Logger $logger,
@@ -81,7 +89,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\Core\Model\Resource\Setup\MigrationFactory $migrationFactory,
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeResourceFactory,
         \Magento\Core\Model\Theme\CollectionFactory $themeFactory,
-        \Magento\Encryption\EncryptorInterface $encryptor
+        \Magento\Encryption\EncryptorInterface $encryptor,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_logger = $logger;
         $this->_eventManager = $eventManager;
@@ -93,6 +102,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_themeResourceFactory = $themeResourceFactory;
         $this->_themeFactory = $themeFactory;
         $this->_encryptor = $encryptor;
+        $this->filesystem = $filesystem;
     }
 
     /**
@@ -173,5 +183,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getEncryptor()
     {
         return $this->_encryptor;
+    }
+
+    /**
+     * @return \Magento\Filesystem
+     */
+    public function getFilesystem()
+    {
+        return $this->filesystem;
     }
 }
