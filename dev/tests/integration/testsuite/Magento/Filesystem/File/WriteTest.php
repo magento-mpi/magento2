@@ -1,6 +1,6 @@
 <?php
 /**
- * Test for \Magento\Filesystem\Stream\Local
+ * Test for \Magento\Filesystem\File\Write
  *
  * {license_notice}
  *

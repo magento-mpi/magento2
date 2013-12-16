@@ -610,7 +610,6 @@ return array(
     array('Magento\Filesystem\Stream\Mode'),
     array('Magento\Filesystem\Stream\Zlib'),
     array('Magento\Filesystem\Stream\Mode\Zlib'),
-
     array('Mage_Core_Model_Config_Module'),
     array('Mage_Core_Model_Config_System'),
     array('Mage_Core_Model_Design_Source_Apply'),
