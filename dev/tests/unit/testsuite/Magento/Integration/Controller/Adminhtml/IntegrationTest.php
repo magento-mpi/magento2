@@ -438,7 +438,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
           </action>
        </referenceBlock>
     </handle>
-</layout
+</layout>
 HANDLE;
         // @codingStandardsIgnoreEnd
 
