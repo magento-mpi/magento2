@@ -33,6 +33,12 @@ class Method extends AbstractRepository
 
         $this->_data['free_shipping'] = $this->_getFreeShipping();
         $this->_data['flat_rate'] = $this->_getFlatRate();
+        // Shipping carriers
+        $this->_data['dhlint_eu'] = $this->_getDhlIntEU();
+        $this->_data['dhlint_uk'] = $this->_getDhlIntUK();
+        $this->_data['fedex'] = $this->_getFedex();
+        $this->_data['ups'] = $this->_getUps();
+        $this->_data['usps'] = $this->_getUsps();
     }
 
     protected function _getFreeShipping()
@@ -54,6 +60,66 @@ class Method extends AbstractRepository
                 'fields' => array(
                     'shipping_service' => 'Flat Rate',
                     'shipping_method' => 'Fixed'
+                )
+            )
+        );
+    }
+
+    protected function _getDhlIntEU()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'DHL',
+                    'shipping_method' => 'Express worldwide'
+                )
+            )
+        );
+    }
+
+    protected function _getDhlIntUK()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'DHL',
+                    'shipping_method' => 'Domestic express'
+                )
+            )
+        );
+    }
+
+    protected function _getFedex()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'Federal Express',
+                    'shipping_method' => 'Ground'
+                )
+            )
+        );
+    }
+
+    protected function _getUps()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'United Parcel Service',
+                    'shipping_method' => 'Ground'
+                )
+            )
+        );
+    }
+
+    protected function _getUsps()
+    {
+        return array(
+            'data' => array(
+                'fields' => array(
+                    'shipping_service' => 'United States Postal Service',
+                    'shipping_method' => 'Mail'  /** @todo change to 'Priority Mail' when usps config is updated */
                 )
             )
         );

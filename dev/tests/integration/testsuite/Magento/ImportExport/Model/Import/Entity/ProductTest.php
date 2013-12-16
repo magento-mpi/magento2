@@ -555,4 +555,39 @@ class ProductTest extends \PHPUnit_Framework_TestCase
         }
         return $data;
     }
+
+    /**
+     * Tests that an import will still work with an invalid import line and
+     * SKU data.
+     *
+     * In this case, the second product data has an invalid attribute set.
+     *
+     * @magentoDbIsolation enabled
+     */
+    public function testInvalidSkuLink()
+    {
+        // import data from CSV file
+        $pathToFile = __DIR__ . '/_files/products_to_import_invalid_attribute_set.csv';
+        $source = new \Magento\ImportExport\Model\Import\Source\Csv($pathToFile);
+        $this->_model->setSource($source)
+            ->setParameters(array('behavior' => \Magento\ImportExport\Model\Import::BEHAVIOR_APPEND))
+            ->isDataValid();
+        $this->_model->importData();
+
+        $productCollection = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->create('Magento\Catalog\Model\Resource\Product\Collection');
+
+        $products = array();
+        /** @var $product \Magento\Catalog\Model\Product */
+        foreach ($productCollection as $product) {
+            $products[$product->getSku()] = $product;
+        }
+        $this->assertArrayHasKey("simple1", $products, "Simple Product should have been imported");
+        $this->assertArrayHasKey("simple3", $products, "Simple Product 3 should have been imported");
+        $this->assertArrayNotHasKey("simple2", $products, "Simple Product2 should not have been imported");
+
+        $upsellProductIds = $products["simple3"]->getUpSellProductIds();
+        $this->assertEquals(0, count($upsellProductIds), "There should not be any linked upsell SKUs. The original"
+            . " product SKU linked does not import cleanly.");
+    }
 }

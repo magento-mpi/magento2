@@ -36,6 +36,13 @@ class AdminCache extends Page
     protected $cacheBlock = 'div.page-actions';
 
     /**
+     * Global messages block
+     *
+     * @var string
+     */
+    protected $messagesBlock = '#messages .messages';
+
+    /**
      * Constructor
      */
     protected function _init()
@@ -52,6 +59,18 @@ class AdminCache extends Page
     {
         return Factory::getBlockFactory()->getMagentoBackendCache(
             $this->_browser->find($this->cacheBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Get messages block
+     *
+     * @return \Magento\Core\Test\Block\Messages
+     */
+    public function getMessagesBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCoreMessages(
+            $this->_browser->find($this->messagesBlock, Locator::SELECTOR_CSS)
         );
     }
 }

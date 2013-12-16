@@ -382,6 +382,11 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
     protected $dateTime;
 
     /**
+     * @var \Magento\Logger
+     */
+    private $_logger;
+
+    /**
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\ImportExport\Helper\Data $importExportData
      * @param \Magento\ImportExport\Model\Resource\Import\Data $importData
@@ -409,6 +414,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
      * @param \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory
      * @param \Magento\Core\Model\LocaleInterface $locale
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Logger $logger
      * @param array $data
      */
     public function __construct(
@@ -439,6 +445,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         \Magento\CatalogInventory\Model\Stock\ItemFactory $stockItemFactory,
         \Magento\Core\Model\LocaleInterface $locale,
         \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Logger $logger,
         array $data = array()
     ) {
         $this->_eventManager = $eventManager;
@@ -460,6 +467,7 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
         $this->_stockItemFactory = $stockItemFactory;
         $this->_locale = $locale;
         $this->dateTime = $dateTime;
+        $this->_logger = $logger;
         parent::__construct(
             $coreData,
             $importExportData,
@@ -926,6 +934,19 @@ class Product extends \Magento\ImportExport\Model\Import\Entity\AbstractEntity
                             } else {
                                 $linkedId = $this->_oldSku[$linkedSku]['entity_id'];
                             }
+
+                            if ($linkedId == null) {
+                                // Import file links to a SKU which is skipped for some reason, which leads to a "NULL"
+                                // link causing fatal errors.
+                                $this->_logger->logException(
+                                    new \Exception(
+                                        sprintf('WARNING: Orphaned link skipped: From SKU %s (ID %d) to SKU %s, ' .
+                                        'Link type id: %d', $sku, $productId, $linkedSku, $linkId)
+                                    )
+                                );
+                                continue;
+                            }
+
                             $linkKey = "{$productId}-{$linkedId}-{$linkId}";
 
                             if (!isset($linkRows[$linkKey])) {

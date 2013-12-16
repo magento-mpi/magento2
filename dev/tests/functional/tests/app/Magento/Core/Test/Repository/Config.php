@@ -3,11 +3,11 @@
  * {license_notice}
  *
  * @spi
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
- * @copyright   {copyright}
- * @license     {license_link}
+ * @category Mtf
+ * @package Mtf
+ * @subpackage functional_tests
+ * @copyright {copyright}
+ * @license {license_link}
  */
 
 namespace Magento\Core\Test\Repository;
@@ -41,6 +41,10 @@ class Config extends AbstractRepository
             'config' => $defaultConfig,
             'data' => $defaultData
         );
+        // General
+        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
+        // Currency Setup
+        $this->_data['currency_usd'] = $this->_getCurrencyUSD();
         //Tax
         $this->_data['default_tax_config'] = $this->_getDefaultTax();
         $this->_data['us_tax_config'] = $this->_getUsTax();
@@ -60,17 +64,101 @@ class Config extends AbstractRepository
         $this->_data['paypal_payflow'] = $this->_getPayPalPayflow();
         //Payment Services
         $this->_data['3d_secure_credit_card_validation'] = $this->_get3dSecureCreditCardValidation();
+        //Shipping settings
+        $this->_data['shipping_origin_us'] = $this->_getShippingOriginUS();
         //Shipping methods
         $this->_data['flat_rate'] = $this->_getFlatRate();
         $this->_data['free_shipping'] = $this->_getFreeShipping();
+        $this->_data['shipping_disable_all_carriers'] = $this->_disableAllShippingCarriers();
+        $this->_data['shipping_carrier_dhlint_eu'] = $this->_getShippingCarrierDhlIntEU();
+        $this->_data['shipping_carrier_dhlint_uk'] = $this->_getShippingCarrierDhlIntUK();
+        $this->_data['shipping_carrier_fedex'] = $this->_getShippingCarrierFedex();
+        $this->_data['shipping_carrier_ups'] = $this->_getShippingCarrierUps();
+        $this->_data['shipping_carrier_usps'] = $this->_getShippingCarrierUsps();
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+        //Sales
+        $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
+        $this->_data['disable_map_config'] = $this->_getMapDisabled();
+        $this->_data['enable_rma'] = $this->_getRmaEnabled();
         //Customer
         $this->_data['address_template'] = $this->_getAddressTemplate();
-        $this->_data['general_store_information'] = $this->getGeneralStoreGermany();
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
+    }
+
+    /**
+     * Set Currency to value passed in.
+     *
+     * @return array
+     */
+    protected function _getCurrencyUSD()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array( //Allowed Currencies
+                                        'value' => ['USD']
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Set Shipping Settings Origin to US.
+     *
+     * @return array
+     */
+    protected function _getShippingOriginUS()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'US'
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => '12' //California
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => '90232'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'Culver City'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => '10441 Jefferson Blvd'
+                                    ),
+                                    'street_line2' => array( //Street Address Line 2
+                                        'value' => 'Suite 200'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
     }
 
     protected function _getFreeShipping()
@@ -132,6 +220,431 @@ class Config extends AbstractRepository
                                     ),
                                     'sallowspecific' => array( //Ship to Applicable Countries
                                         'value' => 0 //All Allowed Countries
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * DHL International shipping method configuration.
+     * Specifically for testing shipping origin of EA (Europe) Region.
+     * Shipping origin is specifically set to Switzerland with currency of Swiss Franc.
+     *
+     * @return array
+     */
+    protected function _getShippingCarrierDhlIntEU()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'dhlint' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'gateway_url' => array( //Gateway URL
+                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
+                                    ),
+                                    'id' => array( //Access ID
+                                        'value' => 'EvgeniyDE'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => 'aplNb6Rop'
+                                    ),
+                                    'account' => array( //Account Number
+                                        'value' => '152691811'
+                                    ),
+                                    'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'debug' => array( //Debug
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'CH' //Switzerland
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => '107' //Bern
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => '3005'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'Bern'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => 'Weinbergstrasse 4'
+                                    ),
+                                    'street_line2' => array( //Street Address Line 2
+                                        'value' => 'Suite 1'
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array( //Allowed Currencies
+                                        'value' => ['USD','CHF']
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * DHL International shipping method configuration.
+     * Specifically for testing domestic shipping within the UK.
+     *
+     * @return array
+     */
+    protected function _getShippingCarrierDhlIntUK()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'dhlint' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'gateway_url' => array( //Gateway URL
+                                        'value' => 'https://xmlpitest-ea.dhl.com/XMLShippingServlet'
+                                    ),
+                                    'id' => array( //Access ID
+                                        'value' => 'EvgeniyDE'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => 'aplNb6Rop'
+                                    ),
+                                    'account' => array( //Account Number
+                                        'value' => '152691811'
+                                    ),
+                                    'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'debug' => array( //Debug
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'GB' //United Kingdom
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => 'London'
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => 'SE10 8SE'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'London'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => '89 Royal Hill'
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array( //Allowed Currencies
+                                        'value' => ['USD','GBP']
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Fedex shipping method configuration as well as a real US address set in specified
+     * in shipping settings origin.
+     *
+     * @return array
+     */
+    protected function _getShippingCarrierFedex()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'fedex' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'account' => array( //Account ID
+                                        'value' => '510087801'
+                                    ),
+                                    'meter_number' => array( //Meter Number
+                                        'value' => '100047915'
+                                    ),
+                                    'key' => array( //Key
+                                        'value' => 'INdxa6ug7qZ2KD7y'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => '4vaGsDBmeBCzvpl1S1DT1jXAB'
+                                    ),
+                                    'sandbox_mode' => array( //Sandbox Mode
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    ),
+                    'shipping' => array(
+                        'section' => 'shipping',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'origin' => array(
+                                'fields' => array(
+                                    'country_id' => array( //Country
+                                        'value' => 'US'
+                                    ),
+                                    'region_id' => array( //Region/State
+                                        'value' => '12' //California
+                                    ),
+                                    'postcode' => array( //Zip/Postal Code
+                                        'value' => '90024'
+                                    ),
+                                    'city' => array( //City
+                                        'value' => 'Los Angeles'
+                                    ),
+                                    'street_line1' => array( //Street Address
+                                        'value' => '1419 Westwood Blvd'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getShippingCarrierUps()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'ups' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'active_rma' => array( //Enabled for RMA
+                                        'value' => self::NO_VALUE
+                                    ),
+                                    'type' => array( //UPS Type
+                                        'value' => 'UPS_XML' //United Parcel Service XML
+                                    ),
+                                    'is_account_live' => array( //Live account
+                                        'value' => self::NO_VALUE
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => 'magento200'
+                                    ),
+                                    'username' => array( //User ID
+                                        'value' => 'magento'
+                                    ),
+                                    'mode_xml' => array( //Mode
+                                        'value' => 0 //Development
+                                    ),
+                                    'gateway_xml_url' => array( //Gateway XML URL
+                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Rate'
+                                    ),
+                                    'origin_shipment' => array( //Origin of the Shipment
+                                        'value' => 'Shipments Originating in United States'
+                                    ),
+                                    'access_license_number' => array( //Access License Number
+                                        'value' => 'ECAB751ABF189ECA'
+                                    ),
+                                    'negotiated_active' => array( //Enable Negotiated Rates
+                                        'value' => self::NO_VALUE
+                                    ),
+                                    'shipper_number' => array( //Shipper Number
+                                        'value' => '207W88'
+                                    ),
+                                    'container' => array( //Container
+                                        'value' => 'CP' //Customer Packaging
+                                    ),
+                                    'dest_type' => array( //Destination Type
+                                        'value' => 'RES' //Residential
+                                    ),
+                                    'tracking_xml_url' => array( //Tracking XML URL
+                                        'value' => 'https://wwwcie.ups.com/ups.app/xml/Track'
+                                    ),
+                                    'unit_of_measure' => array( //Weight Unit
+                                        'value' => 'LBS'
+                                    ),
+                                    'allowed_methods' => array( //Allowed Methods
+                                        'value' => ['11','12','14','54','59','65','01','02','03','07','08']//Select all
+                                    ),
+                                    'sallowspecific' => array( //Ship to Applicable Countries
+                                        'value' => 0 //All Allowed Countries
+                                    ),
+                                    'showmethod' => array( //Show Method if Not Applicable
+                                        'value' => self::NO_VALUE
+                                    ),
+                                    'debug' => array( //Debug
+                                        'value' => self::YES_VALUE
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getShippingCarrierUsps()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'usps' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::YES_VALUE
+                                    ),
+                                    'gateway_url' => array( //Gateway URL
+                                        'value' => 'http://production.shippingapis.com/ShippingAPI.dll'
+                                    ),
+                                    'gateway_secure_url' => array( //Secure Gateway URL
+                                        'value' => 'https://secure.shippingapis.com/ShippingAPI.dll'
+                                    ),
+                                    'userid' => array( //User ID
+                                        'value' => '721FRAGR6267'
+                                    ),
+                                    'password' => array( //Password
+                                        'value' => '326ZL84XF990'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable all shipping carriers
+     *
+     * @return array
+     */
+    protected function _disableAllShippingCarriers()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'carriers' => array(
+                        'section' => 'carriers',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'ups' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
+                                    )
+                                )
+                            ),
+                            'usps' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
+                                    )
+                                )
+                            ),
+                            'fedex' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
+                                    )
+                                )
+                            ),
+                            'dhl' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
+                                    )
+                                )
+                            ),
+                            'dhlint' => array(
+                                'fields' => array(
+                                    'active' => array( //Enabled for Checkout
+                                        'value' => self::NO_VALUE
                                     )
                                 )
                             )
@@ -602,7 +1115,7 @@ class Config extends AbstractRepository
      */
     protected function _getPayPalPayflowPro3dSecure()
     {
-        $data =  array(
+        $data = array(
             'data' => array(
                 'sections' => array(
                     'payment' => array(
@@ -1024,6 +1537,64 @@ class Config extends AbstractRepository
     }
 
     /**
+     * Enable MAP
+     *
+     * @return array
+     */
+    protected function _getMapEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'sales' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'msrp' => array( //Minimum Advertised Price)
+                                'fields' => array(
+                                    'enabled' => array( //Enabled
+                                        'value' => 1 //Yes
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
+     * Disable MAP
+     *
+     * @return array
+     */
+    protected function _getMapDisabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'sales' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'msrp' => array( //Minimum Advertised Price)
+                                'fields' => array(
+                                    'enabled' => array( //Disabled
+                                        'value' => 0 //No
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Data for address template configuration
      *
      * @return array
@@ -1167,5 +1738,57 @@ class Config extends AbstractRepository
             ),
         );
     }
-}
 
+    /**
+     * Enable RMA
+     *
+     * @return array
+     */
+    protected function _getRmaEnabled()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'sales' => array(
+                        'section' => 'sales',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'magento_rma' => array( //RMA
+                                'fields' => array(
+                                    'enabled' => array( //Enabled
+                                        'value' => 1 //Yes
+                                    ),
+                                    'enabled_on_product' => array( //Enabled
+                                        'value' => 1 //Yes
+                                    ),
+                                    'use_store_address' => array( //Disabled
+                                        'value' => 0 //No
+                                    ),
+                                    'store_name' => array(
+                                        'value' => 'Return Store'
+                                    ),
+                                    'address' => array(
+                                        'value' => 'Main Street 1'
+                                    ),
+                                    'city' => array( //New York
+                                        'value' => 'New York'
+                                    ),
+                                    'region_id' => array( // New York
+                                        'value' => '43'
+                                    ),
+                                    'zip' => array(
+                                        'value' =>'10010'
+                                    ),
+                                    'country_id' => array( // United States
+                                        'value' => 'US'
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+}
