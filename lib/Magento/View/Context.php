@@ -20,7 +20,7 @@ use Magento\Logger;
 use Magento\Core\Model\App;
 use Magento\App\State as AppState;
 
-use Magento\Core\Model\Session\AbstractSession;
+use Magento\Session\SessionManager;
 use Magento\App\CacheInterface as Cache;
 use Magento\App\Cache\StateInterface as CacheState;
 use Magento\UrlInterface;
@@ -68,7 +68,7 @@ class Context
     protected $design;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $session;
 
@@ -131,7 +131,7 @@ class Context
      * @param TranslateInterface $translator
      * @param Cache $cache
      * @param DesignInterface $design
-     * @param AbstractSession $session
+     * @param SessionManager $session
      * @param StoreConfig $storeConfig
      * @param FrontControllerInterface $frontController
      * @param FactoryHelper $helperFactory
@@ -153,7 +153,7 @@ class Context
         TranslateInterface $translator,
         Cache $cache,
         DesignInterface $design,
-        AbstractSession $session,
+        SessionManager $session,
         StoreConfig $storeConfig,
         FrontControllerInterface $frontController,
         FactoryHelper $helperFactory,
@@ -239,7 +239,7 @@ class Context
     }
 
     /**
-     * @return \Magento\Core\Model\Session|\Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

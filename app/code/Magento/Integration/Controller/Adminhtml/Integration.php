@@ -136,12 +136,12 @@ class Integration extends Action
                 $integrationData = $this->_integrationService->get($integrationId)->getData();
                 $originalName = $integrationData[Info::DATA_NAME];
             } catch (IntegrationException $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
-                $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+                $this->messageManager->addError(__('Internal error. Check exception log for details.'));
                 $this->_redirect('*/*');
                 return;
             }
@@ -150,7 +150,7 @@ class Integration extends Action
                 $integrationData = array_merge($integrationData, $restoredIntegration);
             }
         } else {
-            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->messageManager->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -182,12 +182,12 @@ class Integration extends Action
                 try {
                     $integrationData = $this->_integrationService->get($integrationId)->getData();
                 } catch (IntegrationException $e) {
-                    $this->_getSession()->addError($e->getMessage());
+                    $this->messageManager->addError($e->getMessage());
                     $this->_redirect('*/*/');
                     return;
                 } catch (\Exception $e) {
                     $this->_logger->logException($e);
-                    $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+                    $this->messageManager->addError(__('Internal error. Check exception log for details.'));
                     $this->_redirect('*/*');
                     return;
                 }
@@ -206,11 +206,11 @@ class Integration extends Action
                     $integrationData = $this->_integrationService->update($integrationData);
                 }
                 if (!$this->getRequest()->isXmlHttpRequest()) {
-                    $this->_getSession()
+                    $this->messageManager
                         ->addSuccess(__('The integration \'%1\' has been saved.', $integrationData[Info::DATA_NAME]));
                 }
             } else {
-                $this->_getSession()->addError(__('The integration was not saved.'));
+                $this->messageManager->addError(__('The integration was not saved.'));
             }
             if ($this->getRequest()->isXmlHttpRequest()) {
                 $this->getResponse()->setBody(
@@ -220,14 +220,14 @@ class Integration extends Action
                 $this->_redirect('*/*/');
             }
         } catch (IntegrationException $e) {
-            $this->_getSession()->addError($e->getMessage())->setIntegrationData($integrationData);
+            $this->messageManager->addError($e->getMessage())->setIntegrationData($integrationData);
             $this->_redirectOnSaveError();
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirectOnSaveError();
         }
     }
@@ -244,17 +244,17 @@ class Integration extends Action
                 $integrationData = $this->_integrationService->get($integrationId)->getData();
                 $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
             } catch (IntegrationException $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
                 $this->_logger->logException($e);
-                $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+                $this->messageManager->addError(__('Internal error. Check exception log for details.'));
                 $this->_redirect('*/*');
                 return;
             }
         } else {
-            $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+            $this->messageManager->addError(__('Integration ID is not specified or is invalid.'));
             $this->_redirect('*/*/');
             return;
         }
@@ -282,7 +282,7 @@ class Integration extends Action
             if ($integrationId) {
                 $integrationData = $this->_integrationService->get($integrationId);
                 if ($this->_integrationData->isConfigType($integrationData)) {
-                    $this->_getSession()->addError(
+                    $this->messageManager->addError(
                         __("Uninstall the extension to remove integration '%1'.", $integrationData[Info::DATA_NAME])
                     );
                     $this->_redirect('*/*/');
@@ -290,21 +290,21 @@ class Integration extends Action
                 }
                 $integrationData = $this->_integrationService->delete($integrationId);
                 if (!$integrationData[Info::DATA_ID]) {
-                    $this->_getSession()->addError(__('This integration no longer exists.'));
+                    $this->messageManager->addError(__('This integration no longer exists.'));
                 } else {
                     //Integration deleted successfully, now safe to delete the associated consumer data
                     if (isset($integrationData[Info::DATA_CONSUMER_ID])) {
                         $this->_oauthService->deleteConsumer($integrationData[Info::DATA_CONSUMER_ID]);
                     }
                     $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
-                    $this->_getSession()
+                    $this->messageManager
                         ->addSuccess(__("The integration '%1' has been deleted.", $integrationData[Info::DATA_NAME]));
                 }
             } else {
-                $this->_getSession()->addError(__('Integration ID is not specified or is invalid.'));
+                $this->messageManager->addError(__('Integration ID is not specified or is invalid.'));
             }
         } catch (\Magento\Integration\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_logger->logException($e);
         }
@@ -325,12 +325,12 @@ class Integration extends Action
                 $this->_integrationService->get($integrationId)->getData()
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*/*');
             return;
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            $this->_getSession()->addError(__('Internal error. Check exception log for details.'));
+            $this->messageManager->addError(__('Internal error. Check exception log for details.'));
             $this->_redirect('*/*');
             return;
         }

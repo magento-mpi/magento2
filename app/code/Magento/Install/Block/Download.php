@@ -31,7 +31,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Install\Model\Installer $installer
      * @param \Magento\Install\Model\Wizard $installWizard
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Module\Dir\Reader $moduleReader
      * @param array $data
      */
@@ -39,7 +39,7 @@ class Download extends \Magento\Install\Block\AbstractBlock
         \Magento\View\Element\Template\Context $context,
         \Magento\Install\Model\Installer $installer,
         \Magento\Install\Model\Wizard $installWizard,
-        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Session\Generic $session,
         \Magento\Module\Dir\Reader $moduleReader,
         array $data = array()
     ) {

@@ -152,10 +152,10 @@ class Formtype
                 $formType->createFromSkeleton($skeleton);
             } catch(\Magento\Core\Exception $e) {
                 $hasError = true;
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $hasError = true;
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __("We can't save the form type right now."));
             }
             if ($hasError) {
@@ -291,10 +291,10 @@ class Formtype
                 }
             } catch (\Magento\Core\Exception $e) {
                 $hasError = true;
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $hasError = true;
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __("We can't save the form type right now."));
             }
 
@@ -318,17 +318,17 @@ class Formtype
         if ($this->getRequest()->isPost() && $formType->getId()) {
             if ($formType->getIsSystem()) {
                 $message = __('This system form type cannot be deleted.');
-                $this->_getSession()->addError($message);
+                $this->messageManager->addError($message);
             } else {
                 try {
                     $formType->delete();
                     $message = __('The form type has been deleted.');
-                    $this->_getSession()->addSuccess($message);
+                    $this->messageManager->addSuccess($message);
                 } catch (\Magento\Core\Exception $e) {
-                    $this->_getSession()->addError($e->getMessage());
+                    $this->messageManager->addError($e->getMessage());
                 } catch (\Exception $e) {
                     $message = __('Something went wrong deleting the form type.');
-                    $this->_getSession()->addException($e, $message);
+                    $this->messageManager->addException($e, $message);
                 }
             }
         }

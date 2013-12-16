@@ -66,6 +66,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockConfigScope;
 
+    /** @var  \PHPUnit_Framework_MockObject_MockObject */
+    protected $_messageManager;
+
     /** @var \PHPUnit_Framework_MockObject_MockObject */
     protected $_mockIntegrationData;
 
@@ -120,6 +123,9 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockIntegrationData = $this->getMockBuilder('Magento\Integration\Helper\Data')
             ->disableOriginalConstructor()
             ->getMock();
+        $this->_messageManager = $this->getMockBuilder('Magento\Message\ManagerInterface')
+            ->disableOriginalConstructor()
+            ->getMock();
     }
 
     public function testIndexAction()
@@ -165,7 +171,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'This integration no longer exists.';
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $this->_mockRequest->expects($this->any())->method('getParam')->will($this->returnValue('1'));
@@ -185,7 +191,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'Integration ID is not specified or is invalid.';
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $this->_verifyLoadAndRenderLayout();
@@ -197,7 +203,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $exceptionMessage = 'Integration ID is not specified or is invalid.';
         // verify the error
-        $this->_mockBackendModSess->expects($this->once())
+        $this->_messageManager->expects($this->once())
             ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $this->_integrationContr = $this->_createIntegrationController();
@@ -216,7 +222,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockIntegrationSvc->expects($this->any())->method('update')->with($this->anything())
             ->will($this->returnValue($intData));
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with(__('The integration \'%1\' has been saved.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -233,7 +239,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->throwException(new \Magento\Core\Exception($exceptionMessage)));
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -250,7 +256,8 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             ->with(1)
             ->will($this->throwException(new \Magento\Integration\Exception($exceptionMessage)));
         // Verify error
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())
+            ->method('addError')
             ->with($this->equalTo($exceptionMessage));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -271,7 +278,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with(__('The integration \'%1\' has been saved.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->saveAction();
@@ -288,7 +295,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with(__('The integration \'%1\' has been deleted.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
@@ -308,7 +315,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify success message
-        $this->_mockBackendModSess->expects($this->once())->method('addSuccess')
+        $this->_messageManager->expects($this->once())->method('addSuccess')
             ->with(__('The integration \'%1\' has been deleted.', $intData[Info::DATA_NAME]));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
@@ -324,13 +331,13 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockIntegrationData->expects($this->once())->method('isConfigType')->with($intData)
             ->will($this->returnValue(true));
         // verify error message
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with(__('Uninstall the extension to remove integration \'%1\'.', $intData[Info::DATA_NAME]));
         $this->_mockIntegrationSvc->expects($this->never())->method('delete');
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify success message
-        $this->_mockBackendModSess->expects($this->never())->method('addSuccess');
+        $this->_messageManager->expects($this->never())->method('addSuccess');
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
     }
@@ -342,7 +349,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         // Use real translate model
         $this->_mockTranslateModel = null;
         // verify error message
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with(__('Integration ID is not specified or is invalid.'));
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
@@ -360,7 +367,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $invalidIdException = new \Magento\Integration\Exception($exceptionMessage);
         $this->_mockIntegrationSvc->expects($this->once())->method('delete')
             ->will($this->throwException($invalidIdException));
-        $this->_mockBackendModSess->expects($this->once())->method('addError')
+        $this->_messageManager->expects($this->once())->method('addError')
             ->with($exceptionMessage);
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
@@ -379,7 +386,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
         $this->_mockIntegrationSvc->expects($this->once())->method('delete')
             ->will($this->throwException($invalidIdException));
         //Generic Exception(non-Service) should never add the message in session for user display
-        $this->_mockBackendModSess->expects($this->never())->method('addError');
+        $this->_messageManager->expects($this->never())->method('addError');
         $integrationContr = $this->_createIntegrationController();
         $integrationContr->deleteAction();
     }
@@ -423,6 +430,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
             'translator' => $this->_mockTranslateModel,
             'request' => $this->_mockRequest,
             'response' => $this->_mockResponse,
+            'messageManager' => $this->_messageManager
         );
 
         $this->_mockBackendCntCtxt = $this->_objectManagerHelper

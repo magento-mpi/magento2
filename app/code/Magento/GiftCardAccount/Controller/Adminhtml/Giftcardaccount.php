@@ -69,9 +69,9 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             $url = $this->_objectManager->get('Magento\Backend\Model\Url')->getUrl('adminhtml/*/generate');
             $notice = __('Code Pool used: <b>%1%%</b> (free <b>%2</b> of <b>%3</b> total). Generate new code pool <a href="%4">here</a>.', $usage->getPercent(), $usage->getFree(), $usage->getTotal(), $url);
             if ($usage->getPercent() == 100) {
-                $this->_getSession()->addError($notice);
+                $this->messageManager->addError($notice);
             } else {
-                $this->_getSession()->addNotice($notice);
+                $this->messageManager->addNotice($notice);
             }
         }
 
@@ -99,7 +99,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
         $model = $this->_initGca();
 
         if (!$model->getId() && $id) {
-            $this->_getSession()->addError(__('This gift card account has been deleted.'));
+            $this->messageManager->addError(__('This gift card account has been deleted.'));
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -141,7 +141,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
             $id = $this->getRequest()->getParam('giftcardaccount_id');
             $model = $this->_initGca('giftcardaccount_id');
             if (!$model->getId() && $id) {
-                $this->_getSession()->addError(__('This gift card account has been deleted.'));
+                $this->messageManager->addError(__('This gift card account has been deleted.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
@@ -177,15 +177,15 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
                 if (!is_null($sending)) {
                     if ($sending) {
-                        $this->_getSession()->addSuccess(__('You saved the gift card account.'));
+                        $this->messageManager->addSuccess(__('You saved the gift card account.'));
                     } else {
-                        $this->_getSession()->addError(__('You saved the gift card account, but an email was not sent.'));
+                        $this->messageManager->addError(__('You saved the gift card account, but an email was not sent.'));
                     }
                 } else {
-                    $this->_getSession()->addSuccess(__('You saved the gift card account.'));
+                    $this->messageManager->addSuccess(__('You saved the gift card account.'));
 
                     if ($status) {
-                        $this->_getSession()->addNotice(__('An email was not sent because the gift card account is not active.'));
+                        $this->messageManager->addNotice(__('An email was not sent because the gift card account is not active.'));
                     }
                 }
 
@@ -203,7 +203,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
 
             } catch (\Exception $e) {
                 // display error message
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 // save data in session
                 $this->_getSession()->setFormData($data);
                 // redirect to edit form
@@ -228,21 +228,21 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                 $model->load($id);
                 $model->delete();
                 // display success message
-                $this->_getSession()->addSuccess(__('This gift card account has been deleted.'));
+                $this->messageManager->addSuccess(__('This gift card account has been deleted.'));
                 // go to grid
                 $this->_redirect('adminhtml/*/');
                 return;
 
             } catch (\Exception $e) {
                 // display error message
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('adminhtml/*/edit', array('id' => $id));
                 return;
             }
         }
         // display error message
-        $this->_getSession()->addError(__("We couldn't find a gift card account to delete."));
+        $this->messageManager->addError(__("We couldn't find a gift card account to delete."));
         // go to grid
         $this->_redirect('adminhtml/*/');
     }
@@ -263,11 +263,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     {
         try {
             $this->_objectManager->create('Magento\GiftCardAccount\Model\Pool')->generatePool();
-            $this->_getSession()->addSuccess(__('New code pool was generated.'));
+            $this->messageManager->addSuccess(__('New code pool was generated.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('We were unable to generate a new code pool.'));
+            $this->messageManager->addException($e, __('We were unable to generate a new code pool.'));
         }
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*/*/')));
     }
@@ -351,7 +351,7 @@ class Giftcardaccount extends \Magento\Backend\App\Action
     {
         $ids = $this->getRequest()->getParam('giftcardaccount');
         if (!is_array($ids)) {
-            $this->_getSession()->addError(__('Please select a gift card account(s)'));
+            $this->messageManager->addError(__('Please select a gift card account(s)'));
         } else {
             try {
                 foreach ($ids as $id) {
@@ -359,11 +359,11 @@ class Giftcardaccount extends \Magento\Backend\App\Action
                     $model->delete();
                 }
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted a total of %1 records.', count($ids))
                 );
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
         $this->_redirect('adminhtml/*/index');

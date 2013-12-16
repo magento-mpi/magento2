@@ -35,8 +35,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -58,8 +57,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -78,8 +76,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -98,8 +95,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -121,8 +117,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),
@@ -144,8 +139,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount('button[type="button"][title="Update Cart"]', 1, $response->getBody(),

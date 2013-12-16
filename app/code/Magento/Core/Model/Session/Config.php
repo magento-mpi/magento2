@@ -11,6 +11,8 @@ namespace Magento\Core\Model\Session;
 
 /**
  * Magento session configuration
+ *
+ * @method Config setSaveHandler()
  */
 class Config implements \Magento\Session\Config\ConfigInterface
 {
@@ -110,6 +112,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\State $appState
      * @param \Magento\Filesystem $filesystem
+     * @param string $saveMethod
      * @param null|string $savePath
      * @param null|string $cacheLimiter
      */
@@ -120,6 +123,7 @@ class Config implements \Magento\Session\Config\ConfigInterface
         \Magento\App\RequestInterface $request,
         \Magento\App\State $appState,
         \Magento\Filesystem $filesystem,
+        $saveMethod = \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
         $savePath = null,
         $cacheLimiter = null
     ) {
@@ -129,6 +133,8 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $this->_httpRequest = $request;
         $this->_appState = $appState;
         $this->_filesystem = $filesystem;
+
+        $this->setSaveHandler($saveMethod === 'db' ? 'user' : $saveMethod);
 
         if (!$this->_appState->isInstalled() || !$savePath) {
             $savePath = $this->_filesystem->getPath('session');
@@ -249,6 +255,8 @@ class Config implements \Magento\Session\Config\ConfigInterface
     }
 
     /**
+     * Convert config to array
+     *
      * @return array
      */
     public function toArray()
@@ -477,38 +485,6 @@ class Config implements \Magento\Session\Config\ConfigInterface
     }
 
     /**
-     * Set remember_me_seconds
-     *
-     * @param int $rememberMeSeconds
-     * @return $this
-     * @throws \InvalidArgumentException
-     */
-    public function setRememberMeSeconds($rememberMeSeconds)
-    {
-        if (!is_numeric($rememberMeSeconds)) {
-            throw new \InvalidArgumentException('Invalid remember_me_seconds; must be numeric');
-        }
-
-        $rememberMeSeconds = (int) $rememberMeSeconds;
-        if ($rememberMeSeconds < 1) {
-            throw new \InvalidArgumentException('Invalid remember_me_seconds; must be a positive integer');
-        }
-
-        $this->options['remember_me_seconds'] = $rememberMeSeconds;
-        return $this;
-    }
-
-    /**
-     * Get remember_me_seconds
-     *
-     * @return int
-     */
-    public function getRememberMeSeconds()
-    {
-        return (int) isset($this->options['remember_me_seconds']) ? $this->options['remember_me_seconds'] : 1209600;
-    }
-
-    /**
      * Set storage option in backend configuration store
      *
      * @param string $option
@@ -553,9 +529,6 @@ class Config implements \Magento\Session\Config\ConfigInterface
         $option = strtolower($option);
 
         switch ($option) {
-            case 'remember_me_seconds':
-                // do nothing; not an INI option
-                return;
             case 'url_rewriter_tags':
                 $option = 'url_rewriter.tags';
                 break;

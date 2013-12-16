@@ -171,8 +171,7 @@ class Archive extends \Magento\Backend\App\Action
 
         $removedFromArchiveCount = count($removedFromArchive);
         if ($removedFromArchiveCount>0) {
-            $this->_getSession()
-                ->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
+            $this->messageManager->addSuccess(__('We removed %1 order(s) from the archive.', $removedFromArchiveCount));
         } else {
             // selected orders is not available for removing from archive
         }
@@ -190,9 +189,9 @@ class Archive extends \Magento\Backend\App\Action
 
         $archivedCount = count($archivedIds);
         if ($archivedCount>0) {
-            $this->_getSession()->addSuccess(__('We archived %1 order(s).', $archivedCount));
+            $this->messageManager->addSuccess(__('We archived %1 order(s).', $archivedCount));
         } else {
-            $this->_getSession()->addWarning(__("We can't archive the selected order(s)."));
+            $this->messageManager->addWarning(__("We can't archive the selected order(s)."));
         }
         $this->_redirect('adminhtml/sales_order/');
     }
@@ -205,10 +204,10 @@ class Archive extends \Magento\Backend\App\Action
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
             $this->_archiveModel->archiveOrdersById($orderId);
-            $this->_getSession()->addSuccess(__('We have archived the order.'));
+            $this->messageManager->addSuccess(__('We have archived the order.'));
             $this->_redirect('sales/order/view', array('order_id'=>$orderId));
         } else {
-            $this->_getSession()->addError(__('Please specify the order ID to be archived.'));
+            $this->messageManager->addError(__('Please specify the order ID to be archived.'));
             $this->_redirect('sales/order');
         }
     }
@@ -221,10 +220,10 @@ class Archive extends \Magento\Backend\App\Action
         $orderId = $this->getRequest()->getParam('order_id');
         if ($orderId) {
             $this->_archiveModel->removeOrdersFromArchiveById($orderId);
-            $this->_getSession()->addSuccess(__('We have removed the order from the archive.'));
+            $this->messageManager->addSuccess(__('We have removed the order from the archive.'));
             $this->_redirect('sales/order/view', array('order_id'=>$orderId));
         } else {
-            $this->_getSession()->addError(__('Please specify the order ID to be removed from archive.'));
+            $this->messageManager->addError(__('Please specify the order ID to be removed from archive.'));
             $this->_redirect('sales/order');
         }
     }

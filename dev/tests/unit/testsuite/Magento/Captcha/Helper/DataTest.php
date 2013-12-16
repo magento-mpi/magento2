@@ -58,7 +58,7 @@ class DataTest extends \PHPUnit_Framework_TestCase
             ->method('create')
             ->with($this->equalTo('Zend'))
             ->will($this->returnValue(new \Magento\Captcha\Model\DefaultModel(
-                $this->getMock('Magento\Core\Model\Session\AbstractSession', array(), array(), '', false),
+                $this->getMock('Magento\Session\SessionManager', array(), array(), '', false),
                 $this->getMock('Magento\Captcha\Helper\Data', array(), array(), '', false),
                 $this->getMock('Magento\Captcha\Model\Resource\LogFactory', array(), array(), '', false),
                 'user_create'
