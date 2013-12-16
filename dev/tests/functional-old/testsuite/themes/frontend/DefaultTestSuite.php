@@ -16,7 +16,7 @@ class DefaultTestSuite extends Mage_Selenium_TestSuite
 
         $suite = new self();
         $suite->setTestFilter(new Mage_Test_SkipFilter_Regexp(array('/createEntryPointAuto/')));
-        $suite->addTestFromDirectory(SELENIUM_TESTS_BASEDIR . DIRECTORY_SEPARATOR . 'testsuite/');
+        $suite->addTestFromDirectory(SELENIUM_TESTS_BASEDIR . '/testsuite/');
         return $suite;
     }
 }

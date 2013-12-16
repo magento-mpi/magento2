@@ -70,18 +70,15 @@ class GridTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getColumnSetMock()
     {
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        $directoryList = $objectManager->create('\Magento\Filesystem\DirectoryList', array('root' => __DIR__));
         return $this->getMock('Magento\Backend\Block\Widget\Grid\ColumnSet', array(), array(
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\View\Element\Template\Context', array(
-                    'dirs' => new \Magento\App\Dir(__DIR__),
-                    'filesystem' => new \Magento\Filesystem(new \Magento\Filesystem\Adapter\Local),
-                )),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Backend\Model\Widget\Grid\SubTotals'),
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
-                ->create('Magento\Backend\Model\Widget\Grid\Totals'),
+            $objectManager->create('\Magento\View\Element\Template\Context', array(
+                'filesystem' => $objectManager->create('\Magento\Filesystem', array('directoryList' => $directoryList))
+            )),
+            $objectManager->create('Magento\Backend\Model\Widget\Grid\Row\UrlGeneratorFactory'),
+            $objectManager->create('Magento\Backend\Model\Widget\Grid\SubTotals'),
+            $objectManager->create('Magento\Backend\Model\Widget\Grid\Totals'),
         ));
     }
 

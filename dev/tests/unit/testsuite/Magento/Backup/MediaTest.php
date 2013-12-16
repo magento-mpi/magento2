@@ -14,9 +14,9 @@ namespace Magento\Backup;
 class MediaTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dirMock;
+    protected $_filesystemMock;
 
     /**
      * @var \Magento\Backup\Factory
@@ -25,7 +25,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->_dirMock = $this->getMock('Magento\App\Dir', array(), array(), '', false);
+        $this->_filesystemMock = $this->getMock('Magento\Filesystem', array(), array(), '', false);
         $this->_backupFactoryMock = $this->getMock('Magento\Backup\Factory', array(), array(), '', false);
     }
     /**
@@ -34,10 +34,11 @@ class MediaTest extends \PHPUnit_Framework_TestCase
      */
     public function testAction($action)
     {
+        /** @var \Magento\Backup\Snapshot | \PHPUnit_Framework_MockObject_MockObject $snapshot */
         $snapshot = $this->getMock(
             'Magento\Backup\Snapshot',
             array('create', 'rollback', 'getDbBackupFilename'),
-            array($this->_dirMock, $this->_backupFactoryMock)
+            array($this->_filesystemMock, $this->_backupFactoryMock)
         );
         $snapshot->expects($this->any())
             ->method('create')
@@ -49,20 +50,20 @@ class MediaTest extends \PHPUnit_Framework_TestCase
             ->method('getDbBackupFilename')
             ->will($this->returnValue('var/backup/2.gz'));
 
-        $rootDir = __DIR__ . DIRECTORY_SEPARATOR . '_files';
+        $rootDir = __DIR__ . '/_files';
 
         $model = new \Magento\Backup\Media($snapshot);
         $model->setRootDir($rootDir);
 
         $this->assertTrue($model->$action());
 
-        $this->assertEquals(
-            array(
-                $rootDir . DIRECTORY_SEPARATOR . 'code',
-                $rootDir . DIRECTORY_SEPARATOR . 'var' . DIRECTORY_SEPARATOR . 'tmp',
-            ),
-            $snapshot->getIgnorePaths()
-        );
+        $paths = $snapshot->getIgnorePaths();
+        $path1 = str_replace('\\', '/', $paths[0]);
+        $path2 = str_replace('\\', '/', $paths[1]);
+        $rootDir = str_replace('\\', '/', $rootDir);
+
+        $this->assertEquals($rootDir . '/code', $path1);
+        $this->assertEquals($rootDir . '/var/tmp', $path2);
     }
 
     /**
@@ -85,7 +86,7 @@ class MediaTest extends \PHPUnit_Framework_TestCase
     {
         $snapshot = $this->getMock('Magento\Backup\Snapshot',
             array($method),
-            array($this->_dirMock, $this->_backupFactoryMock));
+            array($this->_filesystemMock, $this->_backupFactoryMock));
         $snapshot->expects($this->once())
             ->method($method)
             ->with($parameter)

@@ -43,17 +43,17 @@ class Topmenu extends Block
      */
     public function selectCategoryByName($categoryName)
     {
-        $moreCategoriesLink = $this->_rootElement->find($this->moreParentCategories, Locator::SELECTOR_CSS);
-        /**
-         * @TODO Eliminate excessive logic
-         * Currently redundant actions are performed: "more categories" clicked even if category is already visible
-         */
-        if ($moreCategoriesLink->isVisible()) {
+        $moreCategoriesLink = $this->_rootElement->find($this->moreParentCategories);
+        $category = $this->_rootElement->find('//a[span="' . $categoryName . '"]', Locator::SELECTOR_XPATH);
+        if (!$category->isVisible() && $moreCategoriesLink->isVisible()) {
             $moreCategoriesLink->click();
-            sleep(2); //TODO should be removed after fix with category sliding
+            $this->_rootElement->waitUntil(
+                function () use ($category) {
+                    return $category->isVisible() ? true : null;
+                }
+            );
         }
-        $categoryLink = $this->_rootElement->find('//a[span="' . $categoryName . '"]', Locator::SELECTOR_XPATH);
-        $categoryLink->click();
+        $category->click();
     }
 
     /**

@@ -16,12 +16,13 @@ class WebsiteRestrictionConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        // List of all available webrestrictions.xml
-        $xmlFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
-            '{*/webrestrictions.xml,webrestrictions.xml}',
-            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-            false
-        );
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $objectManager->get('Magento\Filesystem');
+        $appDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
+        $xmlFiles = $fileIteratorFactory->create($appDirectory, $appDirectory->search('#/webrestrictions\.xml$#'));
+
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())
             ->method('get')

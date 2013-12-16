@@ -150,7 +150,7 @@ class OauthHelper
     protected static function _rmRecursive($dir)
     {
         if (is_dir($dir)) {
-            foreach (glob($dir . DIRECTORY_SEPARATOR . '*') as $object) {
+            foreach (glob($dir . '/*') as $object) {
                 if (is_dir($object)) {
                     self::_rmRecursive($object);
                 } else {

@@ -61,8 +61,8 @@ class Mage_Selenium_TestSuiteTest extends Unit_PHPUnit_TestCase
     public function testAddTestFromDirectory()
     {
         $suite = $this->getMock('Mage_Selenium_TestSuite', array('addTestFiles'));
-        $path = implode(DIRECTORY_SEPARATOR, array(__DIR__, '_files', 'Simple1Test.php'));
+        $path = implode('/', array(__DIR__, '_files', 'Simple1Test.php'));
         $suite->expects($this->once())->method('addTestFiles')->with($this->equalTo(array($path)));
-        $suite->addTestFromDirectory(__DIR__ . DIRECTORY_SEPARATOR . '_files');
+        $suite->addTestFromDirectory(__DIR__ . '/_files');
     }
 }

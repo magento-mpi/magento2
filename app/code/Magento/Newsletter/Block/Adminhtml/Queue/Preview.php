@@ -81,7 +81,11 @@ class Preview extends \Magento\Adminhtml\Block\Widget
         $vars['subscriber'] = $this->_subscriberFactory->create();
 
         $template->emulateDesign($storeId);
-        $templateProcessed = $template->getProcessedTemplate($vars, true);
+        $templateProcessed = $this->_appState->emulateAreaCode(
+            \Magento\Newsletter\Model\Template::DEFAULT_DESIGN_AREA,
+            array($template, 'getProcessedTemplate'),
+            array($vars, true)
+        );
         $template->revertDesign();
 
         if ($template->isPlain()) {
