@@ -12,7 +12,6 @@
 namespace Magento\View\Design\FileResolution\Strategy\Fallback;
 
 use Magento\Filesystem;
-use Magento\Io\File;
 use Magento\TestFramework\Helper\ProxyTesting;
 
 /**
@@ -99,7 +98,8 @@ class CachingProxyTest extends \PHPUnit_Framework_TestCase
      */
     protected function tearDown()
     {
-        File::rmdirRecursive($this->tmpDir);
+        $filesystemDriver = new \Magento\Filesystem\Driver\File();
+        $filesystemDriver->deleteDirectory($this->tmpDir);
     }
 
     /**

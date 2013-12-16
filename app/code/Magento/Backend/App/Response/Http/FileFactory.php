@@ -50,7 +50,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
      */
     public function __construct(
         \Magento\App\ResponseFactory $responseFactory,
-        \Magento\Filesystem $filesystem,
+        \Magento\Filesystem\Driver\File $filesystemDriver,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Session $session,
@@ -62,7 +62,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
         $this->_session = $session;
         $this->_flag = $flag;
         $this->_helper = $helper;
-        parent::__construct($responseFactory, $filesystem);
+        parent::__construct($responseFactory, $filesystemDriver);
     }
 
 

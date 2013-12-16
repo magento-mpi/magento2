@@ -188,8 +188,6 @@ class Filesystem
      */
     protected $remoteResourceInstances = array();
 
-use \Magento\FilesystemDeprecated;
-
     /**
      * @param Filesystem\DirectoryList $directoryList
      * @param Filesystem\Directory\ReadFactory $readFactory

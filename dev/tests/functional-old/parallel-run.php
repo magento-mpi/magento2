@@ -194,8 +194,8 @@ while ($testCasesLeft > 0) {
                 );
 
                 $testCaseOutputDir = $outputDir . '/' . $testCaseId . '/';
-                $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
-                $filesystemAdapter->delete($testCaseOutputDir);
+                $filesystemAdapter = new \Magento\Filesystem\Driver\File();
+                $filesystemAdapter->deleteDirectory($testCaseOutputDir);
                 mkdir($testCaseOutputDir);
 
                 $testCaseLogsDir = $worker['dir'] . '/var/logs';

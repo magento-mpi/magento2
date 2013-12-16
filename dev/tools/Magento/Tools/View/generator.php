@@ -49,11 +49,11 @@ try {
     $objectManager = new \Magento\ObjectManager\ObjectManager();
     $entityFactory = new Magento\Core\Model\EntityFactory($objectManager);
     $filesystem = $entityFactory->create('Magento\Filesystem', array(
-        'directoryList' => new \Magento\Filesystem\DirectoryList(BP),
-        'adapter' => new \Magento\Filesystem\Adapter\Local()
+        'directoryList' => new \Magento\Filesystem\DirectoryList(BP)
     ));
     $config = new \Magento\Tools\View\Generator\Config($filesystem, $options);
-    $themes = new \Magento\Core\Model\Theme\Collection($filesystem, $entityFactory);
+    $fileIteratorFactory = new \Magento\Config\FileIteratorFactory();
+    $themes = new \Magento\Core\Model\Theme\Collection($entityFactory, $filesystem, $fileIteratorFactory);
     $themes->setItemObjectClass('\Magento\Tools\View\Generator\ThemeLight');
     $themes->addDefaultPattern('*');
 

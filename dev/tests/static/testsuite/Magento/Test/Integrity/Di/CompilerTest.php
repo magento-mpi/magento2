@@ -77,8 +77,8 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
 
     protected function tearDown()
     {
-        $filesystem = new \Magento\Filesystem\Adapter\Local();
-        $filesystem->delete($this->_tmpDir);
+        $filesystem = new \Magento\Filesystem\Driver\File();
+        $filesystem->deleteDirectory($this->_tmpDir);
     }
 
     /**

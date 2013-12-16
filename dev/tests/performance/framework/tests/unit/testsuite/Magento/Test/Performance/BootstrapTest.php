@@ -18,8 +18,8 @@ class BootstrapTest extends \PHPUnit_Framework_TestCase
     {
         // Delete a directory, where tests do some temporary work
         $tmpDir = $this->_getBaseFixtureDir() . '/config_dist/tmp';
-        $filesystemAdapter = new \Magento\Filesystem\Adapter\Local();
-        $filesystemAdapter->delete($tmpDir);
+        $filesystemAdapter = new \Magento\Filesystem\Driver\File();
+        $filesystemAdapter->deleteDirectory($tmpDir);
     }
 
     /**
