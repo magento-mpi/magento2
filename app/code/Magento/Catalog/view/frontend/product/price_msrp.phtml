@@ -19,8 +19,7 @@
     $_product = $this->getProduct();
     $_id = $_product->getId();
     $_msrpPrice = "";
-//    $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
-    $priceElementIdPrefix = "product-price-";
+    $priceElementIdPrefix = $this->getPriceElementIdPrefix() ? $this->getPriceElementIdPrefix() : 'product-price-';
     $priceElementId = $priceElementIdPrefix . $_id . $this->getIdSuffix();
 ?>
     <div class="price-box map info">
