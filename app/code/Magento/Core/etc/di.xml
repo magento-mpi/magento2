@@ -30,7 +30,7 @@
     <preference for="Magento\Core\Model\Url\SecurityInfoInterface" type="Magento\Core\Model\Url\SecurityInfo\Proxy" />
     <preference for="Magento\App\DefaultPathInterface" type="Magento\App\DefaultPath\DefaultPath" />
     <preference for="Magento\Encryption\EncryptorInterface" type="Magento\Encryption\Encryptor" />
-    <preference for="Magento\Filter\Encrypt\AdapterInterface" type=" Magento\Filter\Encrypt\Basic" />
+    <preference for="Magento\Filter\Encrypt\AdapterInterface" type="Magento\Filter\Encrypt\Basic" />
     <preference for="Magento\Cache\ConfigInterface" type="Magento\Cache\Config" />
     <preference for="Magento\View\Design\Theme\ThemeProviderInterface" type="Magento\Core\Model\Theme\ThemeProvider" />
     <preference for="Magento\View\Design\Theme\FileProviderInterface" type="Magento\Core\Model\Theme\FileProvider" />
@@ -40,6 +40,7 @@
     <preference for="Magento\TranslateInterface" type="Magento\Core\Model\Translate" />
     <preference for="Magento\App\Response\RedirectInterface" type="Magento\Core\App\Response\Redirect" />
     <preference for="Magento\Data\Collection\EntityFactoryInterface" type="Magento\Core\Model\EntityFactory" />
+    <preference for="Magento\Core\Model\Translate\InlineInterface" type="Magento\Core\Model\Translate\Inline" />
     <type name="Magento\App\DefaultPath\DefaultPath">
         <param name="parts">
             <value>

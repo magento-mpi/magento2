@@ -33,6 +33,7 @@ class SimpleProduct extends Product
         );
         $this->_data['simple_advanced_pricing'] = $this->getSimpleAdvancedPricing();
         $this->_data['simple_custom_options'] = $this->getSimpleCustomOption();
+        $this->_data['simple_with_map'] = $this->getSimpleAppliedMap($defaultData);
     }
 
     /**
@@ -158,5 +159,39 @@ class SimpleProduct extends Product
                 )
             )
         );
+    }
+
+    /**
+     * Get simple product with advanced pricing (MAP)
+     *
+     * @return array
+     */
+    protected function getSimpleAppliedMap()
+    {
+        $pricing = array(
+            'data' => array(
+                'fields' => array(
+                    'msrp_enabled' => array(
+                        'value' => 'Yes',
+                        'input_value' => '1',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp_display_actual_price_type' => array(
+                        'value' => 'On Gesture',
+                        'input_value' => '1',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING,
+                        'input' => 'select'
+                    ),
+                    'msrp' => array(
+                        'value' => '15',
+                        'group' => Fixture\Product::GROUP_PRODUCT_PRICING
+                    )
+                )
+            )
+        );
+        $product = array_replace_recursive($this->_data['simple'], $pricing);
+
+        return $product;
     }
 }

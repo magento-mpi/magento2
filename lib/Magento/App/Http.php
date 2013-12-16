@@ -9,9 +9,9 @@
  */
 namespace Magento\App;
 
-use \Magento\Config\Scope,
-    \Magento\App\ObjectManager\ConfigLoader,
-    \Magento\Event;
+use Magento\Config\Scope,
+    Magento\App\ObjectManager\ConfigLoader,
+    Magento\Event;
 
 class Http implements \Magento\AppInterface
 {
@@ -51,9 +51,9 @@ class Http implements \Magento\AppInterface
     protected $_state;
 
     /**
-     * @var Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dir;
+    protected $_filesystem;
 
     /**
      * @param \Magento\ObjectManager $objectManager
@@ -63,7 +63,7 @@ class Http implements \Magento\AppInterface
      * @param Scope $configScope
      * @param ConfigLoader $configLoader
      * @param State $state
-     * @param Dir $dir
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
@@ -73,7 +73,7 @@ class Http implements \Magento\AppInterface
         Scope $configScope,
         ConfigLoader $configLoader,
         State $state,
-        Dir $dir
+        \Magento\Filesystem $filesystem
     ) {
         $this->_objectManager = $objectManager;
         $this->_eventManager = $eventManager;
@@ -82,7 +82,7 @@ class Http implements \Magento\AppInterface
         $this->_configScope = $configScope;
         $this->_configLoader = $configLoader;
         $this->_state = $state;
-        $this->_dir = $dir;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -123,7 +123,7 @@ class Http implements \Magento\AppInterface
                             $reportData['script_name'] = $_SERVER['SCRIPT_NAME'];
                         }
                     }
-                    require_once ($this->_dir->getDir(Dir::PUB) . DS . 'errors' . DS . 'report.php');
+                    require_once ($this->_filesystem->getPath(\Magento\Filesystem::PUB) . '/errors/report.php');
                 }
             } catch (\Exception $exception) {
                 $protocol = isset($_SERVER['SERVER_PROTOCOL']) ? $_SERVER['SERVER_PROTOCOL'] : 'HTTP 1.1';

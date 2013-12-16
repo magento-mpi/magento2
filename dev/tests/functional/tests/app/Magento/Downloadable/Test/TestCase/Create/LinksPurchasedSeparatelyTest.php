@@ -49,6 +49,7 @@ class LinksPurchasedSeparatelyTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
 
         $this->assertOnBackend();
         $this->assertOnFrontend();

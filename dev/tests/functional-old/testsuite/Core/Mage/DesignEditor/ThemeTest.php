@@ -654,7 +654,7 @@ class Core_Mage_DesignEditor_ThemeTest extends Mage_Selenium_TestCase
             $this->fail('downloadDir is not set in application config');
         }
         $downloadDir  = $appConfig['downloadDir'];
-        $filePath = $downloadDir . DIRECTORY_SEPARATOR . $fileName;
+        $filePath = $downloadDir . '/' . $fileName;
         if (!file_exists($filePath)){
             sleep(2);
             $this->assertTrue(file_exists($filePath), 'File was not downloaded');

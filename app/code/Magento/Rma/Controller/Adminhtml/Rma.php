@@ -23,6 +23,16 @@ class Rma extends \Magento\Backend\App\Action
     protected $_coreRegistry;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $readDirectory;
+
+    /**
      * @var \Magento\App\Response\Http\FileFactory
      */
     protected $_fileFactory;
@@ -35,9 +45,12 @@ class Rma extends \Magento\Backend\App\Action
     public function __construct(
         Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_coreRegistry = $coreRegistry;
+        $this->filesystem = $filesystem;
+        $this->readDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MEDIA);
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
     }
@@ -812,56 +825,49 @@ class Rma extends \Magento\Backend\App\Action
      */
     public function viewfileAction()
     {
-        $file   = null;
+        $fileName = null;
         $plain  = false;
         if ($this->getRequest()->getParam('file')) {
             // download file
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('file'));
         } else if ($this->getRequest()->getParam('image')) {
             // show plain image
-            $file   = $this->_objectManager->get('Magento\Core\Helper\Data')
+            $fileName   = $this->_objectManager->get('Magento\Core\Helper\Data')
                 ->urlDecode($this->getRequest()->getParam('image'));
             $plain  = true;
         } else {
             throw new NotFoundException();
         }
-        /** @var $dirModel \Magento\App\Dir */
-        $dirModel = $this->_objectManager->get('Magento\App\Dir');
-        $path = $dirModel->getDir(\Magento\App\Dir::MEDIA) . DS . 'rma_item';
 
-        $ioFile = new \Magento\Io\File();
-        $ioFile->open(array('path' => $path));
-        $fileName   = $ioFile->getCleanPath($path . $file);
-        $path       = $ioFile->getCleanPath($path);
-
-        if (!$ioFile->fileExists($fileName) || strpos($fileName, $path) !== 0) {
+        $filePath = sprintf('rma_item/%s', $fileName);
+        if (!$this->readDirectory->isExist($filePath)) {
             throw new NotFoundException();
         }
 
         if ($plain) {
-            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION)));
-            $ioFile->streamOpen($fileName, 'r');
-            $contentLength = $ioFile->streamStat('size');
-            $contentModify = $ioFile->streamStat('mtime');
-
+            /** @var $readFile \Magento\Filesystem\File\Read */
+            $readFile = $this->readDirectory->openFile($filePath);
+            $contentType = $this->_getPlainImageMimeType(strtolower(pathinfo($fileName, PATHINFO_EXTENSION
+            )));
+            $fileStat = $this->readDirectory->stat($filePath);
             $this->getResponse()
                 ->setHttpResponseCode(200)
                 ->setHeader('Pragma', 'public', true)
                 ->setHeader('Content-type', $contentType, true)
-                ->setHeader('Content-Length', $contentLength)
-                ->setHeader('Last-Modified', date('r', $contentModify))
+                ->setHeader('Content-Length', $fileStat['size'])
+                ->setHeader('Last-Modified', date('r', $fileStat['mtime']))
                 ->clearBody();
             $this->getResponse()->sendHeaders();
 
-            while (false !== ($buffer = $ioFile->streamRead())) {
+            while (false !== ($buffer = $readFile->read(1024))) {
                 echo $buffer;
             }
         } else {
             $name = pathinfo($fileName, PATHINFO_BASENAME);
             $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
-                'value' => $fileName
+                'value' => $this->readDirectory->getAbsolutePath($filePath)
             ))->sendResponse();
         }
 
@@ -1297,12 +1303,13 @@ class Rma extends \Magento\Backend\App\Action
         $page = new \Zend_Pdf_Page($xSize, $ySize);
 
         imageinterlace($image, 0);
-        $tmpFileName = sys_get_temp_dir() . DS . 'shipping_labels_'
-                     . uniqid(mt_rand()) . time() . '.png';
-        imagepng($image, $tmpFileName);
-        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFileName);
+        $dir = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::SYS_TMP);
+        $tmpFileName = 'shipping_labels_' . uniqid(mt_rand()) . time() . '.png';
+        $tmpFilePath = $dir->getAbsolutePath($tmpFileName);
+        imagepng($image, $tmpFilePath);
+        $pdfImage = \Zend_Pdf_Image::imageWithPath($tmpFilePath);
         $page->drawImage($pdfImage, 0, 0, $xSize, $ySize);
-        unlink($tmpFileName);
+        $dir->delete($tmpFileName);
         return $page;
     }
 

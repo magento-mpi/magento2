@@ -13,6 +13,7 @@ namespace Magento\Checkout\Test\Block\Cart;
 
 use Mtf\Block\Form;
 use Mtf\Client\Element;
+use Mtf\Client\Element\Locator;
 
 /**
  * Cart shipping block
@@ -43,6 +44,14 @@ class Shipping extends Form
     protected $getQuote = '.action.quote';
 
     /**
+     * Selector to access the shipping carrier method
+     *
+     * @var string
+     */
+    protected $shippingCarrierMethodSelector =
+        '//span[text()="%s"]/following::*/div[@class="field choice item"]//*[contains(text(), "%s")]';
+
+    /**
      * @var array
      */
     protected $_mapping = [
@@ -67,6 +76,19 @@ class Shipping extends Form
     public function getQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
+        $this->waitForElementNotVisible('.please-wait');
+    }
+
+    /**
+     * Determines if the specified shipping carrier/method is visible on the cart
+     *
+     * @param $carrier
+     * @param $method
+     * @return bool
+     */
+    public function isShippingCarrierMethodVisible($carrier, $method) {
+        $selector = sprintf($this->shippingCarrierMethodSelector, $carrier, $method);
+        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }
 
     /**
@@ -74,7 +96,7 @@ class Shipping extends Form
      */
     protected function _fill(array $fields, Element $element = null)
     {
-        $formFields = ['country_id', 'region',  'postcode'];
+        $formFields = ['country_id', 'country', 'region', 'province', 'postcode'];
         $fields = array_intersect_key($fields, array_flip($formFields));
         parent::_fill($fields, $element);
     }
