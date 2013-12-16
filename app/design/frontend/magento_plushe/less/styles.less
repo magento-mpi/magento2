@@ -814,8 +814,6 @@ body {
     One page
 -------------------------------------- */
 .block.progress.onepage {
-    float: left;
-    width: 200px;
     .content > dt {
         font-size: @baseFontSizeBigger;
         font-weight: @baseFontWeight;
@@ -867,8 +865,6 @@ body {
 
 
 .opc.wrapper {
-    float: right;
-    width: 725px;
     > .opc {
         .resetList();
         .section {
@@ -1260,8 +1256,6 @@ body {
 .multicheckout {
     &.progress {
         .resetList();
-        float: left;
-        width: 200px;
         li {
             font-size: 16px;
             font-weight: 400;
@@ -1270,19 +1264,6 @@ body {
                 font-weight: bold;
             }
         }
-        + .form.address.edit {
-            float: right;
-            width: 725px;
-        }
-    }
-    &.form.address,
-    &.form.billing,
-    &.form.shipping,
-    &.form.overview,
-    &.success,
-    &.change.billing {
-        float: right;
-        width: 725px;
     }
     .title {
         .clearfix();
@@ -1562,14 +1543,6 @@ body {
                 max-width: 450px;
             }
         }
-    }
-}
-
-.checkout-multishipping-address-newshipping,
-.checkout-multishipping-address-editshipping {
-    .form.address.edit {
-        float: right;
-        width: 725px;
     }
 }
 
@@ -5785,4 +5758,4 @@ img[align="right"] {
     }
 }
 
-@import "/responsive/responsive.less";
+@import "responsive/responsive.less";

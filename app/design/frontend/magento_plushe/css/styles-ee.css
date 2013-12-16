@@ -404,6 +404,28 @@ hr {
   background: #f8f8f8;
   padding: 30px;
 }
+.visuallyHidden,
+.form.addbysku .fields:nth-child(n+2) .label {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.visuallyHidden.focusable:active,
+.visuallyHidden.focusable:focus,
+.form.addbysku .fields:nth-child(n+2) .label.focusable:active,
+.form.addbysku .fields:nth-child(n+2) .label.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
 .primary.action,
 .action.myPrimary,
 input[type="submit"],
@@ -5438,10 +5460,6 @@ body {
     Magento_Checkout
     One page
 -------------------------------------- */
-.block.progress.onepage {
-  float: left;
-  width: 200px;
-}
 .block.progress.onepage .content > dt {
   font-size: 16px;
   font-weight: 400;
@@ -5488,10 +5506,6 @@ body {
 .block.progress.onepage .payment.method .data.table td,
 .order.details .block.order .payment.method .data.table td {
   padding: 5px;
-}
-.opc.wrapper {
-  float: right;
-  width: 725px;
 }
 .opc.wrapper > .opc {
   padding: 0;
@@ -5936,8 +5950,6 @@ body {
   margin: 0;
   list-style-type: none;
   list-style-image: none;
-  float: left;
-  width: 200px;
 }
 .multicheckout.progress li {
   font-size: 16px;
@@ -5946,19 +5958,6 @@ body {
 }
 .multicheckout.progress li.active {
   font-weight: bold;
-}
-.multicheckout.progress + .form.address.edit {
-  float: right;
-  width: 725px;
-}
-.multicheckout.form.address,
-.multicheckout.form.billing,
-.multicheckout.form.shipping,
-.multicheckout.form.overview,
-.multicheckout.success,
-.multicheckout.change.billing {
-  float: right;
-  width: 725px;
 }
 .multicheckout .title {
   *zoom: 1;
@@ -6227,11 +6226,6 @@ body {
 }
 .multicheckout.form.address .control.address select {
   max-width: 450px;
-}
-.checkout-multishipping-address-newshipping .form.address.edit,
-.checkout-multishipping-address-editshipping .form.address.edit {
-  float: right;
-  width: 725px;
 }
 .block.gift.message {
   margin: 30px 0 0;
@@ -15175,8 +15169,7 @@ img[align="right"] {
     font-size: 18px;
   }
   /*
-      Magento_Catalog
-      Compare
+      Magento_Catalog Compare
   -------------------------------------- */
   .catalog-product-compare-index .action.print {
     margin: -20px 0 20px;
@@ -16823,11 +16816,21 @@ body.account .column.main .block.event .item {
   zoom: 1;
   display: block;
   padding-bottom: 10px;
-}
-.form.addbysku .fields .label {
-  display: none;
+  display: table-row;
 }
 .form.addbysku .fields .action.remove {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  display: table-cell;
+  padding-top: 6px;
+}
+.form.addbysku .fields .action.remove span {
   width: 16px;
   display: block;
   line-height: 0;
@@ -16836,15 +16839,11 @@ body.account .column.main .block.event .item {
   text-align: center;
   text-indent: -999em;
   color: #837d75;
-  margin-top: 5px;
   background: none;
   border: 0;
   padding: 0;
-  position: absolute;
-  top: 3px;
-  right: 0;
 }
-.form.addbysku .fields .action.remove:after {
+.form.addbysku .fields .action.remove span:after {
   font-family: "icons";
   font-size: 16px;
   line-height: 16px;
@@ -16860,26 +16859,38 @@ body.account .column.main .block.event .item {
   vertical-align: middle;
   text-align: center;
 }
-.form.addbysku .fields .action.remove:active {
+.form.addbysku .fields .action.remove span:active {
   outline: 0;
 }
-.form.addbysku .fields .action.remove:after {
+.form.addbysku .fields .action.remove span:after {
   text-indent: 0;
   display: block;
   margin: 0;
 }
-.form.addbysku .fields .action.remove:hover,
-.form.addbysku .fields .action.remove:active,
-.form.addbysku .fields .action.remove:focus,
-.form.addbysku .fields .action.remove.active {
+.form.addbysku .fields .action.remove:hover span,
+.form.addbysku .fields .action.remove:active span,
+.form.addbysku .fields .action.remove:focus span,
+.form.addbysku .fields .action.remove.active span {
   color: #999999;
   outline: none;
 }
+.form.addbysku .fields .action.remove.hidden {
+  display: table-cell !important;
+  visibility: hidden;
+}
 .form.addbysku .fields:first-child .label {
+  padding-bottom: 5px;
   display: block;
 }
 .form.addbysku .fields:first-child .action.remove {
-  margin-top: 25px;
+  display: table-cell;
+  vertical-align: top;
+  padding-top: 30px;
+}
+.form.addbysku .fields .field {
+  vertical-align: top;
+  padding-bottom: 20px;
+  display: table-cell;
 }
 .form.addbysku .field.upload.skus {
   float: left;
@@ -17068,6 +17079,8 @@ body.account .column.main .block.event .item {
 }
 .sidebar .form.addbysku .actions {
   width: auto;
+  padding: 0;
+  margin: 0;
 }
 .column.main .form.addbysku .actions .secondary {
   margin-right: 15px;

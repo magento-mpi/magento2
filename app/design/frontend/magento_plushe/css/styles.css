@@ -404,6 +404,25 @@ hr {
   background: #f8f8f8;
   padding: 30px;
 }
+.visuallyHidden {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.visuallyHidden.focusable:active,
+.visuallyHidden.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
 .primary.action,
 .action.myPrimary,
 input[type="submit"],
@@ -5206,10 +5225,6 @@ body {
     Magento_Checkout
     One page
 -------------------------------------- */
-.block.progress.onepage {
-  float: left;
-  width: 200px;
-}
 .block.progress.onepage .content > dt {
   font-size: 16px;
   font-weight: 400;
@@ -5256,10 +5271,6 @@ body {
 .block.progress.onepage .payment.method .data.table td,
 .order.details .block.order .payment.method .data.table td {
   padding: 5px;
-}
-.opc.wrapper {
-  float: right;
-  width: 725px;
 }
 .opc.wrapper > .opc {
   padding: 0;
@@ -5704,8 +5715,6 @@ body {
   margin: 0;
   list-style-type: none;
   list-style-image: none;
-  float: left;
-  width: 200px;
 }
 .multicheckout.progress li {
   font-size: 16px;
@@ -5714,19 +5723,6 @@ body {
 }
 .multicheckout.progress li.active {
   font-weight: bold;
-}
-.multicheckout.progress + .form.address.edit {
-  float: right;
-  width: 725px;
-}
-.multicheckout.form.address,
-.multicheckout.form.billing,
-.multicheckout.form.shipping,
-.multicheckout.form.overview,
-.multicheckout.success,
-.multicheckout.change.billing {
-  float: right;
-  width: 725px;
 }
 .multicheckout .title {
   *zoom: 1;
@@ -5995,11 +5991,6 @@ body {
 }
 .multicheckout.form.address .control.address select {
   max-width: 450px;
-}
-.checkout-multishipping-address-newshipping .form.address.edit,
-.checkout-multishipping-address-editshipping .form.address.edit {
-  float: right;
-  width: 725px;
 }
 .block.gift.message {
   margin: 30px 0 0;
@@ -14501,8 +14492,7 @@ img[align="right"] {
     font-size: 18px;
   }
   /*
-      Magento_Catalog
-      Compare
+      Magento_Catalog Compare
   -------------------------------------- */
   .catalog-product-compare-index .action.print {
     margin: -20px 0 20px;
