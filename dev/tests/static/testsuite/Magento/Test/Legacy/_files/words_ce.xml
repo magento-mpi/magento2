@@ -66,9 +66,5 @@
             <path>dev/tests/static/testsuite/Magento/Test/Legacy/_files/obsolete_constants.php</path>
             <word>overriden</word>
         </item>
-        <item>
-            <path>dev/tests/functional/tests/app/Magento/</path>
-            <word>GiftCard</word>
-        </item>
     </whitelist>
 </config>
