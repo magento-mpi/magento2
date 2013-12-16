@@ -48,9 +48,14 @@ class CoreRoutingTest extends \Magento\Webapi\Routing\BaseService
     {
         $itemId = 1;
         $serviceInfo = array(
-            'serviceInterface' => 'Magento\TestModule1\Service\AllSoapAndRestV1Interface',
-            'method' => 'item',
-            'entityId' => $itemId
+            'rest' => array(
+                'resourcePath' => '/V1/testmodule1/' . $itemId,
+                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+            ),
+            'soap' => array(
+                'service' => 'testModule1AllSoapAndRestV1',
+                'operation' => 'testModule1AllSoapAndRestV1Item'
+            )
         );
         $requestData = array('id' => $itemId);
 
