@@ -85,7 +85,7 @@ class Cart extends Block
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param SimpleProduct $product
+     * @param Product $product
      * @param string $currency
      *
      * @return float
