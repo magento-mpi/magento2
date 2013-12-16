@@ -13,6 +13,7 @@ namespace Magento\Customer\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
+use Mtf\Fixture;
 
 /**
  * Class Address
@@ -22,6 +23,11 @@ use Mtf\Fixture\DataFixture;
  */
 class Address extends DataFixture
 {
+    /**
+     * @var Fixture
+     */
+    protected $_customer;
+
     /**
      * Format customer address to one line
      *
@@ -45,13 +51,23 @@ class Address extends DataFixture
     }
 
     /**
-     * Get telephone number
+     * Get city
      *
      * @return string
      */
-    public function getTelephone()
+    public function getCity()
     {
-        return $this->getData('fields/telephone');
+        return $this->getData('fields/city/value');
+    }
+
+    /**
+     * Get country
+     *
+     * @return string
+     */
+    public function getCountry()
+    {
+        return $this->getData('fields/country/value');
     }
 
     /**
@@ -75,6 +91,36 @@ class Address extends DataFixture
     }
 
     /**
+     * Get postal code
+     *
+     * @return string
+     */
+    public function getPostCode()
+    {
+        return $this->getData('fields/postcode/value');
+    }
+
+    /**
+     * Get region
+     *
+     * @return string
+     */
+    public function getRegion()
+    {
+        return $this->getData('fields/region/value');
+    }
+
+    /**
+     * Get telephone number
+     *
+     * @return string
+     */
+    public function getTelephone()
+    {
+        return $this->getData('fields/telephone');
+    }
+
+    /**
      * {inheritdoc}
      */
     protected function _initData()
@@ -84,5 +130,33 @@ class Address extends DataFixture
 
         //Default data set
         $this->switchData('address_US_1');
+    }
+
+    /**
+     * Set customer
+     *
+     * @param Fixture $customer
+     */
+    public function setCustomer(Fixture $customer)
+    {
+        $this->_customer = $customer;
+    }
+
+    /**
+     * Persists prepared data into application
+     */
+    public function persist()
+    {
+        Factory::getApp()->magentoCustomerCreateAddress($this);
+    }
+
+    /**
+     * Get customer
+     *
+     * @return Fixture
+     */
+    public function getCustomer()
+    {
+        return $this->_customer;
     }
 }

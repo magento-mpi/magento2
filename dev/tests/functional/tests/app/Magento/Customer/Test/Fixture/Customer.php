@@ -28,6 +28,7 @@ class Customer extends DataFixture
     {
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $customerAddress->switchData('address_US_2');
+        $customerAddress->setCustomer($this);
         return $customerAddress;
     }
 
@@ -90,6 +91,7 @@ class Customer extends DataFixture
     {
         $defaultBilling = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $defaultBilling->switchData($this->getAddressDatasetName());
+        $defaultBilling->setCustomer($this);
         return $defaultBilling;
     }
 
@@ -102,6 +104,7 @@ class Customer extends DataFixture
     {
         $defaultShipping = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $defaultShipping->switchData($this->getAddressDatasetName());
+        $defaultShipping->setCustomer($this);
         return $defaultShipping;
     }
 
@@ -139,6 +142,7 @@ class Customer extends DataFixture
     {
         $customerAddress = Factory::getFixtureFactory()->getMagentoCustomerAddress();
         $customerAddress->switchData('address_data_US_1');
+        $customerAddress->setCustomer($this);
         return $customerAddress;
     }
 
