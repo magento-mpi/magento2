@@ -78,7 +78,9 @@ class CompilerTest extends \PHPUnit_Framework_TestCase
     protected function tearDown()
     {
         $filesystem = new \Magento\Filesystem\Driver\File();
-        $filesystem->deleteDirectory($this->_tmpDir);
+        if ($filesystem->isExists($this->_tmpDir)) {
+            $filesystem->deleteDirectory($this->_tmpDir);
+        }
     }
 
     /**
