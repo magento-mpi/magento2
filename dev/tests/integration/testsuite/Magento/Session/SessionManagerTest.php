@@ -9,12 +9,12 @@
  * @license     {license_link}
  */
 
-namespace Magento\Core\Model\Session;
+namespace Magento\Session;
 
-class AbstractSessionTest extends \PHPUnit_Framework_TestCase
+class SessionManagerTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_model;
 
@@ -30,24 +30,18 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Session\SidResolverInterface $sidResolver */
         $this->_sidResolver = $objectManager->get('Magento\Session\SidResolverInterface');
 
-        /** @var \Magento\Core\Model\Session\AbstractSession _model */
-        $this->_model = $this->getMockForAbstractClass(
-            'Magento\Core\Model\Session\AbstractSession',
+        /** @var \Magento\Session\SessionManager _model */
+        $this->_model = $objectManager->create(
+            'Magento\Session\SessionManager',
             array(
-                $objectManager->create('Magento\Core\Model\Session\Context'),
+                $objectManager->get('Magento\App\RequestInterface'),
                 $this->_sidResolver,
-                $objectManager->create('Magento\Session\Config\ConfigInterface'),
+                $objectManager->get('Magento\Session\Config\ConfigInterface'),
+                $objectManager->get('Magento\Session\SaveHandlerInterface'),
+                $objectManager->get('Magento\Session\ValidatorInterface'),
+                $objectManager->get('Magento\Session\StorageInterface')
             )
         );
-    }
-
-    public function testInit()
-    {
-        $this->_model->start('test');
-        $this->_model->setTestData('test');
-        $data = $this->_model->getData();
-        $this->assertArrayHasKey('test_data', $data);
-        $this->assertSame($_SESSION['test'], $data);
     }
 
     public function testGetData()
@@ -67,9 +61,9 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(session_name(), $this->_model->getName());
     }
 
-    public function testSetSessionName()
+    public function testSetName()
     {
-        $this->_model->setSessionName('test');
+        $this->_model->setName('test');
         $this->assertEquals('test', $this->_model->getName());
     }
 
@@ -118,6 +112,7 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
         $this->_model->start('test');
         $this->assertEmpty($this->_model->getSessionIdForHost('localhost'));
         $this->assertNotEmpty($this->_model->getSessionIdForHost('test'));
+        $this->_model->destroy();
     }
 
     public function testIsValidForHost()
@@ -131,10 +126,6 @@ class AbstractSessionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertFalse($this->_model->isValidForHost('test.com'));
         $this->assertTrue($this->_model->isValidForHost('localhost'));
-    }
-
-    public function testGetSessionSaveMethod()
-    {
-        $this->assertEquals('files', $this->_model->getSessionSaveMethod());
+        $this->_model->destroy();
     }
 }

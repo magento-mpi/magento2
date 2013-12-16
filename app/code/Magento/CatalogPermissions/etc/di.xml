@@ -11,4 +11,9 @@
 -->
 <config>
     <preference for="Magento\CatalogPermissions\App\ConfigInterface" type="Magento\CatalogPermissions\App\Config" />
+    <type name="Magento\CatalogPermissions\Helper\Data">
+        <param name="customerSession">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
+        </param>
+    </type>
 </config>

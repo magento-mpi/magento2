@@ -8,28 +8,19 @@
  * @license     {license_link}
  */
 
-/**
- * Admin Checkout block for returning dynamically loaded content
- *
- * @category    Magento
- * @package     Magento_AdvancedCheckout
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage;
 
+/**
+ * Admin Checkout block for returning dynamically loaded content
+ */
 class Load extends \Magento\View\Element\Template
 {
-    /*
-     * Returns string text with response of loading some blocks
-     *
-     * @return string
-     */
     /**
      * Adminhtml js
      *
      * @var \Magento\Adminhtml\Helper\Js
      */
-    protected $_adminhtmlJs = null;
+    protected $_adminhtmlJs;
 
     /**
      * @var \Magento\Json\EncoderInterface

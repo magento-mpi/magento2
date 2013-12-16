@@ -125,7 +125,7 @@ class Installer extends \Magento\Object
     /**
      * Install session
      *
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_session;
 
@@ -158,7 +158,7 @@ class Installer extends \Magento\Object
      * @param Installer\Pear $installerPear
      * @param Installer\Db $installerDb
      * @param Installer\Config $installerConfig
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Session\Generic $session
      * @param \Magento\Encryption\EncryptorInterface $encryptor
      * @param \Magento\Math\Random $mathRandom
      * @param \Magento\App\Resource $resource
@@ -180,7 +180,7 @@ class Installer extends \Magento\Object
         \Magento\Install\Model\Installer\Pear $installerPear,
         \Magento\Install\Model\Installer\Db $installerDb,
         \Magento\Install\Model\Installer\Config $installerConfig,
-        \Magento\Core\Model\Session\Generic $session,
+        \Magento\Session\Generic $session,
         \Magento\Encryption\EncryptorInterface $encryptor,
         \Magento\Math\Random $mathRandom,
         \Magento\App\Resource $resource,
@@ -221,7 +221,7 @@ class Installer extends \Magento\Object
     /**
      * Get data model
      *
-     * @return \Magento\Core\Model\Session\Generic
+     * @return \Magento\Object
      */
     public function getDataModel()
     {
@@ -237,7 +237,7 @@ class Installer extends \Magento\Object
      * @param \Magento\Object $model
      * @return \Magento\Install\Model\Installer
      */
-    public function setDataModel(\Magento\Object $model)
+    public function setDataModel($model)
     {
         $this->_dataModel = $model;
         return $this;

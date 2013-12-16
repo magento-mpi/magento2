@@ -30,6 +30,14 @@
             <instance type="Magento\CustomerSegment\Model\Resource\Segment\Collection" />
         </param>
     </type>
+    <type name="Magento\CustomerSegment\Model\Customer">
+        <param name="visitor">
+            <instance type="Magento\Log\Model\Visitor\Proxy" />
+        </param>
+        <param name="customerSession">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
+        </param>
+    </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>

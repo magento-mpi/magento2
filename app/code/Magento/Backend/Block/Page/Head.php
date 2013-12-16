@@ -25,11 +25,6 @@ class Head extends \Magento\Theme\Block\Html\Head
     protected $_template = 'page/head.phtml';
 
     /**
-     * @var \Magento\App\Action\Title
-     */
-    protected $_titles;
-
-    /**
      * @var \Magento\Data\Form\FormKey
      */
     protected $formKey;
@@ -67,6 +62,7 @@ class Head extends \Magento\Theme\Block\Html\Head
             $assetMinifyService,
             $data
         );
+        $this->formKey = $formKey;
     }
 
     /**

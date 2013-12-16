@@ -32,7 +32,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -159,7 +159,7 @@ abstract class AbstractBlock extends \Magento\Object implements BlockInterface
         $this->_app             = $context->getApp();
         $this->_escaper         = $context->getEscaper();
         $this->filterManager    = $context->getFilterManager();
-        $this->_locale           = $context->getLocale();
+        $this->_locale          = $context->getLocale();
         parent::__construct($data);
         $this->_construct();
     }

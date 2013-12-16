@@ -30,6 +30,8 @@
         <const name="TESTS_MODULE_CONFIG_FILES" value="../../../app/etc/*/module.xml;etc/test/module.xml"/>
         <const name="TESTS_CLEANUP" value="enabled"/>
         <const name="TESTS_MAGENTO_MODE" value="{{app_mode}}"/>
+        <!--<const name="MEMCACHE_SESSION_SAVE_PATH" value="{{memcache_session_save_path}}"/>-->
+        <const name="MEMCACHED_SESSION_SAVE_PATH" value="/dev/build/core_dev/integration/phpunit.xml"/>
     </php>
     <listeners>
         <listener class="Magento\TestFramework\Event\PhpUnit"/>

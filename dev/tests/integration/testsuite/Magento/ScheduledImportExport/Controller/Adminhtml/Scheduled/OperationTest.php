@@ -134,8 +134,10 @@ class OperationTest
         // Restore current working directory
         chdir($cwd);
 
-        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\Factory::ERROR);
-        $this->assertSessionMessages($this->logicalNot($this->isEmpty()), \Magento\Message\Factory::SUCCESS);
+        $this->assertSessionMessages($this->isEmpty(), \Magento\Message\MessageInterface::TYPE_ERROR);
+        $this->assertSessionMessages(
+            $this->logicalNot($this->isEmpty()), \Magento\Message\MessageInterface::TYPE_SUCCESS
+        );
     }
 
     /**

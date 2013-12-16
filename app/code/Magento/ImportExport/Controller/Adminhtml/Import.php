@@ -56,7 +56,7 @@ class Import extends \Magento\Backend\App\Action
      */
     public function indexAction()
     {
-        $this->_getSession()->addNotice($this->_objectManager->get('Magento\ImportExport\Helper\Data')
+        $this->messageManager->addNotice($this->_objectManager->get('Magento\ImportExport\Helper\Data')
             ->getMaxUploadSizeMessage());
         $this->_initAction();
         $this->_title->add(__('Import'));
@@ -157,7 +157,7 @@ class Import extends \Magento\Backend\App\Action
             $resultBlock->addError(__('File was not uploaded'));
             $this->_view->renderLayout();
         } else {
-            $this->_getSession()->addError(__('Data is invalid or file is not uploaded'));
+            $this->messageManager->addError(__('Data is invalid or file is not uploaded'));
             $this->_redirect('adminhtml/*/index');
         }
     }
