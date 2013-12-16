@@ -49,13 +49,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
     protected $_cachedItemPriceBlocks = array();
 
     /**
-     * Wishlist data
-     *
-     * @var \Magento\Wishlist\Helper\Data
-     */
-    protected $_wishlistData;
-
-    /**
      * @var \Magento\Customer\Model\Session
      */
     protected $_customerSession;
@@ -64,11 +57,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
      * @var \Magento\Catalog\Model\ProductFactory
      */
     protected $_productFactory;
-
-    /**
-     * @var \Magento\Catalog\Helper\Image
-     */
-    protected $_imageHelper;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
@@ -104,7 +92,6 @@ abstract class AbstractBlock extends \Magento\Catalog\Block\Product\AbstractProd
         \Magento\Catalog\Model\ProductFactory $productFactory,
         array $data = array()
     ) {
-        $this->_imageHelper = $imageHelper;
         $this->_customerSession = $customerSession;
         $this->_productFactory = $productFactory;
         parent::__construct(
