@@ -17,7 +17,7 @@ class Design
     implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
-     * @var \Magento\Core\Model\Theme\LabelFactory
+     * @var \Magento\View\Design\Theme\LabelFactory
      */
     protected $_labelFactory;
 
@@ -31,7 +31,7 @@ class Design
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Theme\Model\Layout\Source\Layout $pageLayout
-     * @param \Magento\Core\Model\Theme\LabelFactory $labelFactory
+     * @param \Magento\View\Design\Theme\LabelFactory $labelFactory
      * @param array $data
      */
     public function __construct(
@@ -39,7 +39,7 @@ class Design
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Theme\Model\Layout\Source\Layout $pageLayout,
-        \Magento\Core\Model\Theme\LabelFactory $labelFactory,
+        \Magento\View\Design\Theme\LabelFactory $labelFactory,
         array $data = array()
     ) {
         $this->_labelFactory = $labelFactory;

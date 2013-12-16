@@ -1,17 +1,49 @@
+* Fixed bugs:
+  * Fixed placing order with PayPal Payments Advanced and Payflow Link
+  * Fixed losing previously assigned categories after next product save with changed category selector field
+  * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
+  * Fixed inline translations in adminhtml area
+  * Partial refunds/invoices in Payflow Pro
+  * Design emulation ignores area
+  * Unable to place order with virtual product using Express Checkout
+  * Fixed the error during place an order with Recurring profile payment
+  * Fixed wrong redirection after customer registration during multishipping checkout
+  * Fixed the bug that shipping labels can't be created
+* GitHub requests:
+  * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
+  * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
+  * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
+* Modularity improvements:
+  * Layout page type config moved into library
+  * Design loader moved to library
+  * Theme label moved to library
+* Themes update:
+  * Reduced amount of templates and layouts in magento_plushe theme
+  * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
+  
+2.0.0.0-dev55
+=============
 * Modularity improvements:
-  * Session configuration moved into library
-  * FormKey logic is moved from Session
-  * SessionIdFlags is removed from Session
+  * Session configuration is moved to library
+  * FormKey logic is moved out from Session model
+  * SessionIdFlags is removed from Session model
   * Move Page logic to the Theme module and library
+* Implemented API Integration UX flows
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module
 * Created integration module UX
 * Created authorization service (Magento_Authz module)
+  * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:
-  * Fixed shopping cart rules for a specific customer group
-  * Fixed the bug with schema upgrade scripts are not running after installation
-  * Fixed error with blank page when user tries to get access to restricted resource via URL (add Secret Key for URL set to "No")
+  * Fixed the issue that prevented a customer group's shopping cart rules from applying properly to prices. The issue occurred when a customer was manually assigned to a customer group and automatic group assignment was enabled.
+  * Fixed the bug with schema upgrade scripts not running after installation
+  * Fixed the error with a blank page when user tries to get access to a restricted resource via URL (add Secret Key for URL set to "No")
 
 2.0.0.0-dev54
 =============

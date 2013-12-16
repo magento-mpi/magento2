@@ -50,9 +50,9 @@ class Bundle extends Tab
      */
     protected function getBundleOptionBlock($blockNumber, Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ? : $this->_rootElement;
         return Factory::getBlockFactory()->getMagentoBundleAdminhtmlCatalogProductEditTabBundleOption(
-            $element->find($this->bundleOptionBlock . $blockNumber, Locator::SELECTOR_CSS)
+            $element->find($this->bundleOptionBlock . $blockNumber)
         );
     }
 
@@ -63,7 +63,7 @@ class Bundle extends Tab
      */
     public function open(Element $context = null)
     {
-        $element = $context ? $context : $this->_rootElement;
+        $element = $context ? : $this->_rootElement;
         $element->find(static::GROUP_PRODUCT_DETAILS, Locator::SELECTOR_ID)->click();
     }
 
@@ -77,7 +77,7 @@ class Bundle extends Tab
     {
         $blocksNumber = 0;
         foreach ($fields['bundle_selections']['value'] as $bundleOption) {
-            $element->find($this->addNewOption, Locator::SELECTOR_CSS)->click();
+            $element->find($this->addNewOption)->click();
             $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber, $element);
             $bundleOptionsBlock->fillBundleOption($bundleOption, $element);
             $blocksNumber++;
@@ -94,8 +94,7 @@ class Bundle extends Tab
     {
         $blocksNumber = 0;
         foreach ($fields['bundle_selections']['value'] as $bundleOption) {
-            $bundleOptionsBlock = $this->getBundleOptionBlock($element);
-            $bundleOptionsBlock->setBlockNumber($blocksNumber);
+            $bundleOptionsBlock = $this->getBundleOptionBlock($blocksNumber, $element);
             $bundleOptionsBlock->expand();
             $bundleOptionsBlock->updateBundleOption($bundleOption, $element);
             $blocksNumber++;

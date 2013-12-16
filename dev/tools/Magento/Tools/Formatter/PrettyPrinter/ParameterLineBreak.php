@@ -38,6 +38,15 @@ class ParameterLineBreak extends ConditionalLineBreak
     }
 
     /**
+     * This method returns a sort order indication as to the order in which breaks should be processed.
+     * @return int Order relative to other classes overriding this method.
+     */
+    public function getSortOrder()
+    {
+        return 50;
+    }
+
+    /**
      * This method returns the value for the break based on the passed in information.
      * @param int $level Indicator for the level for which the break is being resolved.
      * @param int $index Zero based index of this break occurrence in the line.

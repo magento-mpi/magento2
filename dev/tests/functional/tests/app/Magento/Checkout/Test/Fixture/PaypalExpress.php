@@ -92,6 +92,7 @@ class PaypalExpress extends Checkout
         $taxRule->persist();
 
         //Products
+
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData('simple_required');
         $simple->persist();

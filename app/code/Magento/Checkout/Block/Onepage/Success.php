@@ -40,9 +40,9 @@ class Success extends \Magento\View\Element\Template
     protected $_agreementFactory;
 
     /**
-     * @var \Magento\Sales\Model\Recurring\ProfileFactory
+     * @var \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory
      */
-    protected $_profileFactory;
+    protected $_recurringProfileCollectionFactory;
 
     /**
      * @var \Magento\Sales\Model\Order\Config
@@ -55,7 +55,7 @@ class Success extends \Magento\View\Element\Template
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory
-     * @param \Magento\Sales\Model\Recurring\ProfileFactory $profileFactory
+     * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory
      * @param \Magento\Sales\Model\Order\Config $orderConfig
      * @param array $data
      */
@@ -65,17 +65,17 @@ class Success extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\Sales\Model\Billing\AgreementFactory $agreementFactory,
-        \Magento\Sales\Model\Recurring\ProfileFactory $profileFactory,
+        \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $recurringProfileCollectionFactory,
         \Magento\Sales\Model\Order\Config $orderConfig,
         array $data = array()
     ) {
+        parent::__construct($context, $data);
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_orderFactory = $orderFactory;
         $this->_agreementFactory = $agreementFactory;
-        $this->_profileFactory = $profileFactory;
+        $this->_recurringProfileCollectionFactory = $recurringProfileCollectionFactory;
         $this->_orderConfig = $orderConfig;
-        parent::__construct($context, $data);
     }
 
     /**
@@ -159,9 +159,8 @@ class Success extends \Magento\View\Element\Template
     {
         $profileIds = $this->_checkoutSession->getLastRecurringProfileIds();
         if ($profileIds && is_array($profileIds)) {
-            $collection = $this->_profileFactory->create()->getCollection()
-                ->addFieldToFilter('profile_id', array('in' => $profileIds))
-            ;
+            $collection = $this->_recurringProfileCollectionFactory->create()
+                ->addFieldToFilter('profile_id', array('in' => $profileIds));
             $profiles = array();
             foreach ($collection as $profile) {
                 $profiles[] = $profile;

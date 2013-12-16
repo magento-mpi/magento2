@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\ParserLexer;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Scalar_DNumber;
 
@@ -26,6 +25,7 @@ class DecimalNumberReference extends AbstractScalarReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
@@ -34,15 +34,14 @@ class DecimalNumberReference extends AbstractScalarReference
         $stringValue = $this->node->getAttribute(ParserLexer::ORIGINAL_VALUE);
         if (!isset($stringValue)) {
             // otherwise, do the best guess at resolving it as a number
-            $stringValue = (string) $this->node->value;
+            $stringValue = (string)$this->node->value;
             // ensure that number is really printed as decimal
             if (ctype_digit($stringValue)) {
                 $stringValue .= '.0';
             }
         }
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the value to the end of the current line
-        $line->add($stringValue);
+        $this->addToLine($treeNode, $stringValue);
+        return $treeNode;
     }
 }
