@@ -234,4 +234,5 @@ return array(
     array('_frameOpenTag', 'Magento\View\Element\AbstractBlock'),
     array('_frameCloseTag', 'Magento\View\Element\AbstractBlock'),
     array('_messagesBlock', 'Magento\View\Element\AbstractBlock'),
+    array('_messagesBlock', 'Magento\Connect\Helper\Data'),
 );

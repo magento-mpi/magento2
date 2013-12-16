@@ -254,7 +254,7 @@ return array(
     ),
     array('cleanVarFolder', '', 'Magento_Io_File::rmdirRecursive()'),
     array('cleanVarSubFolders', '',
-        '\Magento\Filesystem::getDirectoryRead(\Magento\Filesystem::VAR_DIR)::search())'),
+        'glob() on \Magento\App\Dir::getBaseDir(\Magento\Core\Model\App\Dir::VAR_DIR)'),
     array('cloneIndexTable', 'Magento\Index\Model\Resource\AbstractResource'),
     array('collectRoutes', 'Magento\Backend\App\Router\DefaultRouter'),
     array('collectRoutes', 'Magento\Core\App\Router\Base'),
@@ -1068,5 +1068,7 @@ return array(
     array('getUrlEncoded', 'Magento\View\Element\AbstractBlock'),
     array('getUrlBase64', 'Magento\View\Element\AbstractBlock'),
     array('getMessagesBlock', 'Magento\MultipleWishlist\Block\Info'),
-    array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection')
+    array('addStoresToCollection', '\Magento\Rating\Model\Resource\Rating\Collection'),
+    array('getLocalPackagesPath', 'Magento\Connect\Helper\Data'),
+    array('getLocalPackagesPathV1x', 'Magento\Connect\Helper\Data')
 );
