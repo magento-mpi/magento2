@@ -10,7 +10,7 @@
 
 namespace Magento\TargetRule\Block\Adminhtml;
 
-class Targetrule extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Targetrule extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize invitation manage page

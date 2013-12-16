@@ -16,7 +16,7 @@
  */
 namespace Magento\Sitemap\Block\Adminhtml\Grid\Renderer;
 
-class Link extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Link extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * @var \Magento\Filesystem $filesystem

@@ -63,7 +63,7 @@ class Rate extends \Magento\Backend\App\Action
 
         $this->_title->add(__('New Tax Rate'));
 
-        $rateModel->setData($this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true));
+        $rateModel->setData($this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true));
 
         if ($rateModel->getZipIsRange() && !$rateModel->hasTaxPostcode()) {
             $rateModel->setTaxPostcode($rateModel->getZipFrom() . '-' . $rateModel->getZipTo());
@@ -108,7 +108,7 @@ class Rate extends \Magento\Backend\App\Action
                 $this->getResponse()->setRedirect($this->getUrl("*/*/"));
                 return true;
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($ratePost);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($ratePost);
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());

@@ -18,7 +18,7 @@
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit\Tab\Items\Grid\Column\Renderer;
 
 class Quantity
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Renders quantity as integer

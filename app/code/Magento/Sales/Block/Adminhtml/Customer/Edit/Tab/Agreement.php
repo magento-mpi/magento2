@@ -132,13 +132,13 @@ class Agreement
             ->addFieldToFilter('customer_id', $this->_coreRegistry->registry('current_customer')->getId())
             ->setOrder('created_at');
         $this->setCollection($collection);
-        return \Magento\Adminhtml\Block\Widget\Grid::_prepareCollection();
+        return \Magento\Backend\Block\Widget\Grid::_prepareCollection();
     }
 
     /**
      * Remove some columns and make other not sortable
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

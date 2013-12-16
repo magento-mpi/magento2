@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Create\Search;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Sales\Model\Config
@@ -25,7 +25,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     protected $_salesConfig;
 
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
 
@@ -44,7 +44,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      * @param \Magento\Core\Model\Url $urlModel
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Model\Config $catalogConfig
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\Config $salesConfig
      * @param array $data
      */
@@ -53,7 +53,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
         \Magento\Core\Model\Url $urlModel,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Model\Config $catalogConfig,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\Config $salesConfig,
         array $data = array()
     ) {
@@ -216,7 +216,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /*
      * Add custom options to product collection
      *
-     * return \Magento\Adminhtml\Block\Widget\Grid
+     * return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _afterLoadCollection() {
         $this->getCollection()->addOptionsToResult();

@@ -18,7 +18,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Alerts;
 
-class Stock extends \Magento\Adminhtml\Block\Widget\Grid
+class Stock extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Catalog data

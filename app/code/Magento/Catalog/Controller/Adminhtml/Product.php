@@ -156,13 +156,13 @@ class Product extends \Magento\Backend\App\Action
      * Create serializer block for a grid
      *
      * @param string $inputName
-     * @param \Magento\Adminhtml\Block\Widget\Grid $gridBlock
+     * @param \Magento\Backend\Block\Widget\Grid $gridBlock
      * @param array $productsArray
      * @return \Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer
      */
     protected function _createSerializerBlock(
         $inputName,
-        \Magento\Adminhtml\Block\Widget\Grid $gridBlock,
+        \Magento\Backend\Block\Widget\Grid $gridBlock,
         $productsArray
     ) {
         return $this->_view->getLayout()->createBlock('Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Ajax\Serializer')
@@ -748,16 +748,16 @@ class Product extends \Magento\Backend\App\Action
         $links = $this->getRequest()->getPost('links');
         if (isset($links['related']) && !$product->getRelatedReadonly()) {
             $product->setRelatedLinkData(
-                $this->_objectManager->get('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($links['related'])
+                $this->_objectManager->get('Magento\Backend\Helper\Js')->decodeGridSerializedInput($links['related'])
             );
         }
         if (isset($links['upsell']) && !$product->getUpsellReadonly()) {
             $product->setUpSellLinkData(
-                $this->_objectManager->get('Magento\Adminhtml\Helper\Js')->decodeGridSerializedInput($links['upsell'])
+                $this->_objectManager->get('Magento\Backend\Helper\Js')->decodeGridSerializedInput($links['upsell'])
             );
         }
         if (isset($links['crosssell']) && !$product->getCrosssellReadonly()) {
-            $product->setCrossSellLinkData($this->_objectManager->get('Magento\Adminhtml\Helper\Js')
+            $product->setCrossSellLinkData($this->_objectManager->get('Magento\Backend\Helper\Js')
                 ->decodeGridSerializedInput($links['crosssell']));
         }
 
@@ -1079,7 +1079,7 @@ class Product extends \Magento\Backend\App\Action
      */
     public function showUpdateResultAction()
     {
-        $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         if ($session->hasCompositeProductResult()
             && $session->getCompositeProductResult() instanceof \Magento\Object) {
             $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')

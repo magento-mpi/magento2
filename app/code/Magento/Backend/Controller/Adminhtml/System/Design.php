@@ -96,7 +96,7 @@ class Design extends \Magento\Backend\App\Action
                 $this->messageManager->addSuccess(__('You saved the design change.'));
             } catch (\Exception $e){
                 $this->messageManager->addError($e->getMessage());
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setDesignData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setDesignData($data);
                 $this->_redirect('adminhtml/*/edit', array('id'=>$design->getId()));
                 return;
             }

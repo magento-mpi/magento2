@@ -10,13 +10,11 @@
 <config>
     <module name="Magento_Banner" version="1.11.0.1" active="false">
         <sequence>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_SalesRule"/>
             <module name="Magento_VersionsCms"/>
         </sequence>
         <depends>
-            <module name="Magento_Adminhtml"/>
             <module name="Magento_CatalogRule"/>
             <module name="Magento_Eav"/>
             <module name="Magento_SalesRule"/>

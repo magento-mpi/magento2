@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Page\Widget;
 
-class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
+class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Theme\Model\Layout\Source\Layout
@@ -129,7 +129,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare pages collection
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
@@ -144,7 +144,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare columns for pages grid
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

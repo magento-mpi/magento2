@@ -63,14 +63,14 @@ class Rule extends \Magento\Backend\App\Action
         if ($taxRuleId) {
             $ruleModel->load($taxRuleId);
             if (!$ruleModel->getId()) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->unsRuleData();
+                $this->_objectManager->get('Magento\Backend\Model\Session')->unsRuleData();
                 $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('tax/*/');
                 return;
             }
         }
 
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getRuleData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getRuleData(true);
         if (!empty($data)) {
             $ruleModel->setData($data);
         }
@@ -110,7 +110,7 @@ class Rule extends \Magento\Backend\App\Action
                 $this->messageManager->addError(__('Something went wrong saving this tax rule.'));
             }
 
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setRuleData($postData);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setRuleData($postData);
             $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));
             return;
         }

@@ -179,7 +179,7 @@ class Links
      */
     public function getAddButtonHtml()
     {
-        $addButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        $addButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData([
                 'label' => __('Add New Row'),
                 'id'    => 'add_link_item',
@@ -338,7 +338,7 @@ class Links
      */
     protected function _prepareLayout()
     {
-        $this->addChild('upload_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('upload_button', 'Magento\Backend\Block\Widget\Button', array(
             'id'      => '',
             'label'   => __('Upload Files'),
             'type'    => 'button',

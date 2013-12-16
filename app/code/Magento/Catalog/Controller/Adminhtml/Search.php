@@ -73,7 +73,7 @@ class Search extends \Magento\Backend\App\Action
         }
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }

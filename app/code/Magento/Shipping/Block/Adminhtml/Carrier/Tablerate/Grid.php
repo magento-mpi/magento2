@@ -18,7 +18,7 @@
  */
 namespace Magento\Shipping\Block\Adminhtml\Carrier\Tablerate;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Website filter
@@ -142,7 +142,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare table columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

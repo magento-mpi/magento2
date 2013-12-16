@@ -124,7 +124,7 @@ class Attribute extends \Magento\Backend\App\Action
         }
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getAttributeData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getAttributeData(true);
         if (! empty($data)) {
             $model->addData($data);
         }
@@ -223,7 +223,7 @@ class Attribute extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getPost();
         if ($data) {
             /** @var $session \Magento\Backend\Model\Auth\Session */
-            $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+            $session = $this->_objectManager->get('Magento\Backend\Model\Session');
 
             $isNewAttributeSet = false;
             if (!empty($data['new_attribute_set_name'])) {

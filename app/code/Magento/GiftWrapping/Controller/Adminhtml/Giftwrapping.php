@@ -109,7 +109,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $model = $this->_initModel();
         $this->_initAction();
-        $formData = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData();
+        $formData = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData();
         if ($formData) {
             $model->addData($formData);
         }

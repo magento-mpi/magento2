@@ -107,7 +107,7 @@ class Page extends \Magento\Backend\App\Action
         $this->_title->add($model->getId() ? $model->getTitle() : __('New Page'));
 
         // 3. Set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -160,7 +160,7 @@ class Page extends \Magento\Backend\App\Action
                 // display success message
                 $this->messageManager->addSuccess(__('The page has been saved.'));
                 // clear previously saved data from session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('*/*/edit', array('page_id' => $model->getId(), '_current'=>true));

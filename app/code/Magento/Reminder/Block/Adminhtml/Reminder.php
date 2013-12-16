@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml;
 
-class Reminder extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Reminder extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize reminders manage page

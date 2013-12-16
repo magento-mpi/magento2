@@ -107,7 +107,7 @@ class Targetrule extends \Magento\Backend\App\Action
 
         $this->_title->add($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }

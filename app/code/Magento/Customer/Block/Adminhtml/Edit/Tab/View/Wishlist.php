@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-class Wishlist extends \Magento\Adminhtml\Block\Widget\Grid
+class Wishlist extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
