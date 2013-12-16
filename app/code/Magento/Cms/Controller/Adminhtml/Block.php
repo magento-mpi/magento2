@@ -89,7 +89,7 @@ class Block extends \Magento\Backend\App\Action
         if ($id) {
             $model->load($id);
             if (! $model->getId()) {
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('This block no longer exists.'));
+                $this->messageManager->addError(__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -123,7 +123,7 @@ class Block extends \Magento\Backend\App\Action
             $id = $this->getRequest()->getParam('block_id');
             $model = $this->_objectManager->create('Magento\Cms\Model\Block')->load($id);
             if (!$model->getId() && $id) {
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('This block no longer exists.'));
+                $this->messageManager->addError(__('This block no longer exists.'));
                 $this->_redirect('*/*/');
                 return;
             }
@@ -137,7 +137,7 @@ class Block extends \Magento\Backend\App\Action
                 // save the data
                 $model->save();
                 // display success message
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(__('The block has been saved.'));
+                $this->messageManager->addSuccess(__('The block has been saved.'));
                 // clear previously saved data from session
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
 
@@ -152,7 +152,7 @@ class Block extends \Magento\Backend\App\Action
 
             } catch (\Exception $e) {
                 // display error message
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 // save data in session
                 $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 // redirect to edit form
@@ -177,20 +177,20 @@ class Block extends \Magento\Backend\App\Action
                 $model->load($id);
                 $model->delete();
                 // display success message
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(__('The block has been deleted.'));
+                $this->messageManager->addSuccess(__('The block has been deleted.'));
                 // go to grid
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
                 // display error message
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 // go back to edit form
                 $this->_redirect('*/*/edit', array('block_id' => $id));
                 return;
             }
         }
         // display error message
-        $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('We can\'t find a block to delete.'));
+        $this->messageManager->addError(__('We can\'t find a block to delete.'));
         // go to grid
         $this->_redirect('*/*/');
     }

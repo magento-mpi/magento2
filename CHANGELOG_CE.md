@@ -23,6 +23,15 @@
   * Design loader moved to library
   * Theme label moved to library
   * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
+  * Core Session and Cookie models decomposed and moved to library
+    * \Magento\Stdlib\Cookie library created
+    * Session Manager and Session Config interfaces provided
+    * Session save handler interface created
+    * Session storage interface created, session doesn't extend \Magento\Object anymore
+    * Session validator interface created
+    * Session generic wrapper moved to library
+    * Messages functionality moved from Session model as separate component, message manager interface created.
+    * Sid resolver interface created to handle session sid from request
 * Themes update:
   * Reduced amount of templates and layouts in magento_plushe theme
   * Responsive design improvements

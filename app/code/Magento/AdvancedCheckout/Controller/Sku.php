@@ -52,7 +52,7 @@ class Sku extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Order by SKU'));
@@ -70,7 +70,7 @@ class Sku extends \Magento\App\Action\Action
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
         $rows = $helper->isSkuFileUploaded($this->getRequest())
-            ? $helper->processSkuFileUploading($this->_getSession())
+            ? $helper->processSkuFileUploading()
             : array();
 
         $items = $this->getRequest()->getPost('items');

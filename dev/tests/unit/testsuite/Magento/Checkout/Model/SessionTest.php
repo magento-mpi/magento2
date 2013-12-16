@@ -43,20 +43,16 @@ class SessionTest extends \PHPUnit_Framework_TestCase
         $request = $this->getMock('\Magento\App\Request\Http', array(), array(), '', false);
         $request->expects($this->any())->method('getHttpHost')->will($this->returnValue(array()));
 
-        $validator = $this->getMock('\Magento\Core\Model\Session\Validator', array(), array(), '', false);
-        $validator->expects($this->once())->method('validate')->will($this->returnValue(true));
-
-        $context = $this->getMock('Magento\Core\Model\Session\Context', array(), array(), '', false);
-        $context->expects($this->once())->method('getAppState')->will($this->returnValue($appState));
-        $context->expects($this->once())->method('getRequest')->will($this->returnValue($request));
-        $context->expects($this->once())->method('getValidator')->will($this->returnValue($validator));
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
-        $constructArguments = array(
-            'context' => $context,
-            'orderFactory' => $orderFactory,
-            'messageCollFactory' => $messageCollFactory,
-            'quoteFactory' => $quoteFactory,
+        $constructArguments = $objectManager->getConstructArguments(
+            'Magento\Checkout\Model\Session',
+            array(
+                'request' => $this->getMock('Magento\App\RequestInterface', array(), array(), '', false),
+                'orderFactory' => $orderFactory,
+                'messageCollFactory' => $messageCollFactory,
+                'quoteFactory' => $quoteFactory,
+                'storage' => new \Magento\Session\Storage
+            )
         );
         /** @var \Magento\Checkout\Model\Session $session */
         $session = $objectManager->getObject('Magento\Checkout\Model\Session', $constructArguments);

@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <virtualType name="Magento\Connect\Model\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>adminhtml</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Connect\Model\Session">
+        <param name="storage">
+            <instance type="Magento\Connect\Model\Session\Storage" />
+        </param>
+    </type>
+</config>

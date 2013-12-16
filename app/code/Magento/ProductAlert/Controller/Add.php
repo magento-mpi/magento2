@@ -60,7 +60,6 @@ class Add extends \Magento\App\Action\Action
 
     public function priceAction()
     {
-        $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
         $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -71,7 +70,7 @@ class Add extends \Magento\App\Action\Action
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId()) {
             /* @var $product \Magento\Catalog\Model\Product */
-            $session->addError(__('There are not enough parameters.'));
+            $this->messageManager->addError(__('There are not enough parameters.'));
             if ($this->_isInternal($backUrl)) {
                 $this->getResponse()->setRedirect($backUrl);
             } else {
@@ -89,18 +88,16 @@ class Add extends \Magento\App\Action\Action
                     $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
                 );
             $model->save();
-            $session->addSuccess(__('You saved the alert subscription.'));
+            $this->messageManager->addSuccess(__('You saved the alert subscription.'));
         }
         catch (\Exception $e) {
-            $session->addException($e, __('Unable to update the alert subscription.'));
+            $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }
 
     public function stockAction()
     {
-        $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
-        /* @var $session \Magento\Catalog\Model\Session */
         $backUrl    = $this->getRequest()->getParam(\Magento\App\Action\Action::PARAM_NAME_URL_ENCODED);
         $productId  = (int) $this->getRequest()->getParam('product_id');
         if (!$backUrl || !$productId) {
@@ -110,7 +107,7 @@ class Add extends \Magento\App\Action\Action
 
         if (!$product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId)) {
             /* @var $product \Magento\Catalog\Model\Product */
-            $session->addError(__('There are not enough parameters.'));
+            $this->messageManager->addError(__('There are not enough parameters.'));
             $this->getResponse()->setRedirect($backUrl);
             return ;
         }
@@ -123,10 +120,10 @@ class Add extends \Magento\App\Action\Action
                     $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
                 );
             $model->save();
-            $session->addSuccess(__('Alert subscription has been saved.'));
+            $this->messageManager->addSuccess(__('Alert subscription has been saved.'));
         }
         catch (\Exception $e) {
-            $session->addException($e, __('Unable to update the alert subscription.'));
+            $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl());
     }

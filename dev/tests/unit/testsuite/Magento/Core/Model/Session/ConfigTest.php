@@ -76,6 +76,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_requestMock,
             $this->_appState,
             $this->_filesystem,
+            \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
             __DIR__
         );
     }
@@ -324,17 +325,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             'Method "methodThatNotExist" does not exist in Magento\Core\Model\Session\Config'
         );
         $this->config->methodThatNotExist();
-    }
-
-    public function testRememberMeSecondsDefaultsToTwoWeeks()
-    {
-        $this->assertEquals(1209600, $this->config->getRememberMeSeconds());
-    }
-
-    public function testRememberMeSecondsIsMutable()
-    {
-        $this->config->setRememberMeSeconds(604800);
-        $this->assertEquals(604800, $this->config->getRememberMeSeconds());
     }
 
     public function testCookieSecureDefaultsToIniSettings()

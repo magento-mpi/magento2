@@ -14,7 +14,12 @@ namespace Magento\Message;
 class Warning extends AbstractMessage
 {
     /**
-     * @var string
+     * Getter message type
+     *
+     * @return string
      */
-    protected $type = Factory::WARNING;
+    public function getType()
+    {
+        return MessageInterface::TYPE_WARNING;
+    }
 }

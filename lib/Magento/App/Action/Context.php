@@ -50,6 +50,11 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_view;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ResponseInterface $response
      * @param \Magento\ObjectManager $objectManager
@@ -58,6 +63,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\App\Response\RedirectInterface $redirect
      * @param \Magento\App\ActionFlag $actionFlag
      * @param \Magento\App\ViewInterface $view
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\App\RequestInterface $request,
@@ -67,7 +73,8 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\UrlInterface $url,
         \Magento\App\Response\RedirectInterface $redirect,
         \Magento\App\ActionFlag $actionFlag,
-        \Magento\App\ViewInterface $view
+        \Magento\App\ViewInterface $view,
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_request = $request;
         $this->_response = $response;
@@ -77,6 +84,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         $this->_redirect = $redirect;
         $this->_actionFlag = $actionFlag;
         $this->_view = $view;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -141,5 +149,13 @@ class Context implements \Magento\ObjectManager\ContextInterface
     public function getUrl()
     {
         return $this->_url;
+    }
+
+    /**
+     * @return \Magento\Message\ManagerInterface
+     */
+    public function getMessageManager()
+    {
+        return $this->messageManager;
     }
 }

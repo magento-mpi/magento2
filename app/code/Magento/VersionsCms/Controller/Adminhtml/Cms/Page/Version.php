@@ -113,7 +113,7 @@ class Version
         $version = $this->_initVersion();
 
         if (!$version->getId()) {
-            $this->_session->addError(__('We could not load the specified revision.'));
+            $this->messageManager->addError(__('We could not load the specified revision.'));
             $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
             return;
         }
@@ -161,9 +161,9 @@ class Version
                 $version->save();
 
                 // display success message
-                $this->_session->addSuccess(__('You have saved the version.'));
+                $this->messageManager->addSuccess(__('You have saved the version.'));
                 // clear previously saved data from session
-                $this->_session->setFormData(false);
+                $this->messageManager->setFormData(false);
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('adminhtml/*/' . $this->getRequest()->getParam('back'),
@@ -179,7 +179,7 @@ class Version
 
             } catch (\Exception $e) {
                 // display error message
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 // save data in session
                 $this->_session->setFormData($data);
                 // redirect to edit form
@@ -218,7 +218,7 @@ class Version
     {
         $ids = $this->getRequest()->getParam('revision');
         if (!is_array($ids)) {
-            $this->_getSession()->addError(__('Please select revision(s).'));
+            $this->messageManager->addError(__('Please select revision(s).'));
         } else {
             try {
                 $userId = $this->_backendAuthSession->getUser()->getId();
@@ -231,14 +231,14 @@ class Version
                         $revision->delete();
                     }
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('A total of %1 record(s) have been deleted.', count($ids))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_getSession()->addError(__('Something went wrong while deleting the revisions.'));
+                $this->messageManager->addError(__('Something went wrong while deleting the revisions.'));
             }
         }
         $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'revisions'));
@@ -262,16 +262,16 @@ class Version
             try {
                 $version->delete();
                 // display success message
-                $this->_session->addSuccess(__('You have deleted the version.'));
+                $this->messageManager->addSuccess(__('You have deleted the version.'));
                 $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $version->getPageId()));
                 return;
             } catch (\Magento\Core\Exception $e) {
                 // display error message
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_session->addError(__('Something went wrong while deleting this version.'));
+                $this->messageManager->addError(__('Something went wrong while deleting this version.'));
                 $error = true;
             }
 
@@ -282,7 +282,7 @@ class Version
             }
         }
         // display error message
-        $this->_session->addError(__("We can't find a version to delete."));
+        $this->messageManager->addError(__("We can't find a version to delete."));
         // go to grid
         $this->_redirect('adminhtml/cms_page/edit', array('_current' => true));
         return $this;
@@ -317,7 +317,7 @@ class Version
             try {
                 $version->save();
                 // display success message
-                $this->_session->addSuccess(__('You have created the new version.'));
+                $this->messageManager->addSuccess(__('You have created the new version.'));
                 // clear previously saved data from session
                 $this->_session->setFormData(false);
                 if (isset($data['revision_id'])) {
@@ -334,7 +334,7 @@ class Version
                 return;
             } catch (\Exception $e) {
                 // display error message
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 if ($this->_redirect->getRefererUrl()) {
                     // save data in session
                     $this->_session->setFormData($data);

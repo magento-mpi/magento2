@@ -64,7 +64,7 @@ class Rule extends \Magento\Backend\App\Action
             $ruleModel->load($taxRuleId);
             if (!$ruleModel->getId()) {
                 $this->_objectManager->get('Magento\Backend\Model\Session')->unsRuleData();
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('This rule no longer exists.'));
+                $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('tax/*/');
                 return;
             }
@@ -95,7 +95,7 @@ class Rule extends \Magento\Backend\App\Action
             try {
                 $ruleModel->save();
 
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(__('The tax rule has been saved.'));
+                $this->messageManager->addSuccess(__('The tax rule has been saved.'));
 
                 if ($this->getRequest()->getParam('back')) {
                     $this->_redirect('tax/*/edit', array('rule' => $ruleModel->getId()));
@@ -105,9 +105,9 @@ class Rule extends \Magento\Backend\App\Action
                 $this->_redirect('tax/*/');
                 return;
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Something went wrong saving this tax rule.'));
+                $this->messageManager->addError(__('Something went wrong saving this tax rule.'));
             }
 
             $this->_objectManager->get('Magento\Backend\Model\Session')->setRuleData($postData);
@@ -123,7 +123,7 @@ class Rule extends \Magento\Backend\App\Action
         $ruleModel = $this->_objectManager->get('Magento\Tax\Model\Calculation\Rule')
             ->load($ruleId);
         if (!$ruleModel->getId()) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('This rule no longer exists'));
+            $this->messageManager->addError(__('This rule no longer exists'));
             $this->_redirect('tax/*/');
             return;
         }
@@ -131,14 +131,14 @@ class Rule extends \Magento\Backend\App\Action
         try {
             $ruleModel->delete();
 
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addSuccess(__('The tax rule has been deleted.'));
+            $this->messageManager->addSuccess(__('The tax rule has been deleted.'));
             $this->_redirect('tax/*/');
 
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addError(__('Something went wrong deleting this tax rule.'));
+            $this->messageManager->addError(__('Something went wrong deleting this tax rule.'));
         }
 
         $this->getResponse()->setRedirect($this->_redirect->getRedirectUrl($this->getUrl('*')));

@@ -151,7 +151,7 @@ class Index extends \Magento\Backend\App\Action
 
             $backupManager->create();
 
-            $this->_getSession()->addSuccess($successMessage);
+            $this->messageManager->addSuccess($successMessage);
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
@@ -364,7 +364,7 @@ class Index extends \Magento\Backend\App\Action
 
             $resultData->setIsSuccess(true);
             if ($allBackupsDeleted) {
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The selected backup(s) has been deleted.')
                 );
             } else {
@@ -372,7 +372,7 @@ class Index extends \Magento\Backend\App\Action
             }
         } catch (\Exception $e) {
             $resultData->setIsSuccess(false);
-            $this->_getSession()->addError($deleteFailMessage);
+            $this->messageManager->addError($deleteFailMessage);
         }
 
         return $this->_redirect('backup/*/index');

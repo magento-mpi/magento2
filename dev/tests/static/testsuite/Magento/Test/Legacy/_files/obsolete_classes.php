@@ -1752,4 +1752,8 @@ return array(
         'Magento\View\Layout\PageType\Config\SchemaLocator'
     ),
     array('Magento\Core\Model\Theme\CopyService', 'Magento\Theme\Model\CopyService'),
+    array('Magento\Core\Model\Resource\Session', 'Magento\Session\SaveHandler\DbTable'),
+    array('Magento\Core\Model\Session\Exception', 'Magento\Session\Exception'),
+    array('Magento\Core\Model\Session\Context'),
+    array('Magento\Core\Model\Session\AbstractSession', 'Magento\Session\SessionManager'),
 );
