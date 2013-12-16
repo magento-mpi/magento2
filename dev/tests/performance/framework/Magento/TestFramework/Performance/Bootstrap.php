@@ -46,7 +46,9 @@ class Bootstrap
         $reportDir = $this->_config->getReportDir();
         try {
             $filesystemAdapter = new \Magento\Filesystem\Driver\File();
-            $filesystemAdapter->deleteDirectory($reportDir);
+            if ($filesystemAdapter->isExists($reportDir)) {
+                $filesystemAdapter->deleteDirectory($reportDir);
+            }
         } catch (\Magento\Filesystem\FilesystemException $e) {
             if (file_exists($reportDir)) {
                 throw new \Magento\Exception("Cannot cleanup reports directory '$reportDir'.");
