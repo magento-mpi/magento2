@@ -35,11 +35,6 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
-        $helperFactory = $this->getMock('Magento\App\Helper\HelperFactory', array('get'), array(), '', false);
-        $helperFactory->expects($this->once())
-            ->method('get')
-            ->will($this->returnValue($helper));
-
         $dirsMock = $this->getMock('Magento\App\Dir', array('getDir'), array(), '', false);
         $dirsMock->expects($this->any())
             ->method('getDir')
@@ -51,7 +46,7 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
-            'helperFactory' => $helperFactory,
+            'fileStorageHelper' => $helper,
             'dirs' => $dirsMock
         );
         $block = $objectManager->getObject('Magento\Theme\Block\Html\Header', $arguments);
