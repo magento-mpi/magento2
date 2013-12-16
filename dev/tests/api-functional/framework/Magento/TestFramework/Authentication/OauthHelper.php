@@ -146,8 +146,9 @@ class OauthHelper
      * Remove fs element with nested elements.
      *
      * @param string $dir
+     * @param bool   $doSaveRoot
      */
-    protected static function _rmRecursive($dir)
+    protected static function _rmRecursive($dir, $doSaveRoot = false)
     {
         if (is_dir($dir)) {
             foreach (glob($dir . '/*') as $object) {
@@ -157,7 +158,9 @@ class OauthHelper
                     unlink($object);
                 }
             }
-            rmdir($dir);
+            if (!$doSaveRoot) {
+                rmdir($dir);
+            }
         } else {
             unlink($dir);
         }
@@ -193,7 +196,7 @@ class OauthHelper
         } else {
             $cachePath = $varPath . '/cache';
             if (is_dir($cachePath)) {
-                self::_rmRecursive($cachePath);
+                self::_rmRecursive($cachePath, true);
             }
         }
         return $integration;
