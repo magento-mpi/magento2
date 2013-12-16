@@ -16,6 +16,7 @@ use Magento\View\Layout\Element as LayoutElement;
 
 /**
  * @SuppressWarnings(PHPMD.TooManyFields)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class IntegrationTest extends \PHPUnit_Framework_TestCase
 {
@@ -437,7 +438,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
           </action>
        </referenceBlock>
     </handle>
-</layout>
+</layout
 HANDLE;
         // @codingStandardsIgnoreEnd
 
