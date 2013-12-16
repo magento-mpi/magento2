@@ -114,13 +114,10 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
+        $productPriceBlock = $productViewBlock->getProductPriceBlock();
         // verify special price is not applied
-        $this->assertFalse(
-            $productViewBlock->isProductSpecialPriceVisible(),
-            'Special price is visible adn not expected.'
-        );
-        $appliedRulePrice = $product->getProductPrice();
-        $this->assertContains($appliedRulePrice, $productViewBlock->getProductPrice());
+        $this->assertFalse($productPriceBlock->isSpecialPriceVisible(), 'Special price is visible adn not expected.');
+        $this->assertContains($product->getProductPrice(), $productPriceBlock->getEffectivePrice());
         // Verify price in the cart
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
@@ -171,11 +168,12 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $productPage->init($product);
         $productPage->open();
         $productViewBlock = $productPage->getViewBlock();
+        $productPriceBlock = $productViewBlock->getProductPriceBlock();
         $this->assertContains(
             (string)($product->getProductPrice() * $this->_discountDecimal),
-            $productViewBlock->getProductSpecialPrice()
+            $productPriceBlock->getSpecialPrice()
         );
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice());
+        $this->assertContains($product->getProductPrice(), $productPriceBlock->getRegularPrice());
         $productViewBlock->addToCart($product);
         Factory::getPageFactory()->getCheckoutCart()->getMessageBlock()->assertSuccessMessage();
         // Verify price in the cart

@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
@@ -42,6 +41,13 @@ class View extends Block
     protected $paypalCheckout = '[data-action=checkout-form-submit]';
 
     /**
+     * This member holds the class name for the price block found inside the product details.
+     *
+     * @var string
+     */
+    protected $priceBlockClass = 'price-box';
+
+    /**
      * Product name element
      *
      * @var string
@@ -54,13 +60,6 @@ class View extends Block
      * @var string
      */
     protected $productPrice = '.price-box .price';
-
-    /**
-     * Product special price element
-     *
-     * @var string
-     */
-    protected $productSpecialPrice = '.price-box .special-price .price';
 
     /**
      * Bundle options block
@@ -121,6 +120,18 @@ class View extends Block
     }
 
     /**
+     * This method returns the price box block.
+     *
+     * @return Price
+     */
+    public function getProductPriceBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
+            $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        );
+    }
+
+    /**
      * Return product price displayed on page
      *
      * @return array|string Returns arrays with keys corresponding to fixture keys
@@ -128,16 +139,6 @@ class View extends Block
     public function getProductPrice()
     {
         return $this->getPriceBlock()->getPrice();
-    }
-
-    /**
-     * Return product special price displayed on page
-     *
-     * @return array|string
-     */
-    public function getProductSpecialPrice()
-    {
-        return $this->_rootElement->find($this->productSpecialPrice)->getText();
     }
 
     /**
@@ -149,7 +150,7 @@ class View extends Block
     {
         $options = array();
         for ($i = 2; $i <= 3; $i++) {
-            $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child($i)")->getText();
+            $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child({$i})")->getText();
         }
         return $options;
     }
@@ -166,13 +167,16 @@ class View extends Block
         foreach ($attributes as $attributeName => $attribute) {
             foreach ($attribute as $optionName) {
                 $option = $this->_rootElement->find(
-                    '//*[*[@class="product options configure"]//span[text()="' . $attributeName
-                        . '"]]//select/option[contains(text(), "' . $optionName . '")]',
+                    '//*[*[@class="product options configure"]//span[text()="' .
+                    $attributeName .
+                    '"]]//select/option[contains(text(), "' .
+                    $optionName .
+                    '")]',
                     Locator::SELECTOR_XPATH
                 );
                 if (!$option->isVisible()) {
                     return false;
-                };
+                }
             }
         }
         return true;
@@ -215,7 +219,7 @@ class View extends Block
     {
         foreach ($product->getAssociatedProductNames() as $name) {
             $option = $this->_rootElement->find(
-                "//*[@id='super-product-table']//tr[td/strong='$name']",
+                "//*[@id='super-product-table']//tr[td/strong='{$name}']",
                 Locator::SELECTOR_XPATH
             );
             if (!$option->isVisible()) {
@@ -223,15 +227,5 @@ class View extends Block
             }
         }
         return true;
-    }
-
-    /**
-     * Check if product special price is visible
-     *
-     * @return bool
-     */
-    public function isProductSpecialPriceVisible()
-    {
-        return $this->_rootElement->find($this->productSpecialPrice)->isVisible();
     }
 }

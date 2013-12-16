@@ -157,7 +157,8 @@ class ApplyCatalogPriceRule extends Functional
                 $productViewBlock->fillOptions($product);
                 $appliedRulePrice += $product->getProductOptionsPrice();
             }
-            $this->assertContains((string)$appliedRulePrice, $productViewBlock->getProductSpecialPrice());
+            $productPriceBlock = $productViewBlock->getProductPriceBlock();
+            $this->assertContains((string)$appliedRulePrice, $productPriceBlock->getSpecialPrice());
 
             // Add to Cart
             $productViewBlock->addToCart($product);
@@ -208,9 +209,7 @@ class ApplyCatalogPriceRule extends Functional
         $this->verifyAddProducts($products);
 
         // Verify one page checkout prices
-        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(
-            array('products' => $products)
-        );
+        $fixture = Factory::getFixtureFactory()->getMagentoCheckoutCheckMoneyOrderFlat(array('products' => $products));
         $fixture->persist();
         $this->checkoutProcess($fixture);
 
