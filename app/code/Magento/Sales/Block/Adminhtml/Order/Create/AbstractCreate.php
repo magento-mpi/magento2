@@ -20,7 +20,7 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create;
 abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 {
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
 
@@ -31,7 +31,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
 
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         array $data = array()
     ) {
@@ -53,7 +53,7 @@ abstract class AbstractCreate extends \Magento\Backend\Block\Widget
     /**
      * Retrieve quote session object
      *
-     * @return \Magento\Adminhtml\Model\Session\Quote
+     * @return \Magento\Backend\Model\Session\Quote
      */
     protected function _getSession()
     {

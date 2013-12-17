@@ -77,8 +77,9 @@ class ArgumentSequence implements ValidatorInterface
         }
 
         if (false == $this->_checkArgumentSequence($classArguments, $requiredSequence)) {
+            $classPath = str_replace('\\', '/', $class->getFileName());
             throw new ValidationException(
-                'Incorrect argument sequence in class ' . $className . ' in ' . $class->getFileName() . PHP_EOL
+                'Incorrect argument sequence in class ' . $className . ' in ' . $classPath . PHP_EOL
                 . 'Required: $' . implode(', $', array_keys($requiredSequence)) . PHP_EOL
                 . 'Actual  : $' . implode(', $', array_keys($classArguments)) . PHP_EOL
             );

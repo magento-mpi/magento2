@@ -152,7 +152,7 @@ class Observer
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_checkoutData;
         $rows = $helper->isSkuFileUploaded($observer->getRequestModel())
-            ? $helper->processSkuFileUploading($observer->getSession())
+            ? $helper->processSkuFileUploading()
             : array();
         if (empty($rows)) {
             return;

@@ -30,7 +30,7 @@ class Address
     /**
      * Adminhtml addresses
      *
-     * @var \Magento\Adminhtml\Helper\Addresses
+     * @var \Magento\Backend\Helper\Addresses
      */
     protected $_adminhtmlAddresses = null;
 
@@ -61,14 +61,14 @@ class Address
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\FormFactory $customerFormFactory
-     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
      * 
@@ -76,14 +76,14 @@ class Address
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Sales\Model\AdminOrder\Create $orderCreate,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Json\EncoderInterface $jsonEncoder,
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\FormFactory $customerFormFactory,
-        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
         \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {

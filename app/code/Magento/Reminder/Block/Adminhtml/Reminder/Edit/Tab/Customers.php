@@ -13,7 +13,7 @@
  */
 namespace Magento\Reminder\Block\Adminhtml\Reminder\Edit\Tab;
 
-class Customers extends \Magento\Adminhtml\Block\Widget\Grid
+class Customers extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Customer Resource Collection

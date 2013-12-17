@@ -79,9 +79,9 @@ class Tree extends \Magento\Backend\Block\Template
         if ($path) {
             $path = str_replace($this->_storageHelper->getStorageRoot(), '', $path);
             $relative = '';
-            foreach (explode(DIRECTORY_SEPARATOR, $path) as $dirName) {
+            foreach (explode('/', $path) as $dirName) {
                 if ($dirName) {
-                    $relative .= DIRECTORY_SEPARATOR . $dirName;
+                    $relative .= '/' . $dirName;
                     $treePath .= '/' . $this->_storageHelper->urlEncode($relative);
                 }
             }

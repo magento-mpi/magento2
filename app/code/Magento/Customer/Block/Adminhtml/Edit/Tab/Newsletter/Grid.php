@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\Newsletter;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry

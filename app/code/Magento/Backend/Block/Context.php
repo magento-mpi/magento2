@@ -1,7 +1,4 @@
 <?php
-
-namespace Magento\Backend\Block;
-
 /**
  * Backend block context
  *
@@ -9,6 +6,12 @@ namespace Magento\Backend\Block;
  *
  * @copyright   {copyright}
  * @license     {license_link}
+ */
+
+namespace Magento\Backend\Block;
+
+/**
+ * Backend block context
  *
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
@@ -27,7 +30,7 @@ class Context extends \Magento\View\Element\Context
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
@@ -52,7 +55,7 @@ class Context extends \Magento\View\Element\Context
         \Magento\TranslateInterface $translator,
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,

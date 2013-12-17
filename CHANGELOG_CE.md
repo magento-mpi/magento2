@@ -2,6 +2,10 @@
   * Fixed placing order with PayPal Payments Advanced and Payflow Link
   * Fixed losing previously assigned categories after next product save with changed category selector field
   * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
+  * Fixed 3D Secure Information absence on Admin Order Info page
+  * Fixed possibility to download or revert Backup
+  * Fixed Session Fixation in User Registration during Checkout
+  * Fixed fatal error while login to backend
   * Fixed inline translations in adminhtml area
   * Partial refunds/invoices in Payflow Pro
   * Design emulation ignores area
@@ -9,21 +13,40 @@
   * Fixed the error during place an order with Recurring profile payment
   * Fixed wrong redirection after customer registration during multishipping checkout
   * Fixed the bug that shipping labels can't be created
+  * Fixed switch language is not responding, is the default English
+  * Fixed incorrect XML appears in cache after some actions on the frontend
+  * Fixed export products does not work
+  * Fixed impossibility to configure memcache as session save handler
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
+  * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
+  * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
   * Layout page type config moved into library
   * Design loader moved to library
   * Theme label moved to library
+  * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
+  * Core Session and Cookie models decomposed and moved to library
+    * \Magento\Stdlib\Cookie library created
+    * Session Manager and Session Config interfaces provided
+    * Session save handler interface created
+    * Session storage interface created, session doesn't extend \Magento\Object anymore
+    * Session validator interface created
+    * Session generic wrapper moved to library
+    * Messages functionality moved from Session model as separate component, message manager interface created.
+    * Sid resolver interface created to handle session sid from request
 * Themes update:
   * Reduced amount of templates and layouts in magento_plushe theme
   * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
-  
+* Implemented API Integration UX flows
+  * Ability to re-authorize credentials
+  * Ability to exchange OAuth tokens as part of activation/re-authorization flow
+
 2.0.0.0-dev55
 =============
 * Modularity improvements:

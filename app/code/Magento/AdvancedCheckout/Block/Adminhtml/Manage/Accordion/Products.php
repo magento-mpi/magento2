@@ -130,7 +130,7 @@ class Products
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -171,7 +171,7 @@ class Products
     /**
      * Custom products grid search callback
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareLayout()
     {
@@ -183,7 +183,7 @@ class Products
     /**
      * Search by selected products
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _addColumnFilterToCollection($column)
     {
@@ -233,7 +233,7 @@ class Products
     /**
      * Add columns with controls to manage added products and their quantity
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _addControlColumns()
     {

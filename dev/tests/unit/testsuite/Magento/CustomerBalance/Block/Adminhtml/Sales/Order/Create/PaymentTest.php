@@ -29,7 +29,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
     protected $_balanceFactoryMock;
 
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuoteMock;
 
@@ -93,7 +93,7 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             ->method('loadByCustomer')
             ->will($this->returnValue($this->_balanceInstance));
         $this->_sessionQuoteMock = $this->getMock(
-            'Magento\Adminhtml\Model\Session\Quote', array(), array(), '', false
+            'Magento\Backend\Model\Session\Quote', array(), array(), '', false
         );
         $this->_orderCreateMock = $this->getMock(
             'Magento\Sales\Model\AdminOrder\Create', array(), array(), '', false

@@ -10,7 +10,7 @@
 
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
-class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
+class Salesrule extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
@@ -87,7 +87,7 @@ class Salesrule extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Create grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

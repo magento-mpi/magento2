@@ -91,7 +91,7 @@ class Edit extends \Magento\Backend\Block\Widget
     protected function _prepareLayout()
     {
         if (!$this->getRequest()->getParam('popup')) {
-            $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('back_button', 'Magento\Backend\Block\Widget\Button', array(
                 'label' => __('Back'),
                 'title' => __('Back'),
                 'onclick' => 'setLocation(\''
@@ -99,7 +99,7 @@ class Edit extends \Magento\Backend\Block\Widget
                 'class' => 'action-back'
             ));
         } else {
-            $this->addChild('back_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('back_button', 'Magento\Backend\Block\Widget\Button', array(
                 'label' => __('Close Window'),
                 'onclick' => 'window.close()',
                 'class' => 'cancel'
@@ -107,7 +107,7 @@ class Edit extends \Magento\Backend\Block\Widget
         }
 
         if (!$this->getProduct()->isReadonly()) {
-            $this->addChild('reset_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+            $this->addChild('reset_button', 'Magento\Backend\Block\Widget\Button', array(
                 'label' => __('Reset'),
                 'onclick' => 'setLocation(\'' . $this->getUrl('catalog/*/*', array('_current' => true)) . '\')'
             ));

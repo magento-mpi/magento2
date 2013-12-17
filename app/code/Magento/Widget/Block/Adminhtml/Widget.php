@@ -17,7 +17,7 @@
  */
 namespace Magento\Widget\Block\Adminhtml;
 
-class Widget extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Widget extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected function _construct()
     {

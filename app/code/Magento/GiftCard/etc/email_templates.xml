@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <template id="giftcard_email_template" label="Gift Card(s) Purchase" file="gift_information.html" type="html"/>
+    <template id="giftcard_email_template" label="Gift Card(s) Purchase" file="gift_information.html" type="html" module="Magento_GiftCard"/>
 </config>

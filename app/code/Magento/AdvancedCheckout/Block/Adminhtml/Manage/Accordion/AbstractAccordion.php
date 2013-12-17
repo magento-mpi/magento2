@@ -18,7 +18,7 @@
 namespace Magento\AdvancedCheckout\Block\Adminhtml\Manage\Accordion;
 
 abstract class AbstractAccordion
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Collection field name for using in controls
@@ -139,7 +139,7 @@ abstract class AbstractAccordion
     /**
      * Prepare Grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

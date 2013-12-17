@@ -24,7 +24,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
     /**
      * Adminhtml addresses
      *
-     * @var \Magento\Adminhtml\Helper\Addresses
+     * @var \Magento\Backend\Helper\Addresses
      */
     protected $_adminhtmlAddresses = null;
 
@@ -53,7 +53,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
      * @param \Magento\Customer\Model\FormFactory $customerFactory
      * @param \Magento\Core\Model\System\Store $systemStore
-     * @param \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses
+     * @param \Magento\Backend\Helper\Addresses $adminhtmlAddresses
      * @param \Magento\Customer\Helper\Data $customerHelper
      * @param array $data
      * 
@@ -69,7 +69,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Customer\Model\AddressFactory $addressFactory,
         \Magento\Customer\Model\FormFactory $customerFactory,
         \Magento\Core\Model\System\Store $systemStore,
-        \Magento\Adminhtml\Helper\Addresses $adminhtmlAddresses,
+        \Magento\Backend\Helper\Addresses $adminhtmlAddresses,
         \Magento\Customer\Helper\Data $customerHelper,
         array $data = array()
     ) {
@@ -91,14 +91,14 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
 
     protected function _prepareLayout()
     {
-        $this->addChild('delete_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('delete_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'  => __('Delete Address'),
             'name'   => 'delete_address',
             'element_name' => 'delete_address',
             'disabled' => $this->isReadonly(),
             'class'  => 'delete' . ($this->isReadonly() ? ' disabled' : '')
         ));
-        $this->addChild('add_address_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_address_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'  => __('Add New Address'),
             'id'     => 'add_address_button',
             'name'   => 'add_address_button',
@@ -106,7 +106,7 @@ class Addresses extends \Magento\Backend\Block\Widget\Form\Generic
             'disabled' => $this->isReadonly(),
             'class'  => 'add'  . ($this->isReadonly() ? ' disabled' : '')
         ));
-        $this->addChild('cancel_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('cancel_button', 'Magento\Backend\Block\Widget\Button', array(
             'label'  => __('Cancel'),
             'id'     => 'cancel_add_address'.$this->getTemplatePrefix(),
             'name'   => 'cancel_address',

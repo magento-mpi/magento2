@@ -17,7 +17,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Widget;
 
-class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
+class Chooser extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     protected $_selectedProducts = array();
 
@@ -192,7 +192,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Filter checked/unchecked rows in grid
      *
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return \Magento\Catalog\Block\Adminhtml\Product\Widget\Chooser
      */
     protected function _addColumnFilterToCollection($column)
@@ -213,7 +213,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare products collection, defined collection filters (category, product type)
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
@@ -246,7 +246,7 @@ class Chooser extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare columns for products grid
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

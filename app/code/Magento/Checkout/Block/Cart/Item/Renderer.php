@@ -60,11 +60,17 @@ class Renderer extends \Magento\View\Element\Template
     protected $_urlHelper;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Product\Configuration $productConfig
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Core\Helper\Url $urlHelper
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param array $data
      */
     public function __construct(
@@ -73,12 +79,14 @@ class Renderer extends \Magento\View\Element\Template
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Core\Helper\Url $urlHelper,
+        \Magento\Message\ManagerInterface $messageManager,
         array $data = array()
     ) {
         $this->_urlHelper = $urlHelper;
         $this->_imageHelper = $imageHelper;
         $this->_productConfig = $productConfig;
         $this->_checkoutSession = $checkoutSession;
+        $this->messageManager = $messageManager;
         parent::__construct($context, $data);
     }
 
@@ -356,7 +364,7 @@ class Renderer extends \Magento\View\Element\Template
         $messages = array();
         $quoteItem = $this->getItem();
 
-        // Add basic messages occuring during this page load
+        // Add basic messages occurring during this page load
         $baseMessages = $quoteItem->getMessage(false);
         if ($baseMessages) {
             foreach ($baseMessages as $message) {
@@ -367,22 +375,19 @@ class Renderer extends \Magento\View\Element\Template
             }
         }
 
-        // Add messages saved previously in checkout session
-        $checkoutSession = $this->getCheckoutSession();
-        if ($checkoutSession) {
-            /* @var $collection \Magento\Message\Collection */
-            $collection = $checkoutSession->getQuoteItemMessages($quoteItem->getId(), true);
-            if ($collection) {
-                $additionalMessages = $collection->getItems();
-                foreach ($additionalMessages as $message) {
-                    /* @var $message \Magento\Message\AbstractMessage */
-                    $messages[] = array(
-                        'text' => $message->getCode(),
-                        'type' => ($message->getType() == \Magento\Message\Factory::ERROR) ? 'error' : 'notice'
-                    );
-                }
+        /* @var $collection \Magento\Message\Collection */
+        $collection = $this->messageManager->getMessages('quote_item' . $quoteItem->getId());
+        if ($collection) {
+            $additionalMessages = $collection->getItems();
+            foreach ($additionalMessages as $message) {
+                /* @var $message \Magento\Message\MessageInterface */
+                $messages[] = array(
+                    'text' => $message->getText(),
+                    'type' => $message->getType()
+                );
             }
         }
+        $this->messageManager->getMessages('quote_item' . $quoteItem->getId())->clear();
 
         return $messages;
     }

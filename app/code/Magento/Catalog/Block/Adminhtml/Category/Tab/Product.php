@@ -155,7 +155,7 @@ class Product extends \Magento\Backend\Block\Widget\Grid\Extended
             'type'      => 'number',
             'index'     => 'position',
             'editable'  => !$this->getCategory()->getProductsReadonly()
-            //'renderer'  => 'Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Input'
+            //'renderer'  => 'Magento\Backend\Block\Widget\Grid\Column\Renderer\Input'
         ));
 
         return parent::_prepareColumns();

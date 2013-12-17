@@ -17,7 +17,7 @@
  */
 namespace Magento\Cms\Block\Adminhtml\Page;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Cms\Model\Resource\Page\CollectionFactory

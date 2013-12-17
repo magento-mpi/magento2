@@ -172,7 +172,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * Add store filter
      *
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column  $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column  $column
      * @return \Magento\Banner\Block\Adminhtml\Banner\Grid
      */
     protected function _addColumnFilterToCollection($column)

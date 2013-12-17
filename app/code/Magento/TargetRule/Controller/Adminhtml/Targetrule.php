@@ -99,7 +99,7 @@ class Targetrule extends \Magento\Backend\App\Action
         if ($ruleId) {
             $model->load($ruleId);
             if (!$model->getId()) {
-                $this->_getSession()->addError(__('This rule no longer exists.'));
+                $this->messageManager->addError(__('This rule no longer exists.'));
                 $this->_redirect('adminhtml/*');
                 return;
             }
@@ -107,7 +107,7 @@ class Targetrule extends \Magento\Backend\App\Action
 
         $this->_title->add($model->getId() ? $model->getName() : __('New Related Products Rule'));
 
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -163,7 +163,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
-                        $this->_getSession()->addError($errorMessage);
+                        $this->messageManager->addError($errorMessage);
                     }
                     $this->_getSession()->setFormData($data);
 
@@ -178,7 +178,7 @@ class Targetrule extends \Magento\Backend\App\Action
                 $model->loadPost($data);
                 $model->save();
 
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You saved the rule.')
                 );
 
@@ -190,18 +190,18 @@ class Targetrule extends \Magento\Backend\App\Action
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $hasError = true;
             } catch (\Zend_Date_Exception $e) {
-                $this->_getSession()->addError(__('Invalid date.'));
+                $this->messageManager->addError(__('Invalid date.'));
                 $hasError = true;
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('An error occurred while saving Product Rule.')
                 );
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
+                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->setPageData($data);
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }
@@ -228,19 +228,17 @@ class Targetrule extends \Magento\Backend\App\Action
                 $model = $this->_objectManager->create('Magento\TargetRule\Model\Rule');
                 $model->load($id);
                 $model->delete();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addSuccess(__('You deleted the rule.'));
+                $this->messageManager->addSuccess(__('You deleted the rule.'));
                 $this->_redirect('adminhtml/*/');
                 return;
             }
             catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $this->getRequest()->getParam('id')));
                 return;
             }
         }
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-            ->addError(__("We can't find a page to delete."));
+        $this->messageManager->addError(__("We can't find a page to delete."));
         $this->_redirect('adminhtml/*/');
     }
 

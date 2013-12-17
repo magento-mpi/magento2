@@ -421,7 +421,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
             'onclick'   => 'hierarchyNodes.pageGridAddSelected()',
             'class'     => 'add'
         );
-        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData($addButtonData)->toHtml();
     }
 
@@ -433,19 +433,19 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     public function getPagePropertiesButtons()
     {
         $buttons = array();
-        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
             'id'        => 'delete_node_button',
             'label'     => __('Remove from tree.'),
             'onclick'   => 'hierarchyNodes.deleteNodePage()',
             'class'     => 'delete'
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
             'id'        => 'cancel_node_button',
             'label'     => __('Cancel'),
             'onclick'   => 'hierarchyNodes.cancelNodePage()',
             'class'     => 'cancel'
         ))->toHtml();
-        $buttons[] = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        $buttons[] = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
             'id'        => 'save_node_button',
             'label'     => __('Save'),
             'onclick'   => 'hierarchyNodes.saveNodePage()',
@@ -462,7 +462,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     public function getTreeButtonsHtml()
     {
-        return $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')->setData(array(
+        return $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')->setData(array(
             'id'        => 'new_node_button',
             'label'     => __('Add Node...'),
             'onclick'   => 'hierarchyNodes.newNodePage()',

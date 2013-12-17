@@ -22,7 +22,7 @@ foreach ($collection->getAllIds() as $id) {
 /**
  * Import tax rates with import handler
  */
-$filename = realpath(__DIR__ . DS . 'tax_rates.csv');
+$filename = realpath(__DIR__ . '/tax_rates.csv');
 $file = array (
     'name' => $filename,
     'type' => 'application/vnd.ms-excel',

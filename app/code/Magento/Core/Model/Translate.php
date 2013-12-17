@@ -9,6 +9,7 @@
  */
 
 namespace Magento\Core\Model;
+
 use Magento\TranslateInterface;
 
 
@@ -180,6 +181,16 @@ class Translate implements TranslateInterface
     protected $_appState;
 
     /**
+     * @var \Magento\Filesystem
+     */
+    protected $filesystem;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Read
+     */
+    protected $directory;
+
+    /**
      * @param \Magento\View\DesignInterface $viewDesign
      * @param \Magento\Core\Model\Locale\Hierarchy\Config $config
      * @param \Magento\Core\Model\Translate\Factory $translateFactory
@@ -193,6 +204,7 @@ class Translate implements TranslateInterface
      * @param \Magento\Core\Model\Resource\Translate $translate
      * @param \Magento\Core\Model\App $app
      * @param \Magento\App\State $appState
+     * @param \Magento\Filesystem $filesystem
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -209,7 +221,8 @@ class Translate implements TranslateInterface
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Resource\Translate $translate,
         \Magento\Core\Model\App $app,
-        \Magento\App\State $appState
+        \Magento\App\State $appState,
+        \Magento\Filesystem $filesystem
     ) {
         $this->_viewDesign = $viewDesign;
         $this->_localeHierarchy = $config->getHierarchy();
@@ -224,6 +237,8 @@ class Translate implements TranslateInterface
         $this->_translateResource = $translate;
         $this->_app = $app;
         $this->_appState = $appState;
+        $this->filesystem = $filesystem;
+        $this->directory = $filesystem->getDirectoryRead(\Magento\Filesystem::ROOT);
     }
 
     /**
@@ -468,8 +483,8 @@ class Translate implements TranslateInterface
      */
     protected function _getModuleTranslationFile($moduleName, $locale)
     {
-        $file = $this->_modulesReader->getModuleDir(\Magento\App\Dir::LOCALE, $moduleName);
-        $file .= DS . $locale . '.csv';
+        $file = $this->_modulesReader->getModuleDir(\Magento\Filesystem::LOCALE, $moduleName);
+        $file .= '/' . $locale . '.csv';
         return $file;
     }
 
@@ -482,7 +497,8 @@ class Translate implements TranslateInterface
     protected function _getThemeTranslationFile($locale, $area = null)
     {
         $area = isset($area) ? $area : $this->_appState->getAreaCode();
-        return $this->_viewFileSystem->getFilename(\Magento\App\Dir::LOCALE . DS . $locale . '.csv', array('area' => $area));
+        return $this->_viewFileSystem
+            ->getFilename(\Magento\Filesystem::LOCALE . '/' . $locale . '.csv', array('area' => $area));
     }
 
     /**
@@ -494,7 +510,7 @@ class Translate implements TranslateInterface
     protected function _getFileData($file)
     {
         $data = array();
-        if (file_exists($file)) {
+        if ($this->directory->isExist($this->directory->getRelativePath($file))) {
             $parser = new \Magento\File\Csv();
             $parser->setDelimiter(self::CSV_SEPARATOR);
             $data = $parser->getDataPairs($file);

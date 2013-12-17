@@ -57,11 +57,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
     protected $_filesystem;
 
     /**
-     * @var \Magento\App\Dir
-     */
-    protected $_dirs = null;
-
-    /**
      * @var \Magento\Core\Model\StoreManagerInterface
      */
     protected $_storeManager;
@@ -73,7 +68,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
 
     /**
      * @param \Magento\App\Helper\Context $context
-     * @param \Magento\App\Dir $dirs
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $config
      * @param \Magento\Filesystem $filesystem
@@ -81,13 +75,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function __construct(
         \Magento\App\Helper\Context $context,
-        \Magento\App\Dir $dirs,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $config,
         \Magento\Filesystem $filesystem,
         \Magento\Captcha\Model\CaptchaFactory $factory
     ) {
-        $this->_dirs = $dirs;
         $this->_storeManager = $storeManager;
         $this->_config = $config;
         $this->_filesystem = $filesystem;
@@ -142,11 +134,11 @@ class Data extends \Magento\App\Helper\AbstractHelper
         $fontsConfig = $this->_config->getValue(\Magento\Captcha\Helper\Data::XML_PATH_CAPTCHA_FONTS, 'default');
         $fonts = array();
         if ($fontsConfig) {
-            $libDir = $this->_dirs->getDir(\Magento\App\Dir::LIB);
+            $libDir = $this->_filesystem->getPath(\Magento\Filesystem::LIB);
             foreach ($fontsConfig as $fontName => $fontConfig) {
                 $fonts[$fontName] = array(
                     'label' => $fontConfig['label'],
-                    'path' => $libDir . DIRECTORY_SEPARATOR . $fontConfig['path']
+                    'path' => $libDir . '/' . $fontConfig['path']
                 );
             }
         }
@@ -161,12 +153,12 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getImgDir($website = null)
     {
-        $mediaDir =  $this->_dirs->getDir(\Magento\App\Dir::MEDIA);
-        $captchaDir = $mediaDir . '/captcha/' . $this->_getWebsiteCode($website);
-        $this->_filesystem->setWorkingDirectory($mediaDir);
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($captchaDir, 0775);
-        return $captchaDir . '/';
+        $mediaDir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $captchaDir = '/captcha/' . $this->_getWebsiteCode($website);
+        $mediaDir->create($captchaDir);
+        $mediaDir->changePermissions($captchaDir, 0775);
+
+        return $mediaDir->getAbsolutePath($captchaDir) . '/';
     }
 
     /**
@@ -179,7 +171,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
     {
         return $this->_storeManager->getWebsite($website)->getCode();
     }
-
+    
     /**
      * Get captcha image base URL
      *
@@ -188,7 +180,7 @@ class Data extends \Magento\App\Helper\AbstractHelper
      */
     public function getImgUrl($website = null)
     {
-        return $this->_storeManager->getStore()->getBaseUrl(\Magento\App\Dir::MEDIA) . 'captcha'
-            . '/' . $this->_storeManager->getWebsite($website)->getCode() . '/';
+        return $this->_storeManager->getStore()->getBaseUrl(\Magento\Filesystem::MEDIA) . 'captcha'
+            . '/' . $this->_getWebsiteCode($website) . '/';
     }
 }

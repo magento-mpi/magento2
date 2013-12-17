@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order;
 
-class AbstractOrder extends \Magento\Adminhtml\Block\Widget
+class AbstractOrder extends \Magento\Backend\Block\Widget
 {
     /**
      * Core registry

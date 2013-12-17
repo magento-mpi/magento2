@@ -200,7 +200,7 @@ class Grid
     /**
      * Prepare columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {
@@ -319,7 +319,7 @@ class Grid
     /**
      * Setting column filters to collection
      *
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @return \Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Order\Grid
      */
     protected function _addColumnFilterToCollection($column)

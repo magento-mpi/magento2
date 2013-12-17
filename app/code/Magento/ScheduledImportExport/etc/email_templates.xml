@@ -8,7 +8,7 @@
  */
 -->
 <config>
-    <template id="magento_scheduledimportexport_import_failed" label="Import Failed" file="import_failed.html" type="html"/>
-    <template id="magento_scheduledimportexport_export_failed" label="Export Failed" file="export_failed.html" type="html"/>
-    <template id="system_magento_scheduled_import_export_log_error_email_template" label="File History Clean Failed" file="file_history_clean_failed.html" type="html"/>
+    <template id="magento_scheduledimportexport_import_failed" label="Import Failed" file="import_failed.html" type="html" module="Magento_ScheduledImportExport"/>
+    <template id="magento_scheduledimportexport_export_failed" label="Export Failed" file="export_failed.html" type="html" module="Magento_ScheduledImportExport"/>
+    <template id="system_magento_scheduled_import_export_log_error_email_template" label="File History Clean Failed" file="file_history_clean_failed.html" type="html" module="Magento_ScheduledImportExport"/>
 </config>

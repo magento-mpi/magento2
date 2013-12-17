@@ -20,7 +20,7 @@ namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 /**
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class Cart extends \Magento\Adminhtml\Block\Widget\Grid
+class Cart extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry

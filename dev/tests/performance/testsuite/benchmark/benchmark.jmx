@@ -294,7 +294,7 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="1876916270">&lt;span class=&quot;base&quot;&gt;Category</stringProp>
+              <stringProp name="-653399232">&lt;title&gt;Category</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -421,7 +421,7 @@
         <hashTree>
           <ResponseAssertion guiclass="AssertionGui" testclass="ResponseAssertion" testname="Assert Category Page" enabled="true">
             <collectionProp name="Asserion.test_strings">
-              <stringProp name="1876916270">&lt;span class=&quot;base&quot;&gt;Category</stringProp>
+              <stringProp name="-653399232">&lt;title&gt;Category</stringProp>
             </collectionProp>
             <stringProp name="Assertion.test_field">Assertion.response_data</stringProp>
             <boolProp name="Assertion.assume_success">false</boolProp>
@@ -871,7 +871,7 @@
           <RegexExtractor guiclass="RegexExtractorGui" testclass="RegexExtractor" testname="Assert Configurable Product Attribute Value" enabled="true">
             <stringProp name="RegexExtractor.useHeaders">false</stringProp>
             <stringProp name="RegexExtractor.refname">configurable_product_attribute_value</stringProp>
-            <stringProp name="RegexExtractor.regex">name=&quot;super_attribute\[${configurable_product_attribute_id}\]&quot;.*&lt;option\s+value=&quot;([0-9]+)&quot;</stringProp>
+            <stringProp name="RegexExtractor.regex">&quot;id&quot;:&quot;([0-9]+)&quot;,&quot;label&quot;:&quot;option</stringProp>
             <stringProp name="RegexExtractor.template">$1$</stringProp>
             <stringProp name="RegexExtractor.default">12</stringProp>
             <stringProp name="RegexExtractor.match_number">1</stringProp>

@@ -91,6 +91,7 @@ class Layout
             'dataServiceGraph'   => $objectManager->create('Magento\Core\Model\DataService\Graph', array()),
             'coreStoreConfig'    => $objectManager->create('Magento\Core\Model\Store\Config'),
             'appState'           => $objectManager->get('Magento\App\State'),
+            'messageManager'     => $objectManager->get('Magento\Message\ManagerInterface'),
             'objectManager'      => $objectManager
         );
     }
