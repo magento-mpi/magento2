@@ -9,6 +9,7 @@ namespace Magento\Cms\Model\Wysiwyg\Images;
  * @license     {license_link}
  *
  * @SuppressWarnings(PHPMD.LongVariable)
+ * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class StorageTest extends \PHPUnit_Framework_TestCase
 {

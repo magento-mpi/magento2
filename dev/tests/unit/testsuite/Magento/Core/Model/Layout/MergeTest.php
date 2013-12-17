@@ -50,6 +50,11 @@ class MergeTest extends \PHPUnit_Framework_TestCase
      */
     protected $_logger;
 
+    /**
+     * @var \PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_layoutValidator;
+
     protected function setUp()
     {
         $files = array();
@@ -70,7 +75,11 @@ class MergeTest extends \PHPUnit_Framework_TestCase
 
         $this->_appState = $this->getMock('Magento\App\State', array(), array(), '', false);
 
-        $this->_logger = $this->getMock('Magento\Logger', array('log'), array(), '', false);
+        $this->_logger = $this->getMock('Magento\Logger', array(), array(), '', false);
+
+        $this->_layoutValidator = $this->getMock(
+            'Magento\Core\Model\Layout\Update\Validator', array(), array(), '', false
+        );
 
         $this->_cache = $this->getMockForAbstractClass('Magento\Cache\FrontendInterface');
 
@@ -103,8 +112,9 @@ class MergeTest extends \PHPUnit_Framework_TestCase
             'appState' => $this->_appState,
             'cache' => $this->_cache,
             'theme' => $this->_theme,
+            'validator' => $this->_layoutValidator,
+            'logger' => $this->_logger,
             'filesystem' => $filesystem,
-            'logger' => $this->_logger
         ));
     }
 
@@ -321,5 +331,47 @@ class MergeTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->_model->isCustomerDesignAbstraction($expected['customer_account']));
         $this->assertFalse($this->_model->isCustomerDesignAbstraction($expected['page_empty']));
         $this->assertFalse($this->_model->isCustomerDesignAbstraction($expected['empty_data']));
+    }
+
+    /**
+     * @expectedException        \Magento\Exception
+     * @expectedExceptionMessage Invalid layout update handle
+     */
+    public function testLoadWithInvalidArgumentThrowsException()
+    {
+        $this->_model->load(123);
+    }
+
+    /**
+     * Test loading invalid layout
+     */
+    public function testLoadWithInvalidLayout()
+    {
+        $this->_model->addPageHandles(array('default'));
+
+        $this->_appState->expects($this->any())
+            ->method('getMode')
+            ->will($this->returnValue('developer'));
+
+        $this->_layoutValidator->expects($this->any())
+            ->method('getMessages')
+            ->will($this->returnValue(array('testMessage1', 'testMessage2')));
+
+        $this->_layoutValidator->expects($this->any())
+            ->method('isValid')
+            ->will($this->returnValue(false));
+
+        $suffix = md5(implode('|', $this->_model->getHandles()));
+        $cacheId = "LAYOUT_{$this->_theme->getArea()}_STORE{$this->_store->getId()}_{$this->_theme->getId()}{$suffix}";
+        $messages = $this->_layoutValidator->getMessages();
+
+        // Testing error message is logged with logger
+        $this->_logger->expects($this->once())
+            ->method('log')
+            ->with(
+                'Cache file with merged layout: ' . $cacheId. ': ' . array_shift($messages),
+                \Zend_Log::ERR);
+
+        $this->_model->load();
     }
 }

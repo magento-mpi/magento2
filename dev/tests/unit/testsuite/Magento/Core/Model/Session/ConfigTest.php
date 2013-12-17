@@ -463,4 +463,10 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->setOption('referer_check', 'BARBAZ');
         $this->assertEquals('BARBAZ', ini_get('session.referer_check'));
     }
+
+    public function testSetSavePath()
+    {
+        $this->config->setSavePath('some_save_path');
+        $this->assertEquals($this->config->getOption('save_path'), 'some_save_path');
+    }
 }

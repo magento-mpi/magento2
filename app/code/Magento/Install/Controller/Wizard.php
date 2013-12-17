@@ -207,7 +207,11 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_prepareLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
-
+        $this->_view->getLayout()
+            ->getBlock('install.locale')
+            ->setLocaleCode(
+                $this->_session->getLocale()
+            );
         $this->_view->renderLayout();
     }
 
@@ -303,7 +307,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function installAction()
     {
-        $pear = \Magento\Pear::getInstance();        
+        $pear = \Magento\Pear::getInstance();
         $params = array(
             'comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n"
         );
