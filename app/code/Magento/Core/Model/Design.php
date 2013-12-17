@@ -134,19 +134,4 @@ class Design extends \Magento\Core\Model\AbstractModel
         }
         return $this;
     }
-
-    /**
-     * @return Design
-     */
-    protected function _beforeSave()
-    {
-        parent::_beforeSave();
-        $this->setDateFrom(
-            $this->_dateTime->formatDate($this->getDateFrom())
-        );
-        $this->setDateTo(
-            $this->_dateTime->formatDate($this->getDateTo())
-        );
-        return $this;
-    }
 }
