@@ -42,7 +42,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $this->filesystem->expects($this->any())
             ->method('getPath')
             ->with(\Magento\Filesystem::ROOT)
-            ->will($this->returnValue(BP));
+            ->will($this->returnValue(str_replace('\\', '/', BP)));
 
         $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem);
         $this->_tmpDir = TESTS_TEMP_DIR . '/tool_theme_deployment';
@@ -102,11 +102,6 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
         $permitted = __DIR__ . '/_files/ThemeDeployment/run/permitted.php';
         $forbidden = __DIR__ . '/_files/ThemeDeployment/run/forbidden.php';
         $fixture = include __DIR__ . '/_files/ThemeDeployment/run/fixture.php';
-
-        $this->filesystem->expects($this->any())
-            ->method('getPath')
-            ->with(\Magento\Filesystem::ROOT)
-            ->will($this->returnValue(BP));
 
         $object = new \Magento\Tools\View\Generator\ThemeDeployment($this->_cssUrlResolver, $this->_tmpDir, $permitted,
             $forbidden);
