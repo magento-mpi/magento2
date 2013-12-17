@@ -201,7 +201,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
 
     /**
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -210,7 +210,8 @@ abstract class AbstractAction extends \Magento\App\Action\Action
         }
 
         if ($request->isDispatched() && $request->getActionName() !== 'denied' && !$this->_isAllowed()) {
-            return $this->_forward('denied');
+            $this->_forward('denied');
+            return $this->_response;
         }
 
         if ($this->_isUrlChecked()) {
@@ -326,7 +327,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     {
         $this->_getSession()->setIsUrlNotice($this->_actionFlag->get('', self::FLAG_IS_URLS_CHECKED));
         $this->getResponse()->setRedirect($this->getUrl($path, $arguments));
-        return $this;
+        return $this->getResponse();
     }
 
     protected function _forward($action, $controller = null, $module = null, array $params = null)

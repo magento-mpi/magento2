@@ -86,8 +86,6 @@ class Wishlist
 
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
     /**

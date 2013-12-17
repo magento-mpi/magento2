@@ -472,8 +472,7 @@ class Order extends \Magento\Backend\App\Action
      */
     public function massPrintAction()
     {
-        $orderIds = $this->getRequest()->getPost('order_ids');
-        $document = $this->getRequest()->getPost('document');
+
     }
 
     /**

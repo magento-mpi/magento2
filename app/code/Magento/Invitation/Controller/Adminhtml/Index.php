@@ -213,8 +213,7 @@ class Index extends \Magento\Backend\App\Action
                     foreach ($result as $message) {
                         $this->messageManager->addError($message);
                     }
-                    $this->_redirect('invitations/*/view', array('_current' => true));
-                    return $this;
+                    return $this->_redirect('invitations/*/view', array('_current' => true));
                 }
 
                 //If there was no validation errors trying to save

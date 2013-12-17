@@ -89,7 +89,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -403,8 +403,7 @@ class Wizard extends \Magento\Install\Controller\Action
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
             try {
                 $this->_getInstaller()->installConfig($data);
-                $this->_redirect('*/*/installDb');
-                return $this;
+                return $this->_redirect('*/*/installDb');
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());

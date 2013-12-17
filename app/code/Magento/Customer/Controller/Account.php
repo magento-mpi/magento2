@@ -148,7 +148,7 @@ class Account extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return mixed|void
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

@@ -24,7 +24,7 @@ class Sku extends \Magento\App\Action\Action
      * Check functionality is enabled and applicable to the Customer
      *
      * @param \Magento\App\RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -39,9 +39,9 @@ class Sku extends \Magento\App\Action\Action
         /** @var $helper \Magento\AdvancedCheckout\Helper\Data */
         $helper = $this->_objectManager->get('Magento\AdvancedCheckout\Helper\Data');
         if (!$helper->isSkuEnabled() || !$helper->isSkuApplied()) {
-            $this->_redirect('customer/account');
+            return $this->_redirect('customer/account');
         }
-        parent::dispatch($request);
+        return parent::dispatch($request);
     }
 
     /**

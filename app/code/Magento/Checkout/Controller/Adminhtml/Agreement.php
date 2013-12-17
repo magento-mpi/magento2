@@ -40,7 +40,6 @@ class Agreement extends \Magento\Backend\App\Action
                 $this->_view->getLayout()->createBlock('Magento\Checkout\Block\Adminhtml\Agreement')
             );
         $this->_view->renderLayout();
-        return $this;
     }
 
     public function newAction()

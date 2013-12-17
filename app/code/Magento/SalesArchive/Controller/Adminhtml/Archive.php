@@ -12,7 +12,7 @@
  * Archive controller
  *
  */
-namespace Magento\SalesArchive\Controller\Adminhtml\Sales;
+namespace Magento\SalesArchive\Controller\Adminhtml;
 
 class Archive extends \Magento\Backend\App\Action
 {
@@ -39,13 +39,12 @@ class Archive extends \Magento\Backend\App\Action
         $this->_archiveModel = $archiveModel;
         $this->_fileFactory = $fileFactory;
         parent::__construct($context);
-        $this->_title = $title;
     }
 
     /**
      * Render archive grid
      *
-     * @return \Magento\SalesArchive\Controller\Adminhtml\Sales\Archive
+     * @return \Magento\SalesArchive\Controller\Adminhtml\Archive
      */
     protected function _renderGrid()
     {
@@ -193,7 +192,7 @@ class Archive extends \Magento\Backend\App\Action
         } else {
             $this->messageManager->addWarning(__("We can't archive the selected order(s)."));
         }
-        $this->_redirect('adminhtml/sales_order/');
+        $this->_redirect('sales/order/');
     }
 
     /**
