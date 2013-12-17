@@ -122,7 +122,7 @@ class Index extends \Magento\Backend\App\Action
         $customer = $this->_coreRegistry->registry('current_customer');
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCustomerData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getCustomerData(true);
 
         // restore data from SESSION
         if ($data) {

@@ -216,7 +216,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     {
         $html = parent::_afterToHtml($html);
         if ($this->_customerHasOrphanPoints) {
-            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+            $deleteOrhanPointsButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                     'label'     => __('Delete Orphan Points'),
                     'onclick'   => 'setLocation(\'' . $this->getDeleteOrphanPointsUrl() .'\')',

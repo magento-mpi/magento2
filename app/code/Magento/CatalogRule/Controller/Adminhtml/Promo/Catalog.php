@@ -106,7 +106,7 @@ class Catalog extends \Magento\Backend\App\Action
         $this->_title->add($model->getRuleId() ? $model->getName() : __('New Catalog Price Rule'));
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -159,12 +159,12 @@ class Catalog extends \Magento\Backend\App\Action
 
                 $model->loadPost($data);
 
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($model->getData());
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($model->getData());
 
                 $model->save();
 
                 $this->messageManager->addSuccess(__('The rule has been saved.'));
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData(false);
                 if ($this->getRequest()->getParam('auto_apply')) {
                     $this->getRequest()->setParam('rule_id', $model->getId());
                     $this->_forward('applyRules');
@@ -186,7 +186,7 @@ class Catalog extends \Magento\Backend\App\Action
                     __('An error occurred while saving the rule data. Please review the log and try again.')
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($data);
                 $this->_redirect('catalog_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }

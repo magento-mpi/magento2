@@ -62,7 +62,7 @@ class MonitorTest extends \PHPUnit_Framework_TestCase
             array(
                 'Magento\Banner\Block\Adminhtml\Promo\Salesrule\Edit\Tab\Banners',
                 'catalogrule.related.banners',
-                'Magento\Adminhtml\Block\Widget\Tabs',
+                'Magento\Backend\Block\Widget\Tabs',
                 'promo_catalog_edit_tabs',
             ),
         );

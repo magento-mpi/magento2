@@ -411,7 +411,7 @@ class SessionManager implements SessionManagerInterface
      */
     public function regenerateId($deleteOldSession = true)
     {
-        if ($this->isSessionExists()) {
+        if (headers_sent()) {
             return $this;
         }
         session_regenerate_id($deleteOldSession);

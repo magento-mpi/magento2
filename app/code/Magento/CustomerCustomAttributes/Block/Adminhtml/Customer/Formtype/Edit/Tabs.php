@@ -17,7 +17,7 @@
  */
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Formtype\Edit;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize edit tabs

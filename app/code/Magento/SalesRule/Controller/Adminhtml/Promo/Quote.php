@@ -103,7 +103,7 @@ class Quote extends \Magento\Backend\App\Action
         $this->_title->add($model->getRuleId() ? $model->getName() : __('New Cart Price Rule'));
 
         // set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getPageData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getPageData(true);
         if (!empty($data)) {
             $model->addData($data);
         }
@@ -151,7 +151,7 @@ class Quote extends \Magento\Backend\App\Action
                     }
                 }
 
-                $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+                $session = $this->_objectManager->get('Magento\Backend\Model\Session');
 
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
@@ -206,7 +206,7 @@ class Quote extends \Magento\Backend\App\Action
                     __('An error occurred while saving the rule data. Please review the log and try again.')
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setPageData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setPageData($data);
                 $this->_redirect('sales_rule/*/edit', array('id' => $this->getRequest()->getParam('rule_id')));
                 return;
             }

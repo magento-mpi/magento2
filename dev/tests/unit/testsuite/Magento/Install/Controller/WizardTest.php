@@ -12,11 +12,11 @@
 /**
  * Test class for \Magento\Install\Block\Wizard
  */
-namespace Magento\Install\Block;
+namespace Magento\Install\Controller;
 /**
  * Class WizardTest
  *
- * @package Magento\Install\Block
+ * @package Magento\Install\Controller
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
  */
 class WizardTest extends \PHPUnit_Framework_TestCase
@@ -67,7 +67,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
     protected $_wizardMock;
 
     /**
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Session\Generic
      */
     protected $_sessionMock;
 
@@ -160,7 +160,7 @@ class WizardTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(false));
 
         $this->_sessionMock = $this->getMock(
-            'Magento\Core\Model\Session\Generic', array('getLocale'), array(), '', false
+            '\Magento\Session\Generic', array('getLocale'), array(), '', false
         );
         $this->_sessionMock->expects($this->any())->method('getLocale')->will($this->returnValue(self::LOCALE));
 

@@ -15,7 +15,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Creditmemo;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\Creditmemo\Grid\CollectionFactory

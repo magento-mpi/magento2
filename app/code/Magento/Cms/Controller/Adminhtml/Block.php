@@ -98,7 +98,7 @@ class Block extends \Magento\Backend\App\Action
         $this->_title->add($model->getId() ? $model->getTitle() : __('New Block'));
 
         // 3. Set entered data if was error when we do save
-        $data = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData(true);
+        $data = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData(true);
         if (! empty($data)) {
             $model->setData($data);
         }
@@ -139,7 +139,7 @@ class Block extends \Magento\Backend\App\Action
                 // display success message
                 $this->messageManager->addSuccess(__('The block has been saved.'));
                 // clear previously saved data from session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData(false);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData(false);
 
                 // check if 'Save and Continue'
                 if ($this->getRequest()->getParam('back')) {
@@ -154,7 +154,7 @@ class Block extends \Magento\Backend\App\Action
                 // display error message
                 $this->messageManager->addError($e->getMessage());
                 // save data in session
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setFormData($data);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->setFormData($data);
                 // redirect to edit form
                 $this->_redirect('*/*/edit', array('block_id' => $this->getRequest()->getParam('block_id')));
                 return;

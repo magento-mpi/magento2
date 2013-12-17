@@ -17,7 +17,7 @@
  */
 namespace Magento\ImportExport\Block\Adminhtml\Export;
 
-class Filter extends \Magento\Adminhtml\Block\Widget\Grid
+class Filter extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Helper object.

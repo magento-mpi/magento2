@@ -14,7 +14,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml;
 
-class Archive extends \Magento\Adminhtml\Block\Widget\Container
+class Archive extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Header text getter

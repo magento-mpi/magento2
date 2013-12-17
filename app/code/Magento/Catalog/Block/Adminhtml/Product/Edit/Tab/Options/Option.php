@@ -13,7 +13,7 @@
  */
 namespace Magento\Catalog\Block\Adminhtml\Product\Edit\Tab\Options;
 
-class Option extends \Magento\Adminhtml\Block\Widget
+class Option extends \Magento\Backend\Block\Widget
 {
     protected $_productInstance;
 

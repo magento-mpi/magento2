@@ -159,14 +159,14 @@
             <instance type="Magento\Backend\Model\Session\Storage" />
         </param>
     </type>
-    <virtualType name="Magento\Adminhtml\Model\Session\Quote\Storage" type="Magento\Session\Storage">
+    <virtualType name="Magento\Backend\Model\Session\Quote\Storage" type="Magento\Session\Storage">
         <param name="namespace">
             <value>adminhtml_quote</value>
         </param>
     </virtualType>
-    <type name="Magento\Adminhtml\Model\Session\Quote">
+    <type name="Magento\Backend\Model\Session\Quote">
         <param name="storage">
-            <instance type="Magento\Adminhtml\Model\Session\Quote\Storage" />
+            <instance type="Magento\Backend\Model\Session\Quote\Storage" />
         </param>
     </type>
 </config>

@@ -10,7 +10,7 @@
 
 namespace Magento\Index\Block\Adminhtml\Process;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Process model
@@ -196,7 +196,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @param string $value
      * @param \Magento\Index\Model\Process $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -223,7 +223,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @param string $value
      * @param \Magento\Index\Model\Process $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
@@ -247,7 +247,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
      *
      * @param string $value
      * @param \Magento\Index\Model\Process $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      *
      * @return string
