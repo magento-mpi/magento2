@@ -12,7 +12,6 @@ namespace Magento\CatalogRule\Test\TestCase\CatalogPriceRule;
 
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\SimpleProduct;
-use Magento\CatalogRule\Test\Repository\CatalogPriceRule as Repository;
 use Magento\Customer\Test\Fixture\Customer;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -43,12 +42,32 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $categoryIds = $simpleProductFixture->getCategoryIds();
         // Create Customer
         $customerFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
-        $customerFixture->switchData('customer_US_1');
+        $customerFixture->switchData('backend_customer');
         $customerFixture->persist();
-
+        // Create Customer Group
+        $customerGroupFixture = Factory::getFixtureFactory()->getMagentoCustomerCustomerGroup();
+        $customerGroupFixture->persist();
+        $groupName = $customerGroupFixture->getGroupName();
+        $groupId = $customerGroupFixture->getGroupId();
+        // update the customer fixture with the newly added customer group
+        $customerFixture->updateCustomerGroup($groupName, $groupId);
         // Create Customer Group Catalog Price Rule
         // Admin login
         Factory::getApp()->magentoBackendLoginUser();
+
+        // Customer needs to be in a group and front end customer creation doesn't set group
+        $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
+        // Edit Customer just created
+        $customerGridPage->open();
+        $customerGrid = $customerGridPage->getGridBlock();
+        $customerGrid->searchAndOpen(array('email' => $customerFixture->getEmail()));
+        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
+        $editCustomerForm = $customerEditPage->getEditCustomerForm();
+        // Set group to Retailer
+        $editCustomerForm->openTab('customer_info_tabs_account');
+        $editCustomerForm->fill($customerFixture);
+        // Save Customer Edit
+        $editCustomerForm->save();
 
         // Add Customer Group Catalog Price Rule
         $catalogRulePage = Factory::getPageFactory()->getCatalogRulePromoCatalog();
@@ -60,9 +79,11 @@ class ApplyCustomerGroupCatalogRule extends Functional
         $catalogRuleCreatePage = Factory::getPageFactory()->getCatalogRulePromoCatalogNew();
         $newCatalogRuleForm = $catalogRuleCreatePage->getCatalogPriceRuleForm();
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
-            array('category_id' => $categoryIds[0])
+            array('category_id' => $categoryIds[0],
+                'group_value' => $groupName,
+                'group_id' => $groupId
+            )
         );
-        $catalogRuleFixture->switchData(Repository::CUSTOMER_GROUP_GENERAL_RULE);
         // convert the discount amount to a decimal form
         $this->_discountDecimal = $catalogRuleFixture->getDiscountAmount() * .01;
         $newCatalogRuleForm->fill($catalogRuleFixture);

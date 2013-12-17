@@ -15,6 +15,7 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Repository\ConfigurableProduct as Repository;
 use Magento\Catalog\Test\Repository\SimpleProduct;
+use Magento\CatalogRule\Test\Repository\CatalogPriceRule;
 use Magento\Checkout\Test\Fixture\CheckMoneyOrderFlat;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
@@ -98,6 +99,7 @@ class ApplyCatalogPriceRule extends Functional
         $catalogRuleFixture = Factory::getFixtureFactory()->getMagentoCatalogRuleCatalogPriceRule(
             array('category_id' => $categoryId)
         );
+        $catalogRuleFixture->switchData(CatalogPriceRule::CATALOG_PRICE_RULE_ALL_GROUPS);
         $newCatalogRuleForm->fill($catalogRuleFixture);
         $newCatalogRuleForm->save();
 
