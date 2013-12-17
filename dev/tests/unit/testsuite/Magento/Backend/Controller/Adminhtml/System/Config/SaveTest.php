@@ -36,7 +36,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
      */
-    protected $_sessionMock;
+    protected $messageManagerMock;
 
     /**
      * @var \PHPUnit_Framework_MockObject_MockObject
@@ -73,7 +73,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
             false);
 
         $helperMock = $this->getMock('Magento\Backend\Helper\Data', array(), array(), '', false, false);
-        $this->_sessionMock = $this->getMock('Magento\Backend\Model\Session',
+
+        $this->messageManagerMock = $this->getMock('Magento\Message\Manager',
             array('addSuccess', 'addException'), array(), '', false, false
         );
 
@@ -98,10 +99,10 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $arguments = array(
             'request' => $this->_requestMock,
             'response' => $this->_responseMock,
-            'session' => $this->_sessionMock,
             'helper' => $helperMock,
             'eventManager' => $this->_eventManagerMock,
-            'auth' => $this->_authMock
+            'auth' => $this->_authMock,
+            'messageManager' => $this->messageManagerMock
         );
 
         $context = $helper->getObject('Magento\Backend\App\Action\Context', $arguments);
@@ -121,7 +122,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     public function testIndexActionWithAllowedSection()
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
-        $this->_sessionMock->expects($this->once())->method('addSuccess')->with('You saved the configuration.');
+        $this->messageManagerMock->expects($this->once())->method('addSuccess')->with('You saved the configuration.');
 
         $groups = array('some_key' => 'some_value');
         $requestParamMap = array(
@@ -159,8 +160,8 @@ class SaveTest extends \PHPUnit_Framework_TestCase
         $backendConfigMock = $this->getMock('Magento\Backend\Model\Config', array(), array(), '', false, false);
         $backendConfigMock->expects($this->never())->method('save');
         $this->_eventManagerMock->expects($this->never())->method('dispatch');
-        $this->_sessionMock->expects($this->never())->method('addSuccess');
-        $this->_sessionMock->expects($this->once())->method('addException');
+        $this->messageManagerMock->expects($this->never())->method('addSuccess');
+        $this->messageManagerMock->expects($this->once())->method('addException');
 
         $this->_configFactoryMock->expects($this->any())->method('create')
             ->will($this->returnValue($backendConfigMock));
@@ -186,7 +187,7 @@ class SaveTest extends \PHPUnit_Framework_TestCase
     {
         $this->_sectionMock->expects($this->any())->method('isAllowed')->will($this->returnValue(true));
 
-        $fixturePath = __DIR__ . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $fixturePath = __DIR__ . '/_files/';
         $groups = require_once($fixturePath . 'groups_array.php');
         $requestParamMap = array(
             array('section', null, 'test_section'),

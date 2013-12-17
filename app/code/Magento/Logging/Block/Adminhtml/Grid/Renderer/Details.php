@@ -15,7 +15,7 @@
 namespace Magento\Logging\Block\Adminhtml\Grid\Renderer;
 
 class Details
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render the grid cell value

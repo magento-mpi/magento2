@@ -99,7 +99,7 @@ class Index extends \Magento\Backend\App\Action
         try {
             $model = $this->_initSegment();
         } catch (\Magento\Core\Exception $e) {
-            $this->_session->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
         }
@@ -145,11 +145,11 @@ class Index extends \Magento\Backend\App\Action
                 $model->matchCustomers();
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/');
             return;
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e,
+            $this->messageManager->addException($e,
                 __('Segment Customers matching error')
             );
             $this->_redirect('customersegment/*/');
@@ -224,7 +224,7 @@ class Index extends \Magento\Backend\App\Action
                 $validateResult = $model->validateData(new \Magento\Object($data));
                 if ($validateResult !== true) {
                     foreach ($validateResult as $errorMessage) {
-                        $this->_getSession()->addError($errorMessage);
+                        $this->messageManager->addError($errorMessage);
                     }
                     $this->_getSession()->setFormData($data);
 
@@ -244,7 +244,7 @@ class Index extends \Magento\Backend\App\Action
                     $model->matchCustomers();
                 }
 
-                $this->_session->addSuccess(__('You saved the segment.'));
+                $this->messageManager->addSuccess(__('You saved the segment.'));
                 $this->_session->setPageData(false);
 
                 if ($redirectBack) {
@@ -256,12 +256,12 @@ class Index extends \Magento\Backend\App\Action
                 }
 
             } catch (\Magento\Core\Exception $e) {
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_session->setPageData($data);
                 $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('segment_id')));
                 return;
             } catch (\Exception $e) {
-                $this->_session->addError(__("We're unable to save the segment."));
+                $this->messageManager->addError(__("We're unable to save the segment."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
@@ -276,13 +276,13 @@ class Index extends \Magento\Backend\App\Action
         try {
             $model = $this->_initSegment('id', true);
             $model->delete();
-            $this->_session->addSuccess(__('You deleted the segment.'));
+            $this->messageManager->addSuccess(__('You deleted the segment.'));
         } catch (\Magento\Core\Exception $e) {
-            $this->_session->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('customersegment/*/edit', array('id' => $this->getRequest()->getParam('id')));
             return;
         } catch (\Exception $e) {
-            $this->_session->addError(__("We're unable to delete the segement."));
+            $this->messageManager->addError(__("We're unable to delete the segement."));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('customersegment/*/');

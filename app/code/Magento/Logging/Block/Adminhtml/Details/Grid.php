@@ -15,7 +15,7 @@
  */
 namespace Magento\Logging\Block\Adminhtml\Details;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry

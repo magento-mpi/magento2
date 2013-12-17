@@ -109,7 +109,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $model = $this->_initModel();
         $this->_initAction();
-        $formData = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getFormData();
+        $formData = $this->_objectManager->get('Magento\Backend\Model\Session')->getFormData();
         if ($formData) {
             $model->addData($formData);
         }
@@ -142,8 +142,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 }
 
                 $model->save();
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addSuccess(__('You saved the gift wrapping.'));
+                $this->messageManager->addSuccess(__('You saved the gift wrapping.'));
 
                 $redirectBack = $this->getRequest()->getParam('back', false);
                 if ($redirectBack) {
@@ -151,12 +150,11 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     return;
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addError(__("We couldn't save the gift wrapping."));
+                $this->messageManager->addError(__("We couldn't save the gift wrapping."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
@@ -179,13 +177,12 @@ class Giftwrapping extends \Magento\Backend\App\Action
                     throw new \Magento\Core\Exception(__('You have not updated the image.'));
                 }
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_getSession()->setFormData($wrappingRawData);
                 $this->_redirect('adminhtml/*/edit', array('id' => $model->getId()));
                 return;
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')
-                    ->addError(__("We couldn't save the gift wrapping."));
+                $this->messageManager->addError(__("We couldn't save the gift wrapping."));
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
@@ -212,13 +209,13 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 $wrapping->setStatus($status);
             }
             $wrappingCollection->save();
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('You updated a total of %1 records.', count($wrappingIds))
             );
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()->addException($e, __('Something went wrong while updating the wrapping(s) status.'));
+            $this->messageManager->addException($e, __('Something went wrong while updating the wrapping(s) status.'));
         }
 
         $this->_redirect('adminhtml/*/index');
@@ -232,7 +229,7 @@ class Giftwrapping extends \Magento\Backend\App\Action
     {
         $wrappingIds = (array)$this->getRequest()->getParam('wrapping_ids');
         if (!is_array($wrappingIds)) {
-            $this->_getSession()->addError(__('Please select items.'));
+            $this->messageManager->addError(__('Please select items.'));
         } else {
             try {
                 $wrappingCollection = $this->_objectManager
@@ -241,11 +238,11 @@ class Giftwrapping extends \Magento\Backend\App\Action
                 foreach ($wrappingCollection as $wrapping) {
                     $wrapping->delete();
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You deleted a total of %1 records.', count($wrappingIds))
                 );
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
 
@@ -263,9 +260,9 @@ class Giftwrapping extends \Magento\Backend\App\Action
         if ($wrapping->getId()) {
             try {
                 $wrapping->delete();
-                $this->_getSession()->addSuccess(__('You deleted the gift wrapping.'));
+                $this->messageManager->addSuccess(__('You deleted the gift wrapping.'));
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('_current'=>true));
             }
         }

@@ -8,32 +8,32 @@
  * @license     {license_link}
  */
 
-/**
- * Session model
- *
- * @category    Magento
- * @package     Magento_Pbridge
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Pbridge\Model;
 
-class Session extends \Magento\Core\Model\Session\AbstractSession
+/**
+ * Session model
+ */
+class Session extends \Magento\Session\SessionManager
 {
     /**
-     * @param \Magento\Core\Model\Session\Context $context
+     * @param \Magento\App\RequestInterface $request
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Session\Config\ConfigInterface $sessionConfig
+     * @param \Magento\Session\SaveHandlerInterface $saveHandler
+     * @param \Magento\Session\ValidatorInterface $validator
+     * @param \Magento\Session\StorageInterface $storage
      * @param null $sessionName
-     * @param array $data
      */
     public function __construct(
-        \Magento\Core\Model\Session\Context $context,
+        \Magento\App\RequestInterface $request,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Session\Config\ConfigInterface $sessionConfig,
-        $sessionName = null,
-        array $data = array()        
+        \Magento\Session\SaveHandlerInterface $saveHandler,
+        \Magento\Session\ValidatorInterface $validator,
+        \Magento\Session\StorageInterface $storage,
+        $sessionName = null
     ) {
-        parent::__construct($context, $sidResolver, $sessionConfig, $data);
-        $this->start('magento_pbridge', $sessionName);
+        parent::__construct($request, $sidResolver, $sessionConfig, $saveHandler, $validator, $storage);
+        $this->start($sessionName);
     }
 }

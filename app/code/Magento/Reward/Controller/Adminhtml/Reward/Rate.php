@@ -43,7 +43,7 @@ class Rate extends \Magento\Backend\App\Action
      * Check if module functionality enabled
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -140,10 +140,10 @@ class Rate extends \Magento\Backend\App\Action
 
             try {
                 $rate->save();
-                $this->_getSession()->addSuccess(__('You saved the rate.'));
+                $this->messageManager->addSuccess(__('You saved the rate.'));
             } catch (\Exception $exception) {
                 $this->_objectManager->get('Magento\Logger')->logException($exception);
-                $this->_getSession()->addError(__('We cannot save Rate.'));
+                $this->messageManager->addError(__('We cannot save Rate.'));
                 return $this->_redirect('adminhtml/*/edit', array('rate_id' => $rate->getId(), '_current' => true));
             }
         }
@@ -160,9 +160,9 @@ class Rate extends \Magento\Backend\App\Action
         if ($rate->getId()) {
             try {
                 $rate->delete();
-                $this->_getSession()->addSuccess(__('You deleted the rate.'));
+                $this->messageManager->addSuccess(__('You deleted the rate.'));
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/edit', array('_current' => true));
                 return;
             }
@@ -220,8 +220,8 @@ class Rate extends \Magento\Backend\App\Action
         }
 
         if ($message) {
-            $this->_getSession()->addError($message);
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->messageManager->addError($message);
+            $this->_view->getLayout()->initMessages();
             $response->setError(true);
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

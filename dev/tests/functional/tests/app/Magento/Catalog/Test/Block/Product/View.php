@@ -69,6 +69,20 @@ class View extends Block
     protected $bundleBlock = '#product-options-wrapper';
 
     /**
+     * Click for Price link on Product page
+     *
+     * @var string
+     */
+    protected $clickForPrice = '[id*=msrp-popup]';
+
+    /**
+     * MAP popup on Product page
+     *
+     * @var string
+     */
+    protected $mapPopup = '#map-popup';
+
+    /**
      * Get bundle options block
      *
      * @return \Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle
@@ -227,5 +241,14 @@ class View extends Block
             }
         }
         return true;
+    }
+
+    /**
+     * Open MAP block on Product View page
+     */
+    public function openMapBlockOnProductPage()
+    {
+        $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
+        $this->waitForElementVisible($this->mapPopup, Locator::SELECTOR_CSS);
     }
 }

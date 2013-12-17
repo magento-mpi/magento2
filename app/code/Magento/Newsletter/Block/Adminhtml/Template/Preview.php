@@ -17,7 +17,7 @@
  */
 namespace Magento\Newsletter\Block\Adminhtml\Template;
 
-class Preview extends \Magento\Adminhtml\Block\Widget
+class Preview extends \Magento\Backend\Block\Widget
 {
     /**
      * @var \Magento\Newsletter\Model\TemplateFactory
@@ -73,7 +73,11 @@ class Preview extends \Magento\Adminhtml\Block\Widget
         }
 
         $template->emulateDesign($storeId);
-        $templateProcessed = $template->getProcessedTemplate($vars, true);
+        $templateProcessed = $this->_appState->emulateAreaCode(
+            \Magento\Newsletter\Model\Template::DEFAULT_DESIGN_AREA,
+            array($template, 'getProcessedTemplate'),
+            array($vars, true)
+        );
         $template->revertDesign();
 
         if ($template->isPlain()) {

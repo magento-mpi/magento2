@@ -46,6 +46,27 @@ class ListProduct extends Block
     protected $productTitle = '.product.name';
 
     /**
+     * Click for Price link on category page
+     *
+     * @var string
+     */
+    protected $clickForPrice = "//div[contains(@class, 'product details') and ('%s')]//a[contains(@id, 'msrp-click')]";
+
+    /**
+     * MAP popup on Category page
+     *
+     * @var string
+     */
+    protected $mapPopup = '#map-popup';
+
+    /**
+     * Minimum Advertised Price on category page
+     *
+     * @var string
+     */
+    protected $oldPrice = "[id*=product-price]";
+
+    /**
      * This method returns the price box block for the named product.
      *
      * @param string $productName String containing the name of the product to find.
@@ -108,5 +129,24 @@ class ListProduct extends Block
             '//*[@title="' . $productName . '"]',
             Locator::SELECTOR_XPATH
         );
+    }
+
+    /**
+     * Open MAP block on category page
+     */
+    public function openMapBlockOnCategoryPage($productName)
+    {
+        $this->_rootElement->find(sprintf($this->clickForPrice, $productName), Locator::SELECTOR_XPATH)->click();
+        $this->waitForElementVisible($this->mapPopup, Locator::SELECTOR_CSS);
+    }
+
+    /**
+     * Get Minimum Advertised Price on Category page
+     *
+     * @return array|string
+     */
+    public function getOldPriceCategoryPage()
+    {
+        return $this->_rootElement->find($this->oldPrice, Locator::SELECTOR_CSS)->getText();
     }
 }

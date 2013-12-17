@@ -24,8 +24,10 @@ use Magento\App\RequestInterface;
 class Unsubscribe extends \Magento\App\Action\Action
 {
     /**
+     * Check customer authentication for some actions
+     *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -47,13 +49,10 @@ class Unsubscribe extends \Magento\App\Action\Action
             $this->_redirect('');
             return;
         }
-        $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
-
-        /* @var $session \Magento\Catalog\Model\Session */
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
             /* @var $product \Magento\Catalog\Model\Product */
-            $this->_objectManager->get('Magento\Customer\Model\Session')->addError(__('We can\'t find the product.'));
+            $this->messageManager->addError(__('We can\'t find the product.'));
             $this->_redirect('customer/account/');
             return ;
         }
@@ -70,10 +69,10 @@ class Unsubscribe extends \Magento\App\Action\Action
                 $model->delete();
             }
 
-            $session->addSuccess(__('You deleted the alert subscription.'));
+            $this->messageManager->addSuccess(__('You deleted the alert subscription.'));
         }
         catch (\Exception $e) {
-            $session->addException($e, __('Unable to update the alert subscription.'));
+            $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->getResponse()->setRedirect($product->getProductUrl());
     }
@@ -88,10 +87,10 @@ class Unsubscribe extends \Magento\App\Action\Action
                 $session->getCustomerId(),
                 $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
-            $session->addSuccess(__('You will no longer receive price alerts for this product.'));
+            $this->messageManager->addSuccess(__('You will no longer receive price alerts for this product.'));
         }
         catch (\Exception $e) {
-            $session->addException($e, __('Unable to update the alert subscription.'));
+            $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirect('customer/account/');
     }
@@ -105,12 +104,10 @@ class Unsubscribe extends \Magento\App\Action\Action
             return;
         }
 
-        $session = $this->_objectManager->get('Magento\Catalog\Model\Session');
-        /* @var $session \Magento\Catalog\Model\Session */
         $product = $this->_objectManager->create('Magento\Catalog\Model\Product')->load($productId);
         /* @var $product \Magento\Catalog\Model\Product */
         if (!$product->getId() || !$product->isVisibleInCatalog()) {
-            $this->_objectManager->get('Magento\Customer\Model\Session')->addError(__('The product was not found.'));
+            $this->messageManager->addError(__('The product was not found.'));
             $this->_redirect('customer/account/');
             return ;
         }
@@ -126,10 +123,10 @@ class Unsubscribe extends \Magento\App\Action\Action
             if ($model->getId()) {
                 $model->delete();
             }
-            $session->addSuccess(__('You will no longer receive stock alerts for this product.'));
+            $this->messageManager->addSuccess(__('You will no longer receive stock alerts for this product.'));
         }
         catch (\Exception $e) {
-            $session->addException($e, __('Unable to update the alert subscription.'));
+            $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->getResponse()->setRedirect($product->getProductUrl());
     }
@@ -144,10 +141,10 @@ class Unsubscribe extends \Magento\App\Action\Action
                 $session->getCustomerId(),
                 $this->_objectManager->get('Magento\Core\Model\StoreManagerInterface')->getStore()->getWebsiteId()
             );
-            $session->addSuccess(__('You will no longer receive stock alerts.'));
+            $this->messageManager->addSuccess(__('You will no longer receive stock alerts.'));
         }
         catch (\Exception $e) {
-            $session->addException($e, __('Unable to update the alert subscription.'));
+            $this->messageManager->addException($e, __('Unable to update the alert subscription.'));
         }
         $this->_redirect('customer/account/');
     }

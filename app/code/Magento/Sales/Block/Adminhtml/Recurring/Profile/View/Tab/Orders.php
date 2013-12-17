@@ -14,8 +14,8 @@
 namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab;
 
 class Orders
-    extends \Magento\Adminhtml\Block\Widget\Grid
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Grid\Extended
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry

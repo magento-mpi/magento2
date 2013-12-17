@@ -17,7 +17,7 @@
  */
 namespace Magento\Connect\Block\Adminhtml\Extension\Custom\Edit\Tab;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Extension collection factory

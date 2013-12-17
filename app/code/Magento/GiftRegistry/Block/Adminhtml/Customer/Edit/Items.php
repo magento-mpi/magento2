@@ -14,7 +14,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
 
 class Items
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\GiftRegistry\Model\ItemFactory

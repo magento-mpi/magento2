@@ -47,7 +47,7 @@ class Profile extends \Magento\App\Action\Action
      * Check whether Payment Profiles functionality enabled
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

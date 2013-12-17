@@ -198,7 +198,7 @@ class Config implements \Iterator
      */
     public function getDownloaderPath()
     {
-        return $this->magento_root . DIRECTORY_SEPARATOR . $this->downloader_path;
+        return $this->magento_root . '/' . $this->downloader_path;
     }
 
     /**
@@ -208,7 +208,7 @@ class Config implements \Iterator
      */
     public function getPackagesCacheDir()
     {
-        return $this->getDownloaderPath() . DIRECTORY_SEPARATOR . self::DEFAULT_CACHE_PATH;
+        return $this->getDownloaderPath() . '/' . self::DEFAULT_CACHE_PATH;
     }
 
     /**
@@ -220,7 +220,7 @@ class Config implements \Iterator
     public function getChannelCacheDir($channel)
     {
         $channel = trim( $channel, "\\/");
-        return $this->getPackagesCacheDir(). DIRECTORY_SEPARATOR . $channel;
+        return $this->getPackagesCacheDir(). '/' . $channel;
     }
 
     /**
@@ -306,7 +306,7 @@ class Config implements \Iterator
             $data = serialize($this->toArray());
             if (strlen($this->remote_config)>0) {
                 //save config over ftp
-                $confFile = $this->downloader_path . DIRECTORY_SEPARATOR . "connect.cfg";
+                $confFile = $this->downloader_path . '/' . "connect.cfg";
                 try {
                     $ftpObj = new \Magento\Connect\Ftp();
                     $ftpObj->connect($this->remote_config);
