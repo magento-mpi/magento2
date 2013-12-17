@@ -76,6 +76,11 @@ class CmsIndex extends Page
     private $storeSwitcherBlock = '//*[@data-ui-id="language-switcher"]';
 
     /**
+     * Banners block
+     */
+    private $bannersBlock = '.widget.banners';
+
+    /**
      * Custom constructor
      */
     protected function _init()
@@ -164,6 +169,18 @@ class CmsIndex extends Page
     {
         return Factory::getBlockFactory()->getMagentoCoreSwitcher(
             $this->_browser->find($this->storeSwitcherBlock, Locator::SELECTOR_XPATH)
+        );
+    }
+
+    /**
+     * Get banners
+     *
+     * @return \Magento\Banner\Test\Block\Banners
+     */
+    public function getBannersBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoBannerBanners(
+            $this->_browser->find($this->bannersBlock, Locator::SELECTOR_CSS)
         );
     }
 }

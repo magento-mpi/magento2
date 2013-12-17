@@ -54,7 +54,7 @@ class Banner extends AbstractRepository
                     // Content = text/insert variable
                     'store_contents' => array(
                         'value' => array(
-                            '0' => '{{config path="general/store_information/name"}}'
+                            '0' => '{{config path="trans_email/ident_general/name"}}'
                         )
                     )
                 )

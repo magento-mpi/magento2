@@ -204,6 +204,15 @@ class ApplyCatalogPriceRule extends Functional
      */
     protected function verifyPriceRules(array $products)
     {
+        // Verify Banner on the front end store home page
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $frontendHomePage->open();
+        $bannerBlock = $frontendHomePage->getBannersBlock();
+        $this->assertNotEmpty($bannerBlock->getBannerText(), "Banner is empty.");
+
+        // open the category associated with the product
+        $frontendHomePage->getTopmenu()->selectCategoryByName($products[0]->getCategoryName());
+
         // Verify category page prices
         $this->verifyCategoryPrices($products);
 
@@ -227,11 +236,6 @@ class ApplyCatalogPriceRule extends Functional
      */
     protected function verifyCategoryPrices(array $products)
     {
-        // open the front end home page of the store
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
-        $frontendHomePage->open();
-        // open the category associated with the product
-        $frontendHomePage->getTopmenu()->selectCategoryByName($products[0]->getCategoryName());
         // verify the product is displayed in the category
         $categoryPage = Factory::getPageFactory()->getCatalogCategoryView();
         $productListBlock = $categoryPage->getListProductBlock();
