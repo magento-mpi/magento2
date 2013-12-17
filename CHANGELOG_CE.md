@@ -13,6 +13,10 @@
   * Fixed the error during place an order with Recurring profile payment
   * Fixed wrong redirection after customer registration during multishipping checkout
   * Fixed the bug that shipping labels can't be created
+  * Fixed switch language is not responding, is the default English
+  * Fixed incorrect XML appears in cache after some actions on the frontend
+  * Fixed export products does not work
+  * Fixed impossibility to configure memcache as session save handler
 * GitHub requests:
   * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
   * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates

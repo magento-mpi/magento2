@@ -12,25 +12,23 @@ namespace Magento\App\Response\Http;
 class FileFactory
 {
     /**
-     * @var \Magento\App\ResponseFactory
+     * @var \Magento\App\ResponseInterface
      */
-    protected $_responseFactory;
+    protected $_response;
 
     /**
      * @var \Magento\Filesystem
      */
-    protected $_filesystemDriver;
+    protected $_filesystem;
 
     /**
-     * @param \Magento\App\ResponseFactory $responseFactory
+     * @param \Magento\App\ResponseInterface $responseInterface
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(
-        \Magento\App\ResponseFactory $responseFactory,
-        \Magento\Filesystem\Driver\File $filesystemDriver
-    ) {
-        $this->_responseFactory = $responseFactory;
-        $this->_filesystemDriver = $filesystemDriver;
+    public function __construct(\Magento\App\ResponseInterface $responseInterface, \Magento\Filesystem $filesystem)
+    {
+        $this->_response = $responseInterface;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -51,7 +49,7 @@ class FileFactory
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {
-        $filesystem = $this->_filesystemDriver;
+        $filesystem = $this->_filesystem;
         $isFile = false;
         $file = null;
         if (is_array($content)) {
@@ -61,12 +59,11 @@ class FileFactory
             if ($content['type'] == 'filename') {
                 $isFile = true;
                 $file = $content['value'];
-                $contentLength = $filesystem->stat($file)['size'];
+                $contentLength = $filesystem->getFileSize($file);
             }
         }
 
-        $response = $this->_responseFactory->create();
-        $response->setHttpResponseCode(200)
+        $this->_response->setHttpResponseCode(200)
             ->setHeader('Pragma', 'public', true)
             ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
             ->setHeader('Content-type', $contentType, true)
@@ -76,8 +73,8 @@ class FileFactory
 
         if (!is_null($content)) {
             if ($isFile) {
-                $response->clearBody();
-                $response->sendHeaders();
+                $this->_response->clearBody();
+                $this->_response->sendHeaders();
 
                 if (!$filesystem->isFile($file)) {
                     throw new \Exception(__('File not found'));
@@ -94,9 +91,9 @@ class FileFactory
 
                 exit(0);
             } else {
-                $response->setBody($content);
+                $this->_response->setBody($content);
             }
         }
-        return $response;
+        return $this->_response;
     }
 }

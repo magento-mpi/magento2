@@ -362,11 +362,12 @@ class Merge implements \Magento\View\Layout\ProcessorInterface
         }
 
         $layout = $this->asString();
+        $layoutStr = '<handle id="handle">' . $layout . '</handle>';
         if ($this->_appState->getMode() === \Magento\App\State::MODE_DEVELOPER) {
             if (!$this->_layoutValidator->isValid(
-                    $layout,
-                    \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_MERGED,
-                    false
+                $layoutStr,
+                \Magento\Core\Model\Layout\Update\Validator::LAYOUT_SCHEMA_MERGED,
+                false
             )) {
                 $messages = $this->_layoutValidator->getMessages();
                 //Add first message to exception
