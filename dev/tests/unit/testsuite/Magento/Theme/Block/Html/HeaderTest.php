@@ -22,17 +22,8 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
         $filesystem = $this->getMock('\Magento\Filesystem', array(), array(), '', false );
         $mediaDirectory = $this->getMock('\Magento\Filesystem\Directory\Read', array(), array(), '', false );
         $storeConfig = $this->getMock('Magento\Core\Model\Store\Config', array('getConfig'), array(), '', false);
-        $helperFactory = $this->getMock('Magento\Core\Model\Factory\Helper', array('get'), array(), '', false);
+
         $urlBuilder = $this->getMock('Magento\UrlInterface');
-        $context->expects($this->once())
-            ->method('getStoreConfig')
-            ->will($this->returnValue($storeConfig));
-        $context->expects($this->once())
-            ->method('getUrlBuilder')
-            ->will($this->returnValue($urlBuilder));
-        $context->expects($this->once())
-            ->method('getHelperFactory')
-            ->will($this->returnValue($helperFactory));
 
         $storeConfig->expects($this->once())
             ->method('getConfig')
@@ -54,19 +45,13 @@ class HeaderTest extends \PHPUnit_Framework_TestCase
             ->method('checkDbUsage')
             ->will($this->returnValue(false));
 
-        $dirsMock = $this->getMock('Magento\App\Dir', array('getDir'), array(), '', false);
-        $dirsMock->expects($this->any())
-            ->method('getDir')
-            ->with(\Magento\App\Dir::MEDIA)
-            ->will($this->returnValue(__DIR__ . DIRECTORY_SEPARATOR . '_files'));
-
         $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $arguments = array(
             'storeConfig' => $storeConfig,
             'urlBuilder' => $urlBuilder,
             'fileStorageHelper' => $helper,
-            'dirs' => $dirsMock
+            'filesystem' => $filesystem
         );
         $block = $objectManager->getObject('Magento\Theme\Block\Html\Header', $arguments);
 
