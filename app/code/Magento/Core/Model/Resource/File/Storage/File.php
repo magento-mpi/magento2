@@ -93,7 +93,7 @@ class File
                 if ($this->_filesystem->isDirectory($fullPath)) {
                     $directories[] = array(
                         'name' => $itemName,
-                        'path' => dirname($relativePath)
+                        'path' => (dirname($relativePath) == '.') ? '/' : dirname($relativePath)
                     );
                 } else {
                     $files[] = $relativePath;
