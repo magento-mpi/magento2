@@ -21,7 +21,7 @@ use Mtf\TestCase\Functional;
  *
  * @package Magento\CatalogRule\Test\TestCase\CatalogPriceRule
  */
-class ApplyCustomerGroupCatalogRule extends Functional
+class ApplyCustomerGroupCatalogRuleTest extends Functional
 {
     /**
      *  Variable for discount amount converted to decimal form
