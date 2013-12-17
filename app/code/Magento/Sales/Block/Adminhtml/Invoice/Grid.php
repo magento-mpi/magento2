@@ -15,7 +15,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Invoice;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory

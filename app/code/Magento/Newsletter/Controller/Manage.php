@@ -8,19 +8,14 @@
  * @license     {license_link}
  */
 
-
-/**
- * Customers newsletter subscription controller
- *
- * @category   Magento
- * @package    Magento_Newsletter
- * @author      Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Newsletter\Controller;
 
 use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
+/**
+ * Customers newsletter subscription controller
+ */
 class Manage extends \Magento\App\Action\Action
 {
     /**
@@ -62,7 +57,7 @@ class Manage extends \Magento\App\Action\Action
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -75,8 +70,7 @@ class Manage extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()
-            ->initMessages(array('Magento\Customer\Model\Session', 'Magento\Catalog\Model\Session'));
+        $this->_view->getLayout()->initMessages();
 
         if ($block = $this->_view->getLayout()->getBlock('customer_newsletter')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
@@ -96,13 +90,12 @@ class Manage extends \Magento\App\Action\Action
                 ->setIsSubscribed((boolean)$this->getRequest()->getParam('is_subscribed', false))
                 ->save();
             if ((boolean)$this->getRequest()->getParam('is_subscribed', false)) {
-                $this->_customerSession->addSuccess(__('We saved the subscription.'));
+                $this->messageManager->addSuccess(__('We saved the subscription.'));
             } else {
-                $this->_customerSession->addSuccess(__('We removed the subscription.'));
+                $this->messageManager->addSuccess(__('We removed the subscription.'));
             }
-        }
-        catch (\Exception $e) {
-            $this->_customerSession->addError(__('Something went wrong while saving your subscription.'));
+        } catch (\Exception $e) {
+            $this->messageManager->addError(__('Something went wrong while saving your subscription.'));
         }
         $this->_redirect('customer/account/');
     }

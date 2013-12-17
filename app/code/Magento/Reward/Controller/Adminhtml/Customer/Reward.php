@@ -24,7 +24,7 @@ class Reward extends \Magento\Backend\App\Action
      * Check if module functionality enabled
      *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -65,10 +65,9 @@ class Reward extends \Magento\Backend\App\Action
             try {
                 $this->_objectManager->create('Magento\Reward\Model\Reward')
                     ->deleteOrphanPointsByCustomer($customerId);
-                $this->_getSession()
-                    ->addSuccess(__('You removed the orphan points.'));
+                $this->messageManager->addSuccess(__('You removed the orphan points.'));
             } catch (\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             }
         }
         $this->_redirect('customer/index/edit', array('_current' => true));

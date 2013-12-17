@@ -41,7 +41,7 @@ class View extends \Magento\App\Action\Action
      * Check if gift registry is enabled on current store before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -71,7 +71,7 @@ class View extends \Magento\App\Action\Action
         $this->_coreRegistry->register('current_entity', $entity);
 
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Gift Registry Info'));
@@ -91,8 +91,7 @@ class View extends \Magento\App\Action\Action
         }
         /* @var \Magento\Checkout\Model\Cart */
         $cart = $this->_objectManager->get('Magento\Checkout\Model\Cart');
-        /* @var $session \Magento\Core\Model\Session\Generic */
-        $session    = $this->_objectManager->get('Magento\Customer\Model\Session');
+
         $success = false;
 
         try {
@@ -112,12 +111,12 @@ class View extends \Magento\App\Action\Action
             $success = true;
             if (!$count) {
                 $success = false;
-                $session->addError(__('Please enter the quantity of items to add to cart.'));
+                $this->messageManager->addError(__('Please enter the quantity of items to add to cart.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $session->addError(__($e->getMessage()));
+            $this->messageManager->addError(__($e->getMessage()));
         } catch (\Exception $e) {
-            $session->addException($e, __('We cannot add this item to your shopping cart.'));
+            $this->messageManager->addException($e, __('We cannot add this item to your shopping cart.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         if (!$success) {

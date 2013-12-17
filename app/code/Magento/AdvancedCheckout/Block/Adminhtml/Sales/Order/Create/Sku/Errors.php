@@ -21,20 +21,20 @@ class Errors
     extends \Magento\AdvancedCheckout\Block\Adminhtml\Sku\Errors\AbstractErrors
 {
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\AdvancedCheckout\Model\CartFactory $cartFactory
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\AdvancedCheckout\Model\CartFactory $cartFactory,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;

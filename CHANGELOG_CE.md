@@ -1,11 +1,40 @@
 * Fixed bugs:
+  * Fixed user switching to alternate store-view when click on the Category (with Add Store Code to Urls="Yes" in the config)
+  * Fixed printing Order/Shipping/Credit Memo from Backend
+  * Fixed 404 Error on attempt to print Shipping Label
+  * Fixed duplication of JavaScript Resources in head on frontend
+  * Fixed Plushe Issue - Disabled states on Configurable product page should be consistent
+  * Fixed 3D Secure Information absence on Admin Order Info page
+  * Fixed possibility to download or revert Backup
+  * Fixed Session Fixation in User Registration during Checkout
+  * Fixed fatal error while login to backend
   * Fixed inline translations in adminhtml area
   * Partial refunds/invoices in Payflow Pro
   * Design emulation ignores area
   * Unable to place order with virtual product using Express Checkout
+  * Fixed the error during place an order with Recurring profile payment
   * Fixed wrong redirection after customer registration during multishipping checkout
   * Fixed the bug that shipping labels can't be created
-
+  * Fixed switch language is not responding, is the default English
+  * Fixed incorrect XML appears in cache after some actions on the frontend
+  * Fixed export products does not work
+  * Fixed impossibility to configure memcache as session save handler
+* GitHub requests:
+  * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
+  * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
+  * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
+* Modularity improvements:
+  * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
+  * Core Session and Cookie models decomposed and moved to library
+    * \Magento\Stdlib\Cookie library created
+    * Session Manager and Session Config interfaces provided
+    * Session save handler interface created
+    * Session storage interface created, session doesn't extend \Magento\Object anymore
+    * Session validator interface created
+    * Session generic wrapper moved to library
+    * Messages functionality moved from Session model as separate component, message manager interface created.
+    * Sid resolver interface created to handle session sid from request
+  
 2.0.0.0-dev56
 =============
 * Fixed bugs:

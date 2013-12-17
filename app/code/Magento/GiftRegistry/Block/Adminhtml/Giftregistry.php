@@ -13,7 +13,7 @@
  */
 namespace Magento\GiftRegistry\Block\Adminhtml;
 
-class Giftregistry extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Giftregistry extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize gift registry manage page

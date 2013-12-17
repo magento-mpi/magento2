@@ -19,7 +19,7 @@ class Cart extends \Magento\App\Action\Action
      * this function checks if user is logged in before all other actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -44,13 +44,9 @@ class Cart extends \Magento\App\Action\Action
 
         if ($quote->getUseRewardPoints()) {
             $quote->setUseRewardPoints(false)->collectTotals()->save();
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
-                __('You removed the reward points from this order.')
-            );
+            $this->messageManager->addSuccess(__('You removed the reward points from this order.'));
         } else {
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
-                __('Reward points will not be used in this order.')
-            );
+            $this->messageManager->addError(__('Reward points will not be used in this order.'));
         }
 
         $this->_redirect('checkout/cart');

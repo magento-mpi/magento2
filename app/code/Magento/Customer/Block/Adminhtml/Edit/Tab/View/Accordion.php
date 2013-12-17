@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab\View;
 
-class Accordion extends \Magento\Adminhtml\Block\Widget\Accordion
+class Accordion extends \Magento\Backend\Block\Widget\Accordion
 {
     /**
      * Core registry

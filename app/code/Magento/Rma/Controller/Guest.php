@@ -127,8 +127,6 @@ class Guest extends \Magento\App\Action\Action
         }
 
         $post = $this->getRequest()->getPost();
-        /** @var \Magento\Core\Model\Session $coreSession */
-        $coreSession = $this->_objectManager->get('Magento\Core\Model\Session');
         /** @var \Magento\Core\Model\Date $coreDate */
         $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
         if (($post) && !empty($post['items'])) {
@@ -165,21 +163,21 @@ class Guest extends \Magento\App\Action\Action
                         ->setCreatedAt($coreDate->gmtDate())
                         ->save();
                 }
-                $coreSession->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You submitted Return #%1.', $rmaModel->getIncrementId())
                 );
                 $url = $urlModel->getUrl('*/*/returns');
                 $this->getResponse()->setRedirect($this->_redirect->success($url));
                 return;
             } catch (\Exception $e) {
-                $coreSession->addError(
+                $this->messageManager->addError(
                     __('We cannot create a new return transaction. Please try again later.')
                 );
                 $this->_objectManager->get('Magento\Logger')->logException($e);
             }
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Core\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->getBlock('head')->setTitle(__('Create New Return'));
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
             $block->setRefererUrl($this->_redirect->getRefererUrl());
@@ -201,7 +199,7 @@ class Guest extends \Magento\App\Action\Action
 
         $incrementId = $this->_coreRegistry->registry('current_order')->getIncrementId();
         $message = __('We cannot create a return transaction for order #%1.', $incrementId);
-        $this->_objectManager->get('Magento\Core\Model\Session')->addError($message);
+        $this->messageManager->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -244,7 +242,7 @@ class Guest extends \Magento\App\Action\Action
                 );
             }
             if (is_array($response)) {
-               $this->_objectManager->get('Magento\Core\Model\Session')->addError($response['message']);
+                $this->messageManager->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;

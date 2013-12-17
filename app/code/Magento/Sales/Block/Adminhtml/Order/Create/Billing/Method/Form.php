@@ -20,18 +20,18 @@ namespace Magento\Sales\Block\Adminhtml\Order\Create\Billing\Method;
 class Form extends \Magento\Payment\Block\Form\Container
 {
     /**
-     * @var \Magento\Adminhtml\Model\Session\Quote
+     * @var \Magento\Backend\Model\Session\Quote
      */
     protected $_sessionQuote;
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Adminhtml\Model\Session\Quote $sessionQuote
+     * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
-        \Magento\Adminhtml\Model\Session\Quote $sessionQuote,
+        \Magento\Backend\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;

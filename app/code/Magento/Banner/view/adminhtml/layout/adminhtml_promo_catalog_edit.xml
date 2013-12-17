@@ -11,7 +11,7 @@
     <referenceBlock name="promo_catalog_edit_tabs">
         <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners" name="catalogrule.related.banners">
             <block class="Magento\Banner\Block\Adminhtml\Promo\Catalogrule\Edit\Tab\Banners\Grid" name="related_catalogrule_banners_grid"/>
-            <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="banners_grid_serializer">
+            <block class="Magento\Backend\Block\Widget\Grid\Serializer" name="banners_grid_serializer">
                 <arguments>
                     <argument name="grid_block" xsi:type="string">related_catalogrule_banners_grid</argument>
                     <argument name="callback" xsi:type="string">getRelatedBannersByRule</argument>

@@ -8,6 +8,6 @@
  */
 -->
 <config>
-    <template id="magento_reward_notification_balance_update_template" label="Balance Update" file="balance_update.html" type="html"/>
-    <template id="magento_reward_notification_expiry_warning_template" label="Points Expiry Warning" file="expiry_warning.html" type="html"/>
+    <template id="magento_reward_notification_balance_update_template" label="Balance Update" file="balance_update.html" type="html" module="Magento_Reward"/>
+    <template id="magento_reward_notification_expiry_warning_template" label="Points Expiry Warning" file="expiry_warning.html" type="html" module="Magento_Reward"/>
 </config>

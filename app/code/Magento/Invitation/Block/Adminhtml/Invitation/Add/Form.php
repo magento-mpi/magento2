@@ -32,12 +32,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected $_groupFactory;
 
-    /**
-     * Admin Session
-     *
-     * @var \Magento\Adminhtml\Model\Session
-     */
-    protected $_session;
 
     /**
      * @param \Magento\Backend\Block\Template\Context $context
@@ -45,7 +39,6 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Core\Model\System\Store $store
      * @param \Magento\Customer\Model\GroupFactory $groupFactory
-     * @param \Magento\Adminhtml\Model\Session $session
      * @param array $data
      */
     public function __construct(
@@ -54,13 +47,11 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Data\FormFactory $formFactory,
         \Magento\Core\Model\System\Store $store,
         \Magento\Customer\Model\GroupFactory $groupFactory,
-        \Magento\Adminhtml\Model\Session $session,
         array $data = array()
     ) {
         parent::__construct($context, $registry, $formFactory, $data);
         $this->_store = $store;
         $this->_groupFactory = $groupFactory;
-        $this->_session = $session;
     }
 
     /**
@@ -132,7 +123,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
 
         $form->setUseContainer(true);
         $this->setForm($form);
-        $form->setValues($this->_session->getInvitationFormData());
+        $form->setValues($this->_backendSession->getInvitationFormData());
 
         return parent::_prepareForm();
     }

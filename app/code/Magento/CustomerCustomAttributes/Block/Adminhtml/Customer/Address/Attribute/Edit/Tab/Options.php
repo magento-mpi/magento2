@@ -20,7 +20,7 @@ namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Address\Attr
 
 class Options
     extends \Magento\Eav\Block\Adminhtml\Attribute\Edit\Options\AbstractOptions
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Return Tab label

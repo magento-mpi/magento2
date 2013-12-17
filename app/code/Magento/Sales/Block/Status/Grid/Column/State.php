@@ -47,7 +47,7 @@ class State extends \Magento\Backend\Block\Widget\Grid\Column
      *
      * @param string $value
      * @param \Magento\Sales\Model\Order\Status $row
-     * @param \Magento\Adminhtml\Block\Widget\Grid\Column $column
+     * @param \Magento\Backend\Block\Widget\Grid\Column $column
      * @param bool $isExport
      * @return string
      */

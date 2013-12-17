@@ -9,8 +9,9 @@
  * @license     {license_link}
  */
 
-$robotsTxtPath = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir()
-    . DS . 'robots.txt';
-if (is_file($robotsTxtPath)) {
-    @unlink($robotsTxtPath);
+/** @var \Magento\Filesystem\Directory\Write $rootDirectory */
+$rootDirectory =  \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+    ->get('Magento\Filesystem')->getDirectoryWrite(\Magento\Filesystem::ROOT);
+if ($rootDirectory->isExist('robots.txt')) {
+    $rootDirectory->delete('robots.txt');
 }

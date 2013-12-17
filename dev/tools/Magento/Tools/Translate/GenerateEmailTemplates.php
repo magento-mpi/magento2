@@ -27,7 +27,6 @@ USAGE
 );
 
 
-define('DS', DIRECTORY_SEPARATOR);
 define('BASE_PATH', dirname(dirname(dirname(__DIR__))));
 
 define('MESSAGE_TYPE_NOTICE', '0');
@@ -38,9 +37,9 @@ define('ACTION_PROCESS_TEMPLATE', 1);
 define('ACTION_MERGE_LOCALES', 2);
 define('ACTION_SPLIT', 3);
 
-define('LOCALE_PATH', BASE_PATH . DS . 'app' . DS . 'locale' . DS . '%s' . DS . 'template' . DS);
+define('LOCALE_PATH', BASE_PATH . '/app/locale/%s/template/');
 
-include(BASE_PATH . DS . 'lib' . DS . 'Magento' . DS . 'File' . DS . 'Csv.php');
+include(BASE_PATH . '/lib/Magento/File/Csv.php');
 
 class GenerateEmailTemplates
 {
@@ -212,13 +211,13 @@ class GenerateEmailTemplates
             return;
         }
 
-        if ((substr($outputName, -1) == DS || substr($outputName, -1) == '/') && !file_exists($outputName)) {
+        if ((substr($outputName, -1) == '/' || substr($outputName, -1) == '/') && !file_exists($outputName)) {
             mkdir($outputName, 0777, true);
         }
 
         if ($translateName) {
             if (is_dir($translateName) && file_exists($translateName)) {
-                $translateName = rtrim($translateName, '/\\') . DS;
+                $translateName = rtrim($translateName, '/\\') . '/';
             } elseif (!file_exists($translateName)) {
                 $this->_addMessage(MESSAGE_TYPE_ERROR, sprintf("Translation '%s' was not found", $localeName));
                 $this->_error = true;
@@ -243,9 +242,9 @@ class GenerateEmailTemplates
     protected function globRecursive($pattern, $flags = 0)
     {
         $files = glob($pattern, $flags);
-        foreach (glob(dirname($pattern) . DS . '*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
+        foreach (glob(dirname($pattern) . '/*', GLOB_ONLYDIR|GLOB_NOSORT) as $dir)
         {
-            $files = array_merge($files, $this->globRecursive($dir . DS . basename($pattern), $flags));
+            $files = array_merge($files, $this->globRecursive($dir . '/' . basename($pattern), $flags));
         }
         return $files;
     }
@@ -260,7 +259,7 @@ class GenerateEmailTemplates
     protected function _getFilesToProcess($path, $pattern = "*.html")
     {
         $result = array();
-        $prefix = (substr($path, -1) == DS ? $path : $path . DS);
+        $prefix = (substr($path, -1) == '/' ? $path : $path . '/');
 
         $files = $this->globRecursive($prefix . $pattern);
         foreach ($files as $filename) {
@@ -277,7 +276,7 @@ class GenerateEmailTemplates
         $resultData = array();
         $outputSeparate = is_dir($this->_outputDirName);
 
-        $translatedDirName = dirname($this->_outputDirName) . DS . $this->_localeName.'_templates' . DS;
+        $translatedDirName = dirname($this->_outputDirName) . '/' . $this->_localeName . '_templates/';
 
         if (!file_exists($translatedDirName)) {
             mkdir($translatedDirName, 0777, true);
@@ -343,7 +342,7 @@ class GenerateEmailTemplates
             }
 
             if ($outputSeparate) {
-                $csv->saveData($this->_outputDirName . DS . $alias . '.csv', $resultData);
+                $csv->saveData($this->_outputDirName . '/' . $alias . '.csv', $resultData);
                 unset($csv);
             }
             $translatedFileName = $translatedDirName . substr($file, strlen($localePath));
@@ -375,7 +374,7 @@ class GenerateEmailTemplates
         $inputSeparate = is_dir($this->_translateName);
 
         if (!$inputSeparate) {
-            $translatedDirName = dirname($this->_translateName) . DS . $this->_localeName.'_templates';
+            $translatedDirName = dirname($this->_translateName) . '/' . $this->_localeName.'_templates';
         } else {
             $translatedDirName = $this->_translateName . $this->_localeName.'_templates';
         }
@@ -401,7 +400,7 @@ class GenerateEmailTemplates
 
             $translatedFileName = $translatedDirName . substr($file, strlen($translatedDirName));
 
-            file_put_contents($this->_outputDirName . DS . $translatedFileName, $template);
+            file_put_contents($this->_outputDirName . '/' . $translatedFileName, $template);
             break;
         }
 
@@ -420,8 +419,8 @@ class GenerateEmailTemplates
         foreach ($inputData as $row){
             $output[$row[0]][] = array_slice($row, 1);
         }
-        $resultDir = dirname($this->_arguments['inputName']) . DS
-            . pathinfo($this->_arguments['inputName'], PATHINFO_FILENAME) . DS;
+        $resultDir = dirname($this->_arguments['inputName']) . '/'
+            . pathinfo($this->_arguments['inputName'], PATHINFO_FILENAME) . '/';
 
         if (!file_exists($resultDir)) {
             mkdir($resultDir, 0777, true);

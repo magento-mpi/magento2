@@ -17,7 +17,7 @@
  */
 namespace Magento\Search\Block\Adminhtml\Search;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Edit extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Enable grid container

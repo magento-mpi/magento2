@@ -184,7 +184,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
      */
     protected function _setCurrentFile($file)
     {
-        $this->_currentFile = $file .((!is_link($file) && is_dir($file) && substr($file, -1) != DS) ? DS : '');
+        $this->_currentFile = $file .((!is_link($file) && is_dir($file) && substr($file, -1) != '/') ? '/' : '');
         return $this;
     }
 
@@ -219,9 +219,9 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
     protected function _setCurrentPath($path)
     {
         if ($this->_skipRoot && is_dir($path)) {
-            $this->_currentPath = $path.(substr($path, -1)!=DS?DS:'');
+            $this->_currentPath = $path . (substr($path, -1) != '/' ? '/' : '');
         } else {
-            $this->_currentPath = dirname($path) . DS;
+            $this->_currentPath = dirname($path) . '/';
         }
         return $this;
     }
@@ -441,7 +441,7 @@ class Tar extends \Magento\Archive\AbstractArchive implements \Magento\Archive\A
                         throw new \Magento\Exception('Failed to create directory ' . $currentFile);
                     }
                 }
-                $list[] = $currentFile . DS;
+                $list[] = $currentFile . '/';
             } elseif ($header['type'] == '2') {
 
                 //we do not interrupt unpack process if symlink creation failed as symlinks are not so important

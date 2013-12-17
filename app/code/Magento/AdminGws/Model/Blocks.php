@@ -380,7 +380,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     {
         if ($this->_role->getIsStoreLevel()) {
             $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-            /* @var $massBlock \Magento\Adminhtml\Block\Widget\Grid\Massaction */
+            /* @var $massBlock \Magento\Backend\Block\Widget\Grid\Massaction */
             if ($massBlock) {
                 $massBlock->removeItem('delete');
             }
@@ -499,7 +499,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
     public function removeGiftWrappingForbiddenMassactions($observer)
     {
         $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-        /** @var $massBlock \Magento\Adminhtml\Block\Widget\Grid\Massaction */
+        /** @var $massBlock \Magento\Backend\Block\Widget\Grid\Massaction */
         if ($massBlock) {
             $massBlock->removeItem('delete');
         }
@@ -565,7 +565,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
             return $this;
         }
         $massBlock = $observer->getEvent()->getBlock()->getMassactionBlock();
-        /* @var $massBlock \Magento\Adminhtml\Block\Widget\Grid\Massaction */
+        /* @var $massBlock \Magento\Backend\Block\Widget\Grid\Massaction */
         if ($massBlock) {
             $massBlock->removeItem('cancel_order')
                 ->removeItem('hold_order')
@@ -1012,7 +1012,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeRuleEntityGridButtons($observer)
     {
-        /* @var $block \Magento\Adminhtml\Block\Widget\Grid\Container */
+        /* @var $block \Magento\Backend\Block\Widget\Grid\Container */
         $block = $observer->getEvent()->getBlock();
         // Remove "Apply Rules" button at catalog rules grid for all GWS limited users
         if ($block) {
@@ -1037,7 +1037,7 @@ class Blocks extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function removeRuleEntityEditButtons($observer)
     {
-        /* @var $block \Magento\Adminhtml\Block\Widget\Grid\Container */
+        /* @var $block \Magento\Backend\Block\Widget\Grid\Container */
         $block = $observer->getEvent()->getBlock();
         if (!$block) {
              return true;

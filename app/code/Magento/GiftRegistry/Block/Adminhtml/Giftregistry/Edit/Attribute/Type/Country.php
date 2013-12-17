@@ -11,7 +11,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
 class Country
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form
 {
     /**
      * @var \Magento\Backend\Model\Config\Source\Yesno
