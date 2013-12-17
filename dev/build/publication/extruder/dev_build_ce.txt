@@ -18,6 +18,6 @@ dev/tests/functional/tests/app/Magento/CustomerSegment
 dev/tests/functional/tests/app/Magento/Banner
 dev/tests/functional/tests/app/Magento/SalesRule/Test/TestCase/BasicPromoTest.php
 dev/tests/functional/tests/app/Magento/SalesRule/Test/Block/Adminhtml/Promo/Quote/Edit/Tab/Conditions.php
-dev/tests/functional/tests/app/Magento/CatalogRule/Test/TestCase/CatalogPriceRule/ApplyCatalogPriceRule.php
+dev/tests/functional/tests/app/Magento/CatalogRule/Test/TestCase/CatalogPriceRule/ApplyCatalogPriceRuleTest.php
 dev/tests/functional/tests/app/Magento/Widget/Test/Fixture/BannerRotatorWidget.php
 dev/tests/functional/tests/app/Magento/Widget/Test/Repository/BannerRotatorWidget.php
