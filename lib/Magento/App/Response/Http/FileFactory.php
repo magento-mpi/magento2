@@ -22,12 +22,14 @@ class FileFactory
     protected $_filesystem;
 
     /**
-     * @param \Magento\App\ResponseInterface $responseInterface
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\App\ResponseInterface $responseInterface, \Magento\Filesystem $filesystem)
-    {
-        $this->_response = $responseInterface;
+    public function __construct(
+        \Magento\App\ResponseInterface $response,
+        \Magento\Filesystem $filesystem
+    ) {
+        $this->_response = $response;
         $this->_filesystem = $filesystem;
     }
 
@@ -41,7 +43,7 @@ class FileFactory
      * @param int $contentLength explicit content length, if strlen($content) isn't applicable
      * @throws \Exception
      * @throws \InvalidArgumentException
-     * @return \Magento\App\ActionInterface
+     * @return \Magento\App\ResponseInterface
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)

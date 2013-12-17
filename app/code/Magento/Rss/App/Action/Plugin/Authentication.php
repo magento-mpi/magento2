@@ -99,7 +99,7 @@ class Authentication extends \Magento\Backend\App\Action\Plugin\Authentication
         // Verify if logged in and authorized
         if (!$session->isLoggedIn() || !$this->_authorization->isAllowed($resource)) {
             $this->_httpAuthentication->setAuthenticationFailed('RSS Feeds');
-            return null;
+            return $this->_response;
         }
 
         return parent::aroundDispatch($arguments, $invocationChain);

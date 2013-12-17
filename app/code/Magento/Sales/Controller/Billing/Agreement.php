@@ -57,12 +57,11 @@ class Agreement extends \Magento\App\Action\Action
         $this->_view->renderLayout();
     }
 
-
     /**
      * Check customer authentication
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -113,8 +112,7 @@ class Agreement extends \Magento\App\Action\Action
                     ->setCancelUrl($this->_objectManager->create('Magento\Core\Model\Url')
                         ->getUrl('*/*/cancelWizard', array('payment_method' => $paymentCode)));
 
-                $this->getResponse()->setRedirect($agreement->initToken());
-                return $this;
+                return $this->getResponse()->setRedirect($agreement->initToken());
             } catch (\Magento\Core\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
