@@ -25,7 +25,7 @@ use Mtf\TestCase\Functional;
  *
  * @package Magento\CatalogRule\Test\TestCase\CatalogPriceRule
  */
-class ApplyCatalogPriceRule extends Functional
+class ApplyCatalogPriceRuleTest extends Functional
 {
     private $discountRate;
 
