@@ -41,18 +41,18 @@ class UrlGeneratorTest extends \PHPUnit_Framework_TestCase
 
         $urlMap = array(
             array(
-                '*/sales_order/view',
+                'sales/order/view',
                 array(
                     'order_id' => null
                 ),
-                'http://localhost/backend/admin/sales_order/view/order_id/'
+                'http://localhost/backend/sales/order/view/order_id/'
             ),
             array(
-                '*/sales_order/view',
+                'sales/order/view',
                 array(
                     'order_id' => 1
                 ),
-                'http://localhost/backend/admin/sales_order/view/order_id/1'
+                'http://localhost/backend/sales/order/view/order_id/1'
             ),
         );
         $this->_urlModelMock->expects($this->any())

@@ -858,10 +858,11 @@ class Rma extends \Magento\Backend\App\Action
                 echo $buffer;
             }
         } else {
-            $this->_prepareDownloadResponse(pathinfo($fileName, PATHINFO_BASENAME), array(
+            $name = pathinfo($fileName, PATHINFO_BASENAME);
+            $this->_fileFactory->create($name, array(
                 'type'  => 'filename',
                 'value' => $this->readDirectory->getAbsolutePath($filePath)
-            ));
+            ))->sendResponse();
         }
 
         exit();

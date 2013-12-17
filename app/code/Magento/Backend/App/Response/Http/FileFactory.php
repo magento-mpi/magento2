@@ -20,6 +20,11 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
     protected $_backendUrl;
 
     /**
+     * @var \Magento\App\ResponseInterface
+     */
+    protected $_response;
+
+    /**
      * @var \Magento\Backend\Model\Session
      */
     protected $_session;
@@ -35,7 +40,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
     protected $_helper;
 
     /**
-     * @param \Magento\App\ResponseInterface $responseInterface
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
@@ -44,7 +49,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
      * @param \Magento\Backend\Helper\Data $helper
      */
     public function __construct(
-        \Magento\App\ResponseInterface $responseInterface,
+        \Magento\App\ResponseInterface $response,
         \Magento\Filesystem $filesystem,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
@@ -57,7 +62,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
         $this->_session = $session;
         $this->_flag = $flag;
         $this->_helper = $helper;
-        parent::__construct($responseInterface, $filesystem);
+        parent::__construct($response, $filesystem);
     }
 
 

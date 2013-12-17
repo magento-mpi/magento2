@@ -23,6 +23,7 @@ class Types extends \Magento\Backend\App\Action
      * @var \Magento\Core\Model\Registry
      */
     protected $_coreRegistry = null;
+
     /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
@@ -39,13 +40,13 @@ class Types extends \Magento\Backend\App\Action
      * Dispatches controller_action_postdispatch_adminhtml Event
      *
      * @param RequestInterface $request
-     * @return $this|mixed|void
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
         parent::dispatch($request);
         if ($this->_actionFlag->get('', self::FLAG_NO_POST_DISPATCH)) {
-            return;
+            return $this->_response;
         }
         $this->_eventManager->dispatch('controller_action_postdispatch_adminhtml', array('controller_action' => $this));
     }

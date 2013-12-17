@@ -132,8 +132,6 @@ class Version
                 __('Edit Version'));
 
         $this->_view->renderLayout();
-
-        return $this;
     }
 
     /**
@@ -190,7 +188,6 @@ class Version
                 return;
             }
         }
-        return $this;
     }
 
     /**
@@ -205,8 +202,6 @@ class Version
 
         $this->_view->loadLayout();
         $this->_view->renderLayout();
-
-        return $this;
     }
 
     /**
@@ -242,8 +237,6 @@ class Version
             }
         }
         $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'revisions'));
-
-        return $this;
     }
 
     /**
@@ -285,7 +278,6 @@ class Version
         $this->messageManager->addError(__("We can't find a version to delete."));
         // go to grid
         $this->_redirect('adminhtml/cms_page/edit', array('_current' => true));
-        return $this;
     }
 
     /**
@@ -346,7 +338,6 @@ class Version
                 return;
             }
         }
-        return $this;
     }
 
     /**
