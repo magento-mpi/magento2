@@ -55,7 +55,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     protected $_design;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -129,7 +129,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
      * @param \Magento\TranslateInterface $translator
      * @param \Magento\App\CacheInterface $cache
      * @param \Magento\View\DesignInterface $design
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Session\SidResolverInterface $sidResolver
      * @param \Magento\Core\Model\Store\Config $storeConfig
      * @param \Magento\App\FrontController $frontController
@@ -155,7 +155,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
         \Magento\TranslateInterface $translator,
         \Magento\App\CacheInterface $cache,
         \Magento\View\DesignInterface $design,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\Session\SidResolverInterface $sidResolver,
         \Magento\Core\Model\Store\Config $storeConfig,
         \Magento\App\FrontController $frontController,
@@ -249,7 +249,7 @@ class Context implements \Magento\ObjectManager\ContextInterface
     }
 
     /**
-     * @return \Magento\Core\Model\Session|\Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     public function getSession()
     {

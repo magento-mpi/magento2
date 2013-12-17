@@ -34,8 +34,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount(
@@ -64,8 +63,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount(
@@ -101,8 +99,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount(
@@ -131,8 +128,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount(
@@ -168,8 +164,7 @@ class CartTest extends \Magento\TestFramework\TestCase\AbstractController
 
         $this->assertSessionMessages(
             $this->isEmpty(),
-            \Magento\Message\Factory::ERROR,
-            'Magento\Checkout\Model\Session'
+            \Magento\Message\MessageInterface::TYPE_ERROR
         );
 
         $this->assertSelectCount(

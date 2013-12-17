@@ -17,7 +17,7 @@
  */
 namespace Magento\Customer\Block\Adminhtml\Edit\Tab;
 
-class Orders extends \Magento\Adminhtml\Block\Widget\Grid
+class Orders extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Sales reorder

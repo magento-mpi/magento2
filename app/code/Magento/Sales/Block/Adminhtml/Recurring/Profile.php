@@ -13,7 +13,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Recurring;
 
-class Profile extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Profile extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Instructions to create child grid

@@ -66,7 +66,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
     /**
      * Installer data model to store data between installations steps
      *
-     * @var \Magento\Install\Model\Installer\Data|\Magento\Core\Model\Session\Generic
+     * @var \Magento\Install\Model\Installer\Data|\Magento\Session\Generic
      */
     protected $_dataModel;
 
@@ -351,7 +351,7 @@ class Console extends \Magento\Install\Model\Installer\AbstractInstaller
             return $encryptionKey;
         } catch (\Exception $e) {
             if ($e instanceof \Magento\Core\Exception) {
-                foreach ($e->getMessages(\Magento\Message\Factory::ERROR) as $errorMessage) {
+                foreach ($e->getMessages(\Magento\Message\MessageInterface::TYPE_ERROR) as $errorMessage) {
                     $this->addError($errorMessage);
                 }
             } else {

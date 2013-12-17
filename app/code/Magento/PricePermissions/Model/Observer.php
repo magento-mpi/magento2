@@ -360,7 +360,7 @@ class Observer
     /**
      * Remove columns from grid
      *
-     * @param \Magento\Adminhtml\Block\Widget\Grid $block
+     * @param \Magento\Backend\Block\Widget\Grid $block
      * @param array $columns
      */
     protected function _removeColumnsFromGrid($block, array $columns)
@@ -375,9 +375,9 @@ class Observer
     /**
      * Remove column from grid
      *
-     * @param \Magento\Adminhtml\Block\Widget\Grid $block
+     * @param \Magento\Backend\Block\Widget\Grid $block
      * @param string $column
-     * @return \Magento\Adminhtml\Block\Widget\Grid|bool
+     * @return \Magento\Backend\Block\Widget\Grid|bool
      */
     protected function _removeColumnFromGrid($block, $column)
     {

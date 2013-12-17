@@ -47,6 +47,12 @@
     <preference for="Magento\View\Design\Theme\Domain\StagingInterface" type="Magento\Core\Model\Theme\Domain\Staging" />
     <preference for="Magento\Json\EncoderInterface" type="Magento\Json\Encoder" />
     <preference for="Magento\Json\DecoderInterface" type="Magento\Json\Decoder" />
+    <preference for="Magento\Message\ManagerInterface" type="Magento\Message\Manager" />
+    <type name="Magento\Message\Manager">
+        <param name="session">
+            <instance type="Magento\Message\Session\Proxy" />
+        </param>
+    </type>
     <type name="Magento\View\BlockPool" shared="false" />
     <type name="Magento\App\Request\Http">
         <param name="pathInfoProcessor">
@@ -54,6 +60,19 @@
         </param>
     </type>
     <preference for="Magento\Error\HandlerInterface" type="Magento\App\Error\Handler" />
+    <preference for="Magento\Session\SaveHandlerInterface" type="Magento\Session\SaveHandler" />
+    <type name="Magento\Session\SaveHandler">
+        <param name="saveMethod">
+            <value type="argument">Magento\Core\Model\Session\Config::PARAM_SESSION_SAVE_METHOD</value>
+        </param>
+    </type>
+    <type name="Magento\Session\SaveHandlerFactory">
+        <param name="handlers">
+            <value>
+                <db>Magento\Session\SaveHandler\DbTable</db>
+            </value>
+        </param>
+    </type>
     <preference for="Magento\Module\Output\ConfigInterface" type="Magento\Core\Model\Module\Output\Config" />
     <preference for="Magento\View\Design\Theme\CustomizationInterface" type="Magento\View\Design\Theme\Customization" />
     <preference for="Magento\Image\Adapter\ConfigInterface" type="Magento\Core\Model\Image\Adapter\Config" />

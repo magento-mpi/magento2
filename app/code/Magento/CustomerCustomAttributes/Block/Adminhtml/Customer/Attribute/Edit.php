@@ -19,7 +19,7 @@
 namespace Magento\CustomerCustomAttributes\Block\Adminhtml\Customer\Attribute;
 
 class Edit
-    extends \Magento\Adminhtml\Block\Widget\Form\Container
+    extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry

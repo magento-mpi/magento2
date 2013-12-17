@@ -59,6 +59,11 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     protected $_helper;
 
     /**
+     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * Prepare required values
      */
     protected function setUp()
@@ -91,7 +96,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
 
         $this->_session = $this->getMockBuilder('Magento\Backend\Model\Session')
             ->disableOriginalConstructor()
-            ->setMethods(array('setIsUrlNotice', 'addSuccess', '__wakeup'))
+            ->setMethods(array('setIsUrlNotice', '__wakeup'))
             ->getMock();
         $this->_session->expects($this->any())->method('setIsUrlNotice');
 
@@ -105,9 +110,14 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->setMethods(array('getTranslateInline', '__wakeup'))
             ->getMock();
 
+        $this->messageManager = $this->getMockBuilder('Magento\Message\Manager')
+            ->disableOriginalConstructor()
+            ->setMethods(array('addSuccess'))
+            ->getMock();
+
         $contextArgs = array(
             'getHelper', 'getSession', 'getAuthorization', 'getTranslator', 'getObjectManager',
-            'getFrontController', 'getActionFlag',
+            'getFrontController', 'getActionFlag', 'getMessageManager',
             'getLayoutFactory', 'getEventManager', 'getRequest', 'getResponse'
         );
         $contextMock = $this->getMockBuilder('\Magento\Backend\App\Action\Context')
@@ -129,6 +139,9 @@ class IndexTest extends \PHPUnit_Framework_TestCase
         $contextMock->expects($this->any())->method('getHelper')->will($this->returnValue($this->_helper));
         $contextMock->expects($this->any())->method('getSession')->will($this->returnValue($this->_session));
         $contextMock->expects($this->any())->method('getTranslator')->will($this->returnValue($translator));
+        $contextMock->expects($this->any())
+            ->method('getMessageManager')
+            ->will($this->returnValue($this->messageManager));
 
         $args = array('context' => $contextMock);
 
@@ -137,7 +150,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Adminhtml\Controller\Customer::resetPasswordAction()
+     * Test \Magento\Backend\Controller\Customer::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomer()
     {
@@ -157,7 +170,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * Test \Magento\Adminhtml\Controller\Customer::resetPasswordAction()
+     * Test \Magento\Backend\Controller\Customer::resetPasswordAction()
      */
     public function testResetPasswordActionNoCustomerId()
     {
@@ -239,7 +252,7 @@ class IndexTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('Magento\Core\Model\Url'))
             ->will($this->returnValue($coreHelperMock));
 
-        $this->_session->expects($this->once())
+        $this->messageManager->expects($this->once())
             ->method('addSuccess')
             ->with($this->equalTo('Customer will receive an email with a link to reset password.'));
         $this->_testedObject->resetPasswordAction();
