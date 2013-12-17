@@ -500,7 +500,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
 
     /**
      * Include file by path
-     * This method should perform onl file inclusion.
+     * This method should perform only file inclusion.
      * Implemented to prevent possibility of changing important and used variables
      * inside the setup model while installing
      *
