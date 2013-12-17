@@ -19,6 +19,7 @@
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
+  * [#163](https://github.com/magento/magento2/pull/163) -- It is possible to change important and used variables inside the setup model while installing
 * Modularity improvements:
   * Layout page type config moved into library
   * Design loader moved to library

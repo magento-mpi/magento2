@@ -467,7 +467,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
             try {
                 switch ($fileType) {
                     case 'php':
-                        $result = include $fileName;
+                        $result = $this->_includeFile($fileName);
                         break;
                     case 'sql':
                         $sql = $this->modulesDir->readFile($this->modulesDir->getRelativePath($fileName));
@@ -496,6 +496,17 @@ class Setup implements \Magento\Module\Updater\SetupInterface
             $this->getConnection()->allowDdlCache();
         }
         return $version;
+    }
+
+    /**
+     * Include file by path
+     *
+     * @param $fileName
+     * @return mixed
+     */
+    protected function _includeFile($fileName)
+    {
+        return include $fileName;
     }
 
     /**
