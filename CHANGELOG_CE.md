@@ -39,7 +39,10 @@
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
-  
+* Implemented API Integration UX flows
+  * Ability to re-authorize credentials
+  * Ability to exchange OAuth tokens as part of activation/re-authorization flow
+
 2.0.0.0-dev55
 =============
 * Modularity improvements:
