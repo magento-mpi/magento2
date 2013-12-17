@@ -16,7 +16,7 @@ namespace Magento\Centinel\Test\Fixture;
  *
  * @package Magento\Centinel
  */
-class GuestPayPalPayflowProValidCc extends AbstractValidCc
+class GuestPayPalPayflowProValidCc extends AbstractCreditCard
 {
     /**
      * {@inheritdoc}

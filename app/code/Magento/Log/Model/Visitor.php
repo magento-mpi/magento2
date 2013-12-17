@@ -63,7 +63,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     protected $_storeManager;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -103,7 +103,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Customer\Model\CustomerFactory $customerFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
-     * @param \Magento\Core\Model\Session $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Core\Model\Config $coreConfig
      * @param \Magento\HTTP\Header $httpHeader
@@ -122,7 +122,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\Customer\Model\CustomerFactory $customerFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
-        \Magento\Core\Model\Session $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Core\Model\Config $coreConfig,
         \Magento\HTTP\Header $httpHeader,
@@ -168,7 +168,7 @@ class Visitor extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve session object
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     protected function _getSession()
     {

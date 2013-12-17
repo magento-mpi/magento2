@@ -18,7 +18,7 @@
  */
 namespace Magento\Backend\Block\System\Store;
 
-class Delete extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Delete extends \Magento\Backend\Block\Widget\Form\Container
 {
 
     /**

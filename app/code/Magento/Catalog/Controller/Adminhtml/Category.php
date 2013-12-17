@@ -336,10 +336,11 @@ class Category extends \Magento\Backend\App\Action
                 }
 
                 $category->save();
-                $this->_getSession()->addSuccess(__('You saved the category.'));
+                $this->messageManager->addSuccess(__('You saved the category.'));
                 $refreshTree = 'true';
             } catch (\Exception $e){
-                $this->_getSession()->addError($e->getMessage())->setCategoryData($data);
+                $this->messageManager->addError($e->getMessage());
+                $this->_getSession()->setCategoryData($data);
                 $refreshTree = 'false';
             }
         }
@@ -349,7 +350,7 @@ class Category extends \Magento\Backend\App\Action
 
             /** @var $block \Magento\View\Element\Messages */
             $block = $this->_objectManager->get('Magento\View\Element\Messages');
-            $block->setMessages($this->_getSession()->getMessages(true));
+            $block->setMessages($this->messageManager->getMessages(true));
             $body = $this->_objectManager->get('Magento\Core\Helper\Data')->jsonEncode(array(
                 'messages' => $block->getGroupedHtml(),
                 'error'    => $refreshTree !== 'true',
@@ -428,13 +429,13 @@ class Category extends \Magento\Backend\App\Action
                 $this->_objectManager->get('Magento\Backend\Model\Auth\Session')->setDeletedPath($category->getPath());
 
                 $category->delete();
-                $this->_getSession()->addSuccess(__('You deleted the category.'));
+                $this->messageManager->addSuccess(__('You deleted the category.'));
             } catch (\Magento\Core\Exception $e){
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->getResponse()->setRedirect($this->getUrl('catalog/*/edit', array('_current' => true)));
                 return;
             } catch (\Exception $e){
-                $this->_getSession()->addError(__('Something went wrong while trying to delete the category.'));
+                $this->messageManager->addError(__('Something went wrong while trying to delete the category.'));
                 $this->getResponse()->setRedirect($this->getUrl('catalog/*/edit', array('_current' => true)));
                 return;
             }

@@ -42,9 +42,9 @@ class Guest extends \Magento\Core\Helper\Data
     protected $_coreCookie;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_session;
+    protected $messageManager;
 
     /**
      * @var \Magento\Sales\Model\OrderFactory
@@ -60,7 +60,7 @@ class Guest extends \Magento\Core\Helper\Data
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Stdlib\Cookie $coreCookie
-     * @param \Magento\Core\Model\Session $coreSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Sales\Model\OrderFactory $orderFactory
      * @param \Magento\App\ViewInterface $view
      * @param bool $dbCompatibleMode
@@ -74,7 +74,7 @@ class Guest extends \Magento\Core\Helper\Data
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Stdlib\Cookie $coreCookie,
-        \Magento\Core\Model\Session $coreSession,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Sales\Model\OrderFactory $orderFactory,
         \Magento\App\ViewInterface $view,
         $dbCompatibleMode = true
@@ -82,7 +82,7 @@ class Guest extends \Magento\Core\Helper\Data
         $this->_coreRegistry = $coreRegistry;
         $this->_customerSession = $customerSession;
         $this->_coreCookie = $coreCookie;
-        $this->_session = $coreSession;
+        $this->messageManager = $messageManager;
         $this->_orderFactory = $orderFactory;
         $this->_view = $view;
         parent::__construct(
@@ -168,9 +168,7 @@ class Guest extends \Magento\Core\Helper\Data
             return true;
         }
 
-        $this->_session->addError(
-            __('You entered incorrect data. Please try again.')
-        );
+        $this->messageManager->addError(__('You entered incorrect data. Please try again.'));
         $this->_app->getResponse()->setRedirect($this->_urlBuilder->getUrl('sales/guest/form'));
         return false;
     }

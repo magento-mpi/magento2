@@ -8,30 +8,28 @@
  * @license     {license_link}
  */
 
+namespace Magento\Install\Model\Installer;
+
 /**
  * PEAR Packages Download Manager
  */
-namespace Magento\Install\Model\Installer;
-
 class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
 {
     /**
-     * Installer Session
-     *
-     * @var \Magento\Core\Model\Session\Generic
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_session;
+    protected $messageManager;
 
     /**
      * @param \Magento\Install\Model\Installer $installer
-     * @param \Magento\Core\Model\Session\Generic $session
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Install\Model\Installer $installer,
-        \Magento\Core\Model\Session\Generic $session
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         parent::__construct($installer);
-        $this->_session = $session;
+        $this->messageManager = $messageManager;
     }
 
 
@@ -70,7 +68,7 @@ class Pear extends \Magento\Install\Model\Installer\AbstractInstaller
                         if (is_array($message)) {
                             $message = $message['message'];
                         }
-                        $this->_session->addError($message);
+                        $this->messageManager->addError($message);
                     }
                 } else {
                     print_r($obj->getUserInfo());

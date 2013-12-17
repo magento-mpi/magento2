@@ -76,6 +76,7 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             $this->_requestMock,
             $this->_appState,
             $this->_filesystem,
+            \Magento\Session\SaveHandlerInterface::DEFAULT_HANDLER,
             __DIR__
         );
     }
@@ -326,17 +327,6 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
         $this->config->methodThatNotExist();
     }
 
-    public function testRememberMeSecondsDefaultsToTwoWeeks()
-    {
-        $this->assertEquals(1209600, $this->config->getRememberMeSeconds());
-    }
-
-    public function testRememberMeSecondsIsMutable()
-    {
-        $this->config->setRememberMeSeconds(604800);
-        $this->assertEquals(604800, $this->config->getRememberMeSeconds());
-    }
-
     public function testCookieSecureDefaultsToIniSettings()
     {
         $this->assertSame((bool) ini_get('session.cookie_secure'), $this->config->getCookieSecure());
@@ -472,5 +462,11 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     {
         $this->config->setOption('referer_check', 'BARBAZ');
         $this->assertEquals('BARBAZ', ini_get('session.referer_check'));
+    }
+
+    public function testSetSavePath()
+    {
+        $this->config->setSavePath('some_save_path');
+        $this->assertEquals($this->config->getOption('save_path'), 'some_save_path');
     }
 }

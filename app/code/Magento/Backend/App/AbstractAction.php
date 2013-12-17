@@ -119,6 +119,14 @@ abstract class AbstractAction extends \Magento\App\Action\Action
     }
 
     /**
+     * @return \Magento\Message\ManagerInterface
+     */
+    protected function getMessageManager()
+    {
+        return $this->messageManager;
+    }
+
+    /**
      * Define active menu item in menu block
      * @param string $itemId current active menu item
      * @return \Magento\Backend\App\AbstractAction
@@ -366,7 +374,7 @@ abstract class AbstractAction extends \Magento\App\Action\Action
      */
     protected function _outTemplate($tplName, $data = array())
     {
-        $this->_view->getLayout()->initMessages('Magento\Backend\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $block = $this->_view->getLayout()
             ->createBlock('Magento\Backend\Block\Template')->setTemplate("{$tplName}.phtml");
         foreach ($data as $index => $value) {

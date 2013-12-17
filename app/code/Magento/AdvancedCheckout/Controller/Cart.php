@@ -90,7 +90,7 @@ class Cart
             }
         }
         if (empty($items) && !$helper->isSkuFileUploaded($this->getRequest())) {
-            $this->_getSession()->addError($helper->getSkuEmptyDataMessageText());
+            $this->messageManager->addError($helper->getSkuEmptyDataMessageText());
             $this->_redirect('checkout/cart');
             return;
         }
@@ -101,13 +101,13 @@ class Cart
                 ->prepareAddProductsBySku($items)
                 ->saveAffectedProducts();
 
-            $this->_getSession()->addMessages($cart->getMessages());
+            $this->messageManager->addMessages($cart->getMessages());
 
             if ($cart->hasErrorMessage()) {
                 throw new \Magento\Core\Exception($cart->getErrorMessage());
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addException($e, $e->getMessage());
+            $this->messageManager->addException($e, $e->getMessage());
         }
 
         $this->_redirect('checkout/cart');
@@ -142,7 +142,7 @@ class Cart
         );
 
         if ($removed) {
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('You removed the item.')
             );
         }
@@ -158,7 +158,7 @@ class Cart
     public function removeAllFailedAction()
     {
         $this->_getFailedItemsCart()->removeAllAffectedItems();
-        $this->_getSession()->addSuccess(
+        $this->messageManager->addSuccess(
             __('You removed the items.')
         );
         $this->_redirect('checkout/cart');
@@ -188,11 +188,11 @@ class Cart
 
             $this->_objectManager->get('Magento\Catalog\Helper\Product\View')->prepareAndRender($id, $this, $params);
         } catch (\Magento\Core\Exception $e) {
-            $this->_getCustomerSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('*');
             return;
         } catch (\Exception $e) {
-            $this->_getCustomerSession()->addError(__('You cannot configure a product.'));
+            $this->messageManager->addError(__('You cannot configure a product.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('*');
             return;
@@ -226,14 +226,14 @@ class Cart
                         ->get('Magento\Core\Helper\Data')
                         ->escapeHtml($product->getName());
                     $message = __('You added %1 to your shopping cart.', $productName);
-                    $this->_getSession()->addSuccess($message);
+                    $this->messageManager->addSuccess($message);
                 }
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $hasError = true;
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('You cannot add a product.'));
+            $this->messageManager->addError(__('You cannot add a product.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $hasError = true;
         }

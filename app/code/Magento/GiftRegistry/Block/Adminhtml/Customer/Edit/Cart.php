@@ -15,7 +15,7 @@ namespace Magento\GiftRegistry\Block\Adminhtml\Customer\Edit;
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Cart
-    extends \Magento\Adminhtml\Block\Widget\Grid
+    extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Customer\Model\CustomerFactory

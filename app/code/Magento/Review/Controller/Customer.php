@@ -57,7 +57,7 @@ class Customer extends \Magento\App\Action\Action
     public function indexAction()
     {
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Catalog\Model\Session');
+        $this->_view->getLayout()->initMessages();
 
         if ($navigationBlock = $this->_view->getLayout()->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('review/customer');

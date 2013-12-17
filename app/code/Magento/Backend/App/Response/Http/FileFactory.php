@@ -41,7 +41,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
 
     /**
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Filesystem\Driver\File $filesystemDriver
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Backend\Model\Auth $auth
      * @param \Magento\Backend\Model\Url $backendUrl
      * @param \Magento\Backend\Model\Session $session
@@ -50,7 +50,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
      */
     public function __construct(
         \Magento\App\ResponseInterface $response,
-        \Magento\Filesystem\Driver\File $filesystemDriver,
+        \Magento\Filesystem $filesystem,
         \Magento\Backend\Model\Auth $auth,
         \Magento\Backend\Model\Url $backendUrl,
         \Magento\Backend\Model\Session $session,
@@ -62,7 +62,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
         $this->_session = $session;
         $this->_flag = $flag;
         $this->_helper = $helper;
-        parent::__construct($response, $filesystemDriver);
+        parent::__construct($response, $filesystem);
     }
 
 
@@ -95,8 +95,7 @@ class FileFactory extends \Magento\App\Response\Http\FileFactory
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {
         if ($this->_auth->getAuthStorage()->isFirstPageAfterLogin()) {
-            $response = $this->_redirect($this->_backendUrl->getStartupPageUrl());
-            return $response;
+            return $this->_redirect($this->_backendUrl->getStartupPageUrl());
         }
         return parent::create($fileName, $content, $contentType, $contentLength);
     }

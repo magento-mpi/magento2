@@ -18,7 +18,7 @@
 
 namespace Magento\Backend\Block\Dashboard;
 
-abstract class AbstractDashboard extends \Magento\Adminhtml\Block\Widget
+abstract class AbstractDashboard extends \Magento\Backend\Block\Widget
 {
     protected $_dataHelperName = null;
 

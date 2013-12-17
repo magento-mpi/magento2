@@ -14,7 +14,7 @@
 namespace Magento\Reminder\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 class Email
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render customer email as mailto link

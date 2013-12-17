@@ -196,7 +196,7 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Session entity
      *
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -379,13 +379,13 @@ class Store extends \Magento\Core\Model\AbstractModel
     /**
      * Retrieve store session object
      *
-     * @return \Magento\Core\Model\Session\AbstractSession
+     * @return \Magento\Session\SessionManagerInterface
      */
     protected function _getSession()
     {
         if (!$this->_session) {
             $this->_session = \Magento\App\ObjectManager::getInstance()
-                ->create('Magento\Core\Model\Session')
+                ->create('Magento\Session\SessionManagerInterface')
                 ->start('store_' . $this->getCode());
         }
         return $this->_session;
@@ -676,8 +676,8 @@ class Store extends \Magento\Core\Model\AbstractModel
     public function isUseStoreInUrl()
     {
         return !($this->hasDisableStoreInUrl() && $this->getDisableStoreInUrl())
-            && $this->_appState->isInstalled()
-            && $this->getConfig(self::XML_PATH_STORE_IN_URL);
+        && $this->_appState->isInstalled()
+        && $this->getConfig(self::XML_PATH_STORE_IN_URL);
     }
 
     /**

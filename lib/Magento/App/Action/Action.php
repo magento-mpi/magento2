@@ -60,6 +60,11 @@ class Action extends \Magento\App\Action\AbstractAction
     protected $_url;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param Context $context
      */
     public function __construct(\Magento\App\Action\Context $context)
@@ -71,6 +76,7 @@ class Action extends \Magento\App\Action\AbstractAction
         $this->_actionFlag        = $context->getActionFlag();
         $this->_redirect          = $context->getRedirect();
         $this->_view              = $context->getView();
+        $this->messageManager     = $context->getMessageManager();
     }
 
     /**

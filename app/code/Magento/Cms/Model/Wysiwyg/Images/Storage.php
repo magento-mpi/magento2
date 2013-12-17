@@ -574,7 +574,7 @@ class Storage extends \Magento\Object
     /**
      * Storage session
      *
-     * @return \Magento\Adminhtml\Model\Session
+     * @return \Magento\Backend\Model\Session
      */
     public function getSession()
     {

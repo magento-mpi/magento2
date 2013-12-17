@@ -11,9 +11,6 @@
 -->
 <config>
     <type name="Magento\GiftCard\Model\Observer">
-        <param name="session">
-            <instance type="Magento\Backend\Model\Session" />
-        </param>
         <param name="urlModel">
             <instance type="Magento\Backend\Model\Url" />
         </param>

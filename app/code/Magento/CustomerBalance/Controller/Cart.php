@@ -47,14 +47,10 @@ class Cart extends \Magento\App\Action\Action
 
         $quote = $this->_objectManager->get('Magento\Checkout\Model\Session')->getQuote();
         if ($quote->getUseCustomerBalance()) {
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
-                __('The store credit payment has been removed from shopping cart.')
-            );
+            $this->messageManager->addSuccess(__('The store credit payment has been removed from shopping cart.'));
             $quote->setUseCustomerBalance(false)->collectTotals()->save();
         } else {
-            $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
-                __('You are not using store credit in your shopping cart.')
-            );
+            $this->messageManager->addError(__('You are not using store credit in your shopping cart.'));
         }
 
         $this->_redirect('checkout/cart');

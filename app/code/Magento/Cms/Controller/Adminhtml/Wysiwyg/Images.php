@@ -56,7 +56,7 @@ class Images extends \Magento\Backend\App\Action
         try {
             $this->_objectManager->get('Magento\Cms\Helper\Wysiwyg\Images')->getCurrentPath();
         } catch (\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_initAction();
         $this->_view->loadLayout('overlay_popup');

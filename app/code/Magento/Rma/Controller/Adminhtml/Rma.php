@@ -148,18 +148,16 @@ class Rma extends \Magento\Backend\App\Action
             $customerId = $this->getRequest()->getParam('customer_id');
             $this->_redirect('adminhtml/*/chooseorder', array('customer_id' => $customerId));
         } else {
-            /** @var \Magento\Backend\Model\Session $backendSession */
-            $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
             try {
                 $this->_initCreateModel();
                 $this->_initModel();
                 if (!$this->_objectManager->get('Magento\Rma\Helper\Data')->canCreateRma($orderId, true)) {
-                    $backendSession->addError(
+                    $this->messageManager->addError(
                         __('There are no applicable items for return in this order.')
                     );
                 }
             } catch (\Magento\Core\Exception $e) {
-                $backendSession->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $this->_redirect('adminhtml/*/');
                 return;
             }
@@ -195,7 +193,7 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('The wrong RMA was requested.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_objectManager->get('Magento\Backend\Model\Session')->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('adminhtml/*/');
             return;
         }
@@ -215,8 +213,6 @@ class Rma extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/');
             return;
         }
-        /** @var \Magento\Backend\Model\Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             /** @var $model \Magento\Rma\Model\Rma */
             $model = $this->_initModel();
@@ -226,9 +222,9 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
             }
             $this->_processNewRmaAdditionalInfo($saveRequest, $model);
-            $backendSession->addSuccess(__('You submitted the RMA request.'));
+            $this->messageManager->addSuccess(__('You submitted the RMA request.'));
         } catch (\Magento\Core\Exception $e) {
-            $backendSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
                 ->getRmaErrorKeys();
             $controllerParams = array('order_id' => $this->_coreRegistry->registry('current_order')->getId());
@@ -238,7 +234,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/new', $controllerParams);
             return;
         } catch (\Exception $e) {
-            $backendSession->addError(__('We failed to save this RMA.'));
+            $this->messageManager->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
         }
         $this->_redirect('adminhtml/*/');
@@ -314,8 +310,6 @@ class Rma extends \Magento\Backend\App\Action
             $this->saveNewAction();
             return;
         }
-        /** @var \Magento\Backend\Model\Session $backendSession */
-        $backendSession = $this->_objectManager->get('Magento\Backend\Model\Session');
         try {
             $saveRequest = $this->_filterRmaSaveRequest($this->getRequest()->getPost());
             $itemStatuses = $this->_combineItemStatuses($saveRequest['items'], $rmaId);
@@ -328,14 +322,14 @@ class Rma extends \Magento\Backend\App\Action
                 throw new \Magento\Core\Exception(__('We failed to save this RMA.'));
             }
             $model->sendAuthorizeEmail();
-            $backendSession->addSuccess(__('You saved the RMA request.'));
+            $this->messageManager->addSuccess(__('You saved the RMA request.'));
             $redirectBack = $this->getRequest()->getParam('back', false);
             if ($redirectBack) {
                 $this->_redirect('adminhtml/*/edit', array('id' => $rmaId, 'store' => $model->getStoreId()));
                 return;
             }
         } catch (\Magento\Core\Exception $e) {
-            $backendSession->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $errorKeys = $this->_objectManager->get('Magento\Core\Model\Session')
                 ->getRmaErrorKeys();
             $controllerParams = array('id' => $rmaId);
@@ -345,7 +339,7 @@ class Rma extends \Magento\Backend\App\Action
             $this->_redirect('adminhtml/*/edit', $controllerParams);
             return;
         } catch (\Exception $e) {
-            $backendSession->addError(__('We failed to save this RMA.'));
+            $this->messageManager->addError(__('We failed to save this RMA.'));
             $this->_objectManager->get('Magento\Logger')->logException($e);
             $this->_redirect('adminhtml/*/');
             return;
@@ -455,13 +449,13 @@ class Rma extends \Magento\Backend\App\Action
         }
         if ($countNonCloseRma) {
             if ($countCloseRma) {
-                $this->_getSession()->addError(__('%1 RMA(s) cannot be closed', $countNonCloseRma));
+                $this->messageManager->addError(__('%1 RMA(s) cannot be closed', $countNonCloseRma));
             } else {
-                $this->_getSession()->addError(__('We cannot close the RMA request(s).'));
+                $this->messageManager->addError(__('We cannot close the RMA request(s).'));
             }
         }
         if ($countCloseRma) {
-            $this->_getSession()->addSuccess(__('%1 RMA (s) have been closed.', $countCloseRma));
+            $this->messageManager->addSuccess(__('%1 RMA (s) have been closed.', $countCloseRma));
         }
 
         if ($returnRma) {
@@ -1077,8 +1071,7 @@ class Rma extends \Magento\Backend\App\Action
             $model = $this->_initModel();
             if ($model) {
                 if ($this->_createShippingLabel($model)) {
-                    $this->_getSession()
-                        ->addSuccess(__('You created a shipping label.'));
+                    $this->messageManager->addSuccess(__('You created a shipping label.'));
                     $responseAjax->setOk(true);
                 }
                 $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
@@ -1109,7 +1102,7 @@ class Rma extends \Magento\Backend\App\Action
             $shipment = $this->_initShipment();
             if ($this->_createShippingLabel($shipment)) {
                 $shipment->save();
-                $this->_getSession()->addSuccess(__('You created a shipping label.'));
+                $this->messageManager->addSuccess(__('You created a shipping label.'));
                 $response->setOk(true);
             }
         } catch (\Magento\Core\Exception $e) {
@@ -1231,7 +1224,7 @@ class Rma extends \Magento\Backend\App\Action
                     $pdf = new \Zend_Pdf();
                     $page = $this->_createPdfPageFromImageString($labelContent);
                     if (!$page) {
-                        $this->_getSession()->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
+                        $this->messageManager->addError(__("We don't recognize or support the file extension in shipment %1.", $model->getIncrementId()));
                     }
                     $pdf->pages[] = $page;
                     $pdfContent = $pdf->render();
@@ -1244,11 +1237,10 @@ class Rma extends \Magento\Backend\App\Action
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->logException($e);
-            $this->_getSession()
-                ->addError(__('Something went wrong creating a shipping label.'));
+            $this->messageManager->addError(__('Something went wrong creating a shipping label.'));
        }
         $this->_redirect('adminhtml/*/edit', array(
             'id' => $this->getRequest()->getParam('id')

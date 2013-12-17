@@ -17,20 +17,20 @@ class FileFactory
     protected $_response;
 
     /**
-     * @var \Magento\Filesystem\Driver\File
+     * @var \Magento\Filesystem
      */
-    protected $_filesystemDriver;
+    protected $_filesystem;
 
     /**
      * @param \Magento\App\ResponseInterface $response
-     * @param \Magento\Filesystem\Driver\File $filesystemDriver
+     * @param \Magento\Filesystem $filesystem
      */
     public function __construct(
         \Magento\App\ResponseInterface $response,
-        \Magento\Filesystem\Driver\File $filesystemDriver
+        \Magento\Filesystem $filesystem
     ) {
         $this->_response = $response;
-        $this->_filesystemDriver = $filesystemDriver;
+        $this->_filesystem = $filesystem;
     }
 
     /**
@@ -51,7 +51,7 @@ class FileFactory
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {
-        $filesystem = $this->_filesystemDriver;
+        $filesystem = $this->_filesystem;
         $isFile = false;
         $file = null;
         if (is_array($content)) {
@@ -61,7 +61,7 @@ class FileFactory
             if ($content['type'] == 'filename') {
                 $isFile = true;
                 $file = $content['value'];
-                $contentLength = $filesystem->stat($file)['size'];
+                $contentLength = $filesystem->getFileSize($file);
             }
         }
 
