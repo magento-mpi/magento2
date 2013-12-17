@@ -94,7 +94,7 @@ abstract class AbstractTab
     {
         if (!isset($this->_addRowButtonHtml[$container])) {
             $this->_addRowButtonHtml[$container] = $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+                ->createBlock('Magento\Backend\Block\Widget\Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel(__($title))
@@ -111,7 +111,7 @@ abstract class AbstractTab
     {
         if (!$this->_removeRowButtonHtml) {
             $this->_removeRowButtonHtml = $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+                ->createBlock('Magento\Backend\Block\Widget\Button')
                     ->setType('button')
                     ->setClass('delete')
                     ->setLabel(__('Remove'))
@@ -125,7 +125,7 @@ abstract class AbstractTab
     {
         if (!$this->_addFileDepButtonHtml) {
             $this->_addFileDepButtonHtml = $this->getLayout()
-                ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+                ->createBlock('Magento\Backend\Block\Widget\Button')
                     ->setType('button')
                     ->setClass('add')
                     ->setLabel(__('Add files'))

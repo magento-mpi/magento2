@@ -191,7 +191,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         if ($invoice) {
             $this->_title->add(__('New Invoice'));
 
-            $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
+            $comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             if ($comment) {
                 $invoice->setCommentText($comment);
             }
@@ -244,7 +244,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
         $orderId = $this->getRequest()->getParam('order_id');
 
         if (!empty($data['comment_text'])) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCommentText($data['comment_text']);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -313,7 +313,7 @@ class Invoice extends \Magento\Sales\Controller\Adminhtml\Invoice\AbstractInvoic
                         $this->messageManager->addError(__('We can\'t send the shipment.'));
                     }
                 }
-                $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
+                $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
                 $this->_redirect('sales/order/view', array('order_id' => $orderId));
             } else {
                 $this->_redirect('sales/*/new', array('order_id' => $orderId));

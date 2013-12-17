@@ -148,7 +148,7 @@ class Account extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return mixed|void
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -300,7 +300,6 @@ class Account extends \Magento\App\Action\Action
     {
         $lastCustomerId = $this->_getSession()->getId();
         $this->_getSession()->logout()
-            ->regenerateId()
             ->setBeforeAuthUrl($this->_redirect->getRefererUrl())
             ->setLastCustomerId($lastCustomerId);
 

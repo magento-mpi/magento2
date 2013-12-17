@@ -300,6 +300,7 @@ class Session extends \Magento\Session\SessionManager
         $customer = $this->_createCustomer()->load($customerId);
         if ($customer->getId()) {
             $this->setCustomerAsLoggedIn($customer);
+            $this->regenerateId();
             return true;
         }
         return false;

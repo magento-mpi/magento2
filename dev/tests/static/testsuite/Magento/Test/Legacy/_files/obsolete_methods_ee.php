@@ -136,4 +136,7 @@ return array(
         'viewBlockAbstractToHtmlBefore'
     ),
     array('getServerIoDriver', '\Magento\ScheduledImportExport\Model\Scheduled\Operation'),
+    array('addPrivacyHeader', '\Magento\Pbridge\Model\Observer',
+        '\Magento\Pbridge\App\Action\Plugin\PrivacyHeader::afterDispatch'
+    ),
 );

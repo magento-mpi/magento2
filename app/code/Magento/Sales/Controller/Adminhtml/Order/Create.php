@@ -38,11 +38,11 @@ class Create extends \Magento\Backend\App\Action
     /**
      * Retrieve session object
      *
-     * @return \Magento\Adminhtml\Model\Session\Quote
+     * @return \Magento\Backend\Model\Session\Quote
      */
     protected function _getSession()
     {
-        return $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
+        return $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
     }
 
     /**
@@ -340,7 +340,8 @@ class Create extends \Magento\Backend\App\Action
         $orderId = $this->getRequest()->getParam('order_id');
         $order = $this->_objectManager->create('Magento\Sales\Model\Order')->load($orderId);
         if (!$this->_objectManager->get('Magento\Sales\Helper\Reorder')->canReorder($order)) {
-            return $this->_forward('noroute');
+            $this->_forward('noroute');
+            return;
         }
 
         if ($order->getId()) {
@@ -407,7 +408,7 @@ class Create extends \Magento\Backend\App\Action
         $this->_view->generateLayoutBlocks();
         $result = $this->_view->getLayout()->renderElement('content');
         if ($request->getParam('as_js_varname')) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setUpdateResult($result);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setUpdateResult($result);
             $this->_redirect('sales/*/showUpdateResult');
         } else {
             $this->getResponse()->setBody($result);
@@ -439,7 +440,7 @@ class Create extends \Magento\Backend\App\Action
         }
 
         $updateResult->setJsVarName($this->getRequest()->getParam('as_js_varname'));
-        $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCompositeProductResult($updateResult);
+        $this->_objectManager->get('Magento\Backend\Model\Session')->setCompositeProductResult($updateResult);
         $this->_redirect('catalog/product/showUpdateResult');
     }
 
@@ -558,15 +559,13 @@ class Create extends \Magento\Backend\App\Action
         $configureResult = new \Magento\Object();
         $configureResult->setOk(true);
         $configureResult->setProductId($productId);
-        $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
+        $sessionQuote = $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
         $configureResult->setCurrentStoreId($sessionQuote->getStore()->getId());
         $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
     /*
@@ -597,7 +596,7 @@ class Create extends \Magento\Backend\App\Action
             $configureResult->setBuyRequest($quoteItem->getBuyRequest());
             $configureResult->setCurrentStoreId($quoteItem->getStoreId());
             $configureResult->setProductId($quoteItem->getProductId());
-            $sessionQuote = $this->_objectManager->get('Magento\Adminhtml\Model\Session\Quote');
+            $sessionQuote = $this->_objectManager->get('Magento\Backend\Model\Session\Quote');
             $configureResult->setCurrentCustomerId($sessionQuote->getCustomerId());
 
         } catch (\Exception $e) {
@@ -608,8 +607,6 @@ class Create extends \Magento\Backend\App\Action
         // Render page
         $this->_objectManager->get('Magento\Catalog\Helper\Product\Composite')
             ->renderConfigureResult($configureResult);
-
-        return $this;
     }
 
 
@@ -620,7 +617,7 @@ class Create extends \Magento\Backend\App\Action
      */
     public function showUpdateResultAction()
     {
-        $session = $this->_objectManager->get('Magento\Adminhtml\Model\Session');
+        $session = $this->_objectManager->get('Magento\Backend\Model\Session');
         if ($session->hasUpdateResult() && is_scalar($session->getUpdateResult())) {
             $this->getResponse()->setBody($session->getUpdateResult());
             $session->unsUpdateResult();

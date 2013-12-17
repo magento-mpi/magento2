@@ -98,4 +98,14 @@ class GridTest extends \PHPUnit_Framework_TestCase
         $this->_columnSetMock->expects($this->once())->method('isFilterVisible')->will($this->returnValue(false));
         $this->_block->getMainButtonsHtml();
     }
+
+    public function testGetMassactionBlock()
+    {
+        /** @var $layout \Magento\Core\Model\Layout */
+        $layout = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\View\LayoutInterface');
+        /** @var $block \Magento\Backend\Block\Widget\Grid */
+        $block = $layout->createBlock('Magento\Backend\Block\Widget\Grid\Extended', 'block');
+        $child = $layout->addBlock('Magento\View\Element\Template', 'massaction', 'block');
+        $this->assertSame($child, $block->getMassactionBlock());
+    }
 }

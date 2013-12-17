@@ -71,10 +71,8 @@ class Hierarchy extends \Magento\Backend\App\Action
     }
 
     /**
-     * Controller pre dispatch method
-     *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {

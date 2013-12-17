@@ -54,7 +54,7 @@ class Product extends \Magento\App\Action\Action
      * If allow only for customer - redirect to login page
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)

@@ -174,7 +174,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
         if ($shipment) {
             $this->_title->add(__('New Shipment'));
 
-            $comment = $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
+            $comment = $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
             if ($comment) {
                 $shipment->setCommentText($comment);
             }
@@ -197,7 +197,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
     {
         $data = $this->getRequest()->getPost('shipment');
         if (!empty($data['comment_text'])) {
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->setCommentText($data['comment_text']);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->setCommentText($data['comment_text']);
         }
 
         try {
@@ -241,7 +241,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
             $this->messageManager->addSuccess($isNeedCreateLabel ? $shipmentCreatedMessage . ' ' . $labelCreatedMessage
                 : $shipmentCreatedMessage);
-            $this->_objectManager->get('Magento\Adminhtml\Model\Session')->getCommentText(true);
+            $this->_objectManager->get('Magento\Backend\Model\Session')->getCommentText(true);
         } catch (\Magento\Core\Exception $e) {
             if ($isNeedCreateLabel) {
                 $responseAjax->setError(true);
@@ -646,8 +646,7 @@ class Shipment extends \Magento\Sales\Controller\Adminhtml\Shipment\AbstractShip
 
         if (!empty($labelsContent)) {
             $outputPdf = $this->_combineLabelsPdf($labelsContent);
-            $this->_fileFactory->create('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
-            return;
+            return $this->_fileFactory->create('ShippingLabels.pdf', $outputPdf->render(), 'application/pdf');
         }
 
         if ($createdFromOrders) {
