@@ -217,4 +217,14 @@ class View extends Block
         $this->_rootElement->find($this->clickForPrice, Locator::SELECTOR_CSS)->click();
         $this->waitForElementVisible($this->mapPopup, Locator::SELECTOR_CSS);
     }
+
+    /**
+     * Is 'ADD TO CART' button visible
+     *
+     * @return bool
+     */
+    public function isAddToCartButtonVisible()
+    {
+        return $this->_rootElement->find($this->addToCart, Locator::SELECTOR_CSS)->isVisible();
+    }
 }

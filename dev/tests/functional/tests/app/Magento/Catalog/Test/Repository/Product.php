@@ -36,6 +36,7 @@ class Product extends AbstractRepository
         $this->_data[$type]['data']['category_name'] = '%category::getCategoryName%';
         $this->_data[$type]['data']['category_id'] = '%category::getCategoryId%';
         $this->_data[$type . '_edit_required_fields'] = $this->resetRequiredFields($type);
+        $this->_data['simple_out_of_stock'] = $this->_getSimpleOutOfStock();
     }
 
     /**
@@ -58,5 +59,34 @@ class Product extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Get simple product with advanced inventory
+     *
+     * @return array
+     */
+    protected function _getSimpleOutOfStock()
+    {
+        $inventory = array(
+            'data' => array(
+                'fields' => array(
+                    'inventory_manage_stock' => array(
+                        'value' => 'Yes',
+                        'input_value' => '1',
+                    ),
+                    'inventory_qty' => array(
+                        'value' => 0,
+                        'group' => Fixture\Product::GROUP_PRODUCT_INVENTORY
+                    ),
+                    'inventory_stock_availability' => array(
+                        'value' => 'Out of Stock', // Out of Stock
+                    )
+                )
+            )
+        );
+        $product = array_replace_recursive($this->_data['simple'], $inventory);
+        unset($product['data']['fields']['qty']);
+        return $product;
     }
 }
