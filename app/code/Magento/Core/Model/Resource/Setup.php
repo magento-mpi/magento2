@@ -501,7 +501,7 @@ class Setup implements \Magento\Module\Updater\SetupInterface
     /**
      * Include file by path
      *
-     * @param $fileName
+     * @param string $fileName
      * @return mixed
      */
     protected function _includeFile($fileName)
