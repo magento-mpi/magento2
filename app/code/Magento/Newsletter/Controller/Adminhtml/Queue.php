@@ -78,7 +78,7 @@ class Queue extends \Magento\Backend\App\Action
         $data = $this->getRequest()->getParams();
         if (empty($data) || !isset($data['id'])) {
             $this->_forward('noroute');
-            return $this;
+            return;
         }
 
         // set default value for selected store

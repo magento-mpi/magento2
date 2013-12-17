@@ -158,8 +158,6 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
 
         $this->_view->loadLayout();
         $this->_view->renderLayout();
-
-        return $this;
     }
 
     /**
@@ -194,8 +192,6 @@ class Page extends \Magento\Cms\Controller\Adminhtml\Page
             }
         }
         $this->_redirect('adminhtml/*/edit', array('_current' => true, 'tab' => 'versions'));
-
-        return $this;
     }
 
     /**

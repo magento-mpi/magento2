@@ -89,7 +89,7 @@ class Wizard extends \Magento\Install\Controller\Action
      * Throw a bootstrap exception if page cannot be displayed due to mis-configured base directories
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -207,7 +207,11 @@ class Wizard extends \Magento\Install\Controller\Action
         $this->_prepareLayout();
         $this->_view->getLayout()->initMessages();
         $this->_view->getLayout()->addBlock('Magento\Install\Block\Locale', 'install.locale', 'content');
-
+        $this->_view->getLayout()
+            ->getBlock('install.locale')
+            ->setLocaleCode(
+                $this->_session->getLocale()
+            );
         $this->_view->renderLayout();
     }
 
@@ -303,7 +307,7 @@ class Wizard extends \Magento\Install\Controller\Action
      */
     public function installAction()
     {
-        $pear = \Magento\Pear::getInstance();        
+        $pear = \Magento\Pear::getInstance();
         $params = array(
             'comment' => __("Downloading and installing Magento, please wait...") . "\r\n\r\n"
         );
@@ -399,8 +403,7 @@ class Wizard extends \Magento\Install\Controller\Action
                 ->setSkipBaseUrlValidation($this->getRequest()->getPost('skip_base_url_validation'));
             try {
                 $this->_getInstaller()->installConfig($data);
-                $this->_redirect('*/*/installDb');
-                return $this;
+                return $this->_redirect('*/*/installDb');
             } catch (\Exception $e) {
                 $this->messageManager->addError($e->getMessage());
                 $this->getResponse()->setRedirect($step->getUrl());

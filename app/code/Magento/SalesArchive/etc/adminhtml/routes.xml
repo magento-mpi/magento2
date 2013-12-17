@@ -9,8 +9,8 @@
 -->
 <config>
     <router id="admin">
-        <route id="adminhtml">
-            <module name="Magento_SalesArchive_Adminhtml" before="Magento_Adminhtml" />
+        <route id="sales">
+            <module name="Magento_SalesArchive" before="Magento_Adminhtml" />
         </route>
     </router>
 </config>

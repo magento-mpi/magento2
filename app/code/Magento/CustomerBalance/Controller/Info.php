@@ -23,7 +23,7 @@ class Info extends \Magento\App\Action\Action
      * Authenticate customer
      *
      * @param RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {

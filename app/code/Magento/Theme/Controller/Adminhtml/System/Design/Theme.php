@@ -275,7 +275,7 @@ class Theme extends \Magento\Backend\App\Action
             /** @var $customCssFile \Magento\View\Design\Theme\FileInterface */
             $customCssFile = reset($customCssFiles);
             if ($customCssFile && $customCssFile->getContent()) {
-                $this->_fileFactory->create(
+                return $this->_fileFactory->create(
                     $customCssFile->getFileName(),
                     array(
                         'type'  => 'filename',
@@ -315,7 +315,7 @@ class Theme extends \Magento\Backend\App\Action
                 );
             }
 
-            $this->_fileFactory->create($fileName, array(
+            return $this->_fileFactory->create($fileName, array(
                 'type'  => 'filename',
                 'value' => $themeCss[$fileName]['path']
             ));

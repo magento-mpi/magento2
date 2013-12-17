@@ -126,7 +126,7 @@ class Product extends \Magento\App\Action\Action
      * Dispatch request
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
