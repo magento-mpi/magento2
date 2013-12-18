@@ -44,7 +44,7 @@ return array(
         ),
         'filesystem_glob_map' => array(
             array(
-                '#.*_.*#', '/base/dir/area_one/fixture/theme_one/',
+                '*_*', '/base/dir/area_one/fixture/theme_one/',
                 array('/base/dir/area_one/fixture/theme_one/Magento_Core'),
             ),
         ),
@@ -87,7 +87,7 @@ return array(
         ),
         'filesystem_glob_map' => array(
             array(
-                '#.*_.*#', '/base/dir/area_one/fixture/theme_two/',
+                '*_*', '/base/dir/area_one/fixture/theme_two/',
                 array(
                     '/base/dir/area_one/fixture/theme_two/Fixture_ModuleOne',
                     '/base/dir/area_one/fixture/theme_two/Fixture_ModuleTwo',
@@ -144,7 +144,7 @@ return array(
         ),
         'filesystem_glob_map' => array(
             array(
-                '#.*_.*#', '/base/dir/area_two/fixture/theme_three/',
+                '*_*', '/base/dir/area_two/fixture/theme_three/',
                 array(),
             ),
         ),
