@@ -53,7 +53,10 @@ class SimpleProduct extends Product
                     'value' => 'Default',
                 ),
             ),
-            'fields' => array_intersect_key($defaultData['fields'], array_flip(array('name', 'sku', 'price'))),
+            'fields' => array_intersect_key(
+                $defaultData['fields'],
+                array_flip(array('name', 'sku', 'price', 'weight'))
+            )
         );
     }
 
