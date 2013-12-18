@@ -79,7 +79,7 @@ class ApplyMapTest extends Functional
         $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
         $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
         'Displayed on Category page MAP is incorrect');
-        $this->assertContains($product->getProductPrice(), $mapBlock->getActualPrice(),
+        $this->assertEquals($product->getProductPrice(), $mapBlock->getActualPrice(),
             'Displayed on Category page price is incorrect');
     }
 
