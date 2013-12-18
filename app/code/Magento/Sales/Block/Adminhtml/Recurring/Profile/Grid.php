@@ -170,6 +170,6 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
      */
     public function getGridUrl()
     {
-        return $this->getUrl('adminhtml/*/grid', array('_current'=>true));
+        return $this->getUrl('sales/*/grid', array('_current'=>true));
     }
 }
