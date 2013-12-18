@@ -11,10 +11,9 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
 {
     /**
      * @param mixed $hasRecurringItems
-     * @param bool $expected
      * @dataProvider hasRecurringItemsDataProvider
      */
-    public function testHasRecurringItems($hasRecurringItems, $expected)
+    public function testHasRecurringItems($hasRecurringItems)
     {
         $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
         $quote = $this->getMock('Magento\Sales\Model\Quote', array(
@@ -28,16 +27,14 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
         $model = $helper->getObject('Magento\Checkout\Block\Onepage\Payment', array(
             'resourceSession' => $checkoutSession
         ));
-        $this->assertEquals($expected, $model->hasRecurringItems());
+        $this->assertEquals($hasRecurringItems, $model->hasRecurringItems());
     }
 
     public function hasRecurringItemsDataProvider()
     {
         return array(
-            array(1, true),
-            array(false, false),
-            array(null, false),
-            array(true, true),
+            array(false),
+            array(true),
         );
     }
 }

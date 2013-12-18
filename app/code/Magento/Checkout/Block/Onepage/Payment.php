@@ -41,9 +41,11 @@ class Payment extends \Magento\Checkout\Block\Onepage\AbstractOnepage
 
     /**
      * Check whether the quote has recurring items
+     *
+     * @return bool
      */
     public function hasRecurringItems()
     {
-       return !!$this->getQuote()->hasRecurringItems();
+       return $this->getQuote()->hasRecurringItems();
     }
 }
