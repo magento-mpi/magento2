@@ -492,21 +492,6 @@ class AbstractBlockTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    public function testHelper()
-    {
-        // Without layout
-        $this->assertInstanceOf('Magento\Core\Helper\Data', $this->_block->helper('Magento\Core\Helper\Data'));
-
-        // With layout
-        $helper = $this->_block->helper('Magento\Core\Helper\Data');
-
-        try {
-            $this->assertInstanceOf('Magento\Core\Helper\Data', $helper);
-        } catch (\Exception $e) {
-            throw $e;
-        }
-    }
-
     public function testFormatDate()
     {
         $locale = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get(

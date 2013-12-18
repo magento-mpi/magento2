@@ -30,6 +30,7 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory
      * @param \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory
      * @param array $data
@@ -37,13 +38,14 @@ class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Sales\Model\Order\InvoiceFactory $invoiceFactory,
         \Magento\Sales\Model\Resource\Order\Invoice\Grid\CollectionFactory $collectionFactory,
         array $data = array()
     ) {
         $this->_invoiceFactory = $invoiceFactory;
         $this->_collectionFactory = $collectionFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     protected function _construct()
