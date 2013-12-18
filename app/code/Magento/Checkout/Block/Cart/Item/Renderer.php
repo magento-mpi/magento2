@@ -105,6 +105,19 @@ class Renderer extends \Magento\View\Element\Template
     }
 
     /**
+     * Generate HTML for product thumbnail image.
+     *
+     * @param string $location
+     * @return string
+     */
+    public function getThumbnailHtml($location)
+    {
+        /** @var \Magento\Catalog\Block\Product\Image $imageBlock */
+        $imageBlock = $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
+        return $imageBlock->init($this->getProduct(), $location)->toHtml();
+    }
+
+    /**
      * Thumbnail image getter
      *
      * @return \Magento\Catalog\Helper\Image

@@ -95,4 +95,17 @@ class Configurable extends \Magento\Checkout\Block\Cart\Item\Renderer
     {
         return $this->_productConfig->getConfigurableOptions($this->getItem());
     }
+
+    /**
+     * Generate HTML for product thumbnail image.
+     *
+     * @param string $location
+     * @return string
+     */
+    public function getThumbnailHtml($location)
+    {
+        /** @var \Magento\Catalog\Block\Product\Image $imageBlock */
+        $imageBlock = $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
+        return $imageBlock->init($this->getChildProduct(), $location)->toHtml();
+    }
 }
