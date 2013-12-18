@@ -8144,11 +8144,15 @@ span.widget.link {
 .sidebar .minilist.products.items .item.product {
   margin: 0 0 20px;
   padding: 0;
-  position: relative;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 .sidebar .minilist.products.items .item.product .product.actions {
   visibility: hidden;
+  -webkit-transition: visibility 0.01s ease-in-out 0.1s;
+  -moz-transition: visibility 0.01s ease-in-out 0.1s;
+  transition: visibility 0.01s ease-in-out 0.1s;
 }
 .sidebar .minilist.products.items .item.product:hover .product.actions {
   visibility: visible;
@@ -8165,13 +8169,23 @@ span.widget.link {
   overflow: hidden;
 }
 .sidebar .minilist.products.items .actions {
-  bottom: 0;
+  /*        */
+
+}
+.sidebar .minilist.products.items .primary {
+  bottom: -10px;
   left: 0;
   position: absolute;
 }
 .sidebar .minilist.products.items .action.tocart {
   padding: 5px 11px;
   display: inline-block;
+}
+.sidebar .minilist.products.items .secondary {
+  position: absolute;
+  left: 100%;
+  margin-left: -5px;
+  top: 0;
 }
 .block.widget.photos {
   margin: 0 0 30px;
@@ -8675,6 +8689,10 @@ span.widget.link {
   margin-bottom: 20px;
 }
 .products.wrapper.grid .products.list .item.product {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   float: left;
   width: 16.666666666666664%;
   margin-right: 0%;
@@ -11772,6 +11790,14 @@ img[align="right"] {
 -------------------------------------- */
 .data.table.reviews .product.name {
   margin: 0;
+}
+/*
+    Wishlist sidebar
+-------------------------------------- */
+.block.wishlist .subtitle {
+  display: block;
+  font-weight: 600;
+  margin: 0 0 15px;
 }
 /*
     My Account -> My Wishlist
@@ -17496,6 +17522,9 @@ body.account .column.main .block.event .item {
     margin-right: 0;
   }
   .block.addbysku .form.addbysku .actions .secondary .action {
+    text-indent: 0;
+    line-height: inherit;
+    height: inherit;
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -17513,6 +17542,9 @@ body.account .column.main .block.event .item {
     border: none;
     background-color: #c2c2c2;
     color: #ffffff;
+  }
+  .block.addbysku .form.addbysku .actions .secondary .action:after {
+    display: none;
   }
   .block.addbysku .form.addbysku .actions .secondary .action span {
     font-size: 18px;
