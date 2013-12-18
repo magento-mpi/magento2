@@ -1,4 +1,7 @@
 * Fixed bugs:
+  * Fixed [MAP]: "Click for price" link is broken on the category page
+  * Fixed tax rule searching doesn't work correctly on the grid
+  * Fixed redirect on dashboard if click "Search" "Reset", "Export" buttons on several pages
   * Fixed user switching to alternate store-view when click on the Category (with Add Store Code to Urls="Yes" in the config)
   * Fixed printing Order/Shipping/Credit Memo from Backend
   * Fixed 404 Error on attempt to print Shipping Label
