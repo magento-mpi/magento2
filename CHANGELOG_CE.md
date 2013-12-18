@@ -19,6 +19,7 @@
   * Fixed broken design newsletter template preview
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
+  * Fixed performance degradation during install wizard execution
 * Themes update:
   * Responsive design improvements
 

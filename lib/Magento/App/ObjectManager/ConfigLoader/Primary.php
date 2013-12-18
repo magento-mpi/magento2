@@ -3,7 +3,7 @@
  * Primary configuration loader for application object manager
  *
  * {license_notice}
- * 
+ *
  * @copyright {copyright}
  * @license   {license_link}
  */
@@ -19,19 +19,19 @@ class Primary
     protected $_appMode;
 
     /**
-     * @var string
+     * @var \Magento\Filesystem\DirectoryList
      */
-    protected $_configDirectoryPath;
+    protected $_directoryList;
 
     /**
      * @param string $configDirectoryPath
      * @param string $appMode
      */
     public function __construct(
-        $configDirectoryPath,
+        \Magento\Filesystem\DirectoryList $directoryList,
         $appMode = \Magento\App\State::MODE_DEFAULT
     ) {
-        $this->_configDirectoryPath = $configDirectoryPath;
+        $this->_directoryList = $directoryList;
         $this->_appMode = $appMode;
     }
 
@@ -45,7 +45,7 @@ class Primary
         $reader = new \Magento\ObjectManager\Config\Reader\Dom(
             new \Magento\App\Config\FileResolver\Primary(
                 new \Magento\Filesystem(
-                    new \Magento\Filesystem\DirectoryList($this->_configDirectoryPath),
+                    $this->_directoryList,
                     new \Magento\Filesystem\Directory\ReadFactory(),
                     new \Magento\Filesystem\Directory\WriteFactory()
                 ),
