@@ -161,13 +161,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
     protected $_coreData;
 
     /**
-     * Core data
-     *
-     * @var \Magento\App\Helper\HelperFactory
-     */
-    protected $_factoryHelper;
-
-    /**
      * Core event manager proxy
      *
      * @var \Magento\Event\ManagerInterface
@@ -211,7 +204,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
      * @param Resource\Theme\CollectionFactory $themeFactory
      * @param \Magento\Logger $logger
      * @param \Magento\Event\ManagerInterface $eventManager
-     * @param \Magento\App\Helper\HelperFactory $factoryHelper
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\View\DesignInterface $design
      * @param BlockFactory $blockFactory
@@ -229,7 +221,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         \Magento\Core\Model\Resource\Theme\CollectionFactory $themeFactory,
         \Magento\Logger $logger,
         \Magento\Event\ManagerInterface $eventManager,
-        \Magento\App\Helper\HelperFactory $factoryHelper,
         \Magento\Core\Helper\Data $coreData,
         \Magento\View\DesignInterface $design,
         \Magento\View\Element\BlockFactory $blockFactory,
@@ -243,7 +234,6 @@ class Layout extends \Magento\Simplexml\Config implements \Magento\View\LayoutIn
         $area = \Magento\View\DesignInterface::DEFAULT_AREA
     ) {
         $this->_eventManager = $eventManager;
-        $this->_factoryHelper = $factoryHelper;
         $this->_coreData = $coreData;
         $this->_coreStoreConfig = $coreStoreConfig;
         $this->_design = $design;

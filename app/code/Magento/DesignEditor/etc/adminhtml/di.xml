@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * {license_notice}
+ *
+ * @copyright   {copyright}
+ * @license     {license_link}
+ */
+-->
+<config>
+    <type name="Magento\DesignEditor\Block\Adminhtml\Editor\Tools\Files\Content\Files">
+        <param name="storageHelper">
+            <instance type="Magento\Theme\Helper\Storage\Proxy" />
+        </param>
+    </type>
+</config>
