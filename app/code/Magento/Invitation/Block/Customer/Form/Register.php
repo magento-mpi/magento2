@@ -24,16 +24,19 @@ class Register extends \Magento\Customer\Block\Form\Register
 
     /**
      * @param \Magento\View\Element\Template\Context $context
-     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\Core\Helper\Data $coreData
-     * @param \Magento\Module\Manager $moduleManager
+     * @param \Magento\Json\EncoderInterface $jsonEncoder
      * @param \Magento\App\Cache\Type\Config $configCacheType
      * @param \Magento\Directory\Model\Resource\Region\CollectionFactory $regionCollFactory
      * @param \Magento\Directory\Model\Resource\Country\CollectionFactory $countryCollFactory
+     * @param \Magento\Module\Manager $moduleManager
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\AddressFactory $addressFactory
+     * @param \Magento\Customer\Helper\Data $customerHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -45,6 +48,7 @@ class Register extends \Magento\Customer\Block\Form\Register
         \Magento\Module\Manager $moduleManager,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\AddressFactory $addressFactory,
+        \Magento\Customer\Helper\Data $customerHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
@@ -59,6 +63,7 @@ class Register extends \Magento\Customer\Block\Form\Register
             $moduleManager,
             $customerSession,
             $addressFactory,
+            $customerHelper,
             $data
         );
     }

@@ -29,6 +29,7 @@ class Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory
      * @param \Magento\View\Design\Theme\LabelFactory $themeLabelFactory
      * @param array $data
@@ -36,13 +37,14 @@ class Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Eav\Model\Resource\Form\Type\CollectionFactory $formTypesFactory,
         \Magento\View\Design\Theme\LabelFactory $themeLabelFactory,
         array $data = array()
     ) {
         $this->_formTypesFactory = $formTypesFactory;
         $this->_themeLabelFactory = $themeLabelFactory;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**

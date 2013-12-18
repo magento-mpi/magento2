@@ -37,7 +37,7 @@ class Copy
      */
     public function isMultipleEnabled()
     {
-        return $this->_wishlistData->isMultipleEnabled();
+        return $this->_wishlistHelper->isMultipleEnabled();
     }
 
     /**
