@@ -24,6 +24,11 @@
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
+  * Removed \Magento\App\Helper\HelperFactory
+  * Removed method "helper" from abstract block interface
+  * Layout page type config moved into library
+  * Design loader moved to library
+  * Theme label moved to library
   * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
   * Core Session and Cookie models decomposed and moved to library
     * \Magento\Stdlib\Cookie library created

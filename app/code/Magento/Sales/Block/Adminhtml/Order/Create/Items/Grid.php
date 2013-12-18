@@ -49,6 +49,11 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     protected $_taxConfig;
 
     /**
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_messageHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param \Magento\Sales\Model\AdminOrder\Create $orderCreate
@@ -56,6 +61,7 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
      * @param \Magento\GiftMessage\Model\Save $giftMessageSave
      * @param \Magento\Tax\Model\Config $taxConfig
      * @param \Magento\Tax\Helper\Data $taxData
+     * @param \Magento\GiftMessage\Helper\Message $messageHelper
      * @param array $data
      */
     public function __construct(
@@ -66,8 +72,10 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
         \Magento\GiftMessage\Model\Save $giftMessageSave,
         \Magento\Tax\Model\Config $taxConfig,
         \Magento\Tax\Helper\Data $taxData,
+        \Magento\GiftMessage\Helper\Message $messageHelper,
         array $data = array()
     ) {
+        $this->_messageHelper = $messageHelper;
         $this->_wishlistFactory = $wishlistFactory;
         $this->_giftMessageSave = $giftMessageSave;
         $this->_taxConfig = $taxConfig;
@@ -142,12 +150,12 @@ class Grid extends \Magento\Sales\Block\Adminhtml\Order\Create\AbstractCreate
     public function isGiftMessagesAvailable($item=null)
     {
         if(is_null($item)) {
-            return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+            return $this->_messageHelper->getIsMessagesAvailable(
                 'items', $this->getQuote(), $this->getStore()
             );
         }
 
-        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->_messageHelper->getIsMessagesAvailable(
             'item', $item, $this->getStore()
         );
     }
