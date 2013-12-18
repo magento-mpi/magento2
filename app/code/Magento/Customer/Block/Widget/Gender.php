@@ -32,6 +32,7 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
     /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Eav\Model\Config $eavConfig
+     * @param \Magento\Customer\Helper\Address $addressHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Customer\Model\Resource\Customer $customerResource
      * @param array $data
@@ -39,13 +40,14 @@ class Gender extends \Magento\Customer\Block\Widget\AbstractWidget
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Eav\Model\Config $eavConfig,
+        \Magento\Customer\Helper\Address $addressHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Customer\Model\Resource\Customer $customerResource,
         array $data = array()
     ) {
         $this->_customerSession = $customerSession;
         $this->_customerResource = $customerResource;
-        parent::__construct($context, $eavConfig, $data);
+        parent::__construct($context, $eavConfig, $addressHelper, $data);
     }
 
     /**

@@ -42,17 +42,25 @@ class Agreements extends \Magento\View\Element\Template
     protected $_agreementCollection;
 
     /**
+     * @var \Magento\Payment\Helper\Data
+     */
+    protected $_paymentHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection
+     * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Sales\Model\Resource\Billing\Agreement\CollectionFactory $agreementCollection,
+        \Magento\Payment\Helper\Data $paymentHelper,
         array $data = array()
     ) {
+        $this->_paymentHelper = $paymentHelper;
         $this->_customerSession = $customerSession;
         $this->_agreementCollection = $agreementCollection;
         parent::__construct($context, $data);
@@ -130,7 +138,7 @@ class Agreements extends \Magento\View\Element\Template
     protected function _loadPaymentMethods()
     {
         if (!$this->_paymentMethods) {
-            foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
+            foreach ($this->_paymentHelper->getBillingAgreementMethods() as $paymentMethod) {
                 $this->_paymentMethods[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
         }
@@ -145,7 +153,7 @@ class Agreements extends \Magento\View\Element\Template
     public function getWizardPaymentMethodOptions()
     {
         $paymentMethodOptions = array();
-        foreach ($this->helper('Magento\Payment\Helper\Data')->getBillingAgreementMethods() as $paymentMethod) {
+        foreach ($this->_paymentHelper->getBillingAgreementMethods() as $paymentMethod) {
             if ($paymentMethod->getConfigData('allow_billing_agreement_wizard') == 1) {
                 $paymentMethodOptions[$paymentMethod->getCode()] = $paymentMethod->getTitle();
             }
