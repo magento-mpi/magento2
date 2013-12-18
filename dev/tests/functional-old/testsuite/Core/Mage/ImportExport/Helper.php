@@ -242,7 +242,7 @@ class Core_Mage_ImportExport_Helper extends Mage_Selenium_AbstractHelper
             $this->fail('Form Key was not defined. Can not continue Import/Export.');
         }
         //Make tmp file
-        $tempFile = $this->getConfigHelper()->getLogDir() . DIRECTORY_SEPARATOR
+        $tempFile = $this->getConfigHelper()->getLogDir() . '/'
             . (is_null($fileName) ? 'customer_' . date('Ymd_His') . '.csv' : $fileName);
         $handle = fopen($tempFile, 'a+');
         fputs($handle, $params['import_file']);

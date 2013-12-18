@@ -102,7 +102,7 @@ class Index extends \Magento\Backend\App\Action
             $this->_setActiveMenu('Magento_Invitation::customer_magento_invitation');
             $this->_view->renderLayout();
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             $this->_redirect('invitations/*/');
         }
     }
@@ -176,19 +176,19 @@ class Index extends \Magento\Backend\App\Action
                 }
             }
             if ($sentCount) {
-                $this->_getSession()->addSuccess(__('We sent %1 invitation(s).', $sentCount));
+                $this->messageManager->addSuccess(__('We sent %1 invitation(s).', $sentCount));
             }
             if ($failedCount) {
-                $this->_getSession()->addError(__('Something went wrong sending %1 of %2 invitations.', $failedCount, count($emails)));
+                $this->messageManager->addError(__('Something went wrong sending %1 of %2 invitations.', $failedCount, count($emails)));
             }
             if ($customerExistsCount) {
-                $this->_getSession()->addNotice(__('%1 invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExistsCount));
+                $this->messageManager->addNotice(__('%1 invitation(s) were not sent, because customer accounts already exist for specified email addresses.', $customerExistsCount));
             }
             $this->_getSession()->unsInvitationFormData();
             $this->_redirect('invitations/*/');
             return;
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('invitations/*/new');
     }
@@ -211,19 +211,18 @@ class Index extends \Magento\Backend\App\Action
                 //checking if there was validation
                 if (is_array($result) && !empty($result)) {
                     foreach ($result as $message) {
-                        $this->_getSession()->addError($message);
+                        $this->messageManager->addError($message);
                     }
-                    $this->_redirect('invitations/*/view', array('_current' => true));
-                    return $this;
+                    return $this->_redirect('invitations/*/view', array('_current' => true));
                 }
 
                 //If there was no validation errors trying to save
                 $invitation->save();
 
-                $this->_getSession()->addSuccess(__('The invitation has been saved.'));
+                $this->messageManager->addSuccess(__('The invitation has been saved.'));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('invitations/*/view', array('_current' => true));
     }
@@ -266,22 +265,22 @@ class Index extends \Magento\Backend\App\Action
                 }
             }
             if (!$found) {
-                $this->_getSession()->addError(__('No invitations have been resent.'));
+                $this->messageManager->addError(__('No invitations have been resent.'));
             }
             if ($sent) {
-                $this->_getSession()->addSuccess(__('We sent %1 of %2 invitations.', $sent, $found));
+                $this->messageManager->addSuccess(__('We sent %1 of %2 invitations.', $sent, $found));
             }
             $failed = $found - $sent;
             if ($failed) {
-                $this->_getSession()->addError(__('Something went wrong sending %1 invitations.', $failed));
+                $this->messageManager->addError(__('Something went wrong sending %1 invitations.', $failed));
             }
             if ($customerExists) {
-                $this->_getSession()->addNotice(
+                $this->messageManager->addNotice(
                     __('We discarded %1 invitation(s) addressed to current customers.', $customerExists)
                 );
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('invitations/*/');
     }
@@ -318,14 +317,14 @@ class Index extends \Magento\Backend\App\Action
                 }
             }
             if ($cancelled) {
-                $this->_getSession()->addSuccess(__('We discarded %1 of %2 invitations.', $cancelled, $found));
+                $this->messageManager->addSuccess(__('We discarded %1 of %2 invitations.', $cancelled, $found));
             }
             $failed = $found - $cancelled;
             if ($failed) {
-                $this->_getSession()->addNotice(__('We skipped %1 of the selected invitations.', $failed));
+                $this->messageManager->addNotice(__('We skipped %1 of the selected invitations.', $failed));
             }
         } catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         $this->_redirect('invitations/*/');
     }

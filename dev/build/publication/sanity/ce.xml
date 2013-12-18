@@ -381,5 +381,10 @@
             <word>Pbridge</word>
             <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
         </item>
+        <item>
+            <!-- There is no way to inject EE blocks in CE page currently in MTF. -->
+            <path>dev/tests/functional/tests/app/Magento/</path>
+            <word>GiftCard</word>
+        </item>
     </whitelist>
 </config>

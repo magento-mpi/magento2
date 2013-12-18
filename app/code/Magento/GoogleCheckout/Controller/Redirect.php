@@ -64,7 +64,7 @@ class Redirect extends \Magento\App\Action\Action
 
             $api->getResponse();
             if ($api->getError()) {
-                $session->addError($api->getError());
+                $this->messageManager->addError($api->getError());
             } else {
                 $quote->setIsActive(false)->save();
                 $session->replaceQuote($storeQuote);

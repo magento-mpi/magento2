@@ -82,7 +82,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
      */
     protected function _getFixture($pattern)
     {
-        $dir = dirname(__DIR__) . DIRECTORY_SEPARATOR . '_files' . DIRECTORY_SEPARATOR;
+        $dir = dirname(__DIR__) . '/_files/';
         $data = glob($dir . $pattern);
 
         if (!empty($data)) {
@@ -228,7 +228,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
 
     public function saveDataProvider()
     {
-        $dir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . DIRECTORY_SEPARATOR;
+        $dir = \Magento\TestFramework\Helper\Bootstrap::getInstance()->getAppInstallDir() . '/';
         return $this->_prepareData(array(
             array(
                 $this->_getFixture('image_adapters_test.png'),
@@ -581,7 +581,7 @@ class InterfaceTest extends \PHPUnit_Framework_TestCase
         $adapter = $this->_getAdapter($adapterType);
         $adapter->createPngFromString(
             'T',
-            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\App\Dir')->getDir()
+            \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Filesystem')->getPath()
                 . '/lib/LinLibertineFont/LinLibertine_Re-4.4.1.ttf'
         );
         $adapter->refreshImageDimensions();

@@ -11,11 +11,11 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     implements \Magento\App\Resource\ConnectionAdapterInterface
 {
     /**
-     * Dirs instance
+     * Filesystem class
      *
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem
      */
-    protected $_dirs;
+    protected $_filesystem;
 
     /**
      * @var \Magento\Stdlib\String
@@ -43,7 +43,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     protected $_isActive;
 
     /**
-     * @param \Magento\App\Dir $dirs
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param string $host
@@ -56,7 +56,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
      * @param bool $active
      */
     public function __construct(
-        \Magento\App\Dir $dirs,
+        \Magento\Filesystem $filesystem,
         \Magento\Stdlib\String $string,
         \Magento\Stdlib\DateTime $dateTime,
         $host,
@@ -68,7 +68,7 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
         $type = 'pdo_mysql',
         $active = false
     ) {
-        $this->_dirs = $dirs;
+        $this->_filesystem = $filesystem;
         $this->string = $string;
         $this->dateTime = $dateTime;
         $this->_connectionConfig = array(
@@ -120,7 +120,12 @@ class Mysql extends \Magento\Core\Model\Resource\Type\Db
     protected function _getDbAdapterInstance()
     {
         $className = $this->_getDbAdapterClassName();
-        $adapter = new $className($this->_dirs, $this->string, $this->dateTime, $this->_connectionConfig);
+        $adapter = new $className(
+            $this->_filesystem,
+            $this->string,
+            $this->dateTime,
+            $this->_connectionConfig
+        );
         return $adapter;
     }
 

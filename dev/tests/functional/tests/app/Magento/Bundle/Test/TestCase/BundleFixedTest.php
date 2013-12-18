@@ -50,6 +50,7 @@ class BundleFixedTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verification
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);

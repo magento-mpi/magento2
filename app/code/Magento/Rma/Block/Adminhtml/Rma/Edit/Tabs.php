@@ -10,7 +10,7 @@
 
 namespace Magento\Rma\Block\Adminhtml\Rma\Edit;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
     /**
      * Initialize RMA edit page tabs

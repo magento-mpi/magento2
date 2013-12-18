@@ -17,7 +17,7 @@
  */
 namespace Magento\Widget\Block\Adminhtml\Widget\Instance;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry

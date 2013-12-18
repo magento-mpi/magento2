@@ -11,7 +11,7 @@
 namespace Magento\Rma\Block\Adminhtml\Product\Bundle;
 
 class Product
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Text
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Text
 {
     /**
      * Render product name to add Configure link

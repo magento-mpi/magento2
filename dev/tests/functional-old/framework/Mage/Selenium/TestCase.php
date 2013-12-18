@@ -2158,7 +2158,7 @@ class Mage_Selenium_TestCase extends PHPUnit_Extensions_Selenium2TestCase
         $path = $this->_screenshotPath;
 
         if (!in_array(substr($path, strlen($path) - 1, 1), array("/", "\\"))) {
-            $path .= DIRECTORY_SEPARATOR;
+            $path .= '/';
         }
 
         return $path;

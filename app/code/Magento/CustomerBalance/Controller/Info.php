@@ -23,7 +23,7 @@ class Info extends \Magento\App\Action\Action
      * Authenticate customer
      *
      * @param RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -43,7 +43,7 @@ class Info extends \Magento\App\Action\Action
             return;
         }
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $this->_view->loadLayoutUpdates();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {

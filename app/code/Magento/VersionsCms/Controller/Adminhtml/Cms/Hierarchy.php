@@ -71,10 +71,8 @@ class Hierarchy extends \Magento\Backend\App\Action
     }
 
     /**
-     * Controller pre dispatch method
-     *
      * @param \Magento\App\RequestInterface $request
-     * @return $this|mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(\Magento\App\RequestInterface $request)
     {
@@ -184,7 +182,7 @@ class Hierarchy extends \Magento\Backend\App\Action
         if (empty($scopes) || ($this->getRequest()->isPost() && !is_array($scopes))
             || $this->getRequest()->isGet() && !is_string($scopes)
         ) {
-            $this->_getSession()->addError(__('Please correct the scope.'));
+            $this->messageManager->addError(__('Please correct the scope.'));
         } else {
             if (!is_array($scopes)) {
                 $scopes = array($scopes);
@@ -199,11 +197,11 @@ class Hierarchy extends \Magento\Backend\App\Action
                     $nodeModel->deleteByScope($scope, $scopeId);
                     $nodeModel->collectTree(array(), array());
                 }
-                $this->_getSession()->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
+                $this->messageManager->addSuccess(__('You deleted the pages hierarchy from the selected scopes.'));
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong while deleting the hierarchy.')
                 );
             }
@@ -232,11 +230,11 @@ class Hierarchy extends \Magento\Backend\App\Action
                     list ($scope, $scopeId) = $this->_getScopeData($value);
                     $nodeHeritageModel->copyTo($scope, $scopeId);
                 }
-                $this->_getSession()->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
+                $this->messageManager->addSuccess(__('You copied the pages hierarchy to the selected scopes.'));
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong while copying the hierarchy.')
                 );
             }
@@ -309,11 +307,11 @@ class Hierarchy extends \Magento\Backend\App\Action
                 }
 
                 $hasError = false;
-                $this->_getSession()->addSuccess(__('You have saved the hierarchy.'));
+                $this->messageManager->addSuccess(__('You have saved the hierarchy.'));
             } catch (\Magento\Core\Exception $e) {
-                $this->_getSession()->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_getSession()->addException($e,
+                $this->messageManager->addException($e,
                     __('Something went wrong while saving the hierarchy.')
                 );
             }

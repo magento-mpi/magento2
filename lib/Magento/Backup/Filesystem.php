@@ -79,6 +79,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
         $rollbackWorker->run();
 
         $this->_lastOperationSucceed = true;
+        return $this->_lastOperationSucceed;
     }
 
     /**
@@ -136,6 +137,7 @@ class Filesystem extends \Magento\Backup\AbstractBackup
         @unlink($tarTmpPath);
 
         $this->_lastOperationSucceed = true;
+        return $this->_lastOperationSucceed;
     }
 
     /**
@@ -264,6 +266,6 @@ class Filesystem extends \Magento\Backup\AbstractBackup
     protected function _getTarTmpPath()
     {
         $tmpName = '~tmp-'. microtime(true) . '.tar';
-        return $this->getBackupsDir() . DS . $tmpName;
+        return $this->getBackupsDir() . '/' . $tmpName;
     }
 }

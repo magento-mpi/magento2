@@ -9,7 +9,7 @@
  */
 namespace Magento\Checkout\Block\Adminhtml\Agreement;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * @var \Magento\Checkout\Model\Resource\Agreement\CollectionFactory

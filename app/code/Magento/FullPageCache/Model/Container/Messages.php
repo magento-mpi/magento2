@@ -21,9 +21,9 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
     protected $_coreCookie;
 
     /**
-     * @var \Magento\FullPageCache\Model\Container\MessagesStorageFactory
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_storageFactory;
+    protected $messageManager;
 
     /**
      * @param \Magento\Event\ManagerInterface $eventManager
@@ -34,7 +34,7 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\View\LayoutInterface $layout
      * @param \Magento\Stdlib\Cookie $coreCookie
-     * @param \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Event\ManagerInterface $eventManager,
@@ -45,14 +45,20 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
         \Magento\Core\Model\Store\Config $coreStoreConfig,
         \Magento\View\LayoutInterface $layout,
         \Magento\Stdlib\Cookie $coreCookie,
-        \Magento\FullPageCache\Model\Container\MessagesStorageFactory $storageFactory
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         parent::__construct(
-            $eventManager, $fpcCache, $placeholder, $coreRegistry, $urlHelper, $coreStoreConfig, $layout
+            $eventManager,
+            $fpcCache,
+            $placeholder,
+            $coreRegistry,
+            $urlHelper,
+            $coreStoreConfig,
+            $layout
         );
 
         $this->_coreCookie = $coreCookie;
-        $this->_storageFactory = $storageFactory;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -104,14 +110,11 @@ class Messages extends \Magento\FullPageCache\Model\Container\AbstractContainer
     /**
      * Add messages from storage to message block
      *
-     * @param string $messagesStorage
+     * @param string $messagesGroup
      * @param \Magento\View\Element\Messages $block
      */
-    protected function _addMessagesToBlock($messagesStorage, \Magento\View\Element\Messages $block)
+    protected function _addMessagesToBlock($messagesGroup, \Magento\View\Element\Messages $block)
     {
-        if ($storage = $this->_storageFactory->get($messagesStorage)) {
-            $block->addMessages($storage->getMessages(true));
-            $block->setEscapeMessageFlag($storage->getEscapeMessages(true));
-        }
+        $block->addMessages($this->messageManager->getMessages(true, $messagesGroup));
     }
 }
