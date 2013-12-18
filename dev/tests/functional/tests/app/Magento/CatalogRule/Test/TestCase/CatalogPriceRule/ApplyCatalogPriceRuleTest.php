@@ -174,8 +174,8 @@ class ApplyCatalogPriceRuleTest extends Functional
 
             // Verify Cart page price
             $unitPrice = $checkoutCartPage->getCartBlock()->getCartItemUnitPrice($product);
-            $this->assertContains(
-                (string)$appliedRulePrice,
+            $this->assertEquals(
+                $appliedRulePrice,
                 $unitPrice,
                 'Incorrect price for ' . $product->getProductName()
             );
