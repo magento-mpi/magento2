@@ -86,6 +86,8 @@ class Config extends AbstractRepository
         //Customer
         $this->_data['address_template'] = $this->_getAddressTemplate();
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
+        //Currency Setup
+        $this->_data['allowed_currencies'] = $this->_getAllowedCurrencies();
     }
 
     /**
@@ -1736,6 +1738,35 @@ class Config extends AbstractRepository
                     ),
                 ),
             ),
+        );
+    }
+
+    /**
+     * Set allowed currency
+     *
+     * @return array
+     */
+    protected function _getAllowedCurrencies()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array(
+                                        'value' => array('EUR', 'USD')
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
         );
     }
 
