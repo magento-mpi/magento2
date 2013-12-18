@@ -33,6 +33,8 @@ class OutOfStockTest extends Functional
 
     /**
      * Test product out of stock adding to cart
+     *
+     * @ZephirId MAGETWO-12423
      */
     public function testTestOutOfStockItemAddToCart()
     {
