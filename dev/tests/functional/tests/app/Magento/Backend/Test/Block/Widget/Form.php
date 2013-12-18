@@ -128,6 +128,15 @@ class Form extends FormInstance
     public function save(Fixture $fixture = null)
     {
         $this->_rootElement->find($this->saveButton, Locator::SELECTOR_CSS)->click();
+        $this->waitForElement();
+        return $this;
+    }
+
+    /**
+     * Method that waits for the configured selector using class attributes.
+     */
+    protected function waitForElement()
+    {
         if (!empty($this->waitForSelector)) {
             if ($this->waitForSelectorVisible) {
                 $this->getTemplateBlock()->waitForElementVisible($this->waitForSelector, $this->waitForSelectorType);
@@ -135,7 +144,6 @@ class Form extends FormInstance
                 $this->getTemplateBlock()->waitForElementNotVisible($this->waitForSelector, $this->waitForSelectorType);
             }
         }
-        return $this;
     }
 
     /**

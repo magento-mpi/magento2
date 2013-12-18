@@ -30,17 +30,7 @@ class SalesRule extends Page
     /**
      * @var string
      */
-    protected $clickAddNewSelector = '.page-actions button#add';
-
-    /**
-     * @var string
-     */
-    protected $promoQuoteGridSelector = 'promo_quote_grid';
-
-    /**
-     * @var string
-     */
-    protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
+    protected $promoQuoteGridSelector = 'page:main-container';
 
     /**
      * {@inheritDoc}
@@ -60,24 +50,5 @@ class SalesRule extends Page
         return Factory::getBlockFactory()->getMagentoSalesRuleAdminhtmlPromoQuote(
             $this->_browser->find($this->promoQuoteGridSelector, Locator::SELECTOR_ID)
         );
-    }
-
-    /**
-     * Click the add new button
-     */
-    public function clickAddNew()
-    {
-        $button = $this->_browser->find($this->clickAddNewSelector);
-        $button->click();
-        // Wait for the current grid to go away, replaced by the new form
-        $selector = $this->promoQuoteFormSelector;
-        $browser = $this->_browser;
-        $browser->waitUntil(
-            function () use ($button, $browser, $selector) {
-                $button = $browser->find($selector);
-                return $button->isVisible() ? true : null;
-            }
-        );
-
     }
 }

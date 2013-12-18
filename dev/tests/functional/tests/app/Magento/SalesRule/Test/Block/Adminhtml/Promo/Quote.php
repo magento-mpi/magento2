@@ -30,6 +30,16 @@ class Quote extends Grid
     protected $filters = array('name' => array('selector' => '#promo_quote_grid_filter_name'));
 
     /**
+     * @var string
+     */
+    protected $clickAddNewSelector = '.page-actions button#add';
+
+    /**
+     * @var string
+     */
+    protected $promoQuoteFormSelector = 'div#promo_catalog_edit_tabs';
+
+    /**
      * Return the id of the row that matched the search filter
      *
      * @param $filter
@@ -46,5 +56,15 @@ class Quote extends Grid
             $rid = $idElement->getText();
         }
         return $rid;
+    }
+
+    /**
+     * Click the add new button
+     */
+    public function clickAddNew()
+    {
+        $this->_rootElement->find($this->clickAddNewSelector)->click();
+        $this->reinitRootElement();
+        $this->getTemplateBlock()->waitForElementVisible($this->promoQuoteFormSelector);
     }
 }

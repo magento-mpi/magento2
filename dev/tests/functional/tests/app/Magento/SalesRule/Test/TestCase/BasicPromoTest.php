@@ -48,7 +48,7 @@ class BasicPromoTest extends Functional
         $salesRulePage = Factory::getPageFactory()->getSalesRulePromoQuote();
         $salesRulePage->open();
         // Click on Plus Sign
-        $salesRulePage->clickAddNew();
+        $salesRulePage->getPromoQuoteGrid()->clickAddNew();
         $salesRulePageNew = Factory::getPageFactory()->getSalesRulePromoQuoteNew();
         $newSalesRuleForm = $salesRulePageNew->getPromoQuoteForm();
         // Use fixture to populate
