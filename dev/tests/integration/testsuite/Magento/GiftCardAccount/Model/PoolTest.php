@@ -26,8 +26,10 @@ class PoolTest extends \PHPUnit_Framework_TestCase
      */
     public function testShift()
     {
+        $this->_model->setExcludedIds(array('fixture_code_2'));
         $result = $this->_model->shift();
-        $this->assertNotEmpty($result);
+        // Only free non-excluded code should be selected
+        $this->assertSame('fixture_code_3', $result);
     }
 
     /**
