@@ -25,11 +25,17 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
     protected $_catalogUrlBuilder;
 
     /**
+     * @var \Magento\Checkout\Helper\Cart
+     */
+    protected $_cartHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param array $data
      */
     public function __construct(
@@ -38,8 +44,10 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Checkout\Helper\Cart $cartHelper,
         array $data = array()
     ) {
+        $this->_cartHelper = $cartHelper;
         $this->_catalogUrlBuilder = $catalogUrlBuilder;
         parent::__construct($context, $catalogData, $customerSession, $checkoutSession, $data);
     }
@@ -152,7 +160,7 @@ class Cart extends \Magento\Checkout\Block\Cart\AbstractCart
      */
     public function getIsVirtual()
     {
-        return $this->helper('Magento\Checkout\Helper\Cart')->getIsVirtualQuote();
+        return $this->_cartHelper->getIsVirtualQuote();
     }
 
     /**

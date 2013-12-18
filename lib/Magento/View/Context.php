@@ -13,7 +13,6 @@ use Magento\App\FrontControllerInterface;
 
 use Magento\TranslateInterface;
 use Magento\Core\Model\Store\Config as StoreConfig;
-use Magento\App\Helper\HelperFactory as FactoryHelper;
 use Magento\View\Url as ViewUrl;
 use Magento\View\ConfigInterface as ViewConfig;
 use Magento\Logger;
@@ -83,11 +82,6 @@ class Context
     protected $frontController;
 
     /**
-     * @var \Magento\App\Helper\HelperFactory
-     */
-    protected $helperFactory;
-
-    /**
      * @var \Magento\View\Url
      */
     protected $viewUrl;
@@ -134,7 +128,6 @@ class Context
      * @param SessionManager $session
      * @param StoreConfig $storeConfig
      * @param FrontControllerInterface $frontController
-     * @param FactoryHelper $helperFactory
      * @param ViewUrl $viewUrl
      * @param ViewConfig $viewConfig
      * @param CacheState $cacheState
@@ -156,7 +149,6 @@ class Context
         SessionManager $session,
         StoreConfig $storeConfig,
         FrontControllerInterface $frontController,
-        FactoryHelper $helperFactory,
         ViewUrl $viewUrl,
         ViewConfig $viewConfig,
         CacheState $cacheState,
@@ -173,7 +165,6 @@ class Context
         $this->session         = $session;
         $this->storeConfig     = $storeConfig;
         $this->frontController = $frontController;
-        $this->helperFactory   = $helperFactory;
         $this->viewUrl         = $viewUrl;
         $this->viewConfig      = $viewConfig;
         $this->cacheState      = $cacheState;
@@ -212,14 +203,6 @@ class Context
     public function getFrontController()
     {
         return $this->frontController;
-    }
-
-    /**
-     * @return \Magento\App\Helper\HelperFactory
-     */
-    public function getHelperFactory()
-    {
-        return $this->helperFactory;
     }
 
     /**

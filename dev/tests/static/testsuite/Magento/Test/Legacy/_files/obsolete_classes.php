@@ -1467,7 +1467,8 @@ return array(
     array('Magento\Core\Block\Html\Calendar', 'Magento\View\Element\Html\Calendar'),
     array('Magento\Core\Block\Html\Link', 'Magento\View\Element\Html\Link'),
     array('Magento\Core\Block\Context', 'Magento\View\Element\Context'),
-    array('Magento\Core\Model\Factory\Helper', 'Magento\App\Helper\HelperFactory'),
+    array('Magento\Core\Model\Factory\Helper'),
+    array('Magento\App\Helper\HelperFactory'),
     array('Magento\Core\Helper\AbstractHelper', 'Magento\App\Helper\AbstractHelper'),
     array('Magento\Core\Helper\Context', 'Magento\App\Helper\Context'),
     array(

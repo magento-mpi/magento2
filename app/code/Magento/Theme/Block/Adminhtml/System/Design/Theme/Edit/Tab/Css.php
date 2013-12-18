@@ -284,7 +284,7 @@ class Css
     {
         return $this->getUrl('adminhtml/*/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Magento\Core\Helper\Data')->urlEncode($fileId)
+            'file'     => $this->_coreData->urlEncode($fileId)
         ));
     }
 }

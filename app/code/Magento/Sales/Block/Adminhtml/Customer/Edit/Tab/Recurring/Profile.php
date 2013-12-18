@@ -29,6 +29,7 @@ class Profile
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Payment\Helper\Data $paymentData
      * @param \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection
      * @param \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile
@@ -38,6 +39,7 @@ class Profile
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Payment\Helper\Data $paymentData,
         \Magento\Sales\Model\Resource\Recurring\Profile\CollectionFactory $profileCollection,
         \Magento\Sales\Model\Recurring\ProfileFactory $recurringProfile,
@@ -45,7 +47,15 @@ class Profile
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
-        parent::__construct($context, $urlModel, $paymentData, $profileCollection, $recurringProfile, $data);
+        parent::__construct(
+            $context,
+            $urlModel,
+            $backendHelper,
+            $paymentData,
+            $profileCollection,
+            $recurringProfile,
+            $data
+        );
     }
 
     /**
