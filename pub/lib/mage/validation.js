@@ -874,7 +874,7 @@
             function(value, element, params) {
                 if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
                     this.lteToVal = $(params).val();
-                    return value <= $(params).val();
+                    return parseFloat(value) <= parseFloat($(params).val());
                 }
                 return true;
             },
@@ -886,7 +886,7 @@
             function(value, element, params) {
                 if ($.isNumeric($(params).val()) && $.isNumeric(value)) {
                     this.gteToVal = $(params).val();
-                    return value >= $(params).val();
+                    return parseFloat(value) >= parseFloat($(params).val());
                 }
                 return true;
             },
