@@ -27,6 +27,11 @@ use Mtf\TestCase\Functional;
  */
 class ApplyCatalogPriceRuleTest extends Functional
 {
+    /**
+     * This member holds the floating point version of the discount percentage.
+     *
+     * @var float
+     */
     private $discountRate;
 
     /**
