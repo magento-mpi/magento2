@@ -316,6 +316,22 @@ abstract class AbstractType
     }
 
     /**
+     * Clear empty columns in the Row Data
+     *
+     * @param array $rowData
+     * @return array
+     */
+    public function clearEmptyData(array $rowData)
+    {
+        foreach ($this->_getProductAttributes($rowData) as $attrCode => $attrParams) {
+            if (!$attrParams['is_static'] && empty($rowData[$attrCode])) {
+                unset($rowData[$attrCode]);
+            }
+        }
+        return $rowData;
+    }
+
+    /**
      * Save product type specific data.
      *
      * @return \Magento\ImportExport\Model\Import\Entity\Product\Type\AbstractType
