@@ -30,7 +30,7 @@ class Massaction
      */
     public function renderHeader()
     {
-        return '<label class="' . $this->getColumn()->getId() . '" for="' . $this->getColumn()->getHtmlId(). '">&nbsp;</label>';
+        return '&nbsp;';
     }
 
     /**

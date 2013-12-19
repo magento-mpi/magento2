@@ -20,6 +20,11 @@ namespace Magento\Backend\Block\Widget\Grid\Column\Filter;
 class Massaction
     extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Checkbox
 {
+    public function getHtml()
+    {
+        $this->getColumn()->setTitle(__('Massaction selection'));
+        return parent::getHtml();
+    }
     public function getCondition()
     {
         if ($this->getValue()) {

@@ -64,6 +64,7 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
     {
         $html = '<select name="' . $this->_getHtmlName() . '" id="' . $this->_getHtmlId() . '"'
             . $this->getUiId('filter', $this->_getHtmlName())
+            . $this->getHtmlTitle()
             . 'class="no-changes">';
         $value = $this->getValue();
         foreach ($this->_getOptions() as $option) {
@@ -88,5 +89,13 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
         }
         return array('eq' => $this->getValue());
     }
-
+    /**
+     * Retrieve title attribute
+     *
+     * @return string
+     */
+    protected function getHtmlTitle()
+    {
+        return ($this->getColumn()->getTitle())?'title="' . $this->getColumn()->getTitle() . '" ':'';
+    }
 }
