@@ -22,6 +22,7 @@
   * Fixed incorrect XML appears in cache after some actions on the frontend
   * Fixed export products does not work
   * Fixed impossibility to configure memcache as session save handler
+  * Fixed incorrect caching of locale settings and url settings during web installation
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
@@ -42,7 +43,7 @@
     * Session generic wrapper moved to library
     * Messages functionality moved from Session model as separate component, message manager interface created.
     * Sid resolver interface created to handle session sid from request
-  
+
 2.0.0.0-dev56
 =============
 * Fixed bugs:
