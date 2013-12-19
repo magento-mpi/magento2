@@ -5905,6 +5905,7 @@ tr.dynamic-grid input.input-text {
 #up_sell_product_grid table.data th > span,
 #related_product_grid table.data th > span,
 #productGrid_table th > span,
+#customerGrid_table th > span,
 #setGrid_table th > span,
 #attributeGrid_table th > span,
 .custom-options .data-table th > span,
@@ -10009,6 +10010,12 @@ table.items-to-invoice tbody tr:hover td {
 }
 .category-content .form-inline.permissions .data-table {
   margin-bottom: 25px;
+}
+/*
+    Marketing - Email Reminders
+-------------------------------------- */
+.lt-1280 .adminhtml-reminder-edit #customerGrid .grid .filter .range div.date {
+  min-width: 0;
 }
 /*
     Clearfix
