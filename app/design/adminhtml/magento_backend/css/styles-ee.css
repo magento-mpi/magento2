@@ -10242,10 +10242,10 @@ table.items-to-invoice tbody tr:hover td {
 /*
     Categories
 -------------------------------------- */
-.category-content .form-inline.permissions .messages li {
+.category-content .form-inline.permissions-custom-options .messages li {
   margin-top: 0;
 }
-.category-content .form-inline.permissions .data-table {
+.category-content .form-inline.permissions-custom-options .data-table {
   margin-bottom: 25px;
 }
 /*
