@@ -17094,6 +17094,10 @@ body.account .column.main .block.event .item {
 .form.addbysku .field.qty {
   width: 20%;
 }
+.col3-layout .column.main .form.addbysku .actions,
+.col3-layout .column.main .form.addbysku .fieldset {
+  width: auto;
+}
 .sidebar .form.addbysku .fieldset {
   width: auto;
   padding: 5px;
