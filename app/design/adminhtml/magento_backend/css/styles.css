@@ -10002,6 +10002,15 @@ table.items-to-invoice tbody tr:hover td {
   margin-top: 5px;
 }
 /*
+    Categories
+-------------------------------------- */
+.category-content .form-inline.permissions .messages li {
+  margin-top: 0;
+}
+.category-content .form-inline.permissions .data-table {
+  margin-bottom: 25px;
+}
+/*
     Clearfix
 -------------------------------------- */
 .image-panel:before,
