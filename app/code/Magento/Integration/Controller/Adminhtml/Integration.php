@@ -227,7 +227,8 @@ class Integration extends Action
                 $this->messageManager->addError(__('The integration was not saved.'));
             }
         } catch (IntegrationException $e) {
-            $this->messageManager->addError($e->getMessage())->setIntegrationData($integrationData);
+            $this->messageManager->addError($e->getMessage());
+            $this->_getSession()->setIntegrationData($integrationData);
             $this->_redirectOnSaveError();
         } catch (\Magento\Core\Exception $e) {
             $this->messageManager->addError($e->getMessage());
