@@ -78,6 +78,7 @@ class Config extends AbstractRepository
         //Catalog
         $this->_data['enable_mysql_search'] = $this->_getMysqlSearchEnabled();
         $this->_data['check_money_order'] = $this->getCheckmo();
+        $this->_data['show_out_of_stock'] = $this->_getShowOutOfStock();
         //Sales
         $this->_data['enable_map_config'] = $this->_getMapEnabled();
         $this->_data['disable_secret_key'] = $this->_getSecretKeyEnabled();
@@ -86,6 +87,8 @@ class Config extends AbstractRepository
         //Customer
         $this->_data['address_template'] = $this->_getAddressTemplate();
         $this->_data['customer_disable_group_assign'] = $this->getDisableGroupAssignData();
+        //Currency Setup
+        $this->_data['allowed_currencies'] = $this->_getAllowedCurrencies();
     }
 
     /**
@@ -1740,6 +1743,35 @@ class Config extends AbstractRepository
     }
 
     /**
+     * Set allowed currency
+     *
+     * @return array
+     */
+    protected function _getAllowedCurrencies()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'currency' => array(
+                        'section' => 'currency',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array(
+                                'fields' => array(
+                                    'allow' => array(
+                                        'value' => array('EUR', 'USD')
+                                    )
+                                )
+                            )
+                        )
+                    )
+                )
+            )
+        );
+    }
+
+    /**
      * Enable RMA
      *
      * @return array
@@ -1789,6 +1821,35 @@ class Config extends AbstractRepository
                     )
                 )
             )
+        );
+    }
+
+    /**
+     * Enable 'Display out of Stock' option for catalog
+     *
+     * @return array
+     */
+    protected function _getShowOutOfStock()
+    {
+        return array(
+            'data' => array(
+                'sections' => array(
+                    'cataloginventory' => array(
+                        'section' => 'cataloginventory',
+                        'website' => null,
+                        'store' => null,
+                        'groups' => array(
+                            'options' => array( //Stock Options
+                                'fields' => array(
+                                    'show_out_of_stock' => array(
+                                        'value' => 1, //Yes
+                                    ),
+                                ),
+                            ),
+                        ),
+                    ),
+                ),
+            ),
         );
     }
 }
