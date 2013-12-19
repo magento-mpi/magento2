@@ -183,7 +183,7 @@ class Controllers
         //For each group of current section creating separated event change
         if (isset($postData['groups'])) {
             foreach ($postData['groups'] as $groupName => $groupData) {
-                foreach ($groupData['fields'] as $fieldName => $fieldValueData) {
+                foreach (isset($groupData['fields']) ? $groupData['fields'] : [] as $fieldName => $fieldValueData) {
                     //Clearing config data accordingly to collected skip fields
                     if (!in_array($fieldName, $skipEncrypted) && isset($fieldValueData['value'])) {
                         $groupFieldsData[$fieldName] = $fieldValueData['value'];
@@ -192,8 +192,8 @@ class Controllers
 
                 $processor->addEventChanges(
                     clone $change->setSourceName($groupName)
-                                 ->setOriginalData(array())
-                                 ->setResultData($groupFieldsData)
+                        ->setOriginalData(array())
+                        ->setResultData($groupFieldsData)
                 );
                 $groupFieldsData = array();
             }
