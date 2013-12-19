@@ -22,6 +22,12 @@
   * Fixed incorrect XML appears in cache after some actions on the frontend
   * Fixed export products does not work
   * Fixed impossibility to configure memcache as session save handler
+  * Fixed big image in product description scale
+  * Fixed admin dashboard styling issue
+  * Fixed validation message for qty field
+  * Fixed bug in share wishlist email template
+* Themes update:
+  * Responsive design improvements
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
