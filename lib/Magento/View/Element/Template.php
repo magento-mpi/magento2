@@ -91,7 +91,7 @@ class Template extends AbstractBlock
      *
      * @var \Magento\Filesystem\Directory\ReadInterface
      */
-    protected $mediaDirectory;
+    protected $_mediaDirectory;
 
     /**
      * @param Template\Context $context
@@ -307,10 +307,10 @@ class Template extends AbstractBlock
      */
     protected function getMediaDirectory()
     {
-        if (!$this->mediaDirectory) {
-            $this->mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
+        if (!$this->_mediaDirectory) {
+            $this->_mediaDirectory = $this->_filesystem->getDirectoryRead(Filesystem::MEDIA);
         }
-        return $this->mediaDirectory;
+        return $this->_mediaDirectory;
     }
 
     /**

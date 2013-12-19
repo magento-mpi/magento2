@@ -388,10 +388,10 @@ class Head extends \Magento\View\Element\Template
      */
     protected function _isFile($filename)
     {
-        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->mediaDirectory->isFile($filename)) {
+        if ($this->_fileStorageDatabase->checkDbUsage() && !$this->getMediaDirectory()->isFile($filename)) {
             $this->_fileStorageDatabase->saveFileToFilesystem($filename);
         }
-        return $this->mediaDirectory->isFile($filename);
+        return $this->getMediaDirectory()->isFile($filename);
     }
 
     /**
