@@ -723,9 +723,6 @@ class Item extends \Magento\Core\Model\AbstractModel
         }
 
         $qtyIncrements = $this->getQtyIncrements();
-        if (!$qtyIncrements){
-            $qtyIncrements = $this->getDefaultQtyIncrements();
-        }
 
         if ($qtyIncrements && ($this->mathDivision->getExactDivision($qty, $qtyIncrements) != 0)) {
             $result->setHasError(true)
@@ -736,7 +733,7 @@ class Item extends \Magento\Core\Model\AbstractModel
                 ->setQuoteMessageIndex('qty');
             if ($this->getIsChildItem()) {
                 $result->setMessage(
-                    __('You can buy %1 only in increments of %2.',$this->getProductName(), $qtyIncrements * 1)
+                    __('You can buy %1 only in increments of %2.', $this->getProductName(), $qtyIncrements * 1)
                 );
             } else {
                 $result->setMessage(
