@@ -86,6 +86,13 @@ class CatalogProductView extends Page
     protected $giftCardBlockSelector = '[data-container-for=giftcard_info]';
 
     /**
+     * Cross-sell selector
+     *
+     * @var string
+     */
+    protected $crosssellSelector = '.block.crosssell';
+
+    /**
      * @var string
      */
     protected $downloadableLinksSelector = '[data-container-for=downloadable-links]';
@@ -242,6 +249,18 @@ class CatalogProductView extends Page
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
             $this->_browser->find($this->mapBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * Retrieve cross-sell block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Crosssell
+     */
+    public function getCrosssellBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductProductListCrosssell(
+            $this->_browser->find($this->crosssellSelector, Locator::SELECTOR_CSS)
         );
     }
 }
