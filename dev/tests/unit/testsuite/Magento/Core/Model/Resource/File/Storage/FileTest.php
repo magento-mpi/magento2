@@ -64,11 +64,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
         );
     }
 
-    protected function tearDown()
-    {
-        unset($this->_model);
-    }
-
     public function testGetStorageData()
     {
         $directories = array(
@@ -77,7 +72,6 @@ class FileTest extends \PHPUnit_Framework_TestCase
             array('name' => 'theme', 'path' => 'media'),
             array('name' => 'theme_customization', 'path' => 'media'),
             array('name' => 'media', 'path' => '/'),
-
         );
         $expected = array('files' => array(), 'directories' => $directories);
         $actual = $this->_model->getStorageData('pub');
