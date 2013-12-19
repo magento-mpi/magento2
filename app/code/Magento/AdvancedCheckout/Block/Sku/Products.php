@@ -165,7 +165,6 @@ class Products extends \Magento\Checkout\Block\Cart
         /** @var $renderer \Magento\Checkout\Block\Cart\Item\Renderer */
         $renderer = $this->getItemRenderer($item->getProductType())->setQtyMode(false);
         if ($item->getProductType() == 'undefined') {
-            $renderer->overrideProductThumbnail($this->helper('Magento\Catalog\Helper\Image')->init($item, 'thumbnail'));
             $renderer->setProductName('');
         }
         $renderer->setDeleteUrl(

@@ -26,7 +26,6 @@ class Renderer extends \Magento\View\Element\Template
     protected $_checkoutSession;
     protected $_item;
     protected $_productUrl;
-    protected $_productThumbnail;
 
     /**
      * Whether qty will be converted to number
@@ -98,48 +97,26 @@ class Renderer extends \Magento\View\Element\Template
         return $this->getItem()->getProduct();
     }
 
-    public function overrideProductThumbnail($productThumbnail)
+    /**
+     * Get product thumbnail image
+     *
+     * @return \Magento\Catalog\Model\Product\Image
+     */
+    public function getProductThumbnail()
     {
-        $this->_productThumbnail = $productThumbnail;
-        return $this;
+        /** @var \Magento\Catalog\Helper\Image $imageHelper */
+        $imageHelper = $this->helper('Magento\Catalog\Helper\Image');
+        return $imageHelper->init($this->getProductForThumbnail(), 'thumbnail');
     }
 
     /**
-     * Generate HTML for product thumbnail image.
+     * Identify the product from which thumbnail should be taken.
      *
-     * @param string $location
-     * @return string
+     * @return \Magento\Catalog\Model\Product
      */
-    public function getThumbnailHtml($location)
+    public function getProductForThumbnail()
     {
-        /** @var \Magento\Catalog\Block\Product\Image $imageBlock */
-        $imageBlock = $this->getLayout()->createBlock('Magento\Catalog\Block\Product\Image');
-        return $imageBlock->init($this->getProduct(), $location)->toHtml();
-    }
-
-    /**
-     * Thumbnail image getter
-     *
-     * @return \Magento\Catalog\Helper\Image
-     */
-    protected function _getThumbnail()
-    {
-        if (is_null($this->_productThumbnail)) {
-            $product = $this->getProduct();
-            if ($this->getProduct()->isConfigurable()) {
-                $children = $this->getItem()->getChildren();
-                if (isset($children[0])
-                    && $children[0]->getProduct()->getThumbnail()
-                    && $children[0]->getProduct()->getThumbnail() != 'no_selection'
-                ) {
-                    $product = $children[0]->getProduct();
-                }
-            }
-            $thumbnail = $this->helper('Magento\Catalog\Helper\Image')->init($product, 'thumbnail');
-        } else {
-            $thumbnail = $this->_productThumbnail;
-        }
-        return $thumbnail;
+        return $this->getProduct();
     }
 
     /**
@@ -149,7 +126,7 @@ class Renderer extends \Magento\View\Element\Template
      */
     public function getProductThumbnailUrl()
     {
-        return (string) $this->_getThumbnail()->resize($this->getThumbnailSize());
+        return (string)$this->getProductThumbnail()->resize($this->getThumbnailSize());
     }
 
     /**
@@ -169,7 +146,9 @@ class Renderer extends \Magento\View\Element\Template
      */
     public function getProductThumbnailSidebarUrl()
     {
-        return (string) $this->_getThumbnail()->resize($this->getThumbnailSidebarSize())->setWatermarkSize('30x10');
+        return (string)$this->getProductThumbnail()
+            ->resize($this->getThumbnailSidebarSize())
+            ->setWatermarkSize('30x10');
     }
 
     /**
