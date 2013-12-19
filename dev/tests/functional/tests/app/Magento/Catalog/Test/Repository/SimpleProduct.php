@@ -34,6 +34,7 @@ class SimpleProduct extends Product
         $this->_data['simple_advanced_pricing'] = $this->getSimpleAdvancedPricing();
         $this->_data['simple_custom_options'] = $this->getSimpleCustomOption();
         $this->_data['simple_with_map'] = $this->getSimpleAppliedMap($defaultData);
+        $this->_data['simple_out_of_stock'] = $this->_getSimpleOutOfStock();
     }
 
     /**

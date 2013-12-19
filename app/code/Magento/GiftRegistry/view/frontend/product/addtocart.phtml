@@ -15,7 +15,7 @@
         <div class="field qty">
             <label for="qty" class="label"><span><?php echo __('Qty:') ?></span></label>
             <div class="control">
-                <input type="text" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo __('Qty') ?>" class="input-text qty">
+                <input type="number" name="qty" id="qty" maxlength="12" value="<?php echo $this->getMinimalQty($_product) ?>" title="<?php echo __('Qty') ?>" class="input-text qty">
             </div>
         </div>
     <?php endif; ?>

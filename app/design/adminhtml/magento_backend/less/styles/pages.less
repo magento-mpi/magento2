@@ -1130,10 +1130,6 @@
 /*
     Dashboard
 -------------------------------------- */
-.dashboard-inner {
-    border: 1px solid #ccc;
-}
-
 .adminhtml-dashboard-index .col-2-left-layout,
 .adminhtml-dashboard-index .col-1-layout {
     min-width: 0;
@@ -1142,11 +1138,35 @@
 .adminhtml-dashboard-index .side-col {
     width: 38%;
     padding: 1%;
+    .entry-edit {
+        padding: 10px 15px 10px 10px;
+        margin-bottom: 5px;
+        .entry-edit-head {
+            h4 {
+                margin: 0;
+            }
+            margin-bottom: 20px;
+        }
+        fieldset {
+            padding: 0;
+            border: 0;
+            .grid {
+                padding-bottom: 0;
+            }
+        }
+    }
 }
 
 .adminhtml-dashboard-index .col-2-left-layout .main-col {
     min-width: 0;
     width: 60%;
+    padding: 16px 30px 30px;
+    .store-switcher-alt {
+        margin-bottom: 15px;
+        > strong {
+            padding-left: 0;
+        }
+    }
 }
 
 .dashboard-container {
@@ -1155,10 +1175,6 @@
 
 .dashboard-container.col-2-left-layout:before {
     left: 40%;
-}
-
-.dashboard-container .dashboard-inner {
-    padding: 20px;
 }
 
 .dashboard-inner .tabs-horiz > li a {
