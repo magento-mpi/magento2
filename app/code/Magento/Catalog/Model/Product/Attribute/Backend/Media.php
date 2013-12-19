@@ -183,8 +183,6 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
             $value['images'] = array();
         }
 
-
-
         $clearImages = array();
         $newImages   = array();
         $existImages = array();
@@ -210,7 +208,8 @@ class Media extends \Magento\Eav\Model\Entity\Attribute\Backend\AbstractBackend
                     continue;
                 }
                 $duplicate[$image['value_id']] = $this->_copyImage($image['file']);
-                $newImages[$image['file']] = $duplicate[$image['value_id']];
+                $image['new_file'] = $duplicate[$image['value_id']];
+                $newImages[$image['file']] = $image;
             }
 
             $value['duplicate'] = $duplicate;
