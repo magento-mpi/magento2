@@ -33,6 +33,11 @@ class Recent extends \Magento\View\Element\Template
     protected $_customerSession;
 
     /**
+     * @var \Magento\Review\Model\Resource\Review\Product\CollectionFactory
+     */
+    protected $_collectionFactory;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Review\Model\Resource\Review\Product\CollectionFactory $collectionFactory
      * @param \Magento\Customer\Model\Session $customerSession
@@ -44,7 +49,7 @@ class Recent extends \Magento\View\Element\Template
         \Magento\Customer\Model\Session $customerSession,
         array $data = array()
     ) {
-        $this->_collection = $collectionFactory->create();
+        $this->_collectionFactory = $collectionFactory;
         $this->_customerSession = $customerSession;
         parent::__construct($context, $data);
     }
@@ -71,7 +76,7 @@ class Recent extends \Magento\View\Element\Template
 
     protected function _initCollection()
     {
-        $this->_collection
+        $this->_collectionFactory->create()
             ->addStoreFilter($this->_storeManager->getStore()->getId())
             ->addCustomerFilter($this->_customerSession->getCustomerId())
             ->setDateOrder()
