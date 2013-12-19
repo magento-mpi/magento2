@@ -677,8 +677,7 @@ class Url
             if ($this->_rewrites[$idPath]->getRequestPath() == $requestPath) {
                 return $requestPath;
             }
-        }
-        else {
+        } else {
             $this->_rewrite = null;
         }
 
@@ -688,25 +687,24 @@ class Url
                 $this->_rewrite = $rewrite;
                 return $requestPath;
             }
-            // match request_url abcdef1234(-12)(.html) pattern
+            // match request_url {$urlKey}(-12)(.html) pattern
             $match = array();
-            $regularExpression = '/^(' . preg_quote($urlKey) . ')(\-([0-9]+))?(' . preg_quote($suffix) . ')?$/i';
+            $suffix = preg_quote($suffix);
+            $quotedUrlKey = preg_quote($urlKey);
+            $regularExpression = "#(?P<urlKey>{$quotedUrlKey})(\-(?P<copyNum>[0-9]+))?(?P<suffix>{$suffix})?$#i";
             if (!preg_match($regularExpression, $requestPath, $match)) {
                 return $this->getUnusedPath($storeId, '-', $idPath, $urlKey);
             }
-            $match[1] = $match[1] . '-';
-            $match[4] = isset($match[4]) ? $match[4] : '';
+            $match['urlKey'] = $match['urlKey'] . '-';
+            $match['suffix'] = isset($match['suffix']) ? $match['suffix'] : '';
 
             $lastRequestPath = $this->getResource()
-                ->getLastUsedRewriteRequestIncrement($match[1], $match[4], $storeId);
+                ->getLastUsedRewriteRequestIncrement($match['urlKey'], $match['suffix'], $storeId);
             if ($lastRequestPath) {
-                $match[3] = $lastRequestPath;
+                $match['copyNum'] = $lastRequestPath;
             }
-            return $match[1]
-                . (isset($match[3]) ? ($match[3]+1) : '1')
-                . $match[4];
-        }
-        else {
+            return $match['urlKey'] . (isset($match['copyNum']) ? $match['copyNum'] + 1 : '1') . $match['suffix'];
+        } else {
             return $requestPath;
         }
     }
@@ -753,15 +751,13 @@ class Url
 
         if ($category->getUrlKey() == '') {
             $urlKey = $this->getCategoryModel()->formatUrlKey($category->getName());
-        }
-        else {
+        } else {
             $urlKey = $this->getCategoryModel()->formatUrlKey($category->getUrlKey());
         }
 
         if (null === $parentPath) {
             $parentPath = $this->getResource()->getCategoryParentPath($category);
-        }
-        elseif ($parentPath == '/') {
+        } elseif ($parentPath == '/') {
             $parentPath = '';
         }
         $parentPath = $this->_catalogCategory->getCategoryUrlPath($parentPath, true, $storeId);
