@@ -81,6 +81,19 @@ class Collection extends \Magento\Core\Model\Resource\Db\Collection\AbstractColl
     }
 
     /**
+     * Unserialize fields of each loaded collection item
+     *
+     * {@inheritdoc}
+     */
+    protected function _afterLoad()
+    {
+        foreach ($this->_items as $item) {
+            $this->getResource()->unserializeFields($item);
+        }
+        return parent::_afterLoad();
+    }
+
+    /**
      * Join reward table and retrieve total balance total with customer_id
      *
      * @return \Magento\Reward\Model\Resource\Reward\History\Collection
