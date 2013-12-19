@@ -149,4 +149,18 @@ class ListProduct extends Block
     {
         return $this->_rootElement->find($this->oldPrice, Locator::SELECTOR_CSS)->getText();
     }
+
+    /**
+     * Retrieve product price by specified Id
+     *
+     * @param int $productId
+     * @return string
+     */
+    public function getPrice($productId)
+    {
+        return $this->_rootElement->find(
+            '.price-box #product-price-' . $productId . ' .price',
+            Locator::SELECTOR_CSS
+        )->getText();
+    }
 }

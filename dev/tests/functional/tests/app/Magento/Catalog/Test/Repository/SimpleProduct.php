@@ -25,6 +25,8 @@ class SimpleProduct extends Product
 
     const SIMPLE_WITH_MAP = 'simple_with_map';
 
+    const SIMPLE_OUT_OF_STOCK = 'simple_out_of_stock';
+
     const BASE = 'simple';
 
     const CUSTOM_OPTIONS = 'simple_custom_options';
@@ -45,6 +47,7 @@ class SimpleProduct extends Product
         $this->_data[self::ADVANCED_PRICING] = $this->getSimpleAdvancedPricing();
         $this->_data[self::CUSTOM_OPTIONS] = $this->getSimpleCustomOption();
         $this->_data[self::SIMPLE_WITH_MAP] = $this->getSimpleAppliedMap($defaultData);
+        $this->_data[self::SIMPLE_OUT_OF_STOCK] = $this->_getSimpleOutOfStock();
     }
 
     /**
