@@ -13,11 +13,7 @@
 namespace Magento\Banner\Test\Handler\Curl;
 
 use Mtf\Fixture;
-use Mtf\Handler\Curl;
 use Mtf\Util\Protocol\CurlTransport;
-use Mtf\Util\Protocol\CurlInterface;
-use Mtf\Util\Protocol\CurlTransport\BackendDecorator;
-use Mtf\System\Config;
 
 /**
  * Curl handler for updating a banner
@@ -36,7 +32,7 @@ class UpdateBanner extends CreateBanner
     public function execute(Fixture $fixture = null)
     {
         $response = $this->postRequest($fixture);
-        if (!strpos($response, 'You saved the banner')) {
+        if (!strpos($response, 'data-ui-id="messages-message-success"')) {
             throw new \Exception('Banner update by curl handler was not successful! Response: ' . $response);
         }
     }

@@ -22,11 +22,13 @@ use Mtf\Client\Element\Locator;
  */
 class Banners extends Block
 {
+    protected $banner_text = '.inner .banner';
+
     /**
      * Return Banner content
      */
     public function getBannerText()
     {
-        return $this->_rootElement->find('.inner .banner', Locator::SELECTOR_CSS)->getText();
+        return $this->_rootElement->find($this->banner_text, Locator::SELECTOR_CSS)->getText();
     }
 }

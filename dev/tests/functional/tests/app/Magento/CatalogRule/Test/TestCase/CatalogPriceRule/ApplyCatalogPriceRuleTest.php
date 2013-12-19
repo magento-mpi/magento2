@@ -41,6 +41,7 @@ class ApplyCatalogPriceRuleTest extends Functional
      */
     public function testApplyCatalogPriceRule()
     {
+        $this->markTestSkipped('Bug MAGETWO-18631 - Banner not showing is blocking this test.');
         // Create Simple Product
         $simple = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $simple->switchData(SimpleProduct::BASE);
@@ -210,7 +211,7 @@ class ApplyCatalogPriceRuleTest extends Functional
     protected function verifyPriceRules(array $products)
     {
         // Verify Banner on the front end store home page
-        $frontendHomePage = Factory::getPageFactory()->getCmsIndexIndex();
+        $frontendHomePage = Factory::getPageFactory()->getCmsIndexBanner();
         $frontendHomePage->open();
         $bannerBlock = $frontendHomePage->getBannersBlock();
         $this->assertNotEmpty($bannerBlock->getBannerText(), "Banner is empty.");
