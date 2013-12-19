@@ -54,7 +54,7 @@ $qtyDisabled = !$this->hasProductUrl() ||
             <?php $validateItemQuantityCheck = false; ?>
             <div class="control qty">
             <input name="cart[<?php echo $this->escapeHtml($_item->getSku()) ?>][qty]" value="<?php echo $this->getQty() ?>"
-                    size="4" type="text" class="qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
+                    size="4" type="number" class="qty <?php if ($qtyDisabled): ?>disabled<?php endif ?>" maxlength="12"
                     title="<?php echo __('Qty') ?>" data-role="input-qty"
                     <?php if ($qtyDisabled): ?>disabled="disabled"<?php endif ?>
                     data-validate="{'required': true,'validate-greater-than-zero': true, 'validate-item-quantity': {
