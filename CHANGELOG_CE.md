@@ -1,4 +1,7 @@
 * Fixed bugs:
+  * Fixed [MAP]: "Click for price" link is broken on the category page
+  * Fixed tax rule searching doesn't work correctly on the grid
+  * Fixed redirect on dashboard if click "Search" "Reset", "Export" buttons on several pages
   * Fixed user switching to alternate store-view when click on the Category (with Add Store Code to Urls="Yes" in the config)
   * Fixed printing Order/Shipping/Credit Memo from Backend
   * Fixed 404 Error on attempt to print Shipping Label
@@ -24,6 +27,11 @@
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
+  * Removed \Magento\App\Helper\HelperFactory
+  * Removed method "helper" from abstract block interface
+  * Layout page type config moved into library
+  * Design loader moved to library
+  * Theme label moved to library
   * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
   * Core Session and Cookie models decomposed and moved to library
     * \Magento\Stdlib\Cookie library created

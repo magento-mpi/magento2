@@ -43,10 +43,16 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
     protected $_sessionQuote;
 
     /**
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_messageHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Data\FormFactory $formFactory
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
+     * @param \Magento\GiftMessage\Helper\Message $messageHelper
      * @param array $data
      */
     public function __construct(
@@ -54,8 +60,10 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
         \Magento\Core\Model\Registry $registry,
         \Magento\Data\FormFactory $formFactory,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
+        \Magento\GiftMessage\Helper\Message $messageHelper,
         array $data = array()
     ) {
+        $this->_messageHelper = $messageHelper;
         $this->_sessionQuote = $sessionQuote;
         parent::__construct($context, $registry, $formFactory, $data);
     }
@@ -257,7 +265,7 @@ class Form extends \Magento\Backend\Block\Widget\Form\Generic
      */
     protected function _initMessage()
     {
-        $this->_giftMessage = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage(
+        $this->_giftMessage = $this->_messageHelper->getGiftMessage(
                                    $this->getEntity()->getGiftMessageId()
                               );
         return $this;

@@ -26,16 +26,18 @@ class Form extends \Magento\Payment\Block\Form\Container
 
     /**
      * @param \Magento\View\Element\Template\Context $context
+     * @param \Magento\Payment\Helper\Data $paymentHelper
      * @param \Magento\Backend\Model\Session\Quote $sessionQuote
      * @param array $data
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
+        \Magento\Payment\Helper\Data $paymentHelper,
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         array $data = array()
     ) {
         $this->_sessionQuote = $sessionQuote;
-        parent::__construct($context, $data);
+        parent::__construct($context, $paymentHelper, $data);
     }
 
     /**

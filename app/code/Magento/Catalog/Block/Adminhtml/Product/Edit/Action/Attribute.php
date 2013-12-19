@@ -83,7 +83,7 @@ class Attribute extends \Magento\Backend\Block\Widget
      */
     protected function _getHelper()
     {
-        return $this->helper('Magento\Catalog\Helper\Product\Edit\Action\Attribute');
+        return $this->_helperActionAttribute;
     }
 
     /**
@@ -101,7 +101,7 @@ class Attribute extends \Magento\Backend\Block\Widget
      *
      * @return string
      */
-     public function getCancelButtonHtml()
+    public function getCancelButtonHtml()
     {
         return $this->getChildHtml('reset_button');
     }

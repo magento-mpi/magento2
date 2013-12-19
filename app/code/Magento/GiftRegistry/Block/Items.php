@@ -45,17 +45,25 @@ class Items extends \Magento\Checkout\Block\Cart
     protected $quoteItemFactory;
 
     /**
+     * @var \Magento\Checkout\Helper\Cart
+     */
+    protected $_cartHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
      * @param \Magento\GiftRegistry\Model\ItemFactory $itemFactory
      * @param \Magento\Sales\Model\QuoteFactory $quoteFactory
      * @param \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Tax\Helper\Data $taxData
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -63,6 +71,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Catalog\Model\Resource\Url $catalogUrlBuilder,
+        \Magento\Checkout\Helper\Cart $cartHelper,
         \Magento\GiftRegistry\Model\ItemFactory $itemFactory,
         \Magento\Sales\Model\QuoteFactory $quoteFactory,
         \Magento\Sales\Model\Quote\ItemFactory $quoteItemFactory,
@@ -70,6 +79,7 @@ class Items extends \Magento\Checkout\Block\Cart
         \Magento\Tax\Helper\Data $taxData,
         array $data = array()
     ) {
+        $this->_cartHelper = $cartHelper;
         $this->_taxData = $taxData;
         $this->_coreRegistry = $registry;
         $this->itemFactory = $itemFactory;
@@ -81,6 +91,7 @@ class Items extends \Magento\Checkout\Block\Cart
             $customerSession,
             $checkoutSession,
             $catalogUrlBuilder,
+            $cartHelper,
             $data
         );
     }
@@ -124,7 +135,7 @@ class Items extends \Magento\Checkout\Block\Cart
                             $this->_taxData->getPrice($product, $product->getFinalPrice(), true)
                         ))
                     );
-                    $product->setAddToCartUrl($this->helper('Magento\Checkout\Helper\Cart')->getAddUrl($product));
+                    $product->setAddToCartUrl($this->_cartHelper->getAddUrl($product));
                 } else {
                     $quoteItem->setGiftRegistryPrice($product->getFinalPrice());
                     $quoteItem->setCanApplyMsrp(false);
