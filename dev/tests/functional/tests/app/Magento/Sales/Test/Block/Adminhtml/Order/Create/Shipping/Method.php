@@ -28,7 +28,7 @@ class Method extends Block
      *
      * @var string
      */
-    protected $getShippingMethods = '#order-shipping-method-summary a';
+    protected $shippingMethodsLink = '#order-shipping-method-summary a';
 
     /**
      * Shipping method
@@ -44,7 +44,7 @@ class Method extends Block
      */
     public function selectShippingMethod(Order $fixture)
     {
-        $this->_rootElement->find($this->getShippingMethods)->click();
+        $this->_rootElement->find($this->shippingMethodsLink)->click();
         $shippingMethod = $fixture->getShippingMethod()->getData('fields');
         $selector = sprintf(
             $this->shippingMethod, $shippingMethod['shipping_service'], $shippingMethod['shipping_method']
