@@ -26,6 +26,8 @@ class PayflowProTest extends Functional
 {
     /**
      * Place order on frontend via one page checkout.
+     *
+     * @ZephyrId MAGETWO-12994
      */
     public function testOnepageCheckout()
     {
