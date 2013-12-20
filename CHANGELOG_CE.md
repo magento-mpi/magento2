@@ -43,7 +43,6 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed displaying of Product Alert links on product view page when the functionality is disabled
-  * Fixed usage of same Gift card code for two different orders placed by concurrent users
   * Fixed absence of some bundle options on 'Configure product from Cart' page
   * Fixed ability to view and cancel billing agreements belonging to another customer
   * Fixed content spoofing vulnerability when Solr is used
