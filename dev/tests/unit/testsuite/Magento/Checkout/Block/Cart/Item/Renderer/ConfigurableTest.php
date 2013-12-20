@@ -120,9 +120,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $products = $this->_initProducts($childHasThumbnail, $useParentThumbnail);
 
         $productForThumbnail = $this->_renderer->getProductForThumbnail();
-        $this->assertEquals(
-            $products['childProduct']->getName(),
-            $productForThumbnail->getName(),
+        $this->assertSame(
+            $products['childProduct'],
+            $productForThumbnail,
             'Child product was expected to be returned.'
         );
     }
@@ -137,9 +137,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $products = $this->_initProducts($childHasThumbnail, $useParentThumbnail);
 
         $productForThumbnail = $this->_renderer->getProductForThumbnail();
-        $this->assertEquals(
-            $products['parentProduct']->getName(),
-            $productForThumbnail->getName(),
+        $this->assertSame(
+            $products['parentProduct'],
+            $productForThumbnail,
             'Parent product was expected to be returned.'
         );
     }
@@ -154,9 +154,9 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         $products = $this->_initProducts($childHasThumbnail, $useParentThumbnail);
 
         $productForThumbnail = $this->_renderer->getProductForThumbnail();
-        $this->assertEquals(
-            $products['parentProduct']->getName(),
-            $productForThumbnail->getName(),
+        $this->assertSame(
+            $products['parentProduct'],
+            $productForThumbnail,
             'Parent product was expected to be returned '
                 . 'if "checkout/cart/configurable_product_image option" is set to "parent" in system config.'
         );
@@ -183,20 +183,18 @@ class ConfigurableTest extends \PHPUnit_Framework_TestCase
         /** Initialized parent product */
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $parentProduct */
         $parentProduct = $this->getMock('Magento\Catalog\Model\Product', array(), array(), '', false);
-        $parentProduct->expects($this->any())->method('getName')->will($this->returnValue('Configurable Product'));
 
         /** Initialize child product */
         /** @var \Magento\Catalog\Model\Product|\PHPUnit_Framework_MockObject_MockObject $childProduct */
         $childProduct = $this->getMock(
             'Magento\Catalog\Model\Product',
-            array('getThumbnail', 'getName', '__wakeup'),
+            array('getThumbnail', '__wakeup'),
             array(),
             '',
             false
         );
         $childThumbnail = $childHasThumbnail ? 'thumbnail.jpg' : 'no_selection';
         $childProduct->expects($this->any())->method('getThumbnail')->will($this->returnValue($childThumbnail));
-        $childProduct->expects($this->any())->method('getName')->will($this->returnValue('Child Product'));
 
         /** Mock methods which return parent and child products */
         /** @var \Magento\Sales\Model\Quote\Item\Option|\PHPUnit_Framework_MockObject_MockObject $itemOption */
