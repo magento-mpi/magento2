@@ -20,13 +20,15 @@ namespace Magento\Newsletter\Block\Adminhtml\Problem\Grid\Filter;
 
 class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFilter
 {
-     public function getCondition()
+    public function getCondition()
     {
         return array();
     }
 
     public function getHtml()
     {
-        return '<input type="checkbox" onclick="problemController.checkCheckboxes(this)"/>';
+        $html = '<input type="checkbox"  id="' . $this->_getHtmlId();
+        $html .= ' "onclick="problemController.checkCheckboxes(this)"/>';
+        return $html;
     }
 }
