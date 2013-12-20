@@ -37,6 +37,11 @@
   * Fixed Fatal Error during export Customers from Customer page
   * Fixed impossibility to add Product to the Cart from the Category page in IE
   * Fixed Logo is absent on login page from backend
+  * Fixed visual indication for tax details opener on create order page in backend
+  * Fixed broken design CMS page preview
+  * Fixed broken design newsletter template preview
+  * Fixed broken design on Matched Customers tab grid in Email Remainder
+  * Fixed validation message about uncompatible version format while Theme creation
   * Fixed displaying of Product Alert links on product view page when the functionality is disabled
   * Fixed usage of same Gift card code for two different orders placed by concurrent users
   * Fixed absence of some bundle options on 'Configure product from Cart' page

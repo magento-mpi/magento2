@@ -9,7 +9,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Test\Handler\Ui;
 
 use Mtf\Fixture;
@@ -42,9 +41,10 @@ class LoginUser extends Ui
         $loginPage->open();
 
         $adminHeaderPanel = $loginPage->getHeaderBlock();
-        if (!$adminHeaderPanel || !($adminHeaderPanel->isVisible())) {
+        if (!$adminHeaderPanel || !$adminHeaderPanel->isVisible()) {
             $loginForm->fill($fixture);
             $loginForm->submit();
+            $loginPage->waitForHeaderBlock();
         }
     }
 }

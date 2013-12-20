@@ -115,7 +115,7 @@ class TreeElement extends Element
     protected function deep($pathChunk, $structureChunk)
     {
         foreach ($structureChunk as $structureNode) {
-            if (isset($structureNode) && $structureNode['name'] == $pathChunk) {
+            if (isset($structureNode) && preg_match('/' . $pathChunk . ' \(\d+\)/', $structureNode['name'])) {
                 return $structureNode;
             }
         }

@@ -60,7 +60,7 @@ class ShippingCarrierTest extends Functional
      * @param string|null $currencyRateDataSet
      *
      * @dataProvider dataProviderShippingCarriers
-     * @ZephyrId MAGETWO-12844
+     * @ZephyrId MAGETWO-12444
      * @ZephyrId MAGETWO-12848
      * @ZephyrId MAGETWO-12849
      * @ZephyrId MAGETWO-12850

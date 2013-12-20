@@ -13,7 +13,7 @@ namespace Magento\Catalog\Test\TestCase\Product;
 
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
-use Magento\Catalog\Test\Fixture\Product;
+use Magento\Catalog\Test\Fixture\SimpleProduct;
 
 /**
  * Apply minimum advertised price to simple product
@@ -58,7 +58,6 @@ class ApplyMapTest extends Functional
 
     /**
      * Assert product MAP related data on category page
-     * Commented lines according to bug MAGETWO-15474
      *
      * @param \Magento\Catalog\Test\Fixture\SimpleProduct $product
      */
@@ -72,22 +71,22 @@ class ApplyMapTest extends Functional
         $frontendHomePage->getTopmenu()->selectCategoryByName($product->getCategoryName());
         //Verification on category product list
         $productListBlock = $categoryPage->getListProductBlock();
-//        $mapBlock = $categoryPage->getMapBlock();
+        $mapBlock = $categoryPage->getMapBlock();
         $this->assertTrue($productListBlock->isProductVisible($product->getProductName()),
             'Product is invisible on Category page');
         $this->assertContains($product->getProductMapPrice(), $productListBlock->getOldPriceCategoryPage(),
             'Displayed on Category page MAP is incorrect');
-//        $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
-//        $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
-//        'Displayed on Category page MAP is incorrect');
-//        $this->assertContains($product->getProductPrice(), $mapBlock->getActualPrice(),
-//            'Displayed on Category page price is incorrect');
+        $productListBlock->openMapBlockOnCategoryPage($product->getProductName());
+        $this->assertContains($product->getProductMapPrice(), $mapBlock->getOldPrice(),
+        'Displayed on Category page MAP is incorrect');
+        $this->assertEquals($product->getProductPrice(), $mapBlock->getActualPrice(),
+            'Displayed on Category page price is incorrect');
     }
 
     /**
      * Assert product MAP related data on product view page
      *
-     * @param \Magento\Catalog\Test\Fixture\SimpleProduct$product
+     * @param SimpleProduct $product
      */
     protected function verifyMapOnProductView($product)
     {
@@ -110,7 +109,7 @@ class ApplyMapTest extends Functional
     /**
      * Assert product related data in Shopping Cart
      *
-     * @param \Magento\Catalog\Test\Fixture\SimpleProduct $product
+     * @param SimpleProduct $product
      */
     protected function verifyMapInShoppingCart($product)
     {

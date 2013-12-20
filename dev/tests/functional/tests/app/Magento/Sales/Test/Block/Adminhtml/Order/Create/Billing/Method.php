@@ -11,11 +11,8 @@
 
 namespace Magento\Sales\Test\Block\Adminhtml\Order\Create\Billing;
 
-use Magento\Backend\Test\Block\Template;
 use Magento\Sales\Test\Fixture\Order;
 use Mtf\Block\Block;
-use Mtf\Client\Element\Locator;
-use Mtf\Factory\Factory;
 
 /**
  * Class Method
@@ -26,6 +23,13 @@ use Mtf\Factory\Factory;
 class Method extends Block
 {
     /**
+     * Payment method
+     *
+     * @var string
+     */
+    protected $paymentMethod = '#p_method_%s';
+
+    /**
      * Select payment method
      *
      * @param Order $fixture
@@ -34,7 +38,7 @@ class Method extends Block
     {
         $payment = $fixture->getPaymentMethod();
         $paymentCode = $payment->getPaymentCode();
-        $paymentInput = $this->_rootElement->find('#p_method_' . $paymentCode, Locator::SELECTOR_CSS);
+        $paymentInput = $this->_rootElement->find(sprintf($this->paymentMethod, $paymentCode));
         if ($paymentInput->isVisible()) {
             $paymentInput->click();
         }

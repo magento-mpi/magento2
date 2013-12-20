@@ -23,7 +23,8 @@ class EditBundleTest extends Functional
     }
 
     /**
-     * Create bundle
+     * Edit bundle
+     *
      * @dataProvider createDataProvider
      * @ZephyrId MAGETWO-12842
      * @ZephyrId MAGETWO-12841

@@ -11,7 +11,6 @@
 
 namespace Magento\GiftCard\Test\Fixture;
 
-use Mtf\System\Config;
 use Mtf\Factory\Factory;
 use Magento\Catalog\Test\Fixture\Product;
 
@@ -36,22 +35,6 @@ class GiftCard extends Product
             ),
             'input_prefix' => 'product'
         );
-
-        $data = array(
-            'giftcard_type' => array(
-                'value' => 'Virtual',
-                'input_value' => '0',
-                'group' => static::GROUP_PRODUCT_DETAILS,
-                'input' => 'select'
-            ),
-            'allow_open_amount' => array(
-                'value' => 'Yes',
-                'input_name' => 'product[allow_open_amount]',
-                'input_value' => 'Yes',
-                'group' => static::GROUP_PRODUCT_DETAILS,
-                'input' => 'checkbox')
-        );
-        $this->_data['fields'] = array_merge($this->_data['fields'], $data);
 
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoGiftCardGiftCard($this->_dataConfig, $this->_data);

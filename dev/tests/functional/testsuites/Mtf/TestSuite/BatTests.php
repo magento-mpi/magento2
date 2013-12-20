@@ -1,10 +1,9 @@
 <?php
 /**
+ * BAT (L1 plan)
+ *
  * {license_notice}
  *
- * @category    Mtf
- * @package     Mtf
- * @subpackage  functional_tests
  * @copyright   {copyright}
  * @license     {license_link}
  */
@@ -15,18 +14,30 @@ class BatTests
 {
     public static function suite()
     {
-        $suite = new \PHPUnit_Framework_TestSuite('Tests');
+        $suite = new \PHPUnit_Framework_TestSuite('BAT');
 
+        // Product
         $suite->addTestSuite('Magento\Bundle\Test\TestCase\BundleFixedTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateTest');
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateConfigurableTest');
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\Configurable\CreateWithAttributeTest');
+        $suite->addTestSuite('Magento\Catalog\Test\TestCase\Product\CreateSimpleWithCustomOptionsAndCategoryTest');
+
+        // Category
         $suite->addTestSuite('Magento\Catalog\Test\TestCase\Category\CreateTest');
-        $suite->addTestSuite('Magento\Sales\Test\TestCase\CloseOrderTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\ProductPageTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\CheckoutOnepageTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\PaypalExpress\PayflowProTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\OnepageTest');
-        $suite->addTestSuite('Magento\Checkout\Test\TestCase\MultishippingTest');
+
+        // Search
+        $suite->addTestSuite('Magento\CatalogSearch\Test\TestCase\SearchTest');
+
+        // Checkout
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\Guest\CheckMoneyOrderTest');
+        $suite->addTestSuite('Magento\Checkout\Test\TestCase\ProductAdvancedPricingTest');
+
+        // Sales rule
+        $suite->addTestSuite('Magento\SalesRule\Test\TestCase\BasicPromoTest');
+
+        // Stores
+        $suite->addTestSuite('Magento\Core\Test\TestCase\StoreTest');
 
         return $suite;
     }
