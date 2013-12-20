@@ -151,7 +151,7 @@ class Category extends DataFixture
                 )
             ),
             'category_path' =>  array(
-                'value' => 'Default Category (0)',
+                'value' => 'Default Category',
                 'input_value' => '2'
             )
         );
