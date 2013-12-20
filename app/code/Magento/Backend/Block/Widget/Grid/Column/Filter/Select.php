@@ -30,7 +30,7 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
         }
 
         $colOptions = $this->getColumn()->getOptions();
-        if (!empty($colOptions) && is_array($colOptions) ) {
+        if (!empty($colOptions) && is_array($colOptions)) {
             $options = array($emptyOption);
 
             foreach ($colOptions as $key => $option) {
@@ -96,6 +96,6 @@ class Select extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFi
      */
     protected function getHtmlTitle()
     {
-        return ($this->getColumn()->getTitle())?'title="' . $this->getColumn()->getTitle() . '" ':'';
+        return ($this->getColumn()->getTitle()) ? 'title="' . $this->getColumn()->getTitle() . '" ' : '';
     }
 }

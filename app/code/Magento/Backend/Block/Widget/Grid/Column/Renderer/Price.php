@@ -13,8 +13,7 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Price
-    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     protected $_defaultWidth = 100;
     /**
@@ -104,13 +103,13 @@ class Price
                 $className = 'sort-arrow-' . $dir;
             }
             $out = '<a href="#" name="' . $this->getColumn()->getId() . '" title="' . $nDir
-                . '" class="' . $className . '">'.'<label class="sort-title" id='.$this->getColumn()->getHtmlId()
-                .'>'
-                . $this->getColumn()->getHeader().'</label></a>';
+                . '" class="' . $className . '">' . '<label class="sort-title" id=' . $this->getColumn()->getHtmlId()
+                . '>'
+                . $this->getColumn()->getHeader() . '</label></a>';
         } else {
-            $out = '<label for='.$this->getColumn()->getHtmlId().'>'
-                .$this->getColumn()->getHeader()
-                .'</label>';
+            $out = '<label for=' . $this->getColumn()->getHtmlId() . '>'
+                . $this->getColumn()->getHeader()
+                . '</label>';
         }
         return $out;
     }
