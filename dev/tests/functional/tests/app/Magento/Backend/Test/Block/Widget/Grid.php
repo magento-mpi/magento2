@@ -95,6 +95,27 @@ abstract class Grid extends Block
     protected $templateBlock = './ancestor::body';
 
     /**
+     * Selector of element to wait for. If set by child will wait for element after action
+     *
+     * @var string
+     */
+    protected $waitForSelector;
+
+    /**
+     * Locator type of waitForSelector
+     *
+     * @var Locator
+     */
+    protected $waitForSelectorType = Locator::SELECTOR_CSS;
+
+    /**
+     * Wait for should be for visibility or not?
+     *
+     * @var boolean
+     */
+    protected $waitForSelectorVisible = true;
+
+    /**
      * Get backend abstract block
      *
      * @return \Magento\Backend\Test\Block\Template
@@ -156,10 +177,27 @@ abstract class Grid extends Block
         $rowItem = $this->_rootElement->find($this->rowItem, Locator::SELECTOR_CSS);
         if ($rowItem->isVisible()) {
             $rowItem->find($this->editLink, Locator::SELECTOR_CSS)->click();
+            $this->waitForElement();
         } else {
             throw new \Exception('Searched item was not found.');
         }
     }
+
+
+    /**
+     * Method that waits for the configured selector using class attributes.
+     */
+    protected function waitForElement()
+    {
+        if (!empty($this->waitForSelector)) {
+            if ($this->waitForSelectorVisible) {
+                $this->getTemplateBlock()->waitForElementVisible($this->waitForSelector, $this->waitForSelectorType);
+            } else {
+                $this->getTemplateBlock()->waitForElementNotVisible($this->waitForSelector, $this->waitForSelectorType);
+            }
+        }
+    }
+
 
     /**
      * Search for item and select it
@@ -219,13 +257,13 @@ abstract class Grid extends Block
     }
 
     /**
-     * Check if specific row exists in grid
+     * Obtain specific row in grid
      *
      * @param array $filter
      * @param bool $isSearchable
-     * @return bool
+     * @return Element
      */
-    public function isRowVisible(array $filter, $isSearchable = true)
+    protected function getRow(array $filter, $isSearchable = true)
     {
         if ($isSearchable) {
             $this->search($filter);
@@ -236,6 +274,18 @@ abstract class Grid extends Block
             $rows[] = 'td[text()[normalize-space()="' . $value . '"]]';
         }
         $location = $location . implode(' and ', $rows) . ']';
-        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find($location, Locator::SELECTOR_XPATH);
+    }
+
+    /**
+     * Check if specific row exists in grid
+     *
+     * @param array $filter
+     * @param bool $isSearchable
+     * @return bool
+     */
+    public function isRowVisible(array $filter, $isSearchable = true)
+    {
+        return $this->getRow($filter, $isSearchable)->isVisible();
     }
 }
