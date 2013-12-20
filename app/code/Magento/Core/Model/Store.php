@@ -821,10 +821,10 @@ class Store extends \Magento\Core\Model\AbstractModel
         $code = strtoupper($code);
         if (in_array($code, $this->getAvailableCurrencyCodes())) {
             $this->_getSession()->setCurrencyCode($code);
-            if ($code == $this->getDefaultCurrency()) {
-                $this->_cookie->set(self::COOKIE_CURRENCY, null);
+            if ($code == $this->getDefaultCurrency()->getCurrencyCode()) {
+                $this->_cookie->set(self::COOKIE_CURRENCY, null, null, '/');
             } else {
-                $this->_cookie->set(self::COOKIE_CURRENCY, $code);
+                $this->_cookie->set(self::COOKIE_CURRENCY, $code, null, '/');
             }
         }
         return $this;
