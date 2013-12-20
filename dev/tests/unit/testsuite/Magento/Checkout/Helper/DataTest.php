@@ -26,10 +26,8 @@ class DataTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $eventManager = $this->getMock('\Magento\Core\Model\Event\Manager', array(), array(), '', false);
-
         $this->_translator = $this->getMock('Magento\Core\Model\Translate', array(), array(), '', false);
-        $context = $this->getMock('\Magento\Core\Helper\Context', array(), array(), '', false);
+        $context = $this->getMock('\Magento\App\Helper\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getTranslator')->will($this->returnValue($this->_translator));
 
         $storeConfig = $this->getMock('\Magento\Core\Model\Store\Config', array(), array(), '', false);
@@ -54,14 +52,14 @@ class DataTest extends \PHPUnit_Framework_TestCase
             '\Magento\Checkout\Model\Resource\Agreement\CollectionFactory', array(), array(), '', false
         );
 
-        $this->_emailTemplate = $this->getMock('\Magento\Core\Model\Email\Template', array(), array(), '', false);
+        $this->_emailTemplate = $this->getMock('\Magento\Email\Model\Template', array(), array(), '', false);
         $emailTplFactory = $this->getMock(
-            '\Magento\Core\Model\Email\TemplateFactory', array('create'), array(), '', false
+            '\Magento\Email\Model\TemplateFactory', array('create'), array(), '', false
         );
         $emailTplFactory->expects($this->once())->method('create')->will($this->returnValue($this->_emailTemplate));
 
         $this->_helper = new Data(
-            $eventManager, $context, $storeConfig, $storeManager, $checkoutSession,
+            $context, $storeConfig, $storeManager, $checkoutSession,
             $locale, $collectionFactory, $emailTplFactory
         );
     }

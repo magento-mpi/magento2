@@ -36,6 +36,11 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
     protected $_session;
 
     /**
+     * @var \Magento\Message\ManagerInterface|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $_messageManager;
+
+    /**
      * @var \Magento\Sales\Model\Billing\Agreement|\PHPUnit_Framework_MockObject_MockObject
      */
     protected $_agreement;
@@ -71,11 +76,14 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         $redirect = $this->getMock('Magento\App\Response\RedirectInterface');
 
+        $this->_messageManager = $this->getMock('Magento\Message\ManagerInterface');
+
         $context = $this->getMock('Magento\App\Action\Context', array(), array(), '', false);
         $context->expects($this->any())->method('getObjectManager')->will($this->returnValue($this->_objectManager));
         $context->expects($this->any())->method('getRequest')->will($this->returnValue($this->_request));
         $context->expects($this->any())->method('getResponse')->will($this->returnValue($response));
         $context->expects($this->any())->method('getRedirect')->will($this->returnValue($redirect));
+        $context->expects($this->any())->method('getMessageManager')->will($this->returnValue($this->_messageManager));
 
         $this->_registry = $this->getMock('Magento\Core\Model\Registry', array(), array(), '', false);
 
@@ -92,8 +100,8 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         $noticeMessage = 'The billing agreement "r15" has been canceled.';
         $this->_session->expects($this->once())->method('getCustomerId')->will($this->returnValue(871));
-        $this->_session->expects($this->once())->method('addNotice')->with($noticeMessage);
-        $this->_session->expects($this->never())->method('addError');
+        $this->_messageManager->expects($this->once())->method('addNotice')->with($noticeMessage);
+        $this->_messageManager->expects($this->never())->method('addError');
 
         $this->_registry
             ->expects($this->once())
@@ -111,7 +119,7 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
 
         $errorMessage = 'Please specify the correct billing agreement ID and try again.';
         $this->_session->expects($this->once())->method('getCustomerId')->will($this->returnValue(938));
-        $this->_session->expects($this->once())->method('addError')->with($errorMessage);
+        $this->_messageManager->expects($this->once())->method('addError')->with($errorMessage);
 
         $this->_registry->expects($this->never())->method('register');
 
@@ -124,8 +132,8 @@ class AgreementTest extends \PHPUnit_Framework_TestCase
         $this->_agreement->expects($this->never())->method('cancel');
 
         $this->_session->expects($this->once())->method('getCustomerId')->will($this->returnValue(871));
-        $this->_session->expects($this->never())->method('addNotice');
-        $this->_session->expects($this->never())->method('addError');
+        $this->_messageManager->expects($this->never())->method('addNotice');
+        $this->_messageManager->expects($this->never())->method('addError');
 
         $this->_registry
             ->expects($this->once())
