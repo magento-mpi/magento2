@@ -178,6 +178,8 @@ class Generator
     {
         $response = array();
         /** TODO: Use object manager to instantiate objects */
+        /*
+        TODO: Re-implement
         $xpath = new \DOMXPath($domDocument);
         $typeXPath = "//xsd:complexType[@name='{$typeName}']";
         $complexTypeNodes = $xpath->query($typeXPath);
@@ -195,7 +197,9 @@ class Generator
                     && !in_array($prefixedRefTypeName, $this->_registeredTypes)
                 ) {
                     $response += $this->getComplexTypeNodes($serviceName, $referencedTypeName, $domDocument);
+        */
                     /** Add target namespace to the referenced type name */
+        /*
                     $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
                 }
             }
@@ -206,6 +210,7 @@ class Generator
             $response[$serviceName . $typeName]
                 = $complexTypeNode->cloneNode(true);
         }
+        */
         return $response;
     }
 
@@ -238,6 +243,8 @@ class Generator
             'name' => $inputMessageName,
             'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
         );
+        /*
+        TODO: Re-implement
         if (isset($methodData['interface']['inputComplexTypes'])) {
             foreach ($methodData['interface']['inputComplexTypes'] as $complexTypeNode) {
                 $wsdl->addComplexType($complexTypeNode);
@@ -245,6 +252,7 @@ class Generator
         } else {
             $elementData['nillable'] = 'true';
         }
+        */
         $wsdl->addElement($elementData);
         $wsdl->addMessage(
             $inputMessageName,
@@ -274,11 +282,14 @@ class Generator
                 'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
             )
         );
+        /*
+        TODO: Re-implement
         if (isset($methodData['interface']['outputComplexTypes'])) {
             foreach ($methodData['interface']['outputComplexTypes'] as $complexTypeNode) {
                 $wsdl->addComplexType($complexTypeNode);
             }
         }
+        */
         $wsdl->addMessage(
             $outputMessageName,
             array(
@@ -301,6 +312,8 @@ class Generator
     protected function _createOperationFaults(Wsdl $wsdl, $operationName, $methodData)
     {
         $faults = array();
+        /*
+        TODO: Re-implement
         if (isset($methodData['interface']['faultComplexTypes'])) {
             foreach ($methodData['interface']['faultComplexTypes'] as $faultName => $faultComplexTypes) {
                 $faultMessageName = $this->getFaultMessageName($operationName, $faultName);
@@ -327,6 +340,7 @@ class Generator
                 );
             }
         }
+        */
         return $faults;
     }
 
@@ -536,10 +550,13 @@ class Generator
             if (!empty($outputComplexTypes)) {
                 $methodInterface['outputComplexTypes'] = $outputComplexTypes;
             } else {
+                /*
+                 TODO: Re-implement
                 throw new \LogicException(
                     sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
                         $serviceMethod, $serviceName, $outputParameterName)
                 );
+                */
             }
 
             /** Process fault complex types */
@@ -566,6 +583,8 @@ class Generator
      */
     protected function _addDefaultFaultComplexTypeNodes($wsdl)
     {
+        /*
+        TODO: Re-implement
         $domDocument = new \DOMDocument();
         $typeName = Fault::NODE_DETAIL_WRAPPER;
         $defaultFault = $this->_generateEmptyComplexType($typeName, $domDocument);
@@ -577,6 +596,7 @@ class Generator
         );
         $this->_addDefaultFaultElements($defaultFault);
         $wsdl->addComplexType($defaultFault);
+        */
     }
 
     /**

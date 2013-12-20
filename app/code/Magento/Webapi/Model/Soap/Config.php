@@ -189,6 +189,8 @@ class Config
     public function getServiceSchemaDOM($serviceClass)
     {
          // TODO: Check if Service specific XSD is already cached
+        /*
+        TODO: Re-implement
         $modulesDir = $this->_dir->getDir(\Magento\App\Dir::MODULES);
 
         // TODO: Change pattern to match interface instead of class. Think about sub-services.
@@ -198,7 +200,9 @@ class Config
 
         $vendorName = $matches[1];
         $moduleName = $matches[2];
+        */
         /** Convert "_Catalog_Attribute" into "Catalog/Attribute" */
+        /*
         $servicePath = str_replace('_', '/', ltrim($matches[3], '_'));
         $version = $matches[4];
         $schemaPath = "{$modulesDir}/{$vendorName}/{$moduleName}/etc/schema/{$servicePath}{$version}.xsd";
@@ -208,10 +212,11 @@ class Config
         } else {
             $schema = '';
         }
+        */
 
         // TODO: Should happen only once the cache is in place
         $serviceSchema = $this->_objectManager->create('DOMDocument');
-        $serviceSchema->loadXML($schema);
+//        $serviceSchema->loadXML($schema);
 
         return $serviceSchema;
     }
