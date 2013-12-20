@@ -37,6 +37,13 @@
   * Fixed Fatal Error during export Customers from Customer page
   * Fixed impossibility to add Product to the Cart from the Category page in IE
   * Fixed Logo is absent on login page from backend
+  * Fixed displaying of Product Alert links on product view page when the functionality is disabled
+  * Fixed usage of same Gift card code for two different orders placed by concurrent users
+  * Fixed absence of some bundle options on 'Configure product from Cart' page
+  * Fixed ability to execute actions from logged out or guest users when they logging in again
+  * Fixed content spoofing vulnerability when Solr is used
+  * Fixed XSS vulnerability in customer log in
+  * Fixed fatal error after subscribe to category RSS
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
