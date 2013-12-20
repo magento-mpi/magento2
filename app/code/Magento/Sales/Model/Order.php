@@ -1049,6 +1049,7 @@ class Order extends \Magento\Sales\Model\AbstractModel
         if (!empty($old)) {
             $address->setId($old->getId());
         }
+        $address->setEmail($this->getCustomerEmail());
         $this->addAddress($address->setAddressType('billing'));
         return $this;
     }
