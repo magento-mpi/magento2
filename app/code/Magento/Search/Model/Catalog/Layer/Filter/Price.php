@@ -53,7 +53,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
      * @param \Magento\Catalog\Model\Layer $catalogLayer
      * @param \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory
      * @param \Magento\Customer\Model\Session $customerSession
-     * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm
+     * @param \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Search\Model\Resource\Engine $resourceEngine
      * @param \Magento\App\CacheInterface $cache
@@ -65,7 +65,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         \Magento\Catalog\Model\Layer $catalogLayer,
         \Magento\Catalog\Model\Resource\Layer\Filter\PriceFactory $filterPriceFactory,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $catalogLayerFilterPriceAlgorithm,
+        \Magento\Catalog\Model\Layer\Filter\Price\Algorithm $priceAlgorithm,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Search\Model\Resource\Engine $resourceEngine,
         \Magento\App\CacheInterface $cache,
@@ -79,7 +79,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             $catalogLayer,
             $filterPriceFactory,
             $customerSession,
-            $catalogLayerFilterPriceAlgorithm,
+            $priceAlgorithm,
             $coreRegistry,
             $data
         );
@@ -134,18 +134,18 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
             }
 
             if (!$isAuto && !empty($facets)) {
-                $range  = $this->getPriceRange();
+                $range = $this->getPriceRange();
             }
 
             $i = 0;
             $maxIntervalsNumber = $this->getMaxIntervalsNumber();
             $lastSeparator = null;
             foreach ($facets as $key => $count) {
-                ++$i;
-                preg_match('/\[([\d\.\\\*]+) TO ([\d\.\\\*]+)\]$/', $key, $separator);
-                $separator[1] = str_replace('\\*', '*', $separator[1]);
-                $separator[2] = str_replace('\\*', '*', $separator[2]);
+                if (!preg_match('/\[([\d\.\*]+) TO ([\d\.\*]+)\]$/', $key, $separator)) {
+                    continue;
+                }
 
+                ++$i;
                 $label = null;
                 $value = null;
                 if (isset($this->_facets[$separator[1] . '_' . $separator[2]])) {
@@ -226,7 +226,7 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
     public function getMaxPriceInt()
     {
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
-        $uniquePart = strtoupper(md5(serialize($searchParams . '_' . $this->getCurrencyRate())));
+        $uniquePart = strtoupper(md5(serialize($searchParams) . '_' . $this->getCurrencyRate()));
         $cacheKey = 'MAXPRICE_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = $this->_cache->load($cacheKey);
@@ -259,8 +259,8 @@ class Price extends \Magento\Catalog\Model\Layer\Filter\Price
         $searchParams = $this->getLayer()->getProductCollection()->getExtendedSearchParams();
         $intervalParams = $this->getInterval();
         $intervalParams = $intervalParams ? ($intervalParams[0] . '-' . $intervalParams[1]) : '';
-        $uniquePart = strtoupper(md5(serialize($searchParams . '_'
-            . $this->getCurrencyRate() . '_' . $intervalParams)));
+        $uniquePart = strtoupper(md5(serialize($searchParams) . '_'
+            . $this->getCurrencyRate() . '_' . $intervalParams));
         $cacheKey = 'PRICE_SEPARATORS_' . $this->getLayer()->getStateKey() . '_' . $uniquePart;
 
         $cachedData = $this->_cache->load($cacheKey);

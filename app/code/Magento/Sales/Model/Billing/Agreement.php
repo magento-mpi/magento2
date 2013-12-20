@@ -8,6 +8,8 @@
  * @license     {license_link}
  */
 
+namespace Magento\Sales\Model\Billing;
+
 /**
  * Billing Agreement abstract model
  *
@@ -30,8 +32,6 @@
  * @method string getAgreementLabel()
  * @method \Magento\Sales\Model\Billing\Agreement setAgreementLabel(string $value)
  */
-namespace Magento\Sales\Model\Billing;
-
 class Agreement extends \Magento\Payment\Model\Billing\AbstractAgreement
 {
     const STATUS_ACTIVE     = 'active';

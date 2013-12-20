@@ -13,7 +13,6 @@
  */
 namespace Magento\Sales\Controller\Billing;
 
-use Magento\App\Action\NotFoundException;
 use Magento\App\RequestInterface;
 
 class Agreement extends \Magento\App\Action\Action
@@ -172,7 +171,10 @@ class Agreement extends \Magento\App\Action\Action
     public function cancelAction()
     {
         $agreement = $this->_initAgreement();
-        if ($agreement && $agreement->canCancel()) {
+        if (!$agreement) {
+            return;
+        }
+        if ($agreement->canCancel()) {
             try {
                 $agreement->cancel();
                 $this->messageManager->addNotice(
@@ -191,22 +193,25 @@ class Agreement extends \Magento\App\Action\Action
     /**
      * Init billing agreement model from request
      *
-     * @return \Magento\Sales\Model\Billing\Agreement
+     * @return \Magento\Sales\Model\Billing\Agreement|bool
      */
     protected function _initAgreement()
     {
         $agreementId = $this->getRequest()->getParam('agreement');
         if ($agreementId) {
+            /** @var \Magento\Sales\Model\Billing\Agreement $billingAgreement */
             $billingAgreement = $this->_objectManager->create('Magento\Sales\Model\Billing\Agreement')
                 ->load($agreementId);
-            if (!$billingAgreement->getAgreementId()) {
-                $this->messageManager->addError(__('Please specify the correct billing agreement ID and try again.'));
-                $this->_redirect('*/*/');
-                return false;
+            $currentCustomerId = $this->_getSession()->getCustomerId();
+            $agreementCustomerId = $billingAgreement->getCustomerId();
+            if ($billingAgreement->getId() && $agreementCustomerId == $currentCustomerId) {
+                $this->_coreRegistry->register('current_billing_agreement', $billingAgreement);
+                return $billingAgreement;
             }
         }
-        $this->_coreRegistry->register('current_billing_agreement', $billingAgreement);
-        return $billingAgreement;
+        $this->messageManager->addError(__('Please specify the correct billing agreement ID and try again.'));
+        $this->_redirect('*/*/');
+        return false;
     }
 
     /**
