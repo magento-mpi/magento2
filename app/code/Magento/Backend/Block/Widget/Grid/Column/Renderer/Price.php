@@ -113,6 +113,4 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
         }
         return $out;
     }
-
-
 }
