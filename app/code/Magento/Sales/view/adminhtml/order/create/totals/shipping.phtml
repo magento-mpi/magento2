@@ -13,7 +13,7 @@
  */
 ?>
 <?php if ($this->displayBoth()):?>
-<tr>
+<tr class="row-totals">
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->getExcludeTaxLabel() ?>
     </td>
@@ -21,7 +21,7 @@
         <?php echo $this->formatPrice($this->getShippingExcludeTax()) ?>
     </td>
 </tr>
-<tr>
+<tr class="row-totals">
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->getIncludeTaxLabel() ?>
     </td>
@@ -39,7 +39,7 @@
     </td>
 </tr>
 <?php else:?>
-<tr>
+<tr class="row-totals">
     <td style="<?php echo $this->getStyle() ?>" class="a-right" colspan="<?php echo $this->getColspan(); ?>">
         <?php echo $this->escapeHtml($this->getTotal()->getTitle()) ?>
     </td>
