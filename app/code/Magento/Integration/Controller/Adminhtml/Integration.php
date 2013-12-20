@@ -48,6 +48,11 @@ class Integration extends Action
     protected $_integrationData;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $escaper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
@@ -63,7 +68,8 @@ class Integration extends Action
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Integration\Helper\Data $integrationData
+        \Magento\Integration\Helper\Data $integrationData,
+        \Magento\Escaper $escaper
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -72,6 +78,7 @@ class Integration extends Action
         $this->_oauthService = $oauthService;
         $this->_coreHelper = $coreHelper;
         $this->_integrationData = $integrationData;
+        $this->escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -204,6 +211,9 @@ class Integration extends Action
                     $integrationData['resource'] = array();
                 }
                 $integrationData = array_merge($integrationData, $data);
+                if (isset($integrationData['name'])) {
+                    $integrationData['name'] = $this->escaper->escapeHtml($integrationData['name']);
+                }
                 if (!isset($integrationData[Info::DATA_ID])) {
                     $integration = $this->_integrationService->create($integrationData);
                 } else {
