@@ -61,6 +61,13 @@ class Shipping extends Form
     ];
 
     /**
+     * From with shipping available shipping methods
+     *
+     * @var string
+     */
+    protected $shippingMethodForm = '#co-shipping-method-form';
+
+    /**
      * Open estimate shipping and tax form
      */
     public function openEstimateShippingAndTax()
@@ -76,7 +83,6 @@ class Shipping extends Form
     public function getQuote()
     {
         $this->_rootElement->find($this->getQuote)->click();
-        $this->waitForElementNotVisible('.please-wait');
     }
 
     /**
@@ -86,7 +92,14 @@ class Shipping extends Form
      * @param $method
      * @return bool
      */
-    public function isShippingCarrierMethodVisible($carrier, $method) {
+    public function isShippingCarrierMethodVisible($carrier, $method)
+    {
+        $shippingMethodForm = $this->_rootElement->find($this->shippingMethodForm);
+        $this->_rootElement->waitUntil(
+            function () use ($shippingMethodForm) {
+                return $shippingMethodForm->isVisible() ? true : null;
+            }
+        );
         $selector = sprintf($this->shippingCarrierMethodSelector, $carrier, $method);
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->isVisible();
     }

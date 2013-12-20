@@ -23,10 +23,13 @@ use Mtf\Client\Element\Locator;
 class CurrencyTest extends Functional
 {
     /**
-     * @ZephirId MAGEGTWO-12427
+     * Switching display currency on the store front
+     *
+     * @ZephyrId MAGETWO-12427
      */
     public function testSwitchDisplayCurrency()
     {
+        $this->markTestIncomplete('MAGETWO-18597');
         $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $product->switchData('simple');
         $product->persist();

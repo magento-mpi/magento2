@@ -139,6 +139,8 @@ class Cart extends Block
      * Returns the total discount price
      *
      * @var string
+     * @return string
+     * @throws Exception
      */
     public function getDiscountTotal()
     {
