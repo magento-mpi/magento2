@@ -211,9 +211,6 @@ class Integration extends Action
                     $integrationData['resource'] = array();
                 }
                 $integrationData = array_merge($integrationData, $data);
-                if (isset($integrationData['name'])) {
-                    $integrationData['name'] = $this->escaper->escapeHtml($integrationData['name']);
-                }
                 if (!isset($integrationData[Info::DATA_ID])) {
                     $integration = $this->_integrationService->create($integrationData);
                 } else {
