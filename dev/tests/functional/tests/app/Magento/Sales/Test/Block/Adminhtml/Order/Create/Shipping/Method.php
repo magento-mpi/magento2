@@ -24,16 +24,31 @@ use Magento\Sales\Test\Fixture\Order;
 class Method extends Block
 {
     /**
+     * 'Get shipping methods and rates' link
+     *
+     * @var string
+     */
+    protected $shippingMethodsLink = '#order-shipping-method-summary a';
+
+    /**
+     * Shipping method
+     *
+     * @var string
+     */
+    protected $shippingMethod = '//dt[contains(.,"%s")]/following-sibling::*//*[contains(text(), "%s")]';
+
+    /**
      * Select shipping method
      *
      * @param Order $fixture
      */
     public function selectShippingMethod(Order $fixture)
     {
-        $this->_rootElement->find('#order-shipping-method-summary a')->click();
+        $this->_rootElement->find($this->shippingMethodsLink)->click();
         $shippingMethod = $fixture->getShippingMethod()->getData('fields');
-        $selector = '//dt[contains(., "' . $shippingMethod['shipping_service']
-            . '")]/following-sibling::*//input';
+        $selector = sprintf(
+            $this->shippingMethod, $shippingMethod['shipping_service'], $shippingMethod['shipping_method']
+        );
         $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->click();
     }
 }
