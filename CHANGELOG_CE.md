@@ -40,10 +40,10 @@
   * Fixed displaying of Product Alert links on product view page when the functionality is disabled
   * Fixed usage of same Gift card code for two different orders placed by concurrent users
   * Fixed absence of some bundle options on 'Configure product from Cart' page
-  * Fixed ability to execute actions from logged out or guest users when they logging in again
+  * Fixed ability to view and cancel billing agreements belonging to another customer
   * Fixed content spoofing vulnerability when Solr is used
-  * Fixed XSS vulnerability in customer log in
-  * Fixed fatal error after subscribe to category RSS
+  * Fixed potential XSS vulnerability in customer log in
+  * Fixed fatal error in category RSS feed when it contains a bundle product
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
