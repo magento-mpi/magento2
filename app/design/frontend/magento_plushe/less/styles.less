@@ -346,11 +346,23 @@ body {
             font-weight: @baseFontWeightLighter;
             font-size: 20px;
         }
+        .qty.counter {
+            font-size: 16px;
+        }
     }
     &.filter {
         .item {
             margin-bottom: 10px;
         }
+    }
+}
+
+.qty.counter {
+    &:before {
+        content: "(";
+    }
+    &:after {
+        content: ")";
     }
 }
 

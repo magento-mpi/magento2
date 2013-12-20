@@ -4812,9 +4812,19 @@ body {
   font-weight: 200;
   font-size: 20px;
 }
+.column.main .block > .title .qty.counter,
+.sidebar .block > .title .qty.counter {
+  font-size: 16px;
+}
 .column.main .block.filter .item,
 .sidebar .block.filter .item {
   margin-bottom: 10px;
+}
+.qty.counter:before {
+  content: "(";
+}
+.qty.counter:after {
+  content: ")";
 }
 .sidebar .block > .title strong {
   font-size: 18px;
@@ -15715,12 +15725,6 @@ img[align="right"] {
 }
 .wishlist.block.management .title .action.edit:hover {
   text-decoration: none;
-}
-.wishlist.block.management .number:before {
-  content: "(";
-}
-.wishlist.block.management .number:after {
-  content: ")";
 }
 .wishlist.block.management .action.add {
   float: right;

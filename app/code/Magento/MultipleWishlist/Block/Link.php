@@ -53,23 +53,14 @@ class Link extends \Magento\Wishlist\Block\Link
     }
 
     /**
-     * Create Button label
-     *
-     * @param int $count
      * @return string
      */
-    protected function _createLabel($count)
+    public function getLabel()
     {
         if ($this->_wishlistData->isMultipleEnabled()) {
-            if ($count > 1) {
-                return __('My Wish Lists (%1 items)', $count);
-            } else if ($count == 1) {
-                return __('My Wish Lists (%1 item)', $count);
-            } else {
-                return __('My Wish Lists');
-            }
+            return __('My Wish Lists');
         } else {
-            return parent::_createLabel($count);
+            return parent::getLabel();
         }
     }
 }

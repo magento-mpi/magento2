@@ -4577,9 +4577,19 @@ body {
   font-weight: 200;
   font-size: 20px;
 }
+.column.main .block > .title .qty.counter,
+.sidebar .block > .title .qty.counter {
+  font-size: 16px;
+}
 .column.main .block.filter .item,
 .sidebar .block.filter .item {
   margin-bottom: 10px;
+}
+.qty.counter:before {
+  content: "(";
+}
+.qty.counter:after {
+  content: ")";
 }
 .sidebar .block > .title strong {
   font-size: 18px;
