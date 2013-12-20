@@ -92,6 +92,6 @@ class HeadTest extends \PHPUnit_Framework_TestCase
             ->method('getDirectoryRead')
             ->will($this->returnValue($mediaDirMock));
 
-        $this->assertEquals('baseUrl/favicon/storeConfig',$this->_block->getFaviconFile());
+        $this->assertEquals('baseUrl/favicon/storeConfig', $this->_block->getFaviconFile());
     }
 }
