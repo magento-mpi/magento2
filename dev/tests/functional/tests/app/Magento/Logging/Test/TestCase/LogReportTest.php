@@ -24,6 +24,7 @@ class LogReportTest extends Functional
 {
     /**
      * Test admin backend manipulations are logged
+     *
      * @ZephyrId MAGETWO-12411
      */
     public function testConfigActionsLogged()

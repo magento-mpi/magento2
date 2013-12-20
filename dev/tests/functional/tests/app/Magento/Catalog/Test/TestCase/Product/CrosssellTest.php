@@ -11,17 +11,13 @@
 
 namespace Magento\Catalog\Test\TestCase\Product;
 
-use Magento\Catalog\Test\Page\Product\CatalogProductEdit;
-use Mtf\Client\Element\Locator;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
 class CrosssellTest extends Functional
 {
-
     /**
      * Login into backend area before test
      */
@@ -33,7 +29,7 @@ class CrosssellTest extends Functional
     /**
      * Product Cross-selling. Assign cross-selling to products and see them related on the front-end.
      *
-     * @ZephirId MAGEGTWO-12390
+     * @ZephyrId MAGETWO-12390
      */
     public function testCreateCrosssell()
     {
@@ -114,6 +110,7 @@ class CrosssellTest extends Functional
 
     /**
      * Assign an array of products as cross-sells to the passed in $product
+     *
      * @param Product $product
      * @param array $crosssellProducts
      */
@@ -131,6 +128,5 @@ class CrosssellTest extends Functional
         $editProductPage->getProductBlockForm()->fill($crosssellFixture);
         $editProductPage->getProductBlockForm()->save($crosssellFixture);
         $editProductPage->getMessagesBlock()->assertSuccessMessage();
-
     }
 }

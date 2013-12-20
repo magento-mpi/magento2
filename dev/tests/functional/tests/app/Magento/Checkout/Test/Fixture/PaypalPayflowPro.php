@@ -12,14 +12,12 @@
 namespace Magento\Checkout\Test\Fixture;
 
 use Mtf\Factory\Factory;
-use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class PaypalPayflowPro
  * PayPal Payflow Pro Method
  * Guest checkout using PayPal Payments Pro method and offline shipping method
  *
- * @ZephyrId MAGETWO-12414
  * @package Magento\Checkout\Test\Fixture
  */
 class PaypalPayflowPro extends Checkout

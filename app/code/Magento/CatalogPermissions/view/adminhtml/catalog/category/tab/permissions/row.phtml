@@ -27,24 +27,23 @@
     <?php endif; ?>
     <input type="hidden" value="" class="<?php echo $this->getFieldClassName('id'); ?>" name="general[permissions][{{index}}][id]"/>
     <input type="hidden" value="" class="<?php echo $this->getFieldClassName('_deleted'); ?>" name="general[permissions][{{index}}][_deleted]"/>
-    <table cellspacing="0" cellpadding="0" class="option-header">
+    <table cellspacing="0" cellpadding="0" class="data-table">
         <thead>
             <tr>
                 <?php if ($this->canEditWebsites()): ?>
-                <th><?php echo __('Website');?> <span class="required">*</span></th>
+                <th class="col-website required"><?php echo __('Website');?></th>
                 <?php endif; ?>
-                <th><?php echo __('Customer Group');?> <span class="required">*</span></th>
+                <th class="col-group required"><?php echo __('Customer Group');?></th>
                 <?php foreach ($this->getGrants() as $_label): ?>
-                <th><?php echo $_label ?></th>
+                <th class="col-grants"><?php echo $_label ?></th>
                 <?php endforeach; ?>
-                <th class="a-right"><?php echo $this->getDeleteButtonHtml(); ?></th>
-
+                <th class="col-action"><?php echo __('Action');?></th>
             </tr>
         </thead>
         <tbody>
             <tr>
                  <?php if ($this->canEditWebsites()): ?>
-                 <td><select <?php echo $_readonly;?> class="<?php echo $this->getFieldClassName('website_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][website_id]">
+                 <td class="col-website"><select <?php echo $_readonly;?> class="<?php echo $this->getFieldClassName('website_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][website_id]">
                     <option value=""><?php echo __('-- Please Select --');?></option>
                     <option value="-1"><?php echo __('All Websites');?></option>
                     <?php foreach ($this->getWebsiteCollection() as $_website): ?>
@@ -52,7 +51,7 @@
                     <?php endforeach; ?>
                  </select></td>
                  <?php endif; ?>
-                 <td>
+                 <td class="col-group">
                      <select <?php echo $_readonly;?> class="<?php echo $this->getFieldClassName('customer_group_id'); ?> select is-unique required-entry" name="general[permissions][{{index}}][customer_group_id]">
                         <option value=""><?php echo __('-- Please Select --');?></option>
                         <option value="-1"><?php echo __('All Customer Groups');?></option>
@@ -62,19 +61,22 @@
                      </select>
                  </td>
                 <?php foreach ($this->getGrants() as $_fieldId => $_label): ?>
-                <td>
+                <td class="col-grants">
                     <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow" value="-1" {{<?php echo $_fieldId ?>_-1}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_allow">
-                        <?php echo __('Allow') ?>
+                        <span><?php echo __('Allow') ?></span>
                     </label><br />
                     <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny" value="-2" {{<?php echo $_fieldId ?>_-2}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_deny">
-                        <?php echo __('Deny') ?>
+                        <span><?php echo __('Deny') ?></span>
                     </label><br />
                     <input <?php echo $_readonly;?> type="radio" class="<?php echo $this->getFieldClassName($_fieldId) ?>" name="general[permissions][{{index}}][<?php echo $_fieldId ?>]" id="category_permissions_{{index}}_<?php echo $_fieldId ?>_default" value="0" {{<?php echo $_fieldId ?>_0}} {{<?php echo $_fieldId ?>_disabled}}/><label for="category_permissions_{{index}}_<?php echo $_fieldId ?>_default">
-                        <?php echo __('Use parent') ?>
-                        <span class="permissions-use-parent <?php echo $_fieldId?>"></span>
+                        <span>
+                            <?php echo __('Use parent') ?>
+                            <span class="permissions-use-parent <?php echo $_fieldId?>"></span>
+                        </span>
                     </label>
                 </td>
                 <?php endforeach; ?>
+                <td class="col-action"><?php echo $this->getDeleteButtonHtml(); ?></td>
             </tr>
         </tbody>
     </table>
