@@ -64,7 +64,7 @@
     <td class="col qty">
         <div class="field qty">
             <div class="control">
-                <input class="input-text qty" type="text" data-validate="{'validate-greater-than-zero':true}" name="items[<?php echo $_item->getId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/>
+                <input class="input-text qty" type="number" data-validate="{'validate-greater-than-zero':true}" name="items[<?php echo $_item->getId() ?>][qty]" value="<?php echo $_item->getQty()*1 ?>"/>
             </div>
         </div>
     </td>

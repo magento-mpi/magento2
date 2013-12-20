@@ -1,3 +1,22 @@
+* Fixed bugs:
+  * Fixed big image in product description scale
+  * Fixed admin dashboard styling issue
+  * Fixed validation message for qty field
+  * Fixed bug in share wishlist email template
+  * Fixed plushe Issue - Drop-down menu should respond quicker when the pointer moves off
+  * Fixed Related Banners tab is missing for Catalog Price Rule
+  * Fixed Its unable to enable duplicated product
+  * Fixed Warnings on attempt to save configuration for Payment Methods
+  * Fixed After update Gift messages for Items Ordered disapears from Order View page in backend
+  * Fixed Impossible to create New Order Status
+  * Fixed Save and Previous + Previous buttons are not working on edit review page
+  * Fixed Website can't be deleted if the number of websites is less or equal than two
+  * Fixed Fatal Error during export Customers from Customer page
+  * Fixed impossibility to add Product to the Cart from the Category page in IE
+  * Fixed Logo is absent on login page from backend
+* Themes update:
+  * Responsive design improvements
+
 2.0.0.0-dev57
 =============
 * Fixed bugs:
