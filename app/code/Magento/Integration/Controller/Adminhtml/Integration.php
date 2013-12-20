@@ -48,11 +48,6 @@ class Integration extends Action
     protected $_integrationData;
 
     /**
-     * @var \Magento\Escaper
-     */
-    protected $escaper;
-
-    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
@@ -68,8 +63,7 @@ class Integration extends Action
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Integration\Helper\Data $integrationData,
-        \Magento\Escaper $escaper
+        \Magento\Integration\Helper\Data $integrationData
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -78,7 +72,6 @@ class Integration extends Action
         $this->_oauthService = $oauthService;
         $this->_coreHelper = $coreHelper;
         $this->_integrationData = $integrationData;
-        $this->escaper = $escaper;
         parent::__construct($context);
     }
 
