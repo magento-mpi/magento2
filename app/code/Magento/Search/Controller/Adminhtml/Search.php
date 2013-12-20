@@ -9,13 +9,13 @@
  */
 
  /**
- * Admin search controller(ajax grid)
+ * Admin search controller for Ajax Grid in Catalog Search Terms
  *
  * @category   Magento
  * @package    Magento_Search
  * @author     Magento Core Team <core@magentocommerce.com>
  */
-namespace Magento\Search\Controller\Adminhtml\Catalog;
+namespace Magento\Search\Controller\Adminhtml;
 
 class Search extends \Magento\Backend\App\Action
 {
@@ -47,7 +47,7 @@ class Search extends \Magento\Backend\App\Action
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_queryFactory = $queryFactory;
-        parent::__construct($context);        
+        parent::__construct($context);
     }
 
     /**
