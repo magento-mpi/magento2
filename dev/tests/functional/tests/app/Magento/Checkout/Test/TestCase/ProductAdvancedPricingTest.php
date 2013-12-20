@@ -16,7 +16,6 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Checkout\Test\Fixture\SpecialPriceCheckMoneyOrder;
 
-
 /**
  * Class ProductAdvancedPricingTest
  * Test checking out with a product that has special prices
