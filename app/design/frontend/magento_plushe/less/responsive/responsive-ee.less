@@ -37,13 +37,14 @@ and (max-width : @breakPoint1) {
             .primary,
             .secondary {
                 float: none;
-                width: 100%;
             }
-            .action {
-                float: none;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 15px;
+            .primary {
+                margin: 0;
+            }
+            .secondary {
+                .action {
+                    .mobileSecondaryAction();
+                }
             }
         }
     }
@@ -194,6 +195,10 @@ and (max-width : @breakPoint1) {
                 .action {
                     .mobilePrimaryAction();
                 }
+            }
+            .secondary {
+                float: none;
+                text-align: center;
             }
         }
     }
@@ -363,6 +368,8 @@ and (max-width : @breakPoint1) {
                     float: none;
                     margin-right: 0;
                     .action {
+                        .iconShowText();
+                        .iconRemove('after');
                         .mobileSecondaryAction();
                     }
                 }

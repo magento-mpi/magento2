@@ -97,4 +97,19 @@ class CheckoutCart extends Page
             $this->_browser->find($this->totalsBlock, Locator::SELECTOR_CSS)
         );
     }
+
+    /**
+     * Retrieve cross-sells block
+     *
+     * @return \Magento\Catalog\Test\Block\Product\ProductList\Crosssell
+     */
+    public function getCrosssellBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductProductListCrosssell(
+            $this->_browser->find(
+                '//div[contains(@class, "block")][contains(@class, "crosssell")]',
+                Locator::SELECTOR_XPATH
+            )
+        );
+    }
 }

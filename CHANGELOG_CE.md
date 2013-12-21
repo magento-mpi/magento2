@@ -22,10 +22,32 @@
   * Fixed incorrect XML appears in cache after some actions on the frontend
   * Fixed export products does not work
   * Fixed impossibility to configure memcache as session save handler
+  * Fixed big image in product description scale
+  * Fixed admin dashboard styling issue
+  * Fixed validation message for qty field
+  * Fixed bug in share wishlist email template
+  * Fixed plushe Issue - Drop-down menu should respond quicker when the pointer moves off
+  * Fixed Related Banners tab is missing for Catalog Price Rule
+  * Fixed Its unable to enable duplicated product
+  * Fixed Warnings on attempt to save configuration for Payment Methods
+  * Fixed After update Gift messages for Items Ordered disapears from Order View page in backend
+  * Fixed Impossible to create New Order Status
+  * Fixed Save and Previous + Previous buttons are not working on edit review page
+  * Fixed Website can't be deleted if the number of websites is less or equal than two
+  * Fixed Fatal Error during export Customers from Customer page
+  * Fixed impossibility to add Product to the Cart from the Category page in IE
+  * Fixed Logo is absent on login page from backend
+  * Fixed visual indication for tax details opener on create order page in backend
+  * Fixed broken design CMS page preview
+  * Fixed broken design newsletter template preview
+  * Fixed broken design on Matched Customers tab grid in Email Remainder
+  * Fixed validation message about uncompatible version format while Theme creation
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
+* Themes update:
+  * Responsive design improvements
 * Modularity improvements:
   * Removed \Magento\App\Helper\HelperFactory
   * Removed method "helper" from abstract block interface
