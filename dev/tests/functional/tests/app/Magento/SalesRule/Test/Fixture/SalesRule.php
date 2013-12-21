@@ -13,9 +13,12 @@ use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 use Magento\Customer\Test\Fixture\Customer;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\CustomerSegment\Test\Fixture\SegmentGeneralProperties;
-use Magento\CustomerSegment\Test\Fixture\SegmentConditions;
 
+/**
+ * Class SalesRule
+ *
+ * @package Magento\SalesRule\Test\Fixture
+ */
 class SalesRule extends DataFixture
 {
     /**
@@ -29,25 +32,16 @@ class SalesRule extends DataFixture
     protected $productFixture;
 
     /**
-     * @var SegmentGeneralProperties
-     */
-    protected $customerSegment;
-
-    /**
      * @var int
      */
-    protected $customerSegmentId;
+    private $salesRuleId = null;
 
     /**
-     * @var SegmentConditions
-     */
-    protected $customerSegmentFixture;
-
-    /**
-     * Initialize fixture data
+     * {@inheritDoc}
      */
     protected function _initData()
     {
+        $this->salesRuleId = -1;
         $this->_repository = Factory::getRepositoryFactory()->getMagentoSalesRuleSalesRule(
             $this->_dataConfig,
             $this->_data
@@ -55,6 +49,11 @@ class SalesRule extends DataFixture
         $this->switchData(Repository::SIMPLE);
     }
 
+    /**
+     * Setup preconditions and persist
+     *
+     * @throws Exception
+     */
     public function persist()
     {
         // Login to the backend
@@ -66,11 +65,11 @@ class SalesRule extends DataFixture
         $this->customerFixture->persist();
         // Customer needs to be in a group and front end customer creation doesn't set group
         $customerGridPage = Factory::getPageFactory()->getCustomerIndex();
-        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
-        $customerGrid = $customerGridPage->getGridBlock();
         // Edit Customer just created
         $customerGridPage->open();
+        $customerGrid = $customerGridPage->getGridBlock();
         $customerGrid->searchAndOpen(array('email' => $this->customerFixture->getEmail()));
+        $customerEditPage = Factory::getPageFactory()->getCustomerEdit();
         $editCustomerForm = $customerEditPage->getEditCustomerForm();
         // Set group to Retailer
         $editCustomerForm->openTab('customer_info_tabs_account');
@@ -80,21 +79,6 @@ class SalesRule extends DataFixture
         // Create a product
         $this->productFixture = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
         $this->productFixture->persist();
-        // Create the customer segment
-        $this->customerSegmentFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentGeneralProperties();
-        $this->customerSegmentId = Factory::getApp()->magentoCustomerSegmentCustomerSegment(
-            $this->customerSegmentFixture
-        );
-        if (empty($this->customerSegmentId)) {
-            throw new Exception('No customer segment id returned by customer segment precondition');
-        }
-        // Create Customer Segment Condition
-        $customerSegmentConditionFixture = Factory::getFixtureFactory()->getMagentoCustomerSegmentSegmentConditions();
-        $customerSegmentConditionFixture->setPlaceHolders(
-            array('segment_id' => $this->customerSegmentId, 'name' => $this->customerSegmentFixture->getSegmentName())
-        );
-        $customerSegmentConditionFixture->switchData('retailer_condition_curl');
-        Factory::getApp()->magentoCustomerSegmentCustomerSegmentCondition($customerSegmentConditionFixture);
     }
 
     /**
@@ -126,14 +110,6 @@ class SalesRule extends DataFixture
     }
 
     /**
-     * @return string
-     */
-    public function getCustomerSegmentId()
-    {
-        return $this->customerSegmentId;
-    }
-
-    /**
      * @return Product
      */
     public function getProductFixture()
@@ -147,5 +123,21 @@ class SalesRule extends DataFixture
     public function getProductPrice()
     {
         return $this->productFixture->getProductPrice();
+    }
+
+    /**
+     * @return int
+     */
+    public function getSalesRuleId()
+    {
+        return $this->salesRuleId;
+    }
+
+    /**
+     * @param int $srid
+     */
+    public function setSalesRuleId($srid)
+    {
+        $this->salesRuleId = $srid;
     }
 }
