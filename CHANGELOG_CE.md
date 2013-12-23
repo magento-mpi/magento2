@@ -21,6 +21,8 @@
   * Fixed validation message about uncompatible version format while Theme creation
 * Themes update:
   * Responsive design improvements
+* Improvements to code coverage calculation:
+  * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
 
 2.0.0.0-dev57
 =============
