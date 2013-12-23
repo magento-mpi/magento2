@@ -95,10 +95,11 @@ class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAb
      */
     protected function _checkTypesDeclaration($wsdlContent)
     {
+        $baseUrl = TESTS_BASE_URL;
         // @codingStandardsIgnoreStart
         $typesSectionDeclaration = <<< TYPES_SECTION_DECLARATION
 <types>
-    <xsd:schema targetNamespace="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+    <xsd:schema targetNamespace="{$baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
 TYPES_SECTION_DECLARATION;
         // @codingStandardsIgnoreEnd
         $this->assertContains(
@@ -254,11 +255,12 @@ OPERATION_DECLARATION;
      */
     protected function _checkServiceDeclaration($wsdlContent)
     {
+        $baseUrl = TESTS_BASE_URL;
         // @codingStandardsIgnoreStart
         $firstServiceDeclaration = <<< FIRST_SERVICE_DECLARATION
 <service name="testModule4AllSoapAndRestV1Service">
     <port name="testModule4AllSoapAndRestV1Port" binding="tns:testModule4AllSoapAndRestV1Binding">
-        <soap:address location="http://magento.ll/soap?services=testModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+        <soap:address location="{$baseUrl}/soap?services=testModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
     </port>
 </service>
 FIRST_SERVICE_DECLARATION;
@@ -273,7 +275,7 @@ FIRST_SERVICE_DECLARATION;
         $secondServiceDeclaration = <<< SECOND_SERVICE_DECLARATION
 <service name="testModule4AllSoapAndRestV2Service">
     <port name="testModule4AllSoapAndRestV2Port" binding="tns:testModule4AllSoapAndRestV2Binding">
-        <soap:address location="http://magento.ll/soap?services=testModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+        <soap:address location="{$baseUrl}/soap?services=testModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
     </port>
 </service>
 SECOND_SERVICE_DECLARATION;
