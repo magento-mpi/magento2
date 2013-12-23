@@ -1306,7 +1306,7 @@ class Flat extends \Magento\Index\Model\Resource\AbstractResource
     public function getParentDesignCategory($category)
     {
         $pathIds = array_reverse($category->getPathIds());
-        $collection = $category->getCollection();
+        $collection = clone $category->getCollection();
         $collection
             ->setMainTable($this->getMainStoreTable($category->getStoreId()))
             ->addFieldToSelect('*')
