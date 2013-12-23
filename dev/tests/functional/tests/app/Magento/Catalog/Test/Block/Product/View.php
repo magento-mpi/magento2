@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Catalog\Test\Block\Product;
 
 use Mtf\Block\Block;
@@ -18,7 +17,6 @@ use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Bundle\Test\Fixture\Bundle as BundleFixture;
-use Magento\Bundle\Test\Block\Catalog\Product\View\Type\Bundle;
 
 /**
  * Class View
@@ -43,11 +41,32 @@ class View extends Block
     protected $paypalCheckout = '[data-action=checkout-form-submit]';
 
     /**
+     * This member holds the class name for the price block found inside the product details.
+     *
+     * @var string
+     */
+    protected $priceBlockClass = 'price-box';
+
+    /**
      * Product name element
      *
      * @var string
      */
     protected $productName = '.page.title.product span';
+
+    /**
+     * Product price element
+     *
+     * @var string
+     */
+    protected $productPrice = '.price-box .price';
+
+    /**
+     * Bundle options block
+     *
+     * @var string
+     */
+    protected $bundleBlock = '#product-options-wrapper';
 
     /**
      * Click for Price link on Product page
@@ -71,7 +90,7 @@ class View extends Block
     protected function getBundleBlock()
     {
         return Factory::getBlockFactory()->getMagentoBundleCatalogProductViewTypeBundle(
-            $this->_rootElement->find('#product-options-wrapper')
+            $this->_rootElement->find($this->bundleBlock)
         );
     }
 
@@ -115,6 +134,18 @@ class View extends Block
     }
 
     /**
+     * This method returns the price box block.
+     *
+     * @return Price
+     */
+    public function getProductPriceBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogProductPrice(
+            $this->_rootElement->find($this->priceBlockClass, Locator::SELECTOR_CLASS_NAME)
+        );
+    }
+
+    /**
      * Return product price displayed on page
      *
      * @return array|string Returns arrays with keys corresponding to fixture keys
@@ -133,7 +164,7 @@ class View extends Block
     {
         $options = array();
         for ($i = 2; $i <= 3; $i++) {
-            $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child($i)")->getText();
+            $options[] = $this->_rootElement->find(".super-attribute-select option:nth-child({$i})")->getText();
         }
         return $options;
     }
@@ -150,13 +181,16 @@ class View extends Block
         foreach ($attributes as $attributeName => $attribute) {
             foreach ($attribute as $optionName) {
                 $option = $this->_rootElement->find(
-                    '//*[*[@class="product options configure"]//span[text()="' . $attributeName
-                        . '"]]//select/option[contains(text(), "' . $optionName . '")]',
+                    '//*[*[@class="product options configure"]//span[text()="' .
+                    $attributeName .
+                    '"]]//select/option[contains(text(), "' .
+                    $optionName .
+                    '")]',
                     Locator::SELECTOR_XPATH
                 );
                 if (!$option->isVisible()) {
                     return false;
-                };
+                }
             }
         }
         return true;
@@ -199,7 +233,7 @@ class View extends Block
     {
         foreach ($product->getAssociatedProductNames() as $name) {
             $option = $this->_rootElement->find(
-                "//*[@id='super-product-table']//tr[td/strong='$name']",
+                "//*[@id='super-product-table']//tr[td/strong='{$name}']",
                 Locator::SELECTOR_XPATH
             );
             if (!$option->isVisible()) {

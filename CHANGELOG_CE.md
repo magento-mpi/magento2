@@ -14,6 +14,11 @@
   * Fixed Fatal Error during export Customers from Customer page
   * Fixed impossibility to add Product to the Cart from the Category page in IE
   * Fixed Logo is absent on login page from backend
+  * Fixed visual indication for tax details opener on create order page in backend
+  * Fixed broken design CMS page preview
+  * Fixed broken design newsletter template preview
+  * Fixed broken design on Matched Customers tab grid in Email Remainder
+  * Fixed validation message about uncompatible version format while Theme creation
 * Themes update:
   * Responsive design improvements
 
