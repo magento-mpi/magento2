@@ -41,9 +41,14 @@ return array(
         'reference_data' => 'RMA #100000001 P',
         'packages' => array(
             1 => array(
-                'params' => array('container' => '', 'weight' => 5, 'custom_value' => '', 'length' => '', 'width' => '', 'height' => '', 'weight_units' => 'POUND', 'dimension_units' => 'INCH', 'content_type' => '', 'content_type_other' => '', 'delivery_confirmation' => 'True'),
+                'params' => array('container' => '', 'weight' => 5, 'custom_value' => '', 'length' => '', 'width' => '',
+                                  'height' => '', 'weight_units' => 'POUND', 'dimension_units' => 'INCH',
+                                  'content_type' => '', 'content_type_other' => '', 'delivery_confirmation' => 'True'
+                ),
                 'items' => array(
-                    '2' => array('qty' => '1', 'customs_value' => '5', 'price' => '5.0000', 'name' => 'prod1', 'weight' => '5.0000', 'product_id' => '1', 'order_item_id' => 2)
+                    '2' => array('qty' => '1', 'customs_value' => '5', 'price' => '5.0000', 'name' => 'prod1',
+                                'weight' => '5.0000', 'product_id' => '1', 'order_item_id' => 2
+                    )
                 )
             )
         ),

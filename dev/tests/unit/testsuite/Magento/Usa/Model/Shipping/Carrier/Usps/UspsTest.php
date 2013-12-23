@@ -139,9 +139,9 @@ class UspsTest extends \PHPUnit_Framework_TestCase {
     {
         $this->_httpResponse->expects($this->any())
             ->method('getBody')
-            ->will($this->returnValue(include __DIR__.'/_files/success_usps_responce_rates.php'));
+            ->will($this->returnValue(include __DIR__ . '/_files/success_usps_responce_rates.php'));
         // for setRequest
-        $request_params = include __DIR__.'/_files/rates_request_data.php';
+        $request_params = include __DIR__ . '/_files/rates_request_data.php';
         $request = $this->_helper->getObject('Magento\Shipping\Model\Rate\Request', $request_params);
 
         $this->assertNotEmpty($this->_model->collectRates($request)->getAllRates());
@@ -151,8 +151,8 @@ class UspsTest extends \PHPUnit_Framework_TestCase {
     {
         $this->_httpResponse->expects($this->any())
             ->method('getBody')
-            ->will($this->returnValue(include __DIR__.'/_files/success_usps_responce_rma.php'));
-        $request_params = include __DIR__.'/_files/rma_request_data.php';
+            ->will($this->returnValue(include __DIR__ . '/_files/success_usps_responce_rma.php'));
+        $request_params = include __DIR__ . '/_files/rma_request_data.php';
         $request = $this->_helper->getObject('Magento\Shipping\Model\Shipment\ReturnShipment', $request_params);
         $this->assertNotEmpty($this->_model->returnOfShipment($request)->getInfo()[0]['tracking_number']);
 
@@ -167,7 +167,9 @@ class UspsTest extends \PHPUnit_Framework_TestCase {
     {
         switch ($path) {
             case 'carriers/usps/allowed_methods':
-                return '0_FCLE,0_FCL,0_FCP,1,2,3,4,6,7,13,16,17,22,23,25,27,28,33,34,35,36,37,42,43,53,55,56,57,61,INT_1,INT_2,INT_4,INT_6,INT_7,INT_8,INT_9,INT_10,INT_11,INT_12,INT_13,INT_14,INT_15,INT_16,INT_20,INT_26';
+                return '0_FCLE,0_FCL,0_FCP,1,2,3,4,6,7,13,16,17,22,23,25,27,28,33,34,35,36,37,42,43,53,'
+                . '55,56,57,61,INT_1,INT_2,INT_4,INT_6,INT_7,INT_8,INT_9,INT_10,INT_11,INT_12,INT_13,INT_14,'
+                . 'INT_15,INT_16,INT_20,INT_26';
             default:
                 return null;
         }
