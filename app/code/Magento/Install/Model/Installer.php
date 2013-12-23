@@ -463,11 +463,8 @@ class Installer extends \Magento\Object
      */
     public function finish()
     {
-        $this->_installerConfig->replaceTmpInstallDate();
-
+        $this->_setAppInstalled();
         $this->_refreshConfig();
-
-        $this->_config->reinit();
 
         /* Enable all cache types */
         foreach (array_keys($this->_cacheTypeList->getTypes()) as $cacheTypeCode) {
@@ -475,6 +472,16 @@ class Installer extends \Magento\Object
         }
         $this->_cacheState->persist();
         return $this;
+    }
+
+    /**
+     * Store install date and set application into installed state
+     */
+    protected function _setAppInstalled()
+    {
+        $dateTime = date('r');
+        $this->_installerConfig->replaceTmpInstallDate($dateTime);
+        $this->_appState->setInstallDate($dateTime);
     }
 
     /**

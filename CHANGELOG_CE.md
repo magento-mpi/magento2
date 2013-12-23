@@ -20,6 +20,7 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed incorrect caching of locale settings and url settings during web installation
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
@@ -71,7 +72,7 @@
     * Session generic wrapper moved to library
     * Messages functionality moved from the Session model as separate component, message manager interface created
     * Sid resolver interface created to handle session sid from request
-  
+
 2.0.0.0-dev56
 =============
 * Fixed bugs:
