@@ -138,8 +138,10 @@ class Observer
             $saveTime = (int) $this->_coreStoreConfig->getConfig(self::SAVE_LOG_TIME_PATH) + 1;
             $dateCompass = new \DateTime('-' . $saveTime . ' days');
 
-            foreach ($this->_logDirectory->search('~(\d{4})/(\d{2})/(\d{2})$~', $logPath) as $directory) {
-                preg_match('~(\d{4})/(\d{2})/(\d{2})$~', $directory, $matches);
+            foreach ($this->_getDirectoryList($logPath) as $directory) {
+                if (!preg_match('~(\d{4})/(\d{2})/(\d{2})$~', $directory, $matches)) {
+                    continue;
+                }
                 $directoryDate = new \DateTime($matches[1] . '-' . $matches[2] . '-' . $matches[3]);
                 if ($forceRun || $directoryDate < $dateCompass) {
                     try {
@@ -156,6 +158,33 @@ class Observer
             $this->_sendEmailNotification(array(
                 'warnings' => $e->getMessage()
             ));
+        }
+        return $result;
+    }
+
+    /**
+     * Parse log folder filesystem and find all directories on third nesting level
+     *
+     * @param string $logPath
+     * @param int $level
+     * @return array
+     */
+    protected function _getDirectoryList($logPath, $level = 1)
+    {
+        $result = array();
+
+        $logPath = rtrim($logPath, '/');
+
+        $entities = $this->_logDirectory->read($logPath);
+        foreach ($entities as $entity) {
+            if (! $this->_logDirectory->isDirectory($entity)) {
+                continue;
+            }
+
+            $childPath = $logPath . '/' . $entity;
+            $mergePart = ($level < 3) ? $this->_getDirectoryList($childPath, $level + 1) : array($childPath);
+
+            $result = array_merge($result, $mergePart);
         }
         return $result;
     }
