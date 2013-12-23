@@ -37,9 +37,10 @@ interface ReadInterface
      * Search all entries for given regex pattern
      *
      * @param string $pattern
+     * @param string $path [optional]
      * @return array
      */
-    public function search($pattern);
+    public function search($pattern, $path = null);
 
     /**
      * Check a file or directory exists
