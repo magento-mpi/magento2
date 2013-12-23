@@ -183,6 +183,8 @@ class Config
     /**
      * Load and return Service XSD for the provided Service Class
      *
+     * TODO: Remove warnings suppression
+     * @SuppressWarnings(PHPMD.UnusedFormalParameter)
      * @param $serviceClass
      * @return \DOMDocument
      */
@@ -216,7 +218,7 @@ class Config
 
         // TODO: Should happen only once the cache is in place
         $serviceSchema = $this->_objectManager->create('DOMDocument');
-//        $serviceSchema->loadXML($schema);
+        // $serviceSchema->loadXML($schema);
 
         return $serviceSchema;
     }

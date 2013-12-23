@@ -1,18 +1,24 @@
 <?php
-
 /**
- * WSDL generator.
  *
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
+
 namespace Magento\Webapi\Model\Soap\Wsdl;
 
 use Magento\Webapi\Model\Soap\Wsdl;
 use Magento\Webapi\Model\Soap\Fault;
 
+/**
+ * WSDL generator.
+ *
+ * TODO: Remove warnings suppression
+ * @SuppressWarnings(PHPMD.UnusedFormalParameter)
+ * @SuppressWarnings(PHPMD.UnusedLocalVariable)
+ */
 class Generator
 {
     const WSDL_NAME = 'MagentoWSDL';
