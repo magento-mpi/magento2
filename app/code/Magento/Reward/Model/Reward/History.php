@@ -234,10 +234,12 @@ class History extends \Magento\Core\Model\AbstractModel
      */
     public function getAdditionalData()
     {
-        if (is_string($this->_getData('additional_data'))) {
-            $this->setData('additional_data', unserialize($this->_getData('additional_data')));
+        $additional = $this->_getData('additional_data');
+        if (is_string($additional)) {
+            $additional = unserialize($additional);
+            $this->setData('additional_data', unserialize($additional));
         }
-        return $this->_getData('additional_data');
+        return $additional ?: array();
     }
 
     /**
@@ -266,8 +268,6 @@ class History extends \Magento\Core\Model\AbstractModel
     {
         if (is_array($data)) {
             $additional = $this->getAdditionalData();
-            $additional = empty($additional) ? array() : $additional;
-            //$this->getDataSetDefault('additional_data', array());
             foreach ($data as $k => $v) {
                 $additional[$k] = $v;
             }
