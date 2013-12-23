@@ -259,7 +259,7 @@ abstract class AbstractType
                 } elseif ($this->_isAttributeRequiredCheckNeeded($attrCode) && $attrParams['is_required']) {
                     // For the default scope - if this is a new product or
                     // for an old product, if the imported doc has the column present for the attrCode
-                    if (Mage_ImportExport_Model_Import_Entity_Product::SCOPE_DEFAULT == $rowScope &&
+                    if (\Magento\ImportExport\Model\Import\Entity\Product::SCOPE_DEFAULT == $rowScope &&
                         ($isNewProduct || array_key_exists($attrCode, $rowData))
                     ) {
                         $this->_entityModel->addRowError(
