@@ -1,0 +1,7 @@
+<?xml version="1.0"?>
+<root>
+    <AirwayBillNumber>1111</AirwayBillNumber>
+    <LabelImage>
+        <OutputImage>OutputImageContent</OutputImage>
+    </LabelImage>
+</root>

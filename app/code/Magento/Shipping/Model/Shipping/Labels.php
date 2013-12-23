@@ -91,7 +91,8 @@ class Labels extends \Magento\Shipping\Model\Shipping
 
         $originStreet1 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new \Magento\Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
+
+        $storeInfo = new \Magento\Object((array)$this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
             || !$originStreet1 || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
