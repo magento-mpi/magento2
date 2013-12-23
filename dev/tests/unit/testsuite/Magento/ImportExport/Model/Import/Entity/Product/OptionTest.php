@@ -901,4 +901,13 @@ class OptionTest extends \PHPUnit_Framework_TestCase
             ),
         );
     }
+
+    public function testParseRequiredData()
+    {
+        $method = new \ReflectionMethod('Magento\ImportExport\Model\Import\Entity\Product\Option',
+            '_parseRequiredData');
+        $method->setAccessible(true);
+        $data = array('sku' => 'simple3');
+        $this->assertEquals(false, $method->invoke($this->_model, $data));
+    }
 }
