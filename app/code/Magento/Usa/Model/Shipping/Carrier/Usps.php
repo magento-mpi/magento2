@@ -352,15 +352,6 @@ class Usps
     }
 
     /**
-     * Get raw rate request data
-     * @return \Magento\Object|null
-     */
-    protected function _getRawRequest()
-    {
-        return $this->_rawRequest;
-    }
-
-    /**
      * Set free method request
      *
      * @param  $freeMethod
@@ -368,7 +359,7 @@ class Usps
      */
     protected function _setFreeMethodRequest($freeMethod)
     {
-        $r = $this->_getRawRequest();
+        $r = $this->_rawRequest;
 
         $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
         $r->setWeightPounds(floor($weight));
@@ -384,7 +375,7 @@ class Usps
      */
     protected function _getXmlQuotes()
     {
-        $r = $this->_getRawRequest();
+        $r = $this->_rawRequest;
 
         // The origin address(shipper) must be only in USA
         if(!$this->_isUSCountry($r->getOrigCountryId())){
@@ -507,7 +498,7 @@ class Usps
      */
     protected function _parseXmlResponse($response)
     {
-        $r = $this->_getRawRequest();
+        $r = $this->_rawRequest;
         $costArr = array();
         $priceArr = array();
         if (strlen(trim($response)) > 0) {
