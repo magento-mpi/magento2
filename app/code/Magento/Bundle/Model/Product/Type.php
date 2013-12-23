@@ -826,6 +826,7 @@ class Type extends \Magento\Catalog\Model\Product\Type\AbstractType
                 ->create()
                 ->addAttributeToSelect('*')
                 ->setFlag('require_stock_items', true)
+                ->setFlag('product_children', true)
                 ->addStoreFilter($this->getStoreFilter($product))
                 ->setStoreId($storeId)
                 ->setPositionOrder()
