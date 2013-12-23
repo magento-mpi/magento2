@@ -21,7 +21,10 @@ class PaymentTest extends \PHPUnit_Framework_TestCase
             '__wakeup'
         ), array(), '', false);
         $quote->expects($this->once())->method('hasRecurringItems')->will($this->returnValue($hasRecurringItems));
-        $checkoutSession = $this->getMock('Magento\Checkout\Model\Session', array('getQuote'), array(), '', false);
+        $checkoutSession = $this->getMock('Magento\Checkout\Model\Session', array(
+            'getQuote',
+            'setStepData'
+        ), array(), '', false);
         $checkoutSession->expects($this->once())->method('getQuote')->will($this->returnValue($quote));
         /** @var \Magento\Checkout\Block\Onepage\Payment $model */
         $model = $helper->getObject('Magento\Checkout\Block\Onepage\Payment', array(
