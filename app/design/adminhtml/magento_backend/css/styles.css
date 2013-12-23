@@ -6981,6 +6981,12 @@ table .col-draggable .draggable-handle {
   display: inline-block;
   float: none;
 }
+.fpt-item-container select {
+  width: 100%;
+}
+.fpt-item-container select:first-child {
+  margin-bottom: 8px;
+}
 .clearfix:before,
 .clearfix:after,
 [class$="-layout"]:after,
