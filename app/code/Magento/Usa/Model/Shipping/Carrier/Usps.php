@@ -120,6 +120,11 @@ class Usps
     protected $_productCollFactory;
 
     /**
+     * @var \Zend_Http_ClientFactory
+     */
+    protected $_httpClientFactory;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
@@ -135,6 +140,7 @@ class Usps
      * @param \Magento\Directory\Helper\Data $directoryData
      * @param \Magento\Usa\Helper\Data $usaData
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
+     * @param \Zend_Http_ClientFactory $httpClientFactory
      * @param array $data
      * 
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
@@ -155,11 +161,12 @@ class Usps
         \Magento\Directory\Helper\Data $directoryData,
         \Magento\Usa\Helper\Data $usaData,
         \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory,
+        \Zend_Http_ClientFactory $httpClientFactory,
         array $data = array()
     ) {
         $this->_usaData = $usaData;
         $this->_productCollFactory = $productCollFactory;
-        $this->_xmlElFactory = $xmlElFactory;
+        $this->_httpClientFactory = $httpClientFactory;
         parent::__construct(
             $coreStoreConfig,
             $rateErrorFactory,
@@ -345,6 +352,15 @@ class Usps
     }
 
     /**
+     * Get raw rate request data
+     * @return \Magento\Object|null
+     */
+    protected function _getRawRequest()
+    {
+        return $this->_rawRequest;
+    }
+
+    /**
      * Set free method request
      *
      * @param  $freeMethod
@@ -352,7 +368,7 @@ class Usps
      */
     protected function _setFreeMethodRequest($freeMethod)
     {
-        $r = $this->_rawRequest;
+        $r = $this->_getRawRequest();
 
         $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
         $r->setWeightPounds(floor($weight));
@@ -368,7 +384,7 @@ class Usps
      */
     protected function _getXmlQuotes()
     {
-        $r = $this->_rawRequest;
+        $r = $this->_getRawRequest();
 
         // The origin address(shipper) must be only in USA
         if(!$this->_isUSCountry($r->getOrigCountryId())){
@@ -462,7 +478,7 @@ class Usps
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
                 }
-                $client = new \Zend_Http_Client();
+                $client = $this->_httpClientFactory->create();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', $api);
@@ -478,6 +494,7 @@ class Usps
             }
             $this->_debug($debugData);
         }
+
         return $this->_parseXmlResponse($responseBody);
     }
 
@@ -490,7 +507,7 @@ class Usps
      */
     protected function _parseXmlResponse($response)
     {
-        $r = $this->_rawRequest;
+        $r = $this->_getRawRequest();
         $costArr = array();
         $priceArr = array();
         if (strlen(trim($response)) > 0) {
@@ -1018,7 +1035,7 @@ class Usps
                 if (!$url) {
                     $url = $this->_defaultGatewayUrl;
                 }
-                $client = new \Zend_Http_Client();
+                $client = $this->_httpClientFactory->create();
                 $client->setUri($url);
                 $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
                 $client->setParameterGet('API', $api);
@@ -1840,7 +1857,7 @@ class Usps
         if (!$url) {
             $url = $this->_defaultGatewayUrl;
         }
-        $client = new \Zend_Http_Client();
+        $client = $this->_httpClientFactory->create();
         $client->setUri($url);
         $client->setConfig(array('maxredirects'=>0, 'timeout'=>30));
         $client->setParameterGet('API', $api);
