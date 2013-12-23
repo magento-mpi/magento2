@@ -8,26 +8,34 @@
 namespace Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit;
 
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Main;
+use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Actions;
+use Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions;
 
+/**
+ * Class Form
+ *
+ * @package Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit
+ */
 class Form extends FormTabs
 {
-    const RULE_MAIN_TAB = 'promo_catalog_edit_tabs_main_section_content';
-
-    const RULE_COND_TAB = 'promo_catalog_edit_tabs_conditions_section_content';
-
-    const RULE_ACTIONS_TAB = 'promo_catalog_edit_tabs_actions_section_content';
-
-    protected $tabClasses = array(
-        self::RULE_MAIN_TAB => '\\Magento\\SalesRule\\Test\\Block\\Adminhtml\\Promo\\Quote\\Edit\\Tab\\Main',
-        self::RULE_COND_TAB => '\\Magento\\SalesRule\\Test\Block\\Adminhtml\\Promo\\Quote\\Edit\\Tab\\Conditions',
-        self::RULE_ACTIONS_TAB => '\\Magento\\SalesRule\\Test\\Block\\Adminhtml\\Promo\\Quote\\Edit\\Tab\\Main'
-    );
+    /**
+     * {@inheritDoc}
+     */
+    protected $waitForSelector = 'div#promo_catalog_edit_tabs';
 
     /**
-     * Click save button on form
+     * {@inheritDoc}
      */
-    public function clickSave()
-    {
-        $this->_rootElement->find('#save')->click();
-    }
+    protected $waitForSelectorVisible = false;
+
+    /**
+     * Set up tab classes
+     * @var array
+     */
+    protected $tabClasses = array(
+        Main::GROUP => '\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Main',
+        Conditions::GROUP => '\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Conditions',
+        Actions::GROUP => '\Magento\SalesRule\Test\Block\Adminhtml\Promo\Quote\Edit\Tab\Actions'
+    );
 }
