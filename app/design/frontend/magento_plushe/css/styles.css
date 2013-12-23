@@ -7193,6 +7193,10 @@ body {
   text-align: center;
   padding: 0 4px;
 }
+.action.showcart .qty:before,
+.action.showcart .qty:after {
+  content: "";
+}
 .action.showcart .qty.empty {
   display: none;
 }

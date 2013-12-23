@@ -2599,6 +2599,10 @@ body {
         min-height: @height;
         text-align: center;
         padding: 0 4px;
+        &:before,
+        &:after {
+            content: "";
+        }
     }
     .qty.empty {
         display: none;

@@ -97,7 +97,7 @@ class Sidebar extends \Magento\Wishlist\Block\Customer\Sidebar
     public function getTitle()
     {
         if ($this->_getHelper()->isMultipleEnabled()) {
-            return __('My Wish Lists <small>(%1)</small>', $this->getItemCount());
+            return __('My Wish Lists');
         } else {
             return parent::getTitle();
         }
