@@ -365,32 +365,29 @@ class Storage extends \Magento\Object
      */
     public function deleteDirectory($path)
     {
-        // prevent accidental root directory deleting
-        $rootCmp = rtrim($this->_cmsWysiwygImages->getStorageRoot(), '/');
-        $rootCmp = preg_replace('~[/\\\]+~', '/', $rootCmp);
-        $pathCmp = rtrim($path, '/');
-
-        if ($rootCmp == $pathCmp) {
-            throw new \Magento\Core\Exception(
-                __('We cannot delete root directory %1.', $path)
-            );
-        }
-
         if ($this->_coreFileStorageDb->checkDbUsage()) {
             $this->_directoryDatabaseFactory->create()->deleteDirectory($path);
         }
         try {
-            $this->_directory->delete($this->_directory->getRelativePath($path));
+            $this->_deleteByPath($path);
+            $path = $this->getThumbnailRoot() . $this->_cmsWysiwygImages->getRelativePathToRoot($path);
+            $this->_deleteByPath($path);
         } catch (\Magento\Filesystem\FilesystemException $e) {
             throw new \Magento\Core\Exception(__('We cannot delete directory %1.', $path));
         }
+    }
 
-        if (strpos($pathCmp, $rootCmp) === 0) {
-            $this->_directory->delete(
-                $this->_directory->getRelativePath(
-                    $this->getThumbnailRoot() . substr($pathCmp, strlen($rootCmp))
-                )
-            );
+    /**
+     * Delete by path
+     *
+     * @param string $path
+     */
+    protected function _deleteByPath($path)
+    {
+        $path = $this->_cmsWysiwygImages->sanitizePath($path);
+        if (!empty($path)) {
+            $this->_cmsWysiwygImages->validatePath($path);
+            $this->_directory->delete($this->_directory->getRelativePath($path));
         }
     }
 
