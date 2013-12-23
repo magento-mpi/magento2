@@ -11,32 +11,42 @@ namespace Magento\TestModule4\Service;
 interface AllSoapAndRestV2Interface
 {
     /**
+     * Retrieve existing item.
+     *
      * @param int $itemId
-     * @return Entity\V2\AllSoapAndRest
+     * @return \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest
      * @throws \Magento\Webapi\Exception
      */
     public function item($itemId);
 
     /**
-     * @return array Entity\V2\AllSoapAndRest[]
+     * Retrieve a list of all existing items.
+     *
+     * @return \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest[]
      */
     public function items();
 
     /**
-     * @param Entity\V2\AllSoapAndRest $item
-     * @return Entity\V2\AllSoapAndRest
+     * Add new item.
+     *
+     * @param \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest $item
+     * @return \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest
      */
-    public function create(Entity\V2\AllSoapAndRest $item);
+    public function create(\Magento\TestModule4\Service\Entity\V2\AllSoapAndRest $item);
 
     /**
-     * @param Entity\V2\AllSoapAndRest $item
-     * @return Entity\V2\AllSoapAndRest
+     * Update one item.
+     *
+     * @param \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest $item
+     * @return \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest
      */
-    public function update(Entity\V2\AllSoapAndRest $item);
+    public function update(\Magento\TestModule4\Service\Entity\V2\AllSoapAndRest $item);
 
     /**
+     * Delete existing item.
+     *
      * @param string $itemId
-     * @return Entity\V2\AllSoapAndRest
+     * @return \Magento\TestModule4\Service\Entity\V2\AllSoapAndRest
      */
     public function delete($itemId);
 

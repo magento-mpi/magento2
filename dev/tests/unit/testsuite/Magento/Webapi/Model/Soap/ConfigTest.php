@@ -32,13 +32,15 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
             ->getMock();
         $fileSystemMock = $this->getMockBuilder('Magento\Filesystem')->disableOriginalConstructor()->getMock();
         $dirMock = $this->getMockBuilder('Magento\App\Dir')->disableOriginalConstructor()->getMock();
+        $serviceReflection = $this->getMock('\Magento\Webapi\Model\Soap\Config\Reader\Soap', [], [], '', false);
         $this->_configMock = $this->getMockBuilder('Magento\Webapi\Model\Config')
             ->disableOriginalConstructor()->getMock();
         $this->_soapConfig = new \Magento\Webapi\Model\Soap\Config(
             $objectManagerMock,
             $fileSystemMock,
             $dirMock,
-            $this->_configMock
+            $this->_configMock,
+            $serviceReflection
         );
         parent::setUp();
     }

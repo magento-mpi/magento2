@@ -52,21 +52,31 @@ class Config
     protected $_soapOperations;
 
     /**
+     * Service methods metadata collected via reflection.
+     *
+     * @var array
+     */
+    protected $_servicesMetadata;
+
+    /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
+     * @param \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
-        \Magento\Webapi\Model\Config $config
+        \Magento\Webapi\Model\Config $config,
+        \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader
     ) {
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
+        $this->_servicesMetadata = $reader->getData();
     }
 
     /**

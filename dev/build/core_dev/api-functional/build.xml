@@ -60,6 +60,11 @@
                 <isset property="app_mode"/>
             </not>
         </condition>
+        <condition property="testsuite" value="testsuite">
+            <not>
+                <isset property="testsuite"/>
+            </not>
+        </condition>
         <copy file="${basedir}/dev/build/core_dev/api-functional/local-${db_vendor_name}.xml"
               todir="${product_root_dir}/dev/tests/api-functional/etc" overwrite="true"/>
 
@@ -94,6 +99,7 @@
             <replacefilter token="{{web_api_adapter}}" value="${env.web_api_adapter}"/>
             <replacefilter token="{{local_config_file}}" value="etc/local-${db_vendor_name}.xml"/>
             <replacefilter token="{{app_mode}}" value="${app_mode}"/>
+            <replacefilter token="{{testsuite}}" value="${testsuite}"/>
         </replace>
 
         <!--Make test modules available over HTTP-->

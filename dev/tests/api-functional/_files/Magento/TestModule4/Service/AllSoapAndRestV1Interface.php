@@ -12,27 +12,35 @@ interface AllSoapAndRestV1Interface
 {
 
     /**
+     * Retrieve an item.
+     *
      * @param int $itemId
-     * @return Entity\V1\AllSoapAndRest
+     * @return \Magento\TestModule4\Service\Entity\V1\AllSoapAndRest
      * @throws \Magento\Webapi\Exception
      */
     public function item($itemId);
 
     /**
-     * @return array Entity\V1\AllSoapAndRest[]
+     * Retrieve all items.
+     *
+     * @return \Magento\TestModule4\Service\Entity\V1\AllSoapAndRest[]
      */
     public function items();
 
     /**
-     * @param Entity\V1\AllSoapAndRest $item
-     * @return Entity\V1\AllSoapAndRest
+     * Create a new item.
+     *
+     * @param \Magento\TestModule4\Service\Entity\V1\AllSoapAndRest $item
+     * @return \Magento\TestModule4\Service\Entity\V1\AllSoapAndRest
      */
-    public function create(Entity\V1\AllSoapAndRest $item);
+    public function create(\Magento\TestModule4\Service\Entity\V1\AllSoapAndRest $item);
 
     /**
-     * @param Entity\V1\AllSoapAndRest $item
-     * @return Entity\V1\AllSoapAndRest
+     * Update existing item.
+     *
+     * @param \Magento\TestModule4\Service\Entity\V1\AllSoapAndRest $item
+     * @return \Magento\TestModule4\Service\Entity\V1\AllSoapAndRest
      */
-    public function update(Entity\V1\AllSoapAndRest $item);
+    public function update(\Magento\TestModule4\Service\Entity\V1\AllSoapAndRest $item);
 
 }
