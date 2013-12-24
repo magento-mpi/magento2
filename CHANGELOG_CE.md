@@ -21,6 +21,7 @@
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
   * Fixed incorrect caching of locale settings and url settings during web installation
+  * Fixed inability to use newly created store for admin user roles
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
