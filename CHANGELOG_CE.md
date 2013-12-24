@@ -27,6 +27,11 @@
   * Fixed content spoofing vulnerability when Solr is used
   * Fixed potential XSS vulnerability in customer log in
   * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed possibility to create customer with duplicate email
+  * Fixed abstract product block error in tier price template getter
+  * Fixed system message was displayed in incorrect place on backend page
+  * Fixed 404 error on customer review page
+  * Fixed autocomplete enabled on admin login page
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
