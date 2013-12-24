@@ -237,7 +237,7 @@ class History extends \Magento\Core\Model\AbstractModel
         $additional = $this->_getData('additional_data');
         if (is_string($additional)) {
             $additional = unserialize($additional);
-            $this->setData('additional_data', unserialize($additional));
+            $this->setData('additional_data', $additional);
         }
         return $additional ?: array();
     }
