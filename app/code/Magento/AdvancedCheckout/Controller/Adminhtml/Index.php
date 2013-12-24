@@ -168,7 +168,12 @@ class Index extends \Magento\Backend\App\Action
         if ($customer) {
             $this->_title->add($customer->getName());
         }
-        $this->_title->add(__('Shopping Cart'));
+        $itemsBlock = $this->_view->getLayout()->getBlock('ID');
+        if (is_object($itemsBlock)) {
+            $this->_title->add($itemsBlock->getHeaderText());
+        } else {
+            $this->_title->add(__('Shopping Cart'));
+        }
         return $this;
     }
 
