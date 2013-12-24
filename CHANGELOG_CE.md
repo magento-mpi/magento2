@@ -20,6 +20,9 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed case when user try to login without redirect to account dashboard after logging in
+  * Fixed incorrect address in request to shipping carrier (DHL International) in case when address contains letter with diacritic
+  * Fixed invalid account creation date
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
