@@ -60,11 +60,6 @@
                 <isset property="app_mode"/>
             </not>
         </condition>
-        <condition property="testsuite" value="testsuite">
-            <not>
-                <isset property="testsuite"/>
-            </not>
-        </condition>
         <copy file="${basedir}/dev/build/core_dev/api-functional/local-${db_vendor_name}.xml"
               todir="${product_root_dir}/dev/tests/api-functional/etc" overwrite="true"/>
 
@@ -93,6 +88,9 @@
         <!--Prepare phpunit.xml-->
         <copy file="${basedir}/${env.build_customization_dir}/phpunit.xml" failonerror="true" overwrite="true"
               tofile="${product_root_dir}/dev/tests/api-functional/phpunit.xml"/>
+        <condition property="testsuite" value="${env.testsuite}" else="testsuite">
+            <isset property="env.testsuite"/>
+        </condition>
         <replace file="${product_root_dir}/dev/tests/api-functional/phpunit.xml">
             <!--URL rewrites are disabled on agents thus 'index.php' should be used as entry point-->
             <replacefilter token="{{base_url}}" value="${magento_instance_base_url}/index.php"/>
