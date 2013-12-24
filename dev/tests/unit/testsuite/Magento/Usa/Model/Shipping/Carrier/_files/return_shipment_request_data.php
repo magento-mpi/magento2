@@ -38,7 +38,7 @@ return array(
         'package_weight' => '5',
         'base_currency_code' => 'USD',
         'store_id' => '1',
-        'reference_data' => 'RMA #100000001 P',
+        'reference_data' => '#100000001 P',
         'packages' => array(
             1 => array(
                 'params' => array(
