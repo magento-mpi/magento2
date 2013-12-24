@@ -26,15 +26,15 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         );
 
 
-        $creditmemo = $this->getMock('Magento\Sales\Model\Order\CreditMemo', array('getOrder'), array(), '', false);
-//        $creditmemo = $this->getMockBuilder('Magento\Sales\Model\Order\CreditMemo')
-//            ->disableOriginalConstructor()
-//            ->setMethods(array('getAllItems', 'getOrder', /*'setBaseGrandTotal', 'getBaseGrandTotal',
-//                'getGwBasePrice', 'getGwCardBasePrice', 'setGrandTotal', 'getGrandTotal',
-//                'getGwItemsPrice', 'getGwPrice', 'getGwCardPrice', 'setBaseCustomerBalanceReturnMax',
-//                'getBaseCustomerBalanceReturnMax', 'setCustomerBalanceReturnMax', 'getCustomerBalanceReturnMax',*/
-//                ))
-//            ->getMock();
+        $creditmemo = $this->getMockBuilder('Magento\Sales\Model\Order\CreditMemo')
+            ->disableOriginalConstructor()
+            ->setMethods(array('getAllItems', 'getOrder', 'setBaseGrandTotal', 'getBaseGrandTotal',
+                'getGwBasePrice', 'getGwCardBasePrice', 'setGrandTotal', 'getGrandTotal',
+                'getGwItemsPrice', 'getGwPrice', 'getGwCardPrice', 'setBaseCustomerBalanceReturnMax',
+                'getBaseCustomerBalanceReturnMax', 'setCustomerBalanceReturnMax', 'getCustomerBalanceReturnMax',
+                'setGwItemsBasePrice', 'setGwItemsPrice', 'getGwItemsBasePrice'
+                ))
+            ->getMock();
 
         $item = new \Magento\Object();
         $orderItem = new \Magento\Object(
@@ -53,10 +53,14 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             ->method('getOrder')
             ->will($this->returnValue($order));
 
-        $model->collect($creditmemo);
+        $creditmemo->expects($this->once())
+            ->method('setGwItemsBasePrice')
+            ->with(10);
+        $creditmemo->expects($this->once())
+            ->method('setGwItemsPrice')
+            ->with(20);
 
-        $this->assertEquals(20, $creditmemo->getGwItemsBasePrice());
-        $this->assertEquals(10, $creditmemo->getGwItemsPrice());
+        $model->collect($creditmemo);
 
     }
 }
