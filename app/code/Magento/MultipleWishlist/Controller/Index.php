@@ -75,7 +75,6 @@ class Index extends \Magento\Wishlist\Controller\Index
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\Config $wishlistConfig,
         \Magento\App\Response\Http\FileFactory $fileResponseFactory,
-        \Magento\Core\App\Action\FormKeyValidator $formKeyValidator,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
         \Magento\Session\Generic $wishlistSession,
@@ -88,7 +87,7 @@ class Index extends \Magento\Wishlist\Controller\Index
         $this->_customerSession = $customerSession;
         $this->_wishlistCollectionFactory = $wishlistCollectionFactory;
         parent::__construct(
-            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory, $formKeyValidator
+            $context, $formKeyValidator, $coreRegistry, $wishlistConfig, $fileResponseFactory
         );
     }
 
