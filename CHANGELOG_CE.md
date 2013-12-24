@@ -20,6 +20,7 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed cron shell script exits with error
   * Fixed incorrect caching of locale settings and url settings during web installation
   * Fixed inability to use newly created store for admin user roles
   * Fixed absence of Advanced Search field on frontend, when Popular Search Terms functionality is disabled
