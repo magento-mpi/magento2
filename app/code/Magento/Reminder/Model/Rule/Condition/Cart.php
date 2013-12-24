@@ -21,6 +21,13 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
     protected $_dateModel;
 
     /**
+     * Core resource helper
+     *
+     * @var \Magento\Core\Model\Resource\Helper
+     */
+    protected $_resourceHelper;
+
+    /**
      * Cart Combine Factory
      *
      * @var \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory
@@ -31,6 +38,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param \Magento\Core\Model\Date $dateModel
+     * @param \Magento\Core\Model\Resource\Helper $resourceHelper
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
@@ -38,6 +46,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Core\Model\Date $dateModel,
+        \Magento\Core\Model\Resource\Helper $resourceHelper,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -45,6 +54,7 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
         $this->_dateModel = $dateModel;
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart');
         $this->setValue(null);
+        $this->_resourceHelper = $resourceHelper;
         $this->_combineFactory = $combineFactory;
     }
 
@@ -144,28 +154,14 @@ class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        if ($operator == '=') {
-            $select->where(
-                "UNIX_TIMESTAMP('" . $currentTime . "' - INTERVAL ? DAY) < UNIX_TIMESTAMP(quote.updated_at)",
-                $conditionValue
-            )->where(
-                "UNIX_TIMESTAMP('" . $currentTime . "' - INTERVAL ? DAY) > UNIX_TIMESTAMP(quote.updated_at)",
-                $conditionValue - 1
-            );
-        } else {
-            if ($operator == '>=') {
-                if ($conditionValue > 0) {
-                    $conditionValue--;
-                } else {
-                    $currentTime = $this->_dateModel->gmtDate();
-                }
-            }
-            $select->where(
-                "UNIX_TIMESTAMP('" . $currentTime . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)",
-                $conditionValue
-            );
+        $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
+            ->formatDate($currentTime));
+        if ($operator == '>=' && $conditionValue == 0) {
+            $currentTime = $this->_dateModel->gmtDate();
+            $daysDiffSql = $this->_resourceHelper->getDateDiff('quote.updated_at', $select->getAdapter()
+                ->formatDate($currentTime));
         }
-
+        $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
         $select->where('quote.is_active = 1');
         $select->where('quote.items_count > 0');
         $select->where($this->_createCustomerFilter($customer, 'quote.customer_id'));
