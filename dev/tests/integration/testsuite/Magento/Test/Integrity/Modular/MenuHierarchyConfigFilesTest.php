@@ -19,9 +19,12 @@ class MenuHierarchyConfigFilesTest extends \PHPUnit_Framework_TestCase
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
         /** @var $filesystem \Magento\Filesystem */
         $filesystem = $objectManager->get('Magento\Filesystem');
-        $appDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::APP);
+        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
-        $xmlFiles = $fileIteratorFactory->create($appDirectory, $appDirectory->search('#/menu_hierarchy\.xml$#'));
+        $xmlFiles = $fileIteratorFactory->create(
+            $modulesDirectory,
+            $modulesDirectory->search('/*/*/etc/{*/menu_hierarchy.xml,menu_hierarchy.xml}')
+        );
 
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));

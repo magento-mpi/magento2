@@ -19,8 +19,11 @@
   * Fixed broken design newsletter template preview
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
+  * Fixed performance degradation during install wizard execution
 * Themes update:
   * Responsive design improvements
+* Improvements to code coverage calculation:
+  * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
 
 2.0.0.0-dev57
 =============
