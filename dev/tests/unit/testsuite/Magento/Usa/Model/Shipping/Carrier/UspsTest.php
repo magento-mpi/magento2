@@ -155,7 +155,11 @@ class UspsTest extends \PHPUnit_Framework_TestCase
     {
         $this->_httpResponse->expects($this->any())
             ->method('getBody')
-            ->will($this->returnValue(file_get_contents(__DIR__ . '/_files/success_usps_response_return_shipment.xml')));
+            ->will(
+                $this->returnValue(
+                    file_get_contents(__DIR__ . '/_files/success_usps_response_return_shipment.xml')
+                )
+            );
         $request_params = include __DIR__ . '/_files/return_shipment_request_data.php';
         $request = $this->_helper->getObject('Magento\Shipping\Model\Shipment\ReturnShipment', $request_params);
         $this->assertNotEmpty($this->_model->returnOfShipment($request)->getInfo()[0]['tracking_number']);
