@@ -20,6 +20,7 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed cron shell script exits with error
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
