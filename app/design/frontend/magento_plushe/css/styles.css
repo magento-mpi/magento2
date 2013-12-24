@@ -7564,6 +7564,10 @@ span.widget.link {
 .data.comparison .cell.attribute {
   font-size: 12px;
 }
+.data.comparison .cell.attribute img {
+  max-width: 100%;
+  height: auto;
+}
 .data.comparison td:last-child {
   border-right: 1px solid #e5e5e5;
 }
