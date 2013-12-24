@@ -1,11 +1,12 @@
-<?php
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
 /**
  * {license_notice}
  *
  * @copyright   {copyright}
  * @license     {license_link}
  */
-return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+-->
 <SigConfirmCertifyV3.0Response>
    <SignatureConfirmationNumber>420945389449301699320000105074</SignatureConfirmationNumber>
    <SignatureConfirmationLabel>JVBERi0xLjINCjUgMCBvYmoNCjw8DQovVHlwZSAvWE9iamVjdA0KL1N1YnR</SignatureConfirmationLabel>
@@ -18,4 +19,4 @@ return "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
    <ToZip5>94538</ToZip5>
    <ToZip4>3294</ToZip4>
    <Postnet>94538329414</Postnet>
-</SigConfirmCertifyV3.0Response>";
+</SigConfirmCertifyV3.0Response>
