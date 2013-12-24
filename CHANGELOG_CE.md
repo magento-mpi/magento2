@@ -27,6 +27,7 @@
   * Fixed content spoofing vulnerability when Solr is used
   * Fixed potential XSS vulnerability in customer log in
   * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed wrong count of coupon's usage after applying it with multiple addresses
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
@@ -78,7 +79,7 @@
     * Session generic wrapper moved to library
     * Messages functionality moved from the Session model as separate component, message manager interface created
     * Sid resolver interface created to handle session sid from request
-
+  
 2.0.0.0-dev56
 =============
 * Fixed bugs:
