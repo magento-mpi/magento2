@@ -8,25 +8,17 @@
  * @license     {license_link}
  */
 
+namespace Magento\Reminder\Model\Rule\Condition;
+
 /**
  * Customer cart conditions combine
  */
-namespace Magento\Reminder\Model\Rule\Condition;
-
-class Cart
-    extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
+class Cart extends \Magento\Reminder\Model\Condition\Combine\AbstractCombine
 {
     /**
      * @var \Magento\Core\Model\Date
      */
     protected $_dateModel;
-
-    /**
-     * Core resource helper
-     *
-     * @var \Magento\Reminder\Model\Resource\HelperFactory
-     */
-    protected $_resHelperFactory;
 
     /**
      * Cart Combine Factory
@@ -39,7 +31,6 @@ class Cart
      * @param \Magento\Rule\Model\Condition\Context $context
      * @param \Magento\Reminder\Model\Resource\Rule $ruleResource
      * @param \Magento\Core\Model\Date $dateModel
-     * @param \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory
      * @param \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory
      * @param array $data
      */
@@ -47,7 +38,6 @@ class Cart
         \Magento\Rule\Model\Condition\Context $context,
         \Magento\Reminder\Model\Resource\Rule $ruleResource,
         \Magento\Core\Model\Date $dateModel,
-        \Magento\Reminder\Model\Resource\HelperFactory $resHelperFactory,
         \Magento\Reminder\Model\Rule\Condition\Cart\CombineFactory $combineFactory,
         array $data = array()
     ) {
@@ -55,12 +45,11 @@ class Cart
         $this->_dateModel = $dateModel;
         $this->setType('Magento\Reminder\Model\Rule\Condition\Cart');
         $this->setValue(null);
-        $this->_resHelperFactory = $resHelperFactory;
         $this->_combineFactory = $combineFactory;
     }
 
     /**
-     * Get list of available subconditions
+     * Get list of available sub conditions
      *
      * @return array
      */
@@ -155,22 +144,26 @@ class Cart
 
         $currentTime = $this->_dateModel->gmtDate('Y-m-d');
 
-        /** @var $helper \Magento\Core\Model\Resource\Helper */
-        $helper = $this->_resHelperFactory->create();
-        $daysDiffSql = $helper->getDateDiff(
-            'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
-        );
         if ($operator == '=') {
-            $select->where($daysDiffSql . ' < ?', $conditionValue);
-            $select->where($daysDiffSql . ' > ?', $conditionValue - 1);
+            $select->where(
+                "UNIX_TIMESTAMP('" . $currentTime . "' - INTERVAL ? DAY) < UNIX_TIMESTAMP(quote.updated_at)",
+                $conditionValue
+            )->where(
+                "UNIX_TIMESTAMP('" . $currentTime . "' - INTERVAL ? DAY) > UNIX_TIMESTAMP(quote.updated_at)",
+                $conditionValue - 1
+            );
         } else {
-            if ($operator == '>=' && $conditionValue == 0) {
-                $currentTime = $this->_dateModel->gmtDate();
-                $daysDiffSql = $helper->getDateDiff(
-                    'quote.updated_at', $select->getAdapter()->formatDate($currentTime)
-                );
+            if ($operator == '>=') {
+                if ($conditionValue > 0) {
+                    $conditionValue--;
+                } else {
+                    $currentTime = $this->_dateModel->gmtDate();
+                }
             }
-            $select->where($daysDiffSql . " {$operator} ?", $conditionValue);
+            $select->where(
+                "UNIX_TIMESTAMP('" . $currentTime . "' - INTERVAL ? DAY) {$operator} UNIX_TIMESTAMP(quote.updated_at)",
+                $conditionValue
+            );
         }
 
         $select->where('quote.is_active = 1');
