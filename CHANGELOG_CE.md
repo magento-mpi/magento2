@@ -42,6 +42,7 @@
   * Fixed broken design newsletter template preview
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
+  * Fixed cron shell script exits with error
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
