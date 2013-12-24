@@ -544,7 +544,6 @@ class Quote extends \Magento\Core\Model\AbstractModel
         if ($customer->getId()) {
             $this->setCustomer($customer);
 
-            $customerBillingAddressId = null;
             if (null !== $billingAddress) {
                 $this->setBillingAddress($billingAddress);
             } else {
@@ -553,23 +552,17 @@ class Quote extends \Magento\Core\Model\AbstractModel
                     $billingAddress = $this->_quoteAddressFactory->create()
                         ->importCustomerAddress($defaultBillingAddress);
                     $this->setBillingAddress($billingAddress);
-                    $customerBillingAddressId = $defaultBillingAddress->getId();
                 }
             }
 
-            $customerShippingAddressId = null;
             if (null === $shippingAddress) {
                 $defaultShippingAddress = $customer->getDefaultShippingAddress();
                 if ($defaultShippingAddress && $defaultShippingAddress->getId()) {
                     $shippingAddress = $this->_quoteAddressFactory->create()
                         ->importCustomerAddress($defaultShippingAddress);
-                    $customerShippingAddressId = $defaultShippingAddress->getId();
                 } else {
                     $shippingAddress = $this->_quoteAddressFactory->create();
                 }
-            }
-            if ($customerBillingAddressId !== null && $customerBillingAddressId != $customerShippingAddressId) {
-                $shippingAddress->setSameAsBilling(false);
             }
             $this->setShippingAddress($shippingAddress);
         }
