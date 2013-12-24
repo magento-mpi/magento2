@@ -9,24 +9,22 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftWrapping\Model;
+namespace Magento\GiftWrapping\Model\Creditmemo;
 
 /**
- * Test class for \Magento\GiftWrapping\Model
+ * Test class for \Magento\GiftWrapping\Model\Creditmemo\Giftwrapping
  */
 class GiftWrappingTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreditMemoItemWrapping()
+    public function testCreditmemoItemWrapping()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
-
         $model = $objectHelper->getObject(
             'Magento\GiftWrapping\Model\Total\Creditmemo\Giftwrapping',
             array()
         );
 
-
-        $creditmemo = $this->getMockBuilder('Magento\Sales\Model\Order\CreditMemo')
+        $creditmemo = $this->getMockBuilder('Magento\Sales\Model\Order\Creditmemo')
             ->disableOriginalConstructor()
             ->setMethods(array('getAllItems', 'getOrder', 'setBaseGrandTotal', 'getBaseGrandTotal',
                 'getGwBasePrice', 'getGwCardBasePrice', 'setGrandTotal', 'getGrandTotal',
@@ -48,11 +46,9 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
         $creditmemo->expects($this->any())
             ->method('getAllItems')
             ->will($this->returnValue(array($item)));
-
         $creditmemo->expects($this->any())
             ->method('getOrder')
             ->will($this->returnValue($order));
-
         $creditmemo->expects($this->once())
             ->method('setGwItemsBasePrice')
             ->with(10);
