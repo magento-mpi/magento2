@@ -61,7 +61,13 @@ try {
     $generator = new \Magento\Tools\View\Generator\CopyRule($filesystem, $themes,
         $fallbackFactory->createViewFileRule());
     $copyRules = $generator->getCopyRules();
-    $cssUrlResolver = new \Magento\View\Url\CssResolver($filesystem);
+
+    $cssUrlResolver = $objectManager->create(
+        '\Magento\View\Url\CssResolver',
+        array(
+            'filesystem' => $filesystem
+        )
+    );
     $deployment = new \Magento\Tools\View\Generator\ThemeDeployment(
         $cssUrlResolver,
         $config->getDestinationDir(),
