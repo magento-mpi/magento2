@@ -38,6 +38,7 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory $createdatFactory
      * @param \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory $updatedatFactory
+     * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -46,9 +47,10 @@ class Rule extends \Magento\Reports\Model\Resource\Report\AbstractReport
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\SalesRule\Model\Resource\Report\Rule\CreatedatFactory $createdatFactory,
-        \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory $updatedatFactory
+        \Magento\SalesRule\Model\Resource\Report\Rule\UpdatedatFactory $updatedatFactory,
+        \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
     ) {
-        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime);
+        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime, $timezoneValidator);
         $this->_createdatFactory = $createdatFactory;
         $this->_updatedatFactory = $updatedatFactory;
     }

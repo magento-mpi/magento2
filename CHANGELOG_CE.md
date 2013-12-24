@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed Exception Log Errors Invalid year
   * Fixed shipment with packages data corrupted functionality
   * Fixed unavailability to add gift wrapping for multiple items
   * Fixed DHL functionality of generation shipping labels

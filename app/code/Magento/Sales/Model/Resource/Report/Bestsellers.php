@@ -37,6 +37,7 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
      * @param \Magento\Stdlib\DateTime $dateTime
      * @param \Magento\Catalog\Model\Resource\Product $productResource
      * @param \Magento\Sales\Model\Resource\Helper $salesResourceHelper
+     * @param \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
      */
     public function __construct(
         \Magento\App\Resource $resource,
@@ -45,9 +46,10 @@ class Bestsellers extends \Magento\Sales\Model\Resource\Report\AbstractReport
         \Magento\Reports\Model\FlagFactory $reportsFlagFactory,
         \Magento\Stdlib\DateTime $dateTime,
         \Magento\Catalog\Model\Resource\Product $productResource,
-        \Magento\Sales\Model\Resource\Helper $salesResourceHelper
+        \Magento\Sales\Model\Resource\Helper $salesResourceHelper,
+        \Magento\Stdlib\DateTime\Timezone\Validator $timezoneValidator
     ) {
-        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime);
+        parent::__construct($resource, $logger, $locale, $reportsFlagFactory, $dateTime, $timezoneValidator);
         $this->_productResource = $productResource;
         $this->_salesResourceHelper = $salesResourceHelper;
     }
