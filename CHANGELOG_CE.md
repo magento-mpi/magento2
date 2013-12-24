@@ -30,6 +30,11 @@
   * Fixed content spoofing vulnerability when Solr is used
   * Fixed potential XSS vulnerability in customer log in
   * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed inability to place order with 3-D Secure under IE 10
+  * Fixed inability to place order within PayPal Payflow Link and PayPal Payments Advanced
+  * Fixed integrity constraint violation in catalog URL rewrites
+  * Fixed missing error message when try create New Website with wrong Website Code
+  * Fixed inability to save new address in case of new customer address attributes that not visible on frontend
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
