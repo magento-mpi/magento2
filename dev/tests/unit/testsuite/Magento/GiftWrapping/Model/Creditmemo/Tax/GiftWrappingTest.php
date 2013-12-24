@@ -9,36 +9,37 @@
  * @license     {license_link}
  */
 
-namespace Magento\GiftWrapping\Model;
+namespace Magento\GiftWrapping\Model\Tax;
 
 /**
- * Test class for \Magento\GiftWrapping\Model
+ * Test class for \Magento\GiftWrapping\Model\Tax
  */
 class GiftWrappingTest extends \PHPUnit_Framework_TestCase
 {
-    public function testCreditMemoItemWrapping()
+    public function testCreditMemoItemTaxWrapping()
     {
         $objectHelper = new \Magento\TestFramework\Helper\ObjectManager($this);
 
         $model = $objectHelper->getObject(
-            'Magento\GiftWrapping\Model\Total\Creditmemo\Giftwrapping',
+            'Magento\GiftWrapping\Model\Total\Creditmemo\Tax\Giftwrapping',
             array()
         );
 
 
         $creditmemo = $this->getMockBuilder('Magento\Sales\Model\Order\CreditMemo')
             ->disableOriginalConstructor()
-            ->setMethods(array('getAllItems', 'getOrder', 'setBaseGrandTotal', 'getBaseGrandTotal',
-                'getGwBasePrice', 'getGwCardBasePrice', 'setGrandTotal', 'getGrandTotal',
-                'getGwItemsPrice', 'getGwPrice', 'getGwCardPrice', 'setBaseCustomerBalanceReturnMax',
-                'getBaseCustomerBalanceReturnMax', 'setCustomerBalanceReturnMax', 'getCustomerBalanceReturnMax',
-                'setGwItemsBasePrice', 'setGwItemsPrice', 'getGwItemsBasePrice'
+            ->setMethods(array('getAllItems', 'getOrder', 'setGwItemsBaseTaxAmount', 'setGwItemsTaxAmount',
+                'getGwItemsBaseTaxAmount', 'getGwBaseTaxAmount', 'getGwCardBaseTaxAmount', 'getGwItemsTaxAmount',
+                'getGwTaxAmount', 'getGwCardTaxAmount', 'setBaseTaxAmount', 'getBaseTaxAmount', 'setTaxAmount',
+                'getTaxAmount', 'setBaseGrandTotal', 'getBaseGrandTotal', 'setGrandTotal', 'getGrandTotal',
+                'setBaseCustomerBalanceReturnMax', 'getBaseCustomerBalanceReturnMax', 'setCustomerBalanceReturnMax',
+                'getCustomerBalanceReturnMax',
                 ))
             ->getMock();
 
         $item = new \Magento\Object();
         $orderItem = new \Magento\Object(
-            array('gw_id' => 1, 'gw_base_price_invoiced' => 5, 'gw_price_invoiced' => 10)
+            array('gw_id' => 1, 'gw_base_tax_amount_invoiced' => 5, 'gw_tax_amount_invoiced' => 10)
         );
 
         $item->setQty(2)
@@ -54,10 +55,10 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($order));
 
         $creditmemo->expects($this->once())
-            ->method('setGwItemsBasePrice')
+            ->method('setGwItemsBaseTaxAmount')
             ->with(10);
         $creditmemo->expects($this->once())
-            ->method('setGwItemsPrice')
+            ->method('setGwItemsTaxAmount')
             ->with(20);
 
         $model->collect($creditmemo);
