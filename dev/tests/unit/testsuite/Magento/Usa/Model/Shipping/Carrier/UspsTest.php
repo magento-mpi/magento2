@@ -8,7 +8,8 @@
 
 namespace Magento\Usa\Model\Shipping\Carrier;
 
-class UspsTest extends \PHPUnit_Framework_TestCase {
+class UspsTest extends \PHPUnit_Framework_TestCase
+{
 
     /**
      * @var \Magento\Usa\Model\Shipping\Carrier\Usps
@@ -47,11 +48,14 @@ class UspsTest extends \PHPUnit_Framework_TestCase {
             ->getMock();
         $xmlElFactory->expects($this->any())
             ->method('create')
-            ->will($this->returnCallback(
-                function($data){
-                    $oM = new \Magento\TestFramework\Helper\ObjectManager($this);
-                    return  $oM->getObject('\Magento\Usa\Model\Simplexml\Element', array('data' => $data['data']));
-                }));
+            ->will(
+                $this->returnCallback(
+                    function ($data) {
+                        $oM = new \Magento\TestFramework\Helper\ObjectManager($this);
+                        return  $oM->getObject('\Magento\Usa\Model\Simplexml\Element', array('data' => $data['data']));
+                    }
+                )
+            );
 
         // rate factory
         $rateFactory = $this->getMockBuilder('\Magento\Shipping\Model\Rate\ResultFactory')
