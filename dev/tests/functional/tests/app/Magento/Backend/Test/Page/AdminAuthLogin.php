@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Backend\Test\Page;
 
 use Mtf\Page\Page;
@@ -88,8 +87,18 @@ class AdminAuthLogin extends Page
      */
     public function getMessagesBlock()
     {
-        return Factory::getBlockFactory()->getMagentoCoreMessages(
-            $this->_browser->find($this->messageBlock)
+        return Factory::getBlockFactory()->getMagentoCoreMessages($this->_browser->find($this->messageBlock));
+    }
+
+    public function waitForHeaderBlock()
+    {
+        $browser = $this->_browser;
+        $selector = $this->headerBlock;
+        $browser->waitUntil(
+            function () use ($browser, $selector) {
+                $item = $browser->find($selector);
+                return $item->isVisible() ? true : null;
+            }
         );
     }
 }

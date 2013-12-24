@@ -16,11 +16,11 @@ use Mtf\TestCase\Functional;
 use Magento\Catalog\Test\Fixture\Product;
 
 /**
- * Create simple product for BAT
+ * Create simple product with custom options
  *
  * @package Magento\Catalog\Test\TestCase\Product
  */
-class CreatingSimpleProductWithCustomOptionsAndCategoryTest extends Functional
+class CreateSimpleWithCustomOptionsAndCategoryTest extends Functional
 {
     /**
      * Login into backend area before test

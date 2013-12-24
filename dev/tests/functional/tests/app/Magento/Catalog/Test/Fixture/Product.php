@@ -61,8 +61,12 @@ class Product extends DataFixture
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['category::getCategoryName'] = array($this, 'categoryProvider');
-        $this->_placeholders['category::getCategoryId'] = array($this, 'categoryProvider');
+        if (isset($placeholders['categories']))
+            $this->categories = $placeholders['categories'];
+        else {
+            $this->_placeholders['category::getCategoryName'] = array($this, 'categoryProvider');
+            $this->_placeholders['category::getCategoryId'] = array($this, 'categoryProvider');
+        }
     }
 
     /**
@@ -166,8 +170,8 @@ class Product extends DataFixture
     protected function categoryProvider($placeholder)
     {
         list($key, $method) = explode('::', $placeholder);
-        $product = $this->getCategory($key);
-        return is_callable(array($product, $method)) ? $product->$method() : null;
+        $category = $this->getCategory($key);
+        return is_callable(array($category, $method)) ? $category->$method() : null;
     }
 
     /**
@@ -179,12 +183,37 @@ class Product extends DataFixture
     protected function getCategory($key)
     {
         if (!isset($this->categories[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-            $product->switchData('subcategory');
-            $product->persist();
-            $this->categories[$key] = $product;
+            $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+            $category->switchData('subcategory');
+            $category->persist();
+            $this->categories[$key] = $category;
         }
         return $this->categories[$key];
+    }
+
+    /**
+     * Get categories
+     *
+     * @return array
+     */
+    public function getCategories()
+    {
+        return $this->categories;
+    }
+
+    /**
+     * Get category Ids
+     *
+     * @return array
+     */
+    public function getCategoryIds()
+    {
+        $categoryIds = array();
+        /** @var Category $category */
+        foreach ($this->categories as $category) {
+            $categoryIds[] = $category->getCategoryId();
+        }
+        return $categoryIds;
     }
 
     /**

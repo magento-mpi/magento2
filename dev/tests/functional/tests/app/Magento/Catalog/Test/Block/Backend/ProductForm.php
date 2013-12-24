@@ -23,6 +23,7 @@ use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell;
 
 /**
  * Class ProductForm
@@ -77,7 +78,8 @@ class ProductForm extends FormTabs
         DownloadableProduct::GROUP => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
         Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab',
         Related::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related',
-        Upsell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell'
+        Upsell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell',
+        Crosssell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell'
     );
 
     /**

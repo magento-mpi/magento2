@@ -1,35 +1,64 @@
 * Fixed bugs:
+  * Fixed big image in product description scale
+  * Fixed admin dashboard styling issue
+  * Fixed validation message for qty field
+  * Fixed bug in share wishlist email template
+  * Fixed plushe Issue - Drop-down menu should respond quicker when the pointer moves off
+  * Fixed Related Banners tab is missing for Catalog Price Rule
+  * Fixed Its unable to enable duplicated product
+  * Fixed Warnings on attempt to save configuration for Payment Methods
+  * Fixed After update Gift messages for Items Ordered disapears from Order View page in backend
+  * Fixed Impossible to create New Order Status
+  * Fixed Save and Previous + Previous buttons are not working on edit review page
+  * Fixed Website can't be deleted if the number of websites is less or equal than two
+  * Fixed Fatal Error during export Customers from Customer page
+  * Fixed impossibility to add Product to the Cart from the Category page in IE
+  * Fixed Logo is absent on login page from backend
+  * Fixed visual indication for tax details opener on create order page in backend
+  * Fixed broken design CMS page preview
+  * Fixed broken design newsletter template preview
+  * Fixed broken design on Matched Customers tab grid in Email Remainder
+  * Fixed validation message about uncompatible version format while Theme creation
+  * Fixed performance degradation during install wizard execution
+* Themes update:
+  * Responsive design improvements
+* Improvements to code coverage calculation:
+  * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+
+2.0.0.0-dev57
+=============
+* Fixed bugs:
   * Fixed [MAP]: "Click for price" link is broken on the category page
-  * Fixed tax rule searching doesn't work correctly on the grid
-  * Fixed redirect on dashboard if click "Search" "Reset", "Export" buttons on several pages
-  * Fixed user switching to alternate store-view when click on the Category (with Add Store Code to Urls="Yes" in the config)
-  * Fixed printing Order/Shipping/Credit Memo from Backend
+  * Fixed tax rule search on the grid
+  * Fixed redirect on dashboard if "Search", "Reset", "Export" buttons are clicked on several pages
+  * Fixed switching user to alternate store-view when clicking on the Category (with Add Store Code to Urls="Yes" in the config)
+  * Fixed printing Order/Shipping/Credit Memo from backend
   * Fixed 404 Error on attempt to print Shipping Label
   * Fixed duplication of JavaScript Resources in head on frontend
-  * Fixed Plushe Issue - Disabled states on Configurable product page should be consistent
+  * Fixed inconsistency with disabled states on Configurable product page in the Plushe theme
   * Fixed 3D Secure Information absence on Admin Order Info page
   * Fixed possibility to download or revert Backup
-  * Fixed Session Fixation in User Registration during Checkout
-  * Fixed fatal error while login to backend
-  * Fixed inline translations in adminhtml area
-  * Partial refunds/invoices in Payflow Pro
-  * Design emulation ignores area
-  * Unable to place order with virtual product using Express Checkout
-  * Fixed the error during place an order with Recurring profile payment
-  * Fixed wrong redirection after customer registration during multishipping checkout
-  * Fixed the bug that shipping labels can't be created
-  * Fixed switch language is not responding, is the default English
-  * Fixed incorrect XML appears in cache after some actions on the frontend
-  * Fixed export products does not work
-  * Fixed impossibility to configure memcache as session save handler
+  * Fixed session fixation in user registration during checkout
+  * Fixed fatal error during login to backend
+  * Fixed inline translations in the Adminhtml area
+  * Fixed partial refunds/invoices in Payflow Pro
+  * Fixed the issue with ignoring area in design emulation
+  * Fixed order placing with virtual product using Express Checkout
+  * Fixed the error during order placement with Recurring profile payment
+  * Fixed wrong redirect after customer registration during multishipping checkout
+  * Fixed inability to crate shipping labels
+  * Fixed inability to switch language, if the default language is English
+  * Fixed an issue with incorrect XML appearing in cache after some actions on the frontend
+  * Fixed product export
+  * Fixed inability to configure memcache as session save handler
 * GitHub requests:
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
   * Removed \Magento\App\Helper\HelperFactory
-  * Removed method "helper" from abstract block interface
-  * Layout page type config moved into library
+  * Removed the "helper" method from the abstract block interface
+  * Layout page type config moved to library
   * Design loader moved to library
   * Theme label moved to library
   * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
@@ -37,10 +66,10 @@
     * \Magento\Stdlib\Cookie library created
     * Session Manager and Session Config interfaces provided
     * Session save handler interface created
-    * Session storage interface created, session doesn't extend \Magento\Object anymore
+    * Session storage interface created, session does not extend \Magento\Object anymore
     * Session validator interface created
     * Session generic wrapper moved to library
-    * Messages functionality moved from Session model as separate component, message manager interface created.
+    * Messages functionality moved from the Session model as separate component, message manager interface created
     * Sid resolver interface created to handle session sid from request
   
 2.0.0.0-dev56
@@ -68,7 +97,7 @@
   * Ability to delete API integrations that were not created using configuration files
 * Removed System REST menu item and all associated UX flows:
   * Users, Roles, and Webhook Subscriptions sub-menu items were removed
-* Removed the Webhook module
+* Removed the Webhook module until it can be refactored to use the new Authorization service
 
 2.0.0.0-dev55
 =============

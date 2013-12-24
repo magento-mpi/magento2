@@ -26,9 +26,9 @@ class BundleFixedTest extends Functional
     }
 
     /**
-     * Creating bundle (dynamic) product and assigning it to the category only
+     * Creating bundle (fixed) product and assigning it to the category
      *
-     * @ZephyrId MAGETWO-12702
+     * @ZephyrId MAGETWO-12622
      */
     public function testCreate()
     {

@@ -17,14 +17,16 @@ use Magento\Checkout\Test\Fixture\Checkout;
 
 /**
  * Class OnepageTest
- * Test one page checkout with different configurations
+ * Test one page with PayPal Advanced payment method
  *
  * @package Magento\Test\TestCase\Guest
  */
 class PaypalAdvancedTest extends Functional
 {
     /**
-     * Place order on frontend via one page checkout.
+     * Guest checkout using PayPal Payments Advanced method and offline shipping method
+     *
+     * @ZephyrId MAGETWO-12991
      */
     public function testOnepageCheckout()
     {

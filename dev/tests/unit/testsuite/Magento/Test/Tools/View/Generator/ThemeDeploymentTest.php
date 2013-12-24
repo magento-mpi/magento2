@@ -44,7 +44,12 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
             ->with(\Magento\Filesystem::ROOT)
             ->will($this->returnValue(BP));
 
-        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem);
+        $viewFilesystem = $this->getMock('Magento\View\Filesystem', array('normalizePath'), array(), '', false);
+        $viewFilesystem->expects($this->any())
+            ->method('normalizePath')
+            ->will($this->returnArgument(0));
+
+        $this->_cssUrlResolver = new \Magento\View\Url\CssResolver($this->filesystem, $viewFilesystem);
         $this->_tmpDir = TESTS_TEMP_DIR . '/tool_theme_deployment';
 
         $this->filesystemAdapter = new \Magento\Filesystem\Driver\File();
@@ -92,7 +97,7 @@ class ThemeDeploymentTest extends \PHPUnit_Framework_TestCase
                 $conflictPermitted,
                 $conflictForbidden,
                 'Conflicts: the following extensions are added both to permitted and forbidden lists: ' .
-                    'conflict1, conflict2',
+                'conflict1, conflict2',
             ),
         );
     }

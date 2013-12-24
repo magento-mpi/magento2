@@ -52,12 +52,4 @@ class SegmentConditions extends DataFixture
     {
         return $this->getData('fields/conditions__1--1__value/value');
     }
-
-    /**
-     * Update the placeholder
-     */
-    public function setPlaceHolders(array $placeholders = array())
-    {
-        $this->_placeholders = $placeholders;
-    }
 }
