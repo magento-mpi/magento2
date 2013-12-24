@@ -74,7 +74,8 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                     array(
                         'TestIntegration1' => array(
                             'email' => 'test-integration1@magento.com',
-                            'endpoint_url' => 'http://endpoint.com'
+                            'endpoint_url' => 'http://endpoint.com',
+                            'identity_link_url' => 'http://www.example.com/identity'
                         ),
                         'TestIntegration2' => array(
                             'email' => 'test-integration2@magento.com'
@@ -82,17 +83,18 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
                     )
                 )
             );
-        $intLookupData1 = array(
-            Integration::ID => 1,
+        $intLookupData1 = new \Magento\Object(array(
+            'id' => 1,
             Integration::NAME => 'TestIntegration1',
             Integration::SETUP_TYPE => 1,
-        );
+        ));
 
         $intUpdateData1 = array(
             Integration::ID => 1,
             Integration::NAME => 'TestIntegration1',
             Integration::EMAIL => 'test-integration1@magento.com',
             Integration::ENDPOINT => 'http://endpoint.com',
+            Integration::IDENTITY_LINK_URL => 'http://www.example.com/identity',
             Integration::SETUP_TYPE => 1,
         );
 
@@ -113,7 +115,7 @@ class ManagerTest extends \PHPUnit_Framework_TestCase
         $this->_integrationServiceMock->expects($this->at(2))
             ->method('findByName')
             ->with('TestIntegration2')
-            ->will($this->returnValue(array()));
+            ->will($this->returnValue(new \Magento\Object(array())));
         $this->_integrationServiceMock->expects($this->once())
             ->method('update')
             ->with($intUpdateData1);

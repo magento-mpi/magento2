@@ -14,7 +14,7 @@ interface AdapterInterface
     /**
      * Perform call to the specified service method.
      *
-     * @param string $serviceInfo <pre>
+     * @param array $serviceInfo <pre>
      * array(
      *     'rest' => array(
      *         'resourcePath' => $resourcePath, // e.g. /products/:id

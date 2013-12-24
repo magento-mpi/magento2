@@ -17,7 +17,7 @@
  */
 namespace Magento\Sales\Block\Adminhtml\Order\Creditmemo;
 
-class View extends \Magento\Adminhtml\Block\Widget\Form\Container
+class View extends \Magento\Backend\Block\Widget\Form\Container
 {
     /**
      * Core registry
@@ -202,7 +202,7 @@ class View extends \Magento\Adminhtml\Block\Widget\Form\Container
     /**
      * Update 'back' button url
      *
-     * @return \Magento\Adminhtml\Block\Widget\Container | \Magento\Sales\Block\Adminhtml\Order\Creditmemo\View
+     * @return \Magento\Backend\Block\Widget\Container | \Magento\Sales\Block\Adminhtml\Order\Creditmemo\View
      */
     public function updateBackButtonUrl($flag)
     {

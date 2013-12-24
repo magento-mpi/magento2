@@ -16,9 +16,9 @@ namespace Magento\Core\Model\Theme;
 class Collection extends \Magento\Data\Collection implements \Magento\View\Design\Theme\ListInterface
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Read
      */
-    protected $_filesystem;
+    protected $_directory;
 
     /**
      * Model of collection item
@@ -28,13 +28,6 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     protected $_itemObjectClass = 'Magento\Core\Model\Theme';
 
     /**
-     * Base directory with design
-     *
-     * @var string
-     */
-    protected $_baseDir;
-
-    /**
      * Target directory
      *
      * @var array
@@ -42,43 +35,23 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     protected $_targetDirs = array();
 
     /**
+     * @var \Magento\Config\FileIteratorFactory
+     */
+    protected $fileIteratorFactory;
+
+    /**
      * @param \Magento\Core\Model\EntityFactory $entityFactory
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dirs
+     * @param \Magento\Config\FileIteratorFactory $fileIteratorFactory
      */
     public function __construct(
         \Magento\Core\Model\EntityFactory $entityFactory,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dirs
+        \Magento\Config\FileIteratorFactory $fileIteratorFactory
     ) {
         parent::__construct($entityFactory);
-        $this->_filesystem = $filesystem;
-        $this->setBaseDir($dirs->getDir(\Magento\App\Dir::THEMES));
-    }
-
-    /**
-     * Set base directory path of design
-     *
-     * @param string $path
-     * @return \Magento\Core\Model\Theme\Collection
-     */
-    public function setBaseDir($path)
-    {
-        if ($this->isLoaded() && $this->_baseDir) {
-            $this->clearTargetPatterns()->clear();
-        }
-        $this->_baseDir = rtrim($path, DIRECTORY_SEPARATOR);
-        return $this;
-    }
-
-    /**
-     * Get base directory path
-     *
-     * @return string
-     */
-    public function getBaseDir()
-    {
-        return $this->_baseDir;
+        $this->_directory = $filesystem->getDirectoryRead(\Magento\Filesystem::THEMES);
+        $this->fileIteratorFactory = $fileIteratorFactory;
     }
 
     /**
@@ -89,7 +62,7 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      */
     public function addDefaultPattern($area = \Magento\Core\Model\App\Area::AREA_FRONTEND)
     {
-        $this->addTargetPattern(implode(DIRECTORY_SEPARATOR, array($area, '*', 'theme.xml')));
+        $this->addTargetPattern(implode('/', array($area, '*', 'theme.xml')));
         return $this;
     }
 
@@ -150,8 +123,10 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
 
         $pathsToThemeConfig = array();
         foreach ($this->getTargetPatterns() as $directoryPath) {
-            $themeConfigs = $this->_filesystem->searchKeys($this->getBaseDir(), $directoryPath);
-            $themeConfigs = str_replace('/', DIRECTORY_SEPARATOR, $themeConfigs);
+            $themeConfigs = $this->_directory->search($directoryPath);
+            foreach ($themeConfigs as &$relPathToTheme) {
+                $relPathToTheme = $this->_directory->getAbsolutePath($relPathToTheme);
+            }
             $pathsToThemeConfig = array_merge($pathsToThemeConfig, $themeConfigs);
         }
 
@@ -211,8 +186,8 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     protected function _preparePathData($configPath)
     {
         $themeDirectory = dirname($configPath);
-        $fullPath = trim(substr($themeDirectory, strlen($this->getBaseDir())), DIRECTORY_SEPARATOR);
-        $pathPieces = explode(DIRECTORY_SEPARATOR, $fullPath);
+        $fullPath = trim(substr($themeDirectory, strlen($this->_directory->getAbsolutePath())), '/');
+        $pathPieces = explode('/', $fullPath);
         $area = array_shift($pathPieces);
         return array('area' => $area, 'theme_path_pieces' => $pathPieces);
     }
@@ -225,7 +200,13 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
      */
     public function _prepareConfigurationData($configPath)
     {
-        $themeConfig = $this->_getConfigModel(array($configPath));
+
+        $themeConfig = $this->_getConfigModel(
+            $this->fileIteratorFactory->create(
+                $this->_directory,
+                array($this->_directory->getRelativePath($configPath))
+            )
+        );
         $pathData = $this->_preparePathData($configPath);
         $media = $themeConfig->getMedia();
 
@@ -292,10 +273,10 @@ class Collection extends \Magento\Data\Collection implements \Magento\View\Desig
     /**
      * Return configuration model for themes
      *
-     * @param array $configPaths
+     * @param $configPaths
      * @return \Magento\Config\Theme
      */
-    protected function _getConfigModel(array $configPaths)
+    protected function _getConfigModel($configPaths)
     {
         return new \Magento\Config\Theme($configPaths);
     }

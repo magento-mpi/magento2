@@ -80,7 +80,7 @@ class PrinterTest extends TestBase
      */
     public function dataProviderBasics()
     {
-        $originalCodeSnippet = <<<ORIGINALCODESNIPPET
+        $originalCodeSnippet0 = <<<'ORIGINALCODESNIPPET0'
 <?php
 /**
  * Class Foo
@@ -88,16 +88,20 @@ class PrinterTest extends TestBase
 class Foo extends Bar implements Zulu {
     /** alpha method */
     public function alpha() {
-        return \$this;
+        return $this;
     }
     /** beta method */
     public function beta() {
-        return \$this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
+        // Property call
+        echo $that->{$this->getName()};
+        // Method call
+        echo $that->{$this->getName()}();
+        return $this->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()->alpha()
             ->alpha()->alpha()->alpha()->alpha();
     }
 }
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET0;
+        $formattedCodeSnippet0 = <<<'FORMATTEDCODESNIPPET0'
 <?php
 /**
  * Class Foo
@@ -107,13 +111,17 @@ class Foo extends Bar implements Zulu
     /** alpha method */
     public function alpha()
     {
-        return \$this;
+        return $this;
     }
 
     /** beta method */
     public function beta()
     {
-        return \$this->alpha()
+        // Property call
+        echo $that->{$this->getName()};
+        // Method call
+        echo $that->{$this->getName()}();
+        return $this->alpha()
             ->alpha()
             ->alpha()
             ->alpha()
@@ -128,79 +136,79 @@ class Foo extends Bar implements Zulu
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet2 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET0;
+        $originalCodeSnippet1 = <<<'ORIGINALCODESNIPPET1'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
         // bob
-        \$d = 1+1;
+        $d = 1+1;
 
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet2 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET1;
+        $formattedCodeSnippet1 = <<<'FORMATTEDCODESNIPPET1'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
         // bob
-        \$d = 1 + 1;
+        $d = 1 + 1;
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet3 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET1;
+        $originalCodeSnippet2 = <<<'ORIGINALCODESNIPPET2'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
-        \$d = 1+1;
+        $d = 1+1;
 
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet3 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET2;
+        $formattedCodeSnippet2 = <<<'FORMATTEDCODESNIPPET2'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
-        \$d = 1 + 1;
+        $d = 1 + 1;
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet4 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET2;
+        $originalCodeSnippet3 = <<<'ORIGINALCODESNIPPET3'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
-        unset(\$d);
+        unset($d);
 
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet4 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET3;
+        $formattedCodeSnippet3 = <<<'FORMATTEDCODESNIPPET3'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
-        unset(\$d);
+        unset($d);
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet5 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET3;
+        $originalCodeSnippet4 = <<<ORIGINALCODESNIPPET4
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -209,8 +217,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet5 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET4;
+        $formattedCodeSnippet4 = <<<FORMATTEDCODESNIPPET4
 <?php
 namespace Magento\\Test;
 
@@ -222,8 +230,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet6 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET4;
+        $originalCodeSnippet5 = <<<'ORIGINALCODESNIPPET5'
 <?php
 require_once __DIR__.'processor.php';
 require __DIR__.'processor.php';
@@ -240,11 +248,11 @@ require('processor'.'.php');
 require_once('processor'.'.php');
 require 'processor'.'.php';
 
-\$processor = 1+2;
+$processor = 1+2;
 
 
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet6 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET5;
+        $formattedCodeSnippet5 = <<<'FORMATTEDCODESNIPPET5'
 <?php
 require_once __DIR__ . 'processor.php';
 require __DIR__ . 'processor.php';
@@ -261,35 +269,35 @@ require 'processor' . '.php';
 require_once 'processor' . '.php';
 require 'processor' . '.php';
 
-\$processor = 1 + 2;
+$processor = 1 + 2;
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet7 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET5;
+        $originalCodeSnippet6 = <<<'ORIGINALCODESNIPPET6'
 <?php
-  namespace Magento\\Test;
+  namespace Magento\Test;
 class Foo {
     function x() {
-        \$d=1+1;
+        $d=1+1;
         echo 1 + (2 - 2) * 3;
 
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet7 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET6;
+        $formattedCodeSnippet6 = <<<'FORMATTEDCODESNIPPET6'
 <?php
-namespace Magento\\Test;
+namespace Magento\Test;
 
 class Foo
 {
     public function x()
     {
-        \$d = 1 + 1;
+        $d = 1 + 1;
         echo 1 + (2 - 2) * 3;
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet8 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET6;
+        $originalCodeSnippet7 = <<<ORIGINALCODESNIPPET7
 <?php
   namespace Magento\\Test;
 
@@ -308,8 +316,8 @@ class Foo {
         echo 'z';
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet8 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET7;
+        $formattedCodeSnippet7 = <<<FORMATTEDCODESNIPPET7
 <?php
 namespace Magento\\Test;
 
@@ -330,8 +338,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet9 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET7;
+        $originalCodeSnippet8 = <<<ORIGINALCODESNIPPET8
 <?php
   namespace Magento\\Test;
 
@@ -354,8 +362,8 @@ class Foo {
         echo 'z';
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet9 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET8;
+        $formattedCodeSnippet8 = <<<FORMATTEDCODESNIPPET8
 <?php
 namespace Magento\\Test;
 
@@ -376,8 +384,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet10 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET8;
+        $originalCodeSnippet9 = <<<ORIGINALCODESNIPPET9
 <?php
   namespace Magento\\Test;
 
@@ -389,8 +397,8 @@ class Foo {
         echo 'z';
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet10 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET9;
+        $formattedCodeSnippet9 = <<<FORMATTEDCODESNIPPET9
 <?php
 namespace Magento\\Test;
 
@@ -404,8 +412,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet11 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET9;
+        $originalCodeSnippet10 = <<<ORIGINALCODESNIPPET10
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -416,8 +424,8 @@ class Foo {
 
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet11 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET10;
+        $formattedCodeSnippet10 = <<<FORMATTEDCODESNIPPET10
 <?php
 namespace Magento\\Test;
 
@@ -431,8 +439,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet12 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET10;
+        $originalCodeSnippet11 = <<<ORIGINALCODESNIPPET11
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -443,8 +451,8 @@ class Foo {
         // Comment at end of block
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet12 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET11;
+        $formattedCodeSnippet11 = <<<FORMATTEDCODESNIPPET11
 <?php
 namespace Magento\\Test;
 
@@ -458,8 +466,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet13 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET11;
+        $originalCodeSnippet12 = <<<ORIGINALCODESNIPPET12
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -472,12 +480,12 @@ class Foo {
         echo 'somehing\\n'.(1+2).'more';
 
         echo 'z';
-        echo "My super string \\n Is here".(1).'mixed'.\$v;
+        echo "My super string \\n Is here".(1).'mixed'.\$varOne;
         // Comment at end of block
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet13 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET12;
+        $formattedCodeSnippet12 = <<<FORMATTEDCODESNIPPET12
 <?php
 namespace Magento\\Test;
 
@@ -493,12 +501,12 @@ class Foo
         echo 'somehing\\n' . (1 + 2) . 'more';
 
         echo 'z';
-        echo "My super string \\n Is here" . 1 . 'mixed' . \$v;
+        echo "My super string \\n Is here" . 1 . 'mixed' . \$varOne;
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet14 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET12;
+        $originalCodeSnippet13 = <<<ORIGINALCODESNIPPET13
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -512,8 +520,8 @@ class Foo {
     protected \$_constH = True;
     protected \$_constI = False;
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet14 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET13;
+        $formattedCodeSnippet13 = <<<FORMATTEDCODESNIPPET13
 <?php
 namespace Magento\\Test;
 
@@ -538,8 +546,8 @@ class Foo
     protected \$_constI = false;
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet15 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET13;
+        $originalCodeSnippet14 = <<<ORIGINALCODESNIPPET14
 <?php
   namespace Magento\\Test;
 class Foo {
@@ -548,8 +556,8 @@ class Foo {
         \$this->_testFunctionCall = __('Testing');
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet15 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET14;
+        $formattedCodeSnippet14 = <<<FORMATTEDCODESNIPPET14
 <?php
 namespace Magento\\Test;
 
@@ -562,8 +570,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet16 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET14;
+        $originalCodeSnippet15 = <<<ORIGINALCODESNIPPET15
 <?php
   namespace Magento\\Test;
 class Foo extends \\Magento\\Test\\Bar{
@@ -583,8 +591,8 @@ class Foo extends \\Magento\\Test\\Bar{
         \$testEight, \$testNine);
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet16 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET15;
+        $formattedCodeSnippet15 = <<<FORMATTEDCODESNIPPET15
 <?php
 namespace Magento\\Test;
 
@@ -616,8 +624,8 @@ class Foo extends \\Magento\\Test\\Bar
     }
 }
 
-FORMATTEDCODESNIPPET;
-            $originalCodeSnippet17 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET15;
+            $originalCodeSnippet16 = <<<ORIGINALCODESNIPPET16
 <?php
   namespace Magento\\Test;
 class Foo{
@@ -625,8 +633,8 @@ class Foo{
         list(\$varOne, \$varTwo) = \$testOne;
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet17 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET16;
+        $formattedCodeSnippet16 = <<<FORMATTEDCODESNIPPET16
 <?php
 namespace Magento\\Test;
 
@@ -638,8 +646,8 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
-        $originalCodeSnippet18 = <<<ORIGINALCODESNIPPET
+FORMATTEDCODESNIPPET16;
+        $originalCodeSnippet17 = <<<ORIGINALCODESNIPPET17
 <?php
   namespace Magento\\Test;
 class Foo{
@@ -648,8 +656,8 @@ class Foo{
         = \$testOne;
     }
 };
-ORIGINALCODESNIPPET;
-        $formattedCodeSnippet18 = <<<FORMATTEDCODESNIPPET
+ORIGINALCODESNIPPET17;
+        $formattedCodeSnippet17 = <<<FORMATTEDCODESNIPPET17
 <?php
 namespace Magento\\Test;
 
@@ -670,10 +678,33 @@ class Foo
     }
 }
 
-FORMATTEDCODESNIPPET;
+FORMATTEDCODESNIPPET17;
+        $originalCodeSnippet18 = <<<ORIGINALCODESNIPPET18
+<?php
+function foo(){
+    if (true) {
+?>
+<html><body>Hi</body></html>
+<?php
+}
+}
+ORIGINALCODESNIPPET18;
+        $formattedCodeSnippet18 = <<<FORMATTEDCODESNIPPET18
+<?php
+function foo()
+{
+    if (true) {
+        ?>
+        <html><body>Hi</body></html>
+        <?php
+    }
+}
+
+FORMATTEDCODESNIPPET18;
 
         return array(
-            array($originalCodeSnippet, $formattedCodeSnippet),
+            array($originalCodeSnippet0, $formattedCodeSnippet0),
+            array($originalCodeSnippet1, $formattedCodeSnippet1),
             array($originalCodeSnippet2, $formattedCodeSnippet2),
             array($originalCodeSnippet3, $formattedCodeSnippet3),
             array($originalCodeSnippet4, $formattedCodeSnippet4),
@@ -838,7 +869,56 @@ FORMATTEDCODESNIPPET;
 
     public function dataMethodDeclarations()
     {
+        $originalMethod0 = <<<'ORIGINALMETHOD0'
+<?php class OM {
+    public function testIsValid($attributeData, $result, $expected, $messages, $data = array('attribute' => 'new_test'))
+    {}}
+ORIGINALMETHOD0;
+        $formattedMethod0 = <<<'FORMATTEDMETHOD0'
+<?php
+class OM
+{
+    public function testIsValid(
+        $attributeData,
+        $result,
+        $expected,
+        $messages,
+        $data = array('attribute' => 'new_test')
+    ) {
+    }
+}
+
+FORMATTEDMETHOD0;
+        $originalMethod1 = <<<'ORIGINALMETHOD1'
+<?php class OM {
+    public function testIsValid($attributeData, $result, $expected, $messages,
+    $data = array('attribute' => 'new_test', 'longattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghij',
+    'longerattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij'))
+    {}}
+ORIGINALMETHOD1;
+        $formattedMethod1 = <<<'FORMATTEDMETHOD1'
+<?php
+class OM
+{
+    public function testIsValid(
+        $attributeData,
+        $result,
+        $expected,
+        $messages,
+        $data = array(
+            'attribute' => 'new_test',
+            'longattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghij',
+            'longerattribute' => 'abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij'
+        )
+    ) {
+    }
+}
+
+FORMATTEDMETHOD1;
+
         return array(
+            array($originalMethod0, $formattedMethod0),
+            array($originalMethod1, $formattedMethod1),
             array(
                 "<?php class MD {public function alpha() {}}",
                 "<?php\nclass MD\n{\n    public function alpha()\n    {\n    }\n}\n"

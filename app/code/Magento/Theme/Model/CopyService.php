@@ -16,9 +16,9 @@ namespace Magento\Theme\Model;
 class CopyService
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_filesystem;
+    protected $_directory;
 
     /**
      * @var \Magento\View\Design\Theme\FileFactory
@@ -61,7 +61,7 @@ class CopyService
         \Magento\Event\ManagerInterface $eventManager,
         \Magento\View\Design\Theme\Customization\Path $customization
     ) {
-        $this->_filesystem = $filesystem;
+        $this->_directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
         $this->_fileFactory = $fileFactory;
         $this->_link = $link;
         $this->_updateFactory = $updateFactory;
@@ -167,7 +167,7 @@ class CopyService
 
         $this->_deleteFilesRecursively($targetPath);
 
-        if ($this->_filesystem->isDirectory($sourcePath)) {
+        if ($this->_directory->isDirectory($sourcePath)) {
             $this->_copyFilesRecursively($sourcePath, $sourcePath, $targetPath);
         }
     }
@@ -181,13 +181,12 @@ class CopyService
      */
     protected function _copyFilesRecursively($baseDir, $sourceDir, $targetDir)
     {
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        foreach ($this->_filesystem->searchKeys($sourceDir, '*') as $path) {
-            if ($this->_filesystem->isDirectory($path)) {
+        foreach ($this->_directory->read($sourceDir) as $path) {
+            if ($this->_directory->isDirectory($path)) {
                 $this->_copyFilesRecursively($baseDir, $path, $targetDir);
             } else {
                 $filePath = substr($path, strlen($baseDir) + 1);
-                $this->_filesystem->copy($path, $targetDir . '/' . $filePath, $baseDir, $targetDir);
+                $this->_directory->copyFile($path, $targetDir . '/' . $filePath);
             }
         }
     }
@@ -199,8 +198,11 @@ class CopyService
      */
     protected function _deleteFilesRecursively($targetDir)
     {
-        foreach ($this->_filesystem->searchKeys($targetDir, '*') as $path) {
-            $this->_filesystem->delete($path);
+        if (!$this->_directory->isExist($targetDir)) {
+            return;
+        }
+        foreach ($this->_directory->read($targetDir) as $path) {
+            $this->_directory->delete($path);
         }
     }
 }

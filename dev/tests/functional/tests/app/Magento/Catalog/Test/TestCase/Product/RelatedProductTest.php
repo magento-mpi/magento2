@@ -15,8 +15,7 @@ use Mtf\Factory\Factory;
 use Mtf\TestCase\Functional;
 use Mtf\Fixture;
 use Magento\Catalog\Test\Fixture\Product;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
 
 /**
  * Class RelatedProductTest
@@ -42,85 +41,79 @@ class RelatedProductTest extends Functional
     public function testRelatedProduct()
     {
         // Precondition: create simple product 1
-        $simpleProduct1 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $simpleProduct1->switchData('simple');
-        $simpleProduct1->persist();
-        // Precondition: create simple product 2
-        $simpleProduct2 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-        $simpleProduct2->switchData('simple');
-        $simpleProduct2->persist();
-        // Precondition: create configurable product
-        $configurableProduct = Factory::getFixtureFactory()->getMagentoCatalogConfigurableProduct();
-        $configurableProduct->switchData('configurable');
-        $configurableProduct->persist();
+        $simple1 = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
+        $simple1->switchData('simple');
+        $simple1->persist();
+        $assignToSimple1 = Factory::getFixtureFactory()->getMagentoCatalogRelatedProducts();
+        $assignToSimple1->switchData('add_related_products');
+        $verify = array($assignToSimple1->getProduct('simple'), $assignToSimple1->getProduct('configurable'));
+        //Data
+        $productGridPage = Factory::getPageFactory()->getCatalogProductIndex();
+        $editProductPage = Factory::getPageFactory()->getCatalogProductEdit();
+        //Steps
+        $productGridPage->open();
+        $productGridPage->getProductGrid()->searchAndOpen(array('sku' => $simple1->getProductSku()));
+        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
+        $editProductPage->getProductBlockForm()->save($assignToSimple1);
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
-        $this->addRelatedProduct($simpleProduct1, array($simpleProduct2, $configurableProduct));
-        $this->addRelatedProduct($configurableProduct, array($simpleProduct2));
-        $this->assertOnTheFrontend($simpleProduct1, $simpleProduct2, $configurableProduct);
-    }
+        $productGridPage->open();
+        $productGridPage->getProductGrid()->searchAndOpen(
+            array('sku' => $assignToSimple1->getProduct('configurable')->getProductSku())
+        );
+        $assignToSimple1->switchData('add_related_product');
+        $editProductPage->getProductBlockForm()->fill($assignToSimple1);
+        $editProductPage->getProductBlockForm()->save($assignToSimple1);
+        $editProductPage->getMessagesBlock()->assertSuccessMessage();
 
-    /**
-     * Configure related products in the backend
-     *
-     * @param Product $product
-     * @param Product[] $relatedProducts
-     */
-    private function addRelatedProduct($product, $relatedProducts)
-    {
-        $productEditPage = Factory::getPageFactory()->getCatalogProductEdit();
-        $productEditPage->open(array('id' => $product->getProductId()));
-        $productEditPage->getProductBlockForm()->openRelatedProductTab();
-        foreach ($relatedProducts as $relatedProduct) {
-            $productEditPage->getRelatedProductGrid()
-                ->searchAndSelect(array('name' => $relatedProduct->getProductName()));
-        }
-        $productEditPage->getProductBlockForm()->save($product);
-        //Verify that the product was successfully saved
-        $productEditPage->getMessagesBlock()->assertSuccessMessage("You saved the product.", $productEditPage);
+        $this->assertOnTheFrontend($simple1, $verify);
     }
 
     /**
      * Assert configurable product is added to cart together with the proper related product
      *
-     * @param SimpleProduct $simpleProduct1
-     * @param SimpleProduct $simpleProduct2
-     * @param ConfigurableProduct $configurableProduct
+     * @param Product $product
+     * @param Product[] $assigned
      */
-    protected function assertOnTheFrontEnd($simpleProduct1, $simpleProduct2, $configurableProduct)
+    protected function assertOnTheFrontEnd(Product $product, $assigned)
     {
-        //Open up simple product 1 page
+        /** @var Product $simple2 */
+        /** @var Product $configurable */
+        list($simple2, $configurable) = $assigned;
+        //Open up simple1 product page
         $productPage = Factory::getPageFactory()->getCatalogProductView();
-        $productPage->init($simpleProduct1);
+        $productPage->init($product);
         $productPage->open();
-        /** @var \Magento\Catalog\Test\Block\Product\ProductList\Related $relatedProductBlock */
-        $simpleProductRelatedBlock = $productPage->getRelatedProductBlock();
-        $this->assertTrue($simpleProductRelatedBlock->isVisible(),
-            'Related products block is not found on the simple product page');
-        //Verify that simple product 2 and configurable product present as related products
-        $simpleProductRelatedBlock->verifyRelatedProducts($simpleProduct2, $configurableProduct);
+        $this->assertEquals($product->getProductName(), $productPage->getViewBlock()->getProductName());
 
-        //Open up configurable product page
-        $configurableProductPage = Factory::getPageFactory()->getCatalogProductView();
-        $configurableProductPage->init($configurableProduct);
-        $configurableProductPage->open();
-        /** @var \Magento\Catalog\Test\Block\Product\ProductList\Related $relatedConfigurableProductBlock */
-        $configurableProductRelatedBlock = $configurableProductPage->getRelatedProductBlock();
-        $this->assertTrue($configurableProductRelatedBlock->isVisible(),
-            'Related products block is not found on the configurable product page');
-        //Verify that simple product 2 presents as related product
-        $configurableProductRelatedBlock->verifyRelatedProducts($simpleProduct2);
-
-        //Add the configurable product and its related product together to the shopping cart
-        $configurableProductRelatedBlock->addRelatedProductsToCart($configurableProductPage->getViewBlock(),
-            $simpleProduct2, $configurableProduct);
+        /** @var \Magento\Catalog\Test\Block\Product\ProductList\Related $relatedBlock */
+        $relatedBlock = $productPage->getRelatedProductBlock();
+        //Verify related simple2 and configurable on Simple1 product page
+        $this->assertTrue($relatedBlock->isRelatedProductVisible($simple2->getProductName()));
+        $this->assertTrue($relatedBlock->isRelatedProductSelectable($simple2->getProductName()));
+        $this->assertTrue($relatedBlock->isRelatedProductVisible($configurable->getProductName()));
+        $this->assertFalse($relatedBlock->isRelatedProductSelectable($configurable->getProductName()));
+        //Open and verify configurable page
+        $relatedBlock->openRelatedProduct($configurable->getProductName());
+        $this->assertEquals($configurable->getProductName(), $productPage->getViewBlock()->getProductName());
+        //Verify related simple2 on Configurable product page and add to cart it
+        $relatedBlock = $productPage->getRelatedProductBlock();
+        $this->assertTrue($relatedBlock->isRelatedProductVisible($simple2->getProductName()));
+        $this->assertTrue($relatedBlock->isRelatedProductSelectable($simple2->getProductName()));
+        $relatedBlock->selectProductForAddToCart($simple2->getProductName());
+        $productPage->getViewBlock()->addToCart($configurable);
 
         //Verify that both configurable product and simple product 2 are added to shopping cart
         $checkoutCartPage = Factory::getPageFactory()->getCheckoutCart();
         $checkoutCartBlock = $checkoutCartPage->getCartBlock();
         $checkoutCartPage->getMessageBlock()->assertSuccessMessage();
-        $this->assertTrue($checkoutCartBlock->isProductInShoppingCart($configurableProduct),
-            'Configurable product was not found in the shopping cart.');
-        $this->assertTrue($checkoutCartBlock->isProductInShoppingCart($simpleProduct2),
-            'Related product was not found in the shopping cart.');
+        $this->assertTrue(
+            $checkoutCartBlock->isProductInShoppingCart($configurable),
+            'Configurable product was not found in the shopping cart.'
+        );
+        $this->assertTrue(
+            $checkoutCartBlock->isProductInShoppingCart($simple2),
+            'Related product was not found in the shopping cart.'
+        );
     }
 }

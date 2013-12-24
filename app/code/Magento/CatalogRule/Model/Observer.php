@@ -81,6 +81,11 @@ class Observer
     protected $_resourceRule;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param Resource\RuleFactory $resourceRuleFactory
      * @param Resource\Rule $resourceRule
      * @param Resource\Rule\CollectionFactory $ruleCollFactory
@@ -93,6 +98,7 @@ class Observer
      * @param \Magento\Backend\Model\Session $backendSession
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Stdlib\DateTime $dateTime
+     * @param \Magento\Message\ManagerInterface $messageManager
      *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
@@ -108,7 +114,8 @@ class Observer
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Backend\Model\Session $backendSession,
         \Magento\Core\Model\Registry $coreRegistry,
-        \Magento\Stdlib\DateTime $dateTime
+        \Magento\Stdlib\DateTime $dateTime,
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_resourceRuleFactory = $resourceRuleFactory;
         $this->_resourceRule = $resourceRule;
@@ -122,6 +129,7 @@ class Observer
         $this->_backendSession = $backendSession;
         $this->_coreRegistry = $coreRegistry;
         $this->dateTime = $dateTime;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -377,8 +385,12 @@ class Observer
 
         if ($disabledRulesCount) {
             $this->_ruleFactory->create()->applyAll();
-            $this->_backendSession->addWarning(
-                __('%1 Catalog Price Rules based on "%2" attribute have been disabled.', $disabledRulesCount, $attributeCode)
+            $this->messageManager->addWarning(
+                __(
+                    '%1 Catalog Price Rules based on "%2" attribute have been disabled.',
+                    $disabledRulesCount,
+                    $attributeCode
+                )
             );
         }
 

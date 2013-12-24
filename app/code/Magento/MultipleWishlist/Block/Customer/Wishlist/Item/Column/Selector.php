@@ -27,7 +27,7 @@ class Selector
      */
     public function isEnabled()
     {
-        return $this->_wishlistData->isMultipleEnabled() || $this->getIsEnabled();
+        return $this->_wishlistHelper->isMultipleEnabled() || $this->getIsEnabled();
     }
 
     /**

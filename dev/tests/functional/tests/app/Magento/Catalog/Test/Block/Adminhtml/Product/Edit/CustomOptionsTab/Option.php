@@ -27,7 +27,7 @@ class Option extends Block
      * @param string $type
      * @param Element $element
      * @throws \InvalidArgumentException
-     * @return Block
+     * @return Block|\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab\TypeSelect
      */
     protected function factory($type, Element $element)
     {

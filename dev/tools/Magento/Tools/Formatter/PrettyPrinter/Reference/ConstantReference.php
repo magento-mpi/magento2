@@ -16,7 +16,7 @@ class ConstantReference extends AbstractReference
     /**
      * This member holds the tokens that need to be replaced.
      */
-    protected $replacements = ['false', 'true', 'null'];
+    protected $replacements = array('false', 'true', 'null');
 
     /**
      * This method constructs a new reference based on the specified constant.
@@ -30,6 +30,7 @@ class ConstantReference extends AbstractReference
     /**
      * This method resolves the current reference, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
@@ -44,6 +45,7 @@ class ConstantReference extends AbstractReference
                 break;
             }
         }
+        return $treeNode;
     }
 
     /**

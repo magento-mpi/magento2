@@ -16,6 +16,6 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation\View;
 
-class Tabs extends \Magento\Adminhtml\Block\Widget\Tabs
+class Tabs extends \Magento\Backend\Block\Widget\Tabs
 {
 }

@@ -14,8 +14,8 @@
 namespace Magento\Sales\Block\Adminhtml\Recurring\Profile\View\Tab;
 
 class Orders
-    extends \Magento\Adminhtml\Block\Widget\Grid
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget\Grid\Extended
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry
@@ -37,6 +37,7 @@ class Orders
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection
      * @param \Magento\Sales\Model\Order\ConfigFactory $orderConfig
@@ -45,6 +46,7 @@ class Orders
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Sales\Model\Resource\Order\Grid\CollectionFactory $orderCollection,
         \Magento\Sales\Model\Order\ConfigFactory $orderConfig,
@@ -53,7 +55,7 @@ class Orders
         $this->_coreRegistry = $coreRegistry;
         $this->_orderCollection = $orderCollection;
         $this->_orderConfig = $orderConfig;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**

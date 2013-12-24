@@ -25,7 +25,7 @@ abstract class ClassTypeAbstract extends AbstractStatement
         // processing the child nodes
         $this->processNodes($this->node->stmts, $treeNode);
         // add the closing brace on a new line
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 
     /**

@@ -37,20 +37,28 @@ class Index extends \Magento\Backend\App\Action
     protected $_fileFactory;
 
     /**
+     * @var \Magento\Backup\Model\BackupFactory
+     */
+    protected $_backupModelFactory;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Backup\Factory $backupFactory
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Backup\Model\BackupFactory $backupModelFactory
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Backup\Factory $backupFactory,
-        \Magento\App\Response\Http\FileFactory $fileFactory
+        \Magento\App\Response\Http\FileFactory $fileFactory,
+        \Magento\Backup\Model\BackupFactory $backupModelFactory
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_backupFactory = $backupFactory;
         $this->_fileFactory = $fileFactory;
+        $this->_backupModelFactory = $backupModelFactory;
         parent::__construct($context);
     }
 
@@ -92,7 +100,7 @@ class Index extends \Magento\Backend\App\Action
     public function createAction()
     {
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->_redirect('*/*/index');
         }
 
         $response = new \Magento\Object();
@@ -135,7 +143,7 @@ class Index extends \Magento\Backend\App\Action
             }
 
             if ($type != \Magento\Backup\Factory::TYPE_DB) {
-                $backupManager->setRootDir($this->_objectManager->get('Magento\App\Dir')->getDir())
+                $backupManager->setRootDir($this->_objectManager->get('Magento\Filesystem')->getPath())
                     ->addIgnorePaths($helper->getBackupIgnorePaths());
             }
 
@@ -143,7 +151,7 @@ class Index extends \Magento\Backend\App\Action
 
             $backupManager->create();
 
-            $this->_getSession()->addSuccess($successMessage);
+            $this->messageManager->addSuccess($successMessage);
 
             $response->setRedirectUrl($this->getUrl('*/*/index'));
         } catch (\Magento\Backup\Exception\NotEnoughFreeSpace $e) {
@@ -176,13 +184,13 @@ class Index extends \Magento\Backend\App\Action
     public function downloadAction()
     {
         /* @var $backup \Magento\Backup\Model\Backup */
-        $backup = $this->_objectManager->create('Magento\Backup\Model\Backup')->loadByTimeAndType(
+        $backup = $this->_backupModelFactory->create(
             $this->getRequest()->getParam('time'),
             $this->getRequest()->getParam('type')
         );
 
         if (!$backup->getTime() || !$backup->exists()) {
-            return $this->_redirect('adminhtml/*');
+            return $this->_redirect('backup/*');
         }
 
         $fileName = $this->_objectManager->get('Magento\Backup\Helper\Data')
@@ -204,11 +212,11 @@ class Index extends \Magento\Backend\App\Action
     public function rollbackAction()
     {
         if (!$this->_objectManager->get('Magento\Backup\Helper\Data')->isRollbackAllowed()) {
-            return $this->_forward('denied');
+            $this->_forward('denied');
         }
 
         if (!$this->getRequest()->isAjax()) {
-            return $this->getUrl('*/*/index');
+            return $this->_redirect('*/*/index');
         }
 
         $helper = $this->_objectManager->get('Magento\Backup\Helper\Data');
@@ -216,13 +224,13 @@ class Index extends \Magento\Backend\App\Action
 
         try {
             /* @var $backup \Magento\Backup\Model\Backup */
-            $backup = $this->_objectManager->create('Magento\Backup\Model\Backup')->loadByTimeAndType(
+            $backup = $this->_backupModelFactory->create(
                 $this->getRequest()->getParam('time'),
                 $this->getRequest()->getParam('type')
             );
 
             if (!$backup->getTime() || !$backup->exists()) {
-                return $this->_redirect('adminhtml/*');
+                return $this->_redirect('backup/*');
             }
 
             if (!$backup->getTime()) {
@@ -266,7 +274,7 @@ class Index extends \Magento\Backend\App\Action
 
             if ($type != \Magento\Backup\Factory::TYPE_DB) {
 
-                $backupManager->setRootDir($this->_objectManager->get('Magento\App\Dir')->getDir())
+                $backupManager->setRootDir($this->_objectManager->get('Magento\Filesystem')->getPath())
                     ->addIgnorePaths($helper->getRollbackIgnorePaths());
 
                 if ($this->getRequest()->getParam('use_ftp', false)) {
@@ -295,7 +303,7 @@ class Index extends \Magento\Backend\App\Action
             $errorMsg = __('Failed to validate FTP');
         } catch (\Magento\Backup\Exception\NotEnoughPermissions $e) {
             $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
-            $errorMsg = __('You need more permissions to create a backup.');
+            $errorMsg = __('Not enough permissions to perform rollback.');
         } catch (\Exception $e) {
             $this->_objectManager->get('Magento\Logger')->log($e->getMessage());
             $errorMsg = __('Failed to rollback');
@@ -323,11 +331,9 @@ class Index extends \Magento\Backend\App\Action
         $backupIds = $this->getRequest()->getParam('ids', array());
 
         if (!is_array($backupIds) || !count($backupIds)) {
-            return $this->_redirect('adminhtml/*/index');
+            return $this->_redirect('backup/*/index');
         }
 
-        /** @var $backupModel \Magento\Backup\Model\Backup */
-        $backupModel = $this->_objectManager->create('Magento\Backup\Model\Backup');
         $resultData = new \Magento\Object();
         $resultData->setIsSuccess(false);
         $resultData->setDeleteResult(array());
@@ -340,8 +346,8 @@ class Index extends \Magento\Backend\App\Action
 
             foreach ($backupIds as $id) {
                 list($time, $type) = explode('_', $id);
-                $backupModel
-                    ->loadByTimeAndType($time, $type)
+                $backupModel = $this->_backupModelFactory
+                    ->create($time, $type)
                     ->deleteFile();
 
                 if ($backupModel->exists()) {
@@ -358,7 +364,7 @@ class Index extends \Magento\Backend\App\Action
 
             $resultData->setIsSuccess(true);
             if ($allBackupsDeleted) {
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('The selected backup(s) has been deleted.')
                 );
             } else {
@@ -366,10 +372,10 @@ class Index extends \Magento\Backend\App\Action
             }
         } catch (\Exception $e) {
             $resultData->setIsSuccess(false);
-            $this->_getSession()->addError($deleteFailMessage);
+            $this->messageManager->addError($deleteFailMessage);
         }
 
-        return $this->_redirect('adminhtml/*/index');
+        return $this->_redirect('backup/*/index');
     }
 
     /**

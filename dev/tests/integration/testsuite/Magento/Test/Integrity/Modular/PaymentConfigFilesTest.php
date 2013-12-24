@@ -30,7 +30,7 @@ class PaymentConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractCon
      */
     protected function _getConfigFilePathGlob()
     {
-        return '/*/*/*/etc/payment.xml';
+        return '/*/*/etc/payment.xml';
     }
 
     /**

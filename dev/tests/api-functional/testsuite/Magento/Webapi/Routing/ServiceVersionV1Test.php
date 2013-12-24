@@ -11,6 +11,9 @@
  */
 namespace Magento\Webapi\Routing;
 
+use Magento\TestFramework\Authentication\OauthHelper;
+use Magento\Webapi\Model\Rest\Config as RestConfig;
+
 class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
 {
 
@@ -31,7 +34,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     {
         $this->_version = 'V1';
         $this->_soapService = 'testModule1AllSoapAndRestV1';
-        $this->_restResourcePath = "/$this->_version/testmodule1/";
+        $this->_restResourcePath = "/{$this->_version}/testmodule1/";
     }
 
 
@@ -44,7 +47,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -74,7 +77,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET
+                'httpMethod' => RestConfig::HTTP_METHOD_GET
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -94,7 +97,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_POST
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -107,6 +110,37 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
     }
 
     /**
+     *  Test create item with missing proper resources to fail AuthZ
+     */
+    public function testCreateWithoutResources()
+    {
+        $createdItemName = 'createdItemName';
+        $serviceInfo = array(
+            'rest' => array(
+                'resourcePath' => $this->_restResourcePath,
+                'httpMethod' => RestConfig::HTTP_METHOD_POST
+            ),
+            'soap' => array(
+                'service' => $this->_soapService,
+                'operation' => $this->_soapService . 'Create'
+            )
+        );
+        $requestData = array('name' => $createdItemName);
+
+        // getting new credentials that do not match the api resources
+        OauthHelper::clearApiAccessCredentials();
+        OauthHelper::getApiAccessCredentials([]);
+        try {
+            $this->assertUnauthorizedException($serviceInfo, $requestData);
+        } catch (\Exception $e) {
+            OauthHelper::clearApiAccessCredentials();
+            throw $e;
+        }
+        // to allow good credentials to be restored (this is statically stored on OauthHelper)
+        OauthHelper::clearApiAccessCredentials();
+    }
+
+    /**
      *  Test update item
      */
     public function testUpdate()
@@ -115,7 +149,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_PUT
+                'httpMethod' => RestConfig::HTTP_METHOD_PUT
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -136,7 +170,7 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
         $serviceInfo = array(
             'rest' => array(
                 'resourcePath' => $this->_restResourcePath . $itemId,
-                'httpMethod' => \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_DELETE
+                'httpMethod' => RestConfig::HTTP_METHOD_DELETE
             ),
             'soap' => array(
                 'service' => $this->_soapService,
@@ -144,6 +178,6 @@ class ServiceVersionV1Test extends \Magento\Webapi\Routing\BaseService
             )
         );
         $requestData = array('id' => $itemId, 'name' => 'testName');
-        $this->assertNoRouteOrOperationException($serviceInfo, $requestData);
+        $this->_assertNoRouteOrOperationException($serviceInfo, $requestData);
     }
 }

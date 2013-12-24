@@ -15,6 +15,7 @@
     <preference for="Magento\Backend\Model\Config\Backend\File\RequestData\RequestDataInterface" type="Magento\Backend\Model\Config\Backend\File\RequestData" />
     <preference for="Magento\Backend\Model\Auth\Credential\StorageInterface" type="Magento\User\Model\User" />
     <preference for="Magento\Adminhtml\Helper\Data" type="Magento\Backend\Helper\Data" />
+    <preference for="Magento\Backend\App\ConfigInterface" type="Magento\Backend\App\Config" />
     <type name="Magento\App\AreaList">
         <param name="areas">
             <value>
@@ -64,6 +65,11 @@
     <type name="Magento\Backend\Model\Widget\Grid\Row\UrlGenerator">
         <param name="backendUrl">
             <instance type="Magento\Backend\Model\Url\Proxy" />
+        </param>
+    </type>
+    <type name="\Magento\Backend\Model\Observer">
+        <param name="backendSession">
+            <instance type="Magento\Backend\Model\Session\Proxy" />
         </param>
     </type>
     <type name="Magento\Backend\Model\Url">
@@ -131,6 +137,36 @@
                     <acl>Magento_Sales::sales</acl>
                 </sales>
             </value>
+        </param>
+    </type>
+    <virtualType name="Magento\Backend\Model\Auth\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>admin</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Backend\Model\Auth\Session">
+        <param name="storage">
+            <instance type="Magento\Backend\Model\Auth\Session\Storage" />
+        </param>
+    </type>
+    <virtualType name="Magento\Backend\Model\Session\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>adminhtml</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Backend\Model\Session">
+        <param name="storage">
+            <instance type="Magento\Backend\Model\Session\Storage" />
+        </param>
+    </type>
+    <virtualType name="Magento\Backend\Model\Session\Quote\Storage" type="Magento\Session\Storage">
+        <param name="namespace">
+            <value>adminhtml_quote</value>
+        </param>
+    </virtualType>
+    <type name="Magento\Backend\Model\Session\Quote">
+        <param name="storage">
+            <instance type="Magento\Backend\Model\Session\Quote\Storage" />
         </param>
     </type>
 </config>

@@ -78,11 +78,23 @@ class CheckoutOnepage extends Page
     protected $centinelAuthenticationBlock = 'body';
 
     /**
+     * @var \Magento\Centinel\Test\Block\Authentication
+     */
+    private $payflowAdvancedBlock;
+
+    /**
      * 3D Secure frame locator
      *
      * @var Locator
      */
     protected $centinelFrame = '#centinel-authenticate-iframe';
+
+    /**
+     * Payflow Advanced frame locator
+     *
+     * @var $Locator
+     */
+    protected $_payflowAdvancedFrame;
 
     /**
      * Custom constructor
@@ -170,9 +182,20 @@ class CheckoutOnepage extends Page
      */
     public function getCentinelAuthenticationBlock()
     {
-        $this->_browser->switchToFrame($this->centinelFrame);
+        $this->_browser->switchToFrame(new Locator($this->centinelFrame));
         return Factory::getBlockFactory()->getMagentoCentinelAuthentication(
             $this->_browser->find($this->centinelAuthenticationBlock, Locator::SELECTOR_CSS)
+        );
+    }
+
+    /**
+     * @return \Magento\Centinel\Test\Block\Authentication
+     */
+    public function getPayflowCcBlock()
+    {
+        $this->_browser->switchToFrame(new Locator($this->_payflowAdvancedFrame));
+        return Factory::getBlockFactory()->getMagentoPaymentFormPayflowAdvancedCc(
+            $this->_browser->find($this->payflowAdvancedBlock)
         );
     }
 }

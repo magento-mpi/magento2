@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\PrettyPrinter\SimpleListLineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Static;
@@ -27,17 +26,17 @@ class StaticVariableStatement extends AbstractScriptStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the function line
-        $line->add('static ');
+        $this->addToLine($treeNode, 'static ');
         // add in the variables
-        $this->processArgumentList($this->node->vars, $treeNode, $line, new SimpleListLineBreak());
+        $this->processArgumentList($this->node->vars, $treeNode, new SimpleListLineBreak());
         // add terminator
-        $line->add(';')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ';')->add(new HardLineBreak());
+        return $treeNode;
     }
 }

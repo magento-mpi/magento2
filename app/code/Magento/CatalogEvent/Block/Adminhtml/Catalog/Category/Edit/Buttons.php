@@ -22,10 +22,22 @@ class Buttons
     protected $_eventCollectionFactory;
 
     /**
+     * @var \Magento\CatalogEvent\Helper\Data
+     */
+    protected $_catalogeventHelper;
+
+    /**
+     * @var \Magento\Backend\Helper\Data
+     */
+    protected $_backendHelper;
+
+    /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Catalog\Model\Resource\Category\Tree $categoryTree
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory
+     * @param \Magento\CatalogEvent\Helper\Data $catalogeventHelper
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param array $data
      */
     public function __construct(
@@ -33,8 +45,12 @@ class Buttons
         \Magento\Catalog\Model\Resource\Category\Tree $categoryTree,
         \Magento\Core\Model\Registry $registry,
         \Magento\CatalogEvent\Model\Resource\Event\CollectionFactory $eventCollectionFactory,
+        \Magento\CatalogEvent\Helper\Data $catalogeventHelper,
+        \Magento\Backend\Helper\Data $backendHelper,
         array $data = array()
     ) {
+        $this->_backendHelper = $backendHelper;
+        $this->_catalogeventHelper = $catalogeventHelper;
         parent::__construct($context, $categoryTree, $registry, $data);
 
         $this->_eventCollectionFactory = $eventCollectionFactory;
@@ -66,11 +82,11 @@ class Buttons
      */
     public function addButtons()
     {
-        if ($this->helper('Magento\CatalogEvent\Helper\Data')->isEnabled()
+        if ($this->_catalogeventHelper->isEnabled()
             && $this->_authorization->isAllowed('Magento_CatalogEvent::events')
             && $this->getCategoryId() && $this->getCategory()->getLevel() > 1) {
             if ($this->getEvent() && $this->getEvent()->getId()) {
-                $url = $this->helper('Magento\Backend\Helper\Data')->getUrl('adminhtml/catalog_event/edit', array(
+                $url = $this->_backendHelper->getUrl('adminhtml/catalog_event/edit', array(
                             'id' => $this->getEvent()->getId(),
                             'category' => 1
                 ));
@@ -81,7 +97,7 @@ class Buttons
                         'onclick'   => 'setLocation(\''. $url .'\')'
                     ));
             } else {
-                $url = $this->helper('Magento\Backend\Helper\Data')->getUrl('adminhtml/catalog_event/new', array(
+                $url = $this->_backendHelper->getUrl('adminhtml/catalog_event/new', array(
                         'category_id' => $this->getCategoryId(),
                         'category' => 1
                 ));

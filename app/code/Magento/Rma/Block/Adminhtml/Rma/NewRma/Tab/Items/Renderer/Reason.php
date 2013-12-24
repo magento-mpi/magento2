@@ -18,7 +18,7 @@
 namespace Magento\Rma\Block\Adminhtml\Rma\NewRma\Tab\Items\Renderer;
 
 class Reason
-    extends \Magento\Adminhtml\Block\Widget\Form\Renderer\Fieldset\Element
+    extends \Magento\Backend\Block\Widget\Form\Renderer\Fieldset\Element
 {
     protected $_template = 'new/items/renderer/reason.phtml';
 }

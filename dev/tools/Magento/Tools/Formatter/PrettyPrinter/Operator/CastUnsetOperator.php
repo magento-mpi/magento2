@@ -13,11 +13,6 @@ class CastUnsetOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Unset $node)
     {
-        parent::__construct($node);
-    }
-
-    public function operator()
-    {
-        return '(unset) ';
+        parent::__construct($node, 'unset');
     }
 }

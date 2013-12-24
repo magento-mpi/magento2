@@ -412,7 +412,7 @@ class View extends \Magento\Rma\Block\Form
                 'href'      => "javascript:void(0)",
                 'title'     => __('Show Packages'),
                 'onclick'   => "popWin(
-                        '".$this->helper('Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel($this->getRma())."',
+                        '".$this->_rmaData->getPackagePopupUrlByRmaModel($this->getRma())."',
                         'package',
                         'width=800,height=600,top=0,left=0,resizable=yes,scrollbars=yes'); return false;"
             ))
@@ -430,7 +430,7 @@ class View extends \Magento\Rma\Block\Form
         return $this->getLayout()
             ->createBlock('Magento\View\Element\Html\Link')
             ->setData(array(
-                'href'      => $this->helper('Magento\Rma\Helper\Data')->getPackagePopupUrlByRmaModel(
+                'href'      => $this->_rmaData->getPackagePopupUrlByRmaModel(
                     $this->getRma(),
                     'printlabel'
                 ),

@@ -50,17 +50,18 @@ class Rest implements \Magento\TestFramework\TestCase\Webapi\AdapterInterface
         $resourcePath = $this->_getRestResourcePath($serviceInfo);
         $httpMethod = $this->_getRestHttpMethod($serviceInfo);
         //Get a valid token
-        $token = \Magento\TestFramework\Authentication\OauthHelper::getAccessToken();
+        $accessCredentials = \Magento\TestFramework\Authentication\OauthHelper::getApiAccessCredentials();
         /** @var $oAuthClient \Magento\TestFramework\Authentication\Rest\OauthClient*/
-        $oAuthClient = $token['oauth_client'];
+        $oAuthClient = $accessCredentials['oauth_client'];
         // delegate the request to vanilla cURL REST client
         $curlClient = new \Magento\TestFramework\TestCase\Webapi\Adapter\Rest\CurlClient();
-        $oauthHeader = $oAuthClient
-            ->buildOauthHeaderForApiRequest($curlClient->constructResourceUrl($resourcePath),
-                                            $token['key'],
-                                            $token['secret'],
-                                            ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
-                                            $httpMethod);
+        $oauthHeader = $oAuthClient->buildOauthHeaderForApiRequest(
+            $curlClient->constructResourceUrl($resourcePath),
+            $accessCredentials['key'],
+            $accessCredentials['secret'],
+            ($httpMethod == 'PUT' || $httpMethod == 'POST') ? $arguments : array(),
+            $httpMethod
+        );
         switch ($httpMethod) {
             case \Magento\Webapi\Model\Rest\Config::HTTP_METHOD_GET:
                 $response = $curlClient->get($resourcePath, array(), $oauthHeader);

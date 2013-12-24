@@ -11,7 +11,7 @@
 namespace Magento\GiftRegistry\Block\Adminhtml\Giftregistry\Edit\Attribute\Type;
 
 class Date
-    extends \Magento\Adminhtml\Block\Widget\Form
+    extends \Magento\Backend\Block\Widget\Form
 {
 
     protected $_template = 'edit/type/date.phtml';

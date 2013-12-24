@@ -135,6 +135,12 @@
             <path>dev/tests/functional-old/runtests.sh</path>
         </item>
         <item>
+            <word>Magento/Rma</word>
+            <word>Magento\Rma</word>
+            <word>Magento_Rma</word>
+            <path>dev/tests/functional</path>
+        </item>
+        <item>
             <word>Enterprise</word>
             <path>app/code/Magento/Core/Model/App.php</path>
         </item>
@@ -295,11 +301,6 @@
             <path>dev/tests/functional-old/testsuite/Core/Mage/ImportExport/Customer/ImportTest.php</path>
         </item>
         <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE theme -->
-            <word>GiftCard</word>
-            <path>app/code/Magento/Webhook/view/adminhtml/css/boxes.css</path>
-        </item>
-        <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE -->
             <word>GiftRegistry</word>
             <path>app/code/Magento/Wishlist/view/frontend/wishlist.js</path>
@@ -374,6 +375,11 @@
             <!-- Incorrect dependency: EE functionality mentioned in fixture used with CE test -->
             <word>Pbridge</word>
             <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
+        </item>
+        <item>
+            <!-- There is no way to inject EE blocks in CE page currently in MTF. -->
+            <path>dev/tests/functional/tests/app/Magento/</path>
+            <word>GiftCard</word>
         </item>
     </whitelist>
 </config>

@@ -47,7 +47,7 @@
             <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Content" name="banner_edit_tab_content"/>
             <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions" name="banner_edit_tab_promotions" template="edit/tab/promotions.phtml">
                 <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Salesrule" name="banner_salesrule_grid"/>
-                <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="salesrule_grid_serializer">
+                <block class="Magento\Backend\Block\Widget\Grid\Serializer" name="salesrule_grid_serializer">
                     <arguments>
                         <argument name="grid_block" xsi:type="string">banner_salesrule_grid</argument>
                         <argument name="callback" xsi:type="string">getRelatedSalesRule</argument>
@@ -56,7 +56,7 @@
                     </arguments>
                 </block>
                 <block class="Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions\Catalogrule" name="banner_catalogrule_grid"/>
-                <block class="Magento\Adminhtml\Block\Widget\Grid\Serializer" name="catalogrule_grid_serializer">
+                <block class="Magento\Backend\Block\Widget\Grid\Serializer" name="catalogrule_grid_serializer">
                     <arguments>
                         <argument name="grid_block" xsi:type="string">banner_catalogrule_grid</argument>
                         <argument name="callback" xsi:type="string">getRelatedCatalogRule</argument>

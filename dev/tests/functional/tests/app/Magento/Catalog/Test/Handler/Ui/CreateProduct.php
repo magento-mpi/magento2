@@ -27,7 +27,7 @@ class CreateProduct extends Ui
     /**
      * Create product
      *
-     * @param Fixture $fixture [optional]
+     * @param Fixture|\Mtf\Fixture\DataFixture $fixture [optional]
      * @return mixed|string
      */
     public function execute(Fixture $fixture = null)

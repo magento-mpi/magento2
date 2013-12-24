@@ -17,8 +17,8 @@
  */
 namespace Magento\Bundle\Block\Adminhtml\Catalog\Product\Edit\Tab;
 
-class Bundle extends \Magento\Adminhtml\Block\Widget
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+class Bundle extends \Magento\Backend\Block\Widget
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     protected $_product = null;
 
@@ -62,7 +62,7 @@ class Bundle extends \Magento\Adminhtml\Block\Widget
      */
     protected function _prepareLayout()
     {
-        $this->addChild('add_button', 'Magento\Adminhtml\Block\Widget\Button', array(
+        $this->addChild('add_button', 'Magento\Backend\Block\Widget\Button', array(
             'label' => __('Create New Option'),
             'class' => 'add',
             'id'    => 'add_new_option',

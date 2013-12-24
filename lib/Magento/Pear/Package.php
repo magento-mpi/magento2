@@ -191,7 +191,7 @@ class Package
 
     public function defineData()
     {
-        $this->set('options/outputdirectory', $this->getPear()->getPearDir().DS.'output');
+        $this->set('options/outputdirectory', $this->getPear()->getPearDir() . '/output');
         $this->set('options/filelistgenerator', 'php');
         $this->set('options/simpleoutput', true);
 

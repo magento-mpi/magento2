@@ -139,7 +139,6 @@ button.primary,
 .adminhtml-system-variable-index .page-actions .add,
 .adminhtml-user-index .page-actions .add,
 .adminhtml-user-role-index .page-actions .add,
-.adminhtml-webhook-subscription-index .page-actions .add,
 .adminhtml-integration-index .page-actions .add,
 .adminhtml-system-design-theme-index .page-actions .add,
 .adminhtml-system-design-index .page-actions .add,
@@ -157,6 +156,7 @@ button.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-integration-new .actions-split > .action-toggle.primary,
 .adminhtml-invitation-index .page-actions .add,
 .adminhtml-targetrule-index .page-actions .add,
 .adminhtml-giftwrapping-index .page-actions .add,
@@ -165,7 +165,8 @@ button.primary,
 .adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
-.catalog-product-index .actions-split.btn-round .action-default.primary {
+.catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary {
   font: 14px/19px 'Open Sans', sans-serif;
   font-weight: 500;
   background: #f2ebde;
@@ -307,9 +308,6 @@ button.primary:active,
 .adminhtml-user-role-index .page-actions .add:hover,
 .adminhtml-user-role-index .page-actions .add:focus,
 .adminhtml-user-role-index .page-actions .add:active,
-.adminhtml-webhook-subscription-index .page-actions .add:hover,
-.adminhtml-webhook-subscription-index .page-actions .add:focus,
-.adminhtml-webhook-subscription-index .page-actions .add:active,
 .adminhtml-integration-index .page-actions .add:hover,
 .adminhtml-integration-index .page-actions .add:focus,
 .adminhtml-integration-index .page-actions .add:active,
@@ -361,6 +359,9 @@ button.primary:active,
 .catalog-product-index .actions-split > .action-toggle.primary:hover,
 .catalog-product-index .actions-split > .action-toggle.primary:focus,
 .catalog-product-index .actions-split > .action-toggle.primary:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:hover,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:focus,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:active,
 .adminhtml-invitation-index .page-actions .add:hover,
 .adminhtml-invitation-index .page-actions .add:focus,
 .adminhtml-invitation-index .page-actions .add:active,
@@ -387,7 +388,10 @@ button.primary:active,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:active,
 .catalog-product-index .actions-split.btn-round .action-default.primary:hover,
 .catalog-product-index .actions-split.btn-round .action-default.primary:focus,
-.catalog-product-index .actions-split.btn-round .action-default.primary:active {
+.catalog-product-index .actions-split.btn-round .action-default.primary:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:hover,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:focus,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:active {
   background: #cac3b4;
   color: #676056;
 }
@@ -432,7 +436,6 @@ button.primary:active,
 .adminhtml-system-variable-index .page-actions .add:active,
 .adminhtml-user-index .page-actions .add:active,
 .adminhtml-user-role-index .page-actions .add:active,
-.adminhtml-webhook-subscription-index .page-actions .add:active,
 .adminhtml-integration-index .page-actions .add:active,
 .adminhtml-system-design-theme-index .page-actions .add:active,
 .adminhtml-system-design-index .page-actions .add:active,
@@ -450,6 +453,7 @@ button.primary:active,
 .catalog-product-new .actions-split > .action-toggle.primary:active,
 .catalog-product-edit .actions-split > .action-toggle.primary:active,
 .catalog-product-index .actions-split > .action-toggle.primary:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:active,
 .adminhtml-invitation-index .page-actions .add:active,
 .adminhtml-targetrule-index .page-actions .add:active,
 .adminhtml-giftwrapping-index .page-actions .add:active,
@@ -458,7 +462,8 @@ button.primary:active,
 .adminhtml-giftcardaccount-index .page-actions .add:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary:active,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:active,
-.catalog-product-index .actions-split.btn-round .action-default.primary:active {
+.catalog-product-index .actions-split.btn-round .action-default.primary:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:active {
   border: 1px solid #989287;
 }
 .DefaultButton:visited,
@@ -502,7 +507,6 @@ button.primary:visited,
 .adminhtml-system-variable-index .page-actions .add:visited,
 .adminhtml-user-index .page-actions .add:visited,
 .adminhtml-user-role-index .page-actions .add:visited,
-.adminhtml-webhook-subscription-index .page-actions .add:visited,
 .adminhtml-integration-index .page-actions .add:visited,
 .adminhtml-system-design-theme-index .page-actions .add:visited,
 .adminhtml-system-design-index .page-actions .add:visited,
@@ -520,6 +524,7 @@ button.primary:visited,
 .catalog-product-new .actions-split > .action-toggle.primary:visited,
 .catalog-product-edit .actions-split > .action-toggle.primary:visited,
 .catalog-product-index .actions-split > .action-toggle.primary:visited,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:visited,
 .adminhtml-invitation-index .page-actions .add:visited,
 .adminhtml-targetrule-index .page-actions .add:visited,
 .adminhtml-giftwrapping-index .page-actions .add:visited,
@@ -528,7 +533,8 @@ button.primary:visited,
 .adminhtml-giftcardaccount-index .page-actions .add:visited,
 .catalog-product-new .actions-split.btn-round .action-default.primary:visited,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:visited,
-.catalog-product-index .actions-split.btn-round .action-default.primary:visited {
+.catalog-product-index .actions-split.btn-round .action-default.primary:visited,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:visited {
   color: #676056;
 }
 .DefaultButton[disabled],
@@ -613,8 +619,6 @@ button.primary.disabled,
 .adminhtml-user-index .page-actions .add.disabled,
 .adminhtml-user-role-index .page-actions .add[disabled],
 .adminhtml-user-role-index .page-actions .add.disabled,
-.adminhtml-webhook-subscription-index .page-actions .add[disabled],
-.adminhtml-webhook-subscription-index .page-actions .add.disabled,
 .adminhtml-integration-index .page-actions .add[disabled],
 .adminhtml-integration-index .page-actions .add.disabled,
 .adminhtml-system-design-theme-index .page-actions .add[disabled],
@@ -649,6 +653,8 @@ button.primary.disabled,
 .catalog-product-edit .actions-split > .action-toggle.primary.disabled,
 .catalog-product-index .actions-split > .action-toggle.primary[disabled],
 .catalog-product-index .actions-split > .action-toggle.primary.disabled,
+.adminhtml-integration-new .actions-split > .action-toggle.primary[disabled],
+.adminhtml-integration-new .actions-split > .action-toggle.primary.disabled,
 .adminhtml-invitation-index .page-actions .add[disabled],
 .adminhtml-invitation-index .page-actions .add.disabled,
 .adminhtml-targetrule-index .page-actions .add[disabled],
@@ -666,7 +672,9 @@ button.primary.disabled,
 .catalog-product-edit .actions-split.btn-round .action-default.primary[disabled],
 .catalog-product-edit .actions-split.btn-round .action-default.primary.disabled,
 .catalog-product-index .actions-split.btn-round .action-default.primary[disabled],
-.catalog-product-index .actions-split.btn-round .action-default.primary.disabled {
+.catalog-product-index .actions-split.btn-round .action-default.primary.disabled,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary[disabled],
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary.disabled {
   cursor: not-allowed;
   opacity: 0.5;
   filter: progid:DXImageTransform.Microsoft.Alpha(opacity=50);
@@ -835,10 +843,6 @@ button.primary.disabled:active,
 .adminhtml-user-role-index .page-actions .add.disabled:hover,
 .adminhtml-user-role-index .page-actions .add[disabled]:active,
 .adminhtml-user-role-index .page-actions .add.disabled:active,
-.adminhtml-webhook-subscription-index .page-actions .add[disabled]:hover,
-.adminhtml-webhook-subscription-index .page-actions .add.disabled:hover,
-.adminhtml-webhook-subscription-index .page-actions .add[disabled]:active,
-.adminhtml-webhook-subscription-index .page-actions .add.disabled:active,
 .adminhtml-integration-index .page-actions .add[disabled]:hover,
 .adminhtml-integration-index .page-actions .add.disabled:hover,
 .adminhtml-integration-index .page-actions .add[disabled]:active,
@@ -907,6 +911,10 @@ button.primary.disabled:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:hover,
 .catalog-product-index .actions-split > .action-toggle.primary[disabled]:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary[disabled]:hover,
+.adminhtml-integration-new .actions-split > .action-toggle.primary.disabled:hover,
+.adminhtml-integration-new .actions-split > .action-toggle.primary[disabled]:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary.disabled:active,
 .adminhtml-invitation-index .page-actions .add[disabled]:hover,
 .adminhtml-invitation-index .page-actions .add.disabled:hover,
 .adminhtml-invitation-index .page-actions .add[disabled]:active,
@@ -942,7 +950,11 @@ button.primary.disabled:active,
 .catalog-product-index .actions-split.btn-round .action-default.primary[disabled]:hover,
 .catalog-product-index .actions-split.btn-round .action-default.primary.disabled:hover,
 .catalog-product-index .actions-split.btn-round .action-default.primary[disabled]:active,
-.catalog-product-index .actions-split.btn-round .action-default.primary.disabled:active {
+.catalog-product-index .actions-split.btn-round .action-default.primary.disabled:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary[disabled]:hover,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary.disabled:hover,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary[disabled]:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary.disabled:active {
   color: #676056;
   background: #f2ebde;
   border: 1px solid #ada89e;
@@ -981,7 +993,6 @@ button.primary,
 .adminhtml-system-variable-index .page-actions .add,
 .adminhtml-user-index .page-actions .add,
 .adminhtml-user-role-index .page-actions .add,
-.adminhtml-webhook-subscription-index .page-actions .add,
 .adminhtml-integration-index .page-actions .add,
 .adminhtml-system-design-theme-index .page-actions .add,
 .adminhtml-system-design-index .page-actions .add,
@@ -999,6 +1010,7 @@ button.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-integration-new .actions-split > .action-toggle.primary,
 .adminhtml-invitation-index .page-actions .add,
 .adminhtml-targetrule-index .page-actions .add,
 .adminhtml-giftwrapping-index .page-actions .add,
@@ -1008,6 +1020,7 @@ button.primary,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary,
 .PrimaryAddButton,
 .PrimarySplitButton > .action-toggle.primary,
 input[type=button].primary,
@@ -1041,7 +1054,6 @@ button.primary,
 .adminhtml-system-variable-index .page-actions .add,
 .adminhtml-user-index .page-actions .add,
 .adminhtml-user-role-index .page-actions .add,
-.adminhtml-webhook-subscription-index .page-actions .add,
 .adminhtml-integration-index .page-actions .add,
 .adminhtml-system-design-theme-index .page-actions .add,
 .adminhtml-system-design-index .page-actions .add,
@@ -1059,6 +1071,7 @@ button.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-integration-new .actions-split > .action-toggle.primary,
 .adminhtml-invitation-index .page-actions .add,
 .adminhtml-targetrule-index .page-actions .add,
 .adminhtml-giftwrapping-index .page-actions .add,
@@ -1067,7 +1080,8 @@ button.primary,
 .adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
-.catalog-product-index .actions-split.btn-round .action-default.primary {
+.catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary {
   color: #fff;
   background: #007dbd;
   border: 1px solid #0574ad;
@@ -1140,8 +1154,6 @@ button.primary:hover,
 .adminhtml-user-index .page-actions .add:hover,
 .adminhtml-user-role-index .page-actions .add:focus,
 .adminhtml-user-role-index .page-actions .add:hover,
-.adminhtml-webhook-subscription-index .page-actions .add:focus,
-.adminhtml-webhook-subscription-index .page-actions .add:hover,
 .adminhtml-integration-index .page-actions .add:focus,
 .adminhtml-integration-index .page-actions .add:hover,
 .adminhtml-system-design-theme-index .page-actions .add:focus,
@@ -1176,6 +1188,8 @@ button.primary:hover,
 .catalog-product-edit .actions-split > .action-toggle.primary:hover,
 .catalog-product-index .actions-split > .action-toggle.primary:focus,
 .catalog-product-index .actions-split > .action-toggle.primary:hover,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:focus,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:hover,
 .adminhtml-invitation-index .page-actions .add:focus,
 .adminhtml-invitation-index .page-actions .add:hover,
 .adminhtml-targetrule-index .page-actions .add:focus,
@@ -1193,7 +1207,9 @@ button.primary:hover,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:hover,
 .catalog-product-index .actions-split.btn-round .action-default.primary:focus,
-.catalog-product-index .actions-split.btn-round .action-default.primary:hover {
+.catalog-product-index .actions-split.btn-round .action-default.primary:hover,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:focus,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:hover {
   color: #fff;
   background: #026294;
   border: 1px solid #026294;
@@ -1232,7 +1248,6 @@ button.primary:active,
 .adminhtml-system-variable-index .page-actions .add:active,
 .adminhtml-user-index .page-actions .add:active,
 .adminhtml-user-role-index .page-actions .add:active,
-.adminhtml-webhook-subscription-index .page-actions .add:active,
 .adminhtml-integration-index .page-actions .add:active,
 .adminhtml-system-design-theme-index .page-actions .add:active,
 .adminhtml-system-design-index .page-actions .add:active,
@@ -1250,6 +1265,7 @@ button.primary:active,
 .catalog-product-new .actions-split > .action-toggle.primary:active,
 .catalog-product-edit .actions-split > .action-toggle.primary:active,
 .catalog-product-index .actions-split > .action-toggle.primary:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:active,
 .adminhtml-invitation-index .page-actions .add:active,
 .adminhtml-targetrule-index .page-actions .add:active,
 .adminhtml-giftwrapping-index .page-actions .add:active,
@@ -1258,7 +1274,8 @@ button.primary:active,
 .adminhtml-giftcardaccount-index .page-actions .add:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary:active,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:active,
-.catalog-product-index .actions-split.btn-round .action-default.primary:active {
+.catalog-product-index .actions-split.btn-round .action-default.primary:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:active {
   color: #fff;
   background: #026294;
   border: 1px solid #004c74;
@@ -1297,7 +1314,6 @@ button.primary:visited,
 .adminhtml-system-variable-index .page-actions .add:visited,
 .adminhtml-user-index .page-actions .add:visited,
 .adminhtml-user-role-index .page-actions .add:visited,
-.adminhtml-webhook-subscription-index .page-actions .add:visited,
 .adminhtml-integration-index .page-actions .add:visited,
 .adminhtml-system-design-theme-index .page-actions .add:visited,
 .adminhtml-system-design-index .page-actions .add:visited,
@@ -1315,6 +1331,7 @@ button.primary:visited,
 .catalog-product-new .actions-split > .action-toggle.primary:visited,
 .catalog-product-edit .actions-split > .action-toggle.primary:visited,
 .catalog-product-index .actions-split > .action-toggle.primary:visited,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:visited,
 .adminhtml-invitation-index .page-actions .add:visited,
 .adminhtml-targetrule-index .page-actions .add:visited,
 .adminhtml-giftwrapping-index .page-actions .add:visited,
@@ -1323,7 +1340,8 @@ button.primary:visited,
 .adminhtml-giftcardaccount-index .page-actions .add:visited,
 .catalog-product-new .actions-split.btn-round .action-default.primary:visited,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:visited,
-.catalog-product-index .actions-split.btn-round .action-default.primary:visited {
+.catalog-product-index .actions-split.btn-round .action-default.primary:visited,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:visited {
   color: #fff;
 }
 .PrimaryButton[disabled]:hover,
@@ -1462,10 +1480,6 @@ button.primary.disabled:active,
 .adminhtml-user-role-index .page-actions .add.disabled:hover,
 .adminhtml-user-role-index .page-actions .add[disabled]:active,
 .adminhtml-user-role-index .page-actions .add.disabled:active,
-.adminhtml-webhook-subscription-index .page-actions .add[disabled]:hover,
-.adminhtml-webhook-subscription-index .page-actions .add.disabled:hover,
-.adminhtml-webhook-subscription-index .page-actions .add[disabled]:active,
-.adminhtml-webhook-subscription-index .page-actions .add.disabled:active,
 .adminhtml-integration-index .page-actions .add[disabled]:hover,
 .adminhtml-integration-index .page-actions .add.disabled:hover,
 .adminhtml-integration-index .page-actions .add[disabled]:active,
@@ -1534,6 +1548,10 @@ button.primary.disabled:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:hover,
 .catalog-product-index .actions-split > .action-toggle.primary[disabled]:active,
 .catalog-product-index .actions-split > .action-toggle.primary.disabled:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary[disabled]:hover,
+.adminhtml-integration-new .actions-split > .action-toggle.primary.disabled:hover,
+.adminhtml-integration-new .actions-split > .action-toggle.primary[disabled]:active,
+.adminhtml-integration-new .actions-split > .action-toggle.primary.disabled:active,
 .adminhtml-invitation-index .page-actions .add[disabled]:hover,
 .adminhtml-invitation-index .page-actions .add.disabled:hover,
 .adminhtml-invitation-index .page-actions .add[disabled]:active,
@@ -1569,7 +1587,11 @@ button.primary.disabled:active,
 .catalog-product-index .actions-split.btn-round .action-default.primary[disabled]:hover,
 .catalog-product-index .actions-split.btn-round .action-default.primary.disabled:hover,
 .catalog-product-index .actions-split.btn-round .action-default.primary[disabled]:active,
-.catalog-product-index .actions-split.btn-round .action-default.primary.disabled:active {
+.catalog-product-index .actions-split.btn-round .action-default.primary.disabled:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary[disabled]:hover,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary.disabled:hover,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary[disabled]:active,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary.disabled:active {
   color: #fff;
   background: #007dbd;
   border: 1px solid #0574ad;
@@ -1600,7 +1622,6 @@ button.primary.disabled:active,
 .adminhtml-system-variable-index .page-actions .add,
 .adminhtml-user-index .page-actions .add,
 .adminhtml-user-role-index .page-actions .add,
-.adminhtml-webhook-subscription-index .page-actions .add,
 .adminhtml-integration-index .page-actions .add,
 .adminhtml-system-design-theme-index .page-actions .add,
 .adminhtml-system-design-index .page-actions .add,
@@ -1624,6 +1645,7 @@ button.primary.disabled:active,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary,
 .PrimarySplitButton.btn-round .action-default.primary,
 .sales-order-index .page-actions .add,
 .adminhtml-rma-index .page-actions .add,
@@ -1649,7 +1671,6 @@ button.primary.disabled:active,
 .adminhtml-system-variable-index .page-actions .add,
 .adminhtml-user-index .page-actions .add,
 .adminhtml-user-role-index .page-actions .add,
-.adminhtml-webhook-subscription-index .page-actions .add,
 .adminhtml-integration-index .page-actions .add,
 .adminhtml-system-design-theme-index .page-actions .add,
 .adminhtml-system-design-index .page-actions .add,
@@ -1672,7 +1693,8 @@ button.primary.disabled:active,
 .adminhtml-giftcardaccount-index .page-actions .add,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
-.catalog-product-index .actions-split.btn-round .action-default.primary {
+.catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary {
   width: 36px;
   height: 31px;
   overflow: hidden;
@@ -1706,7 +1728,6 @@ button.primary.disabled:active,
 .adminhtml-system-variable-index .page-actions .add:focus,
 .adminhtml-user-index .page-actions .add:focus,
 .adminhtml-user-role-index .page-actions .add:focus,
-.adminhtml-webhook-subscription-index .page-actions .add:focus,
 .adminhtml-integration-index .page-actions .add:focus,
 .adminhtml-system-design-theme-index .page-actions .add:focus,
 .adminhtml-system-design-index .page-actions .add:focus,
@@ -1729,7 +1750,8 @@ button.primary.disabled:active,
 .adminhtml-giftcardaccount-index .page-actions .add:focus,
 .catalog-product-new .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:focus,
-.catalog-product-index .actions-split.btn-round .action-default.primary:focus {
+.catalog-product-index .actions-split.btn-round .action-default.primary:focus,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:focus {
   outline: none;
 }
 .PrimaryAddButton > span,
@@ -1758,7 +1780,6 @@ button.primary.disabled:active,
 .adminhtml-system-variable-index .page-actions .add > span,
 .adminhtml-user-index .page-actions .add > span,
 .adminhtml-user-role-index .page-actions .add > span,
-.adminhtml-webhook-subscription-index .page-actions .add > span,
 .adminhtml-integration-index .page-actions .add > span,
 .adminhtml-system-design-theme-index .page-actions .add > span,
 .adminhtml-system-design-index .page-actions .add > span,
@@ -1781,7 +1802,8 @@ button.primary.disabled:active,
 .adminhtml-giftcardaccount-index .page-actions .add > span,
 .catalog-product-new .actions-split.btn-round .action-default.primary > span,
 .catalog-product-edit .actions-split.btn-round .action-default.primary > span,
-.catalog-product-index .actions-split.btn-round .action-default.primary > span {
+.catalog-product-index .actions-split.btn-round .action-default.primary > span,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary > span {
   text-indent: -999em;
   display: block;
   width: 34px;
@@ -1813,7 +1835,6 @@ button.primary.disabled:active,
 .adminhtml-system-variable-index .page-actions .add > span:before,
 .adminhtml-user-index .page-actions .add > span:before,
 .adminhtml-user-role-index .page-actions .add > span:before,
-.adminhtml-webhook-subscription-index .page-actions .add > span:before,
 .adminhtml-integration-index .page-actions .add > span:before,
 .adminhtml-system-design-theme-index .page-actions .add > span:before,
 .adminhtml-system-design-index .page-actions .add > span:before,
@@ -1836,7 +1857,8 @@ button.primary.disabled:active,
 .adminhtml-giftcardaccount-index .page-actions .add > span:before,
 .catalog-product-new .actions-split.btn-round .action-default.primary > span:before,
 .catalog-product-edit .actions-split.btn-round .action-default.primary > span:before,
-.catalog-product-index .actions-split.btn-round .action-default.primary > span:before {
+.catalog-product-index .actions-split.btn-round .action-default.primary > span:before,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary > span:before {
   text-indent: 0;
   font-family: 'MUI-Icons';
   font-weight: normal;
@@ -1879,7 +1901,6 @@ button.primary.disabled:active,
 .eq-ie9 .adminhtml-system-variable-index .page-actions .add > span:before,
 .eq-ie9 .adminhtml-user-index .page-actions .add > span:before,
 .eq-ie9 .adminhtml-user-role-index .page-actions .add > span:before,
-.eq-ie9 .adminhtml-webhook-subscription-index .page-actions .add > span:before,
 .eq-ie9 .adminhtml-integration-index .page-actions .add > span:before,
 .eq-ie9 .adminhtml-system-design-theme-index .page-actions .add > span:before,
 .eq-ie9 .adminhtml-system-design-index .page-actions .add > span:before,
@@ -1902,43 +1923,51 @@ button.primary.disabled:active,
 .eq-ie9 .adminhtml-giftcardaccount-index .page-actions .add > span:before,
 .eq-ie9 .catalog-product-new .actions-split.btn-round .action-default.primary > span:before,
 .eq-ie9 .catalog-product-edit .actions-split.btn-round .action-default.primary > span:before,
-.eq-ie9 .catalog-product-index .actions-split.btn-round .action-default.primary > span:before {
+.eq-ie9 .catalog-product-index .actions-split.btn-round .action-default.primary > span:before,
+.eq-ie9 .adminhtml-integration-new .actions-split.btn-round .action-default.primary > span:before {
   line-height: 31px;
 }
 .PrimarySplitButton.btn-round .action-default.primary,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
 .catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary,
 .catalog-product-new .actions-split.btn-round .action-default.primary,
 .catalog-product-edit .actions-split.btn-round .action-default.primary,
-.catalog-product-index .actions-split.btn-round .action-default.primary {
+.catalog-product-index .actions-split.btn-round .action-default.primary,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary {
   border-radius: 2px 0 0 2px;
 }
 .PrimarySplitButton.btn-round .action-default.primary:focus,
 .catalog-product-new .actions-split.btn-round .action-default.primary:focus,
 .catalog-product-edit .actions-split.btn-round .action-default.primary:focus,
-.catalog-product-index .actions-split.btn-round .action-default.primary:focus {
+.catalog-product-index .actions-split.btn-round .action-default.primary:focus,
+.adminhtml-integration-new .actions-split.btn-round .action-default.primary:focus {
   outline: none;
 }
 .PrimarySplitButton > .action-default.primary,
 .catalog-product-new .actions-split > .action-default.primary,
 .catalog-product-edit .actions-split > .action-default.primary,
-.catalog-product-index .actions-split > .action-default.primary {
+.catalog-product-index .actions-split > .action-default.primary,
+.adminhtml-integration-new .actions-split > .action-default.primary {
   border-radius: 2px 0 0 2px;
 }
 .PrimarySplitButton > .action-default.primary:focus,
 .catalog-product-new .actions-split > .action-default.primary:focus,
 .catalog-product-edit .actions-split > .action-default.primary:focus,
-.catalog-product-index .actions-split > .action-default.primary:focus {
+.catalog-product-index .actions-split > .action-default.primary:focus,
+.adminhtml-integration-new .actions-split > .action-default.primary:focus {
   outline: none;
 }
 .PrimarySplitButton > .action-toggle.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
 .catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-integration-new .actions-split > .action-toggle.primary,
 .catalog-product-new .actions-split > .action-toggle.primary,
 .catalog-product-edit .actions-split > .action-toggle.primary,
-.catalog-product-index .actions-split > .action-toggle.primary {
+.catalog-product-index .actions-split > .action-toggle.primary,
+.adminhtml-integration-new .actions-split > .action-toggle.primary {
   overflow: hidden;
   z-index: 1;
   padding: 0;
@@ -1955,19 +1984,22 @@ button.primary.disabled:active,
 .PrimarySplitButton > .action-toggle.primary:focus,
 .catalog-product-new .actions-split > .action-toggle.primary:focus,
 .catalog-product-edit .actions-split > .action-toggle.primary:focus,
-.catalog-product-index .actions-split > .action-toggle.primary:focus {
+.catalog-product-index .actions-split > .action-toggle.primary:focus,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:focus {
   outline: none;
 }
 .PrimarySplitButton > .action-toggle.primary:before,
 .catalog-product-new .actions-split > .action-toggle.primary:before,
 .catalog-product-edit .actions-split > .action-toggle.primary:before,
-.catalog-product-index .actions-split > .action-toggle.primary:before {
+.catalog-product-index .actions-split > .action-toggle.primary:before,
+.adminhtml-integration-new .actions-split > .action-toggle.primary:before {
   text-align: center;
 }
 .PrimarySplitButton .dropdown-menu,
 .catalog-product-new .actions-split .dropdown-menu,
 .catalog-product-edit .actions-split .dropdown-menu,
-.catalog-product-index .actions-split .dropdown-menu {
+.catalog-product-index .actions-split .dropdown-menu,
+.adminhtml-integration-new .actions-split .dropdown-menu {
   left: 0;
   right: auto;
   z-index: 1;
@@ -1975,7 +2007,8 @@ button.primary.disabled:active,
 .PrimarySplitButton .dropdown-menu > li > .item,
 .catalog-product-new .actions-split .dropdown-menu > li > .item,
 .catalog-product-edit .actions-split .dropdown-menu > li > .item,
-.catalog-product-index .actions-split .dropdown-menu > li > .item {
+.catalog-product-index .actions-split .dropdown-menu > li > .item,
+.adminhtml-integration-new .actions-split .dropdown-menu > li > .item {
   padding: 9px 10px 10px;
 }
 .PrimarySplitButton.active > .action-toggle.primary,
@@ -1985,7 +2018,9 @@ button.primary.disabled:active,
 .catalog-product-edit .actions-split.active > .action-toggle.primary,
 .catalog-product-edit .actions-split.active > .action-toggle.primary:hover,
 .catalog-product-index .actions-split.active > .action-toggle.primary,
-.catalog-product-index .actions-split.active > .action-toggle.primary:hover {
+.catalog-product-index .actions-split.active > .action-toggle.primary:hover,
+.adminhtml-integration-new .actions-split.active > .action-toggle.primary,
+.adminhtml-integration-new .actions-split.active > .action-toggle.primary:hover {
   background: #026294;
   border: 1px solid #004c74;
 }
@@ -6038,6 +6073,7 @@ tr.dynamic-grid input.input-text {
 #up_sell_product_grid table.data th > span,
 #related_product_grid table.data th > span,
 #productGrid_table th > span,
+#customerGrid_table th > span,
 #setGrid_table th > span,
 #attributeGrid_table th > span,
 .custom-options .data-table th > span,
@@ -6848,7 +6884,6 @@ table .col-draggable .draggable-handle {
 .adminhtml-system-variable-index .col-1-layout,
 .adminhtml-user-index .col-1-layout,
 .adminhtml-user-role-index .col-1-layout,
-.adminhtml-webhook-subscription-index .col-1-layout,
 .adminhtml-integration-index .col-1-layout,
 .adminhtml-system-design-theme-index .col-1-layout,
 .adminhtml-system-design-index .col-1-layout,
@@ -6942,7 +6977,6 @@ table .col-draggable .draggable-handle {
 .adminhtml-system-variable-index .grid-actions,
 .adminhtml-user-index .grid-actions,
 .adminhtml-user-role-index .grid-actions,
-.adminhtml-webhook-subscription-index .grid-actions,
 .adminhtml-integration-index .grid-actions,
 .adminhtml-system-design-theme-index .grid-actions,
 .adminhtml-system-design-index .grid-actions,
@@ -6993,7 +7027,6 @@ table .col-draggable .draggable-handle {
 .adminhtml-system-variable-index .page-actions.fixed,
 .adminhtml-user-index .page-actions.fixed,
 .adminhtml-user-role-index .page-actions.fixed,
-.adminhtml-webhook-subscription-index .page-actions.fixed,
 .adminhtml-integration-index .page-actions.fixed,
 .adminhtml-system-design-theme-index .page-actions.fixed,
 .adminhtml-system-design-index .page-actions.fixed,
@@ -7045,7 +7078,6 @@ table .col-draggable .draggable-handle {
 .adminhtml-system-variable-index .page-actions,
 .adminhtml-user-index .page-actions,
 .adminhtml-user-role-index .page-actions,
-.adminhtml-webhook-subscription-index .page-actions,
 .adminhtml-integration-index .page-actions,
 .adminhtml-system-design-theme-index .page-actions,
 .adminhtml-system-design-index .page-actions,
@@ -8887,9 +8919,6 @@ table .col-draggable .draggable-handle {
 /*
     Dashboard
 -------------------------------------- */
-.dashboard-inner {
-  border: 1px solid #ccc;
-}
 .adminhtml-dashboard-index .col-2-left-layout,
 .adminhtml-dashboard-index .col-1-layout {
   min-width: 0;
@@ -8898,18 +8927,39 @@ table .col-draggable .draggable-handle {
   width: 38%;
   padding: 1%;
 }
+.adminhtml-dashboard-index .side-col .entry-edit {
+  padding: 10px 15px 10px 10px;
+  margin-bottom: 5px;
+}
+.adminhtml-dashboard-index .side-col .entry-edit .entry-edit-head {
+  margin-bottom: 20px;
+}
+.adminhtml-dashboard-index .side-col .entry-edit .entry-edit-head h4 {
+  margin: 0;
+}
+.adminhtml-dashboard-index .side-col .entry-edit fieldset {
+  padding: 0;
+  border: 0;
+}
+.adminhtml-dashboard-index .side-col .entry-edit fieldset .grid {
+  padding-bottom: 0;
+}
 .adminhtml-dashboard-index .col-2-left-layout .main-col {
   min-width: 0;
   width: 60%;
+  padding: 16px 30px 30px;
+}
+.adminhtml-dashboard-index .col-2-left-layout .main-col .store-switcher-alt {
+  margin-bottom: 15px;
+}
+.adminhtml-dashboard-index .col-2-left-layout .main-col .store-switcher-alt > strong {
+  padding-left: 0;
 }
 .dashboard-container {
   border-radius: 0;
 }
 .dashboard-container.col-2-left-layout:before {
   left: 40%;
-}
-.dashboard-container .dashboard-inner {
-  padding: 20px;
 }
 .dashboard-inner .tabs-horiz > li a {
   padding-left: 14px;
@@ -9262,6 +9312,47 @@ table .col-draggable .draggable-handle {
   display: inline-block;
   margin: 0 0 0 10px;
   width: 60px;
+}
+.tax.summary-total .summary-collapse {
+  cursor: pointer;
+  display: inline-block;
+}
+.tax.summary-total .summary-collapse:before {
+  content: "\e02d";
+  color: #816063;
+  background: #f2ebde;
+  display: inline-block;
+  text-indent: 0;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  overflow: hidden;
+  font-family: 'MUI-Icons';
+  border: 1px solid #ada89e;
+  font-style: normal;
+  vertical-align: top;
+  margin-right: 7px;
+  font-weight: normal;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 2px;
+}
+.tax.summary-total .summary-collapse:hover:before {
+  background: #cac3b4;
+}
+.tax.summary-total.show-details .summary-collapse:before {
+  content: "\e03a";
+}
+tr.row-totals:nth-child(even) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(even) td,
+tr.row-totals:nth-child(even) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(even) ~ tr.row-totals:nth-child(even) td,
+tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(odd) ~ tr.row-totals:nth-child(even) td {
+  background: #fbfaf6;
+}
+tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(odd) ~ tr.row-totals:nth-child(odd) td,
+tr.row-totals:nth-child(even) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(even) ~ tr.row-totals:nth-child(odd) td,
+tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(odd) td {
+  background: #fff;
 }
 /* ----------------------------------- */
 #order-data .page-actions {
@@ -10147,6 +10238,21 @@ table.items-to-invoice tbody tr:hover td {
 }
 .adminhtml-system-currencysymbol-index td.col-currency .label {
   margin-top: 5px;
+}
+/*
+    Categories
+-------------------------------------- */
+.category-content .form-inline.permissions-custom-options .messages li {
+  margin-top: 0;
+}
+.category-content .form-inline.permissions-custom-options .data-table {
+  margin-bottom: 25px;
+}
+/*
+    Marketing - Email Reminders
+-------------------------------------- */
+.lt-1280 .adminhtml-reminder-edit #customerGrid .grid .filter .range div.date {
+  min-width: 0;
 }
 /*
     Clearfix

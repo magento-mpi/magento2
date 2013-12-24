@@ -489,8 +489,8 @@ abstract class AbstractType
                         $path = dirname($dst);
 
                         try {
-                            $this->_filesystem->createDirectory($path, 0777);
-                        } catch (\Magento\Filesystem\Exception $e) {
+                            $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::ROOT)->create($path);
+                        } catch (\Magento\Filesystem\FilesystemException $e) {
                             throw new \Magento\Core\Exception(
                                 __("We can't create writeable directory \"%1\".", $path)
                             );
@@ -507,12 +507,6 @@ abstract class AbstractType
                             }
                             throw new \Magento\Core\Exception(__("The file upload failed."));
                         }
-                        $this->_fileStorageDb->saveFile($dst);
-                        break;
-                    case 'move_uploaded_file':
-                        $src = $queueOptions['src_name'];
-                        $dst = $queueOptions['dst_name'];
-                        move_uploaded_file($src, $dst);
                         $this->_fileStorageDb->saveFile($dst);
                         break;
                     default:
@@ -883,7 +877,7 @@ abstract class AbstractType
      * @param \Magento\Catalog\Model\Product $product
      * @return \Magento\Catalog\Model\Product\Type\AbstractType
      */
-    public function setStoreFilter($store = null, $product)
+    public function setStoreFilter($store, $product)
     {
         $cacheKey = '_cache_instance_store_filter';
         $product->setData($cacheKey, $store);

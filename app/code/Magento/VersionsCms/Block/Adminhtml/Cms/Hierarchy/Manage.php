@@ -121,7 +121,7 @@ class Manage extends \Magento\Backend\Block\Widget\Form\Generic
      * @param string $excludeScopes
      * @return array
      */
-    protected function _prepareOptions($all = false, $excludeScopes)
+    protected function _prepareOptions($all, $excludeScopes)
     {
         $storeStructure = $this->_systemStore->getStoresStructure($all);
         $nonEscapableNbspChar = html_entity_decode('&#160;', ENT_NOQUOTES, 'UTF-8');

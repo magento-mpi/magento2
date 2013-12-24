@@ -404,6 +404,28 @@ hr {
   background: #f8f8f8;
   padding: 30px;
 }
+.visuallyHidden,
+.form.addbysku .fields:nth-child(n+2) .label {
+  border: 0;
+  clip: rect(0 0 0 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+.visuallyHidden.focusable:active,
+.visuallyHidden.focusable:focus,
+.form.addbysku .fields:nth-child(n+2) .label.focusable:active,
+.form.addbysku .fields:nth-child(n+2) .label.focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
 .primary.action,
 .action.myPrimary,
 input[type="submit"],
@@ -467,8 +489,8 @@ input[type="button"],
 .form.search.advanced .actions .action,
 .form.orders.search .actions .action,
 .form.contact .actions .action,
-.data.table.wishlist + .actions .primary .action.share,
-.data.table.wishlist + .actions .primary .action.update,
+.wrapper.table + .actions .primary .action.share,
+.wrapper.table + .actions .primary .action.update,
 .recurring.order.details > .actions .primary .action,
 .form.send.confirmation .action.send,
 .form.giftcard.redeem .primary .action,
@@ -556,8 +578,8 @@ input[type="button"],
 .form.search.advanced .actions .action,
 .form.orders.search .actions .action,
 .form.contact .actions .action,
-.data.table.wishlist + .actions .primary .action.share,
-.data.table.wishlist + .actions .primary .action.update,
+.wrapper.table + .actions .primary .action.share,
+.wrapper.table + .actions .primary .action.update,
 .recurring.order.details > .actions .primary .action,
 .form.send.confirmation .action.send,
 .form.giftcard.redeem .primary .action,
@@ -775,12 +797,12 @@ input[type="button"]:hover,
 .form.contact .actions .action:focus,
 .form.contact .actions .action:active,
 .form.contact .actions .action:hover,
-.data.table.wishlist + .actions .primary .action.share:focus,
-.data.table.wishlist + .actions .primary .action.share:active,
-.data.table.wishlist + .actions .primary .action.share:hover,
-.data.table.wishlist + .actions .primary .action.update:focus,
-.data.table.wishlist + .actions .primary .action.update:active,
-.data.table.wishlist + .actions .primary .action.update:hover,
+.wrapper.table + .actions .primary .action.share:focus,
+.wrapper.table + .actions .primary .action.share:active,
+.wrapper.table + .actions .primary .action.share:hover,
+.wrapper.table + .actions .primary .action.update:focus,
+.wrapper.table + .actions .primary .action.update:active,
+.wrapper.table + .actions .primary .action.update:hover,
 .recurring.order.details > .actions .primary .action:focus,
 .recurring.order.details > .actions .primary .action:active,
 .recurring.order.details > .actions .primary .action:hover,
@@ -870,7 +892,7 @@ input[type="reset"],
 .data.comparison .cell.remove .action.delete,
 .sidebar .minilist.products.items .action.tocart,
 .find.orders .action.submit,
-.form.send.friend .actions > .primary .action.add,
+.form.send.friend .fieldset.recipients .actions .action.add,
 .paypal.review.view .actions .action.update,
 .shipping-tracking-popup .action.close,
 .form.giftcard.redeem .secondary .action,
@@ -882,11 +904,11 @@ input[type="reset"],
 .returns .data.table.returns.items .action.details,
 .returns.block.comments .action.submit,
 .form.addbysku .action.add,
-.form.reward.settings .actions > .primary .action.add,
-.form.add.invitations .actions > .primary .action.add,
-.form.create.return .actions > .primary .action.add,
-.form.giftregistry.search .actions > .primary .action.add,
-.form.addbysku .actions > .primary .action.add,
+.form.reward.settings .fieldset.recipients .actions .action.add,
+.form.add.invitations .fieldset.recipients .actions .action.add,
+.form.create.return .fieldset.recipients .actions .action.add,
+.form.giftregistry.search .fieldset.recipients .actions .action.add,
+.form.addbysku .fieldset.recipients .actions .action.add,
 .data.comparison .cell.remove .form.addbysku .field.upload.skus .action.reset,
 .action.mySecondary,
 input[type="reset"],
@@ -899,7 +921,7 @@ input[type="reset"],
 .data.comparison .cell.remove .action.delete,
 .sidebar .minilist.products.items .action.tocart,
 .find.orders .action.submit,
-.form.send.friend .actions > .primary .action.add,
+.form.send.friend .fieldset.recipients .actions .action.add,
 .paypal.review.view .actions .action.update,
 .shipping-tracking-popup .action.close,
 .form.giftcard.redeem .secondary .action,
@@ -911,11 +933,11 @@ input[type="reset"],
 .returns .data.table.returns.items .action.details,
 .returns.block.comments .action.submit,
 .form.addbysku .action.add,
-.form.reward.settings .actions > .primary .action.add,
-.form.add.invitations .actions > .primary .action.add,
-.form.create.return .actions > .primary .action.add,
-.form.giftregistry.search .actions > .primary .action.add,
-.form.addbysku .actions > .primary .action.add,
+.form.reward.settings .fieldset.recipients .actions .action.add,
+.form.add.invitations .fieldset.recipients .actions .action.add,
+.form.create.return .fieldset.recipients .actions .action.add,
+.form.giftregistry.search .fieldset.recipients .actions .action.add,
+.form.addbysku .fieldset.recipients .actions .action.add,
 .data.comparison .cell.remove .form.addbysku .field.upload.skus .action.reset {
   background-color: #c2c2c2;
   color: #ffffff;
@@ -956,9 +978,9 @@ input[type="reset"]:hover,
 .find.orders .action.submit:focus,
 .find.orders .action.submit:active,
 .find.orders .action.submit:hover,
-.form.send.friend .actions > .primary .action.add:focus,
-.form.send.friend .actions > .primary .action.add:active,
-.form.send.friend .actions > .primary .action.add:hover,
+.form.send.friend .fieldset.recipients .actions .action.add:focus,
+.form.send.friend .fieldset.recipients .actions .action.add:active,
+.form.send.friend .fieldset.recipients .actions .action.add:hover,
 .paypal.review.view .actions .action.update:focus,
 .paypal.review.view .actions .action.update:active,
 .paypal.review.view .actions .action.update:hover,
@@ -992,21 +1014,21 @@ input[type="reset"]:hover,
 .form.addbysku .action.add:focus,
 .form.addbysku .action.add:active,
 .form.addbysku .action.add:hover,
-.form.reward.settings .actions > .primary .action.add:focus,
-.form.reward.settings .actions > .primary .action.add:active,
-.form.reward.settings .actions > .primary .action.add:hover,
-.form.add.invitations .actions > .primary .action.add:focus,
-.form.add.invitations .actions > .primary .action.add:active,
-.form.add.invitations .actions > .primary .action.add:hover,
-.form.create.return .actions > .primary .action.add:focus,
-.form.create.return .actions > .primary .action.add:active,
-.form.create.return .actions > .primary .action.add:hover,
-.form.giftregistry.search .actions > .primary .action.add:focus,
-.form.giftregistry.search .actions > .primary .action.add:active,
-.form.giftregistry.search .actions > .primary .action.add:hover,
-.form.addbysku .actions > .primary .action.add:focus,
-.form.addbysku .actions > .primary .action.add:active,
-.form.addbysku .actions > .primary .action.add:hover,
+.form.reward.settings .fieldset.recipients .actions .action.add:focus,
+.form.reward.settings .fieldset.recipients .actions .action.add:active,
+.form.reward.settings .fieldset.recipients .actions .action.add:hover,
+.form.add.invitations .fieldset.recipients .actions .action.add:focus,
+.form.add.invitations .fieldset.recipients .actions .action.add:active,
+.form.add.invitations .fieldset.recipients .actions .action.add:hover,
+.form.create.return .fieldset.recipients .actions .action.add:focus,
+.form.create.return .fieldset.recipients .actions .action.add:active,
+.form.create.return .fieldset.recipients .actions .action.add:hover,
+.form.giftregistry.search .fieldset.recipients .actions .action.add:focus,
+.form.giftregistry.search .fieldset.recipients .actions .action.add:active,
+.form.giftregistry.search .fieldset.recipients .actions .action.add:hover,
+.form.addbysku .fieldset.recipients .actions .action.add:focus,
+.form.addbysku .fieldset.recipients .actions .action.add:active,
+.form.addbysku .fieldset.recipients .actions .action.add:hover,
 .data.comparison .cell.remove .form.addbysku .field.upload.skus .action.reset:focus,
 .data.comparison .cell.remove .form.addbysku .field.upload.skus .action.reset:active,
 .data.comparison .cell.remove .form.addbysku .field.upload.skus .action.reset:hover {
@@ -1116,13 +1138,13 @@ input[type="reset"],
 .form.password.reset .action.add,
 .form.paypal.review .action.add,
 .form.send.confirmation .action.add,
-.form.send.friend .actions > .primary .action.add,
+.form.send.friend .fieldset.recipients .actions .action.add,
 .form.search.advanced .actions .action,
 .form.orders.search .actions .action,
 .form.contact .actions .action,
 .paypal.review.view .actions .action.update,
-.data.table.wishlist + .actions .primary .action.share,
-.data.table.wishlist + .actions .primary .action.update,
+.wrapper.table + .actions .primary .action.share,
+.wrapper.table + .actions .primary .action.update,
 .shipping-tracking-popup .action.close,
 .recurring.order.details > .actions .primary .action,
 .form.send.confirmation .action.send,
@@ -1146,23 +1168,23 @@ input[type="reset"],
 .form.reward.settings .action.save,
 .form.reward.settings .action.submit,
 .form.reward.settings .action.add,
-.form.reward.settings .actions > .primary .action.add,
+.form.reward.settings .fieldset.recipients .actions .action.add,
 .form.add.invitations .action.save,
 .form.add.invitations .action.submit,
 .form.add.invitations .action.add,
-.form.add.invitations .actions > .primary .action.add,
+.form.add.invitations .fieldset.recipients .actions .action.add,
 .form.create.return .action.save,
 .form.create.return .action.submit,
 .form.create.return .action.add,
-.form.create.return .actions > .primary .action.add,
+.form.create.return .fieldset.recipients .actions .action.add,
 .form.giftregistry.search .action.save,
 .form.giftregistry.search .action.submit,
 .form.giftregistry.search .action.add,
-.form.giftregistry.search .actions > .primary .action.add,
+.form.giftregistry.search .fieldset.recipients .actions .action.add,
 .form.addbysku .action.save,
 .form.addbysku .action.submit,
 .form.addbysku .action.add,
-.form.addbysku .actions > .primary .action.add,
+.form.addbysku .fieldset.recipients .actions .action.add,
 .data.comparison .cell.remove .form.addbysku .field.upload.skus .action.reset {
   border: none;
   border-radius: 0;
@@ -1411,7 +1433,8 @@ input[type="tel"],
 input[type="url"],
 input[type="email"],
 input[type="datetime"],
-input[type="password"] {
+input[type="password"],
+input[type="number"] {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
   -ms-box-sizing: border-box;
@@ -1434,7 +1457,8 @@ input[type="tel"]:focus,
 input[type="url"]:focus,
 input[type="email"]:focus,
 input[type="datetime"]:focus,
-input[type="password"]:focus {
+input[type="password"]:focus,
+input[type="number"]:focus {
   border-color: #999999;
 }
 .control input[type="text"],
@@ -1443,7 +1467,8 @@ input[type="password"]:focus {
 .control input[type="url"],
 .control input[type="email"],
 .control input[type="datetime"],
-.control input[type="password"] {
+.control input[type="password"],
+.control input[type="number"] {
   width: 100%;
 }
 input[type="text"]:disabled,
@@ -1452,7 +1477,8 @@ input[type="tel"]:disabled,
 input[type="url"]:disabled,
 input[type="email"]:disabled,
 input[type="datetime"]:disabled,
-input[type="password"]:disabled {
+input[type="password"]:disabled,
+input[type="number"]:disabled {
   opacity: 0.5;
 }
 input[type="text"]::-webkit-input-placeholder,
@@ -1461,7 +1487,8 @@ input[type="tel"]::-webkit-input-placeholder,
 input[type="url"]::-webkit-input-placeholder,
 input[type="email"]::-webkit-input-placeholder,
 input[type="datetime"]::-webkit-input-placeholder,
-input[type="password"]::-webkit-input-placeholder {
+input[type="password"]::-webkit-input-placeholder,
+input[type="number"]::-webkit-input-placeholder {
   line-height: 1.333;
 }
 input[type="text"]:-ms-input-placeholder,
@@ -1470,7 +1497,8 @@ input[type="tel"]:-ms-input-placeholder,
 input[type="url"]:-ms-input-placeholder,
 input[type="email"]:-ms-input-placeholder,
 input[type="datetime"]:-ms-input-placeholder,
-input[type="password"]:-ms-input-placeholder {
+input[type="password"]:-ms-input-placeholder,
+input[type="number"]:-ms-input-placeholder {
   line-height: 1.333;
 }
 .eq-ie8 input[type="text"],
@@ -1479,8 +1507,14 @@ input[type="password"]:-ms-input-placeholder {
 .eq-ie8 input[type="url"],
 .eq-ie8 input[type="email"],
 .eq-ie8 input[type="datetime"],
-.eq-ie8 input[type="password"] {
+.eq-ie8 input[type="password"],
+.eq-ie8 input[type="number"] {
   padding-top: 8px;
+}
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 select {
   -moz-box-sizing: border-box;
@@ -1545,7 +1579,8 @@ textarea:disabled {
 .fieldset input[type="url"].valid,
 .fieldset input[type="email"].valid,
 .fieldset input[type="datetime"].valid,
-.fieldset input[type="password"].valid {
+.fieldset input[type="password"].valid,
+.fieldset input[type="number"].valid {
   border-color: #42b649 !important;
 }
 .fieldset textarea.mage-error,
@@ -1556,7 +1591,8 @@ textarea:disabled {
 .fieldset input[type="url"].mage-error,
 .fieldset input[type="email"].mage-error,
 .fieldset input[type="datetime"].mage-error,
-.fieldset input[type="password"].mage-error {
+.fieldset input[type="password"].mage-error,
+.fieldset input[type="number"].mage-error {
   border-color: #da370a !important;
 }
 .fieldset div.mage-error[generated] {
@@ -4686,7 +4722,9 @@ body {
   border: 1px solid #c2c2c2;
   border-width: 0 1px 1px;
   border-radius: 0 0 5px 5px;
+  overflow: hidden;
   z-index: 5;
+  display: none;
 }
 .block.search .search.autocomplete ul {
   padding: 0;
@@ -5437,10 +5475,6 @@ body {
     Magento_Checkout
     One page
 -------------------------------------- */
-.block.progress.onepage {
-  float: left;
-  width: 200px;
-}
 .block.progress.onepage .content > dt {
   font-size: 16px;
   font-weight: 400;
@@ -5487,10 +5521,6 @@ body {
 .block.progress.onepage .payment.method .data.table td,
 .order.details .block.order .payment.method .data.table td {
   padding: 5px;
-}
-.opc.wrapper {
-  float: right;
-  width: 725px;
 }
 .opc.wrapper > .opc {
   padding: 0;
@@ -5897,6 +5927,9 @@ body {
   font-size: 24px;
   color: #da370a;
 }
+.order.data.items tfoot .amount {
+  text-align: right;
+}
 .order.review.data th.col.price,
 .order.review.data th.col.subtotal {
   text-align: right;
@@ -5932,8 +5965,6 @@ body {
   margin: 0;
   list-style-type: none;
   list-style-image: none;
-  float: left;
-  width: 200px;
 }
 .multicheckout.progress li {
   font-size: 16px;
@@ -5942,19 +5973,6 @@ body {
 }
 .multicheckout.progress li.active {
   font-weight: bold;
-}
-.multicheckout.progress + .form.address.edit {
-  float: right;
-  width: 725px;
-}
-.multicheckout.form.address,
-.multicheckout.form.billing,
-.multicheckout.form.shipping,
-.multicheckout.form.overview,
-.multicheckout.success,
-.multicheckout.change.billing {
-  float: right;
-  width: 725px;
 }
 .multicheckout .title {
   *zoom: 1;
@@ -6223,11 +6241,6 @@ body {
 }
 .multicheckout.form.address .control.address select {
   max-width: 450px;
-}
-.checkout-multishipping-address-newshipping .form.address.edit,
-.checkout-multishipping-address-editshipping .form.address.edit {
-  float: right;
-  width: 725px;
 }
 .block.gift.message {
   margin: 30px 0 0;
@@ -7129,7 +7142,7 @@ body {
 .minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal:after {
   float: none;
 }
-.minicart.wrapper .block.minicart > .content > .actions .primary .checkout.paypal + .action.checkout {
+.minicart.wrapper .block.minicart > .content > .actions .primary .action.checkout {
   float: right;
 }
 .block.minicart .products.minilist {
@@ -8131,11 +8144,15 @@ span.widget.link {
 .sidebar .minilist.products.items .item.product {
   margin: 0 0 20px;
   padding: 0;
-  position: relative;
   width: 100%;
+  position: relative;
+  z-index: 1;
 }
 .sidebar .minilist.products.items .item.product .product.actions {
   visibility: hidden;
+  -webkit-transition: visibility 0.01s ease-in-out 0.1s;
+  -moz-transition: visibility 0.01s ease-in-out 0.1s;
+  transition: visibility 0.01s ease-in-out 0.1s;
 }
 .sidebar .minilist.products.items .item.product:hover .product.actions {
   visibility: visible;
@@ -8152,13 +8169,23 @@ span.widget.link {
   overflow: hidden;
 }
 .sidebar .minilist.products.items .actions {
-  bottom: 0;
+  /*        */
+
+}
+.sidebar .minilist.products.items .primary {
+  bottom: -10px;
   left: 0;
   position: absolute;
 }
 .sidebar .minilist.products.items .action.tocart {
   padding: 5px 11px;
   display: inline-block;
+}
+.sidebar .minilist.products.items .secondary {
+  position: absolute;
+  left: 100%;
+  margin-left: -5px;
+  top: 0;
 }
 .block.widget.photos {
   margin: 0 0 30px;
@@ -8662,6 +8689,10 @@ span.widget.link {
   margin-bottom: 20px;
 }
 .products.wrapper.grid .products.list .item.product {
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -ms-box-sizing: border-box;
+  box-sizing: border-box;
   float: left;
   width: 16.666666666666664%;
   margin-right: 0%;
@@ -9301,6 +9332,10 @@ span.widget.link {
 }
 .product.attibute.sku .type:after {
   content: '#';
+}
+.product.attibute.description img {
+  max-width: 100%;
+  height: auto;
 }
 @media only screen and (max-width: 99999px) {
   .product.data {
@@ -11310,43 +11345,33 @@ img[align="right"] {
   padding-right: 20px;
   float: left;
 }
-.form.send.friend .fieldset.recipients .fields .action.delete,
-.form.reward.settings .fieldset.recipients .fields .action.delete,
-.form.add.invitations .fieldset.recipients .fields .action.delete,
-.form.create.return .fieldset.recipients .fields .action.delete,
-.form.giftregistry.search .fieldset.recipients .fields .action.delete,
-.form.addbysku .fieldset.recipients .fields .action.delete,
-.form.send.friend .fieldset.recipients .fields .form.addbysku .field.upload.skus .action.reset {
+.form.send.friend .fieldset.recipients .action.delete,
+.form.reward.settings .fieldset.recipients .action.delete,
+.form.add.invitations .fieldset.recipients .action.delete,
+.form.create.return .fieldset.recipients .action.delete,
+.form.giftregistry.search .fieldset.recipients .action.delete,
+.form.addbysku .fieldset.recipients .action.delete,
+.form.send.friend .fieldset.recipients .form.addbysku .field.upload.skus .action.reset {
   position: absolute;
   right: 0;
   top: 50%;
 }
-.form.send.friend .actions > .primary,
-.form.reward.settings .actions > .primary,
-.form.add.invitations .actions > .primary,
-.form.create.return .actions > .primary,
-.form.giftregistry.search .actions > .primary,
-.form.addbysku .actions > .primary {
-  float: right;
-  text-align: right;
-}
-.form.send.friend .actions > .primary .action.submit,
-.form.reward.settings .actions > .primary .action.submit,
-.form.add.invitations .actions > .primary .action.submit,
-.form.create.return .actions > .primary .action.submit,
-.form.giftregistry.search .actions > .primary .action.submit,
-.form.addbysku .actions > .primary .action.submit {
-  float: right;
-  margin-left: 10px;
-}
-.form.send.friend .actions > .primary .limit,
-.form.reward.settings .actions > .primary .limit,
-.form.add.invitations .actions > .primary .limit,
-.form.create.return .actions > .primary .limit,
-.form.giftregistry.search .actions > .primary .limit,
-.form.addbysku .actions > .primary .limit {
+.form.send.friend .fieldset.recipients .actions,
+.form.reward.settings .fieldset.recipients .actions,
+.form.add.invitations .fieldset.recipients .actions,
+.form.create.return .fieldset.recipients .actions,
+.form.giftregistry.search .fieldset.recipients .actions,
+.form.addbysku .fieldset.recipients .actions {
+  width: 100%;
   margin: 0;
-  display: inline-block;
+}
+.form.send.friend .fieldset.recipients .actions .primary,
+.form.reward.settings .fieldset.recipients .actions .primary,
+.form.add.invitations .fieldset.recipients .actions .primary,
+.form.create.return .fieldset.recipients .actions .primary,
+.form.giftregistry.search .fieldset.recipients .actions .primary,
+.form.addbysku .fieldset.recipients .actions .primary {
+  float: left;
 }
 .form.address.edit .field.company,
 .form.edit.account .field.password.current,
@@ -11574,6 +11599,9 @@ img[align="right"] {
 .block.account.nav .item.current {
   color: #da370a;
 }
+.block.account.nav .item.current a {
+  color: #da370a;
+}
 .block.account.nav .item strong {
   font-weight: 400;
 }
@@ -11764,59 +11792,67 @@ img[align="right"] {
   margin: 0;
 }
 /*
+    Wishlist sidebar
+-------------------------------------- */
+.block.wishlist .subtitle {
+  display: block;
+  font-weight: 600;
+  margin: 0 0 15px;
+}
+/*
     My Account -> My Wishlist
 -------------------------------------- */
-.data.table.wishlist {
+.wrapper.table .data.table.wishlist {
   margin-bottom: 15px;
 }
-.data.table.wishlist thead th {
+.wrapper.table .data.table.wishlist thead th {
   padding-top: 0;
   padding-bottom: 10px;
   text-align: left;
   font-weight: 400;
   font-size: 16px;
 }
-.data.table.wishlist td,
-.data.table.wishlist th {
+.wrapper.table .data.table.wishlist td,
+.wrapper.table .data.table.wishlist th {
   padding: 16px 10px 10px;
   vertical-align: top;
 }
-.data.table.wishlist td:first-child,
-.data.table.wishlist th:first-child {
+.wrapper.table .data.table.wishlist td:first-child,
+.wrapper.table .data.table.wishlist th:first-child {
   padding-left: 20px;
 }
-.data.table.wishlist td:last-child,
-.data.table.wishlist th:last-child {
+.wrapper.table .data.table.wishlist td:last-child,
+.wrapper.table .data.table.wishlist th:last-child {
   padding-right: 20px;
 }
-.data.table.wishlist tbody tr:nth-child(even) {
+.wrapper.table .data.table.wishlist tbody tr:nth-child(even) {
   background: #f8f8f8;
 }
-.data.table.wishlist textarea {
+.wrapper.table .data.table.wishlist textarea {
   width: 100%;
 }
-.data.table.wishlist .box.tocart .qty {
+.wrapper.table .data.table.wishlist .box.tocart .qty {
   width: 50px;
 }
-.data.table.wishlist + .actions .primary {
-  margin-bottom: 15px;
-}
-.data.table.wishlist + .actions .primary .action.share,
-.data.table.wishlist + .actions .primary .action.update {
-  padding: 5px 11px;
-}
-.data.table.wishlist + .actions .primary .action.update {
-  margin-left: 5px;
-}
-.data.table.wishlist .col.photo {
+.wrapper.table .data.table.wishlist .col.photo {
   width: 100px;
 }
-.data.table.wishlist .col.actions {
+.wrapper.table .data.table.wishlist .col.actions {
   width: 200px;
 }
-.data.table.wishlist .col.actions .price-excluding-tax,
-.data.table.wishlist .col.actions .price-including-tax {
+.wrapper.table .data.table.wishlist .col.actions .price-excluding-tax,
+.wrapper.table .data.table.wishlist .col.actions .price-including-tax {
   display: block;
+}
+.wrapper.table + .actions .primary {
+  margin-bottom: 15px;
+}
+.wrapper.table + .actions .primary .action.share,
+.wrapper.table + .actions .primary .action.update {
+  padding: 5px 11px;
+}
+.wrapper.table + .actions .primary .action.update {
+  margin-left: 5px;
 }
 /*
     Page -> Advanced Search
@@ -11857,6 +11893,7 @@ img[align="right"] {
   color: #675f55;
   border: none;
   background: none;
+  padding: 0 20px 0 5px;
 }
 /*
     Popular Search Terms
@@ -12403,6 +12440,10 @@ img[align="right"] {
 .map.popup .price-including-tax {
   display: block;
 }
+.map.popup + .category.view {
+  position: relative;
+  z-index: 1;
+}
 .mobileAction {
   -moz-box-sizing: border-box;
   -webkit-box-sizing: border-box;
@@ -12418,6 +12459,7 @@ img[align="right"] {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  border: none;
 }
 .mobileAction span {
   font-size: 18px;
@@ -12437,6 +12479,7 @@ img[align="right"] {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  border: none;
   background-color: #da370a;
   color: #ffffff;
 }
@@ -12458,6 +12501,7 @@ img[align="right"] {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+  border: none;
   background-color: #c2c2c2;
   color: #ffffff;
 }
@@ -12466,6 +12510,20 @@ img[align="right"] {
 }
 /* Smartphones (portrait) ----------- */
 @media only screen and (max-width: 640px) {
+  .scrollTable .wrapper.table,
+  .sales-order-history .wrapper.table,
+  .review-customer-index .wrapper.table,
+  .sales-order-view .wrapper.table,
+  .sales-order-invoice .wrapper.table,
+  .sales-order-shipment .wrapper.table,
+  .sales-order-creditmemo .wrapper.table,
+  .checkout-onepage-index .order-review .wrapper.table,
+  .downloadable-customer-products .wrapper.table,
+  .form.wishlist.items .wrapper.table,
+  .block.dashboard.orders .wrapper.table,
+  .block.billing.agreements .wrapper.table {
+    overflow-x: auto;
+  }
   html {
     height: 100%;
   }
@@ -12561,6 +12619,12 @@ img[align="right"] {
   .products.wrapper .products.list .item .product.actions .secondary {
     visibility: visible;
     width: 100%;
+  }
+  .products.wrapper .products.list .item .product.actions .action.tocart {
+    padding: 10px 11px;
+  }
+  .products.wrapper .products.list .item .product.actions .primary {
+    margin: 12px 0;
   }
   .products.wrapper .products.list .item .secondary {
     margin-left: 0;
@@ -12713,10 +12777,6 @@ img[align="right"] {
   .category.view .products.wrapper.grid .products.list .item.product .secondary {
     background: transparent;
   }
-  .search.results .products.wrapper.grid .products.list .item.product .secondary .action.tocompare,
-  .category.view .products.wrapper.grid .products.list .item.product .secondary .action.tocompare {
-    display: none;
-  }
   .search.results .products.wrapper.list .products.list .item.product .product.photo,
   .category.view .products.wrapper.list .products.list .item.product .product.photo {
     float: none;
@@ -12794,7 +12854,7 @@ img[align="right"] {
     display: block;
     height: 35px;
     padding: 0;
-    margin: 15px 12px 0 0;
+    margin: 15px -15px 0 0;
     float: none;
     text-align: left;
     position: relative;
@@ -12840,7 +12900,7 @@ img[align="right"] {
   .header .block.search .control .input-text:focus {
     margin-right: 0;
     width: 100%;
-    padding: 0 65px 0 0;
+    padding: 0 38px 0 0;
     border-color: #c2c2c2;
   }
   .header .block.search .actions {
@@ -12893,6 +12953,7 @@ img[align="right"] {
   .header .block.search .search.autocomplete {
     top: 35px !important;
     width: 100% !important;
+    border: none;
   }
   .header .minicart.wrapper {
     position: absolute;
@@ -12981,9 +13042,6 @@ img[align="right"] {
     width: 100%;
     float: none;
     margin-bottom: 30px;
-  }
-  .footer .block.newsletter input[type="text"] {
-    height: 33px;
   }
   .footer .links {
     width: 45%;
@@ -13074,6 +13132,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -13107,6 +13166,7 @@ img[align="right"] {
     max-width: 100%;
   }
   .cart.main.actions {
+    text-align: center;
     *zoom: 1;
   }
   .cart.main.actions:before,
@@ -13117,8 +13177,7 @@ img[align="right"] {
   .cart.main.actions:after {
     clear: both;
   }
-  .cart.main.actions .action.update,
-  .cart.main.actions .action.continue {
+  .cart.main.actions .action.update {
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
     -ms-box-sizing: border-box;
@@ -13133,11 +13192,12 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #c2c2c2;
     color: #ffffff;
+    margin-top: 15px;
   }
-  .cart.main.actions .action.update span,
-  .cart.main.actions .action.continue span {
+  .cart.main.actions .action.update span {
     font-size: 18px;
   }
   .cart.main.actions .action.continue {
@@ -13206,9 +13266,12 @@ img[align="right"] {
   .cart.totals .amount,
   .cart.totals td:first-child strong {
     font-size: 18px;
+    line-height: 30px;
+    vertical-align: bottom;
   }
   .cart.totals td:not(:first-child) strong {
     font-size: 30px;
+    vertical-align: bottom;
   }
   .cart.table.wrapper thead {
     display: none;
@@ -13232,13 +13295,20 @@ img[align="right"] {
   }
   .cart.table.wrapper .col.item .product.name {
     font-size: 18px;
-    margin: 0 0 2px;
+    margin: 0 0 10px;
   }
   .cart.table.wrapper .col.item dl {
     margin: 0;
+    padding-bottom: 12px;
+    clear: both;
   }
-  .cart.table.wrapper .col.item dd {
-    margin-bottom: 0;
+  .cart.table.wrapper .col.item dl dt,
+  .cart.table.wrapper .col.item dl dd {
+    line-height: 1.1;
+  }
+  .cart.table.wrapper .col.item dl dd {
+    margin-bottom: 12px;
+    margin-left: 0;
   }
   .cart.table.wrapper .col.price,
   .cart.table.wrapper .col.subtotal {
@@ -13259,6 +13329,9 @@ img[align="right"] {
     display: inline-block;
     font-size: 12px;
     margin-right: 7px;
+  }
+  .cart.table.wrapper .col.price {
+    margin-top: -30px;
   }
   .cart.table.wrapper .col.price.excl.tax + .col.price.incl.tax:before {
     visibility: hidden;
@@ -13438,62 +13511,59 @@ img[align="right"] {
   .opc.wrapper .gift-messages-form .details {
     padding-left: 70px;
   }
-  .opc.wrapper .sp-methods dt {
+  .opc.wrapper .items.methods.payment dt {
     font-weight: normal;
     margin: 0 0 10px;
   }
-  .opc.wrapper .sp-methods dd {
+  .opc.wrapper .items.methods.payment dd {
     margin: 0;
     padding: 0;
   }
-  .opc.wrapper .sp-methods dd > ul {
+  .opc.wrapper .items.methods.payment dd > ul {
     list-style: none;
     margin: 0;
     padding: 5px 10px 15px 20px;
   }
-  .opc.wrapper .sp-methods dd > ul > li {
+  .opc.wrapper .items.methods.payment dd > ul > li {
     margin: 5px 0 0;
   }
-  .opc.wrapper .sp-methods dd > ul label {
+  .opc.wrapper .items.methods.payment dd > ul label {
     display: block;
   }
-  .opc.wrapper .sp-methods dd > ul label em {
+  .opc.wrapper .items.methods.payment dd > ul label em {
     display: none;
   }
-  .opc.wrapper .sp-methods dd > ul label.required:after {
+  .opc.wrapper .items.methods.payment dd > ul label.required:after {
     color: #da370a;
     content: "*";
   }
-  .opc.wrapper .sp-methods dd > ul .input-box > input,
-  .opc.wrapper .sp-methods dd > ul .input-box > select {
+  .opc.wrapper .items.methods.payment dd > ul .input-box > input,
+  .opc.wrapper .items.methods.payment dd > ul .input-box > select {
     width: 100%;
   }
-  .opc.wrapper .sp-methods dd > ul .v-fix {
+  .opc.wrapper .items.methods.payment dd > ul .v-fix {
     display: inline-block;
   }
   .opc.wrapper .order-review {
     font-size: 16px;
   }
   .opc.wrapper .order-review .review.table.wrapper {
-    overflow-x: scroll;
     margin-bottom: 10px;
   }
-  .opc.wrapper .order-review .order.review.data th.col.item,
-  .opc.wrapper .order-review .order.review.data td:first-child {
+  .opc.wrapper .order-review .order.review.data th,
+  .opc.wrapper .order-review .order.review.data td {
     padding-left: 0;
-    padding-right: 10px;
+    padding-right: 5px;
+    text-align: left;
   }
-  .opc.wrapper .order-review .order.review.data .items.data td {
-    padding: 10px 5px 5px;
+  .opc.wrapper .order-review .order.review.data th.qty,
+  .opc.wrapper .order-review .order.review.data td.qty {
+    text-align: center;
   }
   .opc.wrapper .order-review th.col.item,
   .opc.wrapper .order-review th.col.price,
   .opc.wrapper .order-review th.col.subtotal {
     white-space: nowrap;
-  }
-  .opc.wrapper .order-review th.col.price,
-  .opc.wrapper .order-review th.col.subtotal {
-    text-align: center;
   }
   .opc.wrapper .order-review th.excl.tax span,
   .opc.wrapper .order-review th.col.incl.tax span {
@@ -13566,16 +13636,17 @@ img[align="right"] {
     font-weight: 600;
   }
   .block.progress.onepage > .title:before {
-    content: "\e00d";
-    font-family: "icons";
+    content: "+";
+    font-family: Arial, sans-serif;
     font-weight: 400;
-    font-size: 20px;
+    font-size: 30px;
     position: absolute;
     right: 20px;
-    top: 9px;
+    top: 2px;
   }
   .block.progress.onepage > .title.active:before {
-    content: "\e03a";
+    top: 1px;
+    content: "–";
   }
   .block.progress.onepage > .content {
     background: #ffffff;
@@ -13592,14 +13663,18 @@ img[align="right"] {
   }
   .block.progress.onepage dt > a {
     font-weight: 400;
+    font-size: 14px;
     margin-left: 20px;
     text-decoration: underline;
   }
-  .block.progress.onepage dd {
+  .block.progress.onepage dd,
+  .block.progress.onepage .complete .payment .title {
     font-size: 16px;
     line-height: 1.4;
+    font-weight: 400;
   }
-  .block.progress.onepage dd:last-child {
+  .block.progress.onepage dd:last-child,
+  .block.progress.onepage .complete .payment .title:last-child {
     margin: 0;
   }
   .block.progress.onepage .separator {
@@ -13743,6 +13818,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -13818,6 +13894,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -13968,6 +14045,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -14134,6 +14212,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -14158,30 +14237,13 @@ img[align="right"] {
     width: 100%;
     margin-left: 0;
   }
-  .form.send.friend .actions > .primary,
-  .form.reward.settings .actions > .primary,
-  .form.add.invitations .actions > .primary,
-  .form.create.return .actions > .primary,
-  .form.giftregistry.search .actions > .primary,
-  .form.addbysku .actions > .primary {
+  .form.send.friend .fieldset.recipients .actions .primary,
+  .form.reward.settings .fieldset.recipients .actions .primary,
+  .form.add.invitations .fieldset.recipients .actions .primary,
+  .form.create.return .fieldset.recipients .actions .primary,
+  .form.giftregistry.search .fieldset.recipients .actions .primary,
+  .form.addbysku .fieldset.recipients .actions .primary {
     float: none;
-  }
-  .form.send.friend .actions > .primary .action.submit,
-  .form.reward.settings .actions > .primary .action.submit,
-  .form.add.invitations .actions > .primary .action.submit,
-  .form.create.return .actions > .primary .action.submit,
-  .form.giftregistry.search .actions > .primary .action.submit,
-  .form.addbysku .actions > .primary .action.submit {
-    float: none;
-    margin-left: 0;
-  }
-  .form.send.friend .actions > .primary .action.add,
-  .form.reward.settings .actions > .primary .action.add,
-  .form.add.invitations .actions > .primary .action.add,
-  .form.create.return .actions > .primary .action.add,
-  .form.giftregistry.search .actions > .primary .action.add,
-  .form.addbysku .actions > .primary .action.add {
-    margin-top: 10px;
   }
   /*
       *    Mage_Customer
@@ -14194,14 +14256,77 @@ img[align="right"] {
     float: none;
   }
   .col2-left-layout.account .column.left {
+    border-top: 4px solid #e5e5e5;
     display: block;
     width: 100%;
     float: none;
+    margin-top: 20px;
+    padding-top: 20px;
   }
-  .my-account > .actions,
+  .accountActions .primary,
+  .accountActions .secondary,
+  .account .column.main .my-account .actions .primary,
+  .account .column.main .my-account .actions .secondary,
+  .account .column.main .block .actions .primary,
+  .account .column.main .block .actions .secondary,
+  .account .column.main .form .actions .primary,
+  .account .column.main .form .actions .secondary,
+  .account .column.main > .actions .primary,
+  .account .column.main > .actions .secondary {
+    float: none;
+  }
+  .accountActions .primary .action,
+  .account .column.main .my-account .actions .primary .action,
+  .account .column.main .block .actions .primary .action,
+  .account .column.main .form .actions .primary .action,
+  .account .column.main > .actions .primary .action {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
+  }
+  .accountActions .primary .action span,
+  .account .column.main .my-account .actions .primary .action span,
+  .account .column.main .block .actions .primary .action span,
+  .account .column.main .form .actions .primary .action span,
+  .account .column.main > .actions .primary .action span {
+    font-size: 18px;
+  }
+  .accountActions .secondary,
+  .account .column.main .my-account .actions .secondary,
+  .account .column.main .block .actions .secondary,
+  .account .column.main .form .actions .secondary,
+  .account .column.main > .actions .secondary {
+    margin-bottom: 15px;
+  }
+  .accountActions .secondary .action.back,
+  .account .column.main .my-account .actions .secondary .action.back,
+  .account .column.main .block .actions .secondary .action.back,
+  .account .column.main .form .actions .secondary .action.back,
+  .account .column.main > .actions .secondary .action.back {
+    display: block;
+    float: none;
+    text-align: center;
+  }
+  .account > .block,
+  .account .my-account > .block {
+    margin-bottom: 20px;
+  }
   .billing-agreements > .actions,
-  .recurring-profiles .buttons-set,
-  .newsletter.manage > .actions {
+  .recurring-profiles .buttons-set {
     text-align: center;
     margin-bottom: 20px;
   }
@@ -14245,6 +14370,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -14258,9 +14384,6 @@ img[align="right"] {
   }
   .block.dashboard .recent.orders .col.shipping {
     display: none;
-  }
-  .block.dashboard.orders {
-    overflow-x: scroll;
   }
   .block.dashboard:not(.welcome):not(.orders) .content {
     padding: 20px;
@@ -14288,6 +14411,9 @@ img[align="right"] {
     display: none;
   }
   /* Address book */
+  .block.addresses:not(.dashboard) {
+    margin-bottom: 20px;
+  }
   .block.addresses:not(.dashboard) .content {
     padding: 20px;
     margin: 0 -20px;
@@ -14301,9 +14427,28 @@ img[align="right"] {
     width: 100%;
   }
   .form.newsletter .action.save {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
     width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
   }
-  .my-account .tags.items.cloud .item {
+  .form.newsletter .action.save span {
+    font-size: 18px;
+  }
+  .account .column.main .tags.items.cloud .item {
     font-size: 18px;
   }
   /*
@@ -14327,78 +14472,21 @@ img[align="right"] {
     padding-bottom: 6px;
   }
   /*
-       My Account -> Downloadable products
-       -------------------------------------- */
-  .downloadable-customer-products .my-account {
-    overflow-x: scroll;
-  }
-  /*
       My Account -> Wishlist
       -------------------------------------- */
-  .review-customer-index .my-account {
-    overflow-x: scroll;
+  .account .form.wishlist.items .data.table.wishlist {
+    margin-bottom: 0;
   }
-  /*
-      My Account -> My Reviews
-      -------------------------------------- */
-  .my-account .form.wishlist.items {
-    overflow-x: scroll;
+  .account .form.wishlist.items .data.table.wishlist thead {
+    display: none;
   }
-  .my-account .form.wishlist.items .actions .primary {
-    float: none;
-  }
-  .my-account .form.wishlist.items .actions .primary .action {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    display: block;
-    margin: 0 auto 15px;
-    padding: 10px;
-    width: 100%;
-    max-width: 100%;
-    line-height: 1;
-    float: none;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    background-color: #da370a;
-    color: #ffffff;
-  }
-  .my-account .form.wishlist.items .actions .primary .action span {
-    font-size: 18px;
-  }
-  .my-account .form.wishlist.items .actions .secondary {
-    float: none;
-  }
-  .my-account .form.wishlist.items .actions .secondary .action {
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-    -ms-box-sizing: border-box;
-    box-sizing: border-box;
-    display: block;
-    margin: 0 auto 15px;
-    padding: 10px;
-    width: 100%;
-    max-width: 100%;
-    line-height: 1;
-    float: none;
-    text-align: center;
-    text-decoration: none;
-    text-transform: uppercase;
-    background-color: #c2c2c2;
-    color: #ffffff;
-  }
-  .my-account .form.wishlist.items .actions .secondary .action span {
-    font-size: 18px;
+  .account .form.wishlist.items .data.table.wishlist textarea {
+    width: 15em;
   }
   /*
      *    My Account -> My orders
      *
     ----------------------------------------------------------------------------- */
-  .sales-order-history .my-account {
-    overflow-x: scroll;
-  }
   .order.details .order.toolbar {
     clear: both;
     float: none;
@@ -14450,11 +14538,13 @@ img[align="right"] {
     margin: 0 -20px 20px;
   }
   .order.details > .actions {
-    text-align: center;
     margin-bottom: 20px;
   }
-  .order.details.items {
-    overflow-x: scroll;
+  .order.details .wrapper.table {
+    margin-bottom: 45px;
+  }
+  .order.details .wrapper.table .data.table.order {
+    margin-bottom: 0;
   }
   .widget.static.block {
     margin-bottom: 15px;
@@ -14518,19 +14608,28 @@ img[align="right"] {
   .product.photo .notice {
     display: none;
   }
-  .product.info.main .page.title.product {
+  .product.info.additional .page.title.product {
     margin-bottom: 10px;
+  }
+  .product.info.additional .stock {
+    margin: 15px 0;
+  }
+  .product.info.main.responsive .page.title,
+  .product.info.main.responsive .stock:not(.alert) {
+    display: none;
   }
   .product.info.main .price-box {
     border: none !important;
     margin: 0;
   }
-  .product.info.main .stock {
-    clear: right;
-    float: right;
-  }
   .product.info.main .prices.tier {
     clear: both;
+  }
+  .product.info.main .product.alert {
+    margin: 10px 0;
+  }
+  .product.info.main .product.attibute.sku {
+    margin-bottom: 10px;
   }
   .product.info.main .product.add.form {
     clear: both;
@@ -14622,6 +14721,20 @@ img[align="right"] {
   .product.info.main .table.data.grouped {
     width: 100%;
     clear: both;
+  }
+  .catalog-product-view .column.main {
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+  }
+  .catalog-product-view .column.main .product.info.additional,
+  .catalog-product-view .column.main .product.media {
+    -webkit-order: -1;
+    -ms-flex-order: -1;
+    order: -1;
   }
   .product.media .img.photo.container {
     height: auto !important;
@@ -14718,8 +14831,31 @@ img[align="right"] {
   .product.info.detailed .block.add.review .field:not(.ratings) {
     width: 100%;
   }
-  .product.info.detailed .block.add.review .actions {
-    text-align: left;
+  .product.info.detailed .block.add.review .action.submit {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
+    margin-bottom: 10px;
+  }
+  .product.info.detailed .block.add.review .action.submit span {
+    font-size: 18px;
+  }
+  .product.info.detailed .block.reviews.list {
+    margin-left: 0;
   }
   .block.add.review {
     margin: 0;
@@ -14861,7 +14997,8 @@ img[align="right"] {
     margin: 0 0 10px;
   }
   input[type="password"],
-  input[type="text"] {
+  input[type="text"],
+  input[type="number"] {
     font-size: 18px;
   }
   .fieldset > .field > .label {
@@ -14880,6 +15017,9 @@ img[align="right"] {
     margin: 0;
     padding: 0;
   }
+  .bundle.options.container:before {
+    display: none;
+  }
   .bundle.options.container .product.add.form {
     margin: 0 -18px;
     padding: 20px 18px 280px;
@@ -14888,6 +15028,11 @@ img[align="right"] {
   .bundle.options.container .product.options.bottom {
     float: none;
     width: auto;
+  }
+  .bundle.options.container .product.options.wrapper > .fieldset,
+  .bundle.options.container .product.options.bottom > .fieldset {
+    margin-left: 0;
+    margin-right: 0;
   }
   .bundle.options.container .product.options.bottom .price-box {
     display: none;
@@ -14934,11 +15079,16 @@ img[align="right"] {
   .block.bundle.summary {
     background: #f8f8f8;
     margin: 0;
+    padding: 0 20px;
     float: none;
     position: absolute;
     margin: -280px 0 0;
     top: 100% !important;
     width: 90%;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
   }
   .block.bundle.summary .content {
     padding: 0;
@@ -14950,6 +15100,10 @@ img[align="right"] {
   .block.bundle.summary .available,
   .block.bundle.summary .addto {
     display: none !important;
+  }
+  .block.bundle.summary .price-box {
+    float: left;
+    width: 80%;
   }
   .block.bundle.summary .price-box .price-label {
     display: block;
@@ -14966,10 +15120,6 @@ img[align="right"] {
     padding-bottom: 0;
     border: none;
   }
-  .block.bundle.summary .box.tocart .field,
-  .block.bundle.summary .box.tocart .actions {
-    display: inline-block;
-  }
   .block.bundle.summary .box.tocart .control {
     width: auto;
   }
@@ -14979,16 +15129,22 @@ img[align="right"] {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
     width: 18%;
+    float: right;
+    padding-right: 0;
   }
   .block.bundle.summary .box.tocart input.qty {
     height: 49px;
   }
   .block.bundle.summary .box.tocart .actions {
-    width: 80%;
+    clear: both;
+    margin-right: 0;
   }
   .block.bundle.summary .box.tocart .actions .action.primary.tocart {
     padding: 18px 10px 14px;
     width: 100%;
+  }
+  .fieldset.bundle.options .legend {
+    margin-left: 0;
   }
   .fieldset.bundle.options > .field {
     margin: 0 0 20px;
@@ -14997,6 +15153,11 @@ img[align="right"] {
     display: inline-block;
     font-size: 16px;
     width: 90%;
+  }
+  .fieldset.bundle.options > .field input[type="checkbox"],
+  .fieldset.bundle.options > .field input[type="radio"] {
+    margin-top: 3px;
+    vertical-align: top;
   }
   .fieldset.bundle.options > .field > .label {
     font-size: 22px;
@@ -15042,6 +15203,7 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #da370a;
     color: #ffffff;
   }
@@ -15063,11 +15225,18 @@ img[align="right"] {
     text-align: center;
     text-decoration: none;
     text-transform: uppercase;
+    border: none;
     background-color: #c2c2c2;
     color: #ffffff;
   }
   .popup .actions .action.cancel span {
     font-size: 18px;
+  }
+  /*
+      Magento_Catalog Compare
+  -------------------------------------- */
+  .catalog-product-compare-index .action.print {
+    margin: -20px 0 20px;
   }
 }
 /*
@@ -16711,11 +16880,21 @@ body.account .column.main .block.event .item {
   zoom: 1;
   display: block;
   padding-bottom: 10px;
-}
-.form.addbysku .fields .label {
-  display: none;
+  display: table-row;
 }
 .form.addbysku .fields .action.remove {
+  border: none;
+  border-radius: 0;
+  background: none;
+  margin: 0;
+  padding: 0;
+  box-shadow: none;
+  text-shadow: none;
+  outline: none;
+  display: table-cell;
+  padding-top: 6px;
+}
+.form.addbysku .fields .action.remove span {
   width: 16px;
   display: block;
   line-height: 0;
@@ -16724,15 +16903,11 @@ body.account .column.main .block.event .item {
   text-align: center;
   text-indent: -999em;
   color: #837d75;
-  margin-top: 5px;
   background: none;
   border: 0;
   padding: 0;
-  position: absolute;
-  top: 3px;
-  right: 0;
 }
-.form.addbysku .fields .action.remove:after {
+.form.addbysku .fields .action.remove span:after {
   font-family: "icons";
   font-size: 16px;
   line-height: 16px;
@@ -16748,26 +16923,38 @@ body.account .column.main .block.event .item {
   vertical-align: middle;
   text-align: center;
 }
-.form.addbysku .fields .action.remove:active {
+.form.addbysku .fields .action.remove span:active {
   outline: 0;
 }
-.form.addbysku .fields .action.remove:after {
+.form.addbysku .fields .action.remove span:after {
   text-indent: 0;
   display: block;
   margin: 0;
 }
-.form.addbysku .fields .action.remove:hover,
-.form.addbysku .fields .action.remove:active,
-.form.addbysku .fields .action.remove:focus,
-.form.addbysku .fields .action.remove.active {
+.form.addbysku .fields .action.remove:hover span,
+.form.addbysku .fields .action.remove:active span,
+.form.addbysku .fields .action.remove:focus span,
+.form.addbysku .fields .action.remove.active span {
   color: #999999;
   outline: none;
 }
+.form.addbysku .fields .action.remove.hidden {
+  display: table-cell !important;
+  visibility: hidden;
+}
 .form.addbysku .fields:first-child .label {
+  padding-bottom: 5px;
   display: block;
 }
 .form.addbysku .fields:first-child .action.remove {
-  margin-top: 25px;
+  display: table-cell;
+  vertical-align: top;
+  padding-top: 30px;
+}
+.form.addbysku .fields .field {
+  vertical-align: top;
+  padding-bottom: 20px;
+  display: table-cell;
 }
 .form.addbysku .field.upload.skus {
   float: left;
@@ -16907,6 +17094,10 @@ body.account .column.main .block.event .item {
 .form.addbysku .field.qty {
   width: 20%;
 }
+.col3-layout .column.main .form.addbysku .actions,
+.col3-layout .column.main .form.addbysku .fieldset {
+  width: auto;
+}
 .sidebar .form.addbysku .fieldset {
   width: auto;
   padding: 5px;
@@ -16956,6 +17147,8 @@ body.account .column.main .block.event .item {
 }
 .sidebar .form.addbysku .actions {
   width: auto;
+  padding: 0;
+  margin: 0;
 }
 .column.main .form.addbysku .actions .secondary {
   margin-right: 15px;
@@ -16984,13 +17177,43 @@ body.account .column.main .block.event .item {
   .form.giftcard.redeem .actions .primary,
   .form.giftcard.redeem .actions .secondary {
     float: none;
-    width: 100%;
   }
-  .form.giftcard.redeem .actions .action {
-    float: none;
+  .form.giftcard.redeem .actions .primary {
+    margin: 0;
+  }
+  .form.giftcard.redeem .actions .secondary .action {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
     width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
     text-align: center;
-    margin-bottom: 15px;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #c2c2c2;
+    color: #ffffff;
+  }
+  .form.giftcard.redeem .actions .secondary .action span {
+    font-size: 18px;
+  }
+  /*
+      My Account -> Store Credit
+      -------------------------------------- */
+  .block.balance.history {
+    overflow-x: scroll;
+  }
+  /*
+           My Account -> Reward Points
+      -------------------------------------- */
+  .block.reward.history {
+    overflow-x: scroll;
   }
   /*
            My Account -> Gift Card Account
@@ -17002,38 +17225,59 @@ body.account .column.main .block.event .item {
     border: none;
     padding: 0;
   }
-  .giftcardaccount .form.giftcard .primary,
-  .giftcardaccount .form.giftcard .secondary {
-    display: block;
-    margin: 0 0 15px;
-    text-align: center;
-  }
-  .giftcardaccount .form.giftcard .primary .action,
-  .giftcardaccount .form.giftcard .secondary .action {
-    width: 100%;
-  }
   /*
           My Account -> Gift Registry
       -------------------------------------- */
-  .magento-giftregistry-index-index .my-account,
-  .magento-giftregistry-index-items .my-account {
+  .magento-giftregistry-index-index .column.main,
+  .magento-giftregistry-index-items .column.main {
     overflow-x: scroll;
+  }
+  .magento-giftregistry-index-index .column.main .actions,
+  .magento-giftregistry-index-items .column.main .actions {
+    text-align: left;
+  }
+  .magento-giftregistry-index-index .column.main .actions .primary,
+  .magento-giftregistry-index-items .column.main .actions .primary,
+  .magento-giftregistry-index-index .column.main .actions .secondary,
+  .magento-giftregistry-index-items .column.main .actions .secondary {
+    float: none;
+    margin-bottom: 15px;
+  }
+  .magento-giftregistry-index-index .column.main .actions .action.primary,
+  .magento-giftregistry-index-items .column.main .actions .action.primary {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
+  }
+  .magento-giftregistry-index-index .column.main .actions .action.primary span,
+  .magento-giftregistry-index-items .column.main .actions .action.primary span {
+    font-size: 18px;
   }
   .magento-giftregistry-index-index .form.giftregistry,
   .magento-giftregistry-index-items .form.giftregistry {
     overflow-x: scroll;
   }
-  .magento-giftregistry-index-index .form.giftregistry .actions,
-  .magento-giftregistry-index-items .form.giftregistry .actions {
-    text-align: left;
-  }
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .secondary,
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .primary {
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .secondary,
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .primary {
     float: none;
     width: 100%;
   }
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .secondary .action,
-  .magento-giftregistry-index-addselect .my-account .form > .actions > .primary .action {
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .secondary .action,
+  .magento-giftregistry-index-addselect .column.main .form > .actions > .primary .action {
     width: 100%;
     display: block;
     text-align: center;
@@ -17076,21 +17320,67 @@ body.account .column.main .block.event .item {
     overflow-x: scroll;
   }
   /*
-          My Account -> My Invitations, My Newsletter
+          My Account -> My Newsletter
       -------------------------------------- */
-  .my-account .invitations .primary,
-  .my-account .form.newsletter .primary,
-  .my-account .invitations .secondary,
-  .my-account .form.newsletter .secondary {
+  .account .form.newsletter {
+    margin-bottom: 20px;
+  }
+  .account .form.newsletter .primary .action {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
+  }
+  .account .form.newsletter .primary .action span {
+    font-size: 18px;
+  }
+  .account .form.newsletter .secondary {
+    float: none;
+    margin-bottom: 15px;
+  }
+  /*
+         My Account -> My Invitations
+     -------------------------------------- */
+  .account .invitations .primary {
     float: none;
   }
-  .my-account .invitations .primary .action,
-  .my-account .form.newsletter .primary .action,
-  .my-account .invitations .secondary .action,
-  .my-account .form.newsletter .secondary .action {
+  .account .invitations .primary .action {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
     display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
     width: 100%;
-    margin-bottom: 15px;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
+  }
+  .account .invitations .primary .action span {
+    font-size: 18px;
+  }
+  .account .invitations .secondary {
+    float: none;
     text-align: center;
   }
   /*
@@ -17178,7 +17468,7 @@ body.account .column.main .block.event .item {
   .form.create.return .fieldset .actions .action.add {
     text-align: center;
   }
-  .magento-rma-returns-history .my-account {
+  .magento-rma-returns-history .column.main {
     overflow-x: scroll;
   }
   .returns.details.view {
@@ -17222,23 +17512,68 @@ body.account .column.main .block.event .item {
     -ms-box-sizing: border-box;
     box-sizing: border-box;
   }
+  .block.addbysku .form.addbysku .fieldset .field {
+    margin-bottom: 10px;
+  }
   .block.addbysku .form.addbysku .field.upload.skus {
     float: none;
     width: 100%;
     padding: 10px;
     margin: 10px 0;
   }
-  .block.addbysku .form.addbysku .actions .secondary,
-  .block.addbysku .form.addbysku .actions .primary {
+  .block.addbysku .form.addbysku .actions .secondary {
     float: none;
-    margin: 0;
+    margin-right: 0;
   }
-  .block.addbysku .form.addbysku .actions .secondary .action,
-  .block.addbysku .form.addbysku .actions .primary .action {
-    width: 100%;
+  .block.addbysku .form.addbysku .actions .secondary .action {
+    text-indent: 0;
+    line-height: inherit;
+    height: inherit;
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
     display: block;
-    margin: 0 0 15px;
+    margin: 0 auto 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
     text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #c2c2c2;
+    color: #ffffff;
+  }
+  .block.addbysku .form.addbysku .actions .secondary .action:after {
+    display: none;
+  }
+  .block.addbysku .form.addbysku .actions .secondary .action span {
+    font-size: 18px;
+  }
+  .block.addbysku .form.addbysku .actions .primary .action {
+    -moz-box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    box-sizing: border-box;
+    display: block;
+    margin: 0 auto 15px;
+    padding: 10px;
+    width: 100%;
+    max-width: 100%;
+    line-height: 1;
+    float: none;
+    text-align: center;
+    text-decoration: none;
+    text-transform: uppercase;
+    border: none;
+    background-color: #da370a;
+    color: #ffffff;
+  }
+  .block.addbysku .form.addbysku .actions .primary .action span {
+    font-size: 18px;
   }
   .sidebar .block.addbysku .form.addbysku .actions {
     margin-right: 0;

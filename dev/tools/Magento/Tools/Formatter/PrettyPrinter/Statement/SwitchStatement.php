@@ -27,20 +27,19 @@ class SwitchStatement extends AbstractConditionalStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the control word
-        $line->add('switch (');
+        $this->addToLine($treeNode, 'switch (');
         // add in the condition
-        $this->resolveNode($this->node->cond, $treeNode);
-        $line->add(') {')->add(new HardLineBreak());
+        $treeNode = $this->resolveNode($this->node->cond, $treeNode);
+        $this->addToLine($treeNode, ') {')->add(new HardLineBreak());
         // processing the case nodes as children
         $this->processNodes($this->node->cases, $treeNode);
         // add the closing brace on a new line
-        $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine((new Line('}'))->add(new HardLineBreak())));
     }
 }

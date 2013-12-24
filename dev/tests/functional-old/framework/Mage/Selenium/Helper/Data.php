@@ -110,10 +110,10 @@ class Mage_Selenium_Helper_Data extends Mage_Selenium_Helper_Abstract
     {
         $fileName = $dataFile;
         if (preg_match('/(\/)|(\\\)/', $dataFile)) {
-            $condition = preg_quote(preg_replace('/(\/)|(\\\)/', DIRECTORY_SEPARATOR, $dataFile));
-            $fileName = end(explode(DIRECTORY_SEPARATOR, $condition));
+            $condition = preg_quote(preg_replace('/(\/)|(\\\)/', '/', $dataFile));
+            $fileName = end(explode('/', $condition));
         } else {
-            $condition = 'data' . preg_quote(DIRECTORY_SEPARATOR) . $dataFile;
+            $condition = 'data' . preg_quote('/') . $dataFile;
         }
         if (!preg_match('|\.yml$|', $condition)) {
             $condition .= '\.yml$';

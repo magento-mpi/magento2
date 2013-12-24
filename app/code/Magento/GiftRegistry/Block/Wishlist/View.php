@@ -34,13 +34,19 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
      * @param \Magento\Tax\Helper\Data $taxData
      * @param \Magento\Catalog\Helper\Data $catalogData
      * @param \Magento\Math\Random $mathRandom
-     * @param \Magento\Wishlist\Helper\Data $wishlistData
+     * @param \Magento\Checkout\Helper\Cart $cartHelper
+     * @param \Magento\Wishlist\Helper\Data $wishlistHelper
+     * @param \Magento\Catalog\Helper\Product\Compare $compareProduct
+     * @param \Magento\Theme\Helper\Layout $layoutHelper
+     * @param \Magento\Catalog\Helper\Image $imageHelper
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
      * @param \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool
      * @param \Magento\GiftRegistry\Helper\Data $giftRegistryData
      * @param \Magento\Module\Manager $moduleManager
      * @param array $data
+     * 
+     * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
         \Magento\View\Element\Template\Context $context,
@@ -49,7 +55,11 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
         \Magento\Tax\Helper\Data $taxData,
         \Magento\Catalog\Helper\Data $catalogData,
         \Magento\Math\Random $mathRandom,
-        \Magento\Wishlist\Helper\Data $wishlistData,
+        \Magento\Checkout\Helper\Cart $cartHelper,
+        \Magento\Wishlist\Helper\Data $wishlistHelper,
+        \Magento\Catalog\Helper\Product\Compare $compareProduct,
+        \Magento\Theme\Helper\Layout $layoutHelper,
+        \Magento\Catalog\Helper\Image $imageHelper,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Catalog\Helper\Product\ConfigurationPool $helperPool,
@@ -66,7 +76,11 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
             $taxData,
             $catalogData,
             $mathRandom,
-            $wishlistData,
+            $cartHelper,
+            $wishlistHelper,
+            $compareProduct,
+            $layoutHelper,
+            $imageHelper,
             $customerSession,
             $productFactory,
             $helperPool,
@@ -83,13 +97,13 @@ class View extends \Magento\Wishlist\Block\Customer\Wishlist
     {
         $outputEnabled = $this->_moduleManager->isOutputEnabled($this->getModuleName());
         if ($outputEnabled) {
-            if ($this->_layout->hasElement('my.account.wrapper')) {
+            if ($this->_layout->hasElement('content')) {
                 $oldBlock = $this->_layout->getBlock('customer.wishlist');
                 if ($oldBlock) {
-                    $this->_layout->unsetChild('my.account.wrapper', 'customer.wishlist');
+                    $this->_layout->unsetChild('content', 'customer.wishlist');
                     $this->setOptionsRenderCfgs($oldBlock->getOptionsRenderCfgs());
                 }
-                $this->_layout->setChild('my.account.wrapper', $this->getNameInLayout(), 'customer.wishlist');
+                $this->_layout->setChild('content', $this->getNameInLayout(), 'customer.wishlist');
             }
         }
         return parent::_prepareLayout();

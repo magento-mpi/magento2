@@ -29,16 +29,36 @@ class CustomerGrid extends Grid
      * @var string
      */
     protected $addNewCustomer = "../*[@class='page-actions']//*[@id='add']";
-
+    
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected $filters = array(
         'email' => array(
             'selector' => '#customerGrid_filter_email'
-        )
+        ),
+        'group' => array(
+            'selector' => '#customerGrid_filter_group',
+            'input' => 'select'
+        ),
     );
 
+    /**
+     * Customer group selector by customer email
+     *
+     * @var string
+     */
+    protected $customerGroupSelector = '//tr[td[text()[normalize-space()="%s"]]]/td[normalize-space(@class)="col-group"]';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $waitForSelector = 'div#customerGrid';
+
+    /**
+     * {@inheritDoc}
+     */
+    protected $waitForSelectorVisible = false;
 
     /**
      * Add new customer

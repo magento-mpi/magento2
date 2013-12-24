@@ -12,9 +12,9 @@ namespace Magento\App\Response\Http;
 class FileFactory
 {
     /**
-     * @var \Magento\App\ResponseFactory
+     * @var \Magento\App\ResponseInterface
      */
-    protected $_responseFactory;
+    protected $_response;
 
     /**
      * @var \Magento\Filesystem
@@ -22,12 +22,14 @@ class FileFactory
     protected $_filesystem;
 
     /**
-     * @param \Magento\App\ResponseFactory $responseFactory
+     * @param \Magento\App\ResponseInterface $response
      * @param \Magento\Filesystem $filesystem
      */
-    public function __construct(\Magento\App\ResponseFactory $responseFactory, \Magento\Filesystem $filesystem)
-    {
-        $this->_responseFactory = $responseFactory;
+    public function __construct(
+        \Magento\App\ResponseInterface $response,
+        \Magento\Filesystem $filesystem
+    ) {
+        $this->_response = $response;
         $this->_filesystem = $filesystem;
     }
 
@@ -38,10 +40,10 @@ class FileFactory
      * @param string|array $content set to null to avoid starting output, $contentLength should be set explicitly in
      *                              that case
      * @param string $contentType
-     * @param int $contentLength    explicit content length, if strlen($content) isn't applicable
+     * @param int $contentLength explicit content length, if strlen($content) isn't applicable
      * @throws \Exception
      * @throws \InvalidArgumentException
-     * @return \Magento\App\ActionInterface
+     * @return \Magento\App\ResponseInterface
      *
      * @SuppressWarnings(PHPMD.CyclomaticComplexity)
      * @SuppressWarnings(PHPMD.NPathComplexity)
@@ -49,52 +51,49 @@ class FileFactory
      */
     public function create($fileName, $content, $contentType = 'application/octet-stream', $contentLength = null)
     {
-        $filesystem = $this->_filesystem;
+        $dir = $this->_filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $isFile = false;
-        $file   = null;
+        $file = null;
         if (is_array($content)) {
             if (!isset($content['type']) || !isset($content['value'])) {
                 throw new \InvalidArgumentException("Invalid arguments. Keys 'type' and 'value' are required.");
             }
             if ($content['type'] == 'filename') {
-                $isFile         = true;
-                $file           = $content['value'];
-                $contentLength  = $filesystem->getFileSize($file);
+                $isFile = true;
+                $file = $content['value'];
+                $contentLength = $dir->stat($file)['size'];
             }
         }
 
-        $response = $this->_responseFactory->create();
-        $response->setHttpResponseCode(200)
+        $this->_response->setHttpResponseCode(200)
             ->setHeader('Pragma', 'public', true)
             ->setHeader('Cache-Control', 'must-revalidate, post-check=0, pre-check=0', true)
             ->setHeader('Content-type', $contentType, true)
             ->setHeader('Content-Length', is_null($contentLength) ? strlen($content) : $contentLength, true)
-            ->setHeader('Content-Disposition', 'attachment; filename="'.$fileName.'"', true)
+            ->setHeader('Content-Disposition', 'attachment; filename="' . $fileName . '"', true)
             ->setHeader('Last-Modified', date('r'), true);
 
         if (!is_null($content)) {
             if ($isFile) {
-                $response->clearBody();
-                $response->sendHeaders();
-
-                if (!$filesystem->isFile($file)) {
+                if (!$dir->isFile($file)) {
                     throw new \Exception(__('File not found'));
                 }
-                $stream = $filesystem->createAndOpenStream($file, 'r');
-                while ($buffer = $stream->read(1024)) {
-                    print $buffer;
+                $this->_response->sendHeaders();
+                $stream = $dir->openFile($file, 'r');
+                while (!$stream->eof()) {
+                    echo $stream->read(1024);
                 }
-                flush();
                 $stream->close();
+                flush();
                 if (!empty($content['rm'])) {
-                    $filesystem->delete($file);
+                    $dir->delete($file);
                 }
-
                 exit(0);
             } else {
-                $response->setBody($content);
+                $this->_response->clearBody();
+                $this->_response->setBody($content);
             }
         }
-        return $response;
+        return $this->_response;
     }
 }

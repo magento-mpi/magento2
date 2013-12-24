@@ -9,7 +9,7 @@
 <?php /* @var $this \Magento\GiftCard\Block\Catalog\Product\View\Type\Giftcard */?>
 <?php $_product = $this->getProduct(); ?>
 <?php $_id = $_product->getId(); ?>
-<div class="giftcard form">
+<div class="giftcard form" data-container-for="giftcard_info">
     <?php if ($this->displayProductStockStatus()): ?>
         <?php if ($_product->isAvailable()): ?>
             <p class="stock available" title="<?php echo __('Availability:') ?>">

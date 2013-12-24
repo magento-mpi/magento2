@@ -172,7 +172,7 @@ class Css
         $themeFieldset->addField('css_download_button', 'button', $downloadButtonConfig);
 
         /** @var $imageButton \Magento\Backend\Block\Widget\Button */
-        $imageButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        $imageButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
             'id'        => 'css_images_manager',
             'label'     => __('Manage'),
@@ -198,7 +198,7 @@ class Css
         ));
 
         /** @var $fontButton \Magento\Backend\Block\Widget\Button */
-        $fontButton = $this->getLayout()->createBlock('Magento\Adminhtml\Block\Widget\Button')
+        $fontButton = $this->getLayout()->createBlock('Magento\Backend\Block\Widget\Button')
             ->setData(array(
             'id'        => 'css_fonts_manager',
             'label'     => __('Manage'),
@@ -284,7 +284,7 @@ class Css
     {
         return $this->getUrl('adminhtml/*/downloadCss', array(
             'theme_id' => $themeId,
-            'file'     => $this->_helperFactory->get('Magento\Core\Helper\Data')->urlEncode($fileId)
+            'file'     => $this->_coreData->urlEncode($fileId)
         ));
     }
 }

@@ -10,14 +10,15 @@
 
 namespace Magento\Sales\Block\Adminhtml\Order\Status;
 
-class NewStatus extends \Magento\Adminhtml\Block\Widget\Form\Container
+class NewStatus extends \Magento\Backend\Block\Widget\Form\Container
 {
 
     protected function _construct()
     {
         $this->_objectId = 'status';
         $this->_controller = 'adminhtml_order_status';
-        $this->_mode = 'new';
+        $this->_blockGroup = 'Magento_Sales';
+        $this->_mode = 'newStatus';
 
         parent::_construct();
         $this->_updateButton('save', 'label', __('Save Status'));

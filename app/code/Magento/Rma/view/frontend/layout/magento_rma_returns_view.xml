@@ -14,7 +14,7 @@
         </action>
     </referenceBlock>
     <update handle="customer_account"/>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Rma\Block\Returns\View" name="rma.returns.history">
             <container name="rma.returns.history.info" as="info" label="Customer My Account Return View"/>
         </block>

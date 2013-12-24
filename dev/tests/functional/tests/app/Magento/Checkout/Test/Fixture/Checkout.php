@@ -11,6 +11,9 @@
 
 namespace Magento\Checkout\Test\Fixture;
 
+use Magento\Customer\Test\Fixture\Address;
+use Magento\Customer\Test\Fixture\Customer;
+use Magento\Shipping\Test\Fixture\Method;
 use Mtf\Fixture\DataFixture;
 use Mtf\Factory\Factory;
 
@@ -223,5 +226,39 @@ class Checkout extends DataFixture
     public function isRegisteredCustomer()
     {
         return (bool) $this->getData('customer/is_registered');
+    }
+
+    /**
+     * Set the billing address for this checkout instance
+     *
+     * @param Address $billingAddress
+     */
+    public function setBillingAddress(Address $billingAddress)
+    {
+        $this->billingAddress = $billingAddress;
+    }
+    /**
+     * Set the customer for this checkout instance
+     *
+     * @param Customer $customer
+     */
+    public function setCustomer(Customer $customer)
+    {
+        $this->customer = $customer;
+    }
+
+    /**
+     * Set the shipping methods for this checkout instance
+     *
+     * @param Method $shippingMethods
+     */
+    public function setShippingMethod(Method $shippingMethods)
+    {
+        $this->shippingMethods = $shippingMethods;
+    }
+
+    public function addProduct($product)
+    {
+        array_unshift($this->products, $product);
     }
 }

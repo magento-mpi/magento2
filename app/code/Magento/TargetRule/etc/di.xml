@@ -13,6 +13,11 @@
             <instance type="Magento\Customer\Model\Session\Proxy" />
         </param>
     </type>
+    <type name="Magento\TargetRule\Model\Resource\Index">
+        <param name="session">
+            <instance type="Magento\Customer\Model\Session\Proxy" />
+        </param>
+    </type>
     <type name="Magento\Module\Updater\SetupFactory">
         <param name="resourceTypes">
             <value>

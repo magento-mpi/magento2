@@ -14,7 +14,7 @@
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Version;
 
 class Edit
-    extends \Magento\Adminhtml\Block\Widget\Form\Container
+    extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected $_objectId   = 'version_id';
     protected $_blockGroup = 'Magento_VersionsCms';

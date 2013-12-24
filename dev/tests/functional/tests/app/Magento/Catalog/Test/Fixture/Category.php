@@ -59,9 +59,10 @@ class Category extends DataFixture
     {
         list($key, $method) = explode('::', $placeholder);
         if (!isset($this->_categories[$key])) {
-            $this->_categories[$key] = Factory::getFixtureFactory()->getMagentoCatalogCategory();
-            $this->_categories[$key]->switchData($key);
-            $this->_categories[$key]->persist();
+            $category = Factory::getFixtureFactory()->getMagentoCatalogCategory();
+            $category->switchData($key);
+            $category->persist();
+            $this->_categories[$key] = $category;
         }
 
         return is_callable(array($this->_categories[$key], $method)) ? $this->_categories[$key]->$method() : '';
@@ -150,7 +151,7 @@ class Category extends DataFixture
                 )
             ),
             'category_path' =>  array(
-                'value' => 'Default Category (0)',
+                'value' => 'Default Category',
                 'input_value' => '2'
             )
         );

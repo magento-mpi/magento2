@@ -128,7 +128,7 @@ class Revision
         $revision = $this->_initRevision($revisionId);
 
         if ($revisionId && !$revision->getId()) {
-            $this->_session->addError(__('We could not load the specified revision.'));
+            $this->messageManager->addError(__('We could not load the specified revision.'));
 
             $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $this->getRequest()->getParam('page_id')));
             return;
@@ -175,7 +175,7 @@ class Revision
                 $revision->save();
 
                 // display success message
-                $this->_session->addSuccess(__('You have saved the revision.'));
+                $this->messageManager->addSuccess(__('You have saved the revision.'));
                 // clear previously saved data from session
                 $this->_session->setFormData(false);
                 // check if 'Save and Continue'
@@ -194,7 +194,7 @@ class Revision
                 return;
             } catch (\Exception $e) {
                 // display error message
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 // save data in session
                 $this->_session->setFormData($data);
                 // redirect to edit form
@@ -205,7 +205,6 @@ class Revision
                 return;
             }
         }
-        return $this;
     }
 
     /**
@@ -218,12 +217,12 @@ class Revision
         try {
             $revision->publish();
             // display success message
-            $this->_session->addSuccess(__('You have published the revision.'));
+            $this->messageManager->addSuccess(__('You have published the revision.'));
             $this->_redirect('adminhtml/cms_page/edit', array('page_id' => $revision->getPageId()));
             return;
         } catch (\Exception $e) {
             // display error message
-            $this->_session->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
             // redirect to edit form
             $this->_redirect('adminhtml/*/edit', array(
                 'page_id' => $this->getRequest()->getParam('page_id'),
@@ -244,7 +243,7 @@ class Revision
         $data = $this->getRequest()->getPost();
         if (empty($data) || !isset($data['page_id'])) {
             $this->_forward('noroute');
-            return $this;
+            return ;
         }
 
         $page = $this->_initPage();
@@ -288,9 +287,9 @@ class Revision
      */
     public function dropAction()
     {
+        $this->_objectManager->get('Magento\Core\Model\Translate\InlineInterface')->disable();
         $this->_objectManager->get('Magento\App\State')
             ->emulateAreaCode('frontend', array($this, 'previewFrontendPage'));
-        return $this;
     }
 
     /**
@@ -305,7 +304,7 @@ class Revision
             $page = $this->_cmsPage->load($data['page_id']);
             if (!$page->getId()) {
                 $this->_forward('noroute');
-                return $this;
+                return ;
             }
 
             /**
@@ -389,7 +388,7 @@ class Revision
                 $revision = $this->_initRevision();
                 $revision->delete();
                 // display success message
-                $this->_session->addSuccess(__('You have deleted the revision.'));
+                $this->messageManager->addSuccess(__('You have deleted the revision.'));
                 $this->_redirect('adminhtml/cms_page_version/edit', array(
                         'page_id' => $revision->getPageId(),
                         'version_id' => $revision->getVersionId()
@@ -397,11 +396,11 @@ class Revision
                 return;
             } catch (\Magento\Core\Exception $e) {
                 // display error message
-                $this->_session->addError($e->getMessage());
+                $this->messageManager->addError($e->getMessage());
                 $error = true;
             } catch (\Exception $e) {
                 $this->_objectManager->get('Magento\Logger')->logException($e);
-                $this->_session->addError(__('Something went wrong while deleting the revision.'));
+                $this->messageManager->addError(__('Something went wrong while deleting the revision.'));
                 $error = true;
             }
 
@@ -412,7 +411,7 @@ class Revision
             }
         }
         // display error message
-        $this->_session->addError(__("We can't find a revision to delete."));
+        $this->messageManager->addError(__("We can't find a revision to delete."));
         // go to grid
         $this->_redirect('adminhtml/cms_page/edit', array('_current' => true));
     }

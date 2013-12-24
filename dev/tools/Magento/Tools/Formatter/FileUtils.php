@@ -43,7 +43,7 @@ function startsWith($haystack, $needle)
  */
 function normalizeDirectorySeparators($subject)
 {
-    return str_replace(DIRECTORY_SEPARATOR, '/', $subject);
+    return str_replace('\\', '/', $subject);
 }
 /**
  * This method returns the result of joining the directory to the filename.

@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml;
 
-class Rma extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Rma extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize RMA management page

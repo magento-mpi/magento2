@@ -75,7 +75,7 @@ class CheckMoneyOrder extends Checkout
         $configurable->switchData('configurable_required');
         $configurable->persist();
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_fixed_required');
+        $bundle->switchData('bundle_required');
         $bundle->persist();
 
         $this->products = array(

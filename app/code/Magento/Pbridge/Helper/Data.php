@@ -354,7 +354,6 @@ class Data extends \Magento\App\Helper\AbstractHelper
         if ($this->_encryptor === null) {
             $key = trim((string)$this->_coreStoreConfig->getConfig('payment/pbridge/transferkey', $this->_storeId));
             $this->_encryptor = $this->_encryptionFactory->create(array('key' => $key));
-            $this->_encryptor->setHelper($this);
         }
         return $this->_encryptor;
     }

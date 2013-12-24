@@ -32,6 +32,7 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Sales\Model\Config $salesConfig
+     * @param \Magento\Sales\Helper\Reorder $reorderHelper
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param array $data
      */
@@ -39,11 +40,12 @@ class Buttons extends \Magento\Sales\Block\Adminhtml\Order\View
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Registry $registry,
         \Magento\Sales\Model\Config $salesConfig,
+        \Magento\Sales\Helper\Reorder $reorderHelper,
         \Magento\Rma\Helper\Data $rmaData,
         array $data = array()
     ) {
         $this->_rmaData = $rmaData;
-        parent::__construct($context, $registry, $salesConfig, $data);
+        parent::__construct($context, $registry, $salesConfig, $reorderHelper, $data);
     }
 
     /**

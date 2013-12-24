@@ -15,7 +15,7 @@
 namespace Magento\CustomerBalance\Block\Adminhtml\Widget\Grid\Column\Renderer;
 
 class Currency
-extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\Currency
+extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\Currency
 {
     /**
      * @var array

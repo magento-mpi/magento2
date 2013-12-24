@@ -79,12 +79,12 @@ if (isset($cliOptions['whitelist'])) {
         if (0 === strpos($pattern, '#')) {
             continue;
         }
-        $files = glob(__DIR__ . DIRECTORY_SEPARATOR . $pattern, GLOB_BRACE | GLOB_ERR);
+        $files = glob(__DIR__ . '/' . $pattern, GLOB_BRACE | GLOB_ERR);
         if (empty($files)) {
             throw new Exception("The glob() pattern '{$pattern}' didn't return any result.");
         }
         foreach ($files as $file) {
-            $whitelist[str_replace(__DIR__ . DIRECTORY_SEPARATOR, '', $file)] = true;
+            $whitelist[str_replace(__DIR__ . '/', '', $file)] = true;
         }
     }
 }
@@ -118,7 +118,7 @@ if (empty($testCases)) {
 }
 $testCases = array_keys($testCases); // automatically avoid file duplications
 
-$outputDir = str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/var/split-by-test/');
+$outputDir = __DIR__ . '/var/split-by-test/';
 if (!file_exists($outputDir)) {
     mkdir($outputDir);
 }
@@ -188,26 +188,27 @@ while ($testCasesLeft > 0) {
                     exit(1);
                 }
                 $testCaseId = str_replace(
-                    array(DIRECTORY_SEPARATOR, '.php'),
+                    array('/', '.php'),
                     array('_', ''),
-                    ltrim($matches[1], DIRECTORY_SEPARATOR)
+                    ltrim($matches[1], '/')
                 );
 
-                $testCaseOutputDir = $outputDir . DIRECTORY_SEPARATOR . $testCaseId . DIRECTORY_SEPARATOR;
-                \Magento\Io\File::rmdirRecursive($testCaseOutputDir);
+                $testCaseOutputDir = $outputDir . '/' . $testCaseId . '/';
+                $filesystemAdapter = new \Magento\Filesystem\Driver\File();
+                $filesystemAdapter->deleteDirectory($testCaseOutputDir);
                 mkdir($testCaseOutputDir);
 
-                $testCaseLogsDir = str_replace('/', DIRECTORY_SEPARATOR, $worker['dir'] . '/var/logs');
+                $testCaseLogsDir = $worker['dir'] . '/var/logs';
                 rename($testCaseLogsDir, $testCaseOutputDir . 'logs');
                 mkdir($testCaseLogsDir);
 
-                $commonScreenshotsDir = str_replace('/', DIRECTORY_SEPARATOR, __DIR__ . '/var/screenshots/');
-                $testCaseScreenshotsDir = str_replace('/', DIRECTORY_SEPARATOR, $worker['dir'] . '/var/screenshots');
-                foreach (glob($testCaseScreenshotsDir . DIRECTORY_SEPARATOR . '*.png') ?: array() as $png) {
+                $commonScreenshotsDir = __DIR__ . '/var/screenshots/';
+                $testCaseScreenshotsDir = $worker['dir'] . '/var/screenshots';
+                foreach (glob($testCaseScreenshotsDir . '/*.png') ?: array() as $png) {
                     rename($png, $commonScreenshotsDir . basename($png));
                 }
 
-                $logFile = $testCaseOutputDir . 'logs' . DIRECTORY_SEPARATOR . 'logfile.xml';
+                $logFile = $testCaseOutputDir . 'logs/logfile.xml';
                 if ($junitLog && file_exists($logFile)) {
                     $resultXml = file_get_contents($logFile);
                     fwrite($junitLog, preg_replace('/<\?xml[^?]+\?>|<\/?testsuites>/', '', $resultXml));

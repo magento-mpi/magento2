@@ -35,6 +35,8 @@ class Cc extends AbstractRepository
         $this->_data['visa_direct'] = $this->_getVisaDirect();
         $this->_data['visa_authorizenet'] = $this->_getVisaAuthorizeNet();
         $this->_data['visa_3d_secure_valid'] = $this->_getVisa3dSecureValid();
+        $this->_data['visa_3d_secure_invalid'] = $this->_getVisa3dSecureInvalid();
+        $this->_data['visa_payflow_advanced'] = $this->_getVisaPayflowAdvanced();
     }
 
     protected function _getVisaDefault()
@@ -59,6 +61,31 @@ class Cc extends AbstractRepository
                     'expiration_year' => array(
                         'value' => date('Y') + 1,
                         'input' => 'select'
+                    ),
+                    'credit_card_cvv' => array(
+                        'value' => '123'
+                    )
+                )
+            )
+        );
+    }
+
+    protected function _getVisaPayflowAdvanced()
+    {
+        return array(
+            'config' => array(
+                'constraint' => 'Success',
+            ),
+            'data' => array(
+                'fields' => array(
+                    'credit_card_number' => array(
+                        'value' => '4111111111111111'
+                    ),
+                    'expiration_month' => array(
+                        'value' => '01',
+                    ),
+                    'expiration_year' => array(
+                        'value' => date('y') + 1
                     ),
                     'credit_card_cvv' => array(
                         'value' => '123'
@@ -164,5 +191,20 @@ class Cc extends AbstractRepository
                 )
             )
         );
+    }
+
+    protected function _getVisa3dSecureInvalid()
+    {
+        $invalidData = array(
+            'data' => array(
+                'fields' => array(
+                    'credit_card_number' => array(
+                        'value' => '4000000000000010'
+                    ),
+                ),
+            )
+        );
+
+        return array_replace_recursive($this->_getVisa3dSecureValid(), $invalidData);
     }
 }

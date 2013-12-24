@@ -10,10 +10,9 @@
 
 namespace Magento\App;
 
-use Magento\App\Dir,
-    Magento\App\Config,
-    Magento\ObjectManager\Factory\Factory,
-    Magento\Profiler;
+use Magento\App\Config,
+    Magento\Profiler,
+    Magento\Filesystem;
 
 /**
  * @SuppressWarnings(PHPMD.CouplingBetweenObjects)
@@ -49,13 +48,14 @@ class ObjectManagerFactory
      */
     public function create($rootDir, array $arguments)
     {
-        $directories = new Dir(
+        $directories = new \Magento\Filesystem\DirectoryList(
             $rootDir,
-            isset($arguments[Dir::PARAM_APP_URIS]) ? $arguments[Dir::PARAM_APP_URIS] : array(),
-            isset($arguments[Dir::PARAM_APP_DIRS]) ? $arguments[Dir::PARAM_APP_DIRS] : array()
+            isset($arguments[\Magento\Filesystem::PARAM_APP_DIRS])
+                ? $arguments[\Magento\Filesystem::PARAM_APP_DIRS]
+                : array()
         );
 
-        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(Dir::GENERATION)));
+        \Magento\Autoload\IncludePath::addIncludePath(array($directories->getDir(\Magento\Filesystem::GENERATION)));
 
         $options = new Config(
             $arguments,
@@ -68,8 +68,9 @@ class ObjectManagerFactory
         );
 
         $definitionFactory = new \Magento\ObjectManager\DefinitionFactory(
-            $directories->getDir(DIR::DI),
-            $directories->getDir(DIR::GENERATION),
+            new \Magento\Filesystem\Driver\File(),
+            $directories->getDir(\Magento\Filesystem::DI),
+            $directories->getDir(\Magento\Filesystem::GENERATION),
             $options->get('definition.format', 'serialized')
         );
 
@@ -86,19 +87,19 @@ class ObjectManagerFactory
             $diConfig->extend($configData);
         }
 
-        $factory = new Factory($diConfig, null, $definitions, $options->get());
+        $factory = new \Magento\ObjectManager\Factory\Factory($diConfig, null, $definitions, $options->get());
 
         $className = $this->_locatorClassName;
         /** @var \Magento\ObjectManager $locator */
         $locator = new $className($factory, $diConfig, array(
             'Magento\App\Config' => $options,
-            'Magento\App\Dir' => $directories
+            'Magento\Filesystem\DirectoryList' => $directories
         ));
 
-        \Magento\App\ObjectManager::setInstance($locator); 
+        \Magento\App\ObjectManager::setInstance($locator);
 
-        /** @var \Magento\App\Dir\Verification $verification */
-        $verification = $locator->get('Magento\App\Dir\Verification');
+        /** @var \Magento\Filesystem\DirectoryList\Verification $verification */
+        $verification = $locator->get('Magento\Filesystem\DirectoryList\Verification');
         $verification->createAndVerifyDirectories();
 
         $diConfig->setCache($locator->get('Magento\App\ObjectManager\ConfigCache'));
@@ -126,21 +127,25 @@ class ObjectManagerFactory
             'pluginList' => $pluginList
         ));
         $locator->setFactory($factory);
+
+        $directoryListConfig = $locator->get('Magento\Filesystem\DirectoryList\Configuration');
+        $directoryListConfig->configure($directories);
+
         return $locator;
     }
 
     /**
      * Load primary config data
      *
-     * @param Dir $directories
+     * @param \Magento\Filesystem\DirectoryList $directoryList
      * @param string $appMode
      * @return array
      * @throws \Magento\BootstrapException
      */
-    protected function _loadPrimaryConfig(Dir $directories, $appMode)
+    protected function _loadPrimaryConfig($directoryList, $appMode)
     {
         $configData = null;
-        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directories, $appMode);
+        $primaryLoader = new \Magento\App\ObjectManager\ConfigLoader\Primary($directoryList, $appMode);
         try {
             $configData = $primaryLoader->load();
         } catch (\Exception $e) {

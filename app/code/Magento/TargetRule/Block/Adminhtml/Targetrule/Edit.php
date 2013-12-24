@@ -14,7 +14,7 @@
 
 namespace Magento\TargetRule\Block\Adminhtml\Targetrule;
 
-class Edit extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Edit extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected $_blockGroup = 'Magento_TargetRule';
     protected $_controller = 'adminhtml_targetrule';

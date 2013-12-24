@@ -30,6 +30,20 @@ class CatalogProductNew extends Page
     const MCA = 'catalog/product/new';
 
     /**
+     * New attribute selector
+     *
+     * @var string
+     */
+    protected $newAttribute = 'body';
+
+    /**
+     * New attribute frame selector
+     *
+     * @var string
+     */
+    protected $newAttributeFrame = '#create_new_attribute_container';
+
+    /**
      * Product form block
      *
      * @var string
@@ -96,6 +110,27 @@ class CatalogProductNew extends Page
     }
 
     /**
+     * Get attribute edit block
+     *
+     * @return \Magento\Catalog\Test\Block\Backend\Product\Attribute\Edit
+     */
+    public function getAttributeEditBlock()
+    {
+        $this->_browser->switchToFrame(new Locator($this->newAttributeFrame));
+        return Factory::getBlockFactory()->getMagentoCatalogBackendProductAttributeEdit(
+            $this->_browser->find($this->newAttribute, Locator::SELECTOR_TAG_NAME)
+        );
+    }
+
+    /**
+     * Switch back to main page from iframe
+     */
+    public function switchToMainPage()
+    {
+        $this->_browser->switchToFrame();
+    }
+
+    /**
      * Get upsell block
      *
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell
@@ -112,7 +147,7 @@ class CatalogProductNew extends Page
      *
      * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related
      */
-    public function getRelatedProductGrid()
+    public function getRelatedBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabRelated(
             $this->_browser->find('related_product_grid', Locator::SELECTOR_ID)

@@ -11,7 +11,7 @@
 namespace Magento\Banner\Block\Adminhtml\Banner\Edit\Tab\Promotions;
 
 class Catalogrule
-  extends \Magento\Adminhtml\Block\Widget\Grid
+  extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
@@ -23,6 +23,7 @@ class Catalogrule
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection
      * @param \Magento\Core\Model\Registry $registry
      * @param array $data
@@ -30,12 +31,13 @@ class Catalogrule
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\CatalogRule\Model\Resource\Rule\Collection $ruleCollection,
         \Magento\Core\Model\Registry $registry,
         array $data = array()
     ) {
         $this->_registry = $registry;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
         $this->setCollection($ruleCollection);
     }
 
@@ -86,7 +88,7 @@ class Catalogrule
     /**
      * Create grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

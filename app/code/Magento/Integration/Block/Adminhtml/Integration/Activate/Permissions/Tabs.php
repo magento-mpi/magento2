@@ -1,6 +1,6 @@
 <?php
 /**
- * API permissions tab for integration activation dialog.
+ * Permissions tab for integration activation dialog.
  *
  * {license_notice}
  *
@@ -13,7 +13,7 @@ use Magento\Backend\Block\Widget\Tabs as TabsWidget;
 
 class Tabs extends TabsWidget
 {
-    protected $_template = 'Magento_Adminhtml::widget/tabshoriz.phtml';
+    protected $_template = 'Magento_Backend::widget/tabshoriz.phtml';
 
     protected function _construct()
     {

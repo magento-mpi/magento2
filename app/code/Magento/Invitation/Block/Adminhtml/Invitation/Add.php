@@ -16,7 +16,7 @@
  */
 namespace Magento\Invitation\Block\Adminhtml\Invitation;
 
-class Add extends \Magento\Adminhtml\Block\Widget\Form\Container
+class Add extends \Magento\Backend\Block\Widget\Form\Container
 {
     protected $_objectId = 'invitation_id';
     protected $_blockGroup = 'Magento_Invitation';

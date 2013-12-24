@@ -18,7 +18,7 @@
  */
 namespace Magento\SalesRule\Block\Adminhtml\Promo\Quote\Edit\Tab\Coupons;
 
-class Grid extends \Magento\Adminhtml\Block\Widget\Grid
+class Grid extends \Magento\Backend\Block\Widget\Grid\Extended
 {
     /**
      * Core registry
@@ -35,6 +35,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param array $data
@@ -42,13 +43,14 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\SalesRule\Model\Resource\Coupon\CollectionFactory $salesRuleCoupon,
         \Magento\Core\Model\Registry $coreRegistry,
         array $data = array()
     ) {
         $this->_coreRegistry = $coreRegistry;
         $this->_salesRuleCoupon = $salesRuleCoupon;
-        parent::__construct($context, $urlModel, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $data);
     }
 
     /**
@@ -64,7 +66,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Prepare collection for grid
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareCollection()
     {
@@ -85,7 +87,7 @@ class Grid extends \Magento\Adminhtml\Block\Widget\Grid
     /**
      * Define grid columns
      *
-     * @return \Magento\Adminhtml\Block\Widget\Grid
+     * @return \Magento\Backend\Block\Widget\Grid\Extended
      */
     protected function _prepareColumns()
     {

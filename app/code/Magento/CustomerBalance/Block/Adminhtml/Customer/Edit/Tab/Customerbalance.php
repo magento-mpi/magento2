@@ -14,8 +14,8 @@
 namespace Magento\CustomerBalance\Block\Adminhtml\Customer\Edit\Tab;
 
 class Customerbalance
-    extends \Magento\Adminhtml\Block\Widget
-    implements \Magento\Adminhtml\Block\Widget\Tab\TabInterface
+    extends \Magento\Backend\Block\Widget
+    implements \Magento\Backend\Block\Widget\Tab\TabInterface
 {
     /**
      * Core registry

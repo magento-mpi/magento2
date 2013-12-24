@@ -41,6 +41,7 @@ class CreateConfigurable extends Curl
         $curlData['attributes'] = $fixture->getDataConfig()['attributes']['id'];
         $curlData['affect_configurable_product_attributes'] = 1;
         $curlData['new-variations-attribute-set-id'] = 4;
+        $curlData['product']['category_ids'] = $fixture->getCategoryIds();
 
         $curlEncoded = json_encode($curlData, true);
         $curlEncoded = str_replace('"Yes"', '1', $curlEncoded);
@@ -147,7 +148,7 @@ class CreateConfigurable extends Curl
     /**
      * Create configurable product
      *
-     * @param Fixture $fixture [optional]
+     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture [optional]
      * @return mixed|string
      * @throws \Exception
      */

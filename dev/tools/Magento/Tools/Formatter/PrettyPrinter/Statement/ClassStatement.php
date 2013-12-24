@@ -9,7 +9,6 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\ClassInterfaceLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 
 /**
@@ -29,26 +28,25 @@ class ClassStatement extends ClassTypeAbstract
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the class line
-        $this->addModifier($this->node->type, $line);
-        $line->add('class ')->add($this->node->name);
+        $this->addModifier($treeNode, $this->node->type);
+        $this->addToLine($treeNode, 'class ')->add($this->node->name);
         // add in extends declaration
         if (!empty($this->node->extends)) {
-            $line->add(' extends ');
+            $this->addToLine($treeNode, ' extends ');
             $this->resolveNode($this->node->extends, $treeNode);
         }
         // add in the implement declarations
         if (!empty($this->node->implements)) {
-            $line->add(' implements');
-            $this->processArgumentList($this->node->implements, $treeNode, $line, new ClassInterfaceLineBreak());
+            $this->addToLine($treeNode, ' implements');
+            $this->processArgumentList($this->node->implements, $treeNode, new ClassInterfaceLineBreak());
         }
-        $line->add(new HardLineBreak());
-        $this->addBody($treeNode);
+        $this->addToLine($treeNode, new HardLineBreak());
+        return $this->addBody($treeNode);
     }
 }

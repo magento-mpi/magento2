@@ -26,15 +26,15 @@ class BundleFixedTest extends Functional
     }
 
     /**
-     * Creating bundle (fixed) product and assigning it to category
+     * Creating bundle (fixed) product and assigning it to the category
      *
-     * @zephyrId MAGETWO-12622
+     * @ZephyrId MAGETWO-12622
      */
     public function testCreate()
     {
         //Data
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleFixed();
-        $bundle->switchData('bundle_fixed');
+        $bundle->switchData('bundle');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
@@ -50,6 +50,7 @@ class BundleFixedTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verification
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);
@@ -86,13 +87,8 @@ class BundleFixedTest extends Functional
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-
-        $actualPrices = $productViewBlock->getProductPrice();
-        $expectedPrices = $product->getProductPrice();
-        foreach ($actualPrices as $priceType => $actualPrice) {
-            $this->assertContains($expectedPrices[$priceType], $actualPrice);
-        }
+        $this->assertSame($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
         $productOptionsBlock = $productPage->getOptionsBlock();

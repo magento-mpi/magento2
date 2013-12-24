@@ -16,12 +16,16 @@ class AdminGwsConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     public function setUp()
     {
-        // List of all available admingws.xml
-        $xmlFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
-            '{*/admingws.xml,admingws.xml}',
-            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-            false
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $objectManager->get('Magento\Filesystem');
+        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
+        $xmlFiles = $fileIteratorFactory->create(
+            $modulesDirectory,
+            $modulesDirectory->search('/*/*/etc/{*/admingws.xml,admingws.xml}')
         );
+
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');
         $validationStateMock->expects($this->any())
             ->method('isValidated')

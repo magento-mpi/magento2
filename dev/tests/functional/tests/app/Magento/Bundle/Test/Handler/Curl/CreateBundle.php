@@ -136,7 +136,9 @@ class CreateBundle extends Curl
 
         $prefix = isset($config['input_prefix']) ? $config['input_prefix'] : null;
         $data = $this->_prepareData($fixture->getData('fields'), $prefix);
-
+        if ($fixture->getData('category_id')) {
+            $data['product']['category_ids'] = $fixture->getData('category_id');
+        }
         $url = $this->_getUrl($config);
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);

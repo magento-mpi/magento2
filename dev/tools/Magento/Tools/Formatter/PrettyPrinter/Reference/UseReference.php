@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_UseUse;
 
@@ -25,17 +24,17 @@ class UseReference extends AbstractReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
         // process the name
-        $this->resolveNode($this->node->name, $treeNode);
+        $treeNode = $this->resolveNode($this->node->name, $treeNode);
         // process the alias, if needed
         if ($this->node->name->getLast() !== $this->node->alias) {
-            /** @var Line $line */
-            $line = $treeNode->getData()->line;
-            $line->add(' as ')->add($this->node->alias);
+            $this->addToLine($treeNode, ' as ')->add($this->node->alias);
         }
+        return $treeNode;
     }
 }

@@ -57,6 +57,12 @@ class CreateSimpleWithCategoryTest extends Functional
 
         //Verifying
         $this->assertSuccessMessage("You saved the product.");
+        //Flush cache
+        $cachePage = Factory::getPageFactory()->getAdminCache();
+        $cachePage->open();
+        $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
+        //Verifying
         $this->assertProductOnFrontend($product);
     }
 
@@ -99,9 +105,7 @@ class CreateSimpleWithCategoryTest extends Functional
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
         $productListBlock->openProductViewPage($product->getProductName());
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName(),
-            'Product name does not correspond to specified.');
-        $this->assertContains($product->getProductPrice(), $productViewBlock->getProductPrice(),
-            'Product price does not correspond to specified.');
+        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
     }
 }

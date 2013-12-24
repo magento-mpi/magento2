@@ -44,10 +44,16 @@ class AbstractView extends \Magento\View\Element\Template
     protected $_wrappingCollFactory;
 
     /**
+     * @var \Magento\Sales\Helper\Admin
+     */
+    protected $_adminHelper;
+
+    /**
      * @param \Magento\View\Element\Template\Context $context
      * @param \Magento\GiftWrapping\Helper\Data $giftWrappingData
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory
+     * @param \Magento\Sales\Helper\Admin $adminHelper
      * @param array $data
      */
     public function __construct(
@@ -55,8 +61,10 @@ class AbstractView extends \Magento\View\Element\Template
         \Magento\GiftWrapping\Helper\Data $giftWrappingData,
         \Magento\Core\Model\Registry $registry,
         \Magento\GiftWrapping\Model\Resource\Wrapping\CollectionFactory $wrappingCollFactory,
+        \Magento\Sales\Helper\Admin $adminHelper,
         array $data = array()
     ) {
+        $this->_adminHelper = $adminHelper;
         $this->_coreRegistry = $registry;
         $this->_giftWrappingData = $giftWrappingData;
         $this->_wrappingCollFactory = $wrappingCollFactory;
@@ -124,7 +132,7 @@ class AbstractView extends \Magento\View\Element\Template
      */
     protected function _preparePrices($basePrice, $price)
     {
-        return $this->helper('Magento\Sales\Helper\Admin')->displayPrices($this->getOrder(), $basePrice, $price);
+        return $this->_adminHelper->displayPrices($this->getOrder(), $basePrice, $price);
     }
 
     /**

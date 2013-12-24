@@ -12,22 +12,67 @@ namespace Magento\Logging\Model\Handler;
 class ControllersTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \PHPUnit_Framework_MockObject_MockObject|\Magento\Logging\Model\Handler\Controllers
+     * @var \Magento\Logging\Model\Handler\Controllers
      */
-    protected $_model;
+    protected $object;
 
-    public function setUp()
+    /**
+     * @var \Magento\App\Request\Http|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $request;
+
+    /**
+     * @var \Magento\Logging\Model\Event\ChangesFactory|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventChangesFactory;
+
+    /**
+     * @var \Magento\Logging\Model\Event\Changes|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $eventChanges;
+
+    /**
+     * @var \Magento\Backend\Model\Config\Structure|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $configStructure;
+
+    /**
+     * @var \Magento\Logging\Model\Processor|\PHPUnit_Framework_MockObject_MockObject
+     */
+    protected $processor;
+
+    protected function setUp()
     {
-        $helper = new \Magento\TestFramework\Helper\ObjectManager($this);
+        $objectManager = new \Magento\TestFramework\Helper\ObjectManager($this);
 
-        $requestMock = $this->getMock('Magento\App\Request\Http', array(), array(), '', false);
-        $requestMock->expects($this->any())
+        $this->request = $this->getMock('Magento\App\Request\Http', [], [], '', false);
+        $this->request->expects($this->any())
             ->method('getParams')
-            ->will($this->returnValue(array()));
-        $this->_model = $helper->getObject(
+            ->will($this->returnValue([]));
+
+        $this->eventChanges = new \Magento\Object();
+        $this->eventChangesFactory
+            = $this->getMock('\Magento\Logging\Model\Event\ChangesFactory', ['create'], [], '', false);
+        $this->eventChangesFactory->expects($this->any())
+            ->method('create')
+            ->will($this->returnValue($this->eventChanges));
+
+        $this->configStructure
+            = $this->getMock('\Magento\Backend\Model\Config\Structure', ['getFieldPathsByAttribute'], [], '', false);
+        $this->configStructure->expects($this->any())
+            ->method('getFieldPathsByAttribute')
+            ->will($this->returnValue([]));
+
+        $this->object = $objectManager->getObject(
             'Magento\Logging\Model\Handler\Controllers',
-            array('request' => $requestMock)
+            [
+                'request' => $this->request,
+                'eventChangesFactory' => $this->eventChangesFactory,
+                'structureConfig' => $this->configStructure,
+            ]
         );
+
+        $this->processor = $this->getMock('Magento\Logging\Model\Processor', [], [], '', false);
     }
 
     /**
@@ -40,9 +85,8 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
         $processor = $this->getMockBuilder('Magento\Logging\Model\Processor')
             ->disableOriginalConstructor()
             ->getMock();
-        ;
 
-        $result = $this->_model->postDispatchReport($config, $eventModel, $processor);
+        $result = $this->object->postDispatchReport($config, $eventModel, $processor);
         if (is_object($result)) {
             $result = $result->getInfo();
         }
@@ -54,15 +98,24 @@ class ControllersTest extends \PHPUnit_Framework_TestCase
      */
     public function postDispatchReportDataProvider()
     {
-        return array(
-            array(
-            array('controller_action' => 'reports_report_shopcart_product'),
-            'shopcart_product',
-        ),
-            array(
-                array('controller_action' => 'some_another_value'),
-                false,
-            )
+        return [
+            [['controller_action' => 'reports_report_shopcart_product'], 'shopcart_product'],
+            [['controller_action' => 'some_another_value'], false]
+        ];
+    }
+
+    /**
+     * Assure that method works when post data contains group without ['fields'] key
+     */
+    public function testPostDispatchConfigSaveGroupWithoutFieldsKey()
+    {
+        $this->request->expects($this->once())
+            ->method('getPost')
+            ->will($this->returnValue(['groups' => ['name' => []]]));
+
+        $this->assertEquals(
+            ['info' => 'general'],
+            $this->object->postDispatchConfigSave([], new \Magento\Object(), $this->processor)->getData()
         );
     }
 }

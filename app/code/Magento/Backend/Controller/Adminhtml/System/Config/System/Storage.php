@@ -136,6 +136,7 @@ class Storage extends \Magento\Backend\App\Action
                                 ->save();
                         }
                     }
+                // fall-through intentional
                 case \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED:
                 case \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED:
                     $flagData = $flag->getFlagData();

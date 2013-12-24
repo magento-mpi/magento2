@@ -28,6 +28,7 @@ class Wishlist
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\Wishlist\Model\ItemFactory $itemFactory
@@ -37,6 +38,7 @@ class Wishlist
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\Wishlist\Model\ItemFactory $itemFactory,
@@ -44,7 +46,15 @@ class Wishlist
         array $data = array()
     ) {
         $this->_itemCollectionFactory = $itemCollectionFactory;
-        parent::__construct($context, $urlModel, $collectionFactory, $coreRegistry, $itemFactory, $data);
+        parent::__construct(
+            $context,
+            $urlModel,
+            $backendHelper,
+            $collectionFactory,
+            $coreRegistry,
+            $itemFactory,
+            $data
+        );
     }
 
     /**

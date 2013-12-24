@@ -47,7 +47,6 @@ class ServiceVersionV2Test extends \Magento\Webapi\Routing\ServiceVersionV1Test
         $this->assertEquals(1, $item['price'], 'Item was retrieved unsuccessfully from V2');
     }
 
-
     /**
      *  Test to assert presence of new 'delete' api added in V2 version of the same service
      */

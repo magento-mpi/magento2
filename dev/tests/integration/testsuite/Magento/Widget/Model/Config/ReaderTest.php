@@ -12,31 +12,35 @@ namespace Magento\Widget\Model\Config;
 class ReaderTest extends \PHPUnit_Framework_TestCase
 {
     /**
+     * @var \Magento\Filesystem\DirectoryList
+     */
+    protected $directoryList;
+
+    /**
      * @var \Magento\Widget\Model\Config\Reader
      */
     protected $_model;
 
+
     public function setUp()
     {
         $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
-        /** @var \Magento\App\Dir $dirs */
-        $dirs = $objectManager->create(
-            'Magento\App\Dir', array(
-                'baseDir' => BP,
-                'dirs' => array(
-                    \Magento\App\Dir::MODULES => __DIR__ . '/_files/code',
-                    \Magento\App\Dir::CONFIG => __DIR__ . '/_files/code'
-                )
-            )
-        );
+
+        $this->directoryList = $objectManager->get('Magento\Filesystem\DirectoryList');
+        $dirPath = ltrim(str_replace($this->directoryList->getRoot(), '', str_replace('\\', '/', __DIR__))
+            . '/_files', '/');
+        $this->directoryList->addDirectory(\Magento\Filesystem::MODULES, array('path' => $dirPath . '/code'));
+        $this->directoryList->addDirectory(\Magento\Filesystem::CONFIG, array('path' => $dirPath));
+        $this->directoryList->addDirectory(\Magento\Filesystem::ROOT, array('path' => $dirPath));
+
+        $filesystem = $objectManager->create('Magento\Filesystem', array('directoryList' => $this->directoryList));
 
         /** @var \Magento\Module\Declaration\FileResolver $modulesDeclarations */
         $modulesDeclarations = $objectManager->create(
             'Magento\Module\Declaration\FileResolver', array(
-                'applicationDirs' => $dirs,
+                'filesystem' => $filesystem,
             )
         );
-
 
         /** @var \Magento\Module\Declaration\Reader\Filesystem $filesystemReader */
         $filesystemReader = $objectManager->create(
@@ -55,7 +59,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         /** @var \Magento\Module\Dir\Reader $moduleReader */
         $moduleReader = $objectManager->create(
             'Magento\Module\Dir\Reader', array(
-                'moduleList' => $modulesList
+                'moduleList' => $modulesList,
+                'filesystem' => $filesystem,
             )
         );
         $moduleReader->setModuleDir('Magento_Test', 'etc', __DIR__ . '/_files/code/Magento/Test/etc');
@@ -64,6 +69,7 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
         $fileResolver = $objectManager->create(
             'Magento\Widget\Model\Config\FileResolver', array(
                 'moduleReader' => $moduleReader,
+                'filesystem' => $filesystem
             )
         );
 
@@ -88,7 +94,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
 
     public function testReadFile()
     {
-        $result = $this->_model->readFile(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
+        $file = file_get_contents(__DIR__ . '/_files/code/Magento/Test/etc/widget.xml');
+        $result = $this->_model->readFile($file);
         $expected = include '_files/expectedGlobalArray.php';
         $this->assertEquals($expected, $result);
     }
@@ -96,8 +103,8 @@ class ReaderTest extends \PHPUnit_Framework_TestCase
     public function testMergeCompleteAndPartial()
     {
         $fileList = array(
-            __DIR__ . '/_files/widgetFirst.xml',
-            __DIR__ . '/_files/widgetSecond.xml'
+            __DIR__ . '/_files/widgetFirst.xml' => file_get_contents(__DIR__ . '/_files/widgetFirst.xml'),
+            __DIR__ . '/_files/widgetSecond.xml' => file_get_contents(__DIR__ . '/_files/widgetSecond.xml')
         );
         $fileResolverMock = $this->getMockBuilder('Magento\Config\FileResolverInterface')
             ->setMethods(array('get'))

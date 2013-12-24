@@ -46,7 +46,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param \Magento\Stdlib\String $string
      * @param \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig
      * @param \Magento\Core\Model\Translate $translate
-     * @param \Magento\App\Dir $coreDir
+     * @param \Magento\Filesystem $filesystem
      * @param \Magento\Shipping\Model\Config $shippingConfig
      * @param \Magento\Sales\Model\Order\Pdf\Config $pdfConfig
      * @param \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory
@@ -64,7 +64,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
         \Magento\Stdlib\String $string,
         \Magento\Core\Model\Store\ConfigInterface $coreStoreConfig,
         \Magento\Core\Model\Translate $translate,
-        \Magento\App\Dir $coreDir,
+        \Magento\Filesystem $filesystem,
         \Magento\Shipping\Model\Config $shippingConfig,
         \Magento\Sales\Model\Order\Pdf\Config $pdfConfig,
         \Magento\Sales\Model\Order\Pdf\Total\Factory $pdfTotalFactory,
@@ -84,7 +84,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
             $string,
             $coreStoreConfig,
             $translate,
-            $coreDir,
+            $filesystem,
             $shippingConfig,
             $pdfConfig,
             $pdfTotalFactory,
@@ -391,7 +391,7 @@ class Rma extends \Magento\Sales\Model\Order\Pdf\AbstractPdf
      * @param array $optionsArray
      * @param \Zend_Pdf_Page $page
      */
-    protected function _drawCustomOptions($optionsArray = array(), $page)
+    protected function _drawCustomOptions($optionsArray, $page)
     {
         $this->_setFontRegular($page, 6);
         foreach ($optionsArray as $value) {

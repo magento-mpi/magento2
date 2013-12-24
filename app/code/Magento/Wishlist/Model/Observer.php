@@ -40,12 +40,18 @@ class Observer extends \Magento\Core\Model\AbstractModel
     protected $_wishlistFactory;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param \Magento\Core\Model\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Wishlist\Helper\Data $wishlistData
      * @param \Magento\Checkout\Model\Session $checkoutSession
      * @param \Magento\Customer\Model\Session $customerSession
      * @param \Magento\Wishlist\Model\WishlistFactory $wishlistFactory
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param \Magento\Core\Model\Resource\AbstractResource $resource
      * @param \Magento\Data\Collection\Db $resourceCollection
      * @param array $data
@@ -57,6 +63,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
         \Magento\Wishlist\Model\WishlistFactory $wishlistFactory,
+        \Magento\Message\ManagerInterface $messageManager,
         \Magento\Core\Model\Resource\AbstractResource $resource = null,
         \Magento\Data\Collection\Db $resourceCollection = null,
         array $data = array()
@@ -65,6 +72,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
         $this->_checkoutSession = $checkoutSession;
         $this->_customerSession = $customerSession;
         $this->_wishlistFactory = $wishlistFactory;
+        $this->messageManager = $messageManager;
         parent::__construct($context, $registry, $resource, $resourceCollection, $data);
     }
 
@@ -169,7 +177,7 @@ class Observer extends \Magento\Core\Model\AbstractModel
             $this->_checkoutSession->setWishlistPendingUrls($urls);
             $this->_checkoutSession->setWishlistPendingMessages($messages);
 
-            $this->_checkoutSession->addError($message);
+            $this->messageManager->addError($message);
 
             $observer->getEvent()->getResponse()->setRedirect($url);
             $this->_checkoutSession->setNoCartRedirect(true);

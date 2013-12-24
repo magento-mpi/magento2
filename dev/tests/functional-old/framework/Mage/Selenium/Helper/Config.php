@@ -129,7 +129,7 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $files = array('local.yml', 'config.yml');
         foreach ($files as $file) {
-            $configDir = implode(DIRECTORY_SEPARATOR, array(SELENIUM_TESTS_BASEDIR, 'config', $file));
+            $configDir = SELENIUM_TESTS_BASEDIR . '/config/' . $file;
             $fileData = $this->getConfig()->getHelper('file')->loadYamlFile($configDir);
             if ($fileData) {
                 $this->_configData = $fileData;
@@ -576,8 +576,8 @@ class Mage_Selenium_Helper_Config extends Mage_Selenium_Helper_Abstract
     {
         $frameworkConfig = $this->getConfigFramework();
 
-        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path'] . DIRECTORY_SEPARATOR
-            . '_testFiles' . DIRECTORY_SEPARATOR . $fileName;
+        return $this->getConfig()->getInitialPath() . $frameworkConfig['fixture_base_path']
+            . '/_testFiles/' . $fileName;
     }
 
     /**

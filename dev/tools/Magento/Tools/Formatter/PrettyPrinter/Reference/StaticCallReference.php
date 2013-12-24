@@ -8,7 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_StaticCall;
 use PHPParser_Node_Expr;
@@ -29,34 +28,28 @@ class StaticCallReference extends AbstractFunctionReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
-        $this->resolveNode($this->node->class, $treeNode);
-        $line->add('::');
+        $treeNode = $this->resolveNode($this->node->class, $treeNode);
+        $this->addToLine($treeNode, '::');
         if ($this->node->name instanceof PHPParser_Node_Expr) {
-            if (
-                $this->node->name instanceof
-                PHPParser_Node_Expr_Variable ||
-                $this->node->name instanceof
-                PHPParser_Node_Expr_ArrayDimFetch
+            if ($this->node->name instanceof PHPParser_Node_Expr_Variable ||
+                $this->node->name instanceof PHPParser_Node_Expr_ArrayDimFetch
             ) {
                 // add in the value as a node
-                $this->resolveNode($this->node->name, $treeNode);
+                $treeNode = $this->resolveNode($this->node->name, $treeNode);
             } else {
-                $line->add('{');
-                $this->resolveNode($this->node->name, $treeNode);
-                $line->add('}');
+                $this->addToLine($treeNode, '{');
+                $treeNode = $this->resolveNode($this->node->name, $treeNode);
+                $this->addToLine($treeNode, '}');
             }
         } else {
-            $line->add($this->node->name);
+            $this->addToLine($treeNode, $this->node->name);
         }
         // add the arguments
-        $line->add('(');
-        $this->processArgumentList($this->node->args, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        return $this->processArgsList($this->node->args, $treeNode, new CallLineBreak());
     }
 }

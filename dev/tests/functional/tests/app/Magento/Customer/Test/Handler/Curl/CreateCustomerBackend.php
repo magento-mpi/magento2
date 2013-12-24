@@ -71,7 +71,7 @@ class CreateCustomerBackend extends Curl
     {
         $params = $this->_prepareData($fixture);
 
-        $url = $_ENV['app_backend_url'] . '/customer/save/';
+        $url = $_ENV['app_backend_url'] . 'customer/index/save/active_tab/account';
         $curl = new BackendDecorator(new CurlTransport(), new Config);
         $curl->addOption(CURLOPT_HEADER, 1);
         $curl->write(CurlInterface::POST, $url, '1.0', array(), $params);

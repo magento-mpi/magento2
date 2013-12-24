@@ -58,9 +58,9 @@ try {
                 continue;
             } elseif (0 === strpos($pattern, '~')) { //pattern that must be ignored start from ~
                 $pattern = substr($pattern, 1);
-                $ignoreList[$pattern] = $workingDir . DIRECTORY_SEPARATOR . $pattern;
+                $ignoreList[$pattern] = $workingDir . '/' . $pattern;
             }
-            $pattern = $workingDir . DIRECTORY_SEPARATOR . $pattern;
+            $pattern = $workingDir . '/' . $pattern;
             $patternList[$pattern] = $pattern;
         }
     }

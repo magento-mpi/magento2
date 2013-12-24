@@ -9,48 +9,39 @@
  * @license     {license_link}
  */
 
-
 namespace Magento\Catalog\Test\Block\Product\ProductList;
 
-use Magento\Catalog\Test\Fixture\Product;
 use Mtf\Block\Block;
+use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use \Magento\Catalog\Test\Fixture\SimpleProduct;
 
 class Upsell extends Block
 {
-    /**
-     * Link selector
-     *
-     * @var string
-     */
-    protected $linkSelector = '.product.name [title="%s"]';
+    protected $upsellProduct = "//div[normalize-space(div//a)='%s']";
 
     /**
-     * Verify upsell item
-     *
-     * @param Product $upsell
+     * @param string $productName
      * @return bool
      */
-    public function verifyProductUpsell(Product $upsell)
+    public function isUpsellProductVisible($productName)
     {
-        $match = $this->_rootElement->find(sprintf($this->linkSelector,
-                $upsell->getProductName()), Locator::SELECTOR_CSS);
-        return $match->isVisible();
+        return $this->getProductElement($productName)->isVisible();
     }
 
     /**
-     * Click on upsell product link
-     *
-     * @param SimpleProduct $product
-     * @return \Mtf\Client\Element
-     * @throws \Exception
+     * @param string $productName
      */
-    public function clickLink($product)
+    public function openUpsellProduct($productName)
     {
-        $link = $this->_rootElement->find(sprintf($this->linkSelector, $product->getProductName()),
-            Locator::SELECTOR_CSS
-        );
-        $link->click();
+        $this->getProductElement($productName)->find('.product.name>a')->click();
+    }
+
+    /**
+     * @param string $productName
+     * @return mixed|\Mtf\Client\Element
+     */
+    private function getProductElement($productName)
+    {
+        return $this->_rootElement->find(sprintf($this->upsellProduct, $productName), Locator::SELECTOR_XPATH);
     }
 }

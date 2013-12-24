@@ -31,8 +31,8 @@ class SchemaLocator implements \Magento\Config\SchemaLocatorInterface
     public function __construct(\Magento\Module\Dir\Reader $moduleReader)
     {
         $etcDir = $moduleReader->getModuleDir('etc', 'Magento_FullPageCache');
-        $this->_schema = $etcDir . DIRECTORY_SEPARATOR . 'placeholders_merged.xsd';
-        $this->_perFileSchema = $etcDir . DIRECTORY_SEPARATOR . 'placeholders.xsd';
+        $this->_schema = $etcDir . '/placeholders_merged.xsd';
+        $this->_perFileSchema = $etcDir . '/placeholders.xsd';
     }
 
     /**

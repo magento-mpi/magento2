@@ -20,6 +20,12 @@ use Mtf\Repository\AbstractRepository;
  */
 class ProductAttribute extends AbstractRepository
 {
+    /**
+     * Construct
+     *
+     * @param array $defaultConfig
+     * @param array $defaultData
+     */
     public function __construct(array $defaultConfig, array $defaultData)
     {
         $this->_data['default'] = array(
@@ -28,7 +34,23 @@ class ProductAttribute extends AbstractRepository
         );
 
         $this->_data['configurable_attribute'] = $this->_data['default'];
-        $this->_data['configurable_attribute']['data']['fields']['option[value][option_0][0]']['value'] = 'option1';
-        $this->_data['configurable_attribute']['data']['fields']['option[value][option_1][0]']['value'] = 'option2';
+
+        $this->_data['new_attribute'] = array(
+            'config' => $defaultConfig,
+            'data' => $this->buildNewAttributeData($defaultData),
+        );
+    }
+
+    /**
+     * Build new attribute data set
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function buildNewAttributeData(array $defaultData)
+    {
+        unset($defaultData['fields']['is_configurable']);
+        unset($defaultData['fields']['attribute_code']);
+        return $defaultData;
     }
 }

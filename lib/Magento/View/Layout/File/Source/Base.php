@@ -10,8 +10,8 @@ namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\App\Dir;
 use Magento\Filesystem;
+use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\Layout\File\Factory;
 
 /**
@@ -20,32 +20,24 @@ use Magento\View\Layout\File\Factory;
 class Base implements SourceInterface
 {
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var Dir
-     */
-    private $dirs;
-
-    /**
      * @var Factory
      */
     private $fileFactory;
 
     /**
+     * @var ReadInterface
+     */
+    protected $modulesDirectory;
+
+    /**
      * @param Filesystem $filesystem
-     * @param Dir $dirs
      * @param Factory $fileFactory
      */
     public function __construct(
         Filesystem $filesystem,
-        Dir $dirs,
         Factory $fileFactory
     ) {
-        $this->filesystem = $filesystem;
-        $this->dirs = $dirs;
+        $this->modulesDirectory = $filesystem->getDirectoryRead(Filesystem::MODULES);
         $this->fileFactory = $fileFactory;
     }
 
@@ -60,18 +52,12 @@ class Base implements SourceInterface
     {
         $namespace = $module = '*';
         $area = $theme->getArea();
-        $files = $this->filesystem->searchKeys(
-            $this->dirs->getDir(Dir::MODULES),
-            "{$namespace}/{$module}/view/{$area}/layout/{$filePath}.xml"
-        );
-
-        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/"
-            . preg_quote($area)
-            . "/layout/"
-            . preg_quote(rtrim($filePath, '*'))
-            . "[^/]*\.xml$#i";
+        $files = $this->modulesDirectory->search("$namespace/$module/view/{$area}/layout/{$filePath}.xml");
         $result = array();
-        foreach ($files as $filename) {
+        $filePath = strtr(preg_quote($filePath), array('\*' => '[^/]+'));
+        $pattern = "#(?<namespace>[^/]+)/(?<module>[^/]+)/view/{$area}/layout/" . $filePath . "\.xml$#i";
+        foreach ($files as $file) {
+            $filename = $this->modulesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }

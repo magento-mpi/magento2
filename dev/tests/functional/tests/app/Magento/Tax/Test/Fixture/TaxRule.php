@@ -33,6 +33,7 @@ class TaxRule extends DataFixture
         parent::__construct($configuration, $placeholders);
 
         $this->_placeholders['us_ca_rate_8_25'] = array($this, '_getTaxRateId');
+        $this->_placeholders['uk_full_tax_rate'] = array($this, '_getTaxRateId');
         $this->_placeholders['us_ny_rate_8_1'] = array($this, '_getTaxRateData');
         $this->_placeholders['us_ny_rate_8_375'] = array($this, '_getTaxRateId');
         $this->_placeholders['product_tax_class'] = array($this, '_getTaxClassId');

@@ -8,5 +8,5 @@
  */
 -->
 <config>
-    <template id="customer_magento_customerbalance_email_template" label="Store Credit Update" file="update_notification.html" type="html"/>
+    <template id="customer_magento_customerbalance_email_template" label="Store Credit Update" file="update_notification.html" type="html" module="Magento_CustomerBalance"/>
 </config>

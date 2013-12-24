@@ -15,14 +15,15 @@ use Mtf\Fixture;
 use Mtf\Client\Element;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
-use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
 use Magento\Backend\Test\Block\Widget\FormTabs;
+use Magento\Bundle\Test\Fixture\Bundle;
 use Magento\Catalog\Test\Fixture\Product;
 use Magento\Catalog\Test\Fixture\GroupedProduct;
 use Magento\Catalog\Test\Fixture\ConfigurableProduct;
-use Magento\Bundle\Test\Fixture\Bundle;
 use Magento\Downloadable\Test\Fixture\DownloadableProduct;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell;
+use Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell;
 
 /**
  * Class ProductForm
@@ -40,11 +41,32 @@ class ProductForm extends FormTabs
     protected $saveButton = '#save-split-button-button';
 
     /**
+     * Variations tab selector
+     *
+     * @var string
+     */
+    protected $variationsTab = '[data-ui-id="product-tabs-tab-content-super-config"] .title';
+
+    /**
+     * Variations wrapper selector
+     *
+     * @var string
+     */
+    protected $variationsWrapper = '[data-ui-id="product-tabs-tab-content-super-config"]';
+
+    /**
+     * New variation set button selector
+     *
+     * @var string
+     */
+    protected $newVariationSet = '[data-ui-id="admin-product-edit-tab-super-config-grid-container-add-attribute"]';
+
+    /**
      * Choose affected attribute set dialog popup window
      *
      * @var string
      */
-    protected $affectedAttributeSetBlock = "//*[contains(@class, ui-dialog)]//*[@id='affected-attribute-set-form']/..";
+    protected $affectedAttributeSet = "//div[div/@data-id='affected-attribute-set-selector']";
 
     /**
      * @var array
@@ -53,9 +75,11 @@ class ProductForm extends FormTabs
         Bundle::GROUP => '\Magento\Bundle\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Bundle',
         ConfigurableProduct::GROUP => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config',
         GroupedProduct::GROUP => '\Magento\Catalog\Test\Block\Product\Grouped\AssociatedProducts',
-        DownloadableProduct::GROUP
-            => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
-        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab'
+        DownloadableProduct::GROUP => '\Magento\Downloadable\Test\Block\Adminhtml\Catalog\Product\Edit\Tab\Downloadable',
+        Product::GROUP_CUSTOM_OPTIONS => '\Magento\Catalog\Test\Block\Adminhtml\Product\Edit\CustomOptionsTab',
+        Related::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Related',
+        Upsell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Upsell',
+        Crosssell::GROUP => 'Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Crosssell'
     );
 
     /**
@@ -66,7 +90,7 @@ class ProductForm extends FormTabs
     protected function getAffectedAttributeSetBlock()
     {
         return Factory::getBlockFactory()->getMagentoCatalogProductConfigurableAffectedAttributeSet(
-            $this->_rootElement->find($this->affectedAttributeSetBlock, Locator::SELECTOR_XPATH)
+            $this->_rootElement->find($this->affectedAttributeSet, Locator::SELECTOR_XPATH)
         );
     }
 
@@ -75,14 +99,12 @@ class ProductForm extends FormTabs
      *
      * @param Fixture $fixture
      * @param Element $element
-     * @return FormTabs|void
+     * @return \Magento\Backend\Test\Block\Widget\FormTabs|void
      */
     public function fill(Fixture $fixture, Element $element = null)
     {
-        /**
-         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
-         */
-        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+        // Open tab "Advanced Settings" to make all nested tabs visible and available to interact
+        $this->showAdvanced();
         /** @var $fixture \Magento\Catalog\Test\Fixture\Product */
         if ($fixture->getCategoryName()) {
             $this->fillCategory($fixture->getCategoryName());
@@ -104,7 +126,7 @@ class ProductForm extends FormTabs
     /**
      * Save product
      *
-     * @param Fixture $fixture
+     * @param Fixture|\Magento\Catalog\Test\Fixture\ConfigurableProduct $fixture
      * @return \Magento\Backend\Test\Block\Widget\Form|void
      */
     public function save(Fixture $fixture = null)
@@ -134,29 +156,61 @@ class ProductForm extends FormTabs
     }
 
     /**
+     * Get variations block
+     *
+     * @return \Magento\Catalog\Test\Block\Adminhtml\Product\Edit\Tab\Super\Config
+     */
+    protected function getVariationsBlock()
+    {
+        return Factory::getBlockFactory()->getMagentoCatalogAdminhtmlProductEditTabSuperConfig(
+            $this->_rootElement->find($this->variationsWrapper)
+        );
+    }
+
+    /**
+     * Fill product variations
+     *
+     * @param ConfigurableProduct $variations
+     */
+    public function fillVariations(ConfigurableProduct $variations)
+    {
+        $variationsBlock = $this->getVariationsBlock();
+        $variationsBlock->fillAttributeOptions($variations->getConfigurableAttributes());
+        $variationsBlock->generateVariations();
+        $variationsBlock->fillVariationsMatrix($variations->getVariationsMatrix());
+    }
+
+    /**
+     * Open variations tab
+     */
+    public function openVariationsTab()
+    {
+        $this->_rootElement->find($this->variationsTab)->click();
+    }
+
+    /**
+     * Click on 'Create New Variation Set' button
+     */
+    public function clickCreateNewVariationSet()
+    {
+        $this->_rootElement->find($this->newVariationSet)->click();
+    }
+
+    /**
      * show the Advanced block.
      */
     public function showAdvanced()
     {
         $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
+        $this->waitForElementVisible(
+            '[aria-labelledby="ui-accordion-product_info_tabs-advanced-header-0"] [role="tab"]:last-child'
+        );
     }
 
     /**
-     * Open the Up-sells tab.
+     * Clear category field
      */
-    public function openUpsellTab()
-    {
-        // click the up-sell link to get to the tab.
-        $this->waitForElementVisible(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID);
-
-        $this->_rootElement->find(Upsell::GROUP_UPSELL, Locator::SELECTOR_ID)->click();
-        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-    }
-
-    /**
-     * Clear parent category field
-     */
-    protected function clearCategorySelect()
+    public function clearCategorySelect()
     {
         $selectedCategory = 'li.mage-suggest-choice span.mage-suggest-choice-close';
         if ($this->_rootElement->find($selectedCategory)->isVisible()) {
@@ -204,18 +258,4 @@ class ProductForm extends FormTabs
         $this->waitForElementVisible('input#new_category_name');
     }
 
-    public function openRelatedProductTab()
-    {
-        /**
-         * Open tab "Advanced Settings" to make all nested tabs visible and available to interact
-         */
-        $this->_rootElement->find('ui-accordion-product_info_tabs-advanced-header-0', Locator::SELECTOR_ID)->click();
-
-        /**
-         * Wait for the "related tab" shows up and click on it
-         */
-        $this->waitForElementVisible(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID);
-        $this->_rootElement->find(Related::RELATED_PRODUCT_GRID, Locator::SELECTOR_ID)->click();
-        $this->waitForElementVisible('[title="Reset Filter"][class*=action]', Locator::SELECTOR_CSS);
-    }
 }

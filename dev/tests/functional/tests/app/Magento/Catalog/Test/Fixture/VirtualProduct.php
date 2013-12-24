@@ -34,8 +34,9 @@ class VirtualProduct extends Product
         );
 
         $data = array(
+            'is_virtual' => array('value' => ''), // needed for CURL handler
             'price' => array(
-                'value' => '10',
+                'value' => 15,
                 'group' => static::GROUP_PRODUCT_DETAILS
             ),
             'tax_class_id' => array(

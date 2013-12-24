@@ -48,6 +48,7 @@ class Compared
     /**
      * @param \Magento\Backend\Block\Template\Context $context
      * @param \Magento\Core\Model\Url $urlModel
+     * @param \Magento\Backend\Helper\Data $backendHelper
      * @param \Magento\Data\CollectionFactory $collectionFactory
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus
@@ -59,6 +60,7 @@ class Compared
     public function __construct(
         \Magento\Backend\Block\Template\Context $context,
         \Magento\Core\Model\Url $urlModel,
+        \Magento\Backend\Helper\Data $backendHelper,
         \Magento\Data\CollectionFactory $collectionFactory,
         \Magento\Core\Model\Registry $coreRegistry,
         \Magento\CatalogInventory\Model\Stock\Status $catalogStockStatus,
@@ -71,7 +73,7 @@ class Compared
         $this->_catalogConfig = $catalogConfig;
         $this->_compareListFactory = $compareListFactory;
         $this->_adminhtmlSales = $adminhtmlSales;
-        parent::__construct($context, $urlModel, $collectionFactory, $coreRegistry, $data);
+        parent::__construct($context, $urlModel, $backendHelper, $collectionFactory, $coreRegistry, $data);
     }
 
     protected function _construct()

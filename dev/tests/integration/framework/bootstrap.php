@@ -8,7 +8,6 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 require_once __DIR__ . '/../../../../app/bootstrap.php';
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/Classes.php';
 require_once __DIR__ . '/../../static/framework/Magento/TestFramework/Utility/AggregateInvoker.php';
@@ -28,8 +27,8 @@ function tool_autoloader($className)
         return false;
     }
 
-    $filePath = str_replace('\\', DS, $className);
-    $filePath = BP . DS . 'dev' . DS . 'tools' . DS . $filePath . '.php';
+    $filePath = str_replace('\\', '/', $className);
+    $filePath = BP . '/dev/tools/' . $filePath . '.php';
 
     if (file_exists($filePath)) {
         include_once($filePath);

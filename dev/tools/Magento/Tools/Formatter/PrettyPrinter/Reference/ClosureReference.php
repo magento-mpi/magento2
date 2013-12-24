@@ -9,7 +9,7 @@ namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
 use Magento\Tools\Formatter\PrettyPrinter\CallLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
+use Magento\Tools\Formatter\PrettyPrinter\HardIndentLineBreak;
 use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Closure;
@@ -28,35 +28,31 @@ class ClosureReference extends AbstractFunctionReference
     /**
      * This method resolves the current reference, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in static, if specified
         if ($this->node->static) {
-            $line->add('static ');
+            $this->addToLine($treeNode, 'static ');
         }
         // add in the function word
-        $line->add('function ');
+        $this->addToLine($treeNode, 'function ');
         // add in the reference specifier
         if ($this->node->byRef) {
-            $line->add('&');
+            $this->addToLine($treeNode, '&');
         }
         // add in the parameters
-        $line->add('(');
-        $this->processArgumentList($this->node->params, $treeNode, $line, new CallLineBreak());
-        $line->add(')');
+        $treeNode = $this->processArgsList($this->node->params, $treeNode, new CallLineBreak());
         // add in uses, if specified
         if (!empty($this->node->uses)) {
-            $line->add(' use (');
-            $this->processArgumentList($this->node->uses, $treeNode, $line, new CallLineBreak());
-            $line->add(')');
+            $this->addToLine($treeNode, ' use ');
+            $this->processArgsList($this->node->uses, $treeNode, new CallLineBreak());
         }
         // add in enclosures and children
-        $line->add(' {')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ' {')->add(new HardIndentLineBreak());
         $this->processNodes($this->node->stmts, $treeNode);
-        $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line('}')));
+        return $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line('}')));
     }
 }

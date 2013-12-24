@@ -52,20 +52,33 @@ class Import extends \Magento\Object
     protected $_uploaderFactory = null;
 
     /**
-     * @var \Magento\App\Dir
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_dir = null;
+    protected $varDirectory;
 
+    /**
+     * Upload path
+     *
+     * @var string
+     */
+    protected $uploadPath = 'import_sku/';
+
+    /**
+     * @param \Magento\AdvancedCheckout\Helper\Data $checkoutData
+     * @param \Magento\Core\Model\File\UploaderFactory $uploaderFactory
+     * @param \Magento\Filesystem $filesystem
+     * @param array $data
+     */
     public function __construct(
         \Magento\AdvancedCheckout\Helper\Data $checkoutData,
         \Magento\Core\Model\File\UploaderFactory $uploaderFactory,
-        \Magento\App\Dir $dir,
+        \Magento\Filesystem $filesystem,
         array $data = array()
     ) {
         $this->_checkoutData = $checkoutData;
         parent::__construct($data);
         $this->_uploaderFactory = $uploaderFactory;
-        $this->_dir = $dir;
+        $this->varDirectory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
     }
 
     /**
@@ -74,7 +87,7 @@ class Import extends \Magento\Object
     public function __destruct()
     {
         if (!empty($this->_uploadedFile)) {
-            unlink($this->_uploadedFile);
+            $this->varDirectory->delete($this->_uploadedFile);
         }
     }
 
@@ -87,7 +100,7 @@ class Import extends \Magento\Object
     public function uploadFile()
     {
         /** @var $uploader \Magento\Core\Model\File\Uploader */
-        $uploader  = $this->_uploaderFactory->create(array('fileId' => self::FIELD_NAME_SOURCE_FILE));
+        $uploader = $this->_uploaderFactory->create(array('fileId' => self::FIELD_NAME_SOURCE_FILE));
         $uploader->setAllowedExtensions($this->_allowedExtensions);
         $uploader->skipDbProcessing(true);
         if (!$uploader->checkAllowedExtension($uploader->getFileExtension())) {
@@ -95,8 +108,8 @@ class Import extends \Magento\Object
         }
 
         try {
-            $result = $uploader->save($this->_getWorkingDir());
-            $this->_uploadedFile = $result['path'] . $result['file'];
+            $result = $uploader->save($this->varDirectory->getAbsolutePath($this->uploadPath));
+            $this->_uploadedFile = $this->varDirectory->getRelativePath($result['path'] . $result['file']);
         } catch (\Exception $e) {
             throw new \Magento\Core\Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
@@ -129,7 +142,7 @@ class Import extends \Magento\Object
      */
     public function getDataFromCsv()
     {
-        if (!$this->_uploadedFile || !file_exists($this->_uploadedFile)) {
+        if (!$this->_uploadedFile || !($this->varDirectory->isExist($this->_uploadedFile))) {
             throw new \Magento\Core\Exception(
                 $this->_checkoutData->getFileGeneralErrorText()
             );
@@ -138,9 +151,9 @@ class Import extends \Magento\Object
         $csvData = array();
 
         try {
-            $fileHandler = fopen($this->_uploadedFile, 'r');
+            $fileHandler = $this->varDirectory->openFile($this->_uploadedFile, 'r');
             if ($fileHandler) {
-                $colNames = fgetcsv($fileHandler);
+                $colNames = $fileHandler->readCsv();
 
                 foreach ($colNames as &$colName) {
                     $colName = trim($colName);
@@ -160,7 +173,7 @@ class Import extends \Magento\Object
                     }
                 }
 
-                while (($currentRow = fgetcsv($fileHandler)) !== false) {
+                while (($currentRow = $fileHandler->readCsv()) !== false) {
                     $csvDataRow = array('qty' => '');
                     foreach ($requiredColumnsPositions as $index) {
                         if (isset($currentRow[$index])) {
@@ -171,22 +184,12 @@ class Import extends \Magento\Object
                         $csvData[] = $csvDataRow;
                     }
                 }
-                fclose($fileHandler);
+                $fileHandler->close();
             }
         } catch (\Exception $e) {
             throw new \Magento\Core\Exception(__('The file is corrupt.'));
         }
         return $csvData;
-    }
-
-    /**
-     * Import SKU working directory
-     *
-     * @return string
-     */
-    protected function _getWorkingDir()
-    {
-        return $this->_dir->getDir('var') . DS . 'import_sku' . DS;
     }
 
     /**
@@ -198,7 +201,7 @@ class Import extends \Magento\Object
      */
     protected function _getMethodByExtension($extension)
     {
-        foreach($this->_allowedExtensions as $allowedExtension) {
+        foreach ($this->_allowedExtensions as $allowedExtension) {
             if ($allowedExtension == $extension) {
                 return 'getDataFrom' . ucfirst($allowedExtension);
             }

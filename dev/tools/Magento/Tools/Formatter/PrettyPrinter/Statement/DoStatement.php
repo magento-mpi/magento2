@@ -27,14 +27,13 @@ class DoStatement extends AbstractLoopStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line->add('do {')->add(new HardLineBreak());
+        $this->addToLine($treeNode, 'do {')->add(new HardLineBreak());
         // add in the children nodes
         $this->processNodes($this->node->stmts, $treeNode);
         // add the closing bracket and condition
@@ -42,8 +41,9 @@ class DoStatement extends AbstractLoopStatement
         // add the new line to get it below the body statements
         $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine($line));
         // resolve the condition
-        $this->resolveNode($this->node->cond, $treeNode);
+        $treeNode = $this->resolveNode($this->node->cond, $treeNode);
         // add the terminating line
-        $line->add(');')->add(new HardLineBreak());
+        $this->addToLine($treeNode, ');')->add(new HardLineBreak());
+        return $treeNode;
     }
 }

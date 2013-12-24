@@ -7,10 +7,9 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\LineBreak;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node;
+use PHPParser_Comment;
 
 /**
  * This class is used as the base class for all types of lines and partial lines (e.g. statements and references).
@@ -40,18 +39,35 @@ abstract class AbstractSyntax
     }
 
     /**
-     * This method returns the full name of the class.
-     *
-     * @return string Full name of the class is called through.
+     * This method adds the comments associated with the syntax node to the given tree node.
+     * @param TreeNode $treeNode TreeNode representing the current node.
      */
-    public static function getType()
+    public function addComments(TreeNode $treeNode)
     {
-        return get_called_class();
+        // get the comments to add
+        $comments = $this->getComments();
+        // only attempt to add comments if they are present
+        if (isset($comments) && is_array($comments)) {
+            // add individual lines of the comments to the tree
+            foreach ($comments as $comment) {
+                // Remove comment from map since it is being consumed
+                if ($comment instanceof PHPParser_Comment) {
+                    unset(Printer::$lexer->commentMap[$comment->getLine()]);
+                }
+                // split the lines so that they can be indented correctly
+                $commentLines = explode(HardLineBreak::EOL, $comment->getReformattedText());
+                foreach ($commentLines as $commentLine) {
+                    // add the line individually to the tree so that they can be indented correctly
+                    $this->addCommentToNode($commentLine, $treeNode);
+                }
+            }
+        }
     }
 
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
-     * @param TreeNode $treeNode Node containing the current statement.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
@@ -61,35 +77,137 @@ abstract class AbstractSyntax
         if (null === $lineData->line) {
             $lineData->line = new Line();
         }
+        return $treeNode;
+    }
+
+    /**
+     * This method adds the current comment line to the current tree node.
+     * @param string $commentLine String containing the current comment.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     */
+    protected function addCommentToNode($commentLine, TreeNode $treeNode)
+    {
+        // default action is to add the comment as a prior sibling to the current node
+        $newNode = AbstractSyntax::getNodeLine((new Line($commentLine))->add(new HardLineBreak()));
+        $treeNode->addSibling($newNode, false);
+    }
+
+    /**
+     * This method adds the token to the current line in the tree node.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     * @param mixed $token Token to be added to the line.
+     * @return Line that was just added to.
+     */
+    protected function addToLine(TreeNode $treeNode, $token)
+    {
+        /** @var Line $line */
+        $line = $treeNode->getData()->line;
+        // add the message to the line
+        return $line->add($token);
+    }
+
+    /**
+     * This method returns if the needle can be found at the end of the haystack.
+     * @param string $haystack String to look in.
+     * @param string $needle String to find.
+     * @param bool $case_insensitivity If true, then comparison is case insensitive.
+     * @return bool
+     */
+    protected function endsWith($haystack, $needle, $case_insensitivity = false)
+    {
+        $found = false;
+        // determine lengths to make sure the haystack is longer than the needle
+        $haystackLength = strlen($haystack);
+        $needleLength = strlen($needle);
+        // only need to do the compare if the haystack can actually contain the needle
+        if ($haystackLength >= $needleLength) {
+            $found = substr_compare($haystack, $needle, -$needleLength, $needleLength, $case_insensitivity) === 0;
+        }
+        return $found;
+    }
+
+    /**
+     * Return the array that contains the comments from the node's attributes, if it is there.
+     *
+     * @return mixed
+     */
+    protected function getComments()
+    {
+        $comments = null;
+        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
+            $comments = $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
+            if (isset($comments) && $this->isTrimComments()) {
+                $this->trimComments($comments);
+            }
+        }
+        return $comments;
+    }
+
+    /**
+     * This method processes the argument list as a parenthesis wrapped argument list.
+     * @param array $arguments Array of arguments to process.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     * @param LineBreak $lineBreak Class used to inject between arguments as a separator.
+     * @return TreeNode
+     */
+    protected function processArgsList(array $arguments, TreeNode $treeNode, LineBreak $lineBreak)
+    {
+        // search for a closure as one of the arguments
+        $closure = new ClosureDetection($arguments);
+        if ($closure->hasClosure()) {
+            // force the multi-line argument list
+            $this->addToLine($treeNode, '(')->add(new HardLineBreak());
+            foreach ($arguments as $index => $argument) {
+                // create a new child for each argument
+                $line = new Line();
+                $lastProcessedNode = $treeNode->addChild(AbstractSyntax::getNodeLine($line));
+                // process the argument itself
+                $lastProcessedNode = $this->resolveNode($argument, $lastProcessedNode);
+                // if not the last one, separate with a comma
+                if ($index < sizeof($arguments) - 1) {
+                    $this->addToLine($lastProcessedNode, ',');
+                }
+                // each argument will have a hard line break
+                $this->addToLine($lastProcessedNode, new HardLineBreak());
+            }
+            // add the closing on a new line
+            $treeNode = $treeNode->addSibling(AbstractSyntax::getNodeLine(new Line(')')));
+        } else {
+            // just process as normal
+            $this->addToLine($treeNode, '(');
+            $treeNode = $this->processArgumentList($arguments, $treeNode, $lineBreak);
+            $this->addToLine($treeNode, ')');
+        }
+        return $treeNode;
     }
 
     /**
      * This method adds the arguments to the current line
-     * @param array $arguments
-     * @param TreeNode $treeNode
-     * @param Line $line
-     * @param LineBreak $lineBreak
+     * @param array $arguments Array of arguments to process.
+     * @param TreeNode $treeNode TreeNode representing the current node.
+     * @param LineBreak $lineBreak Class used to inject between arguments as a separator.
      */
-    protected function processArgumentList(array $arguments, TreeNode $treeNode, Line $line, LineBreak $lineBreak)
+    protected function processArgumentList(array $arguments, TreeNode $treeNode, LineBreak $lineBreak)
     {
         if (!empty($arguments)) {
             foreach ($arguments as $index => $argument) {
                 // add the line break prior to the argument
-                $line->add($lineBreak);
+                $this->addToLine($treeNode, $lineBreak);
                 // If $argument is null there is nothing to resolve
                 if ($argument !== null) {
                     // process the argument itself
-                    $this->resolveNode($argument, $treeNode);
+                    $treeNode = $this->resolveNode($argument, $treeNode);
                 }
                 // if not the last one, separate with a comma
                 if ($index < sizeof($arguments) - 1) {
-                    $line->add(',');
+                    $this->addToLine($treeNode, ',');
                 }
             }
             if ($lineBreak->isAfterListRequired()) {
-                $line->add($lineBreak);
+                $this->addToLine($treeNode, $lineBreak);
             }
         }
+        return $treeNode;
     }
 
     /**
@@ -138,12 +256,32 @@ abstract class AbstractSyntax
      * This method resolves the node immediately.
      * @param PHPParser_Node $node
      * @param TreeNode $treeNode TreeNode representing the current node.
+     * @return TreeNode
      */
     protected function resolveNode(PHPParser_Node $node, TreeNode $treeNode)
     {
         /** @var AbstractSyntax $statement */
         $statement = SyntaxFactory::getInstance()->getStatement($node);
-        $statement->resolve($treeNode);
+        return $statement->resolve($treeNode);
+    }
+
+    /**
+     * This method will modify the array that is passed in to remove blank lines in the first or last position of the
+     * array.
+     *
+     * @param $comments
+     */
+    protected function trimComments(&$comments)
+    {
+        // reset and end will short circuit the loops when the array is empty
+        // Trim blank lines before the comment
+        while (reset($comments) && preg_match('/^\s*\n$/', reset($comments))) {
+            array_shift($comments);
+        }
+        // Trim blank lines at the end of the comment
+        while (end($comments) && preg_match('/^\s*\n$/', end($comments))) {
+            array_pop($comments);
+        }
     }
 
     /**
@@ -163,15 +301,13 @@ abstract class AbstractSyntax
     }
 
     /**
-     * Return the array that contains the comments from the node's attributes, if it is there.
+     * This method returns the full name of the class.
      *
-     * @return mixed
+     * @return string Full name of the class is called through.
      */
-    public function getComments()
+    public static function getType()
     {
-        if ($this->node->hasAttribute(self::ATTRIBUTE_COMMENTS)) {
-            return $this->node->getAttribute(self::ATTRIBUTE_COMMENTS);
-        }
+        return get_called_class();
     }
 
     /**

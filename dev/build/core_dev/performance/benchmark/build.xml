@@ -164,15 +164,18 @@
         <scp file="${remote_host}:${env.magento_dir}/app/etc/enterprise/module.xml" todir="${tmp_dir}" trust="yes"/>
         <scp file="${remote_host}:${env.magento_dir}/pub/media/*" todir="${tmp_dir}/media" trust="yes"/>
 
-        <ac:for list="${env.webnodes}" param="ip" delimiter="," parallel="true">
+        <echo message="Sync ${env.webnodes} webnodes" />
+        <ac:for list="${env.webnodes}" param="ip" delimiter=",">
             <sequential>
                 <ac:var name="host" value="@{ip}"/>
+                <echo message="Start sync for ${host}" />
                 <ac:if>
                     <equals arg1="${host}" arg2="${env.webnode_initial}" />
                     <then>
-                        <echo message="There is no need to copy files from ${host} to ${env.webnode_initial}" />
+                        <echo message="There is no need to copy files from ${env.webnode_initial} to ${host}" />
                     </then>
                     <else>
+                        <echo message="Copy files from ${env.webnode_initial} to ${host}" />
                         <scp file="${tmp_dir}/local.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/local.xml" trust="yes"/>
                         <scp file="${tmp_dir}/di.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/enterprise/di.xml" trust="yes"/>
                         <scp file="${tmp_dir}/module.xml" todir="${env.webnode_login}:${env.webnode_password}@${host}:${env.magento_dir}/app/etc/enterprise/module.xml" trust="yes"/>

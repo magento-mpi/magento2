@@ -157,22 +157,24 @@ class Attribute extends \Magento\Backend\App\Action
                     'products' => $productIds
                 ));
 
-                $this->_getSession()->addNotice(
+                $this->messageManager->addNotice(
                     __('Please refresh "Catalog URL Rewrites" and "Product Attributes" in System -> '
                         . '<a href="%1">Index Management</a>.', $this->getUrl('adminhtml/process/list'))
                 );
             }
 
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('A total of %1 record(s) were updated.', count($this->_helper->getProductIds()))
             );
         }
         catch (\Magento\Core\Exception $e) {
-            $this->_getSession()->addError($e->getMessage());
+            $this->messageManager->addError($e->getMessage());
         }
         catch (\Exception $e) {
-            $this->_getSession()
-                ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
+            $this->messageManager->addException(
+                $e,
+                __('Something went wrong while updating the product(s) attributes.')
+            );
         }
 
         $this->_redirect('catalog/product/', array('store'=>$this->_helper->getSelectedStoreId()));
@@ -194,7 +196,7 @@ class Attribute extends \Magento\Backend\App\Action
         }
 
         if ($error) {
-            $this->_getSession()->addError($error);
+            $this->messageManager->addError($error);
             $this->_redirect('catalog/product/', array('_current'=>true));
         }
 
@@ -238,9 +240,9 @@ class Attribute extends \Magento\Backend\App\Action
             $response->setError(true);
             $response->setMessage($e->getMessage());
         } catch (\Exception $e) {
-            $this->_getSession()
+            $this->messageManager
                 ->addException($e, __('Something went wrong while updating the product(s) attributes.'));
-            $this->_view->getLayout()->initMessages('Magento\Adminhtml\Model\Session');
+            $this->_view->getLayout()->initMessages();
             $response->setError(true);
             $response->setMessage($this->_view->getLayout()->getMessagesBlock()->getGroupedHtml());
         }

@@ -52,6 +52,7 @@ class Billing extends Form
         'region' => '[id="billing:region_id"]',
         'postcode' => '[id="billing:postcode"]',
         'country' => '[id="billing:country_id"]',
+        'address_id' => '[name="billing_address_id"]',
     );
 
     /**
@@ -68,6 +69,14 @@ class Billing extends Form
         if ($fixture->getShippingAddress()) {
             $this->_rootElement->find($this->useForShipping, Locator::SELECTOR_CSS)->click();
         }
+        $this->clickContinue();
+    }
+
+    /**
+     * Click continue on billing information block
+     */
+    public function clickContinue()
+    {
         $this->_rootElement->find($this->continue, Locator::SELECTOR_CSS)->click();
         $this->waitForElementNotVisible('#billing-please-wait');
     }

@@ -12,52 +12,56 @@
 
 namespace Magento\Catalog\Test\Block\Product\ProductList;
 
-use Mtf\TestCase\Functional;
 use Mtf\Block\Block;
+use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
-use Magento\Catalog\Test\Fixture\SimpleProduct;
-use Magento\Catalog\Test\Fixture\ConfigurableProduct;
 
-class Related extends Block{
+class Related extends Block
+{
+    protected $relatedProduct = "//div[normalize-space(div//a)='%s']";
+
     /**
-     * Verify that the simple product 2 and configurable product (if any) present as related products
-     *
-     * @param SimpleProduct $simpleProduct2
-     * @param ConfigurableProduct $configurableProduct
+     * @param string $productName
+     * @return bool
      */
-    public function verifyRelatedProducts($simpleProduct2, $configurableProduct=null)
+    public function isRelatedProductVisible($productName)
     {
-        $rootElement = $this->_rootElement;
-
-        //Verify that simple product 2 is added as related product and has checkbox
-        Functional::assertTrue($rootElement->find('[title="'. $simpleProduct2->getProductName() . '"]')->isVisible(),
-            'Simple product 2 is not added successfully as related product');
-        Functional::assertTrue($rootElement
-                ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->isVisible(),
-            'Simple product 2 does not have "Add to Cart" checkbox');
-
-        if ($configurableProduct!=null) {
-            //Verify that configurable product is added as related product and does not have checkbox
-            Functional::assertTrue($rootElement->find('[title="'. $configurableProduct->getProductName() . '"]')->isVisible(),
-                'Configurable product is not added successfully as related product');
-            Functional::assertFalse($rootElement
-                    ->find('related-checkbox' . $configurableProduct->getProductId(), Locator::SELECTOR_ID)->isVisible(),
-                'Configurable product should not have "Add to Cart" checkbox');
-        }
+        return $this->getProductElement($productName)->isVisible();
     }
 
     /**
-     * Add configurable product (with proper option) and related product to the shopping cart
-     *
-     * @param \Magento\Catalog\Test\Block\Product\View $productViewBlock
-     * @param SimpleProduct $simpleProduct2
-     * @param ConfigurableProduct $configurableProduct
+     * @param string $productName
+     * @return bool
      */
-    public function addRelatedProductsToCart($productViewBlock, $simpleProduct2, $configurableProduct)
+    public function isRelatedProductSelectable($productName)
     {
-        $productViewBlock->fillOptions($configurableProduct);
-        $this->_rootElement
-            ->find('related-checkbox' . $simpleProduct2->getProductId(), Locator::SELECTOR_ID)->click();
-        $productViewBlock->clickAddToCartButton();
+        return $this->getProductElement($productName)->find("[name='related_products[]']")->isVisible();
+    }
+
+    /**
+     * @param string $productName
+     */
+    public function openRelatedProduct($productName)
+    {
+        $this->getProductElement($productName)->find('.product.name>a')->click();
+    }
+
+    /**
+     * @param string $productName
+     */
+    public function selectProductForAddToCart($productName)
+    {
+        $this->getProductElement($productName)
+            ->find("[name='related_products[]']", Locator::SELECTOR_CSS, 'checkbox')
+            ->setValue('Yes');
+    }
+
+    /**
+     * @param string $productName
+     * @return mixed|\Mtf\Client\Element
+     */
+    private function getProductElement($productName)
+    {
+        return $this->_rootElement->find(sprintf($this->relatedProduct, $productName), Locator::SELECTOR_XPATH);
     }
 }

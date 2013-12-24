@@ -68,7 +68,7 @@ class Printer
             if (count($commentMap) > 0) {
                 echo "REMOVED COMMENTS" . PHP_EOL;
                 while (list($key, $value) = each($commentMap)) {
-                    echo "line($key): $value" . PHP_EOL;
+                    echo "line({$key}): {$value}" . PHP_EOL;
                 }
             }
         }
@@ -83,6 +83,14 @@ class Printer
     }
 
     /**
+     * This method returns if the formatted code indicates a change.
+     */
+    public function hasChange()
+    {
+        return null !== $this->formattedCode && strcmp($this->originalCode, $this->formattedCode) !== 0;
+    }
+
+    /**
      * This method performs the parsing and printing of the original code.
      */
     public function parseCode()
@@ -93,7 +101,7 @@ class Printer
         // convert the statements to text
         $this->resolveStatements($statements);
         // Show comments that were not consumed(output) by the formatting process
-        $this->displayRemovedComments(self::$lexer->getCommentMap());
+        //$this->displayRemovedComments(self::$lexer->getCommentMap());
         // parse the resulting code to verify successful printing
         $parser->parse($this->formattedCode);
     }

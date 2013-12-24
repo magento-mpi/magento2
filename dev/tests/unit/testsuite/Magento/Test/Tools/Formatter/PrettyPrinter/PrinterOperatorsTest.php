@@ -7,8 +7,6 @@
  */
 namespace Magento\Test\Tools\Formatter\PrettyPrinter;
 
-use Magento\Tools\Formatter\PrettyPrinter\Printer;
-
 class PrinterOperatorsTest extends TestBase
 {
     /**
@@ -29,13 +27,13 @@ class PrinterOperatorsTest extends TestBase
     public function dataOperators()
     {
         return array(
-            array("<?php\n\$d=(int)1;", "<?php\n\$d = (int) 1;\n"),
-            array("<?php\n\$d=(double)1;", "<?php\n\$d = (double) 1;\n"),
-            array("<?php\n\$d=(string)1;", "<?php\n\$d = (string) 1;\n"),
-            array("<?php\n\$d=(array)1;", "<?php\n\$d = (array) 1;\n"),
-            array("<?php\n\$d=(object)1;", "<?php\n\$d = (object) 1;\n"),
-            array("<?php\n\$d=(bool)1;", "<?php\n\$d = (bool) 1;\n"),
-            array("<?php\n\$d=(unset)1;", "<?php\n\$d = (unset) 1;\n"),
+            array("<?php\n\$d=(int)  1;", "<?php\n\$d = (int)1;\n"),
+            array("<?php\n\$d=(double)  1;", "<?php\n\$d = (double)1;\n"),
+            array("<?php\n\$d=(string)  1;", "<?php\n\$d = (string)1;\n"),
+            array("<?php\n\$d=(array)  1;", "<?php\n\$d = (array)1;\n"),
+            array("<?php\n\$d=(object)  1;", "<?php\n\$d = (object)1;\n"),
+            array("<?php\n\$d=(bool) 1;", "<?php\n\$d = (bool)1;\n"),
+            array("<?php\n\$d=(unset) 1;", "<?php\n\$d = (unset)1;\n"),
             array("<?php\n\$d=1<<1;", "<?php\n\$d = 1 << 1;\n"),
             array("<?php\n\$d=1>>1;", "<?php\n\$d = 1 >> 1;\n"),
             array("<?php\n\$d=1+1;", "<?php\n\$d = 1 + 1;\n"),
@@ -133,13 +131,9 @@ class PrinterOperatorsTest extends TestBase
                 "<?php\nclass Zoo\n{".
                 "\n    public function zoo()".
                 "\n    {".
-                "\n        \$alligator = (" .
-                "\n            \$bear !== \$cat || \$dragon" .
-                "\n        ) > \$elephant && \$fox->isSlick() ? 'a' : (" .
-                "\n        (" .
-                "\n        \$bear !== \$cat || \$dragon" .
-                "\n        ) > \$elephant && \$fox->isSlick() ? 'x' : 'y'" .
-                "\n        );" .
+                "\n        \$alligator = (\$bear !== \$cat ||" .
+                "\n            \$dragon) > \$elephant && \$fox->isSlick() ? 'a' : ((\$bear !== \$cat ||" .
+                "\n            \$dragon) > \$elephant && \$fox->isSlick() ? 'x' : 'y');" .
                 "\n    }\n}\n"
             ),
             array(
@@ -155,9 +149,8 @@ class PrinterOperatorsTest extends TestBase
                 "\$giraffe xor \$hippopotamus && \$iguana && !\$jackle) { \$x += \$y;\necho 'hi';}}}",
                 "<?php\nclass Zoo\n{\n    public function zoo()".
                 "\n    {".
-                "\n        if (".
-                "\n            \$alligator && \$bear || \$cat && !\$dragon || \$elephant and \$fox or".
-                "\n                \$giraffe xor \$hippopotamus && \$iguana && !\$jackle".
+                "\n        if (\$alligator && \$bear || \$cat && !\$dragon || \$elephant and \$fox or".
+                "\n            \$giraffe xor \$hippopotamus && \$iguana && !\$jackle".
                 "\n        ) {".
                 "\n            \$x += \$y;".
                 "\n            echo 'hi';".

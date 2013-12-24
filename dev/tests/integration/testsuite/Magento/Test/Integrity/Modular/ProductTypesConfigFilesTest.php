@@ -16,12 +16,16 @@ class ProductTypesConfigFilesTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        // List of all available product_types.xml
-        $xmlFiles = \Magento\TestFramework\Utility\Files::init()->getConfigFiles(
-            '{*/product_types.xml,product_types.xml}',
-            array('wsdl.xml', 'wsdl2.xml', 'wsi.xml'),
-            false
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $filesystem \Magento\Filesystem */
+        $filesystem = $objectManager->get('Magento\Filesystem');
+        $modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
+        $fileIteratorFactory = $objectManager->get('Magento\Config\FileIteratorFactory');
+        $xmlFiles = $fileIteratorFactory->create(
+            $modulesDirectory,
+            $modulesDirectory->search('/*/*/etc/{*/product_types.xml,product_types.xml}')
         );
+
         $fileResolverMock = $this->getMock('Magento\Config\FileResolverInterface');
         $fileResolverMock->expects($this->any())->method('get')->will($this->returnValue($xmlFiles));
         $validationStateMock = $this->getMock('Magento\Config\ValidationStateInterface');

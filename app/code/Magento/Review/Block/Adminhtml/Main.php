@@ -13,7 +13,7 @@
  */
 namespace Magento\Review\Block\Adminhtml;
 
-class Main extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Main extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Core registry

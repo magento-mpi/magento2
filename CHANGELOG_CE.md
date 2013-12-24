@@ -1,20 +1,108 @@
 * Fixed bugs:
-  * Fixed placing order with PayPal Payments Advanced and Payflow Link
-  * Fixed losing previously assigned categories after next product save with changed category selector field
-  * Fixed losing of newly created category assignment after generation variations while create Configurable product or Gift Card
+  * Fixed big image in product description scale
+  * Fixed admin dashboard styling issue
+  * Fixed validation message for qty field
+  * Fixed bug in share wishlist email template
+  * Fixed plushe Issue - Drop-down menu should respond quicker when the pointer moves off
+  * Fixed Related Banners tab is missing for Catalog Price Rule
+  * Fixed Its unable to enable duplicated product
+  * Fixed Warnings on attempt to save configuration for Payment Methods
+  * Fixed After update Gift messages for Items Ordered disapears from Order View page in backend
+  * Fixed Impossible to create New Order Status
+  * Fixed Save and Previous + Previous buttons are not working on edit review page
+  * Fixed Website can't be deleted if the number of websites is less or equal than two
+  * Fixed Fatal Error during export Customers from Customer page
+  * Fixed impossibility to add Product to the Cart from the Category page in IE
+  * Fixed Logo is absent on login page from backend
+  * Fixed visual indication for tax details opener on create order page in backend
+  * Fixed broken design CMS page preview
+  * Fixed broken design newsletter template preview
+  * Fixed broken design on Matched Customers tab grid in Email Remainder
+  * Fixed validation message about uncompatible version format while Theme creation
+  * Fixed performance degradation during install wizard execution
+  * Fixed cron shell script exits with error
 * GitHub requests:
   * [#122](https://github.com/magento/magento2/pull/122) -- Added support of federal units of Brazil with 27 states
   * [#184](https://github.com/magento/magento2/issues/184) -- Removed unused blocks and methods in Magento_Wishlist module
-  * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
-  * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
   * [#390](https://github.com/magento/magento2/pull/390) -- Support of alphanumeric order increment ids by the quote resource model
+* Themes update:
+  * Responsive design improvements
+* Improvements to code coverage calculation:
+  * Code coverage calculation approach for unit tests was changed from blacklist to whitelist
+
+2.0.0.0-dev57
+=============
+* Fixed bugs:
+  * Fixed [MAP]: "Click for price" link is broken on the category page
+  * Fixed tax rule search on the grid
+  * Fixed redirect on dashboard if "Search", "Reset", "Export" buttons are clicked on several pages
+  * Fixed switching user to alternate store-view when clicking on the Category (with Add Store Code to Urls="Yes" in the config)
+  * Fixed printing Order/Shipping/Credit Memo from backend
+  * Fixed 404 Error on attempt to print Shipping Label
+  * Fixed duplication of JavaScript Resources in head on frontend
+  * Fixed inconsistency with disabled states on Configurable product page in the Plushe theme
+  * Fixed 3D Secure Information absence on Admin Order Info page
+  * Fixed possibility to download or revert Backup
+  * Fixed session fixation in user registration during checkout
+  * Fixed fatal error during login to backend
+  * Fixed inline translations in the Adminhtml area
+  * Fixed partial refunds/invoices in Payflow Pro
+  * Fixed the issue with ignoring area in design emulation
+  * Fixed order placing with virtual product using Express Checkout
+  * Fixed the error during order placement with Recurring profile payment
+  * Fixed wrong redirect after customer registration during multishipping checkout
+  * Fixed inability to crate shipping labels
+  * Fixed inability to switch language, if the default language is English
+  * Fixed an issue with incorrect XML appearing in cache after some actions on the frontend
+  * Fixed product export
+  * Fixed inability to configure memcache as session save handler
+* GitHub requests:
+  * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
+  * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
+  * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
 * Modularity improvements:
-  * Layout page type config moved into library
+  * Removed \Magento\App\Helper\HelperFactory
+  * Removed the "helper" method from the abstract block interface
+  * Layout page type config moved to library
   * Design loader moved to library
   * Theme label moved to library
+  * Remaining part from Adminhtml moved to the appropriate modules. Adminhtml module has been eliminated
+  * Core Session and Cookie models decomposed and moved to library
+    * \Magento\Stdlib\Cookie library created
+    * Session Manager and Session Config interfaces provided
+    * Session save handler interface created
+    * Session storage interface created, session does not extend \Magento\Object anymore
+    * Session validator interface created
+    * Session generic wrapper moved to library
+    * Messages functionality moved from the Session model as separate component, message manager interface created
+    * Sid resolver interface created to handle session sid from request
+  
+2.0.0.0-dev56
+=============
+* Fixed bugs:
+  * Fixed placing order with PayPal Payments Advanced and Payflow Link
+  * Fixed losing previously assigned categories after saving the product with changed category selector field
+  * Fixed losing of a newly created category assignment after variations generation during Configurable product or Gift Card creation
+  * Fixed the error in order placement with Recurring profile payment
+* GitHub requests:
+  * [#299](https://github.com/magento/magento2/pull/299) -- Fix for issue Refactor Mage_Rating_Model_Resource_Rating_Collection
+  * [#341](https://github.com/magento/magento2/pull/341) -- Replacing simple preg calls with less expensive alternates
+* Modularity improvements:
+  * Layout page type config moved to library
+  * Design loader moved to library
+  * Theme label moved to library
+* Themes update:
+  * Reduced amount of templates and layouts in magento_plushe theme
+  * Responsive design improvements
 * Integrity improvements:
   * Covered all Magento classes with argument sequence validator
   * Added arguments type duplication validator
+* Implemented API Integration UX flows:
+  * Ability to create and edit API Integrations
+  * Ability to delete API integrations that were not created using configuration files
+* Removed System REST menu item and all associated UX flows:
+  * Users, Roles, and Webhook Subscriptions sub-menu items were removed
+* Removed the Webhook module until it can be refactored to use the new Authorization service
 
 2.0.0.0-dev55
 =============
@@ -25,6 +113,7 @@
   * Move Page logic to the Theme module and library
 * Created UX for the Integration module
 * Created authorization service (Magento_Authz module)
+  * Implemented an API Authz check in the Webapi framework
 * Fixed bugs:
   * Fixed the issue that prevented a customer group's shopping cart rules from applying properly to prices. The issue occurred when a customer was manually assigned to a customer group and automatic group assignment was enabled.
   * Fixed the bug with schema upgrade scripts not running after installation

@@ -21,9 +21,9 @@ class Plugin
     protected $_urlHelper = null;
 
     /**
-     * @var \Magento\Core\Model\Session
+     * @var \Magento\Message\ManagerInterface
      */
-    protected $_coreSession;
+    protected $messageManager;
 
     /**
      * @var \Magento\App\RequestInterface
@@ -32,18 +32,18 @@ class Plugin
 
     /**
      * @param Helper\Url $urlHelper
-     * @param Model\Session $coreSession
+     * @param \Magento\Message\ManagerInterface $messageManager
      * @param RequestInterface $request
      */
     public function __construct(
         Helper\Url $urlHelper,
-        Model\Session $coreSession,
+        \Magento\Message\ManagerInterface $messageManager,
         RequestInterface $request
     ) {
         $this->_urlHelper = $urlHelper;
-        $this->_coreSession = $coreSession;
+        $this->messageManager = $messageManager;
         $this->_request = $request;
-   }
+    }
 
     /**
      * Check cross-domain session messages
@@ -59,7 +59,7 @@ class Plugin
         }
         $httpHost = $this->_request->getHttpHost();
         $urlHost = parse_url($url, PHP_URL_HOST);
-        if ($httpHost != $urlHost && $this->_coreSession->getMessages()->count() > 0) {
+        if ($httpHost != $urlHost && $this->messageManager->getMessages()->getCount() > 0) {
             $arguments[0] = $this->_urlHelper->addRequestParam(
                 $url,
                 array(

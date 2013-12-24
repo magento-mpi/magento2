@@ -8,8 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\ConditionalLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_For;
 
@@ -27,28 +25,27 @@ class ForStatement extends AbstractLoopStatement
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add the namespace line
-        $line->add('for (');
+        $this->addToLine($treeNode, 'for (');
         // add in the init expression
         $lineBreak = new ConditionalLineBreak(array(array('')));
-        $this->processArgumentList($this->node->init, $treeNode, $line, $lineBreak);
-        $line->add(';');
+        $this->processArgumentList($this->node->init, $treeNode, $lineBreak);
+        $this->addToLine($treeNode, ';');
         if (!empty($this->node->cond)) {
-            $line->add(' ');
-            $this->processArgumentList($this->node->cond, $treeNode, $line, $lineBreak);
+            $this->addToLine($treeNode, ' ');
+            $this->processArgumentList($this->node->cond, $treeNode, $lineBreak);
         }
-        $line->add(';');
+        $this->addToLine($treeNode, ';');
         if (!empty($this->node->loop)) {
-            $line->add(' ');
-            $this->processArgumentList($this->node->loop, $treeNode, $line, $lineBreak);
+            $this->addToLine($treeNode, ' ');
+            $this->processArgumentList($this->node->loop, $treeNode, $lineBreak);
         }
         // add in the rest
-        $this->addBody($treeNode);
+        return $this->addBody($treeNode);
     }
 }

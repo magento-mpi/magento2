@@ -14,7 +14,7 @@
             <argument name="path" xsi:type="string">magento_invitation/index/index</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceContainer name="content">
         <block class="Magento\Invitation\Block\Form" name="invitationForm" template="Magento_Invitation::form.phtml">
             <container name="invitations.form.form.before" as="form_before" label="Invitation Form Before" htmlTag="div" htmlClass="rewards"/>
         </block>

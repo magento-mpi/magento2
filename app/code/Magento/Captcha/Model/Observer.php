@@ -58,7 +58,7 @@ class Observer
     protected $_typeOnepage;
 
     /**
-     * @var \Magento\Core\Model\Session\AbstractSession
+     * @var \Magento\Session\SessionManagerInterface
      */
     protected $_session;
 
@@ -73,8 +73,13 @@ class Observer
     protected $_actionFlag;
 
     /**
+     * @var \Magento\Message\ManagerInterface
+     */
+    protected $messageManager;
+
+    /**
      * @param Resource\LogFactory $resLogFactory
-     * @param \Magento\Core\Model\Session\AbstractSession $session
+     * @param \Magento\Session\SessionManagerInterface $session
      * @param \Magento\Checkout\Model\Type\Onepage $typeOnepage
      * @param \Magento\Core\Helper\Data $coreData
      * @param \Magento\Customer\Helper\Data $customerData
@@ -82,17 +87,19 @@ class Observer
      * @param \Magento\Core\Model\Url $urlManager
      * @param \Magento\App\RequestInterface $request
      * @param \Magento\App\ActionFlag $actionFlag
+     * @param \Magento\Message\ManagerInterface $messageManager
      */
     public function __construct(
         \Magento\Captcha\Model\Resource\LogFactory $resLogFactory,
-        \Magento\Core\Model\Session\AbstractSession $session,
+        \Magento\Session\SessionManagerInterface $session,
         \Magento\Checkout\Model\Type\Onepage $typeOnepage,
         \Magento\Core\Helper\Data $coreData,
         \Magento\Customer\Helper\Data $customerData,
         \Magento\Captcha\Helper\Data $helper,
         \Magento\Core\Model\Url $urlManager,
         \Magento\App\RequestInterface $request,
-        \Magento\App\ActionFlag $actionFlag
+        \Magento\App\ActionFlag $actionFlag,
+        \Magento\Message\ManagerInterface $messageManager
     ) {
         $this->_resLogFactory = $resLogFactory;
         $this->_session = $session;
@@ -103,6 +110,7 @@ class Observer
         $this->_urlManager = $urlManager;
         $this->_request = $request;
         $this->_actionFlag = $actionFlag;
+        $this->messageManager = $messageManager;
     }
 
     /**
@@ -119,7 +127,7 @@ class Observer
             /** @var \Magento\App\Action\Action $controller */
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                $this->_session->addError(__('Incorrect CAPTCHA'));
+                $this->messageManager->addError(__('Incorrect CAPTCHA'));
                 $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                 $controller->getResponse()->setRedirect($this->_urlManager->getUrl('*/*/forgotpassword'));
             }
@@ -139,7 +147,7 @@ class Observer
         if ($captcha->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captcha->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                $this->_session->addError(__('Incorrect CAPTCHA.'));
+                $this->messageManager->addError(__('Incorrect CAPTCHA.'));
                 $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                 $controller->getResponse()->setRedirect($this->_urlManager->getUrl('contacts/index/index'));
             }
@@ -162,7 +170,7 @@ class Observer
         if ($captchaModel->isRequired($login)) {
             $word = $this->_getCaptchaString($controller->getRequest(), $formId);
             if (!$captchaModel->isCorrect($word)) {
-                $this->_session->addError(__('Incorrect CAPTCHA'));
+                $this->messageManager->addError(__('Incorrect CAPTCHA'));
                 $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                 $this->_session->setUsername($login);
                 $beforeUrl = $this->_session->getBeforeAuthUrl();
@@ -187,7 +195,7 @@ class Observer
         if ($captchaModel->isRequired()) {
             $controller = $observer->getControllerAction();
             if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
-                $this->_session->addError(__('Incorrect CAPTCHA'));
+                $this->messageManager->addError(__('Incorrect CAPTCHA'));
                 $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
                 $this->_session->setCustomerFormData($controller->getRequest()->getPost());
                 $controller->getResponse()->setRedirect($this->_urlManager->getUrl('*/*/create'));
@@ -287,7 +295,7 @@ class Observer
                 if (!$captchaModel->isCorrect($this->_getCaptchaString($controller->getRequest(), $formId))) {
                     $this->_session->setEmail((string) $controller->getRequest()->getPost('email'));
                     $this->_actionFlag->set('', \Magento\App\Action\Action::FLAG_NO_DISPATCH, true);
-                    $this->_session->addError(__('Incorrect CAPTCHA'));
+                    $this->messageManager->addError(__('Incorrect CAPTCHA'));
                     $controller->getResponse()
                         ->setRedirect($controller->getUrl('*/*/forgotpassword', array('_nosecret' => true)));
                 }

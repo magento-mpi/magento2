@@ -37,6 +37,7 @@ class TaxRate extends AbstractRepository
         $this->_data['us_ny_rate_8_375'] = array_replace_recursive($this->_data['default'], $this->_getRateUSNY());
         $this->_data['us_ny_rate_8_1'] = array_replace_recursive($this->_data['default'], $this->_getRateUSNYCustom());
         $this->_data['paypal_rate_8_25'] = array_replace_recursive($this->_data['default'], $this->_getRatePayPal());
+        $this->_data['uk_full_tax_rate'] = $this->getUKFullTaxRate($this->_data['default']);
     }
 
     /**
@@ -131,5 +132,27 @@ class TaxRate extends AbstractRepository
                 )
             )
         );
+    }
+
+    /**
+     * Get UK full tax rate
+     *
+     * @param array $defaultData
+     * @return array
+     */
+    protected function getUKFullTaxRate($defaultData)
+    {
+        return array_replace_recursive($defaultData, array(
+            'data' => array(
+                'fields' => array(
+                    'rate' => array(
+                        'value' => 20
+                    ),
+                    'tax_country_id' => array(
+                        'value' => 'GB',
+                    ),
+                ),
+            ),
+        ));
     }
 }

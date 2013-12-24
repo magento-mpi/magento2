@@ -68,7 +68,7 @@ class Coupon extends \Magento\Backend\Block\Template
     public function getApplyButtonHtml()
     {
         return $this->getLayout()
-            ->createBlock('Magento\Adminhtml\Block\Widget\Button')
+            ->createBlock('Magento\Backend\Block\Widget\Button')
                 ->setData(array(
                     'id'        => 'apply_coupon',
                     'label'     => __('Apply'),

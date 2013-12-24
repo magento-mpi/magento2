@@ -27,6 +27,8 @@ namespace Magento\Tools\Formatter\PrettyPrinter;
  */
 class CallLineBreak extends ConditionalLineBreak
 {
+    const LINEBREAK_ID = 'conditionallb';
+
     public function __construct()
     {
         parent::__construct(array());
@@ -44,11 +46,18 @@ class CallLineBreak extends ConditionalLineBreak
         // if the level is set to be more than the default make sure only this instance can write the advanced version
         if ($level > 0) {
             // only process the first instance of the call line break
-            if (!isset($lineBreakData['conditionallb']) || $this->getGroupingId() === $lineBreakData['conditionallb']) {
+            if (!isset(
+                $lineBreakData[self::LINEBREAK_ID]
+            ) || $this->getGroupingId() === $lineBreakData[self::LINEBREAK_ID]
+            ) {
                 // save off which instance is being processed
-                $lineBreakData['conditionallb'] = $this->getGroupingId();
+                $lineBreakData[self::LINEBREAK_ID] = $this->getGroupingId();
                 // determine the resolution of the break
                 $result = $this->getValueByLevel($level, $index, $total);
+                // clear the linebreak if this is the last one
+                if ($index >= $total - 1) {
+                    unset($lineBreakData[self::LINEBREAK_ID]);
+                }
             } else {
                 // return a flag indicating that this is not being resolved
                 $result = false;

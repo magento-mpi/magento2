@@ -37,15 +37,32 @@ and (max-width : @breakPoint1) {
             .primary,
             .secondary {
                 float: none;
-                width: 100%;
             }
-            .action {
-                float: none;
-                width: 100%;
-                text-align: center;
-                margin-bottom: 15px;
+            .primary {
+                margin: 0;
+            }
+            .secondary {
+                .action {
+                    .mobileSecondaryAction();
+                }
             }
         }
+    }
+
+    /*
+    My Account -> Store Credit
+    -------------------------------------- */
+
+    .block.balance.history {
+        overflow-x: scroll;
+    }
+
+    /*
+         My Account -> Reward Points
+    -------------------------------------- */
+
+    .block.reward.history {
+        overflow-x: scroll;
     }
 
     /*
@@ -58,17 +75,6 @@ and (max-width : @breakPoint1) {
             border: none;
             padding: 0;
         }
-        .form.giftcard {
-            .primary,
-            .secondary {
-                display: block;
-                margin: 0 0 15px;
-                text-align: center;
-                .action {
-                    width: 100%;
-                }
-            }
-        }
     }
 
     /*
@@ -76,19 +82,27 @@ and (max-width : @breakPoint1) {
     -------------------------------------- */
     .magento-giftregistry-index-index,
     .magento-giftregistry-index-items {
-        .my-account {
-            overflow-x: scroll;
-        }
-        .form.giftregistry {
+        .column.main {
             overflow-x: scroll;
             .actions {
                 text-align: left;
+                .primary,
+                .secondary {
+                    float: none;
+                    margin-bottom: 15px;
+                }
+                .action.primary {
+                    .mobilePrimaryAction();
+                }
             }
         }
+        .form.giftregistry {
+            overflow-x: scroll;
+         }
     }
 
     .magento-giftregistry-index-addselect {
-        .my-account {
+        .column.main {
             .form {
                 > .actions {
                     > .secondary,
@@ -154,20 +168,37 @@ and (max-width : @breakPoint1) {
     }
 
     /*
-        My Account -> My Invitations, My Newsletter
+        My Account -> My Newsletter
     -------------------------------------- */
-    .my-account {
-        .invitations,
+    .account {
         .form.newsletter {
-            .primary,
+            margin-bottom: 20px;
+            .primary {
+                .action {
+                    .mobilePrimaryAction();
+                }
+            }
             .secondary {
                 float: none;
+                margin-bottom: 15px;
+            }
+        }
+    }
+
+    /*
+       My Account -> My Invitations
+   -------------------------------------- */
+    .account {
+        .invitations {
+            .primary {
+                float: none;
                 .action {
-                    display: block;
-                    width: 100%;
-                    margin-bottom: 15px;
-                    text-align: center;
+                    .mobilePrimaryAction();
                 }
+            }
+            .secondary {
+                float: none;
+                text-align: center;
             }
         }
     }
@@ -281,7 +312,7 @@ and (max-width : @breakPoint1) {
     }
 
     .magento-rma-returns-history {
-        .my-account {
+        .column.main {
             overflow-x: scroll;
         }
     }
@@ -322,6 +353,9 @@ and (max-width : @breakPoint1) {
             .fieldset {
                 margin: 0;
                 .box-sizing();
+                .field {
+                    margin-bottom: 10px;
+                }
             }
             .field.upload.skus {
                 float: none;
@@ -330,15 +364,18 @@ and (max-width : @breakPoint1) {
                 margin: 10px 0;
             }
             .actions {
-                .secondary,
-                .primary {
+                .secondary {
                     float: none;
-                    margin: 0;
+                    margin-right: 0;
                     .action {
-                        width: 100%;
-                        display: block;
-                        margin: 0 0 15px;
-                        text-align: center;
+                        .iconShowText();
+                        .iconRemove('after');
+                        .mobileSecondaryAction();
+                    }
+                }
+                .primary {
+                    .action {
+                        .mobilePrimaryAction();
                     }
                 }
             }

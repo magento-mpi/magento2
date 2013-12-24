@@ -387,7 +387,7 @@ class File extends \Magento\Io\AbstractIo
                 if (!strcmp($item, '.') || !strcmp($item, '..')) {
                     continue;
                 }
-                self::_recursiveCallback($dir . DIRECTORY_SEPARATOR . $item, $fileCallback, $dirCallback);
+                self::_recursiveCallback($dir . '/' . $item, $fileCallback, $dirCallback);
             }
             $callback = $dirCallback[0];
             if (!is_callable($callback)) {
@@ -705,7 +705,7 @@ class File extends \Magento\Io\AbstractIo
             while (($entry = readdir($dirHandler)) !== false) {
                 $listItem = Array();
 
-                $fullPath = $dir . DIRECTORY_SEPARATOR . $entry;
+                $fullPath = $dir . '/' . $entry;
 
                 if (($grep == self::GREP_DIRS) && (!is_dir($fullPath))) {
                     continue;
@@ -856,7 +856,7 @@ class File extends \Magento\Io\AbstractIo
      */
     public function dirsep()
     {
-        return DIRECTORY_SEPARATOR;
+        return '/';
     }
 
     /**

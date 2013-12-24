@@ -50,53 +50,6 @@ class GroupedProduct extends Product
     }
 
     /**
-     * Retrieve specify data from product.
-     *
-     * @param string $placeholder
-     * @return mixed
-     */
-    protected function productProvider($placeholder)
-    {
-        list($productType, $method) = explode('::', $placeholder);
-        $product = $this->getAssociatedProduct($productType);
-        return is_callable(array($product, $method)) ? $product->$method() : null;
-    }
-
-    /**
-     * Create a new product if it was not assigned
-     *
-     * @param string $productType
-     * @throws \InvalidArgumentException
-     * @return mixed
-     */
-    private function getAssociatedProduct($productType)
-    {
-        if (!isset($this->products[$productType])) {
-            switch ($productType) {
-                case 'simple':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-                    $product->switchData($productType . '_required');
-                    break;
-                case 'virtual':
-                    $product = Factory::getFixtureFactory()->getMagentoCatalogVirtualProduct();
-                    $product->switchData($productType . '_required');
-                    break;
-                case 'downloadable':
-                    $product = Factory::getFixtureFactory()
-                        ->getMagentoDownloadableDownloadableProductLinksNotPurchasedSeparately();
-                    break;
-                default:
-                    throw new \InvalidArgumentException(
-                        "Product of type '$productType' cannot be added to grouped product."
-                    );
-            }
-            $product->persist();
-            $this->products[$productType] = $product;
-        }
-        return $this->products[$productType];
-    }
-
-    /**
      * Get Associated Product Names
      *
      * @return array

@@ -85,7 +85,7 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage HTTP/1.1 401 Authorization Required
+     * @expectedExceptionMessage HTTP/1.1 401
      */
     public function testGetRequestTokenExpiredConsumer()
     {
@@ -97,7 +97,7 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage HTTP/1.1 401 Authorization Required
+     * @expectedExceptionMessage HTTP/1.1 401
      */
     public function testGetRequestTokenInvalidConsumerKey()
     {
@@ -107,7 +107,7 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
 
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage HTTP/1.1 401 Authorization Required
+     * @expectedExceptionMessage HTTP/1.1 401
      */
     public function testGetRequestTokenInvalidConsumerSecret()
     {
@@ -135,30 +135,9 @@ class RestTest extends \Magento\TestFramework\TestCase\WebapiAbstract
             "Access token secret length should be " . \Magento\Oauth\Helper\Oauth::LENGTH_TOKEN_SECRET);
     }
 
-    public function testAccessApi()
-    {
-        //TODO: This is not really getting tested at this point since authn is commented in the webapi framework
-        $oAuthClient = $this->_getOauthClient(self::$_consumerKey, self::$_consumerSecret);
-        $requestToken = $oAuthClient->requestRequestToken();
-        $accessToken = $oAuthClient->requestAccessToken(
-            $requestToken->getRequestToken(),
-            self::$_verifier,
-            $requestToken->getRequestTokenSecret()
-        );
-
-        $responseArray = $oAuthClient->validateAccessToken($accessToken);
-
-        $this->assertNotEmpty($responseArray);
-        $this->assertEquals(
-            'testProduct2',
-            $responseArray[1]->name,
-            'Invocation to /rest/V1/testmodule1 expected to return testProduct2 but returned '
-            . $responseArray[1]->name);
-    }
-
     /**
      * @expectedException \Exception
-     * @expectedExceptionMessage HTTP/1.1 401 Authorization Required
+     * @expectedExceptionMessage HTTP/1.1 401
      */
     public function testGetAccessTokenInvalidVerifier()
     {

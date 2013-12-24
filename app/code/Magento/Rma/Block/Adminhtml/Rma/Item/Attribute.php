@@ -17,7 +17,7 @@
  */
 namespace Magento\Rma\Block\Adminhtml\Rma\Item;
 
-class Attribute extends \Magento\Adminhtml\Block\Widget\Grid\Container
+class Attribute extends \Magento\Backend\Block\Widget\Grid\Container
 {
     /**
      * Initialize rma item management page

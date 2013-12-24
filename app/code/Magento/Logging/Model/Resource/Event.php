@@ -14,9 +14,9 @@ namespace Magento\Logging\Model\Resource;
 class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 {
     /**
-     * @var \Magento\Filesystem
+     * @var \Magento\Filesystem\Directory\Write
      */
-    protected $_filesystem;
+    protected $directory;
 
     /**
      * Archive factory
@@ -45,8 +45,8 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
         \Magento\Stdlib\DateTime $dateTime
     ) {
         parent::__construct($resource);
-        $this->_filesystem = $filesystem;
         $this->_archiveFactory = $archiveFactory;
+        $this->directory = $filesystem->getDirectoryWrite(\Magento\Filesystem::VAR_DIR);
         $this->dateTime = $dateTime;
     }
 
@@ -105,7 +105,8 @@ class Event extends \Magento\Core\Model\Resource\Db\AbstractDb
 
             $rows = $readAdapter->fetchAll($select);
 
-            $stream = $this->_filesystem->createAndOpenStream($archive->getFilename(), 'w');
+            $path = $this->directory->getRelativePath($archive->getFilename());
+            $stream = $this->directory->openFile($path, 'w');
             // dump all records before this log entry into a CSV-file
             foreach ($rows as $row) {
                 $stream->writeCsv($row);

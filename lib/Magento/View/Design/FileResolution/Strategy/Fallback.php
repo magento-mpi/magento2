@@ -12,6 +12,7 @@ use Magento\Filesystem;
 use Magento\View\Design\Fallback\Factory;
 use Magento\View\Design\Fallback\Rule\RuleInterface;
 use Magento\View\Design\ThemeInterface;
+use Magento\Filesystem\Directory\Read;
 
 /**
  * Class Fallback
@@ -41,12 +42,19 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     protected $ruleViewFile;
 
     /**
+     * Root directory with read access
+     *
+     * @var Read
+     */
+    protected $rootDirectory;
+
+    /**
      * @param Filesystem $filesystem
      * @param Factory $fallbackFactory
      */
     public function __construct(Filesystem $filesystem, Factory $fallbackFactory)
     {
-        $this->_filesystem = $filesystem;
+        $this->rootDirectory = $filesystem->getDirectoryRead(Filesystem::ROOT);
         $this->fallbackFactory = $fallbackFactory;
     }
 
@@ -155,8 +163,8 @@ class Fallback implements FileInterface, LocaleInterface, ViewInterface
     {
         $path = '';
         foreach ($fallbackRule->getPatternDirs($params) as $dir) {
-            $path = str_replace('/', DIRECTORY_SEPARATOR, "{$dir}/{$file}");
-            if ($this->_filesystem->has($path)) {
+            $path = "{$dir}/{$file}";
+            if ($this->rootDirectory->isExist($this->rootDirectory->getRelativePath($path))) {
                 return $path;
             }
         }

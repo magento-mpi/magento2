@@ -11,31 +11,46 @@
 
 namespace Magento\Bundle\Test\Repository;
 
-use Mtf\Repository\AbstractRepository;
+use Magento\Catalog\Test\Repository\Product;
+use Magento\Catalog\Test\Fixture;
 
 /**
  * Class Product Repository
  *
  * @package Magento\Catalog\Test\Repository
  */
-class Bundle extends AbstractRepository
+class Bundle extends Product
 {
     /**
-     * {inheritdoc}
+     * @param string $productType
+     * @return array
      */
-    public function __construct(array $defaultConfig, array $defaultData)
+    protected function resetRequiredFields($productType)
     {
-        $this->_data['default'] = array(
-            'config' => $defaultConfig,
-            'data' => $defaultData
-        );
-
-        $this->_data['bundle_fixed_required'] = $this->_data['default'];
-        $this->_data['bundle_fixed'] = $this->_data['default'];
-        $this->_data['bundle_fixed']['data']['category_name'] = '%category::getCategoryName%';
-
-        $this->_data['bundle_dynamic_required'] = $this->_data['default'];
-        $this->_data['bundle_dynamic'] = $this->_data['default'];
-        $this->_data['bundle_dynamic']['data']['category_name'] = '%category::getCategoryName%';
+        $required = parent::resetRequiredFields($productType);
+        if (isset($this->_data[$productType]['data']['fields']['price'])) {
+            $required = array_merge_recursive(
+                $required,
+                array(
+                    'data' => array(
+                        'fields' => array(
+                            'price' => array(
+                                'value' => 60,
+                                'group' => Fixture\Product::GROUP_PRODUCT_DETAILS
+                            )
+                        ),
+                        'checkout' => array(
+                            'prices' => array(
+                                'price_from' => 70,
+                                'price_to' => 72
+                            )
+                        )
+                    )
+                )
+            );
+        } else {
+            $required['data']['checkout']['prices'] = $this->_data[$productType]['data']['checkout']['prices'];
+        }
+        return $required;
     }
 }

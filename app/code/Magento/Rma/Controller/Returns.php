@@ -38,7 +38,7 @@ class Returns extends \Magento\App\Action\Action
      * Check customer authentication for some actions
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      */
     public function dispatch(RequestInterface $request)
     {
@@ -62,7 +62,7 @@ class Returns extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Catalog\Model\Session');
+        $layout->initMessages();
         $layout->getBlock('head')->setTitle(__('My Returns'));
 
         if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
@@ -91,8 +91,6 @@ class Returns extends \Magento\App\Action\Action
 
         /** @var \Magento\Core\Model\Date $coreDate */
         $coreDate = $this->_objectManager->get('Magento\Core\Model\Date');
-        /** @var \Magento\Core\Model\Session $coreSession */
-        $coreSession = $this->_objectManager->get('Magento\Core\Model\Session');
         if ($this->_canViewOrder($order)) {
             $post = $this->getRequest()->getPost();
             if (($post) && !empty($post['items'])) {
@@ -129,13 +127,13 @@ class Returns extends \Magento\App\Action\Action
                             ->setCreatedAt($coreDate->gmtDate())
                             ->save();
                     }
-                    $coreSession->addSuccess(
+                    $this->messageManager->addSuccess(
                         __('You submitted Return #%1.', $rmaModel->getIncrementId())
                     );
                     $this->getResponse()->setRedirect($this->_redirect->success($urlModel->getUrl('*/*/history')));
                     return;
                 } catch (\Exception $e) {
-                    $coreSession->addError(
+                    $this->messageManager->addError(
                         __('We cannot create a new return transaction. Please try again later.')
                     );
                     $this->_objectManager->get('Magento\Logger')->logException($e);
@@ -143,7 +141,7 @@ class Returns extends \Magento\App\Action\Action
             }
             $this->_view->loadLayout();
             $layout = $this->_view->getLayout();
-            $layout->initMessages('Magento\Core\Model\Session');
+            $layout->initMessages();
             $layout->getBlock('head')->setTitle(__('Create New Return'));
             if ($block = $this->_view->getLayout()->getBlock('customer.account.link.back')) {
                 $block->setRefererUrl($this->_redirect->getRefererUrl());
@@ -212,7 +210,7 @@ class Returns extends \Magento\App\Action\Action
 
         $incrementId    = $this->_coreRegistry->registry('current_order')->getIncrementId();
         $message        = __('We cannot create a return transaction for order #%1.', $incrementId);
-        $this->_objectManager->get('Magento\Core\Model\Session')->addError($message);
+        $this->messageManager->addError($message);
         $this->_redirect('sales/order/history');
         return false;
     }
@@ -234,7 +232,7 @@ class Returns extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Catalog\Model\Session');
+        $layout->initMessages();
         $layout->getBlock('head')
             ->setTitle(__('Return #%1', $this->_coreRegistry->registry('current_rma')->getIncrementId()));
 
@@ -268,7 +266,7 @@ class Returns extends \Magento\App\Action\Action
 
         $this->_view->loadLayout();
         $layout = $this->_view->getLayout();
-        $layout->initMessages('Magento\Catalog\Model\Session');
+        $layout->initMessages();
 
         if ($navigationBlock = $layout->getBlock('customer_account_navigation')) {
             $navigationBlock->setActive('sales/order/history');
@@ -316,7 +314,7 @@ class Returns extends \Magento\App\Action\Action
                 );
             }
             if (is_array($response)) {
-               $this->_objectManager->get('Magento\Core\Model\Session')->addError($response['message']);
+                $this->messageManager->addError($response['message']);
             }
             $this->_redirect('*/*/view', array('entity_id' => (int)$this->getRequest()->getParam('entity_id')));
             return;

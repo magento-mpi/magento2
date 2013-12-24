@@ -7,7 +7,6 @@
  */
 namespace Magento\Tools\Formatter\PrettyPrinter\Reference;
 
-use Magento\Tools\Formatter\PrettyPrinter\Line;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Expr_Empty;
 
@@ -25,17 +24,17 @@ class EmptyReference extends AbstractFunctionReference
     /**
      * This method resolves the current statement, presumably held in the passed in tree node, into lines.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
         parent::resolve($treeNode);
-        /** @var Line $line */
-        $line = $treeNode->getData()->line;
         // add in the empty statement
-        $line->add('empty(');
+        $this->addToLine($treeNode, 'empty(');
         // add in the actual variable reference
-        $this->resolveNode($this->node->expr, $treeNode);
+        $treeNode = $this->resolveNode($this->node->expr, $treeNode);
         // add in the closer
-        $line->add(')');
+        $this->addToLine($treeNode, ')');
+        return $treeNode;
     }
 }

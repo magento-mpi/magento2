@@ -15,7 +15,12 @@
             <argument name="path" xsi:type="string">magento_giftregistry/index/index</argument>
         </action>
     </referenceBlock>
-    <referenceContainer name="my.account.wrapper">
+    <referenceBlock name="customer-account-navigation-giftregistry-link">
+        <arguments>
+            <argument name="is_highlighted" xsi:type="boolean">true</argument>
+        </arguments>
+    </referenceBlock>
+    <referenceContainer name="content">
         <block class="Magento\GiftRegistry\Block\Customer\Edit" name="giftregistry_edit" template="edit/edit.phtml">
             <action method="addInputTypeTemplate">
                 <argument name="type" xsi:type="string">text</argument>

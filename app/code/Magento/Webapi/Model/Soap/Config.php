@@ -7,7 +7,8 @@
  */
 namespace Magento\Webapi\Model\Soap;
 
-use \Magento\Webapi\Model\Config\Converter;
+use Magento\Webapi\Model\Config\Converter,
+    Magento\Filesystem\Directory\ReadInterface;
 
 /**
  * Webapi Config Model for Soap.
@@ -21,13 +22,11 @@ class Config
     const KEY_IS_SECURE = 'isSecure';
     const KEY_METHOD = 'method';
     const KEY_IS_REQUIRED = 'inputRequired';
+    const KEY_ACL_RESOURCES = 'resources';
     /**#@-*/
 
-    /** @var \Magento\Filesystem */
-    protected $_filesystem;
-
-    /** @var \Magento\App\Dir */
-    protected $_dir;
+    /** @var ReadInterface */
+    protected $modulesDirectory;
 
     /** @var \Magento\Webapi\Model\Config */
     protected $_config;
@@ -53,17 +52,15 @@ class Config
     /**
      * @param \Magento\ObjectManager $objectManager
      * @param \Magento\Filesystem $filesystem
-     * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
-        \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config
     ) {
-        $this->_filesystem = $filesystem;
-        $this->_dir = $dir;
+        // TODO: Check if Service specific XSD is already cached
+        $this->modulesDirectory = $filesystem->getDirectoryRead(\Magento\Filesystem::MODULES);
         $this->_config = $config;
         $this->_objectManager = $objectManager;
     }
@@ -94,7 +91,8 @@ class Config
                     $this->_soapOperations[$operationName] = array(
                         self::KEY_CLASS => $class,
                         self::KEY_METHOD => $method,
-                        self::KEY_IS_SECURE => $methodData[Converter::KEY_IS_SECURE]
+                        self::KEY_IS_SECURE => $methodData[Converter::KEY_IS_SECURE],
+                        self::KEY_ACL_RESOURCES => $methodData[Converter::KEY_ACL_RESOURCES]
                     );
                 }
             }
@@ -116,16 +114,14 @@ class Config
             $this->_soapServices = array();
             foreach ($this->_config->getServices() as $serviceData) {
                 $serviceClass = $serviceData[Converter::KEY_SERVICE_CLASS];
-                $reflection = new \ReflectionClass($serviceClass);
-                foreach ($reflection->getMethods() as $method) {
-                    // find if method is secure, assume operation is not secure by default
-                    $methodName = $method->getName();
-                    $isSecure = $serviceData[Converter::KEY_SERVICE_METHODS][$methodName][Converter::KEY_IS_SECURE];
+                foreach ($serviceData[Converter::KEY_SERVICE_METHODS] as $methodMetadata) {
                     // TODO: Simplify the structure in SOAP. Currently it is unified in SOAP and REST
+                    $methodName = $methodMetadata[Converter::KEY_SERVICE_METHOD];
                     $this->_soapServices[$serviceClass]['methods'][$methodName] = array(
                         self::KEY_METHOD => $methodName,
-                        self::KEY_IS_REQUIRED => (bool)$method->getNumberOfParameters(),
-                        self::KEY_IS_SECURE => $isSecure
+                        self::KEY_IS_REQUIRED => (bool)$methodMetadata[Converter::KEY_IS_SECURE],
+                        self::KEY_IS_SECURE => $methodMetadata[Converter::KEY_IS_SECURE],
+                        self::KEY_ACL_RESOURCES => $methodMetadata[Converter::KEY_ACL_RESOURCES]
                     );
                     $this->_soapServices[$serviceClass][self::KEY_CLASS] = $serviceClass;
                 };
@@ -155,7 +151,8 @@ class Config
         return array(
             self::KEY_CLASS => $soapOperations[$soapOperation][self::KEY_CLASS],
             self::KEY_METHOD => $soapOperations[$soapOperation][self::KEY_METHOD],
-            self::KEY_IS_SECURE => $soapOperations[$soapOperation][self::KEY_IS_SECURE]
+            self::KEY_IS_SECURE => $soapOperations[$soapOperation][self::KEY_IS_SECURE],
+            self::KEY_ACL_RESOURCES => $soapOperations[$soapOperation][self::KEY_ACL_RESOURCES]
         );
     }
 
@@ -187,9 +184,6 @@ class Config
      */
     public function getServiceSchemaDOM($serviceClass)
     {
-         // TODO: Check if Service specific XSD is already cached
-        $modulesDir = $this->_dir->getDir(\Magento\App\Dir::MODULES);
-
         // TODO: Change pattern to match interface instead of class. Think about sub-services.
         if (!preg_match(\Magento\Webapi\Model\Config::SERVICE_CLASS_PATTERN, $serviceClass, $matches)) {
             // TODO: Generate exception when error handling strategy is defined
@@ -200,10 +194,10 @@ class Config
         /** Convert "_Catalog_Attribute" into "Catalog/Attribute" */
         $servicePath = str_replace('_', '/', ltrim($matches[3], '_'));
         $version = $matches[4];
-        $schemaPath = "{$modulesDir}/{$vendorName}/{$moduleName}/etc/schema/{$servicePath}{$version}.xsd";
+        $schemaPath = "{$vendorName}/{$moduleName}/etc/schema/{$servicePath}{$version}.xsd";
 
-        if ($this->_filesystem->isFile($schemaPath)) {
-            $schema = $this->_filesystem->read($schemaPath);
+        if ($this->modulesDirectory->isFile($schemaPath)) {
+            $schema = $this->modulesDirectory->readFile($schemaPath);
         } else {
             $schema = '';
         }

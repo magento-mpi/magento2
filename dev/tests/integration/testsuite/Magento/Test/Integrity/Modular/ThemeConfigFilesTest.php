@@ -30,7 +30,7 @@ class ThemeConfigFilesTest extends \Magento\TestFramework\TestCase\AbstractConfi
      */
     protected function _getConfigFilePathGlob()
     {
-        return '/*/*/*/etc/page_layouts.xml';
+        return '/*/*/etc/page_layouts.xml';
     }
 
     /**

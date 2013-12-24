@@ -55,4 +55,14 @@ class Authentication extends Block
         } catch (\PHPUnit_Extensions_Selenium2TestCase_WebDriverException $e){
         }
     }
+
+    /**
+     * Get Text
+     *
+     * @return string
+     */
+    public function getText()
+    {
+        return $this->_rootElement->getText();
+    }
 }

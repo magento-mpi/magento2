@@ -54,7 +54,7 @@ class Customer extends \Magento\App\Action\Action
      * Check is RP enabled on frontend
      *
      * @param RequestInterface $request
-     * @return mixed
+     * @return \Magento\App\ResponseInterface
      * @throws \Magento\App\Action\NotFoundException
      */
     public function dispatch(RequestInterface $request)
@@ -75,7 +75,7 @@ class Customer extends \Magento\App\Action\Action
     {
         $this->_coreRegistry->register('current_reward', $this->_getReward());
         $this->_view->loadLayout();
-        $this->_view->getLayout()->initMessages('Magento\Customer\Model\Session');
+        $this->_view->getLayout()->initMessages();
         $headBlock = $this->_view->getLayout()->getBlock('head');
         if ($headBlock) {
             $headBlock->setTitle(__('Reward Points'));
@@ -99,7 +99,7 @@ class Customer extends \Magento\App\Action\Action
             $customer->getResource()->saveAttribute($customer, 'reward_update_notification');
             $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
 
-            $this->_getSession()->addSuccess(
+            $this->messageManager->addSuccess(
                 __('You saved the settings.')
             );
         }
@@ -127,12 +127,12 @@ class Customer extends \Magento\App\Action\Action
                     $customer->setRewardWarningNotification(false);
                     $customer->getResource()->saveAttribute($customer, 'reward_warning_notification');
                 }
-                $this->_getSession()->addSuccess(
+                $this->messageManager->addSuccess(
                     __('You have been unsubscribed.')
                 );
             }
         } catch (\Exception $e) {
-            $this->_getSession()->addError(__('Failed to unsubscribe'));
+            $this->messageManager->addError(__('Failed to unsubscribe'));
         }
 
         $this->_redirect('*/*/info');

@@ -69,7 +69,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      *
      * @var \Magento\Filesystem
      */
-    protected $_filesystem;
+    protected $filesystem;
 
     /**
      * @var \Magento\Backend\Model\Session
@@ -80,6 +80,11 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      * @var \Magento\View\Design\Theme\FlyweightFactory
      */
     protected $_themeFactory;
+
+    /**
+     * @var \Magento\Filesystem\Directory\Write
+     */
+    protected $mediaDirectoryWrite;
 
     /**
      * @param \Magento\App\Helper\Context $context
@@ -94,12 +99,11 @@ class Storage extends \Magento\App\Helper\AbstractHelper
         \Magento\View\Design\Theme\FlyweightFactory $themeFactory
     ) {
         parent::__construct($context);
-        $this->_filesystem = $filesystem;
+        $this->filesystem = $filesystem;
         $this->_session = $session;
         $this->_themeFactory = $themeFactory;
-
-        $this->_filesystem->setIsAllowCreateDirectories(true);
-        $this->_filesystem->ensureDirectoryExists($this->getStorageRoot());
+        $this->mediaDirectoryWrite = $this->filesystem->getDirectoryWrite(\Magento\Filesystem::MEDIA);
+        $this->mediaDirectoryWrite->create($this->getStorageRoot());
     }
 
     /**
@@ -149,10 +153,10 @@ class Storage extends \Magento\App\Helper\AbstractHelper
     public function getStorageRoot()
     {
         if (null === $this->_storageRoot) {
-            $this->_storageRoot = implode(\Magento\Filesystem::DIRECTORY_SEPARATOR, array(
-                \Magento\Filesystem::fixSeparator($this->_getTheme()->getCustomization()->getCustomizationPath()),
-                $this->getStorageType()
-            ));
+            $this->_storageRoot = implode('/', array(
+                $this->_getTheme()->getCustomization()->getCustomizationPath(),
+                $this->getStorageType())
+            );
         }
         return $this->_storageRoot;
     }
@@ -203,10 +207,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
         $node = $this->_getRequest()->getParam(self::PARAM_NODE);
         if ($node !== self::NODE_ROOT) {
             $node = $this->urlDecode($node);
-            $nodes = explode(
-                \Magento\Filesystem::DIRECTORY_SEPARATOR,
-                trim($node, \Magento\Filesystem::DIRECTORY_SEPARATOR)
-            );
+            $nodes = explode('/', trim($node, '/'));
             $pathPieces = array_merge($pathPieces, $nodes);
         }
         $pathPieces[] = $this->urlDecode($this->_getRequest()->getParam(self::PARAM_FILENAME));
@@ -225,10 +226,11 @@ class Storage extends \Magento\App\Helper\AbstractHelper
             $path = $this->_getRequest()->getParam(self::PARAM_NODE);
             if ($path && $path !== self::NODE_ROOT) {
                 $path = $this->convertIdToPath($path);
-                if ($this->_filesystem->isDirectory($path)
-                    && $this->_filesystem->isPathInDirectory($path, $currentPath)
+
+                if ($this->mediaDirectoryWrite->isDirectory($path)
+                    && 0 === strpos($path, $currentPath)
                 ) {
-                    $currentPath = $this->_filesystem->normalizePath($path);
+                    $currentPath = $this->mediaDirectoryWrite->getRelativePath($path);
                 }
             }
             $this->_currentPath = $currentPath;
@@ -244,7 +246,7 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      */
     public function getThumbnailDirectory($path)
     {
-        return pathinfo($path, PATHINFO_DIRNAME) . \Magento\Filesystem::DIRECTORY_SEPARATOR
+        return pathinfo($path, PATHINFO_DIRNAME) . '/'
             . \Magento\Theme\Model\Wysiwyg\Storage::THUMBNAIL_DIRECTORY;
     }
 
@@ -257,13 +259,13 @@ class Storage extends \Magento\App\Helper\AbstractHelper
      */
     public function getThumbnailPath($imageName)
     {
-        $imagePath = $this->getCurrentPath() . \Magento\Filesystem::DIRECTORY_SEPARATOR . $imageName;
-        if (!$this->_filesystem->has($imagePath)
-            || !$this->_filesystem->isPathInDirectory($imagePath, $this->getStorageRoot())
+        $imagePath = $this->getCurrentPath() . '/' . $imageName;
+        if (!$this->mediaDirectoryWrite->isExist($imagePath)
+            || 0 !== strpos($imagePath, $this->getStorageRoot())
         ) {
             throw new \InvalidArgumentException('The image not found.');
         }
-        return $this->getThumbnailDirectory($imagePath) . \Magento\Filesystem::DIRECTORY_SEPARATOR
+        return $this->getThumbnailDirectory($imagePath) . '/'
             . pathinfo($imageName, PATHINFO_BASENAME);
     }
 
@@ -302,7 +304,6 @@ class Storage extends \Magento\App\Helper\AbstractHelper
             default:
                 throw new \Magento\Exception('Invalid type');
         }
-
         return $extensions;
     }
 

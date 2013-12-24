@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Preview;
 
-class Buttons extends \Magento\Adminhtml\Block\Widget\Container
+class Buttons extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * @var \Magento\VersionsCms\Model\Config

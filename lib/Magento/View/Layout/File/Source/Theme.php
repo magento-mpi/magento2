@@ -10,8 +10,8 @@ namespace Magento\View\Layout\File\Source;
 
 use Magento\View\Layout\File\SourceInterface;
 use Magento\View\Design\ThemeInterface;
-use Magento\App\Dir;
 use Magento\Filesystem;
+use Magento\Filesystem\Directory\ReadInterface;
 use Magento\View\Layout\File\Factory;
 
 /**
@@ -20,32 +20,24 @@ use Magento\View\Layout\File\Factory;
 class Theme implements SourceInterface
 {
     /**
-     * @var Filesystem
-     */
-    private $filesystem;
-
-    /**
-     * @var Dir
-     */
-    private $dirs;
-
-    /**
      * @var Factory
      */
     private $fileFactory;
 
     /**
+     * @var ReadInterface
+     */
+    protected $themesDirectory;
+
+    /**
      * @param Filesystem $filesystem
-     * @param Dir $dirs
      * @param Factory $fileFactory
      */
     public function __construct(
         Filesystem $filesystem,
-        Dir $dirs,
         Factory $fileFactory
     ) {
-        $this->filesystem = $filesystem;
-        $this->dirs = $dirs;
+        $this->themesDirectory = $filesystem->getDirectoryRead(Filesystem::THEMES);
         $this->fileFactory = $fileFactory;
     }
 
@@ -60,15 +52,11 @@ class Theme implements SourceInterface
     {
         $namespace = $module = '*';
         $themePath = $theme->getFullPath();
-        $files = $this->filesystem->searchKeys(
-            $this->dirs->getDir(Dir::THEMES),
-            "{$themePath}/{$namespace}_{$module}/layout/{$filePath}.xml"
-        );
+        $files = $this->themesDirectory->search("{$themePath}/{$namespace}_{$module}/layout/{$filePath}.xml");
         $result = array();
-        $pattern = "#" . preg_quote($themePath) . "/(?<moduleName>[^/]+)/layout/"
-            . preg_quote(rtrim($filePath, '*'))
-            . "[^/]*\.xml$#i";
-        foreach ($files as $filename) {
+        $pattern = "#/(?<moduleName>[^/]+)/layout/" . strtr(preg_quote($filePath), array('\*' => '[^/]+')) . "\.xml$#i";
+        foreach ($files as $file) {
+            $filename = $this->themesDirectory->getAbsolutePath($file);
             if (!preg_match($pattern, $filename, $matches)) {
                 continue;
             }

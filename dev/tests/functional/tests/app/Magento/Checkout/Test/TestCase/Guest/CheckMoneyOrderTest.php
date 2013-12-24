@@ -84,7 +84,7 @@ class CheckMoneyOrderTest extends Functional
         $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
         $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
-        $checkoutOnePage->getPaymentMethodsBlock()->pressContinue();
+        $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
         $reviewBlock = $checkoutOnePage->getReviewBlock();
         $this->verifyOrderOnReview($reviewBlock, $fixture);
         $reviewBlock->placeOrder();

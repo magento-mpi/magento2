@@ -35,11 +35,11 @@ class SchemaLocatorTest extends \PHPUnit_Framework_TestCase
 
     public function testGetSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'placeholders_merged.xsd', $this->_model->getSchema());
+        $this->assertEquals('schema_dir/placeholders_merged.xsd', $this->_model->getSchema());
     }
 
     public function testGetPerFileSchema()
     {
-        $this->assertEquals('schema_dir' . DIRECTORY_SEPARATOR . 'placeholders.xsd', $this->_model->getPerFileSchema());
+        $this->assertEquals('schema_dir/placeholders.xsd', $this->_model->getPerFileSchema());
     }
 }

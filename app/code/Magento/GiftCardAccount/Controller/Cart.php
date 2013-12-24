@@ -56,15 +56,13 @@ class Cart extends \Magento\App\Action\Action
                 $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->addToCart();
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Gift Card "%1" was added.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
-                    $e->getMessage()
-                );
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addException($e, __('We cannot apply this gift card.'));
+                $this->messageManager->addException($e, __('We cannot apply this gift card.'));
             }
         }
         $this->_redirect('checkout/cart');
@@ -78,15 +76,13 @@ class Cart extends \Magento\App\Action\Action
                 $this->_objectManager->create('Magento\GiftCardAccount\Model\Giftcardaccount')
                     ->loadByCode($code)
                     ->removeFromCart();
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addSuccess(
+                $this->messageManager->addSuccess(
                     __('Gift Card "%1" was removed.', $this->_objectManager->get('Magento\Escaper')->escapeHtml($code))
                 );
             } catch (\Magento\Core\Exception $e) {
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addError(
-                    $e->getMessage()
-                );
+                $this->messageManager->addError($e->getMessage());
             } catch (\Exception $e) {
-                $this->_objectManager->get('Magento\Checkout\Model\Session')->addException($e, __('We cannot remove this gift card.'));
+                $this->messageManager->addException($e, __('We cannot remove this gift card.'));
             }
             $this->_redirect('checkout/cart');
         } else {

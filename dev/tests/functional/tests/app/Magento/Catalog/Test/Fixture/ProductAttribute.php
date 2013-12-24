@@ -13,6 +13,7 @@ namespace Magento\Catalog\Test\Fixture;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
+use Mtf\Client\Element\Locator;
 
 /**
  * Class Attribute
@@ -57,17 +58,29 @@ class ProductAttribute extends DataFixture
     }
 
     /**
-     * Get attribute options
+     * Get attribute options labels
      *
      * @return array
      */
     public function getOptionLabels()
     {
-        $options = array();
-        $options[] = $this->getData('fields/option[value][option_0][0]/value');
-        $options[] = $this->getData('fields/option[value][option_1][0]/value');
+        $options = $this->getOptions();
+        $optionsLabels = array();
+        foreach ($options as $option) {
+            $optionsLabels[] = $option['label']['value'];
+        }
+        return $optionsLabels;
+    }
 
-        return $options;
+    /**
+     * Get attribute options
+     *
+     * @return array
+     */
+    public function getOptions()
+    {
+        $options = $this->getData('options/value');
+        return is_array($options) ? $options : array();
     }
 
     /**
@@ -105,84 +118,96 @@ class ProductAttribute extends DataFixture
                 ),
                 'attribute_label' => array(
                     'value' => 'Attribute %isolation%',
-                    'curl' => 'frontend_label[0]',
+                    'input_name' => 'frontend_label[0]',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN
                 ),
                 'frontend_input' => array(
-                    'value' => 'select',
+                    'value' => 'Dropdown',
+                    'input' => 'select',
+                    'input_value' => 'select',
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
-                'is_unique' => array(
-                    'value' => 0,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
-                'is_global' => array(
-                    'value' => 1,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
-                'is_required' => array(
-                    'value' => 0,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
-                ),
-                'frontend_class' => array(
-                    'value' => '',
+                'is_configurable' => array(
+                    'value' => 'Yes',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_MAIN,
                 ),
                 'is_searchable' => array(
-                    'value' => 1,
+                    'value' => 'Yes',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
                 'is_visible_in_advanced_search' => array(
-                    'value' => 0,
+                    'value' => 'Yes',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
                 'is_comparable' => array(
-                    'value' => 0,
+                    'value' => 'Yes',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
-                'is_configurable' => array(
-                    'value' => 1,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
-                ),
-                'is_used_for_promo_rules' => array(
-                    'value' => 0,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
-                ),
-                'is_html_allowed_on_front' => array(
-                    'value' => 1,
+                'is_filterable' => array(
+                    'value' => 'Filterable (with results)',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
                 'is_visible_on_front' => array(
-                    'value' => 0,
+                    'value' => 'Yes',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
-                'used_in_product_listing' => array(
-                    'value' => 0,
+                'is_filterable_in_search' => array(
+                    'value' => 'Yes',
+                    'input' => 'select',
+                    'input_value' => 1,
                     'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
                 ),
-                'used_for_sort_by' => array(
-                    'value' => 0,
-                    'group' => self::GROUP_PRODUCT_ATTRIBUTE_FRONT,
-                )
-            )
+            ),
+            'options' => array(
+                'value' => array(
+                    'option_1' => array(
+                        'label' => array(
+                            'value' => 'Option 1 %isolation%',
+                            'input_name' => 'option[value][option_0][0]',
+                            'selector' => '//*[@id="manage-options-panel"]/table/tbody/tr[1]/td[3]/input',
+                            'strategy' => Locator::SELECTOR_XPATH,
+                        ),
+                        'default' => array(
+                            'value' => 'Yes',
+                            'input' => 'checkbox',
+                            'input_name' => 'default[0]',
+                            'input_value' => 'option_0',
+                            'selector' => '//*[@id="manage-options-panel"]/table/tbody/tr[1]/td[2]/input',
+                            'strategy' => Locator::SELECTOR_XPATH,
+                        ),
+                    ),
+                    'option_2' => array(
+                        'label' => array(
+                            'value' => 'Option 2 %isolation%',
+                            'input_name' => 'option[value][option_1][0]',
+                            'selector' => '//*[@id="manage-options-panel"]/table/tbody/tr[2]/td[3]/input',
+                            'strategy' => Locator::SELECTOR_XPATH,
+                        ),
+                        'default' => array(
+                            'value' => 'No',
+                            'input' => 'checkbox',
+                            'input_name' => 'default[1]',
+                            'input_value' => 'option_1',
+                            'selector' => '//*[@id="manage-options-panel"]/table/tbody/tr[2]/td[2]/input',
+                            'strategy' => Locator::SELECTOR_XPATH,
+                        ),
+                    ),
+                ),
+            ),
         );
-
         $this->_repository = Factory::getRepositoryFactory()
             ->getMagentoCatalogProductAttribute($this->_dataConfig, $this->_data);
-    }
-
-    /**
-     * Returns data for curl POST params
-     *
-     * @return array
-     */
-    public function getPostParams()
-    {
-        $fields = $this->getData('fields');
-        $params = array();
-        foreach ($fields as $fieldId => $fieldData) {
-            $params[isset($fieldData['curl']) ? $fieldData['curl'] : $fieldId] = $fieldData['value'];
-        }
-        return $params;
     }
 }

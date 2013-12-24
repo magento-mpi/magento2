@@ -13,9 +13,6 @@ namespace Magento\TargetRule\Model\Resource;
 /**
  * TargetRule Product Index by Rule Product List Type Resource Model
  *
- * @category    Magento
- * @package     Magento_TargetRule
- * @author      Magento Core Team <core@magentocommerce.com>
  * @SuppressWarnings(PHPMD.LongVariable)
  */
 class Index extends \Magento\Index\Model\Resource\AbstractResource
@@ -25,28 +22,28 @@ class Index extends \Magento\Index\Model\Resource\AbstractResource
      *
      * @var int
      */
-    protected $_bindIncrement  = 0;
+    protected $_bindIncrement = 0;
 
     /**
      * Target rule data
      *
      * @var \Magento\TargetRule\Helper\Data
      */
-    protected $_targetRuleData = null;
+    protected $_targetRuleData;
 
     /**
      * Core registry
      *
      * @var \Magento\Core\Model\Registry
      */
-    protected $_coreRegistry = null;
+    protected $_coreRegistry;
     
     /**
      * Customer segment data
      *
      * @var \Magento\CustomerSegment\Helper\Data
      */
-    protected $_customerSegmentData = null;
+    protected $_customerSegmentData;
 
     /**
      * @var \Magento\Customer\Model\Session

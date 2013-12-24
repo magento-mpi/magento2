@@ -78,10 +78,20 @@ class CheckoutOnepageTest extends Functional
 
         //Proceed Checkout
         $checkoutOnePage = Factory::getPageFactory()->getCheckoutOnepage();
-        $checkoutOnePage->getLoginBlock()->checkoutMethod($fixture);
+        $this->_checkoutMethod($fixture);
         $checkoutOnePage->getBillingBlock()->fillBilling($fixture);
         $checkoutOnePage->getShippingMethodBlock()->selectShippingMethod($fixture);
         $checkoutOnePage->getPaymentMethodsBlock()->selectPaymentMethod($fixture);
+    }
+
+    /**
+     * Process checkout method step
+     *
+     * @param Checkout $fixture
+     */
+    protected function _checkoutMethod(Checkout $fixture)
+    {
+        Factory::getPageFactory()->getCheckoutOnepage()->getLoginBlock()->checkoutMethod($fixture);
     }
 
     /**

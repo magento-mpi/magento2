@@ -26,7 +26,7 @@ class BundleDynamicTest extends Functional
     }
 
     /**
-     * Creating bundle (dynamic) product and assigning it to the category only
+     * Creating bundle (dynamic) product and assigning it to the category
      *
      * @ZephyrId MAGETWO-12702
      */
@@ -34,7 +34,7 @@ class BundleDynamicTest extends Functional
     {
         //Data
         $bundle = Factory::getFixtureFactory()->getMagentoBundleBundleDynamic();
-        $bundle->switchData('bundle_dynamic');
+        $bundle->switchData('bundle');
         //Pages & Blocks
         $manageProductsGrid = Factory::getPageFactory()->getCatalogProductIndex();
         $createProductPage = Factory::getPageFactory()->getCatalogProductNew();
@@ -50,6 +50,7 @@ class BundleDynamicTest extends Functional
         $cachePage = Factory::getPageFactory()->getAdminCache();
         $cachePage->open();
         $cachePage->getActionsBlock()->flushMagentoCache();
+        $cachePage->getMessagesBlock()->assertSuccessMessage();
         //Verification
         $this->assertOnGrid($bundle);
         $this->assertOnCategory($bundle);
@@ -86,11 +87,8 @@ class BundleDynamicTest extends Functional
         $productListBlock->openProductViewPage($product->getProductName());
         //Verification on product detail page
         $productViewBlock = $productPage->getViewBlock();
-        $this->assertEquals($product->getProductName(), $productViewBlock->getProductName());
-
-        $actualPrice = $productViewBlock->getProductPrice();
-        $expectedPrice = $product->getProductPrice();
-        $this->assertContains($expectedPrice, $actualPrice);
+        $this->assertSame($product->getProductName(), $productViewBlock->getProductName());
+        $this->assertEquals($product->getProductPrice(), $productViewBlock->getProductPrice());
 
         // @TODO: add click on "Customize and Add To Cart" button and assert options count
         $productOptionsBlock = $productPage->getOptionsBlock();

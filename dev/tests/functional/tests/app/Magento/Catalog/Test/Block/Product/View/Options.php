@@ -62,7 +62,7 @@ class Options extends Block
             $productIndex = 1;
             $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
             while ($productOption->isVisible()) {
-                $options[$optionName][] = $productOption->getText();
+                $options[$optionName][] = trim($productOption->getText());
                 $productIndex++;
                 $productOption = $field->find('select > option:nth-of-type(' . $productIndex . ')');
             }

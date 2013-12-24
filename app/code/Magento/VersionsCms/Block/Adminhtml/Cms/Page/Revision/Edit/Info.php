@@ -13,7 +13,7 @@
  */
 namespace Magento\VersionsCms\Block\Adminhtml\Cms\Page\Revision\Edit;
 
-class Info extends \Magento\Adminhtml\Block\Widget\Container
+class Info extends \Magento\Backend\Block\Widget\Container
 {
     /**
      * Currently loaded page model

@@ -10,7 +10,7 @@
  */
 // php \_xtools\PHP_CodeSniffer\scripts\phpcs -p -n --standard=PSR2 --report-xml=results.xml --extensions=php
 //    --ignore=<contents of blacklist file> <contents of files file>
-$fileUtilsFile = dirname(__FILE__) . DIRECTORY_SEPARATOR . 'FileUtils.php';
+$fileUtilsFile = dirname(__FILE__) . '/FileUtils.php';
 if (file_exists($fileUtilsFile)) {
     include $fileUtilsFile;
 }

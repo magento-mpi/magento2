@@ -15,7 +15,7 @@
 namespace Magento\Reward\Block\Adminhtml\Customer\Edit\Tab\Reward\History\Grid\Column\Renderer;
 
 class Reason
-    extends \Magento\Adminhtml\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     /**
      * Render "Expired / not expired" reward "Reason" field

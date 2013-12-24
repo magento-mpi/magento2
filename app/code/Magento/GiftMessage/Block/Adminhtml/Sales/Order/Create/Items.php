@@ -20,6 +20,25 @@ namespace Magento\GiftMessage\Block\Adminhtml\Sales\Order\Create;
 class Items extends \Magento\Backend\Block\Template
 {
     /**
+     * @var \Magento\GiftMessage\Helper\Message
+     */
+    protected $_messageHelper;
+
+    /**
+     * @param \Magento\Backend\Block\Template\Context $context
+     * @param \Magento\GiftMessage\Helper\Message $messageHelper
+     * @param array $data
+     */
+    public function __construct(
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\GiftMessage\Helper\Message $messageHelper,
+        array $data = array()
+    ) {
+        $this->_messageHelper = $messageHelper;
+        parent::__construct($context, $data);
+    }
+
+    /**
      * Get order item
      *
      * @return \Magento\Sales\Model\Quote\Item
@@ -40,7 +59,7 @@ class Items extends \Magento\Backend\Block\Template
         if (!$item) {
             return false;
         }
-        return $this->helper('Magento\GiftMessage\Helper\Message')->getIsMessagesAvailable(
+        return $this->_messageHelper->getIsMessagesAvailable(
             'item', $item, $item->getStoreId()
         );
     }
@@ -66,7 +85,7 @@ class Items extends \Magento\Backend\Block\Template
     public function getMessageText()
     {
         if ($this->getItem()->getGiftMessageId()) {
-            $model = $this->helper('Magento\GiftMessage\Helper\Message')->getGiftMessage($this->getItem()->getGiftMessageId());
+            $model = $this->_messageHelper->getGiftMessage($this->getItem()->getGiftMessageId());
             return $this->escapeHtml($model->getMessage());
         }
         return '';

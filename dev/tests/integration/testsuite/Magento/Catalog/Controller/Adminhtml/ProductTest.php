@@ -64,7 +64,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
         ));
         $this->dispatch('backend/catalog/product/save');
         $this->assertSessionMessages(
-            $this->equalTo(array('Unable to save product')), \Magento\Message\Factory::ERROR
+            $this->equalTo(array('Unable to save product')), \Magento\Message\MessageInterface::TYPE_ERROR
         );
         $this->assertRedirect($this->stringContains('/backend/catalog/product/edit'));
     }
@@ -78,7 +78,7 @@ class ProductTest extends \Magento\Backend\Utility\Controller
         $this->dispatch('backend/catalog/product/save/id/1');
         $this->assertRedirect($this->stringStartsWith('http://localhost/index.php/backend/catalog/product/new/'));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), \Magento\Message\Factory::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
@@ -96,10 +96,10 @@ class ProductTest extends \Magento\Backend\Utility\Controller
             $this->stringStartsWith('http://localhost/index.php/backend/catalog/product/edit/id/1/')
         ));
         $this->assertSessionMessages(
-            $this->contains('You saved the product.'), \Magento\Message\Factory::SUCCESS
+            $this->contains('You saved the product.'), \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
         $this->assertSessionMessages(
-            $this->contains('You duplicated the product.'), \Magento\Message\Factory::SUCCESS
+            $this->contains('You duplicated the product.'), \Magento\Message\MessageInterface::TYPE_SUCCESS
         );
     }
 
@@ -132,5 +132,27 @@ class ProductTest extends \Magento\Backend\Utility\Controller
             '"Save & New" button isn\'t present on Edit Product page');
         $this->assertSelectCount('#save-split-button-duplicate-button', 1, $body,
             '"Save & Duplicate" button isn\'t present on Edit Product page');
+    }
+
+    /**
+     * Assure that no DDL operations, like table truncation, are executed in transaction during search results reset.
+     *
+     * @magentoDataFixture Magento/Catalog/_files/product_simple.php
+     */
+    public function testMassStatusAction()
+    {
+        $this->dispatch(
+            '/backend/catalog/product/massStatus/store/0/?product=1&massaction_prepare_key=product&status=0'
+        );
+        /** @var $objectManager \Magento\TestFramework\ObjectManager */
+        $objectManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager();
+        /** @var $processCollection \Magento\Index\Model\Resource\Process\Collection */
+        $processCollection = $objectManager->get('Magento\Index\Model\Resource\Process\Collection');
+        $processCollection = $processCollection->addEventsStats()->addFilter('indexer_code', 'catalogsearch_fulltext');
+        $process = $processCollection->getLastItem();
+        /** @var $eventCollection \Magento\Index\Model\Resource\Event\Collection */
+        $eventCollection = $objectManager->get('Magento\Index\Model\Resource\Event\Collection');
+        $eventCollection->addProcessFilter($process);
+        $this->assertNull($eventCollection->getLastItem()->getData('process_event_status'));
     }
 }

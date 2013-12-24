@@ -8,9 +8,9 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-
 namespace Magento\Checkout\Test\Block;
 
+use Exception;
 use Mtf\Block\Block;
 use Mtf\Factory\Factory;
 use Mtf\Client\Element\Locator;
@@ -76,20 +76,31 @@ class Cart extends Block
      */
     public function getCartItemSubTotal($product)
     {
-        $selector = '//tr[normalize-space(td)="'. $this->getProductName($product) .'"]' . $this->itemSubTotalSelector;
+        $selector = '//tr[normalize-space(td)="' . $this->getProductName(
+            $product
+        ) . '"]' . $this->itemSubTotalSelector;
         return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
     }
 
     /**
      * Get unit price for the specified item in the cart
      *
-     * @param SimpleProduct $product
-     * @return string
+     * @param Product $product
+     * @param string $currency
+     *
+     * @return float
      */
-    public function getCartItemUnitPrice($product)
+    public function getCartItemUnitPrice($product, $currency = '$')
     {
-        $selector = '//tr[normalize-space(td)="'. $this->getProductName($product) .'"]' . $this->itemUnitPriceSelector;
-        return $this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText();
+        $selector = '//tr[normalize-space(td)="' . $this->getProductName(
+            $product
+        ) . '"]' . $this->itemUnitPriceSelector;
+
+        $prices = explode("\n", trim($this->_rootElement->find($selector, Locator::SELECTOR_XPATH)->getText()));
+        if (count($prices) == 1) {
+            return floatval(trim($prices[0], $currency));
+        }
+        return $this->formatPricesData($prices, $currency);
     }
 
     /**
@@ -125,6 +136,27 @@ class Cart extends Block
     }
 
     /**
+     * Returns the total discount price
+     *
+     * @var string
+     * @return string
+     * @throws Exception
+     */
+    public function getDiscountTotal()
+    {
+        $element = $this->_rootElement->find(
+            '//table[@id="shopping-cart-totals-table"]' .
+            '//tr[normalize-space(td)="Discount"]' .
+            '//td[@class="amount"]//span[@class="price"]',
+            Locator::SELECTOR_XPATH
+        );
+        if (!$element->isVisible()) {
+            throw new Exception('Error could not find the Discount Total in the HTML');
+        }
+        return $element->getText();
+    }
+
+    /**
      * Clear shopping cart
      */
     public function clearShoppingCart()
@@ -143,8 +175,10 @@ class Cart extends Block
      */
     public function isProductInShoppingCart($product)
     {
-        return $this->_rootElement
-            ->find('//tr[normalize-space(td)="'. $this->getProductName($product) .'"]', Locator::SELECTOR_XPATH)->isVisible();
+        return $this->_rootElement->find(
+            '//tr[normalize-space(td)="' . $this->getProductName($product) . '"]',
+            Locator::SELECTOR_XPATH
+        )->isVisible();
     }
 
     /**

@@ -8,10 +8,6 @@
 namespace Magento\Tools\Formatter\PrettyPrinter\Statement;
 
 use Magento\Tools\Formatter\PrettyPrinter\AbstractSyntax;
-use Magento\Tools\Formatter\PrettyPrinter\HardLineBreak;
-use Magento\Tools\Formatter\PrettyPrinter\Line;
-use Magento\Tools\Formatter\PrettyPrinter\LineData;
-use Magento\Tools\Formatter\PrettyPrinter\SyntaxFactory;
 use Magento\Tools\Formatter\Tree\TreeNode;
 use PHPParser_Node_Stmt_Class;
 
@@ -25,41 +21,42 @@ abstract class AbstractStatement extends AbstractSyntax
      * lines. Derived classes must replace the statement in the tree, or this method will repeat
      * comments.
      * @param TreeNode $treeNode Node containing the current statement.
+     * @return TreeNode
      */
     public function resolve(TreeNode $treeNode)
     {
-        parent::resolve($treeNode);
+        return parent::resolve($treeNode);
     }
 
     /**
      * This method adds modifiers to the line based on the bit map passed in.
+     * @param TreeNode $treeNode Node containing the current statement.
      * @param mixed $modifiers Bit map containing the markers for the various modifiers.
-     * @param Line $line Instance of line to add modifier.
      */
-    protected function addModifier($modifiers, Line $line)
+    protected function addModifier(TreeNode $treeNode, $modifiers)
     {
         if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_ABSTRACT) {
-            $line->add('abstract ');
+            $this->addToLine($treeNode, 'abstract ');
         }
 
         if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_FINAL) {
-            $line->add('final ');
+            $this->addToLine($treeNode, 'final ');
         }
 
         if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PUBLIC) {
-            $line->add('public ');
+            $this->addToLine($treeNode, 'public ');
         }
 
         if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PROTECTED) {
-            $line->add('protected ');
+            $this->addToLine($treeNode, 'protected ');
         }
 
         if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_PRIVATE) {
-            $line->add('private ');
+            $this->addToLine($treeNode, 'private ');
         }
 
         if ($modifiers & PHPParser_Node_Stmt_Class::MODIFIER_STATIC) {
-            $line->add('static ');
+            $this->addToLine($treeNode, 'static ');
         }
     }
 }

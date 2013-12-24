@@ -115,7 +115,7 @@ class Price
      * @param \Magento\Catalog\Model\Product $product
      * @return float
      */
-    public function getFinalPrice($qty = null, $product)
+    public function getFinalPrice($qty, $product)
     {
         if (is_null($qty) && !is_null($product->getCalculatedFinalPrice())) {
             return $product->getCalculatedFinalPrice();
@@ -219,7 +219,7 @@ class Price
      * @param   \Magento\Catalog\Model\Product $product
      * @return  float
      */
-    public function getTierPrice($qty = null, $product)
+    public function getTierPrice($qty, $product)
     {
         $allGroups = \Magento\Customer\Model\Group::CUST_GROUP_ALL;
         $prices = $product->getData('tier_price');
@@ -337,7 +337,7 @@ class Price
      * @param   \Magento\Catalog\Model\Product $product
      * @return  array || float
      */
-    public function getFormatedTierPrice($qty=null, $product)
+    public function getFormatedTierPrice($qty, $product)
     {
         $price = $product->getTierPrice($qty);
         if (is_array($price)) {

@@ -22,6 +22,7 @@ class Converter implements \Magento\Config\ConverterInterface
     const KEY_HTTP_METHOD = 'httpMethod';
     const KEY_SERVICE_METHODS = 'methods';
     const KEY_METHOD_ROUTE = 'route';
+    const KEY_ACL_RESOURCES = 'resources';
     /**#@-*/
 
     /**
@@ -58,6 +59,12 @@ class Converter implements \Magento\Config\ConverterInterface
                 }
                 $httpMethod = $restRoute->attributes->getNamedItem('httpMethod')->nodeValue;
                 $method = $restRoute->attributes->getNamedItem('method')->nodeValue;
+
+                $resources = $restRoute->attributes->getNamedItem('resources')->nodeValue;
+                /** Allow whitespace usage after comma. */
+                $resources = str_replace(', ', ',', $resources);
+                $resources = explode(',', $resources);
+
                 $isSecureAttribute = $restRoute->attributes->getNamedItem('isSecure');
                 $isSecure = $isSecureAttribute ? true : false;
                 $path = (string)$restRoute->nodeValue;
@@ -66,7 +73,8 @@ class Converter implements \Magento\Config\ConverterInterface
                     self::KEY_HTTP_METHOD => $httpMethod,
                     self::KEY_SERVICE_METHOD => $method,
                     self::KEY_METHOD_ROUTE => $path,
-                    self::KEY_IS_SECURE => $isSecure
+                    self::KEY_IS_SECURE => $isSecure,
+                    self::KEY_ACL_RESOURCES => $resources
                 );
             }
         }

@@ -13,11 +13,6 @@ class CastArrayOperator extends AbstractCastOperator
 {
     public function __construct(PHPParser_Node_Expr_Cast_Array $node)
     {
-        parent::__construct($node);
-    }
-
-    public function operator()
-    {
-        return '(array) ';
+        parent::__construct($node, 'array');
     }
 }

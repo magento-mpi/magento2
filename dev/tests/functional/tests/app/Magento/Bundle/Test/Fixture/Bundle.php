@@ -29,7 +29,7 @@ class Bundle extends Product
      *
      * @var array
      */
-    protected $_products = array();
+    protected $products = array();
 
     /**
      * Custom constructor to create bundle product with assigned simple products
@@ -41,40 +41,20 @@ class Bundle extends Product
     {
         parent::__construct($configuration, $placeholders);
 
-        $this->_placeholders['item1_product1::getProductName'] = array($this, '_productProvider');
-        $this->_placeholders['item1_product2::getProductName'] = array($this, '_productProvider');
-        $this->_placeholders['item1_product1::getProductId'] = array($this, '_productProvider');
-        $this->_placeholders['item1_product2::getProductId'] = array($this, '_productProvider');
+        $this->_placeholders['item1_simple1::getProductName'] = array($this, 'productProvider');
+        $this->_placeholders['item1_simple1::getProductId'] = array($this, 'productProvider');
+        $this->_placeholders['item1_virtual2::getProductName'] = array($this, 'productProvider');
+        $this->_placeholders['item1_virtual2::getProductId'] = array($this, 'productProvider');
     }
 
     /**
-     * Retrieve specify data from product.
-     *
-     * @param string $placeholder
-     * @return mixed
+     * @param string $productData
+     * @return string
      */
-    protected function _productProvider($placeholder)
+    protected function formatProductType($productData)
     {
-        list($key, $method) = explode('::', $placeholder);
-        $product = $this->_getProduct($key);
-        return is_callable(array($product, $method)) ? $product->$method() : null;
-    }
-
-    /**
-     * Create a new product if it was not assigned
-     *
-     * @param string $key
-     * @return mixed
-     */
-    protected function _getProduct($key)
-    {
-        if (!isset($this->_products[$key])) {
-            $product = Factory::getFixtureFactory()->getMagentoCatalogSimpleProduct();
-            $product->switchData('simple_required');
-            $product->persist();
-            $this->_products[$key] = $product;
-        }
-        return $this->_products[$key];
+        list(, $productData) = explode('_', $productData);
+        return preg_replace('/\d/', '', $productData);
     }
 
     /**

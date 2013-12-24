@@ -29,7 +29,7 @@ foreach ($files as $file) {
 }
 
 sort($classes);
-$baseDir = realpath(__DIR__ . '/../../../../../') . DIRECTORY_SEPARATOR;
+$baseDir = realpath(__DIR__ . '/../../../../../') . '/';
 $sources = array('app/code', 'lib',);
 
 $map = array();
