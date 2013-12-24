@@ -49,6 +49,7 @@ class Order extends \Magento\Backend\App\Action
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $coreRegistry
      * @param \Magento\App\Response\Http\FileFactory $fileFactory
+     * @param \Magento\Core\Model\Translate $translator
      */
     public function __construct(
         Action\Context $context,
@@ -125,6 +126,11 @@ class Order extends \Magento\Backend\App\Action
 
         $order = $this->_initOrder();
         if ($order) {
+            $isActionNotPermitted = $order->getActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_PRODUCTS_PERMISSION_DENIED);
+
+            if ($isActionNotPermitted) {
+                $this->messageManager->addError(__('You don\'t have permissions to manage this order because of one or more products are not permitted for your website.'));
+            }
             $this->_initAction();
             $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->_view->renderLayout();

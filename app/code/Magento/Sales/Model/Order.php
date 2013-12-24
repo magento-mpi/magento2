@@ -329,15 +329,16 @@ class Order extends \Magento\Sales\Model\AbstractModel
     /**
      * Order flags
      */
-    const ACTION_FLAG_CANCEL    = 'cancel';
-    const ACTION_FLAG_HOLD      = 'hold';
-    const ACTION_FLAG_UNHOLD    = 'unhold';
-    const ACTION_FLAG_EDIT      = 'edit';
-    const ACTION_FLAG_CREDITMEMO= 'creditmemo';
-    const ACTION_FLAG_INVOICE   = 'invoice';
-    const ACTION_FLAG_REORDER   = 'reorder';
-    const ACTION_FLAG_SHIP      = 'ship';
-    const ACTION_FLAG_COMMENT   = 'comment';
+    const ACTION_FLAG_CANCEL                    = 'cancel';
+    const ACTION_FLAG_HOLD                      = 'hold';
+    const ACTION_FLAG_UNHOLD                    = 'unhold';
+    const ACTION_FLAG_EDIT                      = 'edit';
+    const ACTION_FLAG_CREDITMEMO                = 'creditmemo';
+    const ACTION_FLAG_INVOICE                   = 'invoice';
+    const ACTION_FLAG_REORDER                   = 'reorder';
+    const ACTION_FLAG_SHIP                      = 'ship';
+    const ACTION_FLAG_COMMENT                   = 'comment';
+    const ACTION_FLAG_PRODUCTS_PERMISSION_DENIED= 'product_permission_denied';
 
     /**
      * Report date types
@@ -925,6 +926,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
             return false;
         }
 
+        if ($this->getActionFlag(self::ACTION_FLAG_REORDER) === false) {
+            return false;
+        }
+
         $products = array();
         foreach ($this->getItemsCollection() as $item) {
             $products[] = $item->getProductId();
@@ -955,14 +960,10 @@ class Order extends \Magento\Sales\Model\AbstractModel
                 $product = $this->_productFactory->create()
                     ->setStoreId($this->getStoreId())
                     ->load($productId);
-                if (!$product->getId() || (!$ignoreSalable && !$product->isSalable())) {
-                    return false;
-                }
             }
-        }
-
-        if ($this->getActionFlag(self::ACTION_FLAG_REORDER) === false) {
-            return false;
+            if (!$product->getId() || (!$ignoreSalable && !$product->isSalable())) {
+                return false;
+            }
         }
 
         return true;

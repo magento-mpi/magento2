@@ -22,12 +22,20 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      * @var \Magento\AdminGws\Helper\Data
      */
     protected $_adminGwsData = null;
+
     /**
      * Catalog category factory
      *
      * @var \Magento\Catalog\Model\CategoryFactory
      */
     protected $_categoryFactory = null;
+
+    /**
+     * Catalog product factory
+     *
+     * @var \Magento\Catalog\Model\ProductFactory
+     */
+    protected $_productFactory = null;
 
     /**
      * @var \Magento\Core\Model\StoreManagerInterface
@@ -44,11 +52,13 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
         \Magento\AdminGws\Model\Role $role,
         \Magento\AdminGws\Helper\Data $adminGwsData,
         \Magento\Catalog\Model\CategoryFactory $categoryFactory,
+        \Magento\Catalog\Model\ProductFactory $productFactory,
         \Magento\Core\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($role);
         $this->_adminGwsData = $adminGwsData;
         $this->_categoryFactory = $categoryFactory;
+        $this->_productFactory = $productFactory;
         $this->_storeManager = $storeManager;
     }
 
@@ -569,7 +579,9 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function salesOrderLoadAfter($model)
     {
-        if (!in_array($model->getStore()->getWebsiteId(), $this->_role->getWebsiteIds())) {
+        $allProductsAvailable = $this->_ifProductsAvailable($model);
+
+        if (!in_array($model->getStore()->getWebsiteId(), $this->_role->getWebsiteIds()) || !$allProductsAvailable) {
             $model->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_CANCEL, false)
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_CREDITMEMO, false)
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_EDIT, false)
@@ -580,6 +592,38 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD, false)
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_COMMENT, false);
         }
+        if (!$allProductsAvailable) {
+            $model->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_PRODUCTS_PERMISSION_DENIED, true);
+        }
+    }
+
+    /**
+     * Return if products are available for current admin
+     *
+     * @param \Magento\Sales\Model\Order $model
+     * @return bool
+     */
+    protected function _ifProductsAvailable($model)
+    {
+        $products = $model->getAllItems();
+        $allProductsAvailable = true;
+
+        foreach ($products as $product) {
+            try {
+                $this->_productFactory->create()->load($product->getProductId());
+//                $productModel = $this->_productFactory->create()->load($product->getProductId());
+//                $websiteIds = $productModel->getWebsiteIds();
+//                $allProductsAvailable = $this->_role->hasWebsiteAccess($websiteIds, true);
+            } catch (\Magento\AdminGws\Controller\Exception $e) {
+                $allProductsAvailable = false;
+            }
+
+            if (!$allProductsAvailable) {
+                break;
+            }
+
+        }
+        return $allProductsAvailable;
     }
 
     /**

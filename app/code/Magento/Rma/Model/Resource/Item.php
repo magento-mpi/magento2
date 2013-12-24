@@ -28,6 +28,11 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
     protected $_attributes   = array();
 
     /**
+     * @var \Magento\Logger
+     */
+    protected $_logger;
+
+    /**
      * Array of aviable items types for rma
      *
      * @var array
@@ -64,6 +69,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
      * @param \Magento\Rma\Helper\Data $rmaData
      * @param \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory
      * @param \Magento\Catalog\Model\ProductFactory $productFactory
+     * @param \Magento\Logger
      * @param array $data
      */
     public function __construct(
@@ -75,12 +81,14 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
         \Magento\Validator\UniversalFactory $universalFactory,
         \Magento\Rma\Helper\Data $rmaData,
         \Magento\Sales\Model\Resource\Order\Item\CollectionFactory $ordersFactory,
-        \Magento\Catalog\Model\ProductFactory $productFactory,        
+        \Magento\Catalog\Model\ProductFactory $productFactory,
+        \Magento\Logger $logger,
         $data = array()
     ) {
         $this->_rmaData = $rmaData;
         $this->_ordersFactory = $ordersFactory;
-        $this->_productFactory = $productFactory;        
+        $this->_productFactory = $productFactory;
+        $this->_logger = $logger;
         parent::__construct($resource, $eavConfig, $attrSetEntity, $locale, $resourceHelper, $universalFactory, $data);
     }
 
@@ -298,7 +306,12 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             /* checks enable on product level */
             $product->reset();
             $product->setStoreId($item->getStoreId());
-            $product->load($item->getProductId());
+            try {
+                $product->load($item->getProductId());
+            } catch (\Magento\AdminGws\Controller\Exception $e) {
+                $this->_logger->logException($e);
+                $allowed = false;
+            }
 
             if (!$this->_rmaData->canReturnProduct($product, $item->getStoreId())) {
                 $allowed = false;
