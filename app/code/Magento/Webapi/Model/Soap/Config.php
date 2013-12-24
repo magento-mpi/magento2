@@ -76,7 +76,11 @@ class Config
         $this->_dir = $dir;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
-        $this->_servicesMetadata = $reader->getData();
+        // TODO: Reconsider data retrieval
+        try {
+            $this->_servicesMetadata = $reader->getData();
+        } catch (\Exception $e) {
+        }
     }
 
     /**
