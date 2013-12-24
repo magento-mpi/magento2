@@ -8,38 +8,26 @@
  * @license     {license_link}
  */
 
-/**
- * Fedex shipping implementation
- *
- * @category   Magento
- * @package    Magento_Usa
- * @author     Magento Core Team <core@magentocommerce.com>
- */
 namespace Magento\Usa\Model\Shipping\Carrier;
 
-class Fedex
-    extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
+/**
+ * Fedex shipping implementation
+ */
+class Fedex extends \Magento\Usa\Model\Shipping\Carrier\AbstractCarrier
     implements \Magento\Shipping\Model\Carrier\CarrierInterface
 {
-
     /**
      * Code of the carrier
-     *
-     * @var string
      */
     const CODE = 'fedex';
 
     /**
      * Purpose of rate request
-     *
-     * @var string
      */
     const RATE_REQUEST_GENERAL = 'general';
 
     /**
      * Purpose of rate request
-     *
-     * @var string
      */
     const RATE_REQUEST_SMARTPOST = 'SMART_POST';
 
@@ -55,21 +43,21 @@ class Fedex
      *
      * @var \Magento\Shipping\Model\Rate\Request|null
      */
-    protected $_request = null;
+    protected $_request;
 
     /**
      * Raw rate request data
      *
      * @var \Magento\Object|null
      */
-    protected $_rawRequest = null;
+    protected $_rawRequest;
 
     /**
      * Rate result data
      *
      * @var \Magento\Shipping\Model\Rate\Result|null
      */
-    protected $_result = null;
+    protected $_result;
 
     /**
      * Path to wsdl file of rate service
@@ -83,14 +71,14 @@ class Fedex
      *
      * @var string
      */
-    protected $_shipServiceWsdl = null;
+    protected $_shipServiceWsdl;
 
     /**
      * Path to wsdl file of track service
      *
      * @var string
      */
-    protected $_trackServiceWsdl = null;
+    protected $_trackServiceWsdl;
 
     /**
      * Container types that could be customized for FedEx carrier
@@ -115,6 +103,11 @@ class Fedex
     protected $_productCollFactory;
 
     /**
+     * @var \Magento\Object
+     */
+    protected $_rawTrackingRequest;
+
+    /**
      * @param \Magento\Core\Model\Store\Config $coreStoreConfig
      * @param \Magento\Shipping\Model\Rate\Result\ErrorFactory $rateErrorFactory
      * @param \Magento\Core\Model\Log\AdapterFactory $logAdapterFactory
@@ -133,7 +126,7 @@ class Fedex
      * @param \Magento\Module\Dir\Reader $configReader
      * @param \Magento\Catalog\Model\Resource\Product\CollectionFactory $productCollFactory
      * @param array $data
-     * 
+     *
      * @SuppressWarnings(PHPMD.ExcessiveParameterList)
      */
     public function __construct(
@@ -259,10 +252,10 @@ class Fedex
     {
         $this->_request = $request;
 
-        $r = new \Magento\Object();
+        $this->_rawRequest = new \Magento\Object();
 
         if ($request->getLimitMethod()) {
-            $r->setService($request->getLimitMethod());
+            $this->_rawRequest->setService($request->getLimitMethod());
         }
 
         if ($request->getFedexAccount()) {
@@ -270,21 +263,21 @@ class Fedex
         } else {
             $account = $this->getConfigData('account');
         }
-        $r->setAccount($account);
+        $this->_rawRequest->setAccount($account);
 
         if ($request->getFedexDropoff()) {
             $dropoff = $request->getFedexDropoff();
         } else {
             $dropoff = $this->getConfigData('dropoff');
         }
-        $r->setDropoffType($dropoff);
+        $this->_rawRequest->setDropoffType($dropoff);
 
         if ($request->getFedexPackaging()) {
             $packaging = $request->getFedexPackaging();
         } else {
             $packaging = $this->getConfigData('packaging');
         }
-        $r->setPackaging($packaging);
+        $this->_rawRequest->setPackaging($packaging);
 
         if ($request->getOrigCountry()) {
             $origCountry = $request->getOrigCountry();
@@ -294,12 +287,12 @@ class Fedex
                 $request->getStoreId()
             );
         }
-        $r->setOrigCountry($this->_countryFactory->create()->load($origCountry)->getIso2Code());
+        $this->_rawRequest->setOrigCountry($this->_countryFactory->create()->load($origCountry)->getIso2Code());
 
         if ($request->getOrigPostcode()) {
-            $r->setOrigPostal($request->getOrigPostcode());
+            $this->_rawRequest->setOrigPostal($request->getOrigPostcode());
         } else {
-            $r->setOrigPostal($this->_coreStoreConfig->getConfig(
+            $this->_rawRequest->setOrigPostal($this->_coreStoreConfig->getConfig(
                 \Magento\Shipping\Model\Shipping::XML_PATH_STORE_ZIP,
                 $request->getStoreId()
             ));
@@ -310,44 +303,41 @@ class Fedex
         } else {
             $destCountry = self::USA_COUNTRY_ID;
         }
-        $r->setDestCountry($this->_countryFactory->create()->load($destCountry)->getIso2Code());
+        $this->_rawRequest->setDestCountry($this->_countryFactory->create()->load($destCountry)->getIso2Code());
 
         if ($request->getDestPostcode()) {
-            $r->setDestPostal($request->getDestPostcode());
+            $this->_rawRequest->setDestPostal($request->getDestPostcode());
         } else {
 
         }
 
         $weight = $this->getTotalNumOfBoxes($request->getPackageWeight());
-        $r->setWeight($weight);
-        if ($request->getFreeMethodWeight()!= $request->getPackageWeight()) {
-            $r->setFreeMethodWeight($request->getFreeMethodWeight());
+        $this->_rawRequest->setWeight($weight);
+        if ($request->getFreeMethodWeight() != $request->getPackageWeight()) {
+            $this->_rawRequest->setFreeMethodWeight($request->getFreeMethodWeight());
         }
 
-        $r->setValue($request->getPackagePhysicalValue());
-        $r->setValueWithDiscount($request->getPackageValueWithDiscount());
+        $this->_rawRequest->setValue($request->getPackagePhysicalValue());
+        $this->_rawRequest->setValueWithDiscount($request->getPackageValueWithDiscount());
 
-        $r->setMeterNumber($this->getConfigData('meter_number'));
-        $r->setKey($this->getConfigData('key'));
-        $r->setPassword($this->getConfigData('password'));
+        $this->_rawRequest->setMeterNumber($this->getConfigData('meter_number'));
+        $this->_rawRequest->setKey($this->getConfigData('key'));
+        $this->_rawRequest->setPassword($this->getConfigData('password'));
 
-        $r->setIsReturn($request->getIsReturn());
+        $this->_rawRequest->setIsReturn($request->getIsReturn());
 
-        $r->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
-
-        $this->_rawRequest = $r;
-
+        $this->_rawRequest->setBaseSubtotalInclTax($request->getBaseSubtotalInclTax());
         return $this;
     }
 
     /**
      * Get result of request
      *
-     * @return mixed
+     * @return \Magento\Shipping\Model\Rate\Result
      */
     public function getResult()
     {
-       return $this->_result;
+        return $this->_result;
     }
 
     /**
@@ -373,50 +363,49 @@ class Fedex
      */
     protected function _formRateRequest($purpose)
     {
-        $r = $this->_rawRequest;
         $ratesRequest = array(
             'WebAuthenticationDetail' => array(
                 'UserCredential' => array(
-                    'Key'      => $r->getKey(),
-                    'Password' => $r->getPassword()
+                    'Key'      => $this->_rawRequest->getKey(),
+                    'Password' => $this->_rawRequest->getPassword()
                 )
             ),
             'ClientDetail' => array(
-                'AccountNumber' => $r->getAccount(),
-                'MeterNumber'   => $r->getMeterNumber()
+                'AccountNumber' => $this->_rawRequest->getAccount(),
+                'MeterNumber'   => $this->_rawRequest->getMeterNumber()
             ),
             'Version' => $this->getVersionInfo(),
             'RequestedShipment' => array(
-                'DropoffType'   => $r->getDropoffType(),
+                'DropoffType'   => $this->_rawRequest->getDropoffType(),
                 'ShipTimestamp' => date('c'),
-                'PackagingType' => $r->getPackaging(),
+                'PackagingType' => $this->_rawRequest->getPackaging(),
                 'TotalInsuredValue' => array(
-                    'Amount'  => $r->getValue(),
+                    'Amount'  => $this->_rawRequest->getValue(),
                     'Currency' => $this->getCurrencyCode()
                 ),
                 'Shipper' => array(
                     'Address' => array(
-                        'PostalCode'  => $r->getOrigPostal(),
-                        'CountryCode' => $r->getOrigCountry()
+                        'PostalCode'  => $this->_rawRequest->getOrigPostal(),
+                        'CountryCode' => $this->_rawRequest->getOrigCountry()
                     )
                 ),
                 'Recipient' => array(
                     'Address' => array(
-                        'PostalCode'  => $r->getDestPostal(),
-                        'CountryCode' => $r->getDestCountry(),
+                        'PostalCode'  => $this->_rawRequest->getDestPostal(),
+                        'CountryCode' => $this->_rawRequest->getDestCountry(),
                         'Residential' => (bool)$this->getConfigData('residence_delivery')
                     )
                 ),
                 'ShippingChargesPayment' => array(
                     'PaymentType' => 'SENDER',
                     'Payor' => array(
-                        'AccountNumber' => $r->getAccount(),
-                        'CountryCode'   => $r->getOrigCountry()
+                        'AccountNumber' => $this->_rawRequest->getAccount(),
+                        'CountryCode'   => $this->_rawRequest->getOrigCountry()
                     )
                 ),
                 'CustomsClearanceDetail' => array(
                     'CustomsValue' => array(
-                        'Amount' => $r->getValue(),
+                        'Amount' => $this->_rawRequest->getValue(),
                         'Currency' => $this->getCurrencyCode()
                     )
                 ),
@@ -426,7 +415,7 @@ class Fedex
                 'RequestedPackageLineItems' => array(
                     '0' => array(
                         'Weight' => array(
-                            'Value' => (float)$r->getWeight(),
+                            'Value' => (float)$this->_rawRequest->getWeight(),
                             'Units' => 'LB'
                         ),
                         'GroupPackageCount' => 1,
@@ -437,13 +426,13 @@ class Fedex
 
         if ($purpose == self::RATE_REQUEST_GENERAL) {
             $ratesRequest['RequestedShipment']['RequestedPackageLineItems'][0]['InsuredValue'] = array(
-                'Amount'  => $r->getValue(),
+                'Amount'  => $this->_rawRequest->getValue(),
                 'Currency' => $this->getCurrencyCode()
             );
-        } else if ($purpose == self::RATE_REQUEST_SMARTPOST) {
+        } elseif ($purpose == self::RATE_REQUEST_SMARTPOST) {
             $ratesRequest['RequestedShipment']['ServiceType'] = self::RATE_REQUEST_SMARTPOST;
             $ratesRequest['RequestedShipment']['SmartPostDetail'] = array(
-                'Indicia' => ((float)$r->getWeight() >= 1) ? 'PARCEL_SELECT' : 'PRESORTED_STANDARD',
+                'Indicia' => ((float)$this->_rawRequest->getWeight() >= 1) ? 'PARCEL_SELECT' : 'PRESORTED_STANDARD',
                 'HubId' => $this->getConfigData('smartpost_hubid')
             );
         }
@@ -556,7 +545,7 @@ class Fedex
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
-            foreach ($priceArr as $method=>$price) {
+            foreach ($priceArr as $method => $price) {
                 $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier($this->_code);
                 $rate->setCarrierTitle($this->getConfigData('title'));
@@ -590,7 +579,17 @@ class Fedex
             }
 
             // Order is important
-            foreach (array('RATED_ACCOUNT_SHIPMENT', 'RATED_LIST_SHIPMENT', 'RATED_LIST_PACKAGE') as $rateType) {
+            $ratesOrder = array(
+                'RATED_ACCOUNT_PACKAGE',
+                'PAYOR_ACCOUNT_PACKAGE',
+                'RATED_ACCOUNT_SHIPMENT',
+                'PAYOR_ACCOUNT_SHIPMENT',
+                'RATED_LIST_PACKAGE',
+                'PAYOR_LIST_PACKAGE',
+                'RATED_LIST_SHIPMENT',
+                'PAYOR_LIST_SHIPMENT'
+            );
+            foreach ($ratesOrder as $rateType) {
                 if (!empty($rateTypeAmounts[$rateType])) {
                     $amount = $rateTypeAmounts[$rateType];
                     break;
@@ -608,15 +607,13 @@ class Fedex
     /**
      * Set free method request
      *
-     * @param  $freeMethod
-     * @return void
+     * @param string $freeMethod
      */
     protected function _setFreeMethodRequest($freeMethod)
     {
-        $r = $this->_rawRequest;
-        $weight = $this->getTotalNumOfBoxes($r->getFreeMethodWeight());
-        $r->setWeight($weight);
-        $r->setService($freeMethod);
+        $weight = $this->getTotalNumOfBoxes($this->_rawRequest->getFreeMethodWeight());
+        $this->_rawRequest->setWeight($weight);
+        $this->_rawRequest->setService($freeMethod);
     }
 
     /**
@@ -626,7 +623,6 @@ class Fedex
      */
     protected function _getXmlQuotes()
     {
-        $r = $this->_rawRequest;
         $xml = $this->_xmlElFactory->create(
             array('data' => '<?xml version = "1.0" encoding = "UTF-8"?><FDXRateAvailableServicesRequest/>')
         );
@@ -636,31 +632,31 @@ class Fedex
         $xml->addAttribute('xsi:noNamespaceSchemaLocation', 'FDXRateAvailableServicesRequest.xsd');
 
         $requestHeader = $xml->addChild('RequestHeader');
-        $requestHeader->addChild('AccountNumber', $r->getAccount());
+        $requestHeader->addChild('AccountNumber', $this->_rawRequest->getAccount());
         $requestHeader->addChild('MeterNumber', '0');
 
         $xml->addChild('ShipDate', date('Y-m-d'));
-        $xml->addChild('DropoffType', $r->getDropoffType());
-        if ($r->hasService()) {
-            $xml->addChild('Service', $r->getService());
+        $xml->addChild('DropoffType', $this->_rawRequest->getDropoffType());
+        if ($this->_rawRequest->hasService()) {
+            $xml->addChild('Service', $this->_rawRequest->getService());
         }
-        $xml->addChild('Packaging', $r->getPackaging());
+        $xml->addChild('Packaging', $this->_rawRequest->getPackaging());
         $xml->addChild('WeightUnits', 'LBS');
-        $xml->addChild('Weight', $r->getWeight());
+        $xml->addChild('Weight', $this->_rawRequest->getWeight());
 
         $originAddress = $xml->addChild('OriginAddress');
-        $originAddress->addChild('PostalCode', $r->getOrigPostal());
-        $originAddress->addChild('CountryCode', $r->getOrigCountry());
+        $originAddress->addChild('PostalCode', $this->_rawRequest->getOrigPostal());
+        $originAddress->addChild('CountryCode', $this->_rawRequest->getOrigCountry());
 
         $destinationAddress = $xml->addChild('DestinationAddress');
-        $destinationAddress->addChild('PostalCode', $r->getDestPostal());
-        $destinationAddress->addChild('CountryCode', $r->getDestCountry());
+        $destinationAddress->addChild('PostalCode', $this->_rawRequest->getDestPostal());
+        $destinationAddress->addChild('CountryCode', $this->_rawRequest->getDestCountry());
 
         $payment = $xml->addChild('Payment');
         $payment->addChild('PayorType', 'SENDER');
 
         $declaredValue = $xml->addChild('DeclaredValue');
-        $declaredValue->addChild('Value', $r->getValue());
+        $declaredValue->addChild('Value', $this->_rawRequest->getValue());
         $declaredValue->addChild('CurrencyCode', $this->getCurrencyCode());
 
         if ($this->getConfigData('residence_delivery')) {
@@ -687,12 +683,11 @@ class Fedex
                 curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, 0);
                 curl_setopt($ch, CURLOPT_POSTFIELDS, $request);
                 $responseBody = curl_exec($ch);
-                curl_close ($ch);
+                curl_close($ch);
 
                 $debugData['result'] = $responseBody;
                 $this->_setCachedQuotes($request, $responseBody);
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $debugData['result'] = array('error' => $e->getMessage(), 'code' => $e->getCode());
                 $responseBody = '';
             }
@@ -712,35 +707,34 @@ class Fedex
         $costArr = array();
         $priceArr = array();
 
-        if (strlen(trim($response))>0) {
-           if ($xml = $this->_parseXml($response)) {
+        if (strlen(trim($response)) > 0) {
+            $xml = $this->_parseXml($response);
+            if ($xml) {
+                if (is_object($xml->Error) && is_object($xml->Error->Message)) {
+                    $errorTitle = (string)$xml->Error->Message;
+                } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
+                    $errorTitle = (string)$xml->SoftError->Message;
+                } else {
+                    $errorTitle = 'Sorry, something went wrong.';
+                }
 
-               if (is_object($xml->Error) && is_object($xml->Error->Message)) {
-                   $errorTitle = (string)$xml->Error->Message;
-               } elseif (is_object($xml->SoftError) && is_object($xml->SoftError->Message)) {
-                   $errorTitle = (string)$xml->SoftError->Message;
-               } else {
-                   $errorTitle = 'Sorry, something went wrong. Please try again or contact us and we\'ll try to help.';
-               }
+                $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
 
-               $allowedMethods = explode(",", $this->getConfigData('allowed_methods'));
+                foreach ($xml->Entry as $entry) {
+                    if (in_array((string)$entry->Service, $allowedMethods)) {
+                        $costArr[(string)$entry->Service] =
+                            (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
+                        $priceArr[(string)$entry->Service] = $this->getMethodPrice(
+                            (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge,
+                            (string)$entry->Service
+                        );
+                    }
+                }
 
-               foreach ($xml->Entry as $entry) {
-                   if (in_array((string)$entry->Service, $allowedMethods)) {
-                       $costArr[(string)$entry->Service] =
-                           (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge;
-                       $priceArr[(string)$entry->Service] = $this->getMethodPrice(
-                           (string)$entry->EstimatedCharges->DiscountedCharges->NetCharge,
-                           (string)$entry->Service
-                       );
-                   }
-               }
-
-               asort($priceArr);
-
-           } else {
-               $errorTitle = 'Response is in the wrong format.';
-           }
+                asort($priceArr);
+            } else {
+                $errorTitle = 'Response is in the wrong format.';
+            }
         } else {
             $errorTitle = 'Unable to retrieve tracking';
         }
@@ -753,7 +747,7 @@ class Fedex
             $error->setErrorMessage($this->getConfigData('specificerrmsg'));
             $result->append($error);
         } else {
-            foreach ($priceArr as $method=>$price) {
+            foreach ($priceArr as $method => $price) {
                 $rate = $this->_rateMethodFactory->create();
                 $rate->setCarrier('fedex');
                 $rate->setCarrierTitle($this->getConfigData('title'));
@@ -772,19 +766,32 @@ class Fedex
      *
      * @param string $xmlContent
      * @return \Magento\Usa\Model\Simplexml\Element|bool
-     * @throws \Exception
      */
     protected function _parseXml($xmlContent)
     {
-        try {
-            try {
-                return simplexml_load_string($xmlContent);
-            } catch (\Exception $e) {
-                throw new \Exception(__('Failed to parse xml document: %1', $xmlContent));
+        $useErrors = libxml_use_internal_errors(true);
+        $fileXml = simplexml_load_string($xmlContent);
+        if (!$fileXml instanceof \SimpleXMLElement) {
+            $this->_logXmlErrors(libxml_get_errors());
+            libxml_clear_errors();
+        }
+        libxml_use_internal_errors($useErrors);
+        return $fileXml;
+    }
+
+    /**
+     * Log xml errors to system log
+     *
+     * @param array $libXmlErrors
+     */
+    protected function _logXmlErrors($libXmlErrors)
+    {
+        $errors = array();
+        if (count($libXmlErrors)) {
+            foreach ($libXmlErrors as $error) {
+                $errors[] = "{$error->message} Line: {$error->line}";
             }
-        } catch (\Exception $e) {
-            $this->_logger->logException($e);
-            return false;
+            $this->_logger->log(implode("\n", $errors), \Zend_Log::ERR);
         }
     }
 
@@ -795,7 +802,7 @@ class Fedex
      * @param string $code
      * @return array|bool
      */
-    public function getCode($type, $code='')
+    public function getCode($type, $code = '')
     {
         $codes = array(
             'method' => array(
@@ -959,7 +966,7 @@ class Fedex
      *
      *  @return string 3-digit currency code
      */
-    public function getCurrencyCode ()
+    public function getCurrencyCode()
     {
         $codes = array(
             'DOP' => 'RDD', // Dominican Peso
@@ -993,10 +1000,10 @@ class Fedex
         $this->setTrackingReqeust();
 
         if (!is_array($trackings)) {
-            $trackings=array($trackings);
+            $trackings = array($trackings);
         }
 
-        foreach($trackings as $tracking){
+        foreach ($trackings as $tracking) {
             $this->_getXMLTracking($tracking);
         }
 
@@ -1005,24 +1012,18 @@ class Fedex
 
     /**
      * Set tracking request
-     *
-     * @return void
      */
     protected function setTrackingReqeust()
     {
-        $r = new \Magento\Object();
-
+        $this->_rawTrackingRequest = new \Magento\Object();
         $account = $this->getConfigData('account');
-        $r->setAccount($account);
-
-        $this->_rawTrackingRequest = $r;
+        $this->_rawTrackingRequest->setAccount($account);
     }
 
     /**
      * Send request for tracking
      *
      * @param array $tracking
-     * @return void
      */
     protected function _getXMLTracking($tracking)
     {
@@ -1047,8 +1048,8 @@ class Fedex
                 'Type'  => 'TRACKING_NUMBER_OR_DOORTAG',
                 'Value' => $tracking,
             ),
-            /*
-             * 0 = summary data, one signle scan structure with the most recent scan
+            /**
+             * 0 = summary data, one single scan structure with the most recent scan
              * 1 = multiple sacn activity for each package
              */
             'IncludeDetailedScans' => 1,
@@ -1090,16 +1091,18 @@ class Fedex
                 $trackInfo = $response->TrackDetails;
                 $resultArray['status'] = (string)$trackInfo->StatusDescription;
                 $resultArray['service'] = (string)$trackInfo->ServiceInfo;
-                $timestamp = isset($trackInfo->EstimatedDeliveryTimestamp) ?
-                    $trackInfo->EstimatedDeliveryTimestamp : $trackInfo->ActualDeliveryTimestamp;
+                $timestamp = isset($trackInfo->EstimatedDeliveryTimestamp)
+                    ? $trackInfo->EstimatedDeliveryTimestamp
+                    : $trackInfo->ActualDeliveryTimestamp;
                 $timestamp = strtotime((string)$timestamp);
                 if ($timestamp) {
                     $resultArray['deliverydate'] = date('Y-m-d', $timestamp);
                     $resultArray['deliverytime'] = date('H:i:s', $timestamp);
                 }
 
-                $deliveryLocation = isset($trackInfo->EstimatedDeliveryAddress) ?
-                    $trackInfo->EstimatedDeliveryAddress : $trackInfo->ActualDeliveryAddress;
+                $deliveryLocation = isset($trackInfo->EstimatedDeliveryAddress)
+                    ? $trackInfo->EstimatedDeliveryAddress
+                    : $trackInfo->ActualDeliveryAddress;
                 $deliveryLocationArray = array();
                 if (isset($deliveryLocation->City)) {
                     $deliveryLocationArray[] = (string)$deliveryLocation->City;
@@ -1172,12 +1175,12 @@ class Fedex
             $tracking->addData($resultArray);
             $this->_result->append($tracking);
         } else {
-           $error = $this->_trackErrorFactory->create();
-           $error->setCarrier('fedex');
-           $error->setCarrierTitle($this->getConfigData('title'));
-           $error->setTracking($trackingValue);
-           $error->setErrorMessage($errorTitle ? $errorTitle : __('Unable to retrieve tracking'));
-           $this->_result->append($error);
+            $error = $this->_trackErrorFactory->create();
+            $error->setCarrier('fedex');
+            $error->setCarrierTitle($this->getConfigData('title'));
+            $error->setTracking($trackingValue);
+            $error->setErrorMessage($errorTitle ? $errorTitle : __('Unable to retrieve tracking'));
+            $this->_result->append($error);
         }
     }
 
@@ -1190,13 +1193,14 @@ class Fedex
     {
         $statuses = '';
         if ($this->_result instanceof \Magento\Shipping\Model\Tracking\Result) {
-            if ($trackings = $this->_result->getAllTrackings()) {
-                foreach ($trackings as $tracking){
-                    if($data = $tracking->getAllData()){
+            $trackings = $this->_result->getAllTrackings();
+            if ($trackings) {
+                foreach ($trackings as $tracking) {
+                    if ($data = $tracking->getAllData()) {
                         if (!empty($data['status'])) {
-                            $statuses .= __($data['status']) . "\n<br/>";
+                            $statuses .= __($data['status']) . "\n<br />";
                         } else {
-                            $statuses .= __('Empty response') . "\n<br/>";
+                            $statuses .= __('Empty response') . "\n<br />";
                         }
                     }
                 }
@@ -1217,8 +1221,8 @@ class Fedex
     {
         $allowed = explode(',', $this->getConfigData('allowed_methods'));
         $arr = array();
-        foreach ($allowed as $k) {
-            $arr[$k] = $this->getCode('method', $k);
+        foreach ($allowed as $method) {
+            $arr[$method] = $this->getCode('method', $method);
         }
         return $arr;
     }
@@ -1265,9 +1269,9 @@ class Fedex
             $referenceData = $request->getReferenceData() . $request->getPackageId();
         } else {
             $referenceData = 'Order #'
-                             . $request->getOrderShipment()->getOrder()->getIncrementId()
-                             . ' P'
-                             . $request->getPackageId();
+                . $request->getOrderShipment()->getOrder()->getIncrementId()
+                . ' P'
+                . $request->getPackageId();
         }
         $packageParams = $request->getPackageParams();
         $customsValue = $packageParams->getCustomsValue();
@@ -1283,14 +1287,14 @@ class Fedex
         $productIds = array();
         $packageItems = $request->getPackageItems();
         foreach ($packageItems as $itemShipment) {
-                $item = new \Magento\Object();
-                $item->setData($itemShipment);
+            $item = new \Magento\Object();
+            $item->setData($itemShipment);
 
-                $unitPrice  += $item->getPrice();
-                $itemsQty   += $item->getQty();
+            $unitPrice  += $item->getPrice();
+            $itemsQty   += $item->getQty();
 
-                $itemsDesc[]    = $item->getName();
-                $productIds[]   = $item->getProductId();
+            $itemsDesc[]    = $item->getName();
+            $productIds[]   = $item->getProductId();
         }
 
         // get countries of manufacture
@@ -1379,10 +1383,10 @@ class Fedex
             $requestClient['RequestedShipment']['CustomsClearanceDetail'] =
                 array(
                     'CustomsValue' =>
-                    array(
-                        'Currency' => $request->getBaseCurrencyCode(),
-                        'Amount' => $customsValue,
-                    ),
+                        array(
+                            'Currency' => $request->getBaseCurrencyCode(),
+                            'Amount' => $customsValue,
+                        ),
                     'DutiesPayment' => array(
                         'PaymentType' => $paymentType,
                         'Payor' => array(
@@ -1514,19 +1518,19 @@ class Fedex
         $countryRecipient   = $params->getCountryRecipient();
 
         if (($countryShipper == self::USA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID
-            || $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
+                || $countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::USA_COUNTRY_ID)
             && $method == 'FEDEX_GROUND'
         ) {
             return array('YOUR_PACKAGING' => __('Your Packaging'));
-        } else if ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST') {
+        } elseif ($method == 'INTERNATIONAL_ECONOMY' || $method == 'INTERNATIONAL_FIRST') {
             $allTypes = $this->getContainerTypesAll();
             $exclude = array('FEDEX_10KG_BOX' => '', 'FEDEX_25KG_BOX' => '');
             return array_diff_key($allTypes, $exclude);
-        } else if ($method == 'EUROPE_FIRST_INTERNATIONAL_PRIORITY') {
+        } elseif ($method == 'EUROPE_FIRST_INTERNATIONAL_PRIORITY') {
             $allTypes = $this->getContainerTypesAll();
             $exclude = array('FEDEX_BOX' => '', 'FEDEX_TUBE' => '');
             return array_diff_key($allTypes, $exclude);
-        } else if ($countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID) {
+        } elseif ($countryShipper == self::CANADA_COUNTRY_ID && $countryRecipient == self::CANADA_COUNTRY_ID) {
             // hack for Canada domestic. Apply the same filter rules as for US domestic
             $params->setCountryShipper(self::USA_COUNTRY_ID);
             $params->setCountryRecipient(self::USA_COUNTRY_ID);
