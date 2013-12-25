@@ -42,6 +42,11 @@
   * Fixed inability to choose DB as Media Storage
   * Fixed PHP issues found during the UI testing of backend
   * Fixed can not create Shipping Label for Priority Mail methods from USPS
+  * Fixed possibility to create customer with duplicate email
+  * Fixed abstract product block error in tier price template getter
+  * Fixed system message was displayed in incorrect place on backend page
+  * Fixed 404 error on customer review page
+  * Fixed autocomplete enabled on admin login page
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
