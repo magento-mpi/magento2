@@ -13,7 +13,6 @@ namespace Magento\Centinel\Test\TestCase;
 
 use Mtf\Factory\Factory;
 use Mtf\Fixture\DataFixture;
-use Magento\Centinel\Test\Fixture\RegisteredAuthorizenetValidCc;
 
 /**
  * Class CentinelPaymentsValidCcTest
@@ -33,7 +32,6 @@ class CentinelPaymentsValidCcTest extends AbstractCentinelPaymentsTest
      */
     public function testValidCreditCard(DataFixture $fixture)
     {
-        $this->markTestIncomplete('CICD-776');
         //Data
         $fixture->persist();
 

@@ -28,10 +28,10 @@ class CreateOnFrontendTest extends Functional
      */
     public function testCreateCustomer()
     {
-        $this->markTestIncomplete('CICD-776');
         //Data
         $customer = Factory::getFixtureFactory()->getMagentoCustomerCustomer();
         $customer->switchData('customer_US_1');
+        $customerAddress = $customer->getAddressData();
 
         //Page
         $homePage = Factory::getPageFactory()->getCmsIndexIndex();
@@ -42,7 +42,7 @@ class CreateOnFrontendTest extends Functional
         //Step 1 Create Account
         $homePage->open();
         $topLinks = $homePage->getLinksBlock();
-        $topLinks->openLink('register');
+        $topLinks->openLink('Register');
 
         $createPage->getCreateForm()->create($customer);
 
@@ -54,7 +54,7 @@ class CreateOnFrontendTest extends Functional
 
         //Step 2 Set Billing Address
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
-        $addressEditPage->getEditForm()->editCustomerAddress($customer->getAddressData());
+        $addressEditPage->getEditForm()->editCustomerAddress($customerAddress);
 
         //Verifying
         $accountIndexPage = Factory::getPageFactory()->getCustomerAccountIndex();
@@ -64,6 +64,6 @@ class CreateOnFrontendTest extends Functional
         $accountIndexPage->open();
         $accountIndexPage->getDashboardAddress()->editBillingAddress();
         $addressEditPage = Factory::getPageFactory()->getCustomerAddressEdit();
-        $this->assertTrue($addressEditPage->getEditForm()->verify($customer->getAddressData()));
+        $this->assertTrue($addressEditPage->getEditForm()->verify($customerAddress));
     }
 }

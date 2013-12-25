@@ -21,7 +21,7 @@ html,body { height:100%; }
     <div class="toolbar">
         <?php echo $this->getChildHtml('tools') ?>
     </div>
-<iframe name="preview_iframe" id="preview_iframe" frameborder="0"></iframe>
+<iframe name="preview_iframe" id="preview_iframe" frameborder="0" title="<?php echo __('Preview') ?>" width="100%" onload="iframeSetHeight()"></iframe>
 <?php echo $this->getChildHtml('preview_form') ?>
 </div>
 <div id="loading-mask" style="display:none">
@@ -81,6 +81,14 @@ html,body { height:100%; }
 
     function publish() {
         setLocation(publishUrl);
+    }
+
+    function iframeSetHeight() {
+        var iFrameID = document.getElementById('preview_iframe');
+        if(iFrameID) {
+            iFrameID.height = "";
+            iFrameID.height = iFrameID.contentWindow.document.body.scrollHeight + "px";
+        }
     }
 
 //]]>

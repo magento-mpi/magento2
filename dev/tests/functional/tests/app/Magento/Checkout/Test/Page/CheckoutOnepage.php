@@ -182,7 +182,7 @@ class CheckoutOnepage extends Page
      */
     public function getCentinelAuthenticationBlock()
     {
-        $this->_browser->switchToFrame($this->centinelFrame);
+        $this->_browser->switchToFrame(new Locator($this->centinelFrame));
         return Factory::getBlockFactory()->getMagentoCentinelAuthentication(
             $this->_browser->find($this->centinelAuthenticationBlock, Locator::SELECTOR_CSS)
         );

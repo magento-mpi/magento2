@@ -146,7 +146,7 @@ class SalesOrderView extends Page
     public function getOrderInfoBlock()
     {
         return Factory::getBlockFactory()->getMagentoSalesAdminhtmlOrderViewTabInfo(
-            $this->_browser->find($this->$orderInfoBlock, Locator::SELECTOR_CSS)
+            $this->_browser->find($this->orderInfoBlock, Locator::SELECTOR_CSS)
         );
     }
 }
