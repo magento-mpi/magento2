@@ -56,7 +56,10 @@ class Config
      *
      * @var array
      */
-    protected $_servicesMetadata;
+    protected $_serviceMetadata;
+
+    /** @var \Magento\Webapi\Helper\Config */
+    protected $_configHelper;
 
     /**
      * @param \Magento\ObjectManager $objectManager
@@ -64,21 +67,24 @@ class Config
      * @param \Magento\App\Dir $dir
      * @param \Magento\Webapi\Model\Config $config
      * @param \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader
+     * @param \Magento\Webapi\Helper\Config $configHelper
      */
     public function __construct(
         \Magento\ObjectManager $objectManager,
         \Magento\Filesystem $filesystem,
         \Magento\App\Dir $dir,
         \Magento\Webapi\Model\Config $config,
-        \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader
+        \Magento\Webapi\Model\Soap\Config\Reader\Soap $reader,
+        \Magento\Webapi\Helper\Config $configHelper
     ) {
         $this->_filesystem = $filesystem;
         $this->_dir = $dir;
         $this->_config = $config;
         $this->_objectManager = $objectManager;
+        $this->_configHelper = $configHelper;
         // TODO: Reconsider data retrieval
         try {
-            $this->_servicesMetadata = $reader->getData();
+            $this->_serviceMetadata = $reader->getData();
         } catch (\Exception $e) {
         }
     }
@@ -185,7 +191,7 @@ class Config
         $services = array();
         foreach ($requestedServices as $serviceName) {
             foreach ($this->_getSoapServices() as $serviceData) {
-                $serviceWithVersion = $this->getServiceName($serviceData[self::KEY_CLASS]);
+                $serviceWithVersion = $this->_configHelper->getServiceName($serviceData[self::KEY_CLASS]);
                 if ($serviceWithVersion === $serviceName) {
                     $services[] = $serviceData;
                 }
@@ -204,7 +210,7 @@ class Config
      */
     public function getServiceSchemaDOM($serviceClass)
     {
-         // TODO: Check if Service specific XSD is already cached
+        // TODO: Check if Service specific XSD is already cached
         /*
         TODO: Re-implement
         $modulesDir = $this->_dir->getDir(\Magento\App\Dir::MODULES);
@@ -246,29 +252,9 @@ class Config
      */
     public function getSoapOperation($interfaceName, $methodName)
     {
-        $serviceName = $this->getServiceName($interfaceName);
+        $serviceName = $this->_configHelper->getServiceName($interfaceName);
         $operationName = $serviceName . ucfirst($methodName);
         return $operationName;
-    }
-
-    /**
-     * Translate service interface name into service name.
-     * Example:
-     * <pre>
-     * - \Magento\Customer\Service\CustomerV1Interface         => customer          // $preserveVersion == false
-     * - \Magento\Customer\Service\Customer\AddressV1Interface => customerAddressV1 // $preserveVersion == true
-     * - \Magento\Catalog\Service\ProductV2Interface           => catalogProductV2  // $preserveVersion == true
-     * </pre>
-     *
-     * @param string $interfaceName
-     * @param bool $preserveVersion Should version be preserved during interface name conversion into service name
-     * @return string
-     * @throws \InvalidArgumentException
-     */
-    public function getServiceName($interfaceName, $preserveVersion = true)
-    {
-        $serviceNameParts = $this->getServiceNameParts($interfaceName, $preserveVersion);
-        return lcfirst(implode('', $serviceNameParts));
     }
 
     /**
@@ -304,5 +290,68 @@ class Config
             return $serviceNameParts;
         }
         throw new \InvalidArgumentException(sprintf('The service interface name "%s" is invalid.', $className));
+    }
+
+    /**
+     * Retrieve data type details for the given type name.
+     * TODO: modify metadata to contain request input and output param
+     *
+     * @param string $typeName
+     * @return array
+     * @throws \InvalidArgumentException
+     */
+    public function getTypeData($typeName)
+    {
+        if (!isset($this->_serviceMetadata['types'][$typeName])) {
+            throw new \InvalidArgumentException(sprintf('Data type "%s" was not found in config.', $typeName));
+        }
+        return $this->_serviceMetadata['types'][$typeName];
+    }
+
+    /**
+     * Add or update type data in config.
+     *
+     * @param string $typeName
+     * @param array $data
+     */
+    public function setTypeData($typeName, $data)
+    {
+        if (!isset($this->_serviceMetadata['types'][$typeName])) {
+            $this->_serviceMetadata['types'][$typeName] = $data;
+        } else {
+            $this->_serviceMetadata['types'][$typeName] = array_merge_recursive(
+                $this->_serviceMetadata['types'][$typeName],
+                $data
+            );
+        }
+    }
+
+    /**
+     * Retrieve mapping of complex types defined in WSDL to real data classes.
+     *
+     * @return array
+     */
+    public function getTypeToClassMap()
+    {
+        return !is_null($this->_serviceMetadata['type_to_class_map'])
+            ? $this->_serviceMetadata['type_to_class_map']
+            : array();
+    }
+
+    /**
+     * Retrieve specific service interface data.
+     *
+     * @param string $serviceName
+     * @return array
+     * @throws \RuntimeException
+     */
+    public function getServiceMetadata($serviceName)
+    {
+        if (!isset($this->_serviceMetadata['services'][$serviceName])
+            || !is_array($this->_serviceMetadata['services'][$serviceName])
+        ) {
+            throw new \RuntimeException(__('Requested service is not available: "%1"', $serviceName));
+        }
+        return $this->_serviceMetadata['services'][$serviceName];
     }
 }

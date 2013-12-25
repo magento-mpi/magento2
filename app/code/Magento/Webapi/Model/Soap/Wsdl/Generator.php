@@ -48,21 +48,27 @@ class Generator
      */
     protected $_registeredTypes = array();
 
+    /** @var \Magento\Webapi\Helper\Config */
+    protected $_helper;
+
     /**
      * Initialize dependencies.
      *
      * @param \Magento\Webapi\Model\Soap\Config $apiConfig
      * @param \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory
      * @param \Magento\Webapi\Model\Cache\Type $cache
+     * @param \Magento\Webapi\Helper\Config $helper
      */
     public function __construct(
         \Magento\Webapi\Model\Soap\Config $apiConfig,
         \Magento\Webapi\Model\Soap\Wsdl\Factory $wsdlFactory,
-        \Magento\Webapi\Model\Cache\Type $cache
+        \Magento\Webapi\Model\Cache\Type $cache,
+        \Magento\Webapi\Helper\Config $helper
     ) {
         $this->_apiConfig = $apiConfig;
         $this->_wsdlFactory = $wsdlFactory;
         $this->_cache = $cache;
+        $this->_helper = $helper;
     }
 
     /**
@@ -71,7 +77,7 @@ class Generator
      * @param array $requestedServices
      * @param string $endPointUrl
      * @return string
-     * @throws \Magento\Webapi\Exception
+     * @throws \Exception
      */
     public function generate($requestedServices, $endPointUrl)
     {
@@ -82,8 +88,12 @@ class Generator
         if ($cachedWsdlContent !== false) {
             return $cachedWsdlContent;
         }
+        $services = array();
+        foreach ($requestedServices as $serviceName) {
+            $services[$serviceName] = $this->_apiConfig->getServiceMetadata($serviceName);
+        }
 
-        $wsdlContent = $this->_generate($requestedServices, $endPointUrl);
+        $wsdlContent = $this->_generate($services, $endPointUrl);
         $this->_cache->save($wsdlContent, $cacheId, array(\Magento\Webapi\Model\Cache\Type::CACHE_TAG));
 
         return $wsdlContent;
@@ -99,22 +109,11 @@ class Generator
      */
     protected function _generate($requestedServices, $endPointUrl)
     {
-        $services = array();
-
-        try {
-            foreach ($requestedServices as $serviceName) {
-                $services[$serviceName] = $this->_prepareServiceData($serviceName);
-            }
-        } catch (\Magento\Webapi\Exception $e) {
-            throw $e;
-        } catch (\Exception $e) {
-            throw new \Magento\Webapi\Exception($e->getMessage());
-        }
-
+        $this->_collectCallInfo($requestedServices);
         $wsdl = $this->_wsdlFactory->create(self::WSDL_NAME, $endPointUrl);
         $wsdl->addSchemaTypeSection();
         $this->_addDefaultFaultComplexTypeNodes($wsdl);
-        foreach ($services as $serviceClass => $serviceData) {
+        foreach ($requestedServices as $serviceClass => $serviceData) {
             $portTypeName = $this->getPortTypeName($serviceClass);
             $bindingName = $this->getBindingName($serviceClass);
             $portType = $wsdl->addPortType($portTypeName);
@@ -132,8 +131,8 @@ class Generator
 
                 $outputMessageName = false;
                 $outputBinding = false;
-                if (isset($methodData['interface']['outputComplexTypes'])) {
-                    $outputBinding = array('use' => 'literal');
+                if (isset($methodData['interface']['out']['parameters'])) {
+                    $outputBinding = $inputBinding;
                     $outputMessageName = $this->_createOperationOutput($wsdl, $operationName, $methodData);
                 }
 
@@ -170,141 +169,6 @@ class Generator
             }
         }
         return $wsdl->toXML();
-    }
-
-    /**
-     * Extract complex type element from dom document by type name (include referenced types as well).
-     *
-     * @param string $serviceName
-     * @param string $typeName Type names as defined in Service XSDs
-     * @param \DOMDocument $domDocument
-     * @return \DOMNode[]
-     */
-    public function getComplexTypeNodes($serviceName, $typeName, $domDocument)
-    {
-        $response = array();
-        /** TODO: Use object manager to instantiate objects */
-        /*
-        TODO: Re-implement
-        $xpath = new \DOMXPath($domDocument);
-        $typeXPath = "//xsd:complexType[@name='{$typeName}']";
-        $complexTypeNodes = $xpath->query($typeXPath);
-        if ($complexTypeNodes) {
-            $complexTypeNode = $complexTypeNodes->item(0);
-        }
-        if (isset($complexTypeNode)) {
-            $this->_registeredTypes[] = $serviceName . $typeName;
-
-            $referencedTypes = $xpath->query("{$typeXPath}//@type");
-            foreach ($referencedTypes as $referencedType) {
-                $referencedTypeName = $referencedType->value;
-                $prefixedRefTypeName = $serviceName . $referencedTypeName;
-                if ($this->isComplexType($referencedTypeName, $domDocument)
-                    && !in_array($prefixedRefTypeName, $this->_registeredTypes)
-                ) {
-                    $response += $this->getComplexTypeNodes($serviceName, $referencedTypeName, $domDocument);
-        */
-                    /** Add target namespace to the referenced type name */
-        /*
-                    $referencedType->value = Wsdl::TYPES_NS . ':' . $prefixedRefTypeName;
-                }
-            }
-            $complexTypeNode->setAttribute(
-                'name',
-                $serviceName . $typeName
-            );
-            $response[$serviceName . $typeName]
-                = $complexTypeNode->cloneNode(true);
-        }
-        */
-        return $response;
-    }
-
-    /**
-     * Check if provided type is complex or simple type.
-     *
-     * Current implementation is based on the assumption that complex types are not prefixed with any namespace,
-     * and simple types are prefixed.
-     *
-     * @param string $typeName
-     * @return bool
-     */
-    public function isComplexType($typeName)
-    {
-        return !strpos($typeName, ':');
-    }
-
-    /**
-     * Create input message and corresponding element and complex types in WSDL.
-     *
-     * @param Wsdl $wsdl
-     * @param string $operationName
-     * @param array $methodData
-     * @return string input message name
-     */
-    protected function _createOperationInput(Wsdl $wsdl, $operationName, $methodData)
-    {
-        $inputMessageName = $this->getInputMessageName($operationName);
-        $elementData = array(
-            'name' => $inputMessageName,
-            'type' => Wsdl::TYPES_NS . ':' . $inputMessageName
-        );
-        /*
-        TODO: Re-implement
-        if (isset($methodData['interface']['inputComplexTypes'])) {
-            foreach ($methodData['interface']['inputComplexTypes'] as $complexTypeNode) {
-                $wsdl->addComplexType($complexTypeNode);
-            }
-        } else {
-            $elementData['nillable'] = 'true';
-        }
-        */
-        $wsdl->addElement($elementData);
-        $wsdl->addMessage(
-            $inputMessageName,
-            array(
-                'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
-                )
-            )
-        );
-        return Wsdl::TYPES_NS . ':' . $inputMessageName;
-    }
-
-    /**
-     * Create output message, corresponding element and complex types in WSDL.
-     *
-     * @param Wsdl $wsdl
-     * @param string $operationName
-     * @param array $methodData
-     * @return string output message name
-     */
-    protected function _createOperationOutput(Wsdl $wsdl, $operationName, $methodData)
-    {
-        $outputMessageName = $this->getOutputMessageName($operationName);
-        $wsdl->addElement(
-            array(
-                'name' => $outputMessageName,
-                'type' => Wsdl::TYPES_NS . ':' . $outputMessageName
-            )
-        );
-        /*
-        TODO: Re-implement
-        if (isset($methodData['interface']['outputComplexTypes'])) {
-            foreach ($methodData['interface']['outputComplexTypes'] as $complexTypeNode) {
-                $wsdl->addComplexType($complexTypeNode);
-            }
-        }
-        */
-        $wsdl->addMessage(
-            $outputMessageName,
-            array(
-                'messageParameters' => array(
-                    'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
-                )
-            )
-        );
-        return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**
@@ -348,6 +212,91 @@ class Generator
         }
         */
         return $faults;
+    }
+
+
+
+    /**
+     * Create input message and corresponding element and complex types in WSDL.
+     *
+     * @param Wsdl $wsdl
+     * @param string $operationName
+     * @param array $methodData
+     * @return string input message name
+     */
+    protected function _createOperationInput(Wsdl $wsdl, $operationName, $methodData)
+    {
+        $inputMessageName = $this->getInputMessageName($operationName);
+        $complexTypeName = $this->getElementComplexTypeName($inputMessageName);
+        $inputParameters = array();
+        $elementData = array(
+            'name' => $inputMessageName,
+            'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
+        );
+        if (isset($methodData['interface']['in']['parameters'])) {
+            $inputParameters = $methodData['interface']['in']['parameters'];
+        } else {
+            $elementData['nillable'] = 'true';
+        }
+        $wsdl->addElement($elementData);
+        $callInfo = array();
+        $callInfo['requiredInput']['yes']['calls'] = array($operationName);
+        $typeData = array(
+            'documentation' => $methodData['documentation'],
+            'parameters' => $inputParameters,
+            'callInfo' => $callInfo,
+        );
+        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $wsdl->addComplexType($complexTypeName);
+        $wsdl->addMessage(
+            $inputMessageName,
+            array(
+                'messageParameters' => array(
+                    'element' => Wsdl::TYPES_NS . ':' . $inputMessageName
+                )
+            )
+        );
+
+        return Wsdl::TYPES_NS . ':' . $inputMessageName;
+    }
+
+    /**
+     * Create output message and corresponding element and complex types in WSDL.
+     *
+     * @param Wsdl $wsdl
+     * @param string $operationName
+     * @param array $methodData
+     * @return string output message name
+     */
+    protected function _createOperationOutput(Wsdl $wsdl, $operationName, $methodData)
+    {
+        $outputMessageName = $this->getOutputMessageName($operationName);
+        $complexTypeName = $this->getElementComplexTypeName($outputMessageName);
+        $wsdl->addElement(
+            array(
+                'name' => $outputMessageName,
+                'type' => Wsdl::TYPES_NS . ':' . $complexTypeName
+            )
+        );
+        $callInfo = array();
+        $callInfo['returned']['always']['calls'] = array($operationName);
+        $typeData = array(
+            'documentation' => sprintf('Response container for the %s call.', $operationName),
+            'parameters' => $methodData['interface']['out']['parameters'],
+            'callInfo' => $callInfo,
+        );
+        $this->_apiConfig->setTypeData($complexTypeName, $typeData);
+        $wsdl->addComplexType($complexTypeName);
+        $wsdl->addMessage(
+            $outputMessageName,
+            array(
+                'messageParameters' => array(
+                    'element' => Wsdl::TYPES_NS . ':' . $outputMessageName
+                )
+            )
+        );
+
+        return Wsdl::TYPES_NS . ':' . $outputMessageName;
     }
 
     /**
@@ -440,6 +389,50 @@ class Generator
     }
 
     /**
+     * Collect data about complex types call info.
+     * Walks through all requested services and checks all methods 'in' and 'out' parameters.
+     *
+     * @param array $requestedServices
+     */
+    protected function _collectCallInfo($requestedServices)
+    {
+        foreach ($requestedServices as $serviceName => $serviceData) {
+            foreach ($serviceData['methods'] as $methodName => $methodData) {
+                $this->_processInterfaceCallInfo($methodData['interface'], $serviceName, $methodName);
+            }
+        }
+    }
+
+    /**
+     * Process call info data from interface.
+     *
+     * @param array $interface
+     * @param string $serviceName
+     * @param string $methodName
+     */
+    protected function _processInterfaceCallInfo($interface, $serviceName, $methodName)
+    {
+        foreach ($interface as $direction => $interfaceData) {
+            $direction = ($direction == 'in') ? 'requiredInput' : 'returned';
+            foreach ($interfaceData['parameters'] as $parameterData) {
+                $parameterType = $parameterData['type'];
+                if (!$this->_helper->isTypeSimple($parameterType)) {
+                    $operation = $this->getOperationName($serviceName, $methodName);
+                    if ($parameterData['required']) {
+                        $condition = ($direction == 'requiredInput') ? 'yes' : 'always';
+                    } else {
+                        $condition = ($direction == 'requiredInput') ? 'no' : 'conditionally';
+                    }
+                    $callInfo = array();
+                    $callInfo[$direction][$condition]['calls'][] = $operation;
+                    $this->_apiConfig->setTypeData($parameterType, array('callInfo' => $callInfo));
+                }
+            }
+        }
+    }
+
+    // TODO: Reconsider faults implementation and necessity of methods below
+    /**
      * Get fault message node name for operation.
      *
      * @param string $operationName
@@ -449,28 +442,6 @@ class Generator
     public function getFaultMessageName($operationName, $faultName)
     {
         return $operationName . $faultName . 'Fault';
-    }
-
-    /**
-     * Get complexType name defined in the XSD for requests
-     *
-     * @param $serviceMethod
-     * @return string
-     */
-    public function getXsdRequestTypeName($serviceMethod)
-    {
-        return ucfirst($serviceMethod) . "Request";
-    }
-
-    /**
-     * Get complexType name defined in the XSD for responses
-     *
-     * @param $serviceMethod
-     * @return string
-     */
-    public function getXsdResponseTypeName($serviceMethod)
-    {
-        return ucfirst($serviceMethod) . "Response";
     }
 
     /**
@@ -495,90 +466,6 @@ class Generator
             }
         }
         return $faultTypeNames;
-    }
-
-    /**
-     * Prepare data about requested service for WSDL generator.
-     *
-     * @param string $serviceName
-     * @return array
-     * @throws \Magento\Webapi\Exception
-     * @throws \LogicException
-     */
-    protected function _prepareServiceData($serviceName)
-    {
-        $requestedServices = $this->_apiConfig->getRequestedSoapServices(array($serviceName));
-        if (empty($requestedServices)) {
-            throw new \Magento\Webapi\Exception(
-                __('Service %1 is not available.', $serviceName),
-                0,
-                \Magento\Webapi\Exception::HTTP_NOT_FOUND
-            );
-        }
-        /** $requestedServices is expected to contain exactly one item */
-        $serviceData = reset($requestedServices);
-        $serviceDataTypes = array('methods' => array());
-        $serviceClass = $serviceData[\Magento\Webapi\Model\Soap\Config::KEY_CLASS];
-        foreach ($serviceData['methods'] as $operationData) {
-            $methodInterface = array();
-            $serviceMethod = $operationData[\Magento\Webapi\Model\Soap\Config::KEY_METHOD];
-            /** @var $payloadSchemaDom \DOMDocument */
-            $payloadSchemaDom = $this->_apiConfig->getServiceSchemaDOM($serviceClass);
-            $operationName = $this->getOperationName($serviceName, $serviceMethod);
-
-            /** Process input complex type */
-            $inputParameterName = $this->getInputMessageName($operationName);
-            $inputComplexTypes = $this->getComplexTypeNodes(
-                $serviceName,
-                $this->getXsdRequestTypeName($serviceMethod),
-                $payloadSchemaDom
-            );
-            if (empty($inputComplexTypes)) {
-                if ($operationData[\Magento\Webapi\Model\Soap\Config::KEY_IS_REQUIRED]) {
-                    throw new \LogicException(
-                        sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
-                            $serviceMethod, $serviceName, $inputParameterName)
-                    );
-                } else {
-                    /** Generate empty input request to make WSDL compliant with WS-I basic profile */
-                    $inputComplexTypes[] = $this->_generateEmptyComplexType($inputParameterName, $payloadSchemaDom);
-                }
-            }
-            $methodInterface['inputComplexTypes'] = $inputComplexTypes;
-
-            /** Process output complex type */
-            $outputParameterName = $this->getOutputMessageName($operationName);
-            $outputComplexTypes = $this->getComplexTypeNodes(
-                $serviceName,
-                $this->getXsdResponseTypeName($serviceMethod),
-                $payloadSchemaDom
-            );
-            if (!empty($outputComplexTypes)) {
-                $methodInterface['outputComplexTypes'] = $outputComplexTypes;
-            } else {
-                /*
-                 TODO: Re-implement
-                throw new \LogicException(
-                    sprintf('The method "%s" of service "%s" must have "%s" complex type defined in its schema.',
-                        $serviceMethod, $serviceName, $outputParameterName)
-                );
-                */
-            }
-
-            /** Process fault complex types */
-            foreach ($this->getXsdFaultTypeNames($serviceMethod, $payloadSchemaDom) as $faultComplexType) {
-                $faultComplexTypes = $this->_getFaultComplexTypeNodes(
-                    $serviceName,
-                    $faultComplexType['complexTypeName'],
-                    $payloadSchemaDom
-                );
-                if (!empty($faultComplexTypes)) {
-                    $methodInterface['faultComplexTypes'][$faultComplexType['faultName']] = $faultComplexTypes;
-                }
-            }
-            $serviceDataTypes['methods'][$serviceMethod]['interface'] = $methodInterface;
-        }
-        return $serviceDataTypes;
     }
 
     /**

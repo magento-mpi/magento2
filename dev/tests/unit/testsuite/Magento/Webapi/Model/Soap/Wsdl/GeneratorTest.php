@@ -14,17 +14,17 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     /**  @var \Magento\Webapi\Model\Soap\Wsdl\Generator */
     protected $_wsdlGenerator;
 
-    /**  @var \Magento\Webapi\Model\Soap\Config */
+    /**  @var \Magento\Webapi\Model\Soap\Config|\PHPUnit_Framework_MockObject_MockObject */
     protected $_soapConfigMock;
 
-    /**  @var \Magento\Webapi\Model\Soap\Wsdl\Factory */
+    /**  @var \Magento\Webapi\Model\Soap\Wsdl\Factory|\PHPUnit_Framework_MockObject_MockObject */
     protected $_wsdlFactoryMock;
 
-    /** @var \Magento\Webapi\Model\Cache\Type */
+    /** @var \Magento\Webapi\Model\Cache\Type|\PHPUnit_Framework_MockObject_MockObject */
     protected $_cacheMock;
 
-    /** @var \Magento\DomDocument\Factory */
-    protected $_domDocumentFactory;
+    /** @var \Magento\Webapi\Helper\Config|\PHPUnit_Framework_MockObject_MockObject */
+    protected $_helperConfig;
 
     protected function setUp()
     {
@@ -63,14 +63,13 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $this->_cacheMock->expects($this->any())->method('load')->will($this->returnValue(false));
         $this->_cacheMock->expects($this->any())->method('save')->will($this->returnValue(true));
 
-        $this->_domDocumentFactory = $this->getMockBuilder('Magento\DomDocument\Factory')
-            ->disableOriginalConstructor()->getMock();
+        $this->_helperConfig = $this->getMock('Magento\Webapi\Helper\Config', [], [], '', false);
 
         $this->_wsdlGenerator = new \Magento\Webapi\Model\Soap\Wsdl\Generator(
             $this->_soapConfigMock,
             $this->_wsdlFactoryMock,
             $this->_cacheMock,
-            $this->_domDocumentFactory
+            $this->_helperConfig
         );
 
         parent::setUp();
@@ -171,27 +170,6 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @dataProvider providerIsComplexType
-     */
-    public function testIsComplexType($type, $isComplex)
-    {
-        $this->assertEquals(
-            $isComplex,
-            $this->_wsdlGenerator->isComplexType($type),
-            "Complex type is defined incorrectly"
-        );
-    }
-
-    public static function providerIsComplexType()
-    {
-        return array(
-            array('xs:int', false),
-            array('xsd:string', false),
-            array('itemRequest', true),
-        );
-    }
-
-    /**
      * Test getElementComplexTypeName
      */
     public function testGetElementComplexTypeName()
@@ -266,25 +244,25 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
         $genWSDL = 'generatedWSDL';
         $exceptionMsg = 'exception message';
         $requestedService = array(
-            'catalogProduct' => 'V1',
+            'catalogProduct',
         );
 
         $wsdlGeneratorMock = $this->getMockBuilder(
             'Magento\Webapi\Model\Soap\Wsdl\Generator'
         )
-            ->setMethods(array('_prepareServiceData'))
+            ->setMethods(array('_collectCallInfo'))
             ->setConstructorArgs(
                 array(
                     $this->_soapConfigMock,
                     $this->_wsdlFactoryMock,
                     $this->_cacheMock,
-                    $this->_domDocumentFactory
+                    $this->_helperConfig
                 )
             )
             ->getMock();
 
-        $wsdlGeneratorMock->expects($this->once())->method('_prepareServiceData')->will(
-            $this->throwException(new \Exception($exceptionMsg))
+        $wsdlGeneratorMock->expects($this->once())->method('_collectCallInfo')->will(
+            $this->throwException(new \Magento\Webapi\Exception($exceptionMsg))
         );
 
         $this->assertEquals($genWSDL, $wsdlGeneratorMock->generate($requestedService, 'http://magento.host'));

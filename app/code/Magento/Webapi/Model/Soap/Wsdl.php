@@ -8,6 +8,7 @@
 namespace Magento\Webapi\Model\Soap;
 
 use DOMElement;
+use Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\ConfigBased as ComplexTypeStrategy;
 
 /**
  * Magento-specific WSDL builder.
@@ -20,30 +21,14 @@ class Wsdl extends \Zend\Soap\Wsdl
      *
      * @param string $name
      * @param string|\Zend\Uri\Uri $uri
-     * @param \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\AnyComplexType $strategy
+     * @param ComplexTypeStrategy $strategy
      */
     public function __construct(
         $name,
         $uri,
-        \Magento\Webapi\Model\Soap\Wsdl\ComplexTypeStrategy\AnyComplexType $strategy
+        ComplexTypeStrategy $strategy
     ) {
         parent::__construct($name, $uri, $strategy);
-    }
-
-    /**
-     * Add complex type definition
-     *
-     * @param \DOMNode $complexTypeNode XSD of service method for input/output
-     * @return string|null
-     */
-    public function addComplexType($complexTypeNode)
-    {
-        $this->addSchemaTypeSection();
-
-        $strategy = $this->getComplexTypeStrategy();
-        $strategy->setContext($this);
-        // delegates the detection of a complex type to the current strategy
-        return $strategy->addComplexType($complexTypeNode);
     }
 
     /**

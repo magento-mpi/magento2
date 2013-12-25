@@ -19,15 +19,21 @@ abstract class ClassReflectorAbstract
     /** @var \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor */
     protected $_typeProcessor;
 
+    /** @var \Magento\Webapi\Helper\Config */
+    protected $_configHelper;
+
     /**
      * Construct reflector.
      *
      * @param \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+     * @param \Magento\Webapi\Helper\Config $configHelper
      */
     public function __construct(
-        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor
+        \Magento\Webapi\Model\Soap\Config\Reader\TypeProcessor $typeProcessor,
+        \Magento\Webapi\Helper\Config $configHelper
     ) {
         $this->_typeProcessor = $typeProcessor;
+        $this->_configHelper = $configHelper;
     }
 
     /**
@@ -40,7 +46,7 @@ abstract class ClassReflectorAbstract
     /**
      * Reflect methods in given class and set retrieved data into reader.
      *
-     * @param $className
+     * @param string $className
      * @return array
      */
     public function reflectClassMethods($className)
@@ -53,7 +59,8 @@ abstract class ClassReflectorAbstract
         foreach ($classReflection->getMethods() as $methodReflection) {
             $data['methods'][$methodReflection->getName()] = $this->extractMethodData($methodReflection);
         }
-        return array('services' => array($className => $data));
+        // TODO: Consider moving getServiceName() to helper
+        return array('services' => array($this->_configHelper->getServiceName($className) => $data));
     }
 
     /**
