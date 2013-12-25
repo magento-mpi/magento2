@@ -35,6 +35,13 @@
   * Fixed integrity constraint violation in catalog URL rewrites
   * Fixed missing error message when try create New Website with wrong Website Code
   * Fixed inability to save new address in case of new customer address attributes that not visible on frontend
+  * Fixed USPS: enabled method isn't available for checkout
+  * Fixed inability to place order with recurring profile item via PayPal Express
+  * Fixed inability for user to create new email template
+  * Fixed default billing and shipping address not honored through backend
+  * Fixed inability to choose DB as Media Storage
+  * Fixed PHP issues found during the UI testing of backend
+  * Fixed can not create Shipping Label for Priority Mail methods from USPS
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
