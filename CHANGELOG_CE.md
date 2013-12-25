@@ -21,6 +21,13 @@
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
   * Fixed cron shell script exits with error
+  * Fixed displaying of Product Alert links on product view page when the functionality is disabled
+  * Fixed absence of some bundle options on 'Configure product from Cart' page
+  * Fixed ability to view and cancel billing agreements belonging to another customer
+  * Fixed content spoofing vulnerability when Solr is used
+  * Fixed potential XSS vulnerability in customer log in
+  * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed wrong count of coupon's usage after applying it with multiple addresses
   * Fixed Fedex API isn’t pulling the correct rates.
   * Fixed Abandoned cart emails are not sending out
 * Themes update:

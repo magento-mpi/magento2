@@ -94,13 +94,30 @@ class Attribute extends \Magento\Catalog\Model\Layer\Filter\Attribute
             return $this;
         }
 
-        if ($filter) {
+        if ($filter && $this->_validateFilteredValue($filter)) {
             $this->applyFilterToCollection($this, $filter);
             $this->getLayer()->getState()->addFilter($this->_createItem($filter, $filter));
             $this->_items = array();
         }
 
         return $this;
+    }
+
+    /**
+    * Validates if provided filter value is valid
+    *
+    * @param string $value
+    * @return bool
+    */
+    protected function _validateFilteredValue($value)
+    {
+        $options = $this->getAttributeModel()->getSource()->getAllOptions();
+        foreach ($options as $option) {
+            if ($option['label'] == $value) {
+                return true;
+            }
+        }
+        return false;
     }
 
     /**
