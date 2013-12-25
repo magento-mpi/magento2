@@ -47,9 +47,9 @@ class LinkTest extends \Magento\TestFramework\TestCase\AbstractController
             $url = $urlBuilder->getUrl('magento_invitation');
             $searchString = sprintf('href="%s"', $url);
 
-            if ($expected)
+            if ($expected) {
                 $this->assertContains($searchString, $result);
-            else {
+            } else {
                 $this->assertNotContains($searchString, $result);
             }
         } catch (\Exception $e) {
