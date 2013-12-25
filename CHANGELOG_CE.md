@@ -1,4 +1,5 @@
 * Fixed bugs:
+  * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
   * Fixed big image in product description scale
   * Fixed admin dashboard styling issue
   * Fixed validation message for qty field
