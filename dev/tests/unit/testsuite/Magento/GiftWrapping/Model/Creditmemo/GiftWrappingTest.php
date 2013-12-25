@@ -26,12 +26,7 @@ class GiftWrappingTest extends \PHPUnit_Framework_TestCase
 
         $creditmemo = $this->getMockBuilder('Magento\Sales\Model\Order\Creditmemo')
             ->disableOriginalConstructor()
-            ->setMethods(array('getAllItems', 'getOrder', 'setBaseGrandTotal', 'getBaseGrandTotal',
-                'getGwBasePrice', 'getGwCardBasePrice', 'setGrandTotal', 'getGrandTotal',
-                'getGwItemsPrice', 'getGwPrice', 'getGwCardPrice', 'setBaseCustomerBalanceReturnMax',
-                'getBaseCustomerBalanceReturnMax', 'setCustomerBalanceReturnMax', 'getCustomerBalanceReturnMax',
-                'setGwItemsBasePrice', 'setGwItemsPrice', 'getGwItemsBasePrice'
-                ))
+            ->setMethods(array('getAllItems', 'getOrder', '__wakeup', 'setGwItemsBasePrice', 'setGwItemsPrice'))
             ->getMock();
 
         $item = new \Magento\Object();
