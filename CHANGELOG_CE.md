@@ -24,6 +24,12 @@
   * Fixed case when user try to login without redirect to account dashboard after logging in
   * Fixed incorrect address in request to shipping carrier (DHL International) in case when address contains letter with diacritic
   * Fixed invalid account creation date
+  * Fixed displaying of Product Alert links on product view page when the functionality is disabled
+  * Fixed absence of some bundle options on 'Configure product from Cart' page
+  * Fixed ability to view and cancel billing agreements belonging to another customer
+  * Fixed content spoofing vulnerability when Solr is used
+  * Fixed potential XSS vulnerability in customer log in
+  * Fixed fatal error in category RSS feed when it contains a bundle product
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
