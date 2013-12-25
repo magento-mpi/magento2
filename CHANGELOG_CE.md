@@ -32,6 +32,7 @@
   * Fixed Abandoned cart emails are not sending out
   * Fixed User with "Reorder" permission cannot make reorder
   * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
+  * Fixed catalog_url indexer incorrect rewrites history for categories
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
