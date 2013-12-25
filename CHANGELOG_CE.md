@@ -37,6 +37,7 @@
   * Fixed Customer can see someone's else reviews on private Account Dashboard
   * Fixed "New Theme" page is displayed broken while trying to create Theme with incorrectly "Version" field filled
   * Fixed Admin has no possibility to save integration with XSS injection inside required fields
+  * Fixed Mini Shopping Cart is displayed broken if contains virtual product
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
