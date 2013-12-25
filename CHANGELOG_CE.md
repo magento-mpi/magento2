@@ -20,6 +20,7 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed cron shell script exits with error
   * Fixed case when user try to login without redirect to account dashboard after logging in
   * Fixed incorrect address in request to shipping carrier (DHL International) in case when address contains letter with diacritic
   * Fixed invalid account creation date
@@ -58,7 +59,6 @@
   * [#406](https://github.com/magento/magento2/pull/406) -- Remove cast to (int) for the varch increment_id
   * [#425](https://github.com/magento/magento2/issues/425) -- Installation of dev53 fails
   * [#324](https://github.com/magento/magento2/pull/324) -- ImportExport: Easier debugging
-  * [#163](https://github.com/magento/magento2/pull/163) -- It is possible to change important and used variables inside the setup model while installing
 * Modularity improvements:
   * Removed \Magento\App\Helper\HelperFactory
   * Removed the "helper" method from the abstract block interface
