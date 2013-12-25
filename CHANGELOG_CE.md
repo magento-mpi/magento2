@@ -20,6 +20,7 @@
   * Fixed broken design on Matched Customers tab grid in Email Remainder
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
+  * Fixed cron shell script exits with error
   * Fixed USPS: enabled method isn't available for checkout
   * Fixed inability to place order with recurring profile item via PayPal Express
   * Fixed inability for user to create new email template
