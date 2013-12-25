@@ -16263,17 +16263,7 @@ img[align="right"] {
   margin: 0;
   list-style-type: none;
   list-style-image: none;
-  *zoom: 1;
-  margin: 0 auto;
-  width: 92px;
-}
-.block.event .ticker:before,
-.block.event .ticker:after {
-  content: "";
-  display: table;
-}
-.block.event .ticker:after {
-  clear: both;
+  text-align: center;
 }
 .block.event .ticker .value {
   font-size: 24px;
@@ -16281,7 +16271,6 @@ img[align="right"] {
 }
 .block.event .ticker li {
   display: none;
-  float: left;
   margin: 0 3px;
 }
 .block.event .ticker .label {
@@ -16453,9 +16442,6 @@ img[align="right"] {
 .block.event .panel > .slider .item > .event .subtitle {
   font-weight: 400;
   font-size: 18px;
-}
-.block.event .panel > .slider .item > .event .ticker {
-  display: block;
 }
 .block.event .panel > .slider .item > .event .dates .date {
   font-size: 14px;
