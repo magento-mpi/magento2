@@ -27,6 +27,13 @@
   * Fixed content spoofing vulnerability when Solr is used
   * Fixed potential XSS vulnerability in customer log in
   * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed size of 3D secure iframe
+  * Fixed broken design on Customer - Manage shopping cart page
+  * Fixed asterix appearance for Package Extension with mandatory fields
+  * Fixed image size in product description for Compare products page
+  * Fixed broken design on product page with Fixed Product Tax attribute
+  * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
+  * Fixed message display quantity products found on Advanced Search page
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
