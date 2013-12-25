@@ -377,9 +377,18 @@
             <path>dev/tests/functional/tests/app/Magento/Core/Test/Repository/Config.php</path>
         </item>
         <item>
-            <!-- There is no way to inject EE blocks in CE page currently in MTF. -->
-            <path>dev/tests/functional/tests/app/Magento/</path>
+            <!-- Cannot extrude GiftCard module functional tests as classes from it are used in CatalogProductView page. -->
+            <path>dev/tests/functional/tests/app/Magento/GiftCard/</path>
             <word>GiftCard</word>
+        </item>
+        <item>
+            <!-- There is no way to inject EE blocks in CE page currently in MTF. -->
+            <path>dev/tests/functional/tests/app/Magento/Catalog/Test/Page/Product/CatalogProductView.php</path>
+            <word>GiftCard</word>
+        </item>
+        <item>
+            <!-- Skip all words in CE check as currently this testsuites are used only for EE -->
+            <path>dev/tests/functional/testsuites/</path>
         </item>
     </whitelist>
 </config>
