@@ -38,6 +38,7 @@
   * Fixed "New Theme" page is displayed broken while trying to create Theme with incorrectly "Version" field filled
   * Fixed Admin has no possibility to save integration with XSS injection inside required fields
   * Fixed Mini Shopping Cart is displayed broken if contains virtual product
+  * Fixed Customer Invitations tab is present on Account Dashboard in case if Invitation functionality is disabled
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
