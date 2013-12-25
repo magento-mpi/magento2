@@ -990,7 +990,7 @@ class Url
      */
     public function generateUniqueIdPath()
     {
-        return str_replace('0.', '', str_replace(' ', '_', microtime()));
+        return str_replace('.', '_', uniqid(mt_rand(), true));
     }
 
     /**

@@ -32,7 +32,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
      * @param \Magento\Core\Model\StoreManagerInterface $storeManager
      * @param \Magento\Shipping\Model\Carrier\Factory $carrierFactory
      * @param \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory
-     * @param \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory
+     * @param \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory
      * @param \Magento\Directory\Model\RegionFactory $regionFactory
      * @param \Magento\Math\Division $mathDivision
      * @param \Magento\Backend\Model\Auth\Session $authSession
@@ -43,7 +43,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         \Magento\Core\Model\StoreManagerInterface $storeManager,
         \Magento\Shipping\Model\Carrier\Factory $carrierFactory,
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
-        \Magento\Shipping\Model\Rate\RequestFactory $rateRequestFactory,
+        \Magento\Shipping\Model\Shipment\RequestFactory $shipmentRequestFactory,
         \Magento\Directory\Model\RegionFactory $regionFactory,
         \Magento\Math\Division $mathDivision,
         \Magento\Backend\Model\Auth\Session $authSession,
@@ -57,7 +57,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
             $storeManager,
             $carrierFactory,
             $rateResultFactory,
-            $rateRequestFactory,
+            $shipmentRequestFactory,
             $regionFactory,
             $mathDivision
         );
@@ -91,7 +91,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
 
         $originStreet1 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS1, $shipmentStoreId);
         $originStreet2 = $this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_ADDRESS2, $shipmentStoreId);
-        $storeInfo = new \Magento\Object($this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
+        $storeInfo = new \Magento\Object((array)$this->_coreStoreConfig->getConfig('general/store_information', $shipmentStoreId));
 
         if (!$admin->getFirstname() || !$admin->getLastname() || !$storeInfo->getName() || !$storeInfo->getPhone()
             || !$originStreet1 || !$this->_coreStoreConfig->getConfig(self::XML_PATH_STORE_CITY, $shipmentStoreId)
@@ -104,7 +104,7 @@ class Labels extends \Magento\Shipping\Model\Shipping
         }
 
         /** @var $request \Magento\Shipping\Model\Shipment\Request */
-        $request = $this->_request;
+        $request = $this->_shipmentRequestFactory->create();
         $request->setOrderShipment($orderShipment);
         $request->setShipperContactPersonName($admin->getName());
         $request->setShipperContactPersonFirstName($admin->getFirstname());
