@@ -82,7 +82,8 @@ class LinkTest extends \Magento\TestFramework\TestCase\AbstractController
     protected function _changeConfig($path, $value)
     {
         /** @var \Magento\Core\Model\StoreManagerInterface $storeManager */
-        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()->get('Magento\Core\Model\StoreManagerInterface');
+        $storeManager = \Magento\TestFramework\Helper\Bootstrap::getObjectManager()
+            ->get('Magento\Core\Model\StoreManagerInterface');
         $store = $storeManager->getStore();
         $oldValue = $store->getConfig($path);
         $store->setConfig($path, $value);
