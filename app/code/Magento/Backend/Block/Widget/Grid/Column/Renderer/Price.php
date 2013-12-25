@@ -13,7 +13,8 @@
  */
 namespace Magento\Backend\Block\Widget\Grid\Column\Renderer;
 
-class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
+class Price
+    extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractRenderer
 {
     protected $_defaultWidth = 100;
     /**
@@ -86,31 +87,5 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Renderer\AbstractR
     public function renderCss()
     {
         return parent::renderCss() . ' col-price';
-    }
-
-    /**
-     * Render header for price column
-     *
-     * @return string
-     */
-    public function renderHeader()
-    {
-        if (false !== $this->getColumn()->getSortable()) {
-            $className = 'not-sort';
-            $dir = strtolower($this->getColumn()->getDir());
-            $nDir= ($dir=='asc') ? 'desc' : 'asc';
-            if ($this->getColumn()->getDir()) {
-                $className = 'sort-arrow-' . $dir;
-            }
-            $out = '<a href="#" name="' . $this->getColumn()->getId() . '" title="' . $nDir
-                . '" class="' . $className . '">' . '<label class="sort-title" id=' . $this->getColumn()->getHtmlId()
-                . '>'
-                . $this->getColumn()->getHeader() . '</label></a>';
-        } else {
-            $out = '<label for=' . $this->getColumn()->getHtmlId() . '>'
-                . $this->getColumn()->getHeader()
-                . '</label>';
-        }
-        return $out;
     }
 }

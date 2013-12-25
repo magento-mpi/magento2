@@ -70,14 +70,12 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
             . $this->_getHtmlName()
             . '[from]" id="' . $this->_getHtmlId() . '_from" placeholder="' . __('From') . '" value="'
             . $this->getEscapedValue('from') . '" class="input-text no-changes"  '
-            . $this->getUiId('filter', $this->_getHtmlName(), 'from')
-            . ' aria-labelledby="' . $this->_getHtmlId() . '"/></div>';
+            . $this->getUiId('filter', $this->_getHtmlName(), 'from') . '/></div>';
         $html .= '<div class="range-line">'
             . '<input type="text" name="'
             . $this->_getHtmlName() . '[to]" id="' . $this->_getHtmlId() . '_to" placeholder="' . __('To')
             . '" value="'.$this->getEscapedValue('to')
-            . '" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'to')
-            . ' aria-labelledby="' . $this->_getHtmlId() . '"/></div>';
+            . '" class="input-text no-changes" ' . $this->getUiId('filter', $this->_getHtmlName(), 'to') . '/></div>';
 
         if ($this->getDisplayCurrencySelect()) {
             $html .= '<div class="range-line">' . $this->_getCurrencySelectHtml() . '</div>';
@@ -129,8 +127,7 @@ class Price extends \Magento\Backend\Block\Widget\Grid\Column\Filter\AbstractFil
         }
 
         $html  = '';
-        $html .= '<select name="'.$this->_getHtmlName().'[currency]" id="'.$this->_getHtmlId().'_currency"';
-        $html .=' aria-labelledby="' . $this->_getHtmlId() . '">';
+        $html .= '<select name="'.$this->_getHtmlName().'[currency]" id="'.$this->_getHtmlId().'_currency">';
         foreach ($this->_getCurrencyList() as $currency) {
             $html .= '<option value="' . $currency . '" '
                 . ($currency == $value ? 'selected="selected"' : '').'>' . $currency . '</option>';

@@ -27,8 +27,6 @@ class Checkbox extends \Magento\Backend\Block\Widget\Grid\Column\Filter\Abstract
 
     public function getHtml()
     {
-        $html = '<input type="checkbox"  id="' . $this->_getHtmlId();
-        $html .= ' "onclick="problemController.checkCheckboxes(this)"/>';
-        return $html;
+        return '<input type="checkbox" onclick="problemController.checkCheckboxes(this)"/>';
     }
 }
