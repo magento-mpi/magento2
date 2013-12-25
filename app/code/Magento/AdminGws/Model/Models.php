@@ -611,9 +611,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
         foreach ($products as $product) {
             try {
                 $this->_productFactory->create()->load($product->getProductId());
-//                $productModel = $this->_productFactory->create()->load($product->getProductId());
-//                $websiteIds = $productModel->getWebsiteIds();
-//                $allProductsAvailable = $this->_role->hasWebsiteAccess($websiteIds, true);
             } catch (\Magento\AdminGws\Controller\Exception $e) {
                 $allProductsAvailable = false;
             }

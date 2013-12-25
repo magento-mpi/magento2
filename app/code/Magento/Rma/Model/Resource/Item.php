@@ -308,7 +308,7 @@ class Item extends \Magento\Eav\Model\Entity\AbstractEntity
             $product->setStoreId($item->getStoreId());
             try {
                 $product->load($item->getProductId());
-            } catch (\Magento\AdminGws\Controller\Exception $e) {
+            } catch (\Magento\Core\Exception $e) {
                 $this->_logger->logException($e);
                 $allowed = false;
             }
