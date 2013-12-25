@@ -30,6 +30,7 @@
   * Fixed wrong count of coupon's usage after applying it with multiple addresses
   * Fixed Fedex API isn’t pulling the correct rates.
   * Fixed Abandoned cart emails are not sending out
+  * Fixed User with "Reorder" permission cannot make reorder
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
