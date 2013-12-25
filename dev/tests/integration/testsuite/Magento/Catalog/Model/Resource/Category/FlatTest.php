@@ -5,7 +5,7 @@
  * @copyright   {copyright}
  * @license     {license_link}
  */
-namespace Magento\Catalog\Model\Resource\Product\Category;
+namespace Magento\Catalog\Model\Resource\Category;
 
 class FlatTest extends \PHPUnit_Framework_TestCase
 {
