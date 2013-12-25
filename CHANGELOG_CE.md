@@ -40,6 +40,7 @@
   * Fixed Mini Shopping Cart is displayed broken if contains virtual product
   * Fixed Customer Invitations tab is present on Account Dashboard in case if Invitation functionality is disabled
   * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
+  * Fixed Adminhtml cookie isn't set on backend
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
