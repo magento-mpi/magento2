@@ -35,6 +35,7 @@ class EventTest extends \Magento\Backend\Utility\Controller
         $body = $this->getResponse()->getBody();
 
         $this->assertContains('Events', $body);
-        $this->assertRegExp('/<table[^>]+id="catalogEventGrid_table"/', $body);
+        $this->assertTag(array('tag' => 'table', 'id' => 'catalogEventGrid_table'), $body,
+            'Events grid is not found');
     }
 }
