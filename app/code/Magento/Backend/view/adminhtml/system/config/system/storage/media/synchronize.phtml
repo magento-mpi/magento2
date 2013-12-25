@@ -121,7 +121,10 @@
                         $('sync_span').addClassName('no-display');
 
                         if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_FINISHED ?>') {
-                            window.location.reload();
+                            addAllowedStorage(
+                                $('system_media_storage_configuration_media_storage').value,
+                                $('system_media_storage_configuration_media_database').value
+                            );
                         } else if (response.state == '<?php echo \Magento\Core\Model\File\Storage\Flag::STATE_NOTIFIED ?>') {
                             if (response.has_errors) {
                                 enableSyncButton();

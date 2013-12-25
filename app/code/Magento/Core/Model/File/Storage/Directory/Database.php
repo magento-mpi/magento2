@@ -200,6 +200,7 @@ class Database extends \Magento\Core\Model\File\Storage\Database\AbstractDatabas
             }
 
             try {
+                $dir['path'] = ltrim($dir['path'], '.');
                 $directory = $this->_directoryFactory->create(array('connectionName' => $this->getConnectionName()));
                 $directory->setPath($dir['path']);
 
