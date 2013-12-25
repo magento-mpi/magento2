@@ -338,7 +338,6 @@ class Order extends \Magento\Sales\Model\AbstractModel
     const ACTION_FLAG_REORDER                   = 'reorder';
     const ACTION_FLAG_SHIP                      = 'ship';
     const ACTION_FLAG_COMMENT                   = 'comment';
-    const ACTION_FLAG_PRODUCTS_PERMISSION_DENIED = 'product_permission_denied';
 
     /**
      * Report date types

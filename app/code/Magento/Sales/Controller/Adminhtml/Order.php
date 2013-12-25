@@ -122,17 +122,21 @@ class Order extends \Magento\Backend\App\Action
      */
     public function viewAction()
     {
+
         $this->_title->add(__('Orders'));
 
         $order = $this->_initOrder();
         if ($order) {
-            $isActionNotPermitted = $order->getActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_PRODUCTS_PERMISSION_DENIED);
-
-            if ($isActionNotPermitted) {
-                $this->messageManager->addError(__('You don\'t have permissions to manage this order because of one or more products are not permitted for your website.'));
+            try {
+                $this->_initAction();
+                $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
+            } catch (\Magento\App\Action\Exception $e) {
+                $this->messageManager->addError($e->getMessage());
+            } catch(\Exception $e) {
+                $this->_objectManager->get('Magento\Logger')->logException($e);
+                $this->messageManager->addError(__('Exception occurred during order load'));
+                $this->_redirect('sales/*/');
             }
-            $this->_initAction();
-            $this->_title->add(sprintf("#%s", $order->getRealOrderId()));
             $this->_view->renderLayout();
         }
     }

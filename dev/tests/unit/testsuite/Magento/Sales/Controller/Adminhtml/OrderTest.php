@@ -88,10 +88,6 @@ class OrderTest extends \PHPUnit_Framework_TestCase
      */
     public function testViewActionWithError()
     {
-        $this->_orderMock->expects($this->once())
-            ->method('getActionFlag')
-            ->with($this->equalTo(\Magento\Sales\Model\Order::ACTION_FLAG_PRODUCTS_PERMISSION_DENIED))
-            ->will($this->returnValue('product_permission_denied'));
         $this->_messageMock->expects($this->once())
             ->method('addError')
             ->with($this->equalTo('You don\'t have permissions to manage this order because of one or more products are not permitted for your website.'));

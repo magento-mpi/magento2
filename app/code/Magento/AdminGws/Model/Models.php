@@ -579,9 +579,7 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
      */
     public function salesOrderLoadAfter($model)
     {
-        $allProductsAvailable = $this->_ifProductsAvailable($model);
-
-        if (!in_array($model->getStore()->getWebsiteId(), $this->_role->getWebsiteIds()) || !$allProductsAvailable) {
+        if (!in_array($model->getStore()->getWebsiteId(), $this->_role->getWebsiteIds())) {
             $model->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_CANCEL, false)
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_CREDITMEMO, false)
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_EDIT, false)
@@ -592,35 +590,6 @@ class Models extends \Magento\AdminGws\Model\Observer\AbstractObserver
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_UNHOLD, false)
                 ->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_COMMENT, false);
         }
-        if (!$allProductsAvailable) {
-            $model->setActionFlag(\Magento\Sales\Model\Order::ACTION_FLAG_PRODUCTS_PERMISSION_DENIED, true);
-        }
-    }
-
-    /**
-     * Return if products are available for current admin
-     *
-     * @param \Magento\Sales\Model\Order $model
-     * @return bool
-     */
-    protected function _ifProductsAvailable($model)
-    {
-        $products = $model->getAllItems();
-        $allProductsAvailable = true;
-
-        foreach ($products as $product) {
-            try {
-                $this->_productFactory->create()->load($product->getProductId());
-            } catch (\Magento\AdminGws\Controller\Exception $e) {
-                $allProductsAvailable = false;
-            }
-
-            if (!$allProductsAvailable) {
-                break;
-            }
-
-        }
-        return $allProductsAvailable;
     }
 
     /**
