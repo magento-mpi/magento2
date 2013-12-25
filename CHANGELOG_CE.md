@@ -21,6 +21,12 @@
   * Fixed validation message about uncompatible version format while Theme creation
   * Fixed performance degradation during install wizard execution
   * Fixed cron shell script exits with error
+  * Fixed displaying of Product Alert links on product view page when the functionality is disabled
+  * Fixed absence of some bundle options on 'Configure product from Cart' page
+  * Fixed ability to view and cancel billing agreements belonging to another customer
+  * Fixed content spoofing vulnerability when Solr is used
+  * Fixed potential XSS vulnerability in customer log in
+  * Fixed fatal error in category RSS feed when it contains a bundle product
   * Fixed USPS: enabled method isn't available for checkout
   * Fixed inability to place order with recurring profile item via PayPal Express
   * Fixed inability for user to create new email template
@@ -79,7 +85,7 @@
     * Session generic wrapper moved to library
     * Messages functionality moved from the Session model as separate component, message manager interface created
     * Sid resolver interface created to handle session sid from request
-  
+
 2.0.0.0-dev56
 =============
 * Fixed bugs:
