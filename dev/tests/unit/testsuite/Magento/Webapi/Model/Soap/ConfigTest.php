@@ -110,4 +110,4 @@ class ConfigTest extends \PHPUnit_Framework_TestCase
     }
 }
 
-require_once '/../../_files/test_interfaces.php';
+require_once realpath(__DIR__ . '/../../_files/test_interfaces.php');
