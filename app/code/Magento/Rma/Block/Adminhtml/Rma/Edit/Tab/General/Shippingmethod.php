@@ -141,13 +141,7 @@ class Shippingmethod
      */
     public function getPackages()
     {
-        $packages = $this->getShipment()->getPackages();
-        if ($packages) {
-            $packages = unserialize($packages);
-        } else {
-            $packages = array();
-        }
-        return $packages;
+        return $this->getShipment()->getPackages();
     }
 
     /**
