@@ -108,10 +108,9 @@ class TypeProcessor
             $reflection = new ClassReflection($class);
             $docBlock = $reflection->getDocBlock();
             $this->_types[$typeName]['documentation'] = $docBlock ? $this->_getDescription($docBlock) : '';
-            $defaultProperties = $reflection->getDefaultProperties();
-            /** @var \Zend\Code\Reflection\PropertyReflection $property */
-            foreach ($reflection->getProperties(\ReflectionProperty::IS_PUBLIC) as $property) {
-                $this->_processProperty($property, $defaultProperties, $typeName);
+            /** @var \Zend\Code\Reflection\MethodReflection $methodReflection */
+            foreach ($reflection->getMethods(\ReflectionMethod::IS_PUBLIC) as $methodReflection) {
+                $this->_processMethod($methodReflection, $typeName);
             }
         }
 
@@ -119,47 +118,43 @@ class TypeProcessor
     }
 
     /**
-     * Process class property.
+     * Collect metadata for virtual field corresponding to current method if it is a getter (used in WSDL generation).
      *
-     * @param \Zend\Code\Reflection\PropertyReflection $property
-     * @param $defaultProperties
-     * @param $typeName
+     * @param \Zend\Code\Reflection\MethodReflection $methodReflection
+     * @param string $typeName
      * @throws \InvalidArgumentException
      */
-    protected function _processProperty(
-        \Zend\Code\Reflection\PropertyReflection $property,
-        $defaultProperties,
-        $typeName
-    ) {
-        $propertyName = $property->getName();
-        $propertyDocBlock = $property->getDocBlock();
-        if (!$propertyDocBlock) {
-            throw new \InvalidArgumentException('Each property must have description with @var annotation.');
+    protected function _processMethod(\Zend\Code\Reflection\MethodReflection $methodReflection, $typeName)
+    {
+        if (strpos($methodReflection->getName(), 'get') === 0) {
+            $methodDocBlock = $methodReflection->getDocBlock();
+            if (!$methodDocBlock) {
+                throw new \InvalidArgumentException('Each getter must have description with @return annotation.');
+            }
+            $returnAnnotations = $methodDocBlock->getTags('return');
+            if (empty($returnAnnotations)) {
+                throw new \InvalidArgumentException('Getter return type must be specified using @return annotation.');
+            }
+            /** @var \Zend\Code\Reflection\DocBlock\Tag\ReturnTag $returnAnnotation */
+            $returnAnnotation = current($returnAnnotations);
+            $returnType = $returnAnnotation->getType();
+            if (preg_match('/^(.+)\|null$/', $returnType, $matches)) {
+                /** If return value is optional, alternative return type should be set to null */
+                $returnType = $matches[1];
+                $isRequired = false;
+            } else {
+                $isRequired = true;
+            }
+            /** Convert getter name into field name by removing 'get' prefix and making the first letter lower case */
+            $fieldName = lcfirst(substr($methodReflection->getName(), strlen('get')));
+            $this->_types[$typeName]['parameters'][$fieldName] = array(
+                'type' => $this->process($returnType),
+                'required' => $isRequired,
+                // TODO: Reconsider default values declaration strategy
+                'default' => null,
+                'documentation' => $returnAnnotation->getDescription()
+            );
         }
-        $varTags = $propertyDocBlock->getTags('var');
-        if (empty($varTags)) {
-            throw new \InvalidArgumentException('Property type must be defined with @var tag.');
-        }
-        /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $varTag */
-        $varTag = current($varTags);
-        $varContentParts = explode(' ', $varTag->getContent(), 2);
-        $varType = current($varContentParts);
-        $varInlineDoc = (count($varContentParts) > 1) ? end($varContentParts) : '';
-        $optionalTags = $propertyDocBlock->getTags('optional');
-        if (!empty($optionalTags)) {
-            /** @var \Zend\Code\Reflection\DocBlock\Tag\GenericTag $isOptionalTag */
-            $isOptionalTag = current($optionalTags);
-            $isOptional = $isOptionalTag->getName() == 'optional';
-        } else {
-            $isOptional = false;
-        }
-
-        $this->_types[$typeName]['parameters'][$propertyName] = array(
-            'type' => $this->process($varType),
-            'required' => !$isOptional && is_null($defaultProperties[$propertyName]),
-            'default' => $defaultProperties[$propertyName],
-            'documentation' => $varInlineDoc . $this->_getDescription($propertyDocBlock)
-        );
     }
 
     /**

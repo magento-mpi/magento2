@@ -11,13 +11,21 @@ namespace Magento\TestModule4\Service\Entity\V1;
 
 use Magento\Service\Entity\AbstractDto;
 
+/**
+ * Some DTO short description.
+ *
+ * DTO long
+ * multi line description.
+ */
 class AllSoapAndRest extends AbstractDto
 {
     const ID = 'id';
     const NAME = 'name';
 
     /**
-     * @return int
+     * Retrieve item ID.
+     *
+     * @return int Item ID
      */
     public function getId()
     {
@@ -25,7 +33,9 @@ class AllSoapAndRest extends AbstractDto
     }
 
     /**
-     * @return string
+     * Retrieve item Name.
+     *
+     * @return string|null Item name
      */
     public function getName()
     {
@@ -50,4 +60,4 @@ class AllSoapAndRest extends AbstractDto
         return $this->_set(self::NAME, $name);
     }
 
-} 
+}

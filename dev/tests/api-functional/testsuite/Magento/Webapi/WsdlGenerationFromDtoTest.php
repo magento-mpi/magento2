@@ -56,7 +56,7 @@ class WsdlGenerationFromDtoTest extends \Magento\TestFramework\TestCase\WebapiAb
      */
     protected function _convertXmlToString($xml)
     {
-        return str_replace(array('    ', "\n", "\r"), '', $xml);
+        return str_replace(array('    ', "\n", "\r", "&#13;", "&#10;"), '', $xml);
     }
 
     /**
@@ -177,13 +177,6 @@ REQUEST_TYPE;
         );
         // @codingStandardsIgnoreStart
         $responseType = <<< RESPONSE_TYPE
-<xsd:complexType name="TestModule4EntityV1AllSoapAndRest">
-    <xsd:annotation>
-        <xsd:documentation></xsd:documentation>
-        <xsd:appinfo xmlns:inf="{$this->_baseUrl}/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
-    </xsd:annotation>
-</xsd:complexType>
-
 <xsd:complexType name="TestModule4AllSoapAndRestV1ItemResponse">
     <xsd:annotation>
         <xsd:documentation>
@@ -211,6 +204,77 @@ RESPONSE_TYPE;
             $this->_convertXmlToString($responseType),
             $wsdlContent,
             'Response type declaration in types section is invalid'
+        );
+        $this->_checkReferencedTypeDeclaration($wsdlContent);
+    }
+
+    /**
+     * Ensure that complex type generated from DTO is correct.
+     *
+     * @param string $wsdlContent
+     */
+    protected function _checkReferencedTypeDeclaration($wsdlContent)
+    {
+        // @codingStandardsIgnoreStart
+        $referencedType = <<< RESPONSE_TYPE
+<xsd:complexType name="TestModule4EntityV1AllSoapAndRest">
+    <xsd:annotation>
+        <xsd:documentation>
+        Some DTO short description.
+
+         DTO long
+         multi line description.
+        </xsd:documentation>
+        <xsd:appinfo xmlns:inf="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2"/>
+    </xsd:annotation>
+    <xsd:sequence>
+        <xsd:element name="id" minOccurs="1" maxOccurs="1" type="xsd:int">
+            <xsd:annotation>
+                <xsd:documentation>Item ID</xsd:documentation>
+                <xsd:appinfo xmlns:inf="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                    <inf:min/>
+                    <inf:max/>
+                    <inf:callInfo>
+                        <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:returned>Always</inf:returned>
+                    </inf:callInfo>
+                    <inf:callInfo>
+                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:requiredInput>Yes</inf:requiredInput>
+                    </inf:callInfo>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+        <xsd:element name="name" minOccurs="0" maxOccurs="1" type="xsd:string">
+            <xsd:annotation>
+                <xsd:documentation>Item name</xsd:documentation>
+                <xsd:appinfo xmlns:inf="http://magento.ll/soap?services%3DtestModule4AllSoapAndRestV1%2CtestModule4AllSoapAndRestV2">
+                    <inf:maxLength/>
+                    <inf:callInfo>
+                        <inf:callName>testModule4AllSoapAndRestV1Item</inf:callName>
+                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:returned>Conditionally</inf:returned>
+                    </inf:callInfo>
+                    <inf:callInfo>
+                        <inf:callName>testModule4AllSoapAndRestV1Create</inf:callName>
+                        <inf:callName>testModule4AllSoapAndRestV1Update</inf:callName>
+                        <inf:requiredInput>No</inf:requiredInput>
+                    </inf:callInfo>
+                </xsd:appinfo>
+            </xsd:annotation>
+        </xsd:element>
+    </xsd:sequence>
+</xsd:complexType>
+RESPONSE_TYPE;
+        // @codingStandardsIgnoreEnd
+        $this->assertContains(
+            $this->_convertXmlToString($referencedType),
+            $wsdlContent,
+            'Declaration of complex type generated from DTO, which is referenced in response, is invalid'
         );
     }
 
