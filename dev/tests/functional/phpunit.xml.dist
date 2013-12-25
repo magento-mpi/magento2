@@ -16,8 +16,8 @@
          backupGlobals="false"
          verbose="true">
     <testsuites>
-        <testsuite name="PHPUnit">
-            <directory suffix=".php">testsuites/Mtf/TestSuite</directory>
+        <testsuite name="All Tests">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 
