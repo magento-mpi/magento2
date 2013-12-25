@@ -34,6 +34,7 @@
   * Fixed Community bugathon - Item clone is added to cart via wishlist if "Qty Increments" is enabled
   * Fixed catalog_url indexer incorrect rewrites history for categories
   * Fixed Fatal error on attempt to save integration with duplicate name
+  * Fixed Customer can see someone's else reviews on private Account Dashboard
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
