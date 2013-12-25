@@ -6,10 +6,10 @@
  * @license     {license_link}
  */
 ?>
-<?php if($results= $this->getResultCount()): ?>
+<?php if($results = $this->getResultCount()): ?>
     <div class="search found">
         <?php if ($results == 1) : ?>
-            <?php echo __('<strong>1 item</strong> were found using the following search criteria', $results); ?>
+            <?php echo __('<strong>%1 item</strong> were found using the following search criteria', $results); ?>
         <?php else: ?>
             <?php echo __('<strong>%1 items</strong> were found using the following search criteria', $results); ?>
         <?php endif; ?>
