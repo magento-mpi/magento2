@@ -41,6 +41,7 @@
   * Fixed Customer Invitations tab is present on Account Dashboard in case if Invitation functionality is disabled
   * Fixed Disabling "Display Shopping Cart Sidebar" doesn't work
   * Fixed Adminhtml cookie isn't set on backend
+  * Fixed Persistent_shopping_cart cookie isn't set after customer's login
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
