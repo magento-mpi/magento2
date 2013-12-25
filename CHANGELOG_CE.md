@@ -30,6 +30,23 @@
   * Fixed content spoofing vulnerability when Solr is used
   * Fixed potential XSS vulnerability in customer log in
   * Fixed fatal error in category RSS feed when it contains a bundle product
+  * Fixed inability to place order with 3-D Secure under IE 10
+  * Fixed inability to place order within PayPal Payflow Link and PayPal Payments Advanced
+  * Fixed integrity constraint violation in catalog URL rewrites
+  * Fixed missing error message when try create New Website with wrong Website Code
+  * Fixed inability to save new address in case of new customer address attributes that not visible on frontend
+  * Fixed USPS: enabled method isn't available for checkout
+  * Fixed inability to place order with recurring profile item via PayPal Express
+  * Fixed inability for user to create new email template
+  * Fixed default billing and shipping address not honored through backend
+  * Fixed inability to choose DB as Media Storage
+  * Fixed PHP issues found during the UI testing of backend
+  * Fixed can not create Shipping Label for Priority Mail methods from USPS
+  * Fixed possibility to create customer with duplicate email
+  * Fixed abstract product block error in tier price template getter
+  * Fixed system message was displayed in incorrect place on backend page
+  * Fixed 404 error on customer review page
+  * Fixed autocomplete enabled on admin login page
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
