@@ -270,7 +270,7 @@ class Account extends \Magento\App\Action\Action
                     $referer = $this->getRequest()->getParam(\Magento\Customer\Helper\Data::REFERER_QUERY_PARAM_NAME);
                     if ($referer) {
                         $referer = $this->_objectManager->get('Magento\Core\Helper\Data')->urlDecode($referer);
-                        if ($this->_url->isInternal($referer)) {
+                        if ($this->_url->isOwnOriginUrl()) {
                             $this->_getSession()->setBeforeAuthUrl($referer);
                         }
                     }
