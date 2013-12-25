@@ -48,11 +48,10 @@ class GeneratorTest extends \PHPUnit_Framework_TestCase
     public function testViewGenerator()
     {
         try {
-            $result = $this->shell->execute(
+            $this->shell->execute(
                 'php -f %s -- --source %s --destination %s',
                 array(BP . '/dev/tools/Magento/Tools/View/generator.php', BP . '/app/design', $this->tmpDir)
             );
-            $this->assertContains('Completed successfully', $result);
         } catch (\Magento\Exception $exception) {
             $this->fail($exception->getPrevious()->getMessage());
         }

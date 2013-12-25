@@ -28,6 +28,7 @@
   * Fixed fatal error on frontend login without pre-set cookies
   * Fixed if the date format is DD/MM/YY, saving a design change in the admin panel resets the date to 1 Jan 1970
   * Fixed CAPTCHA on Multi-address checkout flow
+  * Fixed view files population tool
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
