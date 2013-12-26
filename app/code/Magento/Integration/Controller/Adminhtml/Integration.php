@@ -48,13 +48,19 @@ class Integration extends Action
     protected $_integrationData;
 
     /**
+     * @var \Magento\Escaper
+     */
+    protected $escaper;
+
+    /**
      * @param \Magento\Backend\App\Action\Context $context
      * @param \Magento\Core\Model\Registry $registry
      * @param \Magento\Logger $logger
-     * @param IntegrationOauthService $oauthService
      * @param \Magento\Integration\Service\IntegrationV1Interface $integrationService
+     * @param IntegrationOauthService $oauthService
      * @param \Magento\Core\Helper\Data $coreHelper
      * @param \Magento\Integration\Helper\Data $integrationData
+     * @param \Magento\Escaper $escaper
      */
     public function __construct(
         \Magento\Backend\App\Action\Context $context,
@@ -63,7 +69,8 @@ class Integration extends Action
         \Magento\Integration\Service\IntegrationV1Interface $integrationService,
         IntegrationOauthService $oauthService,
         \Magento\Core\Helper\Data $coreHelper,
-        \Magento\Integration\Helper\Data $integrationData
+        \Magento\Integration\Helper\Data $integrationData,
+        \Magento\Escaper $escaper
     ) {
         parent::__construct($context);
         $this->_registry = $registry;
@@ -72,6 +79,7 @@ class Integration extends Action
         $this->_oauthService = $oauthService;
         $this->_coreHelper = $coreHelper;
         $this->_integrationData = $integrationData;
+        $this->escaper = $escaper;
         parent::__construct($context);
     }
 
@@ -134,9 +142,9 @@ class Integration extends Action
         if ($integrationId) {
             try {
                 $integrationData = $this->_integrationService->get($integrationId)->getData();
-                $originalName = $integrationData[Info::DATA_NAME];
+                $originalName = $this->escaper->escapeHtml($integrationData[Info::DATA_NAME]);
             } catch (IntegrationException $e) {
-                $this->messageManager->addError($e->getMessage());
+                $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
                 $this->_redirect('*/*/');
                 return;
             } catch (\Exception $e) {
@@ -186,7 +194,7 @@ class Integration extends Action
                 try {
                     $integrationData = $this->_integrationService->get($integrationId)->getData();
                 } catch (IntegrationException $e) {
-                    $this->messageManager->addError($e->getMessage());
+                    $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
                     $this->_redirect('*/*/');
                     return;
                 } catch (\Exception $e) {
@@ -210,8 +218,11 @@ class Integration extends Action
                     $integration = $this->_integrationService->update($integrationData);
                 }
                 if (!$this->getRequest()->isXmlHttpRequest()) {
-                    $this->messageManager
-                        ->addSuccess(__('The integration \'%1\' has been saved.', $integration->getName()));
+                    $this->messageManager->addSuccess(
+                        __('The integration \'%1\' has been saved.',
+                            $this->escaper->escapeHtml($integration->getName())
+                        )
+                    );
                 }
                 if ($this->getRequest()->isXmlHttpRequest()) {
                     $isTokenExchange = ($integration->getEndpoint() && $integration->getIdentityLinkUrl()) ? '1' : '0';
@@ -227,15 +238,15 @@ class Integration extends Action
                 $this->messageManager->addError(__('The integration was not saved.'));
             }
         } catch (IntegrationException $e) {
-            $this->messageManager->addError($e->getMessage());
+            $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
             $this->_getSession()->setIntegrationData($integrationData);
             $this->_redirectOnSaveError();
         } catch (\Magento\Core\Exception $e) {
-            $this->messageManager->addError($e->getMessage());
+            $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
             $this->_redirectOnSaveError();
         } catch (\Exception $e) {
             $this->_logger->logException($e);
-            $this->messageManager->addError($e->getMessage());
+            $this->messageManager->addError($this->escaper->escapeHtml($e->getMessage()));
             $this->_redirectOnSaveError();
         }
     }
@@ -290,7 +301,9 @@ class Integration extends Action
                 $integrationData = $this->_integrationService->get($integrationId);
                 if ($this->_integrationData->isConfigType($integrationData)) {
                     $this->messageManager->addError(
-                        __("Uninstall the extension to remove integration '%1'.", $integrationData[Info::DATA_NAME])
+                        __("Uninstall the extension to remove integration '%1'.",
+                            $this->escaper->escapeHtml($integrationData[Info::DATA_NAME])
+                        )
                     );
                     $this->_redirect('*/*/');
                     return;
@@ -305,7 +318,9 @@ class Integration extends Action
                     }
                     $this->_registry->register(self::REGISTRY_KEY_CURRENT_INTEGRATION, $integrationData);
                     $this->messageManager
-                        ->addSuccess(__("The integration '%1' has been deleted.", $integrationData[Info::DATA_NAME]));
+                        ->addSuccess(__("The integration '%1' has been deleted.",
+                            $this->escaper->escapeHtml($integrationData[Info::DATA_NAME])
+                        ));
                 }
             } else {
                 $this->messageManager->addError(__('Integration ID is not specified or is invalid.'));
