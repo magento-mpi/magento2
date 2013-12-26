@@ -11,6 +11,7 @@
   * Fixed no possibility to create refund from Paypal side.
   * Fixed occurrences of non-existent resource model Mage_Catalog_Model_Resource_Convert
   * Fixed impossibility to publish products to Google Shopping
+  * Fixed inability to download or revert backup
 
 2.0.0.0-dev58
 =============
