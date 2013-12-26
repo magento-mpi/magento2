@@ -57,6 +57,14 @@
   * Fixed broken design on product page with Fixed Product Tax attribute
   * Fixed spaces between parentheses and the numbers in the Cart, Wishlist and Compare Products blocks
   * Fixed message display quantity products found on Advanced Search page
+  * Fixed link for downloadable product in copy of invoice email leads to backend
+  * Fixed customs monetary value appears cut in labels / package info for international shipments
+  * Fixed url key is not set to default after importing file with blank URL Key field on store view level
+  * Fixed table rate won't display error message
+  * Fixed fatal error on frontend login without pre-set cookies
+  * Fixed if the date format is DD/MM/YY, saving a design change in the admin panel resets the date to 1 Jan 1970
+  * Fixed CAPTCHA on Multi-address checkout flow
+  * Fixed view files population tool
 * Themes update:
   * Responsive design improvements
 * Improvements to code coverage calculation:
