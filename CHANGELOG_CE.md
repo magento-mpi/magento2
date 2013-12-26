@@ -1,7 +1,8 @@
 * Fixed bugs:
+  * Fixed CSRF in Login, Update Cart, Add to Compare, Review and Add entire wish list Actions
   * Fixed warnings on category page when Flat Catalog Category is enabled
   * Fixed invalid price after switching currency
-  * Fixed "Save & Duplicate" action for product
+  * Fixed "Save & Duplicate" action for product  
   * Fixed big image in product description scale
   * Fixed admin dashboard styling issue
   * Fixed validation message for qty field
