@@ -26,7 +26,7 @@ class BundleDynamicTest extends Functional
     }
 
     /**
-     * Creating bundle (dynamic) product and assigning it to the category only
+     * Creating bundle (dynamic) product and assigning it to the category
      *
      * @ZephyrId MAGETWO-12702
      */

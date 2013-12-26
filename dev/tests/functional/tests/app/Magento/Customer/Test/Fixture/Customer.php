@@ -155,4 +155,23 @@ class Customer extends DataFixture
     {
         return $this->getData('address/dataset/value');
     }
+
+    /**
+     *  Update the customer fixture with a new customer group
+     *
+     * @param $value
+     * @param $inputValue
+     */
+    public function updateCustomerGroup($value, $inputValue)
+    {
+        $data = array(
+            'fields' => array(
+                'group_id' => array(
+                    'value' => $value,
+                    'input_value' => $inputValue
+                )
+            )
+        );
+        $this->_data = array_replace_recursive($this->_data, $data);
+    }
 }

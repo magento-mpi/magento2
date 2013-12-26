@@ -343,11 +343,6 @@
         <item>
             <!-- Incorrect dependency: EE functionality mentioned in CE test -->
             <word>CustomerSegment</word>
-            <path>dev/tests/functional/tests/app/Magento</path>
-        </item>
-        <item>
-            <!-- Incorrect dependency: EE functionality mentioned in CE test -->
-            <word>CustomerSegment</word>
             <word>Magento\Logging</word>
             <word>Pbridge</word>
             <word>Magento\Search</word>

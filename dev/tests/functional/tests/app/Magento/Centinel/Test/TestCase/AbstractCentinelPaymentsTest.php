@@ -175,7 +175,7 @@ abstract class AbstractCentinelPaymentsTest extends Functional
         //Create Account
         $homePage->open();
         $topLinks = $homePage->getLinksBlock();
-        $topLinks->openLink('register');
+        $topLinks->openLink('Register');
 
         $createPage->getCreateForm()->create($customer);
 

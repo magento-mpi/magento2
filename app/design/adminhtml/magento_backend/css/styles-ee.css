@@ -6073,6 +6073,7 @@ tr.dynamic-grid input.input-text {
 #up_sell_product_grid table.data th > span,
 #related_product_grid table.data th > span,
 #productGrid_table th > span,
+#customerGrid_table th > span,
 #setGrid_table th > span,
 #attributeGrid_table th > span,
 .custom-options .data-table th > span,
@@ -9312,6 +9313,47 @@ table .col-draggable .draggable-handle {
   margin: 0 0 0 10px;
   width: 60px;
 }
+.tax.summary-total .summary-collapse {
+  cursor: pointer;
+  display: inline-block;
+}
+.tax.summary-total .summary-collapse:before {
+  content: "\e02d";
+  color: #816063;
+  background: #f2ebde;
+  display: inline-block;
+  text-indent: 0;
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  line-height: 16px;
+  overflow: hidden;
+  font-family: 'MUI-Icons';
+  border: 1px solid #ada89e;
+  font-style: normal;
+  vertical-align: top;
+  margin-right: 7px;
+  font-weight: normal;
+  speak: none;
+  -webkit-font-smoothing: antialiased;
+  border-radius: 2px;
+}
+.tax.summary-total .summary-collapse:hover:before {
+  background: #cac3b4;
+}
+.tax.summary-total.show-details .summary-collapse:before {
+  content: "\e03a";
+}
+tr.row-totals:nth-child(even) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(even) td,
+tr.row-totals:nth-child(even) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(even) ~ tr.row-totals:nth-child(even) td,
+tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(odd) ~ tr.row-totals:nth-child(even) td {
+  background: #fbfaf6;
+}
+tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(odd) ~ tr.row-totals:nth-child(odd) td,
+tr.row-totals:nth-child(even) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(even) ~ tr.row-totals:nth-child(odd) td,
+tr.row-totals:nth-child(odd) + tr.summary-details ~ tr.summary-total:not(.show-details):nth-child(odd) td {
+  background: #fff;
+}
 /* ----------------------------------- */
 #order-data .page-actions {
   padding-top: 0;
@@ -10196,6 +10238,21 @@ table.items-to-invoice tbody tr:hover td {
 }
 .adminhtml-system-currencysymbol-index td.col-currency .label {
   margin-top: 5px;
+}
+/*
+    Categories
+-------------------------------------- */
+.category-content .form-inline.permissions-custom-options .messages li {
+  margin-top: 0;
+}
+.category-content .form-inline.permissions-custom-options .data-table {
+  margin-bottom: 25px;
+}
+/*
+    Marketing - Email Reminders
+-------------------------------------- */
+.lt-1280 .adminhtml-reminder-edit #customerGrid .grid .filter .range div.date {
+  min-width: 0;
 }
 /*
     Clearfix
