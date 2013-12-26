@@ -435,14 +435,6 @@
                 }
             }
         }
-        .number {
-            &:before {
-                content: "(";
-            }
-            &:after {
-                content: ")";
-            }
-        }
         .action.add {
             float: right;
             margin-top: -7px;
@@ -904,16 +896,13 @@
     }
     .ticker {
         .resetList();
-        .clearfix();
-        margin: 0 auto;
-        width: 92px;
+        text-align: center;
         .value {
             font-size: 24px;
             line-height: 24px;
         }
         li {
             display: none;
-            float: left;
             margin: 0 3px;
         }
         .label {
@@ -994,9 +983,6 @@
                     .subtitle {
                         font-weight: 400;
                         font-size: 18px;
-                    }
-                    .ticker {
-                        display: block;
                     }
                     .dates {
                         .date {
